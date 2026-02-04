@@ -7,10 +7,11 @@ import './News.css'
 const newsArticles = [
   {
     id: 'councillor-resignations-2025',
-    date: '2025-01-15',
+    date: '2025-02-05',
     category: 'Democracy',
     title: 'County Councillor Calls for Mass Resignations Over Cancelled Elections',
     summary: 'A County Councillor for Padiham and Burnley West called on all Borough Councillors who were due for re-election to resign for democratic reasons.',
+    image: '/images/tom-pickup.jpg',
     content: `
       <p>In a bold move that highlighted growing concerns about local democracy, County Councillor Tom Pickup, who represents Padiham and Burnley West, called on all Burnley Borough Councillors who should have faced re-election to resign from their positions.</p>
 
@@ -26,7 +27,7 @@ const newsArticles = [
   },
   {
     id: 'doge-analysis-top-suppliers',
-    date: '2025-01-01',
+    date: '2025-02-05',
     category: 'DOGE Finding',
     title: 'Top 20 Suppliers Receive Over 60% of Council Spending',
     summary: 'Analysis reveals significant supplier concentration with the top 20 suppliers accounting for the majority of council expenditure.',
@@ -48,7 +49,7 @@ const newsArticles = [
   },
   {
     id: 'outsourcing-liberata',
-    date: '2024-12-15',
+    date: '2025-02-05',
     category: 'DOGE Finding',
     title: 'Council Outsourcing: £21M to Liberata UK',
     summary: 'Burnley Council pays over £21 million to Liberata UK Ltd for outsourced revenues and benefits services.',
@@ -77,7 +78,7 @@ const newsArticles = [
   },
   {
     id: 'grants-voluntary-sector',
-    date: '2024-12-01',
+    date: '2025-02-05',
     category: 'DOGE Finding',
     title: '£11 Million in Grants to Voluntary Organisations',
     summary: 'Council distributed over £11 million in grants to voluntary and community organisations over the analysis period.',
@@ -145,6 +146,12 @@ function News() {
             </div>
             <h1>{selectedArticle.title}</h1>
           </header>
+
+          {selectedArticle.image && (
+            <div className="article-image">
+              <img src={selectedArticle.image} alt="" />
+            </div>
+          )}
 
           <div
             className="article-content"
