@@ -177,6 +177,12 @@
   display: block;
 }
 
+.article-byline {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-sm);
+}
+
 .article-content {
   font-size: 1rem;
   line-height: 1.7;
@@ -214,6 +220,57 @@
   background: var(--bg-tertiary);
   font-size: 0.75rem;
   color: var(--text-secondary);
+}
+
+.article-disclaimer {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  background: var(--bg-tertiary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-lg);
+  border-left: 3px solid var(--accent-blue);
+}
+
+.article-content h4 {
+  font-size: 1.125rem;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.article-content ol {
+  margin: var(--space-md) 0;
+  padding-left: var(--space-lg);
+}
+
+.article-content ol li {
+  margin-bottom: var(--space-sm);
+  color: var(--text-secondary);
+}
+
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-md) 0;
+  font-size: 0.9375rem;
+}
+
+.article-content table th,
+.article-content table td {
+  padding: var(--space-sm);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-content table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.article-content em {
+  color: var(--text-tertiary);
+  font-style: italic;
 }
 
 @media (max-width: 768px) {

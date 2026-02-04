@@ -77,6 +77,29 @@
   border-top: 1px solid var(--border-color);
 }
 
+.disclaimer-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(255, 159, 10, 0.15);
+  border: 1px solid var(--accent-orange);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.disclaimer-icon {
+  font-size: 0.875rem;
+}
+
+.disclaimer-text {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--accent-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
 .footer-text {
   font-size: 0.75rem;
   color: var(--text-tertiary);

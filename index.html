@@ -1,18 +1,93 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Burnley Council Transparency</title>
-    <meta name="description" content="Public scrutiny of Burnley Borough Council spending, budgets, and politics. Explore council finances and hold your representatives accountable." />
-    <meta name="keywords" content="Burnley Council, transparency, spending, budget, councillors, local government" />
-    <meta property="og:title" content="Burnley Council Transparency" />
-    <meta property="og:description" content="Public scrutiny of Burnley Borough Council spending, budgets, and politics." />
+
+    <!-- Primary Meta Tags -->
+    <title>Burnley Council Transparency - Independent Public Scrutiny Tool</title>
+    <meta name="title" content="Burnley Council Transparency - Independent Public Scrutiny Tool" />
+    <meta name="description" content="Independent public scrutiny of Burnley Borough Council spending, budgets, and politics. Explore £217M+ in council payments, find your councillors, and hold local government accountable. NOT the official council website." />
+    <meta name="keywords" content="Burnley Council, Burnley Borough Council, council spending, transparency, local government, councillors, public scrutiny, council tax, Burnley politics, Lancashire" />
+    <meta name="author" content="Burnley Council Transparency" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://burnleycouncil.co.uk" />
+
+    <!-- Geographic targeting -->
+    <meta name="geo.region" content="GB-LAN" />
+    <meta name="geo.placename" content="Burnley, Lancashire" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://burnleycouncil.co.uk" />
+    <meta property="og:url" content="https://burnleycouncil.co.uk/" />
+    <meta property="og:title" content="Burnley Council Transparency - Independent Public Scrutiny Tool" />
+    <meta property="og:description" content="Independent public scrutiny of Burnley Borough Council. Explore £217M+ in spending data, budgets, and councillor information. NOT the official council website." />
+    <meta property="og:site_name" content="Burnley Council Transparency" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://burnleycouncil.co.uk/" />
+    <meta property="twitter:title" content="Burnley Council Transparency - Independent Public Scrutiny Tool" />
+    <meta property="twitter:description" content="Independent public scrutiny of Burnley Borough Council. Explore £217M+ in spending data, find your councillors, hold local government accountable." />
+
+    <!-- Google News optimisation -->
+    <meta name="news_keywords" content="Burnley Council, local government, council spending, councillors, transparency, public accountability" />
+    <meta name="syndication-source" content="https://burnleycouncil.co.uk" />
+    <meta name="original-source" content="https://burnleycouncil.co.uk" />
+
+    <!-- Structured Data for Organisation -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Burnley Council Transparency",
+      "alternateName": "Independent Burnley Council Scrutiny Tool",
+      "url": "https://burnleycouncil.co.uk",
+      "description": "Independent public scrutiny tool for Burnley Borough Council spending, budgets, and politics. NOT affiliated with Burnley Borough Council.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Burnley Council Transparency",
+        "description": "Independent transparency initiative for local government accountability"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://burnleycouncil.co.uk/spending?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Structured Data for Local Business/Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "Burnley Borough Council",
+      "description": "District council in Lancashire, England (this website provides independent public scrutiny, not official council services)",
+      "url": "https://burnley.gov.uk",
+      "areaServed": {
+        "@type": "City",
+        "name": "Burnley",
+        "containedInPlace": {
+          "@type": "AdministrativeArea",
+          "name": "Lancashire"
+        }
+      }
+    }
+    </script>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   </head>
   <body>
+    <noscript>
+      <h1>Burnley Council Transparency</h1>
+      <p>This independent public scrutiny tool requires JavaScript to explore Burnley Borough Council spending data, budgets, and councillor information.</p>
+      <p><strong>This is NOT the official Burnley Council website.</strong> For official services, visit <a href="https://burnley.gov.uk">burnley.gov.uk</a></p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

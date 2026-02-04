@@ -51,13 +51,16 @@ function Layout({ children }) {
         </nav>
 
         <div className="sidebar-footer">
+          <div className="disclaimer-badge">
+            <span className="disclaimer-icon">⚠️</span>
+            <span className="disclaimer-text">NOT an official council website</span>
+          </div>
           <p className="footer-text">
-            Public scrutiny of<br />
-            Burnley Borough Council
+            Independent public scrutiny tool
           </p>
           <p className="footer-link">
             <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">
-              Official Council Website
+              Official Council → burnley.gov.uk
             </a>
           </p>
         </div>
