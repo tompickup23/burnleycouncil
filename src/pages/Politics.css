@@ -1,0 +1,325 @@
+.politics-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-sm);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+/* Composition Section */
+.composition-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.composition-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.composition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-lg);
+}
+
+.composition-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  border: 1px solid var(--border-color);
+}
+
+.composition-card.coalition {
+  border-color: var(--accent-blue);
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), transparent);
+}
+
+.composition-card h3 {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.coalition-makeup,
+.opposition-makeup {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.coalition-total,
+.opposition-total {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.coalition-label,
+.opposition-label {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.coalition-parties,
+.opposition-parties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.party-chip {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: white;
+}
+
+.coalition-note {
+  font-size: 0.875rem;
+}
+
+/* Seats Section */
+.seats-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.seats-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.seats-diagram {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  border: 1px solid var(--border-color);
+}
+
+.party-seats {
+  margin-bottom: var(--space-lg);
+}
+
+.party-seats:last-child {
+  margin-bottom: 0;
+}
+
+.seats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-sm);
+}
+
+.seat {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.seat:hover {
+  transform: scale(1.2);
+}
+
+.party-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Key Figures */
+.key-figures {
+  margin-bottom: var(--space-2xl);
+}
+
+.key-figures h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.figures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.figure-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.figure-role {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.figure-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Directory Section */
+.directory-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.directory-filters {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.directory-filters .search-bar {
+  flex: 1;
+  position: relative;
+  max-width: 400px;
+}
+
+.directory-filters .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+}
+
+.directory-filters input {
+  width: 100%;
+  padding-left: 40px;
+}
+
+.directory-filters select {
+  min-width: 180px;
+}
+
+.councillors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.councillor-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.councillor-card:hover {
+  background: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+.councillor-header {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.party-indicator {
+  width: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.councillor-info h3 {
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.ward-name {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.councillor-party {
+  margin-bottom: var(--space-sm);
+}
+
+.party-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.councillor-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-sm);
+}
+
+.role-tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.councillor-details {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.detail-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.8125rem;
+  color: var(--accent-blue);
+}
+
+.no-results {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: var(--space-2xl);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .directory-filters {
+    flex-direction: column;
+  }
+
+  .directory-filters .search-bar {
+    max-width: none;
+  }
+
+  .coalition-total,
+  .opposition-total {
+    font-size: 2.5rem;
+  }
+}

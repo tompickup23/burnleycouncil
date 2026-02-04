@@ -1,0 +1,241 @@
+.budgets-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-sm);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.metric-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  border: 1px solid var(--border-color);
+}
+
+.metric-card.highlight {
+  border-color: var(--accent-blue);
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), transparent);
+}
+
+.metric-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-blue);
+}
+
+.metric-icon.growth {
+  color: var(--accent-orange);
+}
+
+.metric-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.metric-value.text-orange {
+  color: var(--accent-orange);
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Chart Section */
+.chart-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.chart-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.chart-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+}
+
+.chart-note {
+  font-size: 0.8125rem;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-color);
+}
+
+/* YoY Section */
+.yoy-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.yoy-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.yoy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+.yoy-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+}
+
+.yoy-card.increase {
+  border-left: 4px solid var(--accent-red);
+}
+
+.yoy-card.decrease {
+  border-left: 4px solid var(--accent-green);
+}
+
+.yoy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.yoy-years {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.yoy-change {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.change-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.change-percent {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.yoy-detail {
+  font-size: 0.8125rem;
+}
+
+/* Highlights Section */
+.highlights-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.highlights-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-md);
+}
+
+.highlight-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-orange);
+  display: flex;
+  gap: var(--space-md);
+}
+
+.highlight-icon {
+  color: var(--accent-orange);
+  flex-shrink: 0;
+}
+
+.highlight-card p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Context Section */
+.context-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.context-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+}
+
+.context-item h4 {
+  font-size: 1rem;
+  margin-bottom: var(--space-sm);
+}
+
+.context-item p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .metric-value {
+    font-size: 1.5rem;
+  }
+
+  .change-amount {
+    font-size: 1.25rem;
+  }
+}

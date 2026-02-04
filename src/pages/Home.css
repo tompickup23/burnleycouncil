@@ -1,0 +1,255 @@
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-sm);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  border: 1px solid var(--border-color);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-blue);
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Findings Section */
+.findings-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.findings-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.findings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.finding-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+  display: flex;
+  gap: var(--space-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-primary);
+}
+
+.finding-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  opacity: 1;
+}
+
+.finding-card.warning {
+  border-left: 4px solid var(--accent-orange);
+}
+
+.finding-card.warning .finding-icon {
+  color: var(--accent-orange);
+}
+
+.finding-card.alert {
+  border-left: 4px solid var(--accent-red);
+}
+
+.finding-card.alert .finding-icon {
+  color: var(--accent-red);
+}
+
+.finding-card.info {
+  border-left: 4px solid var(--accent-blue);
+}
+
+.finding-card.info .finding-icon {
+  color: var(--accent-blue);
+}
+
+.finding-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.finding-content h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-xs);
+}
+
+.finding-content p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.finding-link {
+  font-size: 0.875rem;
+  color: var(--accent-blue);
+  font-weight: 500;
+}
+
+/* Politics Overview */
+.politics-overview {
+  margin-bottom: var(--space-2xl);
+}
+
+.politics-overview h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.politics-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .politics-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.coalition-info h3 {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.coalition-seats {
+  font-size: 1.25rem;
+}
+
+.coalition-seats strong {
+  font-size: 2rem;
+  color: var(--accent-blue);
+}
+
+.coalition-parties {
+  font-size: 0.875rem;
+  margin-top: var(--space-sm);
+}
+
+.party-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.party-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.party-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.party-name {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.party-count {
+  font-weight: 600;
+  font-size: 0.875rem;
+  min-width: 24px;
+  text-align: right;
+}
+
+.view-all-link {
+  align-self: center;
+  font-weight: 500;
+}
+
+/* Data Sources */
+.data-sources h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-md);
+}
+
+.source-item {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border: 1px solid var(--border-color);
+}
+
+.source-item h4 {
+  font-size: 0.875rem;
+  margin-bottom: var(--space-xs);
+}
+
+.source-item p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
