@@ -183,7 +183,7 @@ function Home() {
               <AlertTriangle size={24} className="finding-icon" />
               <span className="finding-badge">Concentration</span>
             </div>
-            <h3>20 Suppliers Receive {formatPercent(topSupplierConcentration)} of Payments</h3>
+            <h3>20 Suppliers Receive {formatPercent(topSupplierConcentration * 100)} of Payments</h3>
             <p>
               Out of {formatNumber(uniqueSuppliers)} suppliers, just 20 (less than 0.5%) receive over 61% of all
               external payments. This concentration is common in councils but worth scrutinising.
@@ -417,7 +417,7 @@ function Home() {
           <div className="source-card">
             <Eye size={24} />
             <h4>Data Quality</h4>
-            <p>{formatPercent(insights?.transparency_metrics?.overall_score / 100)} completeness across {formatNumber(totalRecords)} records.</p>
+            <p>{formatPercent(insights?.transparency_metrics?.overall_score)} completeness across {formatNumber(totalRecords)} records.</p>
             <span className="source-period">May contain errors</span>
           </div>
         </div>

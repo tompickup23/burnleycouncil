@@ -11,6 +11,7 @@ const newsArticles = [
     category: 'Investigation',
     title: 'Burnley Council\'s Five-Unitary Gamble: Spending Taxpayer Money to Keep Themselves in a Job',
     summary: 'Burnley Council is spending tens of thousands on consultants to push a five-unitary model for Lancashire — despite the strong case for fewer, larger authorities that would deliver real savings for residents.',
+    image: '/images/articles/government.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has already begun spending on external consultants for local government reorganisation (LGR)</strong>, with spending data revealing payments to specialist firms under a new "Local Government Reorganisation" cost centre.</p>
@@ -76,6 +77,7 @@ const newsArticles = [
     category: 'Investigation',
     title: 'Burnley\'s Waste Crisis: Two Years\' Warning, No Plan, and Now Envirofuel Gets the Contract',
     summary: 'Burnley Council was told in December 2023 that Whinney Hill landfill would close. Two years later, they still don\'t have a waste transfer station — and residents near Envirofuel will pay the price.',
+    image: '/images/articles/waste.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>In December 2023, Lancashire County Council told Burnley Borough Council that Whinney Hill landfill would close.</strong> The council was given over two years to prepare. They failed.</p>
@@ -149,6 +151,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£5.3 Million Spent on Insurance and Brokerage',
     summary: 'Council insurance costs have reached £5.3 million since 2021, with one insurance broker receiving £3.7 million in fees and premiums.',
+    image: '/images/articles/insurance.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has spent over £5.3 million on insurance-related costs</strong> since 2021, with the majority going to broker Arthur J Gallagher and insurer Zurich Municipal.</p>
@@ -222,9 +225,12 @@ const newsArticles = [
     category: 'Investigation',
     title: 'DOGE Analysis: £2.5M in Duplicate Payments, £10.5M Without Contracts, and Netflix on the Council Card',
     summary: 'Our comprehensive DOGE-style audit of 19,865 spending records totalling £217 million has uncovered duplicate payments, suppliers operating without contracts, and questionable purchase card spending including Domino\'s Pizza and ChatGPT subscriptions.',
+    image: '/images/articles/magnifying-glass.jpg',
     author: 'Burnley Council Transparency',
     content: `
-      <p><strong>We subjected every pound of Burnley Borough Council's published spending data to rigorous automated analysis</strong> — 19,865 transactions totalling £217 million across four financial years. This includes both <strong>revenue spending</strong> (day-to-day running costs) and <strong>capital spending</strong> (one-off investments like construction projects). The results are concerning.</p>
+      <p><strong>We subjected every pound of Burnley Borough Council's published spending data to rigorous automated analysis</strong> — 19,865 transactions totalling £217 million across four financial years. Inspired by the push for government efficiency reviews — the UK's Office for Value for Money was established in the October 2024 Autumn Budget, while the National Audit Office and CIPFA have long called for better local government scrutiny — this is a citizen-led analysis of how Burnley spends public money. The results are concerning.</p>
+
+      <p>This analysis covers both <strong>revenue spending</strong> (day-to-day running costs from the ~£18.7M annual budget) and <strong>capital spending</strong> (one-off investments like Pioneer Place, funded by borrowing within the ~£42.5M five-year capital programme).</p>
 
       <h4>The Headline Numbers</h4>
 
@@ -303,6 +309,7 @@ const newsArticles = [
     category: 'Investigation',
     title: '£2.5 Million in Duplicate Payments Found in Council\'s Own Published Data',
     summary: 'DOGE analysis confirms 1,284 exact duplicate records originating from the council\'s own CSV files — these are not our errors, they are theirs.',
+    image: '/images/articles/documents.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Our DOGE-style analysis identified 1,284 exact duplicate records in 503 groups, representing £2,478,616 in potential overpayments.</strong> We verified this by examining the raw council CSV files directly — the duplicates are present in what the council publishes.</p>
@@ -368,6 +375,7 @@ const newsArticles = [
     category: 'Investigation',
     title: 'One Law Firm, One Day, £19.8 Million: The Geldards Question',
     summary: 'A single capital programme payment of £19,848,934 to solicitors Geldards on 19 October 2021 — for the Pioneer Place development — exceeds the council\'s entire annual revenue budget.',
+    image: '/images/articles/construction.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>On 19 October 2021, Burnley Borough Council made a single payment of £19,848,934.40 to Geldards LLP</strong> — a Derby-based law firm. This is the largest individual payment in our entire dataset, and it exceeds the council's entire annual <em>revenue</em> budget.</p>
@@ -380,7 +388,7 @@ const newsArticles = [
         <li><strong>Capital Programme (~£42.5M over 5 years):</strong> One-off investment spending on construction, regeneration and assets, funded by borrowing and government grants</li>
       </ul>
 
-      <p>The Geldards payment comes from the Capital Programme, categorised as "New Constructions". It almost certainly relates to the <strong>Pioneer Place development</strong> — the council's flagship £23M town centre regeneration scheme (cinema, restaurants, public realm) which was under construction during this period. Geldards acted as the council's solicitors on the development, with the payment passing through their client account for the construction contract.</p>
+      <p>The Geldards payment comes from the Capital Programme, categorised as "New Constructions". It relates to the <strong>Pioneer Place development</strong> — the council's flagship town centre regeneration scheme on Curzon Street, adjacent to Charter Walk shopping centre. Pioneer Place brought a 7-screen Reel Cinema, Nando's, Loungers, and other restaurants to Burnley town centre, opening in phases during 2022. Geldards acted as the council's solicitors, with the payment passing through their client account for the construction contract with Maple Grove Developments Ltd.</p>
 
       <h4>The Numbers in Context</h4>
 
@@ -404,19 +412,32 @@ const newsArticles = [
 
       <p>Combined: £19,849,930.90 in a single day.</p>
 
-      <h4>Why This Still Matters</h4>
+      <h4>The Full Pioneer Place Picture</h4>
 
-      <p>Even though this is a capital programme payment for a legitimate regeneration project, important governance questions remain:</p>
+      <p>Our data identifies multiple payment streams related to Pioneer Place:</p>
       <ul>
-        <li>Was the Pioneer Place development competitively tendered and does it represent value for money?</li>
-        <li>What was Geldards' actual legal fee (as opposed to the pass-through construction amount)?</li>
-        <li>How is the council funding the borrowing costs? (The annual Minimum Revenue Provision — the charge on the revenue budget to repay capital borrowing — rose to £2.2M in 2025/26)</li>
-        <li>The council's transparency data makes no distinction between legal fees and pass-through capital payments — this is a significant transparency gap</li>
+        <li><strong>Geldards LLP:</strong> £20.1M total (mostly pass-through for construction)</li>
+        <li><strong>Maple Grove Developments Ltd:</strong> £16.6M across 41 transactions (development agreement valuations 6 through 16)</li>
+        <li><strong>Nando's:</strong> 2 payments of £70,000 (July and September 2023) — categorised as "New Constructions", likely restaurant fit-out contributions</li>
+        <li><strong>Loungers UK Ltd:</strong> 2 payments of £90,000 (June and July 2023)</li>
+        <li><strong>"Legal fees for Pioneer Place":</strong> £1,176,908 paid to Maple Grove (December 2021) — described as legal fees, but paid to a development company rather than solicitors</li>
       </ul>
 
-      <p>Understanding the difference between revenue and capital spending is essential for interpreting council finances. This payment didn't come from council tax — it came from the capital programme, funded by borrowing that will be repaid over decades through the revenue budget's MRP charge.</p>
+      <p>The project was funded primarily through council borrowing, pushing the Capital Financing Requirement to <strong>£74.7 million</strong>. The annual Minimum Revenue Provision — the charge on the revenue budget to repay capital borrowing — rose to <strong>£2.2 million in 2025/26</strong>, partly due to Pioneer Place.</p>
 
-      <p><em>All figures derived from publicly available council spending data and annual budget books. Categorisation as "New Constructions" sourced from council's published expenditure type field. Pioneer Place details from published cabinet reports.</em></p>
+      <h4>Why This Still Matters</h4>
+
+      <p>Even though this is a capital programme payment for a regeneration project, important governance questions remain:</p>
+      <ul>
+        <li>What was Geldards' actual legal fee (as opposed to the pass-through construction amount)? The transparency data doesn't distinguish.</li>
+        <li>Why was £1.18M in "legal fees for Pioneer Place" paid to Maple Grove — a development company — rather than to solicitors?</li>
+        <li>The council's total outstanding borrowing stands at <strong>£56.1 million</strong> — with Pioneer Place a significant contributor</li>
+        <li>Investment property rental income dropped <strong>58% in one year</strong> (from £2.03M to £843K) — is the council's commercial property strategy working?</li>
+      </ul>
+
+      <p>Understanding the difference between revenue and capital spending is essential for interpreting council finances. This payment didn't come from council tax — it came from the capital programme, funded by borrowing that will be repaid over decades.</p>
+
+      <p><em>All figures derived from publicly available council spending data, annual budget books, and the audited Statement of Accounts 2023/24. Pioneer Place details from published cabinet reports and spending categorisations.</em></p>
     `,
     tags: ['DOGE', 'Geldards', 'legal', 'spending', 'governance', 'Pioneer Place'],
   },
@@ -426,6 +447,7 @@ const newsArticles = [
     category: 'Investigation',
     title: '£10.5 Million Paid to Suppliers With No Published Contract',
     summary: 'Nine of the council\'s top 100 suppliers — receiving over £10.5 million between them — do not appear in the published contracts register.',
+    image: '/images/articles/legal.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Our DOGE analysis cross-referenced every spending payment against the council's published contracts register.</strong> The result: 9 of the top 100 suppliers, receiving a combined £10,521,243, have no published contract on file.</p>
@@ -486,6 +508,7 @@ const newsArticles = [
     category: 'Investigation',
     title: 'ChatGPT, Aldi, and Oswaldtwistle Mill: What\'s on the Council Credit Cards?',
     summary: 'Purchase card analysis reveals £1,397 on ChatGPT, £2,498 at Aldi on the Chief Executive\'s card, Domino\'s Pizza, Uber, and Just Eat — all charged to the taxpayer.',
+    image: '/images/articles/credit-card.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>A detailed analysis of 6,831 purchase card transactions reveals spending patterns that raise serious questions about oversight of council credit cards.</strong></p>
@@ -549,13 +572,14 @@ const newsArticles = [
     category: 'Investigation',
     title: 'The £34 Million Liberata Deal: Outsourcing That Cut 40% of Jobs',
     summary: 'Burnley\'s decade-long outsourcing contract with Liberata UK saw 40% of affected staff lose their jobs. Now the council is bringing services back in-house — was it worth it?',
+    image: '/images/articles/outsourcing.jpg',
     author: 'Burnley Council Transparency',
     content: `
-      <p><strong>In 2016, Burnley Borough Council signed a 10-year, £34 million contract with Liberata UK Ltd</strong> to run council tax collection, housing benefits, IT services, and customer contact. The deal resulted in approximately 40% of affected council staff losing their jobs.</p>
+      <p><strong>In 2016, Burnley Borough Council signed a 10-year, £34 million contract with Liberata UK Ltd</strong> to run council tax collection, housing benefits, IT, customer services, HR, payroll, facilities management, and environmental health. The deal resulted in approximately 40% of affected council staff losing their jobs — and the remaining staff being transferred to a private company under TUPE.</p>
 
       <h4>What the Data Shows</h4>
 
-      <p>Our spending data reveals Liberata has received <strong>£21.2 million since 2021</strong> alone — making it the council's single largest supplier. Monthly payments have consistently exceeded £350,000:</p>
+      <p>Our spending data reveals Liberata has received <strong>£21.2 million since 2021</strong> alone — making it the council's single largest supplier by a significant margin. Monthly payments have consistently exceeded £350,000:</p>
 
       <ul>
         <li><strong>Typical monthly payment:</strong> £358,000 - £375,000</li>
@@ -564,38 +588,57 @@ const newsArticles = [
         <li><strong>Share of all council spending:</strong> ~10%</li>
       </ul>
 
+      <h4>The Scale of Outsourcing</h4>
+
+      <p>The services handed to Liberata cover almost every back-office function of the council:</p>
+      <ul>
+        <li><strong>Customer Services:</strong> the public-facing contact centre</li>
+        <li><strong>IT:</strong> all technology infrastructure and support</li>
+        <li><strong>Revenues & Benefits:</strong> council tax billing, business rates, housing benefit</li>
+        <li><strong>Facilities Management & Property Services</strong></li>
+        <li><strong>HR Administration & Payroll</strong></li>
+        <li><strong>Environmental Health & Licensing</strong></li>
+      </ul>
+
+      <p>As a result, Burnley Borough Council's direct workforce dropped to just <strong>243 permanent and temporary employees</strong>. This figure significantly understates the actual number of people delivering council services — hundreds more work for Liberata on the council's behalf.</p>
+
       <h4>The Human Cost</h4>
 
-      <p>When the outsourcing was announced, approximately 40% of the 130 affected staff were made redundant. The remaining 60% were transferred to Liberata under TUPE regulations — often on less favourable terms.</p>
+      <p>When the outsourcing was announced, approximately <strong>40% of the 130 affected staff were made redundant</strong>. The remaining 60% were transferred to Liberata under TUPE regulations.</p>
 
-      <p>The council claimed the deal would save £8 million over 10 years compared to in-house delivery. But the true cost must factor in:</p>
+      <p>The council's own Productivity Plan (July 2024) states the contract is achieving the original cost reduction objective, with a "20% saving forecast against the base costs in the final years" due to the fixed contract price. Liberata also committed to creating 100+ new jobs in Burnley through "north-shoring".</p>
+
+      <p>But the true cost must factor in:</p>
       <ul>
-        <li>Redundancy payments for dismissed staff</li>
+        <li>Redundancy payments for ~52 dismissed staff</li>
         <li>Contract management costs within the council</li>
-        <li>Reduced service quality and responsiveness</li>
+        <li>Pension guarantee risk — the council guarantees Liberata employees' pensions, meaning if Liberata defaults, the council picks up the liability</li>
         <li>Loss of institutional knowledge</li>
         <li>The cost of bringing services back in-house</li>
       </ul>
 
-      <h4>Coming Home</h4>
+      <h4>Coming Home — But Into What?</h4>
 
-      <p>The contract is due to expire in 2026, and the council has indicated it intends to bring many of these services back in-house. This is part of a national trend — multiple councils that outsourced to companies like Liberata, Capita, and Serco are now reversing those decisions.</p>
+      <p>The contract expires in <strong>2026</strong>, and the council has indicated it intends to bring many services back in-house. This coincides with Local Government Reorganisation, which could see Burnley Borough Council abolished entirely to make way for a new unitary authority.</p>
+
+      <p>This creates a uniquely awkward situation: the council is planning to insource services from Liberata at the same time it may cease to exist. Any investment in rebuilding internal capacity could be wasted if LGR proceeds and a new authority makes different arrangements.</p>
 
       <p>The transition back will itself cost money: recruiting staff, rebuilding internal capability, and potentially running parallel systems during the handover. These are costs that would not have been incurred had services never been outsourced.</p>
 
       <h4>Was It Worth It?</h4>
 
-      <p>The council claimed £8 million in savings. Even if that figure is accurate (and it hasn't been independently verified), it came at the cost of:</p>
+      <p>The council claimed £8 million in savings over 10 years. Even if that figure is accurate (and it hasn't been independently verified), it came at the cost of:</p>
       <ul>
-        <li>~52 local jobs permanently lost</li>
+        <li>~52 local jobs permanently lost in a town with above-average unemployment</li>
         <li>Remaining staff transferred to a private company</li>
         <li>10 years of reduced democratic control over core services</li>
+        <li>Pension liability risk transferred to the public purse</li>
         <li>Transition costs both in and out of the arrangement</li>
       </ul>
 
-      <p>With the council's General Fund reserve at just £1.4 million, and usable reserves declining from £36.3 million to £34.2 million, the question of whether outsourcing delivered real value — or just deferred costs — deserves honest public accounting.</p>
+      <p>With the council's General Fund reserve at just <strong>£1.379 million</strong> (7.4% of the net budget — at the lower end of recommended levels), and the Business Rates Retention Reserve having collapsed from £9.2 million to just £570,000, the financial cushion for any transition disruption is razor-thin.</p>
 
-      <p><em>Spending figures from publicly available council data. Contract details from council cabinet reports and published business cases. Staff impact figures from council records and local press reporting.</em></p>
+      <p><em>Spending figures from publicly available council data. Contract details from council cabinet reports, Productivity Plan (July 2024), and Statement of Accounts 2023/24. Staff impact figures from council records and local press reporting.</em></p>
     `,
     tags: ['DOGE', 'Liberata', 'outsourcing', 'jobs', 'insourcing', 'contracts'],
   },
@@ -605,34 +648,38 @@ const newsArticles = [
     category: 'Analysis',
     title: 'Council Cards Used for 51 Netflix Payments',
     summary: 'Analysis reveals ongoing Netflix subscription payments on council purchase cards since 2021, raising questions about appropriate use of public funds.',
+    image: '/images/articles/streaming-tv.jpg',
     author: 'Burnley Council Transparency',
     content: `
-      <p><strong>Burnley Borough Council has made 51 separate payments to Netflix totalling £490.73 since 2021</strong>, charged to the Economy & Growth department's purchase cards.</p>
+      <p><strong>Burnley Borough Council has made 51 separate payments to Netflix totalling £490.73 since 2021</strong>, charged to the Economy & Growth department's purchase cards. That's over four years of uninterrupted streaming, paid for by Burnley taxpayers.</p>
 
       <h4>The Details</h4>
 
-      <p>The payments range from £8.99 to £12.99 per month, consistent with standard Netflix subscription tiers. The payments have continued regularly through 2022, 2023, 2024, and into 2025.</p>
+      <p>The payments range from £8.99 to £12.99 per month — consistent with standard Netflix subscription tiers. The subscription has continued without interruption through 2022, 2023, 2024, and into 2025. No one appears to have questioned it.</p>
 
       <h4>Questions This Raises</h4>
 
       <ul>
-        <li>What council business purpose requires a Netflix subscription?</li>
-        <li>Why is a streaming entertainment service being paid for with public money?</li>
-        <li>Is this for a specific project, or has it simply gone unnoticed?</li>
-        <li>Are there other personal subscriptions on council cards?</li>
+        <li>What council business purpose in the <strong>Economy & Growth department</strong> requires a Netflix subscription?</li>
+        <li>Is this being used in a council property (perhaps a display in a tourism or business premises)?</li>
+        <li>Or has a personal subscription simply been left on a council card for four years unnoticed?</li>
+        <li>Who approved this recurring payment, and is anyone reviewing it?</li>
       </ul>
 
-      <h4>Other Streaming Services Found</h4>
+      <h4>It's Not Just Netflix</h4>
 
-      <p>The analysis also found:</p>
+      <p>The same purchase card data reveals other streaming subscriptions:</p>
       <ul>
-        <li><strong>Amazon Prime:</strong> 51 payments totalling £448.49</li>
+        <li><strong>Amazon Prime:</strong> 51 payments totalling £448.49 — running in parallel with Netflix since 2021</li>
         <li><strong>Apple iCloud:</strong> 34 payments totalling £43.36</li>
+        <li><strong>OpenAI ChatGPT:</strong> £1,397.73 on the Chief Operating Officer's card (November 2025)</li>
       </ul>
 
-      <p>While £490 over four years may seem trivial in a £217 million spending pot, it represents taxpayer money and raises questions about what other small, recurring payments may be flying under the radar.</p>
+      <p>While £490 over four years may seem trivial when the council spends £217 million, the concern isn't the amount — it's the oversight. If no one is catching a Netflix subscription running for four years, what else is going unreviewed on the £610,000 spent annually on purchase cards?</p>
 
-      <p><em>All figures are derived from publicly available council spending data.</em></p>
+      <p>For context, Burnley's Band D council tax is <strong>£344.58</strong>. One resident's entire year of council tax wouldn't even cover the combined streaming subscriptions.</p>
+
+      <p><em>All figures are derived from publicly available council purchase card data published under the Local Government Transparency Code.</em></p>
     `,
     tags: ['purchase cards', 'subscriptions', 'waste', 'accountability'],
   },
@@ -642,6 +689,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£610,000 Spent on Council Purchase Cards',
     summary: 'Deep dive into 6,671 purchase card transactions reveals spending at supermarkets, hotels, Amazon, and social media platforms.',
+    image: '/images/articles/credit-card.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Council staff have spent £610,168 across 6,671 purchase card transactions</strong> since 2021, with spending patterns that warrant public scrutiny.</p>
@@ -695,6 +743,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£22,000+ Spent on Social Media Advertising and Tools',
     summary: 'Council spends thousands on Facebook ads, Snapchat, Twitter, and social media management subscriptions.',
+    image: '/images/articles/social-media.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has spent over £22,000 on social media advertising and management tools</strong>, with Facebook/Meta being the largest recipient.</p>
@@ -730,18 +779,21 @@ const newsArticles = [
     category: 'Analysis',
     title: '£21 Million to Single Outsourcing Company',
     summary: 'Liberata UK Ltd receives £21 million — nearly 10% of all council spending — for outsourced revenues and benefits services.',
+    image: '/images/articles/outsourcing.jpg',
     author: 'Burnley Council Transparency',
     content: `
-      <p><strong>A single company, Liberata UK Ltd, has received £21,183,056 from Burnley Borough Council</strong> for providing outsourced revenues and benefits administration services. This represents nearly 10% of all council spending analysed.</p>
+      <p><strong>A single company, Liberata UK Ltd, has received £21,183,056 from Burnley Borough Council</strong> for providing outsourced services covering council tax, benefits, IT, customer services, HR, payroll, facilities management, and environmental health. This represents nearly 10% of all council spending analysed — an extraordinary concentration of public services in one private company's hands.</p>
 
       <h4>What Liberata Does</h4>
 
-      <p>The contract covers core council functions:</p>
+      <p>The 10-year contract (signed 2016, expiring 2026, total value ~£34M) covers core council functions:</p>
       <ul>
-        <li>Council Tax collection and billing</li>
-        <li>Business Rates administration</li>
-        <li>Housing Benefit and Council Tax Support processing</li>
-        <li>Debt recovery services</li>
+        <li><strong>Customer Services</strong> — the public contact centre</li>
+        <li><strong>IT</strong> — all technology infrastructure</li>
+        <li><strong>Revenues & Benefits</strong> — council tax billing, business rates, housing benefit</li>
+        <li><strong>Facilities Management & Property Services</strong></li>
+        <li><strong>HR Administration & Payroll</strong></li>
+        <li><strong>Environmental Health & Licensing</strong></li>
       </ul>
 
       <h4>The Numbers in Context</h4>
@@ -751,21 +803,24 @@ const newsArticles = [
         <li><strong>Number of payments:</strong> 363</li>
         <li><strong>Average payment:</strong> £58,354</li>
         <li><strong>Share of total council spending:</strong> ~10%</li>
+        <li><strong>Council's own workforce:</strong> just 243 employees (with hundreds more working via Liberata)</li>
       </ul>
+
+      <h4>The Council's Position</h4>
+
+      <p>The council's Productivity Plan (July 2024) states the contract is achieving its cost reduction objective, with a fixed price delivering a "20% saving forecast against the base costs in the final years." Liberata committed to creating 100+ new jobs through "north-shoring" to Burnley.</p>
 
       <h4>Questions for Scrutiny</h4>
 
       <ul>
-        <li>How does this cost compare to in-house delivery?</li>
-        <li>What are the contract performance metrics?</li>
-        <li>What profit margin does Liberata make on this contract?</li>
-        <li>When does the contract come up for renewal?</li>
-        <li>Has the council considered bringing services back in-house?</li>
+        <li>Has the claimed £8M saving over 10 years been independently verified?</li>
+        <li>The contract expires in 2026 — the same year LGR may abolish the council. What's the transition plan?</li>
+        <li>The council guarantees Liberata employees' pensions — what is this contingent liability worth?</li>
+        <li>With a General Fund reserve of just £1.379M, can the council afford the insourcing transition?</li>
+        <li>The Business Rates Retention Reserve has collapsed from £9.2M to £570K — is the financial position stable enough for major service changes?</li>
       </ul>
 
-      <p>Liberata is a major provider to local authorities across the UK. Whether outsourcing delivers better value than in-house provision remains a subject of ongoing debate.</p>
-
-      <p><em>All figures are derived from publicly available council spending data.</em></p>
+      <p><em>All spending figures from publicly available council data. Contract details from the council's Productivity Plan (July 2024), Statement of Accounts 2023/24, and published cabinet reports.</em></p>
     `,
     tags: ['outsourcing', 'contracts', 'Liberata', 'privatisation'],
   },
@@ -775,6 +830,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£1.67 Million Spent on External Consultants',
     summary: 'Analysis reveals significant spending on consultancy services, with questions about whether expertise could be developed in-house.',
+    image: '/images/articles/finance.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has spent £1,667,802 on external consultants</strong> across 210 transactions, raising questions about the council's internal capability and value for money.</p>
@@ -817,6 +873,7 @@ const newsArticles = [
     category: 'Analysis',
     title: 'Just 20 Suppliers Receive 61% of All Spending',
     summary: 'Analysis reveals extreme supplier concentration, with questions about competition, local business support, and procurement diversity.',
+    image: '/images/articles/finance.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Out of 4,458 different suppliers, just 20 companies receive over 61% of all council spending</strong> — raising important questions about procurement diversity and competition.</p>
@@ -861,6 +918,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£12.5 Million in Payments to Law Firms — But Most of It Isn\'t Legal Fees',
     summary: 'Burnley Council\'s payments to law firms top £12.5M — but £20M to Geldards was mostly capital programme pass-through for Pioneer Place, not legal fees.',
+    image: '/images/articles/legal.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council's published spending data shows £20 million in payments to Geldards LLP alone</strong> — but this figure is misleading. The vast majority of Geldards' payments are <strong>capital programme pass-throughs</strong> for the Pioneer Place town centre development, not legal fees.</p>
@@ -912,6 +970,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£5.4 Million Paid to Charities and Community Groups',
     summary: 'Analysis reveals substantial charitable spending across the borough — but where does the money go and what outcomes are achieved?',
+    image: '/images/articles/government.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has paid £5,434,192 to charities and community organisations</strong> across 892 separate payments. While supporting the voluntary sector is important, taxpayers deserve transparency about outcomes.</p>
@@ -958,6 +1017,7 @@ const newsArticles = [
     category: 'Analysis',
     title: 'End-of-Year Spending Surge: March Spending 1.7x Higher Than Average',
     summary: 'Analysis reveals a suspicious pattern: council spending surges dramatically in March as departments rush to use up their budgets before year-end.',
+    image: '/images/articles/finance.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>March spending is consistently 40-70% higher than the average month</strong>, suggesting departments may be rushing to spend their remaining budgets before the financial year ends — a classic sign of inefficient budget management.</p>
@@ -1010,6 +1070,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£4.7 Million Paid Directly to Individuals and Sole Traders',
     summary: 'Analysis identifies millions in payments to individuals rather than companies — raising questions about employment status and tax compliance.',
+    image: '/images/articles/documents.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has made £4,713,891 in payments directly to individuals and sole traders</strong> across 1,247 transactions. While many will be legitimate, this pattern warrants scrutiny.</p>
@@ -1056,6 +1117,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£33 Million in Suspiciously Round Number Payments',
     summary: 'Analysis flags over £33 million in payments that are exactly round numbers — a pattern that can indicate estimates rather than actual costs.',
+    image: '/images/articles/magnifying-glass.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>£33,247,891 in council payments are exactly round numbers</strong> (ending in ,000 or ,500), representing 15% of all spending. While some round figures are legitimate, this pattern can indicate problems.</p>
@@ -1101,6 +1163,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£3.6 Million on IT and Software — Are We Getting Value?',
     summary: 'Deep dive into council technology spending reveals questions about software licensing, cloud services, and digital transformation value.',
+    image: '/images/articles/outsourcing.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has spent £3,584,217 on IT, software, and digital services</strong> across 847 transactions. In an era of digital transformation, scrutiny of technology spending is essential.</p>
@@ -1151,6 +1214,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£1.7 Million on Training, Conferences and Professional Development',
     summary: 'Council staff training and conference attendance costs revealed — are taxpayers funding essential development or expensive junkets?',
+    image: '/images/articles/council-meeting.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has spent £1,712,891 on training, conferences, and professional development</strong> across 634 transactions. Staff development is important, but costs must be justified.</p>
@@ -1199,6 +1263,7 @@ const newsArticles = [
     category: 'Analysis',
     title: '£26,000+ on Hotel Stays and Accommodation',
     summary: 'Analysis reveals council spending on Travelodge, Premier Inn and other hotels — why does a local council need overnight stays?',
+    image: '/images/articles/council-meeting.jpg',
     author: 'Burnley Council Transparency',
     content: `
       <p><strong>Burnley Borough Council has spent over £26,000 on hotel accommodation</strong> across 164 bookings at Travelodge, Premier Inn and other hotels. For a local council serving a single borough, this raises questions.</p>
@@ -1366,23 +1431,30 @@ function News() {
             className="article-card"
             onClick={() => setSelectedArticle(article)}
           >
-            <div className="article-meta">
-              <span className={`category-badge ${article.category.toLowerCase().replace(' ', '-')}`}>
-                {getCategoryIcon(article.category)}
-                {article.category}
-              </span>
-              <span className="article-date">
-                <Calendar size={14} />
-                {formatDate(article.date)}
+            {article.image && (
+              <div className="article-card-image">
+                <img src={article.image} alt="" loading="lazy" />
+              </div>
+            )}
+            <div className="article-card-body">
+              <div className="article-meta">
+                <span className={`category-badge ${article.category.toLowerCase().replace(' ', '-')}`}>
+                  {getCategoryIcon(article.category)}
+                  {article.category}
+                </span>
+                <span className="article-date">
+                  <Calendar size={14} />
+                  {formatDate(article.date)}
+                </span>
+              </div>
+
+              <h2 className="article-title">{article.title}</h2>
+              <p className="article-summary">{article.summary}</p>
+
+              <span className="read-more">
+                Read more <ChevronRight size={16} />
               </span>
             </div>
-
-            <h2 className="article-title">{article.title}</h2>
-            <p className="article-summary">{article.summary}</p>
-
-            <span className="read-more">
-              Read more <ChevronRight size={16} />
-            </span>
           </article>
         ))}
       </div>
