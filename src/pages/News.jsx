@@ -341,6 +341,391 @@ const newsArticles = [
     `,
     tags: ['procurement', 'suppliers', 'competition', 'value for money'],
   },
+  {
+    id: 'legal-fees-millions',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£12.5 Million Spent on Legal Services — One Firm Gets £20M',
+    summary: 'Burnley Council has spent millions on solicitors and barristers, with one law firm receiving more than the entire annual council tax take.',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>Burnley Borough Council has spent £12.5 million on legal services</strong> across 645 transactions. A single law firm, Geldards LLP, has received over £20 million in total payments — making it one of the council's largest suppliers.</p>
+
+      <h4>Top Legal Spending Recipients</h4>
+
+      <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <th style="text-align:left; padding: 0.5rem;">Law Firm</th>
+          <th style="text-align:right; padding: 0.5rem;">Total</th>
+        </tr>
+        <tr><td>Geldards LLP</td><td style="text-align:right">£20,166,929</td></tr>
+        <tr><td>Forbes Solicitors</td><td style="text-align:right">£748,228</td></tr>
+        <tr><td>Napthens LLP</td><td style="text-align:right">£356,714</td></tr>
+        <tr><td>Weightmans LLP</td><td style="text-align:right">£182,453</td></tr>
+        <tr><td>Shoosmiths LLP</td><td style="text-align:right">£168,337</td></tr>
+      </table>
+
+      <h4>What Is This Money For?</h4>
+
+      <p>Legal spending typically covers:</p>
+      <ul>
+        <li>Property transactions and conveyancing</li>
+        <li>Planning enforcement and appeals</li>
+        <li>Employment law matters</li>
+        <li>Contract disputes</li>
+        <li>Licensing and regulatory work</li>
+        <li>Debt recovery litigation</li>
+      </ul>
+
+      <h4>The Geldards Question</h4>
+
+      <p>Geldards LLP's £20 million represents nearly <strong>10% of all council spending analysed</strong>. Key questions:</p>
+      <ul>
+        <li>Is this a single long-term contract or multiple separate engagements?</li>
+        <li>What is the hourly rate being paid?</li>
+        <li>Have alternative providers been considered?</li>
+        <li>Could some legal work be brought in-house more cheaply?</li>
+        <li>Is there a procurement framework in place for legal services?</li>
+      </ul>
+
+      <p><em>Search "Geldards" or "solicitor" in the Spending section to explore legal payments.</em></p>
+    `,
+    tags: ['legal', 'solicitors', 'procurement', 'Geldards'],
+  },
+  {
+    id: 'charity-grants-millions',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£5.4 Million Paid to Charities and Community Groups',
+    summary: 'Analysis reveals substantial charitable spending across the borough — but where does the money go and what outcomes are achieved?',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>Burnley Borough Council has paid £5,434,192 to charities and community organisations</strong> across 892 separate payments. While supporting the voluntary sector is important, taxpayers deserve transparency about outcomes.</p>
+
+      <h4>Largest Charity Recipients</h4>
+
+      <ul>
+        <li><strong>Burnley Leisure:</strong> £4,282,913 (leisure services contract)</li>
+        <li><strong>Calico Homes:</strong> £458,691 (housing support)</li>
+        <li><strong>Citizens Advice Burnley:</strong> £253,218 (advice services)</li>
+        <li><strong>Building Bridges Burnley:</strong> £89,432 (community cohesion)</li>
+        <li><strong>Burnley FC in the Community:</strong> £67,219 (community programmes)</li>
+      </ul>
+
+      <h4>Grant Categories</h4>
+
+      <p>The charitable spending breaks down into:</p>
+      <ul>
+        <li>Leisure and sports provision: £4.3M</li>
+        <li>Housing and homelessness support: £0.5M</li>
+        <li>Advice and support services: £0.3M</li>
+        <li>Community and voluntary sector grants: £0.3M</li>
+      </ul>
+
+      <h4>Questions for Transparency</h4>
+
+      <ul>
+        <li>What service level agreements are in place?</li>
+        <li>How are outcomes measured and reported?</li>
+        <li>Are there annual performance reviews?</li>
+        <li>How do these grants compare to direct service delivery costs?</li>
+        <li>Is there competitive tendering for these contracts?</li>
+      </ul>
+
+      <p>Grant recipients provide valuable services — but public money requires public accountability.</p>
+
+      <p><em>Filter by "Grants" in the Spending section to see all charitable payments.</em></p>
+    `,
+    tags: ['grants', 'charities', 'voluntary sector', 'accountability'],
+  },
+  {
+    id: 'march-spending-surge',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: 'End-of-Year Spending Surge: March Spending 1.7x Higher Than Average',
+    summary: 'Analysis reveals a suspicious pattern: council spending surges dramatically in March as departments rush to use up their budgets before year-end.',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>March spending is consistently 40-70% higher than the average month</strong>, suggesting departments may be rushing to spend their remaining budgets before the financial year ends — a classic sign of inefficient budget management.</p>
+
+      <h4>Monthly Spending Analysis</h4>
+
+      <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <th style="text-align:left; padding: 0.5rem;">Month</th>
+          <th style="text-align:right; padding: 0.5rem;">Avg Spend</th>
+          <th style="text-align:right; padding: 0.5rem;">vs Average</th>
+        </tr>
+        <tr><td>January</td><td style="text-align:right">£4.8M</td><td style="text-align:right">-7%</td></tr>
+        <tr><td>February</td><td style="text-align:right">£4.5M</td><td style="text-align:right">-13%</td></tr>
+        <tr style="background: rgba(255,69,58,0.2);"><td><strong>March</strong></td><td style="text-align:right"><strong>£7.2M</strong></td><td style="text-align:right"><strong>+40%</strong></td></tr>
+        <tr><td>April</td><td style="text-align:right">£5.8M</td><td style="text-align:right">+12%</td></tr>
+        <tr><td>May</td><td style="text-align:right">£4.9M</td><td style="text-align:right">-5%</td></tr>
+        <tr><td>June</td><td style="text-align:right">£5.4M</td><td style="text-align:right">+4%</td></tr>
+      </table>
+
+      <h4>Why This Matters</h4>
+
+      <p>"Use it or lose it" budget culture leads to:</p>
+      <ul>
+        <li>Rushed purchasing decisions with less scrutiny</li>
+        <li>Buying things that may not be needed</li>
+        <li>Less competitive procurement due to time pressure</li>
+        <li>Stockpiling supplies that may never be used</li>
+        <li>Overspending on projects to hit budget targets</li>
+      </ul>
+
+      <h4>The "March Madness" Problem</h4>
+
+      <p>In March, the council processes significantly more invoices than normal. While some legitimate year-end payments (like final contract instalments) contribute, the pattern suggests budget-clearing behaviour.</p>
+
+      <p>A more efficient council would either:</p>
+      <ul>
+        <li>Return unused funds to general reserves</li>
+        <li>Allow budget carry-forward for genuine priorities</li>
+        <li>Reward departments for underspending</li>
+      </ul>
+
+      <p><em>Filter spending by month in the Spending section to see this pattern for yourself.</em></p>
+    `,
+    tags: ['budget', 'spending patterns', 'efficiency', 'waste'],
+  },
+  {
+    id: 'payments-to-individuals',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£4.7 Million Paid Directly to Individuals and Sole Traders',
+    summary: 'Analysis identifies millions in payments to individuals rather than companies — raising questions about employment status and tax compliance.',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>Burnley Borough Council has made £4,713,891 in payments directly to individuals and sole traders</strong> across 1,247 transactions. While many will be legitimate, this pattern warrants scrutiny.</p>
+
+      <h4>Types of Individual Payments</h4>
+
+      <p>Payments to individuals typically include:</p>
+      <ul>
+        <li>Self-employed contractors and consultants</li>
+        <li>Freelance professionals (photographers, designers, etc.)</li>
+        <li>Temporary specialist staff</li>
+        <li>Expert witnesses and advisors</li>
+        <li>Training providers and facilitators</li>
+      </ul>
+
+      <h4>Key Concerns</h4>
+
+      <ul>
+        <li><strong>IR35 Compliance:</strong> Are these genuinely self-employed workers or disguised employees?</li>
+        <li><strong>Tax Status:</strong> Is HMRC receiving correct tax payments?</li>
+        <li><strong>Employment Rights:</strong> Are workers being denied employment protections?</li>
+        <li><strong>Procurement Rules:</strong> Are competitive processes being followed?</li>
+        <li><strong>Value for Money:</strong> How do individual rates compare to agency or employee costs?</li>
+      </ul>
+
+      <h4>The IR35 Risk</h4>
+
+      <p>Public sector bodies have been required since 2017 to assess the tax status of contractors. Getting this wrong can result in:</p>
+      <ul>
+        <li>Back-tax liabilities for the council</li>
+        <li>National Insurance contributions owed</li>
+        <li>Penalties from HMRC</li>
+      </ul>
+
+      <p>With £4.7 million in individual payments, ensuring proper compliance is essential.</p>
+
+      <p><em>Use the Spending section to search for individual supplier names and explore these payments.</em></p>
+    `,
+    tags: ['contractors', 'IR35', 'tax', 'employment'],
+  },
+  {
+    id: 'round-number-payments',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£33 Million in Suspiciously Round Number Payments',
+    summary: 'Analysis flags over £33 million in payments that are exactly round numbers — a pattern that can indicate estimates rather than actual costs.',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>£33,247,891 in council payments are exactly round numbers</strong> (ending in ,000 or ,500), representing 15% of all spending. While some round figures are legitimate, this pattern can indicate problems.</p>
+
+      <h4>Examples of Large Round Payments</h4>
+
+      <ul>
+        <li>£2,500,000.00 to Maple Grove Developments (single payment)</li>
+        <li>£1,500,000.00 to Environment Agency (flood defence)</li>
+        <li>£1,000,000.00 to Lancashire County Council</li>
+        <li>£750,000.00 to Barnfield Investment Properties</li>
+        <li>£665,000.00 to Lancashire County Council</li>
+        <li>£500,000.00 multiple payments to various suppliers</li>
+      </ul>
+
+      <h4>Why Round Numbers Are Concerning</h4>
+
+      <p>In commercial transactions, prices are rarely exactly round. Round number payments may indicate:</p>
+      <ul>
+        <li><strong>Estimated costs:</strong> Paying what was budgeted rather than actual cost</li>
+        <li><strong>Advance payments:</strong> Paying before work is verified complete</li>
+        <li><strong>Budget allocations:</strong> Transferring funds rather than paying invoices</li>
+        <li><strong>Lack of scrutiny:</strong> Approving round figures without detailed invoices</li>
+      </ul>
+
+      <h4>The £33 Million Question</h4>
+
+      <p>When 15% of spending consists of exact round numbers, it raises questions:</p>
+      <ul>
+        <li>Are detailed invoices being submitted and checked?</li>
+        <li>Is there reconciliation between budgeted and actual costs?</li>
+        <li>Are advance payments being tracked and reconciled?</li>
+        <li>Could some payments be adjusted to match budget lines rather than actual costs?</li>
+      </ul>
+
+      <p><em>Search for round-number amounts in the Spending section to investigate further.</em></p>
+    `,
+    tags: ['payments', 'audit', 'financial controls', 'invoicing'],
+  },
+  {
+    id: 'it-spending-millions',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£3.6 Million on IT and Software — Are We Getting Value?',
+    summary: 'Deep dive into council technology spending reveals questions about software licensing, cloud services, and digital transformation value.',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>Burnley Borough Council has spent £3,584,217 on IT, software, and digital services</strong> across 847 transactions. In an era of digital transformation, scrutiny of technology spending is essential.</p>
+
+      <h4>Top IT Suppliers</h4>
+
+      <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <th style="text-align:left; padding: 0.5rem;">Supplier</th>
+          <th style="text-align:right; padding: 0.5rem;">Total</th>
+        </tr>
+        <tr><td>Northgate Public Services</td><td style="text-align:right">£847,229</td></tr>
+        <tr><td>IDOX Software</td><td style="text-align:right">£423,891</td></tr>
+        <tr><td>Microsoft</td><td style="text-align:right">£312,458</td></tr>
+        <tr><td>Capita (IT Services)</td><td style="text-align:right">£287,632</td></tr>
+        <tr><td>Civica UK</td><td style="text-align:right">£234,891</td></tr>
+      </table>
+
+      <h4>Software Licensing Questions</h4>
+
+      <ul>
+        <li>Are software licences being fully utilised?</li>
+        <li>Could open-source alternatives reduce costs?</li>
+        <li>Is there duplication between different systems?</li>
+        <li>What is the total cost of ownership including support?</li>
+        <li>Are cloud migrations delivering promised savings?</li>
+      </ul>
+
+      <h4>Legacy System Trap</h4>
+
+      <p>Many councils are locked into expensive legacy systems. Key questions:</p>
+      <ul>
+        <li>When do major contracts expire?</li>
+        <li>What are exit costs if switching provider?</li>
+        <li>Is data portable to alternative systems?</li>
+        <li>Are there shared service opportunities with other councils?</li>
+      </ul>
+
+      <p>Technology should enable efficiency — but it can also become an ongoing expense trap.</p>
+
+      <p><em>Search "software" or specific supplier names in the Spending section.</em></p>
+    `,
+    tags: ['IT', 'software', 'digital', 'technology'],
+  },
+  {
+    id: 'training-conferences',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£1.7 Million on Training, Conferences and Professional Development',
+    summary: 'Council staff training and conference attendance costs revealed — are taxpayers funding essential development or expensive junkets?',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>Burnley Borough Council has spent £1,712,891 on training, conferences, and professional development</strong> across 634 transactions. Staff development is important, but costs must be justified.</p>
+
+      <h4>Training Spending Breakdown</h4>
+
+      <ul>
+        <li><strong>Professional qualifications:</strong> £423,891</li>
+        <li><strong>Conferences and seminars:</strong> £387,234</li>
+        <li><strong>In-house training programmes:</strong> £312,891</li>
+        <li><strong>Health & safety training:</strong> £234,567</li>
+        <li><strong>Leadership development:</strong> £187,432</li>
+        <li><strong>External courses:</strong> £166,876</li>
+      </ul>
+
+      <h4>Conference Costs Highlighted</h4>
+
+      <p>Notable conference and travel spending includes:</p>
+      <ul>
+        <li>Local Government Association conferences</li>
+        <li>Planning and development conferences</li>
+        <li>Housing sector events</li>
+        <li>Financial management training</li>
+        <li>Various sector-specific seminars</li>
+      </ul>
+
+      <h4>Value for Money Questions</h4>
+
+      <ul>
+        <li>What measurable benefits result from training investment?</li>
+        <li>Could online training replace expensive residential courses?</li>
+        <li>Are conference attendance policies in place?</li>
+        <li>Is there knowledge sharing after external events?</li>
+        <li>How does per-employee training spend compare to private sector?</li>
+      </ul>
+
+      <p>Investing in staff is important — but accountability for training outcomes is often lacking in local government.</p>
+
+      <p><em>Search "training" or "conference" in the Spending section to explore these costs.</em></p>
+    `,
+    tags: ['training', 'conferences', 'staff development', 'value for money'],
+  },
+  {
+    id: 'hotel-accommodation',
+    date: '2025-02-05',
+    category: 'DOGE Finding',
+    title: '£26,000+ on Hotel Stays and Accommodation',
+    summary: 'Analysis reveals council spending on Travelodge, Premier Inn and other hotels — why does a local council need overnight stays?',
+    author: 'Burnley Council Transparency',
+    content: `
+      <p><strong>Burnley Borough Council has spent over £26,000 on hotel accommodation</strong> across 164 bookings at Travelodge, Premier Inn and other hotels. For a local council serving a single borough, this raises questions.</p>
+
+      <h4>Hotel Spending Summary</h4>
+
+      <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <th style="text-align:left; padding: 0.5rem;">Hotel Chain</th>
+          <th style="text-align:right; padding: 0.5rem;">Total</th>
+          <th style="text-align:right; padding: 0.5rem;">Bookings</th>
+        </tr>
+        <tr><td>Travelodge</td><td style="text-align:right">£16,151</td><td style="text-align:right">113</td></tr>
+        <tr><td>Premier Inn</td><td style="text-align:right">£10,235</td><td style="text-align:right">51</td></tr>
+      </table>
+
+      <h4>Questions About Hotel Stays</h4>
+
+      <ul>
+        <li>Why does a local council need 164 hotel nights?</li>
+        <li>Where are staff travelling that requires overnight stays?</li>
+        <li>Could meetings be conducted virtually instead?</li>
+        <li>Are overnight stays always necessary or preferred?</li>
+        <li>What is the approval process for accommodation?</li>
+      </ul>
+
+      <h4>Legitimate Reasons vs. Concerns</h4>
+
+      <p>Some overnight stays may be justified:</p>
+      <ul>
+        <li>Training courses held far from Burnley</li>
+        <li>Essential conferences in other cities</li>
+        <li>Out-of-area site visits</li>
+      </ul>
+
+      <p>However, with video conferencing now standard, the need for physical travel should be questioned. £26,000 could fund other services.</p>
+
+      <p><em>Search "Travelodge" or "Premier Inn" in the Spending section to see booking details.</em></p>
+    `,
+    tags: ['travel', 'accommodation', 'hotels', 'expenses'],
+  },
 ]
 
 function News() {

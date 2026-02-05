@@ -6,6 +6,8 @@ import Spending from './pages/Spending'
 import Budgets from './pages/Budgets'
 import Politics from './pages/Politics'
 import MyArea from './pages/MyArea'
+import Legal from './pages/Legal'
+import About from './pages/About'
 import './App.css'
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route path="/budgets" element={<Budgets />} />
           <Route path="/politics" element={<Politics />} />
           <Route path="/my-area" element={<MyArea />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Layout>
     </Router>

@@ -76,8 +76,9 @@ function Home() {
       <div className="disclaimer-banner">
         <Shield size={16} />
         <span>
-          <strong>Independent Scrutiny Tool</strong> — This is NOT the official Burnley Council website.
-          Visit <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">burnley.gov.uk</a> for official services.
+          <strong>AI-Generated Independent Scrutiny Tool</strong> — Created using artificial intelligence
+          trained on publicly available Burnley Council data. NOT affiliated with Burnley Borough Council.
+          Data may contain errors — always <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">verify with official sources</a>. <Link to="/legal">Legal disclaimer</Link>
         </span>
       </div>
 

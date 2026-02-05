@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info } from 'lucide-react'
 import { useState } from 'react'
 import './Layout.css'
 
@@ -10,6 +10,7 @@ const navItems = [
   { path: '/budgets', icon: PieChart, label: 'Budgets' },
   { path: '/politics', icon: Users, label: 'Politics' },
   { path: '/my-area', icon: MapPin, label: 'My Area' },
+  { path: '/about', icon: Info, label: 'About' },
 ]
 
 function Layout({ children }) {
