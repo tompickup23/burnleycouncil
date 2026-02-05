@@ -25,7 +25,7 @@ function About() {
         <div className="creator-card">
           <div className="creator-image">
             <img src="/images/tom-pickup.jpg" alt="Tom Pickup - County Councillor" />
-            <div className="creator-badge">DOGE Lead</div>
+            <div className="creator-badge">Lead Member for Finance</div>
           </div>
           <div className="creator-content">
             <h2>Created by Tom Pickup</h2>
