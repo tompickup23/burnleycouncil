@@ -11,7 +11,7 @@
 .page-header h1 {
   font-size: 2.25rem;
   margin-bottom: var(--space-sm);
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-blue) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -32,9 +32,11 @@
   flex-wrap: wrap;
   justify-content: center;
   padding: var(--space-md);
-  background: var(--bg-secondary);
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .filter-btn {
@@ -69,12 +71,14 @@
 }
 
 .article-card {
-  background: var(--bg-secondary);
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-xl);
   padding: var(--space-lg);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -206,10 +210,10 @@
   font-weight: 600;
   margin-bottom: var(--space-lg);
   padding: var(--space-sm) var(--space-md);
-  background: var(--bg-secondary);
+  background: rgba(28, 28, 30, 0.7);
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .back-button:hover {
@@ -219,24 +223,26 @@
 
 /* Full Article */
 .article-full {
-  background: var(--bg-secondary);
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-xl);
   padding: var(--space-2xl);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .article-header {
   margin-bottom: var(--space-xl);
   padding-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .article-header h1 {
   font-size: 2rem;
   line-height: 1.3;
   margin-top: var(--space-md);
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-blue) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -299,7 +305,7 @@
 .article-footer {
   margin-top: var(--space-2xl);
   padding-top: var(--space-xl);
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .article-tags {
@@ -315,8 +321,8 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tag:hover {
@@ -378,7 +384,7 @@
 .article-content table td {
   padding: var(--space-md);
   text-align: left;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .article-content table th {

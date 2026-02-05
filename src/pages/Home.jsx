@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye, Info } from 'lucide-react'
+import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
 import './Home.css'
@@ -34,7 +34,6 @@ function Home() {
   }
 
   const latestBudget = budgetInsights?.efficiency_metrics?.latest_budget || 0
-  const budgetGrowth = budgetInsights?.efficiency_metrics?.total_budget_growth_pct || 0
   const totalSpend = insights?.summary?.total_transaction_spend || 0
   const totalRecords = insights?.transparency_metrics?.total_records || 0
   const uniqueSuppliers = insights?.summary?.unique_suppliers || 0
@@ -121,11 +120,54 @@ function Home() {
         <Info size={18} />
         <div>
           <strong>Understanding the numbers:</strong> The spending data shows external payments to suppliers
-          (invoices over £500, contracts over £5,000, purchase cards). This is different from the council's
-          Net Revenue Budget of {formatCurrency(latestBudget, true)}, which is the day-to-day running cost funded by council tax.
-          <Link to="/budgets"> Learn more →</Link>
+          (invoices over £500, contracts over £5,000, purchase cards) — covering <em>both</em> revenue spending
+          (day-to-day running costs) and capital spending (one-off investments like construction projects).
+          The council's <strong>Net Revenue Budget</strong> is {formatCurrency(latestBudget, true)} (2025/26), funded
+          by council tax and business rates. The <strong>Capital Programme</strong> is separate — a 5-year, £42.5M
+          investment plan funded by borrowing and government grants.
+          <Link to="/budgets"> See full budget breakdown →</Link>
         </div>
       </div>
+
+      {/* DOGE Investigation Banner */}
+      <section className="doge-section">
+        <div className="doge-header">
+          <h2>🔍 DOGE Investigation</h2>
+          <p className="section-intro">
+            We audited every pound. Here's what we found in {formatNumber(totalRecords)} transactions.
+          </p>
+        </div>
+
+        <div className="doge-findings-grid">
+          <Link to="/news" className="doge-card critical">
+            <span className="doge-value">£2.48M</span>
+            <span className="doge-label">Exact Duplicate Payments</span>
+            <span className="doge-detail">1,284 records in 503 duplicate groups found in council's own published data</span>
+          </Link>
+
+          <Link to="/news" className="doge-card critical">
+            <span className="doge-value">£10.5M</span>
+            <span className="doge-label">No Contract on File</span>
+            <span className="doge-detail">9 top-100 suppliers — including £4.4M to one law firm — with no published contract</span>
+          </Link>
+
+          <Link to="/news" className="doge-card warning">
+            <span className="doge-value">£19.8M</span>
+            <span className="doge-label">Single Capital Payment to Geldards</span>
+            <span className="doge-detail">One capital programme payment exceeding the entire annual revenue budget — for the Pioneer Place development</span>
+          </Link>
+
+          <Link to="/news" className="doge-card warning">
+            <span className="doge-value">£596K</span>
+            <span className="doge-label">Purchase Card Spending</span>
+            <span className="doge-detail">6,831 transactions including Netflix, Domino's, ChatGPT, and £2.5K at Aldi</span>
+          </Link>
+        </div>
+
+        <Link to="/news" className="doge-cta">
+          Read the full DOGE investigation <ChevronRight size={16} />
+        </Link>
+      </section>
 
       {/* Key Findings Section */}
       <section className="findings-section">
@@ -155,26 +197,26 @@ function Home() {
               <Building size={24} className="finding-icon" />
               <span className="finding-badge">Outsourcing</span>
             </div>
-            <h3>£34M Outsourcing Contract Over 10 Years</h3>
+            <h3>£34M Outsourcing Contract — Now Coming Back In-House</h3>
             <p>
-              Liberata UK Ltd has a 10-year contract (2016-2026) worth £34M to run council tax, benefits,
-              IT, and customer services. This saves the council an estimated £8M vs in-house delivery.
+              Liberata UK Ltd has a 10-year contract (2016-2026) worth £34M. 40% of affected staff lost their jobs.
+              The council is now bringing services back in-house — was it worth it?
             </p>
-            <span className="finding-link">View contract payments →</span>
+            <span className="finding-link">Read the investigation →</span>
           </Link>
 
           {/* Budget */}
           <Link to="/budgets" className="finding-card info">
             <div className="finding-header">
               <TrendingUp size={24} className="finding-icon" />
-              <span className="finding-badge">Budget</span>
+              <span className="finding-badge">Revenue Budget</span>
             </div>
-            <h3>Net Budget: {formatCurrency(latestBudget, true)} (2025/26)</h3>
+            <h3>Net Revenue Budget: {formatCurrency(latestBudget, true)} (2025/26)</h3>
             <p>
               The council's day-to-day running costs, funded mainly by council tax (44%) and business rates.
-              This is a plan — actual spending may differ.
+              Earmarked reserves slashed from £1.33M to just £2,250 — plus a £42.5M capital investment programme.
             </p>
-            <span className="finding-link">View budget breakdown →</span>
+            <span className="finding-link">View full budget breakdown →</span>
           </Link>
 
           {/* Disabled Facilities Grants */}
@@ -287,7 +329,7 @@ function Home() {
                     innerRadius={50}
                     outerRadius={80}
                     dataKey="value"
-                    label={({ name, value }) => `${value}`}
+                    label={({ value }) => `${value}`}
                     labelLine={false}
                   >
                     {partyData.map((entry, index) => (
@@ -363,8 +405,8 @@ function Home() {
           <div className="source-card">
             <TrendingUp size={24} />
             <h4>Budget Information</h4>
-            <p>Annual budget books showing planned income and expenditure by service.</p>
-            <span className="source-period">2021/22 – 2025/26</span>
+            <p>Annual budget books covering revenue budgets, capital programme, treasury management and investment strategy.</p>
+            <span className="source-period">2020/21 – 2025/26</span>
           </div>
           <div className="source-card">
             <Users size={24} />
@@ -381,6 +423,39 @@ function Home() {
         </div>
       </section>
 
+      {/* Latest News Preview */}
+      <section className="news-preview-section">
+        <h2><Newspaper size={24} /> Latest Findings</h2>
+        <p className="section-intro">
+          Analysis and investigations based on council spending data.
+        </p>
+
+        <div className="news-preview-grid">
+          <Link to="/news" className="news-preview-card featured">
+            <span className="category-badge investigation">DOGE Investigation</span>
+            <h4>£2.5M Duplicates, £10.5M Without Contracts, Netflix on the Council Card</h4>
+            <p>Our comprehensive audit of 19,865 records uncovered duplicate payments, missing contracts, and questionable purchase card spending.</p>
+            <span className="read-more">Read the full investigation <ChevronRight size={14} /></span>
+          </Link>
+          <Link to="/news" className="news-preview-card">
+            <span className="category-badge investigation">Investigation</span>
+            <h4>One Law Firm, One Day, £19.8 Million</h4>
+            <p>A single capital programme payment to Geldards for the Pioneer Place development exceeds the council's entire annual revenue budget.</p>
+            <span className="read-more">Read more <ChevronRight size={14} /></span>
+          </Link>
+          <Link to="/news" className="news-preview-card">
+            <span className="category-badge investigation">Investigation</span>
+            <h4>ChatGPT, Aldi, and Domino's: What's on the Council Cards?</h4>
+            <p>£1,397 on ChatGPT, £2,498 at Aldi on the Chief Exec's card, and food delivery orders — all on the taxpayer.</p>
+            <span className="read-more">Read more <ChevronRight size={14} /></span>
+          </Link>
+        </div>
+
+        <Link to="/news" className="view-all-link">
+          View all findings <ChevronRight size={16} />
+        </Link>
+      </section>
+
       {/* Call to Action */}
       <section className="cta-section">
         <div className="cta-content">
@@ -392,7 +467,11 @@ function Home() {
             <Link to="/spending" className="btn-primary">
               Search Spending
             </Link>
-            <Link to="/myarea" className="btn-secondary">
+            <Link to="/foi" className="btn-secondary">
+              <FileQuestion size={18} />
+              Submit an FOI
+            </Link>
+            <Link to="/my-area" className="btn-secondary">
               Find Your Councillors
             </Link>
           </div>

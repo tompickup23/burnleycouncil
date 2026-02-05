@@ -7,6 +7,11 @@ import './Spending.css'
 const ITEMS_PER_PAGE = 50
 const CHART_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#64d2ff', '#ff375f', '#ffd60a']
 
+function SortIcon({ field, sortField, sortDir }) {
+  if (sortField !== field) return <ChevronDown size={14} className="sort-inactive" />
+  return sortDir === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+}
+
 // Searchable dropdown component
 function SearchableSelect({ label, value, options, onChange, placeholder }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -70,7 +75,6 @@ function SearchableSelect({ label, value, options, onChange, placeholder }) {
 
 function Spending() {
   const [spending, setSpending] = useState([])
-  const [metadata, setMetadata] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('table') // 'table' | 'charts'
 
@@ -98,13 +102,10 @@ function Spending() {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    Promise.all([
-      fetch('/data/spending.json').then(r => r.json()),
-      fetch('/data/metadata.json').then(r => r.json()),
-    ])
-      .then(([spendingData, metadataData]) => {
+    fetch('/data/spending.json')
+      .then(r => r.json())
+      .then(spendingData => {
         setSpending(spendingData)
-        setMetadata(metadataData)
         setLoading(false)
       })
       .catch(err => {
@@ -348,11 +349,6 @@ function Spending() {
     a.click()
   }
 
-  const SortIcon = ({ field }) => {
-    if (sortField !== field) return <ChevronDown size={14} className="sort-inactive" />
-    return sortDir === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
-  }
-
   if (loading) {
     return <div className="loading">Loading spending data...</div>
   }
@@ -544,15 +540,15 @@ function Spending() {
               <thead>
                 <tr>
                   <th className="sortable" onClick={() => handleSort('date')}>
-                    Date <SortIcon field="date" />
+                    Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
                   </th>
                   <th className="sortable" onClick={() => handleSort('supplier')}>
-                    Supplier <SortIcon field="supplier" />
+                    Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
                   </th>
                   <th>Service</th>
                   <th>Category</th>
                   <th className="sortable amount-col" onClick={() => handleSort('amount')}>
-                    Amount <SortIcon field="amount" />
+                    Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
                   </th>
                   <th>Type</th>
                 </tr>

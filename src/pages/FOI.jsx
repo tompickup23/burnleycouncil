@@ -99,6 +99,19 @@ const foiCategories = [
         context: 'The council purchased Charter Walk in 2021/22 for £20.7 million, stating a net initial yield of 11%. Performance data helps assess whether this investment is delivering as planned.'
       },
       {
+        title: 'Council Insurance Costs',
+        why: 'Council spending data shows over £1.2 million paid to insurance companies including Arthur J Gallagher and Zurich Municipal. Understanding insurance costs helps assess value for money.',
+        template: `Under the Freedom of Information Act 2000, I request:
+
+1. The total annual cost of all insurance premiums paid by the council for each year from 2021/22 to 2025/26
+2. A breakdown by category of cover (property, liability, motor, cyber, etc.)
+3. Whether the council uses a broker and their fees
+4. The number and total value of insurance claims made in each year
+5. Any self-insurance or excess arrangements`,
+        status: 'suggested',
+        context: 'Insurance is a significant but rarely scrutinised cost for councils. Spending data shows over £1.2 million paid to insurance companies in 2025/26 alone.'
+      },
+      {
         title: 'Council Property Asset Register',
         why: 'Understanding what assets the council owns helps assess how effectively public property is being used.',
         template: `Under the Freedom of Information Act 2000, I request:
@@ -118,16 +131,18 @@ const foiCategories = [
     description: 'Questions about how well council services are performing',
     requests: [
       {
-        title: 'Waste Collection Contract Performance',
-        why: 'Urbaser Ltd receives millions for waste collection. Understanding contract performance helps assess value for money.',
+        title: 'Waste Collection Contract — Urbaser to FCC Transition',
+        why: 'The waste collection contract appears to have transitioned from Urbaser Ltd to FCC Environment. Spending data shows £6M+ paid to "FCC Environment/Urbaser Ltd" in 2025/26 alone.',
         template: `Under the Freedom of Information Act 2000, I request:
 
-1. The current waste collection contract value, duration, and key terms with Urbaser Ltd
-2. Performance data including missed collections, complaints, and recycling rates for each year since 2021
-3. Any penalty deductions applied under the contract
-4. Benchmarking data comparing Burnley's waste collection costs per household with similar authorities`,
+1. Confirmation of whether the waste collection contract has transferred from Urbaser Ltd to FCC Environment, and if so, the date and terms of transfer
+2. Whether a new competitive procurement process was conducted, or if this was a novation of the existing contract
+3. The current contract value, duration, and key performance indicators
+4. Performance data including missed collections, complaints, and recycling rates for each year since 2021
+5. Any penalty deductions applied under the contract
+6. Benchmarking data comparing Burnley's waste collection costs per household with similar authorities`,
         status: 'suggested',
-        context: 'Waste collection is one of the most visible council services. Comparing costs and performance with other councils helps assess whether residents are getting good value.'
+        context: 'Council spending data shows a change in supplier name from "Urbaser Ltd" to "FCC Environment/Urbaser Ltd" in 2025/26, with over £6 million paid in the first three quarters. Understanding whether this represents a genuine new procurement or a corporate takeover is important for accountability.'
       },
       {
         title: 'Council Tax Collection Rates',
@@ -141,6 +156,19 @@ const foiCategories = [
 5. Whether any collection cases have been referred to bailiffs and the associated costs`,
         status: 'suggested',
         context: 'Burnley reportedly has nearly £13 million in outstanding council tax debt. Understanding the full picture of collection costs versus debt recovered helps assess whether the approach is effective.'
+      },
+      {
+        title: 'Local Government Reorganisation Costs',
+        why: 'Lancashire is undergoing local government reorganisation. Council spending data shows payments for LGR consultants. Residents deserve to know the full cost.',
+        template: `Under the Freedom of Information Act 2000, I request:
+
+1. The total amount spent on local government reorganisation (LGR) preparations to date, broken down by category (consultancy, staff time, legal advice, etc.)
+2. A list of all external consultants or advisors engaged in connection with LGR, including their fees
+3. Any budget allocated for LGR-related activity in 2025/26 and future years
+4. How LGR costs are being funded — from reserves, existing budgets, or additional borrowing
+5. Any business cases or impact assessments produced regarding the reorganisation`,
+        status: 'suggested',
+        context: 'Spending data shows at least £37,000 paid to consultants including 31ten Consulting and Socitm for local government reorganisation. As reorganisation progresses, these costs are likely to increase significantly. Similar processes at other councils have cost millions.'
       },
     ]
   },

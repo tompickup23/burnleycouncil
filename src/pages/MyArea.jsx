@@ -128,7 +128,6 @@ function MyArea() {
         <div className="wards-grid">
           {wardList.map(ward => {
             const wardCouncillors = getWardCouncillors(ward.name)
-            const primaryParty = ward.primary_party
 
             return (
               <div

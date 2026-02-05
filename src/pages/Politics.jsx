@@ -5,6 +5,7 @@ import './Politics.css'
 function Politics() {
   const [councillors, setCouncillors] = useState([])
   const [summary, setSummary] = useState(null)
+  // eslint-disable-next-line no-unused-vars
   const [wards, setWards] = useState({})
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')

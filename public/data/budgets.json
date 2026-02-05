@@ -1,263 +1,349 @@
-[
-  {
-    "financial_year": "2021/22",
-    "filename": "Budget-Book-2021-22.pdf",
-    "headline": {
-      "net_revenue_budget": 14697000,
-      "council_tax_band_d": null,
-      "burnley_element": null
-    },
-    "departments": {
-      "Management Team": {
-        "controllable": 202.0,
-        "total": 202.0
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2020/21",
+      "source": "Budget-Book-2021-22.pdf (comparison column)",
+      "net_revenue_budget": 15692569,
+      "departments": {
+        "Management Team": 0,
+        "Policy & Engagement": 464865,
+        "People & Development": 0,
+        "Green Spaces & Amenities": 1868253,
+        "Legal & Democratic Services": 700760,
+        "Finance & Property": 770077,
+        "Revenues & Benefits": 198476,
+        "Leisure Trust Client": 1958494,
+        "Streetscene": 4023459,
+        "Housing & Development Control": 566798,
+        "Economy & Growth": 1219657,
+        "Strategic Partnership": 154665,
+        "Corporate Budgets": 2014652,
+        "Earmarked Reserves": 1752413
       },
-      "Policy & Engagement": {
-        "controllable": 202.0,
-        "total": 202.0
+      "funding_sources": {
+        "council_tax": -7159947,
+        "business_rate_baseline": -4264127,
+        "additional_business_rates": -1219322,
+        "renewable_energy_schemes": -248375,
+        "revenue_support_grant": -1640158,
+        "new_homes_bonus": -693990,
+        "parish_precepts": -165874,
+        "collection_fund_surplus_deficit": -300776
       },
-      "Green Spaces & Amenities": {
-        "controllable": 545926.0,
-        "total": 1529.0
-      },
-      "Finance": {
-        "controllable": 202.0,
-        "total": 202.0
-      },
-      "Streetscene": {
-        "controllable": 202.0,
-        "total": 202.0
-      },
-      "Economy & Growth": {
-        "controllable": 943.0,
-        "total": 7333.0
-      },
-      "Corporate Budgets": {
-        "controllable": 202.0,
-        "total": 202.0
+      "council_tax": {
+        "band_d_total": null,
+        "burnley_element": null,
+        "burnley_increase_pct": null
       }
     },
-    "funding_sources": {
-      "council_tax": 2067.0
+    {
+      "financial_year": "2021/22",
+      "source": "Budget-Book-2021-22.pdf",
+      "net_revenue_budget": 15419019,
+      "departments": {
+        "Management Team": 0,
+        "Policy & Engagement": 490951,
+        "People & Development": 0,
+        "Green Spaces & Amenities": 1921081,
+        "Legal & Democratic Services": 707273,
+        "Finance & Property": 848909,
+        "Revenues & Benefits": 282767,
+        "Leisure Trust Client": 1958550,
+        "Streetscene": 4129234,
+        "Housing & Development Control": 685601,
+        "Economy & Growth": 942929,
+        "Strategic Partnership": 123624,
+        "Corporate Budgets": 2911254,
+        "Earmarked Reserves": 416847
+      },
+      "funding_sources": {
+        "council_tax": -7266131,
+        "business_rate_baseline": -4264495,
+        "additional_business_rates": -1219322,
+        "renewable_energy_schemes": -248375,
+        "business_rates_multiplier_grant": -222198,
+        "revenue_support_grant": -1649228,
+        "new_homes_bonus": -564328,
+        "parish_precepts": -168527,
+        "collection_fund_surplus_deficit": 632256,
+        "lower_tier_services_grant": -181664,
+        "local_council_tax_support_grant": -267007
+      },
+      "council_tax": {
+        "band_d_total": null,
+        "burnley_element": null,
+        "burnley_increase_pct": null
+      }
     },
-    "key_services": []
+    {
+      "financial_year": "2022/23",
+      "source": "Budget-Book-2022-23.pdf",
+      "net_revenue_budget": 15322011,
+      "departments": {
+        "Management Team": 0,
+        "Policy & Engagement": 514929,
+        "People & Development": 0,
+        "Green Spaces & Amenities": 2119337,
+        "Legal & Democratic Services": 739029,
+        "Finance & Property": 996124,
+        "Revenues & Benefits": 271878,
+        "Leisure Trust Client": 2047730,
+        "Streetscene": 4176797,
+        "Housing & Development Control": 745471,
+        "Economy & Growth": 1067063,
+        "Strategic Partnership": 119830,
+        "Corporate Budgets": 3061502,
+        "Earmarked Reserves": -537679
+      },
+      "funding_sources": {
+        "council_tax": -7480375,
+        "business_rate_baseline": -4264495,
+        "additional_business_rates": -1219322,
+        "renewable_energy_schemes": -248375,
+        "business_rates_multiplier_grant": -435850,
+        "revenue_support_grant": -1699791,
+        "new_homes_bonus": -576312,
+        "parish_precepts": -169340,
+        "collection_fund_surplus_deficit": 1260921,
+        "lower_tier_services_grant": -195089,
+        "services_grant_2022": -293983
+      },
+      "council_tax": {
+        "band_d_total": 2239.79,
+        "burnley_element": 322.06,
+        "burnley_increase_pct": 1.99
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "Budget-Book-2023-24.pdf",
+      "net_revenue_budget": 16267114,
+      "departments": {
+        "Management Team": 0,
+        "Policy & Engagement": 638115,
+        "People & Development": 0,
+        "Green Spaces & Amenities": 2618499,
+        "Legal & Democratic Services": 845760,
+        "Finance & Property": -268013,
+        "Revenues & Benefits": 507587,
+        "Leisure Trust Client": 2538295,
+        "Streetscene": 4610483,
+        "Housing & Development Control": 1460204,
+        "Economy & Growth": 1183200,
+        "Strategic Partnership": 46485,
+        "Corporate Budgets": 2457376,
+        "Earmarked Reserves": -370877
+      },
+      "funding_sources": {
+        "council_tax": -7722735,
+        "business_rate_baseline": -4766338,
+        "additional_business_rates": -1219322,
+        "renewable_energy_schemes": -307451,
+        "business_rates_multiplier_grant": -753601,
+        "revenue_support_grant": -1872190,
+        "new_homes_bonus": -319622,
+        "parish_precepts": -173327,
+        "collection_fund_surplus_deficit": 1207567,
+        "services_grant": -172474,
+        "local_council_tax_support_grant": -167621
+      },
+      "council_tax": {
+        "band_d_total": 2339.40,
+        "burnley_element": 331.63,
+        "burnley_increase_pct": 2.97
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "Budget-Book-2024-25.pdf",
+      "net_revenue_budget": 18986918,
+      "departments": {
+        "Management Team": 0,
+        "Policy & Engagement": 802836,
+        "People & Development": 0,
+        "Green Spaces & Amenities": 2960585,
+        "Legal & Democratic Services": 903734,
+        "Finance & Property": -404438,
+        "Revenues & Benefits": 634287,
+        "Leisure Trust Client": 2769707,
+        "Streetscene": 4870441,
+        "Housing & Development Control": 1729595,
+        "Economy & Growth": 1311983,
+        "Strategic Partnership": 115966,
+        "Corporate Budgets": 1962643,
+        "Earmarked Reserves": 1329579
+      },
+      "funding_sources": {
+        "council_tax": -8054980,
+        "business_rate_baseline": -5119792,
+        "additional_business_rates": -2626544,
+        "renewable_energy_schemes": -307451,
+        "business_rates_multiplier_grant": -897119,
+        "revenue_support_grant": -2174920,
+        "new_homes_bonus": -134166,
+        "parish_precepts": -188000,
+        "collection_fund_surplus_deficit": 1349572,
+        "funding_guarantee_grant": -803744,
+        "services_grant": -29774
+      },
+      "council_tax": {
+        "band_d_total": 2347.50,
+        "burnley_element": 337.82,
+        "burnley_increase_pct": 1.87
+      }
+    },
+    {
+      "financial_year": "2025/26",
+      "source": "Budget-Book-2025-26.pdf",
+      "net_revenue_budget": 18720662,
+      "departments": {
+        "Management Team": 0,
+        "Policy & Engagement": 768165,
+        "People & Development": 0,
+        "Green Spaces & Amenities": 2392009,
+        "Legal & Democratic Services": 875265,
+        "Finance (from 01/04/2025)": 1667871,
+        "Property (back in-house 01/04/2025)": -1864792,
+        "Revenues & Benefits": 617121,
+        "Leisure Trust Client": 2641408,
+        "Streetscene": 4750713,
+        "Housing & Development Control": 1583760,
+        "Economy & Growth": 1077419,
+        "Strategic Partnership": 114000,
+        "Corporate Budgets": 4095473,
+        "Earmarked Reserves": 2250
+      },
+      "funding_sources": {
+        "council_tax": -8305756,
+        "business_rate_baseline": -4838028,
+        "additional_business_rates": -1219322,
+        "renewable_energy_schemes": -352284,
+        "business_rates_multiplier_grant": -939665,
+        "revenue_support_grant": -2232197,
+        "new_homes_bonus": -239020,
+        "parish_precepts": -200800,
+        "collection_fund_surplus_deficit": 261186,
+        "recovery_grant": -499141,
+        "domestic_abuse_grant": -34626,
+        "ni_contribution_grant": -121009
+      },
+      "council_tax": {
+        "band_d_total": 2447.50,
+        "burnley_element": 344.58,
+        "burnley_increase_pct": 2.00
+      },
+      "notes": {
+        "restructuring": "Finance & Property split into separate Finance and Property departments. Property services brought back in-house from Liberata.",
+        "savings": "£328,000 in ongoing revenue budget savings identified"
+      }
+    }
+  ],
+  "capital_programmes": [
+    {
+      "budget_book_year": "2021/22",
+      "programme_period": "2021/22 to 2025/26",
+      "total_all_schemes": 59206880,
+      "year_totals": {"2021/22": 18792347, "2022/23": 19514877, "2023/24": 11781860, "2024/25": 4829896, "2025/26": 4287900},
+      "categories": {
+        "Green Spaces & Amenities": {"total": 4907555},
+        "Streetscene": {"total": 316755},
+        "Economy & Growth": {"total": 27142949, "note": "Includes Pioneer Place £21.3M"},
+        "Finance & Property": {"total": 7745614},
+        "Housing": {"total": 19094007, "note": "Better Care Grant £11.8M, Empty Homes £6.5M"}
+      }
+    },
+    {
+      "budget_book_year": "2022/23",
+      "programme_period": "2022/23 to 2026/27",
+      "total_all_schemes": 73866253,
+      "year_totals": {"2022/23": 37791441, "2023/24": 20525812, "2024/25": 7276830, "2025/26": 4140090, "2026/27": 4132081},
+      "categories": {
+        "Green Spaces & Amenities": {"total": 8202500, "note": "Towneley Hall £2.43M"},
+        "Streetscene": {"total": 327406},
+        "Economy & Growth": {"total": 41152007, "note": "Levelling Up Fund £18.4M, Pioneer Place £19.2M"},
+        "Finance & Property": {"total": 6884340, "note": "Charter Walk Refurbishment £1M"},
+        "Housing": {"total": 17300000}
+      }
+    },
+    {
+      "budget_book_year": "2024/25",
+      "programme_period": "2024/25 to 2028/29",
+      "total_all_schemes": 39054487,
+      "year_totals": {"2024/25": 16290933, "2025/26": 10153393, "2026/27": 4182191, "2027/28": 4208960, "2028/29": 4219010},
+      "categories": {
+        "Green Spaces & Amenities": {"total": 7209381},
+        "Streetscene": {"total": 522000},
+        "Economy & Growth": {"total": 9664619, "note": "Levelling Up £6.69M"},
+        "Finance & Property": {"total": 4008487},
+        "Housing": {"total": 17650000}
+      }
+    },
+    {
+      "budget_book_year": "2025/26",
+      "programme_period": "2025/26 to 2029/30",
+      "total_all_schemes": 42537748,
+      "year_totals": {"2025/26": 17610943, "2026/27": 10121977, "2027/28": 4937576, "2028/29": 4933626, "2029/30": 4933626},
+      "categories": {
+        "Green Spaces & Amenities": {"total": 5291310, "note": "Cemetery extension £1.67M, 3G Pitch £500K"},
+        "Streetscene": {"total": 1760000, "note": "Waste Transfer Station £1.33M"},
+        "Economy & Growth": {"total": 6587359, "note": "Nicholas St/BLR Fund £3.9M, Mechanics £2.25M"},
+        "Finance & Property": {"total": 7550999, "note": "Charter Walk Repair £4.1M"},
+        "Housing": {"total": 21348080, "note": "Better Care Grant increased to £13.7M"}
+      }
+    }
+  ],
+  "treasury_and_investment": {
+    "overview": "The Treasury section manages the council's borrowing, investments and cash flow. Each year the council approves a Treasury Management Strategy, Annual Investment Strategy, and Capital Strategy alongside the budget.",
+    "key_context": {
+      "borrowing": "The council borrows to fund capital investment. Major borrowing relates to Pioneer Place, Levelling Up Fund projects, Charter Walk, and housing investment. All borrowing must comply with Prudential Indicators.",
+      "investments": "Surplus cash is invested prioritising security, then liquidity, then yield. Counterparties include other local authorities, UK banks, and money market funds.",
+      "mrp": "Minimum Revenue Provision (MRP) is set aside from revenue annually to repay borrowing. This charge appears in Corporate Budgets and has grown as capital spending increased.",
+      "charter_walk": "Charter Walk shopping centre was purchased as a council investment. Rental income offsets borrowing costs, contributing to Finance & Property's negative net budget."
+    },
+    "notable_investments": [
+      {"name": "Pioneer Place", "value": 21305368, "type": "capital", "note": "Mixed-use town centre development with cinema, retail, food. Funded by borrowing and grants."},
+      {"name": "Charter Walk", "value": 4112193, "type": "capital", "note": "2025/26 repair and maintenance programme for council-owned shopping centre."},
+      {"name": "Levelling Up Fund", "value": 18368167, "type": "capital", "note": "Government regeneration fund for Burnley town centre."},
+      {"name": "Housing Programme", "value": 21348080, "type": "capital", "note": "5-year housing investment: Better Care, empty homes, energy efficiency."},
+      {"name": "Nicholas Street/BLR Fund", "value": 3913154, "type": "capital", "note": "New scheme in 2025/26 capital programme."}
+    ]
   },
-  {
-    "financial_year": "2022/23",
-    "filename": "Budget-Book-2022-23.pdf",
-    "headline": {
-      "net_revenue_budget": 16267000,
-      "council_tax_band_d": 2239.79,
-      "burnley_element": 322.06,
-      "burnley_increase_pct": 1.99
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs (staff, services, utilities) funded by council tax and grants. Capital budget covers long-term investment in assets (buildings, infrastructure) funded by borrowing and capital grants. They are completely separate budgets with different funding rules.",
+      "current_revenue": 18720662,
+      "current_capital_5yr": 42537748
     },
-    "departments": {
-      "Management Team": {
-        "controllable": 490951.0,
-        "total": 514929.0
-      },
-      "Policy & Engagement": {
-        "controllable": 490951.0,
-        "total": 514929.0
-      },
-      "People & Development": {
-        "controllable": 192.0,
-        "total": 1081.0
-      },
-      "Green Spaces & Amenities": {
-        "controllable": 340.0,
-        "total": 7469.0
-      },
-      "Finance": {
-        "controllable": 848909.0,
-        "total": 996124.0
-      },
-      "Leisure Trust Client": {
-        "controllable": 195.0,
-        "total": 8550.0
-      },
-      "Streetscene": {
-        "controllable": 412.0,
-        "total": 9234.0
-      },
-      "Economy & Growth": {
-        "controllable": 942929.0,
-        "total": 1067.0
-      },
-      "Strategic Partnership": {
-        "controllable": 123624.0,
-        "total": 119830.0
-      },
-      "Corporate Budgets": {
-        "controllable": 291.0,
-        "total": 1254.0
-      }
+    "key_trends": [
+      "Revenue budget grew 21.4% from £15.4M (2021/22) to £18.7M (2025/26)",
+      "Streetscene consistently the largest service at £4.75M (25.4% of total)",
+      "Finance & Property went negative from 2023/24 — rental income exceeds running costs",
+      "Corporate Budgets doubled to £4.10M in 2025/26 (MRP debt repayment costs rising)",
+      "Earmarked Reserves nearly exhausted: £1.33M → £2,250 in one year",
+      "Capital programme peaked at £73.9M (22/23) as Pioneer Place and Levelling Up were active",
+      "New Homes Bonus declining: £694K (20/21) → £239K (25/26)",
+      "Property brought back in-house from Liberata in 2025/26"
+    ],
+    "departmental_growth": {
+      "Housing & Development Control": {"from": 685601, "to": 1583760, "growth_pct": 131.0},
+      "Revenues & Benefits": {"from": 282767, "to": 617121, "growth_pct": 118.3},
+      "Policy & Engagement": {"from": 490951, "to": 768165, "growth_pct": 56.5},
+      "Leisure Trust Client": {"from": 1958550, "to": 2641408, "growth_pct": 34.9},
+      "Green Spaces & Amenities": {"from": 1921081, "to": 2392009, "growth_pct": 24.5},
+      "Legal & Democratic Services": {"from": 707273, "to": 875265, "growth_pct": 23.7},
+      "Streetscene": {"from": 4129234, "to": 4750713, "growth_pct": 15.0},
+      "Economy & Growth": {"from": 942929, "to": 1077419, "growth_pct": 14.3}
     },
-    "funding_sources": {
-      "council_tax": 2146.0,
-      "business_rates": 1219322.0,
-      "revenue_support_grant": 1649228.0,
-      "new_homes_bonus": 564328.0,
-      "services_grant": 181664.0
-    },
-    "key_services": []
-  },
-  {
-    "financial_year": "2023/24",
-    "filename": "Budget-Book-2023-24.pdf",
-    "headline": {
-      "net_revenue_budget": 17588000,
-      "council_tax_band_d": 2339.4,
-      "burnley_element": 331.63,
-      "burnley_increase_pct": 2.97
-    },
-    "departments": {
-      "Management Team": {
-        "controllable": 514929.0,
-        "total": 638115.0
-      },
-      "Policy & Engagement": {
-        "controllable": 514929.0,
-        "total": 638115.0
-      },
-      "People & Development": {
-        "controllable": 211.0,
-        "total": 9337.0
-      },
-      "Finance": {
-        "controllable": 99612.0,
-        "total": 4.0
-      },
-      "Leisure Trust Client": {
-        "controllable": 204.0,
-        "total": 7730.0
-      },
-      "Streetscene": {
-        "controllable": 417.0,
-        "total": 6797.0
-      },
-      "Economy & Growth": {
-        "controllable": 106.0,
-        "total": 7063.0
-      },
-      "Strategic Partnership": {
-        "controllable": 119830.0,
-        "total": 46485.0
-      },
-      "Corporate Budgets": {
-        "controllable": 306.0,
-        "total": 1502.0
-      }
-    },
-    "funding_sources": {
-      "council_tax": 2236.0,
-      "business_rates": 1219322.0,
-      "revenue_support_grant": 1699791.0,
-      "new_homes_bonus": 576312.0,
-      "services_grant": 195089.0
-    },
-    "key_services": []
-  },
-  {
-    "financial_year": "2024/25",
-    "filename": "Budget-Book-2024-25.pdf",
-    "headline": {
-      "net_revenue_budget": 18987000,
-      "council_tax_band_d": 2347.5,
-      "burnley_element": 337.82,
-      "burnley_increase_pct": 1.87
-    },
-    "departments": {
-      "Management Team": {
-        "controllable": 202.0,
-        "total": 4.0
-      },
-      "Green Spaces & Amenities": {
-        "controllable": 438.0,
-        "total": 3971.0
-      },
-      "Finance": {
-        "controllable": 202.0,
-        "total": 3.0
-      },
-      "Leisure Trust Client": {
-        "controllable": 202.0,
-        "total": 3.0
-      },
-      "Streetscene": {
-        "controllable": 202.0,
-        "total": 3.0
-      },
-      "Economy & Growth": {
-        "controllable": 662.0,
-        "total": 66.0
-      }
-    },
-    "funding_sources": {
-      "council_tax": 2339.0
-    },
-    "key_services": []
-  },
-  {
-    "financial_year": "2025/26",
-    "filename": "Budget-Book-2025-26.pdf",
-    "headline": {
-      "net_revenue_budget": 18721000,
-      "council_tax_band_d": 2447.5,
-      "burnley_element": 344.58,
-      "burnley_increase_pct": 2.0,
-      "budget_savings_identified": 328000,
-      "council_tax_share_pct": 44
-    },
-    "departments": {
-      "Management Team": {
-        "controllable": 802836.0,
-        "total": 768165.0
-      },
-      "Policy & Engagement": {
-        "controllable": 802836.0,
-        "total": 768165.0
-      },
-      "People & Development": {
-        "controllable": 296.0,
-        "total": 585.0
-      },
-      "Green Spaces & Amenities": {
-        "controllable": 184.0,
-        "total": 3935.0
-      },
-      "Property Services": {
-        "controllable": 202.0,
-        "total": 4.0
-      },
-      "Leisure Trust Client": {
-        "controllable": 276.0,
-        "total": 9707.0
-      },
-      "Streetscene": {
-        "controllable": 487.0,
-        "total": 441.0
-      },
-      "Economy & Growth": {
-        "controllable": 131.0,
-        "total": 1983.0
-      },
-      "Strategic Partnership": {
-        "controllable": 115966.0,
-        "total": 114000.0
-      },
-      "Corporate Budgets": {
-        "controllable": 196.0,
-        "total": 2643.0
-      }
-    },
-    "funding_sources": {
-      "council_tax": 2447.0,
-      "business_rates": 2626544.0,
-      "revenue_support_grant": 2174920.0,
-      "new_homes_bonus": 134166.0,
-      "services_grant": 29774.0
-    },
-    "key_services": []
+    "council_tax_trend": [
+      {"year": "2022/23", "amount": 322.06, "increase_pct": 1.99},
+      {"year": "2023/24", "amount": 331.63, "increase_pct": 2.97},
+      {"year": "2024/25", "amount": 337.82, "increase_pct": 1.87},
+      {"year": "2025/26", "amount": 344.58, "increase_pct": 2.00}
+    ],
+    "funding_dependency": {
+      "council_tax_pct": 44,
+      "business_rates_pct": 39,
+      "government_grants_pct": 17
+    }
   }
-]
+}
