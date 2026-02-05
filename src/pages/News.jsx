@@ -41,7 +41,7 @@ const newsArticles = [
   {
     id: 'potential-duplicate-payments',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£9.5 Million in Potential Duplicate Payments Identified',
     summary: 'Analysis reveals identical payments to the same suppliers on the same day, totalling £9.5 million that warrant investigation for possible overpayment.',
     author: 'Burnley Council Transparency',
@@ -90,7 +90,7 @@ const newsArticles = [
   {
     id: 'netflix-council-cards',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: 'Council Cards Used for 51 Netflix Payments',
     summary: 'Analysis reveals ongoing Netflix subscription payments on council purchase cards since 2021, raising questions about appropriate use of public funds.',
     author: 'Burnley Council Transparency',
@@ -127,7 +127,7 @@ const newsArticles = [
   {
     id: 'purchase-card-spending',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£610,000 Spent on Council Purchase Cards',
     summary: 'Deep dive into 6,671 purchase card transactions reveals spending at supermarkets, hotels, Amazon, and social media platforms.',
     author: 'Burnley Council Transparency',
@@ -180,7 +180,7 @@ const newsArticles = [
   {
     id: 'social-media-advertising',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£22,000+ Spent on Social Media Advertising and Tools',
     summary: 'Council spends thousands on Facebook ads, Snapchat, Twitter, and social media management subscriptions.',
     author: 'Burnley Council Transparency',
@@ -215,7 +215,7 @@ const newsArticles = [
   {
     id: 'outsourcing-liberata',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£21 Million to Single Outsourcing Company',
     summary: 'Liberata UK Ltd receives £21 million — nearly 10% of all council spending — for outsourced revenues and benefits services.',
     author: 'Burnley Council Transparency',
@@ -260,7 +260,7 @@ const newsArticles = [
   {
     id: 'consultancy-spending',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£1.67 Million Spent on External Consultants',
     summary: 'Analysis reveals significant spending on consultancy services, with questions about whether expertise could be developed in-house.',
     author: 'Burnley Council Transparency',
@@ -302,7 +302,7 @@ const newsArticles = [
   {
     id: 'supplier-concentration',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: 'Just 20 Suppliers Receive 61% of All Spending',
     summary: 'Analysis reveals extreme supplier concentration, with questions about competition, local business support, and procurement diversity.',
     author: 'Burnley Council Transparency',
@@ -344,7 +344,7 @@ const newsArticles = [
   {
     id: 'legal-fees-millions',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£12.5 Million Spent on Legal Services — One Firm Gets £20M',
     summary: 'Burnley Council has spent millions on solicitors and barristers, with one law firm receiving more than the entire annual council tax take.',
     author: 'Burnley Council Transparency',
@@ -395,7 +395,7 @@ const newsArticles = [
   {
     id: 'charity-grants-millions',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£5.4 Million Paid to Charities and Community Groups',
     summary: 'Analysis reveals substantial charitable spending across the borough — but where does the money go and what outcomes are achieved?',
     author: 'Burnley Council Transparency',
@@ -441,7 +441,7 @@ const newsArticles = [
   {
     id: 'march-spending-surge',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: 'End-of-Year Spending Surge: March Spending 1.7x Higher Than Average',
     summary: 'Analysis reveals a suspicious pattern: council spending surges dramatically in March as departments rush to use up their budgets before year-end.',
     author: 'Burnley Council Transparency',
@@ -493,7 +493,7 @@ const newsArticles = [
   {
     id: 'payments-to-individuals',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£4.7 Million Paid Directly to Individuals and Sole Traders',
     summary: 'Analysis identifies millions in payments to individuals rather than companies — raising questions about employment status and tax compliance.',
     author: 'Burnley Council Transparency',
@@ -539,7 +539,7 @@ const newsArticles = [
   {
     id: 'round-number-payments',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£33 Million in Suspiciously Round Number Payments',
     summary: 'Analysis flags over £33 million in payments that are exactly round numbers — a pattern that can indicate estimates rather than actual costs.',
     author: 'Burnley Council Transparency',
@@ -584,7 +584,7 @@ const newsArticles = [
   {
     id: 'it-spending-millions',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£3.6 Million on IT and Software — Are We Getting Value?',
     summary: 'Deep dive into council technology spending reveals questions about software licensing, cloud services, and digital transformation value.',
     author: 'Burnley Council Transparency',
@@ -634,7 +634,7 @@ const newsArticles = [
   {
     id: 'training-conferences',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£1.7 Million on Training, Conferences and Professional Development',
     summary: 'Council staff training and conference attendance costs revealed — are taxpayers funding essential development or expensive junkets?',
     author: 'Burnley Council Transparency',
@@ -682,7 +682,7 @@ const newsArticles = [
   {
     id: 'hotel-accommodation',
     date: '2025-02-05',
-    category: 'DOGE Finding',
+    category: 'Analysis',
     title: '£26,000+ on Hotel Stays and Accommodation',
     summary: 'Analysis reveals council spending on Travelodge, Premier Inn and other hotels — why does a local council need overnight stays?',
     author: 'Burnley Council Transparency',
@@ -740,7 +740,7 @@ function News() {
 
   const getCategoryIcon = (category) => {
     switch (category) {
-      case 'DOGE Finding':
+      case 'Analysis':
         return <TrendingUp size={16} />
       case 'Democracy':
         return <Users size={16} />
@@ -826,7 +826,7 @@ function News() {
       <header className="page-header">
         <h1>News & Findings</h1>
         <p className="subtitle">
-          DOGE-style analysis of Burnley Borough Council spending and governance.
+          Analysis of Burnley Borough Council spending and governance.
           Every finding is backed by verifiable public data.
         </p>
       </header>

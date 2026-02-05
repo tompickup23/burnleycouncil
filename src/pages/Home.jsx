@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye } from 'lucide-react'
+import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye, Info } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
 import './Home.css'
@@ -76,8 +76,7 @@ function Home() {
       <div className="disclaimer-banner">
         <Shield size={16} />
         <span>
-          <strong>AI-Generated Independent Scrutiny Tool</strong> — Created using artificial intelligence
-          trained on publicly available Burnley Council data. NOT affiliated with Burnley Borough Council.
+          <strong>Independent Transparency Tool</strong> — NOT affiliated with Burnley Borough Council.
           Data may contain errors — always <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">verify with official sources</a>. <Link to="/legal">Legal disclaimer</Link>
         </span>
       </div>
@@ -87,14 +86,13 @@ function Home() {
         <div className="hero-content">
           <h1>Your Money. Your Council. <span className="highlight">Your Right to Know.</span></h1>
           <p className="hero-subtitle">
-            Every year, Burnley Borough Council spends millions of pounds of public money.
-            This independent tool lets you explore exactly where it goes — because transparency
-            is the foundation of democracy.
+            Explore how Burnley Borough Council spends public money.
+            All data comes from publicly available council documents.
           </p>
           <div className="hero-stats">
             <div className="hero-stat">
               <span className="hero-stat-value">{formatCurrency(totalSpend, true)}</span>
-              <span className="hero-stat-label">Spending Analysed</span>
+              <span className="hero-stat-label">External Payments (2021-25)</span>
             </div>
             <div className="hero-stat">
               <span className="hero-stat-value">{formatNumber(totalRecords)}</span>
@@ -110,19 +108,30 @@ function Home() {
               <Search size={18} />
               Explore Spending Data
             </Link>
-            <Link to="/news" className="btn-secondary">
-              Latest Findings
+            <Link to="/budgets" className="btn-secondary">
+              View Budgets
               <ChevronRight size={18} />
             </Link>
           </div>
         </div>
       </header>
 
+      {/* Data Context Banner */}
+      <div className="context-banner">
+        <Info size={18} />
+        <div>
+          <strong>Understanding the numbers:</strong> The spending data shows external payments to suppliers
+          (invoices over £500, contracts over £5,000, purchase cards). This is different from the council's
+          Net Revenue Budget of {formatCurrency(latestBudget, true)}, which is the day-to-day running cost funded by council tax.
+          <Link to="/budgets"> Learn more →</Link>
+        </div>
+      </div>
+
       {/* Key Findings Section */}
       <section className="findings-section">
-        <h2>What We Found</h2>
+        <h2>Key Findings</h2>
         <p className="section-intro">
-          Our analysis of council spending data reveals patterns that every taxpayer should know about.
+          Patterns in the spending data worth knowing about.
         </p>
 
         <div className="findings-grid">
@@ -130,56 +139,56 @@ function Home() {
           <Link to="/spending" className="finding-card warning">
             <div className="finding-header">
               <AlertTriangle size={24} className="finding-icon" />
-              <span className="finding-badge">Key Finding</span>
+              <span className="finding-badge">Concentration</span>
             </div>
-            <h3>Just 20 Companies Get {formatPercent(topSupplierConcentration)} of All Spending</h3>
+            <h3>20 Suppliers Receive {formatPercent(topSupplierConcentration)} of Payments</h3>
             <p>
-              Out of {formatNumber(uniqueSuppliers)} different suppliers, just 20 receive the majority of council payments.
-              Is this good value for taxpayers, or should more contracts go to local businesses?
+              Out of {formatNumber(uniqueSuppliers)} suppliers, just 20 (less than 0.5%) receive over 61% of all
+              external payments. This concentration is common in councils but worth scrutinising.
             </p>
-            <span className="finding-link">See who gets your money →</span>
+            <span className="finding-link">See top suppliers →</span>
           </Link>
 
           {/* Outsourcing */}
-          <Link to="/spending?category=Agency%20%26%20Contracted%20Services" className="finding-card alert">
+          <Link to="/spending?supplier=LIBERATA" className="finding-card alert">
             <div className="finding-header">
               <Building size={24} className="finding-icon" />
               <span className="finding-badge">Outsourcing</span>
             </div>
-            <h3>£21 Million to One Company for Outsourced Services</h3>
+            <h3>£34M Outsourcing Contract Over 10 Years</h3>
             <p>
-              Liberata UK Ltd receives over £21 million to run council tax, benefits, and debt collection services.
-              Could these be delivered more efficiently in-house?
+              Liberata UK Ltd has a 10-year contract (2016-2026) worth £34M to run council tax, benefits,
+              IT, and customer services. This saves the council an estimated £8M vs in-house delivery.
             </p>
-            <span className="finding-link">Investigate contracts →</span>
+            <span className="finding-link">View contract payments →</span>
           </Link>
 
-          {/* Budget Growth */}
+          {/* Budget */}
           <Link to="/budgets" className="finding-card info">
             <div className="finding-header">
               <TrendingUp size={24} className="finding-icon" />
               <span className="finding-badge">Budget</span>
             </div>
-            <h3>Council Budget Up {formatPercent(budgetGrowth)} in {budgetInsights?.efficiency_metrics?.years_covered} Years</h3>
+            <h3>Net Budget: {formatCurrency(latestBudget, true)} (2025/26)</h3>
             <p>
-              The net revenue budget has grown from {formatCurrency(budgetInsights?.efficiency_metrics?.earliest_budget, true)} to {formatCurrency(latestBudget, true)}.
-              Are residents seeing {formatPercent(budgetGrowth)} better services?
+              The council's day-to-day running costs, funded mainly by council tax (44%) and business rates.
+              This is a plan — actual spending may differ.
             </p>
-            <span className="finding-link">View budget analysis →</span>
+            <span className="finding-link">View budget breakdown →</span>
           </Link>
 
-          {/* Grants */}
+          {/* Disabled Facilities Grants */}
           <Link to="/spending?category=Grants" className="finding-card">
             <div className="finding-header">
               <PoundSterling size={24} className="finding-icon" />
               <span className="finding-badge">Grants</span>
             </div>
-            <h3>£{Math.round((insights?.political_angles?.[2]?.total_grants || 11000000) / 1_000_000)}M+ in Grants to External Organisations</h3>
+            <h3>£11M+ in Disabled Facilities Grants</h3>
             <p>
-              The council distributes millions to voluntary organisations and community groups.
-              Who receives these grants and what outcomes are delivered?
+              Most "grant" payments go to construction contractors (Stannah, N I Constructions) for
+              home adaptations for disabled residents — funded by government, administered by the council.
             </p>
-            <span className="finding-link">See grant recipients →</span>
+            <span className="finding-link">See grant payments →</span>
           </Link>
         </div>
       </section>
@@ -188,13 +197,13 @@ function Home() {
       <section className="charts-section">
         <h2>Follow the Money</h2>
         <p className="section-intro">
-          Interactive charts help you understand where public money goes.
+          External payments to suppliers by year and by recipient.
         </p>
 
         <div className="charts-grid">
           {/* Top Suppliers Chart */}
           <div className="chart-card">
-            <h3>Largest Suppliers</h3>
+            <h3>Largest Suppliers (2021-25)</h3>
             <p className="chart-description">Top 8 suppliers by total payments received (£ millions)</p>
             <div className="chart-container">
               <ResponsiveContainer width="100%" height={300}>
@@ -228,8 +237,8 @@ function Home() {
 
           {/* Spending by Year */}
           <div className="chart-card">
-            <h3>Annual Spending</h3>
-            <p className="chart-description">Total payments by financial year (£ millions)</p>
+            <h3>Annual External Payments</h3>
+            <p className="chart-description">Total payments to suppliers by financial year (£ millions)</p>
             <div className="chart-container">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={spendByYearChart} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -248,13 +257,13 @@ function Home() {
                       border: '1px solid var(--border-color)',
                       borderRadius: '8px',
                     }}
-                    formatter={(value) => [`£${value.toFixed(2)}M`, 'Total Spend']}
+                    formatter={(value) => [`£${value.toFixed(2)}M`, 'External Payments']}
                   />
                   <Bar dataKey="amount" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <Link to="/spending" className="chart-link">Filter by year →</Link>
+            <p className="chart-note">Note: 2025/26 is partial year. 2021/22 includes COVID grants.</p>
           </div>
         </div>
       </section>
@@ -263,7 +272,7 @@ function Home() {
       <section className="politics-section">
         <h2>Who Runs Your Council?</h2>
         <p className="section-intro">
-          45 councillors make decisions about how your money is spent. Know who they are.
+          45 councillors make decisions about how your money is spent.
         </p>
 
         <div className="politics-grid">
@@ -298,7 +307,7 @@ function Home() {
             </div>
 
             <div className="party-breakdown">
-              <h4>Council Makeup</h4>
+              <h4>Council Seats</h4>
               {politicsSummary?.by_party?.map((party, i) => (
                 <div key={i} className="party-row">
                   <span
@@ -336,9 +345,9 @@ function Home() {
 
       {/* Data Sources */}
       <section className="sources-section">
-        <h2>Verified Public Data</h2>
+        <h2>About the Data</h2>
         <p className="section-intro">
-          All data comes from official council publications and freedom of information disclosures.
+          All information comes from publicly available council documents.
         </p>
 
         <div className="sources-grid">
@@ -346,24 +355,28 @@ function Home() {
             <FileText size={24} />
             <h4>Spending Data</h4>
             <p>
-              Payments over £500, contracts over £5,000, and purchase card transactions
-              from {insights?.summary?.date_range?.min?.slice(0,4)} to {insights?.summary?.date_range?.max?.slice(0,4)}
+              Payments over £500, contracts over £5,000, and purchase card transactions.
+              Published under the Transparency Code.
             </p>
+            <span className="source-period">April 2021 – present</span>
           </div>
           <div className="source-card">
             <TrendingUp size={24} />
-            <h4>Budget Books</h4>
-            <p>Annual revenue budget documents from 2021/22 to 2025/26</p>
+            <h4>Budget Information</h4>
+            <p>Annual budget books showing planned income and expenditure by service.</p>
+            <span className="source-period">2021/22 – 2025/26</span>
           </div>
           <div className="source-card">
             <Users size={24} />
             <h4>Councillor Data</h4>
-            <p>From Burnley Council's ModernGov committee management system</p>
+            <p>Names, wards, and party affiliations from the committee system.</p>
+            <span className="source-period">Current members</span>
           </div>
           <div className="source-card">
             <Eye size={24} />
-            <h4>Transparency Score</h4>
-            <p>{formatPercent(insights?.transparency_metrics?.overall_score / 100)} data completeness across {formatNumber(totalRecords)} records</p>
+            <h4>Data Quality</h4>
+            <p>{formatPercent(insights?.transparency_metrics?.overall_score / 100)} completeness across {formatNumber(totalRecords)} records.</p>
+            <span className="source-period">May contain errors</span>
           </div>
         </div>
       </section>
@@ -371,14 +384,13 @@ function Home() {
       {/* Call to Action */}
       <section className="cta-section">
         <div className="cta-content">
-          <h2>Democracy Works Better When You're Watching</h2>
+          <h2>Explore the Data</h2>
           <p>
-            Explore the data, ask questions, hold your representatives accountable.
-            This is your council, funded by your taxes, making decisions that affect your community.
+            Search suppliers, view contracts, understand where your council tax goes.
           </p>
           <div className="cta-actions">
             <Link to="/spending" className="btn-primary">
-              Start Exploring
+              Search Spending
             </Link>
             <Link to="/myarea" className="btn-secondary">
               Find Your Councillors

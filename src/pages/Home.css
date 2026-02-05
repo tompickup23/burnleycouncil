@@ -27,6 +27,41 @@
   text-decoration: underline;
 }
 
+/* Context Banner */
+.context-banner {
+  background: rgba(10, 132, 255, 0.1);
+  border: 1px solid rgba(10, 132, 255, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.context-banner svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.context-banner strong {
+  color: var(--text-primary);
+}
+
+.context-banner a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.context-banner a:hover {
+  text-decoration: underline;
+}
+
 /* Hero Section */
 .hero-section {
   background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
