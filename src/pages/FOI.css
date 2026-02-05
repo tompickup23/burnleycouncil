@@ -1,0 +1,463 @@
+.foi-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.foi-page .page-header {
+  margin-bottom: 2rem;
+}
+
+/* Intro Section */
+.foi-intro {
+  margin-bottom: 2rem;
+}
+
+.foi-intro-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.foi-intro-card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.foi-intro-card p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.foi-action {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.foi-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.foi-btn.primary {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.foi-btn.primary:hover {
+  background: #0070e0;
+  transform: translateY(-1px);
+}
+
+.foi-btn.secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.foi-btn.secondary:hover {
+  border-color: var(--accent-blue);
+}
+
+/* Rights Section */
+.foi-rights {
+  margin-bottom: 2rem;
+}
+
+.rights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.rights-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.rights-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.rights-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.rights-card li {
+  padding: 0.4rem 0;
+  padding-left: 1.25rem;
+  position: relative;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.rights-card li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent-blue);
+}
+
+/* Request Categories */
+.foi-requests {
+  margin-bottom: 2rem;
+}
+
+.foi-requests h2 {
+  margin-bottom: 0.5rem;
+}
+
+.section-intro {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.foi-category {
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.category-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-secondary);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary);
+  transition: background 0.2s;
+}
+
+.category-header:hover {
+  background: var(--bg-tertiary);
+}
+
+.category-header.active {
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.category-header h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+}
+
+.category-header p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.category-requests {
+  padding: 1rem;
+}
+
+.request-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.request-card:last-child {
+  margin-bottom: 0;
+}
+
+.request-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary);
+}
+
+.request-header:hover {
+  background: var(--bg-secondary);
+}
+
+.request-title-area h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+
+.request-why {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.request-detail {
+  padding: 0 1.25rem 1.25rem;
+}
+
+.request-context {
+  display: flex;
+  gap: 0.75rem;
+  background: rgba(10, 132, 255, 0.1);
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.request-context svg {
+  flex-shrink: 0;
+  color: var(--accent-blue);
+  margin-top: 2px;
+}
+
+.request-context p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.template-area {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.template-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--bg-tertiary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.copy-btn:hover {
+  background: #0070e0;
+}
+
+.template-text {
+  padding: 1rem;
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: var(--bg-secondary);
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--accent-green, #30d158);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Scandals Section */
+.foi-scandals {
+  margin-bottom: 2rem;
+}
+
+.foi-scandals h2 {
+  margin-bottom: 0.5rem;
+}
+
+.scandals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.scandal-card {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+}
+
+.scandal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.scandal-council {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.scandal-year {
+  font-size: 0.8rem;
+  background: var(--bg-tertiary);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+.scandal-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.foi-national-stats {
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.foi-national-stats h3 {
+  margin-bottom: 0.75rem;
+  color: var(--accent-red);
+}
+
+.foi-national-stats p {
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* How To Section */
+.foi-how {
+  margin-bottom: 2rem;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.step-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-card h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.step-card p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Disclaimer */
+.foi-disclaimer {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.foi-disclaimer p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .foi-action {
+    flex-direction: column;
+  }
+
+  .foi-btn {
+    justify-content: center;
+  }
+
+  .rights-grid,
+  .scandals-grid,
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+}

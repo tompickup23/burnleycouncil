@@ -83,7 +83,7 @@ const newsArticles = [
 
       <p>However, the scale of these patterns — nearly £9.5 million — warrants proper investigation and public explanation from the council.</p>
 
-      <p><em>You can search for these suppliers in the Spending section to verify these figures yourself.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['spending', 'waste', 'accountability', 'audit'],
   },
@@ -120,7 +120,7 @@ const newsArticles = [
 
       <p>While £490 over four years may seem trivial in a £217 million spending pot, it represents taxpayer money and raises questions about what other small, recurring payments may be flying under the radar.</p>
 
-      <p><em>Search "Netflix" in the Spending section to see these payments for yourself.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['purchase cards', 'subscriptions', 'waste', 'accountability'],
   },
@@ -173,7 +173,7 @@ const newsArticles = [
         <li>What oversight exists for these decentralised purchases?</li>
       </ul>
 
-      <p><em>Filter by "purchase_cards" in the Spending section to explore this data.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['purchase cards', 'spending', 'accountability'],
   },
@@ -253,7 +253,7 @@ const newsArticles = [
 
       <p>Liberata is a major provider to local authorities across the UK. Whether outsourcing delivers better value than in-house provision remains a subject of ongoing debate.</p>
 
-      <p><em>Search "Liberata" in the Spending section to see all 363 payments.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['outsourcing', 'contracts', 'Liberata', 'privatisation'],
   },
@@ -337,7 +337,7 @@ const newsArticles = [
         <li>Dependency on few suppliers creates risk if they fail</li>
       </ul>
 
-      <p><em>Explore the full supplier breakdown in the Spending section.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['procurement', 'suppliers', 'competition', 'value for money'],
   },
@@ -388,7 +388,7 @@ const newsArticles = [
         <li>Is there a procurement framework in place for legal services?</li>
       </ul>
 
-      <p><em>Search "Geldards" or "solicitor" in the Spending section to explore legal payments.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['legal', 'solicitors', 'procurement', 'Geldards'],
   },
@@ -434,7 +434,7 @@ const newsArticles = [
 
       <p>Grant recipients provide valuable services — but public money requires public accountability.</p>
 
-      <p><em>Filter by "Grants" in the Spending section to see all charitable payments.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['grants', 'charities', 'voluntary sector', 'accountability'],
   },
@@ -486,7 +486,7 @@ const newsArticles = [
         <li>Reward departments for underspending</li>
       </ul>
 
-      <p><em>Filter spending by month in the Spending section to see this pattern for yourself.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['budget', 'spending patterns', 'efficiency', 'waste'],
   },
@@ -532,7 +532,7 @@ const newsArticles = [
 
       <p>With £4.7 million in individual payments, ensuring proper compliance is essential.</p>
 
-      <p><em>Use the Spending section to search for individual supplier names and explore these payments.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['contractors', 'IR35', 'tax', 'employment'],
   },
@@ -577,7 +577,7 @@ const newsArticles = [
         <li>Could some payments be adjusted to match budget lines rather than actual costs?</li>
       </ul>
 
-      <p><em>Search for round-number amounts in the Spending section to investigate further.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['payments', 'audit', 'financial controls', 'invoicing'],
   },
@@ -627,7 +627,7 @@ const newsArticles = [
 
       <p>Technology should enable efficiency — but it can also become an ongoing expense trap.</p>
 
-      <p><em>Search "software" or specific supplier names in the Spending section.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['IT', 'software', 'digital', 'technology'],
   },
@@ -675,7 +675,7 @@ const newsArticles = [
 
       <p>Investing in staff is important — but accountability for training outcomes is often lacking in local government.</p>
 
-      <p><em>Search "training" or "conference" in the Spending section to explore these costs.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['training', 'conferences', 'staff development', 'value for money'],
   },
@@ -722,7 +722,7 @@ const newsArticles = [
 
       <p>However, with video conferencing now standard, the need for physical travel should be questioned. £26,000 could fund other services.</p>
 
-      <p><em>Search "Travelodge" or "Premier Inn" in the Spending section to see booking details.</em></p>
+      <p><em>All figures are derived from publicly available council spending data.</em></p>
     `,
     tags: ['travel', 'accommodation', 'hotels', 'expenses'],
   },
@@ -812,8 +812,10 @@ function News() {
               ))}
             </div>
             <p className="article-disclaimer">
-              <strong>Data Source:</strong> All figures derived from official Burnley Borough Council spending data,
-              budget documents, and public records. Verify any finding using the Spending explorer.
+              <strong>Data Source:</strong> All figures derived from publicly available Burnley Borough Council
+              data published under the Local Government Transparency Code. Analysis represents honest opinion
+              on matters of public interest. There may be legitimate explanations for patterns identified.
+              This is not an official council publication.
             </p>
           </footer>
         </article>

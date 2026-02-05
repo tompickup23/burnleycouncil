@@ -44,7 +44,7 @@ function About() {
             <div className="creator-titles">
               <span className="title-badge">County Councillor for Padiham & Burnley West</span>
               <span className="title-badge">County Councillor for Clowbridge with Dunnockshaw</span>
-              <span className="title-badge accent">Lead Member for Finance & Resources, Lancashire County Council</span>
+              <span className="title-badge accent">Part of Reform UK's efficiency review team in Lancashire</span>
             </div>
             <blockquote className="creator-quote">
               "It's your money. The more people understand where it goes, the better."

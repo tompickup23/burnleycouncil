@@ -8,6 +8,7 @@ import Politics from './pages/Politics'
 import MyArea from './pages/MyArea'
 import Legal from './pages/Legal'
 import About from './pages/About'
+import FOI from './pages/FOI'
 import './App.css'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/my-area" element={<MyArea />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/about" element={<About />} />
+          <Route path="/foi" element={<FOI />} />
         </Routes>
       </Layout>
     </Router>

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion } from 'lucide-react'
 import { useState } from 'react'
 import './Layout.css'
 
@@ -10,6 +10,7 @@ const navItems = [
   { path: '/budgets', icon: PieChart, label: 'Budgets' },
   { path: '/politics', icon: Users, label: 'Politics' },
   { path: '/my-area', icon: MapPin, label: 'My Area' },
+  { path: '/foi', icon: FileQuestion, label: 'FOI' },
   { path: '/about', icon: Info, label: 'About' },
 ]
 
@@ -63,6 +64,9 @@ function Layout({ children }) {
             <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">
               Official Council → burnley.gov.uk
             </a>
+          </p>
+          <p className="footer-imprint">
+            Published by Tom Pickup
           </p>
         </div>
       </aside>
