@@ -1,36 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion } from 'lucide-react'
+import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion, Calendar } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
+import { useData } from '../hooks/useData'
+import { LoadingState } from '../components/ui'
 import './Home.css'
 
 function Home() {
-  const [insights, setInsights] = useState(null)
-  const [budgetInsights, setBudgetInsights] = useState(null)
-  const [politicsSummary, setPoliticsSummary] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { data, loading } = useData([
+    '/data/insights.json',
+    '/data/budget_insights.json',
+    '/data/politics_summary.json',
+  ])
+  const [insights, budgetInsights, politicsSummary] = data || []
 
   useEffect(() => {
-    Promise.all([
-      fetch('/data/insights.json').then(r => r.json()),
-      fetch('/data/budget_insights.json').then(r => r.json()),
-      fetch('/data/politics_summary.json').then(r => r.json()),
-    ])
-      .then(([insightsData, budgetData, politicsData]) => {
-        setInsights(insightsData)
-        setBudgetInsights(budgetData)
-        setPoliticsSummary(politicsData)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load data:', err)
-        setLoading(false)
-      })
+    document.title = 'Home | Burnley Council Transparency'
+    return () => { document.title = 'Burnley Council Transparency' }
   }, [])
 
   if (loading) {
-    return <div className="loading">Loading...</div>
+    return <LoadingState message="Loading dashboard data..." />
   }
 
   const latestBudget = budgetInsights?.efficiency_metrics?.latest_budget || 0
@@ -456,6 +447,34 @@ function Home() {
         </Link>
       </section>
 
+      {/* Upcoming Meetings */}
+      <section className="meetings-preview-section">
+        <h2><Calendar size={24} /> Upcoming Meetings</h2>
+        <p className="section-intro">
+          Council meetings where decisions are made about your money. Attend, ask questions, hold them to account.
+        </p>
+        <div className="meetings-preview-grid">
+          <Link to="/meetings" className="meetings-preview-card highlight">
+            <span className="meeting-preview-label">Full Council</span>
+            <h4>Public Question Time</h4>
+            <p>Every resident can ask questions at Full Council. The next meeting includes agenda items on spending and services. Use our DOGE findings to challenge decisions.</p>
+            <span className="read-more">View meetings calendar <ChevronRight size={14} /></span>
+          </Link>
+          <Link to="/meetings" className="meetings-preview-card">
+            <span className="meeting-preview-label">Scrutiny</span>
+            <h4>Hold the Cabinet to Account</h4>
+            <p>Scrutiny reviews Executive decisions and can investigate concerns. Write to the committee to request spending issues be examined.</p>
+            <span className="read-more">See upcoming scrutiny <ChevronRight size={14} /></span>
+          </Link>
+          <Link to="/meetings" className="meetings-preview-card">
+            <span className="meeting-preview-label">Planning</span>
+            <h4>Object to Developments</h4>
+            <p>Planning applications for HMOs, takeaways, and major developments. Register to speak for or against applications near your home.</p>
+            <span className="read-more">Check planning dates <ChevronRight size={14} /></span>
+          </Link>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="cta-section">
         <div className="cta-content">
@@ -466,6 +485,10 @@ function Home() {
           <div className="cta-actions">
             <Link to="/spending" className="btn-primary">
               Search Spending
+            </Link>
+            <Link to="/meetings" className="btn-secondary">
+              <Calendar size={18} />
+              Meetings Calendar
             </Link>
             <Link to="/foi" className="btn-secondary">
               <FileQuestion size={18} />

@@ -1,0 +1,37 @@
+.chart-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+}
+
+.chart-card h3 {
+  margin-bottom: var(--space-xs);
+  font-size: 1.1rem;
+}
+
+.chart-card .chart-description {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: var(--space-md);
+}
+
+.chart-card .chart-container {
+  width: 100%;
+}
+
+.chart-card .chart-note {
+  font-size: 0.8rem;
+  margin-top: var(--space-sm);
+}
+
+.chart-card .chart-link {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--accent-blue);
+}
+
+.chart-card.wide {
+  grid-column: 1 / -1;
+}

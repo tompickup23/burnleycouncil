@@ -1,37 +1,27 @@
 import { useState, useEffect } from 'react'
 import { Search, User, Mail, Phone, MapPin } from 'lucide-react'
+import { useData } from '../hooks/useData'
+import { LoadingState } from '../components/ui'
 import './Politics.css'
 
 function Politics() {
-  const [councillors, setCouncillors] = useState([])
-  const [summary, setSummary] = useState(null)
-  // eslint-disable-next-line no-unused-vars
-  const [wards, setWards] = useState({})
-  const [loading, setLoading] = useState(true)
+  const { data, loading } = useData([
+    '/data/councillors.json',
+    '/data/politics_summary.json',
+    '/data/wards.json',
+  ])
+  const [councillors, summary, _wards] = data || [[], null, {}]
   const [search, setSearch] = useState('')
   const [partyFilter, setPartyFilter] = useState('')
   const [selectedCouncillor, setSelectedCouncillor] = useState(null)
 
   useEffect(() => {
-    Promise.all([
-      fetch('/data/councillors.json').then(r => r.json()),
-      fetch('/data/politics_summary.json').then(r => r.json()),
-      fetch('/data/wards.json').then(r => r.json()),
-    ])
-      .then(([councillorsData, summaryData, wardsData]) => {
-        setCouncillors(councillorsData)
-        setSummary(summaryData)
-        setWards(wardsData)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load data:', err)
-        setLoading(false)
-      })
+    document.title = 'Council Politics | Burnley Council Transparency'
+    return () => { document.title = 'Burnley Council Transparency' }
   }, [])
 
   if (loading) {
-    return <div className="loading">Loading councillor data...</div>
+    return <LoadingState message="Loading councillor data..." />
   }
 
   // Filter councillors

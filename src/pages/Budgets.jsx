@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { TrendingUp, TrendingDown, AlertTriangle, PiggyBank, Building, Landmark, HardHat, Wallet, BarChart3, Info, ChevronDown, ChevronUp } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { formatCurrency, formatPercent } from '../utils/format'
+import { useData } from '../hooks/useData'
+import { LoadingState } from '../components/ui'
 import './Budgets.css'
 
 // Consistent department list for comparison (excluding zero-budget and reserves)
@@ -33,32 +35,30 @@ const CAPITAL_COLORS = {
 }
 
 function Budgets() {
-  const [budgetData, setBudgetData] = useState(null)
-  const [insights, setInsights] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { data, loading } = useData([
+    '/data/budgets.json',
+    '/data/budget_insights.json',
+  ])
+  const [budgetData, insights] = data || [null, null]
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
-  const [selectedYear, setSelectedYear] = useState(null)
+  const [selectedYear, setSelectedYear] = useState(() => {
+    // Will be properly initialized once budgetData loads
+    return null
+  })
 
   useEffect(() => {
-    Promise.all([
-      fetch('/data/budgets.json').then(r => r.json()),
-      fetch('/data/budget_insights.json').then(r => r.json()),
-    ])
-      .then(([budgets, insightsData]) => {
-        setBudgetData(budgets)
-        setInsights(insightsData)
-        setSelectedYear(budgets.revenue_budgets?.length - 1 || 0)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load data:', err)
-        setLoading(false)
-      })
+    document.title = 'Budget Analysis | Burnley Council Transparency'
+    return () => { document.title = 'Burnley Council Transparency' }
   }, [])
 
+  // Initialize selectedYear when data first loads
+  if (budgetData && selectedYear === null) {
+    setSelectedYear(budgetData.revenue_budgets?.length - 1 || 0)
+  }
+
   if (loading) {
-    return <div className="loading">Loading budget data...</div>
+    return <LoadingState message="Loading budget data..." />
   }
 
   const revenueBudgets = budgetData?.revenue_budgets || []

@@ -1,31 +1,24 @@
 import { useState, useEffect } from 'react'
 import { MapPin, User, Mail, Phone } from 'lucide-react'
+import { useData } from '../hooks/useData'
+import { LoadingState } from '../components/ui'
 import './MyArea.css'
 
 function MyArea() {
-  const [wards, setWards] = useState({})
-  const [councillors, setCouncillors] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { data, loading } = useData([
+    '/data/wards.json',
+    '/data/councillors.json',
+  ])
+  const [wards, councillors] = data || [{}, []]
   const [selectedWard, setSelectedWard] = useState(null)
 
   useEffect(() => {
-    Promise.all([
-      fetch('/data/wards.json').then(r => r.json()),
-      fetch('/data/councillors.json').then(r => r.json()),
-    ])
-      .then(([wardsData, councillorsData]) => {
-        setWards(wardsData)
-        setCouncillors(councillorsData)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load data:', err)
-        setLoading(false)
-      })
+    document.title = 'My Area | Burnley Council Transparency'
+    return () => { document.title = 'Burnley Council Transparency' }
   }, [])
 
   if (loading) {
-    return <div className="loading">Loading ward data...</div>
+    return <LoadingState message="Loading ward data..." />
   }
 
   const wardList = Object.values(wards).sort((a, b) => a.name.localeCompare(b.name))
