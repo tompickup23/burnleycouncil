@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global process */
 /**
  * Burnley Council Meetings Calendar Updater
  *
@@ -46,7 +47,7 @@ function extractMeetingsFromCalendar(html) {
   // Pattern: <a href="/ieListDocuments.aspx?CId=XXX&MId=XXXX">Committee Name</a>
   const meetingRegex = /href="(\/ieListDocuments\.aspx\?CId=(\d+)&MId=(\d+))"[^>]*>([^<]+)<\/a>/g
   // Date pattern in calendar cells: typically in dd/MM/yyyy or the cell structure
-  const rowRegex = /<tr[^>]*class="[^"]*mgCalendarRow[^"]*"[^>]*>([\s\S]*?)<\/tr>/g
+  // rowRegex kept for reference: /<tr[^>]*class="[^"]*mgCalendarRow[^"]*"[^>]*>([\s\S]*?)<\/tr>/g
 
   // Simpler approach: extract all meeting links with their text
   let match
