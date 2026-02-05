@@ -75,48 +75,83 @@ const newsArticles = [
     id: 'waste-contract-fcc-urbaser',
     date: '2025-02-05',
     category: 'Investigation',
-    title: 'Burnley\'s Waste Crisis: Two Years\' Warning, No Plan, and Now Envirofuel Gets the Contract',
-    summary: 'Burnley Council was told in December 2023 that Whinney Hill landfill would close. Two years later, they still don\'t have a waste transfer station — and residents near Envirofuel will pay the price.',
+    title: 'East Lancashire\'s Waste Crisis: A Decade of Inaction, and the Councils Who Caused It',
+    summary: 'For years, Burnley, Pendle, Hyndburn and Rossendale failed to provide a waste transfer station. Reform inherited the mess in May 2025 — and the parties who caused it are now politicising the solution.',
     image: '/images/articles/waste.jpg',
     author: 'Burnley Council Transparency',
     content: `
-      <p><strong>In December 2023, Lancashire County Council told Burnley Borough Council that Whinney Hill landfill would close.</strong> The council was given over two years to prepare. They failed.</p>
+      <p><strong>Since late 2023, East Lancashire has faced a growing waste disposal crisis.</strong> The four borough councils — Burnley, Pendle, Hyndburn and Rossendale — were told clearly that the Whinney Hill landfill contract with SUEZ would end. They had over two years to prepare. None of them delivered a waste transfer station.</p>
 
-      <p>As of April 2026, with no waste transfer station ready, Burnley's household waste will instead go to Envirofuel at Hapton Valley — a site that already handles over 100,000 tonnes of waste per year, much of it imported from as far away as Cumbria, Cambridge, Newcastle, and Birmingham.</p>
+      <p>When Reform UK took control of Lancashire County Council after the May 2025 elections — winning 53 of 84 seats — they inherited a problem that every previous administration and all four district councils had failed to solve. The solution they have put in place is now being politicised by the very groups who created the problem.</p>
 
-      <h4>A Failure of Planning</h4>
+      <h4>The History: How We Got Here</h4>
 
-      <p>The timeline tells the story:</p>
+      <p>Understanding this crisis requires understanding the roles. Borough councils (Burnley, Pendle, Hyndburn, Rossendale) are <strong>Waste Collection Authorities</strong> — they collect your bins. Lancashire County Council is the <strong>Waste Disposal Authority</strong> under Section 30 of the Environmental Protection Act 1990 — they are legally responsible for arranging disposal of that waste.</p>
 
-      <ul>
-        <li><strong>December 2023:</strong> LCC's cabinet agrees to extend the Whinney Hill contract with SUEZ until March 2026, specifically to give Burnley, Pendle, Hyndburn and Rossendale time to find alternatives</li>
-        <li><strong>2024:</strong> Burnley Council fails to identify any suitable site for a waste transfer station. A joint solution with another East Lancashire council collapses in February 2025 due to "operational constraints"</li>
-        <li><strong>Spring 2025:</strong> A "viable site" is finally identified — the existing council depot at Heasandford Industrial Estate</li>
-        <li><strong>September 2025:</strong> Labour's scrutiny call-in forces the executive to reconsider the Heasandford decision</li>
-        <li><strong>April 2026:</strong> Whinney Hill closes. No waste transfer station is ready. Envirofuel gets a two-year emergency contract</li>
-      </ul>
-
-      <p>Two years of warning. No waste transfer station built. The result: an emergency temporary tender to a private waste processing facility.</p>
-
-      <h4>Who Is to Blame?</h4>
-
-      <p><strong>Burnley Borough Council bears primary responsibility.</strong> They were told clearly in December 2023 that this was coming. They had over two years. They spent 2024 failing to find a site, watched a joint solution collapse, and only identified a viable location in spring 2025 — by which point it was far too late to have anything operational before the deadline.</p>
-
-      <p><strong>Previous Conservative administrations at Lancashire County Council also share blame.</strong> The Tory-led LCC allowed Lancashire's waste infrastructure to deteriorate to the point where Whinney Hill — a landfill site plagued by complaints about smells, seagulls, and vermin — was the primary disposal option for East Lancashire. Decades of underinvestment in modern waste processing left the county without adequate facilities, creating the crisis that district councils are now scrambling to address.</p>
-
-      <h4>The Envirofuel Question</h4>
-
-      <p>Envirofuel's Hapton Valley site currently imports waste from across the UK, including from Cumbria (Carlisle), Cambridge, Newcastle, and Birmingham. LCC says East Lancashire's waste will "replace existing loads, not create new ones" — meaning some of those long-distance imports should reduce.</p>
-
-      <p>This is genuinely an opportunity. The new LCC administration can now:</p>
+      <p>The timeline of failure:</p>
 
       <ul>
-        <li><strong>Reduce waste imports from outside Lancashire</strong> — if Envirofuel is taking East Lancashire's waste instead of waste from Cumbria and beyond, that's fewer HGV miles and lower emissions</li>
-        <li><strong>Work directly with residents near Hapton Valley</strong> — the site has been a source of complaints about noise, traffic, and early-morning HGV movements. LCC now has leverage as a major customer to negotiate better operating conditions</li>
-        <li><strong>Deliver a better environmental outcome</strong> — the waste will be turned into fuel for cement works rather than going to landfill, which is an improvement</li>
+        <li><strong>2001–2023:</strong> SUEZ operates Whinney Hill landfill near Altham as the primary disposal site for East Lancashire's residual waste. The site has been operational since the 1970s</li>
+        <li><strong>Late 2023:</strong> SUEZ moves landfilling operations to Enfield Quarry — the last remaining area within the permitted boundary — closer to residential areas. Thousands of gulls descend on the community. Residents report toxic odours, fly infestations, rat sightings, and dust from hundreds of daily HGV movements</li>
+        <li><strong>December 2023:</strong> LCC's cabinet agrees to extend the Whinney Hill contract with SUEZ until March 2026, specifically to give the four district councils time to find alternatives</li>
+        <li><strong>Throughout 2024:</strong> None of the four councils identify or secure a suitable site for a waste transfer station. A joint feasibility study between Burnley and another East Lancashire council collapses in early 2025 when the site proves unviable</li>
+        <li><strong>Spring 2025:</strong> Burnley Council finally identifies its own depot at Heasandford Industrial Estate as a viable location — but it requires purchasing adjacent land (£361,000 including stamp duty) and converting the depot into an enclosed waste transfer station</li>
+        <li><strong>May 2025:</strong> Reform UK wins control of Lancashire County Council</li>
+        <li><strong>August 2025:</strong> Burnley Council's Executive approves the Heasandford waste transfer station plan — projected to save £1.6M per year</li>
+        <li><strong>September 2025:</strong> Labour's Cllr Mark Townsend calls in the decision to scrutiny. The committee votes 6-5 (with the Conservative chair abstaining) to refer the decision back to the Executive</li>
+        <li><strong>April 2026:</strong> Whinney Hill closes. No waste transfer station is operational. LCC awards Envirofuel a two-year contract as the interim solution</li>
       </ul>
 
-      <p>But none of this changes the fact that Burnley Council's failure to plan has left residents near Envirofuel bearing the consequences of the council's inaction.</p>
+      <h4>The Envirofuel Solution</h4>
+
+      <p>From 1 April 2026, Envirofuel in Burnley — a facility that has operated at Hapton Valley for over 25 years — takes 70,000–80,000 tonnes annually of East Lancashire's residual and bulky household waste under a two-year contract.</p>
+
+      <p>This is a pragmatic solution to an inherited problem, and a significant improvement on the alternative:</p>
+
+      <ul>
+        <li><strong>Without Envirofuel:</strong> All waste from Burnley, Pendle, Hyndburn and Rossendale would need to travel to LCC's Farington Waste Recovery Park near Leyland — dramatically increasing journey times, transport costs, fuel consumption and emissions</li>
+        <li><strong>With Envirofuel:</strong> East Lancashire's waste replaces existing long-distance imports (from Cambridge, Newcastle, Carlisle, Birmingham), meaning no net increase in traffic and in some cases fewer large vehicles on the road</li>
+        <li><strong>Environmental benefit:</strong> Waste is converted into Solid Recovered Fuel for cement works — a far better environmental outcome than landfill at Whinney Hill</li>
+        <li><strong>Cost benefit:</strong> Significantly cheaper than the Farington alternative, keeping costs down for taxpayers</li>
+      </ul>
+
+      <p>As Councillor Joshua Roberts stated, the Envirofuel arrangement delivers lower costs and a better environmental outcome than landfill — precisely the kind of practical improvement residents deserve.</p>
+
+      <h4>Who Is Actually to Blame?</h4>
+
+      <p><strong>The four East Lancashire borough councils bear primary responsibility.</strong> They were given a clear deadline in December 2023. They had over two years. Between them — Burnley, Pendle, Hyndburn and Rossendale — not one delivered an operational waste transfer station by the deadline.</p>
+
+      <p><strong>Previous Conservative administrations at Lancashire County Council share significant blame.</strong> For decades, the Tory-led LCC allowed Lancashire's waste infrastructure to deteriorate. The collapse of the Global Renewables PFI contract left the county without adequate modern waste processing facilities. Whinney Hill — a 1970s landfill plagued by odour, gulls, vermin and resident complaints — remained the primary disposal option for East Lancashire because no modern alternative was ever built under Conservative control.</p>
+
+      <p><strong>Reform UK inherited this mess in May 2025.</strong> They did not create the problem. The Whinney Hill closure timeline was set before they took office. The failure of the four district councils to build waste transfer stations happened on other parties' watch. The Envirofuel contract is Reform's solution to a crisis they walked into — and it is a better outcome for residents and the environment than what came before.</p>
+
+      <h4>The Hypocrisy of Conservative Councillors</h4>
+
+      <p>Some of the loudest critics of the current arrangements are Conservative borough councillors from affected wards. This is worth examining.</p>
+
+      <p>In 2023, Conservative ward councillors from Burnley attended LCC's Development Control Committee to speak about planning application LCC/2023/0024 — an Envirofuel proposal for a gasification facility at Hapton Valley. They spoke on behalf of residents, raising legitimate concerns about black dust on windowsills, orange deposits on fences, early-morning HGV noise, and the Environment Agency finding that no proper filtration was taking place. Forty residents submitted objections. The committee deferred the decision and arranged a site visit.</p>
+
+      <p>These are the same councillors who are now in the press criticising the Envirofuel waste contract as if it were a Reform decision that has come out of nowhere. But they were personally aware of issues at the site since 2023. They sat through the Development Control Committee hearing. They heard the resident complaints first-hand. And in the years since, they made no discernible progress on securing an alternative waste transfer station for their residents — despite being part of the administration at both borough and county level during the critical planning period.</p>
+
+      <p>The best way to help residents near Hapton Valley is to work constructively to improve conditions at the site — negotiate better operating hours, enforce environmental standards, reduce long-distance waste imports. Being seen to kick up a fuss in the local press achieves nothing for residents except headlines for the councillors concerned.</p>
+
+      <h4>Answering the Scrutiny Questions on Tonnage</h4>
+
+      <p>Some opposition councillors have raised questions about waste tonnage figures, disposal arrangements and why more information was not disclosed earlier. These questions reveal a fundamental misunderstanding of how public procurement works.</p>
+
+      <p>Here are the facts:</p>
+
+      <p><strong>1. "Why weren't tonnage details announced sooner?"</strong></p>
+      <p>Because the law does not allow it. The Procurement Act 2023 (which replaced the Public Contracts Regulations 2015 from 24 February 2025) requires contracting authorities to follow strict procedures. Under Section 94, confidentiality provisions apply during live procurement processes. Section 40 sets out when a contracting authority may provide, rather than publish, a tender notice. LCC followed these rules. Announcing tonnage allocations or contract terms before a procurement is concluded would breach procurement regulations and could expose the council to legal challenge from unsuccessful bidders. This is not a cover-up — it is the law.</p>
+
+      <p><strong>2. "How much waste will go to Envirofuel?"</strong></p>
+      <p>Approximately 70,000–80,000 tonnes per year of residual and bulky household waste from Burnley, Pendle, Hyndburn and Rossendale. This replaces existing long-distance inputs to the facility, not adds to them. Envirofuel already processes over 100,000 tonnes annually.</p>
+
+      <p><strong>3. "What are LCC's legal obligations?"</strong></p>
+      <p>Under Section 51 of the Environmental Protection Act 1990, LCC as the Waste Disposal Authority has a mandatory statutory duty to arrange for places where waste collected by the four borough councils can be delivered, and to arrange for the disposal of that waste. This is not optional. Failure to make adequate arrangements could be challenged by judicial review. LCC must ensure continuity of waste disposal — which is exactly what the Envirofuel contract provides.</p>
+
+      <p><strong>4. "Why wasn't there a public consultation before the contract?"</strong></p>
+      <p>Because waste disposal contracts are commercial procurement exercises, not planning applications. They are governed by procurement law, not planning law. The separate question of whether a waste transfer station at Heasandford requires planning permission — which it does — will go through the normal Development Control Committee process with full statutory consultation. These are two different things, and conflating them suggests a misunderstanding of the legal framework.</p>
 
       <h4>The Collection Contract: £29M and Rising</h4>
 
@@ -135,15 +170,19 @@ const newsArticles = [
         <tr><td>2025/26 (9 months)</td><td>FCC Environment/Urbaser</td><td style="text-align:right">£5,995,251</td></tr>
       </table>
 
-      <p>Annual costs have risen from £5M to over £6M. With total waste-related spending approaching £29 million since 2021, and now disposal costs to Envirofuel on top, the full cost of Burnley's waste management failure is still growing.</p>
+      <p>A new 8-year Waste and Cleansing Services contract commenced on 1 April 2026. With total waste-related spending approaching £29 million since 2021, the cost of East Lancashire's waste management failures continues to mount.</p>
 
       <h4>The Bottom Line</h4>
 
-      <p>Burnley Council was given a clear two-year warning. They failed to act in time. Residents near Hapton Valley will now live with the consequences of that failure. The new LCC administration has an opportunity to make the best of a bad situation — but the blame for creating it lies squarely with Burnley Borough Council and the previous Tory-led county council that let Lancashire's waste infrastructure crumble.</p>
+      <p>East Lancashire's waste crisis was not created by Reform UK. It was created by four borough councils who failed to build waste transfer stations despite a clear two-year warning, and by successive Conservative-led county council administrations who let Lancashire's waste infrastructure crumble over decades.</p>
 
-      <p><em>All spending figures are derived from publicly available council spending data. Waste disposal arrangements sourced from Lancashire County Council and Burnley Borough Council public statements.</em></p>
+      <p>The Envirofuel contract is a practical, cost-effective, environmentally superior interim solution to a problem Reform inherited. It avoids landfill. It avoids long-distance transport to Farington. It replaces existing waste imports rather than adding new ones. And it costs less.</p>
+
+      <p>The councillors now criticising this arrangement would be better served explaining why they failed to deliver an alternative when they had the chance — and working constructively to improve conditions for residents, rather than seeking headlines that change nothing.</p>
+
+      <p><em>All spending figures are derived from publicly available council spending data. Waste disposal arrangements sourced from Lancashire County Council public statements, Burnley Borough Council committee papers, and LCC Development Control Committee records (application LCC/2023/0024). Legal duties referenced from the Environmental Protection Act 1990 and the Procurement Act 2023.</em></p>
     `,
-    tags: ['waste', 'FCC', 'Urbaser', 'Envirofuel', 'Whinney Hill', 'planning failure', 'LCC'],
+    tags: ['waste', 'FCC', 'Urbaser', 'Envirofuel', 'Whinney Hill', 'planning failure', 'LCC', 'procurement', 'Reform'],
   },
   {
     id: 'insurance-five-million',

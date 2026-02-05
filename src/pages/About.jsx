@@ -27,6 +27,17 @@ function About() {
             This tool makes that data searchable. You can explore payments to suppliers,
             see who receives the most public money, and understand where your council tax goes.
           </p>
+          <p>
+            This website was created by County Councillor for Padiham &amp; Burnley West, Tom Pickup.
+            Formerly part of the Reform UK internal DOGE team and former Lead Member for Finance
+            &amp; Resources at Lancashire County Council, Tom has helped deliver £5 of efficiency savings
+            for every £100 spent since May 2025, the lowest council tax rise in 12 years and
+            the lowest of any upper-tier authority in England. He was part of the team that uncovered
+            over £300 million in lost value from a Conservative-era bonds scandal, identified
+            Conservative councillors who were being paid tens of thousands to serve as directors
+            of LCC-owned companies — which was stopped — and voted to reject a recommended pay
+            rise for councillors, saving £115,000 for Lancashire residents.
+          </p>
           <p className="highlight-text">
             Nothing more, nothing less. Just public data, made accessible.
           </p>
@@ -44,7 +55,6 @@ function About() {
             <div className="creator-titles">
               <span className="title-badge">County Councillor for Padiham & Burnley West</span>
               <span className="title-badge">County Councillor for Clowbridge with Dunnockshaw</span>
-              <span className="title-badge accent">Lead Member for Finance and Resources, Lancashire County Council</span>
             </div>
             <blockquote className="creator-quote">
               "It's your money. The more people understand where it goes, the better."
