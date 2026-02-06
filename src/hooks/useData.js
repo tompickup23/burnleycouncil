@@ -4,6 +4,15 @@ import { useState, useEffect, useRef } from 'react'
 const cache = new Map()
 const inflight = new Map()
 
+// Resolve URLs relative to the Vite base path so the app works
+// both at root (burnleycouncil.co.uk) and under a subpath (aidoge.co.uk/burnleycouncil/)
+const BASE = import.meta.env.BASE_URL
+function resolveUrl(url) {
+  if (!url.startsWith('/')) return url
+  // BASE always ends with '/', so strip the leading '/' from the url
+  return BASE + url.slice(1)
+}
+
 /**
  * Custom hook for fetching and caching JSON data files.
  * Deduplicates in-flight requests and caches results in memory.
@@ -52,7 +61,7 @@ export function useData(urls) {
         return inflight.get(url)
       }
 
-      const promise = fetch(url)
+      const promise = fetch(resolveUrl(url))
         .then(r => {
           if (!r.ok) throw new Error(`Failed to fetch ${url}: ${r.status}`)
           return r.json()
@@ -102,7 +111,7 @@ export function preloadData(urls) {
   const urlList = Array.isArray(urls) ? urls : [urls]
   urlList.forEach(url => {
     if (!cache.has(url) && !inflight.has(url)) {
-      const promise = fetch(url)
+      const promise = fetch(resolveUrl(url))
         .then(r => r.json())
         .then(json => {
           cache.set(url, json)

@@ -19,7 +19,7 @@ function ArticleView() {
     if (!articleId) return
     let cancelled = false
     setContentLoading(true) // eslint-disable-line react-hooks/set-state-in-effect
-    fetch(`/data/articles/${articleId}.json`)
+    fetch(`${import.meta.env.BASE_URL}data/articles/${articleId}.json`)
       .then(r => {
         if (!r.ok) throw new Error('Article not found')
         return r.json()
