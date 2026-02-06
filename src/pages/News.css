@@ -452,6 +452,25 @@
   font-weight: 700;
 }
 
+/* Article body table responsive */
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.9375rem;
+}
+
+.article-body table td,
+.article-body table th {
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.article-body table tr:first-child {
+  font-weight: bold;
+  background: rgba(59, 130, 246, 0.1);
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .articles-list .article-card:first-child {
@@ -464,6 +483,10 @@
 }
 
 @media (max-width: 768px) {
+  .news-page {
+    padding: 0 0.25rem;
+  }
+
   .page-header h1 {
     font-size: 1.75rem;
   }
@@ -473,14 +496,113 @@
   }
 
   .article-full {
-    padding: var(--space-lg);
+    padding: var(--space-md);
   }
 
   .article-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+    line-height: 1.25;
   }
 
-  .article-content {
-    font-size: 1rem;
+  .article-content,
+  .article-body {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .article-body p {
+    margin-bottom: 1rem;
+  }
+
+  .article-body h4 {
+    font-size: 1.1rem;
+  }
+
+  .article-body ul,
+  .article-body ol {
+    padding-left: 1.25rem;
+  }
+
+  /* Mobile table scroll */
+  .article-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .article-body table td,
+  .article-body table th {
+    padding: 6px 8px;
+    min-width: 80px;
+  }
+
+  .article-meta {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .category-filter {
+    padding: var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  .filter-btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.8rem;
+  }
+
+  .article-card-body {
+    padding: var(--space-md);
+  }
+
+  .article-title {
+    font-size: 1.1rem;
+  }
+
+  .articles-list .article-card:first-child .article-title {
+    font-size: 1.35rem;
+  }
+
+  .articles-list .article-card:first-child .article-card-image {
+    height: 180px;
+  }
+
+  .article-image {
+    max-height: 250px;
+  }
+
+  .article-image img {
+    max-height: 250px;
+  }
+
+  .back-button {
+    font-size: 0.85rem;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .article-tags {
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .article-full {
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+  }
+
+  .article-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .article-body {
+    font-size: 0.9rem;
   }
 }

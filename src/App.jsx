@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
+import ScrollToTop from './components/ScrollToTop'
 import { ErrorBoundary, LoadingState } from './components/ui'
 import { preloadData } from './hooks/useData'
 import Home from './pages/Home'
@@ -24,6 +25,7 @@ preloadData(['/data/insights.json', '/data/politics_summary.json'])
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Layout>
         <ErrorBoundary>
           <Suspense fallback={<LoadingState />}>

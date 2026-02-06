@@ -384,13 +384,35 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+  .about-page {
+    padding: 1rem 0.75rem;
+  }
+
+  .about-hero {
+    padding: 2rem 0;
+  }
+
   .about-hero h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.05rem;
+  }
+
+  .intro-content {
+    padding: 1.25rem;
+  }
+
+  .intro-content p {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .creator-card {
     flex-direction: column;
     text-align: center;
+    padding: 1.25rem;
   }
 
   .creator-image {
@@ -398,17 +420,59 @@
     justify-content: center;
   }
 
+  .creator-image img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .creator-content h2 {
+    font-size: 1.25rem;
+  }
+
   .creator-titles {
     justify-content: center;
+  }
+
+  .title-badge {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .creator-quote {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
   }
 
   .social-links {
     justify-content: center;
   }
 
+  .social-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .data-section h2,
+  .disclaimer-section h2 {
+    font-size: 1.25rem;
+  }
+
   .data-grid,
   .disclaimer-content {
     grid-template-columns: 1fr;
+  }
+
+  .data-card,
+  .disclaimer-item {
+    padding: 1rem;
+  }
+
+  .cta-section {
+    padding: 2rem 1rem;
+  }
+
+  .cta-section h2 {
+    font-size: 1.35rem;
   }
 
   .cta-buttons {
@@ -419,5 +483,15 @@
   .btn-secondary {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .about-hero h1 {
+    font-size: 1.5rem;
   }
 }

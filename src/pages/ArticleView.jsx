@@ -39,13 +39,93 @@ function ArticleView() {
     return () => { cancelled = true }
   }, [articleId])
 
-  // Update document title
+  // Update document title and meta tags for SEO / Google News
   useEffect(() => {
     if (article) {
       document.title = `${article.title} | Burnley Council Transparency`
+
+      // Update meta description
+      let metaDesc = document.querySelector('meta[name="description"]')
+      if (!metaDesc) {
+        metaDesc = document.createElement('meta')
+        metaDesc.setAttribute('name', 'description')
+        document.head.appendChild(metaDesc)
+      }
+      metaDesc.setAttribute('content', article.summary || '')
+
+      // OpenGraph tags for social sharing
+      const ogTags = {
+        'og:title': article.title,
+        'og:description': article.summary || '',
+        'og:type': 'article',
+        'og:url': `https://burnleycouncil.co.uk/news/${article.id}`,
+        'og:image': article.image ? `https://burnleycouncil.co.uk${article.image}` : '',
+        'article:published_time': article.date,
+        'article:author': article.author || 'Burnley Council Transparency',
+        'article:section': article.category || 'News',
+      }
+
+      Object.entries(ogTags).forEach(([property, ogContent]) => {
+        let tag = document.querySelector(`meta[property="${property}"]`)
+        if (!tag) {
+          tag = document.createElement('meta')
+          tag.setAttribute('property', property)
+          document.head.appendChild(tag)
+        }
+        tag.setAttribute('content', ogContent)
+      })
+
+      // Add article tags as keywords
+      if (article.tags?.length) {
+        let keywords = document.querySelector('meta[name="keywords"]')
+        if (!keywords) {
+          keywords = document.createElement('meta')
+          keywords.setAttribute('name', 'keywords')
+          document.head.appendChild(keywords)
+        }
+        keywords.setAttribute('content', article.tags.join(', '))
+      }
+
+      // JSON-LD structured data for Google News
+      let ldScript = document.getElementById('article-jsonld')
+      if (!ldScript) {
+        ldScript = document.createElement('script')
+        ldScript.id = 'article-jsonld'
+        ldScript.type = 'application/ld+json'
+        document.head.appendChild(ldScript)
+      }
+      ldScript.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: article.title,
+        description: article.summary || '',
+        image: article.image ? [`https://burnleycouncil.co.uk${article.image}`] : [],
+        datePublished: article.date,
+        dateModified: article.date,
+        author: {
+          '@type': 'Organization',
+          name: article.author || 'Burnley Council Transparency',
+          url: 'https://burnleycouncil.co.uk'
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Burnley Council Transparency',
+          url: 'https://burnleycouncil.co.uk'
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `https://burnleycouncil.co.uk/news/${article.id}`
+        },
+        articleSection: article.category || 'News',
+        keywords: article.tags?.join(', ') || ''
+      })
     }
+
     return () => {
       document.title = 'Burnley Council Transparency | Where Your Money Goes'
+      // Clean up JSON-LD
+      const ldScript = document.getElementById('article-jsonld')
+      if (ldScript) ldScript.remove()
     }
   }, [article])
 

@@ -416,29 +416,29 @@ function Home() {
 
       {/* Latest News Preview */}
       <section className="news-preview-section">
-        <h2><Newspaper size={24} /> Latest Findings</h2>
+        <h2><Newspaper size={24} /> Latest News &amp; Findings</h2>
         <p className="section-intro">
-          Analysis and investigations based on council spending data.
+          Investigations, analysis, and democracy coverage for Burnley Council.
         </p>
 
         <div className="news-preview-grid">
-          <Link to="/news" className="news-preview-card featured">
-            <span className="category-badge investigation">DOGE Investigation</span>
-            <h4>£2.5M Duplicates, £10.5M Without Contracts, Netflix on the Council Card</h4>
-            <p>Our comprehensive audit of 19,865 records uncovered duplicate payments, missing contracts, and questionable purchase card spending.</p>
-            <span className="read-more">Read the full investigation <ChevronRight size={14} /></span>
+          <Link to="/news/cancelled-elections-democracy" className="news-preview-card featured">
+            <span className="category-badge democracy">Democracy</span>
+            <h4>Burnley Council Elections Cancelled by Labour Government</h4>
+            <p>The Labour Government cancelled Burnley's May 2026 elections despite the Scrutiny Committee recommending they proceed. Reform UK launched a judicial review. 150,000+ signed a petition.</p>
+            <span className="read-more">Read the full story <ChevronRight size={14} /></span>
           </Link>
-          <Link to="/news" className="news-preview-card">
-            <span className="category-badge investigation">Investigation</span>
-            <h4>One Law Firm, One Day, £19.8 Million</h4>
-            <p>A single capital programme payment to Geldards for the Pioneer Place development exceeds the council's entire annual revenue budget.</p>
+          <Link to="/news/councillor-pay-allowances" className="news-preview-card">
+            <span className="category-badge democracy">Democracy</span>
+            <h4>Councillor Pay: LCC Reform UK Freeze vs Burnley Labour Increases</h4>
+            <p>Reform UK led a 75-0 vote to freeze all councillor allowances at Lancashire County Council. At Burnley, Labour voted for 4%+ increases in 2023 and 2024.</p>
             <span className="read-more">Read more <ChevronRight size={14} /></span>
           </Link>
-          <Link to="/news" className="news-preview-card">
-            <span className="category-badge investigation">Investigation</span>
-            <h4>ChatGPT, Aldi, and Domino's: What's on the Council Cards?</h4>
-            <p>£1,397 on ChatGPT, £2,498 at Aldi on the Chief Exec's card, and food delivery orders — all on the taxpayer.</p>
-            <span className="read-more">Read more <ChevronRight size={14} /></span>
+          <Link to="/news/budget-2026-27-preview" className="news-preview-card">
+            <span className="category-badge analysis">Analysis</span>
+            <h4>Burnley Council Budget 2026/27: £2.2 Million Business Rates Hit</h4>
+            <p>The government business rates reset strips £2.2 million from Burnley's income. How the council fills the gap will define its final years before LGR.</p>
+            <span className="read-more">Read the budget preview <ChevronRight size={14} /></span>
           </Link>
         </div>
 
