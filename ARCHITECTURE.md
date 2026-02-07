@@ -26,10 +26,10 @@
 │ Pages     │ │ Oracle VPS │ │ AWS t3.micro│
 │ FREE      │ │ FREE       │ │ FREE (trial)│
 │           │ │            │ │             │
-│ 3 sites:  │ │ Pipeline:  │ │ Legacy:     │
-│ Lancashire│ │ Crawl      │ │ Keep until  │
+│ AI DOGE:  │ │ Pipeline:  │ │ Legacy:     │
+│ Landing   │ │ Crawl      │ │ Keep until  │
 │ Burnley   │ │ Generate   │ │ trial ends  │
-│ Council   │ │ Build      │ │ Aug 2026    │
+│ Hyndburn  │ │ Build      │ │ Aug 2026    │
 │           │ │ Push→GitHub│ │             │
 └───────────┘ └────────────┘ └─────────────┘
 ```
@@ -53,70 +53,139 @@
 - **NOT for:** Complex multi-file coding, theme redesigns, architecture decisions
 - **Future:** Move to Oracle ARM VM (24GB RAM, free forever) for 24/7 operation
 
-## Infrastructure
+## AI DOGE — Multi-Council Public Spending Audit
 
-### GitHub Pages — All Websites (FREE)
-All three websites are served via GitHub Pages CDN:
+### Architecture
 
-| Site | Repo | Domain |
-|------|------|--------|
-| News Lancashire | tompickup23/newslancashire | newslancashire.co.uk |
-| News Burnley | tompickup23/newsburnley | newsburnley.co.uk |
-| Burnley Council | tompickup23/burnleycouncil | burnleycouncil.co.uk |
-
-Benefits: Global CDN, DDoS protection, free SSL, 99.99% uptime.
-
-### Thurinus (Oracle VPS — 141.147.79.228) — BUILD SERVER
-- **Role:** Pipeline server (crawl, generate, build, push to GitHub)
-- **Stack:** Python + Hugo + Git + SQLite
-- **Resources:** 1GB RAM, 2 vCPU, 45GB disk, 10TB bandwidth
-- **Automation:** Hourly pipeline (crawl → generate → Hugo build → git push)
-- **Cost:** £0/month (Oracle Always Free, permanent)
-- **SSH:** `ssh -i ~/Downloads/ssh-key-2026-02-05.key ubuntu@141.147.79.228`
-
-### Octavianus (AWS t3.micro — 51.20.51.127) — LEGACY
-- **Role:** Previously hosted News Burnley, now redundant
-- **Status:** Keep running until free trial expires (~August 2026)
-- **Cost:** £0 during trial, then terminate
-- **SSH:** `ssh -i ~/Downloads/clawdbotkeypair.pem ubuntu@51.20.51.127`
-
-### AWS Account 2 (tompickup23@icloud.com, eu-north-1) — RESERVED
-- **Status:** No instances running. Fresh 6-month free trial.
-- **Use when needed:** Future projects requiring compute
-
-## Content Pipeline
-
-### Automatic (hourly, zero cost)
 ```
-RSS Feeds → Crawler (Python) → SQLite → Hugo Content Gen → Hugo Build
-  → git push → GitHub Pages (News Lancashire)
-  → JSON export → git push → GitHub Pages (News Burnley)
-```
-
-Pipeline script: `/home/ubuntu/newslancashire/scripts/pipeline.sh`
-Cron: `0 * * * *` (every hour)
-
-### Deploy Keys (Thurinus → GitHub)
-- News Lancashire: `~/.ssh/id_ed25519` → `github-lancashire` SSH host
-- News Burnley: `~/.ssh/id_newsburnley` → `github-burnley` SSH host
-- Config: `~/.ssh/config` maps hosts to keys
-
-### AI Digest (Octavian, free via Kimi)
-```
-Tom: "Write a digest of today's Burnley news" (WhatsApp)
-  → Octavian reads DB via SSH to Thurinus
-  → Generates summary with Kimi (free)
-  → Saves .md to Thurinus /digest/
-  → Next pipeline run builds and deploys
+┌──────────────────┐     ┌──────────────────┐
+│  Council CSVs    │     │  GOV.UK ODS      │
+│  (Layer 1)       │     │  (Layer 2)       │
+│                  │     │                  │
+│ Burnley: £500+   │     │ MHCLG Revenue    │
+│ Hyndburn: £250+  │     │ Outturn (CIPFA)  │
+│ [Future councils]│     │ Band D CT data   │
+└────────┬─────────┘     └────────┬─────────┘
+         │                        │
+    council_etl.py          govuk_budgets.py
+         │                        │
+         ▼                        ▼
+┌──────────────────┐     ┌──────────────────┐
+│ spending.json    │     │ budgets_govuk.json│
+│ metadata.json    │     │ budgets_summary   │
+│ insights.json    │     │ govuk_comparison  │
+│ (per council)    │     │ (cross-council)   │
+└────────┬─────────┘     └────────┬─────────┘
+         │                        │
+         └────────┬───────────────┘
+                  │
+         ┌────────▼─────────┐
+         │  taxonomy.json   │
+         │  (shared brain)  │
+         │  Depts, Suppliers│
+         │  Companies House │
+         └────────┬─────────┘
+                  │
+         ┌────────▼─────────┐
+         │  React SPA       │
+         │  (config-driven) │
+         │                  │
+         │  config.json     │
+         │  → CouncilContext│
+         │  → Conditional   │
+         │    routing/nav   │
+         └────────┬─────────┘
+                  │
+    build_council.sh <id> <base>
+                  │
+         ┌────────▼─────────┐
+         │  GitHub Pages    │
+         │  (gh-pages)      │
+         │                  │
+         │ /burnleycouncil/ │
+         │ /hyndburn/       │
+         │ / (landing page) │
+         └──────────────────┘
 ```
 
-### Original Reporting (Claude Code)
+### Two Data Layers
+
+**Layer 1 — Council CSVs** (transaction-level):
+- Each council publishes spending CSVs under Transparency Code
+- `council_etl.py` normalises to universal schema
+- Good for: supplier analysis, payment drill-down, procurement patterns
+- NOT comparable across councils (different thresholds, coverage)
+
+**Layer 2 — GOV.UK MHCLG** (standardised budgets):
+- MHCLG publishes identical CIPFA SeRCOP returns for all councils
+- `govuk_budgets.py` parses ODS files
+- Good for: cross-council comparisons, budget vs actual, Band D trends
+- Inherently comparable — same definitions, same categories
+
+### Key Scripts
+
+| Script | Purpose | Run By |
+|--------|---------|--------|
+| `scripts/council_etl.py` | CSV → spending.json (any council) | Claude Code / Clawdbot |
+| `scripts/govuk_budgets.py` | GOV.UK ODS → budget JSON | Claude Code |
+| `scripts/build_council.sh` | Build SPA for specific council | Either |
+
+### Adding a New Council (PDCA Loop)
+
+1. **Plan:** Download CSVs, examine schema, identify columns
+2. **Do:** Write adapter (~50 lines in council_etl.py), run ETL
+3. **Check:** Spot-check 20 records, flag unmapped terms
+4. **Act:** Update taxonomy.json, re-run. System gets smarter.
+5. **Deploy:** `build_council.sh <id> /<path>/`, push to gh-pages
+
+### Companies House Integration
+
+- Code in `council_etl.py` (`--companies-house` flag)
+- 100% confidence matching only (exact name, active, unambiguous)
+- Needs API key: register at developer.company-information.service.gov.uk
+- Rate limit: 600 req/5min (free)
+- Clawdbot can run batch matching on Thurinus once key is provided
+
+### Live Councils
+
+| Council | URL | Records | Spend | Threshold | Features |
+|---------|-----|---------|-------|-----------|----------|
+| Burnley | /burnleycouncil/ | 30,580 | £355M | £500+ | Full (spending, budgets, politics, meetings, news, FOI, DOGE) |
+| Hyndburn | /hyndburn/ | 29,802 | £211M | £250+ | Spending + FOI |
+
+### Repo & Deployment
+
+- **Repo:** tompickup23/burnleycouncil
+- **Branch:** gh-pages (deployed content)
+- **Domain:** aidoge.co.uk (GitHub Pages, custom domain)
+- **SPA routing:** Root 404.html redirects with ?p= parameter
+
+## News Lancashire
+
+### Pipeline
+
 ```
-Tom: "Write an article about X" (Claude Code)
-  → Claude Code researches, writes, optimises for SEO
-  → Saves to /original/ on Thurinus
-  → Next pipeline run builds and deploys
+[RSS Feeds] ─┐
+[Bluesky]   ─┤
+[Google News]─┼→ [pipeline_v3.sh] → [SQLite DB] → [export_json.py] → [Astro Build]
+[Parliament] ─┤     (Thurinus)        (news.db)                        → Cloudflare Pages
+[Police API] ─┘                                                        (newslancashire.co.uk)
 ```
+
+### Infrastructure
+
+| Site | Hosting | Domain | Repo |
+|------|---------|--------|------|
+| News Lancashire | Cloudflare Pages | newslancashire.co.uk | tompickup23/newslancashire |
+| News Burnley | Octavianus (AWS) | newsburnley.co.uk | tompickup23/newsburnley |
+| AI DOGE | GitHub Pages | aidoge.co.uk | tompickup23/burnleycouncil |
+
+### Servers
+
+| Server | IP | Cost | SSH |
+|--------|-----|------|-----|
+| Thurinus (Oracle) | 141.147.79.228 | £0 forever | `ssh -i ~/Downloads/ssh-key-2026-02-05.key ubuntu@141.147.79.228` |
+| Octavianus (AWS) | 51.20.51.127 | £0 until Aug 2026 | `ssh -i ~/Downloads/clawdbotkeypair.pem ubuntu@51.20.51.127` |
 
 ## Credit Efficiency Rules
 
@@ -138,6 +207,9 @@ Tom: "Write an article about X" (Claude Code)
 | Server maintenance | Claude Code | SSH + multi-step |
 | Social media post | Octavian | Quick, templated |
 | Architecture decisions | Claude Code | Needs deep reasoning |
+| Run ETL pipeline | Clawdbot | SSH to Thurinus, zero credits |
+| Companies House batch | Clawdbot | Cron job on Thurinus |
+| Monitor pipeline | Clawdbot | 24/7 via WhatsApp alerts |
 
 ## Communication Channels
 
@@ -150,51 +222,13 @@ Tom: "Write an article about X" (Claude Code)
 
 ## DNS Configuration
 
-### newslancashire.co.uk (Gandi LiveDNS)
+### aidoge.co.uk (GitHub Pages)
 - A records → GitHub Pages IPs (185.199.108-111.153)
 - CNAME www → tompickup23.github.io
 
-### newsburnley.co.uk (One.com)
-- A records → GitHub Pages IPs (185.199.108-111.153)
-- CNAME www → tompickup23.github.io
+### newslancashire.co.uk (Cloudflare Pages)
+- Managed by Cloudflare
 
-## Expansion Roadmap
-
-### Phase 1: Social Media Integration (Next)
-Add prominent Lancashire figures' social feeds as news stories:
-- **X/Twitter API** — MPs, councillors, local figures
-- **Bluesky** — Open API, easy to integrate
-- **Council RSS** — LCC press releases, district council feeds
-- **Facebook Public Pages** — Local community pages
-
-Implementation:
-- Expand crawler to handle social APIs alongside RSS
-- New content type in Hugo: "social" with profile pics, source badges
-- New section: "What Lancashire is saying" or "Social Feed"
-- Stored in same SQLite DB with `source_type` field
-
-### Phase 2: Enhanced Design
-- Trending topics section (AI-powered topic extraction)
-- Better borough landing pages with stats and social feeds
-- Mobile-first responsive redesign
-- Dark/light mode toggle
-- Real-time updates via JSON polling
-
-### Phase 3: 24/7 Clawdbot
-- Spin up Oracle ARM VM (4 OCPU, 24GB RAM, free forever)
-- Migrate Clawdbot gateway from Mac to Oracle ARM
-- Octavian works 24/7, even when laptop is closed
-- Mac becomes dev-only (Claude Code)
-
-### Phase 4: More Sites
-- Pattern: Hugo on Thurinus → GitHub Pages
-- Each new borough/topic site follows same pipeline
-- Shared crawler, separate Hugo themes
-
-## Future Projects Pattern
-1. **Static sites** → GitHub Pages (free CDN + SSL)
-2. **Build pipelines** → Thurinus (free Oracle VM)
-3. **SPAs** → GitHub Pages (free)
-4. **AI content** → Octavian via Kimi (free)
-5. **24/7 bots** → Oracle ARM VM (free forever)
-6. **Never** pay for hosting if a free tier exists
+### newsburnley.co.uk (One.com → AWS)
+- A records → Octavianus IP
+- Plan: Migrate to Cloudflare Pages before Aug 2026

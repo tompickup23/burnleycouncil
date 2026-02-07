@@ -91,9 +91,9 @@ def parse_date(date_str):
     for fmt in formats:
         try:
             dt = datetime.strptime(date_str, fmt)
-            # Fix 2-digit year ambiguity: 26 → 2026, not 1926
+            # Fix 2-digit year ambiguity: use cutoff — 00-49 → 2000s, 50-99 → 1900s
             if dt.year < 100:
-                dt = dt.replace(year=dt.year + 2000)
+                dt = dt.replace(year=dt.year + 2000 if dt.year < 50 else dt.year + 1900)
             return dt.strftime("%Y-%m-%d")
         except ValueError:
             continue
@@ -1013,7 +1013,7 @@ def _match_company(supplier_name, ch_results):
     uk_active = [r for r in active
                  if r.get("address", {}).get("country", "").lower() in
                  {"united kingdom", "england", "wales", "scotland", "northern ireland", "gb", ""}
-                 or True]  # Companies House results are already UK companies
+                 or not r.get("address", {}).get("country")]  # Allow if no country set (CH results are UK)
 
     # Find exact name matches
     exact_matches = []

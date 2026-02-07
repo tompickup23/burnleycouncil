@@ -27,6 +27,7 @@ import sys
 import time
 import urllib.request
 import urllib.error
+import urllib.parse
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -103,10 +104,10 @@ def api_get(path, params=None):
             time.sleep(5)
             return api_get(path, params)
         elif e.code == 503:
-            print(f"  Too many results for {path}, skipping")
+            print(f"  WARNING: 503 for {path} — too many results or service unavailable, data may be incomplete")
             return []
         elif e.code == 404:
-            return []
+            return []  # No data for this area/date
         else:
             print(f"  API error {e.code} for {path}")
             return []
@@ -133,6 +134,7 @@ def api_post(path, data_dict):
             time.sleep(5)
             return api_post(path, data_dict)
         elif e.code == 503:
+            print(f"  WARNING: 503 Service Unavailable for POST {path} — data may be incomplete")
             return []
         else:
             print(f"  POST error {e.code} for {path}")
