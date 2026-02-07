@@ -53,7 +53,7 @@ if [ -f "$DATA_DIR/config.json" ]; then
 fi
 
 # Copy optional data files if they exist
-for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json doge_knowledge.json; do
+for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json doge_knowledge.json foi_templates.json pay_comparison.json; do
     if [ -f "$DATA_DIR/$OPTIONAL" ]; then
         cp "$DATA_DIR/$OPTIONAL" "$APP_DIR/public/data/$OPTIONAL"
         echo "  Copied: $OPTIONAL"
