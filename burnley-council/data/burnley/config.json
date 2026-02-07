@@ -21,5 +21,29 @@
   "hero_subtitle": "Explore how Burnley Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Burnley Borough Council",
   "publisher": "Tom Pickup",
-  "theme_accent": "#0a84ff"
+  "theme_accent": "#0a84ff",
+
+  "doge_context": {
+    "total_spend": "£355M",
+    "transactions": 30580,
+    "suppliers": 4485,
+    "data_period": "April 2021 – present",
+    "annual_net_revenue_budget": "£18.7M",
+    "political_control": "Labour coalition. Reform UK challenging governance.",
+    "key_suppliers": [
+      {"name": "Liberata UK Ltd", "spend": "£36.7M", "note": "Outsourcing contract being brought in-house"},
+      {"name": "URBASER LTD", "spend": "£19.5M", "transactions": 959, "note": "Waste collection"},
+      {"name": "Geldards LLP", "spend": "£20.3M", "note": "Pioneer Place capital development solicitors"}
+    ],
+    "doge_findings": {
+      "ch_breach_spend": "£223.9K to 21 suppliers during active Companies House breaches",
+      "likely_duplicates": "£1.4M across 577 groups",
+      "split_payments": "£35.1M suspected",
+      "year_end_spike": "5.7x monthly average in March"
+    },
+    "notable_suppliers": [
+      {"name": "Molesworth Hotel Ltd", "spend": "£59.1K", "issue": "No active directors, no PSC registered"},
+      {"name": "JML Property Solutions Ltd", "spend": "£48K", "issue": "Facing strike-off proceedings"}
+    ]
+  }
 }

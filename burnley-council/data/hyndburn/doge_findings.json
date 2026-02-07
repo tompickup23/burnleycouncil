@@ -1,9 +1,9 @@
 {
   "findings": [
     {
-      "value": "\u00a31.5M",
+      "value": "\u00a31.1M",
       "label": "Paid During Active Breaches",
-      "detail": "25 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 25 high severity. Temporally verified against payment dates.",
+      "detail": "17 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 17 high severity. Temporally verified against payment dates.",
       "severity": "warning",
       "link": "/spending"
     },
@@ -58,9 +58,9 @@
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Grant Thornton Uk Llp: \u00a3196.6K paid during active breach",
-      "description": "No active directors",
-      "link": "/spending?supplier=GRANT THORNTON UK LLP",
+      "title": "Homewise Society Ltd: \u00a3158.6K paid during active breach",
+      "description": "No active directors; No person with significant control registered",
+      "link": "/spending?supplier=HOMEWISE SOCIETY LTD",
       "link_text": "View payments \u2192",
       "severity": "warning"
     },
@@ -94,7 +94,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-07T12:52:12.888059",
+  "generated": "2026-02-07T13:41:41.888156",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

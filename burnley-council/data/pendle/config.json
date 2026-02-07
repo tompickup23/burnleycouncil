@@ -14,7 +14,7 @@
     "budget_trends": true,
     "politics": true,
     "meetings": false,
-    "news": false,
+    "news": true,
     "my_area": true,
     "foi": true,
     "doge_investigation": true
@@ -23,5 +23,28 @@
   "hero_subtitle": "Explore how Pendle Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Pendle Borough Council",
   "publisher": "Tom Pickup",
-  "theme_accent": "#0a84ff"
+  "theme_accent": "#0a84ff",
+
+  "doge_context": {
+    "total_spend": "£127M",
+    "transactions": 48785,
+    "suppliers": 3019,
+    "data_period": "April 2021 – present",
+    "transaction_profile": "Highest transaction volume despite lowest total spend — many small payments.",
+    "key_suppliers": [
+      {"name": "Liberata UK Ltd", "spend": "£16.7M", "note": "Same outsourcing company as Burnley"},
+      {"name": "FUELMATE LTD", "spend": "£800.2K", "transactions": 5047, "note": "Most frequent supplier by volume"}
+    ],
+    "doge_findings": {
+      "ch_breach_spend": "£37.8K to 4 suppliers during active Companies House breaches — lowest of 3 councils",
+      "likely_duplicates": "£2.7M across 1,311 groups",
+      "split_payments": "£19.5M suspected",
+      "year_end_spike": "Not yet quantified"
+    },
+    "notable_suppliers": [
+      {"name": "Brentwood Borough Council", "spend": "£3M", "note": "Single £3M payment — cross-authority transfer"},
+      {"name": "Surrey County Council", "spend": "£3M", "note": "Single £3M payment — cross-authority transfer"},
+      {"name": "WALTON SUMMIT TRUCK CENTRE LTD", "note": "115,237% price gap vs Burnley (£49 avg here vs £56K at Burnley)"}
+    ]
+  }
 }

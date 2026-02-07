@@ -14,7 +14,7 @@
     "budget_trends": true,
     "politics": true,
     "meetings": false,
-    "news": false,
+    "news": true,
     "my_area": true,
     "foi": true,
     "doge_investigation": true
@@ -23,5 +23,29 @@
   "hero_subtitle": "Explore how Hyndburn Borough Council spends public money. Every payment over £250 from council transparency data.",
   "disclaimer_entity": "Hyndburn Borough Council",
   "publisher": "Tom Pickup",
-  "theme_accent": "#12B6CF"
+  "theme_accent": "#12B6CF",
+
+  "doge_context": {
+    "total_spend": "£211M",
+    "transactions": 29802,
+    "suppliers": 2394,
+    "data_period": "January 2017 – present",
+    "spending_threshold": 250,
+    "key_suppliers": [
+      {"name": "Lancashire County Council", "spend": "£72.6M", "note": "County-level service payments"},
+      {"name": "Alliance Leisure Services Ltd", "spend": "£12.6M", "note": "Leisure facilities"}
+    ],
+    "doge_findings": {
+      "ch_breach_spend": "£1.1M to 17 suppliers during active Companies House breaches",
+      "likely_duplicates": "£3.4M across 940 groups",
+      "split_payments": "£14.8M suspected",
+      "year_end_spike": "12.9x monthly average in March — worst of the 3 councils"
+    },
+    "notable_suppliers": [
+      {"name": "B3P Services Ltd", "spend": "£420.2K", "issue": "No active directors"},
+      {"name": "JDS Trucks Ltd", "spend": "£287.3K", "issue": "No directors or PSC registered"},
+      {"name": "Homewise Society Ltd", "spend": "£158.6K", "issue": "No directors or PSC registered"},
+      {"name": "HM Land Registry", "transactions": 2422, "avg_payment": "£5", "note": "Most frequent supplier by volume"}
+    ]
+  }
 }

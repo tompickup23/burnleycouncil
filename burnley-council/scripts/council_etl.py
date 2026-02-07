@@ -1376,52 +1376,87 @@ def _check_compliance(profile, officers_data=None, psc_data=None, insolvency_dat
             "current": True,
         })
 
-    # ── VIOLATION 5: No active directors ──
-    # NOTE: This reflects CURRENT director state. A company that had no directors
-    # temporarily (e.g. between resignations/appointments) won't show that history.
+    # ── VIOLATION 5: No active directors / No designated members ──
+    # NOTE: This reflects CURRENT officer state. Historical gaps are invisible.
+    # LLPs have "designated members" and "members", NOT directors.
+    # ss.154-156 only apply to limited companies, not LLPs.
+    # LLPs are governed by Limited Liability Partnerships Act 2000 s.4(1).
+    company_type = profile.get("company_type", "")
+    is_llp = company_type == "llp" or "llp" in status_detail.lower()
+
     if officers_data:
-        active_directors = [
-            o for o in officers_data.get("items", [])
-            if o.get("officer_role") in ("director", "corporate-director", "nominee-director")
-            and "resigned_on" not in o
-        ]
-        natural_directors = [
-            d for d in active_directors
-            if d.get("officer_role") == "director"
-        ]
+        if is_llp:
+            # LLP governance check: must have ≥2 designated members (LLPA 2000 s.4(1))
+            # Check for both LLP-specific roles AND director roles (in case data was
+            # stored before the LLP-aware enrichment was deployed)
+            llp_roles = ("llp-member", "llp-designated-member", "member", "designated-member")
+            active_members = [
+                o for o in officers_data.get("items", [])
+                if o.get("officer_role") in llp_roles
+                and "resigned_on" not in o
+            ]
+            designated_members = [
+                m for m in active_members
+                if m.get("officer_role") in ("llp-designated-member", "designated-member")
+            ]
+            # Only flag if we actually have officer items but none match LLP roles.
+            # If items is empty, we may simply not have fetched LLP member data yet.
+            has_any_officers = len(officers_data.get("items", [])) > 0
+            if has_any_officers and len(active_members) == 0:
+                violations.append({
+                    "code": "NO_ACTIVE_MEMBERS_LLP",
+                    "severity": "high",
+                    "law": "Limited Liability Partnerships Act 2000 s.4(1)",
+                    "title": "No active members (LLP)",
+                    "detail": "LLP has zero active members. Breach of LLPA 2000 s.4(1) — LLPs must have at least 2 members at all times.",
+                    "active_from": str(today),
+                    "active_to": None,
+                    "current": True,
+                })
+        else:
+            # Standard company director checks (CA 2006 ss.154-156)
+            active_directors = [
+                o for o in officers_data.get("items", [])
+                if o.get("officer_role") in ("director", "corporate-director", "nominee-director")
+                and "resigned_on" not in o
+            ]
+            natural_directors = [
+                d for d in active_directors
+                if d.get("officer_role") == "director"
+            ]
 
-        # Try to determine when the last director resigned (= when breach started)
-        all_directors = [
-            o for o in officers_data.get("items", [])
-            if o.get("officer_role") in ("director", "corporate-director", "nominee-director")
-        ]
-        last_resignation = max(
-            (o.get("resigned_on", "") for o in all_directors if o.get("resigned_on")),
-            default=None
-        )
+            # Try to determine when the last director resigned (= when breach started)
+            all_directors = [
+                o for o in officers_data.get("items", [])
+                if o.get("officer_role") in ("director", "corporate-director", "nominee-director")
+            ]
+            last_resignation = max(
+                (o.get("resigned_on", "") for o in all_directors if o.get("resigned_on")),
+                default=None
+            )
 
-        if len(active_directors) == 0:
-            violations.append({
-                "code": "NO_ACTIVE_DIRECTORS",
-                "severity": "high",
-                "law": "Companies Act 2006 ss.154-156",
-                "title": "No active directors",
-                "detail": "Company has zero active directors. Breach of s.154 (minimum 1 for private, 2 for public). Company cannot legally make decisions or enter contracts.",
-                "active_from": last_resignation,  # Breach started when last director resigned
-                "active_to": None,
-                "current": True,
-            })
-        elif len(natural_directors) == 0 and active_directors:
-            violations.append({
-                "code": "NO_NATURAL_PERSON_DIRECTOR",
-                "severity": "high",
-                "law": "Companies Act 2006 s.155",
-                "title": "No natural person director",
-                "detail": "All directors are corporate entities. Breach of s.155 — at least one director must be a natural person.",
-                "active_from": str(today),  # We only know current state
-                "active_to": None,
-                "current": True,
-            })
+            if len(active_directors) == 0:
+                violations.append({
+                    "code": "NO_ACTIVE_DIRECTORS",
+                    "severity": "high",
+                    "law": "Companies Act 2006 ss.154-156",
+                    "title": "No active directors",
+                    "detail": "Company has zero active directors. Breach of s.154 (minimum 1 for private, 2 for public). Company cannot legally make decisions or enter contracts.",
+                    "active_from": last_resignation,  # Breach started when last director resigned
+                    "active_to": None,
+                    "current": True,
+                })
+            elif len(natural_directors) == 0 and active_directors:
+                violations.append({
+                    "code": "NO_NATURAL_PERSON_DIRECTOR",
+                    "severity": "high",
+                    "law": "Companies Act 2006 s.155",
+                    "title": "No natural person director",
+                    "detail": "All directors are corporate entities. Breach of s.155 — at least one director must be a natural person.",
+                    "active_from": str(today),  # We only know current state
+                    "active_to": None,
+                    "current": True,
+                })
 
     # ── VIOLATION 6: Very newly incorporated ──
     # This is a point-in-time check — only relevant for payments made near incorporation
@@ -1464,7 +1499,8 @@ def _check_compliance(profile, officers_data=None, psc_data=None, insolvency_dat
                     "current": True,
                 })
 
-        if psc_data.get("active_count", 0) == 0 and status == "active":
+        # LLPs are exempt from PSC register requirements (s.790E exemption)
+        if psc_data.get("active_count", 0) == 0 and status == "active" and not is_llp:
             violations.append({
                 "code": "NO_PSC_REGISTERED",
                 "severity": "medium",
@@ -1615,17 +1651,22 @@ def companies_house_enrich(taxonomy=None, api_key=None, batch_size=200, force=Fa
         ch_data["address_in_dispute"] = profile.get("registered_office_is_in_dispute", False)
         ch_data["registered_address"] = profile.get("registered_office_address", {})
 
-        # Officer summary
+        # Officer summary — capture directors AND LLP members
+        is_llp = ch_data.get("company_type", "") == "llp"
+        director_roles = ("director", "corporate-director", "nominee-director")
+        llp_member_roles = ("llp-member", "llp-designated-member", "member", "designated-member")
+        relevant_roles = llp_member_roles if is_llp else director_roles
+
         if officers_data:
             ch_data["active_directors"] = sum(
                 1 for o in officers_data.get("items", [])
-                if o.get("officer_role") in ("director", "corporate-director", "nominee-director")
+                if o.get("officer_role") in relevant_roles
                 and "resigned_on" not in o
             )
             ch_data["directors"] = [
                 {"name": o.get("name", ""), "role": o.get("officer_role", ""), "appointed": o.get("appointed_on", "")}
                 for o in officers_data.get("items", [])
-                if o.get("officer_role") in ("director", "corporate-director", "nominee-director")
+                if o.get("officer_role") in relevant_roles
                 and "resigned_on" not in o
             ]
         else:

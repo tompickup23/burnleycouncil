@@ -1,9 +1,9 @@
 {
   "findings": [
     {
-      "value": "\u00a31.2M",
+      "value": "\u00a337.8K",
       "label": "Paid During Active Breaches",
-      "detail": "12 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 12 high severity. Temporally verified against payment dates.",
+      "detail": "4 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 4 high severity. Temporally verified against payment dates.",
       "severity": "warning",
       "link": "/spending"
     },
@@ -40,27 +40,27 @@
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Grant Thornton Uk Llp: \u00a3524.1K paid during active breach",
-      "description": "No active directors",
-      "link": "/spending?supplier=GRANT THORNTON UK LLP",
+      "title": "Marston (Holdings) Ltd: \u00a317.1K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=MARSTON (HOLDINGS) LTD",
       "link_text": "View payments \u2192",
       "severity": "warning"
     },
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Jmw Solicitors Llp: \u00a3410.0K paid during active breach",
-      "description": "No active directors; No person with significant control registered",
-      "link": "/spending?supplier=JMW SOLICITORS LLP",
+      "title": "Jewson Ltd: \u00a317.0K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=JEWSON LTD",
       "link_text": "View payments \u2192",
       "severity": "warning"
     },
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Axis Property Consultancy Llp: \u00a3107.8K paid during active breach",
-      "description": "No active directors",
-      "link": "/spending?supplier=AXIS PROPERTY CONSULTANCY LLP",
+      "title": "Auto Match Ltd: \u00a33.4K paid during active breach",
+      "description": "Confirmation statement overdue; Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=AUTO MATCH LTD",
       "link_text": "View payments \u2192",
       "severity": "warning"
     },
@@ -94,7 +94,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-07T12:52:12.888417",
+  "generated": "2026-02-07T13:41:41.888362",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

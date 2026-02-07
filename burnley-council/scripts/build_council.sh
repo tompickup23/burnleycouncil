@@ -34,6 +34,12 @@ if [ ! -f "$DATA_DIR/spending.json" ]; then
     exit 1
 fi
 
+# Clean council-specific data from previous build
+echo "  Cleaning previous data..."
+rm -f "$APP_DIR/public/data/"*.json
+rm -rf "$APP_DIR/public/data/articles"
+rm -rf "$APP_DIR/dist"
+
 # Copy council-specific data to the SPA's public/data directory
 echo "  Copying data files..."
 cp "$DATA_DIR/spending.json" "$APP_DIR/public/data/spending.json"
@@ -47,12 +53,19 @@ if [ -f "$DATA_DIR/config.json" ]; then
 fi
 
 # Copy optional data files if they exist
-for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json; do
+for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json doge_knowledge.json; do
     if [ -f "$DATA_DIR/$OPTIONAL" ]; then
         cp "$DATA_DIR/$OPTIONAL" "$APP_DIR/public/data/$OPTIONAL"
         echo "  Copied: $OPTIONAL"
     fi
 done
+
+# Copy articles directory if it exists
+if [ -d "$DATA_DIR/articles" ]; then
+    mkdir -p "$APP_DIR/public/data/articles"
+    cp "$DATA_DIR/articles/"*.json "$APP_DIR/public/data/articles/"
+    echo "  Copied: articles/ ($(ls "$DATA_DIR/articles/"*.json 2>/dev/null | wc -l | tr -d ' ') files)"
+fi
 
 # Build with the specified base path
 echo "  Building SPA with VITE_BASE=$BASE ..."

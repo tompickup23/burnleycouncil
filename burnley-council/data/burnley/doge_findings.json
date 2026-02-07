@@ -1,9 +1,9 @@
 {
   "findings": [
     {
-      "value": "\u00a33.2M",
+      "value": "\u00a3223.9K",
       "label": "Paid During Active Breaches",
-      "detail": "34 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 34 high severity. Temporally verified against payment dates.",
+      "detail": "21 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 21 high severity. Temporally verified against payment dates.",
       "severity": "warning",
       "link": "/spending"
     },
@@ -40,27 +40,27 @@
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Addington Capital Llp: \u00a31.1M paid during active breach",
-      "description": "No active directors",
-      "link": "/spending?supplier=ADDINGTON CAPITAL LLP",
-      "link_text": "View payments \u2192",
-      "severity": "warning"
-    },
-    {
-      "icon": "alert-triangle",
-      "badge": "High",
-      "title": "Grant Thornton Uk  Llp: \u00a3717.8K paid during active breach",
-      "description": "No active directors",
-      "link": "/spending?supplier=GRANT THORNTON UK  LLP",
-      "link_text": "View payments \u2192",
-      "severity": "warning"
-    },
-    {
-      "icon": "alert-triangle",
-      "badge": "High",
-      "title": "Lea Hough & Co Llp: \u00a3591.5K paid during active breach",
+      "title": "Molesworth Hotel Ltd: \u00a359.1K paid during active breach",
       "description": "No active directors; No person with significant control registered",
-      "link": "/spending?supplier=LEA HOUGH & CO LLP",
+      "link": "/spending?supplier=MOLESWORTH HOTEL LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "Jml Property Solutions Ltd: \u00a348.0K paid during active breach",
+      "description": "Company facing strike-off; Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=JML PROPERTY SOLUTIONS LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "A & C Weber Uk Ltd: \u00a329.2K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=A & C WEBER UK LTD",
       "link_text": "View payments \u2192",
       "severity": "warning"
     },
@@ -94,7 +94,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-07T12:52:12.886948",
+  "generated": "2026-02-07T13:41:41.887704",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
