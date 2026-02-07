@@ -1,0 +1,765 @@
+
+================================================================================
+  DATA LOADING
+================================================================================
+
+Found 19 spending files
+  Loaded Q1.21.22.Spend.csv: 1772 rows
+  Loaded Q1.22.23.Spend.csv: 914 rows
+  Loaded Q1.23.24.Spend.csv: 981 rows
+  Loaded Q1.24.25.Spend.csv: 1038 rows
+  Loaded Q1.25.26.Spend.csv: 1129 rows
+  Loaded Q2.21.22.Spend.csv: 4082 rows
+  Loaded Q2.22.23.Spend.csv: 952 rows
+  Loaded Q2.23.24.Spend.csv: 975 rows
+  Loaded Q2.24.25.Spend.csv: 1038 rows
+  Loaded Q2.25.26.Spend.csv: 1238 rows
+  Loaded Q3.21.22.Spend.csv: 4082 rows
+  Loaded Q3.22.23.Spend.csv: 855 rows
+  Loaded Q3.23.24.Spend.csv: 975 rows
+  Loaded Q3.24.25.Spend.csv: 1033 rows
+  Loaded Q3.25.26.csv: 1090 rows
+  Loaded Q4.21.22.Spend.csv: 4082 rows
+  Loaded Q4.22.23.Spend.csv: 961 rows
+  Loaded Q4.23.24.Spend.csv: 975 rows
+  Loaded Q4.24.25.Spend.csv: 1033 rows
+
+Total spending records (after cleanup): 19865
+Total spending amount: £217,065,431.84
+Date range: 2021-04-01 00:00:00 to 2025-12-31 00:00:00
+Unique suppliers: 2866
+
+Found 18 contract files
+Contract columns: ['Order Date', 'Order No', 'Supplier Name', 'Supplier Type', 'Title', 'Product Description', 'Value', 'Department', 'Section', 'Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'source_file', 'Type', 'Original Value', 'Gl Code', 'Unnamed: 12', 'Unnamed: 13', 'Unnamed: 14', 'ï»¿Order Date']
+Total contract records (raw): 4100
+Total contract records (cleaned): 4090
+Unique contracted suppliers: 698
+
+Found 19 purchase card files
+Total purchase card records: 6831
+Total purchase card spending: £596,366.72
+
+================================================================================
+  ANALYSIS 1: DUPLICATE PAYMENTS
+================================================================================
+
+--- EXACT DUPLICATES (same supplier, same amount, same date) ---
+Found 1284 rows in 503 exact duplicate groups
+Potential overpayment from exact duplicates: £1,547,334.11
+
+Top 30 exact duplicate groups by total value:
+  TOTAL POOL CHEMICALS LTD                           | £  245,626.00 x 0 = £  491,252.00 | Dates: NaT, NaT
+  FCC ENVIRONMENT/URBASER LTD                        | £   70,815.00 x 2 = £  141,630.00 | Dates: 2025-07-08, 2025-07-08
+  URBASER LIMITED                                    | £   66,758.00 x 2 = £  133,516.00 | Dates: 2023-10-30, 2023-10-30
+  TRANSDEV BLAZEFIELD LTD                            | £   11,837.16 x 11 = £  130,208.76 | Dates: 2021-11-02, 2021-11-02, 2021-11-02, 2021-11-02, 2021-11-02, 2021-11-02, 2021-11-
+  FCC ENVIRONMENT/URBASER LTD                        | £   65,068.00 x 2 = £  130,136.00 | Dates: 2025-07-08, 2025-07-08
+  URBASER LIMITED                                    | £   61,637.00 x 2 = £  123,274.00 | Dates: 2023-10-30, 2023-10-30
+  FCC ENVIRONMENT/URBASER LTD                        | £   49,694.00 x 2 = £   99,388.00 | Dates: 2025-07-08, 2025-07-08
+  URBASER LIMITED                                    | £   47,153.00 x 2 = £   94,306.00 | Dates: 2023-10-30, 2023-10-30
+  BURNLEY LEISURE                                    | £   46,000.00 x 2 = £   92,000.00 | Dates: 2025-10-16, 2025-10-16
+  TRANSDEV LANCASHIRE UNITED LTD                     | £   15,679.50 x 5 = £   78,397.50 | Dates: 2023-05-31, 2023-05-31, 2023-12-14, 2023-12-14, 2023-12-14
+  ZAM FM LTD                                         | £   23,332.22 x 0 = £   69,996.66 | Dates: NaT, NaT, NaT
+  FCC ENVIRONMENT/URBASER LTD                        | £   33,549.00 x 2 = £   67,098.00 | Dates: 2025-07-08, 2025-07-08
+  URBASER LIMITED                                    | £   31,632.00 x 2 = £   63,264.00 | Dates: 2023-10-30, 2023-10-30
+  PEOPLESCOUT LTD                                    | £    3,055.92 x 18 = £   55,006.56 | Dates: 2025-02-07, 2025-02-07, 2025-02-07, 2025-02-21, 2025-02-21, 2025-02-21, 2025-03-
+  RAPID RECRUITMENT-SME INVOICE FINANCE LTD          | £      535.53 x 91 = £   48,733.23 | Dates: 2021-04-26, 2021-04-26, 2021-04-26, 2021-04-26, 2021-04-26, 2021-05-11, 2021-05-
+  FCC ENVIRONMENT/URBASER LTD                        | £   22,814.00 x 2 = £   45,628.00 | Dates: 2025-07-08, 2025-07-08
+  URBASER LIMITED                                    | £   21,706.00 x 2 = £   43,412.00 | Dates: 2023-10-30, 2023-10-30
+  BALMERS GM LTD                                     | £   21,000.00 x 2 = £   42,000.00 | Dates: 2025-03-18, 2025-03-18
+  RAPID RECRUITMENT-SME INVOICE FINANCE LTD          | £      667.66 x 62 = £   41,394.92 | Dates: 2025-04-11, 2025-04-11, 2025-04-22, 2025-04-22, 2025-05-15, 2025-05-15, 2025-05-
+  BURNLEY LEISURE                                    | £   12,000.00 x 3 = £   36,000.00 | Dates: 2021-05-05, 2021-05-05, 2021-05-05
+  BURNLEY LEISURE                                    | £   18,000.00 x 2 = £   36,000.00 | Dates: 2021-05-05, 2021-05-05
+  CROW WOOD LEISURE LTD                              | £   18,000.00 x 2 = £   36,000.00 | Dates: 2021-05-05, 2021-05-05
+  WATER PLUS LTD                                     | £   11,715.61 x 3 = £   35,146.83 | Dates: 2025-03-05, 2025-03-05, 2025-03-05
+  CIVICA ELECTION SERVICES LTD                       | £   17,009.99 x 2 = £   34,019.98 | Dates: 2024-04-30, 2024-04-30
+  FCC ENVIRONMENT/URBASER LTD                        | £    4,166.63 x 8 = £   33,333.04 | Dates: 2025-02-04, 2025-02-04, 2025-03-26, 2025-03-26, 2025-07-08, 2025-07-08, 2025-09-
+  RAPID RECRUITMENT-SME INVOICE FINANCE LTD          | £      576.21 x 55 = £   31,691.55 | Dates: 2022-04-13, 2022-04-13, 2022-04-13, 2022-05-09, 2022-05-09, 2022-05-09, 2022-05-
+  REMEC ENGINEERING SERVICES BURNLEY LTD             | £    1,724.00 x 18 = £   31,032.00 | Dates: 2021-06-03, 2021-06-03, 2021-06-03, 2021-06-03, 2021-06-03, 2021-06-03, 2021-06-
+  BURNLEY & PENDLE CITIZENS ADVICE                   | £   15,468.75 x 2 = £   30,937.50 | Dates: 2023-07-14, 2023-07-14
+  RAPID RECRUITMENT-SME INVOICE FINANCE LTD          | £      604.89 x 51 = £   30,849.39 | Dates: 2023-05-09, 2023-05-09, 2023-05-26, 2023-05-26, 2023-05-26, 2023-06-02, 2023-06-
+  WATER PLUS LTD                                     | £    9,403.57 x 3 = £   28,210.71 | Dates: 2024-02-29, 2024-02-29, 2024-02-29
+
+  TOTAL VALUE OF POTENTIAL DUPLICATE OVERPAYMENTS: £2,478,615.84
+
+--- NEAR-DUPLICATES (same supplier, same amount, within 7 days on different dates) ---
+Found 289 near-duplicate pairs
+
+Top 30 near-duplicate pairs by amount:
+  POST OFFICE LTD - PAYOUT FUND                 | £  100,000.00 | 2023-06-05 -> 2023-06-12 (7d apart)
+  POST OFFICE LTD - PAYOUT FUND                 | £   99,999.00 | 2022-11-18 -> 2022-11-24 (6d apart)
+  CALICO ENTERPRISE LTD                         | £   60,500.50 | 2025-11-19 -> 2025-11-20 (1d apart)
+  POST OFFICE LTD - PAYOUT FUND                 | £   30,000.00 | 2023-01-23 -> 2023-01-30 (7d apart)
+  ZAM FM LTD                                    | £   20,141.13 | 2025-03-05 -> 2025-03-12 (7d apart)
+  31TEN CONSULTING LIMITED                      | £   16,250.00 | 2025-10-17 -> 2025-10-23 (6d apart)
+  FACULTATIEVE TECHNOLOGIES                     | £   14,341.80 | 2025-04-04 -> 2025-04-08 (4d apart)
+  GRANT THORNTON UK  LLP                        | £   11,984.58 | 2023-03-01 -> 2023-03-07 (6d apart)
+  NO DIG DRAINAGE SOLUTIONS LTD                 | £    7,209.33 | 2022-08-24 -> 2022-08-31 (7d apart)
+  TOTAL GAS & POWER LTD                         | £    4,780.08 | 2025-03-17 -> 2025-03-24 (7d apart)
+  KNOX MCCONNELL ARCHITECTS LTD                 | £    4,700.00 | 2023-04-11 -> 2023-04-18 (7d apart)
+  PADIHAM ROOFING CONTRACTORS LTD               | £    4,200.00 | 2025-04-02 -> 2025-04-09 (7d apart)
+  STEPPING STONE PROJECT LTD                    | £    4,166.67 | 2025-03-05 -> 2025-03-12 (7d apart)
+  TOTAL GAS & POWER LTD                         | £    4,051.62 | 2025-03-17 -> 2025-03-24 (7d apart)
+  ATHLON MOBILITY SERVICES UK LTD               | £    3,673.76 | 2025-12-12 -> 2025-12-17 (5d apart)
+  TOTAL GAS & POWER LTD                         | £    3,501.32 | 2025-03-17 -> 2025-03-24 (7d apart)
+  MACE COST CONSULTANCY LTD                     | £    3,381.11 | 2024-02-27 -> 2024-03-05 (7d apart)
+  PEOPLESCOUT LTD                               | £    3,045.12 | 2023-08-25 -> 2023-08-29 (4d apart)
+  STANNAH LIFT SERVICES LTD                     | £    2,982.00 | 2021-04-14 -> 2021-04-20 (6d apart)
+  ANDERTON GABLES LTD                           | £    2,750.94 | 2024-06-26 -> 2024-07-02 (6d apart)
+  ANDERTON GABLES LTD                           | £    2,750.94 | 2024-11-27 -> 2024-12-04 (7d apart)
+  NJ 93 ENTERTAINMENT LTD                       | £    2,667.00 | 2022-02-15 -> 2022-02-22 (7d apart)
+  PADIHAM ROOFING CONTRACTORS LTD               | £    2,640.00 | 2025-12-03 -> 2025-12-10 (7d apart)
+  T H HORN LTD                                  | £    2,475.00 | 2022-11-07 -> 2022-11-11 (4d apart)
+  ROWLAND HAMILTON LIMITED T/A REGENT GUEST HOU | £    2,450.00 | 2021-04-13 -> 2021-04-20 (7d apart)
+  ROWLAND HAMILTON LIMITED T/A REGENT GUEST HOU | £    2,450.00 | 2021-04-20 -> 2021-04-27 (7d apart)
+  ROWLAND HAMILTON LIMITED T/A REGENT GUEST HOU | £    2,450.00 | 2021-10-18 -> 2021-10-19 (1d apart)
+  SELLICK PARTNERSHIP LTD                       | £    2,280.00 | 2022-03-09 -> 2022-03-16 (7d apart)
+  SELLICK PARTNERSHIP LTD                       | £    2,280.00 | 2022-03-30 -> 2022-04-04 (5d apart)
+  NO DIG DRAINAGE SOLUTIONS LTD                 | £    2,150.00 | 2022-08-24 -> 2022-08-31 (7d apart)
+
+  TOTAL VALUE OF NEAR-DUPLICATE PAYMENTS: £638,054.95
+
+================================================================================
+  ANALYSIS 2: ROUND NUMBER PAYMENTS (Potential Estimates)
+================================================================================
+
+Payments that are suspiciously round (exact thousands, £5k+):
+Found 1041 round-number payments >= £5,000
+Total value of round payments: £19,829,000.00
+
+Breakdown by amount:
+  Exactly £ 100,000:   10 payments
+  Exactly £  75,000:    5 payments
+  Exactly £  50,000:   10 payments
+  Exactly £  25,000:   19 payments
+  Exactly £  20,000:   39 payments
+  Exactly £  15,000:   43 payments
+  Exactly £  10,000:   61 payments
+  Exactly £   5,000:   74 payments
+
+All round payments >= £50,000:
+  £  665,000.00 | LANCASHIRE CC - PRESTON COUNTY HALL                | 2021-05-11 | New Constructions
+  £  495,000.00 | FORBES SOLICITORS                                  | 2022-03-14 | Agency & Contracted Services
+  £  459,000.00 | BARNFIELD INVESTMENT PROPERTIES LTD                | 2023-03-27 | New Constructions
+  £  425,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-06-22 | Supplies & Services
+  £  350,000.00 | HILL DICKINSON SOLICITORS                          | 2025-06-24 | Acquisition - Land & Buildings
+  £  290,000.00 | LANCASHIRE CC - PRESTON COUNTY HALL                | 2024-06-04 | New Constructions
+  £  270,000.00 | DONALD RACE & NEWTON SOLICITORS                    | 2025-09-05 | Acquisition - Land & Buildings
+  £  255,000.00 | BEACHCROFT LLP                                     | 2021-12-22 | New Constructions
+  £  250,000.00 | LANCASHIRE CC - PRESTON COUNTY HALL                | 2024-07-10 | New Constructions
+  £  204,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2022-09-30 | Supplies & Services
+  £  200,000.00 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | 2025-08-12 | Supplies & Services
+  £  170,000.00 | BURNLEY LEISURE                                    | 2021-06-08 | Transfer Payments
+  £  160,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-02-21 | Supplies & Services
+  £  160,000.00 | BLC SOLICITORS                                     | 2023-03-14 | New Constructions
+  £  125,000.00 | MAPLE GROVE DEVELOPMENTS LTD                       | 2022-02-23 | New Constructions
+  £  120,000.00 | MAPLE GROVE DEVELOPMENTS LTD                       | 2023-06-16 | New Constructions
+  £  115,000.00 | SOUTHERNS SOLICITORS                               | 2023-12-12 | Acquisition - Land & Buildings
+  £  113,000.00 | LIBERATA UK LTD                                    | 2022-08-16 | Agency & Contracted Services
+  £  100,000.00 | KNIGHT FRANK LLP                                   | 2021-10-27 | Professional Fees
+  £  100,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-06-05 | Supplies & Services
+  £  100,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-06-12 | Supplies & Services
+  £  100,000.00 | CROW WOOD LEISURE LTD                              | 2021-06-08 | Transfer Payments
+  £  100,000.00 | MAPLE GROVE DEVELOPMENTS LTD                       | 2023-11-20 | New Constructions
+  £  100,000.00 | PADIHAM TOWN COUNCIL                               | 2024-04-24 | Transfer Payments
+  £  100,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2022-05-25 | Supplies & Services
+  £  100,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2022-07-13 | Supplies & Services
+  £  100,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2022-06-30 | Supplies & Services
+  £  100,000.00 | VELOCITY COMPOSITES LTD                            | 2021-04-14 | Transfer Payments
+  £   95,000.00 | DONALD RACE & NEWTON SOLICITORS                    | 2025-10-17 | Acquisition - Land & Buildings
+  £   95,000.00 | BCW ENGINEERING LTD                                | 2021-05-12 | Transfer Payments
+  £   95,000.00 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | 2021-12-13 | Supplies & Services
+  £   90,000.00 | MAPLE GROVE DEVELOPMENTS LTD                       | 2025-04-09 | New Constructions
+  £   90,000.00 | LOUNGERS UK LIMITED                                | 2023-06-12 | New Constructions
+  £   90,000.00 | LOUNGERS UK LIMITED                                | 2023-07-03 | New Constructions
+  £   90,000.00 | NEW NEIGHBOURS TOGETHER                            | 2025-03-25 | Agency & Contracted Services
+  £   80,000.00 | HYCROME AEROSPACE                                  | 2022-02-01 | Transfer Payments
+  £   75,000.00 | BURNLEY LEISURE                                    | 2023-09-04 | Supplies & Services
+  £   75,000.00 | FARNWORTH ROSE                                     | 2023-02-23 | Acquisition - Land & Buildings
+  £   75,000.00 | CALICO HOUSING LIMITED                             | 2022-03-25 | Supplies & Services
+  £   75,000.00 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | 2022-02-09 | Supplies & Services
+  £   75,000.00 | MAPLE GROVE DEVELOPMENTS LTD                       | 2023-08-22 | New Constructions
+  £   72,000.00 | FRIENDS OF THOMPSON PARK                           | 2022-04-05 | Grants
+  £   72,000.00 | DONALD RACE & NEWTON                               | 2023-08-29 | Acquisition - Land & Buildings
+  £   70,000.00 | NANDO`S                                            | 2023-07-24 | New Constructions
+  £   70,000.00 | CALICO HOUSING LTD                                 | 2024-10-30 | Supplies & Services
+  £   70,000.00 | WALKER MORRIS LLP                                  | 2024-03-04 | Acquisition - Land & Buildings
+  £   70,000.00 | NANDO`S                                            | 2023-09-20 | New Constructions
+  £   70,000.00 | STEPPING STONE PROJECT LTD                         | 2022-03-14 | Supplies & Services
+  £   70,000.00 | CALICO HOMES LIMITED-ELECTIONS                     | 2024-06-11 | Supplies & Services
+  £   66,000.00 | API DESIGN & BUILD LTD                             | 2021-04-27 | Transfer Payments
+  £   63,000.00 | CLARETS IN THE COMMUNITY LTD                       | 2022-07-12 | Supplies & Services
+  £   61,000.00 | URBASER LIMITED                                    | 2023-03-28 | Agency & Contracted Services
+  £   60,000.00 | FINSLEY GATE WHARF LTD                             | 2022-03-08 | Transfer Payments
+  £   60,000.00 | HUGGG LTD TOP UP ACCOUNT                           | 2025-07-17 | Supplies & Services
+  £   60,000.00 | CANAL AND RIVER TRUST                              | 2025-03-19 | New Constructions
+  £   57,000.00 | FARNWORTH ROSE                                     | 2022-04-26 | Acquisition - Land & Buildings
+  £   55,000.00 | DONALD RACE & NEWTON                               | 2021-04-06 | Acquisition - Land & Buildings
+  £   55,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-04-06 | Supplies & Services
+  £   51,000.00 | ALTHAMS TRAVEL SERVICES LTD                        | 2021-10-13 | Transfer Payments
+  £   50,000.00 | MULTI TRADE PLUS                                   | 2023-12-08 | New Constructions
+  £   50,000.00 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | 2025-01-21 | Supplies & Services
+  £   50,000.00 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | 2022-01-14 | Supplies & Services
+  £   50,000.00 | BURNLEY LEISURE                                    | 2024-09-12 | Supplies & Services
+  £   50,000.00 | MARSDENS SOLICITORS                                | 2022-01-11 | Acquisition - Land & Buildings
+  £   50,000.00 | ONSIDE YOUTH ZONES                                 | 2023-02-09 | Employees
+  £   50,000.00 | KRNS PROPERTIES LTD                                | 2021-06-02 | New Constructions
+  £   50,000.00 | MAPLE GROVE DEVELOPMENTS LTD                       | 2024-08-12 | New Constructions
+  £   50,000.00 | ONSIDE YOUTH ZONES                                 | 2022-12-06 | Employees
+  £   50,000.00 | BESPOKE LAW SERVICES                               | 2023-12-12 | Acquisition - Land & Buildings
+
+All round payments £10,000 - £49,999:
+  £   48,000.00 | CLARETS IN THE COMMUNITY LTD                       | 2024-03-27
+  £   46,000.00 | BURNLEY LEISURE                                    | 2025-10-16
+  £   46,000.00 | BURNLEY LEISURE                                    | 2025-10-16
+  £   45,000.00 | MERC AEROSPACE LTD                                 | 2022-03-30
+  £   45,000.00 | NOVUS PROPERTY SOLUTIONS LTD                       | 2021-12-07
+  £   45,000.00 | FRIENDS OF MEMORIAL PARK                           | 2022-04-05
+  £   44,000.00 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | 2025-05-07
+  £   42,000.00 | ICANN                                              | 2025-05-29
+  £   40,000.00 | CLARETS IN THE COMMUNITY LTD                       | 2023-01-13
+  £   40,000.00 | ONSIDE YOUTH ZONES                                 | 2023-04-06
+  £   40,000.00 | TMS                                                | 2024-01-30
+  £   40,000.00 | WATSON RAMSBOTTOM                                  | 2022-10-03
+  £   40,000.00 | HUGGG LTD                                          | 2023-09-05
+  £   40,000.00 | BURNLEY LEISURE                                    | 2021-04-27
+  £   40,000.00 | HUGGG LTD                                          | 2024-07-29
+  £   40,000.00 | J H BLAKEY & SONS SECURITY LTD                     | 2021-06-10
+  £   40,000.00 | CALICO HOUSING LTD                                 | 2025-01-07
+  £   40,000.00 | J H BLAKEY & SONS SECURITY LTD                     | 2021-05-18
+  £   40,000.00 | J H BLAKEY & SONS SECURITY LTD                     | 2021-04-21
+  £   39,000.00 | IDOX SOFTWARE LIMITED                              | 2025-06-16
+  £   38,000.00 | BANK OF SCOTLAND PLC (WALKER MORRIS LLP)           | 2024-06-04
+  £   38,000.00 | STANNAH LIFT SERVICES LTD                          | 2023-04-11
+  £   38,000.00 | SOUTHERNS SOLICITORS                               | 2025-02-06
+  £   35,000.00 | WALKER MORRIS LLP                                  | 2024-11-12
+  £   35,000.00 | CALICO HOUSING LIMITED                             | 2022-02-18
+  £   35,000.00 | NATIONAL TRUST                                     | 2025-12-03
+  £   35,000.00 | WALKER MORRIS LLP                                  | 2021-04-13
+  £   34,000.00 | ICANN                                              | 2025-07-31
+  £   34,000.00 | CATCHPOINT UK LTD                                  | 2025-01-27
+  £   34,000.00 | CANAL AND RIVER TRUST                              | 2022-11-01
+  £   33,000.00 | GROUNDWORK DIRECT LTD                              | 2023-07-31
+  £   33,000.00 | CANAL AND RIVER TRUST                              | 2021-05-12
+  £   33,000.00 | CALICO HOUSING LTD                                 | 2025-06-12
+  £   33,000.00 | CLARETS IN THE COMMUNITY LTD                       | 2025-05-28
+  £   33,000.00 | EON CONTROL SOLUTIONS LTD                          | 2025-09-03
+  £   32,000.00 | PARTICIPATION WORKS NW                             | 2025-05-28
+  £   30,000.00 | RTC NORTH LTD                                      | 2025-05-13
+  £   30,000.00 | CHARTER HOUSE RESOURCE CENTRE                      | 2025-05-28
+  £   30,000.00 | PETER EDMONDSON BUILDING CONT LTD                  | 2023-10-10
+  £   30,000.00 | PETER EDMONDSON BUILDING CONT LTD                  | 2025-12-10
+  £   30,000.00 | PETER EDMONDSON BUILDING CONT LTD                  | 2025-10-02
+  £   30,000.00 | MOORE BARLOW LLP CLIENT ACCOUNT                    | 2022-12-12
+  £   30,000.00 | HUGGG LTD                                          | 2024-12-18
+  £   30,000.00 | BEACHCROFT LLP                                     | 2021-10-07
+  £   30,000.00 | BURNLEY LEISURE                                    | 2025-10-16
+  £   30,000.00 | PETER EDMONDSON BUILDING CONT LTD                  | 2024-08-07
+  £   30,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-01-23
+  £   30,000.00 | CLARETS IN THE COMMUNITY LTD                       | 2021-08-24
+  £   30,000.00 | POST OFFICE LTD - PAYOUT FUND                      | 2023-01-30
+  £   30,000.00 | THRIVE 24 LTD                                      | 2022-06-07
+
+================================================================================
+  ANALYSIS 3: TOP 20 SUPPLIERS BY TOTAL SPEND
+================================================================================
+
+Rank | Supplier                                           |          Total |  #Pays |          Avg |          Max
+------------------------------------------------------------------------------------------------------------------------
+   1 | LIBERATA UK LTD                                    | £21,183,056.07 |   363 | £ 58,355.53 | £423,056.30
+   2 | GELDARDS                                           | £20,108,266.36 |    20 | £1,005,413.32 | £19,848,934.40
+   3 | BARNFIELD INVESTMENT PROPERTIES LTD                | £17,343,321.67 |    69 | £251,352.49 | £2,882,112.38
+   4 | MAPLE GROVE DEVELOPMENTS LTD                       | £16,588,871.94 |    41 | £404,606.63 | £1,214,386.72
+   5 | URBASER LIMITED                                    | £11,406,461.42 |   731 | £ 15,603.91 | £101,392.00
+   6 | LANCASHIRE CC - PRESTON COUNTY HALL                | £8,674,873.11 |   263 | £ 32,984.31 | £1,125,546.75
+   7 | BURNLEY LEISURE                                    | £7,857,845.88 |   259 | £ 30,339.17 | £526,383.00
+   8 | BEACHCROFT LLP                                     | £4,406,071.19 |     6 | £734,345.20 | £3,196,923.00
+   9 | FCC ENVIRONMENT/URBASER LTD                        | £3,982,346.52 |   243 | £ 16,388.26 | £ 72,692.00
+  10 | EDF ENERGY                                         | £3,174,195.53 |   127 | £ 24,993.67 | £133,955.93
+  11 | HISTORIC PROPERTY RESTORATION LTD - GROSS          | £3,123,024.21 |    32 | £ 97,594.51 | £245,424.63
+  12 | KRNS PROPERTIES LTD                                | £2,480,866.21 |    15 | £165,391.08 | £596,194.38
+  13 | TOTAL GAS & POWER LTD                              | £2,057,462.76 |   151 | £ 13,625.58 | £ 80,098.35
+  14 | POST OFFICE LTD - PAYOUT FUND                      | £1,782,417.00 |    15 | £118,827.80 | £425,000.00
+  15 | CALICO ENTERPRISE LTD                              | £1,688,087.98 |    28 | £ 60,288.86 | £278,932.80
+  16 | BURNLEY PENDLE & ROSSENDALE COUNCIL FOR            | £1,631,861.10 |    51 | £ 31,997.28 | £244,610.59
+  17 | ENVIRONMENT AGENCY                                 | £1,536,066.50 |     6 | £256,011.08 | £531,030.26
+  18 | CEMPLAS WATERPROOFING & CONCRETE REPAIRS LTD - GRO | £1,289,793.40 |     7 | £184,256.20 | £252,208.11
+  19 | ARTHUR J GALLAGHER INSURANCE BROKERS LTD           | £1,276,063.55 |    53 | £ 24,076.67 | £140,345.45
+  20 | BLACKBURN WITH DARWEN BOROUGH COUNCIL              | £1,237,996.19 |    48 | £ 25,791.59 | £169,655.68
+
+--- SUPPLIERS WITH UNUSUALLY HIGH NUMBER OF PAYMENTS ---
+(More than 20 payments and average < £5,000 - potential payment splitting)
+  RAPID RECRUITMENT-SME INVOICE FINANCE LTD          |  666 payments | avg £  600.11 | total £  399,670.24
+  WATER PLUS LTD                                     |  648 payments | avg £1,612.61 | total £1,044,969.30
+  THE TOWN MOUSE                                     |  270 payments | avg £1,763.70 | total £  476,200.00
+  GELDARDS LLP CARDIFF                               |  195 payments | avg £3,468.52 | total £  676,361.92
+  VIVID RESOURCING                                   |  168 payments | avg £1,523.36 | total £  255,925.27
+  ATKINSON CLEANING SERVICES LTD                     |  162 payments | avg £1,178.26 | total £  190,877.63
+  THE OYSTER PARTNERSHIP LTD                         |  156 payments | avg £  943.18 | total £  147,135.89
+  CIVICA ELECTION SERVICES LTD                       |  147 payments | avg £3,596.78 | total £  528,727.32
+  BLACKBURN SKIPS LTD                                |  146 payments | avg £1,151.13 | total £  168,065.32
+  SELLICK PARTNERSHIP LTD                            |  126 payments | avg £1,458.64 | total £  183,789.24
+  REMEC ENGINEERING SERVICES BURNLEY LTD             |  122 payments | avg £2,411.55 | total £  294,208.51
+  WILKIN CHAPMAN LLP SOLICITORS                      |  119 payments | avg £1,794.25 | total £  213,515.93
+  ROTHERWOOD 2020 LTD                                |  116 payments | avg £  703.74 | total £   81,633.71
+  GOAL CENTRED DEVELOPMENT LTD                       |  104 payments | avg £1,142.82 | total £  118,853.00
+  NSL LTD                                            |  100 payments | avg £2,334.60 | total £  233,460.00
+  INTERNATIONAL PARKING SYSTEMS UK LTD               |   97 payments | avg £1,610.13 | total £  156,182.50
+  UK FUELS LTD                                       |   90 payments | avg £  701.91 | total £   63,171.49
+  STORM TECHNOLOGIES                                 |   89 payments | avg £1,472.23 | total £  131,028.90
+  PEOPLESCOUT LTD                                    |   87 payments | avg £1,856.51 | total £  161,516.26
+  ROWLAND HAMILTON LIMITED T/A REGENT GUEST HOUSE    |   82 payments | avg £3,544.05 | total £  290,612.00
+
+================================================================================
+  ANALYSIS 4: SPLIT PAYMENTS (Same supplier, same day, multiple payments)
+================================================================================
+
+Looking for same supplier getting multiple payments on the same day...
+(Potential avoidance of £500 transparency threshold)
+
+Found 2679 instances of same supplier + same day + multiple payments
+Found 0 cases where individual payments < £500 but combined >= £500 (SUSPICIOUS)
+
+Top 30 same-day multi-payment instances by total value:
+  GELDARDS                                 | 2021-10-19 |  2 pays | Total: £19,849,930.90 | £19,848,934.40, £996.50
+  BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-03-18 |  2 pays | Total: £4,885,338.02 | £2,882,112.38, £2,003,225.64
+  BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-06-11 |  2 pays | Total: £1,917,744.84 | £982,507.52, £935,237.32
+  BARNFIELD INVESTMENT PROPERTIES LTD      | 2023-08-23 |  5 pays | Total: £1,599,715.60 | £529,968.15, £411,089.12, £398,659.67, £224,298.66, £35,700.00
+  BARNFIELD INVESTMENT PROPERTIES LTD      | 2023-03-27 |  4 pays | Total: £1,489,200.00 | £459,000.00, £453,900.00, £290,700.00, £285,600.00
+  BEACHCROFT LLP                           | 2021-12-22 |  3 pays | Total: £1,176,908.19 | £793,337.12, £255,000.00, £128,571.07
+  BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-05-13 |  2 pays | Total: £  982,507.52 | £963,242.67, £19,264.85
+  MAPLE GROVE DEVELOPMENTS LTD             | 2024-11-05 |  2 pays | Total: £  798,583.68 | £577,495.96, £221,087.72
+  ENVIRONMENT AGENCY                       | 2021-07-27 |  3 pays | Total: £  736,151.82 | £531,030.26, £187,193.64, £17,927.92
+  FCC ENVIRONMENT/URBASER LTD              | 2025-07-08 | 32 pays | Total: £  566,948.19 | £70,815.00, £70,815.00, £65,068.00, £65,068.00, £49,694.00... +27 more
+  BURNLEY LEISURE                          | 2021-04-14 |  2 pays | Total: £  527,583.00 | £526,383.00, £1,200.00
+  URBASER LIMITED                          | 2023-10-30 | 26 pays | Total: £  523,746.00 | £66,758.00, £66,758.00, £61,637.00, £61,637.00, £47,153.00... +21 more
+  URBASER LIMITED                          | 2022-12-21 | 35 pays | Total: £  523,502.00 | £65,200.00, £63,094.00, £60,092.00, £58,359.00, £45,936.00... +30 more
+  LIBERATA UK LTD                          | 2022-05-18 |  6 pays | Total: £  522,885.27 | £326,698.50, £149,884.05, £31,903.00, £11,057.74, £2,075.00... +1 more
+  MAPLE GROVE DEVELOPMENTS LTD             | 2022-02-23 |  2 pays | Total: £  507,327.04 | £382,327.04, £125,000.00
+  BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-09-17 |  2 pays | Total: £  464,863.60 | £464,133.60, £730.00
+  LIBERATA UK LTD                          | 2022-08-16 |  6 pays | Total: £  459,477.64 | £326,698.50, £113,000.00, £15,952.40, £1,878.85, £1,324.18... +1 more
+  LIBERATA UK LTD                          | 2024-06-19 |  6 pays | Total: £  440,202.75 | £375,446.92, £33,948.00, £13,741.96, £13,002.00, £2,161.47... +1 more
+  LIBERATA UK LTD                          | 2021-05-19 |  3 pays | Total: £  410,338.42 | £400,904.37, £5,274.05, £4,160.00
+  LIBERATA UK LTD                          | 2022-12-19 |  5 pays | Total: £  403,544.83 | £333,344.82, £65,215.98, £2,000.00, £1,619.81, £1,364.22
+  LIBERATA UK LTD                          | 2024-04-16 |  5 pays | Total: £  402,622.05 | £375,922.90, £13,325.00, £11,209.43, £1,554.72, £610.00
+  LIBERATA UK LTD                          | 2024-07-16 |  4 pays | Total: £  392,977.06 | £375,446.92, £12,090.82, £3,769.80, £1,669.52
+  LIBERATA UK LTD                          | 2024-10-16 |  3 pays | Total: £  387,318.67 | £375,446.92, £10,087.43, £1,784.32
+  LIBERATA UK LTD                          | 2023-11-28 |  5 pays | Total: £  385,610.85 | £358,001.22, £17,407.39, £6,531.81, £2,103.07, £1,567.36
+  LIBERATA UK LTD                          | 2024-03-19 |  6 pays | Total: £  380,677.25 | £358,001.22, £11,710.00, £5,030.00, £2,275.00, £2,103.15... +1 more
+  LIBERATA UK LTD                          | 2024-09-17 |  4 pays | Total: £  380,570.84 | £375,446.92, £2,546.08, £1,977.84, £600.00
+  LIBERATA UK LTD                          | 2025-02-18 |  5 pays | Total: £  380,227.08 | £369,150.44, £3,664.00, £3,264.00, £2,485.68, £1,662.96
+  LIBERATA UK LTD                          | 2024-05-16 |  3 pays | Total: £  378,243.38 | £375,922.90, £1,610.48, £710.00
+  LIBERATA UK LTD                          | 2025-01-16 |  4 pays | Total: £  377,883.01 | £369,150.44, £4,869.00, £2,197.33, £1,666.24
+  LIBERATA UK LTD                          | 2024-08-15 |  3 pays | Total: £  377,859.56 | £375,446.92, £1,682.64, £730.00
+
+================================================================================
+  ANALYSIS 5: WEEKEND & BANK HOLIDAY PAYMENTS
+================================================================================
+
+WEEKEND PAYMENTS: 18 payments totalling £71,810.10
+
+Weekend payments by day:
+  Saturday: 3 payments, £5,383.00
+  Sunday: 15 payments, £66,427.10
+
+Top 20 weekend payments:
+  Sunday    2022-11-27 | £   45,982.00 | FACULTATIEVE TECHNOLOGIES
+  Sunday    2022-11-27 | £    4,500.00 | CORNERSTONE BARRISTERS
+  Saturday  2025-10-04 | £    4,000.00 | BRITISH TEXTILE BIENNIAL
+  Sunday    2022-11-27 | £    2,240.00 | ABSOLUTE FUTBOL LTD
+  Sunday    2022-11-27 | £    1,799.70 | REMEC ENGINEERING SERVICES BURNLEY LTD
+  Sunday    2022-11-27 | £    1,692.00 | VIVID RESOURCING
+  Sunday    2022-11-27 | £    1,692.00 | VIVID RESOURCING
+  Sunday    2022-11-27 | £    1,431.52 | ORANGE PCS AIRTIME
+  Sunday    2022-11-27 | £    1,319.00 | ENVIROVENT LTD
+  Sunday    2022-11-27 | £    1,130.00 | KIRK SCAFFOLDING LTD
+  Sunday    2022-11-27 | £      908.39 | THE OYSTER PARTNERSHIP LTD
+  Sunday    2022-11-27 | £      819.00 | BEARDWOOD HEALTH CONSULTANTS LTD
+  Sunday    2022-11-27 | £      784.00 | REMEC ENGINEERING SERVICES BURNLEY LTD
+  Sunday    2022-11-27 | £      764.96 | THE OYSTER PARTNERSHIP LTD
+  Sunday    2022-11-27 | £      714.53 | WATER PLUS LTD
+  Saturday  2025-06-28 | £      703.00 | ATKINSON CLEANING SERVICES LTD
+  Saturday  2025-02-15 | £      680.00 | ATKINSON CLEANING SERVICES LTD
+  Sunday    2022-11-27 | £      650.00 | ARCHAEOLOGICAL SERVICES WEST YORKS JOINT SERV
+
+BANK HOLIDAY PAYMENTS: 0 payments totalling £0.00
+
+================================================================================
+  ANALYSIS 6: QUARTERLY & YEARLY SPENDING TRENDS
+================================================================================
+
+FY Quarter           |    Total Spend | # Payments |  Avg Payment
+----------------------------------------------------------------------
+2021/2022 Q1         | £13,069,667.68 |       1734 | £  7,537.29
+2021/2022 Q2         | £5,880,343.70 |        933 | £  6,302.62
+2021/2022 Q3         | £26,678,343.99 |        773 | £ 34,512.73
+2021/2022 Q4         | £8,623,044.54 |       1281 | £  6,731.49
+2022/2023 Q1         | £8,584,396.63 |        914 | £  9,392.12
+2022/2023 Q2         | £9,060,511.68 |        952 | £  9,517.34
+2022/2023 Q3         | £8,730,514.65 |        855 | £ 10,211.13
+2022/2023 Q4         | £12,765,581.77 |        960 | £ 13,297.48
+2023/2024 Q1         | £12,479,785.50 |        981 | £ 12,721.49
+2023/2024 Q2         | £12,552,680.31 |        975 | £ 12,874.54
+2023/2024 Q3         | £12,196,937.69 |        952 | £ 12,811.91
+2023/2024 Q4         | £14,166,532.84 |        964 | £ 14,695.57
+2024/2025 Q1         | £12,779,981.21 |       1038 | £ 12,312.12
+2024/2025 Q2         | £11,437,419.31 |       1017 | £ 11,246.23
+2024/2025 Q3         | £11,452,970.26 |       1033 | £ 11,087.10
+2024/2025 Q4         | £8,425,437.89 |       1008 | £  8,358.57
+2025/2026 Q1         | £9,142,441.43 |       1129 | £  8,097.82
+2025/2026 Q2         | £9,674,666.45 |       1129 | £  8,569.24
+2025/2026 Q3         | £8,006,820.85 |       1090 | £  7,345.71
+
+--- FINANCIAL YEAR TOTALS ---
+  2021/2022   : £ 54,251,399.91 (4721 payments)
+  2022/2023   : £ 39,141,004.73 (3681 payments)
+  2023/2024   : £ 51,395,936.34 (3872 payments)
+  2024/2025   : £ 44,095,808.67 (4096 payments)
+  2025/2026   : £ 26,823,928.73 (3348 payments)
+
+--- UNUSUAL SPENDING SPIKES (> 1.5 std above mean) ---
+Mean quarterly spend: £11,353,056.76, Std: £4,332,503.79
+  2021/2022 Q3        : £ 26,678,343.99 (+135.0% above mean)
+
+================================================================================
+  ANALYSIS 7: CONTRACT vs SPENDING CROSS-CHECK
+================================================================================
+
+Checking for suppliers receiving large payments but NOT in contracts register...
+
+Unique suppliers in contracts register: 698
+Checking top 100 spending suppliers against contracts register...
+
+Found 9 top-100 suppliers NOT in contracts register:
+
+Rank | Supplier                                           |    Total Spend | # Payments
+------------------------------------------------------------------------------------------
+   1 | BEACHCROFT LLP                                     | £4,406,071.19 |     6
+   2 | EDF ENERGY                                         | £3,174,195.53 |   127
+   3 | HARRISON DRURY SOLICITORS                          | £  597,714.95 |     1
+   4 | FORBES SOLICITORS                                  | £  513,636.50 |     8
+   5 | DONALD RACE & NEWTON SOLICITORS                    | £  427,163.01 |    10
+   6 | H M REVENUE AND CUSTOMS                            | £  401,137.00 |     6
+   7 | RAPID RECRUITMENT-SME INVOICE FINANCE LTD          | £  399,670.24 |   666
+   8 | HILL DICKINSON SOLICITORS                          | £  350,000.00 |     1
+   9 | DONALD RACE & NEWTON                               | £  251,654.36 |     7
+
+  TOTAL SPEND WITH NO CONTRACT ON FILE: £10,521,242.78
+
+================================================================================
+  ANALYSIS 8: PURCHASE CARD ANALYSIS
+================================================================================
+
+Total purchase card transactions: 6831
+Total purchase card spend: £596,366.72
+
+--- PURCHASE CARD TRANSACTIONS TO NOTABLE VENDORS ---
+
+  AMAZON: 627 transactions, £29,618.90
+    £  900.00 | 2025-01-31 | WWW.AMAZON.
+    £  604.44 | 2025-12-08 | AMAZON  ZL9B64964
+    £  579.99 | 2024-08-31 | AMAZON
+    £  579.98 | 2024-11-30 | WWW.AMAZON.
+    £  530.92 | 2024-02-29 | AMAZON
+
+  EBAY: 60 transactions, £2,929.17
+    £  499.95 | 2025-06-08 | EBAY O 21-13125-45844
+    £  491.98 | 2025-11-08 | EBAY O 13-13680-55066
+    £  247.47 | 2022-06-30 | EBAY O 24-08689-43781
+    £  133.64 | 2023-10-31 | EBAY COMMERCE UK LTD
+    £  104.99 | 2024-07-31 | EBAY O 11-11694-37110
+
+  HOTEL: 34 transactions, £6,981.00
+    £  801.00 | 2025-05-08 | A TAJ HOTEL V/T
+    £  486.82 | 2021-08-31 | STARBOARD HOTELS
+    £  486.82 | 2021-08-31 | STARBOARD HOTELS
+    £  386.17 | 2022-06-30 | ST JAMES COURT HOTEL D
+    £  330.00 | 2025-04-30 | BKG HOTEL AT BOOKING.C
+
+  RESTAURANT: 1 transactions, £32.18
+    £   32.18 | N/A | RESTAURANT AT THE WOOD
+
+  CAFE: 9 transactions, £237.50
+    £  116.85 | 2023-01-31 | THE CAFE
+    £   28.00 | 2025-07-31 | MOOCH CAFE 87
+    £   24.80 | 2022-11-30 | MOOCH CAFE87
+    £   16.20 | 2021-08-31 | MOOCH CAFE87
+    £   12.40 | 2022-01-31 | MOOCH CAFE87
+
+  COFFEE: 7 transactions, £192.85
+    £  100.00 | 2024-09-30 | DC COFFEE
+    £   44.00 | 2025-02-28 | THE COFFEE MILL
+    £   13.95 | 2021-07-31 | COSTA COFFEE - BURNLEY
+    £   12.31 | 2023-03-30 | COSTA COFFEE - BURNLEY
+    £   10.75 | 2023-07-31 | COSTA COFFEE - BURNLEY
+
+  PUB: 3 transactions, £181.96
+    £  116.00 | 2023-06-30 | KAPLAN PUBLISHING LIMI
+    £   33.96 | 2025-04-30 | IMPRESS PUBLISHING LTD
+    £   32.00 | 2022-12-31 | SAGE PUBLICATIONS UK
+
+  BAR: 221 transactions, £5,431.59
+    £  479.52 | 2025-11-08 | WWW.BARGAINWHOLESALERS
+    £  334.95 | 2023-05-31 | UTS T/A BARNES JB LTD
+    £  269.40 | 2021-11-30 | HOME BARGAINS
+    £  199.98 | 2023-11-30 | UTS T/A BARNES JB LTD
+    £  190.80 | 2023-04-30 | BARROWFORD SAFE AND LO
+
+  PIZZA: 3 transactions, £169.27
+    £   70.96 | 2024-07-31 | DOMINO S PIZZA
+    £   61.96 | 2024-07-31 | DOMINO S PIZZA
+    £   36.35 | 2024-07-31 | PIZZA EXPRESS
+
+  UBER: 2 transactions, £96.86
+    £   62.90 | 2024-07-31 | UBER
+    £   33.96 | 2024-03-30 | UBER
+
+  JUST EAT: 2 transactions, £154.97
+    £  129.82 | 2024-05-31 | JUST EAT
+    £   25.15 | 2025-05-08 | JUST EAT
+
+  ARGOS: 129 transactions, £18,260.47
+    £  994.85 | 2025-12-08 | ARGOS
+    £  477.00 | 2023-04-30 | WWW.ARGOS.CO.UK
+    £  470.55 | 2025-11-08 | WWW.ARGOS.CO.UK
+    £  416.63 | 2025-08-31 | ARGOS
+    £  391.75 | 2025-11-08 | ARGOS
+
+  TESCO: 168 transactions, £5,063.12
+    £  347.13 | 2021-10-31 | TESCO STORES 5406
+    £  229.50 | 2025-08-31 | TESCO STORES 2186
+    £  206.58 | 2023-11-30 | TESCO STORES 2186
+    £  168.90 | 2022-01-31 | TESCO STORES 5124
+    £  166.17 | 2023-11-30 | TESCO STORES 2186
+
+  CURRY: 67 transactions, £13,283.41
+    £  667.00 | 2024-02-29 | CURRYS ONLINE
+    £  597.00 | 2025-07-31 | CURRYS ONLINE
+    £  534.00 | 2025-05-08 | CURRYS ONLINE
+    £  493.77 | 2022-04-30 | CURRYS BUSINESS
+    £  449.98 | 2021-09-30 | CURRYS ONLINE
+
+  B&Q: 8 transactions, £605.49
+    £  199.99 | 2025-06-08 | B&Q MARKETPLACE
+    £  159.98 | 2025-07-31 | B&Q MARKETPLACE
+    £  143.48 | 2025-09-30 | B&Q MARKETPLACE
+    £   38.00 | 2025-04-30 | B&Q LTD
+    £   32.88 | 2025-04-30 | B&Q MARKETPLACE
+
+  SCREWFIX: 164 transactions, £7,957.91
+    £  294.45 | 2025-11-08 | SCREWFIX DIRECT
+    £  262.90 | 2025-11-08 | SCREWFIX DIRECT
+    £  211.80 | 2025-01-31 | SCREWFIX DIR LTD
+    £  209.99 | 2023-07-31 | WWW.SCREWFIX.COM
+    £  208.98 | 2024-01-31 | WWW.SCREWFIX.COM
+
+  NETFLIX: 51 transactions, £490.73
+    £   12.99 | 2025-04-30 | NETFLIX.COM
+    £   10.99 | 2022-06-30 | NETFLIX.COM
+    £   10.99 | 2022-10-31 | NETFLIX.COM
+    £   10.99 | 2022-09-30 | NETFLIX.COM
+    £   10.99 | 2022-08-31 | NETFLIX.COM
+
+  APPLE: 45 transactions, £5,482.96
+    £1,809.70 | 2021-05-31 | APPLE.COM/UK
+    £1,448.33 | 2023-04-30 | APPLE.COM/UK
+    £  697.76 | 2021-05-31 | APPLE.COM/UK
+    £  693.03 | 2025-11-08 | APPLE STORE R136
+    £  316.62 | 2021-04-30 | APPLE.COM/UK
+
+  GOOGLE: 1 transactions, £-276.31
+    £ -276.31 | 2023-03-30 | GOOGLE
+
+  PAYPAL: 130 transactions, £11,702.01
+    £  999.90 | 2025-12-08 | PAYPAL  KHOSIERYLTD
+    £  668.29 | 2025-07-31 | PAYPAL  KHOSIERYLTD
+    £  645.00 | 2021-09-30 | PAYPAL
+    £  634.80 | 2023-11-30 | PAYPAL
+    £  496.94 | 2022-05-31 | PAYPAL
+
+--- TOP 30 HIGHEST INDIVIDUAL PURCHASE CARD TRANSACTIONS ---
+  £  8,998.00 | 2021-04-30 | WILKIN CHAPMAN                      | Professional Services     | C - Chief Operating Officer
+  £  6,895.00 | 2021-06-30 | WILKIN CHAPMAN                      | Professional Services     | C - Chief Operating Officer
+  £  4,994.50 | 2021-07-31 | WILKIN CHAPMAN                      | Professional Services     | C - Chief Operating Officer
+  £  2,601.38 | 2023-02-28 | WWW.MONEYCLAIM.GOV                  | Statutory Bodies          | C - Chief Operating Officer
+  £  2,498.33 | 2024-04-30 | ALDI 106 773                        | General Retail and Wholes | A - Chief Executive
+  £  2,423.00 | 2021-05-31 | WILKIN CHAPMAN                      | Professional Services     | C - Chief Operating Officer
+  £  1,877.50 | 2021-08-31 | OSWALDTWISTLE MILL                  | General Retail and Wholes | A - Chief Executive
+  £  1,809.70 | 2021-05-31 | APPLE.COM/UK                        | General Retail and Wholes | A - Chief Executive
+  £  1,745.52 | 2025-04-30 | ADOBE   ADOBE                       | COMPUTER SOFTWARE STORES  | A - Chief Executive
+  £  1,697.00 | 2021-08-31 | WILKIN CHAPMAN                      | Professional Services     | C - Chief Operating Officer
+  £  1,673.33 | 2021-04-30 | MADE.COM                            | General Retail and Wholes | CP - Capital Programme
+  £  1,635.75 | 2024-07-31 | ASDA GEORGE COM LEEDS               | General Retail and Wholes | A - Chief Executive
+  £  1,633.37 | 2025-04-30 | SPROUT SOCIAL, INC                  | COMPUTERS, COMPUTER PERIP | A - Chief Executive
+  £  1,610.25 | 2021-09-30 | IT GOVERNANCE LTD                   | Computer Equipment & Serv | C - Chief Operating Officer
+  £  1,584.22 | 2025-11-08 | SPROUT SOCIAL, INC                  | COMPUTERS, COMPUTER PERIP | A - Chief Executive
+  £  1,583.86 | 2024-10-31 | SPROUT SOCIAL, INC                  | Computer Equipment & Serv | A - Chief Executive
+  £  1,530.00 | 2023-02-28 | CAMBRIDGE UNIVERSITY P              | Books and Periodicals     | C - Chief Operating Officer
+  £  1,510.00 | 2022-07-31 | AUTO ELECTRICS                      | Vehicles, Servicing and S | C - Chief Operating Officer
+  £  1,480.00 | 2024-02-29 | DRI AUTODESK                        | Computer Equipment & Serv | C - Chief Operating Officer
+  £  1,477.01 | 2022-03-30 | OSWALDTWISTLE MILLS                 | General Retail and Wholes | A - Chief Executive
+  £  1,472.79 | 2025-11-08 | OMC VAN CENTRE                      | AUTO & TRUCK DLRS-SALES,S | C - Chief Operating Officer
+  £  1,448.33 | 2023-04-30 | APPLE.COM/UK                        | General Retail and Wholes | C - Chief Operating Officer
+  £  1,420.20 | 2021-09-30 | WILKIN CHAPMAN                      | Professional Services     | C - Chief Operating Officer
+  £  1,418.93 | 2025-10-08 | CHARTERED INST OF                   | PROFESSIONAL SERVICES-NOT | C - Chief Operating Officer
+  £  1,418.93 | 2025-10-08 | CHARTERED INST OF                   | PROFESSIONAL SERVICES-NOT | C - Chief Operating Officer
+  £  1,403.84 | 2025-05-08 | WWW.MONEYCLAIM.GOV                  | GOVERNMENT SERVICES-NOT E | A - Chief Executive
+  £  1,397.73 | 2025-11-08 | OPENAI  CHATGPT SUBSCR              | COMPUTER SOFTWARE STORES  | C - Chief Operating Officer
+  £  1,355.88 | 2023-08-31 | SITEGROUND HOSTING                  | Miscellaneous Industrial/ | A - Chief Executive
+  £  1,296.00 | 2024-08-31 | SITEGROUND HOSTING                  | Miscellaneous Industrial/ | A - Chief Executive
+  £  1,296.00 | 2022-08-31 | SITEGROUND HOSTING                  | Miscellaneous Industrial/ | A - Chief Executive
+
+--- TOP 20 PURCHASE CARD SUPPLIERS BY TOTAL ---
+  WILKIN CHAPMAN                                | £ 29,111.70 |   17 transactions
+  ASDA SUPERSTORE                               | £ 22,582.72 |  219 transactions
+  DVLA VEHICLE TAX                              | £ 19,374.50 |   70 transactions
+  TRAVELODG TRAVELODGE G                        | £ 15,996.31 |  114 transactions
+  AMZNMKTPLACE                                  | £ 13,567.65 |  326 transactions
+  WWW.MONEYCLAIM.GOV                            | £ 13,154.03 |   25 transactions
+  CURRYS ONLINE                                 | £ 11,318.34 |   52 transactions
+  FACEBK                                        | £ 10,772.53 |  133 transactions
+  ARGOS LTD                                     | £ 10,602.43 |   82 transactions
+  PREMIER INN                                   | £  9,902.65 |   54 transactions
+  TRAVELODGE GB0000                             | £  8,889.15 |   88 transactions
+  PAYPAL                                        | £  8,840.33 |  108 transactions
+  AMAZON                                        | £  8,479.12 |  163 transactions
+  TRAINLINE                                     | £  8,220.59 |  152 transactions
+  SPROUT SOCIAL                                 | £  7,900.36 |   42 transactions
+  SITEGROUND HOSTING                            | £  5,858.94 |   40 transactions
+  MAILCHIMP                                     | £  5,671.77 |   47 transactions
+  AMZNMKTPLACE AMAZON.CO                        | £  5,370.61 |  140 transactions
+  SPROUT SOCIAL, INC                            | £  5,243.05 |    7 transactions
+  CHARTERED INSTITUTE OF                        | £  5,164.50 |   21 transactions
+
+================================================================================
+  ANALYSIS 9: JSON DATA INTEGRITY CHECK
+================================================================================
+
+JSON file loaded successfully
+  JSON record count: 30580
+  CSV record count:  19865
+  Difference: +10715 records
+  *** WARNING: Record count mismatch! ***
+  JSON record keys: ['type', 'financial_year', 'quarter', 'date', 'supplier', 'amount', 'service_division', 'organisational_unit', 'capital_revenue', 'expenditure_category', 'cipfa_type', 'transaction_number', 'is_covid_related']
+
+  JSON total amount (amount): £355,218,405.44
+  CSV total amount: £217,065,431.84
+  Difference: £+138,152,973.60 (+63.65%)
+  *** WARNING: Significant amount discrepancy! ***
+
+================================================================================
+  ANALYSIS 10: CONSULTANCY SPENDING
+================================================================================
+
+--- CONSULTANCY BY SUPPLIER NAME ---
+Found 338 payments to suppliers with consultancy-related names
+Total consultancy spend (by supplier name): £1,261,891.06
+
+Top consultancy suppliers:
+  BLACK CAT BUILDING CONSULTANCY LIMITED                  | £  428,001.06 |  85 payments
+  MACE COST CONSULTANCY LTD                               | £  172,813.86 |  37 payments
+  FHP PROPERTY CONSULTANTS                                | £   78,235.27 |  16 payments
+  IS CONSULTANCY UK LTD TA IS GROUP                       | £   71,432.00 |   5 payments
+  CARRIS CONSULTING LIMITED                               | £   44,820.00 |   5 payments
+  D&S KNOWLES CONSULTING T/A NORTHERN REACH               | £   37,500.00 |   5 payments
+  ANGELA VODDEN ASSOCIATES CONSULTING LTD                 | £   32,850.00 |   8 payments
+  31TEN CONSULTING LIMITED                                | £   32,500.00 |   2 payments
+  KAPAS CONSULTANCY LTD                                   | £   32,375.00 |  14 payments
+  ADEPT CONSULTING ENGINEERS (MANCHESTER) LTD             | £   30,738.00 |   3 payments
+  NX CONSULTING LTD                                       | £   24,778.00 |   1 payments
+  YDMT CONSULTANTS LIMITED                                | £   24,677.35 |  11 payments
+  CASS DESIGN CONSULTANTS LTD                             | £   23,500.00 |   3 payments
+  WML CONSULTING LTD                                      | £   23,144.87 |  12 payments
+  BEARDWOOD HEALTH CONSULTANTS LTD                        | £   23,016.00 |  29 payments
+  DAVID FLEMING CONSULTING AND ASSESSMENT                 | £   16,760.80 |   5 payments
+  SN CONSULT LTD                                          | £   15,800.00 |   7 payments
+  LDA DESIGN CONSULTING LTD                               | £   15,750.00 |   6 payments
+  FRANCIS BRADSHAW CONSULTING LTD                         | £   12,065.00 |   5 payments
+  LAVAT CONSULTING LTD T/A PSTAX                          | £   11,975.00 |   6 payments
+  FREEFLOW COUNSELLING SERVICE                            | £   11,486.00 |   6 payments
+  ECS CONSULTANTS LTD                                     | £   10,571.25 |   7 payments
+  EMPLOYEE ADVISORY RESOURCE LTD                          | £   10,305.00 |   4 payments
+  ELGRA FURNITURE CONSULTANTS LTD                         | £    9,113.35 |   1 payments
+  PROFITOPTIMISER CONSULTANCY                             | £    8,450.00 |   8 payments
+  AIRBORNE ENVIRONMENTAL CONSULTANTS LTD (AEC)            | £    8,055.00 |   3 payments
+  R B ASBESTOS CONSULTANTS LTD                            | £    6,115.00 |   8 payments
+  B R C CONSULTING SERVICES LTD                           | £    5,610.00 |   3 payments
+  ENVIROCONSULT LIMITED                                   | £    5,425.00 |   3 payments
+  AIREY CONSULTANCY SERVICES LTD                          | £    4,800.00 |   6 payments
+
+--- CONSULTANCY BY EXPENDITURE CATEGORY ---
+Found 551 payments categorized as consultancy
+Total: £2,198,237.16
+  Professional Services                              | £1,580,098.79 |  491 payments
+  Consultants Fees                                   | £  618,138.37 |   60 payments
+
+================================================================================
+  BONUS ANALYSIS: ADDITIONAL RED FLAGS
+================================================================================
+
+--- CREDIT NOTES / NEGATIVE AMOUNTS ---
+Found 0 credit notes/negative payments totalling £0.00
+
+--- LARGEST INDIVIDUAL PAYMENTS (Top 30) ---
+  £ 19,848,934.40 | GELDARDS                                 | 2021-10-19 | New Constructions
+  £  3,196,923.00 | BEACHCROFT LLP                           | 2023-10-05 | New Constructions
+  £  2,882,112.38 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-03-18 | New Constructions
+  £  2,003,225.64 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-03-18 | New Constructions
+  £  1,214,386.72 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-09-14 | New Constructions
+  £  1,213,421.37 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-12-09 | New Constructions
+  £  1,197,196.14 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2023-08-17 | New Constructions
+  £  1,125,546.75 | LANCASHIRE CC - PRESTON COUNTY HALL      | 2023-04-24 | New Constructions
+  £  1,002,953.94 | MAPLE GROVE DEVELOPMENTS LTD             | 2023-03-15 | New Constructions
+  £    982,507.52 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-06-11 | New Constructions
+  £    974,739.40 | LANCASHIRE CC - PRESTON COUNTY HALL      | 2023-01-31 | New Constructions
+  £    963,242.67 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-05-13 | New Constructions
+  £    935,237.32 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-06-11 | New Constructions
+  £    884,580.00 | LANCASHIRE CC - PRESTON COUNTY HALL      | 2025-02-14 | New Constructions
+  £    824,111.94 | LANCASHIRE CC - PRESTON COUNTY HALL      | 2023-07-04 | New Constructions
+  £    820,130.52 | BARNFIELD INVESTMENT PROPERTIES LTD      | 2024-07-01 | New Constructions
+  £    793,337.12 | BEACHCROFT LLP                           | 2021-12-22 | New Constructions
+  £    782,251.53 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-07-13 | New Constructions
+  £    778,515.07 | MAPLE GROVE DEVELOPMENTS LTD             | 2023-05-15 | New Constructions
+  £    744,994.60 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-08-16 | New Constructions
+  £    730,592.01 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-11-11 | New Constructions
+  £    726,316.30 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-04-11 | New Constructions
+  £    722,494.38 | MAPLE GROVE DEVELOPMENTS LTD             | 2023-04-17 | New Constructions
+  £    712,428.52 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-05-17 | New Constructions
+  £    677,373.91 | MAPLE GROVE DEVELOPMENTS LTD             | 2023-01-11 | New Constructions
+  £    665,383.96 | MAPLE GROVE DEVELOPMENTS LTD             | 2022-10-18 | New Constructions
+  £    665,000.00 | LANCASHIRE CC - PRESTON COUNTY HALL      | 2021-05-11 | New Constructions
+  £    598,022.00 | RIBBLE VALLEY BOROUGH COUNCIL            | 2023-05-04 | Revenue Appropriation Adj
+  £    597,714.95 | HARRISON DRURY SOLICITORS                | 2024-09-11 | New Constructions
+  £    596,194.38 | KRNS PROPERTIES LTD                      | 2023-08-17 | New Constructions
+
+--- END-OF-FINANCIAL-YEAR SPENDING (March - potential year-end rush) ---
+  March 2022: £  3,563,670.52 (521 payments)
+  March 2023: £  5,409,036.96 (333 payments)
+  March 2024: £  8,179,761.55 (347 payments)
+  March 2025: £  2,824,452.26 (383 payments)
+
+================================================================================
+  EXECUTIVE SUMMARY
+================================================================================
+
+BURNLEY BOROUGH COUNCIL - DOGE SPENDING ANALYSIS
+Analysis Date: 2026-02-05 05:28
+Data Period: 2021-04-01 to 2025-12-31
+
+TOTAL SPENDING ANALYSED: £217,065,431.84
+Total Payments: 19,865
+Unique Suppliers: 2,866
+
+KEY FINDINGS:
+  1. EXACT DUPLICATE PAYMENTS: 1284 records in 503 groups
+     Potential overpayment: £2,478,615.84
+  2. NEAR-DUPLICATE PAYMENTS: 289 pairs within 7 days
+     Total value at risk: £638,054.95
+  3. ROUND NUMBER PAYMENTS (>=£5k): 1041, totalling £19,829,000.00
+  4. SAME-DAY MULTI-PAYMENTS: 2679 instances
+  5. WEEKEND PAYMENTS: 18, totalling £71,810.10
+     Bank holiday payments: 0, totalling £0.00
+  6. UNCONTRACTED TOP SUPPLIERS: 9 of top 100
+     Value without contract: £10,521,242.78
+  7. CONSULTANCY SPEND: £1,261,891.06 (338 payments)
+  8. PURCHASE CARD SPEND: £596,366.72 (6831 transactions)
+  9. CREDIT NOTES: 0 totalling £0.00

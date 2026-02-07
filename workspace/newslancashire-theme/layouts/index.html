@@ -1,0 +1,167 @@
+{{ define "main" }}
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Your Lancashire News, <br>Summarized by AI</h1>
+      <p>Stay informed with local news from across Lancashire. We aggregate the latest stories and provide AI-powered digests for quick reading.</p>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  {{/* Featured Article - First article */}}
+  {{ $pages := .Site.RegularPages }}
+  {{ with $pages | first 1 }}
+  {{ range . }}
+  <article class="featured-article">
+    <div class="featured-article-image">
+      {{ if .Params.image }}
+      <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="eager">
+      {{ else }}
+      <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=500&fit=crop" alt="{{ .Title }}" loading="eager">
+      {{ end }}
+    </div>
+    <div class="featured-article-content">
+      {{ if .Params.type }}
+      <span class="badge badge-{{ .Params.type }}">{{ .Params.type | humanize }}</span>
+      {{ end }}
+      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      <p>{{ .Summary }}</p>
+      <div class="article-card-footer">
+        <span class="source">{{ .Params.source | default .Site.Title }}</span>
+        <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+      </div>
+    </div>
+  </article>
+  {{ end }}
+  {{ end }}
+
+  {{/* Latest News Grid */}}
+  <div class="section-header">
+    <h2>Latest News</h2>
+    <a href="{{ "/posts/" | relURL }}" class="view-all">View all →</a>
+  </div>
+  
+  <div class="article-grid">
+    {{ range $pages | after 1 | first 6 }}
+    <article class="article-card">
+      <div class="article-card-image">
+        {{ if .Params.image }}
+        <img data-src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="lazy-image" loading="lazy">
+        {{ else }}
+        <img data-src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=225&fit=crop" alt="{{ .Title }}" class="lazy-image" loading="lazy">
+        {{ end }}
+        {{ if .Params.type }}
+        <span class="article-card-badge badge-{{ .Params.type }}">{{ .Params.type | humanize }}</span>
+        {{ end }}
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-meta">
+          <span class="source">{{ .Params.source | default .Site.Title }}</span>
+          <span>•</span>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        </div>
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Summary }}</p>
+        <div class="article-card-footer">
+          <span class="read-time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            {{ div (add (len .Content) 1000) 2000 }} min read
+          </span>
+          <span>{{ .Params.source | default "News Lancashire" }}</span>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  {{/* AI Digest Section */}}
+  {{ $digests := where .Site.RegularPages "Params.type" "ai" }}
+  {{ with $digests | first 3 }}
+  <div class="section-header">
+    <h2>AI Digest</h2>
+    <a href="{{ "/digest/" | relURL }}" class="view-all">View all →</a>
+  </div>
+  
+  <div class="article-grid">
+    {{ range . }}
+    <article class="article-card">
+      <div class="article-card-image">
+        {{ if .Params.image }}
+        <img data-src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="lazy-image" loading="lazy">
+        {{ else }}
+        <img data-src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=225&fit=crop" alt="AI Digest" class="lazy-image" loading="lazy">
+        {{ end }}
+        <span class="article-card-badge badge-ai">AI Digest</span>
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-meta">
+          <span class="source">AI Summary</span>
+          <span>•</span>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        </div>
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Summary }}</p>
+        <div class="article-card-footer">
+          <span class="read-time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            {{ div (add (len .Content) 1000) 2000 }} min read
+          </span>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{/* Local News Section */}}
+  {{ $burnley := where .Site.RegularPages "Params.location" "burnley" }}
+  {{ with $burnley | first 3 }}
+  <div class="section-header">
+    <h2>Burnley News</h2>
+    <a href="{{ "/burnley/" | relURL }}" class="view-all">View all →</a>
+  </div>
+  
+  <div class="article-grid">
+    {{ range . }}
+    <article class="article-card">
+      <div class="article-card-image">
+        {{ if .Params.image }}
+        <img data-src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="lazy-image" loading="lazy">
+        {{ else }}
+        <img data-src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=400&h=225&fit=crop" alt="Burnley" class="lazy-image" loading="lazy">
+        {{ end }}
+        <span class="article-card-badge badge-local">Burnley</span>
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-meta">
+          <span class="source">{{ .Params.source | default "Local News" }}</span>
+          <span>•</span>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        </div>
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Summary }}</p>
+        <div class="article-card-footer">
+          <span class="read-time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            {{ div (add (len .Content) 1000) 2000 }} min read
+          </span>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+</div>
+
+{{ end }}

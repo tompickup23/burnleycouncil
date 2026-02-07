@@ -1,0 +1,790 @@
+================================================================================
+BURNLEY BOROUGH COUNCIL - COMPREHENSIVE FINANCIAL RESEARCH REPORT
+DOGE-STYLE ANALYSIS OF WASTE, INEFFICIENCY & QUESTIONABLE SPENDING
+================================================================================
+Date: 5 February 2026
+Data Period: April 2021 - December 2025
+Total Spend Analysed: £217,675,600 across 26,536 transactions
+Sources: Burnley Council transparency data (CSV), Statement of Accounts 2023/24,
+         Productivity Plan 2024, Annual Workforce Profile 2025, Budget Books 2021-2026
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1.  HEADLINE FINDINGS
+2.  TRANSPARENCY DATA & OFFICIAL SOURCES
+3.  THE £19.8 MILLION GELDARDS QUESTION
+4.  DUPLICATE PAYMENTS - UP TO £9.5 MILLION
+5.  SENIOR OFFICER PAY
+6.  TERMINATION BENEFITS & EXIT PACKAGES
+7.  THE £21 MILLION LIBERATA CONTRACT
+8.  LEGAL FEES - £30 MILLION ON SOLICITORS
+9.  BARNFIELD INVESTMENT PROPERTIES - £17.3 MILLION
+10. PIONEER PLACE (MAPLE GROVE) - £16.6 MILLION
+11. HOTEL SPENDING - TEMPORARY ACCOMMODATION
+12. PURCHASE CARD SPENDING - NETFLIX, AMAZON, FACEBOOK
+13. CONSULTANCY SPENDING - £1.7 MILLION
+14. COUNCIL RESERVES
+15. INVESTMENT PROPERTIES & COMMERCIAL PORTFOLIO
+16. PARKING & RELATED INCOME
+17. AGENCY/TEMPORARY STAFF
+18. WASTE CONTRACT (URBASER)
+19. ENERGY COSTS
+20. AUDIT FINDINGS & ACCOUNTS STATUS
+21. BUDGET TRENDS & COUNCIL TAX
+22. SHARED SERVICES
+23. LGR/LANCASHIRE REORGANISATION
+24. CAPITAL PROJECTS
+25. POLITICAL CONTEXT
+26. RECOMMENDATIONS
+
+================================================================================
+1. HEADLINE FINDINGS - THE MOST NEWSWORTHY ITEMS
+================================================================================
+
+1a. A SINGLE £19.8 MILLION PAYMENT TO GELDARDS SOLICITORS
+    On 19 October 2021, Burnley Council made a single payment of £19,848,934.40
+    to Geldards solicitors. This is by far the largest single transaction in the
+    entire dataset. Total Geldards spending across 284 transactions is £21.4M.
+    There is no description field for the largest payment. This requires urgent
+    explanation - what was this payment for? Is it related to property
+    acquisitions, compulsory purchase orders, or insurance claims?
+
+1b. POTENTIAL DUPLICATE PAYMENTS WORTH £9.5 MILLION
+    793 instances of same-day, same-amount payments to the same supplier were
+    identified. While some may be legitimate (e.g., grant distributions), the
+    pattern includes payments such as:
+    - Barnfield Investment Properties: £982,507.52 paid TWICE on 11 June 2024
+    - Maple Grove Developments: £1,214,386.72 paid on consecutive days
+    - Lancashire CC: £1,125,547 and £1,125,546.75 on consecutive days
+    - Lancashire CC: £974,739 and £974,739.40 on consecutive days
+
+1c. £30 MILLION TOTAL LEGAL SPEND
+    The council has spent £29.9 million on solicitors and legal services over
+    the period. The top legal spenders are:
+    - Geldards: £20.3 million (284 transactions)
+    - Beachcroft LLP: £4.4 million (6 transactions)
+    - Geldards LLP Cardiff: £950k
+    - Harrison Drury Solicitors: £598k
+    - DAC Beachcroft Claims: £542k
+    This is an extraordinary amount for a small district council.
+
+1d. 51 NETFLIX PAYMENTS ON COUNCIL PURCHASE CARDS
+    The council has made 51 payments to Netflix totalling £490.73, charged to
+    the Economy & Growth department. Also: 51 Amazon Prime payments (£448.49),
+    34 Apple/iCloud payments (£43.36).
+
+1e. £21 MILLION TO LIBERATA UK - ONE OUTSOURCING COMPANY
+    Liberata receives roughly 10% of ALL council spending. The 10-year contract
+    (from 2016) covers Customer Services, IT, Revenues & Benefits, FM & Property,
+    HR admin & Payroll, and Environmental Health & Licensing.
+
+1f. £609K ON HOTELS - INCLUDING TEMPORARY ACCOMMODATION
+    Payments to local hotels (Hill View Hotel: £163k, Rosehill Hotel: £73k,
+    Molesworth Hotel: £59k, The Ormerod Hotel: £47k) appear to be for
+    homelessness/temporary accommodation via the Housing & Development Control
+    department.
+
+================================================================================
+2. TRANSPARENCY DATA & OFFICIAL SOURCES
+================================================================================
+
+Official URL: https://burnley.gov.uk/council-democracy/finance-performance/transparency/
+Spending page: https://burnley.gov.uk/council-democracy/finance-performance/transparency/council-spending/
+
+Published data types (quarterly CSVs):
+- Council spend over £500 (e.g., Q3-Spending-of-500-and-over-Oct-Dec-2526.csv)
+- Council contracts over £5,000 (e.g., Q3-Over-5000-Oct-Dec-2025.csv)
+- All purchase card transactions (e.g., Q3-All-Purchase-Card-Transaction.csv)
+
+Data goes back to 2021/22 financial year. Most recent available: Q3 2025/26.
+
+Additional transparency documents:
+- Transparency Code Data 2015 (XLS): https://burnley.gov.uk/wp-content/uploads/2022/02/Copy-of-Transparency-Code-Data-2015-02-02.xls
+- Annual Workforce Profile Report March 2025 (PDF)
+- Productivity Plan (July 2024)
+- Members Claims 2019-20 (XLSX)
+- Waste Contract transparency data (XLSX)
+
+Statement of Accounts & Audit Reports:
+- 2024/25 DRAFT Statement of Accounts (June 2025)
+- 2023/24 Statement of Accounts (Audited, March 2025)
+- 2023/24 Annual Audit Report (Mazars)
+- 2022/23 Audited Statement of Accounts
+- 2022/23 Audit Findings Report (Grant Thornton)
+
+Our dataset matches the published transparency data. We have compiled 30,580
+total records covering spend, contracts, and purchase card transactions.
+
+Transparency score: 99.8% data completeness.
+
+================================================================================
+3. THE £19.8 MILLION GELDARDS QUESTION
+================================================================================
+
+CRITICAL FINDING:
+On 19 October 2021, a single payment of £19,848,934.40 was made to GELDARDS.
+This is the largest single payment in the entire dataset.
+
+There is NO description attached to this transaction. The department field is
+also empty in the dataset.
+
+Total Geldards spending: £21,395,540.35 across 284 transactions.
+If the £19.8M payment is excluded, remaining Geldards spending is still £1.55M.
+
+Geldards is a commercial law firm. A payment of this size from a district
+council to solicitors is highly unusual and warrants investigation. Possible
+explanations include:
+- Property acquisition or compulsory purchase (related to Pioneer Place?)
+- Insurance settlement pass-through
+- Legal costs on major regeneration scheme
+- Escrow/trust account transfer
+
+But the lack of any description or categorisation is itself a transparency
+concern.
+
+ALSO NOTABLE: Beachcroft LLP received £3,196,923 in a single payment on
+5 October 2023, and £793,337 on 22 December 2021. Total Beachcroft spending
+is £4.4M across just 6 transactions. Beachcroft (now DAC Beachcroft) is an
+insurance law firm, suggesting these may be insurance-related payments.
+
+================================================================================
+4. DUPLICATE PAYMENTS - UP TO £9.5 MILLION AT RISK
+================================================================================
+
+793 instances of same-day, same-amount payments to the same supplier.
+Estimated total value of potential duplicates: £9,486,047.50
+
+HIGH-VALUE POTENTIAL DUPLICATES (same amount, consecutive days):
+- Barnfield Investment Properties: £982,507.52 x2 on 2024-06-11
+  (Newtown Mill construction costs Valuation 20 - same description)
+- Barnfield Investment Properties: £935,237.32 x2 on 2024-06-10/11
+  (Newtown Mill construction costs Valuation 21)
+- Barnfield Investment Properties: £820,130.52 x2 on 2024-06-24/07-01
+  (Newtown Mill Valuation 22)
+- Barnfield Investment Properties: £467,040.15 x2 on 2024-07-23/29
+- Maple Grove Developments: £1,214,386.72 on 2022-09-13 AND 2022-09-14
+  (Pioneer Place Valuation 8)
+- Maple Grove Developments: £1,002,954 on 2023-03-14 AND £1,002,953.94 on 2023-03-15
+- Lancashire CC: £1,125,547 on 2023-04-17 AND £1,125,546.75 on 2023-04-24
+- Lancashire CC: £974,739 on 2023-01-27 AND £974,739.40 on 2023-01-31
+
+NOTE: Some of these may be legitimate - one payment from the over-£500 dataset
+and one from the contracts dataset could represent the same transaction reported
+twice. However, the pattern requires investigation, particularly where amounts
+are identical and descriptions match.
+
+================================================================================
+5. SENIOR OFFICER PAY (from 2023/24 Statement of Accounts, Note 22)
+================================================================================
+
+CHIEF EXECUTIVE:
+- 2022/23: £119,039 salary + £3,970 election duties + £21,630 pension = £144,639
+- 2023/24 (to 31/07/2023): £41,231 + £3,644 elections + £8,282 pension = £53,157
+- 2023/24 (from 11/08/2023): £78,884 + £940 elections + £15,404 pension = £95,228
+  Note: Change of Chief Executive during 2023/24. Full-year equivalent ~£120k.
+
+CHIEF OPERATING OFFICER (Monitoring Officer):
+- 2022/23: £94,449 + £1,495 elections + £16,549 pension = £112,493
+- 2023/24 (to 10/08/2023): £35,056 + £1,458 elections + £6,635 pension = £43,149
+- Head of Legal & Democratic Services (from 11/08/2023): £40,587 + £7,798 pension = £48,385
+
+DIRECTOR OF RESOURCES (Chief Financial Officer):
+- 2022/23 (as Head of Finance & Property): £77,952 + £13,720 pension = £91,672
+- 2023/24: £80,295 + £513 elections + £15,577 pension = £96,385
+
+CHIEF OPERATING OFFICER (from 11/08/2023 - new role):
+- 2023/24: £62,263 + £324 elections + £12,080 pension = £74,667
+
+DIRECTOR OF ECONOMY & GROWTH:
+- 2022/23 (as Strategic Head): £77,579 + £13,654 pension = £91,233
+- 2023/24: £81,380 + £15,577 pension = £96,957
+
+HEAD OF POLICY AND ENGAGEMENT:
+- 2022/23: £60,704 + £10,684 pension = £71,388
+- 2023/24 (to 10/08/2023): £22,632 + £4,396 pension = £27,028
+- 2023/24 (from 04/01/2024): £15,538 + £2,977 pension = £18,515
+
+Pension contribution rate: 19.4% for 2023/24 (up from 17.6% in 2022/23)
+
+ASSESSMENT: Senior pay at Burnley is relatively modest compared to larger
+councils. The Chief Executive earns approximately £120k, which is below the
+median for local authority chief executives (typically £140-180k). However,
+for a small district council with only 243 employees, the management team
+structure of 4 directors/chief officers plus support posts is notable.
+
+WORKFORCE SIZE: Only 243 permanent/temporary employees as of March 2025.
+Average salary: £36,922 (compared to UK average of £37,206).
+Average salary for the local labour market: £29,508 (Centre for Cities 2024).
+So council employees are paid 25% more than the local average.
+
+================================================================================
+6. TERMINATION BENEFITS & EXIT PACKAGES (Note 23)
+================================================================================
+
+2023/24: 1 compulsory departure in the £0-£20,000 band. Total cost: £2,000.
+2022/23: Zero exit packages.
+
+This is extremely low. No golden handshakes detected.
+
+However, the Pension Strain Reserve stands at £1.113 million (unchanged from
+2022/23 to 2023/24). This reserve exists to cover early retirement costs and
+pension strain payments. The fact it has not been used suggests the council is
+holding it as a buffer.
+
+No redundancy payments were recorded in the reasons for leaving data for
+2021/22, 2022/23, 2023/24, or 2024/25.
+
+================================================================================
+7. THE £21 MILLION LIBERATA CONTRACT
+================================================================================
+
+Total spending with Liberata UK Ltd: £21,183,056.07 across 363 transactions.
+This represents approximately 10% of ALL council spending.
+
+The contract was entered into in 2016 for 10 years, covering:
+- Customer Services
+- IT
+- Revenues & Benefits
+- Facilities Management & Property Services
+- HR administration & Payroll
+- Environmental Health & Licensing
+
+Per the Productivity Plan, the council states:
+"We are achieving the original cost reduction objective. The contract price
+is fixed, so a 20% saving is forecast against the base costs in the final
+years of the initial 10-year term."
+
+Liberata also committed to creating 100+ new jobs in Burnley ("north-shoring").
+
+Annual spend breakdown:
+- Average of approximately £4.2M per year over 5 years.
+
+CONCERNS:
+- Concentration risk: 10% of all spending with one supplier
+- Contract ends 2026 - what happens next with LGR?
+- Staff are employed by Liberata, not the council, so the 243 headcount
+  significantly understates the workforce delivering council services
+- Pension guarantee risk: The council guarantees Liberata employees' pensions.
+  If Liberata defaults, the council picks up the liability.
+
+================================================================================
+8. LEGAL FEES - £30 MILLION ON SOLICITORS
+================================================================================
+
+Total identified legal spending: £29,860,558.83
+
+Top 10 legal suppliers:
+1.  Geldards: £20,293,226 (includes £19.8M single payment)
+2.  Beachcroft LLP: £4,406,071
+3.  Geldards LLP Cardiff: £949,723
+4.  Harrison Drury Solicitors: £597,715
+5.  DAC Beachcroft Claims Ltd: £541,726
+6.  Forbes Solicitors: £513,637
+7.  Donald Race & Newton Solicitors: £678,817 (two different name formats)
+8.  Hill Dickinson Solicitors: £350,000
+9.  Barker Proudlove Ltd: £316,815
+10. Wilkin Chapman LLP Solicitors: £255,723
+
+Even excluding the anomalous £19.8M Geldards payment, legal spending is
+approximately £10M over 5 years, or £2M per year. For a district council
+with a net budget of £18.7M, this is significant.
+
+================================================================================
+9. BARNFIELD INVESTMENT PROPERTIES - £17.3 MILLION
+================================================================================
+
+Total spending: £17,343,321.67 across 69 transactions.
+Third largest supplier overall.
+
+Barnfield Investment Properties is a JOINT VENTURE PARTNER with the council.
+The council has a 50% share of Barnfield and Burnley (Developments) Ltd.
+The Council Leader and Chief Executive sit on its Board.
+
+Primary spending relates to Newtown Mill construction/refurbishment:
+- Multiple payments of £982k, £935k, £820k, £467k for construction valuations
+- Total Newtown Mill recharges appear to exceed £10 million
+
+POTENTIAL CONCERNS:
+- Related party transactions: The council's Leader and CEO sit on the board
+  of the joint venture company that receives £17.3M in council payments
+- Multiple potential duplicate payments identified (see Section 4)
+- Payments described as "recharge of construction costs" - is the council
+  bearing the full construction risk?
+- Limited competitive procurement if works go through the JV partner
+
+From the Statement of Accounts (2023/24):
+"In 2023/24 £2,776,497 (£1,829,317 in 2022/23) was paid to Barnfield
+Investment Properties Ltd for the capital schemes at Newtown Mill."
+
+Also: Barnfield Construction Ltd received £1,100 in 2023/24 (£7,000 in 2022/23).
+
+================================================================================
+10. PIONEER PLACE (MAPLE GROVE DEVELOPMENTS) - £16.6 MILLION
+================================================================================
+
+Total spending with Maple Grove Developments Ltd: £16,588,871.94 across 41
+transactions.
+
+Pioneer Place is a major town centre regeneration project on Curzon Street.
+Payments span from 2021 to 2023, with descriptions including:
+- "Development Agreement - Valuation 6 - Pioneer Place": £782,252
+- "Pioneer Place - Valuation 7": £744,995
+- "Pioneer Place - Valuation 8": £1,214,387
+- Up to Valuation 16: £778,515
+- "Legal fees for Pioneer Place": £1,176,908 (December 2021)
+
+The project was funded partly through government grants (Levelling Up Fund
+and other regeneration funding).
+
+NOTE: The £1.18M "legal fees for Pioneer Place" paid to Maple Grove (not
+to solicitors) is unusual. Why would a development company receive payment
+for legal fees?
+
+================================================================================
+11. HOTEL SPENDING - TEMPORARY ACCOMMODATION
+================================================================================
+
+Total hotel-related spending: £609,133
+
+The largest hotel payments are NOT for staff travel. They are for TEMPORARY
+ACCOMMODATION through the Housing & Development Control department:
+
+Hill View Hotel: £163,619 (ongoing regular payments for accommodation)
+Rosehill Hotel Ltd: £72,517
+Molesworth Hotel Ltd: £59,064
+The Ormerod Hotel: £47,309
+The Lawrence Hotel: £38,687
+
+Example descriptions from the contracts data:
+- "invoice for accommodation covering from 24/09/2023 through to 06/01/2024"
+- "accommodation covering May 2024"
+- "accommodation covering April 2025 for [Redacted] 1/4/25 to 12/5/25..."
+
+These are temporary housing placements, likely for homeless individuals or
+families. The lack of descriptions on the purchase card payments makes it
+difficult to distinguish accommodation costs from staff hotel stays.
+
+Actual staff travel hotels (Travelodge, Premier Inn, Holiday Inn, etc.)
+total approximately £53,652.
+
+================================================================================
+12. PURCHASE CARD SPENDING
+================================================================================
+
+Total purchase card spend: £610,168.44 across 6,671 transactions.
+Average transaction: £91.47
+
+YEAR-ON-YEAR TREND:
+- 2021/22: £137,155
+- 2022/23: £106,639
+- 2023/24: £119,141
+- 2024/25: £123,414
+- 2025/26: £123,820
+
+TOP RETAILERS (by spending):
+- Asda Superstore: £22,606 (218 transactions)
+- Argos: £16,274 (112 transactions)
+- Travelodge: £16,151 (113 transactions)
+- Amazon Marketplace: £14,031 (317 transactions)
+- Premier Inn: £14,779 (90 transactions)
+- Facebook/Meta: £10,773 (133 transactions)
+- Currys/PC World: £11,588 (49 transactions)
+- Trainline: £8,378 (150 transactions)
+- Mailchimp: £8,679 (95 transactions)
+
+STREAMING SUBSCRIPTIONS:
+- Netflix: 51 payments, £490.73 (Economy & Growth department)
+- Amazon Prime: 51 payments, £448.49
+- Apple/iCloud: 34 payments, £43.36
+
+SOCIAL MEDIA ADVERTISING:
+- Facebook/Meta: 197 payments, £13,243
+- Sprout Social (management tool): 48 payments, £13,285
+- Snapchat: 68 payments, £1,110
+- Twitter: 20 payments, £490
+- Mailchimp (email marketing): 95 payments, £8,679
+
+FREQUENT SMALL PURCHASES (under £100):
+- Amazon: 425 transactions, £10,930
+- Asda: 180 transactions, £7,679
+- Tesco: 138 transactions, £2,922
+- Timpson: 106 transactions, £2,855
+
+ASSESSMENT: The Netflix and Amazon Prime subscriptions are the most
+"tabloid-ready" findings, though the amounts are small. The social media
+advertising spend (£36,807 total) and streaming subscriptions are the kind
+of spending that generates public interest.
+
+More concerning from a controls perspective is the volume of small Amazon
+purchases (425 transactions under £100 = potential for personal use).
+
+================================================================================
+13. CONSULTANCY SPENDING
+================================================================================
+
+Total identified consultancy spend: £1,667,802 (per DOGE findings analysis)
+Alternative figure from insights: £1,269,317 across 342 transactions
+
+Top consultancy firms:
+1. Black Cat Building Consultancy Ltd: £428,001
+2. Mace Cost Consultancy Ltd: £172,814
+3. FHP Property Consultants: £78,235
+4. IS Consultancy UK Ltd (IS Group): £71,432
+5. Carris Consulting Ltd: £44,820
+6. D&S Knowles Consulting (Northern Reach): £37,500
+7. Angela Vodden Associates Consulting: £32,850
+8. 31ten Consulting Ltd: £32,500
+9. Kapas Consultancy Ltd: £32,375
+10. Adept Consulting Engineers: £30,738
+
+Per the Productivity Plan: "The council has not had any consultants in its
+employ for a year or more."
+
+Per the Productivity Plan: "Agency costs are 1% of the overall wage bill
+(£110k of £10.9m). Around half of this relates to employing seasonal staff."
+
+================================================================================
+14. COUNCIL RESERVES
+================================================================================
+
+From the 2023/24 Statement of Accounts:
+
+GENERAL FUND BALANCE: £1,379,000 (maintained at prescribed MTFS level)
+
+EARMARKED RESERVES (31 March 2024): £25,811,000 total
+Key reserves include:
+- Business Rates Retention Volatility: £570k (down from £9,212k in 2022)
+- Revenue Support: £1,765k
+- Carry Forwards: £603k
+- Regeneration Reserve: £4,755k (up from £583k - large inflow)
+- Pension Strain Reserve: £1,113k
+- Charter Walk Regeneration: £1,929k
+- Town Centre Master Plan: £1,092k
+- Selective Licensing: £475k
+- Revenue Grants Unapplied: £450k
+- Charter Walk Refurbishment: £389k
+- Covid-19/Cost of Living Reserve: amount not separately visible
+- Transformation Reserve: exists per Productivity Plan
+
+Total usable reserves: General Fund £1,379k + Earmarked £25,811k = £27,190k
+
+ASSESSMENT: The council holds earmarked reserves roughly 1.4x its net revenue
+budget of £18.7M. This is within normal range. The Business Rates Retention
+reserve has dropped dramatically from £9.2M to £570k, which is notable. The
+Regeneration Reserve has grown from £583k to £4.76M, suggesting funds are
+being held for future capital/regeneration projects.
+
+The General Fund balance of £1.379M represents approximately 7.4% of the net
+budget - this is at the lower end of recommended levels (typically 5-10%).
+
+================================================================================
+15. INVESTMENT PROPERTIES & COMMERCIAL PORTFOLIO
+================================================================================
+
+From the Statement of Accounts:
+
+Investment property portfolio value:
+- 31 March 2023: £8,713,000
+- 31 March 2024: £9,218,000
+
+2023/24 movements:
+- Purchases: £2,250,000
+- Net fair value losses: -£1,659,000
+- Transfer from PPE: -£86,000
+
+Investment property income:
+- 2022/23: £2,031,000 rental income, £78k operating expenses = £1,953k net
+- 2023/24: £843,000 rental income, £86k operating expenses = £757k net
+
+The rental income dropped by 58% from £2.03M to £843k year-on-year.
+
+The properties are described as "commercial units / office units" valued using
+market approach.
+
+CONCERN: The council spent £2.25M acquiring new investment property in 2023/24
+while existing properties lost £1.66M in value. Rental income dropped by more
+than half. This suggests the commercial property portfolio is underperforming.
+
+Also notable: Charter Walk shopping centre features prominently in the
+reserves (Charter Walk Refurbishment £389k, Charter Walk Regeneration £1.929M).
+
+================================================================================
+16. PARKING & RELATED INCOME
+================================================================================
+
+Parking-related spending from the data:
+- International Parking Systems UK Ltd: £190,055 (parking systems/equipment)
+- EB Charging Ltd: £101,755 (EV charging)
+- Geoffrey Robinson Ltd: £58,847
+- NX Consulting Ltd: £26,745
+- NSL Ltd: £18,911 (parking enforcement)
+
+The council's parking income is not visible in the spending data (which tracks
+expenditure, not income). Parking income would appear in the annual accounts.
+
+Note: The Fees and Charges report is published separately:
+https://burnley.gov.uk -> Budget Book and Fees & Charges Tariff Report
+
+================================================================================
+17. AGENCY/TEMPORARY STAFF
+================================================================================
+
+Per the Productivity Plan:
+"Agency costs are 1% of the overall wage bill (£110k of £10.9m). Around half
+of this relates to employing seasonal staff, which is cheaper than employing
+full-time staff."
+
+From spending data (excluding Environment Agency which is not temp staff):
+- Rapid Recruitment (SME Invoice Finance): £399,670 (over 5 years = ~£80k/yr)
+- Vivid Resourcing: £27,808
+- Castlefield Recruitment: £20,438
+- G2 Recruitment Solutions: £19,979
+
+Total identifiable agency/recruitment spend: ~£468,645 over 5 years
+
+This is relatively low for a council. The Liberata contract absorbs much of
+what would otherwise be staffing cost.
+
+Per the Productivity Plan: "Trade Union facility time is negligible: it
+equates to 0.06% of the total wage bill."
+
+================================================================================
+18. WASTE CONTRACT (URBASER)
+================================================================================
+
+Urbaser Ltd: £11,406,461 across 731 transactions (5th largest supplier)
+FCC Environment/Urbaser Ltd: £3,982,347 across 243 transactions
+
+Combined waste/recycling/street cleansing: ~£15.4 million over the period.
+
+Per the Productivity Plan:
+"The Council's waste, recycling and street cleansing service has been
+contracted out since 1995. The current contract with Urbaser realized an
+annual saving in excess of £585,000."
+
+"In summer 2024, the council entered a partnership with neighbour Pendle, to
+jointly develop a new local Waste Transfer Station. This is forecast to save
+the council nearly £700k over 5 years compared to the next best option."
+
+The waste contract transparency data is published separately:
+https://burnley.gov.uk/wp-content/uploads/2022/02/transparency-waste-contract.xlsx
+
+================================================================================
+19. ENERGY COSTS
+================================================================================
+
+- EDF Energy: £3,174,196 across 127 transactions
+- Total Gas & Power Ltd: £2,057,463 across 151 transactions
+
+Combined energy spend: £5.2 million over the period.
+
+Per the Statement of Accounts: "An additional £700k was built into the 2023/24
+revenue budget to help mitigate the impact of increasing energy costs."
+
+An earmarked reserve of £260k was set aside in 2022/23 for future energy cost
+fluctuations.
+
+================================================================================
+20. AUDIT FINDINGS & ACCOUNTS STATUS
+================================================================================
+
+EXTERNAL AUDITOR: Mazars (from 2023/24), previously Grant Thornton.
+
+2023/24 AUDIT OPINION:
+The auditor issued an UNQUALIFIED opinion: "give a true and fair view of the
+financial position of the Council as at 31st March 2024."
+
+GOING CONCERN: The auditor concluded that the Director of Resources' use of
+the going concern basis of accounting was appropriate. No material uncertainty
+regarding going concern was identified.
+
+AUDIT COSTS:
+- 2022/23: £65,000 (Grant Thornton)
+- 2023/24: £148,000 (Mazars) - more than double
+
+2024/25 accounts are currently in DRAFT form (published June 2025).
+
+Key audit certification:
+- Burnley LG certificate 2023/24 (September 2025)
+
+NO qualified accounts, going concern warnings, or adverse audit findings
+were identified.
+
+================================================================================
+21. BUDGET TRENDS & COUNCIL TAX
+================================================================================
+
+NET REVENUE BUDGET:
+- 2021/22: £14,697,000
+- 2022/23: £16,267,000 (+10.7%)
+- 2023/24: £17,588,000 (+8.1%)
+- 2024/25: £18,987,000 (+8.0%)
+- 2025/26: £18,721,000 (-1.4%)
+
+Total budget growth 2021-2026: 27.4% (average 6.8% per year)
+
+COUNCIL TAX (Burnley element, Band D):
+- 2022/23: £322.06
+- 2023/24: £331.63 (+2.97%)
+- 2024/25: £337.82 (+1.87%)
+- 2025/26: £344.58 (+2.00%)
+
+Council tax accounts for approximately 44% of the net budget (2025/26).
+
+2025/26 FUNDING SOURCES:
+- Council Tax: £2,447k
+- Business Rates: £2,627k
+- Revenue Support Grant: £2,175k
+- New Homes Bonus: £134k (collapsed from £576k in 2023/24)
+- Services Grant: £30k (collapsed from £195k in 2023/24)
+
+Budget savings identified for 2025/26: £328,000
+
+SPENDING BY YEAR (actual, from transparency data):
+- 2021/22: £54,652,150 (includes £8.7M COVID grants)
+- 2022/23: £39,247,643
+- 2023/24: £51,515,077
+- 2024/25: £44,219,223
+- 2025/26: £28,041,507 (partial year)
+
+Total COVID-related spending: £8,965,575 (1,776 transactions, mostly 2021/22)
+
+================================================================================
+22. SHARED SERVICES
+================================================================================
+
+The council already shares/contracts several services:
+1. LIBERATA (10-year contract from 2016): Customer Services, IT, Revenues &
+   Benefits, FM & Property, HR admin/Payroll, Environmental Health & Licensing
+2. URBASER: Waste, recycling, street cleansing (outsourced since 1995)
+3. BURNLEY LEISURE & CULTURE: Leisure trust operating sports, leisure, culture
+   - Management fee: £1,238,944 (2023/24)
+   - Total payments: £1,998,076 (2023/24)
+4. BURNLEY PENDLE WASTE TRANSFER STATION: Joint venture with Pendle Council
+   (from summer 2024), forecast savings of £700k over 5 years
+5. LANCASHIRE COUNTY COUNCIL: Various shared services, £8.7M total spending
+6. BURNLEY PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE: £1.6M total
+
+The council has reduced direct staffing by 60% since 2010 and rationalised
+office accommodation, saving £2.023M since 2013/14.
+
+================================================================================
+23. LGR / LANCASHIRE REORGANISATION
+================================================================================
+
+From the council's website (November 2025):
+A proposal for FIVE UNITARY AUTHORITIES across Lancashire was submitted to the
+Government for consideration on 27 November 2025.
+
+Burnley Council's Executive met on 25 November 2025 to consider the submission.
+
+IMPLICATIONS FOR BURNLEY:
+- Burnley Borough Council would be abolished under LGR
+- Services currently delivered directly and via Liberata would transfer to a
+  new unitary authority
+- The Liberata contract (ending 2026) coincides with LGR timing
+- £25.8M in earmarked reserves could be subject to redistribution
+- The joint venture with Barnfield would need to be resolved
+- The £17.3M Newtown Mill investment and ongoing regeneration projects would
+  transfer to the new authority
+- Staff (243 permanent) would TUPE transfer
+
+FINANCIAL RISKS:
+- Pension guarantees for Liberata employees
+- Outstanding borrowing: £56.1M (PWLB long-term + short-term)
+- Capital Financing Requirement: £74.7M
+- Unresolved commercial property portfolio performance
+
+================================================================================
+24. CAPITAL PROJECTS
+================================================================================
+
+Major capital projects visible in the spending data:
+
+1. NEWTOWN MILL (Barnfield Investment Properties): £17.3M+
+   Residential/commercial development. Multiple construction valuations.
+
+2. PIONEER PLACE (Maple Grove Developments): £16.6M
+   Town centre retail/leisure development on Curzon Street.
+
+3. LUF TOWN 2 TURF (Lancashire CC): Multiple payments totalling £4M+
+   Public realm works from Town Centre to Burnley FC via Levelling Up Fund.
+
+4. BURNLEY MANCHESTER ROAD STATION: £884,580
+   Access for All GRIP 4/5 Design Stage (January 2025).
+
+5. CHARTER WALK: Refurbishment reserve £389k, Regeneration reserve £1.93M
+
+6. HISTORIC PROPERTY RESTORATION: £3,440,802 across 35 transactions
+
+Capital expenditure 2023/24: £32,260,000 (including PPE £18.5M, investment
+properties £2.25M, revenue expenditure funded from capital £11.5M)
+
+Capital financing requirement increased from £67.1M to £74.7M in 2023/24.
+
+================================================================================
+25. POLITICAL CONTEXT
+================================================================================
+
+COUNCIL COMPOSITION (45 seats):
+- Ruling coalition (23 seats, bare majority):
+  * Burnley Independent Group: 11
+  * Liberal Democrat Group: 7
+  * Green Group: 5
+- Opposition (22 seats):
+  * Labour Group: 13
+  * Conservative Group: 7
+  * Reform UK: 2
+
+Council Leader: Afrasiab Anwar (Independent)
+Mayor: Paul Reynolds
+Deputy Mayor: Saeed Chaudhary
+
+SUPPLIER CONCENTRATION:
+- Top 20 suppliers receive 61.3% of all spending
+- 2,690 suppliers have only a single transaction (60.3% of all suppliers)
+- SME spend: £82.9M (72.9% of categorised spending)
+- Large enterprise spend: £35.0M
+
+================================================================================
+26. RECOMMENDATIONS FOR FURTHER INVESTIGATION
+================================================================================
+
+1. URGENT: Obtain explanation for the £19.8M Geldards payment (19 Oct 2021).
+   FOI request the invoice, contract, and committee decision authorising this.
+
+2. URGENT: Investigate the apparent duplicate Barnfield and Maple Grove
+   payments totalling several million pounds. These may be data artefacts
+   (same payment in two datasets) but need verification.
+
+3. Request the Liberata contract and any performance reviews. The contract
+   ends in 2026 - what are the options? What are the true costs when pension
+   guarantees are included?
+
+4. FOI the Barnfield joint venture agreement and all Board meeting minutes.
+   The Council Leader and CEO sitting on the board of a company receiving
+   £17.3M from the council raises governance questions.
+
+5. Request breakdown of the £843k investment property rental income vs. the
+   £9.2M portfolio value. What is the yield? Why did income drop 58%?
+
+6. Request the hotel accommodation spending with full descriptions. Are all
+   the Hotel payments for statutory homelessness duties, or are there other
+   uses?
+
+7. Compare Burnley's per-capita spending on legal fees, consultancy, and
+   outsourcing with similar-sized district councils.
+
+8. Investigate the Beachcroft/DAC Beachcroft payments (£4.9M total, likely
+   insurance-related). What claims are these for?
+
+9. Review purchase card controls. 425 Amazon transactions under £100 and
+   51 Netflix payments suggest weak oversight.
+
+10. Examine the Regeneration Reserve growth from £583k to £4.76M. What is
+    this being held for? Is it committed?
+
+================================================================================
+END OF REPORT
+================================================================================

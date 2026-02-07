@@ -1,0 +1,393 @@
+{
+  "summary": {
+    "total_spend": 355218405.44,
+    "transaction_count": 30580,
+    "unique_suppliers": 4485,
+    "avg_transaction": 11616.04,
+    "median_transaction": 1522.33,
+    "date_range": {
+      "min": "2021-04-01",
+      "max": "2025-12-31"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "Liberata UK Ltd",
+        "total": 36731554.22,
+        "transactions": 488,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+        "total": 30765355.97,
+        "transactions": 77,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+        "total": 29390416.08,
+        "transactions": 128,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "GELDARDS",
+        "total": 20293226.43,
+        "transactions": 24,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "URBASER LTD",
+        "total": 19477800.45,
+        "transactions": 959,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+        "total": 16830357.24,
+        "transactions": 330,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BURNLEY LEISURE",
+        "total": 12932594.29,
+        "transactions": 335,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FCC ENVIRONMENT/URBASER LTD",
+        "total": 8980299.22,
+        "transactions": 397,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HISTORIC PROPERTY RESTORATION LTD",
+        "total": 4593442.93,
+        "transactions": 47,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BEACHCROFT LLP",
+        "total": 4406071.19,
+        "transactions": 6,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "KRNS PROPERTIES LTD",
+        "total": 4333575.35,
+        "transactions": 20,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "POST OFFICE LTD - PAYOUT FUND",
+        "total": 3364836.0,
+        "transactions": 28,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CALICO ENTERPRISE LTD",
+        "total": 3311205.46,
+        "transactions": 50,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EDF ENERGY",
+        "total": 3174195.53,
+        "transactions": 127,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "N I CONSTRUCTIONS NW LTD",
+        "total": 3064438.55,
+        "transactions": 277,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BURNLEY PENDLE & ROSSENDALE COUNCIL FOR",
+        "total": 3062969.16,
+        "transactions": 94,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ENVIRONMENT AGENCY",
+        "total": 2929427.0,
+        "transactions": 12,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CEMPLAS WATERPROOFING & CONCRETE REPAIRS LTD - GRO",
+        "total": 2579586.8,
+        "transactions": 14,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ARTHUR J GALLAGHER INSURANCE BROKERS LTD",
+        "total": 2471163.44,
+        "transactions": 80,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BRYAN LEE BUILDING CONTRACTORS LTD",
+        "total": 2359806.95,
+        "transactions": 137,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.6054,
+    "total_unique_suppliers": 4485,
+    "single_transaction_suppliers": 2578
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 1560,
+      "potential_value": 33457458.31,
+      "items": [
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 982507.52,
+          "date": "2024-06-11",
+          "occurrences": 2,
+          "potential_overpayment": 982507.52
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 712428.52,
+          "date": "2022-05-17",
+          "occurrences": 2,
+          "potential_overpayment": 712428.52
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 665000.0,
+          "date": "2021-05-11",
+          "occurrences": 2,
+          "potential_overpayment": 665000.0
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 586332.07,
+          "date": "2024-09-04",
+          "occurrences": 2,
+          "potential_overpayment": 586332.07
+        },
+        {
+          "supplier": "ENVIRONMENT AGENCY",
+          "amount": 531030.26,
+          "date": "2021-07-27",
+          "occurrences": 2,
+          "potential_overpayment": 531030.26
+        },
+        {
+          "supplier": "BURNLEY LEISURE",
+          "amount": 526383.0,
+          "date": "2021-04-14",
+          "occurrences": 2,
+          "potential_overpayment": 526383.0
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 504668.48,
+          "date": "2024-12-04",
+          "occurrences": 2,
+          "potential_overpayment": 504668.48
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 464133.6,
+          "date": "2024-09-17",
+          "occurrences": 2,
+          "potential_overpayment": 464133.6
+        },
+        {
+          "supplier": "ENVIRONMENT AGENCY",
+          "amount": 449424.72,
+          "date": "2021-05-11",
+          "occurrences": 2,
+          "potential_overpayment": 449424.72
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 375922.9,
+          "date": "2024-05-16",
+          "occurrences": 2,
+          "potential_overpayment": 375922.9
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 375446.92,
+          "date": "2024-07-16",
+          "occurrences": 2,
+          "potential_overpayment": 375446.92
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 375446.92,
+          "date": "2024-08-15",
+          "occurrences": 2,
+          "potential_overpayment": 375446.92
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 375446.92,
+          "date": "2024-09-17",
+          "occurrences": 2,
+          "potential_overpayment": 375446.92
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 375446.92,
+          "date": "2024-10-16",
+          "occurrences": 2,
+          "potential_overpayment": 375446.92
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 375446.92,
+          "date": "2024-06-19",
+          "occurrences": 2,
+          "potential_overpayment": 375446.92
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 369150.44,
+          "date": "2025-01-16",
+          "occurrences": 2,
+          "potential_overpayment": 369150.44
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 369150.44,
+          "date": "2025-02-18",
+          "occurrences": 2,
+          "potential_overpayment": 369150.44
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 358001.22,
+          "date": "2024-01-16",
+          "occurrences": 2,
+          "potential_overpayment": 358001.22
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 358001.22,
+          "date": "2023-12-18",
+          "occurrences": 2,
+          "potential_overpayment": 358001.22
+        },
+        {
+          "supplier": "LIBERATA UK LTD",
+          "amount": 356678.51,
+          "date": "2021-04-21",
+          "occurrences": 2,
+          "potential_overpayment": 356678.51
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 1923,
+      "total_value": 33079000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 103
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "",
+      "spend": 137542805.16,
+      "count": 4044
+    },
+    {
+      "department": "Planning & Transportation",
+      "spend": 58369593.44,
+      "count": 2253
+    },
+    {
+      "department": "Environmental Services",
+      "spend": 35712722.46,
+      "count": 6405
+    },
+    {
+      "department": "Legal & Democratic",
+      "spend": 35264028.11,
+      "count": 1678
+    },
+    {
+      "department": "Regeneration & Housing",
+      "spend": 26488248.71,
+      "count": 4139
+    },
+    {
+      "department": "Other",
+      "spend": 23757926.36,
+      "count": 1113
+    },
+    {
+      "department": "Resources & Finance",
+      "spend": 20103842.85,
+      "count": 3124
+    },
+    {
+      "department": "Chief Executive & Corporate",
+      "spend": 10037358.04,
+      "count": 7319
+    },
+    {
+      "department": "Leisure & Culture",
+      "spend": 7941880.31,
+      "count": 505
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2021/22": 75751002.04,
+      "2022/23": 63240182.45,
+      "2023/24": 81767167.24,
+      "2024/25": 82147722.91,
+      "2025/26": 52312330.8
+    },
+    "transactions_by_year": {
+      "2021/22": 6589,
+      "2022/23": 5508,
+      "2023/24": 6128,
+      "2024/25": 6669,
+      "2025/26": 5686
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 99.3,
+    "has_suppliers": 100.0,
+    "has_departments": 86.8,
+    "total_records": 30580
+  }
+}

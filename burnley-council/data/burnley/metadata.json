@@ -1,0 +1,113 @@
+{
+  "council": "Burnley",
+  "council_id": "E07000117",
+  "council_type": "district",
+  "spending_threshold": 500,
+  "total_records": 30580,
+  "financial_years": [
+    "2021/22",
+    "2022/23",
+    "2023/24",
+    "2024/25",
+    "2025/26"
+  ],
+  "data_types": [
+    "contracts",
+    "purchase_cards",
+    "spend"
+  ],
+  "filters": {
+    "departments": [
+      {
+        "name": "",
+        "spend": 137542805.16,
+        "count": 4044,
+        "suppliers": 665
+      },
+      {
+        "name": "Planning & Transportation",
+        "spend": 58369593.44,
+        "count": 2253,
+        "suppliers": 293
+      },
+      {
+        "name": "Environmental Services",
+        "spend": 35712722.46,
+        "count": 6405,
+        "suppliers": 644
+      },
+      {
+        "name": "Legal & Democratic",
+        "spend": 35264028.11,
+        "count": 1678,
+        "suppliers": 270
+      },
+      {
+        "name": "Regeneration & Housing",
+        "spend": 26488248.71,
+        "count": 4139,
+        "suppliers": 569
+      },
+      {
+        "name": "Other",
+        "spend": 23757926.36,
+        "count": 1113,
+        "suppliers": 230
+      },
+      {
+        "name": "Resources & Finance",
+        "spend": 20103842.85,
+        "count": 3124,
+        "suppliers": 1330
+      },
+      {
+        "name": "Chief Executive & Corporate",
+        "spend": 10037358.04,
+        "count": 7319,
+        "suppliers": 1814
+      },
+      {
+        "name": "Leisure & Culture",
+        "spend": 7941880.31,
+        "count": 505,
+        "suppliers": 41
+      }
+    ],
+    "department_raws": [
+      "A - Chief Executive",
+      "A - Management Team",
+      "C - Chief Operating Officer",
+      "CP - Capital Programme",
+      "F - Sport n Culture Leisure Client",
+      "FIN - Finance",
+      "G - Green Spaces and Amenities",
+      "GOV - Governance Law Prop Regn",
+      "GRE - Green Spaces",
+      "HOU - Housing",
+      "L - Street Scene",
+      "OTH - Other",
+      "PP - Parish Precepts",
+      "Q - Hsg and Developmnt Control",
+      "R - Economy and Growth",
+      "REG - Regeneration Planning Policy",
+      "SP - Strategic Partnership",
+      "STR - Streetscene",
+      "T - Policy and Engagement",
+      "T - Treasury",
+      "T1 - Treasury",
+      "U - Finance",
+      "U - Finance and Property",
+      "V - Revenues & Benefits Client",
+      "W - Legal and Democratic Services",
+      "X - People and Development",
+      "Y - Property",
+      "Z - Corporate Income Expenditure"
+    ]
+  },
+  "total_spend": 355218405.44,
+  "unique_suppliers": 4485,
+  "date_range": {
+    "min": "2021-04-01",
+    "max": "2025-12-31"
+  }
+}

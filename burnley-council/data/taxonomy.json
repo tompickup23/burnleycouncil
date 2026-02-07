@@ -1,0 +1,221 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-06",
+  "council_metadata": {
+    "burnley": {
+      "type": "district",
+      "ons_code": "E07000117",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": true,
+      "publishes_contracts": true,
+      "data_start": "2021/22"
+    },
+    "hyndburn": {
+      "type": "district",
+      "ons_code": "E07000120",
+      "spending_threshold": 250,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2016/17"
+    }
+  },
+  "departments": {
+    "Environmental Services": {
+      "aliases": {
+        "burnley": ["G - Green Spaces and Amenities", "GRE - Green Spaces", "L - Street Scene", "STR - Streetscene"],
+        "hyndburn": ["ENVS - Environmental Services"]
+      }
+    },
+    "Environmental Health": {
+      "aliases": {
+        "burnley": [],
+        "hyndburn": ["ENVH - Environmental Health", "ENVH- Environmental Health"]
+      }
+    },
+    "Legal & Democratic": {
+      "aliases": {
+        "burnley": ["W - Legal and Democratic Services", "GOV - Governance Law Prop Regn"],
+        "hyndburn": ["LEGL - Legal & Democratic"]
+      }
+    },
+    "Planning & Transportation": {
+      "aliases": {
+        "burnley": ["REG - Regeneration Planning Policy", "Q - Hsg and Developmnt Control"],
+        "hyndburn": ["PLAN - Planning & Transportation"]
+      }
+    },
+    "Regeneration & Housing": {
+      "aliases": {
+        "burnley": ["HOU - Housing", "R - Economy and Growth"],
+        "hyndburn": ["REGN - Regeneration & Housing"]
+      }
+    },
+    "Resources & Finance": {
+      "aliases": {
+        "burnley": ["U - Finance and Property", "U - Finance", "FIN - Finance", "Z - Corporate Income Expenditure", "T1 - Treasury", "T - Treasury", "V - Revenues & Benefits Client"],
+        "hyndburn": ["RESO - Resources"]
+      }
+    },
+    "Chief Executive & Corporate": {
+      "aliases": {
+        "burnley": ["A - Chief Executive", "A - Management Team", "C - Chief Operating Officer", "T - Policy and Engagement", "X - People and Development"],
+        "hyndburn": []
+      }
+    },
+    "Leisure & Culture": {
+      "aliases": {
+        "burnley": ["F - Sport n Culture Leisure Client"],
+        "hyndburn": []
+      }
+    },
+    "Other": {
+      "aliases": {
+        "burnley": ["OTH - Other", "PP - Parish Precepts", "SP - Strategic Partnership", "CP - Capital Programme", "Y - Property"],
+        "hyndburn": []
+      }
+    }
+  },
+  "hyndburn_cost_centre_keywords": {
+    "Environmental Services": [
+      "PARKS", "OPEN SPACES", "STREET CLEANSING", "WASTE", "RECYCLING",
+      "REFUSE", "CLEANSING", "GREEN WASTE", "TIPPING", "ALLOTMENT",
+      "CEMETERY", "CEMETERIES", "CREMATOR", "CREMATORIUM", "SWEEPER",
+      "WHEELED BIN", "DUMPER", "MOWER", "RIDE ON", "ARSON REFUSE",
+      "COMMERCIAL COLLECTION", "CVMU", "VEHICLE MAINT", "MOT GENERAL",
+      "WILLOWS LANE", "LIBRARY ST DEPOT", "RANGER ST",
+      "BULKY WASTE", "DOG WARDEN", "PEST CONTROL",
+      "XMAS DEC", "CHRISTMAS DEC", "CHRISTMAS TREE",
+      "BUS STOP", "PUBLIC TRANSPORT", "HIGHWAYS",
+      "MERCER PARK", "OAKHILL PARK", "MILNSHAW PARK", "PEEL PARK",
+      "LOWERFOLD PARK", "BULLOUGH PARK", "MEMORIAL PARK",
+      "RHYDDINGS PARK", "KNUZDEN REC", "LYNDON",
+      "PLAY AREA", "SKATE PARK", "MUGA", "BOWLS",
+      "PARK BOWLS", "PARK GYM", "PARK PLAY", "PUMP TRACK",
+      "GREEN INFRASTRUCTURE", "PLECK MEADOW",
+      "OFF STREET PARKING", "STREET SEAT", "STREET NAMEPLATE",
+      "PAVING IMPROVEMENT", "NORDEN BROOK", "ROUNDABOUT",
+      "MECHANICAL SWEEPER", "SOFT PLAY",
+      "IPADS WASTE", "ENVIRONMENT", "ENV SERV",
+      "TREE PROJECT", "WEEDKILLING", "CONTAINER REPAIR",
+      "MAINT. OF H'WAYS", "CYCLEWAY",
+      "RHYDDINGS CAFE", "ELECTRICAL", "ELECTICAL",
+      "BOILER", "PLUMBING", "AIR CON"
+    ],
+    "Environmental Health": [
+      "ENVIRONMENTAL HEALTH", "ENVIRONMENTAL PROTECTION",
+      "HEALTH FOOD", "HEALTH OFFICER", "HEALTH GENERAL",
+      "FOOD GROWING", "WARDENS", "COVID MARSHAL",
+      "SANITISATION", "CLIMATE EMERGENCY",
+      "COMMUNITY SAFETY", "CCTV",
+      "HMO", "PROPOSED SELEC LICENSING", "HOUSING STANDARDS",
+      "DANGEROUS STRUCTURE", "ENFORCEMENT",
+      "ASBESTOS", "LEGIONELLA"
+    ],
+    "Legal & Democratic": [
+      "LEGAL", "DEMOCRATIC", "MEMBER SERVICES", "MEMBERS EXPENSES",
+      "MAYORALTY", "CIVIC", "ELECTION", "REFERENDUM", "REGISTRATION OF ELECTOR",
+      "EXTERNAL ELECTION", "MUNICIPAL ELECTION", "LOCAL ELECTION",
+      "SECRETERIAL", "HMCTS", "LICENSING",
+      "LABOUR GROUP", "AREA COUNCIL"
+    ],
+    "Planning & Transportation": [
+      "PLANNING", "PLAN ", "DEV CONTROL", "DEVELOPMENT CONTROL",
+      "BUILDING CONTROL", "LAND CHARGES",
+      "SUSTAINABILITY APPRAISAL"
+    ],
+    "Regeneration & Housing": [
+      "HOUSING", "HOMELESSNESS", "HOMELESS", "HOMES FOR UKRAINE",
+      "UKRAINE", "SYRIAN RESETTLEMENT", "ASYLUM",
+      "REGENERATION", "ECONOMIC DEVELOPMENT", "DEVELOPMENT",
+      "TOWNSCAPE HERITAGE", "HIGH STREET", "HIGH ST",
+      "ACCRINGTON TOWN", "ACC TOWN", "ACCRINGTON MARKET",
+      "GREAT HARWOOD MARKET", "MARKET", "INDOOR MARKET",
+      "HAWORTH ART", "HAWORTH STABLES",
+      "LEISURE IN HYNDBURN", "HLC", "WPF",
+      "FACELIFTING", "FACELIFT", "CLEARANCE",
+      "RENOVATION", "LANLORD", "ROGUE LANLORD",
+      "DFG", "DISABLED FACILITIES",
+      "AFFORDABLE WARMTH", "EMERGENCY WORKS GRANT",
+      "PRIVATE LANDLORD", "STRATEGIC HOUSING",
+      "SPECIAL DISABLED", "GYPSY SITE",
+      "HUNCOAT", "WOODNOOK", "PENDLE ST",
+      "BOOTH ST", "BROADWAY", "CLAYTON",
+      "GLOBE JOINT VENTURE", "RISHTON",
+      "UKSPF", "LEVELLING UP", "LUF", "LONG TERM TOWNS",
+      "COMMUNITY HUB", "COMMUNITY CHAMPIONS",
+      "SELF ISOLATION", "CLINICALLY",
+      "BLUES & TWOS",
+      "FOOD PANTRY",
+      "LOCAL SUPPORT SCHEME",
+      "CANNON ST", "LAND ASSEMBLY",
+      "ROGUE LANDLORD",
+      "ACC MKT HALL", "HAG ", "HLF STABLE",
+      "PHOENIX", "MOORFIELD"
+    ],
+    "Resources & Finance": [
+      "ACCOUNTANCY", "AUDIT", "BANK", "TREASURY",
+      "COMPUTER SERVICES", "CUSTOMER SERVICE", "CUSTOMER CONTACT",
+      "CUSTOMER INFO", "HUMAN RESOURCES",
+      "INSURANCES", "INTERNAL AUDIT", "INVEST TO SAVE",
+      "GENERAL FUND", "GENERAL EXPENSE", "SUPERANNUATION",
+      "LOCAL TAXATION", "NON DOMESTIC RATE", "COUNCIL TAX",
+      "HOUSING BENEFIT", "BENEFIT DEBTOR",
+      "HEAD OF REVENUE", "INVESTIGATIONS", "DEBTORS",
+      "CORPORATE PROPERTY", "FACILITIES TEAM",
+      "SCAITCLIFFE", "GRAPHICS", "COMMUNICATIONS",
+      "CORPORATE", "CORP & DEM",
+      "TECH REFRESH", "TECH.", "CAFM", "CRM DIGITAL",
+      "IDOX", "NORTHGATE", "PARIS", "NEW FINANCIAL",
+      "MANAGEMENT BUSINESS", "MANAGING DIRECTOR", "POLICY AND PERFORMANCE",
+      "STRAT DIRECTOR", "P & C G", "P & CG", "P&CG", "P& C G",
+      "CAR LEASE", "CAR LOAN", "PPAID", "VAT ONLY",
+      "UNDERSPENDS", "OTHER SERVICES",
+      "FRANKING", "WI-FI", "SECURITY EQUIPMENT",
+      "PORTABLE CAMERA", "REPLACE WIRELESS",
+      "FIRE RISK", "GENERAL MAINTENANCE", "GENERAL DRAINAGE",
+      "LIFT IMPROVEMENT", "ELMFIELD",
+      "COVID 19", "COVIID 19", "COVID-19", "COVID BACKFILL",
+      "COVID TESTING", "LCC COVID", "BUSINESS RESTART",
+      "BUSINESS SUPPORT", "BREXIT", "COVID-COMF",
+      "ADMINISTRATION", "UNAPPORTIONED",
+      "ENVIRONEMNTAL", "ENVIRONMENTAL SERVIES",
+      "N AZIZ", "S BUTTON", "P BUCKLEY", "T DOBSON",
+      "EAGLE ST", "SADLER ST", "SANDLER ST",
+      "HEYS LANE", "HUNCOAT IND",
+      "TMO GENERAL", "TRANSPORT MANAGEMENT",
+      "KINGDOM LITTER",
+      "JOINT VENTURE"
+    ]
+  },
+  "suppliers": {
+    "Lancashire County Council": {
+      "aliases": ["LANCASHIRE COUNTY COUNCIL", "LCC", "LANCS COUNTY COUNCIL", "LANCS CC"],
+      "companies_house": null,
+      "note": "Local authority - not on Companies House"
+    },
+    "Liberata UK Ltd": {
+      "aliases": ["LIBERATA UK LTD", "LIBERATA", "LIBERATA UK LIMITED"],
+      "companies_house": null,
+      "note": "To be matched via Companies House API"
+    },
+    "HMRC": {
+      "aliases": ["HMRC", "HM REVENUE & CUSTOMS", "HM REVENUE AND CUSTOMS", "HMRC ONLY"],
+      "companies_house": null,
+      "note": "Government body"
+    },
+    "Burnley Borough Council": {
+      "aliases": ["BURNLEY BOROUGH COUNCIL", "BURNLEY BC"],
+      "companies_house": null,
+      "note": "Local authority"
+    },
+    "Hyndburn Borough Council": {
+      "aliases": ["HYNDBURN BOROUGH COUNCIL", "HYNDBURN BC", "HBC"],
+      "companies_house": null,
+      "note": "Local authority"
+    }
+  },
+  "unmapped": {
+    "departments": {},
+    "suppliers": []
+  }
+}

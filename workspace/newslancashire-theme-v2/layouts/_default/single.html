@@ -1,0 +1,101 @@
+{{ define "main" }}
+
+<div class="container">
+  {{/* Breadcrumbs */}}
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ "/" | relURL }}">Home</a>
+    <span class="separator">/</span>
+    {{ if .Params.type }}
+    <a href="{{ "/" | relURL }}{{ .Params.type }}/">{{ .Params.type | humanize }}</a>
+    <span class="separator">/</span>
+    {{ else if .Section }}
+    <a href="{{ .Section | relURL }}/">{{ .Section | humanize }}</a>
+    <span class="separator">/</span>
+    {{ end }}
+    <span aria-current="page">{{ .Title | truncate 50 }}</span>
+  </nav>
+
+  <article class="article-single">
+    {{/* Article Header */}}
+    <header class="article-single-header">
+      <div class="article-single-meta">
+        {{ if .Params.type }}
+        <span class="badge badge-{{ .Params.type }}">{{ .Params.type | humanize }}</span>
+        {{ end }}
+        <span class="source">{{ .Params.source | default .Site.Title }}</span>
+        <span>&middot;</span>
+        <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        <span>&middot;</span>
+        <span class="reading-time-value">{{ math.Max 1 (div (countwords .Content) 200) }} min read</span>
+      </div>
+
+      <h1>{{ .Title }}</h1>
+    </header>
+
+    {{/* Article Image */}}
+    {{ if .Params.image }}
+    <div class="article-single-image">
+      <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="eager" width="800" height="450">
+    </div>
+    {{ end }}
+
+    {{/* Article Content */}}
+    <div class="article-single-content">
+      {{ .Content }}
+    </div>
+
+    {{/* Source Link */}}
+    {{ if .Params.original_url }}
+    <div class="article-source">
+      <p>
+        <strong>Source:</strong> <a href="{{ .Params.original_url }}" target="_blank" rel="noopener noreferrer">{{ .Params.source | default "Original article" }} &#8599;</a>
+      </p>
+    </div>
+    {{ end }}
+
+    {{/* Tags */}}
+    {{ with .Params.tags }}
+    <div class="article-tags">
+      {{ range . }}
+      <a href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </article>
+
+  {{/* Related Articles */}}
+  {{ $related := .Site.RegularPages.Related . | first 3 }}
+  {{ with $related }}
+  <div class="section-header" style="margin-top: 3rem;">
+    <h2>Related Articles</h2>
+  </div>
+
+  <div class="article-grid" style="margin-bottom: 3rem;">
+    {{ range . }}
+    <article class="article-card">
+      <div class="article-card-image">
+        {{ if .Params.image }}
+        <img data-src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="lazy-image" loading="lazy" width="400" height="225">
+        {{ else }}
+        <img data-src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=225&fit=crop" alt="{{ .Title }}" class="lazy-image" loading="lazy" width="400" height="225">
+        {{ end }}
+        {{ if .Params.type }}
+        <span class="article-card-badge badge-{{ .Params.type }}">{{ .Params.type | humanize }}</span>
+        {{ end }}
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-meta">
+          <span class="source">{{ .Params.source | default .Site.Title }}</span>
+          <span>&middot;</span>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        </div>
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Summary }}</p>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+</div>
+
+{{ end }}

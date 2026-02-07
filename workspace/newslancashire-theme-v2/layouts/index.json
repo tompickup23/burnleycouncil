@@ -1,0 +1,1 @@
+{{ dict "pages" (where .Site.RegularPages "Type" "!=" "page") | jsonify }}

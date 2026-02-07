@@ -1,0 +1,830 @@
+{
+  "summary": {
+    "total_transaction_spend": 217675600.28,
+    "total_contract_commitments": 137542805.16,
+    "transaction_count": 26536,
+    "contract_count": 4044,
+    "unique_suppliers": 4458,
+    "avg_transaction_value": 8203.029856798312,
+    "median_transaction_value": 1100.225,
+    "date_range": {
+      "min": "2021-04-01",
+      "max": "2025-12-31"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "LIBERATA UK LTD",
+        "total": 21183056.07,
+        "transactions": 363
+      },
+      {
+        "supplier": "GELDARDS",
+        "total": 20108266.36,
+        "transactions": 20
+      },
+      {
+        "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+        "total": 17343321.669999998,
+        "transactions": 69
+      },
+      {
+        "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+        "total": 16588871.94,
+        "transactions": 41
+      },
+      {
+        "supplier": "URBASER LTD",
+        "total": 11406461.42,
+        "transactions": 731
+      },
+      {
+        "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+        "total": 8674873.11,
+        "transactions": 263
+      },
+      {
+        "supplier": "BURNLEY LEISURE",
+        "total": 7857845.88,
+        "transactions": 259
+      },
+      {
+        "supplier": "BEACHCROFT LLP",
+        "total": 4406071.19,
+        "transactions": 6
+      },
+      {
+        "supplier": "FCC ENVIRONMENT/URBASER LTD",
+        "total": 3982346.52,
+        "transactions": 243
+      },
+      {
+        "supplier": "HISTORIC PROPERTY RESTORATION LTD",
+        "total": 3440801.59,
+        "transactions": 35
+      },
+      {
+        "supplier": "EDF ENERGY",
+        "total": 3174195.53,
+        "transactions": 127
+      },
+      {
+        "supplier": "KRNS PROPERTIES LTD",
+        "total": 2480866.21,
+        "transactions": 15
+      },
+      {
+        "supplier": "TOTAL GAS & POWER LTD",
+        "total": 2057462.76,
+        "transactions": 151
+      },
+      {
+        "supplier": "POST OFFICE LTD - PAYOUT FUND",
+        "total": 1782417.0,
+        "transactions": 15
+      },
+      {
+        "supplier": "CALICO ENTERPRISE LTD",
+        "total": 1688087.98,
+        "transactions": 28
+      },
+      {
+        "supplier": "BURNLEY PENDLE & ROSSENDALE COUNCIL FOR",
+        "total": 1631861.1,
+        "transactions": 51
+      },
+      {
+        "supplier": "N I CONSTRUCTIONS NW LTD",
+        "total": 1610595.42,
+        "transactions": 179
+      },
+      {
+        "supplier": "ENVIRONMENT AGENCY",
+        "total": 1536066.5,
+        "transactions": 6
+      },
+      {
+        "supplier": "CEMPLAS WATERPROOFING & CONCRETE REPAIRS LTD - GRO",
+        "total": 1289793.4,
+        "transactions": 7
+      },
+      {
+        "supplier": "ARTHUR J GALLAGHER INSURANCE BROKERS LTD",
+        "total": 1276063.55,
+        "transactions": 53
+      }
+    ],
+    "concentration_ratio": 0.613386732496668,
+    "total_unique_suppliers": 4458,
+    "single_transaction_suppliers": 2690,
+    "sme_ratio": 0.7287339268051434
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day - review for accidental duplicates",
+      "count": 793,
+      "potential_value": 2307329.5300000003,
+      "items": [
+        {
+          "supplier": "WATER PLUS LTD",
+          "amount": 787.82,
+          "date": "2021-04-07",
+          "occurrences": 2,
+          "potential_overpayment": 787.82
+        },
+        {
+          "supplier": "WATER PLUS LTD",
+          "amount": 8395.88,
+          "date": "2021-04-07",
+          "occurrences": 2,
+          "potential_overpayment": 8395.88
+        },
+        {
+          "supplier": "CIVICA ELECTION SERVICES LTD",
+          "amount": 9043.61,
+          "date": "2021-04-20",
+          "occurrences": 2,
+          "potential_overpayment": 9043.61
+        },
+        {
+          "supplier": "AJP PUB GROUP LTD",
+          "amount": 12000.0,
+          "date": "2021-04-23",
+          "occurrences": 2,
+          "potential_overpayment": 12000.0
+        },
+        {
+          "supplier": "BRYAN FERGUS & ALAN ARMSTRONG T/A BRUNLEA TRAVEL",
+          "amount": 2667.0,
+          "date": "2021-04-23",
+          "occurrences": 2,
+          "potential_overpayment": 2667.0
+        },
+        {
+          "supplier": "E M INNS LTD",
+          "amount": 8000.0,
+          "date": "2021-04-23",
+          "occurrences": 3,
+          "potential_overpayment": 16000.0
+        },
+        {
+          "supplier": "LINKBRIDGE",
+          "amount": 8000.0,
+          "date": "2021-04-23",
+          "occurrences": 3,
+          "potential_overpayment": 16000.0
+        },
+        {
+          "supplier": "MR MICHAEL WARREN & MR D WARREN T/A BRIERLEYS CAR",
+          "amount": 2667.0,
+          "date": "2021-04-23",
+          "occurrences": 2,
+          "potential_overpayment": 2667.0
+        },
+        {
+          "supplier": "N & K FOODS LTD T/A SUBWAY",
+          "amount": 12000.0,
+          "date": "2021-04-23",
+          "occurrences": 2,
+          "potential_overpayment": 12000.0
+        },
+        {
+          "supplier": "PENDLESIDE HOSPICE",
+          "amount": 2667.0,
+          "date": "2021-04-23",
+          "occurrences": 3,
+          "potential_overpayment": 5334.0
+        },
+        {
+          "supplier": "RAPID RECRUITMENT-SME INVOICE FINANCE LTD",
+          "amount": 535.53,
+          "date": "2021-04-26",
+          "occurrences": 5,
+          "potential_overpayment": 2142.12
+        },
+        {
+          "supplier": "BARNARDOS",
+          "amount": 2667.0,
+          "date": "2021-04-27",
+          "occurrences": 2,
+          "potential_overpayment": 2667.0
+        },
+        {
+          "supplier": "MR IAN BRENNAN T/A CASH AND CARRY CARPETS",
+          "amount": 2667.0,
+          "date": "2021-04-27",
+          "occurrences": 2,
+          "potential_overpayment": 2667.0
+        },
+        {
+          "supplier": "AMZNMKTPLACE AMAZON.CO",
+          "amount": 26.23,
+          "date": "2021-04-30",
+          "occurrences": 2,
+          "potential_overpayment": 26.23
+        },
+        {
+          "supplier": "AMZNMKTPLACE",
+          "amount": 22.2,
+          "date": "2021-04-30",
+          "occurrences": 3,
+          "potential_overpayment": 44.4
+        },
+        {
+          "supplier": "CLS LAW SCHOOL LTD",
+          "amount": 10.0,
+          "date": "2021-04-30",
+          "occurrences": 2,
+          "potential_overpayment": 10.0
+        },
+        {
+          "supplier": "FACEBK",
+          "amount": 100.0,
+          "date": "2021-04-30",
+          "occurrences": 5,
+          "potential_overpayment": 400.0
+        },
+        {
+          "supplier": "FACEBK",
+          "amount": 7.0,
+          "date": "2021-04-30",
+          "occurrences": 2,
+          "potential_overpayment": 7.0
+        },
+        {
+          "supplier": "PREMIER INN44016370",
+          "amount": 166.67,
+          "date": "2021-04-30",
+          "occurrences": 2,
+          "potential_overpayment": 166.67
+        },
+        {
+          "supplier": "PREMIER INN44016370",
+          "amount": 37.0,
+          "date": "2021-04-30",
+          "occurrences": 2,
+          "potential_overpayment": 37.0
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments may indicate estimates rather than actuals",
+      "count": 1475,
+      "total_value": 21124000.0,
+      "examples": [
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 665000.0,
+          "date": "2021-05-11"
+        },
+        {
+          "supplier": "FORBES SOLICITORS",
+          "amount": 495000.0,
+          "date": "2022-03-14"
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 459000.0,
+          "date": "2023-03-27"
+        },
+        {
+          "supplier": "POST OFFICE LTD - PAYOUT FUND",
+          "amount": 425000.0,
+          "date": "2023-06-22"
+        },
+        {
+          "supplier": "HILL DICKINSON SOLICITORS",
+          "amount": 350000.0,
+          "date": "2025-06-24"
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 290000.0,
+          "date": "2024-06-04"
+        },
+        {
+          "supplier": "DONALD RACE & NEWTON SOLICITORS",
+          "amount": 270000.0,
+          "date": "2025-09-05"
+        },
+        {
+          "supplier": "BEACHCROFT LLP",
+          "amount": 255000.0,
+          "date": "2021-12-22"
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 250000.0,
+          "date": "2024-07-10"
+        },
+        {
+          "supplier": "POST OFFICE LTD - PAYOUT FUND",
+          "amount": 204000.0,
+          "date": "2022-09-30"
+        }
+      ]
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500 - consider consolidating",
+      "count": 103,
+      "suppliers": {
+        "AMZNMKTPLACE": 316,
+        "ASDA SUPERSTORE": 218,
+        "AMAZON": 157,
+        "TRAINLINE": 149,
+        "TESCO STORES 2186": 146,
+        "AMZNMKTPLACE AMAZON.CO": 135,
+        "FACEBK": 133,
+        "TRAVELODG TRAVELODGE G": 113,
+        "TIMPSON LTD": 110,
+        "PAYPAL": 106
+      },
+      "estimated_processing_overhead": 15450
+    },
+    {
+      "type": "supplier_fragmentation",
+      "severity": "medium",
+      "description": "Categories with 20+ suppliers - potential for framework consolidation",
+      "categories": [
+        {
+          "category": "New Constructions",
+          "supplier_count": 566,
+          "total_spend": 99287355.53,
+          "avg_per_supplier": 175419.35606007068
+        },
+        {
+          "category": "Agency & Contracted Services",
+          "supplier_count": 721,
+          "total_spend": 52452507.29,
+          "avg_per_supplier": 72749.663370319
+        },
+        {
+          "category": "Supplies & Services",
+          "supplier_count": 2187,
+          "total_spend": 27128009.61,
+          "avg_per_supplier": 12404.211069958847
+        },
+        {
+          "category": "Grants",
+          "supplier_count": 190,
+          "total_spend": 10906982.21,
+          "avg_per_supplier": 57405.169526315796
+        },
+        {
+          "category": "Transfer Payments",
+          "supplier_count": 1164,
+          "total_spend": 9834401.21,
+          "avg_per_supplier": 8448.798290378008
+        },
+        {
+          "category": "Premises Related Expenses",
+          "supplier_count": 140,
+          "total_spend": 8814998.89,
+          "avg_per_supplier": 62964.27778571429
+        },
+        {
+          "category": "Acquisition - Land & Buildings",
+          "supplier_count": 64,
+          "total_spend": 3082031.74,
+          "avg_per_supplier": 48156.7459375
+        },
+        {
+          "category": "Employees",
+          "supplier_count": 166,
+          "total_spend": 2021370.68,
+          "avg_per_supplier": 12176.931807228915
+        },
+        {
+          "category": "Vehicle Plant & Machinery etc",
+          "supplier_count": 48,
+          "total_spend": 1027526.6,
+          "avg_per_supplier": 21406.804166666665
+        },
+        {
+          "category": "Transport Related Expenses",
+          "supplier_count": 47,
+          "total_spend": 617465.81,
+          "avg_per_supplier": 13137.570425531916
+        }
+      ]
+    }
+  ],
+  "political_angles": [
+    {
+      "type": "largest_contracts",
+      "description": "Top 20 largest contract awards - natural scrutiny targets",
+      "items": [
+        {
+          "supplier": "MINISTRY OF HOUSING COMMUNITIES AND LOCAL GOVERNME",
+          "amount": 1411058.0,
+          "description": "BRRG 2023/24/BR S31 receipts Burnley Borough Council 4747073",
+          "department": "Finance & Property Management",
+          "date": "2024-03-18"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 1214386.72,
+          "description": "Pioneer Place - Valuation 8",
+          "department": "Regen & Planning Control",
+          "date": "2022-09-13"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 1176908.19,
+          "description": "Legal fees for Pioneer Place.",
+          "department": "Finance & Property Management",
+          "date": "2021-12-22"
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 1125547.0,
+          "description": "LUF Town 2 Turf public realm works payment No. 3",
+          "department": "Regen & Planning Control",
+          "date": "2023-04-17"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 1002954.0,
+          "description": "Curzon Street - Pioneer Place - Valuation no 14",
+          "department": "Regen & Planning Control",
+          "date": "2023-03-14"
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 982507.52,
+          "description": "Newtown Mill, Burnley - Recharge of Constuction Costs as per Valuation 20",
+          "department": "Regen & Planning Control",
+          "date": "2024-05-07"
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 982507.52,
+          "description": "Newtown Mill, Burnley - Recharge of Construction Costs as per Valuation 20",
+          "department": "Regen & Planning Control",
+          "date": "2024-06-11"
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 974739.0,
+          "description": "S278 Agreement - LUF Town 2 Turf public realm works from Town Centre to Burnley FC",
+          "department": "Regen & Planning Control",
+          "date": "2023-01-27"
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 935237.32,
+          "description": "Newtown Mill, Burnley - Recharge of Construction Costs as per Valuation 21",
+          "department": "Regen & Planning Control",
+          "date": "2024-06-10"
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 895312.06,
+          "description": "SECTION 278 AGREEMENT - LUF Town 2 Turf public realm works from Town Centre to Burnley FC Payment Nr 5 PPMS ID 13412 - Invoice 5201516604",
+          "department": "Regen & Planning Control",
+          "date": "2023-09-27"
+        },
+        {
+          "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+          "amount": 884580.0,
+          "description": "Burnley Manchester Rd Station Access for All GRIP 4/5 Design Stage Amount \u00a3884,580 VAT not applicable",
+          "department": "Regen & Planning Control",
+          "date": "2025-01-27"
+        },
+        {
+          "supplier": "ANDERTON GABLES LTD",
+          "amount": 820130.52,
+          "description": "Newtown Mill, Burnley Recharge of Construction Costs as per attached Valuation 22",
+          "department": "Regen & Planning Control",
+          "date": "2024-06-24"
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "amount": 820130.52,
+          "description": "Newtown Mill, Burnley Recharge of Construction Costs as per attached Valuation 22",
+          "department": "Regen & Planning Control",
+          "date": "2024-06-24"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 782251.53,
+          "description": "Development Agreement - Valuation 6 - Pioneer Place",
+          "department": "Regen & Planning Control",
+          "date": "2022-07-11"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 778515.0,
+          "description": "Pioneer Place - Valuation no 16",
+          "department": "Regen & Planning Control",
+          "date": "2023-05-12"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 744994.6,
+          "description": "Pioneer Place - Valuation 7",
+          "department": "Regen & Planning Control",
+          "date": "2022-08-15"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 726316.3,
+          "description": "Development Agreement Pioneer Place Curzon Street Part A Development Costs Clause 2.2 Installation Application Nr 3",
+          "department": "Regen & Planning Control",
+          "date": "2022-04-08"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 722494.0,
+          "description": "Pioneer Place - Valuation no 15",
+          "department": "Regen & Planning Control",
+          "date": "2023-04-12"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 712428.52,
+          "description": "Development Agreement ? Schedule 6 Part A Development Coast Clause 2.2 Installation Application Nr 4",
+          "department": "Regen & Planning Control",
+          "date": "2022-05-17"
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "amount": 677374.0,
+          "description": "Pioneer Place In accordance with Development agreement - Schedule 6 Part A Development Cost Clause 2.2 Installation Application Nr 12",
+          "department": "Regen & Planning Control",
+          "date": "2023-01-09"
+        }
+      ]
+    },
+    {
+      "type": "large_enterprise_spend",
+      "description": "Spending with large enterprises vs SMEs - local economy impact",
+      "non_sme_value": 34998060.980000004,
+      "non_sme_count": 645,
+      "sme_value": 82885894.28999999,
+      "top_large_suppliers": {
+        "LIBERATA UK LTD": 15538836.65,
+        "URBASER LTD": 8071339.03,
+        "FCC ENVIRONMENT/URBASER LTD": 4997952.7,
+        "POST OFFICE LTD - PAYOUT FUND": 1582419.0,
+        "LANCASHIRE CC - PRESTON COUNTY HALL": 1221255.0,
+        "ENVIRONMENT AGENCY": 1185576.54,
+        "CIVICA UK LTD": 638121.8200000001,
+        "ZURICH MUNICIPAL": 521600.27,
+        "CIVICA ELECTION SERVICES LTD": 241860.34,
+        "UNIVERSITY OF CENTRAL LANCS UCLAN": 212425.03999999998
+      }
+    },
+    {
+      "type": "grant_recipients",
+      "description": "External grant funding - requires outcome accountability",
+      "total_grants": 11082435.75,
+      "recipient_count": 204,
+      "top_recipients": {
+        "STANNAH LIFT SERVICES LTD": 1078762.86,
+        "N I CONSTRUCTIONS NW LTD": 879107.5,
+        "BUILDEASI NW LTD": 841273.01,
+        "CRAIG KERSHAW LTD": 663003.6,
+        "SOUTHFIELD REFURBISHMENTS LTD": 391641.66,
+        "PETER EDMONDSON BUILDING CONT LTD": 350105.55,
+        "L J PLUMBING": 335958.07,
+        "CLEGGS CONSTRUCTION": 335714.77999999997,
+        "BRYAN LEE BUILDING CONTRACTORS LTD": 313925.76,
+        "RICHMOND & KERSHAW": 304636.51,
+        "BLUEBELL NORTHWEST LTD": 244362.98,
+        "POLLOCK LIFTS LTD": 229165.4,
+        "LANCASHIRE CC - PRESTON COUNTY HALL": 222970.1,
+        "ROLAND WHATMORE LTD": 203637.92,
+        "A & B BARKER LTD": 196474.4
+      }
+    },
+    {
+      "type": "consultancy_spend",
+      "description": "Professional/consultancy services - value for money scrutiny",
+      "total_value": 1269317.06,
+      "transaction_count": 342,
+      "top_consultants": {
+        "BLACK CAT BUILDING CONSULTANCY LTD": 428001.06,
+        "MACE COST CONSULTANCY LTD": 172813.86000000002,
+        "FHP PROPERTY CONSULTANTS": 78235.26999999999,
+        "IS CONSULTANCY UK LTD TA IS GROUP": 71432.0,
+        "CARRIS CONSULTING LTD": 44820.0,
+        "D&S KNOWLES CONSULTING T/A NORTHERN REACH": 37500.0,
+        "ANGELA VODDEN ASSOCIATES CONSULTING LTD": 32850.0,
+        "31TEN CONSULTING LTD": 32500.0,
+        "KAPAS CONSULTANCY LTD": 32375.0,
+        "ADEPT CONSULTING ENGINEERS (MANCHESTER) LTD": 30738.0
+      }
+    }
+  ],
+  "contract_intelligence": {
+    "by_department": [
+      {
+        "department": "Regen & Planning Control",
+        "total_value": 41440061.13,
+        "contract_count": 373
+      },
+      {
+        "department": "Finance & Property Management",
+        "total_value": 32712678.24,
+        "contract_count": 513
+      },
+      {
+        "department": "Streetscene",
+        "total_value": 18141774.3,
+        "contract_count": 649
+      },
+      {
+        "department": "Property",
+        "total_value": 14142717.55,
+        "contract_count": 457
+      },
+      {
+        "department": "Housing & Development Control",
+        "total_value": 13810935.7,
+        "contract_count": 1199
+      },
+      {
+        "department": "Chief Executive",
+        "total_value": 10947948.71,
+        "contract_count": 518
+      },
+      {
+        "department": "Green Spaces & Amenities",
+        "total_value": 3327185.38,
+        "contract_count": 188
+      },
+      {
+        "department": "Economy & Growth",
+        "total_value": 1264886.68,
+        "contract_count": 68
+      },
+      {
+        "department": "Policy and Engagement",
+        "total_value": 647975.0,
+        "contract_count": 17
+      },
+      {
+        "department": "Information Services",
+        "total_value": 455870.88,
+        "contract_count": 20
+      },
+      {
+        "department": "Revenues & Benefits",
+        "total_value": 197920.29,
+        "contract_count": 8
+      },
+      {
+        "department": "Planning & Environment",
+        "total_value": 127175.03,
+        "contract_count": 6
+      },
+      {
+        "department": "Policy & Engagement",
+        "total_value": 114310.89,
+        "contract_count": 6
+      },
+      {
+        "department": "Personnel",
+        "total_value": 84269.49,
+        "contract_count": 12
+      },
+      {
+        "department": "Management Team",
+        "total_value": 68415.0,
+        "contract_count": 3
+      },
+      {
+        "department": "Markets & Facility Management",
+        "total_value": 45736.119999999995,
+        "contract_count": 5
+      },
+      {
+        "department": "nan",
+        "total_value": 7663.0,
+        "contract_count": 1
+      },
+      {
+        "department": "Accountancy",
+        "total_value": 5281.77,
+        "contract_count": 1
+      }
+    ],
+    "by_supplier_type": {
+      "": 68357.0,
+      "Auditor": 16283.0,
+      "Central Government": 235446.06,
+      "Education": 10000.0,
+      "Government": 8000.43,
+      "Large Enterprise": 33776805.98,
+      "Local Authority": 8362503.63,
+      "Local Authoruty": 754807.51,
+      "Local authority": 1221255.0,
+      "Locasl Authority": 59267.25,
+      "NHS": 5000.0,
+      "Non Profit Organisation": 336692.64,
+      "Non-Profit Organisation": 639489.55,
+      "Non-Profit Orgnaisation": 237156.94,
+      "None profit organisation": 1053460.55,
+      "Not for Profit": 3048985.78,
+      "Not for Profit Orgnaisation": 3463683.71,
+      "Not for profit organisation": 395369.0,
+      "Private Individual": 203059.2,
+      "Private Indiviual": 41993.270000000004,
+      "Public Sector": 13128.42,
+      "RSL": 665450.75,
+      "SME": 82885894.29,
+      "School": 7440.0,
+      "Voluntary Sector": 22245.2,
+      "local Authority": 5290.0,
+      "none profit organisation": 5740.0
+    },
+    "avg_contract_value": 34011.57397626113,
+    "median_contract_value": 10379.279999999999
+  },
+  "transparency_metrics": {
+    "data_completeness": {
+      "has_dates": 0.9921239071450105,
+      "has_suppliers": 0.9999623153451914,
+      "has_categories": 1.0,
+      "has_departments": 1.0
+    },
+    "overall_score": 99.80215556225505,
+    "total_records": 30580,
+    "data_types_published": 3
+  },
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2021/22": 54652149.79,
+      "2022/23": 39247643.42,
+      "2023/24": 51515077.38,
+      "2024/25": 44219222.58,
+      "2025/26": 28041507.11
+    },
+    "transactions_by_year": {
+      "2021/22": 5916,
+      "2022/23": 4943,
+      "2023/24": 5274,
+      "2024/25": 5631,
+      "2025/26": 4772
+    },
+    "covid_analysis": {
+      "covid_spend_by_year": {
+        "2021/22": 8719137.42,
+        "2022/23": 140452.27,
+        "2023/24": 81984.83,
+        "2024/25": 24000.0
+      },
+      "non_covid_spend_by_year": {
+        "2021/22": 45795857.83,
+        "2022/23": 39000552.46,
+        "2023/24": 51313951.51,
+        "2024/25": 44071808.67,
+        "2025/26": 27917686.85
+      },
+      "total_covid_spend": 8965574.52,
+      "covid_transaction_count": 1776
+    },
+    "changes": [
+      {
+        "from_year": "2021/22",
+        "to_year": "2022/23",
+        "change_amount": -15404506.369999997,
+        "change_percent": -28.186460055444414,
+        "change_percent_ex_covid": -14.838253265666577,
+        "note": "COVID grants included in earlier years"
+      },
+      {
+        "from_year": "2022/23",
+        "to_year": "2023/24",
+        "change_amount": 12267433.96,
+        "change_percent": 31.25648546263724,
+        "change_percent_ex_covid": 31.572370834051505,
+        "note": "COVID grants included in earlier years"
+      },
+      {
+        "from_year": "2023/24",
+        "to_year": "2024/25",
+        "change_amount": -7295854.8000000045,
+        "change_percent": -14.162562051847981,
+        "change_percent_ex_covid": -14.11339923527163,
+        "note": null
+      },
+      {
+        "from_year": "2024/25",
+        "to_year": "2025/26",
+        "change_amount": -16177715.469999999,
+        "change_percent": -36.58525529419201,
+        "change_percent_ex_covid": -36.65409318904633,
+        "note": null
+      }
+    ]
+  }
+}

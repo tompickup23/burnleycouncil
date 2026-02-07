@@ -1,0 +1,52 @@
+[DEFAULT]
+# Ban hosts for 1 hour
+bantime = 3600
+
+# Find failures within 10 minutes
+findtime = 600
+
+# Ban after 5 failures
+maxretry = 5
+
+# Use UFW to ban
+banaction = ufw
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+
+[nginx-http-auth]
+enabled = true
+filter = nginx-http-auth
+port = http,https
+logpath = /var/log/nginx/error.log
+
+[nginx-badbots]
+enabled = true
+filter = nginx-badbots
+port = http,https
+logpath = /var/log/nginx/access.log
+maxretry = 2
+
+[nginx-noscript]
+enabled = true
+filter = nginx-noscript
+port = http,https
+logpath = /var/log/nginx/access.log
+maxretry = 6
+
+[nginx-nohome]
+enabled = true
+filter = nginx-nohome
+port = http,https
+logpath = /var/log/nginx/access.log
+maxretry = 2
+
+[nginx-req-limit]
+enabled = true
+filter = nginx-limit-req
+port = http,https
+logpath = /var/log/nginx/error.log

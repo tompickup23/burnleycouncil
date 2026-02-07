@@ -1,0 +1,79 @@
+{{ define "main" }}
+
+<div class="container">
+  {{/* Breadcrumbs */}}
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ "/" | relURL }}">Home</a>
+    <span>/</span>
+    <span aria-current="page">{{ .Title }}</span>
+  </nav>
+
+  <div class="hero" style="padding: 2rem 0; margin-bottom: 2rem;">
+    <div class="hero-content">
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}
+      <p>{{ . }}</p>
+      {{ end }}
+    </div>
+  </div>
+  
+  {{ $paginator := .Paginate .RegularPagesRecursive 12 }}
+  
+  <div class="article-grid">
+    {{ range $paginator.Pages }}
+    <article class="article-card">
+      <div class="article-card-image">
+        {{ if .Params.image }}
+        <img data-src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="lazy-image" loading="lazy">
+        {{ else }}
+        <img data-src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=225&fit=crop" alt="{{ .Title }}" class="lazy-image" loading="lazy">
+        {{ end }}
+        {{ if .Params.type }}
+        <span class="article-card-badge badge-{{ .Params.type }}">{{ .Params.type | humanize }}</span>
+        {{ end }}
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-meta">
+          <span class="source">{{ .Params.source | default .Site.Title }}</span>
+          <span>•</span>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        </div>
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Summary }}</p>
+        <div class="article-card-footer">
+          <span class="read-time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            {{ div (add (len .Content) 1000) 2000 }} min read
+          </span>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+  
+  {{/* Pagination */}}
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination" aria-label="Pagination" style="display: flex; justify-content: center; gap: 0.5rem; margin: 3rem 0;">
+    {{ if $paginator.HasPrev }}
+    <a href="{{ $paginator.Prev.URL }}" class="pagination-link" style="padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text);">← Previous</a>
+    {{ end }}
+    
+    {{ range $paginator.Pagers }}
+    {{ if eq . $paginator }}
+    <span class="pagination-current" style="padding: 0.5rem 1rem; background: var(--color-primary); color: white; border-radius: var(--radius-md);">{{ .PageNumber }}</span>
+    {{ else }}
+    <a href="{{ .URL }}" class="pagination-link" style="padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text);">{{ .PageNumber }}</a>
+    {{ end }}
+    {{ end }}
+    
+    {{ if $paginator.HasNext }}
+    <a href="{{ $paginator.Next.URL }}" class="pagination-link" style="padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text);">Next →</a>
+    {{ end }}
+  </nav>
+  {{ end }}
+</div>
+
+{{ end }}

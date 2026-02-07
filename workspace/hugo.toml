@@ -1,0 +1,56 @@
+baseURL = 'https://newslancashire.co.uk'
+languageCode = 'en-us'
+title = 'News Lancashire'
+theme = 'newslancashire-theme'
+enableRobotsTXT = true
+enableGitInfo = true
+enableEmoji = true
+
+[params]
+description = 'Lancashire news aggregation with AI digest and original reporting'
+author = 'News Lancashire'
+keywords = ['Lancashire', 'news', 'Burnley', 'Blackpool', 'Preston', 'Lancaster', 'AI digest', 'local news']
+
+[permalinks]
+original = '/original/:year/:month/:slug/'
+digest = '/digest/:year/:month/:slug/'
+guest = '/guest/:year/:month/:slug/'
+burnley = '/burnley/:year/:month/:slug/'
+blackpool = '/blackpool/:year/:month/:slug/'
+preston = '/preston/:year/:month/:slug/'
+lancaster = '/lancaster/:year/:month/:slug/'
+
+[taxonomies]
+tag = 'tags'
+category = 'categories'
+location = 'locations'
+
+[outputs]
+home = ['HTML', 'RSS', 'JSON']
+section = ['HTML', 'RSS']
+
+[outputFormats.RSS]
+mediatype = 'application/rss+xml'
+baseName = 'index'
+
+[outputFormats.JSON]
+mediatype = 'application/json'
+baseName = 'index'
+
+[privacy]
+[privacy.disqus]
+disable = true
+[privacy.googleAnalytics]
+disable = true
+[privacy.instagram]
+disable = true
+[privacy.twitter]
+disable = true
+[privacy.vimeo]
+disable = true
+[privacy.youtube]
+disable = true
+
+[imaging]
+quality = 85
+resampleFilter = 'lanczos'

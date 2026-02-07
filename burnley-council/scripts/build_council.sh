@@ -1,0 +1,69 @@
+#!/bin/bash
+# build_council.sh — Build a council SPA from shared React codebase
+# Usage: ./scripts/build_council.sh <council_id> <base_path>
+# Example: ./scripts/build_council.sh hyndburn /hyndburn/
+#          ./scripts/build_council.sh burnley /burnleycouncil/
+
+set -e
+
+COUNCIL=${1:?Usage: $0 <council_id> <base_path>}
+BASE=${2:?Usage: $0 <council_id> <base_path>}
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+APP_DIR="$PROJECT_DIR/burnley-app"
+DATA_DIR="$PROJECT_DIR/data/$COUNCIL"
+
+echo "============================================================"
+echo "AI DOGE — Building SPA for: $COUNCIL (base: $BASE)"
+echo "============================================================"
+
+# Check data directory exists
+if [ ! -d "$DATA_DIR" ]; then
+    echo "ERROR: Data directory not found: $DATA_DIR"
+    echo "Run: python scripts/council_etl.py --council $COUNCIL first"
+    exit 1
+fi
+
+# Check spending.json exists
+if [ ! -f "$DATA_DIR/spending.json" ]; then
+    echo "ERROR: spending.json not found in $DATA_DIR"
+    exit 1
+fi
+
+# Copy council-specific data to the SPA's public/data directory
+echo "  Copying data files..."
+cp "$DATA_DIR/spending.json" "$APP_DIR/public/data/spending.json"
+cp "$DATA_DIR/insights.json" "$APP_DIR/public/data/insights.json"
+cp "$DATA_DIR/metadata.json" "$APP_DIR/public/data/metadata.json"
+
+# Copy config.json (council-specific)
+if [ -f "$DATA_DIR/config.json" ]; then
+    cp "$DATA_DIR/config.json" "$APP_DIR/public/data/config.json"
+    echo "  Using council config: $DATA_DIR/config.json"
+fi
+
+# Build with the specified base path
+echo "  Building SPA with VITE_BASE=$BASE ..."
+cd "$APP_DIR"
+
+# Ensure node_modules exist
+if [ ! -d "node_modules" ]; then
+    echo "  Installing dependencies..."
+    npm install
+fi
+
+VITE_BASE="$BASE" npm run build 2>&1
+
+# Output directory
+DIST_DIR="$APP_DIR/dist"
+echo ""
+echo "  Build complete!"
+echo "  Output: $DIST_DIR"
+echo "  Files: $(find "$DIST_DIR" -type f | wc -l | tr -d ' ') files"
+echo "  Size: $(du -sh "$DIST_DIR" | cut -f1)"
+echo ""
+echo "  To deploy to gh-pages:"
+echo "    1. Copy $DIST_DIR/* to the gh-pages branch under ${BASE}"
+echo "    2. Ensure 404.html handles SPA routing for ${BASE}*"
+echo "============================================================"

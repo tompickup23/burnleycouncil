@@ -1,0 +1,393 @@
+{
+  "summary": {
+    "total_spend": 211305375.3,
+    "transaction_count": 29802,
+    "unique_suppliers": 2394,
+    "avg_transaction": 7090.31,
+    "median_transaction": 773.79,
+    "date_range": {
+      "min": "2017-01-04",
+      "max": "2026-01-29"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "LANCASHIRE COUNTY COUNCIL (DIRECT DEBIT PAYMENTS)",
+        "total": 72598235.05,
+        "transactions": 129,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "(DD) DEPARTMENT OF LEVELLING UP, HOUSING & COMM...",
+        "total": 22697988.0,
+        "transactions": 39,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ALLIANCE LEISURE SERVICES LTD",
+        "total": 12647308.04,
+        "transactions": 62,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "(DD ONLY) RIBBLE VALLEY BOROUGH COUNCIL",
+        "total": 7934151.0,
+        "transactions": 19,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MORGAN SINDALL CONSTRUCTION & INFRASTRUCTURE LTD",
+        "total": 6802277.68,
+        "transactions": 38,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HYNDBURN LEISURE",
+        "total": 5640577.12,
+        "transactions": 426,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HM REVENUE & CUSTOMS (DIRECT DEBIT)",
+        "total": 3543699.84,
+        "transactions": 71,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 2484756.66,
+        "transactions": 177,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NATIONAL HIGHWAYS LTD",
+        "total": 2192500.0,
+        "transactions": 1,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ROSS LEE CONSTRUCTION LTD",
+        "total": 2183283.26,
+        "transactions": 68,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SPECIALIST FLEET SERVICES LTD",
+        "total": 1875218.81,
+        "transactions": 138,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EDF ENERGY",
+        "total": 1311700.8,
+        "transactions": 492,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "KEEPMOAT HOMES",
+        "total": 1245156.0,
+        "transactions": 7,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MGB PLASTICS",
+        "total": 1136399.8,
+        "transactions": 96,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "OYSTER PARTNERSHIP",
+        "total": 1072142.66,
+        "transactions": 798,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "JOHN WADE GROUNDWORKS LTD",
+        "total": 1056953.83,
+        "transactions": 81,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "KROL CORLETT CONSTRUCTION LTD",
+        "total": 1039700.64,
+        "transactions": 13,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EDF ENERGY - 9044031649 CONSOLIDATED INVOICE",
+        "total": 972536.38,
+        "transactions": 628,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ARCADIS CONSULTING (UK) LTD",
+        "total": 948583.92,
+        "transactions": 26,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CIVICA UK LTD",
+        "total": 925819.03,
+        "transactions": 76,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.7113,
+    "total_unique_suppliers": 2394,
+    "single_transaction_suppliers": 1073
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 1185,
+      "potential_value": 4592188.68,
+      "items": [
+        {
+          "supplier": "MGB PLASTICS",
+          "amount": 12390.0,
+          "date": "2018-06-13",
+          "occurrences": 30,
+          "potential_overpayment": 359310.0
+        },
+        {
+          "supplier": "(DD) DEPARTMENT OF LEVELLING UP, HOUSING & COMM...",
+          "amount": 250820.0,
+          "date": "2024-07-25",
+          "occurrences": 2,
+          "potential_overpayment": 250820.0
+        },
+        {
+          "supplier": "DENNIS EAGLE LTD",
+          "amount": 164928.0,
+          "date": "2018-05-23",
+          "occurrences": 2,
+          "potential_overpayment": 164928.0
+        },
+        {
+          "supplier": "MGB PLASTICS",
+          "amount": 12390.0,
+          "date": "2018-07-16",
+          "occurrences": 13,
+          "potential_overpayment": 148680.0
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 37088.0,
+          "date": "2019-06-21",
+          "occurrences": 5,
+          "potential_overpayment": 148352.0
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 69069.6,
+          "date": "2025-08-28",
+          "occurrences": 3,
+          "potential_overpayment": 138139.2
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 65644.4,
+          "date": "2024-09-24",
+          "occurrences": 3,
+          "potential_overpayment": 131288.8
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 41668.0,
+          "date": "2020-10-08",
+          "occurrences": 4,
+          "potential_overpayment": 125004.0
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 41668.0,
+          "date": "2021-09-08",
+          "occurrences": 4,
+          "potential_overpayment": 125004.0
+        },
+        {
+          "supplier": "AECOM LTD",
+          "amount": 61889.36,
+          "date": "2023-11-07",
+          "occurrences": 3,
+          "potential_overpayment": 123778.72
+        },
+        {
+          "supplier": "GO PLANT FLEET SERVICES LTD",
+          "amount": 37466.22,
+          "date": "2021-08-24",
+          "occurrences": 4,
+          "potential_overpayment": 112398.66
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 37088.0,
+          "date": "2018-06-30",
+          "occurrences": 4,
+          "potential_overpayment": 111264.0
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 37088.0,
+          "date": "2018-07-09",
+          "occurrences": 4,
+          "potential_overpayment": 111264.0
+        },
+        {
+          "supplier": "MGB PLASTICS",
+          "amount": 12390.0,
+          "date": "2018-07-23",
+          "occurrences": 9,
+          "potential_overpayment": 99120.0
+        },
+        {
+          "supplier": "LANCASHIRE LEYLAND DAF LTD",
+          "amount": 82618.8,
+          "date": "2024-05-09",
+          "occurrences": 2,
+          "potential_overpayment": 82618.8
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 65644.39,
+          "date": "2024-10-08",
+          "occurrences": 2,
+          "potential_overpayment": 65644.39
+        },
+        {
+          "supplier": "CAPITA BUSINESS SERVICES LTD",
+          "amount": 60552.47,
+          "date": "2024-04-18",
+          "occurrences": 2,
+          "potential_overpayment": 60552.47
+        },
+        {
+          "supplier": "AECOM LTD",
+          "amount": 42669.74,
+          "date": "2024-08-22",
+          "occurrences": 2,
+          "potential_overpayment": 42669.74
+        },
+        {
+          "supplier": "AON UK LTD",
+          "amount": 37836.05,
+          "date": "2020-07-20",
+          "occurrences": 2,
+          "potential_overpayment": 37836.05
+        },
+        {
+          "supplier": "SPECIALIST FLEET SERVICES LTD",
+          "amount": 37088.0,
+          "date": "2020-06-09",
+          "occurrences": 2,
+          "potential_overpayment": 37088.0
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 551,
+      "total_value": 8161000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 181
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "Resources & Finance",
+      "spend": 119032594.66,
+      "count": 7981
+    },
+    {
+      "department": "Environmental Services",
+      "spend": 34782895.43,
+      "count": 9920
+    },
+    {
+      "department": "Regeneration & Housing",
+      "spend": 31485286.52,
+      "count": 7486
+    },
+    {
+      "department": "Other",
+      "spend": 17271932.68,
+      "count": 1009
+    },
+    {
+      "department": "Legal & Democratic",
+      "spend": 3633578.79,
+      "count": 990
+    },
+    {
+      "department": "Planning & Transportation",
+      "spend": 2941379.99,
+      "count": 1384
+    },
+    {
+      "department": "Environmental Health",
+      "spend": 2157707.23,
+      "count": 1032
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2016/17": 1620347.06,
+      "2017/18": 7884156.82,
+      "2018/19": 8672345.59,
+      "2019/20": 6366154.98,
+      "2020/21": 8726439.57,
+      "2021/22": 10544285.79,
+      "2022/23": 7156724.59,
+      "2023/24": 8911810.55,
+      "2024/25": 89765207.51,
+      "2025/26": 61657902.84
+    },
+    "transactions_by_year": {
+      "2016/17": 599,
+      "2017/18": 2340,
+      "2018/19": 2466,
+      "2019/20": 2392,
+      "2020/21": 2698,
+      "2021/22": 3038,
+      "2022/23": 2177,
+      "2023/24": 2630,
+      "2024/25": 7947,
+      "2025/26": 3515
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 94.7,
+    "total_records": 29802
+  }
+}

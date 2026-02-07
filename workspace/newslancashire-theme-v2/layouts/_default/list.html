@@ -1,0 +1,80 @@
+{{ define "main" }}
+
+<div class="container">
+  {{/* Breadcrumbs */}}
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ "/" | relURL }}">Home</a>
+    <span class="separator">/</span>
+    <span aria-current="page">{{ .Title }}</span>
+  </nav>
+
+  {{/* Section Header */}}
+  <div class="list-hero">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}
+    <p>{{ . }}</p>
+    {{ end }}
+  </div>
+
+  {{/* Article Grid */}}
+  {{ $paginator := .Paginate .RegularPagesRecursive 12 }}
+
+  <div class="article-grid">
+    {{ range $paginator.Pages }}
+    <article class="article-card">
+      <div class="article-card-image">
+        {{ if .Params.image }}
+        <img data-src="{{ .Params.image | relURL }}" alt="{{ .Title }}" class="lazy-image" loading="lazy" width="400" height="225">
+        {{ else }}
+        <img data-src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=225&fit=crop" alt="{{ .Title }}" class="lazy-image" loading="lazy" width="400" height="225">
+        {{ end }}
+        {{ if .Params.type }}
+        <span class="article-card-badge badge-{{ .Params.type }}">{{ .Params.type | humanize }}</span>
+        {{ end }}
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-meta">
+          <span class="source">{{ .Params.source | default .Site.Title }}</span>
+          <span>&middot;</span>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        </div>
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Summary }}</p>
+        <div class="article-card-footer">
+          <span class="read-time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            {{ math.Max 1 (div (countwords .Content) 200) }} min read
+          </span>
+          <span>{{ .Params.source | default "News Lancashire" }}</span>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  {{/* Pagination */}}
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination" aria-label="Pagination">
+    {{ if $paginator.HasPrev }}
+    <a href="{{ $paginator.Prev.URL }}">&#8592; Previous</a>
+    {{ end }}
+
+    {{ range $paginator.Pagers }}
+    {{ if eq . $paginator }}
+    <span class="pagination-current">{{ .PageNumber }}</span>
+    {{ else }}
+    <a href="{{ .URL }}">{{ .PageNumber }}</a>
+    {{ end }}
+    {{ end }}
+
+    {{ if $paginator.HasNext }}
+    <a href="{{ $paginator.Next.URL }}">Next &#8594;</a>
+    {{ end }}
+  </nav>
+  {{ end }}
+</div>
+
+{{ end }}

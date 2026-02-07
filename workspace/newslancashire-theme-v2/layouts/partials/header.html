@@ -1,0 +1,87 @@
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      {{/* Logo */}}
+      <div class="logo">
+        <a href="{{ "/" | relURL }}" aria-label="{{ .Site.Title }} Home">
+          News<span>Lancashire</span>
+        </a>
+      </div>
+
+      {{/* Desktop Navigation */}}
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>Home</a>
+        <a href="{{ "/original/" | relURL }}"{{ if eq .Section "original" }} class="active"{{ end }}>Original</a>
+        <a href="{{ "/digest/" | relURL }}"{{ if eq .Section "digest" }} class="active"{{ end }}>AI Digest</a>
+
+        {{/* Boroughs Dropdown */}}
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+            Boroughs
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="2 4 6 8 10 4"></polyline>
+            </svg>
+          </button>
+          <div class="nav-dropdown-menu" role="menu">
+            <h3>Lancashire Boroughs</h3>
+            <div class="borough-grid">
+              <a href="{{ "/burnley/" | relURL }}" role="menuitem">Burnley</a>
+              <a href="{{ "/pendle/" | relURL }}" role="menuitem">Pendle</a>
+              <a href="{{ "/rossendale/" | relURL }}" role="menuitem">Rossendale</a>
+              <a href="{{ "/hyndburn/" | relURL }}" role="menuitem">Hyndburn</a>
+              <a href="{{ "/ribble-valley/" | relURL }}" role="menuitem">Ribble Valley</a>
+              <a href="{{ "/blackburn/" | relURL }}" role="menuitem">Blackburn with Darwen</a>
+              <a href="{{ "/chorley/" | relURL }}" role="menuitem">Chorley</a>
+              <a href="{{ "/south-ribble/" | relURL }}" role="menuitem">South Ribble</a>
+              <a href="{{ "/preston/" | relURL }}" role="menuitem">Preston</a>
+              <a href="{{ "/west-lancashire/" | relURL }}" role="menuitem">West Lancashire</a>
+              <a href="{{ "/lancaster/" | relURL }}" role="menuitem">Lancaster</a>
+              <a href="{{ "/wyre/" | relURL }}" role="menuitem">Wyre</a>
+              <a href="{{ "/fylde/" | relURL }}" role="menuitem">Fylde</a>
+              <a href="{{ "/blackpool/" | relURL }}" role="menuitem">Blackpool</a>
+            </div>
+          </div>
+        </div>
+
+        <a href="{{ "/about/" | relURL }}">More</a>
+      </nav>
+
+      {{/* Header Actions */}}
+      <div class="header-actions">
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {{/* Mobile Navigation */}}
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <a href="{{ "/" | relURL }}">Home</a>
+    <a href="{{ "/original/" | relURL }}">Original</a>
+    <a href="{{ "/digest/" | relURL }}">AI Digest</a>
+    <a href="{{ "/about/" | relURL }}">More</a>
+
+    <p class="mobile-nav-section-title">Boroughs</p>
+    <div class="mobile-borough-grid">
+      <a href="{{ "/burnley/" | relURL }}">Burnley</a>
+      <a href="{{ "/pendle/" | relURL }}">Pendle</a>
+      <a href="{{ "/rossendale/" | relURL }}">Rossendale</a>
+      <a href="{{ "/hyndburn/" | relURL }}">Hyndburn</a>
+      <a href="{{ "/ribble-valley/" | relURL }}">Ribble Valley</a>
+      <a href="{{ "/blackburn/" | relURL }}">Blackburn w/ Darwen</a>
+      <a href="{{ "/chorley/" | relURL }}">Chorley</a>
+      <a href="{{ "/south-ribble/" | relURL }}">South Ribble</a>
+      <a href="{{ "/preston/" | relURL }}">Preston</a>
+      <a href="{{ "/west-lancashire/" | relURL }}">West Lancashire</a>
+      <a href="{{ "/lancaster/" | relURL }}">Lancaster</a>
+      <a href="{{ "/wyre/" | relURL }}">Wyre</a>
+      <a href="{{ "/fylde/" | relURL }}">Fylde</a>
+      <a href="{{ "/blackpool/" | relURL }}">Blackpool</a>
+    </div>
+  </nav>
+</header>
