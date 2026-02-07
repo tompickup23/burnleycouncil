@@ -1,0 +1,83 @@
+{
+  "id": "hyndburn-b3p-services-breach",
+  "slug": "hyndburn-b3p-services-breach",
+  "title": "Hyndburn Paid £420K to B3P Services While Company Had No Active Directors",
+  "council": "Hyndburn",
+  "category": "Governance Failure",
+  "severity": "critical",
+  "published": "2026-02-07",
+  "updated": "2026-02-07",
+  "author": "AI DOGE Investigation",
+  "readTime": "4 min",
+  "excerpt": "Hyndburn Borough Council paid over £420,000 to B3P Services Ltd during a period when the company had no active directors registered at Companies House — a critical governance failure.",
+  "content": {
+    "blocks": [
+      {
+        "type": "hero",
+        "title": "£420K Paid to Company With No Directors",
+        "subtitle": "Hyndburn's largest single supplier breach reveals critical due diligence gap",
+        "stat": "£420,200",
+        "statLabel": "Paid During Active Breach"
+      },
+      {
+        "type": "summary",
+        "items": [
+          "B3P Services Ltd received £420,200 while having no active directors",
+          "Highest-value breach across all three East Lancashire councils",
+          "Payments continued despite Companies House flagging director absence",
+          "No evidence of enhanced due diligence before contract award"
+        ]
+      },
+      {
+        "type": "section",
+        "heading": "The Scale of the Breach",
+        "content": "B3P Services Ltd stands out as the most serious supplier compliance failure identified in our analysis of East Lancashire council spending. While Hyndburn paid £1.1 million total to suppliers during active Companies Act breaches, B3P Services alone accounts for 38% of that amount."
+      },
+      {
+        "type": "insight",
+        "heading": "What 'No Active Directors' Means",
+        "content": "A company with no active directors cannot legally make decisions, enter contracts, or authorise payments. It typically indicates either: (1) All directors have resigned without replacement, (2) The company is being wound down, or (3) There has been a serious administrative failure. None of these scenarios justify continued council payments.",
+        "severity": "critical"
+      },
+      {
+        "type": "section",
+        "heading": "Pattern of Governance Failure",
+        "content": "This case represents the extreme end of a broader problem. Hyndburn paid 17 different suppliers during active breaches, totaling £1.1 million. However, B3P Services is unique in both the scale of payments and the severity of the compliance failure — no directors means no corporate governance whatsoever."
+      },
+      {
+        "type": "dataTable",
+        "heading": "Hyndburn's Top 3 Supplier Breaches",
+        "headers": ["Supplier", "Amount Paid", "Breach Type"],
+        "rows": [
+          ["B3P Services Ltd", "£420,200", "No active directors"],
+          ["JDS Trucks Ltd", "£287,300", "No active directors / No PSC"],
+          ["Homewise Society Ltd", "£158,600", "No active directors / No PSC"]
+        ]
+      },
+      {
+        "type": "section",
+        "heading": "Due Diligence Questions",
+        "content": "Our analysis raises several questions about Hyndburn's supplier verification processes: Was Companies House checked before contract award? Were ongoing monitoring checks performed? Why did payments continue after the director situation was flagged? What services were provided during this period, and who authorised them?"
+      },
+      {
+        "type": "cta",
+        "heading": "View the Full Spending Data",
+        "text": "Explore all payments to B3P Services Ltd and filter by date to see the complete payment timeline during the breach period.",
+        "link": "/spending?supplier=B3P SERVICES LTD",
+        "linkText": "View B3P Services Payments →"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "DOGE Findings Analysis",
+      "url": "https://aidoge.co.uk/spending",
+      "date": "2026-02-07"
+    }
+  ],
+  "relatedArticles": [
+    "hyndburn-ch-compliance-failures",
+    "hyndburn-duplicate-payments",
+    "lancashires-liberata-problem"
+  ]
+}
