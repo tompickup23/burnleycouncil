@@ -19,7 +19,7 @@ export default defineConfig({
       threshold: 1024,
     }),
   ],
-  base: '/burnleycouncil/',
+  base: process.env.VITE_BASE || '/burnleycouncil/',
   build: {
     // Enable source maps for debugging in production
     sourcemap: false,

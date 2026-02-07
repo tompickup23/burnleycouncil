@@ -14,11 +14,15 @@ BASE=${2:?Usage: $0 <council_id> <base_path>}
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-APP_DIR="$PROJECT_DIR/burnley-app"
+APP_DIR="$(dirname "$PROJECT_DIR")"    # clawd root (contains src/, public/, package.json)
 DATA_DIR="$PROJECT_DIR/data/$COUNCIL"
+DEPLOY_DIR="$PROJECT_DIR/burnley-app"  # gh-pages deployment directory
 
 echo "============================================================"
 echo "AI DOGE — Building SPA for: $COUNCIL (base: $BASE)"
+echo "  SPA source:  $APP_DIR"
+echo "  Data source:  $DATA_DIR"
+echo "  Deploy target: $DEPLOY_DIR"
 echo "============================================================"
 
 # Check data directory exists
@@ -38,7 +42,6 @@ fi
 echo "  Cleaning previous data..."
 rm -f "$APP_DIR/public/data/"*.json
 rm -rf "$APP_DIR/public/data/articles"
-rm -rf "$APP_DIR/dist"
 
 # Copy council-specific data to the SPA's public/data directory
 echo "  Copying data files..."
@@ -53,7 +56,7 @@ if [ -f "$DATA_DIR/config.json" ]; then
 fi
 
 # Copy optional data files if they exist
-for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json doge_knowledge.json foi_templates.json pay_comparison.json; do
+for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json doge_knowledge.json foi_templates.json pay_comparison.json doge_insights.json; do
     if [ -f "$DATA_DIR/$OPTIONAL" ]; then
         cp "$DATA_DIR/$OPTIONAL" "$APP_DIR/public/data/$OPTIONAL"
         echo "  Copied: $OPTIONAL"
@@ -64,7 +67,8 @@ done
 if [ -d "$DATA_DIR/articles" ]; then
     mkdir -p "$APP_DIR/public/data/articles"
     cp "$DATA_DIR/articles/"*.json "$APP_DIR/public/data/articles/"
-    echo "  Copied: articles/ ($(ls "$DATA_DIR/articles/"*.json 2>/dev/null | wc -l | tr -d ' ') files)"
+    ARTICLE_COUNT=$(ls "$DATA_DIR/articles/"*.json 2>/dev/null | wc -l | tr -d ' ')
+    echo "  Copied: articles/ ($ARTICLE_COUNT files)"
 fi
 
 # Build with the specified base path
@@ -77,7 +81,7 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
-VITE_BASE="$BASE" npm run build 2>&1
+VITE_BASE="$BASE" npx vite build 2>&1
 
 # Output directory
 DIST_DIR="$APP_DIR/dist"
@@ -86,8 +90,18 @@ echo "  Build complete!"
 echo "  Output: $DIST_DIR"
 echo "  Files: $(find "$DIST_DIR" -type f | wc -l | tr -d ' ') files"
 echo "  Size: $(du -sh "$DIST_DIR" | cut -f1)"
+
+# Copy to deployment directory
+DEPLOY_SUBDIR="$DEPLOY_DIR/${BASE#/}"
+DEPLOY_SUBDIR="${DEPLOY_SUBDIR%/}"
+if [ -d "$DEPLOY_DIR" ]; then
+    echo ""
+    echo "  Deploying to: $DEPLOY_SUBDIR"
+    rm -rf "$DEPLOY_SUBDIR"
+    mkdir -p "$DEPLOY_SUBDIR"
+    cp -r "$DIST_DIR/"* "$DEPLOY_SUBDIR/"
+    echo "  Deployed!"
+fi
+
 echo ""
-echo "  To deploy to gh-pages:"
-echo "    1. Copy $DIST_DIR/* to the gh-pages branch under ${BASE}"
-echo "    2. Ensure 404.html handles SPA routing for ${BASE}*"
 echo "============================================================"
