@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom'
 import { Database, Shield, ExternalLink, Mail } from 'lucide-react'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import './About.css'
 
 function About() {
+  const config = useCouncilConfig()
+  const councilFullName = config.council_full_name || 'Borough Council'
+  const officialUrl = config.official_website || '#'
+  const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+  const spendingThreshold = config.spending_threshold || 500
+  const dataPeriod = config.spending_data_period || 'April 2021 to present'
+
   return (
     <div className="about-page animate-fade-in">
       {/* Hero Section */}
@@ -19,7 +27,7 @@ function About() {
       <section className="intro-section">
         <div className="intro-content">
           <p>
-            Every year, Burnley Borough Council spends tens of millions of pounds of public money.
+            Every year, {councilFullName} spends tens of millions of pounds of public money.
             By law, they publish details of this spending — but it's buried in spreadsheets and
             PDFs that most people never see.
           </p>
@@ -28,7 +36,7 @@ function About() {
             see who receives the most public money, and understand where your council tax goes.
           </p>
           <p>
-            This website was created by County Councillor for Padiham &amp; Burnley West, Tom Pickup.
+            This website was created by {config.publisher || 'Tom Pickup'}, County Councillor for Padiham &amp; Burnley West.
             Formerly part of the Reform UK internal DOGE team and former Lead Member for Finance
             &amp; Resources at Lancashire County Council, Tom has helped deliver £5 of efficiency savings
             for every £100 spent since May 2025, the lowest council tax rise in 12 years and
@@ -97,10 +105,10 @@ function About() {
           <div className="data-card">
             <h4>Spending Data</h4>
             <p>
-              Payments over £500, contracts over £5,000, and purchase card transactions.
+              Payments over £{spendingThreshold.toLocaleString()}, contracts over £5,000, and purchase card transactions.
               Published quarterly under the Local Government Transparency Code.
             </p>
-            <span className="data-note">Covers April 2021 to present</span>
+            <span className="data-note">Covers {dataPeriod}</span>
           </div>
           <div className="data-card">
             <h4>Budget Information</h4>
@@ -134,8 +142,8 @@ function About() {
             <h4>This is NOT an official council website</h4>
             <p>
               This is an independent tool. For official services, visit{' '}
-              <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">
-                burnley.gov.uk <ExternalLink size={12} />
+              <a href={officialUrl} target="_blank" rel="noopener noreferrer">
+                {officialDomain} <ExternalLink size={12} />
               </a>
             </p>
           </div>

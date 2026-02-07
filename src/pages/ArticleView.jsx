@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Calendar, ArrowLeft, Tag } from 'lucide-react'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { formatDate } from '../utils/format'
 import './News.css'
 
 function ArticleView() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
+  const siteName = `${councilName} Council Transparency`
   const { articleId } = useParams()
   const { data: index, loading: indexLoading } = useData('/data/articles-index.json')
   const [content, setContent] = useState(null)
@@ -42,7 +46,7 @@ function ArticleView() {
   // Update document title and meta tags for SEO / Google News
   useEffect(() => {
     if (article) {
-      document.title = `${article.title} | Burnley Council Transparency`
+      document.title = `${article.title} | ${siteName}`
 
       // Update meta description
       let metaDesc = document.querySelector('meta[name="description"]')
@@ -58,10 +62,10 @@ function ArticleView() {
         'og:title': article.title,
         'og:description': article.summary || '',
         'og:type': 'article',
-        'og:url': `https://burnleycouncil.co.uk/news/${article.id}`,
-        'og:image': article.image ? `https://burnleycouncil.co.uk${article.image}` : '',
+        'og:url': `${window.location.origin}/news/${article.id}`,
+        'og:image': article.image ? `${window.location.origin}${article.image}` : '',
         'article:published_time': article.date,
-        'article:author': article.author || 'Burnley Council Transparency',
+        'article:author': article.author || siteName,
         'article:section': article.category || 'News',
       }
 
@@ -99,22 +103,22 @@ function ArticleView() {
         '@type': 'NewsArticle',
         headline: article.title,
         description: article.summary || '',
-        image: article.image ? [`https://burnleycouncil.co.uk${article.image}`] : [],
+        image: article.image ? [`${window.location.origin}${article.image}`] : [],
         datePublished: article.date,
         dateModified: article.date,
         author: {
           '@type': 'Organization',
-          name: article.author || 'Burnley Council Transparency',
-          url: 'https://burnleycouncil.co.uk'
+          name: article.author || siteName,
+          url: window.location.origin
         },
         publisher: {
           '@type': 'Organization',
-          name: 'Burnley Council Transparency',
-          url: 'https://burnleycouncil.co.uk'
+          name: siteName,
+          url: window.location.origin
         },
         mainEntityOfPage: {
           '@type': 'WebPage',
-          '@id': `https://burnleycouncil.co.uk/news/${article.id}`
+          '@id': `${window.location.origin}/news/${article.id}`
         },
         articleSection: article.category || 'News',
         keywords: article.tags?.join(', ') || ''
@@ -122,7 +126,7 @@ function ArticleView() {
     }
 
     return () => {
-      document.title = 'Burnley Council Transparency | Where Your Money Goes'
+      document.title = `${siteName} | Where Your Money Goes`
       // Clean up JSON-LD
       const ldScript = document.getElementById('article-jsonld')
       if (ldScript) ldScript.remove()
@@ -154,7 +158,7 @@ function ArticleView() {
       </Link>
 
       <article className="article-full" itemScope itemType="https://schema.org/NewsArticle">
-        <meta itemProp="author" content={article.author || 'Burnley Council Transparency'} />
+        <meta itemProp="author" content={article.author || siteName} />
         <meta itemProp="datePublished" content={article.date} />
 
         <header className="article-header">
@@ -168,7 +172,7 @@ function ArticleView() {
               {formatDate(article.date, 'long')}
             </span>
             <span className="meta-item">
-              {article.author || 'Burnley Council Transparency'}
+              {article.author || siteName}
             </span>
           </div>
         </header>

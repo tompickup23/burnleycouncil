@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { MapPin, User, Mail, Phone } from 'lucide-react'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import './MyArea.css'
 
 function MyArea() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
   const { data, loading } = useData([
     '/data/wards.json',
     '/data/councillors.json',
@@ -13,9 +16,9 @@ function MyArea() {
   const [selectedWard, setSelectedWard] = useState(null)
 
   useEffect(() => {
-    document.title = 'My Area | Burnley Council Transparency'
-    return () => { document.title = 'Burnley Council Transparency' }
-  }, [])
+    document.title = `My Area | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency` }
+  }, [councilName])
 
   if (loading) {
     return <LoadingState message="Loading ward data..." />
@@ -32,7 +35,7 @@ function MyArea() {
       <header className="page-header">
         <h1>My Area</h1>
         <p className="subtitle">
-          Find your ward and councillors in Burnley. Each ward has 3 councillors.
+          Find your ward and councillors in {councilName}. Each ward has 3 councillors.
         </p>
       </header>
 
@@ -154,15 +157,15 @@ function MyArea() {
         <h2>Not sure which ward you're in?</h2>
         <div className="find-ward-card">
           <p>
-            You can find your ward by entering your postcode on the official Burnley Council website.
+            You can find your ward by entering your postcode on the official {councilName} Council website.
           </p>
           <a
-            href="https://burnley.gov.uk/council-democracy/councillors-mps/find-your-councillor/"
+            href={config.find_councillor_url || `${config.official_website || '#'}/council-democracy/councillors-mps/find-your-councillor/`}
             target="_blank"
             rel="noopener noreferrer"
             className="find-ward-link"
           >
-            Find Your Councillor on burnley.gov.uk →
+            Find Your Councillor on {(config.official_website || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} →
           </a>
         </div>
       </section>

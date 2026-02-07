@@ -144,9 +144,6 @@ def api_post(path, data_dict):
         return []
 
 
-# Need urllib.parse for POST encoding
-import urllib.parse
-
 
 def get_latest_date():
     """Get the latest available crime data month."""

@@ -4,21 +4,28 @@ import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Se
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import './Home.css'
 
 function Home() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
+  const councilFullName = config.council_full_name || 'Borough Council'
+  const officialUrl = config.official_website || '#'
+
   const { data, loading } = useData([
     '/data/insights.json',
     '/data/budget_insights.json',
     '/data/politics_summary.json',
+    '/data/articles-index.json',
   ])
-  const [insights, budgetInsights, politicsSummary] = data || []
+  const [insights, budgetInsights, politicsSummary, articlesIndex] = data || []
 
   useEffect(() => {
-    document.title = 'Home | Burnley Council Transparency'
-    return () => { document.title = 'Burnley Council Transparency' }
-  }, [])
+    document.title = `Home | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency` }
+  }, [councilName])
 
   if (loading) {
     return <LoadingState message="Loading dashboard data..." />
@@ -66,8 +73,8 @@ function Home() {
       <div className="disclaimer-banner">
         <Shield size={16} />
         <span>
-          <strong>Independent Transparency Tool</strong> — NOT affiliated with Burnley Borough Council.
-          Data may contain errors — always <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">verify with official sources</a>. <Link to="/legal">Legal disclaimer</Link>
+          <strong>Independent Transparency Tool</strong> — NOT affiliated with {councilFullName}.
+          Data may contain errors — always <a href={officialUrl} target="_blank" rel="noopener noreferrer">verify with official sources</a>. <Link to="/legal">Legal disclaimer</Link>
         </span>
       </div>
 
@@ -76,8 +83,7 @@ function Home() {
         <div className="hero-content">
           <h1>Your Money. Your Council. <span className="highlight">Your Right to Know.</span></h1>
           <p className="hero-subtitle">
-            Explore how Burnley Borough Council spends public money.
-            All data comes from publicly available council documents.
+            {config.hero_subtitle || `Explore how ${councilFullName} spends public money. All data comes from publicly available council documents.`}
           </p>
           <div className="hero-stats">
             <div className="hero-stat">
@@ -305,7 +311,7 @@ function Home() {
       <section className="politics-section">
         <h2>Who Runs Your Council?</h2>
         <p className="section-intro">
-          45 councillors make decisions about how your money is spent.
+          {politicsSummary?.total_councillors || ''} councillors make decisions about how your money is spent.
         </p>
 
         <div className="politics-grid">
@@ -359,10 +365,10 @@ function Home() {
               <h4>Ruling Coalition</h4>
               <div className="coalition-seats">
                 <span className="seat-count">{politicsSummary?.coalition?.total_seats || 0}</span>
-                <span className="seat-label">of 45 seats</span>
+                <span className="seat-label">of {politicsSummary?.total_councillors || ''} seats</span>
               </div>
               <p className="coalition-parties">
-                Burnley Independent Group + Liberal Democrats + Green Party
+                {politicsSummary?.coalition?.parties?.join(' + ') || 'Coalition'}
               </p>
               <p className="coalition-note">Majority threshold: 23 seats</p>
             </div>
@@ -418,28 +424,18 @@ function Home() {
       <section className="news-preview-section">
         <h2><Newspaper size={24} /> Latest News &amp; Findings</h2>
         <p className="section-intro">
-          Investigations, analysis, and democracy coverage for Burnley Council.
+          Investigations, analysis, and democracy coverage for {councilName} Council.
         </p>
 
         <div className="news-preview-grid">
-          <Link to="/news/cancelled-elections-democracy" className="news-preview-card featured">
-            <span className="category-badge democracy">Democracy</span>
-            <h4>Burnley Council Elections Cancelled by Labour Government</h4>
-            <p>The Labour Government cancelled Burnley's May 2026 elections despite the Scrutiny Committee recommending they proceed. Reform UK launched a judicial review. 150,000+ signed a petition.</p>
-            <span className="read-more">Read the full story <ChevronRight size={14} /></span>
-          </Link>
-          <Link to="/news/councillor-pay-allowances" className="news-preview-card">
-            <span className="category-badge democracy">Democracy</span>
-            <h4>Councillor Pay: LCC Reform UK Freeze vs Burnley Labour Increases</h4>
-            <p>Reform UK led a 75-0 vote to freeze all councillor allowances at Lancashire County Council. At Burnley, Labour voted for 4%+ increases in 2023 and 2024.</p>
-            <span className="read-more">Read more <ChevronRight size={14} /></span>
-          </Link>
-          <Link to="/news/budget-2026-27-preview" className="news-preview-card">
-            <span className="category-badge analysis">Analysis</span>
-            <h4>Burnley Council Budget 2026/27: £2.2 Million Business Rates Hit</h4>
-            <p>The government business rates reset strips £2.2 million from Burnley's income. How the council fills the gap will define its final years before LGR.</p>
-            <span className="read-more">Read the budget preview <ChevronRight size={14} /></span>
-          </Link>
+          {(articlesIndex || []).sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 3).map((article, i) => (
+            <Link key={article.id} to={`/news/${article.id}`} className={`news-preview-card${i === 0 ? ' featured' : ''}`}>
+              <span className={`category-badge ${(article.category || 'analysis').toLowerCase()}`}>{article.category || 'Analysis'}</span>
+              <h4>{article.title}</h4>
+              <p>{article.summary?.slice(0, 180)}{article.summary?.length > 180 ? '…' : ''}</p>
+              <span className="read-more">Read more <ChevronRight size={14} /></span>
+            </Link>
+          ))}
         </div>
 
         <Link to="/news" className="view-all-link">

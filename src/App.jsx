@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Layout from './components/Layout'
 import ScrollToTop from './components/ScrollToTop'
 import { ErrorBoundary, LoadingState } from './components/ui'
+import { CouncilConfigProvider } from './context/CouncilConfig'
 import { preloadData } from './hooks/useData'
 import Home from './pages/Home'
 import './App.css'
@@ -20,12 +21,13 @@ const FOI = lazy(() => import('./pages/FOI'))
 const Meetings = lazy(() => import('./pages/Meetings'))
 
 // Preload commonly needed data
-preloadData(['/data/insights.json', '/data/politics_summary.json'])
+preloadData(['/data/config.json', '/data/insights.json', '/data/politics_summary.json'])
 
 function App() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <ScrollToTop />
+      <CouncilConfigProvider>
       <Layout>
         <ErrorBoundary>
           <Suspense fallback={<LoadingState />}>
@@ -46,6 +48,7 @@ function App() {
           </Suspense>
         </ErrorBoundary>
       </Layout>
+      </CouncilConfigProvider>
     </Router>
   )
 }

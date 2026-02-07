@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { SearchableSelect, LoadingState } from '../components/ui'
 import { formatCurrency, formatDate, truncate } from '../utils/format'
 import './Spending.css'
@@ -26,6 +27,9 @@ function SortIcon({ field, sortField, sortDir }) {
 }
 
 function Spending() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
+  const councilId = config.council_id || 'council'
   const { data: spending, loading } = useData('/data/spending.json')
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('table')
@@ -82,8 +86,8 @@ function Spending() {
 
   // Set page title
   useEffect(() => {
-    document.title = 'Spending Explorer | Burnley Council Transparency'
-    return () => { document.title = 'Burnley Council Transparency | Where Your Money Goes' }
+    document.title = `Spending Explorer | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
   }, [])
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
@@ -271,7 +275,7 @@ function Spending() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `burnley-spending-export-${new Date().toISOString().split('T')[0]}.csv`
+    a.download = `${councilId}-spending-export-${new Date().toISOString().split('T')[0]}.csv`
     a.click()
     URL.revokeObjectURL(url)
   }

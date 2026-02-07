@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText } from 'lucide-react'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import './Meetings.css'
 
@@ -48,15 +49,17 @@ function daysUntil(dateStr) {
 }
 
 function Meetings() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
   const { data: meetingsData, loading, error } = useData('/data/meetings.json')
   const [typeFilter, setTypeFilter] = useState('all')
   const [showPast, setShowPast] = useState(false)
   const [expandedId, setExpandedId] = useState(null)
 
   useEffect(() => {
-    document.title = 'Meetings Calendar | Burnley Council Transparency'
-    return () => { document.title = 'Burnley Council Transparency | Where Your Money Goes' }
-  }, [])
+    document.title = `Meetings Calendar | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
+  }, [councilName])
 
   const meetings = useMemo(() => {
     if (!meetingsData?.meetings) return []
@@ -102,7 +105,7 @@ function Meetings() {
       <div className="page-header">
         <h1>Meetings Calendar</h1>
         <p className="subtitle">
-          Upcoming Burnley Council meetings with agenda analysis and public participation guidance
+          Upcoming {councilName} Council meetings with agenda analysis and public participation guidance
         </p>
       </div>
 
@@ -320,7 +323,7 @@ function Meetings() {
       {/* Data Source Note */}
       <div className="meetings-source">
         <p>
-          Meeting data sourced from the <a href="https://burnley.moderngov.co.uk" target="_blank" rel="noopener noreferrer">Burnley Council ModernGov portal</a>.
+          Meeting data sourced from the <a href={config.moderngov_url || '#'} target="_blank" rel="noopener noreferrer">{councilName} Council ModernGov portal</a>.
           Updated weekly. Agendas are typically published 5 working days before each meeting.
           {meetingsData.last_updated && ` Last checked: ${formatMeetingDate(meetingsData.last_updated.split('T')[0])}.`}
         </p>

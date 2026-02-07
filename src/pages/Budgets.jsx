@@ -3,6 +3,7 @@ import { TrendingUp, TrendingDown, AlertTriangle, PiggyBank, Building, Landmark,
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { formatCurrency, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import './Budgets.css'
 
@@ -35,6 +36,9 @@ const CAPITAL_COLORS = {
 }
 
 function Budgets() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
+  const councilFullName = config.council_full_name || 'Borough Council'
   const { data, loading } = useData([
     '/data/budgets.json',
     '/data/budget_insights.json',
@@ -48,8 +52,8 @@ function Budgets() {
   })
 
   useEffect(() => {
-    document.title = 'Budget Analysis | Burnley Council Transparency'
-    return () => { document.title = 'Burnley Council Transparency' }
+    document.title = `Budget Analysis | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency` }
   }, [])
 
   // Initialize selectedYear when data first loads
@@ -73,7 +77,7 @@ function Budgets() {
   const revenueChartData = revenueBudgets.map(b => ({
     year: b.financial_year,
     budget: b.net_revenue_budget / 1_000_000,
-    councilTax: b.council_tax?.burnley_element || 0,
+    councilTax: b.council_tax?.council_element ?? b.council_tax?.[`${config.council_id}_element`] ?? b.council_tax?.burnley_element ?? 0,
   }))
 
   // Departmental data for selected year
@@ -136,7 +140,7 @@ function Budgets() {
       <header className="page-header">
         <h1>Budget Analysis</h1>
         <p className="subtitle">
-          Comprehensive analysis of Burnley Borough Council's revenue and capital budgets (2020/21 – 2025/26)
+          Comprehensive analysis of {councilFullName}'s revenue and capital budgets
         </p>
       </header>
 
@@ -323,7 +327,7 @@ function Budgets() {
 
           {/* Council Tax Trend */}
           <section className="chart-section">
-            <h2>Council Tax (Burnley Element) Band D</h2>
+            <h2>Council Tax ({councilName} Element) Band D</h2>
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={revenueChartData.filter(d => d.councilTax > 0)} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -340,7 +344,7 @@ function Budgets() {
                       border: '1px solid var(--border-color)',
                       borderRadius: '8px',
                     }}
-                    formatter={(value) => [`£${value.toFixed(2)}`, 'Band D (Burnley)']}
+                    formatter={(value) => [`£${value.toFixed(2)}`, `Band D (${councilName})`]}
                   />
                   <Line
                     type="monotone"
@@ -352,7 +356,7 @@ function Budgets() {
                 </LineChart>
               </ResponsiveContainer>
               <p className="chart-note text-secondary">
-                This is the Burnley Borough Council element only. Total Band D council tax includes Lancashire County Council, police, and fire precepts.
+                This is the {councilFullName} element only. Total Band D council tax includes Lancashire County Council, police, and fire precepts.
               </p>
             </div>
           </section>
@@ -500,7 +504,7 @@ function Budgets() {
             </div>
             <p className="table-note text-secondary">
               * Finance & Property split into separate departments in 2025/26. Property services brought back in-house from Liberata.
-              Combined figure shown for comparison. Source: Burnley Council Budget Books.
+              Combined figure shown for comparison. Source: {councilName} Council Budget Books.
             </p>
           </section>
 

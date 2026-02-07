@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { Shield, FileText, Cookie, Eye, Scale, Mail } from 'lucide-react'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import './Legal.css'
 
 function Legal() {
+  const config = useCouncilConfig()
+  const councilFullName = config.council_full_name || 'Borough Council'
+  const officialUrl = config.official_website || '#'
+  const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
   const [activeTab, setActiveTab] = useState('disclaimer')
 
   const tabs = [
@@ -44,7 +49,7 @@ function Legal() {
               <h3>⚠️ Independent Website — Not Official</h3>
               <p>
                 <strong>This website is an independent transparency tool.</strong> It presents
-                publicly available data about Burnley Borough Council in an accessible format.
+                publicly available data about {councilFullName} in an accessible format.
                 Data has been processed automatically and may contain errors.
               </p>
             </div>
@@ -58,10 +63,10 @@ function Legal() {
 
             <h3>Not an Official Council Website</h3>
             <p>
-              This website is <strong>NOT</strong> the official Burnley Borough Council website and is
-              <strong>NOT</strong> affiliated with, endorsed by, or connected to Burnley Borough Council
+              This website is <strong>NOT</strong> the official {councilFullName} website and is
+              <strong>NOT</strong> affiliated with, endorsed by, or connected to {councilFullName}
               in any way. For official council services, please visit{' '}
-              <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">burnley.gov.uk</a>.
+              <a href={officialUrl} target="_blank" rel="noopener noreferrer">{officialDomain}</a>.
             </p>
 
             <h3>No Political Party Affiliation</h3>
@@ -113,8 +118,8 @@ function Legal() {
               this website against official sources before acting upon it. Official sources include:
             </p>
             <ul>
-              <li><a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">Burnley Borough Council official website</a></li>
-              <li><a href="https://burnley.moderngov.co.uk" target="_blank" rel="noopener noreferrer">Council committee papers (ModernGov)</a></li>
+              <li><a href={officialUrl} target="_blank" rel="noopener noreferrer">{councilFullName} official website</a></li>
+              {config.moderngov_url && <li><a href={config.moderngov_url} target="_blank" rel="noopener noreferrer">Council committee papers (ModernGov)</a></li>}
               <li>Freedom of Information requests to the council</li>
               <li>Published Statement of Accounts and Budget Books</li>
             </ul>
@@ -308,13 +313,13 @@ function Legal() {
             <p>
               The design, layout, and original content of this website are protected by
               copyright. The underlying spending data is public information published by
-              Burnley Borough Council under the Local Government Transparency Code.
+              {councilFullName} under the Local Government Transparency Code.
             </p>
 
             <h3>Attribution</h3>
             <p>
               If you use data or analysis from this website, please attribute it as:
-              "Source: Burnley Council Transparency (burnleycouncil.co.uk) - independent analysis
+              "Source: {config.council_name} Council Transparency (aidoge.co.uk) - independent analysis
               of publicly available council data."
             </p>
 

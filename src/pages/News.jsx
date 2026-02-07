@@ -2,20 +2,22 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Calendar, ChevronRight, AlertCircle, TrendingUp, Users } from 'lucide-react'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { formatDate } from '../utils/format'
 import './News.css'
 
 function News() {
+  const { council_name: councilName = 'Council' } = useCouncilConfig()
   const { data: articles, loading, error } = useData('/data/articles-index.json')
   const [categoryFilter, setCategoryFilter] = useState('all')
 
   useEffect(() => {
-    document.title = 'News & Findings | Burnley Council Transparency'
+    document.title = `News & Findings | ${councilName} Council Transparency`
     return () => {
-      document.title = 'Burnley Council Transparency | Where Your Money Goes'
+      document.title = `${councilName} Council Transparency | Where Your Money Goes`
     }
-  }, [])
+  }, [councilName])
 
   if (loading) {
     return <LoadingState message="Loading articles..." />

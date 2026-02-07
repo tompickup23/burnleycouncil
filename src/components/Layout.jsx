@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar } from 'lucide-react'
 import { useState } from 'react'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import './Layout.css'
 
 const navItems = [
@@ -17,6 +18,10 @@ const navItems = [
 
 function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
+  const officialUrl = config.official_website || '#'
+  const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
 
   return (
     <div className="layout">
@@ -29,13 +34,13 @@ function Layout({ children }) {
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <h1 className="mobile-title">Burnley Council</h1>
+        <h1 className="mobile-title">{councilName} Council</h1>
       </header>
 
       {/* Sidebar */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <h1 className="site-title">Burnley</h1>
+          <h1 className="site-title">{councilName}</h1>
           <span className="site-subtitle">Council Transparency</span>
         </div>
 
@@ -62,12 +67,12 @@ function Layout({ children }) {
             Independent public scrutiny tool
           </p>
           <p className="footer-link">
-            <a href="https://burnley.gov.uk" target="_blank" rel="noopener noreferrer">
-              Official Council → burnley.gov.uk
+            <a href={officialUrl} target="_blank" rel="noopener noreferrer">
+              Official Council → {officialDomain}
             </a>
           </p>
           <p className="footer-imprint">
-            Published by Tom Pickup
+            Published by {config.publisher || 'AI DOGE'}
           </p>
         </div>
       </aside>

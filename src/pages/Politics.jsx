@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Search, User, Mail, Phone, MapPin } from 'lucide-react'
 import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import './Politics.css'
 
 function Politics() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
   const { data, loading } = useData([
     '/data/councillors.json',
     '/data/politics_summary.json',
@@ -16,9 +19,9 @@ function Politics() {
   const [selectedCouncillor, setSelectedCouncillor] = useState(null)
 
   useEffect(() => {
-    document.title = 'Council Politics | Burnley Council Transparency'
-    return () => { document.title = 'Burnley Council Transparency' }
-  }, [])
+    document.title = `Council Politics | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency` }
+  }, [councilName])
 
   if (loading) {
     return <LoadingState message="Loading councillor data..." />
@@ -41,7 +44,7 @@ function Politics() {
       <header className="page-header">
         <h1>Council Politics</h1>
         <p className="subtitle">
-          45 councillors representing 15 wards across Burnley
+          {councillors.length} councillors representing {summary?.total_wards || ''} wards across {councilName}
         </p>
       </header>
 
