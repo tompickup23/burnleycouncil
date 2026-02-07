@@ -6,6 +6,9 @@
 
 set -e
 
+# Ensure homebrew tools are available (macOS)
+export PATH="/opt/homebrew/bin:$PATH"
+
 COUNCIL=${1:?Usage: $0 <council_id> <base_path>}
 BASE=${2:?Usage: $0 <council_id> <base_path>}
 
@@ -42,6 +45,14 @@ if [ -f "$DATA_DIR/config.json" ]; then
     cp "$DATA_DIR/config.json" "$APP_DIR/public/data/config.json"
     echo "  Using council config: $DATA_DIR/config.json"
 fi
+
+# Copy optional data files if they exist
+for OPTIONAL in revenue_trends.json budgets_govuk.json budgets_summary.json crime_stats.json budgets.json budget_insights.json councillors.json politics_summary.json wards.json doge_findings.json articles-index.json meetings.json; do
+    if [ -f "$DATA_DIR/$OPTIONAL" ]; then
+        cp "$DATA_DIR/$OPTIONAL" "$APP_DIR/public/data/$OPTIONAL"
+        echo "  Copied: $OPTIONAL"
+    fi
+done
 
 # Build with the specified base path
 echo "  Building SPA with VITE_BASE=$BASE ..."

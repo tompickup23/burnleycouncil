@@ -1,0 +1,420 @@
+{
+  "borough": "pendle",
+  "borough_name": "Pendle",
+  "ons_code": "E07000122",
+  "date": "2025-12",
+  "total_crimes": 758,
+  "total_stop_and_search": 35,
+  "by_category": {
+    "anti-social-behaviour": 189,
+    "burglary": 42,
+    "criminal-damage-arson": 69,
+    "drugs": 22,
+    "other-theft": 45,
+    "public-order": 31,
+    "robbery": 5,
+    "shoplifting": 33,
+    "theft-from-the-person": 4,
+    "violent-crime": 278,
+    "other-crime": 19,
+    "vehicle-crime": 14,
+    "bicycle-theft": 1,
+    "possession-of-weapons": 6
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 278
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 189
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 69
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 45
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 42
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 33
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 31
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 22
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 19
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 14
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 6
+    },
+    "robbery": {
+      "name": "Robbery",
+      "count": 5
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 4
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 1
+    }
+  },
+  "outcomes": {
+    "Under investigation": 271,
+    "Investigation complete; no suspect identified": 126,
+    "Unable to prosecute suspect": 99,
+    "Awaiting court outcome": 30,
+    "Local resolution": 30,
+    "Offender given a caution": 7,
+    "Action to be taken by another organisation": 2,
+    "Offender given penalty notice": 4
+  },
+  "ward_count": 12,
+  "wards": {
+    "PE1": {
+      "ward_id": "PE1",
+      "name": "Vivary bridge",
+      "total_crimes": 99,
+      "by_category": {
+        "anti-social-behaviour": 24,
+        "burglary": 9,
+        "criminal-damage-arson": 8,
+        "drugs": 1,
+        "other-theft": 7,
+        "public-order": 4,
+        "robbery": 2,
+        "shoplifting": 6,
+        "theft-from-the-person": 1,
+        "violent-crime": 36,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 39,
+        "Investigation complete; no suspect identified": 15,
+        "Unable to prosecute suspect": 12,
+        "Awaiting court outcome": 2,
+        "Local resolution": 5,
+        "Offender given a caution": 1,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 3
+      }
+    },
+    "PE10": {
+      "ward_id": "PE10",
+      "name": "Marsden &amp; Southfield",
+      "total_crimes": 77,
+      "by_category": {
+        "anti-social-behaviour": 15,
+        "burglary": 4,
+        "criminal-damage-arson": 9,
+        "drugs": 3,
+        "other-theft": 1,
+        "public-order": 5,
+        "shoplifting": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 35,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 29,
+        "Investigation complete; no suspect identified": 14,
+        "Local resolution": 5,
+        "Awaiting court outcome": 3,
+        "Unable to prosecute suspect": 11
+      },
+      "stop_and_search": {
+        "total": 5
+      }
+    },
+    "PE11": {
+      "ward_id": "PE11",
+      "name": "Waterside &amp; Horsfield",
+      "total_crimes": 85,
+      "by_category": {
+        "anti-social-behaviour": 22,
+        "bicycle-theft": 1,
+        "burglary": 4,
+        "criminal-damage-arson": 6,
+        "drugs": 1,
+        "other-theft": 4,
+        "possession-of-weapons": 1,
+        "public-order": 4,
+        "robbery": 1,
+        "shoplifting": 9,
+        "vehicle-crime": 3,
+        "violent-crime": 26,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 20,
+        "Under investigation": 26,
+        "Local resolution": 5,
+        "Unable to prosecute suspect": 10,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "PE12": {
+      "ward_id": "PE12",
+      "name": "Whitefield &amp; Walverton",
+      "total_crimes": 99,
+      "by_category": {
+        "anti-social-behaviour": 26,
+        "burglary": 1,
+        "criminal-damage-arson": 11,
+        "drugs": 4,
+        "other-theft": 10,
+        "public-order": 6,
+        "robbery": 1,
+        "shoplifting": 3,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 2,
+        "violent-crime": 31,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 43,
+        "Investigation complete; no suspect identified": 13,
+        "Unable to prosecute suspect": 8,
+        "Local resolution": 2,
+        "Awaiting court outcome": 6,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 11
+      }
+    },
+    "PE2": {
+      "ward_id": "PE2",
+      "name": "Bradley",
+      "total_crimes": 102,
+      "by_category": {
+        "anti-social-behaviour": 24,
+        "burglary": 2,
+        "criminal-damage-arson": 9,
+        "drugs": 8,
+        "other-theft": 7,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "robbery": 1,
+        "shoplifting": 8,
+        "theft-from-the-person": 1,
+        "violent-crime": 37,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 14,
+        "Under investigation": 35,
+        "Local resolution": 6,
+        "Awaiting court outcome": 7,
+        "Unable to prosecute suspect": 11,
+        "Offender given a caution": 1,
+        "Offender given penalty notice": 4
+      },
+      "stop_and_search": {
+        "total": 9
+      }
+    },
+    "PE3": {
+      "ward_id": "PE3",
+      "name": "Barnoldswick",
+      "total_crimes": 50,
+      "by_category": {
+        "anti-social-behaviour": 15,
+        "burglary": 1,
+        "criminal-damage-arson": 3,
+        "other-theft": 4,
+        "possession-of-weapons": 2,
+        "public-order": 3,
+        "shoplifting": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 16,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 10,
+        "Under investigation": 15,
+        "Unable to prosecute suspect": 7,
+        "Action to be taken by another organisation": 1,
+        "Offender given a caution": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PE4": {
+      "ward_id": "PE4",
+      "name": "Barrowford &amp; Pendleside",
+      "total_crimes": 41,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "burglary": 10,
+        "criminal-damage-arson": 2,
+        "drugs": 1,
+        "other-theft": 1,
+        "public-order": 2,
+        "shoplifting": 1,
+        "violent-crime": 17
+      },
+      "outcomes": {
+        "Under investigation": 16,
+        "Investigation complete; no suspect identified": 6,
+        "Unable to prosecute suspect": 7,
+        "Awaiting court outcome": 4,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PE5": {
+      "ward_id": "PE5",
+      "name": "Boulsworth &amp; Foulridge",
+      "total_crimes": 38,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "burglary": 3,
+        "criminal-damage-arson": 8,
+        "drugs": 1,
+        "other-theft": 2,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "vehicle-crime": 1,
+        "violent-crime": 13
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 10,
+        "Under investigation": 11,
+        "Unable to prosecute suspect": 6,
+        "Local resolution": 1,
+        "Offender given a caution": 2,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "PE6": {
+      "ward_id": "PE6",
+      "name": "Brierfield East &amp; Cloverhill",
+      "total_crimes": 64,
+      "by_category": {
+        "anti-social-behaviour": 19,
+        "burglary": 2,
+        "criminal-damage-arson": 8,
+        "drugs": 1,
+        "other-theft": 3,
+        "public-order": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 28,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 12,
+        "Under investigation": 18,
+        "Investigation complete; no suspect identified": 9,
+        "Local resolution": 3,
+        "Awaiting court outcome": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PE7": {
+      "ward_id": "PE7",
+      "name": "Brierfield West &amp; Reedley",
+      "total_crimes": 54,
+      "by_category": {
+        "anti-social-behaviour": 16,
+        "burglary": 1,
+        "criminal-damage-arson": 3,
+        "other-theft": 4,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "shoplifting": 3,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 20,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Under investigation": 21,
+        "Investigation complete; no suspect identified": 7,
+        "Unable to prosecute suspect": 9,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 4
+      }
+    },
+    "PE8": {
+      "ward_id": "PE8",
+      "name": "Earby &amp; Coates",
+      "total_crimes": 41,
+      "by_category": {
+        "anti-social-behaviour": 14,
+        "burglary": 2,
+        "criminal-damage-arson": 2,
+        "drugs": 2,
+        "other-theft": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 16,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 6,
+        "Under investigation": 13,
+        "Local resolution": 1,
+        "Awaiting court outcome": 2,
+        "Unable to prosecute suspect": 5
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PE9": {
+      "ward_id": "PE9",
+      "name": "Fence &amp; Higham",
+      "total_crimes": 8,
+      "by_category": {
+        "burglary": 3,
+        "vehicle-crime": 1,
+        "violent-crime": 3,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 5,
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    }
+  },
+  "generated_at": "2026-02-07T03:18:27.704400"
+}
