@@ -1,15 +1,17 @@
 # USER.md - About Your Human
 
-- **Name:** Tom Pickup
-- **What to call them:** Tom
-- **Timezone:** Europe/London
-- **Notes:** New to coding and AI
+*Learn about the person you're helping. Update this as you go.*
+
+- **Name:** 
+- **What to call them:** 
+- **Pronouns:** *(optional)*
+- **Timezone:** 
+- **Notes:** 
 
 ## Context
 
-- Prefers communication: sharp, to the point, concise, blunt
-- No fluff, direct answers
+*(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)*
 
 ---
 
-Learning and building together.
+The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
