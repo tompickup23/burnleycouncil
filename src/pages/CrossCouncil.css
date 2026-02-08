@@ -1,0 +1,377 @@
+/* Cross-Council Comparison Page */
+.cross-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.cross-hero {
+  margin-bottom: var(--space-xl);
+}
+
+.cross-hero .hero-content h1 {
+  margin-bottom: var(--space-sm);
+  background: linear-gradient(135deg, #ffffff 0%, #0a84ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cross-hero .hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+/* Overview Grid */
+.cross-overview {
+  margin-bottom: var(--space-2xl);
+}
+
+.cross-overview h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  font-size: 1.375rem;
+}
+
+.cross-overview h2 svg {
+  color: var(--accent-blue);
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-md);
+}
+
+.overview-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.overview-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.overview-card.current {
+  border-color: rgba(10, 132, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(10, 132, 255, 0.15);
+}
+
+.overview-header {
+  padding: var(--space-md) var(--space-lg);
+  border-left: 4px solid #48484a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overview-header h3 {
+  font-size: 1.125rem;
+}
+
+.current-badge {
+  font-size: 0.6875rem;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
+  font-weight: 600;
+}
+
+.overview-stats {
+  padding: var(--space-md) var(--space-lg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.ov-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ov-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ov-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Sections */
+.cross-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.cross-section h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-size: 1.375rem;
+}
+
+.cross-section h2 svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.section-intro {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+/* Chart Container (shared with PayComparison) */
+.cross-page .chart-container {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.2s ease;
+  margin-bottom: var(--space-md);
+}
+
+.cross-page .chart-container:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Scorecard Grid */
+.scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.scorecard-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.scorecard-card.current {
+  border-color: rgba(10, 132, 255, 0.2);
+}
+
+.scorecard-card h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-md);
+}
+
+.score-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.score-bar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.score-label {
+  min-width: 90px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.score-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.score-pct {
+  min-width: 40px;
+  text-align: right;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Cross Table */
+.cross-page .comparison-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cross-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: rgba(28, 28, 30, 0.7);
+}
+
+.cross-table th {
+  padding: var(--space-sm) var(--space-md);
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+}
+
+.cross-table th:first-child {
+  text-align: left;
+}
+
+.cross-table td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cross-table td:first-child {
+  text-align: left;
+}
+
+.cross-table td.council-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cross-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cross-table tr.highlight-row {
+  background: rgba(10, 132, 255, 0.08);
+}
+
+/* Duplicate Stats */
+.dupe-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.dupe-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-md);
+  background: rgba(28, 28, 30, 0.5);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dupe-council {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.dupe-count {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.dupe-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ff453a;
+}
+
+/* Methodology Note */
+.methodology-note {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: rgba(10, 132, 255, 0.06);
+  border: 1px solid rgba(10, 132, 255, 0.15);
+  border-radius: var(--radius-lg);
+}
+
+.methodology-note svg {
+  flex-shrink: 0;
+  color: var(--accent-blue);
+  margin-top: 2px;
+}
+
+.methodology-note h4 {
+  margin-bottom: var(--space-xs);
+  font-size: 0.9375rem;
+}
+
+.methodology-note p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.generated-date {
+  margin-top: var(--space-sm);
+  font-size: 0.75rem !important;
+  color: var(--text-tertiary, #666) !important;
+}
+
+/* Recharts Legend */
+.cross-page .recharts-legend-item-text {
+  color: var(--text-secondary) !important;
+  font-size: 0.8125rem !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scorecard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ov-value {
+    font-size: 1rem;
+  }
+
+  .cross-table th,
+  .cross-table td {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.75rem;
+  }
+
+  .dupe-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .cross-page .chart-container {
+    padding: var(--space-md);
+  }
+
+  .methodology-note {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+}

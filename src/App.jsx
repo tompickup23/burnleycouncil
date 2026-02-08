@@ -20,6 +20,7 @@ const About = lazy(() => import('./pages/About'))
 const FOI = lazy(() => import('./pages/FOI'))
 const Meetings = lazy(() => import('./pages/Meetings'))
 const PayComparison = lazy(() => import('./pages/PayComparison'))
+const CrossCouncil = lazy(() => import('./pages/CrossCouncil'))
 
 // Preload commonly needed data
 preloadData(['/data/config.json', '/data/insights.json', '/data/politics_summary.json'])
@@ -44,6 +45,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/meetings" element={<Meetings />} />
               <Route path="/pay" element={<PayComparison />} />
+              <Route path="/compare" element={<CrossCouncil />} />
               <Route path="/foi" element={<FOI />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
