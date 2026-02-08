@@ -125,5 +125,15 @@
     </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // GitHub Pages SPA routing — reads the ?p= parameter set by 404.html
+      // and uses history.replaceState to navigate to the correct client-side route.
+      (function() {
+        var redirect = new URLSearchParams(window.location.search).get('p');
+        if (redirect) {
+          history.replaceState(null, '', redirect);
+        }
+      })();
+    </script>
   </body>
 </html>

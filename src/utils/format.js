@@ -85,6 +85,18 @@ export function truncate(str, maxLength = 50) {
 }
 
 /**
+ * Create a URL-safe slug from a string.
+ * Must match the Python slugify in generate_supplier_profiles.py.
+ */
+export function slugify(str) {
+  if (!str) return ''
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+/**
  * Get financial year from date
  */
 export function getFinancialYear(dateStr) {

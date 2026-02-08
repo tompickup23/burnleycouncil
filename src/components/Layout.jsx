@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building } from 'lucide-react'
 import { useState } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import './Layout.css'
@@ -8,6 +8,7 @@ const navItems = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/news', icon: Newspaper, label: 'News' },
   { path: '/spending', icon: PoundSterling, label: 'Spending' },
+  { path: '/suppliers', icon: Building, label: 'Suppliers' },
   { path: '/budgets', icon: PieChart, label: 'Budgets' },
   { path: '/politics', icon: Users, label: 'Politics' },
   { path: '/my-area', icon: MapPin, label: 'My Area' },

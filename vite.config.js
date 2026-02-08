@@ -1,11 +1,36 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
+import { cpSync, existsSync } from 'fs'
+import { resolve } from 'path'
+
+/**
+ * Copies council-specific data from burnley-council/data/{council}/ to public/data/
+ * before each build. Uses the VITE_COUNCIL env var to determine which council.
+ */
+function councilDataPlugin() {
+  const council = process.env.VITE_COUNCIL || 'burnley'
+  const srcDir = resolve(import.meta.dirname || '.', 'burnley-council', 'data', council)
+  const destDir = resolve(import.meta.dirname || '.', 'public', 'data')
+  return {
+    name: 'council-data',
+    buildStart() {
+      if (!existsSync(srcDir)) {
+        console.warn(`⚠ Council data dir not found: ${srcDir}`)
+        return
+      }
+      console.log(`📋 Copying ${council} data → public/data/`)
+      cpSync(srcDir, destDir, { recursive: true, force: true })
+      console.log(`✓ Council data ready (${council})`)
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    councilDataPlugin(),
     // Pre-compress assets with gzip for faster serving
     compression({
       algorithm: 'gzip',

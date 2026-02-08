@@ -21,9 +21,11 @@ const FOI = lazy(() => import('./pages/FOI'))
 const Meetings = lazy(() => import('./pages/Meetings'))
 const PayComparison = lazy(() => import('./pages/PayComparison'))
 const CrossCouncil = lazy(() => import('./pages/CrossCouncil'))
+const Suppliers = lazy(() => import('./pages/Suppliers'))
+const SupplierView = lazy(() => import('./pages/SupplierView'))
 
 // Preload commonly needed data
-preloadData(['/data/config.json', '/data/insights.json', '/data/politics_summary.json'])
+preloadData(['/data/config.json', '/data/insights.json'])
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
               <Route path="/pay" element={<PayComparison />} />
               <Route path="/compare" element={<CrossCouncil />} />
               <Route path="/foi" element={<FOI />} />
+              <Route path="/suppliers" element={<Suppliers />} />
+              <Route path="/supplier/:supplierId" element={<SupplierView />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>
