@@ -116,7 +116,7 @@
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <script type="module" crossorigin src="/burnleycouncil/assets/index-Pn4rdqlw.js"></script>
+    <script type="module" crossorigin src="/burnleycouncil/assets/index-CpVxJych.js"></script>
     <link rel="modulepreload" crossorigin href="/burnleycouncil/assets/vendor-BUcjPAt-.js">
     <link rel="modulepreload" crossorigin href="/burnleycouncil/assets/tanstack-BHj98Y4o.js">
     <link rel="modulepreload" crossorigin href="/burnleycouncil/assets/recharts-DyzHFDWD.js">
@@ -129,5 +129,15 @@
       <p><strong>This is NOT the official Burnley Council website.</strong> For official services, visit <a href="https://burnley.gov.uk">burnley.gov.uk</a></p>
     </noscript>
     <div id="root"></div>
+    <script>
+      // GitHub Pages SPA routing — reads the ?p= parameter set by 404.html
+      // and uses history.replaceState to navigate to the correct client-side route.
+      (function() {
+        var redirect = new URLSearchParams(window.location.search).get('p');
+        if (redirect) {
+          history.replaceState(null, '', redirect);
+        }
+      })();
+    </script>
   </body>
 </html>
