@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { formatCurrency, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, DataFreshness } from '../components/ui'
 import './Budgets.css'
 
 // Consistent department list for comparison (excluding zero-budget and reserves)
@@ -142,6 +142,7 @@ function Budgets() {
         <p className="subtitle">
           Comprehensive analysis of {councilFullName}'s revenue and capital budgets
         </p>
+        <DataFreshness source="Budget data" compact />
       </header>
 
       {/* Revenue vs Capital Explainer */}

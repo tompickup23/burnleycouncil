@@ -4,7 +4,7 @@ import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, Trendi
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { SearchableSelect, LoadingState } from '../components/ui'
+import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate } from '../utils/format'
 import './Spending.css'
 
@@ -292,6 +292,7 @@ function Spending() {
           <p className="subtitle">
             Search and analyse {spendingData.length.toLocaleString()} council transactions
           </p>
+          <DataFreshness source="Spending data" compact />
         </div>
         <div className="header-actions">
           <button className="export-btn" onClick={exportCSV}>

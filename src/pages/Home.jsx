@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, DataFreshness } from '../components/ui'
 import './Home.css'
 
 function Home() {
@@ -85,6 +85,7 @@ function Home() {
           <p className="hero-subtitle">
             {config.hero_subtitle || `Explore how ${councilFullName} spends public money. All data comes from publicly available council documents.`}
           </p>
+          <DataFreshness source="Spending data" />
           <div className="hero-stats">
             <div className="hero-stat">
               <span className="hero-stat-value">{formatCurrency(totalSpend, true)}</span>
