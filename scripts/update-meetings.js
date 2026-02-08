@@ -55,6 +55,18 @@ const COUNCILS = {
 // Helpers
 // ---------------------------------------------------------------------------
 
+function decodeHtmlEntities(text) {
+  return text
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code)))
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 async function fetchHTML(url) {
   const res = await fetch(url, {
     headers: { 'User-Agent': 'AIDogeTransparencyBot/1.0 (public interest research)' },
@@ -122,7 +134,7 @@ function extractAgendaItems(html) {
   const itemRegex = /class="mgAiTitleTxt"\s*>\s*(?:<a[^>]*class="mgAiTitleLnk"[^>]*>)?([^<]+)/g
   let match
   while ((match = itemRegex.exec(html)) !== null) {
-    const text = match[1].trim()
+    const text = decodeHtmlEntities(match[1])
     // Filter out item numbers (e.g. "1.", "3.a"), short text, PDF metadata
     if (text && text.length > 5 && !text.includes('PDF') && !text.includes('KB') && !/^\d+\.?[a-z]?$/.test(text)) {
       items.push(text)
@@ -146,7 +158,7 @@ function extractDocuments(html) {
   const docRegex = /mgAiTitleLnk[^>]*>\s*([^<]+)/g
   let match
   while ((match = docRegex.exec(html)) !== null) {
-    const text = match[1].trim()
+    const text = decodeHtmlEntities(match[1])
     if (text && text.length > 3) docs.push(text)
   }
   return docs
@@ -364,15 +376,55 @@ function extractJaduMeetings(html, baseUrl) {
 
 function extractJaduDocuments(html) {
   const docs = []
-  // Jadu meeting pages have download links like: <a href="[base]/download/meetings/id/...">Name</a> <small>Type, Size</small>
-  const docRegex = /<a\s+[^>]*href="([^"]*\/download\/meetings\/[^"]+)"[^>]*>([^<]+)<\/a>\s*(?:<small>([^<]+)<\/small>)?/g
+  // Jadu download links may contain inner elements (e.g. Rossendale's <span class="icon">)
+  // so we capture text before the first child tag, not all the way to </a>
+  const docRegex = /<a\s+[^>]*href="([^"]*\/download\/meetings\/[^"]+)"[^>]*>\s*([^<]+)/g
   let match
   while ((match = docRegex.exec(html)) !== null) {
-    const name = match[2].trim()
-    const meta = (match[3] || '').trim()
-    if (name) docs.push(meta ? `${name} (${meta})` : name)
+    const name = decodeHtmlEntities(match[2])
+    if (name && name.length > 2) docs.push(name)
   }
   return docs
+}
+
+function extractJaduAgendaItems(html) {
+  const items = []
+  const seen = new Set()
+
+  // Pendle format: "Item 3 - Title" or "Item 6(a) Title" in Reports-type download links
+  // Rossendale format: "D1. Title" or "A2. Title" in Report-section download links
+  const docRegex = /<a\s+[^>]*href="[^"]*\/download\/meetings\/[^"]*"[^>]*>\s*([^<]+)/g
+  let match
+  while ((match = docRegex.exec(html)) !== null) {
+    const text = decodeHtmlEntities(match[1])
+
+    // Pendle: "Item 3 - External Audit Report" or "Item 6(a) Planning applications"
+    const pendleMatch = text.match(/^Item\s+(\d+[a-z]?(?:\([a-z]\))?)\s*[-–]?\s*(.+)$/i)
+    if (pendleMatch) {
+      const itemNum = pendleMatch[1].replace(/^0+/, '') // strip leading zeros
+      const title = pendleMatch[2].trim()
+      // Skip appendices and duplicates
+      if (!seen.has(itemNum) && !/^appendix/i.test(title)) {
+        seen.add(itemNum)
+        items.push(title)
+      }
+      continue
+    }
+
+    // Rossendale: "D1. Better Lives Rossendale" or "B1. 2025/0288 Planning Application"
+    const rossMatch = text.match(/^([A-Z]\d+[a-z]?[i]*)\.\s+(.+)$/i)
+    if (rossMatch) {
+      const itemNum = rossMatch[1].toUpperCase()
+      const title = rossMatch[2].trim()
+      // Skip minutes references (A2. Minutes of...) and appendices
+      if (!seen.has(itemNum) && !/^minutes/i.test(title) && !/^appendix/i.test(title)) {
+        seen.add(itemNum)
+        items.push(title)
+      }
+      continue
+    }
+  }
+  return items
 }
 
 async function scrapeJaduCouncil(councilId, config) {
@@ -443,9 +495,11 @@ async function scrapeJaduCouncil(councilId, config) {
     console.log(`  Fetching: ${raw.committee} (${raw.date})`)
 
     let documents = []
+    let agendaItems = []
     try {
       const html = await fetchHTML(raw.url)
       documents = extractJaduDocuments(html)
+      agendaItems = extractJaduAgendaItems(html)
     } catch (err) {
       console.error(`    Error fetching detail: ${err.message}`)
     }
@@ -453,7 +507,10 @@ async function scrapeJaduCouncil(councilId, config) {
     const id = makeId(raw.committee, raw.date)
     const type = meetingTypeFromCommittee(raw.committee)
     const prev = existingMap.get(id)
-    const hasAgenda = documents.some(d => /agenda/i.test(d))
+    // Detect published agenda: check for "agenda" in doc names, or if we have agenda items/report docs
+    const hasAgenda = documents.length > 0 && (
+      documents.some(d => /agenda/i.test(d)) || agendaItems.length > 0
+    )
 
     const meeting = {
       id,
@@ -465,7 +522,7 @@ async function scrapeJaduCouncil(councilId, config) {
       status: hasAgenda ? 'agenda_published' : 'upcoming',
       cancelled: false,
       link: raw.url,
-      agenda_items: prev?.agenda_items || [],
+      agenda_items: agendaItems.length > 0 ? agendaItems : (prev?.agenda_items || []),
       summary: prev?.summary || `Check the council website for full agenda details.`,
       public_relevance: prev?.public_relevance || `Check the agenda when published for items of public interest.`,
       doge_relevance: prev?.doge_relevance || null,
@@ -474,7 +531,7 @@ async function scrapeJaduCouncil(councilId, config) {
     }
 
     updatedMeetings.push(meeting)
-    console.log(`    ${hasAgenda ? 'Agenda published' : 'Upcoming'} — ${documents.length} documents`)
+    console.log(`    ${hasAgenda ? 'Agenda published' : 'Upcoming'} — ${documents.length} docs, ${agendaItems.length} items`)
 
     await new Promise(r => setTimeout(r, 500))
   }
