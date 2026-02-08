@@ -52,6 +52,11 @@ BOROUGH_CONFIG = {
         "prefix": "PE",
         "ons_code": "E07000122",
     },
+    "rossendale": {
+        "name": "Rossendale",
+        "prefix": "RO",
+        "ons_code": "E07000125",
+    },
 }
 
 # Crime category display names
