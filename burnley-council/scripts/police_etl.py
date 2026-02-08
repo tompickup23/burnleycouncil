@@ -84,8 +84,8 @@ SPENDING_CORRELATION = {
 }
 
 
-def api_get(path, params=None):
-    """Make a GET request to the Police API with rate limiting."""
+def api_get(path, params=None, _retries=0):
+    """Make a GET request to the Police API with rate limiting and retry."""
     url = f"{BASE_URL}/{path}"
     if params:
         query = "&".join(f"{k}={v}" for k, v in params.items())
@@ -102,9 +102,14 @@ def api_get(path, params=None):
         if e.code == 429:
             print(f"  Rate limited, waiting 5s...")
             time.sleep(5)
-            return api_get(path, params)
+            return api_get(path, params, _retries)
         elif e.code == 503:
-            print(f"  WARNING: 503 for {path} — too many results or service unavailable, data may be incomplete")
+            if _retries < 3:
+                wait = 5 * (2 ** _retries)  # 5s, 10s, 20s backoff
+                print(f"  503 Service Unavailable for {path} — retry {_retries + 1}/3 in {wait}s...")
+                time.sleep(wait)
+                return api_get(path, params, _retries + 1)
+            print(f"  WARNING: 503 for {path} after 3 retries — data gap for this request")
             return []
         elif e.code == 404:
             return []  # No data for this area/date
@@ -116,8 +121,8 @@ def api_get(path, params=None):
         return []
 
 
-def api_post(path, data_dict):
-    """Make a POST request (for large polygon queries)."""
+def api_post(path, data_dict, _retries=0):
+    """Make a POST request (for large polygon queries) with retry."""
     url = f"{BASE_URL}/{path}"
     data = urllib.parse.urlencode(data_dict).encode()
 
@@ -132,9 +137,14 @@ def api_post(path, data_dict):
     except urllib.error.HTTPError as e:
         if e.code == 429:
             time.sleep(5)
-            return api_post(path, data_dict)
+            return api_post(path, data_dict, _retries)
         elif e.code == 503:
-            print(f"  WARNING: 503 Service Unavailable for POST {path} — data may be incomplete")
+            if _retries < 3:
+                wait = 5 * (2 ** _retries)
+                print(f"  503 Service Unavailable for POST {path} — retry {_retries + 1}/3 in {wait}s...")
+                time.sleep(wait)
+                return api_post(path, data_dict, _retries + 1)
+            print(f"  WARNING: 503 for POST {path} after 3 retries — data gap for this request")
             return []
         else:
             print(f"  POST error {e.code} for {path}")

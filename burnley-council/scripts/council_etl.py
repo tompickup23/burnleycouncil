@@ -91,9 +91,10 @@ def parse_date(date_str):
     for fmt in formats:
         try:
             dt = datetime.strptime(date_str, fmt)
-            # Fix 2-digit year ambiguity: use cutoff — 00-49 → 2000s, 50-99 → 1900s
+            # Python's strptime %y handles 2-digit years (00-68→2000s, 69-99→1900s)
+            # Guard against edge cases where year could be parsed literally as < 100
             if dt.year < 100:
-                dt = dt.replace(year=dt.year + 2000 if dt.year < 50 else dt.year + 1900)
+                dt = dt.replace(year=dt.year + 2000 if dt.year <= 68 else dt.year + 1900)
             return dt.strftime("%Y-%m-%d")
         except ValueError:
             continue
