@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { MapPin, User, Mail, Phone } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -14,6 +14,66 @@ function MyArea() {
   ])
   const [wards, councillors] = data || [{}, []]
   const [selectedWard, setSelectedWard] = useState(null)
+  const [postcode, setPostcode] = useState('')
+  const [postcodeLoading, setPostcodeLoading] = useState(false)
+  const [postcodeError, setPostcodeError] = useState(null)
+  const [postcodeResult, setPostcodeResult] = useState(null)
+
+  const lookupPostcode = useCallback(async (pc) => {
+    const cleaned = pc.replace(/\s+/g, '').toUpperCase()
+    if (cleaned.length < 5) {
+      setPostcodeError('Please enter a valid postcode')
+      return
+    }
+
+    setPostcodeLoading(true)
+    setPostcodeError(null)
+    setPostcodeResult(null)
+
+    try {
+      const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(cleaned)}`)
+      const json = await res.json()
+
+      if (json.status !== 200 || !json.result) {
+        setPostcodeError('Postcode not found. Please check and try again.')
+        return
+      }
+
+      const { admin_ward, admin_district } = json.result
+      setPostcodeResult({ ward: admin_ward, district: admin_district, postcode: json.result.postcode })
+
+      // Check if postcode is in this council area
+      if (admin_district && admin_district.toLowerCase() !== councilName.toLowerCase()) {
+        setPostcodeError(`That postcode is in ${admin_district}, not ${councilName}. Try a local postcode.`)
+        return
+      }
+
+      // Try to match to ward data
+      const wardMatch = Object.values(wards).find(w =>
+        w.name.toLowerCase() === admin_ward?.toLowerCase()
+      )
+
+      if (wardMatch) {
+        setSelectedWard(wardMatch.name)
+        // Scroll to ward details
+        setTimeout(() => {
+          document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 100)
+      } else {
+        // Ward exists but not in our dataset — still show the info
+        setPostcodeResult(prev => ({ ...prev, noData: true }))
+      }
+    } catch {
+      setPostcodeError('Unable to look up postcode. Please try again.')
+    } finally {
+      setPostcodeLoading(false)
+    }
+  }, [wards, councilName])
+
+  const handlePostcodeSubmit = (e) => {
+    e.preventDefault()
+    lookupPostcode(postcode)
+  }
 
   useEffect(() => {
     document.title = `My Area | ${councilName} Council Transparency`
@@ -35,13 +95,68 @@ function MyArea() {
       <header className="page-header">
         <h1>My Area</h1>
         <p className="subtitle">
-          Find your ward and councillors in {councilName}. Each ward has 3 councillors.
+          Find your ward and councillors in {councilName}. Enter your postcode or select a ward below.
         </p>
       </header>
 
-      {/* Ward Selector */}
+      {/* Postcode Lookup */}
+      <section className="postcode-lookup">
+        <form onSubmit={handlePostcodeSubmit} className="postcode-form">
+          <label htmlFor="postcode-input">Find your ward by postcode</label>
+          <div className="postcode-input-row">
+            <div className="postcode-input-wrapper">
+              <Search size={18} className="postcode-search-icon" />
+              <input
+                id="postcode-input"
+                type="text"
+                placeholder="e.g. BB11 3DF"
+                value={postcode}
+                onChange={(e) => {
+                  setPostcode(e.target.value)
+                  setPostcodeError(null)
+                  setPostcodeResult(null)
+                }}
+                maxLength={10}
+                autoComplete="postal-code"
+              />
+            </div>
+            <button
+              type="submit"
+              className="postcode-btn"
+              disabled={postcodeLoading || !postcode.trim()}
+            >
+              {postcodeLoading ? <Loader2 size={18} className="spin" /> : 'Look up'}
+            </button>
+          </div>
+        </form>
+
+        {postcodeError && (
+          <div className="postcode-message error">
+            <AlertCircle size={16} />
+            <span>{postcodeError}</span>
+          </div>
+        )}
+
+        {postcodeResult && !postcodeError && (
+          <div className={`postcode-message ${postcodeResult.noData ? 'info' : 'success'}`}>
+            {postcodeResult.noData ? (
+              <>
+                <AlertCircle size={16} />
+                <span>Your ward is <strong>{postcodeResult.ward}</strong> in {postcodeResult.district}, but we don't have detailed councillor data for it yet.</span>
+              </>
+            ) : (
+              <>
+                <CheckCircle2 size={16} />
+                <span><strong>{postcodeResult.postcode}</strong> is in <strong>{postcodeResult.ward}</strong> ward</span>
+              </>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Ward Selector (dropdown) */}
       <section className="ward-selector">
-        <label htmlFor="ward-select">Select your ward:</label>
+        <label htmlFor="ward-select">Or select your ward:</label>
         <select
           id="ward-select"
           value={selectedWard || ''}
@@ -152,12 +267,12 @@ function MyArea() {
         </div>
       </section>
 
-      {/* Find Your Ward */}
+      {/* Official Council Link */}
       <section className="find-ward">
-        <h2>Not sure which ward you're in?</h2>
+        <h2>More Information</h2>
         <div className="find-ward-card">
           <p>
-            You can find your ward by entering your postcode on the official {councilName} Council website.
+            For full councillor details and meeting schedules, visit the official {councilName} Council website.
           </p>
           <a
             href={config.find_councillor_url || `${config.official_website || '#'}/council-democracy/councillors-mps/find-your-councillor/`}
