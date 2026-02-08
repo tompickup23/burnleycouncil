@@ -1,0 +1,349 @@
+/* Pay Comparison Page */
+.pay-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.pay-hero {
+  margin-bottom: var(--space-xl);
+}
+
+.hero-content h1 {
+  margin-bottom: var(--space-sm);
+  background: linear-gradient(135deg, #ffffff 0%, #ff9f0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+/* Key Stats Grid */
+.pay-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.pay-stat-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pay-stat-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.pay-stat-card.highlight {
+  border-color: rgba(255, 159, 10, 0.25);
+  background: linear-gradient(135deg, rgba(255, 159, 10, 0.1), rgba(28, 28, 30, 0.7));
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.pay-stat-card.highlight .stat-value {
+  color: #ff9f0a;
+}
+
+.stat-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* Sections */
+.pay-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.pay-section h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-size: 1.375rem;
+}
+
+.pay-section h2 svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.section-intro {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+/* Chart Container */
+.chart-container {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.2s ease;
+  margin-bottom: var(--space-lg);
+}
+
+.chart-container:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Comparison Table */
+.comparison-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  background: rgba(28, 28, 30, 0.7);
+}
+
+.comparison-table th {
+  padding: var(--space-sm) var(--space-md);
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  background: rgba(28, 28, 30, 0.95);
+}
+
+.comparison-table th:first-child {
+  text-align: left;
+  min-width: 140px;
+}
+
+.comparison-table td {
+  padding: var(--space-xs) var(--space-md);
+  text-align: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+}
+
+.comparison-table td:first-child {
+  text-align: left;
+}
+
+.comparison-table td.council-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.comparison-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.comparison-table tr.highlight-row {
+  background: rgba(10, 132, 255, 0.08);
+}
+
+.comparison-table tr.highlight-row:hover {
+  background: rgba(10, 132, 255, 0.12);
+}
+
+.comparison-table tr.highlight-row td.council-name {
+  color: #0a84ff;
+  font-weight: 600;
+}
+
+/* Senior Officers Grid */
+.senior-officers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.officer-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 3px solid rgba(10, 132, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.officer-card:hover {
+  border-color: rgba(10, 132, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.officer-card h4 {
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.officer-salary {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ff9f0a;
+  margin-bottom: var(--space-xs);
+}
+
+.officer-midpoint {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Data Quality Note */
+.data-quality-note {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: rgba(10, 132, 255, 0.06);
+  border: 1px solid rgba(10, 132, 255, 0.15);
+  border-radius: var(--radius-lg);
+}
+
+.data-quality-note svg {
+  flex-shrink: 0;
+  color: var(--accent-blue);
+  margin-top: 2px;
+}
+
+.data-quality-note h4 {
+  margin-bottom: var(--space-xs);
+  font-size: 0.9375rem;
+}
+
+.data-quality-note p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.source-text {
+  font-size: 0.8125rem !important;
+  color: var(--text-tertiary, #666) !important;
+  margin-top: var(--space-xs);
+}
+
+/* FOI CTA */
+.pay-cta {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  background: linear-gradient(135deg, rgba(255, 69, 58, 0.08), rgba(255, 159, 10, 0.08));
+  border: 1px solid rgba(255, 69, 58, 0.15);
+  border-radius: var(--radius-lg);
+}
+
+.pay-cta h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-sm);
+}
+
+.pay-cta p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-lg);
+}
+
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  background: rgba(255, 69, 58, 0.15);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  border-radius: var(--radius-md);
+  color: #ff453a;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cta-link:hover {
+  background: rgba(255, 69, 58, 0.25);
+  border-color: rgba(255, 69, 58, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Recharts Legend */
+.pay-section .recharts-legend-item-text {
+  color: var(--text-secondary) !important;
+  font-size: 0.8125rem !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pay-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .comparison-table-wrapper {
+    margin: 0 calc(-1 * var(--space-md));
+    border-radius: 0;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.75rem;
+  }
+
+  .senior-officers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    padding: var(--space-md);
+  }
+
+  .data-quality-note {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .pay-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pay-cta {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
