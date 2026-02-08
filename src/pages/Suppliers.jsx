@@ -25,12 +25,20 @@ const SORT_FIELDS = {
 function SortHeader({ field, label, sortField, sortDir, onSort }) {
   const isActive = sortField === field
   return (
-    <th className="sortable" onClick={() => onSort(field)}>
+    <th
+      className="sortable"
+      onClick={() => onSort(field)}
+      scope="col"
+      aria-sort={isActive ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+      aria-label={`Sort by ${label}`}
+      role="columnheader"
+    >
       <span className="sort-header-content">
         {label}
         <ArrowUpDown
           size={14}
           className={`sort-icon ${isActive ? 'sort-active' : 'sort-inactive'}`}
+          aria-hidden="true"
         />
       </span>
       {isActive && (
@@ -270,7 +278,7 @@ function Suppliers() {
 
       {/* Table */}
       <div className="suppliers-table-container">
-        <table className="suppliers-table">
+        <table className="suppliers-table" role="table" aria-label="Supplier directory">
           <thead>
             <tr>
               <SortHeader field="name" label="Name" sortField={sortField} sortDir={sortDir} onSort={handleSort} />

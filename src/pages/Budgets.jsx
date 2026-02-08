@@ -7,42 +7,62 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
 import './Budgets.css'
 
-// Consistent department list for comparison (excluding zero-budget and reserves)
-const CORE_DEPARTMENTS = [
-  'Streetscene',
-  'Leisure Trust Client',
-  'Green Spaces & Amenities',
-  'Corporate Budgets',
-  'Housing & Development Control',
-  'Economy & Growth',
-  'Legal & Democratic Services',
-  'Policy & Engagement',
-  'Revenues & Benefits',
-  'Strategic Partnership',
-]
-
-// Chart colors
+// Chart colors — dynamically applied by index
 const DEPT_COLORS = [
   '#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
   '#64d2ff', '#ffd60a', '#ff6482', '#ac8e68', '#8e8e93',
+  '#ff375f', '#34c759', '#007aff', '#5856d6', '#af52de',
 ]
 
-const CAPITAL_COLORS = {
-  'Housing': '#30d158',
-  'Economy & Growth': '#0a84ff',
-  'Finance & Property': '#ff9f0a',
-  'Green Spaces & Amenities': '#bf5af2',
-  'Streetscene': '#64d2ff',
+// Departments to exclude from the main table (reserves shown separately, zero-budget items hidden)
+const EXCLUDED_DEPARTMENTS = new Set([
+  'Earmarked Reserves',
+  'Management Team',
+  'People & Development',
+])
+
+/**
+ * Extract core departments from budget data dynamically.
+ * Returns departments that appear in any budget year with a non-zero value.
+ * Handles Burnley-specific Finance & Property split by merging those entries.
+ */
+function extractCoreDepartments(revenueBudgets) {
+  const deptSet = new Set()
+  const hasFinanceSplit = revenueBudgets.some(b =>
+    b.departments?.['Finance (from 01/04/2025)'] !== undefined
+  )
+
+  for (const b of revenueBudgets) {
+    for (const [name, val] of Object.entries(b.departments || {})) {
+      if (EXCLUDED_DEPARTMENTS.has(name)) continue
+      // Skip the split sub-departments — they'll be shown as merged "Finance & Property"
+      if (hasFinanceSplit && (name === 'Finance (from 01/04/2025)' || name === 'Property (back in-house 01/04/2025)')) continue
+      if (val !== 0 && val !== null && val !== undefined) {
+        deptSet.add(name)
+      }
+    }
+  }
+
+  // If Finance & Property was split, ensure the merged entry is included
+  if (hasFinanceSplit && !deptSet.has('Finance & Property')) {
+    deptSet.add('Finance & Property')
+  }
+
+  return Array.from(deptSet).sort()
 }
 
 function Budgets() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilFullName = config.council_full_name || 'Borough Council'
-  const { data, loading } = useData([
-    '/data/budgets.json',
-    '/data/budget_insights.json',
-  ])
+  const hasBudgets = config.data_sources?.budgets !== false
+  const hasBudgetTrends = config.data_sources?.budget_trends
+
+  // Load different data depending on what's available
+  const budgetUrls = hasBudgets
+    ? ['/data/budgets.json', '/data/budget_insights.json']
+    : ['/data/budgets_govuk.json', '/data/revenue_trends.json']
+  const { data, loading } = useData(budgetUrls)
   const [budgetData, insights] = data || [null, null]
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
@@ -54,7 +74,7 @@ function Budgets() {
   useEffect(() => {
     document.title = `Budget Analysis | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
-  }, [])
+  }, [councilName])
 
   // Initialize selectedYear when data first loads
   if (budgetData && selectedYear === null) {
@@ -63,6 +83,22 @@ function Budgets() {
 
   if (loading) {
     return <LoadingState message="Loading budget data..." />
+  }
+
+  // For councils without detailed budgets.json, render a simpler GOV.UK trends view
+  if (!hasBudgets && hasBudgetTrends) {
+    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} />
+  }
+
+  if (!budgetData) {
+    return (
+      <div className="budgets-page animate-fade-in">
+        <header className="page-header">
+          <h1>Budget Analysis</h1>
+          <p className="subtitle">Budget data is not yet available for {councilFullName}.</p>
+        </header>
+      </div>
+    )
   }
 
   const revenueBudgets = budgetData?.revenue_budgets || []
@@ -84,25 +120,30 @@ function Budgets() {
   const selectedBudget = revenueBudgets[selectedYear] || revenueBudgets[revenueBudgets.length - 1]
   const deptData = selectedBudget?.departments || {}
 
-  // Finance & Property row that handles the 2025/26 split
-  const fpRow = {
-    department: 'Finance & Property',
-  }
-  revenueBudgets.forEach(b => {
-    const fp = b.departments['Finance & Property']
-    const f = b.departments['Finance (from 01/04/2025)']
-    const p = b.departments['Property (back in-house 01/04/2025)']
-    if (fp !== undefined) {
-      fpRow[b.financial_year] = fp
-    } else if (f !== undefined && p !== undefined) {
-      fpRow[b.financial_year] = f + p
-      fpRow[b.financial_year + '_note'] = 'Split: Finance £' + Math.round(f/1000) + 'K + Property -£' + Math.round(Math.abs(p)/1000) + 'K'
+  // Dynamically extract department list from the data (not hardcoded)
+  const coreDepartments = extractCoreDepartments(revenueBudgets)
+
+  // Check if Finance & Property has been split in any year
+  const hasFinanceSplit = revenueBudgets.some(b =>
+    b.departments?.['Finance (from 01/04/2025)'] !== undefined
+  )
+
+  // Helper to get department value, handling Finance & Property split
+  const getDeptValue = (budget, dept) => {
+    if (dept === 'Finance & Property' && hasFinanceSplit) {
+      const fp = budget.departments['Finance & Property']
+      const f = budget.departments['Finance (from 01/04/2025)']
+      const p = budget.departments['Property (back in-house 01/04/2025)']
+      if (fp !== undefined) return fp
+      if (f !== undefined && p !== undefined) return f + p
+      return null
     }
-  })
+    return budget.departments?.[dept] ?? null
+  }
 
   // Pie chart data for selected year's departments
   const pieData = Object.entries(deptData)
-    .filter(([name, val]) => val > 0 && name !== 'Management Team' && name !== 'People & Development' && name !== 'Earmarked Reserves')
+    .filter(([name, val]) => val > 0 && !EXCLUDED_DEPARTMENTS.has(name))
     .sort((a, b) => b[1] - a[1])
     .map(([name, val], i) => ({
       name: name.replace('(from 01/04/2025)', '').replace('(back in-house 01/04/2025)', '').trim(),
@@ -117,7 +158,7 @@ function Budgets() {
     fullName: name,
     value: data.total / 1_000_000,
     note: data.note || '',
-    color: CAPITAL_COLORS[name] || '#8e8e93',
+    color: DEPT_COLORS[index % DEPT_COLORS.length],
   })) : []
 
   // Capital programme timeline
@@ -445,24 +486,14 @@ function Budgets() {
                   </tr>
                 </thead>
                 <tbody>
-                  {CORE_DEPARTMENTS.map(dept => {
-                    const values = revenueBudgets.map(b => {
-                      if (dept === 'Finance & Property' || dept.startsWith('Finance')) {
-                        const fp = b.departments['Finance & Property']
-                        const f = b.departments['Finance (from 01/04/2025)']
-                        const p = b.departments['Property (back in-house 01/04/2025)']
-                        if (fp !== undefined) return fp
-                        if (f !== undefined && p !== undefined) return f + p
-                        return null
-                      }
-                      return b.departments[dept] ?? null
-                    })
+                  {coreDepartments.map(dept => {
+                    const values = revenueBudgets.map(b => getDeptValue(b, dept))
                     const first = values.find(v => v !== null && v !== 0)
                     const last = values[values.length - 1]
                     const growthPct = first && last ? ((last - first) / Math.abs(first) * 100).toFixed(0) : null
 
-                    // Special handling for Finance & Property
-                    const deptName = dept === 'Finance & Property' ? 'Finance & Property *' : dept
+                    // Mark merged Finance & Property with asterisk
+                    const deptName = (dept === 'Finance & Property' && hasFinanceSplit) ? 'Finance & Property *' : dept
 
                     return (
                       <tr key={dept} className={expandedDept === dept ? 'expanded' : ''}>
@@ -504,8 +535,8 @@ function Budgets() {
               </table>
             </div>
             <p className="table-note text-secondary">
-              * Finance & Property split into separate departments in 2025/26. Property services brought back in-house from Liberata.
-              Combined figure shown for comparison. Source: {councilName} Council Budget Books.
+              {hasFinanceSplit && '* Finance & Property split into separate departments in 2025/26. Combined figure shown for comparison. '}
+              Source: {councilName} Council Budget Books.
             </p>
           </section>
 
@@ -693,24 +724,32 @@ function Budgets() {
             </div>
           </div>
 
-          {/* Treasury Overview Cards */}
+          {/* Treasury Overview Cards — data-driven */}
           <section className="treasury-grid">
-            <div className="treasury-card">
-              <h3>Borrowing</h3>
-              <p>{treasury.key_context?.borrowing}</p>
-            </div>
-            <div className="treasury-card">
-              <h3>Investments</h3>
-              <p>{treasury.key_context?.investments}</p>
-            </div>
-            <div className="treasury-card">
-              <h3>Minimum Revenue Provision (MRP)</h3>
-              <p>{treasury.key_context?.mrp}</p>
-            </div>
-            <div className="treasury-card">
-              <h3>Charter Walk Investment</h3>
-              <p>{treasury.key_context?.charter_walk}</p>
-            </div>
+            {treasury.key_context?.borrowing && (
+              <div className="treasury-card">
+                <h3>Borrowing</h3>
+                <p>{treasury.key_context.borrowing}</p>
+              </div>
+            )}
+            {treasury.key_context?.investments && (
+              <div className="treasury-card">
+                <h3>Investments</h3>
+                <p>{treasury.key_context.investments}</p>
+              </div>
+            )}
+            {treasury.key_context?.mrp && (
+              <div className="treasury-card">
+                <h3>Minimum Revenue Provision (MRP)</h3>
+                <p>{treasury.key_context.mrp}</p>
+              </div>
+            )}
+            {treasury.key_context?.charter_walk && (
+              <div className="treasury-card">
+                <h3>Charter Walk Investment</h3>
+                <p>{treasury.key_context.charter_walk}</p>
+              </div>
+            )}
           </section>
 
           {/* Treasury Context */}
@@ -749,28 +788,29 @@ function Budgets() {
                 <h4>Reserves & Balances</h4>
                 <p>
                   Reserves are the council's financial cushion. General Fund reserves provide a safety net for emergencies.
-                  Earmarked reserves are set aside for specific purposes. In 2025/26, earmarked reserves were slashed from
-                  £1.33M to just £2,250 — raising concerns about financial resilience.
+                  Earmarked reserves are set aside for specific purposes. Adequate reserves are critical for financial
+                  resilience — if they fall too low, the council may not be able to respond to unexpected costs.
                 </p>
               </div>
               <div className="context-item">
                 <h4>External Spending Data</h4>
                 <p>
                   The spending data published under the Transparency Code shows external payments to suppliers — invoices over
-                  £500, contracts, and purchase cards. This includes BOTH revenue payments (e.g. Liberata contract) AND capital
-                  payments (e.g. the £19.8M Geldards payment for Pioneer Place construction). It does NOT show internal costs
-                  like staff salaries.
+                  the publication threshold, contracts, and purchase cards. This includes both revenue payments (day-to-day contracts)
+                  and capital payments (construction, equipment). It does not show internal costs like staff salaries.
                 </p>
               </div>
+              {(budgetInsights.key_risks || budgetInsights.key_trends) && (
               <div className="context-item">
                 <h4>Key Risks</h4>
                 <p>
-                  Rising MRP costs from past capital borrowing eating into revenue budget.
-                  Declining government grants (New Homes Bonus fell from £694K to £239K).
-                  Near-exhaustion of earmarked reserves (£1.33M → £2,250 in one year).
-                  Council tax increases capped by referendum limits (typically 2-3% for district councils).
+                  Common pressures facing district councils include: rising MRP costs from past capital borrowing,
+                  declining government grants, constrained council tax increases (capped by referendum limits at
+                  typically 2-3% for districts), and the challenge of maintaining adequate reserve levels while
+                  delivering services with a shrinking funding base.
                 </p>
               </div>
+              )}
             </div>
           </section>
 
@@ -788,6 +828,268 @@ function Budgets() {
           </section>
         </div>
       )}
+    </div>
+  )
+}
+
+/**
+ * Simplified budget view for councils that only have GOV.UK outturn data
+ * (i.e. no detailed budget book PDFs available). Shows service expenditure
+ * breakdown and revenue trends over time.
+ */
+function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData }) {
+  // Service expenditure bar chart — only district-relevant services with non-zero values
+  const serviceData = govukData?.revenue_summary?.service_expenditure
+    ? Object.entries(govukData.revenue_summary.service_expenditure)
+        .filter(([name, d]) => d.relevant_to_districts && d.value_pounds > 0 && name !== 'TOTAL SERVICE EXPENDITURE')
+        .sort((a, b) => b[1].value_pounds - a[1].value_pounds)
+        .map(([name, d], i) => ({
+          name: name.length > 25 ? name.substring(0, 22) + '...' : name,
+          fullName: name,
+          value: d.value_pounds / 1_000_000,
+          color: DEPT_COLORS[i % DEPT_COLORS.length],
+        }))
+    : []
+
+  const totalServiceExpenditure = govukData?.revenue_summary?.service_expenditure?.['TOTAL SERVICE EXPENDITURE']?.value_pounds || 0
+  const netRevenue = govukData?.revenue_summary?.key_financials?.['NET REVENUE EXPENDITURE']?.value_pounds || 0
+  const councilTaxReq = govukData?.revenue_summary?.key_financials?.['COUNCIL TAX REQUIREMENT']?.value_pounds || 0
+
+  // Revenue trend over years
+  const trendChartData = trendsData?.years
+    ? trendsData.years.map(year => {
+        const yearData = trendsData.by_year?.[year]?.summary || {}
+        return {
+          year: year.replace('-', '/'),
+          total: (yearData['Total Net Current Expenditure'] || 0) / 1000,
+          housing: (yearData['Housing (GF & HRA)'] || 0) / 1000,
+          cultural: (yearData['Cultural Services'] || 0) / 1000,
+          environmental: (yearData['Environmental Services'] || 0) / 1000,
+          planning: (yearData['Planning & Development'] || 0) / 1000,
+          central: (yearData['Central Services'] || 0) / 1000,
+        }
+      })
+    : []
+
+  // Service breakdown trend for stacked area chart
+  const serviceKeys = ['environmental', 'central', 'cultural', 'housing', 'planning']
+  const serviceLabels = {
+    environmental: 'Environmental',
+    central: 'Central Services',
+    cultural: 'Cultural',
+    housing: 'Housing',
+    planning: 'Planning',
+  }
+  const serviceColors = {
+    environmental: '#30d158',
+    central: '#0a84ff',
+    cultural: '#ff9f0a',
+    housing: '#bf5af2',
+    planning: '#64d2ff',
+  }
+
+  return (
+    <div className="budgets-page animate-fade-in">
+      <header className="page-header">
+        <h1>Budget Overview</h1>
+        <p className="subtitle">
+          Revenue outturn data for {councilFullName} from GOV.UK MHCLG returns
+        </p>
+        <DataFreshness source="GOV.UK Revenue Outturn" compact />
+      </header>
+
+      <div className="budget-explainer">
+        <Info size={18} />
+        <div>
+          <strong>About this data:</strong> Detailed budget book analysis is not yet available for {councilFullName}.
+          This page shows official revenue outturn data published by the Ministry of Housing, Communities and Local Government (MHCLG)
+          under the Open Government Licence. Outturn figures show <em>actual spend</em>, not budget estimates.
+        </div>
+      </div>
+
+      {/* Key Metrics */}
+      <section className="metrics-grid">
+        {totalServiceExpenditure > 0 && (
+          <div className="metric-card highlight">
+            <div className="metric-icon"><PiggyBank size={24} /></div>
+            <div className="metric-content">
+              <span className="metric-value">{formatCurrency(totalServiceExpenditure, true)}</span>
+              <span className="metric-label">{govukData?.financial_year} Service Expenditure</span>
+            </div>
+          </div>
+        )}
+        {netRevenue > 0 && (
+          <div className="metric-card">
+            <div className="metric-icon growth"><TrendingUp size={24} /></div>
+            <div className="metric-content">
+              <span className="metric-value">{formatCurrency(netRevenue, true)}</span>
+              <span className="metric-label">Net Revenue Expenditure</span>
+            </div>
+          </div>
+        )}
+        {councilTaxReq > 0 && (
+          <div className="metric-card">
+            <div className="metric-icon"><Wallet size={24} /></div>
+            <div className="metric-content">
+              <span className="metric-value">{formatCurrency(councilTaxReq, true)}</span>
+              <span className="metric-label">Council Tax Requirement</span>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* Service Expenditure Breakdown */}
+      {serviceData.length > 0 && (
+        <section className="chart-section">
+          <h2>Service Expenditure ({govukData?.financial_year})</h2>
+          <p className="section-note">Actual outturn spend by service area — district-relevant services only</p>
+          <div className="chart-card">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={serviceData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis
+                  type="number"
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tickFormatter={(v) => `£${v.toFixed(1)}M`}
+                />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                  width={160}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value, name, props) => [`£${value.toFixed(2)}M`, props.payload.fullName]}
+                />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                  {serviceData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Revenue Trend Over Time */}
+      {trendChartData.length > 0 && (
+        <section className="chart-section">
+          <h2>Revenue Trend ({trendsData?.years?.[0]} to {trendsData?.years?.[trendsData.years.length - 1]})</h2>
+          <p className="section-note">Service expenditure breakdown over {trendsData?.year_count} years (£ millions, GOV.UK outturn)</p>
+          <div className="chart-card">
+            <ResponsiveContainer width="100%" height={350}>
+              <AreaChart data={trendChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
+                <YAxis
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tickFormatter={(v) => `£${v}M`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value, name) => [`£${value.toFixed(2)}M`, serviceLabels[name] || name]}
+                />
+                {serviceKeys.map(key => (
+                  <Area
+                    key={key}
+                    type="monotone"
+                    dataKey={key}
+                    stackId="1"
+                    stroke={serviceColors[key]}
+                    fill={serviceColors[key]}
+                    fillOpacity={0.4}
+                  />
+                ))}
+              </AreaChart>
+            </ResponsiveContainer>
+            <div className="funding-breakdown" style={{ marginTop: 'var(--space-md)' }}>
+              {serviceKeys.map(key => (
+                <div key={key} className="funding-item">
+                  <span className="funding-dot" style={{ background: serviceColors[key] }} />
+                  <span className="funding-name">{serviceLabels[key]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Total Net Expenditure Trend */}
+      {trendChartData.length > 0 && (
+        <section className="chart-section">
+          <h2>Total Net Current Expenditure Trend</h2>
+          <p className="section-note">Includes housing benefit, parish precepts, and all service areas</p>
+          <div className="chart-card">
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={trendChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <YAxis
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tickFormatter={(v) => `£${v}M`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value) => [`£${value.toFixed(1)}M`, 'Net Current Expenditure']}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="total"
+                  stroke="var(--accent-blue)"
+                  strokeWidth={2}
+                  dot={{ fill: 'var(--accent-blue)', r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Data Source & Context */}
+      <section className="context-section">
+        <h2>About This Data</h2>
+        <div className="context-card">
+          <div className="context-item">
+            <h4>Source</h4>
+            <p>
+              Revenue Outturn data published by the Ministry of Housing, Communities and Local Government (MHCLG).
+              This is official, certified data submitted by {councilFullName} under statutory reporting requirements.
+              Licensed under the Open Government Licence v3.0.
+            </p>
+          </div>
+          <div className="context-item">
+            <h4>What's Included</h4>
+            <p>
+              Service expenditure covers the main areas of council spending: housing, environmental services, planning,
+              cultural services, highways, and central administration. Figures show <em>actual outturn</em> (what was
+              really spent), not budget estimates. Non-district services (education, police, fire, adult social care) are
+              excluded as they are provided by Lancashire County Council.
+            </p>
+          </div>
+          <div className="context-item">
+            <h4>Detailed Budgets Coming Soon</h4>
+            <p>
+              We're working on extracting detailed budget book data for {councilFullName}, which will provide departmental
+              breakdowns, capital programme details, treasury management information, and year-on-year budget comparisons
+              similar to other councils on this site.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

@@ -60,6 +60,16 @@
   overflow-y: auto;
 }
 
+.nav-section {
+  /* Group nav items with optional dividers between sections */
+}
+
+.nav-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: var(--space-xs) var(--space-sm);
+}
+
 .nav-item {
   display: flex;
   align-items: center;
@@ -161,6 +171,12 @@
 
 .footer-link a:hover {
   color: var(--accent-blue);
+}
+
+.footer-imprint {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-xs);
 }
 
 /* Main content */

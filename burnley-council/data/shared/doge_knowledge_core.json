@@ -1,0 +1,126 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-08",
+  "project": "Lancashire Council Transparency — DOGE Analysis",
+  "councils": ["burnley", "hyndburn", "pendle"],
+
+  "legal_framework": {
+    "transparency_code": {
+      "name": "Local Government Transparency Code 2015",
+      "requires": "Quarterly publication of all spending over £500 (£250 for some councils). Includes supplier name, amount, date, category.",
+      "authority": "DCLG (now DLUHC)"
+    },
+    "procurement_rules": {
+      "threshold_low": "Under £25K: single quote permitted",
+      "threshold_medium": "£25K–£189,330: competitive quotes required",
+      "threshold_high": "Over £189,330 (goods/services) or £4,733,252 (works): full public procurement required",
+      "split_payment_risk": "Splitting contracts to stay below thresholds may breach Public Contracts Regulations 2015"
+    },
+    "companies_act_2006": {
+      "directors": "ss.154-156 — Every company must have at least one natural person as director at all times.",
+      "psc_register": "s.790E — Persons of Significant Control must be registered. LLPs exempt under LLPA 2000 s.4(1).",
+      "filing_obligations": "Annual confirmation statement and accounts required. Non-compliance triggers strike-off proceedings."
+    },
+    "llp_exemption": "LLPs (Limited Liability Partnerships) are exempt from PSC register requirements under LLPA 2000 s.4(1). Not a red flag."
+  },
+
+  "methodology": {
+    "analyses": [
+      {
+        "id": "ch_compliance",
+        "name": "Companies House Compliance",
+        "description": "Checks each supplier against Companies House for active directors, PSC registration, and filing status. Flags payments made during periods of non-compliance.",
+        "confidence": "high",
+        "limitations": "CH data may lag real-world changes by weeks. A company may have rectified a breach before CH records update. LLPs are exempt from PSC requirements."
+      },
+      {
+        "id": "split_payments",
+        "name": "Split Payment Detection",
+        "description": "Identifies multiple payments to the same supplier within short windows that individually fall below procurement thresholds but collectively exceed them.",
+        "confidence": "medium",
+        "limitations": "Many legitimate reasons for multiple small payments (different projects, different budget codes, phased delivery). Requires manual review to confirm."
+      },
+      {
+        "id": "data_quality",
+        "name": "Data Quality Assessment",
+        "description": "Measures completeness of transaction records: descriptions, departments, dates, references. Missing data reduces accountability.",
+        "confidence": "high",
+        "limitations": "Absence of data doesn't indicate wrongdoing — councils may use different systems with varying field requirements."
+      },
+      {
+        "id": "cross_council_pricing",
+        "name": "Cross-Council Price Comparison",
+        "description": "Compares average payment amounts for shared suppliers across councils. Large gaps may indicate different contract terms or service scopes.",
+        "confidence": "low",
+        "limitations": "Price differences usually reflect different service scopes, contract structures, or volumes — not price gouging. Always needs context before conclusions."
+      }
+    ],
+    "retired_analyses": [
+      {
+        "id": "duplicate_detection",
+        "name": "Likely Duplicate Payments",
+        "description": "Previously grouped transactions with same supplier+amount within 7 days as duplicates.",
+        "retired_reason": "Methodology produced massive false positives. Recurring contract payments (monthly Liberata fees, quarterly leisure trust payments, weekly agency staff) were incorrectly flagged. Same for bulk grant distributions and individual vehicle hire charges.",
+        "status": "retired — needs complete redesign with reference number matching"
+      },
+      {
+        "id": "year_end_spikes",
+        "name": "Year-End Spending Spikes",
+        "description": "Previously compared March spending to monthly average.",
+        "retired_reason": "Analysis produced incorrect results. Hyndburn was claimed to have 12.9x spike but actual data shows March is the LOWEST month (0.6x). None of the 3 councils show significant March spikes. October is typically the highest month.",
+        "status": "retired — needs recalculation from raw data"
+      },
+      {
+        "id": "round_numbers",
+        "name": "Round Number Analysis",
+        "description": "Previously flagged exact round amounts over £5K.",
+        "retired_reason": "Many legitimate payments are round numbers (grants, management fees, budget allocations, fixed-price contracts). Low public interest value.",
+        "status": "retired — low value"
+      }
+    ]
+  },
+
+  "red_flags": {
+    "no_active_directors": {
+      "description": "Company has no natural person director — breaches CA 2006 ss.154-156.",
+      "severity": "high",
+      "public_interest": "Council should not transact with non-compliant entities. Indicates governance failure."
+    },
+    "no_psc_registered": {
+      "description": "No Person of Significant Control registered (unless LLP).",
+      "severity": "medium",
+      "public_interest": "Obscures beneficial ownership. May indicate shell company or oversight.",
+      "exceptions": "LLPs are exempt under LLPA 2000 s.4(1). Not a red flag for LLPs."
+    },
+    "facing_strike_off": {
+      "description": "Company subject to compulsory or voluntary strike-off.",
+      "severity": "high",
+      "public_interest": "Council risks paying an entity that may cease to exist. Advance payments particularly risky."
+    },
+    "split_payment_pattern": {
+      "description": "Payments structured to stay below procurement thresholds.",
+      "severity": "medium",
+      "public_interest": "May circumvent competitive tendering. Requires manual review — many legitimate explanations exist."
+    },
+    "missing_transaction_data": {
+      "description": "Transactions published without descriptions, departments, or dates.",
+      "severity": "high",
+      "public_interest": "Prevents public scrutiny. Citizens cannot determine what was purchased or which service is responsible."
+    }
+  },
+
+  "data_quality_benchmarks": {
+    "description_completeness": {
+      "excellent": ">95%",
+      "good": "80-95%",
+      "poor": "<80%",
+      "critical": "0% (Burnley)"
+    },
+    "department_completeness": {
+      "excellent": ">98%",
+      "good": "90-98%",
+      "poor": "<90%",
+      "note": "Burnley at 86.8%, Hyndburn and Pendle at 100%"
+    }
+  }
+}

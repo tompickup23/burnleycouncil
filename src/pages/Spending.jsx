@@ -88,7 +88,7 @@ function Spending() {
   useEffect(() => {
     document.title = `Spending Explorer | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
-  }, [])
+  }, [councilName])
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
   const spendingData = useMemo(() => spending || [], [spending])
@@ -437,21 +437,21 @@ function Spending() {
       {activeTab === 'table' && (
         <>
           <div className="table-container">
-            <table className="spending-table">
+            <table className="spending-table" role="table" aria-label="Spending records">
               <thead>
                 <tr>
-                  <th className="sortable" onClick={() => handleSort('date')}>
+                  <th scope="col" className="sortable" onClick={() => handleSort('date')} aria-label="Sort by date">
                     Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
                   </th>
-                  <th className="sortable" onClick={() => handleSort('supplier')}>
+                  <th scope="col" className="sortable" onClick={() => handleSort('supplier')} aria-label="Sort by supplier">
                     Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
                   </th>
-                  <th>Service</th>
-                  <th>Category</th>
-                  <th className="sortable amount-col" onClick={() => handleSort('amount')}>
+                  <th scope="col">Service</th>
+                  <th scope="col">Category</th>
+                  <th scope="col" className="sortable amount-col" onClick={() => handleSort('amount')} aria-label="Sort by amount">
                     Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
                   </th>
-                  <th>Type</th>
+                  <th scope="col">Type</th>
                 </tr>
               </thead>
               <tbody>

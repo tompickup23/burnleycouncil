@@ -10,6 +10,7 @@
   "data_sources": {
     "spending": true,
     "budgets": true,
+    "budget_trends": true,
     "politics": true,
     "meetings": true,
     "news": true,
@@ -22,6 +23,8 @@
   "hero_subtitle": "Explore how Burnley Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Burnley Borough Council",
   "publisher": "Tom Pickup",
+  "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Formerly part of the Reform UK internal DOGE team and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across East Lancashire.",
+  "publisher_titles": ["County Councillor for Padiham & Burnley West", "County Councillor for Clowbridge with Dunnockshaw"],
   "theme_accent": "#0a84ff",
 
   "doge_context": {
@@ -30,7 +33,7 @@
     "suppliers": 4485,
     "data_period": "April 2021 – present",
     "annual_net_revenue_budget": "£18.7M",
-    "political_control": "Labour coalition. Reform UK challenging governance.",
+    "political_control": "Independent/Lib Dem/Green coalition (23 seats, majority of 1). Labour largest opposition group (13 seats inc. Co-op).",
     "key_suppliers": [
       {"name": "Liberata UK Ltd", "spend": "£36.7M", "note": "Outsourcing contract being brought in-house"},
       {"name": "URBASER LTD", "spend": "£19.5M", "transactions": 959, "note": "Waste collection"},
@@ -38,9 +41,9 @@
     ],
     "doge_findings": {
       "ch_breach_spend": "£223.9K to 21 suppliers during active Companies House breaches",
-      "likely_duplicates": "£1.4M across 577 groups",
-      "split_payments": "£35.1M suspected",
-      "year_end_spike": "5.7x monthly average in March"
+      "transparency_gap": "100% of transactions have no description — worst of any East Lancashire council. 13.2% missing department data.",
+      "split_payments": "£35.1M suspected across 602 instances",
+      "year_end_spike": "Mild 1.4x March premium. October is actually the highest month (£9.5M avg vs £6M normal)."
     },
     "notable_suppliers": [
       {"name": "Molesworth Hotel Ltd", "spend": "£59.1K", "issue": "No active directors, no PSC registered"},

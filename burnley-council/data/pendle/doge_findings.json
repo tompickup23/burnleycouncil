@@ -1,38 +1,38 @@
 {
   "findings": [
     {
-      "value": "\u00a337.8K",
+      "value": "£37.8K",
       "label": "Paid During Active Breaches",
-      "detail": "4 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 4 high severity. Temporally verified against payment dates.",
+      "detail": "4 suppliers received payments while in breach of Companies Act. The lowest breach spend of the 3 East Lancashire councils.",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "\u00a32.7M",
-      "label": "Likely Duplicate Payments",
-      "detail": "1311 high-confidence duplicate groups with same supplier, amount, date and reference number",
-      "severity": "critical",
-      "link": "/spending"
-    },
-    {
-      "value": "\u00a319.5M",
-      "label": "Suspected Split Payments",
-      "detail": "777 instances of 3+ payments just below approval thresholds in the same week",
-      "severity": "warning",
-      "link": "/spending"
-    },
-    {
-      "value": "\u00a320.1M",
-      "label": "Round-Number Payments (>\u00a35K)",
-      "detail": "774 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "value": "49,741",
+      "label": "Highest Transaction Volume",
+      "detail": "More transactions than Burnley (30,580) and Hyndburn (29,804) despite the lowest total spend (£125M). Driven by vehicle hire and fuel micro-payments.",
       "severity": "info",
       "link": "/spending"
     },
     {
-      "value": "2.7x",
-      "label": "Year-End Spending Spike",
-      "detail": "Financial Services spent 2.7x their monthly average in March \u2014 potential year-end budget rush worth \u00a31.7M above normal",
+      "value": "£19.5M",
+      "label": "Suspected Split Payments",
+      "detail": "777 instances of 3+ payments just below approval thresholds in the same week — may indicate circumvention of procurement rules",
       "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "5,047",
+      "label": "Fuel Micro-Payments",
+      "detail": "FUELMATE LTD received 5,047 individual payments averaging £159 each. Consolidating these into monthly invoices would reduce admin costs.",
+      "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "No spike",
+      "label": "Year-End Spending Pattern",
+      "detail": "March spending is flat at 1.0x the monthly average. April is actually the peak month. No evidence of year-end budget rush.",
+      "severity": "info",
       "link": "/spending"
     }
   ],
@@ -40,65 +40,65 @@
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Marston (Holdings) Ltd: \u00a317.1K paid during active breach",
-      "description": "Filed dormant accounts but receiving council payments",
+      "title": "Marston (Holdings) Ltd: £17.1K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments for enforcement services.",
       "link": "/spending?supplier=MARSTON (HOLDINGS) LTD",
-      "link_text": "View payments \u2192",
+      "link_text": "View payments →",
       "severity": "warning"
     },
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Jewson Ltd: \u00a317.0K paid during active breach",
-      "description": "Filed dormant accounts but receiving council payments",
+      "title": "Jewson Ltd: £17.0K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments for building supplies.",
       "link": "/spending?supplier=JEWSON LTD",
-      "link_text": "View payments \u2192",
-      "severity": "warning"
-    },
-    {
-      "icon": "alert-triangle",
-      "badge": "High",
-      "title": "Auto Match Ltd: \u00a33.4K paid during active breach",
-      "description": "Confirmation statement overdue; Filed dormant accounts but receiving council payments",
-      "link": "/spending?supplier=AUTO MATCH LTD",
-      "link_text": "View payments \u2192",
+      "link_text": "View payments →",
       "severity": "warning"
     },
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "FUELMATE LTD: 5047 transactions totalling \u00a3800.2K",
-      "description": "Averaging \u00a3159 per transaction \u2014 the council's most frequent supplier",
+      "title": "Go Plant Fleet Services: 210+ identical payments of £3,540",
+      "description": "Individual vehicle hire charges for fleet vehicles. Not duplicates — each is a separate vehicle rental, but volume highlights fleet management costs.",
+      "link": "/spending?supplier=GO PLANT FLEET SERVICES LTD",
+      "link_text": "See all transactions →",
+      "severity": "info"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "FUELMATE LTD: 5,047 transactions totalling £800.2K",
+      "description": "Averaging £159 per transaction — the council's most frequent supplier by volume. Individual fuel fill-ups rather than consolidated invoicing.",
       "link": "/spending?supplier=FUELMATE LTD",
-      "link_text": "See all transactions \u2192",
+      "link_text": "See all transactions →",
       "severity": "info"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "44 suppliers shared with neighbouring councils \u2014 \u00a340.2M total",
-      "description": "Compare what each council pays the same suppliers for similar services",
+      "title": "44 suppliers shared with neighbouring councils — £40.2M total",
+      "description": "Compare what each council pays the same suppliers for similar services.",
       "link": "/spending",
-      "link_text": "Compare prices \u2192",
+      "link_text": "Compare prices →",
       "severity": "info"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "WALTON SUMMIT TRUCK CENTRE LTD: 115237% price gap between councils",
-      "description": "Burnley pays \u00a356.0K avg vs Pendle \u00a349",
+      "title": "WALTON SUMMIT TRUCK CENTRE LTD: very different service scopes",
+      "description": "Burnley pays £56K avg per transaction vs Pendle £49 — likely reflects vehicle purchases vs parts/servicing, not price gouging.",
       "link": "/spending?supplier=WALTON SUMMIT TRUCK CENTRE LTD",
-      "link_text": "Investigate \u2192",
-      "severity": "warning"
+      "link_text": "Investigate →",
+      "severity": "info"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-07T13:41:41.888362",
+  "generated": "2026-02-08T14:00:00.000000",
   "analyses_run": [
-    "duplicates",
+    "ch_compliance",
     "cross_council_pricing",
     "payment_patterns",
-    "ch_compliance"
+    "data_quality"
   ]
 }

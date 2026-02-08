@@ -1,22 +1,39 @@
 import { NavLink } from 'react-router-dom'
 import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import './Layout.css'
 
-const navItems = [
-  { path: '/', icon: Home, label: 'Home' },
-  { path: '/news', icon: Newspaper, label: 'News' },
-  { path: '/spending', icon: PoundSterling, label: 'Spending' },
-  { path: '/suppliers', icon: Building, label: 'Suppliers' },
-  { path: '/budgets', icon: PieChart, label: 'Budgets' },
-  { path: '/politics', icon: Users, label: 'Politics' },
-  { path: '/my-area', icon: MapPin, label: 'My Area' },
-  { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay' },
-  { path: '/compare', icon: GitCompareArrows, label: 'Compare' },
-  { path: '/meetings', icon: Calendar, label: 'Meetings' },
-  { path: '/foi', icon: FileQuestion, label: 'FOI' },
-  { path: '/about', icon: Info, label: 'About' },
+// Nav items grouped into sections with optional data_sources key for conditional display
+const navSections = [
+  {
+    items: [
+      { path: '/', icon: Home, label: 'Home' },
+      { path: '/news', icon: Newspaper, label: 'News', requires: 'news' },
+    ],
+  },
+  {
+    items: [
+      { path: '/spending', icon: PoundSterling, label: 'Spending', requires: 'spending' },
+      { path: '/suppliers', icon: Building, label: 'Suppliers', requires: 'spending' },
+      { path: '/budgets', icon: PieChart, label: 'Budgets', requires: ['budgets', 'budget_trends'] },
+      { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
+    ],
+  },
+  {
+    items: [
+      { path: '/politics', icon: Users, label: 'Politics', requires: 'politics' },
+      { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
+      { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
+    ],
+  },
+  {
+    items: [
+      { path: '/compare', icon: GitCompareArrows, label: 'Compare' },
+      { path: '/foi', icon: FileQuestion, label: 'FOI', requires: 'foi' },
+      { path: '/about', icon: Info, label: 'About' },
+    ],
+  },
 ]
 
 function Layout({ children }) {
@@ -25,15 +42,37 @@ function Layout({ children }) {
   const councilName = config.council_name || 'Council'
   const officialUrl = config.official_website || '#'
   const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+  const dataSources = config.data_sources || {}
+
+  // Filter nav sections based on data_sources flags
+  const visibleSections = useMemo(() => {
+    return navSections
+      .map(section => ({
+        ...section,
+        items: section.items.filter(item => {
+          if (!item.requires) return true
+          // requires can be a string or array — show if ANY flag is truthy
+          const keys = Array.isArray(item.requires) ? item.requires : [item.requires]
+          return keys.some(key => dataSources[key])
+        }),
+      }))
+      .filter(section => section.items.length > 0)
+  }, [dataSources])
 
   return (
     <div className="layout">
+      {/* Skip to main content — accessibility */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+
       {/* Mobile header */}
       <header className="mobile-header">
         <button
           className="menu-toggle"
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label="Toggle menu"
+          aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={sidebarOpen}
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -41,23 +80,28 @@ function Layout({ children }) {
       </header>
 
       {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`} aria-label="Main navigation">
         <div className="sidebar-header">
           <h1 className="site-title">{councilName}</h1>
           <span className="site-subtitle">Council Transparency</span>
         </div>
 
-        <nav className="sidebar-nav">
-          {navItems.map(({ path, icon: Icon, label }) => (
-            <NavLink
-              key={path}
-              to={path}
-              className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              <Icon size={20} />
-              <span>{label}</span>
-            </NavLink>
+        <nav className="sidebar-nav" aria-label="Site navigation">
+          {visibleSections.map((section, si) => (
+            <div key={si} className="nav-section">
+              {si > 0 && <div className="nav-divider" />}
+              {section.items.map(({ path, icon: Icon, label }) => (
+                <NavLink
+                  key={path}
+                  to={path}
+                  className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <Icon size={20} />
+                  <span>{label}</span>
+                </NavLink>
+              ))}
+            </div>
           ))}
         </nav>
 
@@ -85,11 +129,14 @@ function Layout({ children }) {
         <div
           className="sidebar-overlay"
           onClick={() => setSidebarOpen(false)}
+          aria-label="Close navigation"
+          role="button"
+          tabIndex={-1}
         />
       )}
 
       {/* Main content */}
-      <main className="main-content">
+      <main id="main-content" className="main-content" role="main">
         {children}
       </main>
     </div>

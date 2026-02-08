@@ -36,15 +36,7 @@ function About() {
             see who receives the most public money, and understand where your council tax goes.
           </p>
           <p>
-            This website was created by {config.publisher || 'Tom Pickup'}, County Councillor for Padiham &amp; Burnley West.
-            Formerly part of the Reform UK internal DOGE team and former Lead Member for Finance
-            &amp; Resources at Lancashire County Council, Tom has helped deliver £5 of efficiency savings
-            for every £100 spent since May 2025, the lowest council tax rise in 12 years and
-            the lowest of any upper-tier authority in England. He was part of the team that uncovered
-            over £300 million in lost value from a Conservative-era bonds scandal, identified
-            Conservative councillors who were being paid tens of thousands to serve as directors
-            of LCC-owned companies — which was stopped — and voted to reject a recommended pay
-            rise for councillors, saving £115,000 for Lancashire residents.
+            {config.publisher_bio || `This website was created by ${config.publisher || 'Tom Pickup'}, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Formerly part of the Reform UK internal DOGE team and former Lead Member for Finance & Resources at Lancashire County Council, Tom has helped deliver £5 of efficiency savings for every £100 spent since May 2025, the lowest council tax rise in 12 years and the lowest of any upper-tier authority in England.`}
           </p>
           <p className="highlight-text">
             Nothing more, nothing less. Just public data, made accessible.
@@ -61,8 +53,9 @@ function About() {
           <div className="creator-content">
             <h2>Created by Tom Pickup</h2>
             <div className="creator-titles">
-              <span className="title-badge">County Councillor for Padiham & Burnley West</span>
-              <span className="title-badge">County Councillor for Clowbridge with Dunnockshaw</span>
+              {(config.publisher_titles || ['County Councillor for Padiham & Burnley West', 'County Councillor for Clowbridge with Dunnockshaw']).map((title, i) => (
+                <span key={i} className="title-badge">{title}</span>
+              ))}
             </div>
             <blockquote className="creator-quote">
               "It's your money. The more people understand where it goes, the better."

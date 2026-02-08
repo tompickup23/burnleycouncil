@@ -1,106 +1,68 @@
 {
-  "version": "1.0",
-  "last_updated": "2026-02-07",
-  "project": "Lancashire Council Transparency — DOGE Analysis",
-  "councils": ["burnley", "hyndburn", "pendle"],
+  "version": "2.0",
+  "last_updated": "2026-02-08",
+  "council": "burnley",
+  "core_knowledge": "shared/doge_knowledge_core.json",
 
-  "legal_framework": {
-    "transparency_code": {
-      "name": "Local Government Transparency Code 2015",
-      "requires": "Quarterly publication of all spending over £500 (£250 for some councils). Includes supplier name, amount, date, category.",
-      "authority": "DCLG (now DLUHC)"
-    },
-    "procurement_rules": {
-      "threshold_low": "Under £25K: single quote permitted",
-      "threshold_medium": "£25K–£189,330: competitive quotes required",
-      "threshold_high": "Over £189,330 (goods/services) or £4,733,252 (works): full public procurement required",
-      "split_payment_risk": "Splitting contracts to stay below thresholds may breach Public Contracts Regulations 2015"
-    },
-    "companies_act_2006": {
-      "directors": "ss.154-156 — Every company must have at least one natural person as director at all times.",
-      "psc_register": "s.790E — Persons of Significant Control must be registered. LLPs exempt under LLPA 2000 s.4(1).",
-      "filing_obligations": "Annual confirmation statement and accounts required. Non-compliance triggers strike-off proceedings."
-    },
-    "llp_exemption": "LLPs (Limited Liability Partnerships) are exempt from PSC register requirements under LLPA 2000 s.4(1). Not a red flag."
+  "council_profile": {
+    "total_spend": "£355.2M",
+    "transactions": 30580,
+    "unique_suppliers": 4485,
+    "data_period": "April 2021 – December 2025",
+    "spending_threshold": 500,
+    "political_control": "Independent/Lib Dem/Green coalition (23 seats). Labour largest opposition (13 seats inc. Co-op).",
+    "annual_net_revenue_budget": "£18.7M"
   },
 
-  "methodology": {
-    "analyses": [
-      {
-        "id": "ch_compliance",
-        "name": "Companies House Compliance",
-        "description": "Checks each supplier against CH for active directors, PSC registration, and filing status. Payments during breach periods are flagged.",
-        "severity": "high"
-      },
-      {
-        "id": "duplicate_detection",
-        "name": "Likely Duplicate Payments",
-        "description": "Groups transactions with same supplier, amount, and date proximity (<7 days). Excludes regular scheduled payments.",
-        "severity": "medium"
-      },
-      {
-        "id": "split_payments",
-        "name": "Split Payment Detection",
-        "description": "Identifies multiple payments to the same supplier within short windows that individually fall below procurement thresholds but collectively exceed them.",
-        "severity": "medium"
-      },
-      {
-        "id": "round_numbers",
-        "name": "Round Number Analysis",
-        "description": "Flags payments at exact round amounts (e.g. £10,000.00). High proportion suggests estimated rather than invoiced payments.",
-        "severity": "low"
-      },
-      {
-        "id": "year_end_spikes",
-        "name": "Year-End Spending Spikes",
-        "description": "Compares March spending to monthly average. Spikes indicate budget-clearing behaviour — spending to avoid returning unspent funds.",
-        "severity": "medium"
-      },
-      {
-        "id": "cross_council_pricing",
-        "name": "Cross-Council Price Comparison",
-        "description": "Compares average payment amounts for shared suppliers across councils. Large gaps suggest inconsistent procurement or different contract terms.",
-        "severity": "medium"
-      }
-    ]
+  "data_quality": {
+    "overall_score": 77.4,
+    "description_completeness": "0.0% — CRITICAL: no transaction descriptions published",
+    "department_completeness": "86.8% — 4,044 records missing department",
+    "date_completeness": "99.3% — 209 records missing dates",
+    "ch_match_rate": "17.1% — low Companies House linkage",
+    "duplicate_records": "6.7% (2,061 records) — ETL deduplication needed"
   },
 
-  "red_flags": {
-    "no_active_directors": "Company has no natural person director — breaches CA 2006 ss.154-156. Council should not transact with non-compliant entities.",
-    "no_psc_registered": "No Person of Significant Control registered (unless LLP). Obscures beneficial ownership — potential money laundering risk.",
-    "facing_strike_off": "Company subject to compulsory or voluntary strike-off. Council risks paying an entity that may cease to exist.",
-    "high_duplicate_rate": "Multiple identical-amount payments to same supplier in short windows. May indicate invoice processing errors or fraud.",
-    "split_payment_pattern": "Payments structured to stay below procurement thresholds. May circumvent competitive tendering requirements.",
-    "extreme_year_end_spike": "March spending >5x monthly average suggests systematic budget-clearing rather than genuine service need.",
-    "cross_council_price_gap": "Same supplier charging vastly different prices to neighbouring councils indicates poor procurement coordination."
-  },
-
-  "cross_council_insights": {
-    "shared_suppliers": {
-      "summary": "44 suppliers shared between Burnley/Hyndburn/Pendle. Combined spend on shared suppliers: Burnley £40.2M, Hyndburn £28.1M, Pendle undisclosed.",
-      "notable_shared": [
-        {
-          "supplier": "Liberata UK Ltd",
-          "context": "Outsourced services provider used by both Burnley (£36.7M) and Pendle (£16.7M). Burnley bringing contract in-house.",
-          "councils": ["burnley", "pendle"]
-        },
-        {
-          "supplier": "WALTON SUMMIT TRUCK CENTRE LTD",
-          "context": "Burnley pays £56K avg per transaction vs Pendle £49 — a 115,237% price gap. Likely different service scopes.",
-          "councils": ["burnley", "pendle"]
-        }
-      ]
+  "verified_findings": {
+    "ch_breach_spend": {
+      "value": "£223.9K",
+      "suppliers": 21,
+      "top_cases": [
+        {"name": "Molesworth Hotel Ltd", "spend": "£59.1K", "issue": "No active directors, no PSC"},
+        {"name": "JML Property Solutions Ltd", "spend": "£48.0K", "issue": "Facing strike-off, filed dormant accounts"},
+        {"name": "A & C Weber UK Ltd", "spend": "£29.2K", "issue": "Filed dormant accounts"}
+      ],
+      "confidence": "high",
+      "note": "Verified against Companies House API. Middle-ranked of 3 councils."
     },
-    "comparative_metrics": {
-      "worst_year_end_spike": "Hyndburn (12.9x) — significantly worse than Burnley (5.7x) and Pendle.",
-      "highest_ch_breach_spend": "Hyndburn (£1.1M to 17 suppliers) — Burnley £223.9K, Pendle £37.8K.",
-      "highest_duplicate_rate": "Hyndburn (£3.4M, 940 groups) — Burnley £1.4M, Pendle £2.7M.",
-      "highest_transaction_volume": "Pendle (48,785 transactions) despite lowest total spend (£127M)."
+    "transparency_gap": {
+      "value": "100% missing descriptions",
+      "confidence": "high",
+      "note": "Burnley is the only one of the 3 East Lancashire councils that publishes no description of what it purchases.",
+      "public_interest": "This is the single biggest accountability issue."
     },
-    "data_coverage": {
-      "burnley": "April 2021 – present, threshold £500",
-      "hyndburn": "January 2017 – present, threshold £250 (longest dataset, lowest threshold)",
-      "pendle": "April 2021 – present, threshold £500"
+    "split_payments": {
+      "value": "£35.1M suspected",
+      "instances": 602,
+      "confidence": "medium",
+      "note": "Requires manual review. Many instances may be legitimate phased payments."
+    },
+    "year_end_pattern": {
+      "march_multiple": "1.4x",
+      "note": "Mild seasonal variation. October is actually the highest month (£9.5M avg). Not significant.",
+      "confidence": "high"
     }
+  },
+
+  "key_suppliers": {
+    "liberata_uk": {"total_spend": "£36.7M", "note": "Outsourced services, being brought in-house"},
+    "urbaser": {"total_spend": "£19.5M", "transactions": 959, "note": "Waste collection"},
+    "geldards_llp": {"total_spend": "£20.3M", "note": "Pioneer Place solicitors. LLP exempt from PSC."}
+  },
+
+  "cross_council_context": {
+    "shared_suppliers": 39,
+    "shared_supplier_spend": "£100.3M",
+    "price_gap_notes": "WALTON SUMMIT: 115,237% gap reflects vehicle purchases (Burnley, £56K avg) vs parts/servicing (Pendle, £49 avg). Not comparable."
   }
 }

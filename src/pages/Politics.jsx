@@ -48,52 +48,56 @@ function Politics() {
         </p>
       </header>
 
-      {/* Council Composition */}
-      <section className="composition-section">
-        <h2>Council Composition</h2>
-        <div className="composition-grid">
-          <div className="composition-card coalition">
-            <h3>Ruling Coalition</h3>
-            <div className="coalition-makeup">
-              <span className="coalition-total">{summary?.coalition?.total_seats}</span>
-              <span className="coalition-label">seats</span>
+      {/* Council Composition — data-driven from politics_summary.json */}
+      {summary?.coalition && (
+        <section className="composition-section">
+          <h2>Council Composition</h2>
+          <div className="composition-grid">
+            <div className="composition-card coalition">
+              <h3>{summary.coalition.type === 'majority' ? 'Ruling Party' : 'Ruling Coalition'}</h3>
+              <div className="coalition-makeup">
+                <span className="coalition-total">{summary.coalition.total_seats}</span>
+                <span className="coalition-label">seats</span>
+              </div>
+              <div className="coalition-parties">
+                {(summary.coalition.parties || []).map(partyName => {
+                  const partyData = seatsByParty.find(p => p.party === partyName)
+                  if (!partyData) return null
+                  const isLight = partyData.color?.toLowerCase() === '#faa61a' || partyData.color?.toLowerCase() === '#ffd60a'
+                  return (
+                    <span key={partyName} className="party-chip" style={{ background: partyData.color, color: isLight ? '#000' : undefined }}>
+                      {partyName} {partyData.count}
+                    </span>
+                  )
+                })}
+              </div>
+              <p className="coalition-note text-secondary">
+                Majority threshold: {summary.majority_threshold || Math.ceil((summary.total_councillors || 0) / 2) + 1} seats
+              </p>
             </div>
-            <div className="coalition-parties">
-              <span className="party-chip" style={{ background: '#800080' }}>
-                Independent {seatsByParty.find(p => p.party === 'Independent')?.count || 0}
-              </span>
-              <span className="party-chip" style={{ background: '#faa61a', color: '#000' }}>
-                Lib Dem {seatsByParty.find(p => p.party === 'Liberal Democrats')?.count || 0}
-              </span>
-              <span className="party-chip" style={{ background: '#6ab023' }}>
-                Green {seatsByParty.find(p => p.party === 'Green Party')?.count || 0}
-              </span>
-            </div>
-            <p className="coalition-note text-secondary">
-              Majority threshold: 23 seats
-            </p>
-          </div>
 
-          <div className="composition-card">
-            <h3>Opposition</h3>
-            <div className="opposition-makeup">
-              <span className="opposition-total">{summary?.opposition_seats}</span>
-              <span className="opposition-label">seats</span>
-            </div>
-            <div className="opposition-parties">
-              <span className="party-chip" style={{ background: '#dc241f' }}>
-                Labour {(seatsByParty.find(p => p.party === 'Labour')?.count || 0) + (seatsByParty.find(p => p.party === 'Labour & Co-operative Party')?.count || 0)}
-              </span>
-              <span className="party-chip" style={{ background: '#0087dc' }}>
-                Conservative {seatsByParty.find(p => p.party === 'Conservative')?.count || 0}
-              </span>
-              <span className="party-chip" style={{ background: '#12b6cf' }}>
-                Reform {seatsByParty.find(p => p.party === 'Reform UK')?.count || 0}
-              </span>
+            <div className="composition-card">
+              <h3>Opposition</h3>
+              <div className="opposition-makeup">
+                <span className="opposition-total">{summary.opposition_seats}</span>
+                <span className="opposition-label">seats</span>
+              </div>
+              <div className="opposition-parties">
+                {seatsByParty
+                  .filter(p => !(summary.coalition.parties || []).includes(p.party))
+                  .map(partyData => {
+                    const isLight = partyData.color?.toLowerCase() === '#faa61a' || partyData.color?.toLowerCase() === '#ffd60a'
+                    return (
+                      <span key={partyData.party} className="party-chip" style={{ background: partyData.color, color: isLight ? '#000' : undefined }}>
+                        {partyData.party} {partyData.count}
+                      </span>
+                    )
+                  })}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Seat Diagram */}
       <section className="seats-section">
@@ -129,6 +133,12 @@ function Politics() {
               <span className="figure-name">{summary.council_leader}</span>
             </div>
           )}
+          {summary?.deputy_leaders?.length > 0 && summary.deputy_leaders.map((dl, i) => (
+            <div key={i} className="figure-card">
+              <span className="figure-role">Deputy Leader</span>
+              <span className="figure-name">{dl}</span>
+            </div>
+          ))}
           {summary?.mayor && (
             <div className="figure-card">
               <span className="figure-role">Mayor</span>
@@ -139,6 +149,12 @@ function Politics() {
             <div className="figure-card">
               <span className="figure-role">Deputy Mayor</span>
               <span className="figure-name">{summary.deputy_mayor}</span>
+            </div>
+          )}
+          {summary?.opposition_leader && (
+            <div className="figure-card">
+              <span className="figure-role">Opposition Leader</span>
+              <span className="figure-name">{summary.opposition_leader}</span>
             </div>
           )}
         </div>

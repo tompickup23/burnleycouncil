@@ -5,92 +5,57 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary Meta Tags -->
-    <title>Burnley Council Transparency - Public Spending Data by Tom Pickup</title>
-    <meta name="title" content="Burnley Council Transparency - Public Spending Data by Tom Pickup" />
-    <meta name="description" content="Independent analysis of Burnley Borough Council spending by Tom Pickup, County Councillor. Explore £217M+ in payments, see where your council tax goes. Created by Tom Pickup, Lead Member for Finance and Resources at LCC. NOT the official council website." />
-    <meta name="keywords" content="Burnley Council, Tom Pickup, council spending, Padiham, Burnley West, Clowbridge, Dunnockshaw, local government, councillors, public scrutiny, council tax, Burnley politics, Lancashire County Council, Reform UK Lancashire" />
-    <meta name="author" content="Tom Pickup" />
+    <!-- Primary Meta Tags — parameterised at build time by councilDataPlugin -->
+    <title>%COUNCIL_NAME% Council Transparency — AI DOGE</title>
+    <meta name="title" content="%COUNCIL_NAME% Council Transparency — AI DOGE" />
+    <meta name="description" content="Independent analysis of %COUNCIL_FULL% spending. Explore %TOTAL_SPEND%+ in payments across %TRANSACTIONS%+ transactions. See where your council tax goes. NOT the official council website." />
+    <meta name="keywords" content="%COUNCIL_NAME% Council, %PUBLISHER%, council spending, local government, public scrutiny, council tax, %COUNCIL_NAME% politics, %COUNTY%, transparency, accountability" />
+    <meta name="author" content="%PUBLISHER%" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://aidoge.co.uk/burnleycouncil" />
+    <link rel="canonical" href="%SITE_URL%" />
 
     <!-- Geographic targeting -->
     <meta name="geo.region" content="GB-LAN" />
-    <meta name="geo.placename" content="Burnley, Lancashire" />
+    <meta name="geo.placename" content="%GEO_PLACENAME%" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://aidoge.co.uk/burnleycouncil/" />
-    <meta property="og:title" content="Burnley Council Transparency - Tom Pickup" />
-    <meta property="og:description" content="Independent analysis of Burnley Council spending by Tom Pickup, County Councillor. See where your council tax goes. NOT the official council website." />
-    <meta property="og:site_name" content="Burnley Council Transparency" />
+    <meta property="og:url" content="%SITE_URL%" />
+    <meta property="og:title" content="%COUNCIL_NAME% Council Transparency — AI DOGE" />
+    <meta property="og:description" content="Independent analysis of %COUNCIL_FULL% spending. Explore %TOTAL_SPEND%+ in public spending data. NOT the official council website." />
+    <meta property="og:site_name" content="%COUNCIL_NAME% Council Transparency" />
     <meta property="og:locale" content="en_GB" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://aidoge.co.uk/burnleycouncil/" />
-    <meta property="twitter:title" content="Burnley Council Transparency by Tom Pickup" />
-    <meta property="twitter:description" content="Independent analysis of Burnley Council spending by Tom Pickup, County Councillor. Explore £217M+ in public spending data." />
+    <meta property="twitter:url" content="%SITE_URL%" />
+    <meta property="twitter:title" content="%COUNCIL_NAME% Council Transparency — AI DOGE" />
+    <meta property="twitter:description" content="Independent analysis of %COUNCIL_FULL% spending. Explore %TOTAL_SPEND%+ in public spending data across %TRANSACTIONS%+ transactions." />
 
     <!-- Google News optimisation -->
-    <meta name="news_keywords" content="Tom Pickup, Burnley Council, Lancashire County Council, Reform UK, local government, council spending, councillors, transparency, public accountability, Padiham, Burnley West" />
-    <meta name="syndication-source" content="https://aidoge.co.uk/burnleycouncil" />
-    <meta name="original-source" content="https://aidoge.co.uk/burnleycouncil" />
+    <meta name="news_keywords" content="%COUNCIL_NAME% Council, %COUNTY%, local government, council spending, transparency, public accountability" />
+    <meta name="syndication-source" content="%SITE_URL%" />
+    <meta name="original-source" content="%SITE_URL%" />
 
     <!-- Structured Data for Website -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Burnley Council Transparency",
-      "url": "https://aidoge.co.uk/burnleycouncil",
-      "description": "Independent public scrutiny tool for Burnley Borough Council spending, created by Tom Pickup. NOT affiliated with Burnley Borough Council.",
-      "creator": {
-        "@type": "Person",
-        "name": "Tom Pickup",
-        "jobTitle": "County Councillor",
-        "description": "Lancashire County Councillor for Padiham and Burnley West, and Clowbridge with Dunnockshaw. Lead Member for Finance and Resources.",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "Lancashire County Council"
-        }
-      },
+      "name": "%COUNCIL_NAME% Council Transparency",
+      "url": "%SITE_URL%",
+      "description": "Independent public scrutiny tool for %COUNCIL_FULL% spending. NOT affiliated with %COUNCIL_FULL%.",
       "publisher": {
         "@type": "Organization",
-        "name": "Burnley Council Transparency",
-        "description": "Independent transparency initiative for local government accountability"
+        "name": "AI DOGE",
+        "url": "https://aidoge.co.uk",
+        "description": "Independent transparency initiative for UK local government accountability"
       },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://aidoge.co.uk/burnleycouncil/spending?search={search_term_string}",
+        "target": "%SITE_URL%spending?search={search_term_string}",
         "query-input": "required name=search_term_string"
       }
-    }
-    </script>
-
-    <!-- Structured Data for Tom Pickup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Tom Pickup",
-      "givenName": "Tom",
-      "familyName": "Pickup",
-      "jobTitle": ["County Councillor for Padiham and Burnley West", "County Councillor for Clowbridge with Dunnockshaw"],
-      "description": "Lancashire County Councillor. Former Lead Member for Finance and Resources at LCC. Creator of government transparency tools.",
-      "knowsAbout": ["Local government", "Public finance", "Government transparency", "Council spending"],
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Lancashire County Council",
-        "url": "https://lancashire.gov.uk"
-      },
-      "sameAs": [
-        "https://x.com/tompickup",
-        "https://facebook.com/tompickupburnley",
-        "https://instagram.com/tompickupburnley",
-        "https://tiktok.com/@tompickupburnley"
-      ],
-      "image": "https://aidoge.co.uk/burnleycouncil/images/tom-pickup.jpg"
     }
     </script>
 
@@ -99,15 +64,15 @@
     {
       "@context": "https://schema.org",
       "@type": "GovernmentOrganization",
-      "name": "Burnley Borough Council",
-      "description": "District council in Lancashire, England (this website provides independent public scrutiny, not official council services)",
-      "url": "https://burnley.gov.uk",
+      "name": "%COUNCIL_FULL%",
+      "description": "District council in %COUNTY%, England (this website provides independent public scrutiny, not official council services)",
+      "url": "%OFFICIAL_URL%",
       "areaServed": {
         "@type": "City",
-        "name": "Burnley",
+        "name": "%COUNCIL_NAME%",
         "containedInPlace": {
           "@type": "AdministrativeArea",
-          "name": "Lancashire"
+          "name": "%COUNTY%"
         }
       }
     }
@@ -119,9 +84,9 @@
   </head>
   <body>
     <noscript>
-      <h1>Burnley Council Transparency</h1>
-      <p>This independent tool requires JavaScript to explore Burnley Borough Council spending data, budgets, and councillor information.</p>
-      <p><strong>This is NOT the official Burnley Council website.</strong> For official services, visit <a href="https://burnley.gov.uk">burnley.gov.uk</a></p>
+      <h1>%COUNCIL_NAME% Council Transparency</h1>
+      <p>This independent tool requires JavaScript to explore %COUNCIL_FULL% spending data, budgets, and councillor information.</p>
+      <p><strong>This is NOT the official %COUNCIL_NAME% Council website.</strong> For official services, visit <a href="%OFFICIAL_URL%">%OFFICIAL_URL%</a></p>
     </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
