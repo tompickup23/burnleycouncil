@@ -1,33 +1,55 @@
 #!/usr/bin/env node
 /* global process */
 /**
- * Burnley Council Meetings Calendar Updater
+ * Council Meetings Calendar Updater
  *
- * Scrapes the ModernGov portal for upcoming meetings and updates
- * public/data/meetings.json with current calendar data.
+ * Scrapes ModernGov portals for upcoming meetings and writes meetings.json.
  *
- * Run weekly via cron or GitHub Actions:
- *   node scripts/update-meetings.js
+ * Usage:
+ *   node scripts/update-meetings.js                  # Update all councils with ModernGov
+ *   node scripts/update-meetings.js --council burnley # Update single council
  *
- * Schedule: Every Sunday at 03:00 UTC
- *   0 3 * * 0 cd /path/to/burnley-app && node scripts/update-meetings.js
- *
- * The script:
- *   1. Fetches the current month and next month calendars from ModernGov
- *   2. Fetches each meeting's page for agenda status and documents
- *   3. Preserves hand-written analysis (summary, public_relevance, doge_relevance)
- *   4. Adds new meetings with placeholder analysis
- *   5. Marks cancelled meetings
- *   6. Writes updated meetings.json
+ * Schedule: Weekly via cron or GitHub Actions
  */
 
-import { readFileSync, writeFileSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const MEETINGS_PATH = join(__dirname, '..', 'public', 'data', 'meetings.json')
-const BASE_URL = 'https://burnley.moderngov.co.uk'
+const DATA_DIR = join(__dirname, '..', 'burnley-council', 'data')
+
+// Council configuration
+const COUNCILS = {
+  burnley: {
+    name: 'Burnley',
+    platform: 'moderngov',
+    moderngov_url: 'https://burnley.moderngov.co.uk',
+    venue: 'Burnley Town Hall',
+    contact: 'democracy@burnley.gov.uk',
+  },
+  hyndburn: {
+    name: 'Hyndburn',
+    platform: 'moderngov',
+    moderngov_url: 'https://democracy.hyndburnbc.gov.uk',
+    venue: 'Scaitcliffe House, Accrington',
+    contact: 'democratic.services@hyndburnbc.gov.uk',
+  },
+  pendle: {
+    name: 'Pendle',
+    platform: 'jadu',
+    jadu_url: 'https://www.pendle.gov.uk',
+    venue: 'Nelson Town Hall',
+    contact: 'democratic.services@pendle.gov.uk',
+  },
+  rossendale: {
+    name: 'Rossendale',
+    platform: 'jadu',
+    jadu_url: 'https://www.rossendale.gov.uk',
+    venue: 'Futures Park, Bacup',
+    contact: 'democracy@rossendale.gov.uk',
+  },
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -35,38 +57,48 @@ const BASE_URL = 'https://burnley.moderngov.co.uk'
 
 async function fetchHTML(url) {
   const res = await fetch(url, {
-    headers: { 'User-Agent': 'BurnleyTransparencyBot/1.0 (public interest research)' },
+    headers: { 'User-Agent': 'AIDogeTransparencyBot/1.0 (public interest research)' },
   })
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`)
   return res.text()
 }
 
-function extractMeetingsFromCalendar(html) {
+function extractMeetingsFromCalendar(html, baseUrl) {
   const meetings = []
-  // ModernGov calendar uses table rows with links to meeting pages
-  // Pattern: <a href="/ieListDocuments.aspx?CId=XXX&MId=XXXX">Committee Name</a>
-  const meetingRegex = /href="(\/ieListDocuments\.aspx\?CId=(\d+)&MId=(\d+))"[^>]*>([^<]+)<\/a>/g
-  // Date pattern in calendar cells: typically in dd/MM/yyyy or the cell structure
-  // rowRegex kept for reference: /<tr[^>]*class="[^"]*mgCalendarRow[^"]*"[^>]*>([\s\S]*?)<\/tr>/g
+  // Decode HTML entities so &amp; becomes & for URL parsing
+  const decoded = html.replace(/&amp;/g, '&')
 
-  // Simpler approach: extract all meeting links with their text
+  // Match ieListDocuments links — extract CId and MId from href, committee name from title attribute
+  const meetingRegex = /title=['"]([^'"]*?)['"][^>]*href=['"](\/?ieListDocuments\.aspx\?CId=(\d+)&MId=(\d+))['"]|href=['"](\/?ieListDocuments\.aspx\?CId=(\d+)&MId=(\d+))['"][^>]*title=['"]([^'"]*?)['"]/g
   let match
-  while ((match = meetingRegex.exec(html)) !== null) {
-    const [, path, cId, mId, name] = match
-    meetings.push({
-      path: path.trim(),
-      cId: parseInt(cId),
-      mId: parseInt(mId),
-      committee: name.trim(),
-      url: `${BASE_URL}${path.trim()}`,
-    })
+  while ((match = meetingRegex.exec(decoded)) !== null) {
+    // Handle both attribute orderings (title before href, or href before title)
+    const title = (match[1] || match[8] || '').replace(/&#\d+;/g, ' ').trim()
+    const path = (match[2] || match[5] || '').trim()
+    const cId = parseInt(match[3] || match[6])
+    const mId = parseInt(match[4] || match[7])
+
+    // Extract committee name from title like "Meeting of Planning Committee, 11/02/2026 3.00 pm"
+    let committee = title
+    const nameMatch = title.match(/Meeting\s+of\s+(.+?)(?:,\s*\d|$)/i)
+    if (nameMatch) committee = nameMatch[1].trim()
+
+    if (committee && !isNaN(mId)) {
+      meetings.push({
+        path,
+        cId,
+        mId,
+        committee,
+        url: path.startsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`,
+      })
+    }
   }
   return meetings
 }
 
 function extractDateFromMeetingPage(html) {
-  // Look for date patterns like "Wednesday, 18 February, 2026 6.30 pm"
-  const dateMatch = html.match(/(\w+day),\s+(\d{1,2})\s+(\w+),?\s+(\d{4})\s+(\d{1,2})[.:]\s*(\d{2})\s*(am|pm)/i)
+  // Match dates like "Wednesday, 11 February, 2026 3.00 pm" or "Wednesday, 11th February, 2026 3.00 pm"
+  const dateMatch = html.match(/(\w+day),\s+(\d{1,2})(?:st|nd|rd|th)?\s+(\w+),?\s+(\d{4})\s+(\d{1,2})[.:]\s*(\d{2})\s*(am|pm)/i)
   if (!dateMatch) return null
 
   const [, , day, monthName, year, hour, minute, ampm] = dateMatch
@@ -85,12 +117,14 @@ function extractDateFromMeetingPage(html) {
 
 function extractAgendaItems(html) {
   const items = []
-  // Look for agenda item titles in the documents page
-  const itemRegex = /<td[^>]*class="[^"]*mgMainTable[^"]*"[^>]*>[\s]*<a[^>]*>([^<]+)<\/a>/g
+  // ModernGov uses mgAiTitleTxt for agenda item titles (both linked and plain text)
+  // Note: ModernGov HTML has space between class attr and >, e.g. class="mgAiTitleTxt" >
+  const itemRegex = /class="mgAiTitleTxt"\s*>\s*(?:<a[^>]*class="mgAiTitleLnk"[^>]*>)?([^<]+)/g
   let match
   while ((match = itemRegex.exec(html)) !== null) {
     const text = match[1].trim()
-    if (text && text.length > 5 && !text.includes('PDF') && !text.includes('KB')) {
+    // Filter out item numbers (e.g. "1.", "3.a"), short text, PDF metadata
+    if (text && text.length > 5 && !text.includes('PDF') && !text.includes('KB') && !/^\d+\.?[a-z]?$/.test(text)) {
       items.push(text)
     }
   }
@@ -102,28 +136,33 @@ function isCancelled(html) {
 }
 
 function hasPublishedAgenda(html) {
-  return /agenda/i.test(html) && (/published/i.test(html) || html.includes('mgDocumentAttachment'))
+  return /agenda/i.test(html) && (
+    /published/i.test(html) || html.includes('mgAiTitleLnk') || html.includes('mgItemTable')
+  )
 }
 
 function extractDocuments(html) {
   const docs = []
-  const docRegex = /mgDocumentAttachment[^>]*>([^<]+)</g
+  const docRegex = /mgAiTitleLnk[^>]*>\s*([^<]+)/g
   let match
   while ((match = docRegex.exec(html)) !== null) {
-    docs.push(match[1].trim())
+    const text = match[1].trim()
+    if (text && text.length > 3) docs.push(text)
   }
   return docs
 }
 
 function meetingTypeFromCommittee(name) {
   const lower = name.toLowerCase()
-  if (lower.includes('full council')) return 'full_council'
-  if (lower.includes('executive')) return 'executive'
+  if (lower.includes('council') && !lower.includes('committee')) return 'full_council'
+  if (lower.includes('cabinet') || lower.includes('executive')) return 'executive'
   if (lower.includes('scrutiny')) return 'scrutiny'
   if (lower.includes('development control') || lower.includes('planning')) return 'planning'
-  if (lower.includes('licensing') || lower.includes('taxi')) return 'licensing'
+  if (lower.includes('licensing') || lower.includes('taxi') || lower.includes('hackney')) return 'licensing'
   if (lower.includes('key decision') || lower.includes('notice of')) return 'notice'
   if (lower.includes('town board') || lower.includes('pride in place')) return 'partnership'
+  if (lower.includes('audit')) return 'audit'
+  if (lower.includes('standards')) return 'standards'
   return 'other'
 }
 
@@ -135,16 +174,21 @@ function makeId(committee, date) {
 }
 
 // ---------------------------------------------------------------------------
-// Main
+// Scrape a single council
 // ---------------------------------------------------------------------------
 
-async function main() {
-  console.log('Updating Burnley Council meetings calendar...')
+async function scrapeCouncil(councilId, config) {
+  const baseUrl = config.moderngov_url
+  const meetingsPath = join(DATA_DIR, councilId, 'meetings.json')
+
+  console.log(`\n${'='.repeat(60)}`)
+  console.log(`Updating ${config.name} meetings from ${baseUrl}`)
+  console.log('='.repeat(60))
 
   // Load existing data to preserve hand-written analysis
   let existing = { meetings: [], how_to_attend: {} }
   try {
-    existing = JSON.parse(readFileSync(MEETINGS_PATH, 'utf-8'))
+    existing = JSON.parse(readFileSync(meetingsPath, 'utf-8'))
   } catch {
     console.log('No existing meetings.json found, creating new one.')
   }
@@ -161,11 +205,11 @@ async function main() {
   const allRawMeetings = []
 
   for (const { m, y } of months) {
-    const calUrl = `${BASE_URL}/mgCalendarMonthView.aspx?M=${m}&DD=${y}&CID=0&C=-1&MR=1&WE=1`
+    const calUrl = `${baseUrl}/mgCalendarAgendaView.aspx?MR=1&M=${m}&DD=${y}&CID=0&OT=&C=-1&WE=1&D=1`
     console.log(`Fetching calendar: ${calUrl}`)
     try {
       const html = await fetchHTML(calUrl)
-      const found = extractMeetingsFromCalendar(html)
+      const found = extractMeetingsFromCalendar(html, baseUrl)
       allRawMeetings.push(...found)
       console.log(`  Found ${found.length} meeting links`)
     } catch (err) {
@@ -194,12 +238,12 @@ async function main() {
         continue
       }
 
-      // Only include meetings within our window (today to ~5 weeks ahead)
+      // Only include meetings within our window
       const meetingDate = new Date(dateInfo.date + 'T00:00:00')
       const cutoff = new Date(now)
-      cutoff.setDate(cutoff.getDate() + 37) // ~5 weeks + buffer
+      cutoff.setDate(cutoff.getDate() + 37)
       const pastCutoff = new Date(now)
-      pastCutoff.setDate(pastCutoff.getDate() - 7) // keep 1 week of past
+      pastCutoff.setDate(pastCutoff.getDate() - 7)
 
       if (meetingDate > cutoff || meetingDate < pastCutoff) {
         console.log(`    Skipping — outside date window`)
@@ -222,7 +266,7 @@ async function main() {
         time: dateInfo.time,
         committee: raw.committee,
         type,
-        venue: cancelled ? null : 'Burnley Town Hall',
+        venue: cancelled ? null : config.venue,
         status: cancelled ? 'cancelled' : agendaPublished ? 'agenda_published' : 'upcoming',
         cancelled,
         link: raw.url,
@@ -254,13 +298,239 @@ async function main() {
   const output = {
     last_updated: now.toISOString(),
     next_update: nextWeek.toISOString(),
-    source: BASE_URL,
-    how_to_attend: existing.how_to_attend,
+    source: baseUrl,
+    how_to_attend: existing.how_to_attend || {},
     meetings: updatedMeetings,
   }
 
-  writeFileSync(MEETINGS_PATH, JSON.stringify(output, null, 2))
-  console.log(`\nDone! Wrote ${updatedMeetings.length} meetings to meetings.json`)
+  // Ensure directory exists
+  const dir = dirname(meetingsPath)
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  writeFileSync(meetingsPath, JSON.stringify(output, null, 2))
+  console.log(`\nDone! Wrote ${updatedMeetings.length} meetings to ${meetingsPath}`)
+  return updatedMeetings.length
+}
+
+// ---------------------------------------------------------------------------
+// Jadu CMS Scraper (Pendle, Rossendale)
+// ---------------------------------------------------------------------------
+
+function extractJaduMeetings(html, baseUrl) {
+  const meetings = []
+  // Jadu lists meetings as: <a href="[base]/meetings/meeting/{ID}/{slug}">Committee Name</a> <small>Date</small>
+  // or: <a href="[base]/meetings/meeting/{ID}/{slug}">Date: Committee Name</a>
+  // URLs can be absolute (https://...) or relative (/meetings/...)
+  const linkRegex = /<a\s+[^>]*href="([^"]*\/meetings\/meeting\/(\d+)\/[^"]+)"[^>]*>([^<]+)<\/a>\s*(?:<small>([^<]+)<\/small>)?/g
+  let match
+  while ((match = linkRegex.exec(html)) !== null) {
+    const [, path, id, linkText, smallDate] = match
+    let committee, dateStr
+
+    if (smallDate) {
+      // Format: <a>Committee</a> <small>Date</small>
+      committee = linkText.trim()
+      dateStr = smallDate.trim()
+    } else if (linkText.includes(':')) {
+      // Format: "11th February 2026: Committee Name" (Rossendale-style)
+      const colonIdx = linkText.indexOf(':')
+      dateStr = linkText.substring(0, colonIdx).trim()
+      committee = linkText.substring(colonIdx + 1).trim()
+    } else {
+      continue
+    }
+
+    // Parse date like "Wednesday, 11th February 2026" or "11th February 2026"
+    const dateMatch = dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(\w+)\s+(\d{4})/)
+    if (!dateMatch) continue
+
+    const [, day, monthName, year] = dateMatch
+    const months = { January: 0, February: 1, March: 2, April: 3, May: 4, June: 5, July: 6, August: 7, September: 8, October: 9, November: 10, December: 11 }
+    const month = months[monthName]
+    if (month === undefined) continue
+
+    const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(parseInt(day)).padStart(2, '0')}`
+
+    meetings.push({
+      meetingId: parseInt(id),
+      path,
+      committee: committee.replace(/\s+/g, ' ').trim(),
+      date,
+      url: path.startsWith('http') ? path : `${baseUrl}${path}`,
+    })
+  }
+  return meetings
+}
+
+function extractJaduDocuments(html) {
+  const docs = []
+  // Jadu meeting pages have download links like: <a href="[base]/download/meetings/id/...">Name</a> <small>Type, Size</small>
+  const docRegex = /<a\s+[^>]*href="([^"]*\/download\/meetings\/[^"]+)"[^>]*>([^<]+)<\/a>\s*(?:<small>([^<]+)<\/small>)?/g
+  let match
+  while ((match = docRegex.exec(html)) !== null) {
+    const name = match[2].trim()
+    const meta = (match[3] || '').trim()
+    if (name) docs.push(meta ? `${name} (${meta})` : name)
+  }
+  return docs
+}
+
+async function scrapeJaduCouncil(councilId, config) {
+  const baseUrl = config.jadu_url
+  const meetingsPath = join(DATA_DIR, councilId, 'meetings.json')
+
+  console.log(`\n${'='.repeat(60)}`)
+  console.log(`Updating ${config.name} meetings from ${baseUrl} (Jadu CMS)`)
+  console.log('='.repeat(60))
+
+  // Load existing data
+  let existing = { meetings: [], how_to_attend: {} }
+  try {
+    existing = JSON.parse(readFileSync(meetingsPath, 'utf-8'))
+  } catch {
+    console.log('No existing meetings.json found, creating new one.')
+  }
+  const existingMap = new Map(existing.meetings.map(m => [m.id, m]))
+
+  // Fetch main meetings page (upcoming)
+  const meetingsUrl = `${baseUrl}/meetings`
+  console.log(`Fetching: ${meetingsUrl}`)
+
+  const allRawMeetings = []
+  try {
+    const html = await fetchHTML(meetingsUrl)
+    const found = extractJaduMeetings(html, baseUrl)
+    allRawMeetings.push(...found)
+    console.log(`  Found ${found.length} meetings on page 1`)
+  } catch (err) {
+    console.error(`  Error: ${err.message}`)
+  }
+
+  // Try page 2 for more meetings
+  await new Promise(r => setTimeout(r, 500))
+  try {
+    const html = await fetchHTML(`${meetingsUrl}?page=2`)
+    const found = extractJaduMeetings(html, baseUrl)
+    allRawMeetings.push(...found)
+    if (found.length > 0) console.log(`  Found ${found.length} meetings on page 2`)
+  } catch (err) {
+    console.error(`  Error fetching page 2: ${err.message}`)
+  }
+
+  // Deduplicate by meetingId
+  const uniqueMeetings = new Map()
+  for (const m of allRawMeetings) {
+    uniqueMeetings.set(m.meetingId, m)
+  }
+
+  // Filter to our date window
+  const now = new Date()
+  const cutoff = new Date(now)
+  cutoff.setDate(cutoff.getDate() + 37)
+  const pastCutoff = new Date(now)
+  pastCutoff.setDate(pastCutoff.getDate() - 7)
+
+  console.log(`\nProcessing ${uniqueMeetings.size} unique meetings...`)
+  const updatedMeetings = []
+
+  for (const raw of uniqueMeetings.values()) {
+    const meetingDate = new Date(raw.date + 'T00:00:00')
+    if (meetingDate > cutoff || meetingDate < pastCutoff) {
+      console.log(`  Skipping ${raw.committee} (${raw.date}) — outside date window`)
+      continue
+    }
+
+    console.log(`  Fetching: ${raw.committee} (${raw.date})`)
+
+    let documents = []
+    try {
+      const html = await fetchHTML(raw.url)
+      documents = extractJaduDocuments(html)
+    } catch (err) {
+      console.error(`    Error fetching detail: ${err.message}`)
+    }
+
+    const id = makeId(raw.committee, raw.date)
+    const type = meetingTypeFromCommittee(raw.committee)
+    const prev = existingMap.get(id)
+    const hasAgenda = documents.some(d => /agenda/i.test(d))
+
+    const meeting = {
+      id,
+      date: raw.date,
+      time: '18:30', // Jadu doesn't show times in HTML; default to common council time
+      committee: raw.committee,
+      type,
+      venue: config.venue,
+      status: hasAgenda ? 'agenda_published' : 'upcoming',
+      cancelled: false,
+      link: raw.url,
+      agenda_items: prev?.agenda_items || [],
+      summary: prev?.summary || `Check the council website for full agenda details.`,
+      public_relevance: prev?.public_relevance || `Check the agenda when published for items of public interest.`,
+      doge_relevance: prev?.doge_relevance || null,
+      speak_deadline: prev?.speak_deadline || null,
+      documents: documents.length > 0 ? documents : (prev?.documents || []),
+    }
+
+    updatedMeetings.push(meeting)
+    console.log(`    ${hasAgenda ? 'Agenda published' : 'Upcoming'} — ${documents.length} documents`)
+
+    await new Promise(r => setTimeout(r, 500))
+  }
+
+  // Sort by date
+  updatedMeetings.sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+
+  const nextWeek = new Date(now)
+  nextWeek.setDate(nextWeek.getDate() + 7)
+
+  const output = {
+    last_updated: now.toISOString(),
+    next_update: nextWeek.toISOString(),
+    source: `${baseUrl}/meetings`,
+    how_to_attend: existing.how_to_attend || {},
+    meetings: updatedMeetings,
+  }
+
+  const dir = dirname(meetingsPath)
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+  writeFileSync(meetingsPath, JSON.stringify(output, null, 2))
+  console.log(`\nDone! Wrote ${updatedMeetings.length} meetings to ${meetingsPath}`)
+  return updatedMeetings.length
+}
+
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
+
+async function main() {
+  const args = process.argv.slice(2)
+  const councilFlag = args.indexOf('--council')
+  const targetCouncil = councilFlag >= 0 ? args[councilFlag + 1] : null
+
+  const councilsToProcess = targetCouncil
+    ? { [targetCouncil]: COUNCILS[targetCouncil] }
+    : COUNCILS
+
+  if (targetCouncil && !COUNCILS[targetCouncil]) {
+    console.error(`Unknown council: ${targetCouncil}. Available: ${Object.keys(COUNCILS).join(', ')}`)
+    process.exit(1)
+  }
+
+  let totalMeetings = 0
+  for (const [id, config] of Object.entries(councilsToProcess)) {
+    if (config.platform === 'jadu') {
+      totalMeetings += await scrapeJaduCouncil(id, config)
+    } else {
+      totalMeetings += await scrapeCouncil(id, config)
+    }
+  }
+
+  console.log(`\n${'='.repeat(60)}`)
+  console.log(`All done! ${totalMeetings} meetings across ${Object.keys(councilsToProcess).length} council(s)`)
+  console.log('='.repeat(60))
 }
 
 main().catch(err => {
