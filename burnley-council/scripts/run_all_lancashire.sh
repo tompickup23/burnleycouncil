@@ -23,10 +23,10 @@ LOG_FILE="${LOG_DIR}/lancashire_${TIMESTAMP}.log"
 mkdir -p "$LOG_DIR"
 
 # All currently active councils
-COUNCILS="burnley hyndburn pendle"
+COUNCILS="burnley hyndburn pendle rossendale"
 
 # Councils planned for expansion (uncomment as parsers are added):
-# COUNCILS="$COUNCILS rossendale ribble_valley lancaster chorley south_ribble"
+# COUNCILS="$COUNCILS ribble_valley lancaster chorley south_ribble"
 # COUNCILS="$COUNCILS west_lancashire wyre fylde preston"
 
 # Parse arguments
@@ -139,8 +139,7 @@ if $DO_BUILD; then
     BASE_PATHS[burnley]="/burnleycouncil/"
     BASE_PATHS[hyndburn]="/hyndburn/"
     BASE_PATHS[pendle]="/pendle/"
-    # Add more as councils come online:
-    # BASE_PATHS[rossendale]="/rossendale/"
+    BASE_PATHS[rossendale]="/rossendale/"
     # BASE_PATHS[ribble_valley]="/ribble-valley/"
 
     for COUNCIL in $COUNCILS; do

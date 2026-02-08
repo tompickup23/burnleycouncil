@@ -1,0 +1,103 @@
+{
+  "findings": [
+    {
+      "value": "3,167",
+      "label": "Transactions With Supplier Name Withheld",
+      "detail": "£1M in payments where the supplier name is listed as 'NAME WITHHELD'. That's 7.4% of all transactions — citizens cannot scrutinise who receives this money.",
+      "severity": "warning",
+      "link": "/spending?supplier=NAME WITHHELD"
+    },
+    {
+      "value": "£5.8M",
+      "label": "Capita Outsourcing Contract",
+      "detail": "Capita Business Services Ltd is the single largest supplier. Compare with Liberata at Burnley (£36.7M) and Pendle (£16.7M) — Rossendale appears to outsource significantly less.",
+      "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "£1.9M",
+      "label": "Agency Staff (Rapid Recruit)",
+      "detail": "1,529 transactions to Rapid Recruit Ltd averaging £1,255 each — the most frequent commercial supplier. Review whether permanent recruitment would be more cost-effective.",
+      "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "£8.9M",
+      "label": "COVID/BEIS Grant Pass-Through",
+      "detail": "2021/22 was the peak year (£21.3M) due to COVID Business Grants and BEIS funding. Underlying annual spend is £12-14M — lowest of the 4 East Lancashire councils.",
+      "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "No spike",
+      "label": "Year-End Spending Pattern",
+      "detail": "March spending is flat at 1.1x the monthly average. No evidence of year-end budget rush. April-June is actually the peak spending period.",
+      "severity": "info",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "eye-off",
+      "badge": "Transparency",
+      "title": "3,167 transactions with supplier name withheld — £1M total",
+      "description": "7.4% of all transactions list the supplier as 'NAME WITHHELD'. This prevents public scrutiny of who receives council money. Unique to Rossendale among the 4 East Lancashire councils.",
+      "link": "/spending?supplier=NAME WITHHELD",
+      "link_text": "View withheld payments →",
+      "severity": "warning"
+    },
+    {
+      "icon": "briefcase",
+      "badge": "Outsourcing",
+      "title": "Capita Business Services: £5.8M outsourcing contract",
+      "description": "Primary outsourced services provider — similar role to Liberata at Burnley (£36.7M) and Pendle (£16.7M). Rossendale's outsourcing spend is significantly lower.",
+      "link": "/spending?supplier=CAPITA BUSINESS SERVICES LTD",
+      "link_text": "View Capita payments →",
+      "severity": "info"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "Rapid Recruit: 1,529 agency staff transactions totalling £1.9M",
+      "description": "The most frequent commercial supplier. Averaging £1,255 per transaction suggests daily or weekly agency worker charges.",
+      "link": "/spending?supplier=RAPID RECRUIT LTD",
+      "link_text": "View Rapid Recruit payments →",
+      "severity": "info"
+    },
+    {
+      "icon": "shopping-bag",
+      "badge": "Micro-Spend",
+      "title": "12,906 micro-transactions under £100 (30% of all payments)",
+      "description": "Banner Business Solutions (stationery) alone accounts for 1,019 transactions averaging £35. Consolidation could reduce admin costs.",
+      "link": "/spending",
+      "link_text": "Explore spending data →",
+      "severity": "info"
+    },
+    {
+      "icon": "trending-down",
+      "badge": "Context",
+      "title": "Lowest underlying spend of 4 councils at £12-14M per year",
+      "description": "After removing COVID pass-through funding, Rossendale's annual spend is significantly lower than Burnley, Hyndburn, or Pendle.",
+      "link": "/spending",
+      "link_text": "View by year →",
+      "severity": "info"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "Capita vs Liberata: different outsourcing providers, similar services",
+      "description": "Rossendale uses Capita (£5.8M) where Burnley and Pendle use Liberata (£36.7M and £16.7M). Worth comparing service scope and value.",
+      "link": "/spending",
+      "link_text": "Compare suppliers →",
+      "severity": "info"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-08T15:00:00.000000",
+  "analyses_run": [
+    "payment_patterns",
+    "data_quality",
+    "transparency_assessment"
+  ]
+}

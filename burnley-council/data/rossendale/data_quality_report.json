@@ -1,0 +1,46 @@
+{
+  "council": "rossendale",
+  "generated": "2026-02-08T15:00:00",
+  "overall_score": 95,
+  "spending_quality": {
+    "score": 95,
+    "record_count": 42536,
+    "completeness": {
+      "dates": 100,
+      "suppliers": 100,
+      "departments": 100,
+      "descriptions": 100,
+      "amounts": 100
+    },
+    "date_range": {
+      "earliest": "2021-04-15",
+      "latest": "2025-12-15",
+      "financial_years": 5
+    },
+    "issues": [
+      {
+        "type": "approximate_dates",
+        "severity": "low",
+        "detail": "Source data provides month period numbers, not exact transaction dates. All dates are estimated as the 15th of each month.",
+        "affected_records": 42536
+      },
+      {
+        "type": "name_withheld",
+        "severity": "medium",
+        "detail": "3,167 transactions (7.4%) have supplier name listed as 'NAME WITHHELD', reducing transparency.",
+        "affected_records": 3167
+      }
+    ]
+  },
+  "optional_available": [
+    "councillors.json",
+    "wards.json",
+    "politics_summary.json",
+    "doge_findings.json",
+    "doge_knowledge.json"
+  ],
+  "optional_missing": [
+    "supplier_profiles.json",
+    "revenue_trends.json"
+  ]
+}

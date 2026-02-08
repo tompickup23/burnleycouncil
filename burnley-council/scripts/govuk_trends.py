@@ -29,9 +29,10 @@ from collections import defaultdict
 
 # ─── Our councils ──────────────────────────────────────────────────
 COUNCILS = {
-    "E07000117": {"key": "burnley",  "name": "Burnley"},
-    "E07000120": {"key": "hyndburn", "name": "Hyndburn"},
-    "E07000122": {"key": "pendle",   "name": "Pendle"},
+    "E07000117": {"key": "burnley",    "name": "Burnley"},
+    "E07000120": {"key": "hyndburn",   "name": "Hyndburn"},
+    "E07000122": {"key": "pendle",     "name": "Pendle"},
+    "E07000125": {"key": "rossendale", "name": "Rossendale"},
 }
 
 # ─── Revenue Outturn columns we care about ─────────────────────────

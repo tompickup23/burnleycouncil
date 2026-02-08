@@ -1,0 +1,76 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-08",
+  "council": "rossendale",
+  "core_knowledge": "shared/doge_knowledge_core.json",
+
+  "council_profile": {
+    "total_spend": "£64.0M",
+    "transactions": 42536,
+    "unique_suppliers": 1525,
+    "data_period": "April 2021 – December 2025",
+    "spending_threshold": 500,
+    "political_control": "Labour majority (19 seats of 30). Conservative official opposition (5 seats).",
+    "transaction_profile": "Moderate volume, good data quality. 30% micro-transactions under £100. COVID grant pass-through inflates 2021/22 figures.",
+    "note": "Rossendale publishes XLS format (not CSV). Data extracted from corporate spend analysis files. 19 quarters of data available."
+  },
+
+  "data_quality": {
+    "overall_score": 95,
+    "description_completeness": "100% — every transaction includes description and detail",
+    "department_completeness": "100% — directorate and head of service provided",
+    "date_completeness": "100% (derived from period numbers within financial year)",
+    "note": "Excellent data quality. Rich descriptions with both category and detail. 17 distinct departments. Only limitation: dates are approximate (mid-month) since source data provides month numbers not exact dates."
+  },
+
+  "verified_findings": {
+    "name_withheld_transparency": {
+      "value": "£1M across 3,167 transactions",
+      "description": "Supplier name listed as 'NAME WITHHELD' — most frequent 'supplier' by transaction count",
+      "severity": "warning",
+      "confidence": "high",
+      "note": "This is a transparency concern. 7.4% of all transactions have the supplier name withheld. Citizens cannot scrutinise who receives this money. May include confidential settlements, individual payments, or redacted names."
+    },
+    "capita_outsourcing": {
+      "value": "£5.8M",
+      "description": "Capita Business Services Ltd — primary outsourced services provider",
+      "confidence": "high",
+      "note": "Similar outsourcing model to Burnley/Pendle (Liberata £36.7M/£16.7M). Rossendale's Capita contract is smaller but still the single largest supplier."
+    },
+    "agency_staff": {
+      "value": "£1.9M across 1,529 transactions",
+      "supplier": "Rapid Recruit Ltd",
+      "confidence": "high",
+      "note": "Most frequent commercial supplier. £1,255 average per transaction suggests daily/weekly agency worker charges. Volume warrants review of whether permanent recruitment would be more cost-effective."
+    },
+    "covid_passthrough": {
+      "value": "£8.9M",
+      "description": "COVID Business Grants (£5.4M) + BEIS (£2.5M) + DLUHC (£4.1M) pass-through funding",
+      "confidence": "high",
+      "note": "2021/22 was the peak spending year (£21.3M). Removing COVID pass-through, underlying annual spend is £12-14M — significantly lower than Burnley, Hyndburn, or Pendle."
+    },
+    "year_end_pattern": {
+      "march_multiple": "1.1x",
+      "note": "March spending is flat — essentially at the monthly average. No year-end budget rush whatsoever.",
+      "confidence": "high"
+    },
+    "micro_transactions": {
+      "value": "12,906 transactions under £100 (30.3%)",
+      "note": "Banner Business Solutions (stationery): 1,019 transactions averaging £35. Lancashire Bus & Truck Parts: 919 transactions averaging £102. Consolidation could significantly reduce admin costs."
+    }
+  },
+
+  "key_suppliers": {
+    "capita": {"total_spend": "£5.8M", "note": "Primary outsourcing provider — equivalent of Liberata at Burnley/Pendle"},
+    "rapid_recruit": {"total_spend": "£1.9M", "transactions": 1529, "note": "Agency staff — most frequent commercial supplier"},
+    "lancashire_cc": {"total_spend": "£1.8M", "note": "County-level service payments"},
+    "rossendale_leisure_trust": {"total_spend": "£1.5M", "note": "Leisure trust — similar to Burnley Leisure Trust"},
+    "name_withheld": {"total_spend": "£1M", "transactions": 3167, "note": "Anonymised supplier names — transparency concern"}
+  },
+
+  "cross_council_context": {
+    "shared_suppliers": "TBC — requires cross-council matching",
+    "outsourcing_comparison": "Capita (£5.8M) vs Liberata at Burnley (£36.7M) and Pendle (£16.7M). Rossendale appears to outsource less.",
+    "data_advantage": "Best description quality of the 4 councils — both category and detail provided for every transaction."
+  }
+}
