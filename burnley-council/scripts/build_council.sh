@@ -81,7 +81,7 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
-VITE_BASE="$BASE" npx vite build 2>&1
+VITE_COUNCIL="$COUNCIL" VITE_BASE="$BASE" npx vite build 2>&1
 
 # Output directory
 DIST_DIR="$APP_DIR/dist"

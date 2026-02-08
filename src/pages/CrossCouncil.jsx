@@ -227,13 +227,13 @@ function CrossCouncil() {
             CEO salary midpoints and pay ratios from published Pay Policy Statements.
           </p>
           <div className="comparison-table-wrapper">
-            <table className="cross-table">
+            <table className="cross-table" role="table" aria-label="Cross-council CEO pay comparison">
               <thead>
                 <tr>
-                  <th>Council</th>
-                  <th>CEO Salary Midpoint</th>
-                  <th>CEO:Median Ratio</th>
-                  <th>Median Employee Pay</th>
+                  <th scope="col">Council</th>
+                  <th scope="col">CEO Salary Midpoint</th>
+                  <th scope="col">CEO:Median Ratio</th>
+                  <th scope="col">Median Employee Pay</th>
                 </tr>
               </thead>
               <tbody>

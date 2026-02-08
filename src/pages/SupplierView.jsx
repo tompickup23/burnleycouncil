@@ -246,13 +246,13 @@ function SupplierView() {
         <section className="supplier-section">
           <h2><Building size={22} /> Council Breakdown</h2>
           <div className="supplier-table-wrapper">
-            <table className="supplier-table">
+            <table className="supplier-table" role="table" aria-label="Supplier spending by council">
               <thead>
                 <tr>
-                  <th>Council</th>
-                  <th>Total Spend</th>
-                  <th>Transactions</th>
-                  <th>Years Active</th>
+                  <th scope="col">Council</th>
+                  <th scope="col">Total Spend</th>
+                  <th scope="col">Transactions</th>
+                  <th scope="col">Years Active</th>
                 </tr>
               </thead>
               <tbody>
@@ -281,12 +281,12 @@ function SupplierView() {
         <section className="supplier-section">
           <h2><Briefcase size={22} /> Department Breakdown</h2>
           <div className="supplier-table-wrapper">
-            <table className="supplier-table">
+            <table className="supplier-table" role="table" aria-label="Supplier spending by department">
               <thead>
                 <tr>
-                  <th>Department</th>
-                  <th>Total Spend</th>
-                  <th>Transactions</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Total Spend</th>
+                  <th scope="col">Transactions</th>
                 </tr>
               </thead>
               <tbody>

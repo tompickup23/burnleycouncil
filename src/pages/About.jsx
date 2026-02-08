@@ -109,7 +109,7 @@ function About() {
               Annual budget books showing planned spending and income.
               These are the council's financial plans for each year.
             </p>
-            <span className="data-note">Budget years 2021/22 to 2025/26</span>
+            <span className="data-note">Where available for this council</span>
           </div>
           <div className="data-card">
             <h4>Councillor Details</h4>

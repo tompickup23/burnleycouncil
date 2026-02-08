@@ -231,12 +231,12 @@ function Legal() {
             <p>This website uses minimal cookies:</p>
 
             <div className="cookie-table">
-              <table>
+              <table role="table" aria-label="Cookie information">
                 <thead>
                   <tr>
-                    <th>Cookie Type</th>
-                    <th>Purpose</th>
-                    <th>Duration</th>
+                    <th scope="col">Cookie Type</th>
+                    <th scope="col">Purpose</th>
+                    <th scope="col">Duration</th>
                   </tr>
                 </thead>
                 <tbody>

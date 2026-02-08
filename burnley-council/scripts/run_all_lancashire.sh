@@ -134,13 +134,13 @@ if $DO_BUILD; then
     echo "Building SPAs" | tee -a "$LOG_FILE"
     echo "────────────────────────────────────────────────────────" | tee -a "$LOG_FILE"
 
-    # Council → base path mapping
+    # Council → base path mapping (matches aidoge.co.uk/lancashire/{council}council/)
     declare -A BASE_PATHS
-    BASE_PATHS[burnley]="/burnleycouncil/"
-    BASE_PATHS[hyndburn]="/hyndburn/"
-    BASE_PATHS[pendle]="/pendle/"
-    BASE_PATHS[rossendale]="/rossendale/"
-    # BASE_PATHS[ribble_valley]="/ribble-valley/"
+    BASE_PATHS[burnley]="/lancashire/burnleycouncil/"
+    BASE_PATHS[hyndburn]="/lancashire/hyndburncouncil/"
+    BASE_PATHS[pendle]="/lancashire/pendlecouncil/"
+    BASE_PATHS[rossendale]="/lancashire/rossendalecouncil/"
+    # BASE_PATHS[ribble_valley]="/lancashire/ribblevalleycouncil/"
 
     for COUNCIL in $COUNCILS; do
         BASE="${BASE_PATHS[$COUNCIL]}"

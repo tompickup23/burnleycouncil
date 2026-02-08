@@ -167,15 +167,15 @@ function PayComparison() {
 
           {/* Comparison table */}
           <div className="comparison-table-wrapper">
-            <table className="comparison-table">
+            <table className="comparison-table" role="table" aria-label="Executive pay comparison">
               <thead>
                 <tr>
-                  <th>Council</th>
-                  <th>Type</th>
-                  <th>Population</th>
-                  <th>CEO Salary</th>
-                  <th>CEO:Median</th>
-                  <th>Net Revenue Budget</th>
+                  <th scope="col">Council</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Population</th>
+                  <th scope="col">CEO Salary</th>
+                  <th scope="col">CEO:Median</th>
+                  <th scope="col">Net Revenue Budget</th>
                 </tr>
               </thead>
               <tbody>

@@ -153,12 +153,12 @@ function Budgets() {
 
   // Capital programme chart data
   const latestCapital = capitalProgrammes[capitalProgrammes.length - 1]
-  const capitalCategoryData = latestCapital ? Object.entries(latestCapital.categories).map(([name, data]) => ({
+  const capitalCategoryData = latestCapital ? Object.entries(latestCapital.categories).map(([name, data], i) => ({
     name: name.length > 15 ? name.substring(0, 15) + '...' : name,
     fullName: name,
     value: data.total / 1_000_000,
     note: data.note || '',
-    color: DEPT_COLORS[index % DEPT_COLORS.length],
+    color: DEPT_COLORS[i % DEPT_COLORS.length],
   })) : []
 
   // Capital programme timeline
@@ -475,14 +475,14 @@ function Budgets() {
             <h2>Departmental Budget Comparison</h2>
             <p className="section-note">All figures are net revenue budget (£). Negative values indicate net income generators.</p>
             <div className="table-wrapper">
-              <table className="budget-table">
+              <table className="budget-table" role="table" aria-label="Departmental budget comparison">
                 <thead>
                   <tr>
-                    <th>Department</th>
+                    <th scope="col">Department</th>
                     {revenueBudgets.map(b => (
-                      <th key={b.financial_year}>{b.financial_year}</th>
+                      <th scope="col" key={b.financial_year}>{b.financial_year}</th>
                     ))}
-                    <th>Change</th>
+                    <th scope="col">Change</th>
                   </tr>
                 </thead>
                 <tbody>
