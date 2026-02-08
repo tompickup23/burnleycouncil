@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aidoge.co.uk/schemas/spending_record.json",
+  "title": "Council Spending Record",
+  "description": "A single council spending transaction record from open data CSV",
+  "type": "object",
+  "required": ["date", "supplier", "amount", "financial_year", "council"],
+  "properties": {
+    "date": {
+      "type": ["string", "null"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date (YYYY-MM-DD). Null only if quarter/financial_year is present."
+    },
+    "financial_year": {
+      "type": "string",
+      "pattern": "^\\d{4}/\\d{2}$",
+      "description": "Financial year in format YYYY/YY (e.g., 2024/25)"
+    },
+    "quarter": {
+      "type": ["string", "null"],
+      "enum": ["Q1", "Q2", "Q3", "Q4", null],
+      "description": "Financial quarter (Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec, Q4=Jan-Mar)"
+    },
+    "month": {
+      "type": ["string", "null"],
+      "description": "Month name (e.g., 'April', 'January')"
+    },
+    "supplier": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Supplier name as published in open data"
+    },
+    "supplier_canonical": {
+      "type": ["string", "null"],
+      "description": "Normalised supplier name (uppercase, standardised suffixes)"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount in GBP. Negative values represent credits/reversals."
+    },
+    "department_raw": {
+      "type": ["string", "null"],
+      "description": "Department name as published in source data"
+    },
+    "department": {
+      "type": ["string", "null"],
+      "description": "Cleaned/normalised department name"
+    },
+    "service_area_raw": {
+      "type": ["string", "null"],
+      "description": "Service area as published in source data"
+    },
+    "service_area": {
+      "type": ["string", "null"],
+      "description": "Cleaned/normalised service area"
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "Transaction description (may be empty for some councils)"
+    },
+    "reference": {
+      "type": ["string", "null"],
+      "description": "Transaction reference number"
+    },
+    "type": {
+      "type": ["string", "null"],
+      "description": "Transaction type (e.g., 'Invoice', 'Credit Note')"
+    },
+    "capital_revenue": {
+      "type": ["string", "null"],
+      "enum": ["Capital", "Revenue", null, ""],
+      "description": "Capital vs Revenue classification"
+    },
+    "council": {
+      "type": "string",
+      "description": "Council identifier (e.g., 'Burnley Borough Council')"
+    },
+    "expenditure_category": {
+      "type": ["string", "null"],
+      "description": "Expenditure classification category"
+    },
+    "cipfa_type": {
+      "type": ["string", "null"],
+      "description": "CIPFA expenditure type classification"
+    },
+    "is_covid_related": {
+      "type": ["boolean", "null"],
+      "description": "Whether the payment is COVID-19 related"
+    },
+    "supplier_company_number": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Z0-9]{6,8}$|^$",
+      "description": "Companies House registration number"
+    },
+    "supplier_company_url": {
+      "type": ["string", "null"],
+      "description": "Companies House profile URL"
+    },
+    "supplier_compliance_flags": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "List of compliance violation flags from Companies House"
+    },
+    "supplier_violation_count": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Number of active compliance violations"
+    },
+    "supplier_ref": {
+      "type": ["string", "null"],
+      "description": "Internal supplier reference (council-specific)"
+    },
+    "cipfa_code": {
+      "type": ["string", "null"],
+      "description": "CIPFA classification code"
+    },
+    "charity_number": {
+      "type": ["string", "null"],
+      "description": "Charity Commission registration number"
+    },
+    "irrecoverable_vat": {
+      "type": ["number", "null"],
+      "description": "Irrecoverable VAT amount in GBP"
+    },
+    "is_vcse_grant": {
+      "type": ["boolean", "null"],
+      "description": "Whether this is a VCSE (voluntary/community/social enterprise) grant"
+    },
+    "service_division": {
+      "type": ["string", "null"],
+      "description": "Service division classification"
+    }
+  }
+}

@@ -1,0 +1,371 @@
+{
+  "council": "burnley",
+  "validated_at": "2026-02-08T01:11:19.072886",
+  "files": {
+    "config": {
+      "exists": true,
+      "issues": [],
+      "valid": true
+    },
+    "metadata": {
+      "exists": true
+    },
+    "insights": {
+      "exists": true
+    },
+    "optional_present": [
+      "budgets_govuk.json",
+      "budgets_summary.json",
+      "revenue_trends.json",
+      "crime_stats.json",
+      "pay_comparison.json",
+      "cross_council.json",
+      "doge_findings.json",
+      "doge_knowledge.json",
+      "foi_templates.json",
+      "articles-index.json"
+    ],
+    "optional_missing": [
+      "councillors.json",
+      "wards.json",
+      "politics_summary.json",
+      "supplier_profiles.json"
+    ]
+  },
+  "spending": {
+    "council": "burnley",
+    "validated_at": "2026-02-08T01:11:19.448055",
+    "total_records": 30580,
+    "data_quality_score": 77.4,
+    "rating": "good",
+    "completeness": {
+      "dates": 99.3,
+      "suppliers": 100.0,
+      "departments": 86.8,
+      "descriptions": 0.0,
+      "references": 78.2,
+      "ch_match_rate": 17.1
+    },
+    "statistics": {
+      "total_spend": 355218405.44,
+      "unique_suppliers": 4485,
+      "negative_transactions": 0,
+      "negative_pct": 0.0,
+      "duplicate_records": 2061,
+      "duplicate_pct": 6.7,
+      "top10_concentration": 51.9
+    },
+    "error_count": 1,
+    "warning_count": 0,
+    "sample_issues": [
+      {
+        "level": "info",
+        "field": "description",
+        "record": 0,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 1,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 2,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 3,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 4,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 5,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 6,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 7,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 8,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 9,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 10,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 11,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 12,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 13,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 14,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 15,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 16,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 17,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 18,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 19,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 20,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 21,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 22,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 23,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 24,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 25,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 26,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 27,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 28,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 29,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 30,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 31,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 32,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 33,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 34,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 35,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 36,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 37,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 38,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 39,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 40,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 41,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 42,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 43,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 44,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 45,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 46,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 47,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 48,
+        "msg": "No description"
+      },
+      {
+        "level": "info",
+        "field": "description",
+        "record": 49,
+        "msg": "No description"
+      },
+      {
+        "level": "warning",
+        "field": "dataset",
+        "msg": "High duplicate rate: 6.7% (2061 records)"
+      }
+    ]
+  },
+  "cross_file_issues": [],
+  "overall_score": 81.3,
+  "overall_rating": "good"
+}

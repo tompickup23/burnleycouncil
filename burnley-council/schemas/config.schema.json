@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aidoge.co.uk/schemas/config.json",
+  "title": "Council Configuration",
+  "description": "Per-council configuration for the AI DOGE transparency SPA",
+  "type": "object",
+  "required": ["council_id", "council_name", "council_full_name", "council_type", "ons_code", "official_website", "spending_threshold"],
+  "properties": {
+    "council_id": {
+      "type": "string",
+      "pattern": "^[a-z_]+$",
+      "description": "Lowercase identifier (e.g., 'burnley', 'hyndburn')"
+    },
+    "council_name": {
+      "type": "string",
+      "minLength": 2,
+      "description": "Display name (e.g., 'Burnley')"
+    },
+    "council_full_name": {
+      "type": "string",
+      "minLength": 5,
+      "description": "Full legal name (e.g., 'Burnley Borough Council')"
+    },
+    "council_type": {
+      "type": "string",
+      "enum": ["district", "borough", "unitary", "county", "metropolitan", "london_borough"],
+      "description": "Local authority type"
+    },
+    "ons_code": {
+      "type": "string",
+      "pattern": "^E\\d{8}$",
+      "description": "ONS geography code (e.g., 'E07000117')"
+    },
+    "official_website": {
+      "type": "string",
+      "format": "uri",
+      "description": "Council's official website URL"
+    },
+    "spending_threshold": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Minimum amount (GBP) for published transactions"
+    },
+    "spending_data_period": {
+      "type": "string",
+      "description": "Human-readable data period (e.g., 'April 2021 – present')"
+    },
+    "theme_accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "description": "Hex colour for council branding"
+    },
+    "publisher": {
+      "type": "string",
+      "description": "Publisher name for the transparency site"
+    },
+    "data_sources": {
+      "type": "object",
+      "description": "Feature flags for which data sources are available",
+      "properties": {
+        "spending": { "type": "boolean" },
+        "budgets": { "type": "boolean" },
+        "politics": { "type": "boolean" },
+        "crime": { "type": "boolean" },
+        "meetings": { "type": "boolean" },
+        "foi": { "type": "boolean" },
+        "articles": { "type": "boolean" },
+        "pay": { "type": "boolean" },
+        "doge": { "type": "boolean" }
+      }
+    },
+    "moderngov_url": {
+      "type": ["string", "null"],
+      "description": "ModernGov democracy portal URL"
+    },
+    "doge_context": {
+      "type": "object",
+      "description": "AI DOGE investigation context data",
+      "properties": {
+        "council": { "type": "string" },
+        "total_spend": { "type": "string" },
+        "transactions": { "type": "integer" },
+        "suppliers": { "type": "integer" }
+      }
+    }
+  }
+}
