@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Build artifacts — public/data/ is populated by Vite councilDataPlugin during build
+# Real data lives in burnley-council/data/{council}/
+public/data/
+public/CNAME
+
+# Raw/downloaded data files
+burnley-council/data/govuk_budgets/
+burnley-council/data/reference/
+burnley-council/data/rossendale/raw/
+burnley-council/data/doge_analysis_results.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

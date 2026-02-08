@@ -32,7 +32,7 @@
       "note": "This is a transparency concern. 7.4% of all transactions have the supplier name withheld. Citizens cannot scrutinise who receives this money. May include confidential settlements, individual payments, or redacted names."
     },
     "capita_outsourcing": {
-      "value": "£5.8M",
+      "value": "£5.3M",
       "description": "Capita Business Services Ltd — primary outsourced services provider",
       "confidence": "high",
       "note": "Similar outsourcing model to Burnley/Pendle (Liberata £36.7M/£16.7M). Rossendale's Capita contract is smaller but still the single largest supplier."
@@ -50,8 +50,9 @@
       "note": "2021/22 was the peak spending year (£21.3M). Removing COVID pass-through, underlying annual spend is £12-14M — significantly lower than Burnley, Hyndburn, or Pendle."
     },
     "year_end_pattern": {
-      "march_multiple": "1.1x",
-      "note": "March spending is flat — essentially at the monthly average. No year-end budget rush whatsoever.",
+      "march_multiple": "7.2x peak (Customer Services)",
+      "departments_with_spikes": 14,
+      "note": "14 departments show March spending spikes — the most of any East Lancashire council. Customer Services (7.2x), Operations (5.5x), Finance (5.4x), Regeneration (5.1x). Note: earlier analysis showing '1.1x overall' was misleading — department-level analysis reveals significant year-end rushes masked by the overall average.",
       "confidence": "high"
     },
     "micro_transactions": {
@@ -61,7 +62,7 @@
   },
 
   "key_suppliers": {
-    "capita": {"total_spend": "£5.8M", "note": "Primary outsourcing provider — equivalent of Liberata at Burnley/Pendle"},
+    "capita": {"total_spend": "£5.3M", "note": "Primary outsourcing provider — equivalent of Liberata at Burnley/Pendle"},
     "rapid_recruit": {"total_spend": "£1.9M", "transactions": 1529, "note": "Agency staff — most frequent commercial supplier"},
     "lancashire_cc": {"total_spend": "£1.8M", "note": "County-level service payments"},
     "rossendale_leisure_trust": {"total_spend": "£1.5M", "note": "Leisure trust — similar to Burnley Leisure Trust"},
@@ -69,8 +70,10 @@
   },
 
   "cross_council_context": {
-    "shared_suppliers": "TBC — requires cross-council matching",
-    "outsourcing_comparison": "Capita (£5.8M) vs Liberata at Burnley (£36.7M) and Pendle (£16.7M). Rossendale appears to outsource less.",
-    "data_advantage": "Best description quality of the 4 councils — both category and detail provided for every transaction."
+    "shared_suppliers": 22,
+    "shared_supplier_spend": "£13.8M",
+    "key_shared": ["Capita Business Services Ltd", "Rapid Recruit Ltd", "Post Office Ltd", "Molesworth Hotel Ltd", "Dennis Eagle Ltd", "Civica UK Ltd", "Active Lancashire Ltd"],
+    "outsourcing_comparison": "Capita (£5.3M across 77 transactions) vs Liberata at Burnley and Pendle. All 4 councils use Capita but Rossendale is the heaviest user.",
+    "data_advantage": "Best description quality of the 4 councils — both category and detail provided for every transaction. Data quality score: 95/100."
   }
 }

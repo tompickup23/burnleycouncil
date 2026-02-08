@@ -10,28 +10,28 @@
     {
       "value": "100%",
       "label": "Missing Transaction Descriptions",
-      "detail": "None of the 30,580 spending records include a description of what was purchased — the worst transparency gap of any East Lancashire council",
+      "detail": "None of the 30,580 spending records include a description of what was purchased — the worst transparency gap of any East Lancashire council. All 3 neighbours include descriptions.",
       "severity": "critical",
       "link": "/spending"
     },
     {
       "value": "£35.1M",
       "label": "Suspected Split Payments",
-      "detail": "602 instances of 3+ payments just below approval thresholds in the same week — may indicate circumvention of procurement rules",
+      "detail": "602 instances of 3+ payments just below approval thresholds in the same week. Many may be legitimate phased payments, but the volume warrants review.",
       "severity": "warning",
       "link": "/spending"
     },
     {
       "value": "13.2%",
       "label": "Missing Department Data",
-      "detail": "4,044 transactions (13.2%) have no department assigned — makes it impossible to track which services are spending",
+      "detail": "4,044 transactions (13.2%) have no department assigned — makes it impossible to track which services are spending. Hyndburn and Pendle achieve near-100% department tagging.",
       "severity": "warning",
       "link": "/spending"
     },
     {
       "value": "1.4x",
       "label": "March Spending Premium",
-      "detail": "March spending averages 1.4x the monthly average (£8.5M vs £6M). A mild year-end pattern — October is actually the highest month (£9.5M avg)",
+      "detail": "March spending averages 1.4x the monthly average (£8.5M vs £6M). A mild year-end pattern — October is actually the highest month at £9.5M avg.",
       "severity": "info",
       "link": "/spending"
     }
@@ -56,13 +56,13 @@
       "severity": "warning"
     },
     {
-      "icon": "file-x",
+      "icon": "alert-triangle",
       "badge": "Transparency",
       "title": "Zero descriptions: every transaction is opaque",
-      "description": "Burnley publishes supplier names and amounts but never describes what was purchased. Hyndburn and Pendle both include descriptions for every payment.",
+      "description": "Burnley publishes supplier names and amounts but never describes what was purchased. Hyndburn, Pendle, and Rossendale all include descriptions for their payments.",
       "link": "/spending",
       "link_text": "View spending →",
-      "severity": "critical"
+      "severity": "alert"
     },
     {
       "icon": "repeat",
@@ -76,8 +76,8 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "39 suppliers shared with neighbouring councils — £100.3M total",
-      "description": "Compare what each council pays the same suppliers for similar services.",
+      "title": "38 suppliers shared with neighbouring councils — £102.2M total",
+      "description": "Capita, Civica, EDF Energy, Stannah and 34 others serve multiple East Lancashire councils. Compare pricing across all 4 councils.",
       "link": "/spending",
       "link_text": "Compare prices →",
       "severity": "info"
@@ -85,16 +85,16 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "WALTON SUMMIT TRUCK CENTRE LTD: very different service scopes",
-      "description": "Burnley pays £56K avg per transaction vs Pendle £49 — likely reflects vehicle purchases vs parts/servicing, not price gouging.",
-      "link": "/spending?supplier=WALTON SUMMIT TRUCK CENTRE LTD",
+      "title": "EDF Energy: Burnley pays £25K avg vs Pendle £282 per transaction",
+      "description": "£3.2M to EDF across 128 transactions. Different contract structures explain the gap — Burnley likely has a direct supply agreement vs Pendle's framework purchases.",
+      "link": "/spending?supplier=EDF ENERGY",
       "link_text": "Investigate →",
       "severity": "info"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-08T14:00:00.000000",
+  "generated": "2026-02-08T16:30:00.000000",
   "analyses_run": [
     "ch_compliance",
     "cross_council_pricing",

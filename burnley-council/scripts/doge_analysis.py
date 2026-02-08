@@ -20,7 +20,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_DIR = SCRIPT_DIR.parent
 DATA_DIR = PROJECT_DIR / "data"
-COUNCILS = ["burnley", "hyndburn", "pendle"]
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale"]
 
 
 def load_spending(council_id):
@@ -30,7 +30,12 @@ def load_spending(council_id):
         print(f"  WARNING: No spending data for {council_id}")
         return []
     with open(path) as f:
-        return json.load(f)
+        records = json.load(f)
+    # Ensure supplier_canonical is never None (fall back to supplier)
+    for r in records:
+        if not r.get("supplier_canonical"):
+            r["supplier_canonical"] = r.get("supplier", "UNKNOWN")
+    return records
 
 
 def load_taxonomy():
@@ -164,7 +169,7 @@ def analyse_cross_council_pricing(all_spending, taxonomy):
     # Find suppliers appearing in 2+ councils
     all_supplier_names = set()
     for suppliers in council_suppliers.values():
-        all_supplier_names.update(suppliers.keys())
+        all_supplier_names.update(s for s in suppliers.keys() if s)
 
     shared_suppliers = []
     for name in sorted(all_supplier_names):
