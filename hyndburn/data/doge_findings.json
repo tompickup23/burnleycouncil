@@ -1,0 +1,104 @@
+{
+  "findings": [
+    {
+      "value": "\u00a31.1M",
+      "label": "Paid During Active Breaches",
+      "detail": "17 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 17 high severity. Temporally verified against payment dates.",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a33.4M",
+      "label": "Likely Duplicate Payments",
+      "detail": "940 high-confidence duplicate groups with same supplier, amount, date and reference number",
+      "severity": "critical",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a314.8M",
+      "label": "Suspected Split Payments",
+      "detail": "670 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a37.8M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "414 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "12.9x",
+      "label": "Year-End Spending Spike",
+      "detail": "Regeneration & Housing spent 12.9x their monthly average in March \u2014 potential year-end budget rush worth \u00a33.7M above normal",
+      "severity": "warning",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "B3P Services Ltd: \u00a3420.2K paid during active breach",
+      "description": "No active directors",
+      "link": "/spending?supplier=B3P SERVICES LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "Jds Trucks Ltd: \u00a3287.3K paid during active breach",
+      "description": "No active directors; No person with significant control registered",
+      "link": "/spending?supplier=JDS TRUCKS LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "Homewise Society Ltd: \u00a3158.6K paid during active breach",
+      "description": "No active directors; No person with significant control registered",
+      "link": "/spending?supplier=HOMEWISE SOCIETY LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "HM LAND REGISTRY: 2422 transactions totalling \u00a312.0K",
+      "description": "Averaging \u00a35 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=HM LAND REGISTRY",
+      "link_text": "See all transactions \u2192",
+      "severity": "info"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "37 suppliers shared with neighbouring councils \u2014 \u00a328.1M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "WALTON SUMMIT TRUCK CENTRE LTD: 115237% price gap between councils",
+      "description": "Burnley pays \u00a356.0K avg vs Pendle \u00a349",
+      "link": "/spending?supplier=WALTON SUMMIT TRUCK CENTRE LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "warning"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-07T13:41:41.888156",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance"
+  ]
+}

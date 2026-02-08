@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI DOGE — Council Transparency</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
+  <script>
+    // GitHub Pages SPA routing — detects which council SPA to serve
+    // and redirects with the path preserved as a query parameter.
+    // Each SPA's index.html has a complementary script that reads ?p= and navigates.
+    (function() {
+      var path = window.location.pathname;
+      var segments = path.split('/').filter(Boolean);
+
+      if (segments.length === 0) {
+        // Root 404 — shouldn't happen, but redirect to homepage
+        return;
+      }
+
+      var spa = segments[0]; // "burnleycouncil", "hyndburn", or "pendle"
+      var knownSpas = ['burnleycouncil', 'hyndburn', 'pendle'];
+
+      if (knownSpas.indexOf(spa) !== -1) {
+        // Known SPA — redirect to its index with path preserved
+        var spaPath = '/' + segments.slice(1).join('/');
+        if (spaPath === '/') spaPath = '';
+        var search = window.location.search || '';
+        var hash = window.location.hash || '';
+        var redirect = '/' + spa + '/?p=' + encodeURIComponent(spaPath + search + hash);
+        window.location.replace(redirect);
+      } else {
+        // Unknown path — redirect to AI DOGE homepage
+        window.location.replace('/');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <noscript>
+    <h1>AI DOGE — Council Transparency</h1>
+    <p>Independent public spending scrutiny for Lancashire councils.</p>
+    <ul>
+      <li><a href="/burnleycouncil/">Burnley Borough Council</a></li>
+      <li><a href="/hyndburn/">Hyndburn Borough Council</a></li>
+      <li><a href="/pendle/">Pendle Borough Council</a></li>
+    </ul>
+    <p>Visit <a href="/">aidoge.co.uk</a> for more.</p>
+  </noscript>
+</body>
+</html>

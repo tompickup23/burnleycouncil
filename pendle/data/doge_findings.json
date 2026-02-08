@@ -1,0 +1,104 @@
+{
+  "findings": [
+    {
+      "value": "\u00a337.8K",
+      "label": "Paid During Active Breaches",
+      "detail": "4 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 4 high severity. Temporally verified against payment dates.",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a32.7M",
+      "label": "Likely Duplicate Payments",
+      "detail": "1311 high-confidence duplicate groups with same supplier, amount, date and reference number",
+      "severity": "critical",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a319.5M",
+      "label": "Suspected Split Payments",
+      "detail": "777 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a320.1M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "774 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "2.7x",
+      "label": "Year-End Spending Spike",
+      "detail": "Financial Services spent 2.7x their monthly average in March \u2014 potential year-end budget rush worth \u00a31.7M above normal",
+      "severity": "warning",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "Marston (Holdings) Ltd: \u00a317.1K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=MARSTON (HOLDINGS) LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "Jewson Ltd: \u00a317.0K paid during active breach",
+      "description": "Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=JEWSON LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "alert-triangle",
+      "badge": "High",
+      "title": "Auto Match Ltd: \u00a33.4K paid during active breach",
+      "description": "Confirmation statement overdue; Filed dormant accounts but receiving council payments",
+      "link": "/spending?supplier=AUTO MATCH LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "FUELMATE LTD: 5047 transactions totalling \u00a3800.2K",
+      "description": "Averaging \u00a3159 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=FUELMATE LTD",
+      "link_text": "See all transactions \u2192",
+      "severity": "info"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "44 suppliers shared with neighbouring councils \u2014 \u00a340.2M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "WALTON SUMMIT TRUCK CENTRE LTD: 115237% price gap between councils",
+      "description": "Burnley pays \u00a356.0K avg vs Pendle \u00a349",
+      "link": "/spending?supplier=WALTON SUMMIT TRUCK CENTRE LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "warning"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-07T13:41:41.888362",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance"
+  ]
+}

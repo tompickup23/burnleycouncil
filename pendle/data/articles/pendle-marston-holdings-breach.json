@@ -1,0 +1,83 @@
+{
+  "id": "pendle-marston-holdings-breach",
+  "slug": "pendle-marston-holdings-breach",
+  "title": "Pendle Paid £17K to Marston Holdings While Company Filed Dormant Accounts",
+  "council": "Pendle",
+  "category": "Governance Failure",
+  "severity": "medium",
+  "published": "2026-02-07",
+  "updated": "2026-02-07",
+  "author": "AI DOGE Investigation",
+  "readTime": "3 min",
+  "excerpt": "Pendle Borough Council paid £17,100 to Marston (Holdings) Ltd during a period when the company had filed dormant accounts with Companies House — a contradiction that suggests either fraudulent accounts or illegitimate payments.",
+  "content": {
+    "blocks": [
+      {
+        "type": "hero",
+        "title": "Dormant Company Received Active Payments",
+        "subtitle": "Marston Holdings declared no transactions while receiving £17K from Pendle Council",
+        "stat": "£17,100",
+        "statLabel": "Paid During 'Dormant' Period"
+      },
+      {
+        "type": "summary",
+        "items": [
+          "Marston (Holdings) Ltd filed dormant accounts",
+          "Received £17,100 from Pendle during this period",
+          "Jewson Ltd: similar £17,000 breach identified",
+          "Part of £37,800 total breach payments (lowest of 3 councils)"
+        ]
+      },
+      {
+        "type": "section",
+        "heading": "The Dormant Accounts Contradiction",
+        "content": "When a company files dormant accounts, it's declaring to Companies House that it had no significant accounting transactions during the period. Yet Marston (Holdings) Ltd received £17,100 from Pendle Council. This creates a direct contradiction: either the accounts were fraudulent, or the payments weren't legitimate business transactions."
+      },
+      {
+        "type": "insight",
+        "heading": "Pendle's Lower Breach Total",
+        "content": "While Pendle still has governance failures, the scale is notably smaller than Burnley and Hyndburn: just £37,800 total paid to 4 breach suppliers versus Burnley's £223,900 (21 suppliers) and Hyndburn's £1.1 million (17 suppliers). This suggests either better due diligence or less complex supplier relationships.",
+        "severity": "info"
+      },
+      {
+        "type": "section",
+        "heading": "Jewson Ltd: The Second Breach",
+        "content": "Jewson Ltd, a well-known builders merchant, also received £17,000 from Pendle while filing dormant accounts. Unlike Marston Holdings, Jewson is a major national company, making this breach particularly surprising — large companies should have robust compliance processes. This may indicate a data timing issue or a subsidiary/parent company confusion rather than deliberate fraud."
+      },
+      {
+        "type": "dataTable",
+        "heading": "Pendle's Supplier Breaches",
+        "headers": ["Supplier", "Amount Paid", "Breach Type"],
+        "rows": [
+          ["Marston (Holdings) Ltd", "£17,100", "Dormant accounts"],
+          ["Jewson Ltd", "£17,000", "Dormant accounts"],
+          ["Auto Match Ltd", "£3,400", "Confirmation overdue / Dormant"]
+        ]
+      },
+      {
+        "type": "section",
+        "heading": "Relative Performance",
+        "content": "Pendle emerges from this analysis with the cleanest supplier compliance record of the three East Lancashire councils. However, even £37,800 in breach payments represents public money paid to companies not meeting basic legal requirements. There's still room for improvement in due diligence processes."
+      },
+      {
+        "type": "cta",
+        "heading": "Verify the Claims",
+        "text": "Check the payment dates for Marston Holdings against their Companies House filings to see the exact overlap period.",
+        "link": "/spending?supplier=MARSTON (HOLDINGS) LTD",
+        "linkText": "View Marston Holdings Payments →"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "DOGE Findings Analysis",
+      "url": "https://aidoge.co.uk/spending",
+      "date": "2026-02-07"
+    }
+  ],
+  "relatedArticles": [
+    "pendle-ch-compliance-findings",
+    "pendle-liberata-54-million",
+    "cross-council-comparison"
+  ]
+}

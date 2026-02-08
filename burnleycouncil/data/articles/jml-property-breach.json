@@ -1,0 +1,73 @@
+{
+  "id": "burnley-jml-property-breach",
+  "slug": "burnley-jml-property-breach",
+  "title": "JML Property Solutions: £48K Paid While Company Faced Strike-Off",
+  "council": "Burnley",
+  "category": "Governance Failure",
+  "severity": "high",
+  "published": "2026-02-07",
+  "updated": "2026-02-07",
+  "author": "AI DOGE Investigation",
+  "readTime": "3 min",
+  "excerpt": "Burnley Council paid £48,000 to JML Property Solutions Ltd while the company was actively facing compulsory strike-off and had filed dormant accounts — suggesting it wasn't trading legitimately.",
+  "content": {
+    "blocks": [
+      {
+        "type": "hero",
+        "title": "Strike-Off Warning Ignored",
+        "subtitle": "Council continued paying company flagged for dissolution by Companies House",
+        "stat": "£48,000",
+        "statLabel": "Paid During Active Breach"
+      },
+      {
+        "type": "summary",
+        "items": [
+          "JML Property Solutions facing compulsory strike-off",
+          "Filed dormant accounts while receiving council payments",
+          "£48,000 paid during this period",
+          "Second-largest supplier breach in Burnley"
+        ]
+      },
+      {
+        "type": "section",
+        "heading": "The Strike-Off Red Flag",
+        "content": "When Companies House initiates compulsory strike-off proceedings, it's typically because the company has failed to file required documents (annual accounts or confirmation statements). This is a public warning that the company may be inactive, non-compliant, or potentially fraudulent. Continuing to award contracts to such companies represents a serious procurement failure."
+      },
+      {
+        "type": "insight",
+        "heading": "Dormant + Paid = Contradiction",
+        "content": "A company that files 'dormant' accounts is declaring it had no significant transactions during the period. Yet JML Property Solutions received £48,000 from Burnley Council during this time. This contradiction raises questions about either the accuracy of the filed accounts or the legitimacy of the services provided.",
+        "severity": "critical"
+      },
+      {
+        "type": "section",
+        "heading": "Property Services Question",
+        "content": "Given the company name, JML Property Solutions likely provided property-related services to the council — possibly maintenance, management, or consultancy. Property services often involve access to council buildings and assets, making supplier vetting particularly important. The governance failures here compound the risk."
+      },
+      {
+        "type": "section",
+        "heading": "Procurement Process Failure",
+        "content": "Standard public sector procurement requires suppliers to demonstrate financial stability and good standing. A company facing strike-off and filing dormant accounts should fail these checks. Either the checks weren't performed, or the issues were known and ignored — both scenarios warrant investigation."
+      },
+      {
+        "type": "cta",
+        "heading": "Follow the Money",
+        "text": "View the complete payment history for JML Property Solutions Ltd and see what services were supposedly provided during the dormant period.",
+        "link": "/spending?supplier=JML PROPERTY SOLUTIONS LTD",
+        "linkText": "View JML Payments →"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "DOGE Findings Analysis",
+      "url": "https://aidoge.co.uk/spending",
+      "date": "2026-02-07"
+    }
+  ],
+  "relatedArticles": [
+    "molesworth-hotel-breach",
+    "burnley-potential-duplicate-payments",
+    "burnley-uncontracted-suppliers"
+  ]
+}
