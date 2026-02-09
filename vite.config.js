@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
-import { cpSync, existsSync, readFileSync } from 'fs'
+import { cpSync, existsSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 /**
@@ -39,6 +39,25 @@ function councilDataPlugin() {
       console.log(`📋 Copying ${council} data → public/data/`)
       cpSync(srcDir, destDir, { recursive: true, force: true })
       console.log(`✓ Council data ready (${council})`)
+    },
+    writeBundle(options) {
+      // Generate 404.html for GitHub Pages SPA routing
+      const outDir = options.dir || resolve(rootDir, 'dist', base.replace(/\//g, ''))
+      const html404 = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // GitHub Pages SPA routing — redirect 404s to the SPA with the path preserved
+    var base = '${base}';
+    window.location.replace(base + '?p=' + encodeURIComponent(window.location.pathname));
+  </script>
+</head>
+<body></body>
+</html>`
+      writeFileSync(resolve(outDir, '404.html'), html404)
+      console.log('✓ Generated 404.html for SPA routing')
     },
     transformIndexHtml(html) {
       // Replace placeholders in index.html with council-specific values

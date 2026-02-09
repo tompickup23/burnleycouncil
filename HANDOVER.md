@@ -13,13 +13,13 @@ AI DOGE (Department of Government Efficiency) is a public spending transparency 
 
 **Live councils:**
 
-| Council | URL | Records | Spend | Threshold |
-|---------|-----|---------|-------|-----------|
-| Burnley | /burnleycouncil/ | 30,580 | £355M | £500+ |
-| Hyndburn | /hyndburn/ | 29,802 | £211M | £250+ |
-| Pendle | /pendle/ | 48,785 | £127M | £500+ |
-| Rossendale | /rossendale/ | 42,536 | £64M | £500+ |
-| **Total** | | **152,000+** | **£757M** | |
+| Council | URL | Repo | Records | Spend | Threshold |
+|---------|-----|------|---------|-------|-----------|
+| Burnley | /burnleycouncil/ | burnleycouncil | 30,580 | £355M | £500+ |
+| Hyndburn | /lancashire/hyndburncouncil/ | lancashire | 29,802 | £211M | £250+ |
+| Pendle | /lancashire/pendlecouncil/ | lancashire | 48,785 | £127M | £500+ |
+| Rossendale | /lancashire/rossendalecouncil/ | lancashire | 42,536 | £64M | £500+ |
+| **Total** | | | **152,000+** | **£757M** | |
 
 ---
 
