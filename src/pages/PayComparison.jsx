@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Users, TrendingUp, AlertTriangle, Building, ChevronRight, Info, Briefcase, Award, FileText, Hash } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -211,7 +211,7 @@ function PayComparison() {
                 />
                 <Bar dataKey="salary" radius={[0, 4, 4, 0]}>
                   {comparisonData.map((entry, i) => (
-                    <rect key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                   ))}
                 </Bar>
               </BarChart>

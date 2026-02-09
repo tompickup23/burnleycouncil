@@ -18,6 +18,7 @@ vi.mock('recharts', () => ({
   LineChart: () => null,
   BarChart: () => null,
   Bar: () => null,
+  Cell: () => null,
   Line: () => null,
   XAxis: () => null,
   YAxis: () => null,

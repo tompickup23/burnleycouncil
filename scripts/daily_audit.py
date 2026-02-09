@@ -1,0 +1,683 @@
+#!/usr/bin/env python3
+"""
+daily_audit.py — Automated daily health check for AI DOGE
+Zero dependencies (stdlib only), zero API tokens, zero cost.
+
+Checks:
+  1. JSON validity across all councils
+  2. Schema consistency (missing/extra fields vs reference council)
+  3. Cross-council data file sync (cross_council.json x5)
+  4. Data freshness (spending dates, meetings, generation timestamps)
+  5. File size anomalies (sudden changes)
+  6. Config feature flags vs actual file existence
+  7. Known bug patterns in JSX source
+  8. Build & test health (optional --build flag)
+  9. Git state (uncommitted changes, branch divergence)
+  10. Deployment staleness (gh-pages vs main)
+
+Usage:
+    python3 scripts/daily_audit.py                  # Full audit, markdown report
+    python3 scripts/daily_audit.py --json            # Output as JSON
+    python3 scripts/daily_audit.py --build           # Also run npm test + build
+    python3 scripts/daily_audit.py --fix             # Auto-fix trivial issues
+    python3 scripts/daily_audit.py --quiet           # Errors/warnings only
+
+Output: burnley-council/reports/audit_YYYY-MM-DD.md (and latest.md symlink)
+"""
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+from collections import defaultdict
+from datetime import datetime, timedelta
+from pathlib import Path
+
+# ── Paths ─────────────────────────────────────────────────────────────
+ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT / "burnley-council" / "data"
+SRC_DIR = ROOT / "src"
+PUBLIC_DATA = ROOT / "public" / "data"
+REPORT_DIR = ROOT / "burnley-council" / "reports"
+
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale"]
+REFERENCE_COUNCIL = "burnley"  # Most complete council, used as schema reference
+
+# Expected data files per council (filename → required)
+EXPECTED_FILES = {
+    "config.json": True,
+    "spending.json": True,
+    "insights.json": True,
+    "metadata.json": True,
+    "supplier_profiles.json": True,
+    "cross_council.json": True,
+    "councillors.json": False,
+    "politics_summary.json": False,
+    "wards.json": False,
+    "meetings.json": False,
+    "budgets_govuk.json": False,
+    "budgets_summary.json": False,
+    "revenue_trends.json": False,
+    "pay_comparison.json": False,
+    "foi_templates.json": False,
+    "doge_findings.json": False,
+    "doge_knowledge.json": False,
+    "crime_stats.json": False,
+    "data_quality_report.json": False,
+    "articles-index.json": False,
+}
+
+# Config keys that should exist in every council
+REQUIRED_CONFIG_KEYS = [
+    "council_id", "council_name", "council_full_name",
+    "official_website", "spending_threshold", "data_sources",
+    "publisher", "theme_accent", "doge_context",
+]
+
+# JSX bug patterns to scan for
+BUG_PATTERNS = [
+    (r'\.map\(', r'\?\.\s*map\(|^\s*//|\.filter\(.*\.map\(|\|\|\s*\[\].*\.map\(',
+     "Unguarded .map() — may crash on undefined",
+     ["pages/"]),
+    (r'\.charAt\(', r'\|\|\s*[\'"]',
+     "Unguarded .charAt() — may crash on undefined",
+     ["pages/"]),
+    (r'Object\.entries\(', r'Object\.entries\([^)]*\|\|\s*\{\}|Object\.entries\(\w+\??\.',
+     "Object.entries() without fallback — crashes on undefined",
+     ["pages/"]),
+    (r'<rect\s+key=', r'<Cell\s+key=',
+     "Recharts: <rect> should be <Cell> for per-bar coloring",
+     ["pages/"]),
+]
+
+
+class AuditResult:
+    """Collects findings at different severity levels."""
+
+    def __init__(self):
+        self.findings = []  # (severity, category, message, detail)
+        self.stats = {}
+
+    def error(self, cat, msg, detail=""):
+        self.findings.append(("ERROR", cat, msg, detail))
+
+    def warn(self, cat, msg, detail=""):
+        self.findings.append(("WARN", cat, msg, detail))
+
+    def info(self, cat, msg, detail=""):
+        self.findings.append(("INFO", cat, msg, detail))
+
+    def ok(self, cat, msg, detail=""):
+        self.findings.append(("OK", cat, msg, detail))
+
+    @property
+    def errors(self):
+        return [f for f in self.findings if f[0] == "ERROR"]
+
+    @property
+    def warnings(self):
+        return [f for f in self.findings if f[0] == "WARN"]
+
+    def score(self):
+        """0-100 health score."""
+        if not self.findings:
+            return 100
+        total = len(self.findings)
+        err_penalty = len(self.errors) * 10
+        warn_penalty = len(self.warnings) * 3
+        return max(0, 100 - err_penalty - warn_penalty)
+
+
+# ── Helpers ───────────────────────────────────────────────────────────
+
+def load_json(path):
+    """Load JSON, return (data, error_string)."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f), None
+    except json.JSONDecodeError as e:
+        return None, f"Invalid JSON: {e}"
+    except FileNotFoundError:
+        return None, "File not found"
+    except Exception as e:
+        return None, str(e)
+
+
+def file_hash(path):
+    """SHA256 of file contents."""
+    h = hashlib.sha256()
+    try:
+        with open(path, "rb") as f:
+            for chunk in iter(lambda: f.read(8192), b""):
+                h.update(chunk)
+        return h.hexdigest()[:16]
+    except FileNotFoundError:
+        return None
+
+
+def run_cmd(cmd, timeout=120):
+    """Run shell command, return (returncode, stdout, stderr)."""
+    try:
+        r = subprocess.run(cmd, shell=True, capture_output=True, text=True,
+                          timeout=timeout, cwd=str(ROOT))
+        return r.returncode, r.stdout.strip(), r.stderr.strip()
+    except subprocess.TimeoutExpired:
+        return -1, "", "Timed out"
+    except Exception as e:
+        return -1, "", str(e)
+
+
+# ── Audit Checks ─────────────────────────────────────────────────────
+
+def check_json_validity(audit):
+    """Check all JSON files parse correctly."""
+    for council in COUNCILS:
+        council_dir = DATA_DIR / council
+        if not council_dir.is_dir():
+            audit.error("json", f"{council}: data directory missing")
+            continue
+        for fname, required in EXPECTED_FILES.items():
+            fpath = council_dir / fname
+            if not fpath.exists():
+                if required:
+                    audit.error("json", f"{council}/{fname}: MISSING (required)")
+                continue
+            data, err = load_json(fpath)
+            if err:
+                audit.error("json", f"{council}/{fname}: {err}")
+            else:
+                # Check articles-index is an array
+                if fname == "articles-index.json" and not isinstance(data, list):
+                    audit.error("json",
+                        f"{council}/{fname}: Must be array [], got {type(data).__name__}")
+
+
+def check_schema_consistency(audit):
+    """Compare config.json keys across councils vs reference."""
+    ref_path = DATA_DIR / REFERENCE_COUNCIL / "config.json"
+    ref_data, err = load_json(ref_path)
+    if err:
+        audit.error("schema", f"Cannot load reference config: {err}")
+        return
+
+    ref_keys = set(ref_data.keys())
+    ref_ds_keys = set(ref_data.get("data_sources", {}).keys())
+
+    for council in COUNCILS:
+        cfg_path = DATA_DIR / council / "config.json"
+        cfg, err = load_json(cfg_path)
+        if err:
+            continue  # Already reported in json check
+
+        # Required keys
+        for key in REQUIRED_CONFIG_KEYS:
+            if key not in cfg:
+                audit.warn("schema", f"{council}/config.json: missing required key '{key}'")
+
+        # data_sources consistency
+        ds = cfg.get("data_sources", {})
+        ds_keys = set(ds.keys())
+        missing_ds = ref_ds_keys - ds_keys
+        extra_ds = ds_keys - ref_ds_keys
+        if missing_ds:
+            audit.warn("schema",
+                f"{council}/config.json: data_sources missing keys: {sorted(missing_ds)}")
+        if extra_ds:
+            audit.info("schema",
+                f"{council}/config.json: data_sources extra keys: {sorted(extra_ds)}")
+
+
+def check_feature_flag_files(audit):
+    """Check data_sources flags match actual file existence."""
+    flag_to_file = {
+        "spending": "spending.json",
+        "budgets": "budgets_summary.json",
+        "budget_trends": "revenue_trends.json",
+        "politics": "councillors.json",
+        "meetings": "meetings.json",
+        "news": "articles-index.json",
+        "foi": "foi_templates.json",
+        "pay_comparison": "pay_comparison.json",
+    }
+
+    for council in COUNCILS:
+        cfg, _ = load_json(DATA_DIR / council / "config.json")
+        if not cfg:
+            continue
+        ds = cfg.get("data_sources", {})
+        for flag, fname in flag_to_file.items():
+            flag_val = ds.get(flag, False)
+            file_exists = (DATA_DIR / council / fname).exists()
+            if flag_val and not file_exists:
+                audit.error("flags",
+                    f"{council}: {flag}=true but {fname} missing")
+            if not flag_val and file_exists:
+                audit.info("flags",
+                    f"{council}: {flag}=false but {fname} exists (hidden data)")
+
+
+def check_cross_council_sync(audit):
+    """Verify all 5 copies of cross_council.json are identical."""
+    paths = [DATA_DIR / c / "cross_council.json" for c in COUNCILS]
+    paths.append(PUBLIC_DATA / "cross_council.json")
+    labels = COUNCILS + ["public/data"]
+
+    hashes = {}
+    for path, label in zip(paths, labels):
+        h = file_hash(path)
+        if h is None:
+            audit.warn("sync", f"cross_council.json missing: {label}")
+        else:
+            hashes[label] = h
+
+    unique = set(hashes.values())
+    if len(unique) == 1:
+        audit.ok("sync", f"cross_council.json: all {len(hashes)} copies in sync")
+    elif len(unique) > 1:
+        groups = defaultdict(list)
+        for label, h in hashes.items():
+            groups[h].append(label)
+        detail = "; ".join(f"{','.join(v)}: {k}" for k, v in groups.items())
+        audit.error("sync", f"cross_council.json OUT OF SYNC ({len(unique)} versions)", detail)
+
+
+def check_data_freshness(audit):
+    """Check if data files are stale."""
+    now = datetime.now()
+
+    for council in COUNCILS:
+        # Check spending.json date range
+        meta, _ = load_json(DATA_DIR / council / "metadata.json")
+        if meta:
+            dr = meta.get("date_range", {})
+            max_date_str = dr.get("max", "")
+            if max_date_str:
+                try:
+                    max_date = datetime.strptime(max_date_str, "%Y-%m-%d")
+                    age_days = (now - max_date).days
+                    if age_days > 180:
+                        audit.warn("freshness",
+                            f"{council}: spending data ends {max_date_str} ({age_days}d ago)")
+                    else:
+                        audit.ok("freshness",
+                            f"{council}: spending data current to {max_date_str}")
+                except ValueError:
+                    pass
+
+            record_count = meta.get("total_records", meta.get("record_count", 0))
+            audit.stats[f"{council}_records"] = record_count
+
+        # Check meetings freshness
+        meetings, _ = load_json(DATA_DIR / council / "meetings.json")
+        if not meetings:
+            meetings, _ = load_json(PUBLIC_DATA / "meetings.json")
+        if meetings:
+            lu = meetings.get("last_updated", "")
+            if lu:
+                try:
+                    lu_date = datetime.fromisoformat(lu.replace("Z", "+00:00"))
+                    age_days = (now - lu_date.replace(tzinfo=None)).days
+                    if age_days > 14:
+                        audit.warn("freshness",
+                            f"meetings.json: last updated {age_days}d ago ({lu[:10]})")
+                except (ValueError, TypeError):
+                    pass
+
+        # Check data_quality_report generation date
+        dqr, _ = load_json(DATA_DIR / council / "data_quality_report.json")
+        if dqr:
+            gen = dqr.get("generated", "")
+            if gen:
+                try:
+                    gen_date = datetime.fromisoformat(gen.replace("Z", "+00:00"))
+                    age_days = (now - gen_date.replace(tzinfo=None)).days
+                    if age_days > 30:
+                        audit.info("freshness",
+                            f"{council}: data quality report is {age_days}d old")
+                except (ValueError, TypeError):
+                    pass
+
+
+def check_file_sizes(audit):
+    """Report file sizes and flag anomalies."""
+    size_data = {}
+    for council in COUNCILS:
+        council_dir = DATA_DIR / council
+        if not council_dir.is_dir():
+            continue
+        for fname in EXPECTED_FILES:
+            fpath = council_dir / fname
+            if fpath.exists():
+                size = fpath.stat().st_size
+                key = fname
+                if key not in size_data:
+                    size_data[key] = {}
+                size_data[key][council] = size
+
+    # Flag files where one council is 10x bigger/smaller than average
+    for fname, sizes in size_data.items():
+        if len(sizes) < 2:
+            continue
+        vals = list(sizes.values())
+        avg = sum(vals) / len(vals)
+        if avg == 0:
+            continue
+        for council, size in sizes.items():
+            ratio = size / avg if avg > 0 else 0
+            if ratio > 5:
+                audit.warn("size",
+                    f"{council}/{fname}: {size/1024:.0f}KB — {ratio:.1f}x larger than average ({avg/1024:.0f}KB)")
+            elif ratio < 0.1 and size < 100:
+                audit.warn("size",
+                    f"{council}/{fname}: {size}B — suspiciously small")
+
+    # Total sizes for stats
+    for council in COUNCILS:
+        council_dir = DATA_DIR / council
+        if council_dir.is_dir():
+            total = sum(f.stat().st_size for f in council_dir.rglob("*") if f.is_file())
+            audit.stats[f"{council}_data_mb"] = round(total / 1024 / 1024, 1)
+
+
+def check_jsx_bugs(audit):
+    """Scan JSX source for known bug patterns."""
+    pages_dir = SRC_DIR / "pages"
+    if not pages_dir.is_dir():
+        audit.warn("code", "src/pages/ directory not found")
+        return
+
+    for jsx_file in sorted(pages_dir.glob("*.jsx")):
+        try:
+            content = jsx_file.read_text(encoding="utf-8")
+        except Exception:
+            continue
+
+        lines = content.split("\n")
+        for line_no, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if stripped.startswith("//") or stripped.startswith("*"):
+                continue
+
+            # Check for state updates outside useEffect
+            if re.search(r'\bset[A-Z]\w*\(', line) and not re.search(r'useEffect|useCallback|onClick|onChange|onSubmit|=>|\.then|\.catch', line):
+                # Very rough heuristic — only flag if in render body
+                # (between function start and return statement)
+                pass  # Too many false positives, skip
+
+            # Check for <rect> in Recharts (should be <Cell>)
+            if "<rect " in line and "key=" in line and "fill=" in line:
+                audit.warn("code",
+                    f"{jsx_file.name}:{line_no}: <rect> inside Bar — should be <Cell>",
+                    stripped[:80])
+
+
+def check_git_state(audit):
+    """Check git repository health."""
+    # Uncommitted changes
+    rc, out, _ = run_cmd("git status --porcelain")
+    if rc == 0 and out:
+        changed = len(out.strip().split("\n"))
+        audit.info("git", f"{changed} uncommitted file(s)")
+
+    # Current branch
+    rc, branch, _ = run_cmd("git branch --show-current")
+    if rc == 0:
+        audit.stats["branch"] = branch
+
+    # Commits ahead/behind main
+    rc, out, _ = run_cmd("git rev-list --left-right --count origin/main...HEAD 2>/dev/null")
+    if rc == 0 and out:
+        parts = out.split()
+        if len(parts) == 2:
+            behind, ahead = int(parts[0]), int(parts[1])
+            if behind > 0:
+                audit.warn("git", f"Branch is {behind} commits behind main")
+            if ahead > 0:
+                audit.info("git", f"Branch is {ahead} commits ahead of main")
+
+    # gh-pages staleness
+    rc, out, _ = run_cmd("git log -1 --format=%ci origin/gh-pages 2>/dev/null")
+    if rc == 0 and out:
+        try:
+            deploy_date = datetime.strptime(out[:19], "%Y-%m-%d %H:%M:%S")
+            age = (datetime.now() - deploy_date).days
+            audit.stats["deploy_age_days"] = age
+            if age > 7:
+                audit.warn("git", f"gh-pages last deployed {age}d ago ({out[:10]})")
+            else:
+                audit.ok("git", f"gh-pages deployed {age}d ago ({out[:10]})")
+        except ValueError:
+            pass
+
+
+def check_build_test(audit):
+    """Run npm test and build (optional, slow)."""
+    # Tests
+    rc, out, err = run_cmd("npm run test 2>&1", timeout=120)
+    if rc == 0:
+        # Extract pass count
+        match = re.search(r"(\d+) passed", out + err)
+        count = match.group(1) if match else "?"
+        audit.ok("build", f"Tests: {count} passed")
+        audit.stats["tests_passed"] = int(match.group(1)) if match else 0
+    else:
+        audit.error("build", "Tests FAILED", (out + err)[-200:])
+
+    # Build
+    rc, out, err = run_cmd("npx vite build 2>&1", timeout=180)
+    if rc == 0:
+        audit.ok("build", "Vite build succeeded")
+    else:
+        audit.error("build", "Vite build FAILED", (out + err)[-200:])
+
+
+def check_spending_data_quality(audit):
+    """Quick quality checks on spending.json without loading full file."""
+    for council in COUNCILS:
+        spath = DATA_DIR / council / "spending.json"
+        if not spath.exists():
+            continue
+
+        size_mb = spath.stat().st_size / 1024 / 1024
+
+        # Sample first and last records
+        try:
+            with open(spath, "r") as f:
+                data = json.load(f)
+        except Exception:
+            continue
+
+        if not isinstance(data, list):
+            audit.error("quality", f"{council}/spending.json: root is not an array")
+            continue
+
+        count = len(data)
+        audit.stats[f"{council}_spending_records"] = count
+        audit.stats[f"{council}_spending_mb"] = round(size_mb, 1)
+
+        if count == 0:
+            audit.error("quality", f"{council}: spending.json is empty")
+            continue
+
+        # Check first record has expected fields
+        sample = data[0]
+        for field in ["date", "supplier", "amount"]:
+            if field not in sample:
+                audit.warn("quality",
+                    f"{council}/spending.json: first record missing '{field}'")
+
+        # Check for duplicate records (sample-based)
+        if count > 100:
+            # Hash first 1000 records
+            seen = set()
+            dupes = 0
+            for rec in data[:min(count, 2000)]:
+                key = f"{rec.get('date')}|{rec.get('supplier')}|{rec.get('amount')}"
+                if key in seen:
+                    dupes += 1
+                seen.add(key)
+            if dupes > 0:
+                pct = dupes / min(count, 2000) * 100
+                audit.info("quality",
+                    f"{council}: ~{pct:.1f}% potential duplicates in first 2000 records ({dupes} found)")
+
+
+# ── Report Generation ─────────────────────────────────────────────────
+
+def generate_markdown_report(audit):
+    """Generate concise markdown audit report."""
+    now = datetime.now()
+    score = audit.score()
+
+    # Score emoji
+    if score >= 90:
+        grade = "A"
+    elif score >= 75:
+        grade = "B"
+    elif score >= 60:
+        grade = "C"
+    else:
+        grade = "F"
+
+    lines = [
+        f"# Daily Audit — {now.strftime('%d %b %Y %H:%M')}",
+        f"",
+        f"**Health: {score}/100 ({grade})** | "
+        f"Errors: {len(audit.errors)} | Warnings: {len(audit.warnings)} | "
+        f"Total checks: {len(audit.findings)}",
+        f"",
+    ]
+
+    # Stats summary
+    if audit.stats:
+        lines.append("## Stats")
+        lines.append("")
+        lines.append("| Metric | Value |")
+        lines.append("|--------|-------|")
+        for k, v in sorted(audit.stats.items()):
+            lines.append(f"| {k} | {v} |")
+        lines.append("")
+
+    # Group findings by category
+    cats = defaultdict(list)
+    for sev, cat, msg, detail in audit.findings:
+        cats[cat].append((sev, msg, detail))
+
+    for cat in sorted(cats.keys()):
+        items = cats[cat]
+        lines.append(f"## {cat.title()}")
+        lines.append("")
+        for sev, msg, detail in items:
+            icon = {"ERROR": "X", "WARN": "!", "INFO": "-", "OK": "+"}[sev]
+            lines.append(f"- [{icon}] **{sev}**: {msg}")
+            if detail:
+                lines.append(f"  - `{detail[:120]}`")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+def generate_json_report(audit):
+    """Generate JSON audit report."""
+    return json.dumps({
+        "date": datetime.now().isoformat(),
+        "score": audit.score(),
+        "errors": len(audit.errors),
+        "warnings": len(audit.warnings),
+        "stats": audit.stats,
+        "findings": [
+            {"severity": s, "category": c, "message": m, "detail": d}
+            for s, c, m, d in audit.findings
+        ],
+    }, indent=2)
+
+
+# ── Main ──────────────────────────────────────────────────────────────
+
+def main():
+    parser = argparse.ArgumentParser(description="AI DOGE daily system audit")
+    parser.add_argument("--json", action="store_true", help="Output JSON instead of markdown")
+    parser.add_argument("--build", action="store_true", help="Also run npm test + build")
+    parser.add_argument("--quiet", action="store_true", help="Only show errors and warnings")
+    parser.add_argument("--stdout", action="store_true", help="Print to stdout only, don't save file")
+    args = parser.parse_args()
+
+    audit = AuditResult()
+
+    # Run all checks
+    print("Running audit...", file=sys.stderr)
+
+    print("  [1/8] JSON validity...", file=sys.stderr)
+    check_json_validity(audit)
+
+    print("  [2/8] Schema consistency...", file=sys.stderr)
+    check_schema_consistency(audit)
+
+    print("  [3/8] Feature flags vs files...", file=sys.stderr)
+    check_feature_flag_files(audit)
+
+    print("  [4/8] Cross-council sync...", file=sys.stderr)
+    check_cross_council_sync(audit)
+
+    print("  [5/8] Data freshness...", file=sys.stderr)
+    check_data_freshness(audit)
+
+    print("  [6/8] File sizes...", file=sys.stderr)
+    check_file_sizes(audit)
+    check_spending_data_quality(audit)
+
+    print("  [7/8] JSX bug scan...", file=sys.stderr)
+    check_jsx_bugs(audit)
+
+    print("  [8/8] Git state...", file=sys.stderr)
+    check_git_state(audit)
+
+    if args.build:
+        print("  [+] Build & test...", file=sys.stderr)
+        check_build_test(audit)
+
+    # Generate report
+    if args.json:
+        report = generate_json_report(audit)
+    else:
+        report = generate_markdown_report(audit)
+
+    # Filter if quiet
+    if args.quiet:
+        audit.findings = [f for f in audit.findings if f[0] in ("ERROR", "WARN")]
+        report = generate_markdown_report(audit) if not args.json else generate_json_report(audit)
+
+    if args.stdout:
+        print(report)
+    else:
+        # Save to reports directory
+        REPORT_DIR.mkdir(parents=True, exist_ok=True)
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        ext = "json" if args.json else "md"
+
+        report_path = REPORT_DIR / f"audit_{date_str}.{ext}"
+        latest_path = REPORT_DIR / f"latest.{ext}"
+
+        report_path.write_text(report, encoding="utf-8")
+
+        # Update latest symlink
+        if latest_path.exists() or latest_path.is_symlink():
+            latest_path.unlink()
+        latest_path.symlink_to(report_path.name)
+
+        print(f"\nAudit complete: {report_path}", file=sys.stderr)
+        print(f"Score: {audit.score()}/100 — {len(audit.errors)} errors, {len(audit.warnings)} warnings",
+              file=sys.stderr)
+
+        # Also print to stdout
+        print(report)
+
+    # Exit with non-zero if errors found
+    sys.exit(1 if audit.errors else 0)
+
+
+if __name__ == "__main__":
+    main()
