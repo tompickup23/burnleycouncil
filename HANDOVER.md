@@ -1,6 +1,6 @@
 # HANDOVER.md - AI DOGE Project Handover
 
-> **Last updated:** 8 February 2026
+> **Last updated:** 9 February 2026
 > **Repo:** `tompickup23/burnleycouncil`
 > **Live site:** https://aidoge.co.uk
 > **Owner:** Tom Pickup
@@ -18,7 +18,8 @@ AI DOGE (Department of Government Efficiency) is a public spending transparency 
 | Burnley | /burnleycouncil/ | 30,580 | £355M | £500+ |
 | Hyndburn | /hyndburn/ | 29,802 | £211M | £250+ |
 | Pendle | /pendle/ | 48,785 | £127M | £500+ |
-| **Total** | | **110,000+** | **£693M** | |
+| Rossendale | /rossendale/ | 42,536 | £64M | £500+ |
+| **Total** | | **152,000+** | **£757M** | |
 
 ---
 
@@ -156,7 +157,7 @@ Each council in `burnley-council/data/{council}/` has:
 
 | File | Purpose |
 |------|---------|
-| `config.json` | Council identity, features, theme, DOGE context |
+| `config.json` | Council identity, features, theme, publisher, DOGE context |
 | `spending.json` | All transactions (5-40MB) |
 | `insights.json` | Pre-computed spending insights |
 | `metadata.json` | Data period, record counts |
@@ -173,6 +174,20 @@ Each council in `burnley-council/data/{council}/` has:
 | `meetings.json` | Council meeting calendar (shared, in public/data/) |
 
 At build time, the relevant council's data files are copied into `public/data/` so the SPA can load them as static assets.
+
+### Key config.json Fields
+
+| Field | Purpose |
+|-------|---------|
+| `council_id`, `council_name`, `council_full_name` | Identity |
+| `official_website`, `moderngov_url` | External links |
+| `spending_threshold` | Minimum payment value in data |
+| `data_sources` | Feature flags (which nav items show) |
+| `publisher`, `publisher_bio`, `publisher_titles` | About page creator section |
+| `publisher_photo`, `publisher_quote`, `publisher_social` | Creator photo, quote, social links |
+| `foi_url` | Council-specific FOI submission URL |
+| `theme_accent` | Brand colour |
+| `doge_context` | Spending analysis context for AI/LLM use |
 
 ---
 
@@ -243,30 +258,39 @@ The only automated pipeline in this repo is the GitHub Actions meeting scraper (
 3. `council_etl.py` lines 95-96: ambiguous 2-digit year parsing
 4. `police_etl.py` lines 191-194: 503 errors silently return empty list
 
-### SPA Hardcoded References
-- `Layout.jsx`: "Burnley Council" in mobile header + footer
-- `Politics.jsx`: "45 councillors representing 15 wards across Burnley"
-- `Spending.jsx`: CSV export filename hardcoded to "burnley-spending-export"
-- `About.jsx`: Entire page is a personal bio, not parameterised
-- `FOI.jsx`: All 15 templates hardcoded to Burnley issues
+### SPA Hardcoded References — RESOLVED
+All SPA components are now fully parameterised via `CouncilConfig` context:
+- `Layout.jsx`: Uses `councilName` from config ✅
+- `Politics.jsx`: Dynamic councillor/ward counts from data ✅
+- `Spending.jsx`: CSV filename uses `councilId` ✅
+- `About.jsx`: Creator section driven by config (photo, social, quote, bio) ✅
+- `FOI.jsx`: Council-specific templates + config-driven FOI URL ✅
 
 ### Performance
-- `spending.json` up to 40MB (Pendle) - needs pagination/lazy loading
+- `spending.json` file sizes: Burnley 21MB, Hyndburn 21MB, Rossendale 25MB, **Pendle 40MB** (49,741 records)
+- All spending data fetched in one `fetch()` call — no pagination at network level
+- Client-side pagination (50 items/page) and filtering already work well
+- **TanStack React Virtual is installed but NOT wired up** — highest-impact fix would be virtualising the spending table `<tbody>` (library already in `node_modules`)
+- Pre-gzipping spending.json files would reduce transfer 75% (40MB → ~10MB)
 - No TypeScript (all JSX)
-- Shared components duplicated across pages in some cases
-- Zero test coverage beyond `useData` and `format` utils
+- Test coverage now includes: `useData`, `format` utils, `PayComparison`, `About`
 
 ---
 
-## 12. Planned Features (from MASTERPLAN)
+## 12. Features & Planned Work
 
-- **Executive Pay Comparison page** - cross-council senior officer salary analysis
+### Completed
+- **Executive Pay Comparison page** ✅ — CEO profiles, salary trends, pay ratios, TPA Rich List, councillor allowances, gender pay gap
+- **Council-specific FOI templates** ✅ — all 4 councils have tailored templates with council-specific issues
+- **Rossendale council** ✅ — fully integrated with all data files
+- **SPA parameterisation** ✅ — all components config-driven, no hardcoded council references
+
+### Planned
 - **Cross-Council Comparison dashboard** - side-by-side metrics
 - **Supplier Deep Dive pages** - dynamic per-supplier profiles
-- **Council-specific FOI templates** - tailored per council (currently Burnley-only)
 - **"What Changed?" tracking** - accountability loop on published findings
 - **Postcode to Ward lookup** - via postcodes.io (free, no key)
-- **More councils** - Rossendale (data exists), Lancashire CC, Preston, Blackburn
+- **More councils** - Lancashire CC, Preston, Blackburn
 
 ---
 

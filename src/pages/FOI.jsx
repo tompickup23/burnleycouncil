@@ -74,8 +74,8 @@ function FOI() {
     })
   }
 
-  // Build FOI submission URL and WhatDoTheyKnow slug
-  const foiUrl = `${officialUrl}${officialUrl.endsWith('/') ? '' : '/'}council-democracy/freedom-of-information-foi/`
+  // Build FOI submission URL (prefer config, fall back to generic pattern)
+  const foiUrl = config.foi_url || `${officialUrl}${officialUrl.endsWith('/') ? '' : '/'}council-democracy/freedom-of-information-foi/`
   const wdtkSlug = councilFullName.toLowerCase().replace(/\s+/g, '_')
 
   if (loading) {
