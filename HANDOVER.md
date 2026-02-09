@@ -1,6 +1,6 @@
 # HANDOVER.md - AI DOGE Project Handover
 
-> **Last updated:** 9 February 2026
+> **Last updated:** 9 February 2026 (session 2)
 > **Repo:** `tompickup23/burnleycouncil`
 > **Live site:** https://aidoge.co.uk
 > **Owner:** Tom Pickup
@@ -28,14 +28,14 @@ AI DOGE (Department of Government Efficiency) is a public spending transparency 
 | Layer | Technology | Notes |
 |-------|-----------|-------|
 | Frontend | React 19 + Vite 7 | SPA with client-side routing |
-| Routing | React Router DOM 7 | 13 pages, lazy-loaded |
+| Routing | React Router DOM 7 | 15 pages, all lazy-loaded |
 | Data fetching | TanStack React Query 5 | Caching + server state |
 | Charts | Recharts 3 | All budget/spending visualisations |
 | Icons | Lucide React | Consistent icon set |
 | Virtualisation | TanStack React Virtual 3 | Large spending lists |
 | Hosting | GitHub Pages | `gh-pages` branch, custom domain |
-| CI | GitHub Actions | Weekly meeting scraper |
-| Testing | Vitest + React Testing Library | `npm run test` |
+| CI | GitHub Actions | Weekly meeting scraper + daily audit |
+| Testing | Vitest + React Testing Library | `npm run test` (103 tests) |
 | Linting | ESLint 9 | `npm run lint` |
 | Compression | vite-plugin-compression | Gzip + Brotli at build |
 
@@ -87,14 +87,18 @@ burnleycouncil/
 │   └── *.md                    # Per-council docs
 │
 ├── scripts/
-│   └── update-meetings.js      # Meeting scraper (GitHub Actions)
+│   ├── update-meetings.js      # Meeting scraper (GitHub Actions)
+│   ├── daily_audit.py          # Automated health checks (GitHub Actions)
+│   ├── suggest_improvements.py # Rule-based improvement scanner
+│   └── sync_cross_council.sh   # Sync cross_council.json to all dirs
 │
 ├── public/
 │   ├── data/                   # Build-time council data (copied by Vite plugin)
 │   └── images/                 # Article images
 │
 ├── .github/workflows/
-│   └── update-meetings.yml     # Weekly cron: scrape + commit meetings
+│   ├── update-meetings.yml     # Weekly cron: scrape + commit meetings
+│   └── daily-audit.yml         # Daily health audit + issue creation
 │
 ├── workspace/                  # Hugo themes + nginx configs (News sites)
 ├── memory/                     # AI agent session logs
@@ -247,6 +251,13 @@ The only automated pipeline in this repo is the GitHub Actions meeting scraper (
 - **What it does:** Runs `scripts/update-meetings.js` to scrape meeting data from 4 council democracy portals (Burnley, Hyndburn via ModernGov; Pendle, Rossendale via Jadu)
 - **Output:** Updates `public/data/meetings.json`
 - **Auto-commits** if data changed
+- **Retry logic:** Exponential backoff (1s, 2s, 4s) on network failures
+
+### daily-audit.yml
+- **Schedule:** Daily 06:00 UTC + manual dispatch
+- **What it does:** Runs `scripts/daily_audit.py` — tests, lint, build, data validation, git sync check
+- **Output:** Creates GitHub issue if errors found
+- **Security:** Job-level permissions, env-var interpolation (no shell injection)
 
 ---
 
@@ -282,7 +293,7 @@ All SPA components are now fully parameterised via `CouncilConfig` context:
 - **TanStack React Virtual wired up** ✅ — Spending table `<tbody>` uses `useVirtualizer` with spacer-row pattern (replaced pagination with infinite scroll in 600px container, `overscan: 20`)
 - **Pre-gzipping already handled** ✅ — `vite-plugin-compression` generates `.gz` and `.br` for all build output including JSON data files (spending.json: 21MB → 436KB brotli, 898KB gzip). GitHub Pages CDN (Fastly) also does on-the-fly gzip compression.
 - No TypeScript (all JSX)
-- Test coverage now includes: `useData`, `format` utils, `PayComparison`, `About`
+- Test coverage: 103 tests across 7 files (`format`, `useData`, `About`, `PayComparison`, `Home`, `Spending`, `ErrorBoundary`)
 
 ---
 
@@ -293,6 +304,14 @@ All SPA components are now fully parameterised via `CouncilConfig` context:
 - **Council-specific FOI templates** ✅ — all 4 councils have tailored templates with council-specific issues
 - **Rossendale council** ✅ — fully integrated with all data files
 - **SPA parameterisation** ✅ — all components config-driven, no hardcoded council references
+- **Security hardening** ✅ — CSP meta tag, DOMPurify for article HTML, shell=True removal, Actions interpolation safety
+- **Error handling** ✅ — all 15 pages handle `useData` errors with consistent error UI
+- **Accessibility** ✅ — ARIA labels on interactive elements, semantic landmarks, tab roles
+- **Performance** ✅ — React.memo on StatCard/ChartCard, useMemo on chart data transforms, Home lazy-loaded
+- **Testing** ✅ — 103 tests across 7 test files (format, useData, About, PayComparison, Home, Spending, ErrorBoundary)
+- **SPA routing** ✅ — Custom 404.html generated at build time for GitHub Pages sub-route support
+- **Automated audit** ✅ — daily_audit.py + GitHub Actions workflow for continuous health monitoring
+- **Data quality** ✅ — cross_council.json derived fields populated, Rossendale schema normalised
 
 ### Planned
 - **Cross-Council Comparison dashboard** - side-by-side metrics
@@ -326,6 +345,9 @@ All SPA components are now fully parameterised via `CouncilConfig` context:
 | `npm run deploy` | Build + push to gh-pages |
 | `VITE_COUNCIL=X VITE_BASE=/X/ npm run dev` | Dev server for council X |
 | `node scripts/update-meetings.js` | Scrape meeting data |
+| `python3 scripts/daily_audit.py` | Run health audit |
+| `python3 scripts/suggest_improvements.py` | Scan for improvements |
+| `bash scripts/sync_cross_council.sh` | Sync cross_council.json |
 
 ---
 

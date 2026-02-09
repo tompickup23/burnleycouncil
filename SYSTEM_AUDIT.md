@@ -1,6 +1,6 @@
 # AI DOGE — Full System Audit
 
-> **Date:** 9 Feb 2026 | **Branch:** `claude/setup-handover-docs-QUonH` | **Tests:** 86/86 passing
+> **Date:** 9 Feb 2026 (session 2) | **Branch:** `claude/setup-handover-docs-QUonH` | **Tests:** 103/103 passing
 
 ---
 
@@ -22,11 +22,11 @@ CSV/ODS data ──► Python ETL ──► JSON files ──► Vite build ─�
 | Council | Path | Records | Spend | Data Size |
 |---------|------|---------|-------|-----------|
 | Burnley | `/burnleycouncil/` | 30,580 | £355M | 28MB |
-| Hyndburn | `/hyndburn/` | 29,802 | £211M | 27MB |
-| Pendle | `/pendle/` | 49,741 | £127M | 47MB |
-| Rossendale | `/rossendale/` | 42,536 | £64M | 40MB |
+| Hyndburn | `/lancashire/hyndburncouncil/` | 29,802 | £211M | 27MB |
+| Pendle | `/lancashire/pendlecouncil/` | 49,741 | £127M | 47MB |
+| Rossendale | `/lancashire/rossendalecouncil/` | 42,536 | £64M | 40MB |
 
-**Note:** `/lancashire/` does NOT exist. Only Burnley is currently deployed on gh-pages. Other councils have data but aren't deployed yet.
+**Note:** Burnley deploys from `tompickup23/burnleycouncil` repo. Hyndburn/Pendle/Rossendale deploy from `tompickup23/lancashire` repo under `/lancashire/{council}council/` paths.
 
 ---
 
@@ -50,7 +50,7 @@ CSV/ODS data ──► Python ETL ──► JSON files ──► Vite build ─�
 | `/about` | About | config only | always |
 | `/legal` | Legal | none (static) | always |
 
-All routes except Home are lazy-loaded. Home eagerly loads.
+All routes are lazy-loaded via `React.lazy()` (including Home, added session 2).
 
 ---
 
@@ -146,6 +146,7 @@ npm run deploy
 | What | How | When |
 |------|-----|------|
 | Meeting scraper | GitHub Actions `update-meetings.yml` | Sundays 03:00 UTC |
+| Daily audit | GitHub Actions `daily-audit.yml` | Daily 06:00 UTC |
 | ETL pipeline | `run_all_lancashire.sh` on VPS-NEWS | Manual/cron |
 | CH matching | `ch_cron.sh` on VPS | 1st of month |
 | Deploy | `npm run deploy` → gh-pages | Manual |
@@ -173,22 +174,28 @@ npm run deploy
 | useData.test.js | 5 | Cache, loading, error states |
 | About.test.jsx | 15 | Config-driven rendering, conditionals |
 | PayComparison.test.jsx | 12 | CEO profiles, stats, charts, tables |
-| **Total** | **86** | |
+| Home.test.jsx | 6 | Loading, error, hero, disclaimer, total spend, minimal config |
+| Spending.test.jsx | 5 | Loading, error, heading, search/filters, empty data |
+| ErrorBoundary.test.jsx | 6 | Children render, error UI, null errors, retry, reset, console |
+| **Total** | **103** | |
 
-**Not tested:** Spending (virtualised table hard in jsdom), Budgets, CrossCouncil, Suppliers, SupplierView, Home, News, Politics, Meetings, MyArea, FOI
+**Not tested:** Budgets, CrossCouncil, Suppliers, SupplierView, News, Politics, Meetings, MyArea, FOI, ArticleView, Legal
 
 ---
 
 ## Rossendale Quirks (added later, differs from others)
 
-- `articles-index.json` must be `[]` not `{articles:[]}`
+- `articles-index.json` must be `[]` not `{articles:[]}` ✅ Fixed
 - No `articles/` directory (correct — no articles written yet)
-- No `crime_stats.json` (police ETL not run)
-- `budgets: false` but `budgets_govuk.json` exists
+- No `crime_stats.json` — `crime_stats: false` feature flag added ✅
+- `budgets: false` but `budgets_govuk.json` exists — `budgets_govuk: true` flag added ✅
 - `duplicate_count: 0` in cross_council.json (analysis not run)
 - CEO has spot salary (£113,001) not a band
 - Highest median employee salary (£27,803 vs ~£20,500 others)
-- `cross_council.json` had wrong schema until this session's fix
+- `cross_council.json` schema normalised ✅
+- `insights.json` schema normalised to match Burnley format ✅
+- `wards.json` converted from array to keyed object ✅
+- `metadata.json` keys standardised (`record_count` → `total_records`) ✅
 
 ---
 
@@ -220,15 +227,39 @@ npm run deploy
 
 | Priority | Issue | Notes |
 |----------|-------|-------|
-| High | Only Burnley deployed on gh-pages | Other 3 councils have data but no live deployment |
-| High | `/lancashire/` URL doesn't exist | No build/data/config for it |
 | Medium | `police_etl.py` silently returns empty on 503 | Data gaps undetectable |
-| Medium | `budgets: false` for 3 councils despite data existing | Budget pages show GOV.UK view not full view |
 | Medium | No articles for Rossendale | Needs `mega_article_writer.py` run |
 | Medium | No crime_stats for Rossendale | Needs `police_etl.py` run |
+| Medium | 3,167 "NAME WITHHELD" suppliers in Rossendale | 7.4% of spend |
+| Medium | `MyArea.jsx` setTimeout leak | No cleanup on unmount |
+| Medium | No E2E/integration tests | No Playwright/Cypress |
 | Low | @tanstack/react-query installed but unused | `useData` custom hook used instead |
 | Low | No TypeScript | All JSX |
-| Low | 6 pages untested | Spending, Budgets, Home, etc. |
+| Low | 9 pages untested | Budgets, CrossCouncil, Suppliers, etc. |
+| Low | Shared CSS patterns duplicated | Card/section styles repeated |
+| Low | `ArticleView` image `alt=""` | Should use `article.title` |
+
+---
+
+## Session 2 Fixes (15 issues resolved)
+
+| Category | Fix | Details |
+|----------|-----|---------|
+| Security | S1: DOMPurify for XSS | ArticleView sanitises HTML before rendering |
+| Security | S2: CSP meta tag | `index.html` Content-Security-Policy header |
+| Security | S3: Remove `shell=True` | `daily_audit.py` uses list syntax + `shlex.split()` |
+| Security | S4: Actions interpolation | env vars instead of direct output interpolation |
+| Security | S5: Job-level permissions | Scoped permissions in both workflow files |
+| Security | S6: npm audit in CI | `npm audit --audit-level=moderate` added |
+| Performance | A7: Lazy-load Home | All 15 pages now lazy-loaded via `React.lazy()` |
+| Performance | A8: React.memo | StatCard, ChartCard wrapped in `memo()` |
+| Performance | A3: useMemo | Chart data transforms memoised in Home, Budgets, PayComparison |
+| Accessibility | A4: ARIA labels | Tab roles, aria-expanded, aria-label on interactive elements |
+| Data | D1-D3: cross_council derived fields | avg_transaction, council_tax, top10_supplier_pct populated |
+| Data | D4-D6: Rossendale schema | insights.json, wards.json, metadata.json normalised |
+| Data | D8-D9: Feature flags | crime_stats, budgets_govuk flags added to configs |
+| Testing | A2: Page tests | Home (6), Spending (5), ErrorBoundary (6) = 17 new tests |
+| Infra | 404.html SPA routing | Custom 404.html generated at build time for GitHub Pages |
 
 ---
 
@@ -246,9 +277,13 @@ burnleycouncil/
 │   ├── data/{council}/           142MB total (4 councils x ~20 files)
 │   ├── scripts/                  8,427 lines (10 Python + 3 Shell)
 │   └── schemas/                  2 JSON schemas
-├── scripts/update-meetings.js    597 lines (GitHub Actions)
+├── scripts/
+│   ├── update-meetings.js        597 lines (meeting scraper)
+│   ├── daily_audit.py            Health check runner
+│   ├── suggest_improvements.py   Improvement scanner
+│   └── sync_cross_council.sh     Cross-council data sync
 ├── public/data/                  Build-time copy of active council
-├── vite.config.js                Plugin + compression + chunking
+├── vite.config.js                Plugin + compression + chunking + 404.html
 ├── package.json                  7 runtime + 12 dev dependencies
-└── .github/workflows/            Weekly meeting scraper
+└── .github/workflows/            Meeting scraper + daily audit
 ```

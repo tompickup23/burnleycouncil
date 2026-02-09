@@ -4,7 +4,7 @@
 > Manual entries are preserved; automated entries are marked `[auto]`.
 > Last updated: 2026-02-09
 
-**Summary**: 18 open issues | Critical: 0 | High: 4 | Medium: 8 | Low: 6
+**Summary**: 10 open issues | Critical: 0 | High: 1 | Medium: 4 | Low: 5
 
 ---
 
@@ -15,8 +15,8 @@
 | S1 | Critical | XSS via `dangerouslySetInnerHTML` | `ArticleView.jsx:195` renders article HTML without sanitization. Install DOMPurify. | fixed |
 | S2 | High | No Content Security Policy | `index.html` has no CSP meta tag — allows inline scripts, arbitrary resource loading. | fixed |
 | S3 | Medium | `shell=True` in subprocess | `daily_audit.py` uses `subprocess.run(cmd, shell=True)`. Use array syntax. | fixed |
-| S4 | Medium | GitHub Actions string interpolation | `daily-audit.yml:73` interpolates audit output into issue title without numeric validation. | open |
-| S5 | Medium | Workflow permissions too broad | `daily-audit.yml` and `update-meetings.yml` have `contents: write` — can push to main. | open |
+| S4 | Medium | GitHub Actions string interpolation | `daily-audit.yml` now uses env vars instead of direct interpolation. | fixed |
+| S5 | Medium | Workflow permissions too broad | Moved to job-level permissions in both workflow files. | fixed |
 | S6 | Low | No `npm audit` in CI | No automated dependency vulnerability scanning in workflows. | fixed |
 
 ## Data Quality
@@ -31,8 +31,8 @@
 | D10 | Medium | 3,167 "NAME WITHHELD" suppliers | 7.4% of Rossendale spend has suppressed supplier names. | open |
 | D6 | Medium | `metadata.json` key inconsistency | Burnley/Hyndburn/Pendle: `total_records`. Rossendale: `record_count`. | fixed |
 | D7 | Medium | Hyndburn max date in future | `date_range.max: "2026-01-29"` — beyond generated date. Import error or projection? | fixed |
-| D8 | Medium | Rossendale missing `crime_stats.json` | Exists for other 3 councils. Add feature flag or generate data. | open |
-| D9 | Medium | Feature flag mismatch (budgets) | Hyndburn/Pendle/Rossendale: `budgets: false` but `budgets_govuk.json` exists (110KB). | open |
+| D8 | Medium | Rossendale missing `crime_stats.json` | Added `crime_stats: false` feature flag to config. | fixed |
+| D9 | Medium | Feature flag mismatch (budgets) | Added `budgets_govuk: true` to Hyndburn/Pendle/Rossendale config. | fixed |
 | D11 | Low | `budgets_summary.json` schema gap | Rossendale missing `net_current_expenditure` field. | fixed |
 | D12 | Low | Duplicate count = 0 for Rossendale | Not yet generated — duplicate detection not run. | open |
 
@@ -51,10 +51,10 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
-| A1 | High | 8 pages ignore `useData` errors | Budgets, Spending, Politics, Suppliers, SupplierView, ArticleView, PayComparison, CrossCouncil. | open |
-| A2 | High | 15 pages have zero tests | Only 4 files tested (86 tests). Spending, Budgets, Home are highest-risk gaps. | open |
-| A3 | Medium | Missing `useMemo` on chart data | Budgets.jsx (5 transforms), Home.jsx, PayComparison.jsx recalculate every render. | open |
-| A4 | Medium | Accessibility gaps in 10+ pages | Missing ARIA labels, no `aria-expanded` on collapsibles, no semantic landmarks. | open |
+| A1 | High | 8 pages ignore `useData` errors | All 15 pages now handle errors with consistent error UI. | fixed |
+| A2 | High | 15 pages have zero tests | 7 test files, 103 tests. Added Home, Spending, ErrorBoundary. | fixed |
+| A3 | Medium | Missing `useMemo` on chart data | useMemo added to Home, Budgets, PayComparison chart transforms. | fixed |
+| A4 | Medium | Accessibility gaps in 10+ pages | ARIA labels, tab roles, aria-expanded added to key components. | fixed |
 | A5 | Medium | `MyArea.jsx` setTimeout leak | Line 60: no cleanup ref — scroll attempt on unmounted component. | open |
 | A6 | Medium | No E2E or integration tests | No Playwright/Cypress. Cross-page workflows untested. | open |
 | A10 | Low | No breadcrumb schema markup | ArticleView has article JSON-LD but no breadcrumb structured data. | fixed |
