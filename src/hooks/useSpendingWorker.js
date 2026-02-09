@@ -11,9 +11,8 @@ function resolveUrl(url) {
 /**
  * React hook that manages a spending data Web Worker.
  *
- * The Worker holds the entire spending dataset (20-40MB) in its own thread.
- * This hook sends INIT/QUERY/EXPORT commands and receives results.
- * Only the current page slice (~50-500 records) crosses the postMessage boundary.
+ * Supports v3 chunked mode (year-by-year loading) and v2/v1 monolith mode.
+ * In chunked mode, only the latest year is loaded initially (~4-8MB vs 20-40MB).
  *
  * @returns {{
  *   loading: boolean,
@@ -24,6 +23,14 @@ function resolveUrl(url) {
  *   totalRecords: number,
  *   query: (params: object) => void,
  *   exportCSV: (params: object) => void,
+ *   yearManifest: object|null,
+ *   loadedYears: string[],
+ *   yearLoading: string|null,
+ *   allYearsLoaded: boolean,
+ *   latestYear: string|null,
+ *   chunked: boolean,
+ *   loadYear: (year: string) => void,
+ *   loadAllYears: () => void,
  * }}
  */
 export function useSpendingWorker() {
@@ -39,6 +46,14 @@ export function useSpendingWorker() {
   const [results, setResults] = useState(null)
   const [totalRecords, setTotalRecords] = useState(0)
 
+  // v3 chunked state
+  const [yearManifest, setYearManifest] = useState(null)
+  const [loadedYears, setLoadedYears] = useState([])
+  const [yearLoading, setYearLoading] = useState(null)
+  const [allYearsLoaded, setAllYearsLoaded] = useState(false)
+  const [latestYear, setLatestYear] = useState(null)
+  const [chunked, setChunked] = useState(false)
+
   // Create worker on mount, terminate on unmount
   useEffect(() => {
     let worker
@@ -48,7 +63,6 @@ export function useSpendingWorker() {
         { type: 'module' }
       )
     } catch (err) {
-      // Workers not supported (very rare in 2026, but handle gracefully)
       setError(new Error('Web Workers not supported in this browser'))
       setLoading(false)
       return
@@ -68,7 +82,30 @@ export function useSpendingWorker() {
           setFilterOptions(msg.filterOptions)
           setTotalRecords(msg.totalRecords)
           setReady(true)
+          if (msg.chunked) {
+            setChunked(true)
+            setYearManifest(msg.yearManifest || null)
+            setLatestYear(msg.latestYear || null)
+            setLoadedYears(msg.loadedYears || [])
+          }
           // Don't clear loading yet — wait for first RESULTS
+          break
+
+        case 'YEAR_LOADING':
+          setYearLoading(msg.year)
+          break
+
+        case 'YEAR_LOADED':
+          setLoadedYears([...(msg.loadedYears || [])])
+          setTotalRecords(msg.totalInMemory)
+          setYearLoading(null)
+          break
+
+        case 'ALL_YEARS_LOADED':
+          setLoadedYears([...(msg.loadedYears || [])])
+          setTotalRecords(msg.totalInMemory)
+          setAllYearsLoaded(true)
+          setYearLoading(null)
           break
 
         case 'RESULTS': {
@@ -87,7 +124,6 @@ export function useSpendingWorker() {
         }
 
         case 'EXPORT_RESULT': {
-          // Trigger download from the CSV string
           const blob = new Blob([msg.csv], { type: 'text/csv' })
           const url = URL.createObjectURL(blob)
           const a = document.createElement('a')
@@ -101,6 +137,7 @@ export function useSpendingWorker() {
         case 'ERROR':
           setError(new Error(msg.message))
           setLoading(false)
+          setYearLoading(null)
           break
       }
     }
@@ -110,7 +147,7 @@ export function useSpendingWorker() {
       setLoading(false)
     }
 
-    // Initialize: tell worker to fetch and parse spending.json
+    // Initialize: worker tries spending-index.json first, falls back to spending.json
     worker.postMessage({
       type: 'INIT',
       url: resolveUrl('/data/spending.json'),
@@ -124,8 +161,7 @@ export function useSpendingWorker() {
   }, [])
 
   /**
-   * Send a query to the worker. Debounced by 100ms to avoid
-   * over-querying during rapid filter changes (typing in search box).
+   * Send a query to the worker. Debounced by 100ms.
    */
   const query = useCallback((params) => {
     if (!workerRef.current) return
@@ -144,7 +180,6 @@ export function useSpendingWorker() {
 
   /**
    * Request CSV export from the worker.
-   * Worker generates CSV string, main thread creates blob + download.
    */
   const exportCSV = useCallback((params) => {
     if (!workerRef.current) return
@@ -158,6 +193,22 @@ export function useSpendingWorker() {
     })
   }, [])
 
+  /**
+   * Load a specific year's data chunk (v3 only).
+   */
+  const loadYear = useCallback((year) => {
+    if (!workerRef.current) return
+    workerRef.current.postMessage({ type: 'LOAD_YEAR', year })
+  }, [])
+
+  /**
+   * Load all remaining year chunks progressively (v3 only).
+   */
+  const loadAllYears = useCallback(() => {
+    if (!workerRef.current) return
+    workerRef.current.postMessage({ type: 'LOAD_ALL_YEARS' })
+  }, [])
+
   return {
     loading,
     ready,
@@ -167,5 +218,14 @@ export function useSpendingWorker() {
     totalRecords,
     query,
     exportCSV,
+    // v3 chunked
+    yearManifest,
+    loadedYears,
+    yearLoading,
+    allYearsLoaded,
+    latestYear,
+    chunked,
+    loadYear,
+    loadAllYears,
   }
 }

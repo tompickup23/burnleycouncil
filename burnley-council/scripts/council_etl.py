@@ -906,6 +906,49 @@ def export_council(records, metadata, insights, council_id):
         json.dump(spending_output, f)
     print(f"  spending.json (v2): {len(clean_records)} records, {sum(len(v) for v in filter_sets.values())} filter values → {output_dir / 'spending.json'}")
 
+    # ── Year-chunked files for mobile (v3 progressive loading) ──
+    by_year = {}
+    for r in clean_records:
+        fy = r.get('financial_year', 'unknown')
+        by_year.setdefault(fy, []).append(r)
+
+    years_manifest = {}
+    sorted_years = sorted(by_year.keys())
+    for fy in sorted_years:
+        year_records = by_year[fy]
+        fy_slug = fy.replace('/', '-')  # "2024/25" → "2024-25"
+        filename = f"spending-{fy_slug}.json"
+        total_spend = sum(abs(float(r.get('amount', 0))) for r in year_records)
+        years_manifest[fy] = {
+            "file": filename,
+            "record_count": len(year_records),
+            "total_spend": round(total_spend, 2),
+        }
+        with open(output_dir / filename, 'w') as f:
+            json.dump(year_records, f)
+
+    latest_year = sorted_years[-1] if sorted_years else None
+
+    spending_index = {
+        "meta": {
+            "version": 3,
+            "council_id": council_id,
+            "record_count": len(clean_records),
+            "chunked": True,
+        },
+        "filterOptions": {
+            k: sorted(v) for k, v in filter_sets.items()
+        },
+        "years": years_manifest,
+        "latest_year": latest_year,
+    }
+
+    with open(output_dir / "spending-index.json", 'w') as f:
+        json.dump(spending_index, f)
+    print(f"  spending-index.json (v3): {len(years_manifest)} year chunks, latest={latest_year}")
+    for fy, info in sorted(years_manifest.items()):
+        print(f"    {info['file']}: {info['record_count']} records, £{info['total_spend']:,.0f}")
+
     with open(output_dir / "metadata.json", 'w') as f:
         json.dump(metadata, f, indent=2)
     print(f"  metadata.json → {output_dir / 'metadata.json'}")

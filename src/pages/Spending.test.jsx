@@ -101,6 +101,15 @@ function workerMock(overrides = {}) {
     totalRecords: 2,
     query: vi.fn(),
     exportCSV: vi.fn(),
+    // v3 chunked fields
+    yearManifest: null,
+    loadedYears: [],
+    yearLoading: null,
+    allYearsLoaded: false,
+    latestYear: null,
+    chunked: false,
+    loadYear: vi.fn(),
+    loadAllYears: vi.fn(),
     ...overrides,
   }
 }

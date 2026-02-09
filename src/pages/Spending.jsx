@@ -46,7 +46,10 @@ function Spending() {
   const councilId = config.council_id || 'council'
 
   // Web Worker handles all heavy computation off the main thread
-  const { loading, error, filterOptions, results, totalRecords, query, exportCSV } = useSpendingWorker()
+  const {
+    loading, error, filterOptions, results, totalRecords, query, exportCSV,
+    yearManifest, loadedYears, yearLoading, allYearsLoaded, latestYear, chunked, loadYear, loadAllYears,
+  } = useSpendingWorker()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('table')
@@ -115,6 +118,37 @@ function Spending() {
     document.title = `Spending Explorer | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
   }, [councilName])
+
+  // v3 chunked: default to latest financial year for fast initial load
+  const hasSetDefaultYear = useRef(false)
+  useEffect(() => {
+    if (chunked && latestYear && !hasSetDefaultYear.current && !searchParams.get('financial_year')) {
+      hasSetDefaultYear.current = true
+      setParam('financial_year', latestYear)
+    }
+  }, [chunked, latestYear, searchParams, setParam])
+
+  // v3 chunked: auto-load year when user selects one that isn't loaded yet
+  useEffect(() => {
+    if (!chunked || !yearManifest) return
+    const fy = filters.financial_year
+    if (fy && !loadedYears.includes(fy)) {
+      loadYear(fy)
+    }
+    if (!fy && !allYearsLoaded) {
+      // "All Years" selected — load remaining years
+      loadAllYears()
+    }
+  }, [filters.financial_year, chunked, yearManifest, loadedYears, allYearsLoaded, loadYear, loadAllYears])
+
+  // Re-query after a year finishes loading (new data available in worker)
+  const prevLoadedCount = useRef(0)
+  useEffect(() => {
+    if (loadedYears.length > prevLoadedCount.current) {
+      prevLoadedCount.current = loadedYears.length
+      query({ filters, search, sortField, sortDir, page, pageSize })
+    }
+  }, [loadedYears, filters, search, sortField, sortDir, page, pageSize, query])
 
   // Send query to worker whenever filter state changes
   useEffect(() => {
@@ -258,6 +292,19 @@ function Spending() {
               Clear all filters
             </button>
           )}
+        </div>
+      )}
+
+      {/* Year loading indicator (v3 chunked mode) */}
+      {yearLoading && (
+        <div className="year-loading-banner">
+          <div className="year-loading-spinner" />
+          Loading {yearLoading} data...
+        </div>
+      )}
+      {chunked && !filters.financial_year && !allYearsLoaded && !yearLoading && loadedYears.length > 0 && (
+        <div className="year-loading-banner year-loading-info">
+          Showing {loadedYears.length} of {yearManifest ? Object.keys(yearManifest).length : '?'} years — loading remaining data...
         </div>
       )}
 

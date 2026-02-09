@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 9 February 2026
+> Last updated: 9 February 2026 (evening session)
 
 ## Priority 1 — Broken / Blocking
 
@@ -13,7 +13,7 @@
 ## Priority 2 — High Impact
 
 - [ ] **Set up monitoring/alerting** — No alerting exists. aws-2 died unnoticed. Free UptimeRobot (50 monitors) pinging 4 council sites + 2 servers would alert within 5 minutes.
-- [ ] **Split spending.json for mobile** — Pendle's spending.json is 40MB. Mobile users download the entire file. Split into year-chunked or paginated files at the ETL level.
+- [x] **Split spending.json for mobile** — ✅ Done (9 Feb 2026). ETL generates v3 year-chunked files: spending-index.json + spending-YYYY-YY.json per year. Worker tries chunked first, falls back to monolith. Latest year auto-loaded (~4-8MB vs 21-40MB). Progressive loading for older years.
 - [ ] **VPS backup strategy** — vps-main runs everything (Clawdbot, email, CRM, clawd-worker) with no backup. A `docker compose` export + rsync to Oracle (vps-news) would protect against Hostinger outage.
 - [ ] **Add analytics to council sites** — Zero visibility on usage. Free options: Umami (self-hosted on Oracle), Cloudflare Web Analytics (free, cookieless), or Plausible.
 
@@ -27,7 +27,7 @@
 - [ ] **Rebuild newslancashire.co.uk deploy** — Astro build dir was deleted (broken). Pipeline now exports 655 articles but can't deploy to Cloudflare Pages. Need to either rebuild Astro site or create a simple static HTML generator.
 - [ ] **Push newslancashire repo to GitHub** — Git repo initialised on vps-news (2 commits). Need to create `tompickup23/newslancashire` private repo on GitHub, add SSH deploy key, push. One-time 5-minute task.
 - [ ] **News Lancashire Tier 2 improvements** — AI writing quality: switch to single-article rewrites, better prompts, rewrite validation, humaniser pass. See HANDOVER-NEWSLANCASHIRE.md for full list.
-- [ ] **Commit accumulated work** — Multiple sessions of uncommitted changes. Need careful staging (avoid supplier_profiles.json 600K+ line files). iPhone branch merged, bug fixes applied — ready for commit.
+- [x] **Commit accumulated work** — ✅ Done (9 Feb 2026). 3 clean commits: docs/CI/CD/git hygiene, data across 4 councils, frontend features (Web Worker, DogeInvestigation, tests). Pushed to main, CI/CD auto-deployed.
 - [ ] **Update newsburnley.co.uk DNS** — CNAME set to newsburnley.pages.dev. Remove old A records pointing to aws-1 (51.20.51.127). Waiting for Cloudflare domain verification.
 
 ## Priority 4 — Content & Features
@@ -82,3 +82,10 @@
 - [x] Fixed Meetings.jsx crash — `how_to_attend` data undefined, added defensive guards (9 Feb 2026)
 - [x] Rebuilt and deployed all 4 councils — all pages verified working on live site (9 Feb 2026)
 - [x] Cleaned up 998MB stale Claude session cache (9 Feb 2026)
+- [x] Added spending Web Worker — all data processing (filter, sort, aggregate, chart) off main thread (9 Feb 2026)
+- [x] Built DogeInvestigation page with timeline, risk scoring, automated analysis (9 Feb 2026)
+- [x] Added 168 unit tests across all pages + e2e smoke test (9 Feb 2026)
+- [x] Committed all accumulated work: 3 clean commits (docs/CI/CD, data, frontend), pushed to main (9 Feb 2026)
+- [x] Split spending.json for mobile: v3 year-chunked format, progressive loading, 75-78% initial download savings (9 Feb 2026)
+- [x] Removed unused @tanstack/react-query dependency (9 Feb 2026)
+- [x] ETL v2 format with pre-computed filterOptions (9 Feb 2026)

@@ -1,12 +1,13 @@
 /**
  * Web Worker for spending data processing.
  *
- * Holds the entire spending dataset in worker memory.
- * Main thread sends commands (INIT, QUERY, EXPORT).
- * Worker returns only paginated slices + aggregated stats.
+ * Supports three loading modes:
+ *   v3 (chunked): Fetches spending-index.json first, then loads year chunks on demand
+ *   v2 (monolith): Fetches spending.json with pre-computed filterOptions
+ *   v1 (legacy):   Fetches spending.json as plain array
  *
- * This keeps 20-40MB of JSON data OFF the main thread,
- * eliminating all UI blocking from parse/filter/sort/aggregate.
+ * Main thread sends: INIT, QUERY, EXPORT, LOAD_YEAR, LOAD_ALL_YEARS
+ * Worker returns:    READY, RESULTS, EXPORT_RESULT, YEAR_LOADED, ALL_YEARS_LOADED, ERROR
  */
 
 import {
@@ -20,51 +21,93 @@ import {
 // --- Worker State ---
 let allRecords = []
 let filterOptions = null
+let yearManifest = null      // v3: { "2024/25": { file, record_count, total_spend }, ... }
+let loadedYears = new Set()  // v3: which years have been fetched
+let latestYear = null        // v3: most recent year
+let baseUrl = ''             // v3: base URL for resolving year chunk paths
+let isChunked = false        // v3 active?
 
-/**
- * Resolve URL relative to worker's base.
- * Workers don't have import.meta.env.BASE_URL, so the main thread
- * passes the fully resolved URL in the INIT message.
- */
 async function fetchAndParse(url) {
   const response = await fetch(url)
   if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`)
   return response.json()
 }
 
+/** Try fetching a URL, return null on 404 */
+async function tryFetch(url) {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) return null
+    return response.json()
+  } catch {
+    return null
+  }
+}
+
+/** Compute months from loaded records (not pre-computed in ETL) */
+function computeMonths(records) {
+  const months = new Set()
+  for (const r of records) {
+    if (r.date) {
+      const d = new Date(r.date)
+      if (!isNaN(d.getTime())) {
+        months.add(d.toLocaleString('en-GB', { month: 'long', year: 'numeric' }))
+      }
+    }
+  }
+  return [...months].sort()
+}
+
 /**
- * Handle INIT: fetch + parse spending.json, build filter options.
+ * Handle INIT: try v3 chunked first, fall back to v2/v1 monolith.
+ * url = fully resolved path to spending.json (from main thread)
  */
 async function handleInit(url) {
   self.postMessage({ type: 'LOADING' })
 
   try {
+    // Derive index URL: /data/spending.json → /data/spending-index.json
+    const indexUrl = url.replace(/spending\.json$/, 'spending-index.json')
+    baseUrl = url.replace(/spending\.json$/, '')
+
+    // Try v3 chunked format first
+    const indexData = await tryFetch(indexUrl)
+
+    if (indexData && indexData.meta?.version >= 3 && indexData.meta?.chunked) {
+      // ── v3: Chunked mode ──
+      isChunked = true
+      yearManifest = indexData.years || {}
+      latestYear = indexData.latest_year || null
+      filterOptions = indexData.filterOptions || {}
+      if (!filterOptions.quarters) filterOptions.quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+      if (!filterOptions.months) filterOptions.months = []
+
+      self.postMessage({
+        type: 'READY',
+        filterOptions,
+        totalRecords: indexData.meta.record_count,
+        yearManifest,
+        latestYear,
+        loadedYears: [],
+        chunked: true,
+      })
+
+      // Auto-load the latest year
+      if (latestYear && yearManifest[latestYear]) {
+        await loadYearChunk(latestYear)
+      }
+      return
+    }
+
+    // ── v2/v1: Monolith fallback ──
     const data = await fetchAndParse(url)
 
-    // Support both v2 format (object with meta/filterOptions/records)
-    // and v1 format (plain array)
     if (data && data.meta?.version === 2) {
       allRecords = data.records || []
-      // Use pre-computed filter options from ETL, but still compute months
-      // (months are date-derived and not stored in v2 format)
       filterOptions = data.filterOptions || {}
-      if (!filterOptions.months) {
-        const months = new Set()
-        for (const r of allRecords) {
-          if (r.date) {
-            const d = new Date(r.date)
-            if (!isNaN(d.getTime())) {
-              months.add(d.toLocaleString('en-GB', { month: 'long', year: 'numeric' }))
-            }
-          }
-        }
-        filterOptions.months = [...months].sort()
-      }
-      if (!filterOptions.quarters) {
-        filterOptions.quarters = ['Q1', 'Q2', 'Q3', 'Q4']
-      }
+      if (!filterOptions.months) filterOptions.months = computeMonths(allRecords)
+      if (!filterOptions.quarters) filterOptions.quarters = ['Q1', 'Q2', 'Q3', 'Q4']
     } else {
-      // v1 format: plain array — scan for filter options
       allRecords = Array.isArray(data) ? data : []
       filterOptions = buildFilterOptions(allRecords)
     }
@@ -73,6 +116,7 @@ async function handleInit(url) {
       type: 'READY',
       filterOptions,
       totalRecords: allRecords.length,
+      chunked: false,
     })
   } catch (err) {
     self.postMessage({ type: 'ERROR', message: err.message })
@@ -80,25 +124,86 @@ async function handleInit(url) {
 }
 
 /**
+ * Load a single year chunk and merge into allRecords.
+ */
+async function loadYearChunk(year) {
+  if (loadedYears.has(year)) {
+    self.postMessage({
+      type: 'YEAR_LOADED',
+      year,
+      loadedYears: [...loadedYears],
+      totalInMemory: allRecords.length,
+    })
+    return
+  }
+
+  const info = yearManifest[year]
+  if (!info) return
+
+  self.postMessage({ type: 'YEAR_LOADING', year })
+
+  try {
+    const records = await fetchAndParse(baseUrl + info.file)
+    if (Array.isArray(records)) {
+      allRecords = allRecords.concat(records)
+      loadedYears.add(year)
+
+      // Update months for newly loaded records
+      const newMonths = computeMonths(records)
+      const existingMonths = new Set(filterOptions.months || [])
+      for (const m of newMonths) existingMonths.add(m)
+      filterOptions.months = [...existingMonths].sort()
+    }
+
+    self.postMessage({
+      type: 'YEAR_LOADED',
+      year,
+      loadedYears: [...loadedYears],
+      totalInMemory: allRecords.length,
+    })
+  } catch (err) {
+    self.postMessage({ type: 'ERROR', message: `Failed to load ${year}: ${err.message}` })
+  }
+}
+
+/**
+ * Handle LOAD_YEAR: load a specific year on demand.
+ */
+async function handleLoadYear({ year }) {
+  await loadYearChunk(year)
+}
+
+/**
+ * Handle LOAD_ALL_YEARS: progressively load all remaining years.
+ */
+async function handleLoadAllYears() {
+  const allYears = Object.keys(yearManifest).sort()
+  for (const year of allYears) {
+    if (!loadedYears.has(year)) {
+      await loadYearChunk(year)
+    }
+  }
+  self.postMessage({
+    type: 'ALL_YEARS_LOADED',
+    loadedYears: [...loadedYears],
+    totalInMemory: allRecords.length,
+  })
+}
+
+/**
  * Handle QUERY: filter, sort, paginate, compute stats + charts.
- * Returns only the current page slice + aggregated data.
  */
 function handleQuery({ queryId, filters, search, sortField, sortDir, page, pageSize }) {
   try {
-    // Filter
     const filtered = filterRecords(allRecords, filters || {}, search || '')
-
-    // Sort
     const sorted = sortRecords(filtered, sortField || 'date', sortDir || 'desc')
 
-    // Paginate
     const p = page || 1
     const ps = pageSize || 200
     const start = (p - 1) * ps
     const paginatedData = sorted.slice(start, start + ps)
     const totalPages = Math.ceil(sorted.length / ps)
 
-    // Compute stats + chart data in a single pass over filtered (not sorted) data
     const { stats, chartData } = computeAll(filtered)
 
     self.postMessage({
@@ -142,6 +247,12 @@ self.onmessage = function (e) {
       break
     case 'EXPORT':
       handleExport(payload)
+      break
+    case 'LOAD_YEAR':
+      handleLoadYear(payload)
+      break
+    case 'LOAD_ALL_YEARS':
+      handleLoadAllYears()
       break
     default:
       console.warn('Unknown worker message type:', type)
