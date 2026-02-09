@@ -286,6 +286,7 @@ function ArticleView() {
               alt={article.title}
               loading="lazy"
               itemProp="image"
+              onError={(e) => { e.target.parentElement.style.display = 'none' }}
             />
           </div>
         )}

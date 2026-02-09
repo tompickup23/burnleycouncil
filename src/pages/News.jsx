@@ -82,7 +82,12 @@ function News() {
           >
             {article.image && (
               <div className="article-card-image">
-                <img src={article.image} alt={article.title || 'Article image'} loading="lazy" />
+                <img
+                  src={article.image}
+                  alt={article.title || 'Article image'}
+                  loading="lazy"
+                  onError={(e) => { e.target.style.display = 'none' }}
+                />
               </div>
             )}
             <div className="article-card-content">

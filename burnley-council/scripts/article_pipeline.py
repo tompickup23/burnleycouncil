@@ -70,12 +70,12 @@ for alt in [
 COUNCILS = ['burnley', 'hyndburn', 'pendle', 'rossendale']
 
 ARTICLE_IMAGES = {
-    'spending': '/images/articles/spending.jpg',
+    'spending': '/images/articles/finance.jpg',
     'investigation': '/images/articles/documents.jpg',
     'supplier': '/images/articles/outsourcing.jpg',
     'governance': '/images/articles/government.jpg',
-    'budget': '/images/articles/budget.jpg',
-    'services': '/images/articles/services.jpg',
+    'budget': '/images/articles/finance.jpg',
+    'services': '/images/articles/council-meeting.jpg',
     'default': '/images/articles/documents.jpg',
 }
 
