@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { TrendingUp, TrendingDown, AlertTriangle, PiggyBank, Building, Landmark, HardHat, Wallet, BarChart3, Info, ChevronDown, ChevronUp } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { formatCurrency, formatPercent } from '../utils/format'
@@ -62,7 +62,7 @@ function Budgets() {
   const budgetUrls = hasBudgets
     ? ['/data/budgets.json', '/data/budget_insights.json']
     : ['/data/budgets_govuk.json', '/data/revenue_trends.json']
-  const { data, loading } = useData(budgetUrls)
+  const { data, loading, error } = useData(budgetUrls)
   const [budgetData, insights] = data || [null, null]
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
@@ -85,6 +85,15 @@ function Budgets() {
 
   if (loading) {
     return <LoadingState message="Loading budget data..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
   }
 
   // For councils without detailed budgets.json, render a simpler GOV.UK trends view
@@ -112,11 +121,11 @@ function Budgets() {
   const efficiency = insights?.efficiency_metrics || {}
 
   // Revenue chart data
-  const revenueChartData = revenueBudgets.map(b => ({
+  const revenueChartData = useMemo(() => revenueBudgets.map(b => ({
     year: b.financial_year,
     budget: b.net_revenue_budget / 1_000_000,
     councilTax: b.council_tax?.council_element ?? b.council_tax?.[`${config.council_id}_element`] ?? b.council_tax?.burnley_element ?? 0,
-  }))
+  })), [revenueBudgets, config])
 
   // Departmental data for selected year
   const selectedBudget = revenueBudgets[selectedYear] || revenueBudgets[revenueBudgets.length - 1]
@@ -144,24 +153,24 @@ function Budgets() {
   }
 
   // Pie chart data for selected year's departments
-  const pieData = Object.entries(deptData)
+  const pieData = useMemo(() => Object.entries(deptData)
     .filter(([name, val]) => val > 0 && !EXCLUDED_DEPARTMENTS.has(name))
     .sort((a, b) => b[1] - a[1])
     .map(([name, val], i) => ({
       name: name.replace('(from 01/04/2025)', '').replace('(back in-house 01/04/2025)', '').trim(),
       value: val,
       color: DEPT_COLORS[i % DEPT_COLORS.length],
-    }))
+    })), [deptData])
 
   // Capital programme chart data
   const latestCapital = capitalProgrammes[capitalProgrammes.length - 1]
-  const capitalCategoryData = latestCapital?.categories ? Object.entries(latestCapital.categories).map(([name, data], i) => ({
+  const capitalCategoryData = useMemo(() => latestCapital?.categories ? Object.entries(latestCapital.categories).map(([name, data], i) => ({
     name: name.length > 15 ? name.substring(0, 15) + '...' : name,
     fullName: name,
     value: data.total / 1_000_000,
     note: data.note || '',
     color: DEPT_COLORS[i % DEPT_COLORS.length],
-  })) : []
+  })) : [], [latestCapital])
 
   // Capital programme timeline
   const capitalTimelineData = capitalProgrammes.map(cp => ({
@@ -201,8 +210,10 @@ function Budgets() {
       </div>
 
       {/* Tab Navigation */}
-      <nav className="budget-tabs">
+      <nav className="budget-tabs" role="tablist" aria-label="Budget sections">
         <button
+          role="tab"
+          aria-selected={activeTab === 'revenue'}
           className={`tab-btn ${activeTab === 'revenue' ? 'active' : ''}`}
           onClick={() => setActiveTab('revenue')}
         >
@@ -210,6 +221,8 @@ function Budgets() {
           Revenue Budget
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === 'departments'}
           className={`tab-btn ${activeTab === 'departments' ? 'active' : ''}`}
           onClick={() => setActiveTab('departments')}
         >
@@ -217,6 +230,8 @@ function Budgets() {
           Departmental Breakdown
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === 'capital'}
           className={`tab-btn ${activeTab === 'capital' ? 'active' : ''}`}
           onClick={() => setActiveTab('capital')}
         >
@@ -224,6 +239,8 @@ function Budgets() {
           Capital Programme
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === 'treasury'}
           className={`tab-btn ${activeTab === 'treasury' ? 'active' : ''}`}
           onClick={() => setActiveTab('treasury')}
         >
@@ -426,13 +443,15 @@ function Budgets() {
       {activeTab === 'departments' && (
         <div className="tab-content">
           {/* Year Selector */}
-          <div className="year-selector">
+          <div className="year-selector" role="group" aria-label="Select financial year">
             <span className="year-label">Showing:</span>
             {revenueBudgets.map((b, i) => (
               <button
                 key={i}
                 className={`year-btn ${selectedYear === i ? 'active' : ''}`}
                 onClick={() => setSelectedYear(i)}
+                aria-label={`Show ${b.financial_year} budget`}
+                aria-pressed={selectedYear === i}
               >
                 {b.financial_year}
               </button>
@@ -515,7 +534,8 @@ function Budgets() {
                       </tr>
                     )
                   })}
-                  {/* Earmarked Reserves row */}
+                  {/* Earmarked Reserves row — hidden when no year has data */}
+                  {revenueBudgets.some(b => b.departments?.['Earmarked Reserves'] != null && b.departments['Earmarked Reserves'] !== 0) && (
                   <tr className="reserves-row">
                     <td className="dept-name">Earmarked Reserves</td>
                     {revenueBudgets.map((b, i) => (
@@ -525,6 +545,7 @@ function Budgets() {
                     ))}
                     <td></td>
                   </tr>
+                  )}
                   {/* Total row */}
                   <tr className="total-row">
                     <td className="dept-name"><strong>Total Net Revenue Budget</strong></td>

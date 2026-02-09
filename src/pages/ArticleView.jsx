@@ -13,7 +13,7 @@ function ArticleView() {
   const councilName = config.council_name || 'Council'
   const siteName = `${councilName} Council Transparency`
   const { articleId } = useParams()
-  const { data: index, loading: indexLoading } = useData('/data/articles-index.json')
+  const { data: index, loading: indexLoading, error: indexError } = useData('/data/articles-index.json')
   const [content, setContent] = useState(null)
   const [contentLoading, setContentLoading] = useState(true)
 
@@ -124,6 +124,39 @@ function ArticleView() {
         articleSection: article.category || 'News',
         keywords: article.tags?.join(', ') || ''
       })
+
+      // Breadcrumb JSON-LD structured data
+      const siteUrl = config.site_url || window.location.origin
+      let breadcrumbScript = document.getElementById('breadcrumb-jsonld')
+      if (!breadcrumbScript) {
+        breadcrumbScript = document.createElement('script')
+        breadcrumbScript.id = 'breadcrumb-jsonld'
+        breadcrumbScript.type = 'application/ld+json'
+        document.head.appendChild(breadcrumbScript)
+      }
+      breadcrumbScript.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: siteUrl
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'News',
+            item: `${siteUrl}/news`
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: article.title
+          }
+        ]
+      })
     }
 
     return () => {
@@ -131,11 +164,22 @@ function ArticleView() {
       // Clean up JSON-LD
       const ldScript = document.getElementById('article-jsonld')
       if (ldScript) ldScript.remove()
+      const breadcrumbScript = document.getElementById('breadcrumb-jsonld')
+      if (breadcrumbScript) breadcrumbScript.remove()
     }
   }, [article])
 
   if (indexLoading || contentLoading) {
     return <LoadingState message="Loading article..." />
+  }
+
+  if (indexError) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
   }
 
   if (!article) {

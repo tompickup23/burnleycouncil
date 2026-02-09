@@ -54,6 +54,7 @@ function SearchableSelect({ label, value, options, onChange, placeholder }) {
           onClick={() => setIsOpen(!isOpen)}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
+          aria-label={`${label || 'Select'}: ${value || placeholder || 'None selected'}`}
         >
           <span className={value ? '' : 'placeholder'}>{selectedLabel}</span>
           <ChevronDown size={16} className={`select-chevron ${isOpen ? 'open' : ''}`} />

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.postcodes.io;" />
 
     <!-- Primary Meta Tags — parameterised at build time by councilDataPlugin -->
     <title>%COUNCIL_NAME% Council Transparency — AI DOGE</title>
@@ -81,6 +82,8 @@
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://api.postcodes.io" />
+    <link rel="dns-prefetch" href="https://api.postcodes.io" />
   </head>
   <body>
     <noscript>

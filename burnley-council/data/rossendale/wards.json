@@ -1,82 +1,186 @@
-[
-  {
+{
+  "Bacup": {
     "name": "Bacup",
     "councillors": [
-      { "name": "David Hancock", "party": "Labour", "colour": "#E4003B" },
-      { "name": "James Eaton", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Judith Driver", "party": "Labour", "colour": "#E4003B" }
-    ]
+      "David Hancock",
+      "James Eaton",
+      "Judith Driver"
+    ],
+    "councillor_ids": [
+      "dhancock",
+      "jeaton",
+      "jdriver"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#E4003B"
   },
-  {
+  "Britannia and Lee Mill": {
     "name": "Britannia and Lee Mill",
     "councillors": [
-      { "name": "Andrew Walmsley", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Danielle Ashworth", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Michelle Smith", "party": "Labour", "colour": "#E4003B" }
-    ]
+      "Andrew Walmsley",
+      "Danielle Ashworth",
+      "Michelle Smith"
+    ],
+    "councillor_ids": [
+      "awalmsley",
+      "dashworth",
+      "msmith"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#E4003B"
   },
-  {
+  "Goodshaw and Cribden": {
     "name": "Goodshaw and Cribden",
     "councillors": [
-      { "name": "Alyson Barnes", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Christine Gill", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Greg Bleakley", "party": "Labour", "colour": "#E4003B" }
-    ]
+      "Alyson Barnes",
+      "Christine Gill",
+      "Greg Bleakley"
+    ],
+    "councillor_ids": [
+      "abarnes",
+      "cgill",
+      "gbleakley"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#E4003B"
   },
-  {
+  "Greenfield and Eden": {
     "name": "Greenfield and Eden",
     "councillors": [
-      { "name": "Anne Cartner Cheetham", "party": "Conservative", "colour": "#0087DC" },
-      { "name": "Neil Looker", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Simon Holland", "party": "Conservative", "colour": "#0087DC" }
-    ]
+      "Anne Cartner Cheetham",
+      "Neil Looker",
+      "Simon Holland"
+    ],
+    "councillor_ids": [
+      "acheetham",
+      "nlooker",
+      "sholland"
+    ],
+    "parties": [
+      "Conservative",
+      "Labour"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
-  {
+  "Hareholme and Waterfoot": {
     "name": "Hareholme and Waterfoot",
     "councillors": [
-      { "name": "Annie McMahon", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Nick Harris", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Vacant", "party": "Vacant", "colour": "#DDDDDD" }
-    ]
+      "Annie McMahon",
+      "Nick Harris",
+      "Vacant"
+    ],
+    "councillor_ids": [
+      "amcmahon",
+      "nharris",
+      "vacant"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#E4003B"
   },
-  {
+  "Haslingden": {
     "name": "Haslingden",
     "councillors": [
-      { "name": "Adrian Lythgoe", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Ann Kenyon", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Marilyn Procter", "party": "Labour", "colour": "#E4003B" }
-    ]
+      "Adrian Lythgoe",
+      "Ann Kenyon",
+      "Marilyn Procter"
+    ],
+    "councillor_ids": [
+      "alythgoe",
+      "akenyon",
+      "mprocter"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#E4003B"
   },
-  {
+  "Helmshore": {
     "name": "Helmshore",
     "councillors": [
-      { "name": "Alan Woods", "party": "Conservative", "colour": "#0087DC" },
-      { "name": "Ann Hodgkiss", "party": "Conservative", "colour": "#0087DC" },
-      { "name": "Samara Barnes", "party": "Labour", "colour": "#E4003B" }
-    ]
+      "Alan Woods",
+      "Ann Hodgkiss",
+      "Samara Barnes"
+    ],
+    "councillor_ids": [
+      "awoods",
+      "ahodgkiss",
+      "sbarnes"
+    ],
+    "parties": [
+      "Conservative",
+      "Labour"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
-  {
+  "Longholme": {
     "name": "Longholme",
     "councillors": [
-      { "name": "Liz McInnes", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Matt Norton", "party": "Labour", "colour": "#E4003B" },
-      { "name": "Samantha Harrison", "party": "Labour", "colour": "#E4003B" }
-    ]
+      "Liz McInnes",
+      "Matt Norton",
+      "Samantha Harrison"
+    ],
+    "councillor_ids": [
+      "lmcinnes",
+      "mnorton",
+      "sharrison"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#E4003B"
   },
-  {
+  "Whitewell and Stacksteads": {
     "name": "Whitewell and Stacksteads",
     "councillors": [
-      { "name": "Bob Bauld", "party": "Green", "colour": "#6AB023" },
-      { "name": "John Payne", "party": "Green", "colour": "#6AB023" },
-      { "name": "Julie Adshead", "party": "Green", "colour": "#6AB023" }
-    ]
+      "Bob Bauld",
+      "John Payne",
+      "Julie Adshead"
+    ],
+    "councillor_ids": [
+      "bbauld",
+      "jpayne",
+      "jadshead"
+    ],
+    "parties": [
+      "Green"
+    ],
+    "primary_party": "Green",
+    "color": "#6AB023"
   },
-  {
+  "Whitworth": {
     "name": "Whitworth",
     "councillors": [
-      { "name": "Alan Neal", "party": "Community First", "colour": "#FF6B35" },
-      { "name": "Mackenzie Ritson", "party": "Reform UK", "colour": "#12B6CF" },
-      { "name": "Scott Smith", "party": "Conservative", "colour": "#0087DC" }
-    ]
+      "Alan Neal",
+      "Mackenzie Ritson",
+      "Scott Smith"
+    ],
+    "councillor_ids": [
+      "aneal",
+      "mritson",
+      "ssmith"
+    ],
+    "parties": [
+      "Community First",
+      "Reform UK",
+      "Conservative"
+    ],
+    "primary_party": "Community First",
+    "color": "#FF6B35"
   }
-]
+}

@@ -67,7 +67,7 @@ function Layout({ children }) {
       </a>
 
       {/* Mobile header */}
-      <header className="mobile-header">
+      <header className="mobile-header" role="banner">
         <button
           className="menu-toggle"
           onClick={() => setSidebarOpen(!sidebarOpen)}

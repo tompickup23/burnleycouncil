@@ -8,7 +8,7 @@ import './Politics.css'
 function Politics() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
-  const { data, loading } = useData([
+  const { data, loading, error } = useData([
     '/data/councillors.json',
     '/data/politics_summary.json',
     '/data/wards.json',
@@ -25,6 +25,15 @@ function Politics() {
 
   if (loading) {
     return <LoadingState message="Loading councillor data..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
   }
 
   // Filter councillors

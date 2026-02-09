@@ -1,271 +1,270 @@
 {
-  "council": "rossendale",
-  "record_count": 42536,
-  "total_spend": 63947544.19,
-  "total_credits": -3345806.76,
-  "net_spend": 60601737.43,
-  "unique_suppliers": 1525,
-  "unique_departments": 17,
-  "top_suppliers": [
-    {
-      "name": "CAPITA BUSINESS SERVICES LTD",
-      "total": 5659898.7,
-      "count": 82
-    },
-    {
-      "name": "COVID BUSINESS GRANT",
-      "total": 5380625.23,
-      "count": 873
-    },
-    {
-      "name": "DEPARTMENT FOR LEVELLING UP",
-      "total": 4142602.64,
-      "count": 9
-    },
-    {
-      "name": "BEIS",
-      "total": 2457839.4,
-      "count": 6
-    },
-    {
-      "name": "OZON SOLICITORS",
-      "total": 2036721.64,
-      "count": 10
-    },
-    {
-      "name": "RAPID RECRUIT LTD",
-      "total": 1918331.74,
-      "count": 1529
-    },
-    {
-      "name": "LANCASHIRE COUNTY COUNCIL",
-      "total": 1789731.03,
-      "count": 175
-    },
-    {
-      "name": "ROSSENDALE LEISURE TRUST LTD",
-      "total": 1545038.9,
-      "count": 84
-    },
-    {
-      "name": "ZURICH MUNICIPAL MANAGEMENT SERVICES",
-      "total": 1392389.14,
-      "count": 33
-    },
-    {
-      "name": "POST OFFICE LTD",
-      "total": 1299952.5,
-      "count": 10
-    },
-    {
-      "name": "MOLESWORTH HOTEL LTD",
-      "total": 1279632.0,
-      "count": 601
-    },
-    {
-      "name": "COVID BUSINESS GRANTS",
-      "total": 1035570.76,
-      "count": 178
-    },
-    {
-      "name": "NAME WITHHELD",
-      "total": 1033512.93,
-      "count": 3167
-    },
-    {
-      "name": "NEC SOFTWARE SOLTIONS UK LTD",
-      "total": 1023574.27,
-      "count": 87
-    },
-    {
-      "name": "EDF ENERGY CUSTOMERS LTD RBC",
-      "total": 911385.26,
-      "count": 128
-    },
-    {
-      "name": "NEWLYN PLC",
-      "total": 873513.84,
-      "count": 438
-    },
-    {
-      "name": "CALICO ENTERPRISE LTD (PRINTING)",
-      "total": 867525.31,
-      "count": 25
-    },
-    {
-      "name": "EQUITA LTD",
-      "total": 681985.75,
-      "count": 1275
-    },
-    {
-      "name": "HILL VIEW HOTEL",
-      "total": 639226.0,
-      "count": 572
-    },
-    {
-      "name": "NODE4 LTD",
-      "total": 609952.89,
-      "count": 847
+  "summary": {
+    "total_spend": 63947544.19,
+    "transaction_count": 42536,
+    "unique_suppliers": 1525,
+    "avg_transaction": 1503.36,
+    "median_transaction": 0,
+    "date_range": {
+      "min": "2021-04-01",
+      "max": "2026-02-08"
     }
-  ],
-  "top_departments": [
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "CAPITA BUSINESS SERVICES LTD",
+        "total": 5659898.7,
+        "transactions": 82,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "COVID BUSINESS GRANT",
+        "total": 5380625.23,
+        "transactions": 873,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DEPARTMENT FOR LEVELLING UP",
+        "total": 4142602.64,
+        "transactions": 9,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BEIS",
+        "total": 2457839.4,
+        "transactions": 6,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "OZON SOLICITORS",
+        "total": 2036721.64,
+        "transactions": 10,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "RAPID RECRUIT LTD",
+        "total": 1918331.74,
+        "transactions": 1529,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LANCASHIRE COUNTY COUNCIL",
+        "total": 1789731.03,
+        "transactions": 175,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ROSSENDALE LEISURE TRUST LTD",
+        "total": 1545038.9,
+        "transactions": 84,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ZURICH MUNICIPAL MANAGEMENT SERVICES",
+        "total": 1392389.14,
+        "transactions": 33,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "POST OFFICE LTD",
+        "total": 1299952.5,
+        "transactions": 10,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MOLESWORTH HOTEL LTD",
+        "total": 1279632.0,
+        "transactions": 601,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "COVID BUSINESS GRANTS",
+        "total": 1035570.76,
+        "transactions": 178,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NAME WITHHELD",
+        "total": 1033512.93,
+        "transactions": 3167,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NEC SOFTWARE SOLTIONS UK LTD",
+        "total": 1023574.27,
+        "transactions": 87,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EDF ENERGY CUSTOMERS LTD RBC",
+        "total": 911385.26,
+        "transactions": 128,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NEWLYN PLC",
+        "total": 873513.84,
+        "transactions": 438,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CALICO ENTERPRISE LTD (PRINTING)",
+        "total": 867525.31,
+        "transactions": 25,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EQUITA LTD",
+        "total": 681985.75,
+        "transactions": 1275,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HILL VIEW HOTEL",
+        "total": 639226.0,
+        "transactions": 572,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NODE4 LTD",
+        "total": 609952.89,
+        "transactions": 847,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.572,
+    "total_unique_suppliers": 1525,
+    "single_transaction_suppliers": 0
+  },
+  "efficiency_flags": [],
+  "department_breakdown": [
     {
-      "name": "Customer Services & E-Government",
-      "total": 20044073.14,
+      "department": "Customer Services & E-Government",
+      "spend": 20044073.14,
       "count": 7039
     },
     {
-      "name": "Finance & Property",
-      "total": 11123375.3,
+      "department": "Finance & Property",
+      "spend": 11123375.3,
       "count": 6899
     },
     {
-      "name": "Regeneration",
-      "total": 10897526.85,
+      "department": "Regeneration",
+      "spend": 10897526.85,
       "count": 6767
     },
     {
-      "name": "Operations",
-      "total": 9542566.42,
+      "department": "Operations",
+      "spend": 9542566.42,
       "count": 13140
     },
     {
-      "name": "Corporate Management",
-      "total": 8081545.64,
+      "department": "Corporate Management",
+      "spend": 8081545.64,
       "count": 2110
     },
     {
-      "name": "Covid",
-      "total": 2052636.73,
+      "department": "Covid",
+      "spend": 2052636.73,
       "count": 760
     },
     {
-      "name": "Planning Services",
-      "total": 1291790.63,
+      "department": "Planning Services",
+      "spend": 1291790.63,
       "count": 888
     },
     {
-      "name": "Communities",
-      "total": 1152499.93,
+      "department": "Communities",
+      "spend": 1152499.93,
       "count": 1145
     },
     {
-      "name": "Legal & Democratic Services",
-      "total": 951121.99,
+      "department": "Legal & Democratic Services",
+      "spend": 951121.99,
       "count": 1126
     },
     {
-      "name": "Non-Distributed Costs",
-      "total": 703792.99,
+      "department": "Non-Distributed Costs",
+      "spend": 703792.99,
       "count": 84
     },
     {
-      "name": "Environmental Services",
-      "total": 460701.27,
+      "department": "Environmental Services",
+      "spend": 460701.27,
       "count": 585
     },
     {
-      "name": "People & Policy",
-      "total": 411680.22,
+      "department": "People & Policy",
+      "spend": 411680.22,
       "count": 1744
     },
     {
-      "name": "Regeneration (Housing)",
-      "total": 382602.91,
+      "department": "Regeneration (Housing)",
+      "spend": 382602.91,
       "count": 86
     },
     {
-      "name": "Community & Partnerships",
-      "total": 134903.05,
+      "department": "Community & Partnerships",
+      "spend": 134903.05,
       "count": 34
     },
     {
-      "name": "Building Control",
-      "total": 51784.3,
+      "department": "Building Control",
+      "spend": 51784.3,
       "count": 100
     },
     {
-      "name": "Capital Financing & Interest",
-      "total": 6738.98,
+      "department": "Capital Financing & Interest",
+      "spend": 6738.98,
       "count": 7
     },
     {
-      "name": "Local Land Charges",
-      "total": 4010.6,
+      "department": "Local Land Charges",
+      "spend": 4010.6,
       "count": 22
     }
   ],
-  "by_financial_year": {
-    "2021/22": {
-      "total": 21305466.62,
-      "count": 9958
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2021/22": 21305466.62,
+      "2022/23": 14161749.48,
+      "2023/24": 12986220.43,
+      "2024/25": 10689689.58,
+      "2025/26": 8150224.84
     },
-    "2022/23": {
-      "total": 14161749.48,
-      "count": 9661
-    },
-    "2023/24": {
-      "total": 12986220.43,
-      "count": 8754
-    },
-    "2024/25": {
-      "total": 10689689.58,
-      "count": 8089
-    },
-    "2025/26": {
-      "total": 8150224.84,
-      "count": 6074
+    "transactions_by_year": {
+      "2021/22": 9958,
+      "2022/23": 9661,
+      "2023/24": 8754,
+      "2024/25": 8089,
+      "2025/26": 6074
     }
   },
-  "by_month": {
-    "1": {
-      "total": 3462003.11,
-      "count": 2975
-    },
-    "2": {
-      "total": 7944156.97,
-      "count": 3021
-    },
-    "3": {
-      "total": 6195480.35,
-      "count": 4230
-    },
-    "4": {
-      "total": 6726277.48,
-      "count": 4370
-    },
-    "5": {
-      "total": 7218903.57,
-      "count": 3629
-    },
-    "6": {
-      "total": 7087906.4,
-      "count": 3658
-    },
-    "7": {
-      "total": 5811023.2,
-      "count": 4411
-    },
-    "8": {
-      "total": 3500129.63,
-      "count": 2854
-    },
-    "9": {
-      "total": 3261110.43,
-      "count": 3263
-    },
-    "10": {
-      "total": 4799778.46,
-      "count": 3681
-    },
-    "11": {
-      "total": 4103271.51,
-      "count": 3249
-    },
-    "12": {
-      "total": 7183309.84,
-      "count": 3195
-    }
-  },
-  "generated": "2026-02-08T14:30:57.166554"
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 42536
+  }
 }

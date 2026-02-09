@@ -25,7 +25,7 @@ function CrossCouncil() {
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
 
-  const { data, loading } = useData('/data/cross_council.json')
+  const { data, loading, error } = useData('/data/cross_council.json')
   const comparison = data
 
   useEffect(() => {
@@ -34,6 +34,12 @@ function CrossCouncil() {
   }, [councilName])
 
   if (loading) return <LoadingState message="Loading comparison data..." />
+  if (error) return (
+    <div className="page-error">
+      <h2>Unable to load data</h2>
+      <p>Please try refreshing the page.</p>
+    </div>
+  )
   if (!comparison?.councils?.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
 
   const councils = comparison.councils

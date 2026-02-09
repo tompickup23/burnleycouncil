@@ -52,6 +52,18 @@
 }
 
 /* ─── Reduced motion preference ─── */
+/* ─── Page error state ─── */
+.page-error {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-secondary);
+}
+.page-error h2 {
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* ─── Reduced motion preference ─── */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

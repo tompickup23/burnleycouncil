@@ -31,7 +31,7 @@ function Spending() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
-  const { data: spending, loading } = useData('/data/spending.json')
+  const { data: spending, loading, error } = useData('/data/spending.json')
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('table')
   const [showFilters, setShowFilters] = useState(true)
@@ -284,6 +284,15 @@ function Spending() {
     return <LoadingState message="Loading spending data..." />
   }
 
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
+  }
+
   return (
     <div className="spending-page animate-fade-in">
       <header className="page-header">
@@ -324,6 +333,7 @@ function Spending() {
           className={`filter-toggle ${showFilters ? 'active' : ''}`}
           onClick={() => setShowFilters(!showFilters)}
           aria-expanded={showFilters}
+          aria-label={showFilters ? 'Hide filters' : 'Show filters'}
         >
           <Filter size={18} />
           Filters

@@ -67,11 +67,53 @@ function decodeHtmlEntities(text) {
     .trim()
 }
 
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+/**
+ * Fetch with retry logic for transient network errors.
+ * Retries up to `maxAttempts` times with exponential backoff (1s, 2s, 4s).
+ * Only retries on network errors and 5xx server errors, not on 4xx client errors.
+ */
+async function fetchWithRetry(url, options = {}, maxAttempts = 3) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const res = await fetch(url, options)
+
+      // Don't retry client errors (4xx) — they won't change on retry
+      if (res.status >= 400 && res.status < 500) {
+        throw new Error(`HTTP ${res.status} for ${url}`)
+      }
+
+      // Retry server errors (5xx)
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} for ${url}`)
+      }
+
+      return res
+    } catch (err) {
+      const isLastAttempt = attempt === maxAttempts
+      if (isLastAttempt) {
+        throw err
+      }
+
+      // Don't retry 4xx errors
+      if (err.message.match(/HTTP 4\d{2}/)) {
+        throw err
+      }
+
+      const delayMs = Math.pow(2, attempt - 1) * 1000 // 1s, 2s, 4s
+      console.warn(`  Attempt ${attempt}/${maxAttempts} failed for ${url}: ${err.message}. Retrying in ${delayMs / 1000}s...`)
+      await sleep(delayMs)
+    }
+  }
+}
+
 async function fetchHTML(url) {
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     headers: { 'User-Agent': 'AIDogeTransparencyBot/1.0 (public interest research)' },
   })
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`)
   return res.text()
 }
 

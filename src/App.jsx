@@ -5,10 +5,10 @@ import ScrollToTop from './components/ScrollToTop'
 import { ErrorBoundary, LoadingState } from './components/ui'
 import { CouncilConfigProvider } from './context/CouncilConfig'
 import { preloadData } from './hooks/useData'
-import Home from './pages/Home'
 import './App.css'
 
-// Lazy-load non-homepage routes for smaller initial bundle
+// Lazy-load all page routes for smaller initial bundle
+const Home = lazy(() => import('./pages/Home'))
 const News = lazy(() => import('./pages/News'))
 const ArticleView = lazy(() => import('./pages/ArticleView'))
 const Spending = lazy(() => import('./pages/Spending'))

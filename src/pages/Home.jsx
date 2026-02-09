@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText, Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion, Calendar, Repeat, GitCompareArrows } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
@@ -35,7 +35,7 @@ function Home() {
   if (dataSources.news) dataUrls.push('/data/articles-index.json')
   if (dataSources.budget_trends) dataUrls.push('/data/revenue_trends.json')
 
-  const { data, loading } = useData(dataUrls)
+  const { data, loading, error } = useData(dataUrls)
 
   useEffect(() => {
     document.title = `Home | ${councilName} Council Transparency`
@@ -44,6 +44,15 @@ function Home() {
 
   if (loading) {
     return <LoadingState message="Loading dashboard data..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
   }
 
   // Unpack data based on what was requested
@@ -67,17 +76,17 @@ function Home() {
     : spendingPeriod
 
   // Prepare chart data for top suppliers
-  const topSuppliersChart = insights?.supplier_analysis?.top_20_suppliers?.slice(0, 8)?.map(s => ({
+  const topSuppliersChart = useMemo(() => insights?.supplier_analysis?.top_20_suppliers?.slice(0, 8)?.map(s => ({
     name: s.supplier.split(' ').slice(0, 2).join(' '),
     fullName: s.supplier,
     amount: s.total / 1_000_000,
-  })) || []
+  })) || [], [insights])
 
   // Prepare spending by year chart data
-  const spendByYearChart = Object.entries(insights?.yoy_analysis?.spend_by_year || {}).map(([year, amount]) => ({
+  const spendByYearChart = useMemo(() => Object.entries(insights?.yoy_analysis?.spend_by_year || {}).map(([year, amount]) => ({
     year,
     amount: amount / 1_000_000,
-  }))
+  })), [insights])
 
   // Party colors for pie chart
   const partyColors = {
@@ -90,11 +99,11 @@ function Home() {
     'Reform UK': '#12B6CF',
   }
 
-  const partyData = politicsSummary?.by_party?.map(p => ({
+  const partyData = useMemo(() => politicsSummary?.by_party?.map(p => ({
     name: p.party,
     value: p.count,
     color: partyColors[p.party] || '#808080',
-  })) || []
+  })) || [], [politicsSummary])
 
   // DOGE findings from data file
   const findings = dogeFindings?.findings || []

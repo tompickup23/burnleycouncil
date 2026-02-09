@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import './StatCard.css'
 
-function StatCard({ value, label, icon: Icon, highlight = false, className = '' }) {
+const StatCard = memo(function StatCard({ value, label, icon: Icon, highlight = false, className = '' }) {
   return (
     <div className={`stat-card ${highlight ? 'highlight' : ''} ${className}`}>
       {Icon && (
@@ -14,7 +15,7 @@ function StatCard({ value, label, icon: Icon, highlight = false, className = '' 
       </div>
     </div>
   )
-}
+})
 
 function StatBar({ children }) {
   return <div className="stat-bar">{children}</div>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Users, TrendingUp, AlertTriangle, Building, ChevronRight, Info, Briefcase, Award, FileText, Hash } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
@@ -11,7 +11,7 @@ function PayComparison() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
 
-  const { data, loading } = useData('/data/pay_comparison.json')
+  const { data, loading, error } = useData('/data/pay_comparison.json')
   const payData = data
 
   useEffect(() => {
@@ -20,6 +20,12 @@ function PayComparison() {
   }, [councilName])
 
   if (loading) return <LoadingState message="Loading pay data..." />
+  if (error) return (
+    <div className="page-error">
+      <h2>Unable to load data</h2>
+      <p>Please try refreshing the page.</p>
+    </div>
+  )
   if (!payData) return <div className="pay-page"><p>No pay comparison data available for this council.</p></div>
 
   const ceo = payData.chief_executive || {}
@@ -34,42 +40,42 @@ function PayComparison() {
   const latestYear = history[history.length - 1] || {}
 
   // Chart data — CEO salary trend (filter to entries with salary data)
-  const salaryTrendData = history
+  const salaryTrendData = useMemo(() => history
     .filter(h => h.ceo_salary || h.ceo_total_remuneration || h.combined_ceo_remuneration)
     .map(h => ({
       year: h.year?.replace('20', "'").replace('/20', '/'),
       salary: h.ceo_salary,
       total: h.ceo_total_remuneration || h.combined_ceo_remuneration,
       median: h.median_employee_salary,
-    }))
+    })), [history])
 
   // Chart data — pay ratio trend (filter to entries with ratio data)
-  const ratioTrendData = history
+  const ratioTrendData = useMemo(() => history
     .filter(h => h.ceo_to_median_ratio)
     .map(h => ({
       year: h.year?.replace('20', "'").replace('/20', '/'),
       medianRatio: h.ceo_to_median_ratio,
       lowestRatio: h.ceo_to_lowest_ratio,
-    }))
+    })), [history])
 
   // Chart data — cross-council comparison
-  const comparisonData = comparators
+  const comparisonData = useMemo(() => comparators
     .sort((a, b) => (b.ceo_salary_midpoint || 0) - (a.ceo_salary_midpoint || 0))
     .map(c => ({
       name: c.council,
       salary: c.ceo_salary_midpoint,
       ratio: c.ceo_to_median_ratio,
       isCurrent: c.council === councilName,
-    }))
+    })), [comparators, councilName])
 
   // TPA Rich List trend data
-  const tpaData = Object.entries(tpa)
+  const tpaData = useMemo(() => Object.entries(tpa)
     .filter(([, v]) => v && typeof v === 'object')
     .map(([year, v]) => ({
       year: year.replace('_', '/'),
       count: v.employees_over_100k,
     }))
-    .sort((a, b) => a.year.localeCompare(b.year))
+    .sort((a, b) => a.year.localeCompare(b.year)), [tpa])
 
   return (
     <div className="pay-page animate-fade-in">

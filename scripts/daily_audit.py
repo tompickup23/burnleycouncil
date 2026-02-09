@@ -159,9 +159,12 @@ def file_hash(path):
 
 
 def run_cmd(cmd, timeout=120):
-    """Run shell command, return (returncode, stdout, stderr)."""
+    """Run command, return (returncode, stdout, stderr). Accepts list or string."""
+    import shlex
     try:
-        r = subprocess.run(cmd, shell=True, capture_output=True, text=True,
+        if isinstance(cmd, str):
+            cmd = shlex.split(cmd)
+        r = subprocess.run(cmd, capture_output=True, text=True,
                           timeout=timeout, cwd=str(ROOT))
         return r.returncode, r.stdout.strip(), r.stderr.strip()
     except subprocess.TimeoutExpired:
@@ -428,7 +431,7 @@ def check_git_state(audit):
         audit.stats["branch"] = branch
 
     # Commits ahead/behind main
-    rc, out, _ = run_cmd("git rev-list --left-right --count origin/main...HEAD 2>/dev/null")
+    rc, out, _ = run_cmd(["git", "rev-list", "--left-right", "--count", "origin/main...HEAD"])
     if rc == 0 and out:
         parts = out.split()
         if len(parts) == 2:
@@ -439,7 +442,7 @@ def check_git_state(audit):
                 audit.info("git", f"Branch is {ahead} commits ahead of main")
 
     # gh-pages staleness
-    rc, out, _ = run_cmd("git log -1 --format=%ci origin/gh-pages 2>/dev/null")
+    rc, out, _ = run_cmd(["git", "log", "-1", "--format=%ci", "origin/gh-pages"])
     if rc == 0 and out:
         try:
             deploy_date = datetime.strptime(out[:19], "%Y-%m-%d %H:%M:%S")
@@ -456,7 +459,7 @@ def check_git_state(audit):
 def check_build_test(audit):
     """Run npm test and build (optional, slow)."""
     # Tests
-    rc, out, err = run_cmd("npm run test 2>&1", timeout=120)
+    rc, out, err = run_cmd(["npm", "run", "test"], timeout=120)
     if rc == 0:
         # Extract pass count
         match = re.search(r"(\d+) passed", out + err)
@@ -467,7 +470,7 @@ def check_build_test(audit):
         audit.error("build", "Tests FAILED", (out + err)[-200:])
 
     # Build
-    rc, out, err = run_cmd("npx vite build 2>&1", timeout=180)
+    rc, out, err = run_cmd(["npx", "vite", "build"], timeout=180)
     if rc == 0:
         audit.ok("build", "Vite build succeeded")
     else:

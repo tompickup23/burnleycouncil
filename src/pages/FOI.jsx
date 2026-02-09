@@ -60,7 +60,7 @@ function FOI() {
   const councilFullName = config.council_full_name || 'Borough Council'
   const officialUrl = config.official_website || '#'
 
-  const { data: foiData, loading } = useData('/data/foi_templates.json')
+  const { data: foiData, loading, error } = useData('/data/foi_templates.json')
   const foiCategories = foiData?.categories || []
 
   const [expandedCategory, setExpandedCategory] = useState('spending')
@@ -80,6 +80,15 @@ function FOI() {
 
   if (loading) {
     return <LoadingState message="Loading FOI templates..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
   }
 
   return (

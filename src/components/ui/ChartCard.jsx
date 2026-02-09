@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import './ChartCard.css'
 
 const CHART_TOOLTIP_STYLE = {
@@ -6,7 +7,7 @@ const CHART_TOOLTIP_STYLE = {
   borderRadius: '8px',
 }
 
-function ChartCard({ title, description, note, wide = false, link, children }) {
+const ChartCard = memo(function ChartCard({ title, description, note, wide = false, link, children }) {
   return (
     <div className={`chart-card ${wide ? 'wide' : ''}`}>
       {title && <h3>{title}</h3>}
@@ -18,7 +19,7 @@ function ChartCard({ title, description, note, wide = false, link, children }) {
       {link && <a href={link.href} className="chart-link">{link.text}</a>}
     </div>
   )
-}
+})
 
 export { ChartCard, CHART_TOOLTIP_STYLE }
 export default ChartCard

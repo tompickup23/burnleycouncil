@@ -73,7 +73,7 @@ function Suppliers() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
 
-  const { data: profilesData, loading } = useData('/data/supplier_profiles.json')
+  const { data: profilesData, loading, error } = useData('/data/supplier_profiles.json')
   const profiles = profilesData?.profiles || []
 
   const [search, setSearch] = useState('')
@@ -163,6 +163,15 @@ function Suppliers() {
 
   if (loading) {
     return <LoadingState message="Loading supplier profiles..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
   }
 
   return (

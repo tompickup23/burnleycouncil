@@ -8,7 +8,7 @@ import './MyArea.css'
 function MyArea() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
-  const { data, loading } = useData([
+  const { data, loading, error } = useData([
     '/data/wards.json',
     '/data/councillors.json',
   ])
@@ -84,6 +84,15 @@ function MyArea() {
     return <LoadingState message="Loading ward data..." />
   }
 
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
+  }
+
   const wardList = Object.values(wards).sort((a, b) => a.name.localeCompare(b.name))
 
   const getWardCouncillors = (wardName) => {
@@ -101,7 +110,7 @@ function MyArea() {
 
       {/* Postcode Lookup */}
       <section className="postcode-lookup">
-        <form onSubmit={handlePostcodeSubmit} className="postcode-form">
+        <form onSubmit={handlePostcodeSubmit} className="postcode-form" aria-label="Postcode lookup">
           <label htmlFor="postcode-input">Find your ward by postcode</label>
           <div className="postcode-input-row">
             <div className="postcode-input-wrapper">
@@ -118,6 +127,7 @@ function MyArea() {
                 }}
                 maxLength={10}
                 autoComplete="postal-code"
+                aria-label="Enter your postcode"
               />
             </div>
             <button
