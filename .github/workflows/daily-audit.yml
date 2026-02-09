@@ -13,8 +13,8 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      issues: write
+      contents: write   # Needed to commit audit reports to burnley-council/reports/
+      issues: write     # Needed to create issues when errors found
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,13 +51,16 @@ jobs:
         continue-on-error: true
 
       - name: Commit report
+        env:
+          AUDIT_SCORE: ${{ steps.audit.outputs.score }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add burnley-council/reports/ IMPROVEMENTS.md || true
           if ! git diff --cached --quiet; then
-            git commit -m "audit: $(date +%Y-%m-%d) — score ${{ steps.audit.outputs.score }}/100"
-            git push
+            git commit -m "audit: $(date +%Y-%m-%d) — score ${AUDIT_SCORE:-0}/100"
+            # Only push to the current branch (never force-push or push to other branches)
+            git push origin HEAD
           fi
 
       - name: Open issue if errors

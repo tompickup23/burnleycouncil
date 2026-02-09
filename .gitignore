@@ -23,6 +23,12 @@ burnley-council/data/reference/
 burnley-council/data/rossendale/raw/
 burnley-council/data/doge_analysis_results.json
 
+# Large generated files (600K+ lines each — use ETL scripts to regenerate)
+burnley-council/data/*/supplier_profiles.json
+
+# Test output
+test-results/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

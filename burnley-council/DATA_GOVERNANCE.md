@@ -54,12 +54,12 @@
 | Burnley | E07000117 | £500 | 2021/22 | Retrofit (JSON) |
 | Hyndburn | E07000120 | £250 | 2016/17 | Web scrape |
 | Pendle | E07000122 | £500 | 2021/22 | Direct CSV URL |
+| Rossendale | E07000125 | £500 | 2021/22 | Direct CSV URL |
 
 ### Lancashire Expansion Targets
 
 | Council | ONS Code | Threshold | Download Method | Status |
 |---------|----------|-----------|-----------------|--------|
-| Rossendale | E07000125 | £500 | Direct CSV URL | Planned |
 | Ribble Valley | E07000124 | £500 | Direct CSV URL | Planned |
 | Lancaster | E07000121 | £500 | Transparency page | Planned |
 | Chorley | E07000118 | £500 | Shared services | Planned |
@@ -375,7 +375,7 @@ The `run_all_lancashire.sh` script processes every registered council:
 
 ### Hyndburn
 - **622 raw department codes** — inconsistent naming, mixed case, duplicates
-- **Year-end spike: 12.9x** — March spending surge (worst of 3 councils)
+- **Year-end spike: 12.9x** — March spending surge (worst of 4 councils)
 - **Record count off by 2** — config says 29,802, metadata says 29,804
 - **Supplier count off by 1** — config 2,394 vs metadata 2,395
 
@@ -384,6 +384,11 @@ The `run_all_lancashire.sh` script processes every registered council:
 - **£2M spend discrepancy** — config says £127M, metadata says £124.95M
 - **1.92% negative amounts** — legitimate credits but should be documented
 - **3.45% empty expenditure_category** — VAT/capital adjustments
+
+### Rossendale
+- **3,167 "NAME WITHHELD" transactions** — supplier names suppressed (safeguarding, <1% threshold considered normal)
+- **No crime_stats.json** — feature flag set to false in config.json
+- **6 articles published** — covering Capita outsourcing, NAME WITHHELD, agency spend, COVID grants, leisure trust, spending overview. Target: 20+
 
 ### Cross-Council
 - **Schema divergence** — each council has different optional fields
@@ -442,3 +447,11 @@ The `run_all_lancashire.sh` script processes every registered council:
 | 2026-02-08 | Added Lancashire expansion targets | AI DOGE |
 | 2026-02-08 | Added supplier profile schema | AI DOGE |
 | 2026-02-08 | Added data quality scoring system | AI DOGE |
+| 2026-02-09 | Rossendale moved from Planned to Active | AI DOGE |
+| 2026-02-09 | Added Rossendale data quality issues | AI DOGE |
+| 2026-02-09 | Rossendale articles generated (6) — updated from empty | AI DOGE |
+| 2026-02-09 | FOI templates added for all 4 councils (41 total) | AI DOGE |
+| 2026-02-09 | Rebuilt and deployed all 4 councils — live site verified | AI DOGE |
+| 2026-02-09 | Fixed root 404.html SPA routing for GitHub Pages | AI DOGE |
+| 2026-02-09 | Added live site verification to daily audit (check_live_site) | AI DOGE |
+| 2026-02-09 | Automated deployment pipeline — deploy.yml fully fixed | AI DOGE |

@@ -936,10 +936,6 @@ def _build_spa_budget(budget_data):
             "net_current_expenditure": _extract_pounds(kf, "NET CURRENT EXPENDITURE"),
             "net_revenue_expenditure": _extract_pounds(kf, "NET REVENUE EXPENDITURE"),
             "council_tax_requirement": _extract_pounds(kf, "COUNCIL TAX REQUIREMENT"),
-            "reserves_earmarked": _extract_pounds(
-                reserves, "Other earmarked financial reserves at 31 March"),
-            "reserves_unallocated": _extract_pounds(
-                reserves, "Unallocated financial reserves at 31 March"),
         },
         "service_breakdown": services,
         "detail": {

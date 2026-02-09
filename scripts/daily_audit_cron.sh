@@ -53,13 +53,17 @@ if [ "$AUDIT_BUILD" = "true" ]; then
     AUDIT_FLAGS="--build"
 fi
 
-python3 "$SCRIPT_DIR/daily_audit.py" $AUDIT_FLAGS 2>&1 || true
-AUDIT_EXIT=$?
+AUDIT_EXIT=0
+python3 "$SCRIPT_DIR/daily_audit.py" $AUDIT_FLAGS 2>&1 || AUDIT_EXIT=$?
 
 # ── Run Improvement Suggester ────────────────────────────────────────
 echo ""
 echo "[2b] Running improvement suggester..."
-python3 "$SCRIPT_DIR/suggest_improvements.py" 2>&1 || true
+SUGGEST_EXIT=0
+python3 "$SCRIPT_DIR/suggest_improvements.py" 2>&1 || SUGGEST_EXIT=$?
+if [ "$SUGGEST_EXIT" -ne 0 ]; then
+    echo "  Warning: suggest_improvements.py exited with code $SUGGEST_EXIT"
+fi
 
 # Check if report was generated
 DATE_STR=$(date +%Y-%m-%d)
@@ -76,7 +80,7 @@ ERRORS=$(grep -oP 'Errors: \K\d+' "$REPORT_FILE" 2>/dev/null || echo "?")
 WARNINGS=$(grep -oP 'Warnings: \K\d+' "$REPORT_FILE" 2>/dev/null || echo "?")
 
 echo ""
-echo "[3] Results: Score ${SCORE}/100 — ${ERRORS} errors, ${WARNINGS} warnings"
+echo "[3] Results: Score ${SCORE}/100 — ${ERRORS} errors, ${WARNINGS} warnings (exit code: ${AUDIT_EXIT})"
 
 # ── Commit Report ─────────────────────────────────────────────────────
 echo ""
@@ -122,9 +126,16 @@ EOJSON
 fi
 
 # ── Cleanup Old Logs ──────────────────────────────────────────────────
-# Keep last 30 days of logs
+# Keep last 30 days of logs, last 90 days of reports
 find "$LOG_DIR" -name "audit_*.log" -mtime +30 -delete 2>/dev/null || true
 find "$REPORT_DIR" -name "audit_*.md" -mtime +90 -delete 2>/dev/null || true
 
+# Clean up broken latest symlink if target was deleted
+LATEST_LINK="${REPORT_DIR}/latest.md"
+if [ -L "$LATEST_LINK" ] && [ ! -e "$LATEST_LINK" ]; then
+    rm -f "$LATEST_LINK" 2>/dev/null || true
+    echo "  Cleaned up broken latest.md symlink"
+fi
+
 echo ""
-echo "=== Audit complete: $(date) ==="
+echo "=== Audit complete: $(date) (audit=$AUDIT_EXIT, suggest=$SUGGEST_EXIT) ==="

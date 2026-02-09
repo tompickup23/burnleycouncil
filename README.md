@@ -1,67 +1,46 @@
-# Octavian - Primary Clawdbot Instance
+# AI DOGE — Public Spending Transparency Platform
 
-## Configuration
-- **Name:** Octavian
-- **Emoji:** ⚡
-- **Model:** Kimi (moonshot/kimi-k2.5)
-- **Workspace:** ~/clawd
-- **Primary Channel:** WhatsApp
-- **Thinking:** Off (efficient mode)
+Multi-council public spending transparency platform for East Lancashire. React SPA deployed per-council via GitHub Pages at [aidoge.co.uk](https://aidoge.co.uk).
 
-## 🤝 Tandem Operation with GaiusOctavianus
+## Live Councils
 
-**You are the WhatsApp specialist. Gaius handles Slack.**
+| Council | Records | Total Spend | Threshold |
+|---------|---------|-------------|-----------|
+| [Burnley](https://aidoge.co.uk/lancashire/burnleycouncil/) | 30,580 | £355M | £500+ |
+| [Hyndburn](https://aidoge.co.uk/lancashire/hyndburncouncil/) | 29,804 | £211M | £250+ |
+| [Pendle](https://aidoge.co.uk/lancashire/pendlecouncil/) | 49,741 | £125M | All |
+| [Rossendale](https://aidoge.co.uk/lancashire/rossendalecouncil/) | 42,536 | £64M | All |
 
-### Division of Labor
+## Stack
 
-| Octavian (You) | GaiusOctavianus |
-|----------------|-----------------|
-| **WhatsApp** channel | **Slack** channel |
-| ~/clawd workspace | ~/GaiusOctavianus workspace |
-| Primary operations | Secondary/backup ops |
-| Can delegate to Gaius | Can request Octavian help |
+- **Frontend:** React 19 + Vite 7, lazy-loaded routes, config-driven per council
+- **Data:** Council CSV spending data + GOV.UK MHCLG standardised budgets
+- **Analysis:** Duplicate detection, split payment evasion, Companies House compliance, Benford's Law
+- **Hosting:** GitHub Pages (free), CI/CD via GitHub Actions
 
-### Communication Protocol
+## Quick Start
 
-1. **Tom manages both** through their respective channels
-2. **Coordinate via files** in `tandem_memory/` if needed
-3. **Task handoffs** documented in AGENTS.md
-4. **No workspace conflicts** - fully isolated directories
+```bash
+# Dev build (single council)
+VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build
 
-### When You Delegate to Gaius
-- Tom asks you to coordinate with Gaius
-- Task requires Slack communication (Gaius's specialty)
-- Parallel processing needed
-- Tom explicitly says "Ask Gaius..."
+# Dev server
+VITE_COUNCIL=burnley VITE_BASE=/ npx vite
+```
 
-Read `TANDEM_PROTOCOL.md` for full coordination rules.
+## Docs
 
-## ⚡ Instance Comparison
+- **[CLAUDE.md](./CLAUDE.md)** — Build commands, file locations, dev rules
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** — Software architecture, data pipeline, frontend patterns
+- **[INFRASTRUCTURE.md](./INFRASTRUCTURE.md)** — Servers, AI tools, DNS, costs
+- **[AIDOGE-MASTERPLAN.md](./AIDOGE-MASTERPLAN.md)** — Strategic roadmap, feature plans, content priorities
+- **[TODO.md](./TODO.md)** — Central task list
+- **[HANDOVER-NEWSLANCASHIRE.md](./HANDOVER-NEWSLANCASHIRE.md)** — News Lancashire project guide (for iPhone Claude Code)
 
-| Feature | Octavian | GaiusOctavianus |
-|---------|----------|-----------------|
-| **Name** | Octavian | GaiusOctavianus |
-| **Emoji** | ⚡ | 🦅 |
-| **Data dir** | ~/clawd | ~/GaiusOctavianus |
-| **Primary Channel** | WhatsApp | Slack |
-| **Model** | Kimi | Kimi |
-| **API Keys** | Current set | Different free tier (user configures) |
+## Repos
 
-## 📚 Key Files
-
-- **AGENTS.md** - Workspace rules + Tandem protocol
-- **TANDEM_PROTOCOL.md** - Coordination rules with Gaius
-- **SOUL.md** - Your identity
-- **USER.md** - Tom's profile
-- **HEARTBEAT.md** - Periodic checks config
-
-## 🎯 Efficiency Tips
-
-- **WhatsApp focus** - You're optimized for WhatsApp workflows
-- **Parallel tasks** - Coordinate with Gaius for speed
-- **Document handoffs** - Write to tandem_memory/ when passing work
-- **No duplication** - Check if Gaius already started a task
-
----
-
-*Two instances, one mission.* ⚡🦅
+| Repo | Purpose |
+|------|---------|
+| [tompickup23/burnleycouncil](https://github.com/tompickup23/burnleycouncil) | Source (this repo) |
+| [tompickup23/lancashire](https://github.com/tompickup23/lancashire) | Deploy (gh-pages) |
+| tompickup23/newslancashire | News Lancashire pipeline (private, needs push) |

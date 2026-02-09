@@ -6,22 +6,24 @@
 
 ## 1. What Is AI DOGE?
 
-AI DOGE (Department of Government Efficiency) is an independent public spending transparency platform that audits UK council finances using AI and open data. It currently covers three East Lancashire borough councils:
+AI DOGE (Department of Government Efficiency) is an independent public spending transparency platform that audits UK council finances using AI and open data. It currently covers four East Lancashire borough councils:
 
 | Council | Records | Total Spend | Data From | Threshold |
 |---------|---------|-------------|-----------|-----------|
 | Burnley | 30,580 | £355M | Apr 2021 | £500+ |
-| Hyndburn | 29,802 | £211M | Jan 2017 | £250+ |
-| Pendle | 48,785 | £127M | Apr 2021 | £500+ |
-| **Total** | **110,000+** | **£693M** | | |
+| Hyndburn | 29,804 | £211M | Jan 2017 | £250+ |
+| Pendle | 49,741 | £125M | Apr 2021 | £500+ |
+| Rossendale | 42,536 | £64M | Apr 2021 | £500+ |
+| **Total** | **152,661** | **£755M** | | |
 
 **Live sites:**
-- https://aidoge.co.uk (homepage — all 3 councils)
-- https://aidoge.co.uk/burnleycouncil/
-- https://aidoge.co.uk/hyndburn/
-- https://aidoge.co.uk/pendle/
+- https://aidoge.co.uk (homepage — all 4 councils)
+- https://aidoge.co.uk/lancashire/burnleycouncil/
+- https://aidoge.co.uk/lancashire/hyndburncouncil/
+- https://aidoge.co.uk/lancashire/pendlecouncil/
+- https://aidoge.co.uk/lancashire/rossendalecouncil/
 
-**Monthly cost: £0.** Everything runs on free tiers.
+**Monthly cost: £0** for hosting (GitHub Pages free tier). £22/mo for Hostinger VPS (Clawdbot, automation).
 
 ---
 
@@ -38,13 +40,14 @@ AI DOGE (Department of Government Efficiency) is an independent public spending 
 - **Accessed via:** SSH from VPS-MAIN
 
 ### GitHub Pages
-- **Repo:** `tompickup23/burnleycouncil`
-- **Branch `main`:** Source data, scripts, SPA source
-- **Branch `gh-pages`:** Deployed static sites
+- **Source repo:** `tompickup23/burnleycouncil` (branch `main`)
+- **Deploy repo:** `tompickup23/lancashire` (branch `gh-pages`)
 - **Custom domain:** aidoge.co.uk
+- **CI/CD:** Push to main → GitHub Actions builds all 4 councils → auto-deploys (zero tokens)
+- **Workflows:** `deploy.yml` (on push), `daily-audit.yml` (6am UTC), `update-meetings.yml` (Sundays 3am UTC)
 
 ### MacBook (Development)
-- **Used for:** Claude Code sessions, SPA builds, git operations, deployment
+- **Used for:** Claude Code sessions, SPA development, git operations
 - **SSH access:** To both VPS-MAIN and VPS-NEWS
 
 ---
@@ -185,10 +188,12 @@ Converts draft articles to SPA format, merges into council article arrays.
 ## 7. SPA Architecture
 
 ### Tech Stack
-- **Framework:** React (built with Astro for static homepage, Vite for council SPAs)
+- **Framework:** React 19 + Vite 7 (multi-council config-driven SPA)
 - **Hosting:** GitHub Pages (static files)
 - **Data:** JSON files served as static assets (no backend/database)
 - **Routing:** Client-side SPA routing with 404.html fallback
+- **Testing:** Vitest (141+ unit tests) + Playwright (9 E2E smoke tests)
+- **Analysis:** Python-based DOGE pipeline (doge_analysis.py, generate_cross_council.py)
 
 ### Data Files Per Council
 Each council SPA loads these from `/{council}/data/`:
@@ -248,18 +253,23 @@ Each `config.json` defines: council identity (id, name, ONS code, theme colour),
 - **2.1M** heritage asset underinsurance
 
 ### Hyndburn
-- **3.4M** duplicate payments (highest value of 3 councils)
+- **3.4M** duplicate payments (highest value of 4 councils)
 - **12.9x** March spending spike (worst in East Lancashire)
 - **3 years** without clean audit (disclaimer of opinion)
 - **1.1M** paid to Companies House non-compliant suppliers
 - **Reserves collapsed** from ~30M to ~12M in one year
 
 ### Pendle
-- **48,785** transactions (highest volume despite lowest spend)
+- **49,741** transactions (highest volume despite lowest spend)
 - **1,311** duplicate payment groups
 - **54M** to single outsourcing company (Liberata)
 - **5,400%** homelessness cost increase in 5 years
 - **Reserves exhaustion** projected by 2027/28
+
+### Rossendale
+- **42,536** transactions (£64M total spend)
+- **3,167** "NAME WITHHELD" transactions (safeguarding-related)
+- Analysis pending — DOGE pipeline will flag duplicates, splits, and anomalies
 
 ---
 
@@ -278,27 +288,23 @@ Each `config.json` defines: council identity (id, name, ONS code, theme colour),
 
 ```
 burnleycouncil/                    (GitHub: tompickup23/burnleycouncil)
++-- src/                           React SPA source (multi-council)
+|   +-- pages/                     32 page components
+|   +-- components/                Shared UI components
+|   +-- hooks/                     useData.js (cached data fetching)
+|   +-- context/                   CouncilConfig.jsx
 +-- burnley-council/
-|   +-- burnley-app/               Compiled SPA output (deployed to gh-pages)
-|   |   +-- index.html             Homepage (all 3 councils)
-|   |   +-- burnleycouncil/        Burnley SPA
-|   |   +-- hyndburn/              Hyndburn SPA
-|   |   +-- pendle/                Pendle SPA
-|   |   +-- about/                 Static pages
-|   |   +-- _astro/                Shared CSS/JS assets
 |   +-- data/
-|   |   +-- burnley/
-|   |   |   +-- spending.json      30K records
-|   |   |   +-- articles-index.json 42 articles
-|   |   |   +-- articles/          Individual article content
-|   |   |   +-- config.json
-|   |   +-- hyndburn/              19 articles
-|   |   +-- pendle/                18 articles
-|   +-- scripts/
-|   |   +-- build_council.sh       SPA build script
-|   |   +-- council_etl.py         Data ingestion
-+-- AIDOGE-MASTERPLAN.md           Strategic roadmap
-+-- AIDOGE-OVERVIEW.md             This document
+|   |   +-- burnley/               30K records, config, articles
+|   |   +-- hyndburn/              29K records
+|   |   +-- pendle/                49K records
+|   |   +-- rossendale/            42K records
+|   |   +-- shared/                legal_framework.json
+|   +-- scripts/                   ETL, analysis, budgets
++-- scripts/                       Tooling (suggest_improvements.py, generate_cross_council.py)
++-- e2e/                           Playwright E2E tests
++-- .github/workflows/             CI/CD (deploy, daily-audit, update-meetings)
++-- vite.config.js                 Multi-council build plugin
 ```
 
 ### VPS-MAIN File Structure
@@ -329,36 +335,45 @@ burnleycouncil/                    (GitHub: tompickup23/burnleycouncil)
 
 ## 11. Current Article Counts
 
-| Council | Hand-Written | AI-Generated | Total |
-|---------|-------------|-------------|-------|
-| Burnley | 32 | 10 | **42** |
-| Hyndburn | 13 | 6 | **19** |
-| Pendle | 13 | 5 | **18** |
-| **Total** | **58** | **21** | **79** |
+| Council | Articles | FOI Templates | Notes |
+|---------|----------|---------------|-------|
+| Burnley | **44** | 11 | Most mature, covering Liberata, audits, waste, pay |
+| Hyndburn | **20** | 9 | Leisure trust, exempt accommodation, regeneration |
+| Pendle | **19** | 9 | Financial sustainability, Liberata, homelessness |
+| Rossendale | **6** | 12 | NEW — Capita, agency spend, NAME WITHHELD, COVID |
+| **Total** | **89** | **41** | |
 
-Target: 27+ articles per council (from MASTERPLAN).
+Target: 27+ articles per council (from MASTERPLAN). Rossendale gap largest.
+
+### FOI System
+All 4 councils have council-specific FOI templates covering spending, governance, housing, and services categories. Templates reference real suppliers and spending figures from data. FOI page includes success stories from East Lancashire and response tracking links (WhatDoTheyKnow, ICO).
 
 ---
 
 ## 12. What's Next (from MASTERPLAN)
 
-### Features to Build
-- **Executive Pay Comparison** — Cross-council senior officer salary analysis
-- **Cross-Council Comparison Dashboard** — Side-by-side metrics
-- **Supplier Deep Dive Pages** — Dynamic profiles per supplier
-- **Postcode to Ward Lookup** — "Who represents me?"
+### Features Built ✅
+- ~~Executive Pay Comparison~~ — PayComparison.jsx live for all councils
+- ~~Cross-Council Comparison Dashboard~~ — CrossCouncil.jsx live
+- ~~Supplier Deep Dive Pages~~ — SupplierProfile.jsx live (dynamic route)
+- ~~Council-Specific FOI Templates~~ — 41 templates across 4 councils
+- ~~Article sharing + ToC~~ — Social sharing + auto-generated table of contents
+
+### Features Still Planned
+- **Postcode to Ward Lookup** — "Who represents me?" (postcodes.io, free)
 - **"What Changed?" Tracking** — Did the council act on findings?
+- **More Rossendale articles** — Currently 6, target 20+
 
 ### Technical Debt
 - 12MB `spending.json` needs splitting (virtual scrolling / Web Worker)
 - TypeScript migration (currently all JSX)
-- Shared component library (5+ independent implementations of same components)
-- Test coverage (currently zero)
+- OG tags on non-article pages
+- ~~URL state sync~~ ✅ Done — Spending page has full useSearchParams with all filters, sort, page
 
 ### Scale Target
-- Expand to 5+ councils (Lancashire CC, Preston, Blackburn next)
+- Expand to 5+ councils (Ribble Valley, Lancaster, West Lancashire next)
 - 60% Companies House match rate (currently ~20%)
-- Fully automated data pipeline (currently semi-manual)
+- Fully automated data pipeline (daily cron running — data_monitor → ETL → analysis → articles)
 
 ---
 

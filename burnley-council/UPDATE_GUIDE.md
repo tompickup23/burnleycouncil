@@ -1,244 +1,229 @@
-# Burnley Council Transparency - Update Guide
+# AI DOGE — Update Guide
 
-This guide explains how to update the website data and content.
+> Updated 9 Feb 2026. Covers all 4 councils (Burnley, Hyndburn, Pendle, Rossendale).
 
 ## Quick Reference
 
-| What to update | File location | How to update |
-|---------------|---------------|---------------|
-| Spending data | `/public/data/spending.json` | Re-run Python script |
-| Budget data | `/public/data/budgets.json` | Re-run Python script |
-| Councillors | `/public/data/councillors.json` | Re-run Python script |
-| News articles | `/src/pages/News.jsx` | Edit directly in React |
-| Insights | `/public/data/insights.json` | Re-run Python script |
+| What to update | Source location | How to update |
+|---------------|-----------------|---------------|
+| Spending data | `burnley-council/data/{council}/spending.json` | Re-run council_etl.py on vps-news |
+| Budget data | `burnley-council/data/{council}/budgets_*.json` | Re-run govuk_budgets.py |
+| News articles | `burnley-council/data/{council}/articles/` | mega_article_writer.py or manual JSON |
+| DOGE analysis | `burnley-council/data/{council}/doge_findings.json` | Re-run doge_analysis.py |
+| Cross-council | `burnley-council/data/{council}/cross_council.json` | Re-run generate_cross_council.py |
+| Councillors | `burnley-council/data/{council}/councillors.json` | Re-run councillor_scraper.py |
+| FOI templates | `burnley-council/data/{council}/foi_templates.json` | Edit JSON manually |
+| Config | `burnley-council/data/{council}/config.json` | Edit JSON manually |
 
 ---
 
 ## 1. Updating Spending Data
 
-### Adding New Quarterly Data
+### Automated (Daily Pipeline)
 
-1. **Get new CSV files** from [Burnley Council Transparency](https://www.burnley.gov.uk/council-and-democracy/transparency/spending-over-500)
+The daily pipeline on vps-main handles this automatically:
+1. `data_monitor.py` (7am) checks council websites for new CSVs
+2. `auto_pipeline.py` (8am) runs ETL if changes detected
+3. WhatsApp notification sent with results
 
-2. **Place files** in the appropriate folder:
-   - Spending (>£500): `/Documents/BBC/Spend/`
-   - Contracts (>£5000): `/Documents/BBC/Contracts/`
-   - Purchase Cards: `/Documents/BBC/P Cards/`
+### Manual
 
-3. **Name files consistently**:
-   - `Q1.24.25.Spend.csv` (Quarter 1, 2024/25)
-   - `Q2.24.25.Contracts.csv`
-   - `Q1.24.25.Purchase.Cards.csv`
+```bash
+# On vps-news:
+python3 council_etl.py --council burnley --download
 
-4. **Run the processing script**:
-   ```bash
-   cd /Users/tompickup/clawd/burnley-council/scripts
-   python3 process_spending_v2.py
-   ```
+# Pull back to local:
+scp vps-news:~/aidoge/data/burnley/spending.json burnley-council/data/burnley/
 
-5. **Copy updated JSON to app**:
-   ```bash
-   cp ../public/data/*.json ../burnley-app/public/data/
-   ```
-
-6. **Rebuild and deploy**:
-   ```bash
-   cd ../burnley-app
-   npm run build
-   git add . && git commit -m "Update spending data" && git push
-   ```
+# Run cross-council analysis:
+python3 doge_analysis.py
+python3 scripts/generate_cross_council.py
+```
 
 ---
 
 ## 2. Updating Budget Data
 
-### Adding New Budget Book
+```bash
+# On local machine:
+cd burnley-council/scripts
+python3 govuk_budgets.py    # Fetches MHCLG ODS files
+python3 govuk_trends.py     # Revenue trend analysis
+```
 
-1. **Get budget PDF** from [Burnley Council Budget Books](https://www.burnley.gov.uk/council-and-democracy/budgets-accounts-and-audits)
-
-2. **Place in** `/Documents/BBC/Budgets/` with naming: `Budget-Book-2026-27.pdf`
-
-3. **Update headline figures** in `scripts/process_budgets_v2.py`:
-   ```python
-   HEADLINE_FIGURES = {
-       # ... existing years ...
-       "2026/27": {
-           "net_revenue_budget": 19_500_000,  # Update from PDF intro
-           "council_tax_band_d": 2550.00,
-           "burnley_element": 351.50,
-           "burnley_increase_pct": 2.0,
-       },
-   }
-   ```
-
-4. **Run processing**:
-   ```bash
-   python3 process_budgets_v2.py
-   ```
-
-5. **Copy and deploy** as above.
+Output: `budgets_govuk.json`, `budgets_summary.json`, `revenue_trends.json` per council.
 
 ---
 
 ## 3. Updating News Articles
 
-News articles are stored directly in the React code for simplicity.
+Articles are stored as JSON data files (NOT in React source code).
 
-### Adding a New Article
+### Article Structure
 
-1. **Edit** `/src/pages/News.jsx`
-
-2. **Add to the `newsArticles` array** at the top:
-   ```javascript
-   const newsArticles = [
-     {
-       id: 'unique-article-id',
-       date: '2025-02-15',
-       category: 'DOGE Finding',  // or 'Democracy', 'Investigation'
-       title: 'Your Article Title',
-       summary: 'A brief one-sentence summary for the list view.',
-       content: `
-         <p>First paragraph of the article.</p>
-         <p>Second paragraph with more detail.</p>
-         <ul>
-           <li>Bullet point one</li>
-           <li>Bullet point two</li>
-         </ul>
-       `,
-       tags: ['tag1', 'tag2', 'tag3'],
-     },
-     // ... existing articles
-   ]
-   ```
-
-3. **Categories available**:
-   - `DOGE Finding` - Efficiency/waste findings (orange highlight)
-   - `Democracy` - Political/democratic issues (blue highlight)
-   - `Investigation` - Deep dives (default)
-
-4. **Commit and push** to deploy automatically.
-
----
-
-## 4. Updating Councillor Data
-
-### After an Election or Resignation
-
-1. **Edit the raw data** in `scripts/process_councillors.py`:
-   - Find the `RAW_COUNCILLORS` string
-   - Update councillor details as needed
-   - Format: `Name|Address|Phone|Email|Roles|Party|Group|Ward`
-
-2. **Run processing**:
-   ```bash
-   python3 process_councillors.py
-   ```
-
-3. **Copy and deploy**.
-
----
-
-## 5. Data File Formats
-
-### spending.json
+**Index file** (`burnley-council/data/{council}/articles-index.json`):
 ```json
 [
   {
-    "supplier": "COMPANY NAME",
-    "amount": 12345.67,
-    "date": "2024-04-15",
-    "financial_year": "2024/25",
-    "data_type": "spend",  // or "contract", "pcard"
-    "category": "Agency & Contracted Services",
-    "description": "Description text",
-    "is_covid": false
+    "id": "audit-findings",
+    "date": "2026-02-07",
+    "category": "Investigation",
+    "title": "No IT Change Management: What Burnley's Audit Really Found",
+    "summary": "When external auditors examined...",
+    "image": "/images/articles/documents.jpg",
+    "author": "Burnley Council Transparency",
+    "tags": ["audit", "IT", "CIVICA"]
   }
 ]
 ```
 
-### insights.json
-Auto-generated from spending data with:
-- `total_spend`: Total amount
-- `unique_suppliers`: Count
-- `top_suppliers`: Array of top spenders
-- `political_angles`: Scrutiny metrics
-
-### councillors.json
+**Content file** (`burnley-council/data/{council}/articles/{id}.json`):
 ```json
-[
-  {
-    "id": "email_prefix",
-    "name": "Full Name",
-    "party": "Independent",
-    "group": "Burnley Independent Group",
-    "ward": "Bank Hall",
-    "email": "name@burnley.gov.uk",
-    "phone": "01onal82...",
-    "roles": ["Leader of the Council"],
-    "party_color": "#800080"
-  }
-]
+{
+  "id": "audit-findings",
+  "content": "<div class=\"key-findings\">...</div><h2>The Audit Landscape</h2>..."
+}
 ```
 
----
+### Adding a New Article Manually
 
-## 6. Deployment
+1. Create `burnley-council/data/{council}/articles/{id}.json` with HTML content
+2. Add entry to `burnley-council/data/{council}/articles-index.json`
+3. Categories: `Investigation`, `Analysis`, `Democracy`
 
-### Automatic (Recommended)
-Push to main branch triggers GitHub Actions deployment.
+### Automated Article Generation
 
-### Manual
+`mega_article_writer.py` generates articles via the LLM router (Kimi K2.5 > Cerebras > Groq > DeepSeek > Ollama):
+
 ```bash
-cd burnley-app
-npm run build
-npm run deploy
+python3 mega_article_writer.py --council burnley --id audit-findings --dry-run
 ```
 
 ---
 
-## 7. Troubleshooting
+## 4. Updating FOI Templates
 
-### CSV Encoding Issues
-If you get UTF-8 errors, the script handles this automatically with fallback encodings.
+Edit `burnley-council/data/{council}/foi_templates.json` directly. Structure:
+
+```json
+{
+  "categories": [
+    {
+      "id": "spending",
+      "name": "Spending & Procurement",
+      "description": "Requests about council spending...",
+      "templates": [
+        {
+          "title": "Purchase Card Spending",
+          "why": "Why this matters",
+          "context": "Background context",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000..."
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 5. Building & Deploying
+
+### Dev Server
+
+```bash
+VITE_COUNCIL=burnley VITE_BASE=/ npx vite
+# Opens at http://localhost:5173
+```
+
+### Build All 4 Councils
+
+```bash
+rm -rf /tmp/lancashire-deploy
+
+VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/burnleycouncil
+VITE_COUNCIL=hyndburn VITE_BASE=/lancashire/hyndburncouncil/ npx vite build --outDir /tmp/lancashire-deploy/hyndburncouncil
+VITE_COUNCIL=pendle VITE_BASE=/lancashire/pendlecouncil/ npx vite build --outDir /tmp/lancashire-deploy/pendlecouncil
+VITE_COUNCIL=rossendale VITE_BASE=/lancashire/rossendalecouncil/ npx vite build --outDir /tmp/lancashire-deploy/rossendalecouncil
+
+# Copy 404.html for SPA routing
+for dir in burnleycouncil hyndburncouncil pendlecouncil rossendalecouncil; do
+  cp /tmp/lancashire-deploy/$dir/index.html /tmp/lancashire-deploy/$dir/404.html
+done
+
+# Deploy
+npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lancashire.git --no-history
+```
+
+**Important:** Builds must be sequential — the Vite plugin copies data to shared `public/data/`.
+
+### Running Tests
+
+```bash
+# Unit tests
+npx vitest run
+
+# E2E tests (requires build first)
+VITE_COUNCIL=burnley VITE_BASE=/ npx vite build
+npx playwright test
+```
+
+---
+
+## 6. Running Audits
+
+```bash
+# Run the improvement scanner
+python3 scripts/suggest_improvements.py
+
+# Run the daily audit
+python3 scripts/daily_audit.py --build
+```
+
+---
+
+## 7. File Structure
+
+```
+clawd/
++-- src/                           React SPA (multi-council)
+|   +-- pages/                     32 page components
+|   +-- components/                Shared UI (StatCard, ChartCard, etc.)
+|   +-- hooks/useData.js           Data fetching with cache
+|   +-- context/CouncilConfig.jsx  Council-specific config
++-- burnley-council/
+|   +-- data/                      Per-council data directories
+|   |   +-- burnley/
+|   |   +-- hyndburn/
+|   |   +-- pendle/
+|   |   +-- rossendale/
+|   |   +-- shared/
+|   +-- scripts/                   ETL, analysis, budget scripts
++-- scripts/                       Tooling (suggest_improvements.py, etc.)
++-- e2e/                           Playwright E2E tests
++-- .github/workflows/             CI/CD
++-- vite.config.js                 Multi-council build plugin
++-- vitest.config.js               Unit test config
++-- playwright.config.js           E2E test config
+```
+
+---
+
+## 8. Troubleshooting
 
 ### Build Fails
 ```bash
-npm run lint  # Check for errors
+VITE_COUNCIL=burnley VITE_BASE=/ npx vite build  # Should exit 0
+npx vitest run                                      # Should pass 141+ tests
 ```
 
-### Data Not Updating
-1. Check JSON was copied to `burnley-app/public/data/`
-2. Clear browser cache
-3. Check GitHub Actions completed
+### Data Not Updating After Deploy
+1. GitHub Pages CDN caches ~10 minutes after deploy
+2. Hard refresh (Ctrl+Shift+R) to bypass browser cache
+3. Check that data was copied to the right council directory
 
----
-
-## 8. File Structure
-
-```
-burnley-council/
-├── scripts/                    # Data processing
-│   ├── process_spending_v2.py
-│   ├── process_budgets_v2.py
-│   └── process_councillors.py
-├── public/data/               # Generated JSON (source)
-└── burnley-app/               # React app
-    ├── public/data/           # JSON for website
-    ├── src/
-    │   ├── pages/
-    │   │   ├── Home.jsx
-    │   │   ├── News.jsx       # Edit for news articles
-    │   │   ├── Spending.jsx
-    │   │   ├── Budgets.jsx
-    │   │   ├── Politics.jsx
-    │   │   └── MyArea.jsx
-    │   └── components/
-    └── .github/workflows/     # Auto-deploy config
-```
-
----
-
-## 9. Contact
-
-For technical issues with the website, the code is at:
-`/Users/tompickup/clawd/burnley-council/`
+### Generated Files — Do Not Edit Manually
+- `spending.json` — generated by council_etl.py
+- `doge_findings.json` — generated by doge_analysis.py
+- `cross_council.json` — generated by generate_cross_council.py
+- `supplier_profiles.json` — generated by generate_supplier_profiles.py (400K+ lines, gitignored)

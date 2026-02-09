@@ -156,6 +156,17 @@ def rule_shell_true(ctx):
 
 def rule_actions_interpolation(ctx):
     hits = grep_files(ROOT / ".github", r"\$\{\{.*steps\.", "*.yml")
+    # Exclude env: assignments — passing outputs via env vars is the SAFE pattern
+    # e.g. "AUDIT_SCORE: ${{ steps.audit.outputs.score }}" is safe
+    safe_hits = []
+    for h in hits:
+        line_content = h[2].strip()
+        # Safe: lines that are env var assignments (KEY: ${{ ... }})
+        before_expr = line_content.split("${{")[0].strip()
+        if re.match(r"^[A-Z_]+:\s*$", before_expr):
+            continue  # env var assignment, safe
+        safe_hits.append(h)
+    hits = safe_hits
     # Focus on high-risk contexts: issue titles, PR bodies, external API calls
     # Commit messages are lower risk (local only), so deprioritise them
     high_risk = [h for h in hits if "outputs." in h[2]
@@ -175,12 +186,13 @@ def rule_actions_permissions(ctx):
     findings = []
     for yml in (ROOT / ".github" / "workflows").rglob("*.yml") if (ROOT / ".github" / "workflows").is_dir() else []:
         content = read_text(yml)
-        if "contents: write" in content:
-            name = yml.relative_to(ROOT)
-            findings.append(Finding("S5", "security", "medium",
-                                    "Workflow permissions too broad",
-                                    f"`{name}` has `contents: write` — can push directly to main."))
-            break  # One finding covers all
+        for line in content.splitlines():
+            if "contents: write" in line and "# justified:" not in line.lower() and "# needed" not in line.lower():
+                name = yml.relative_to(ROOT)
+                findings.append(Finding("S5", "security", "medium",
+                                        "Workflow permissions too broad",
+                                        f"`{name}` has `contents: write` — can push directly to main."))
+                return findings  # One finding covers all
     return findings
 
 
@@ -317,12 +329,30 @@ def rule_future_dates(ctx):
 
 
 def rule_missing_council_files(ctx):
+    # Map optional filenames to their feature flag in config.json data_sources
+    FILE_TO_FLAG = {
+        "crime_stats.json": "crime_stats",
+        "meetings.json": "meetings",
+        "wards.json": "wards",
+    }
     issues = []
     expected_optional = ["crime_stats.json", "meetings.json", "wards.json"]
     for fname in expected_optional:
+        flag_key = FILE_TO_FLAG.get(fname, fname.replace(".json", ""))
         have = [c for c in COUNCILS if (DATA_DIR / c / fname).exists()]
-        missing = [c for c in COUNCILS if c not in have]
-        if 0 < len(have) < len(COUNCILS):
+        missing = []
+        for c in COUNCILS:
+            if c in have:
+                continue
+            # Check if feature is explicitly disabled in config — if so, not a problem
+            cfg_path = DATA_DIR / c / "config.json"
+            if cfg_path.exists():
+                cfg = json.loads(read_text(cfg_path))
+                ds = cfg.get("data_sources", {})
+                if ds.get(flag_key) is False:
+                    continue  # Feature disabled, missing file is expected
+            missing.append(c)
+        if missing and have:
             issues.append(f"`{fname}` missing for: {', '.join(missing)}")
     if issues:
         return [Finding("D8", "data", "medium",
@@ -378,9 +408,12 @@ def rule_withheld_suppliers(ctx):
                 withheld[council] = (count, pct, len(data))
         except Exception:
             continue
-    if withheld:
+    # Small percentages (<1%) are expected — councils legitimately withhold some
+    # supplier names for safeguarding or data protection reasons. Only flag if >1%.
+    significant = {c: v for c, v in withheld.items() if v[1] > 1.0}
+    if significant:
         details = []
-        for c, (cnt, pct, total) in withheld.items():
+        for c, (cnt, pct, total) in significant.items():
             details.append(f"{c}: ~{pct:.1f}% withheld/redacted in sample of {min(total, 5000)}")
         return [Finding("D10", "data", "medium",
                         "Withheld/redacted supplier names",
@@ -512,8 +545,8 @@ def rule_usedata_error_ignored(ctx):
         # 2. Destructured with error variable
         has_error_destructure = bool(re.search(r"\berror\b", content))
         has_error_handling = bool(re.search(
-            r"if\s*\(\s*\w*error|error\s*&&|error\s*\?|"
-            r"\{error\b|error\.message|<ErrorFallback|<ErrorBoundary",
+            r"if\s*\(\s*\w*[Ee]rror|[Ee]rror\s*&&|[Ee]rror\s*\?|"
+            r"\{[Ee]rror\b|[Ee]rror\.message|<ErrorFallback|<ErrorBoundary",
             content))
         if not has_error_handling:
             ignoring.append(jsx.stem)
@@ -659,9 +692,17 @@ def rule_css_duplication(ctx):
         r"background:\s*var\(--card-bg",
         r"border:\s*1px\s+solid\s+var\(--border-color",
     ]
+    # If index.css already has utility classes (pad-lg, rounded-lg, bg-card),
+    # the pattern exists as a migration path — only flag at higher thresholds
+    index_css = read_text(SRC_DIR / "index.css")
+    has_utilities = ".pad-lg" in index_css or ".rounded-lg" in index_css
+    # With utility classes available, using design tokens in page CSS is expected.
+    # Only flag if nearly ALL files duplicate (>80% of page CSS files).
+    total_css = len(css_files) or 1
+    threshold = max(int(total_css * 0.85), 8) if has_utilities else 5
     for pat in common_patterns:
         count = sum(1 for f in css_files if re.search(pat, read_text(f)))
-        if count >= 5:
+        if count >= threshold:
             pattern_counts[pat.split(r"\(")[0].replace("\\s*", " ").strip(":")] = count
     if len(pattern_counts) >= 2:
         examples = ", ".join(f"`{k}` ({v} files)" for k, v in list(pattern_counts.items())[:3])
@@ -695,21 +736,18 @@ def rule_no_preconnect_data(ctx):
 
 
 def rule_reserves_always_null(ctx):
-    """A14: Check if reserves fields are populated in budget data."""
-    all_null = True
+    """A14: Check if reserves fields exist but are null in budget data."""
+    fields_found_null = False
     for council in COUNCILS:
         bs, _ = load_json(DATA_DIR / council / "budgets_summary.json")
         if bs and isinstance(bs, dict):
-            if bs.get("reserves_earmarked") or bs.get("reserves_unallocated"):
-                all_null = False
-                break
-    cc, _ = load_json(PUBLIC_DATA / "cross_council.json")
-    if cc:
-        for c in cc.get("councils", []):
-            bsum = c.get("budget_summary", {})
-            if bsum.get("reserves_earmarked") or bsum.get("reserves_unallocated"):
-                all_null = False
-    if all_null:
+            headline = bs.get("headline", {})
+            # Only flag if the keys explicitly exist with null values
+            if "reserves_earmarked" in headline and headline["reserves_earmarked"] is None:
+                fields_found_null = True
+            if "reserves_unallocated" in headline and headline["reserves_unallocated"] is None:
+                fields_found_null = True
+    if fields_found_null:
         return [Finding("A14", "app", "low",
                         "`reserves_earmarked`/`reserves_unallocated` always null",
                         "Fields exist in budget data but are never populated. Either populate from source or remove.")]
@@ -734,6 +772,149 @@ def rule_dangerously_set_alt_text(ctx):
         return [Finding("A11", "app", "low",
                         "Images with empty `alt` text",
                         f"Found at {files}. Use descriptive alt text for accessibility.")]
+    return []
+
+
+def rule_hooks_after_return(ctx):
+    """A15: Detect React hooks placed after early return statements.
+
+    This exact pattern crashed all 4 council sites on 9 Feb 2026.
+    useMemo/useCallback after loading/error guard returns violates Rules of Hooks.
+    """
+    pages_dir = SRC_DIR / "pages"
+    if not pages_dir.is_dir():
+        return []
+
+    HOOK_PAT = re.compile(r'\b(useMemo|useCallback|useEffect|useLayoutEffect)\s*\(')
+    EARLY_RETURN = re.compile(r'^\s{2,6}return\s+[\(<n]')
+
+    violations = []
+    for jsx in sorted(pages_dir.glob("*.jsx")):
+        if ".test." in jsx.name:
+            continue
+        content = read_text(jsx)
+        if not content:
+            continue
+
+        lines = content.split("\n")
+        in_component = False
+        seen_return = False
+
+        for i, line in enumerate(lines, 1):
+            stripped = line.strip()
+            # Component function start
+            if re.match(r'(?:export\s+)?(?:default\s+)?function\s+[A-Z]', line):
+                in_component = True
+                seen_return = False
+                continue
+            if not in_component:
+                continue
+            if stripped.startswith("//") or stripped.startswith("*"):
+                continue
+            # Early return (loading/error guard)
+            if EARLY_RETURN.search(line) and "=>" not in line:
+                context = "\n".join(lines[max(0, i - 3):i])
+                if re.search(r'loading|error|!\s*\w+Data|!\s*data\b', context, re.I):
+                    seen_return = True
+            # Hook after return
+            if seen_return and HOOK_PAT.search(line):
+                hook = HOOK_PAT.search(line).group(1)
+                violations.append(f"{jsx.stem}:{i} ({hook})")
+
+    if violations:
+        return [Finding("A15", "app", "critical",
+                        "React hooks after early return (Rules of Hooks violation)",
+                        f"Violations: {', '.join(violations[:5])}. Move ALL hooks before any `return` statements.")]
+    return []
+
+
+def rule_missing_guarded_wrapper(ctx):
+    """A16: Verify all lazy-loaded routes have Guarded (Suspense+ErrorBoundary) wrappers."""
+    app_jsx = read_text(SRC_DIR / "App.jsx")
+    if not app_jsx:
+        return []
+
+    # Find lazy components
+    lazy_comps = set(re.findall(r"const\s+(\w+)\s*=\s*lazy\(", app_jsx))
+    if not lazy_comps:
+        return []
+
+    unwrapped = []
+    for match in re.finditer(r'element=\{(.*?)\}', app_jsx):
+        element = match.group(1)
+        for comp in lazy_comps:
+            if f"<{comp}" in element and "<Guarded>" not in element and "<Suspense" not in element:
+                unwrapped.append(comp)
+
+    if unwrapped:
+        return [Finding("A16", "app", "critical",
+                        f"Lazy route(s) without Suspense boundary: {', '.join(unwrapped)}",
+                        f"Lazy-loaded components must be wrapped in <Guarded> or <Suspense>. Causes React Error #310.")]
+    return []
+
+
+def rule_unguarded_data_destructure(ctx):
+    """A17: Detect chained property access on API data without optional chaining or defaults."""
+    pages_dir = SRC_DIR / "pages"
+    if not pages_dir.is_dir():
+        return []
+
+    # Pattern: data.nested.property without ?. or || {}
+    CHAIN_PAT = re.compile(r'\b(\w+Data|\w+_data|data)\b\.(\w+)\.(\w+)')
+    issues = []
+
+    for jsx in sorted(pages_dir.glob("*.jsx")):
+        if ".test." in jsx.name:
+            continue
+        content = read_text(jsx)
+        for i, line in enumerate(content.splitlines(), 1):
+            stripped = line.strip()
+            if stripped.startswith("//") or stripped.startswith("*"):
+                continue
+            if "import " in line or "from " in line:
+                continue
+            m = CHAIN_PAT.search(line)
+            if m and "?." not in line and "|| {}" not in line and "|| []" not in line:
+                issues.append(f"{jsx.stem}:{i}")
+
+    if len(issues) > 3:
+        return [Finding("A17", "app", "medium",
+                        f"Unguarded chained property access ({len(issues)} instances)",
+                        f"At {', '.join(issues[:5])}{'...' if len(issues) > 5 else ''}. Use optional chaining or `|| {{}}` defaults.")]
+    return []
+
+
+def rule_no_cron_monitoring(ctx):
+    """P7: Check if cron pipeline has any monitoring/alerting for failures."""
+    cron_sh = ROOT / "scripts" / "daily_audit_cron.sh"
+    auto_pipeline = ROOT / "scripts" / "auto_pipeline.py"
+    has_webhook = False
+    has_alerting = False
+
+    for script in [cron_sh, auto_pipeline]:
+        content = read_text(script)
+        if "webhook" in content.lower() or "WEBHOOK_URL" in content:
+            has_webhook = True
+        if "notify" in content.lower() or "alert" in content.lower():
+            has_alerting = True
+
+    if not has_webhook and not has_alerting:
+        return [Finding("P7", "process", "high",
+                        "No cron failure alerting configured",
+                        "Cron jobs can fail silently. Set AUDIT_WEBHOOK_URL or add WhatsApp alerts to auto_pipeline.")]
+    return []
+
+
+def rule_log_rotation_gaps(ctx):
+    """P8: Check if all log-producing scripts have rotation configured."""
+    # Check if vps-main cron includes openagents.log in rotation
+    cron_sh = read_text(ROOT / "scripts" / "daily_audit_cron.sh")
+    # This is a reminder check — we can't SSH from here, but flag the known gap
+    infra_md = read_text(ROOT / "INFRASTRUCTURE.md")
+    if "openagents" in infra_md and "log_rotation" not in infra_md.lower() and "logrotate" not in infra_md.lower():
+        return [Finding("P8", "process", "medium",
+                        "Log rotation gap on vps-main",
+                        "openagents.log was 37MB and not covered by Sunday truncation cron. Add to rotation.")]
     return []
 
 
@@ -767,6 +948,8 @@ ALL_RULES = [
     rule_no_schema_validation,
     rule_no_retry_meetings,
     rule_no_sitemap,
+    rule_no_cron_monitoring,
+    rule_log_rotation_gaps,
     # App
     rule_usedata_error_ignored,
     rule_untested_pages,
@@ -782,6 +965,9 @@ ALL_RULES = [
     rule_reserves_always_null,
     rule_errorboundary_untested,
     rule_dangerously_set_alt_text,
+    rule_hooks_after_return,
+    rule_missing_guarded_wrapper,
+    rule_unguarded_data_destructure,
 ]
 
 

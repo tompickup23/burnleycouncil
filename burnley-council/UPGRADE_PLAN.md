@@ -1,8 +1,21 @@
-# Burnley Council Transparency Tool — Opus 4.6 Upgrade Plan
+# AI DOGE — Upgrade Plan
+
+> Originally written pre-Rossendale expansion. Updated 9 Feb 2026 to reflect completed work.
+> Now covers 4 councils: Burnley, Hyndburn, Pendle, Rossendale.
 
 ## Audit Summary
 
-The current codebase is a well-built static React SPA (built on Opus 4.5) serving ~12MB of council financial data. It is competent but has clear structural ceilings that limit its ability to scale, perform, and maintain quality. This plan identifies every upgrade opportunity and maps each to specific Opus 4.6 capabilities.
+The codebase has evolved significantly since the original plan. Key milestones achieved:
+- **4 councils live** (up from 1), all config-driven from a single codebase
+- **Shared component library** built (StatCard, ChartCard, LoadingState, etc.)
+- **Data layer** with useData() hook (30min TTL cache, retry, LRU eviction)
+- **Error handling** with per-route ErrorBoundary + Guarded wrappers
+- **Test coverage** with 141+ unit tests (Vitest) and 9 E2E smoke tests (Playwright)
+- **DOGE analysis pipeline** running cross-council (duplicates, splits, Benford's, CH compliance)
+- **Automated data pipeline** (daily cron: data_monitor → ETL → analysis → articles → WhatsApp)
+- **Accessibility** improvements (ARIA landmarks, keyboard navigation, alt text)
+- **SEO** improvements (robots.txt, sitemap.xml, per-page titles, JSON-LD)
+- **Security** hardened (DOMPurify for article HTML, CSP headers, workflow permissions tightened)
 
 ---
 
@@ -34,38 +47,14 @@ The current codebase is a well-built static React SPA (built on Opus 4.5) servin
 **Files affected:** Every `.jsx` and `.js` file (~20 files)
 **Opus 4.6 advantage:** Can infer correct types from the JSON data shapes and apply them consistently across all files in a single pass, where 4.5 would lose context across files.
 
-### 1.2 Shared Component Library
-**Current:** Every page reinvents UI patterns. There are at least 5 independent implementations of: stat cards, loading states, filter dropdowns, tab navigation, chart containers, and page headers.
-**Upgrade:** Extract into `src/components/ui/`:
-- `StatCard` — used on Home, Spending, Budgets
-- `TabNav` — used on Spending, Budgets, Legal, News
-- `ChartCard` — wrapper used on Home, Spending, Budgets (identical Recharts tooltip config repeated ~15 times)
-- `PageHeader` — title + subtitle + actions pattern on every page
-- `SearchableSelect` — currently defined inside `Spending.jsx`, should be shared
-- `LoadingState` — skeleton/shimmer loader (currently inline `<div>Loading...</div>`)
-- `Badge` — multiple badge implementations across pages
-- `Pagination` — currently only in Spending, could be reused
-- `ErrorBoundary` — does not exist, should wrap every route
+### 1.2 Shared Component Library ✅ DONE
+**Status:** `src/components/ui/` contains StatCard, ChartCard, LoadingState, Badge, and more. ErrorBoundary wraps every route via `<Guarded>`. Shared CSS utility classes (pad-lg, rounded-lg, bg-card) in index.css reduce duplication.
 
-**Opus 4.6 advantage:** Can trace identical patterns across all 9 page files simultaneously and extract the exact minimal shared API for each component.
+### 1.3 Data Layer & Caching ✅ DONE
+**Status:** `src/hooks/useData.js` — module-level Map cache with 30-minute TTL, request deduplication, retry with exponential backoff (2 retries, 1s/2s), LRU eviction at 50 entries. `preloadData()` warms cache for predicted next routes. `CouncilConfigProvider` loads config.json and provides council context.
 
-### 1.3 Data Layer & Caching
-**Current:** Every page independently `fetch()`es JSON in `useEffect`. If you navigate Home → Spending → Home, `insights.json` is fetched twice. The 12MB `spending.json` is re-fetched every time you visit `/spending`.
-**Upgrade:**
-- Create `src/hooks/useData.ts` — a custom hook with an in-memory cache (simple `Map` or module-level singleton)
-- Or adopt a lightweight library like `swr` (~4KB) or `@tanstack/react-query` for automatic caching, deduplication, and stale-while-revalidate
-- Shared data context for cross-page data (insights appear on Home and are useful on Spending)
-- Preload critical data in `App.tsx` layout level
-
-**Files affected:** `App.jsx`, all 8 page files, new `src/hooks/useData.ts`
-
-### 1.4 Error Handling
-**Current:** Zero error boundaries. Any rendering error in a chart or data transformation crashes the entire app with a white screen. `catch` blocks just `console.error`.
-**Upgrade:**
-- Add React `ErrorBoundary` component wrapping each route
-- Add error state UI (not just `console.error`) — show user-friendly error messages
-- Add data validation at fetch time (guard against malformed JSON)
-- Add `window.onerror` / `unhandledrejection` handlers for global error tracking
+### 1.4 Error Handling ✅ DONE
+**Status:** Per-route `<Guarded>` wrapper gives each route its own ErrorBoundary + Suspense boundary. A crash in Spending won't take down Budgets or DOGE. ErrorBoundary has "Try again" button for recovery. All pages handle useData errors with consistent error UI. Optional chaining added across all data access patterns.
 
 ---
 
@@ -104,53 +93,54 @@ The current codebase is a well-built static React SPA (built on Opus 4.5) servin
 
 ## PHASE 3: Functionality Upgrades
 
-### 3.1 News/Articles System Overhaul
-**Current:** `News.jsx` is the single worst architectural decision in the project — it contains all article content as HTML template literals hardcoded directly in the component file. The file is so large it exceeds 25,000 tokens. Adding a new article means editing this massive JSX file.
-**Upgrade:**
-- Move articles to `public/data/articles/` as individual JSON or Markdown files
-- Create `src/types/Article.ts` interface
-- Build an article index (`articles-index.json`) with metadata (id, title, date, category, summary, image)
-- Load article list from index, load full content on demand
-- Add individual article routes: `/news/:articleId` instead of all articles on one page
-- Add share buttons, reading time estimates, table of contents for long articles
-- Support Markdown rendering (add `react-markdown` ~12KB)
+### 3.1 News/Articles System Overhaul ✅ DONE
+**Status:** Articles moved to JSON data files. `articles-index.json` provides metadata per council. Individual article content in `articles/{id}.json`. `News.jsx` now loads from `useData('/data/articles-index.json')` with category filtering. Separate `ArticleView.jsx` at `/news/:articleId` loads individual articles on demand with DOMPurify HTML sanitisation, JSON-LD structured data, and reading time estimates. `mega_article_writer.py` generates articles via LLM pipeline. Social sharing (Twitter/Facebook/WhatsApp + copy link) and auto-generated table of contents for long articles added 9 Feb 2026. Rossendale articles (6) written covering all key spending stories.
 
-**Files affected:** `News.tsx` (complete rewrite), `App.tsx` (add route), new data files
-**Opus 4.6 advantage:** Can restructure the entire article system — data model, routing, component architecture, and content migration — as a coherent unit.
+**Article counts:** Burnley 44, Hyndburn 20, Pendle 19, Rossendale 6 = **89 total**.
 
-### 3.2 URL State for Filters
-**Current:** All filter state on the Spending page lives in `useState`. Refreshing the page loses all filters. You can't share a filtered view via URL. The Home page has links like `/spending?supplier=LIBERATA` but nothing reads these query params.
-**Upgrade:**
-- Sync all filter state to URL search params using `useSearchParams` from React Router
-- Read initial filter values from URL on mount
-- Update URL as filters change (use `replaceState` to avoid polluting history)
-- This makes filtered views bookmarkable and shareable
+**Remaining opportunities:**
+- Markdown rendering support (currently HTML-only)
+- Related articles suggestion at bottom of articles
+- Article search/full-text search
 
-**Files affected:** `Spending.tsx`, `Budgets.tsx`
+### 3.2 URL State for Filters ✅ DONE
+**Status:** `Spending.jsx` fully syncs all filter state to URL search params via `useSearchParams`. All 10 filter keys (financial_year, quarter, month, type, service_division, expenditure_category, capital_revenue, supplier, min_amount, max_amount), plus search query, sort field/direction, page, and pageSize are all URL-persisted. Uses `replaceState` to avoid polluting browser history. `SupplierView.jsx` links directly to `/spending?supplier=...`. Filtered views are fully bookmarkable and shareable.
 
-### 3.3 Accessibility (a11y)
-**Current:** Minimal accessibility. The `SearchableSelect` dropdown has no ARIA attributes, no keyboard navigation, no `role="listbox"`. Tables lack proper scope attributes. Charts have no text alternatives. Focus management on mobile menu is missing.
-**Upgrade:**
-- Add ARIA roles and attributes to all interactive components (`SearchableSelect`, tabs, modals)
-- Add keyboard navigation to custom dropdowns and tab controls
-- Add `aria-label` and `aria-describedby` to charts
-- Add skip-to-content link
-- Add focus trap for mobile sidebar overlay
-- Test with screen reader and keyboard-only navigation
-- Add `prefers-reduced-motion` media query to disable animations
-- Add `prefers-color-scheme` support (currently dark-only, which is an a11y concern for users who need high contrast or light backgrounds)
+### 3.3 Accessibility (a11y) — PARTIALLY DONE
+**Completed:**
+- ARIA labels on all page sections and landmarks
+- Single `role="main"` on Layout's `<main>` element (removed duplicates from 8 page components)
+- `aria-expanded` on expandable UI elements
+- `aria-label` on charts and interactive components
+- Alt text on all images (article images use article.title)
+- `useRef` cleanup for setTimeout timers (prevents memory leaks on unmount)
 
-### 3.4 SEO & Meta
-**Current:** Basic meta tags in `index.html`. No per-page titles, no per-page meta descriptions, no Open Graph tags for individual pages.
-**Upgrade:**
-- Add `react-helmet-async` or use React 19's built-in `<title>` support
-- Set unique `<title>` and `<meta description>` per route
-- Add Open Graph and Twitter Card meta per page
-- Add structured data (JSON-LD) for articles and datasets
-- Generate a `sitemap.xml` at build time
-- Add `robots.txt`
+**Remaining opportunities:**
+- Keyboard navigation for custom dropdowns and tab controls
+- Focus trap for mobile sidebar overlay
+- Skip-to-content link
+- `prefers-reduced-motion` media query
+- `prefers-color-scheme` support (light theme option)
+- Screen reader testing pass
 
-### 3.5 Dark/Light Theme Toggle
+### 3.4 SEO & Meta — MOSTLY DONE
+**Completed:**
+- Per-page `<title>` via `document.title` in useEffect on all pages
+- `robots.txt` with Allow/Disallow rules (blocks `/data/`)
+- `sitemap.xml` auto-generated at build time via Vite closeBundle hook (14 routes per council)
+- JSON-LD structured data on ArticleView (NewsArticle + BreadcrumbList)
+- Open Graph + Twitter Card meta on ArticleView (og:title, og:description, og:image, article:published_time, article:author)
+- Per-article meta descriptions from article summary
+- Preconnect hints in index.html
+
+**Remaining opportunities:**
+- OG tags on non-article pages (Spending, DOGE, Budgets, etc.)
+- Per-page meta descriptions for non-article pages
+
+### 3.5 FOI System ✅ DONE
+**Status:** FOI templates written for all 4 councils: Burnley (11), Hyndburn (9), Pendle (9), Rossendale (12) = **41 total templates** across spending, governance, housing, and services categories. Each template has researched context, specific data requests, and references relevant legislation. FOI page includes success stories from East Lancashire, response tracking links (WhatDoTheyKnow, ICO), and submission guidance. Templates are council-specific, referencing actual suppliers (Capita, Liberata, Rapid Recruit) and real spending figures from the data.
+
+### 3.6 Dark/Light Theme Toggle
 **Current:** Dark-only theme. The CSS custom properties are well-structured, which makes this upgrade straightforward.
 **Upgrade:**
 - Add a `ThemeProvider` context
@@ -172,20 +162,16 @@ The current codebase is a well-built static React SPA (built on Opus 4.5) servin
 
 ## PHASE 4: Code Quality & Maintainability
 
-### 4.1 Testing
-**Current:** Zero tests. No test runner, no test files, no test configuration.
-**Upgrade:**
-- Add Vitest (native Vite integration, fast)
-- Add `@testing-library/react` for component tests
-- Add `@testing-library/user-event` for interaction tests
-- Priority test targets:
-  1. `format.ts` utilities — pure functions, easy to test, high value
-  2. `SearchableSelect` — complex interactive component
-  3. `Spending` page filtering logic — extract filter logic to a testable function
-  4. Data loading hooks — test caching and error states
-  5. Routing — test that all routes render without crashing
-- Add Playwright for E2E smoke tests (all pages load, spending filter works, CSV export works)
-- Add test script to `package.json` and CI workflow
+### 4.1 Testing ✅ DONE
+**Status:**
+- **Unit tests:** Vitest with @testing-library/react. 141+ tests across 19 test files covering all pages, components, hooks, and utilities.
+- **E2E tests:** Playwright with 9 smoke tests (Home, Spending, DOGE, About, Budgets, Cross-council, Navigation, 404 SPA fallback, No console errors).
+- **Config:** vitest.config.js (jsdom environment, e2e excluded), playwright.config.js (Chromium, vite preview server).
+
+**Remaining opportunities:**
+- SearchableSelect interaction tests
+- CSV export E2E test
+- CI integration (run tests in GitHub Actions)
 
 ### 4.2 CSS Architecture
 **Current:** Plain CSS with page-scoped class prefixes. No CSS Modules, no scoping mechanism. CSS custom properties are well-defined but some utility classes duplicate Tailwind-like patterns without the framework.
@@ -214,12 +200,18 @@ The current codebase is a well-built static React SPA (built on Opus 4.5) servin
 
 ## PHASE 5: Infrastructure & DevOps
 
-### 5.1 CI/CD Enhancement
-**Current:** Single GitHub Actions workflow that builds and deploys. No linting, no testing, no type checking in CI.
-**Upgrade:**
-- Add lint step (`npm run lint`)
-- Add type-check step (`tsc --noEmit`)
-- Add test step (`npm test`)
+### 5.1 CI/CD Enhancement ✅ MOSTLY DONE
+**Status:** deploy.yml now fully functional — automated zero-token deploys on push to main.
+**Done:**
+- ✅ Test step (`npm test`) runs before builds — fails fast if tests break
+- ✅ Hub pages (404.html + index.html) copied to deploy root for SPA routing
+- ✅ CNAME + robots.txt generated automatically
+- ✅ Post-deploy verification (curl all 5 URLs)
+- ✅ `paths-ignore` — docs-only changes skip expensive builds
+- ✅ npm cache enabled for faster installs
+- ✅ Node version from .nvmrc (not hardcoded)
+- ✅ Live site verification in daily audit (check_live_site)
+**Remaining:**
 - Add Lighthouse CI for automated performance audits
 - Add bundle size tracking (fail CI if bundle grows unexpectedly)
 - Add PR preview deployments
@@ -241,32 +233,39 @@ The current codebase is a well-built static React SPA (built on Opus 4.5) servin
 
 ---
 
-## Implementation Priority
+## Implementation Priority (Updated 9 Feb 2026)
 
-| Priority | Phase | Effort | Impact |
+| Priority | Phase | Status | Notes |
 |---|---|---|---|
-| 1 | 2.1 Spending data (12MB fix) | Medium | Removes the single biggest UX problem |
-| 2 | 3.1 News system overhaul | Medium | Unblocks content scalability, fixes the worst architectural debt |
-| 3 | 1.2 Shared component library | Medium | Reduces duplication, speeds up future development |
-| 4 | 1.3 Data layer & caching | Low | Prevents redundant network requests, improves nav speed |
-| 5 | 3.2 URL state for filters | Low | Makes spending explorer shareable and bookmarkable |
-| 6 | 1.1 TypeScript migration | High | Foundation for long-term maintainability |
-| 7 | 1.4 Error handling | Low | Prevents white-screen crashes |
-| 8 | 3.3 Accessibility | Medium | Legal compliance (Equality Act 2010), ethical obligation |
-| 9 | 4.1 Testing | Medium | Safety net for all future changes |
-| 10 | 3.4 SEO & meta | Low | Improves discoverability |
-| 11 | 2.2 Build optimisation | Low | Faster loads, smaller bundles |
-| 12 | 3.5 Theme toggle | Low | Accessibility improvement |
-| 13 | 4.2-4.4 Code quality | Low | Developer experience |
-| 14 | 5.1-5.3 Infrastructure | Medium | Automation and reliability |
-| 15 | 3.6 PWA/offline | Low | Nice-to-have for repeat visitors |
+| ~~1~~ | ~~3.1 News system overhaul~~ | ✅ DONE | 89 articles, sharing, ToC, JSON-LD, OG tags |
+| ~~2~~ | ~~1.2 Shared component library~~ | ✅ DONE | StatCard, ChartCard, LoadingState, etc. |
+| ~~3~~ | ~~1.3 Data layer & caching~~ | ✅ DONE | useData hook, 30min TTL, LRU eviction |
+| ~~4~~ | ~~1.4 Error handling~~ | ✅ DONE | Guarded wrappers, ErrorBoundary per route |
+| ~~5~~ | ~~4.1 Testing~~ | ✅ DONE | 141+ unit tests, 9 E2E tests |
+| ~~6~~ | ~~3.5 FOI system~~ | ✅ DONE | 41 templates across 4 councils, tracking, success stories |
+| ~~7~~ | ~~3.4 SEO (articles)~~ | ✅ DONE | JSON-LD, OG tags, breadcrumbs, meta descriptions on articles |
+| ~~8~~ | ~~3.2 URL state for filters~~ | ✅ DONE | useSearchParams — all filters, sort, page synced to URL |
+| 9 | 2.1 Spending data (12MB fix) | **TODO** | Web Worker + virtual scroll + compression |
+| 10 | 3.3 Accessibility (remaining) | **TODO** | Keyboard nav, focus trap, skip-to-content |
+| 11 | 3.4 SEO (non-article pages) | **TODO** | OG tags + meta descriptions for Spending, DOGE, etc. |
+| 12 | 1.1 TypeScript migration | **TODO** | JSX → TSX with strict types |
+| 13 | 2.2 Build optimisation | **TODO** | Bundle analysis, Brotli compression |
+| 14 | 3.6 Theme toggle | **TODO** | Light/dark with prefers-color-scheme |
+| 15 | 4.2-4.4 Code quality | **TODO** | Prettier, lint-staged, CSS Modules |
+| 16 | 5.1-5.3 Infrastructure | **PARTIAL** | Daily audit + CI. Missing: Lighthouse CI, PR previews |
+| 17 | 3.7 PWA/offline | **TODO** | Service worker, offline indicator |
 
 ---
 
-## Estimated Scope
+## Completed Scope (9 Feb 2026)
 
-- **~20 files modified** (every existing source file)
-- **~10 new files created** (types, hooks, workers, tests, configs)
-- **1 major rewrite** (News.jsx → article system)
-- **1 major refactor** (Spending.jsx → Web Worker + virtual scroll)
-- **0 breaking changes to the public URL structure** (all routes preserved)
+- **35+ files modified** across all page components, hooks, configs, workflows
+- **30+ new files created** (test files, E2E specs, playwright config, robots.txt, Rossendale articles, FOI templates)
+- **1 major rewrite completed** (News.jsx → article JSON system with ArticleView)
+- **4 councils live** (Burnley, Hyndburn, Pendle, Rossendale)
+- **89 articles published** (Burnley 44, Hyndburn 20, Pendle 19, Rossendale 6)
+- **41 FOI templates** across 4 councils with council-specific research
+- **Social sharing + ToC** on all article pages
+- **FOI tracking + success stories** on FOI page
+- **0 open issues from suggest_improvements.py** (was 34, now 0 medium/low)
+- **0 breaking changes to the public URL structure**

@@ -10,10 +10,12 @@ Checks:
   4. Data freshness (spending dates, meetings, generation timestamps)
   5. File size anomalies (sudden changes)
   6. Config feature flags vs actual file existence
-  7. Known bug patterns in JSX source
-  8. Build & test health (optional --build flag)
-  9. Git state (uncommitted changes, branch divergence)
-  10. Deployment staleness (gh-pages vs main)
+  7. Known bug patterns in JSX source (inc. React hooks-after-return)
+  8. Lazy-loaded routes have Suspense/Guarded wrappers
+  9. Unsafe property access patterns (missing optional chaining)
+  10. Git state (uncommitted changes, branch divergence)
+  11. Live site verification (data files, article/FOI counts, page loads)
+  12. Build & test health (optional --build flag)
 
 Usage:
     python3 scripts/daily_audit.py                  # Full audit, markdown report
@@ -385,6 +387,62 @@ def check_file_sizes(audit):
             audit.stats[f"{council}_data_mb"] = round(total / 1024 / 1024, 1)
 
 
+def _check_hooks_after_return(audit, jsx_file, lines):
+    """Detect React hooks (useMemo, useCallback, etc.) placed after early return statements.
+
+    React's Rules of Hooks require hooks to be called in the same order every render.
+    If a useMemo/useCallback/useEffect appears AFTER an early `return` (e.g. loading/error
+    guard), the hook count changes between renders → crash:
+    "Rendered more hooks than during the previous render"
+
+    This exact bug crashed all 4 council sites on 9 Feb 2026.
+    """
+    HOOK_PATTERN = re.compile(
+        r'\b(useMemo|useCallback|useEffect|useLayoutEffect|useRef|useReducer|useContext|useData)\s*\('
+    )
+    # Match early returns: `return <`, `return (`, `return null`
+    # But NOT inside callbacks/arrows: must be at component-body indent level
+    EARLY_RETURN = re.compile(r'^\s{2,6}return\s+[\(<n]')
+    # Detect component function boundaries
+    COMPONENT_START = re.compile(r'^(?:export\s+)?(?:default\s+)?function\s+[A-Z]')
+
+    in_component = False
+    found_early_return = False
+    early_return_line = 0
+
+    for line_no, line in enumerate(lines, 1):
+        stripped = line.strip()
+
+        # Track component function boundaries
+        if COMPONENT_START.search(line):
+            in_component = True
+            found_early_return = False
+            continue
+
+        if not in_component:
+            continue
+
+        # Skip comments
+        if stripped.startswith("//") or stripped.startswith("*") or stripped.startswith("/*"):
+            continue
+
+        # Detect early return (loading/error guards)
+        if EARLY_RETURN.search(line) and not re.search(r'=>', line):
+            # Verify this looks like a guard return (has loading/error/!data nearby)
+            context_window = "\n".join(lines[max(0, line_no - 3):line_no])
+            if re.search(r'loading|error|!\s*\w+Data|!\s*data\b', context_window, re.IGNORECASE):
+                found_early_return = True
+                early_return_line = line_no
+
+        # If we've seen an early return, flag any hooks after it
+        if found_early_return and HOOK_PATTERN.search(line):
+            hook_match = HOOK_PATTERN.search(line)
+            hook_name = hook_match.group(1)
+            audit.error("code",
+                f"{jsx_file.name}:{line_no}: `{hook_name}` after early return (line {early_return_line})",
+                f"React Rules of Hooks violation — hooks must be before all return statements")
+
+
 def check_jsx_bugs(audit):
     """Scan JSX source for known bug patterns."""
     pages_dir = SRC_DIR / "pages"
@@ -399,6 +457,13 @@ def check_jsx_bugs(audit):
             continue
 
         lines = content.split("\n")
+
+        # ── Check 1: Hooks after early returns (Rules of Hooks violation) ──
+        # React hooks (useMemo, useCallback, useEffect, useState, etc.) MUST
+        # be called unconditionally — never after an early return statement.
+        # This caused crashes on all 4 council sites on 9 Feb 2026.
+        _check_hooks_after_return(audit, jsx_file, lines)
+
         for line_no, line in enumerate(lines, 1):
             stripped = line.strip()
             if stripped.startswith("//") or stripped.startswith("*"):
@@ -415,6 +480,201 @@ def check_jsx_bugs(audit):
                 audit.warn("code",
                     f"{jsx_file.name}:{line_no}: <rect> inside Bar — should be <Cell>",
                     stripped[:80])
+
+
+def check_lazy_suspense(audit):
+    """Verify all lazy-loaded components are wrapped in Suspense/Guarded boundaries.
+
+    If a component is lazy-loaded with React.lazy() but rendered WITHOUT a <Suspense>
+    or <Guarded> wrapper, React throws Error #310 and the page goes blank.
+    This was the root cause of the Home route crash on 9 Feb 2026.
+    """
+    app_jsx = SRC_DIR / "App.jsx"
+    if not app_jsx.exists():
+        return
+
+    content = app_jsx.read_text(encoding="utf-8")
+
+    # Find all lazy-loaded component names
+    lazy_components = set(re.findall(r"const\s+(\w+)\s*=\s*lazy\(", content))
+    if not lazy_components:
+        return
+
+    # Find all route elements
+    for match in re.finditer(r'element=\{(.*?)\}', content):
+        element = match.group(1)
+        # Check if any lazy component is used without Guarded/Suspense wrapper
+        for comp in lazy_components:
+            if f"<{comp}" in element and "<Guarded>" not in element and "<Suspense" not in element:
+                line_no = content[:match.start()].count("\n") + 1
+                audit.error("code",
+                    f"App.jsx:{line_no}: <{comp}/> is lazy-loaded but NOT wrapped in <Guarded>",
+                    "Lazy component without Suspense boundary causes React Error #310")
+
+    audit.ok("code", f"All {len(lazy_components)} lazy-loaded routes have Suspense boundaries")
+
+
+def check_undefined_data_access(audit):
+    """Check for common patterns where data properties are accessed without guards.
+
+    Detects: obj.nested.property without optional chaining or fallback defaults.
+    Focus on data destructuring from useData() hooks where the data shape is unknown.
+    This caught the Meetings.jsx crash (how_to_attend.full_council on undefined).
+    """
+    pages_dir = SRC_DIR / "pages"
+    if not pages_dir.is_dir():
+        return
+
+    # Pattern: accessing .something on a variable that comes from data/JSON
+    # without optional chaining (?.) or fallback (|| {})
+    RISKY_PATTERNS = [
+        # data.nested without ?. — e.g. meetingsData.how_to_attend.full_council
+        (re.compile(r'\b(\w+Data)\.(\w+)\.(\w+)(?!\?)'),
+         "Chained property access without optional chaining"),
+        # Destructuring without defaults — e.g. const { x } = data.nested (no || {})
+        (re.compile(r'const\s+\{[^}]+\}\s*=\s*\w+\.(\w+)\s*$', re.MULTILINE),
+         "Destructuring from nested property without fallback"),
+    ]
+
+    for jsx_file in sorted(pages_dir.glob("*.jsx")):
+        if ".test." in jsx_file.name:
+            continue
+        try:
+            content = jsx_file.read_text(encoding="utf-8")
+        except Exception:
+            continue
+
+        lines = content.split("\n")
+        for line_no, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if stripped.startswith("//") or stripped.startswith("*"):
+                continue
+            for pattern, desc in RISKY_PATTERNS:
+                if pattern.search(line) and "?." not in line and "|| {}" not in line and "|| []" not in line:
+                    # Only flag if it looks like data access (not import, not JSX attribute)
+                    if "import " in line or "from " in line or "className" in line:
+                        continue
+                    audit.info("code",
+                        f"{jsx_file.name}:{line_no}: {desc}",
+                        stripped[:80])
+
+
+def check_live_site(audit):
+    """Verify the deployed site at aidoge.co.uk has correct data and pages load.
+
+    Checks:
+    1. All 4 council root pages return 200
+    2. Key data files are accessible and non-empty
+    3. Article counts match source data
+    4. FOI template counts match source data
+    5. Config.json is accessible per council
+    """
+    import urllib.request
+    import urllib.error
+
+    BASE_URL = "https://aidoge.co.uk/lancashire"
+    COUNCIL_SLUGS = {
+        "burnley": "burnleycouncil",
+        "hyndburn": "hyndburncouncil",
+        "pendle": "pendlecouncil",
+        "rossendale": "rossendalecouncil",
+    }
+
+    # Critical data files that must be present and non-empty
+    CRITICAL_FILES = [
+        "config.json", "spending.json", "articles-index.json",
+        "foi_templates.json", "doge_findings.json", "insights.json",
+    ]
+
+    for council_id, slug in COUNCIL_SLUGS.items():
+        # 1. Check council root page
+        root_url = f"{BASE_URL}/{slug}/"
+        try:
+            req = urllib.request.urlopen(root_url, timeout=15)
+            if req.getcode() == 200:
+                body = req.read().decode("utf-8", errors="ignore")
+                if 'id="root"' in body or 'id="app"' in body:
+                    audit.ok("live", f"{council_id}: root page loads (200, SPA detected)")
+                else:
+                    audit.warn("live", f"{council_id}: root page 200 but no SPA root element")
+            else:
+                audit.error("live", f"{council_id}: root page returned {req.getcode()}")
+        except urllib.error.HTTPError as e:
+            audit.error("live", f"{council_id}: root page HTTP {e.code}")
+        except Exception as e:
+            audit.error("live", f"{council_id}: root page unreachable ({e})")
+
+        # 2. Check critical data files
+        for fname in CRITICAL_FILES:
+            data_url = f"{BASE_URL}/{slug}/data/{fname}"
+            try:
+                req = urllib.request.urlopen(data_url, timeout=15)
+                body = req.read()
+                size = len(body)
+                if size < 10:
+                    audit.error("live",
+                        f"{council_id}/{fname}: deployed but empty ({size}B)")
+                else:
+                    # Validate JSON
+                    try:
+                        parsed = json.loads(body)
+                    except json.JSONDecodeError:
+                        audit.error("live",
+                            f"{council_id}/{fname}: deployed but invalid JSON ({size}B)")
+                        continue
+
+                    # 3. Compare article counts with source
+                    if fname == "articles-index.json" and isinstance(parsed, list):
+                        live_count = len(parsed)
+                        source_path = DATA_DIR / council_id / fname
+                        if source_path.exists():
+                            src_data, _ = load_json(source_path)
+                            if isinstance(src_data, list):
+                                src_count = len(src_data)
+                                if live_count != src_count:
+                                    audit.error("live",
+                                        f"{council_id}: articles mismatch — "
+                                        f"live={live_count}, source={src_count}")
+                                else:
+                                    audit.ok("live",
+                                        f"{council_id}: {live_count} articles match source")
+
+                    # 4. Compare FOI template counts
+                    if fname == "foi_templates.json" and isinstance(parsed, dict):
+                        cats = parsed.get("categories", [])
+                        live_count = sum(
+                            len(c.get("templates", [])) for c in cats
+                        )
+                        source_path = DATA_DIR / council_id / fname
+                        if source_path.exists():
+                            src_data, _ = load_json(source_path)
+                            if isinstance(src_data, dict):
+                                src_cats = src_data.get("categories", [])
+                                src_count = sum(
+                                    len(c.get("templates", [])) for c in src_cats
+                                )
+                                if live_count != src_count:
+                                    audit.error("live",
+                                        f"{council_id}: FOI templates mismatch — "
+                                        f"live={live_count}, source={src_count}")
+                                else:
+                                    audit.ok("live",
+                                        f"{council_id}: {live_count} FOI templates match source")
+
+            except urllib.error.HTTPError as e:
+                audit.error("live", f"{council_id}/{fname}: HTTP {e.code}")
+            except Exception as e:
+                audit.error("live", f"{council_id}/{fname}: {e}")
+
+    # 5. Check hub page
+    try:
+        req = urllib.request.urlopen("https://aidoge.co.uk", timeout=15)
+        if req.getcode() == 200:
+            audit.ok("live", "Hub page (aidoge.co.uk) loads OK")
+        else:
+            audit.error("live", f"Hub page returned {req.getcode()}")
+    except Exception as e:
+        audit.error("live", f"Hub page unreachable ({e})")
 
 
 def check_git_state(audit):
@@ -613,33 +873,42 @@ def main():
     # Run all checks
     print("Running audit...", file=sys.stderr)
 
-    print("  [1/8] JSON validity...", file=sys.stderr)
+    print("  [1/12] JSON validity...", file=sys.stderr)
     check_json_validity(audit)
 
-    print("  [2/8] Schema consistency...", file=sys.stderr)
+    print("  [2/12] Schema consistency...", file=sys.stderr)
     check_schema_consistency(audit)
 
-    print("  [3/8] Feature flags vs files...", file=sys.stderr)
+    print("  [3/12] Feature flags vs files...", file=sys.stderr)
     check_feature_flag_files(audit)
 
-    print("  [4/8] Cross-council sync...", file=sys.stderr)
+    print("  [4/12] Cross-council sync...", file=sys.stderr)
     check_cross_council_sync(audit)
 
-    print("  [5/8] Data freshness...", file=sys.stderr)
+    print("  [5/12] Data freshness...", file=sys.stderr)
     check_data_freshness(audit)
 
-    print("  [6/8] File sizes...", file=sys.stderr)
+    print("  [6/12] File sizes...", file=sys.stderr)
     check_file_sizes(audit)
     check_spending_data_quality(audit)
 
-    print("  [7/8] JSX bug scan...", file=sys.stderr)
+    print("  [7/12] JSX bug scan...", file=sys.stderr)
     check_jsx_bugs(audit)
 
-    print("  [8/8] Git state...", file=sys.stderr)
+    print("  [8/12] Lazy-load Suspense check...", file=sys.stderr)
+    check_lazy_suspense(audit)
+
+    print("  [9/12] Undefined data access patterns...", file=sys.stderr)
+    check_undefined_data_access(audit)
+
+    print("  [10/12] Git state...", file=sys.stderr)
     check_git_state(audit)
 
+    print("  [11/12] Live site verification...", file=sys.stderr)
+    check_live_site(audit)
+
     if args.build:
-        print("  [+] Build & test...", file=sys.stderr)
+        print("  [12/12] Build & test...", file=sys.stderr)
         check_build_test(audit)
 
     # Generate report
