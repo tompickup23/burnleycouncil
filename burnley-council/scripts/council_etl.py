@@ -91,10 +91,10 @@ def parse_date(date_str):
     for fmt in formats:
         try:
             dt = datetime.strptime(date_str, fmt)
-            # Python's strptime %y handles 2-digit years (00-68→2000s, 69-99→1900s)
-            # Guard against edge cases where year could be parsed literally as < 100
-            if dt.year < 100:
-                dt = dt.replace(year=dt.year + 2000 if dt.year <= 68 else dt.year + 1900)
+            # Validate year is within plausible range for council spending data.
+            # Rejects mis-parsed 2-digit years (e.g. '24' → 1924) and future dates.
+            if dt.year < 2000 or dt.year > 2030:
+                continue  # Try next format
             return dt.strftime("%Y-%m-%d")
         except ValueError:
             continue
@@ -1008,17 +1008,15 @@ def _match_company(supplier_name, ch_results):
     if not active:
         return None
 
-    # Filter to UK jurisdictions
-    uk_jurisdictions = {"england-wales", "united-kingdom", "england", "wales", "scotland",
-                        "northern-ireland", "gb"}
+    # Filter to UK jurisdictions (allow missing country — CH only lists UK companies)
+    uk_countries = {"united kingdom", "england", "wales", "scotland", "northern ireland", "gb"}
     uk_active = [r for r in active
-                 if r.get("address", {}).get("country", "").lower() in
-                 {"united kingdom", "england", "wales", "scotland", "northern ireland", "gb", ""}
-                 or not r.get("address", {}).get("country")]  # Allow if no country set (CH results are UK)
+                 if r.get("address", {}).get("country", "").lower() in uk_countries
+                 or not r.get("address", {}).get("country")]
 
-    # Find exact name matches
+    # Find exact name matches (from UK-filtered results)
     exact_matches = []
-    for r in active:
+    for r in uk_active:
         ch_name = _normalise_for_ch(r.get("title", ""))
         if ch_name == normalised:
             exact_matches.append(r)

@@ -385,6 +385,27 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.table-virtual-container {
+  height: 600px;
+  overflow: auto;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.virtual-scroll-info {
+  text-align: center;
+  padding: var(--space-sm);
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  position: sticky;
+  bottom: 0;
+  background: rgba(28, 28, 30, 0.9);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
 .spending-table {
   min-width: 900px;
 }

@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useVirtualizer } from '@tanstack/react-virtual'
 import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useData } from '../hooks/useData'
@@ -8,7 +9,7 @@ import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate } from '../utils/format'
 import './Spending.css'
 
-const ITEMS_PER_PAGE = 50
+const ROW_HEIGHT = 52  // Estimated row height in pixels for virtual scrolling
 const CHART_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#64d2ff', '#ff375f', '#ffd60a', '#ac8e68', '#8e8e93']
 const TOOLTIP_STYLE = { background: 'rgba(28, 28, 30, 0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', padding: '12px 16px' }
 
@@ -39,7 +40,7 @@ function Spending() {
   const search = searchParams.get('q') || ''
   const sortField = searchParams.get('sort') || 'date'
   const sortDir = searchParams.get('dir') || 'desc'
-  const page = parseInt(searchParams.get('page') || '1', 10)
+  const tableContainerRef = useRef(null)
 
   const filters = useMemo(() => {
     const f = {}
@@ -63,7 +64,6 @@ function Spending() {
   }, [setSearchParams])
 
   const setSearch = useCallback((v) => setParam('q', v), [setParam])
-  const setPage = useCallback((p) => setParam('page', p > 1 ? String(p) : ''), [setParam])
   const updateFilter = useCallback((key, value) => setParam(key, value), [setParam])
 
   const handleSort = useCallback((field) => {
@@ -162,13 +162,13 @@ function Spending() {
     return result
   }, [spendingData, search, filters, sortField, sortDir])
 
-  // Paginated data
-  const paginatedData = useMemo(() => {
-    const start = (page - 1) * ITEMS_PER_PAGE
-    return filteredData.slice(start, start + ITEMS_PER_PAGE)
-  }, [filteredData, page])
-
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
+  // Virtual scrolling for the table
+  const rowVirtualizer = useVirtualizer({
+    count: filteredData.length,
+    getScrollElement: () => tableContainerRef.current,
+    estimateSize: () => ROW_HEIGHT,
+    overscan: 20,
+  })
 
   // Summary stats with comparisons
   const stats = useMemo(() => {
@@ -433,30 +433,37 @@ function Spending() {
         </button>
       </div>
 
-      {/* Table View */}
+      {/* Table View — virtualised for performance */}
       {activeTab === 'table' && (
-        <>
-          <div className="table-container">
-            <table className="spending-table" role="table" aria-label="Spending records">
-              <thead>
-                <tr>
-                  <th scope="col" className="sortable" onClick={() => handleSort('date')} aria-label="Sort by date">
-                    Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
-                  </th>
-                  <th scope="col" className="sortable" onClick={() => handleSort('supplier')} aria-label="Sort by supplier">
-                    Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
-                  </th>
-                  <th scope="col">Service</th>
-                  <th scope="col">Category</th>
-                  <th scope="col" className="sortable amount-col" onClick={() => handleSort('amount')} aria-label="Sort by amount">
-                    Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
-                  </th>
-                  <th scope="col">Type</th>
+        <div className="table-virtual-container" ref={tableContainerRef}>
+          <table className="spending-table" role="table" aria-label="Spending records">
+            <thead>
+              <tr>
+                <th scope="col" className="sortable" onClick={() => handleSort('date')} aria-label="Sort by date">
+                  Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
+                </th>
+                <th scope="col" className="sortable" onClick={() => handleSort('supplier')} aria-label="Sort by supplier">
+                  Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
+                </th>
+                <th scope="col">Service</th>
+                <th scope="col">Category</th>
+                <th scope="col" className="sortable amount-col" onClick={() => handleSort('amount')} aria-label="Sort by amount">
+                  Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
+                </th>
+                <th scope="col">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Top spacer — pushes visible rows to correct scroll position */}
+              {rowVirtualizer.getVirtualItems().length > 0 && (
+                <tr style={{ height: rowVirtualizer.getVirtualItems()[0].start }}>
+                  <td colSpan={6} style={{ padding: 0, border: 0 }} />
                 </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((item, i) => (
-                  <tr key={`${item.transaction_number}-${i}`}>
+              )}
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const item = filteredData[virtualRow.index]
+                return (
+                  <tr key={`${item.transaction_number}-${virtualRow.index}`}>
                     <td className="date-col">{formatDate(item.date)}</td>
                     <td className="supplier-col">
                       <span className="supplier-name">{truncate(item.supplier, 35)}</span>
@@ -471,21 +478,20 @@ function Spending() {
                       </span>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                )
+              })}
+              {/* Bottom spacer — maintains total scroll height */}
+              {rowVirtualizer.getVirtualItems().length > 0 && (
+                <tr style={{ height: rowVirtualizer.getTotalSize() - (rowVirtualizer.getVirtualItems().at(-1)?.end || 0) }}>
+                  <td colSpan={6} style={{ padding: 0, border: 0 }} />
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className="virtual-scroll-info">
+            {filteredData.length.toLocaleString()} records — scroll to browse
           </div>
-
-          {totalPages > 1 && (
-            <div className="pagination">
-              <button className="page-btn" disabled={page === 1} onClick={() => setPage(1)}>First</button>
-              <button className="page-btn" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button>
-              <span className="page-info">Page {page} of {totalPages}</span>
-              <button className="page-btn" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next</button>
-              <button className="page-btn" disabled={page === totalPages} onClick={() => setPage(totalPages)}>Last</button>
-            </div>
-          )}
-        </>
+        </div>
       )}
 
       {/* Charts View - upgraded */}

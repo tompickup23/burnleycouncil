@@ -252,11 +252,11 @@ The only automated pipeline in this repo is the GitHub Actions meeting scraper (
 
 ## 11. Known Issues & Technical Debt
 
-### Code Bugs (from MASTERPLAN audit)
-1. `council_etl.py` line 1016: `or True` makes jurisdiction filter useless
-2. `police_etl.py` line 121: `urllib.parse` imported after use
-3. `council_etl.py` lines 95-96: ambiguous 2-digit year parsing
-4. `police_etl.py` lines 191-194: 503 errors silently return empty list
+### Code Bugs (from MASTERPLAN audit) — RESOLVED
+1. ~~`council_etl.py` line 1016: jurisdiction filter useless~~ ✅ Fixed: `uk_active` now used instead of `active`; dead `uk_jurisdictions` var removed
+2. ~~`police_etl.py` line 121: `urllib.parse` imported after use~~ ✅ Already fixed (import at line 30)
+3. ~~`council_etl.py` lines 95-96: ambiguous 2-digit year parsing~~ ✅ Fixed: replaced with year range validation (2000-2030)
+4. `police_etl.py` lines 111-118: 503 errors return empty list after retries (prints warning but caller has no way to detect data gaps)
 
 ### SPA Hardcoded References — RESOLVED
 All SPA components are now fully parameterised via `CouncilConfig` context:
@@ -269,9 +269,8 @@ All SPA components are now fully parameterised via `CouncilConfig` context:
 ### Performance
 - `spending.json` file sizes: Burnley 21MB, Hyndburn 21MB, Rossendale 25MB, **Pendle 40MB** (49,741 records)
 - All spending data fetched in one `fetch()` call — no pagination at network level
-- Client-side pagination (50 items/page) and filtering already work well
-- **TanStack React Virtual is installed but NOT wired up** — highest-impact fix would be virtualising the spending table `<tbody>` (library already in `node_modules`)
-- Pre-gzipping spending.json files would reduce transfer 75% (40MB → ~10MB)
+- **TanStack React Virtual wired up** ✅ — Spending table `<tbody>` uses `useVirtualizer` with spacer-row pattern (replaced pagination with infinite scroll in 600px container, `overscan: 20`)
+- **Pre-gzipping already handled** ✅ — `vite-plugin-compression` generates `.gz` and `.br` for all build output including JSON data files (spending.json: 21MB → 436KB brotli, 898KB gzip). GitHub Pages CDN (Fastly) also does on-the-fly gzip compression.
 - No TypeScript (all JSX)
 - Test coverage now includes: `useData`, `format` utils, `PayComparison`, `About`
 
