@@ -143,8 +143,11 @@ def rule_csp_headers(ctx):
 
 def rule_shell_true(ctx):
     hits = grep_files(ROOT / "scripts", r"shell\s*=\s*True", "*.py")
-    if hits:
-        files = ", ".join(set(f"`{h[0]}:{h[1]}`" for h in hits))
+    # Exclude hits from this file itself (string literal in Finding descriptions)
+    own_file = str(Path(__file__).resolve().relative_to(ROOT))
+    real_hits = [h for h in hits if h[0] != own_file]
+    if real_hits:
+        files = ", ".join(set(f"`{h[0]}:{h[1]}`" for h in real_hits))
         return [Finding("S3", "security", "medium",
                         "`shell=True` in subprocess",
                         f"Command injection risk at {files}. Use array syntax with `shell=False`.")]
@@ -153,12 +156,18 @@ def rule_shell_true(ctx):
 
 def rule_actions_interpolation(ctx):
     hits = grep_files(ROOT / ".github", r"\$\{\{.*steps\.", "*.yml")
-    unguarded = [h for h in hits if "outputs." in h[2] and "if:" not in h[2]]
-    if unguarded:
-        files = ", ".join(set(f"`{h[0]}:{h[1]}`" for h in unguarded))
-        return [Finding("S4", "security", "medium",
-                        "GitHub Actions string interpolation",
-                        f"Unvalidated output interpolation at {files}. Add numeric guard.")]
+    # Focus on high-risk contexts: issue titles, PR bodies, external API calls
+    # Commit messages are lower risk (local only), so deprioritise them
+    high_risk = [h for h in hits if "outputs." in h[2]
+                 and any(k in h[2].lower() for k in ["title", "body", "curl", "webhook"])]
+    low_risk = [h for h in hits if "outputs." in h[2] and h not in high_risk]
+    all_risky = high_risk + low_risk
+    if all_risky:
+        files = ", ".join(set(f"`{h[0]}:{h[1]}`" for h in all_risky[:4]))
+        severity = "medium" if high_risk else "low"
+        return [Finding("S4", "security", severity,
+                        "GitHub Actions output interpolation",
+                        f"Unvalidated output interpolation at {files}. Sanitise or validate before use.")]
     return []
 
 
@@ -348,15 +357,58 @@ def rule_feature_flag_mismatch(ctx):
 
 
 def rule_withheld_suppliers(ctx):
+    withheld = {}
     for council in COUNCILS:
-        findings_data, _ = load_json(DATA_DIR / council / "doge_findings.json")
-        if not findings_data:
+        spath = DATA_DIR / council / "spending.json"
+        if not spath.exists():
             continue
-        text = json.dumps(findings_data).lower()
-        if "name withheld" in text or "redacted" in text:
-            return [Finding("D10", "data", "medium",
-                            "Withheld supplier names in spending data",
-                            f"Found 'NAME WITHHELD' entries. Transparency concern for public scrutiny.")]
+        try:
+            data, _ = load_json(spath)
+            if not isinstance(data, list):
+                continue
+            # Sample first 5000 records for speed (spending.json can be huge)
+            sample = data[:5000]
+            count = sum(1 for r in sample
+                        if isinstance(r.get("supplier"), str)
+                        and ("withheld" in r["supplier"].lower()
+                             or "redacted" in r["supplier"].lower()
+                             or r["supplier"].strip() == ""))
+            if count > 0:
+                pct = count / len(sample) * 100
+                withheld[council] = (count, pct, len(data))
+        except Exception:
+            continue
+    if withheld:
+        details = []
+        for c, (cnt, pct, total) in withheld.items():
+            details.append(f"{c}: ~{pct:.1f}% withheld/redacted in sample of {min(total, 5000)}")
+        return [Finding("D10", "data", "medium",
+                        "Withheld/redacted supplier names",
+                        f"{' | '.join(details)}. Transparency concern.")]
+    return []
+
+
+def rule_budgets_summary_schema_gap(ctx):
+    """D11: Check budgets_summary.json has consistent fields across councils."""
+    ref_keys = None
+    ref_council = None
+    issues = []
+    for council in COUNCILS:
+        bs, _ = load_json(DATA_DIR / council / "budgets_summary.json")
+        if not bs or not isinstance(bs, dict):
+            continue
+        keys = sorted(bs.keys())
+        if ref_keys is None:
+            ref_keys = keys
+            ref_council = council
+        else:
+            missing = set(ref_keys) - set(keys)
+            if missing:
+                issues.append(f"{council} missing: {', '.join(sorted(missing)[:3])}")
+    if issues:
+        return [Finding("D11", "data", "low",
+                        "`budgets_summary.json` schema gap",
+                        f"vs {ref_council}: {' | '.join(issues[:3])}. Normalize in ETL.")]
     return []
 
 
@@ -452,16 +504,23 @@ def rule_usedata_error_ignored(ctx):
         if ".test." in jsx.name:
             continue
         content = read_text(jsx)
-        # Has useData destructuring with error
-        if re.search(r"error\s*[,}]", content) and "useData" in content:
-            # Check if error is actually used in JSX/conditionals
-            # Look for: if (error) or error && or error ? or {error.
-            if not re.search(r"if\s*\(\s*error|error\s*&&|error\s*\?|\{error\b|error\.message", content):
-                ignoring.append(jsx.stem)
+        # Check if page calls useData at all
+        if "useData(" not in content:
+            continue
+        # Check if error is handled anywhere — either:
+        # 1. Destructured and used: error && / if (error) / error ? / {error
+        # 2. Destructured with error variable
+        has_error_destructure = bool(re.search(r"\berror\b", content))
+        has_error_handling = bool(re.search(
+            r"if\s*\(\s*\w*error|error\s*&&|error\s*\?|"
+            r"\{error\b|error\.message|<ErrorFallback|<ErrorBoundary",
+            content))
+        if not has_error_handling:
+            ignoring.append(jsx.stem)
     if ignoring:
         return [Finding("A1", "app", "high",
-                        f"{len(ignoring)} pages ignore `useData` errors",
-                        f"Pages: {', '.join(ignoring)}. Add error fallback UI.")]
+                        f"{len(ignoring)} pages have no `useData` error handling",
+                        f"Pages: {', '.join(ignoring[:8])}{'...' if len(ignoring) > 8 else ''}. Add error fallback UI.")]
     return []
 
 
@@ -494,18 +553,21 @@ def rule_missing_usememo(ctx):
         if ".test." in jsx.name:
             continue
         content = read_text(jsx)
-        # Count .map() calls that create chart data arrays outside useMemo
-        # Heuristic: look for chartData or ChartData patterns not inside useMemo
-        map_calls = len(re.findall(r"\.map\(", content))
+        lines_list = content.splitlines()
+        line_count = len(lines_list)
+        # Count .map() in variable assignments (data transforms, not JSX)
+        # Pattern: const/let/var foo = something.map( — these are data transforms
+        data_maps = len(re.findall(r"(?:const|let|var)\s+\w+\s*=.*\.map\(", content))
+        # Also count arrow returns assigned to variables: blah.filter().map()
+        data_maps += len(re.findall(r"^\s+\w+.*\.map\(.*=>\s*\(?\{", content, re.MULTILINE))
         usememo_count = len(re.findall(r"useMemo\(", content))
-        lines = len(content.splitlines())
-        # Large file with many maps but few memoizations
-        if lines > 300 and map_calls > 3 and usememo_count < 2:
-            issues.append(f"{jsx.stem} ({map_calls} .map(), {usememo_count} useMemo)")
+        # Flag if significant data transforms without memoization
+        if line_count > 200 and data_maps > 2 and usememo_count < data_maps // 2:
+            issues.append(f"{jsx.stem} ({data_maps} data transforms, {usememo_count} useMemo)")
     if issues:
         return [Finding("A3", "app", "medium",
                         "Missing `useMemo` on data transforms",
-                        f"Pages with many unmemoized transforms: {', '.join(issues[:4])}.")]
+                        f"Pages with unmemoized data processing: {', '.join(issues[:4])}.")]
     return []
 
 
@@ -583,6 +645,77 @@ def rule_no_react_memo(ctx):
     return []
 
 
+def rule_css_duplication(ctx):
+    """A9: Check for duplicated CSS patterns across page stylesheets."""
+    css_dir = SRC_DIR / "pages"
+    if not css_dir.is_dir():
+        return []
+    # Count how many CSS files share common patterns (card padding, section margins)
+    pattern_counts = {}
+    css_files = list(css_dir.glob("*.css"))
+    common_patterns = [
+        r"padding:\s*var\(--space-lg\)",
+        r"border-radius:\s*var\(--radius-lg\)",
+        r"background:\s*var\(--card-bg",
+        r"border:\s*1px\s+solid\s+var\(--border-color",
+    ]
+    for pat in common_patterns:
+        count = sum(1 for f in css_files if re.search(pat, read_text(f)))
+        if count >= 5:
+            pattern_counts[pat.split(r"\(")[0].replace("\\s*", " ").strip(":")] = count
+    if len(pattern_counts) >= 2:
+        examples = ", ".join(f"`{k}` ({v} files)" for k, v in list(pattern_counts.items())[:3])
+        return [Finding("A9", "app", "low",
+                        "Shared CSS patterns duplicated",
+                        f"Common patterns repeated across page CSS: {examples}. Extract to shared utility classes.")]
+    return []
+
+
+def rule_no_breadcrumb_schema(ctx):
+    """A10: Check for breadcrumb structured data in article pages."""
+    article_view = read_text(SRC_DIR / "pages" / "ArticleView.jsx")
+    if article_view and "BreadcrumbList" not in article_view:
+        if "json-ld" in article_view.lower() or "application/ld+json" in article_view:
+            return [Finding("A10", "app", "low",
+                            "No breadcrumb schema markup",
+                            "ArticleView has article JSON-LD but no BreadcrumbList structured data for navigation.")]
+    return []
+
+
+def rule_no_preconnect_data(ctx):
+    """A12: Check for preconnect hints for data fetch origins."""
+    index = read_text(ROOT / "index.html")
+    # Count preconnect links
+    preconnects = re.findall(r'rel="preconnect"', index)
+    if len(preconnects) <= 1:
+        return [Finding("A12", "app", "low",
+                        "No preconnect for data API",
+                        "index.html only has preconnect to fonts. Add hints for data fetch origins to speed up initial load.")]
+    return []
+
+
+def rule_reserves_always_null(ctx):
+    """A14: Check if reserves fields are populated in budget data."""
+    all_null = True
+    for council in COUNCILS:
+        bs, _ = load_json(DATA_DIR / council / "budgets_summary.json")
+        if bs and isinstance(bs, dict):
+            if bs.get("reserves_earmarked") or bs.get("reserves_unallocated"):
+                all_null = False
+                break
+    cc, _ = load_json(PUBLIC_DATA / "cross_council.json")
+    if cc:
+        for c in cc.get("councils", []):
+            bsum = c.get("budget_summary", {})
+            if bsum.get("reserves_earmarked") or bsum.get("reserves_unallocated"):
+                all_null = False
+    if all_null:
+        return [Finding("A14", "app", "low",
+                        "`reserves_earmarked`/`reserves_unallocated` always null",
+                        "Fields exist in budget data but are never populated. Either populate from source or remove.")]
+    return []
+
+
 def rule_errorboundary_untested(ctx):
     tested = count_test_files(SRC_DIR)
     if "ErrorBoundary" not in tested:
@@ -626,6 +759,7 @@ ALL_RULES = [
     rule_missing_council_files,
     rule_feature_flag_mismatch,
     rule_withheld_suppliers,
+    rule_budgets_summary_schema_gap,
     rule_duplicate_count_zero,
     # Process
     rule_derived_fields_not_populated,
@@ -642,6 +776,10 @@ ALL_RULES = [
     rule_no_e2e_tests,
     rule_home_not_lazy,
     rule_no_react_memo,
+    rule_css_duplication,
+    rule_no_breadcrumb_schema,
+    rule_no_preconnect_data,
+    rule_reserves_always_null,
     rule_errorboundary_untested,
     rule_dangerously_set_alt_text,
 ]
@@ -674,13 +812,25 @@ def build_section(title, findings, existing):
     # Collect IDs we'll write
     seen_ids = set()
 
-    # First: existing manual entries (preserve as-is)
+    # First: existing manual entries (preserve as-is, sorted by severity)
     category_prefix = {"Security": "S", "Data Quality": "D",
                        "Process Efficiency": "P", "App Development": "A"}[title]
-    for fid, info in sorted(existing.items()):
-        if fid.startswith(category_prefix) and info["is_manual"]:
-            lines.append(info["line"])
-            seen_ids.add(fid)
+    sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+
+    def manual_sort_key(item):
+        fid, info = item
+        line_lower = info["line"].lower()
+        for sev, rank in sev_order.items():
+            if sev in line_lower:
+                return (rank, fid)
+        return (4, fid)
+
+    for fid, info in sorted(
+            ((k, v) for k, v in existing.items()
+             if k.startswith(category_prefix) and v["is_manual"]),
+            key=manual_sort_key):
+        lines.append(info["line"])
+        seen_ids.add(fid)
 
     # Then: automated findings
     for f in sorted(findings, key=lambda x: (
@@ -692,17 +842,25 @@ def build_section(title, findings, existing):
         tag = " [auto]" if f.auto else ""
         lines.append(f"| {f.id} | {sev} | {f.title}{tag} | {f.detail} | {f.status} |")
 
-    # Mark auto entries that are no longer found as resolved
+    # Auto-resolve entries whose underlying issue is no longer detected
     auto_ids_found = {f.id for f in findings}
     for fid, info in existing.items():
-        if (fid.startswith(category_prefix) and not info["is_manual"]
-                and fid not in auto_ids_found and info["status"] == "open"):
-            # Auto-resolve: issue no longer detected
-            resolved_line = re.sub(r"\|\s*open\s*\|$", "| fixed |", info["line"])
-            resolved_line = resolved_line.replace("| open |", "| fixed |")
-            if fid not in seen_ids:
-                lines.append(resolved_line)
-                seen_ids.add(fid)
+        if not fid.startswith(category_prefix) or info["status"] != "open":
+            continue
+        if fid in auto_ids_found:
+            continue  # Issue still exists
+        if fid in seen_ids:
+            # Manual entry already written — update it in-place if issue resolved
+            if info["is_manual"]:
+                for i, line in enumerate(lines):
+                    if line.startswith(f"| {fid} ") and "| open |" in line:
+                        lines[i] = line.replace("| open |", "| fixed |")
+                        break
+        else:
+            # Auto entry no longer detected — mark fixed
+            resolved_line = info["line"].replace("| open |", "| fixed |")
+            lines.append(resolved_line)
+            seen_ids.add(fid)
 
     lines.append("")
     return lines
