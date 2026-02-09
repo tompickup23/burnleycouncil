@@ -162,8 +162,9 @@ function Legal() {
             <ul>
               <li><strong>Technical data:</strong> IP addresses, browser type, and device information
               (collected automatically through server logs)</li>
-              <li><strong>Usage data:</strong> Pages visited, time spent on site, and navigation
-              patterns (if analytics are enabled)</li>
+              <li><strong>Usage data:</strong> Pages visited and navigation patterns are collected
+              via Cloudflare Web Analytics — a privacy-first, cookieless service that does not
+              track individual users or collect personal data</li>
               <li><strong>No personal data:</strong> We do not collect names, email addresses, or
               other personally identifiable information unless you contact us directly</li>
             </ul>

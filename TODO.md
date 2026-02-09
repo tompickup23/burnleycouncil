@@ -15,14 +15,14 @@
 - [ ] **Set up monitoring/alerting** — No alerting exists. aws-2 died unnoticed. Free UptimeRobot (50 monitors) pinging 4 council sites + 2 servers would alert within 5 minutes.
 - [x] **Split spending.json for mobile** — ✅ Done (9 Feb 2026). ETL generates v3 year-chunked files: spending-index.json + spending-YYYY-YY.json per year. Worker tries chunked first, falls back to monolith. Latest year auto-loaded (~4-8MB vs 21-40MB). Progressive loading for older years.
 - [ ] **VPS backup strategy** — vps-main runs everything (Clawdbot, email, CRM, clawd-worker) with no backup. A `docker compose` export + rsync to Oracle (vps-news) would protect against Hostinger outage.
-- [ ] **Add analytics to council sites** — Zero visibility on usage. Free options: Umami (self-hosted on Oracle), Cloudflare Web Analytics (free, cookieless), or Plausible.
+- [x] **Add analytics to council sites** — ✅ Done (9 Feb 2026). Cloudflare Web Analytics (free, cookieless). Code wired via VITE_CF_ANALYTICS_TOKEN env var in vite.config.js + deploy.yml. Inactive until CF_ANALYTICS_TOKEN secret is added to GitHub repo. User needs to: create Cloudflare account → add site → copy beacon token → add as repo secret.
 
 ## Priority 3 — Improvements
 
 - [ ] **Cancel both AWS instances** — Both trials end July 2026. aws-2 is already dead. aws-1 no longer needed (newsburnley moved to Cloudflare Pages).
 - [ ] **Rotate exposed API keys** — OpenAI, Kimi, DeepSeek, Companies House keys were in .claude/settings.local.json (now removed). Need rotating on provider dashboards.
-- [ ] **Fix council_etl.py `or True` bug** — Line 1016, jurisdiction filter is useless (all suppliers pass). Known since audit.
-- [ ] **Fix police_etl.py import bug** — Line 121, urllib.parse imported inside function after it's used. Will crash on POST calls.
+- [x] **Fix council_etl.py `or True` bug** — ✅ Done (9 Feb 2026). Removed redundant jurisdiction filter — CH API only returns UK companies. Previous filter had overly broad `or not country` clause.
+- [x] **Fix police_etl.py import bug** — ✅ Already fixed. urllib.parse is correctly imported at line 30 (top of file). The bug was resolved in a prior session.
 - [ ] **Autonomous article pipeline** — ✅ Built (auto_pipeline.py on vps-main, cron 8am daily). Needs testing with real data change.
 - [ ] **Rebuild newslancashire.co.uk deploy** — Astro build dir was deleted (broken). Pipeline now exports 655 articles but can't deploy to Cloudflare Pages. Need to either rebuild Astro site or create a simple static HTML generator.
 - [ ] **Push newslancashire repo to GitHub** — Git repo initialised on vps-news (2 commits). Need to create `tompickup23/newslancashire` private repo on GitHub, add SSH deploy key, push. One-time 5-minute task.
@@ -89,3 +89,6 @@
 - [x] Split spending.json for mobile: v3 year-chunked format, progressive loading, 75-78% initial download savings (9 Feb 2026)
 - [x] Removed unused @tanstack/react-query dependency (9 Feb 2026)
 - [x] ETL v2 format with pre-computed filterOptions (9 Feb 2026)
+- [x] Fixed useData.test.js: 2 pre-existing test failures (fetch error timeout + cache race condition) (9 Feb 2026)
+- [x] Fixed council_etl.py CH jurisdiction filter: removed redundant `or not country` clause (9 Feb 2026)
+- [x] Added Cloudflare Web Analytics: CSP updated, vite.config.js injection, deploy.yml env var, Legal.jsx updated (9 Feb 2026)

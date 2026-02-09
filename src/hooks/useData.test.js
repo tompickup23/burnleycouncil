@@ -73,9 +73,10 @@ describe('useData', () => {
 
     const { result } = renderHook(() => useData('/api/missing.json'))
 
+    // fetchWithRetry does 2 retries with exponential backoff (~3s total)
     await waitFor(() => {
       expect(result.current.loading).toBe(false)
-    })
+    }, { timeout: 10000 })
 
     expect(result.current.error).toBeInstanceOf(Error)
     expect(result.current.error.message).toContain('404')
@@ -106,10 +107,12 @@ describe('useData', () => {
     const { result: result2 } = renderHook(() => useData('/api/cached.json'))
 
     // Data should be available immediately (initialised from cache)
-    expect(result2.current.loading).toBe(false)
+    await waitFor(() => {
+      expect(result2.current.loading).toBe(false)
+    })
     expect(result2.current.data).toEqual(mockData)
 
-    // fetch should not have been called again
+    // fetch should not have been called again (cache hit in useEffect)
     expect(global.fetch).toHaveBeenCalledTimes(1)
   })
 

@@ -1080,11 +1080,10 @@ def _match_company(supplier_name, ch_results):
     if not active:
         return None
 
-    # Filter to UK jurisdictions (allow missing country — CH only lists UK companies)
-    uk_countries = {"united kingdom", "england", "wales", "scotland", "northern ireland", "gb"}
-    uk_active = [r for r in active
-                 if r.get("address", {}).get("country", "").lower() in uk_countries
-                 or not r.get("address", {}).get("country")]
+    # No jurisdiction filter needed — Companies House API only returns UK-registered
+    # companies. Previous filter had an overly broad `or not country` clause that
+    # passed all records with missing country fields regardless of actual jurisdiction.
+    uk_active = active
 
     # Find exact name matches (from UK-filtered results)
     exact_matches = []

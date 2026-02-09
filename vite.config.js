@@ -69,7 +69,7 @@ ${sitemapUrls}
     },
     transformIndexHtml(html) {
       // Replace placeholders in index.html with council-specific values
-      return html
+      html = html
         .replaceAll('%COUNCIL_NAME%', councilName)
         .replaceAll('%COUNCIL_FULL%', councilFull)
         .replaceAll('%COUNCIL_ID%', config.council_id || council)
@@ -81,6 +81,15 @@ ${sitemapUrls}
         .replaceAll('%OFFICIAL_URL%', config.official_website || '')
         .replaceAll('%COUNTY%', 'Lancashire')
         .replaceAll('%GEO_PLACENAME%', `${councilName}, Lancashire`)
+
+      // Inject Cloudflare Web Analytics when token is configured (production only)
+      const cfToken = process.env.VITE_CF_ANALYTICS_TOKEN
+      if (cfToken) {
+        html = html.replace('</body>',
+          `  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "${cfToken}"}'></script>\n  </body>`)
+      }
+
+      return html
     },
   }
 }

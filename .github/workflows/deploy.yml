@@ -43,15 +43,23 @@ jobs:
       # Build each council sequentially — they share public/data/ so cannot run in parallel
       - name: Build Burnley
         run: VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/burnleycouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
 
       - name: Build Hyndburn
         run: VITE_COUNCIL=hyndburn VITE_BASE=/lancashire/hyndburncouncil/ npx vite build --outDir /tmp/lancashire-deploy/hyndburncouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
 
       - name: Build Pendle
         run: VITE_COUNCIL=pendle VITE_BASE=/lancashire/pendlecouncil/ npx vite build --outDir /tmp/lancashire-deploy/pendlecouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
 
       - name: Build Rossendale
         run: VITE_COUNCIL=rossendale VITE_BASE=/lancashire/rossendalecouncil/ npx vite build --outDir /tmp/lancashire-deploy/rossendalecouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
 
       # Hub pages — root 404.html is the ONLY 404 GitHub Pages reads for SPA routing
       - name: Copy hub pages and static files
