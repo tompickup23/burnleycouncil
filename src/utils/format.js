@@ -103,6 +103,7 @@ export function getFinancialYear(dateStr) {
   if (!dateStr) return null
 
   const date = new Date(dateStr)
+  if (isNaN(date.getTime())) return null
   const month = date.getMonth() // 0-11
   const year = date.getFullYear()
 

@@ -77,9 +77,11 @@ function Budgets() {
   }, [councilName])
 
   // Initialize selectedYear when data first loads
-  if (budgetData && selectedYear === null) {
-    setSelectedYear(budgetData.revenue_budgets?.length - 1 || 0)
-  }
+  useEffect(() => {
+    if (budgetData && selectedYear === null) {
+      setSelectedYear(budgetData.revenue_budgets?.length - 1 || 0)
+    }
+  }, [budgetData, selectedYear])
 
   if (loading) {
     return <LoadingState message="Loading budget data..." />
@@ -517,8 +519,8 @@ function Budgets() {
                   <tr className="reserves-row">
                     <td className="dept-name">Earmarked Reserves</td>
                     {revenueBudgets.map((b, i) => (
-                      <td key={i} className={b.departments['Earmarked Reserves'] < 0 ? 'negative' : ''}>
-                        {formatCurrency(b.departments['Earmarked Reserves'], true)}
+                      <td key={i} className={b.departments?.['Earmarked Reserves'] < 0 ? 'negative' : ''}>
+                        {formatCurrency(b.departments?.['Earmarked Reserves'], true)}
                       </td>
                     ))}
                     <td></td>

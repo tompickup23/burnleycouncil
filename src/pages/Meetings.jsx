@@ -121,7 +121,7 @@ function Meetings() {
         </div>
         <div className="info-stat">
           <Clock size={18} />
-          <span>Updated {new Date(meetingsData.last_updated).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+          <span>Updated {meetingsData.last_updated ? new Date(meetingsData.last_updated).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'recently'}</span>
         </div>
       </div>
 

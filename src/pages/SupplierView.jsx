@@ -132,7 +132,7 @@ function SupplierView() {
                 }}
               >
                 <Shield size={14} />
-                {compliance.risk_level.charAt(0).toUpperCase() + compliance.risk_level.slice(1)} Risk
+                {(compliance.risk_level || 'unknown').charAt(0).toUpperCase() + (compliance.risk_level || 'unknown').slice(1)} Risk
               </span>
             )}
           </div>
@@ -259,7 +259,7 @@ function SupplierView() {
                 {spending.by_council.map((row, i) => (
                   <tr key={i}>
                     <td className="council-name-cell">
-                      {row.council.charAt(0).toUpperCase() + row.council.slice(1)}
+                      {(row.council || '').charAt(0).toUpperCase() + (row.council || '').slice(1)}
                     </td>
                     <td className="amount-cell">{formatCurrency(row.total)}</td>
                     <td>{formatNumber(row.count)}</td>
@@ -387,7 +387,7 @@ function SupplierView() {
                 }}
               >
                 <Shield size={18} />
-                {compliance.risk_level.charAt(0).toUpperCase() + compliance.risk_level.slice(1)} Risk
+                {(compliance.risk_level || 'unknown').charAt(0).toUpperCase() + (compliance.risk_level || 'unknown').slice(1)} Risk
               </span>
               {compliance.violation_count > 0 && (
                 <span className="violation-count">

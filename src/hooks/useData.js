@@ -112,7 +112,10 @@ export function preloadData(urls) {
   urlList.forEach(url => {
     if (!cache.has(url) && !inflight.has(url)) {
       const promise = fetch(resolveUrl(url))
-        .then(r => r.json())
+        .then(r => {
+          if (!r.ok) throw new Error(`Preload failed ${url}: ${r.status}`)
+          return r.json()
+        })
         .then(json => {
           cache.set(url, json)
           inflight.delete(url)
