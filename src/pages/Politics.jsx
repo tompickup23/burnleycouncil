@@ -50,7 +50,7 @@ function Politics() {
 
   return (
     <div className="politics-page animate-fade-in">
-      <header className="page-header">
+      <header className="page-header" aria-label="Council politics overview">
         <h1>Council Politics</h1>
         <p className="subtitle">
           {councillors.length} councillors representing {summary?.total_wards || ''} wards across {councilName}

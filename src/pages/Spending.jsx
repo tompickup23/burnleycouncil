@@ -1,15 +1,28 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useVirtualizer } from '@tanstack/react-virtual'
-import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
-import { useData } from '../hooks/useData'
+import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate } from '../utils/format'
 import './Spending.css'
 
-const ROW_HEIGHT = 52  // Estimated row height in pixels for virtual scrolling
+const PAGE_SIZE_OPTIONS = [50, 100, 200, 500]
+const DEFAULT_PAGE_SIZE_MOBILE = 100
+const DEFAULT_PAGE_SIZE_DESKTOP = 200
+const MOBILE_BREAKPOINT = 768
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT)
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    const handler = (e) => setIsMobile(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [])
+  return isMobile
+}
 const CHART_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#64d2ff', '#ff375f', '#ffd60a', '#ac8e68', '#8e8e93']
 const TOOLTIP_STYLE = { background: 'rgba(28, 28, 30, 0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', padding: '12px 16px' }
 
@@ -31,16 +44,28 @@ function Spending() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
-  const { data: spending, loading, error } = useData('/data/spending.json')
+
+  // Web Worker handles all heavy computation off the main thread
+  const { loading, error, filterOptions, results, totalRecords, query, exportCSV } = useSpendingWorker()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('table')
   const [showFilters, setShowFilters] = useState(true)
+  const isMobile = useIsMobile()
+  const [pageSize, setPageSize] = useState(() => {
+    const saved = searchParams.get('pageSize')
+    if (saved && PAGE_SIZE_OPTIONS.includes(Number(saved))) return Number(saved)
+    return typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT
+      ? DEFAULT_PAGE_SIZE_MOBILE
+      : DEFAULT_PAGE_SIZE_DESKTOP
+  })
+  const tableTopRef = useRef(null)
 
   // Read filters from URL params (or default to empty)
   const search = searchParams.get('q') || ''
   const sortField = searchParams.get('sort') || 'date'
   const sortDir = searchParams.get('dir') || 'desc'
-  const tableContainerRef = useRef(null)
+  const page = parseInt(searchParams.get('page') || '1', 10)
 
   const filters = useMemo(() => {
     const f = {}
@@ -64,6 +89,7 @@ function Spending() {
   }, [setSearchParams])
 
   const setSearch = useCallback((v) => setParam('q', v), [setParam])
+  const setPage = useCallback((p) => setParam('page', p > 1 ? String(p) : ''), [setParam])
   const updateFilter = useCallback((key, value) => setParam(key, value), [setParam])
 
   const handleSort = useCallback((field) => {
@@ -90,204 +116,65 @@ function Spending() {
     return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
   }, [councilName])
 
+  // Send query to worker whenever filter state changes
+  useEffect(() => {
+    query({ filters, search, sortField, sortDir, page, pageSize })
+  }, [filters, search, sortField, sortDir, page, pageSize, query])
+
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
-  const spendingData = useMemo(() => spending || [], [spending])
 
-  // Extract unique values for filter dropdowns
-  const filterOptions = useMemo(() => {
-    if (!spendingData.length) return {}
-    const unique = (arr) => [...new Set(arr.filter(Boolean))].sort()
-    const months = spendingData.map(item => {
-      if (!item.date) return null
-      const d = new Date(item.date)
-      return d.toLocaleString('en-GB', { month: 'long', year: 'numeric' })
+  // Extract data from worker results (or defaults while loading)
+  const paginatedData = results?.paginatedData || []
+  const filteredCount = results?.filteredCount || 0
+  const totalPages = results?.totalPages || 0
+  const stats = results?.stats || { total: 0, count: 0, suppliers: 0, avgTransaction: 0, medianAmount: 0, maxTransaction: 0, byType: {} }
+  const chartData = results?.chartData || { yearData: [], categoryData: [], serviceData: [], supplierData: [], typeData: [], monthlyData: [] }
+
+  // Handle page size changes - persist to URL and reset page
+  const handlePageSizeChange = useCallback((newSize) => {
+    setPageSize(newSize)
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev)
+      next.set('pageSize', String(newSize))
+      next.delete('page') // reset to page 1
+      return next
+    }, { replace: true })
+  }, [setSearchParams])
+
+  // Scroll to table top when page changes
+  const scrollToTable = useCallback(() => {
+    if (tableTopRef.current) {
+      tableTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [])
+
+  const goToPage = useCallback((p) => {
+    setPage(p)
+    scrollToTable()
+  }, [setPage, scrollToTable])
+
+  // Compute visible range text
+  const rangeStart = (page - 1) * pageSize + 1
+  const rangeEnd = Math.min(page * pageSize, filteredCount)
+
+  const handleExportCSV = useCallback(() => {
+    exportCSV({
+      filters,
+      search,
+      sortField,
+      sortDir,
+      filename: `${councilId}-spending-export-${new Date().toISOString().split('T')[0]}.csv`,
     })
-    return {
-      financial_years: unique(spendingData.map(s => s.financial_year)),
-      quarters: ['Q1', 'Q2', 'Q3', 'Q4'],
-      months: unique(months),
-      types: unique(spendingData.map(s => s.type)),
-      service_divisions: unique(spendingData.map(s => s.service_division)),
-      expenditure_categories: unique(spendingData.map(s => s.expenditure_category)),
-      capital_revenue: unique(spendingData.map(s => s.capital_revenue)),
-      suppliers: unique(spendingData.map(s => s.supplier)),
-    }
-  }, [spendingData])
+  }, [exportCSV, filters, search, sortField, sortDir, councilId])
 
-  // Filter and sort data
-  const filteredData = useMemo(() => {
-    let result = spendingData
-
-    if (search) {
-      const searchLower = search.toLowerCase()
-      result = result.filter(item =>
-        item.supplier?.toLowerCase().includes(searchLower) ||
-        item.organisational_unit?.toLowerCase().includes(searchLower) ||
-        item.service_division?.toLowerCase().includes(searchLower) ||
-        item.expenditure_category?.toLowerCase().includes(searchLower) ||
-        item.transaction_number?.toLowerCase().includes(searchLower)
-      )
-    }
-
-    if (filters.financial_year) result = result.filter(item => item.financial_year === filters.financial_year)
-    if (filters.quarter) {
-      const qNum = parseInt(filters.quarter.replace('Q', ''))
-      result = result.filter(item => item.quarter === qNum)
-    }
-    if (filters.month) {
-      result = result.filter(item => {
-        if (!item.date) return false
-        const d = new Date(item.date)
-        return d.toLocaleString('en-GB', { month: 'long', year: 'numeric' }) === filters.month
-      })
-    }
-    if (filters.type) result = result.filter(item => item.type === filters.type)
-    if (filters.service_division) result = result.filter(item => item.service_division === filters.service_division)
-    if (filters.expenditure_category) result = result.filter(item => item.expenditure_category === filters.expenditure_category)
-    if (filters.capital_revenue) result = result.filter(item => item.capital_revenue === filters.capital_revenue)
-    if (filters.supplier) result = result.filter(item => item.supplier === filters.supplier)
-    if (filters.min_amount) result = result.filter(item => (item.amount || 0) >= parseFloat(filters.min_amount))
-    if (filters.max_amount) result = result.filter(item => (item.amount || 0) <= parseFloat(filters.max_amount))
-
-    // Sort (create a copy first to avoid mutating cached data)
-    result = [...result].sort((a, b) => {
-      let aVal = a[sortField], bVal = b[sortField]
-      if (sortField === 'amount') { aVal = Number(aVal) || 0; bVal = Number(bVal) || 0 }
-      else if (sortField === 'date') { aVal = new Date(aVal || '1970-01-01').getTime(); bVal = new Date(bVal || '1970-01-01').getTime() }
-      if (aVal < bVal) return sortDir === 'asc' ? -1 : 1
-      if (aVal > bVal) return sortDir === 'asc' ? 1 : -1
-      return 0
-    })
-
-    return result
-  }, [spendingData, search, filters, sortField, sortDir])
-
-  // Virtual scrolling for the table
-  const rowVirtualizer = useVirtualizer({
-    count: filteredData.length,
-    getScrollElement: () => tableContainerRef.current,
-    estimateSize: () => ROW_HEIGHT,
-    overscan: 20,
-  })
-
-  // Summary stats with comparisons
-  const stats = useMemo(() => {
-    const total = filteredData.reduce((sum, item) => sum + (Number(item.amount) || 0), 0)
-    const suppliers = new Set(filteredData.map(item => item.supplier)).size
-    const avgTransaction = filteredData.length > 0 ? total / filteredData.length : 0
-    const medianAmount = (() => {
-      if (!filteredData.length) return 0
-      const sorted = filteredData.map(i => Number(i.amount) || 0).sort((a, b) => a - b)
-      const mid = Math.floor(sorted.length / 2)
-      return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2
-    })()
-    const maxTransaction = filteredData.reduce((max, i) => Math.max(max, Number(i.amount) || 0), 0)
-    // Type breakdown
-    const byType = {}
-    filteredData.forEach(i => {
-      const t = i.type || 'other'
-      byType[t] = (byType[t] || 0) + (Number(i.amount) || 0)
-    })
-    return { total, count: filteredData.length, suppliers, avgTransaction, medianAmount, maxTransaction, byType }
-  }, [filteredData])
-
-  // Chart data - enriched
-  const chartData = useMemo(() => {
-    const aggregate = (keyFn) => {
-      const map = {}
-      filteredData.forEach(item => {
-        const key = keyFn(item)
-        if (key) map[key] = (map[key] || 0) + (item.amount || 0)
-      })
-      return map
-    }
-    const aggregateCount = (keyFn) => {
-      const map = {}
-      filteredData.forEach(item => {
-        const key = keyFn(item)
-        if (key) map[key] = (map[key] || 0) + 1
-      })
-      return map
-    }
-
-    const byYear = aggregate(i => i.financial_year || 'Unknown')
-    const byYearCount = aggregateCount(i => i.financial_year || 'Unknown')
-    const byCategory = aggregate(i => i.expenditure_category || 'Other')
-    const byService = aggregate(i => i.service_division || 'Other')
-    const bySupplier = aggregate(i => i.supplier || 'Unknown')
-    const bySupplierCount = aggregateCount(i => i.supplier || 'Unknown')
-    const byType = aggregate(i => i.type || 'other')
-    const byMonth = {}
-    const byMonthCount = {}
-    filteredData.forEach(i => {
-      if (!i.date) return
-      const d = new Date(i.date)
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-      byMonth[key] = (byMonth[key] || 0) + (i.amount || 0)
-      byMonthCount[key] = (byMonthCount[key] || 0) + 1
-    })
-
-    // Monthly data with running average
-    const monthlyRaw = Object.entries(byMonth).map(([month, amount]) => ({
-      month,
-      amount,
-      count: byMonthCount[month] || 0,
-      label: (() => {
-        const [y, m] = month.split('-')
-        return new Date(y, m - 1).toLocaleString('en-GB', { month: 'short', year: '2-digit' })
-      })(),
-    })).sort((a, b) => a.month.localeCompare(b.month)).slice(-36)
-
-    // 3-month rolling average
-    const monthlyData = monthlyRaw.map((d, i, arr) => {
-      const window = arr.slice(Math.max(0, i - 2), i + 1)
-      return { ...d, avg: window.reduce((s, w) => s + w.amount, 0) / window.length }
-    })
-
-    return {
-      yearData: Object.entries(byYear).map(([year, amount]) => ({
-        year, amount, count: byYearCount[year] || 0,
-        avg: (byYearCount[year] || 1) > 0 ? amount / byYearCount[year] : 0,
-      })).sort((a, b) => a.year.localeCompare(b.year)),
-      categoryData: Object.entries(byCategory).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value).slice(0, 10),
-      serviceData: Object.entries(byService).map(([name, value]) => ({
-        name: name.split(' - ')[1] || name, fullName: name, value,
-      })).sort((a, b) => b.value - a.value).slice(0, 10),
-      supplierData: Object.entries(bySupplier).map(([name, value]) => ({
-        name: truncate(name, 25), fullName: name, value,
-        count: bySupplierCount[name] || 0,
-      })).sort((a, b) => b.value - a.value).slice(0, 10),
-      typeData: Object.entries(byType).map(([name, value]) => ({
-        name: typeLabel(name), value, rawType: name,
-      })).sort((a, b) => b.value - a.value),
-      monthlyData,
-    }
-  }, [filteredData])
-
-  const exportCSV = () => {
-    const headers = ['Date', 'Supplier', 'Amount', 'Type', 'Service', 'Category', 'Org Unit', 'Transaction']
-    const rows = filteredData.map(item => [
-      item.date, item.supplier, item.amount, item.type,
-      item.service_division, item.expenditure_category, item.organisational_unit, item.transaction_number,
-    ])
-    const csv = [headers, ...rows].map(row => row.map(cell => `"${cell || ''}"`).join(',')).join('\n')
-    const blob = new Blob([csv], { type: 'text/csv' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${councilId}-spending-export-${new Date().toISOString().split('T')[0]}.csv`
-    a.click()
-    URL.revokeObjectURL(url)
-  }
-
-  if (loading) {
+  if (loading && !results) {
     return <LoadingState message="Loading spending data..." />
   }
 
   if (error) {
     return (
       <div className="page-error">
-        <h2>Unable to load data</h2>
+        <h2>Unable to load spending data</h2>
         <p>Please try refreshing the page.</p>
       </div>
     )
@@ -299,12 +186,12 @@ function Spending() {
         <div className="header-content">
           <h1>Spending Explorer</h1>
           <p className="subtitle">
-            Search and analyse {spendingData.length.toLocaleString()} council transactions
+            Search and analyse {(totalRecords || 0).toLocaleString()} council transactions
           </p>
           <DataFreshness source="Spending data" compact />
         </div>
         <div className="header-actions">
-          <button className="export-btn" onClick={exportCSV}>
+          <button className="export-btn" onClick={handleExportCSV}>
             <Download size={18} />
             Export CSV
           </button>
@@ -333,7 +220,6 @@ function Spending() {
           className={`filter-toggle ${showFilters ? 'active' : ''}`}
           onClick={() => setShowFilters(!showFilters)}
           aria-expanded={showFilters}
-          aria-label={showFilters ? 'Hide filters' : 'Show filters'}
         >
           <Filter size={18} />
           Filters
@@ -347,14 +233,14 @@ function Spending() {
       {showFilters && (
         <div className="filter-panel">
           <div className="filter-grid">
-            <SearchableSelect label="Financial Year" value={filters.financial_year} options={filterOptions.financial_years || []} onChange={(v) => updateFilter('financial_year', v)} placeholder="All Years" />
-            <SearchableSelect label="Quarter" value={filters.quarter} options={filterOptions.quarters || []} onChange={(v) => updateFilter('quarter', v)} placeholder="All Quarters" />
-            <SearchableSelect label="Month" value={filters.month} options={filterOptions.months || []} onChange={(v) => updateFilter('month', v)} placeholder="All Months" />
-            <SearchableSelect label="Data Type" value={filters.type} options={filterOptions.types || []} onChange={(v) => updateFilter('type', v)} placeholder="All Types" />
-            <SearchableSelect label="Service Division" value={filters.service_division} options={filterOptions.service_divisions || []} onChange={(v) => updateFilter('service_division', v)} placeholder="All Services" />
-            <SearchableSelect label="Expenditure Category" value={filters.expenditure_category} options={filterOptions.expenditure_categories || []} onChange={(v) => updateFilter('expenditure_category', v)} placeholder="All Categories" />
-            <SearchableSelect label="Capital/Revenue" value={filters.capital_revenue} options={filterOptions.capital_revenue || []} onChange={(v) => updateFilter('capital_revenue', v)} placeholder="All" />
-            <SearchableSelect label="Supplier" value={filters.supplier} options={filterOptions.suppliers || []} onChange={(v) => updateFilter('supplier', v)} placeholder="All Suppliers" />
+            <SearchableSelect label="Financial Year" value={filters.financial_year} options={filterOptions?.financial_years || []} onChange={(v) => updateFilter('financial_year', v)} placeholder="All Years" />
+            <SearchableSelect label="Quarter" value={filters.quarter} options={filterOptions?.quarters || []} onChange={(v) => updateFilter('quarter', v)} placeholder="All Quarters" />
+            <SearchableSelect label="Month" value={filters.month} options={filterOptions?.months || []} onChange={(v) => updateFilter('month', v)} placeholder="All Months" />
+            <SearchableSelect label="Data Type" value={filters.type} options={filterOptions?.types || []} onChange={(v) => updateFilter('type', v)} placeholder="All Types" />
+            <SearchableSelect label="Service Division" value={filters.service_division} options={filterOptions?.service_divisions || []} onChange={(v) => updateFilter('service_division', v)} placeholder="All Services" />
+            <SearchableSelect label="Expenditure Category" value={filters.expenditure_category} options={filterOptions?.expenditure_categories || []} onChange={(v) => updateFilter('expenditure_category', v)} placeholder="All Categories" />
+            <SearchableSelect label="Capital/Revenue" value={filters.capital_revenue} options={filterOptions?.capital_revenue || []} onChange={(v) => updateFilter('capital_revenue', v)} placeholder="All" />
+            <SearchableSelect label="Supplier" value={filters.supplier} options={filterOptions?.suppliers || []} onChange={(v) => updateFilter('supplier', v)} placeholder="All Suppliers" />
 
             <div className="filter-group amount-filter">
               <label>Amount Range</label>
@@ -375,7 +261,7 @@ function Spending() {
         </div>
       )}
 
-      {/* Summary Stats - redesigned */}
+      {/* Summary Stats */}
       <div className="stats-grid">
         <div className="stat-card stat-primary">
           <div className="stat-card-icon"><Activity size={20} /></div>
@@ -443,37 +329,35 @@ function Spending() {
         </button>
       </div>
 
-      {/* Table View — virtualised for performance */}
+      {/* Table View */}
       {activeTab === 'table' && (
-        <div className="table-virtual-container" ref={tableContainerRef}>
-          <table className="spending-table" role="table" aria-label="Spending records">
-            <thead>
-              <tr>
-                <th scope="col" className="sortable" onClick={() => handleSort('date')} aria-label="Sort by date">
-                  Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
-                </th>
-                <th scope="col" className="sortable" onClick={() => handleSort('supplier')} aria-label="Sort by supplier">
-                  Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
-                </th>
-                <th scope="col">Service</th>
-                <th scope="col">Category</th>
-                <th scope="col" className="sortable amount-col" onClick={() => handleSort('amount')} aria-label="Sort by amount">
-                  Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
-                </th>
-                <th scope="col">Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Top spacer — pushes visible rows to correct scroll position */}
-              {rowVirtualizer.getVirtualItems().length > 0 && (
-                <tr style={{ height: rowVirtualizer.getVirtualItems()[0].start }}>
-                  <td colSpan={6} style={{ padding: 0, border: 0 }} />
+        <>
+          <div className="table-container" ref={tableTopRef}>
+            {loading && results && (
+              <div className="table-loading-overlay">
+                <div className="table-loading-spinner" />
+              </div>
+            )}
+            <table className="spending-table" role="table" aria-label="Spending records">
+              <thead>
+                <tr>
+                  <th scope="col" className="sortable" onClick={() => handleSort('date')} aria-label="Sort by date">
+                    Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
+                  </th>
+                  <th scope="col" className="sortable" onClick={() => handleSort('supplier')} aria-label="Sort by supplier">
+                    Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
+                  </th>
+                  <th scope="col">Service</th>
+                  <th scope="col">Category</th>
+                  <th scope="col" className="sortable amount-col" onClick={() => handleSort('amount')} aria-label="Sort by amount">
+                    Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
+                  </th>
+                  <th scope="col">Type</th>
                 </tr>
-              )}
-              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                const item = filteredData[virtualRow.index]
-                return (
-                  <tr key={`${item.transaction_number}-${virtualRow.index}`}>
+              </thead>
+              <tbody>
+                {paginatedData.map((item, i) => (
+                  <tr key={`${item.transaction_number}-${i}`}>
                     <td className="date-col">{formatDate(item.date)}</td>
                     <td className="supplier-col">
                       <span className="supplier-name">{truncate(item.supplier, 35)}</span>
@@ -488,23 +372,39 @@ function Spending() {
                       </span>
                     </td>
                   </tr>
-                )
-              })}
-              {/* Bottom spacer — maintains total scroll height */}
-              {rowVirtualizer.getVirtualItems().length > 0 && (
-                <tr style={{ height: rowVirtualizer.getTotalSize() - (rowVirtualizer.getVirtualItems().at(-1)?.end || 0) }}>
-                  <td colSpan={6} style={{ padding: 0, border: 0 }} />
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className="virtual-scroll-info">
-            {filteredData.length.toLocaleString()} records — scroll to browse
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
+
+          {totalPages > 1 && (
+            <div className="pagination">
+              <div className="pagination-size">
+                <label htmlFor="page-size">Rows:</label>
+                <select id="page-size" value={pageSize} onChange={(e) => handlePageSizeChange(Number(e.target.value))}>
+                  {PAGE_SIZE_OPTIONS.map(size => (
+                    <option key={size} value={size}>{size}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="pagination-nav">
+                <button className="page-btn" disabled={page === 1} onClick={() => goToPage(1)} aria-label="First page"><ChevronsLeft size={16} /></button>
+                <button className="page-btn" disabled={page === 1} onClick={() => goToPage(page - 1)} aria-label="Previous page"><ChevronLeft size={16} /></button>
+                <span className="page-info">
+                  <span className="page-range">{rangeStart.toLocaleString()}–{rangeEnd.toLocaleString()}</span>
+                  {' of '}
+                  <span className="page-total">{(filteredCount || 0).toLocaleString()}</span>
+                </span>
+                <button className="page-btn" disabled={page === totalPages} onClick={() => goToPage(page + 1)} aria-label="Next page"><ChevronRight size={16} /></button>
+                <button className="page-btn" disabled={page === totalPages} onClick={() => goToPage(totalPages)} aria-label="Last page"><ChevronsRight size={16} /></button>
+              </div>
+              <span className="pagination-page-count">Page {page} of {totalPages}</span>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Charts View - upgraded */}
+      {/* Charts View */}
       {activeTab === 'charts' && (
         <div className="charts-grid">
           {/* Monthly Spending Trend - hero chart with area gradient + rolling avg */}
@@ -512,11 +412,11 @@ function Spending() {
             <div className="chart-header">
               <div>
                 <h3>Monthly Spending Trend</h3>
-                <p className="chart-subtitle">Last {chartData.monthlyData.length} months with 3-month rolling average</p>
+                <p className="chart-subtitle">Last {chartData?.monthlyData?.length || 0} months with 3-month rolling average</p>
               </div>
-              {chartData.monthlyData.length >= 2 && (() => {
-                const last = chartData.monthlyData[chartData.monthlyData.length - 1]?.amount || 0
-                const prev = chartData.monthlyData[chartData.monthlyData.length - 2]?.amount || 0
+              {(chartData?.monthlyData?.length || 0) >= 2 && (() => {
+                const last = chartData?.monthlyData?.[chartData.monthlyData.length - 1]?.amount || 0
+                const prev = chartData?.monthlyData?.[chartData.monthlyData.length - 2]?.amount || 0
                 const change = prev > 0 ? ((last - prev) / prev * 100) : 0
                 const isUp = change >= 0
                 return (
@@ -550,7 +450,7 @@ function Spending() {
             </ResponsiveContainer>
           </div>
 
-          {/* Spending by Financial Year - with avg per transaction */}
+          {/* Spending by Financial Year */}
           <div className="chart-card">
             <div className="chart-header">
               <h3>Spend by Financial Year</h3>
@@ -566,15 +466,14 @@ function Spending() {
                   labelFormatter={(l) => `FY ${l}`}
                 />
                 <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
-                  {chartData.yearData.map((_, i) => (
-                    <Cell key={i} fill={i === chartData.yearData.length - 1 ? '#0a84ff' : 'rgba(10, 132, 255, 0.35)'} />
+                  {(chartData?.yearData || []).map((_, i) => (
+                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? '#0a84ff' : 'rgba(10, 132, 255, 0.35)'} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
-            {/* Year summary underneath */}
             <div className="chart-year-footer">
-              {chartData.yearData.slice(-3).map(y => (
+              {(chartData?.yearData || []).slice(-3).map(y => (
                 <div key={y.year} className="year-stat">
                   <span className="year-stat-label">{y.year}</span>
                   <span className="year-stat-value">{formatCurrency(y.amount, true)}</span>
@@ -602,7 +501,7 @@ function Spending() {
                   paddingAngle={3}
                   strokeWidth={0}
                 >
-                  {chartData.typeData.map((entry) => (
+                  {(chartData?.typeData || []).map((entry) => (
                     <Cell key={entry.rawType} fill={entry.rawType === 'spend' ? '#0a84ff' : entry.rawType === 'contracts' ? '#bf5af2' : '#30d158'} />
                   ))}
                 </Pie>
@@ -610,7 +509,7 @@ function Spending() {
               </PieChart>
             </ResponsiveContainer>
             <div className="donut-legend">
-              {chartData.typeData.map(t => (
+              {(chartData?.typeData || []).map(t => (
                 <div key={t.rawType} className="donut-legend-item">
                   <span className={`type-dot ${t.rawType}`} />
                   <span className="donut-legend-name">{t.name}</span>
@@ -620,7 +519,7 @@ function Spending() {
             </div>
           </div>
 
-          {/* Top 10 Suppliers - enhanced horizontal */}
+          {/* Top 10 Suppliers */}
           <div className="chart-card wide">
             <div className="chart-header">
               <h3>Top 10 Suppliers by Value</h3>
@@ -639,7 +538,7 @@ function Spending() {
                   }}
                 />
                 <Bar dataKey="value" radius={[0, 6, 6, 0]}>
-                  {chartData.supplierData.map((_, i) => (
+                  {(chartData?.supplierData || []).map((_, i) => (
                     <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} fillOpacity={0.85} />
                   ))}
                 </Bar>
@@ -647,13 +546,13 @@ function Spending() {
             </ResponsiveContainer>
           </div>
 
-          {/* Top Categories - horizontal bar */}
+          {/* Top Categories */}
           <div className="chart-card">
             <div className="chart-header">
               <h3>Top Expenditure Categories</h3>
             </div>
             <div className="inline-bar-list">
-              {chartData.categoryData.slice(0, 8).map((cat, i) => {
+              {(chartData?.categoryData || []).slice(0, 8).map((cat, i) => {
                 const maxVal = chartData.categoryData[0]?.value || 1
                 const pct = (cat.value / maxVal) * 100
                 return (
@@ -672,13 +571,13 @@ function Spending() {
             </div>
           </div>
 
-          {/* Services - horizontal bar */}
+          {/* Services */}
           <div className="chart-card">
             <div className="chart-header">
               <h3>Spending by Service Division</h3>
             </div>
             <div className="inline-bar-list">
-              {chartData.serviceData.slice(0, 8).map((svc, i) => {
+              {(chartData?.serviceData || []).slice(0, 8).map((svc, i) => {
                 const maxVal = chartData.serviceData[0]?.value || 1
                 const pct = (svc.value / maxVal) * 100
                 return (

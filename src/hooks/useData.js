@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 
+// --- Configuration ---
+const CACHE_TTL_MS = 30 * 60 * 1000  // 30 minutes
+const MAX_CACHE_ENTRIES = 50          // evict oldest when exceeded (protects mobile RAM)
+const MAX_RETRIES = 2
+const RETRY_BASE_MS = 1000           // exponential backoff: 1s, 2s
+
 // Module-level cache shared across all components
+// Each entry: { data, timestamp }
 const cache = new Map()
 const inflight = new Map()
 
@@ -9,14 +16,43 @@ const inflight = new Map()
 const BASE = import.meta.env.BASE_URL
 function resolveUrl(url) {
   if (!url.startsWith('/')) return url
-  // BASE always ends with '/', so strip the leading '/' from the url
   return BASE + url.slice(1)
+}
+
+/** Check if a cache entry is still valid */
+function isFresh(entry) {
+  return entry && (Date.now() - entry.timestamp) < CACHE_TTL_MS
+}
+
+/** Evict oldest entries when cache exceeds MAX_CACHE_ENTRIES */
+function evictIfNeeded() {
+  if (cache.size <= MAX_CACHE_ENTRIES) return
+  // Map iterates in insertion order — first key is oldest
+  const oldest = cache.keys().next().value
+  cache.delete(oldest)
+}
+
+/** Fetch with retry + exponential backoff */
+function fetchWithRetry(url, attempt = 0) {
+  return fetch(resolveUrl(url)).then(r => {
+    if (!r.ok) throw new Error(`Failed to fetch ${url}: ${r.status}`)
+    return r.json()
+  }).catch(err => {
+    if (attempt < MAX_RETRIES) {
+      const delay = RETRY_BASE_MS * Math.pow(2, attempt)
+      return new Promise(resolve => setTimeout(resolve, delay))
+        .then(() => fetchWithRetry(url, attempt + 1))
+    }
+    throw err
+  })
 }
 
 /**
  * Custom hook for fetching and caching JSON data files.
- * Deduplicates in-flight requests and caches results in memory.
- * Data persists across navigations until page refresh.
+ * - Deduplicates in-flight requests
+ * - Caches results with a 30-minute TTL
+ * - Retries failed fetches (2 retries with exponential backoff)
+ * - Evicts oldest entries when cache exceeds 50 items
  *
  * @param {string|string[]} urls - URL or array of URLs to fetch
  * @returns {{ data: any, loading: boolean, error: Error|null }}
@@ -27,17 +63,22 @@ export function useData(urls) {
   const keyStr = urlList.join('|')
 
   const [data, setData] = useState(() => {
-    // Initialize from cache if all URLs are cached
-    const allCached = urlList.every(u => cache.has(u))
+    const allCached = urlList.every(u => {
+      const entry = cache.get(u)
+      return entry && isFresh(entry)
+    })
     if (allCached) {
-      const results = urlList.map(u => cache.get(u))
+      const results = urlList.map(u => cache.get(u).data)
       return isMultiple ? results : results[0]
     }
     return null
   })
 
   const [loading, setLoading] = useState(() => {
-    return !urlList.every(u => cache.has(u))
+    return !urlList.every(u => {
+      const entry = cache.get(u)
+      return entry && isFresh(entry)
+    })
   })
 
   const [error, setError] = useState(null)
@@ -46,14 +87,16 @@ export function useData(urls) {
   useEffect(() => {
     mountedRef.current = true
 
-    // Already have everything cached — skip fetch
-    if (urlList.every(u => cache.has(u))) {
-      return
-    }
+    const allFresh = urlList.every(u => {
+      const entry = cache.get(u)
+      return entry && isFresh(entry)
+    })
+    if (allFresh) return
 
     const fetchUrl = (url) => {
-      if (cache.has(url)) {
-        return Promise.resolve(cache.get(url))
+      const entry = cache.get(url)
+      if (entry && isFresh(entry)) {
+        return Promise.resolve(entry.data)
       }
 
       // Deduplicate in-flight requests
@@ -61,13 +104,10 @@ export function useData(urls) {
         return inflight.get(url)
       }
 
-      const promise = fetch(resolveUrl(url))
-        .then(r => {
-          if (!r.ok) throw new Error(`Failed to fetch ${url}: ${r.status}`)
-          return r.json()
-        })
+      const promise = fetchWithRetry(url)
         .then(json => {
-          cache.set(url, json)
+          cache.set(url, { data: json, timestamp: Date.now() })
+          evictIfNeeded()
           inflight.delete(url)
           return json
         })
@@ -110,14 +150,12 @@ export function useData(urls) {
 export function preloadData(urls) {
   const urlList = Array.isArray(urls) ? urls : [urls]
   urlList.forEach(url => {
-    if (!cache.has(url) && !inflight.has(url)) {
-      const promise = fetch(resolveUrl(url))
-        .then(r => {
-          if (!r.ok) throw new Error(`Preload failed ${url}: ${r.status}`)
-          return r.json()
-        })
+    const entry = cache.get(url)
+    if ((!entry || !isFresh(entry)) && !inflight.has(url)) {
+      const promise = fetchWithRetry(url)
         .then(json => {
-          cache.set(url, json)
+          cache.set(url, { data: json, timestamp: Date.now() })
+          evictIfNeeded()
           inflight.delete(url)
           return json
         })

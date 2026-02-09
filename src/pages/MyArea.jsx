@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -18,6 +18,12 @@ function MyArea() {
   const [postcodeLoading, setPostcodeLoading] = useState(false)
   const [postcodeError, setPostcodeError] = useState(null)
   const [postcodeResult, setPostcodeResult] = useState(null)
+  const scrollTimerRef = useRef(null)
+
+  // Cleanup scroll timer on unmount
+  useEffect(() => {
+    return () => { if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current) }
+  }, [])
 
   const lookupPostcode = useCallback(async (pc) => {
     const cleaned = pc.replace(/\s+/g, '').toUpperCase()
@@ -56,7 +62,8 @@ function MyArea() {
       if (wardMatch) {
         setSelectedWard(wardMatch.name)
         // Scroll to ward details
-        setTimeout(() => {
+        if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
+        scrollTimerRef.current = setTimeout(() => {
           document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }, 100)
       } else {

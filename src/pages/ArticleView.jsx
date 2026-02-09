@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Calendar, ArrowLeft, Tag } from 'lucide-react'
+import { Calendar, ArrowLeft, Tag, Share2, Link2 } from 'lucide-react'
 import DOMPurify from 'dompurify'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -16,8 +16,49 @@ function ArticleView() {
   const { data: index, loading: indexLoading, error: indexError } = useData('/data/articles-index.json')
   const [content, setContent] = useState(null)
   const [contentLoading, setContentLoading] = useState(true)
+  const [copiedLink, setCopiedLink] = useState(false)
+  const copyTimerRef = useRef(null)
 
   const article = index?.find(a => a.id === articleId)
+
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+
+  // Auto-generate table of contents from h2 headings
+  const headings = useMemo(() => {
+    if (!content) return []
+    const matches = [...content.matchAll(/<h2[^>]*>(.*?)<\/h2>/gi)]
+    return matches.map((m, i) => ({
+      id: `section-${i}`,
+      text: m[1].replace(/<[^>]*>/g, '') // strip any inner HTML tags
+    }))
+  }, [content])
+
+  // Inject IDs into h2 headings for ToC anchor links
+  const contentWithIds = useMemo(() => {
+    if (!content || headings.length === 0) return content
+    let result = content
+    let idx = 0
+    result = result.replace(/<h2([^>]*)>/gi, (match, attrs) => {
+      return `<h2${attrs} id="section-${idx++}">`
+    })
+    return result
+  }, [content, headings])
+
+  // Copy share link to clipboard
+  const copyLink = () => {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      setCopiedLink(true)
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+      copyTimerRef.current = setTimeout(() => setCopiedLink(false), 2000)
+    })
+  }
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+    }
+  }, [])
 
   // Load article content on demand
   useEffect(() => {
@@ -196,13 +237,17 @@ function ArticleView() {
     )
   }
 
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(shareUrl)}`
+  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(article.title + ' ' + shareUrl)}`
+
   return (
     <div className="news-page animate-fade-in">
       <Link to="/news" className="back-button">
         <ArrowLeft size={18} /> Back to News
       </Link>
 
-      <article className="article-full" itemScope itemType="https://schema.org/NewsArticle">
+      <article className="article-full" aria-label="Article content" itemScope itemType="https://schema.org/NewsArticle">
         <meta itemProp="author" content={article.author || siteName} />
         <meta itemProp="datePublished" content={article.date} />
 
@@ -222,6 +267,18 @@ function ArticleView() {
           </div>
         </header>
 
+        <div className="article-sharing">
+          <span className="share-label"><Share2 size={16} /> Share</span>
+          <div className="share-buttons">
+            <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="share-btn twitter" aria-label="Share on X">{'\uD835\uDD4F'}</a>
+            <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="share-btn facebook" aria-label="Share on Facebook">f</a>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="share-btn whatsapp" aria-label="Share on WhatsApp">w</a>
+            <button onClick={copyLink} className="share-btn link" aria-label="Copy link">
+              <Link2 size={16} /> {copiedLink ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+        </div>
+
         {article.image && (
           <div className="article-image">
             <img
@@ -233,11 +290,24 @@ function ArticleView() {
           </div>
         )}
 
-        {content && (
+        {headings.length >= 3 && (
+          <nav className="article-toc" aria-label="Table of contents">
+            <h3>In this article</h3>
+            <ol>
+              {headings.map(h => (
+                <li key={h.id}>
+                  <a href={`#${h.id}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
+        {(contentWithIds || content) && (
           <div
             className="article-body"
             itemProp="articleBody"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(contentWithIds || content) }}
           />
         )}
 

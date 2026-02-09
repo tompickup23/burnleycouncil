@@ -1,7 +1,8 @@
-import { NavLink } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building } from 'lucide-react'
-import { useState, useMemo } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield } from 'lucide-react'
+import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { preloadData } from '../hooks/useData'
 import './Layout.css'
 
 // Nav items grouped into sections with optional data_sources key for conditional display
@@ -9,6 +10,7 @@ const navSections = [
   {
     items: [
       { path: '/', icon: Home, label: 'Home' },
+      { path: '/doge', icon: Shield, label: 'DOGE', requires: 'doge_investigation' },
       { path: '/news', icon: Newspaper, label: 'News', requires: 'news' },
     ],
   },
@@ -43,6 +45,19 @@ function Layout({ children }) {
   const officialUrl = config.official_website || '#'
   const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
   const dataSources = config.data_sources || {}
+
+  // Preload data for likely next routes based on current page
+  const location = useLocation()
+  useEffect(() => {
+    const path = location.pathname
+    if (path === '/') {
+      // From Home, users most often visit Spending or DOGE
+      preloadData(['/data/spending.json', '/data/doge_findings.json'])
+    } else if (path === '/spending') {
+      // From Spending, users often check suppliers or budgets
+      preloadData(['/data/supplier_profiles.json', '/data/taxonomy.json'])
+    }
+  }, [location.pathname])
 
   // Filter nav sections based on data_sources flags
   const visibleSections = useMemo(() => {

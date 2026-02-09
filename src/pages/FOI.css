@@ -485,6 +485,132 @@
   line-height: 1.5;
 }
 
+/* FOI Tracking Section */
+.foi-tracking {
+  margin-bottom: 2rem;
+}
+
+.foi-tracking h2 {
+  margin-bottom: 0.5rem;
+}
+
+.tracking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.tracking-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tracking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.tracking-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.2), rgba(10, 132, 255, 0.1));
+  color: var(--accent-blue);
+  margin-bottom: 1rem;
+}
+
+.tracking-card h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.tracking-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.tracking-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--accent-blue);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+
+.tracking-link:hover {
+  gap: 0.5rem;
+}
+
+/* FOI Success Stories */
+.foi-successes {
+  margin-bottom: 2rem;
+}
+
+.foi-successes h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.successes-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.success-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 4px solid var(--accent-green, #30d158);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.success-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.success-card h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.success-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.success-impact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-green, #30d158);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   .foi-page {
@@ -514,7 +640,8 @@
 
   .rights-grid,
   .scandals-grid,
-  .steps-grid {
+  .steps-grid,
+  .tracking-grid {
     grid-template-columns: 1fr;
   }
 

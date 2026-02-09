@@ -42,20 +42,7 @@ function Home() {
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
-  if (loading) {
-    return <LoadingState message="Loading dashboard data..." />
-  }
-
-  if (error) {
-    return (
-      <div className="page-error">
-        <h2>Unable to load data</h2>
-        <p>Please try refreshing the page.</p>
-      </div>
-    )
-  }
-
-  // Unpack data based on what was requested
+  // Unpack data based on what was requested (must be before any early return)
   let idx = 0
   const insights = data?.[idx++]
   const dogeFindings = dataSources.doge_investigation ? data?.[idx++] : null
@@ -105,6 +92,19 @@ function Home() {
     color: partyColors[p.party] || '#808080',
   })) || [], [politicsSummary])
 
+  if (loading) {
+    return <LoadingState message="Loading dashboard data..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
+  }
+
   // DOGE findings from data file
   const findings = dogeFindings?.findings || []
   const keyFindings = dogeFindings?.key_findings || []
@@ -121,7 +121,7 @@ function Home() {
       </div>
 
       {/* Hero Section */}
-      <header className="hero-section">
+      <header className="hero-section" aria-label="Council spending overview">
         <div className="hero-content">
           <h1>Your Money. Your Council. <span className="highlight">Your Right to Know.</span></h1>
           <p className="hero-subtitle">
@@ -192,7 +192,7 @@ function Home() {
             ))}
           </div>
 
-          <Link to="/news" className="doge-cta">
+          <Link to="/doge" className="doge-cta">
             Read the full DOGE investigation <ChevronRight size={16} />
           </Link>
         </section>

@@ -19,24 +19,16 @@ function PayComparison() {
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
-  if (loading) return <LoadingState message="Loading pay data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
-  )
-  if (!payData) return <div className="pay-page"><p>No pay comparison data available for this council.</p></div>
-
-  const ceo = payData.chief_executive || {}
-  const history = payData.pay_history || []
-  const seniors = payData.senior_officers || []
-  const comparators = payData.comparators || []
-  const national = payData.national_context || {}
-  const tpa = payData.tpa_town_hall_rich_list || {}
-  const genderGap = payData.gender_pay_gap || {}
-  const headcount = payData.employee_headcount || {}
-  const allowances = payData.councillor_allowances || {}
+  // Unpack all data BEFORE early returns (React Rules of Hooks)
+  const ceo = payData?.chief_executive || {}
+  const history = payData?.pay_history || []
+  const seniors = payData?.senior_officers || []
+  const comparators = payData?.comparators || []
+  const national = payData?.national_context || {}
+  const tpa = payData?.tpa_town_hall_rich_list || {}
+  const genderGap = payData?.gender_pay_gap || {}
+  const headcount = payData?.employee_headcount || {}
+  const allowances = payData?.councillor_allowances || {}
   const latestYear = history[history.length - 1] || {}
 
   // Chart data — CEO salary trend (filter to entries with salary data)
@@ -76,6 +68,16 @@ function PayComparison() {
       count: v.employees_over_100k,
     }))
     .sort((a, b) => a.year.localeCompare(b.year)), [tpa])
+
+  // Early returns AFTER all hooks
+  if (loading) return <LoadingState message="Loading pay data..." />
+  if (error) return (
+    <div className="page-error">
+      <h2>Unable to load data</h2>
+      <p>Please try refreshing the page.</p>
+    </div>
+  )
+  if (!payData) return <div className="pay-page"><p>No pay comparison data available for this council.</p></div>
 
   return (
     <div className="pay-page animate-fade-in">

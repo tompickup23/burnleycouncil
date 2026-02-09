@@ -83,35 +83,7 @@ function Budgets() {
     }
   }, [budgetData, selectedYear])
 
-  if (loading) {
-    return <LoadingState message="Loading budget data..." />
-  }
-
-  if (error) {
-    return (
-      <div className="page-error">
-        <h2>Unable to load data</h2>
-        <p>Please try refreshing the page.</p>
-      </div>
-    )
-  }
-
-  // For councils without detailed budgets.json, render a simpler GOV.UK trends view
-  if (!hasBudgets && hasBudgetTrends) {
-    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} />
-  }
-
-  if (!budgetData) {
-    return (
-      <div className="budgets-page animate-fade-in">
-        <header className="page-header">
-          <h1>Budget Analysis</h1>
-          <p className="subtitle">Budget data is not yet available for {councilFullName}.</p>
-        </header>
-      </div>
-    )
-  }
-
+  // Unpack all data BEFORE early returns (React Rules of Hooks)
   const revenueBudgets = budgetData?.revenue_budgets || []
   const capitalProgrammes = budgetData?.capital_programmes || []
   const treasury = budgetData?.treasury_and_investment || {}
@@ -123,7 +95,7 @@ function Budgets() {
   // Revenue chart data
   const revenueChartData = useMemo(() => revenueBudgets.map(b => ({
     year: b.financial_year,
-    budget: b.net_revenue_budget / 1_000_000,
+    budget: (b.net_revenue_budget || 0) / 1_000_000,
     councilTax: b.council_tax?.council_element ?? b.council_tax?.[`${config.council_id}_element`] ?? b.council_tax?.burnley_element ?? 0,
   })), [revenueBudgets, config])
 
@@ -171,6 +143,36 @@ function Budgets() {
     note: data.note || '',
     color: DEPT_COLORS[i % DEPT_COLORS.length],
   })) : [], [latestCapital])
+
+  // Early returns AFTER all hooks
+  if (loading) {
+    return <LoadingState message="Loading budget data..." />
+  }
+
+  if (error) {
+    return (
+      <div className="page-error">
+        <h2>Unable to load data</h2>
+        <p>Please try refreshing the page.</p>
+      </div>
+    )
+  }
+
+  // For councils without detailed budgets.json, render a simpler GOV.UK trends view
+  if (!hasBudgets && hasBudgetTrends) {
+    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} />
+  }
+
+  if (!budgetData) {
+    return (
+      <div className="budgets-page animate-fade-in">
+        <header className="page-header">
+          <h1>Budget Analysis</h1>
+          <p className="subtitle">Budget data is not yet available for {councilFullName}.</p>
+        </header>
+      </div>
+    )
+  }
 
   // Capital programme timeline
   const capitalTimelineData = capitalProgrammes.map(cp => ({
@@ -331,7 +333,7 @@ function Budgets() {
                       {change.change_amount > 0 ? '+' : ''}{formatCurrency(change.change_amount, true)}
                     </span>
                     <span className="change-percent">
-                      ({change.change_percent > 0 ? '+' : ''}{change.change_percent.toFixed(1)}%)
+                      ({change.change_percent > 0 ? '+' : ''}{change.change_percent?.toFixed(1) ?? '?'}%)
                     </span>
                   </div>
                   <div className="yoy-detail text-secondary">
@@ -579,7 +581,7 @@ function Budgets() {
                     </div>
                   </div>
                   <div className={`growth-pct ${data.growth_pct > 50 ? 'high' : ''}`}>
-                    +{data.growth_pct.toFixed(0)}%
+                    +{data.growth_pct?.toFixed(0) ?? '?'}%
                   </div>
                 </div>
               ))}
@@ -863,7 +865,7 @@ function Budgets() {
 function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData }) {
   // Service expenditure bar chart — only district-relevant services with non-zero values
   const serviceData = govukData?.revenue_summary?.service_expenditure
-    ? Object.entries(govukData.revenue_summary.service_expenditure)
+    ? Object.entries(govukData?.revenue_summary?.service_expenditure || {})
         .filter(([name, d]) => d.relevant_to_districts && d.value_pounds > 0 && name !== 'TOTAL SERVICE EXPENDITURE')
         .sort((a, b) => b[1].value_pounds - a[1].value_pounds)
         .map(([name, d], i) => ({
@@ -880,8 +882,8 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData 
 
   // Revenue trend over years
   const trendChartData = trendsData?.years
-    ? trendsData.years.map(year => {
-        const yearData = trendsData.by_year?.[year]?.summary || {}
+    ? trendsData?.years?.map(year => {
+        const yearData = trendsData?.by_year?.[year]?.summary || {}
         return {
           year: year.replace('-', '/'),
           total: (yearData['Total Net Current Expenditure'] || 0) / 1000,
@@ -1003,7 +1005,7 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData 
       {/* Revenue Trend Over Time */}
       {trendChartData.length > 0 && (
         <section className="chart-section">
-          <h2>Revenue Trend ({trendsData?.years?.[0]} to {trendsData?.years?.[trendsData.years.length - 1]})</h2>
+          <h2>Revenue Trend ({trendsData?.years?.[0]} to {trendsData?.years?.[trendsData?.years?.length - 1]})</h2>
           <p className="section-note">Service expenditure breakdown over {trendsData?.year_count} years (£ millions, GOV.UK outturn)</p>
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={350}>

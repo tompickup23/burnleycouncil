@@ -77,13 +77,13 @@ function Meetings() {
 
   const meetingTypes = useMemo(() => {
     if (!meetingsData?.meetings) return []
-    const types = new Set(meetingsData.meetings.map(m => m.type))
+    const types = new Set(meetingsData?.meetings?.map(m => m.type))
     return Array.from(types)
   }, [meetingsData])
 
   const dogeRelevantCount = useMemo(() => {
     if (!meetingsData?.meetings) return 0
-    return meetingsData.meetings.filter(m => m.doge_relevance && !m.cancelled).length
+    return meetingsData?.meetings?.filter(m => m.doge_relevance && !m.cancelled)?.length || 0
   }, [meetingsData])
 
   if (loading) return <LoadingState message="Loading meetings calendar..." />
@@ -97,7 +97,7 @@ function Meetings() {
     )
   }
 
-  const howTo = meetingsData.how_to_attend
+  const howTo = meetingsData.how_to_attend || {}
 
   return (
     <div className="meetings-page animate-fade-in">
@@ -126,6 +126,7 @@ function Meetings() {
       </div>
 
       {/* How to Attend Section */}
+      {howTo.general && (
       <details className="how-to-attend">
         <summary>
           <Info size={18} />
@@ -142,6 +143,7 @@ function Meetings() {
               <h4><MessageSquare size={16} /> Speaking</h4>
               <p>{howTo.speak_at_meeting}</p>
             </div>
+            {howTo.deadlines && (
             <div className="how-to-card">
               <h4><Clock size={16} /> Registration Deadlines</h4>
               <ul>
@@ -149,19 +151,25 @@ function Meetings() {
                 <li><strong>Planning & Licensing:</strong> {howTo.deadlines.development_control}</li>
               </ul>
             </div>
+            )}
             <div className="how-to-card">
               <h4><FileText size={16} /> Public Questions</h4>
               <p>{howTo.public_questions}</p>
             </div>
           </div>
+          {howTo.tips && (
           <div className="how-to-tips">
             <strong>Tips:</strong> {howTo.tips}
           </div>
+          )}
+          {howTo.contact && (
           <div className="how-to-contact">
             Contact: <a href={`mailto:${howTo.contact}`}>{howTo.contact}</a>
           </div>
+          )}
         </div>
       </details>
+      )}
 
       {/* Filters */}
       <div className="meetings-filters">
@@ -191,7 +199,7 @@ function Meetings() {
       </div>
 
       {/* Meetings List */}
-      <div className="meetings-list">
+      <div className="meetings-list" aria-label="Meeting calendar">
         {meetings.length === 0 && (
           <div className="no-meetings">No meetings match your filters.</div>
         )}
@@ -325,7 +333,7 @@ function Meetings() {
         <p>
           Meeting data sourced from the <a href={config.moderngov_url || '#'} target="_blank" rel="noopener noreferrer">{councilName} Council ModernGov portal</a>.
           Updated weekly. Agendas are typically published 5 working days before each meeting.
-          {meetingsData.last_updated && ` Last checked: ${formatMeetingDate(meetingsData.last_updated.split('T')[0])}.`}
+          {meetingsData?.last_updated && ` Last checked: ${formatMeetingDate(meetingsData.last_updated.split('T')[0])}.`}
         </p>
       </div>
     </div>

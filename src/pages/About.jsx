@@ -100,7 +100,7 @@ function About() {
       )}
 
       {/* Data Sources */}
-      <section className="data-section">
+      <section className="data-section" aria-label="Data sources">
         <h2><Database size={24} /> Where the Data Comes From</h2>
         <p className="section-intro">
           Everything on this site comes from publicly available council documents.
@@ -140,7 +140,7 @@ function About() {
       </section>
 
       {/* Disclaimer */}
-      <section className="disclaimer-section">
+      <section className="disclaimer-section" aria-label="Disclaimers and legal information">
         <h2><Shield size={24} /> Important Information</h2>
         <div className="disclaimer-content">
           <div className="disclaimer-item critical">

@@ -96,10 +96,18 @@
     <script>
       // GitHub Pages SPA routing — reads the ?p= parameter set by 404.html
       // and uses history.replaceState to navigate to the correct client-side route.
+      // The ?p= value is the SPA route (e.g. /budgets), which must be prefixed
+      // with the base path (e.g. /lancashire/burnleycouncil/) to form the full URL.
       (function() {
         var redirect = new URLSearchParams(window.location.search).get('p');
         if (redirect) {
-          history.replaceState(null, '', redirect);
+          // Derive base path from current location (e.g. /lancashire/burnleycouncil/)
+          var base = window.location.pathname;
+          // Ensure base ends with /
+          if (base.charAt(base.length - 1) !== '/') base += '/';
+          // redirect starts with /, so strip the leading / to avoid double slash
+          var route = redirect.charAt(0) === '/' ? redirect.substring(1) : redirect;
+          history.replaceState(null, '', base + route);
         }
       })();
     </script>

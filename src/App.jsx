@@ -21,11 +21,23 @@ const FOI = lazy(() => import('./pages/FOI'))
 const Meetings = lazy(() => import('./pages/Meetings'))
 const PayComparison = lazy(() => import('./pages/PayComparison'))
 const CrossCouncil = lazy(() => import('./pages/CrossCouncil'))
+const DogeInvestigation = lazy(() => import('./pages/DogeInvestigation'))
 const Suppliers = lazy(() => import('./pages/Suppliers'))
 const SupplierView = lazy(() => import('./pages/SupplierView'))
 
 // Preload commonly needed data
 preloadData(['/data/config.json', '/data/insights.json'])
+
+/** Wrap a route element in its own ErrorBoundary so crashes are isolated */
+function Guarded({ children }) {
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingState />}>
+        {children}
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
 
 function App() {
   return (
@@ -33,28 +45,25 @@ function App() {
       <ScrollToTop />
       <CouncilConfigProvider>
       <Layout>
-        <ErrorBoundary>
-          <Suspense fallback={<LoadingState />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:articleId" element={<ArticleView />} />
-              <Route path="/spending" element={<Spending />} />
-              <Route path="/budgets" element={<Budgets />} />
-              <Route path="/politics" element={<Politics />} />
-              <Route path="/my-area" element={<MyArea />} />
-              <Route path="/legal" element={<Legal />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/meetings" element={<Meetings />} />
-              <Route path="/pay" element={<PayComparison />} />
-              <Route path="/compare" element={<CrossCouncil />} />
-              <Route path="/foi" element={<FOI />} />
-              <Route path="/suppliers" element={<Suppliers />} />
-              <Route path="/supplier/:supplierId" element={<SupplierView />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Guarded><Home /></Guarded>} />
+          <Route path="/news" element={<Guarded><News /></Guarded>} />
+          <Route path="/news/:articleId" element={<Guarded><ArticleView /></Guarded>} />
+          <Route path="/doge" element={<Guarded><DogeInvestigation /></Guarded>} />
+          <Route path="/spending" element={<Guarded><Spending /></Guarded>} />
+          <Route path="/budgets" element={<Guarded><Budgets /></Guarded>} />
+          <Route path="/politics" element={<Guarded><Politics /></Guarded>} />
+          <Route path="/my-area" element={<Guarded><MyArea /></Guarded>} />
+          <Route path="/legal" element={<Guarded><Legal /></Guarded>} />
+          <Route path="/about" element={<Guarded><About /></Guarded>} />
+          <Route path="/meetings" element={<Guarded><Meetings /></Guarded>} />
+          <Route path="/pay" element={<Guarded><PayComparison /></Guarded>} />
+          <Route path="/compare" element={<Guarded><CrossCouncil /></Guarded>} />
+          <Route path="/foi" element={<Guarded><FOI /></Guarded>} />
+          <Route path="/suppliers" element={<Guarded><Suppliers /></Guarded>} />
+          <Route path="/supplier/:supplierId" element={<Guarded><SupplierView /></Guarded>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </Layout>
       </CouncilConfigProvider>
     </Router>

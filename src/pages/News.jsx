@@ -51,7 +51,7 @@ function News() {
 
   return (
     <div className="news-page animate-fade-in">
-      <header className="page-header">
+      <header className="page-header" aria-label="News and findings">
         <h1>News & Findings</h1>
         <p className="subtitle">
           Analysis and investigations based on council spending data
@@ -82,7 +82,7 @@ function News() {
           >
             {article.image && (
               <div className="article-card-image">
-                <img src={article.image} alt="" loading="lazy" />
+                <img src={article.image} alt={article.title || 'Article image'} loading="lazy" />
               </div>
             )}
             <div className="article-card-content">

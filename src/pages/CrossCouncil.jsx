@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
@@ -28,29 +28,24 @@ function CrossCouncil() {
   const { data, loading, error } = useData('/data/cross_council.json')
   const comparison = data
 
+  const councils = comparison?.councils || []
+
   useEffect(() => {
     document.title = `Cross-Council Comparison | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
-  if (loading) return <LoadingState message="Loading comparison data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
+  const current = useMemo(
+    () => councils.find(c => c.council_name?.toLowerCase() === councilName.toLowerCase()) || councils[0],
+    [councils, councilName]
   )
-  if (!comparison?.councils?.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
-
-  const councils = comparison.councils
-  const current = councils.find(c => c.council_name?.toLowerCase() === councilName.toLowerCase()) || councils[0]
 
   // Spend per head data
-  const spendPerHead = councils.map(c => ({
+  const spendPerHead = useMemo(() => councils.map(c => ({
     name: c.council_name,
     spend: Math.round((c.total_spend || 0) / (c.population || 1)),
     isCurrent: c.council_name === councilName,
-  })).sort((a, b) => b.spend - a.spend)
+  })).sort((a, b) => b.spend - a.spend), [councils, councilName])
 
   // Service expenditure comparison
   const serviceCategories = ['housing', 'cultural', 'environmental', 'planning', 'central', 'other']
@@ -62,16 +57,16 @@ function CrossCouncil() {
     central: 'Central',
     other: 'Other',
   }
-  const serviceData = serviceCategories.map(cat => {
+  const serviceData = useMemo(() => serviceCategories.map(cat => {
     const row = { category: serviceLabels[cat] }
     councils.forEach(c => {
       row[c.council_id] = Math.round((c.service_expenditure?.[cat] || 0) / (c.population || 1))
     })
     return row
-  })
+  }), [councils])
 
   // Transparency radar data
-  const radarData = [
+  const radarData = useMemo(() => [
     { metric: 'Dates', fullMark: 100 },
     { metric: 'Suppliers', fullMark: 100 },
     { metric: 'Departments', fullMark: 100 },
@@ -83,10 +78,10 @@ function CrossCouncil() {
       if (item.metric === 'Departments') item[c.council_id] = t.has_departments || 0
     })
     return item
-  })
+  }), [councils])
 
   // CEO pay comparison
-  const payData = councils
+  const payData = useMemo(() => councils
     .filter(c => c.pay?.ceo_midpoint)
     .map(c => ({
       name: c.council_name,
@@ -94,15 +89,24 @@ function CrossCouncil() {
       ratio: c.pay.ceo_to_median_ratio,
       isCurrent: c.council_name === councilName,
     }))
-    .sort((a, b) => b.salary - a.salary)
+    .sort((a, b) => b.salary - a.salary), [councils, councilName])
 
   // Duplicate flagged value comparison
-  const dupeData = councils.map(c => ({
+  const dupeData = useMemo(() => councils.map(c => ({
     name: c.council_name,
     value: c.duplicate_value || 0,
     count: c.duplicate_count || 0,
     isCurrent: c.council_name === councilName,
-  })).sort((a, b) => b.value - a.value)
+  })).sort((a, b) => b.value - a.value), [councils, councilName])
+
+  if (loading) return <LoadingState message="Loading comparison data..." />
+  if (error) return (
+    <div className="page-error">
+      <h2>Unable to load data</h2>
+      <p>Please try refreshing the page.</p>
+    </div>
+  )
+  if (!councils.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
 
   return (
     <div className="cross-page animate-fade-in">

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { FileText, ChevronDown, ChevronUp, ExternalLink, AlertTriangle, CheckCircle, Clock, Send } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { FileText, ChevronDown, ChevronUp, ExternalLink, AlertTriangle, CheckCircle, Clock, Send, Award } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -51,6 +51,23 @@ const foiGuide = {
       issue: 'Counter-fraud partnership itself found mired in fraud allegations; £272,000 payments uncovered via FOI',
       year: '2025',
     },
+  ],
+  localSuccesses: [
+    {
+      topic: 'Council Executive Pay',
+      outcome: 'FOI requests across East Lancashire revealed senior officer pay packages, enabling cross-council comparisons that showed some councils paying above-average rates for similar roles.',
+      impact: 'Greater public scrutiny of executive remuneration decisions'
+    },
+    {
+      topic: 'Outsourcing Contract Costs',
+      outcome: 'FOI requests helped uncover the scale of outsourcing to companies like Liberata and Capita across Lancashire councils, revealing multi-million pound contracts with limited public reporting.',
+      impact: 'Several councils now publish more contract details proactively'
+    },
+    {
+      topic: 'COVID Grant Distribution',
+      outcome: 'FOI requests revealed how councils distributed emergency COVID business grants, including processing times and error rates in eligibility checking.',
+      impact: 'Improved transparency in emergency grant administration'
+    },
   ]
 }
 
@@ -66,11 +83,18 @@ function FOI() {
   const [expandedCategory, setExpandedCategory] = useState('spending')
   const [expandedRequest, setExpandedRequest] = useState(null)
   const [copiedId, setCopiedId] = useState(null)
+  const copyTimerRef = useRef(null)
+
+  // Cleanup copy feedback timer on unmount
+  useEffect(() => {
+    return () => { if (copyTimerRef.current) clearTimeout(copyTimerRef.current) }
+  }, [])
 
   const copyTemplate = (template, id) => {
     navigator.clipboard.writeText(template).then(() => {
       setCopiedId(id)
-      setTimeout(() => setCopiedId(null), 2000)
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+      copyTimerRef.current = setTimeout(() => setCopiedId(null), 2000)
     })
   }
 
@@ -101,7 +125,7 @@ function FOI() {
       </header>
 
       {/* What is FOI Section */}
-      <section className="foi-intro">
+      <section className="foi-intro" aria-label="What is Freedom of Information">
         <div className="foi-intro-card">
           <h2>What is Freedom of Information?</h2>
           <p>
@@ -157,7 +181,7 @@ function FOI() {
 
       {/* Suggested Requests — loaded from JSON */}
       {foiCategories.length > 0 && (
-        <section className="foi-requests">
+        <section className="foi-requests" aria-label="FOI request templates">
           <h2>Suggested Requests</h2>
           <p className="section-intro">
             Ready-to-use FOI request templates. Click to expand, then copy and submit to the council.
@@ -272,6 +296,26 @@ function FOI() {
         </div>
       </section>
 
+      {/* Local FOI Successes */}
+      <section className="foi-successes">
+        <h2><Award size={24} /> FOI Successes in East Lancashire</h2>
+        <p className="section-intro">
+          Freedom of Information has made a real difference in understanding how local councils operate.
+        </p>
+        <div className="successes-list">
+          {foiGuide.localSuccesses.map((success, i) => (
+            <div key={i} className="success-card">
+              <h4>{success.topic}</h4>
+              <p>{success.outcome}</p>
+              <div className="success-impact">
+                <CheckCircle size={14} />
+                <span>{success.impact}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* How to Submit */}
       <section className="foi-how">
         <h2>How to Submit a Request</h2>
@@ -295,6 +339,52 @@ function FOI() {
             <span className="step-number">4</span>
             <h4>Appeal if Refused</h4>
             <p>Request an internal review, then escalate to the ICO</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Track Your Requests */}
+      <section className="foi-tracking">
+        <h2>Track FOI Responses</h2>
+        <p className="section-intro">
+          Keep track of your requests and see what others have asked {councilFullName}.
+        </p>
+        <div className="tracking-grid">
+          <div className="tracking-card">
+            <div className="tracking-icon">
+              <Clock size={24} />
+            </div>
+            <h4>Check Response Status</h4>
+            <p>
+              If you submitted via WhatDoTheyKnow, your request and the council's response
+              are publicly tracked and timestamped.
+            </p>
+            <a
+              href={`https://www.whatdotheyknow.com/body/${wdtkSlug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tracking-link"
+            >
+              View {councilName}'s FOI history <ExternalLink size={14} />
+            </a>
+          </div>
+          <div className="tracking-card">
+            <div className="tracking-icon">
+              <AlertTriangle size={24} />
+            </div>
+            <h4>Request Overdue?</h4>
+            <p>
+              Councils must respond within 20 working days. If they haven't, you can
+              request an internal review, then escalate to the ICO.
+            </p>
+            <a
+              href="https://ico.org.uk/make-a-complaint/foi-and-eir-complaints/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tracking-link"
+            >
+              Complain to the ICO <ExternalLink size={14} />
+            </a>
           </div>
         </div>
       </section>
