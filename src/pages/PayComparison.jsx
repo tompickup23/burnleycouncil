@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Users, TrendingUp, AlertTriangle, Building, ChevronRight, Info } from 'lucide-react'
+import { Users, TrendingUp, AlertTriangle, Building, ChevronRight, Info, Briefcase, Award, FileText, Hash } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
 import { useData } from '../hooks/useData'
@@ -27,22 +27,30 @@ function PayComparison() {
   const seniors = payData.senior_officers || []
   const comparators = payData.comparators || []
   const national = payData.national_context || {}
+  const tpa = payData.tpa_town_hall_rich_list || {}
+  const genderGap = payData.gender_pay_gap || {}
+  const headcount = payData.employee_headcount || {}
+  const allowances = payData.councillor_allowances || {}
   const latestYear = history[history.length - 1] || {}
 
-  // Chart data — CEO salary trend
-  const salaryTrendData = history.map(h => ({
-    year: h.year?.replace('20', "'").replace('/20', '/'),
-    salary: h.ceo_salary,
-    total: h.ceo_total_remuneration,
-    median: h.median_employee_salary,
-  }))
+  // Chart data — CEO salary trend (filter to entries with salary data)
+  const salaryTrendData = history
+    .filter(h => h.ceo_salary || h.ceo_total_remuneration || h.combined_ceo_remuneration)
+    .map(h => ({
+      year: h.year?.replace('20', "'").replace('/20', '/'),
+      salary: h.ceo_salary,
+      total: h.ceo_total_remuneration || h.combined_ceo_remuneration,
+      median: h.median_employee_salary,
+    }))
 
-  // Chart data — pay ratio trend
-  const ratioTrendData = history.map(h => ({
-    year: h.year?.replace('20', "'").replace('/20', '/'),
-    medianRatio: h.ceo_to_median_ratio,
-    lowestRatio: h.ceo_to_lowest_ratio,
-  }))
+  // Chart data — pay ratio trend (filter to entries with ratio data)
+  const ratioTrendData = history
+    .filter(h => h.ceo_to_median_ratio)
+    .map(h => ({
+      year: h.year?.replace('20', "'").replace('/20', '/'),
+      medianRatio: h.ceo_to_median_ratio,
+      lowestRatio: h.ceo_to_lowest_ratio,
+    }))
 
   // Chart data — cross-council comparison
   const comparisonData = comparators
@@ -53,6 +61,15 @@ function PayComparison() {
       ratio: c.ceo_to_median_ratio,
       isCurrent: c.council === councilName,
     }))
+
+  // TPA Rich List trend data
+  const tpaData = Object.entries(tpa)
+    .filter(([, v]) => v && typeof v === 'object')
+    .map(([year, v]) => ({
+      year: year.replace('_', '/'),
+      count: v.employees_over_100k,
+    }))
+    .sort((a, b) => a.year.localeCompare(b.year))
 
   return (
     <div className="pay-page animate-fade-in">
@@ -69,8 +86,8 @@ function PayComparison() {
       {/* Key Stats */}
       <section className="pay-stats-grid">
         <div className="pay-stat-card highlight">
-          <span className="stat-value">{ceo.current_salary_band || `£${(ceo.current_midpoint || 0).toLocaleString()}`}</span>
-          <span className="stat-label">{ceo.title || 'Chief Executive'} Salary Band</span>
+          <span className="stat-value">{ceo.current_salary_band || ceo.salary_type === 'spot' ? `£${(ceo.salary || ceo.current_midpoint || 0).toLocaleString()}` : `£${(ceo.current_midpoint || 0).toLocaleString()}`}</span>
+          <span className="stat-label">{ceo.title || 'Chief Executive'} {ceo.salary_type === 'spot' ? 'Spot Salary' : 'Salary Band'}{ceo.name ? ` — ${ceo.name}` : ''}</span>
         </div>
         <div className="pay-stat-card">
           <span className="stat-value">{latestYear.ceo_to_median_ratio ? `${latestYear.ceo_to_median_ratio}:1` : '—'}</span>
@@ -81,10 +98,46 @@ function PayComparison() {
           <span className="stat-label">CEO-to-Lowest Pay Ratio</span>
         </div>
         <div className="pay-stat-card">
-          <span className="stat-value">{latestYear.ceo_total_remuneration ? formatCurrency(latestYear.ceo_total_remuneration) : '—'}</span>
-          <span className="stat-label">Total CEO Remuneration ({latestYear.year || ''})</span>
+          <span className="stat-value">{headcount.headcount ? headcount.headcount.toLocaleString() : headcount.band || '—'}</span>
+          <span className="stat-label">Council Employees{headcount.fte ? ` (${headcount.fte} FTE)` : ''}</span>
         </div>
       </section>
+
+      {/* CEO Profile */}
+      {ceo.name && (
+        <section className="pay-section">
+          <h2><Briefcase size={22} /> Chief Executive Profile</h2>
+          <div className="ceo-profile-card">
+            <div className="ceo-profile-header">
+              <div>
+                <h3>{ceo.name}</h3>
+                <span className="ceo-title">{ceo.title || 'Chief Executive'}</span>
+                {ceo.appointed && <span className="ceo-appointed">Appointed: {ceo.appointed}</span>}
+              </div>
+              <div className="ceo-salary-badge">
+                {ceo.salary_type === 'spot'
+                  ? <><span className="badge-value">£{(ceo.salary || 0).toLocaleString()}</span><span className="badge-label">Spot Salary</span></>
+                  : ceo.current_salary_band
+                    ? <><span className="badge-value">{ceo.current_salary_band}</span><span className="badge-label">Salary Band</span></>
+                    : ceo.current_estimated_salary
+                      ? <><span className="badge-value">~£{ceo.current_estimated_salary.toLocaleString()}</span><span className="badge-label">Estimated (from ratios)</span></>
+                      : null
+                }
+              </div>
+            </div>
+            {ceo.background && <p className="ceo-background">{ceo.background}</p>}
+            {ceo.previous_ceo && <p className="ceo-previous">Previous: {ceo.previous_ceo}</p>}
+            {ceo.previous_ceos && ceo.previous_ceos.length > 0 && (
+              <div className="ceo-previous-list">
+                <span className="previous-label">Previous:</span>
+                {ceo.previous_ceos.map((prev, i) => (
+                  <span key={i} className="previous-ceo">{prev.name} ({prev.period}){prev.note ? ` — ${prev.note}` : ''}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Salary Trend Chart */}
       {salaryTrendData.length > 1 && (
@@ -214,6 +267,117 @@ function PayComparison() {
         </section>
       )}
 
+      {/* TPA Town Hall Rich List */}
+      {tpaData.length > 0 && (
+        <section className="pay-section">
+          <h2><Award size={22} /> TaxPayers' Alliance Town Hall Rich List</h2>
+          <p className="section-intro">
+            Employees earning over £100,000 total remuneration. Nationally, {national.total_council_employees_over_100k_nationally ? national.total_council_employees_over_100k_nationally.toLocaleString() : '3,906'} council employees earned over £100K in 2023/24{national.national_100k_increase_pct ? ` (up ${national.national_100k_increase_pct}% on the previous year)` : ''}.
+          </p>
+          <div className="tpa-grid">
+            {tpaData.map((d, i) => (
+              <div key={i} className={`tpa-card${d.count === 0 ? ' tpa-zero' : ''}`}>
+                <span className="tpa-year">{d.year}</span>
+                <span className="tpa-count">{d.count}</span>
+                <span className="tpa-label">employee{d.count !== 1 ? 's' : ''} over £100K</span>
+              </div>
+            ))}
+          </div>
+          {Object.values(tpa).some(v => v?.note) && (
+            <div className="tpa-notes">
+              {Object.entries(tpa).map(([year, v]) => v?.note ? (
+                <p key={year} className="tpa-note-item">{year.replace('_', '/')}: {v.note}</p>
+              ) : null)}
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Councillor Allowances */}
+      {(allowances.basic_allowance || allowances.total_paid_2024_25) && (
+        <section className="pay-section">
+          <h2><FileText size={22} /> Councillor Allowances</h2>
+          <p className="section-intro">
+            {allowances.total_councillors || '—'} councillors at {councilName} Council.{allowances.scheme_frozen_since ? ` Allowances frozen since ${allowances.scheme_frozen_since}.` : ''}
+          </p>
+          <div className="allowances-grid">
+            {allowances.basic_allowance && (
+              <div className="allowance-card">
+                <span className="allowance-value">£{allowances.basic_allowance.toLocaleString()}</span>
+                <span className="allowance-label">Basic Allowance (per councillor/year)</span>
+              </div>
+            )}
+            {allowances.key_sras?.leader && (
+              <div className="allowance-card">
+                <span className="allowance-value">£{allowances.key_sras.leader.toLocaleString()}</span>
+                <span className="allowance-label">Leader SRA{allowances.lancashire_ranking ? ` — ${allowances.lancashire_ranking}` : ''}</span>
+              </div>
+            )}
+            {allowances.leader_total_with_basic && (
+              <div className="allowance-card">
+                <span className="allowance-value">£{allowances.leader_total_with_basic.toLocaleString()}</span>
+                <span className="allowance-label">Leader Total (Basic + SRA)</span>
+              </div>
+            )}
+            {allowances.total_paid_2024_25 && (
+              <div className="allowance-card">
+                <span className="allowance-value">£{allowances.total_paid_2024_25.toLocaleString()}</span>
+                <span className="allowance-label">Total Allowances Paid 2024/25</span>
+              </div>
+            )}
+            {allowances.estimated_annual_total_cost && (
+              <div className="allowance-card">
+                <span className="allowance-value">{allowances.estimated_annual_total_cost}</span>
+                <span className="allowance-label">Estimated Annual Cost</span>
+              </div>
+            )}
+          </div>
+          {allowances.irp_note && (
+            <p className="allowances-note">{allowances.irp_note}</p>
+          )}
+        </section>
+      )}
+
+      {/* Gender Pay Gap */}
+      {genderGap && (genderGap['2024_25'] || genderGap['2023_24'] || genderGap.note) && (
+        <section className="pay-section">
+          <h2><Hash size={22} /> Gender Pay Gap</h2>
+          {genderGap.reports_required === false ? (
+            <div className="gap-exempt-note">
+              <Info size={16} />
+              <p>{genderGap.reason || 'Not required to report.'}{genderGap.note ? ` ${genderGap.note}` : ''}</p>
+            </div>
+          ) : (
+            <>
+              <p className="section-intro">{genderGap.note || `Gender pay gap data for ${councilName} Council from GOV.UK.`}</p>
+              {['2024_25', '2023_24'].map(year => {
+                const d = genderGap[year]
+                if (!d) return null
+                return (
+                  <div key={year} className="gap-year-card">
+                    <h4>{year.replace('_', '/')} (snapshot: {d.snapshot_date})</h4>
+                    <div className="gap-stats">
+                      <div className="gap-stat">
+                        <span className={`gap-value ${d.median_hourly_gap_pct < 0 ? 'gap-reverse' : d.median_hourly_gap_pct === 0 ? 'gap-equal' : ''}`}>
+                          {d.median_hourly_gap_pct === 0 ? '0.0%' : `${Math.abs(d.median_hourly_gap_pct)}%`}
+                        </span>
+                        <span className="gap-label">Median gap{d.gap_direction ? ` — ${d.gap_direction}` : ''}</span>
+                      </div>
+                      <div className="gap-stat">
+                        <span className={`gap-value ${d.mean_hourly_gap_pct < 0 ? 'gap-reverse' : ''}`}>
+                          {Math.abs(d.mean_hourly_gap_pct)}%
+                        </span>
+                        <span className="gap-label">Mean gap</span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          )}
+        </section>
+      )}
+
       {/* Data Quality Note */}
       <section className="pay-section">
         <div className="data-quality-note">
@@ -222,6 +386,7 @@ function PayComparison() {
             <h4>About This Data</h4>
             <p>{payData.note || 'Data compiled from publicly available Pay Policy Statements and annual accounts.'}</p>
             <p className="source-text">Source: {payData.source || 'Pay Policy Statements and annual accounts'}</p>
+            {payData.data_quality && <p className="source-text">Data quality: {payData.data_quality}</p>}
             {payData.last_updated && <p className="source-text">Last updated: {payData.last_updated}</p>}
           </div>
         </div>

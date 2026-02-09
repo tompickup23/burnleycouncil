@@ -1,15 +1,25 @@
 {
-  "last_updated": "2026-02-07",
+  "last_updated": "2026-02-08",
   "council_name": "Hyndburn",
-  "source": "Pay Policy Statements and annual accounts (Statement of Accounts Note on Officers' Remuneration)",
-  "note": "Data compiled from publicly available Pay Policy Statements and annual accounts. Hyndburn's accounts for 2022/23 and 2023/24 received disclaimer of opinion, so remuneration figures for those years are from the unaudited accounts. We encourage residents to FOI for exact figures.",
-  "data_quality": "estimates_from_published_data",
+  "source": "Pay Policy Statements 2024/25 and 2025/26, GOV.UK Gender Pay Gap Service, TaxPayers' Alliance Town Hall Rich List, Statement of Accounts",
+  "note": "CEO salary is NOT explicitly published in the Pay Policy Statement — only pay ratios are disclosed (CE:median and CE:lowest). The CEO salary is estimated by working backwards from ratios and the lowest-paid employee salary. Hyndburn's accounts for 2021/22, 2022/23, and 2023/24 all received disclaimer of opinion, so remuneration figures are from unaudited accounts. Councillor allowances have been frozen since 2015/16.",
+  "data_quality": "mixed — pay ratios verified from Pay Policy, CEO salary derived/estimated, TPA data verified",
+  "pay_policy_urls": {
+    "2025_26": "https://www.hyndburnbc.gov.uk/download/hyndburn-borough-council-pay-policy/?wpdmdl=14295",
+    "2024_25": "https://www.hyndburnbc.gov.uk/download/hyndburn-borough-council-pay-policy/"
+  },
+  "accounts_url": "https://www.hyndburnbc.gov.uk/statement-of-accounts/",
   "chief_executive": {
     "title": "Chief Executive",
-    "name_redacted": true,
-    "current_salary_band": "£105,000 - £115,000",
-    "current_midpoint": 110000,
-    "pension_contribution_pct": 19.7
+    "name": "David Welsby",
+    "appointed": "In post since at least June 2017",
+    "background": "Previously Director, Policy & Corporate Governance at Hyndburn. Skills in public sector, stakeholder engagement, change management, leadership development.",
+    "designations": ["Head of Paid Service"],
+    "current_salary_band": "Not published — estimated from pay ratios",
+    "current_estimated_salary": 145800,
+    "estimation_method": "CE:lowest ratio 1:6 x lowest salary £24,304 = ~£145,800 (2025/26)",
+    "pension_contribution_pct": 12.6,
+    "pension_fund": "Lancashire Pension Fund"
   },
   "pay_history": [
     {
@@ -20,7 +30,8 @@
       "lowest_salary": 9800,
       "ceo_to_median_ratio": 5.5,
       "ceo_to_lowest_ratio": 10.7,
-      "source": "Annual Accounts 2021/22"
+      "source": "Unaudited Accounts 2021/22 (disclaimer of opinion)",
+      "confidence": "estimate"
     },
     {
       "year": "2022/23",
@@ -30,7 +41,9 @@
       "lowest_salary": 10100,
       "ceo_to_median_ratio": 5.5,
       "ceo_to_lowest_ratio": 10.6,
-      "source": "Unaudited Accounts 2022/23 (disclaimer of opinion)"
+      "tpa_over_100k": 2,
+      "source": "Unaudited Accounts 2022/23 (disclaimer of opinion) / TPA Town Hall Rich List 2024",
+      "confidence": "estimate — accounts unaudited"
     },
     {
       "year": "2023/24",
@@ -40,39 +53,109 @@
       "lowest_salary": 10296,
       "ceo_to_median_ratio": 5.5,
       "ceo_to_lowest_ratio": 10.5,
-      "source": "Unaudited Accounts 2023/24 (disclaimer of opinion)"
+      "tpa_over_100k": 3,
+      "source": "Unaudited Accounts 2023/24 (disclaimer of opinion) / TPA Town Hall Rich List 2025",
+      "confidence": "estimate — accounts unaudited"
     },
     {
       "year": "2024/25",
-      "ceo_salary": 110000,
-      "ceo_total_remuneration": 131670,
-      "median_employee_salary": 20000,
-      "lowest_salary": 10296,
-      "ceo_to_median_ratio": 5.5,
-      "ceo_to_lowest_ratio": 10.7,
-      "source": "Pay Policy Statement 2024/25 (estimate)"
+      "ceo_to_median_ratio": 5.0,
+      "ceo_to_lowest_ratio": 6.0,
+      "lowest_salary_hourly": 12.00,
+      "lowest_salary_annual_approx": 23147,
+      "ceo_estimated_salary": 138900,
+      "source": "Pay Policy Statement 2024/25 (ratios verified, salary derived)",
+      "confidence": "derived from verified ratios"
     },
     {
       "year": "2025/26",
-      "ceo_salary": 110000,
-      "ceo_total_remuneration": 131670,
-      "median_employee_salary": 20500,
-      "lowest_salary": 10700,
-      "ceo_to_median_ratio": 5.4,
-      "ceo_to_lowest_ratio": 10.3,
-      "source": "Pay Policy Statement 2025/26 (estimate)"
+      "ceo_to_median_ratio": 4.5,
+      "ceo_to_lowest_ratio": 6.0,
+      "lowest_salary_hourly": 12.60,
+      "lowest_salary_annual_approx": 24304,
+      "ceo_estimated_salary": 145800,
+      "source": "Pay Policy Statement 2025/26 (ratios verified, salary derived)",
+      "confidence": "derived from verified ratios",
+      "note": "Pay ratio improved from 1:5 to 1:4.5 (CE:median), meaning median salary grew faster than CEO salary"
     }
   ],
   "senior_officers": [
-    {"post": "Deputy Chief Executive", "salary_band": "£80,000 - £90,000", "midpoint": 85000},
-    {"post": "Executive Director (Finance)", "salary_band": "£70,000 - £80,000", "midpoint": 75000},
-    {"post": "Executive Director (Environment)", "salary_band": "£65,000 - £75,000", "midpoint": 70000}
+    {"post": "Executive Director (Legal & Democratic Services)", "also": "Deputy CEO, Monitoring Officer, Returning Officer", "salary_band": "JNC Chief Officers (1): £62,583 - £68,634", "midpoint": 65609, "source": "Pay Policy 2025/26 Appendix 1 (April 2024 rates)"},
+    {"post": "Executive Director (Resources)", "name": "Martin Dyson", "also": "Section 151 Officer", "salary_band": "JNC Chief Officers (1): £62,583 - £68,634", "midpoint": 65609, "source": "Pay Policy 2025/26 Appendix 1"},
+    {"post": "Executive Director (Environment)", "name": "Steve Riley", "salary_band": "JNC Chief Officers (2): £57,615 - £63,024", "midpoint": 60320, "source": "Pay Policy 2025/26 Appendix 1"}
   ],
+  "heads_of_service_count": 12,
+  "heads_of_service_note": "12 Heads of Service below 4 Corporate Management Team members. Known: Ben Cookson (Head of Finance / Deputy S151), Craig Haraben (Head of Environmental Services).",
+  "employee_headcount": {
+    "headcount": 279,
+    "fte": 253,
+    "full_time": 216,
+    "part_time": 63,
+    "part_time_pct": 22.6,
+    "gender_pay_gap_band": "250-499",
+    "source": "Statement of Accounts 2021/22 and GOV.UK Gender Pay Gap Service",
+    "note": "Official headcount 279 (253 FTE). Third-party estimates of 131-137 staff are INCORRECT — they only count staff with online profiles. Hyndburn runs services in-house (unlike Burnley/Pendle which outsource to Liberata)."
+  },
+  "gender_pay_gap": {
+    "2024_25": {
+      "snapshot_date": "31 March 2024",
+      "median_hourly_gap_pct": 0.0,
+      "mean_hourly_gap_pct": 0.2,
+      "gap_direction": "Near-perfect pay equity",
+      "median_bonus_gap_pct": -22.4,
+      "bonus_note": "Women's median bonus 22.4% higher. 2.5% of women received bonus vs 1.3% of men.",
+      "quartiles": {
+        "upper": {"women_pct": 47.1, "men_pct": 52.9},
+        "upper_middle": {"women_pct": 39.1, "men_pct": 60.9},
+        "lower_middle": {"women_pct": 35.7, "men_pct": 64.3},
+        "lower": {"women_pct": 50.0, "men_pct": 50.0}
+      },
+      "source": "https://gender-pay-gap.service.gov.uk/Employer/cGCujd4E"
+    },
+    "2023_24": {
+      "snapshot_date": "31 March 2023",
+      "median_hourly_gap_pct": 0.4,
+      "mean_hourly_gap_pct": 4.2,
+      "gap_direction": "Women paid slightly less",
+      "source": "https://gender-pay-gap.service.gov.uk/Employer/cGCujd4E"
+    }
+  },
+  "tpa_town_hall_rich_list": {
+    "2022_23": {"employees_over_100k": 2, "source": "TPA Town Hall Rich List 2024"},
+    "2023_24": {"employees_over_100k": 3, "source": "TPA Town Hall Rich List 2025", "note": "Increase from 2 to 3. Likely CEO + 1-2 Executive Directors whose total remuneration (salary + 12.6% pension + election fees) exceeded £100K."}
+  },
+  "councillor_allowances": {
+    "total_councillors": 34,
+    "basic_allowance": 4634,
+    "scheme_frozen_since": "2015/16",
+    "key_sras": {
+      "leader": 21594,
+      "deputy_leader": 10797,
+      "leader_of_opposition": 6951,
+      "cabinet_member": 8110,
+      "chair_scrutiny": 6719,
+      "chair_planning": 6951
+    },
+    "leader_total_with_basic": 26228,
+    "estimated_annual_total_cost": "£230,000 - £260,000",
+    "lancashire_ranking": "Leader SRA is 2nd highest in Lancashire (behind Wyre at £22,590)",
+    "irp_note": "IRP (September 2024) considered the scheme 'generous in comparison to other Lancashire district councils'. Recommended NOT restarting inflationary index for 2024/25.",
+    "max_sras": 1,
+    "source": "Members Allowances Scheme for 2023/24 (adopted 1 April 2016) and IRP Report 12 September 2024"
+  },
+  "audit_status": {
+    "years_disclaimed": ["2021/22", "2022/23", "2023/24"],
+    "reason": "Auditors 'had not obtained sufficient appropriate audit evidence to express an opinion'. Contributing factors: national audit capacity shortage, significant internal staff turnover in finance team, delays implementing new finance system.",
+    "remediation": "Permanent Head of Finance and new Director of Resources appointed to rebuild capacity.",
+    "reserves": {"2023": "£23.4M", "2024": "£26.1M"},
+    "borrowing": "£9.8M long-term",
+    "source": "Auditor's Annual Report 2023-24 and Audit Progress Report September 2025"
+  },
   "comparators": [
-    {"council": "Hyndburn", "type": "district", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 5.5, "net_revenue_budget": "£14.2M"},
+    {"council": "Hyndburn", "type": "district (in-house services)", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 4.5, "net_revenue_budget": "£14.2M"},
     {"council": "Burnley", "type": "district", "population": 90234, "ceo_salary_midpoint": 115000, "ceo_to_median_ratio": 5.8, "net_revenue_budget": "£18.7M"},
+    {"council": "Rossendale", "type": "district", "population": 73045, "ceo_salary_midpoint": 113001, "ceo_to_median_ratio": 5.7, "net_revenue_budget": "£10.6M"},
     {"council": "Pendle", "type": "district", "population": 91405, "ceo_salary_midpoint": 108000, "ceo_to_median_ratio": 5.4, "net_revenue_budget": "£13.8M"},
-    {"council": "Rossendale", "type": "district", "population": 71463, "ceo_salary_midpoint": 105000, "ceo_to_median_ratio": 5.6, "net_revenue_budget": "£11.5M"},
     {"council": "Ribble Valley", "type": "district", "population": 61561, "ceo_salary_midpoint": 100000, "ceo_to_median_ratio": 5.3, "net_revenue_budget": "£9.8M"}
   ],
   "national_context": {
@@ -81,6 +164,7 @@
     "district_ceo_range": "£80,000 - £160,000",
     "recommended_max_ratio": 20,
     "hutton_recommended_ratio": 20,
-    "source": "LGA/CIPFA pay survey data and Hutton Review of Fair Pay 2011"
+    "total_council_employees_over_100k_nationally": 3906,
+    "source": "LGA/CIPFA pay survey data, Hutton Review of Fair Pay 2011, TPA Town Hall Rich List 2025"
   }
 }

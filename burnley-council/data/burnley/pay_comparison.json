@@ -1,12 +1,22 @@
 {
-  "last_updated": "2026-02-07",
+  "last_updated": "2026-02-08",
   "council_name": "Burnley",
-  "source": "Pay Policy Statements and annual accounts (Statement of Accounts Note on Officers' Remuneration)",
-  "note": "Data compiled from publicly available Pay Policy Statements and annual accounts. Salary bands from Pay Policy Statements; actual remuneration from annual accounts where available. Some years may be estimates pending FOI confirmation. We encourage residents to FOI for exact figures.",
-  "data_quality": "estimates_from_published_data",
+  "source": "Pay Policy Statements, Statement of Accounts, TaxPayers' Alliance Town Hall Rich List, GOV.UK Gender Pay Gap Service",
+  "note": "Data compiled from publicly available Pay Policy Statements, annual accounts, and TPA research. The 2023/24 figures reflect a mid-year CEO changeover: Mick Cartledge retired 31 July 2023 and Lukman Patel took over from 11 August 2023, so neither individual crossed £100K for the year. Burnley was the only council in the entire UK with no employee earning over £100,000 in 2023/24 — explained entirely by the part-year split.",
+  "data_quality": "mixed — TPA figures verified, Pay Policy PDF figures pending direct extraction",
+  "pay_policy_urls": {
+    "2025_26": "https://burnley.gov.uk/wp-content/uploads/2025/03/Pay-Policy-Statement-2025-26.pdf",
+    "2024_25": "https://burnley.gov.uk/wp-content/uploads/2024/03/Pay-Policy-Statement-2024-25.pdf",
+    "2022_23": "https://burnley.gov.uk/wp-content/uploads/2022/04/Pay-Policy-Statement-2022-23.pdf",
+    "2021_22": "https://burnley.gov.uk/wp-content/uploads/2022/02/Pay-Policy-Statement-2021-22-with-Appendices-1.pdf"
+  },
+  "accounts_url": "https://burnley.gov.uk/council-democracy/finance-performance/statement-of-accounts-and-annual-reports/",
   "chief_executive": {
     "title": "Chief Executive",
-    "name_redacted": true,
+    "name": "Lukman Patel",
+    "appointed": "11 August 2023",
+    "background": "Joined Burnley Council 2015. Previously head of legal (environment) at Trafford Council. Executive MBA from Lancaster University. Served as Chief Operating Officer from 2017 before becoming CEO.",
+    "previous_ceo": "Mick Cartledge (retired 31 July 2023, 42 years in local government)",
     "current_salary_band": "£110,000 - £120,000",
     "current_midpoint": 115000,
     "pension_contribution_pct": 19.7
@@ -14,71 +24,125 @@
   "pay_history": [
     {
       "year": "2021/22",
-      "ceo_salary": 110000,
+      "ceo_name": "Mick Cartledge",
+      "ceo_salary": 118000,
       "ceo_total_remuneration": 131670,
       "median_employee_salary": 19000,
       "lowest_salary": 9800,
       "ceo_to_median_ratio": 5.8,
       "ceo_to_lowest_ratio": 11.2,
-      "source": "Annual Accounts 2021/22"
+      "source": "Annual Accounts 2021/22",
+      "confidence": "estimate"
     },
     {
       "year": "2022/23",
-      "ceo_salary": 112000,
-      "ceo_total_remuneration": 134064,
+      "ceo_name": "Mick Cartledge",
+      "ceo_salary": 118400,
+      "ceo_total_remuneration": 144000,
+      "coo_name": "Lukman Patel",
+      "coo_total_remuneration": 112000,
       "median_employee_salary": 19500,
       "lowest_salary": 10100,
-      "ceo_to_median_ratio": 5.7,
-      "ceo_to_lowest_ratio": 11.1,
-      "source": "Annual Accounts 2022/23"
+      "ceo_to_median_ratio": 7.4,
+      "ceo_to_lowest_ratio": 14.3,
+      "source": "TPA Town Hall Rich List 2024 / Burnley Express",
+      "confidence": "verified",
+      "note": "CEO total remuneration ~£144K includes £21,630 pension + £3,970 returning officer fee. COO total ~£112K includes £16,549 pension."
     },
     {
       "year": "2023/24",
-      "ceo_salary": 113000,
-      "ceo_total_remuneration": 135261,
+      "ceo_note": "Mid-year CEO changeover — two part-year appointments",
+      "officers": [
+        {"name": "Lukman Patel", "role": "Chief Executive (from 11 Aug 2023)", "total_remuneration": 95228},
+        {"name": "Mick Cartledge", "role": "Chief Executive (to 31 Jul 2023)", "total_remuneration": 53157}
+      ],
+      "combined_ceo_remuneration": 148385,
       "median_employee_salary": 19700,
       "lowest_salary": 10296,
-      "ceo_to_median_ratio": 5.7,
-      "ceo_to_lowest_ratio": 11.0,
-      "source": "Annual Accounts 2023/24"
+      "tpa_over_100k": 0,
+      "tpa_note": "Only council in the entire UK with zero employees over £100K — due to part-year CEO split",
+      "source": "TPA Town Hall Rich List 2025",
+      "confidence": "verified"
     },
     {
       "year": "2024/25",
+      "ceo_name": "Lukman Patel",
       "ceo_salary": 115000,
       "ceo_total_remuneration": 137655,
       "median_employee_salary": 19828,
       "lowest_salary": 10296,
       "ceo_to_median_ratio": 5.8,
       "ceo_to_lowest_ratio": 11.2,
-      "source": "Pay Policy Statement 2024/25 (estimate)"
+      "source": "Pay Policy Statement 2024/25 (estimate)",
+      "confidence": "estimate"
     },
     {
       "year": "2025/26",
+      "ceo_name": "Lukman Patel",
       "ceo_salary": 115000,
       "ceo_total_remuneration": 137655,
       "median_employee_salary": 20500,
       "lowest_salary": 10700,
       "ceo_to_median_ratio": 5.6,
       "ceo_to_lowest_ratio": 10.7,
-      "source": "Pay Policy Statement 2025/26 (estimate)"
+      "source": "Pay Policy Statement 2025/26 (estimate)",
+      "confidence": "estimate"
     }
   ],
   "senior_officers": [
-    {"post": "Chief Operating Officer", "salary_band": "£85,000 - £95,000", "midpoint": 90000},
-    {"post": "Head of Finance & Property", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
-    {"post": "Head of Legal & Democratic", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
-    {"post": "Head of Housing & Development", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
-    {"post": "Head of Streetscene", "salary_band": "£60,000 - £70,000", "midpoint": 65000}
+    {"post": "Chief Operating Officer", "name": "Rob Dobson", "salary_band": "£90,000 - £95,000", "midpoint": 94028, "source": "2023 recruitment pack"},
+    {"post": "Director of Economy & Development", "name": "Kate Ingram", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
+    {"post": "Head of Finance & Property (S151)", "name": "Howard Hamilton-Smith", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
+    {"post": "Head of Legal & Democratic", "name": "Catherine Waudby", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
+    {"post": "Head of Housing & Development Control", "name": "Paul Gatrell", "salary_band": "£65,000 - £75,000", "midpoint": 70000},
+    {"post": "Head of Green Spaces & Amenities", "name": "Simon Goff", "salary_band": "£60,000 - £70,000", "midpoint": 65000},
+    {"post": "Head of Policy & Engagement", "name": "Clare Jackson", "salary_band": "£60,000 - £70,000", "midpoint": 65000},
+    {"post": "Head of People & Development", "name": "Heather Brennan", "salary_band": "£60,000 - £70,000", "midpoint": 65000}
   ],
+  "employee_headcount": {
+    "band": "under 250",
+    "source": "GOV.UK Gender Pay Gap Service (employer size band)",
+    "note": "Burnley outsources significant services to Liberata UK Ltd, reducing direct headcount"
+  },
+  "gender_pay_gap": {
+    "2024_25": {
+      "snapshot_date": "31 March 2024",
+      "median_hourly_gap_pct": -4.2,
+      "mean_hourly_gap_pct": -1.6,
+      "gap_direction": "Women earn MORE than men",
+      "bonuses_paid": false,
+      "quartiles": {
+        "upper": {"women_pct": 55, "men_pct": 45},
+        "upper_middle": {"women_pct": 47, "men_pct": 53},
+        "lower_middle": {"women_pct": 54, "men_pct": 46},
+        "lower": {"women_pct": 38, "men_pct": 62}
+      },
+      "source": "https://gender-pay-gap.service.gov.uk/employers/2588"
+    },
+    "2023_24": {
+      "snapshot_date": "31 March 2023",
+      "median_hourly_gap_pct": -4.8,
+      "mean_hourly_gap_pct": -2.1,
+      "gap_direction": "Women earn MORE than men",
+      "bonuses_paid": false,
+      "workforce_pct_women": 47.3,
+      "source": "https://gender-pay-gap.service.gov.uk/employers/2588"
+    },
+    "note": "Burnley has a reverse gender pay gap — women earn more than men on average. Lower quartile is 62% male (2024-25), likely reflecting grounds/amenities roles."
+  },
+  "tpa_town_hall_rich_list": {
+    "2022_23": {"employees_over_100k": 2, "source": "TPA Town Hall Rich List 2024"},
+    "2023_24": {"employees_over_100k": 0, "source": "TPA Town Hall Rich List 2025", "note": "Only council in UK with zero — mid-year CEO changeover"}
+  },
   "comparators": [
+    {"council": "Chorley", "type": "district (shared CEO with South Ribble)", "population": 119497, "ceo_salary_midpoint": 140000, "ceo_to_median_ratio": 6.2, "net_revenue_budget": "£20.1M"},
+    {"council": "Lancaster", "type": "district", "population": 144246, "ceo_salary_midpoint": 125000, "ceo_to_median_ratio": 6.0, "net_revenue_budget": "£26.3M"},
     {"council": "Burnley", "type": "district", "population": 90234, "ceo_salary_midpoint": 115000, "ceo_to_median_ratio": 5.8, "net_revenue_budget": "£18.7M"},
-    {"council": "Hyndburn", "type": "district", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 5.5, "net_revenue_budget": "£14.2M"},
+    {"council": "Rossendale", "type": "district", "population": 73045, "ceo_salary_midpoint": 113001, "ceo_to_median_ratio": 5.7, "net_revenue_budget": "£10.6M"},
+    {"council": "Hyndburn", "type": "district", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 4.5, "net_revenue_budget": "£14.2M"},
     {"council": "Pendle", "type": "district", "population": 91405, "ceo_salary_midpoint": 108000, "ceo_to_median_ratio": 5.4, "net_revenue_budget": "£13.8M"},
-    {"council": "Rossendale", "type": "district", "population": 71463, "ceo_salary_midpoint": 105000, "ceo_to_median_ratio": 5.6, "net_revenue_budget": "£11.5M"},
-    {"council": "Ribble Valley", "type": "district", "population": 61561, "ceo_salary_midpoint": 100000, "ceo_to_median_ratio": 5.3, "net_revenue_budget": "£9.8M"},
-    {"council": "Chorley", "type": "district (shared CEO)", "population": 119497, "ceo_salary_midpoint": 140000, "ceo_to_median_ratio": 6.2, "net_revenue_budget": "£20.1M"},
-    {"council": "South Ribble", "type": "district (shared CEO)", "population": 111297, "ceo_salary_midpoint": 140000, "ceo_to_median_ratio": 6.2, "net_revenue_budget": "£18.9M"},
-    {"council": "Lancaster", "type": "district", "population": 144246, "ceo_salary_midpoint": 125000, "ceo_to_median_ratio": 6.0, "net_revenue_budget": "£26.3M"}
+    {"council": "South Ribble", "type": "district (shared CEO with Chorley)", "population": 111297, "ceo_salary_midpoint": 140000, "ceo_to_median_ratio": 6.2, "net_revenue_budget": "£18.9M"},
+    {"council": "Ribble Valley", "type": "district", "population": 61561, "ceo_salary_midpoint": 100000, "ceo_to_median_ratio": 5.3, "net_revenue_budget": "£9.8M"}
   ],
   "national_context": {
     "district_ceo_average": 112000,
@@ -86,6 +150,8 @@
     "district_ceo_range": "£80,000 - £160,000",
     "recommended_max_ratio": 20,
     "hutton_recommended_ratio": 20,
-    "source": "LGA/CIPFA pay survey data and Hutton Review of Fair Pay 2011"
+    "total_council_employees_over_100k_nationally": 3906,
+    "national_100k_increase_pct": 26,
+    "source": "LGA/CIPFA pay survey data, Hutton Review of Fair Pay 2011, TPA Town Hall Rich List 2025 (2023/24 data)"
   }
 }

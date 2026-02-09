@@ -1,15 +1,32 @@
 {
-  "last_updated": "2026-02-07",
+  "last_updated": "2026-02-08",
   "council_name": "Pendle",
-  "source": "Pay Policy Statements and annual accounts (Statement of Accounts Note on Officers' Remuneration)",
-  "note": "Data compiled from publicly available Pay Policy Statements and annual accounts. Pendle's most recent accounts received a disclaimer of opinion, so recent remuneration figures are from unaudited accounts. We encourage residents to FOI for exact figures.",
-  "data_quality": "estimates_from_published_data",
+  "source": "Pay Policy Statements, Statement of Accounts, TaxPayers' Alliance Town Hall Rich List, council open data, news reports",
+  "note": "CEO salary exact figure is embedded in Pay Policy Statement PDF (confirmed below £150K). Pendle deleted the Chief Executive post in 2015 to save £4M, replacing it with a Strategic Director role until 2021. The current CEO (Dean Langton) returned in October 2025 after previously serving as Head of Paid Service from 2015-2021. Pendle's 2023/24 accounts received a disclaimer of opinion as part of the national backstop exercise. Pendle does not report gender pay gap data (headcount ~200, below 250 threshold) due to extensive outsourcing to Liberata.",
+  "data_quality": "mixed — TPA trend verified, CEO salary estimated, Pay Policy PDF figures pending extraction",
+  "pay_policy_urls": {
+    "2024_25": "https://www.pendle.gov.uk/download/downloads/id/11593/pay_policy_2024.pdf",
+    "index": "https://www.pendle.gov.uk/downloads/download/2639/our_pay_policy_statement",
+    "org_chart": "https://www.pendle.gov.uk/downloads/download/2797/organisation_chart_and_salary_bands",
+    "senior_salaries": "https://www.pendle.gov.uk/info/20094/data_protection_and_freedom_of_information/148/open_data/13",
+    "pay_multiple": "https://www.pendle.gov.uk/info/20094/data_protection_and_freedom_of_information/148/open_data/11"
+  },
+  "accounts_url": "https://www.pendle.gov.uk/info/20078/budgets_and_spending/182/statement_of_accounts",
   "chief_executive": {
     "title": "Chief Executive",
-    "name_redacted": true,
-    "current_salary_band": "£103,000 - £113,000",
+    "name": "Dean Langton",
+    "appointed": "6 October 2025 (approval by Extraordinary Council 19 June 2025)",
+    "background": "Qualified accountant. 15 years at Pendle: joined as Chief Finance Officer 2006, became Strategic Director/Head of Paid Service April 2015 when CEO post was deleted. Left 2021 for Strategic Director of Finance & Resources at Blackburn with Darwen (4 years). Returned as permanent CEO October 2025. Board member at Nelson & Colne College Group.",
+    "designations": ["Head of Paid Service", "Returning Officer", "Electoral Registration Officer"],
+    "previous_ceos": [
+      {"name": "Rose Rouse", "period": "2021 - March 2025", "note": "Left to become CEO of Darlington BC (advertised at c.£153,000)"},
+      {"name": "Lawrence Conway", "period": "Feb - Oct 2025", "role": "Interim CE", "note": "Former CE of South Lakeland DC (2010-2023)"},
+      {"name": "Stephen Barnes", "period": "Pre-2015", "note": "Made redundant as part of £4M savings plan; 40 years at the council"}
+    ],
+    "current_salary_band": "Below £150,000 (confirmed by transparency data)",
     "current_midpoint": 108000,
-    "pension_contribution_pct": 19.7
+    "pension_contribution_pct": 19.7,
+    "interim_cost_note": "Estimated cost of 6 months interim CE + permanent recruitment: £95,000 (included in 2025/26 budget)"
   },
   "pay_history": [
     {
@@ -20,7 +37,10 @@
       "lowest_salary": 9800,
       "ceo_to_median_ratio": 5.4,
       "ceo_to_lowest_ratio": 10.5,
-      "source": "Annual Accounts 2021/22"
+      "tpa_over_100k": 0,
+      "tpa_note": "One of only 5 councils nationally with zero employees over £100K",
+      "source": "Annual Accounts 2021/22 / TPA Town Hall Rich List 2023",
+      "confidence": "estimate"
     },
     {
       "year": "2022/23",
@@ -30,7 +50,9 @@
       "lowest_salary": 10100,
       "ceo_to_median_ratio": 5.4,
       "ceo_to_lowest_ratio": 10.4,
-      "source": "Annual Accounts 2022/23"
+      "tpa_over_100k": 1,
+      "source": "Annual Accounts 2022/23 / TPA Town Hall Rich List 2024",
+      "confidence": "estimate"
     },
     {
       "year": "2023/24",
@@ -40,39 +62,112 @@
       "lowest_salary": 10296,
       "ceo_to_median_ratio": 5.4,
       "ceo_to_lowest_ratio": 10.3,
-      "source": "Unaudited Accounts 2023/24 (disclaimer of opinion)"
+      "tpa_over_100k": 2,
+      "source": "Unaudited Accounts 2023/24 (disclaimer of opinion) / TPA Town Hall Rich List 2025",
+      "confidence": "estimate — accounts disclaimed"
     },
     {
       "year": "2024/25",
+      "ceo_name": "Rose Rouse (to Mar 2025)",
       "ceo_salary": 108000,
       "ceo_total_remuneration": 129276,
       "median_employee_salary": 20000,
       "lowest_salary": 10296,
       "ceo_to_median_ratio": 5.4,
       "ceo_to_lowest_ratio": 10.5,
-      "source": "Pay Policy Statement 2024/25 (estimate)"
+      "source": "Pay Policy Statement 2024/25 (estimate)",
+      "confidence": "estimate"
     },
     {
       "year": "2025/26",
+      "ceo_name": "Dean Langton (from Oct 2025)",
       "ceo_salary": 108000,
       "ceo_total_remuneration": 129276,
       "median_employee_salary": 20500,
       "lowest_salary": 10700,
       "ceo_to_median_ratio": 5.3,
       "ceo_to_lowest_ratio": 10.1,
-      "source": "Pay Policy Statement 2025/26 (estimate)"
+      "source": "Pay Policy Statement 2025/26 (estimate)",
+      "confidence": "estimate",
+      "note": "Part-year for new CEO — interim Lawrence Conway served Feb-Oct 2025"
     }
   ],
   "senior_officers": [
-    {"post": "Corporate Director", "salary_band": "£75,000 - £85,000", "midpoint": 80000},
-    {"post": "Head of Finance", "salary_band": "£60,000 - £70,000", "midpoint": 65000},
-    {"post": "Head of Regeneration & Planning", "salary_band": "£60,000 - £70,000", "midpoint": 65000}
+    {"post": "Director of Resources", "name": "Karen Spencer", "salary_band": "£75,000 - £85,000", "midpoint": 80000},
+    {"post": "Director of Place", "name": "Phillip Spurr", "salary_band": "£75,000 - £85,000", "midpoint": 80000, "note": "Previously Programme Director at Ryedale DC"},
+    {"post": "Assistant Director of Operational Services", "name": "David Walker", "salary_band": "£60,000 - £70,000", "midpoint": 65000},
+    {"post": "Assistant Director of Planning, Building Control & Regulatory Services", "name": "Neil Watson", "salary_band": "£60,000 - £70,000", "midpoint": 65000},
+    {"post": "Head of Economic Growth", "name": "Iftikhar Bokhari", "salary_band": "£55,000 - £65,000", "midpoint": 60000},
+    {"post": "Head of Housing & Environmental Health", "name": "Sarah Whitwell", "salary_band": "£55,000 - £65,000", "midpoint": 60000},
+    {"post": "Head of Finance", "name": "Gemma-Louise Wells", "salary_band": "£55,000 - £65,000", "midpoint": 60000},
+    {"post": "Head of Legal & Democratic Services", "name": "Howard Culshaw", "salary_band": "£55,000 - £65,000", "midpoint": 60000},
+    {"post": "Head of Policy & Commissioning", "name": "Sarah Astin-Wood", "salary_band": "£55,000 - £65,000", "midpoint": 60000}
   ],
+  "employee_headcount": {
+    "current_approx": 200,
+    "historical": [
+      {"year": "Pre-2005", "headcount": 600, "note": "Before Pendle Leisure Trust and Liberata outsourcing"},
+      {"year": "2010", "headcount": 311},
+      {"year": "2015", "headcount": 235},
+      {"year": "Current", "headcount": 200, "note": "Approximate — below 250 threshold for gender pay gap reporting"}
+    ],
+    "agency_spend_pct": 11,
+    "consultant_spend_pct": 7,
+    "source": "Pendle Productivity Plan",
+    "note": "In addition, Liberata employs approximately 300 people in Nelson delivering outsourced Pendle services. Total staff supporting council services is therefore ~500."
+  },
+  "gender_pay_gap": {
+    "reports_required": false,
+    "reason": "Headcount (~200) below 250-employee mandatory reporting threshold",
+    "note": "Historical 2018 report suggested women paid 36% more than men, but this may reflect earlier higher headcount. Liberata's own gender pay gap (2024): mean 21.8%, median 9.0% (women paid less).",
+    "liberata_gap": {
+      "year": "2024",
+      "mean_gap_pct": 21.8,
+      "median_gap_pct": 9.0,
+      "workforce_pct_women": 64.8,
+      "source": "https://liberata.com/gender-pay-gap-report/"
+    }
+  },
+  "tpa_town_hall_rich_list": {
+    "2021_22": {"employees_over_100k": 0, "source": "TPA Town Hall Rich List 2023", "note": "One of only 5 councils nationally with zero"},
+    "2022_23": {"employees_over_100k": 1, "source": "TPA Town Hall Rich List 2024"},
+    "2023_24": {"employees_over_100k": 2, "source": "TPA Town Hall Rich List 2025"}
+  },
+  "councillor_allowances": {
+    "total_councillors": 33,
+    "basic_allowance": 3500,
+    "scheme_set": "Annual Council May 2023",
+    "total_paid_2024_25": 132309.14,
+    "basic_total_2024_25": 114035.48,
+    "sra_total_2024_25": 18273.66,
+    "highest_individual": {"name": "Councillor Asjad Mahmood", "total": 7500, "breakdown": "£3,500 basic + £4,000 SRA"},
+    "sra_range": "£392.75 - £4,000",
+    "source": "https://www.pendle.gov.uk/info/20083/councillors_mps_and_meps/203/councillor_expenses/2"
+  },
+  "liberata_contract": {
+    "total_value": "£54M",
+    "annual_value": "£5.4M",
+    "pct_of_net_budget": 31,
+    "duration": "10-year extension signed July 2017, running to February 2030",
+    "services": ["Revenue & Benefits", "Strategic HR & Payroll", "IT", "Fraud & Error", "Customer Services"],
+    "liberata_staff_in_nelson": 300,
+    "recent_changes": "Property Services transferred back in-house (March 2024). Combined savings ~27%.",
+    "data_contact": "Jane McDonnell (jane.mcdonnell@liberata.com) — notably a Liberata email, illustrating depth of outsourcing",
+    "source": "Liberata press release July 2017, LGA Corporate Peer Challenge"
+  },
+  "audit_status": {
+    "disclaimer_year": "2023/24",
+    "reason": "National backstop exercise — approximately 60% of local authority audits nationally were disclaimed",
+    "grant_thornton_findings": "Significant weaknesses in value for money arrangements regarding financial sustainability",
+    "outstanding_recommendations": 7,
+    "audit_fees_2024_25": 142185,
+    "source": "Grant Thornton Audit Progress Report September 2025"
+  },
   "comparators": [
-    {"council": "Pendle", "type": "district", "population": 91405, "ceo_salary_midpoint": 108000, "ceo_to_median_ratio": 5.4, "net_revenue_budget": "£13.8M"},
+    {"council": "Pendle", "type": "district (Liberata outsourcing)", "population": 91405, "ceo_salary_midpoint": 108000, "ceo_to_median_ratio": 5.4, "net_revenue_budget": "£13.8M"},
     {"council": "Burnley", "type": "district", "population": 90234, "ceo_salary_midpoint": 115000, "ceo_to_median_ratio": 5.8, "net_revenue_budget": "£18.7M"},
-    {"council": "Hyndburn", "type": "district", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 5.5, "net_revenue_budget": "£14.2M"},
-    {"council": "Rossendale", "type": "district", "population": 71463, "ceo_salary_midpoint": 105000, "ceo_to_median_ratio": 5.6, "net_revenue_budget": "£11.5M"},
+    {"council": "Rossendale", "type": "district", "population": 73045, "ceo_salary_midpoint": 113001, "ceo_to_median_ratio": 5.7, "net_revenue_budget": "£10.6M"},
+    {"council": "Hyndburn", "type": "district (in-house)", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 4.5, "net_revenue_budget": "£14.2M"},
     {"council": "Ribble Valley", "type": "district", "population": 61561, "ceo_salary_midpoint": 100000, "ceo_to_median_ratio": 5.3, "net_revenue_budget": "£9.8M"}
   ],
   "national_context": {
@@ -81,6 +176,7 @@
     "district_ceo_range": "£80,000 - £160,000",
     "recommended_max_ratio": 20,
     "hutton_recommended_ratio": 20,
-    "source": "LGA/CIPFA pay survey data and Hutton Review of Fair Pay 2011"
+    "total_council_employees_over_100k_nationally": 3906,
+    "source": "LGA/CIPFA pay survey data, Hutton Review of Fair Pay 2011, TPA Town Hall Rich List 2025"
   }
 }

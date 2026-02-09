@@ -1,92 +1,139 @@
 {
-  "last_updated": "2025-02-08",
+  "last_updated": "2026-02-08",
   "council_name": "Rossendale",
-  "source": "Rossendale Borough Council Pay Policy Statement 2024/25",
-  "note": "Chief Executive salary is a spot salary (not a range). Council became a Foundation Living Wage employer on 1 April 2013.",
-  "data_quality": "Published via council committee papers. CEO salary data from 2024/25 Pay Policy Statement.",
+  "source": "Pay Policy Statement 2024/25, TaxPayers' Alliance Town Hall Rich List, Lancashire CC Lancashire Insight, LGA Corporate Peer Challenge",
+  "note": "CEO salary is a confirmed spot salary of £113,001 (verified from Pay Policy Statement). Rossendale is the smallest of the 4 East Lancashire councils by headcount (168 staff, 164 FTE) and does not report gender pay gap data (below 250-employee threshold). The council became a Foundation Living Wage employer on 1 April 2013. No lease car or telephone allowances are offered — unusual for a council.",
+  "data_quality": "good — CEO salary verified from Pay Policy Statement, pay ratios verified, headcount verified from multiple sources",
+  "pay_policy_url": "https://www.rossendale.gov.uk/download/meetings/id/11835/D2.%20Pay%20Policy%20Statement",
+  "accounts_url": "https://www.rossendale.gov.uk/budgets-finance/annual-accounts",
+  "management_team_url": "https://www.rossendale.gov.uk/council/management-team",
   "chief_executive": {
     "title": "Chief Executive",
-    "salary_midpoint": 113001,
-    "salary_range": {
-      "min": 113001,
-      "max": 113001
-    },
-    "pay_type": "spot"
+    "name": "Rob Huntington",
+    "appointed": "April 2023 (Full Council approval late December 2022)",
+    "background": "Started local government career at Lancaster City Council (1991). Held senior roles at Sheffield City Council, Trafford Borough Council, Your Housing Group, and St Helens Borough Council (Assistant Chief Executive). Passionate about district councils' role in communities.",
+    "designations": ["Head of Paid Services"],
+    "previous_ceos": [
+      {"name": "Neil Shaw", "period": "Late 2019 - December 2022", "note": "Left to become CEO of Greater Manchester Business School at University of Bolton"},
+      {"name": "Adam Allen", "role": "Acting Chief Executive", "period": "Dec 2022 - April 2023", "note": "Director of Communities. Now Director of Community Services at Ribble Valley BC."}
+    ],
+    "salary_type": "spot",
+    "salary": 113001,
+    "salary_range": {"min": 113001, "max": 113001},
+    "salary_source": "Pay Policy Statement 2024/25 (verified)",
+    "pension_contribution_pct": 19.7,
+    "no_lease_car": true,
+    "no_telephone_allowance": true,
+    "no_essential_car_user_lump_sum": true
   },
-  "pay_history": [],
-  "senior_officers": [],
-  "comparators": [
+  "pay_ratios": {
+    "ceo_to_lowest_ratio": 5.7,
+    "recommended_max_ratio": 20,
+    "council_median_salary": 27803,
+    "chief_officer_median_salary": 72077,
+    "lowest_salary": 21029,
+    "lowest_salary_description": "Foundation Living Wage (cleaners)",
+    "lowest_grade": "Grade 1 SCP 2-3: £22,366 - £22,737",
+    "flw_hourly_rate": 12.00,
+    "flw_hourly_rate_note": "Rising to £12.00/hour from 1 April 2024 (was £10.90)",
+    "source": "Pay Policy Statement 2024/25"
+  },
+  "pay_history": [
     {
-      "council": "Burnley",
-      "type": "district",
-      "population": 90234,
-      "ceo_salary_midpoint": 115000,
-      "ceo_to_median_ratio": 5.8,
-      "net_revenue_budget": "\u00a318.7M"
+      "year": "2022/23",
+      "tpa_over_100k": 3,
+      "note": "Likely includes departing CEO Neil Shaw + incoming Rob Huntington + possibly acting CE Adam Allen or a Director",
+      "source": "TPA Town Hall Rich List 2024",
+      "confidence": "verified (TPA)"
     },
     {
-      "council": "Hyndburn",
-      "type": "district",
-      "population": 81043,
-      "ceo_salary_midpoint": 110000,
-      "ceo_to_median_ratio": 5.5,
-      "net_revenue_budget": "\u00a314.2M"
+      "year": "2023/24",
+      "ceo_name": "Rob Huntington",
+      "ceo_salary": 113001,
+      "tpa_over_100k": 1,
+      "note": "Drop from 3 to 1 reflects CEO transition being complete — only one full-year CE",
+      "source": "TPA Town Hall Rich List 2025",
+      "confidence": "verified (TPA + Pay Policy)"
     },
     {
-      "council": "Pendle",
-      "type": "district",
-      "population": 91405,
-      "ceo_salary_midpoint": 108000,
-      "ceo_to_median_ratio": 5.4,
-      "net_revenue_budget": "\u00a313.8M"
-    },
-    {
-      "council": "Rossendale",
-      "type": "district",
-      "population": 71463,
-      "ceo_salary_midpoint": 105000,
-      "ceo_to_median_ratio": 5.6,
-      "net_revenue_budget": "\u00a311.5M"
-    },
-    {
-      "council": "Ribble Valley",
-      "type": "district",
-      "population": 61561,
-      "ceo_salary_midpoint": 100000,
-      "ceo_to_median_ratio": 5.3,
-      "net_revenue_budget": "\u00a39.8M"
-    },
-    {
-      "council": "Chorley",
-      "type": "district (shared CEO)",
-      "population": 119497,
-      "ceo_salary_midpoint": 140000,
-      "ceo_to_median_ratio": 6.2,
-      "net_revenue_budget": "\u00a320.1M"
-    },
-    {
-      "council": "South Ribble",
-      "type": "district (shared CEO)",
-      "population": 111297,
-      "ceo_salary_midpoint": 140000,
-      "ceo_to_median_ratio": 6.2,
-      "net_revenue_budget": "\u00a318.9M"
-    },
-    {
-      "council": "Lancaster",
-      "type": "district",
-      "population": 144246,
-      "ceo_salary_midpoint": 125000,
-      "ceo_to_median_ratio": 6.0,
-      "net_revenue_budget": "\u00a326.3M"
+      "year": "2024/25",
+      "ceo_name": "Rob Huntington",
+      "ceo_salary": 113001,
+      "source": "Pay Policy Statement 2024/25",
+      "confidence": "verified"
     }
+  ],
+  "senior_officers": [
+    {"post": "Director of Economic Development", "name": "David Smurthwaite", "joined": "February 2023"},
+    {"post": "Director of Resources (S151 Officer)", "name": "Chris Warren", "joined": "September 2024", "background": "Previously head of service in finance at Lancashire County Council"},
+    {"post": "Head of Legal & Monitoring Officer", "name": "Clare Birtwistle", "joined": "November 2001", "note": "Lawyer for over 26 years"},
+    {"post": "Head of People & Policy", "name": "Clare Law", "joined": "September 1998", "note": "Chartered CIPD member. Longest-serving member of CMT."},
+    {"post": "Head of Environmental Services", "name": "Andy Taylor", "joined": "March 2023"},
+    {"post": "Head of Housing & Regeneration", "name": "Megan Eastwood", "background": "Previously at Burnley BC and Starfish Group"},
+    {"post": "Head of ICT & Customer Services", "name": "Andrew Buckle"},
+    {"post": "Former Director of Communities", "name": "Adam Allen", "status": "departed", "now_at": "Ribble Valley Borough Council (Director of Community Services)"}
+  ],
+  "corporate_management_team_size": 8,
+  "corporate_management_team_note": "1 CE + 2 Directors + 5 Heads of Service. Previously had 3 Directors but Adam Allen (Director of Communities) departed.",
+  "employee_headcount": {
+    "headcount": 168,
+    "fte": 164,
+    "monthly_net_pay": 370000,
+    "annual_staffing_cost_approx": 4400000,
+    "workforce_split": "Equally split between office-based (Futures Park) and operations (Henrietta Street Depot)",
+    "gender_pay_gap_required": false,
+    "gender_pay_gap_reason": "Below 250-employee threshold",
+    "source": "Lancashire CC Lancashire Insight (headcount), LGA Corporate Peer Challenge (FTE)"
+  },
+  "foundation_living_wage": {
+    "employer_since": "1 April 2013",
+    "current_rate": "£12.00/hour (from 1 April 2024)",
+    "previous_rate": "£10.90/hour",
+    "lowest_paid_roles": "Cleaners and some apprentice posts",
+    "verified": true,
+    "source": "Pay Policy Statement 2024/25"
+  },
+  "tpa_town_hall_rich_list": {
+    "2022_23": {"employees_over_100k": 3, "source": "TPA Town Hall Rich List 2024"},
+    "2023_24": {"employees_over_100k": 1, "source": "TPA Town Hall Rich List 2025", "note": "Drop from 3 to 1 — CEO transition completed, only one full-year CE"}
+  },
+  "councillor_allowances": {
+    "total_councillors": 36,
+    "note": "Reducing to 30 seats following boundary changes (1 currently vacant)",
+    "scheme_url": "https://www.rossendale.gov.uk/downloads/download/10731/councillor_allowances_scheme",
+    "expenses_url": "https://www.rossendale.gov.uk/downloads/download/10751/councillor_expenses",
+    "source": "Council website — exact figures pending PDF extraction"
+  },
+  "political_control": "Labour majority (19 of 30 seats)",
+  "budget": {
+    "net_revenue_2024_25": 10598000,
+    "funding_gap_2025_26": 574000,
+    "funding_gap_2028_29": 934000,
+    "source": "Financial monitoring reports and budget consultation"
+  },
+  "audit_status": {
+    "auditor": "Mazars",
+    "accounts_audited": ["2020/21", "2021/22", "2022/23", "2023/24"],
+    "previous_backlog": "2018/19 through 2022/23 accounts were all with external auditors simultaneously — backlog now cleared",
+    "source": "Council accounts page"
+  },
+  "comparators": [
+    {"council": "Chorley", "type": "district (shared CEO with South Ribble)", "population": 119497, "ceo_salary_midpoint": 140000, "ceo_to_median_ratio": 6.2, "net_revenue_budget": "£20.1M"},
+    {"council": "Lancaster", "type": "district", "population": 144246, "ceo_salary_midpoint": 125000, "ceo_to_median_ratio": 6.0, "net_revenue_budget": "£26.3M"},
+    {"council": "Burnley", "type": "district", "population": 90234, "ceo_salary_midpoint": 115000, "ceo_to_median_ratio": 5.8, "net_revenue_budget": "£18.7M"},
+    {"council": "Rossendale", "type": "district", "population": 73045, "ceo_salary_midpoint": 113001, "ceo_to_median_ratio": 5.7, "net_revenue_budget": "£10.6M"},
+    {"council": "Hyndburn", "type": "district (in-house services)", "population": 81043, "ceo_salary_midpoint": 110000, "ceo_to_median_ratio": 4.5, "net_revenue_budget": "£14.2M"},
+    {"council": "Pendle", "type": "district (Liberata outsourcing)", "population": 91405, "ceo_salary_midpoint": 108000, "ceo_to_median_ratio": 5.4, "net_revenue_budget": "£13.8M"},
+    {"council": "South Ribble", "type": "district (shared CEO with Chorley)", "population": 111297, "ceo_salary_midpoint": 140000, "ceo_to_median_ratio": 6.2, "net_revenue_budget": "£18.9M"},
+    {"council": "Ribble Valley", "type": "district", "population": 61561, "ceo_salary_midpoint": 100000, "ceo_to_median_ratio": 5.3, "net_revenue_budget": "£9.8M"}
   ],
   "national_context": {
     "district_ceo_average": 112000,
     "district_ceo_median": 108000,
-    "district_ceo_range": "\u00a380,000 - \u00a3160,000",
+    "district_ceo_range": "£80,000 - £160,000",
     "recommended_max_ratio": 20,
     "hutton_recommended_ratio": 20,
-    "source": "LGA/CIPFA pay survey data and Hutton Review of Fair Pay 2011"
+    "total_council_employees_over_100k_nationally": 3906,
+    "source": "LGA/CIPFA pay survey data, Hutton Review of Fair Pay 2011, TPA Town Hall Rich List 2025"
   }
 }
