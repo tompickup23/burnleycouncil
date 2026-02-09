@@ -25,15 +25,14 @@
 
   "verified_findings": {
     "ch_breach_spend": {
-      "value": "£223.9K",
-      "suppliers": 21,
+      "value": "Pending re-analysis",
+      "suppliers": "TBD",
       "top_cases": [
-        {"name": "Molesworth Hotel Ltd", "spend": "£59.1K", "issue": "No active directors, no PSC"},
         {"name": "JML Property Solutions Ltd", "spend": "£48.0K", "issue": "Facing strike-off, filed dormant accounts"},
         {"name": "A & C Weber UK Ltd", "spend": "£29.2K", "issue": "Filed dormant accounts"}
       ],
-      "confidence": "high",
-      "note": "Verified against Companies House API. Middle-ranked of 3 councils."
+      "confidence": "medium",
+      "note": "Re-running with improved temporal logic. Previous analysis included false positives from CH API failures (e.g. Molesworth Hotel — has active director since Jan 2021). Only suppliers with dated, confirmed violations now included."
     },
     "transparency_gap": {
       "value": "100% missing descriptions",

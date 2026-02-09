@@ -1,0 +1,110 @@
+[
+  {
+    "law": "Local Government Transparency Code 2015",
+    "title": "Transparency Code",
+    "category": "transparency",
+    "summary": "Requires councils to publish spending over £500 quarterly, contracts over £5,000, and maintain a public contracts register. Failure to publish is an offence.",
+    "relevance": "Our entire analysis depends on this Code. Missing descriptions, incomplete data, or unpublished categories signal non-compliance.",
+    "signals": ["Missing transaction descriptions", "Incomplete quarterly publications", "No published contracts register"],
+    "url": "https://www.gov.uk/government/publications/local-government-transparency-code-2015"
+  },
+  {
+    "law": "Local Government Act 1999, s.3",
+    "title": "Best Value Duty",
+    "category": "governance",
+    "summary": "Councils must make arrangements to secure continuous improvement in how they exercise their functions, having regard to economy, efficiency, and effectiveness.",
+    "relevance": "Best Value underpins all our findings. Overpaying compared to neighbouring councils, duplicate payments, and unchallenged supplier concentration all indicate potential Best Value failure.",
+    "signals": ["Cross-council price gaps", "Supplier concentration", "No competitive tendering evidence"],
+    "url": "https://www.legislation.gov.uk/ukpga/1999/27/section/3"
+  },
+  {
+    "law": "Companies Act 2006, ss.154-156, 441-453, 790D",
+    "title": "Companies Act",
+    "category": "accountability",
+    "summary": "Companies must have active directors (s.154), file accounts (s.441), and register persons with significant control (s.790D). Payments to non-compliant companies indicate weak due diligence.",
+    "relevance": "Core to our CH compliance analysis. Companies with no directors, overdue accounts, or facing strike-off should not receive public money without enhanced checks.",
+    "signals": ["No active directors", "Accounts overdue", "Filed dormant but receiving payments", "No PSC registered"],
+    "url": "https://www.legislation.gov.uk/ukpga/2006/46/contents"
+  },
+  {
+    "law": "Public Contracts Regulations 2015 / Procurement Act 2023",
+    "title": "Procurement Rules",
+    "category": "procurement",
+    "summary": "UK procurement thresholds: £30,000 (low value), £138,760 (goods/services), £5,372,609 (works). Split payments to circumvent thresholds are illegal. Must publish on Contracts Finder above £30K.",
+    "relevance": "Our split payment detection specifically targets threshold avoidance. Councils must demonstrate competitive tendering above thresholds.",
+    "signals": ["Payments clustering below thresholds", "Sole-source contracts above threshold", "No Contracts Finder publication"],
+    "url": "https://www.legislation.gov.uk/uksi/2015/102/contents"
+  },
+  {
+    "law": "Local Audit and Accountability Act 2014",
+    "title": "Local Audit",
+    "category": "accountability",
+    "summary": "Councils must have annual accounts audited by registered auditor. Auditors can issue public interest reports, apply for court declarations, and refer matters to the Secretary of State.",
+    "relevance": "External audit findings are the ultimate validation of DOGE analysis. Qualified opinions, public interest reports, or s.24 recommendations all confirm governance failures.",
+    "signals": ["Qualified audit opinion", "Public interest report issued", "Adverse VFM conclusion"],
+    "url": "https://www.legislation.gov.uk/ukpga/2014/2/contents"
+  },
+  {
+    "law": "Local Government Act 1972, s.151",
+    "title": "Section 151 Officer Duty",
+    "category": "financial",
+    "summary": "Every council must appoint an officer responsible for proper financial administration. The s.151 officer must ensure lawful and prudent financial decisions.",
+    "relevance": "The existence of our findings implies the s.151 officer should be investigating the same issues. Payments to dissolved companies or companies in breach suggest inadequate financial controls.",
+    "signals": ["Payments to dissolved companies", "No pre-payment supplier checks", "Inadequate financial procedures"],
+    "url": "https://www.legislation.gov.uk/ukpga/1972/70/section/151"
+  },
+  {
+    "law": "Freedom of Information Act 2000",
+    "title": "FOI Act",
+    "category": "transparency",
+    "summary": "Public authorities must respond to FOI requests within 20 working days. Information can only be withheld under specific exemptions. Cost limit: £450 for non-central government.",
+    "relevance": "FOI requests can fill gaps in published data. Where our analysis identifies anomalies but lacks detail (missing descriptions, unclear contracts), FOI provides the investigative tool.",
+    "signals": ["FOI refusals citing s.43 (commercial interests)", "Excessive redactions", "Non-compliance with 20-day deadline"],
+    "url": "https://www.legislation.gov.uk/ukpga/2000/36/contents"
+  },
+  {
+    "law": "Fraud Act 2006, s.4",
+    "title": "Fraud by Abuse of Position",
+    "category": "accountability",
+    "summary": "Officers who abuse their position to cause financial gain or loss to another commit fraud. Applies to anyone expected to safeguard financial interests.",
+    "relevance": "Patterns suggesting officer-supplier conflicts of interest — sole source contracts, payments to connected parties, ghost suppliers — indicate potential fraud requiring investigation.",
+    "signals": ["Payments to suppliers sharing addresses with officers", "Sole-source contracts without justification", "Suppliers with no web presence receiving regular payments"],
+    "url": "https://www.legislation.gov.uk/ukpga/2006/35/section/4"
+  },
+  {
+    "law": "Localism Act 2011, ss.26-37",
+    "title": "Members' Interests",
+    "category": "governance",
+    "summary": "Councillors must declare disclosable pecuniary interests. Participating in decisions on matters where they have undeclared interests is a criminal offence (s.34).",
+    "relevance": "Cross-referencing councillor interest registers with supplier data can reveal undeclared conflicts. This is the foundation of relationship/network analysis.",
+    "signals": ["Councillors voting on contracts involving their declared interests", "Undeclared connections between members and suppliers"],
+    "url": "https://www.legislation.gov.uk/ukpga/2011/20/part/1/chapter/7"
+  },
+  {
+    "law": "Accounts and Audit Regulations 2015",
+    "title": "Accounts & Audit",
+    "category": "financial",
+    "summary": "Councils must prepare annual accounts by 31 May and publish audited accounts by 30 September. Public inspection period of 30 working days. Any person may inspect and question the auditor.",
+    "relevance": "Your right to inspect council accounts is statutory. During the inspection period, you can question the auditor directly about any item of expenditure — a powerful tool for following up DOGE findings.",
+    "signals": ["Accounts published late", "No public inspection notice", "Auditor qualified the accounts"],
+    "url": "https://www.legislation.gov.uk/uksi/2015/234/contents"
+  },
+  {
+    "law": "Subsidy Control Act 2022",
+    "title": "Subsidy Control",
+    "category": "procurement",
+    "summary": "Replaced EU State Aid rules. Public authorities giving subsidies (financial assistance that benefits specific enterprises) must comply with subsidy control principles. Subsidies over £500K must be entered on the subsidy database.",
+    "relevance": "Large grants to specific organisations, especially those with political connections, may constitute subsidies requiring compliance. COVID business grants had specific exemptions but normal grants do not.",
+    "signals": ["Large payments to specific enterprises without competitive process", "Grants not published on subsidy database", "Financial assistance to connected parties"],
+    "url": "https://www.legislation.gov.uk/ukpga/2022/23/contents"
+  },
+  {
+    "law": "Public Interest Disclosure Act 1998",
+    "title": "Whistleblower Protection",
+    "category": "accountability",
+    "summary": "Protects workers who disclose information about wrongdoing. Qualifying disclosures include criminal offences, breach of legal obligation, and deliberate concealment.",
+    "relevance": "If council whistleblowing policies are weak or whistleblowers face retaliation, waste and fraud can persist. DOGE analysis serves a similar public interest disclosure function.",
+    "signals": ["No published whistleblowing policy", "Employment tribunals citing whistleblower detriment", "No evidence of disclosures being acted upon"],
+    "url": "https://www.legislation.gov.uk/ukpga/1998/23/contents"
+  }
+]

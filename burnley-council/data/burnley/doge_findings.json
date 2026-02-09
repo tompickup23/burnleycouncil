@@ -1,38 +1,52 @@
 {
   "findings": [
     {
-      "value": "£223.9K",
+      "value": "\u00a36.6K",
       "label": "Paid During Active Breaches",
-      "detail": "21 suppliers received payments while in breach of Companies Act — including entities with no active directors or facing strike-off. Verified against Companies House records.",
+      "detail": "2 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 2 high severity. Temporally verified against payment dates.",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "100%",
-      "label": "Missing Transaction Descriptions",
-      "detail": "None of the 30,580 spending records include a description of what was purchased — the worst transparency gap of any East Lancashire council. All 3 neighbours include descriptions.",
+      "value": "\u00a31.2M",
+      "label": "Likely Duplicate Payments",
+      "detail": "298 high-confidence duplicate groups with same supplier, amount, date and reference number",
       "severity": "critical",
       "link": "/spending"
     },
     {
-      "value": "£35.1M",
+      "value": "\u00a344.0K",
+      "label": "Possible Duplicate Payments",
+      "detail": "276 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a35.1M",
       "label": "Suspected Split Payments",
-      "detail": "602 instances of 3+ payments just below approval thresholds in the same week. Many may be legitimate phased payments, but the volume warrants review.",
+      "detail": "11 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "13.2%",
-      "label": "Missing Department Data",
-      "detail": "4,044 transactions (13.2%) have no department assigned — makes it impossible to track which services are spending. Hyndburn and Pendle achieve near-100% department tagging.",
-      "severity": "warning",
-      "link": "/spending"
-    },
-    {
-      "value": "1.4x",
-      "label": "March Spending Premium",
-      "detail": "March spending averages 1.4x the monthly average (£8.5M vs £6M). A mild year-end pattern — October is actually the highest month at £9.5M avg.",
+      "value": "\u00a331.8M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "1486 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "5.7x",
+      "label": "Year-End Spending Spike",
+      "detail": "Multiple departments spent 5.7x their monthly average in March \u2014 potential year-end budget rush worth \u00a311.7M above normal",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=2541.29",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 5 deviates 5.0% from expected distribution across 25490 transactions.",
+      "severity": "warning",
       "link": "/spending"
     }
   ],
@@ -40,65 +54,57 @@
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Molesworth Hotel Ltd: £59.1K paid during active breach",
-      "description": "No active directors; No person with significant control registered. Council paid this company despite Companies House non-compliance.",
-      "link": "/spending?supplier=MOLESWORTH HOTEL LTD",
-      "link_text": "View payments →",
+      "title": "Dlh Professional Services Ltd: \u00a34.0K paid during active breach",
+      "description": "Company facing strike-off; Confirmation statement overdue",
+      "link": "/spending?supplier=DLH PROFESSIONAL SERVICES LTD",
+      "link_text": "View payments \u2192",
       "severity": "warning"
     },
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "JML Property Solutions Ltd: £48.0K paid during active breach",
-      "description": "Company facing strike-off proceedings. Filed dormant accounts but receiving council payments.",
-      "link": "/spending?supplier=JML PROPERTY SOLUTIONS LTD",
-      "link_text": "View payments →",
+      "title": "Home First Interiors Ltd: \u00a32.7K paid during active breach",
+      "description": "Company facing strike-off; Confirmation statement overdue",
+      "link": "/spending?supplier=HOME FIRST INTERIORS LTD",
+      "link_text": "View payments \u2192",
       "severity": "warning"
-    },
-    {
-      "icon": "alert-triangle",
-      "badge": "Transparency",
-      "title": "Zero descriptions: every transaction is opaque",
-      "description": "Burnley publishes supplier names and amounts but never describes what was purchased. Hyndburn, Pendle, and Rossendale all include descriptions for their payments.",
-      "link": "/spending",
-      "link_text": "View spending →",
-      "severity": "alert"
     },
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "URBASER LTD: 959 transactions totalling £19.5M",
-      "description": "Averaging £20.3K per transaction — the council's most frequent supplier. Waste collection contract.",
+      "title": "URBASER LTD: 959 transactions totalling \u00a319.5M",
+      "description": "Averaging \u00a320.3K per transaction \u2014 the council's most frequent supplier",
       "link": "/spending?supplier=URBASER LTD",
-      "link_text": "See all transactions →",
+      "link_text": "See all transactions \u2192",
       "severity": "info"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "38 suppliers shared with neighbouring councils — £102.2M total",
-      "description": "Capita, Civica, EDF Energy, Stannah and 34 others serve multiple East Lancashire councils. Compare pricing across all 4 councils.",
+      "title": "38 suppliers shared with neighbouring councils \u2014 \u00a3102.2M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices →",
+      "link_text": "Compare prices \u2192",
       "severity": "info"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "EDF Energy: Burnley pays £25K avg vs Pendle £282 per transaction",
-      "description": "£3.2M to EDF across 128 transactions. Different contract structures explain the gap — Burnley likely has a direct supply agreement vs Pendle's framework purchases.",
+      "title": "EDF ENERGY: 8772% price gap between councils",
+      "description": "Burnley pays \u00a325.0K avg vs Pendle \u00a3282 (both with 3+ transactions)",
       "link": "/spending?supplier=EDF ENERGY",
-      "link_text": "Investigate →",
-      "severity": "info"
+      "link_text": "Investigate \u2192",
+      "severity": "warning"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-08T16:30:00.000000",
+  "generated": "2026-02-08T22:07:38.957308",
   "analyses_run": [
-    "ch_compliance",
+    "duplicates",
     "cross_council_pricing",
     "payment_patterns",
-    "data_quality"
+    "ch_compliance",
+    "benfords_law"
   ]
 }

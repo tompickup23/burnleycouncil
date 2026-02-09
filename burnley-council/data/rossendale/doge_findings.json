@@ -1,104 +1,85 @@
 {
   "findings": [
     {
-      "value": "3,167",
-      "label": "Transactions With Supplier Name Withheld",
-      "detail": "£1M in payments where the supplier name is listed as 'NAME WITHHELD'. That's 7.4% of all transactions — citizens cannot scrutinise who receives this money. Unique to Rossendale.",
-      "severity": "critical",
-      "link": "/spending?supplier=NAME WITHHELD"
-    },
-    {
-      "value": "£5.3M",
-      "label": "Capita Outsourcing Contract",
-      "detail": "Capita Business Services Ltd is the single largest supplier across 77 transactions. Compare with Liberata at Burnley and Pendle — Rossendale outsources significantly less.",
+      "value": "\u00a3998.3K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "9 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
       "severity": "info",
-      "link": "/spending?supplier=CAPITA BUSINESS SERVICES LTD"
+      "link": "/spending"
     },
     {
-      "value": "£1.9M",
-      "label": "Agency Staff (Rapid Recruit)",
-      "detail": "1,524 transactions to Rapid Recruit Ltd averaging £1,258 each — the most frequent commercial supplier by value. Shared with Hyndburn and Pendle.",
-      "severity": "warning",
-      "link": "/spending?supplier=RAPID RECRUIT LTD"
+      "value": "\u00a33.5M",
+      "label": "Likely Duplicate Payments",
+      "detail": "1948 high-confidence duplicate groups with same supplier, amount, date and reference number",
+      "severity": "critical",
+      "link": "/spending"
     },
     {
-      "value": "7.2x",
-      "label": "Year-End Spending Spike",
-      "detail": "Customer Services & E-Government spent 7.2x their monthly average in March (£2.2M vs £307K). 14 departments show March spending spikes — the most of any East Lancashire council.",
+      "value": "\u00a3132.1K",
+      "label": "Suspected Split Payments",
+      "detail": "1 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "£8.9M",
-      "label": "COVID/BEIS Grant Pass-Through",
-      "detail": "2021/22 was the peak year (£21.3M) due to COVID Business Grants. The 'split payment' detection flags 342 grants in one week alone. Underlying annual spend is £12-14M.",
+      "value": "\u00a38.1M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "673 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "7.2x",
+      "label": "Year-End Spending Spike",
+      "detail": "Customer Services & E-Government spent 7.2x their monthly average in March \u2014 potential year-end budget rush worth \u00a31.9M above normal",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=2337.98",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 2 deviates 6.3% from expected distribution across 27784 transactions.",
+      "severity": "warning",
       "link": "/spending"
     }
   ],
   "key_findings": [
     {
-      "icon": "alert-triangle",
-      "badge": "Transparency",
-      "title": "3,167 transactions with supplier name withheld — £1M total",
-      "description": "7.4% of all transactions list the supplier as 'NAME WITHHELD'. This prevents public scrutiny of who receives council money. Unique to Rossendale among the 4 East Lancashire councils.",
-      "link": "/spending?supplier=NAME WITHHELD",
-      "link_text": "View withheld payments →",
-      "severity": "warning"
-    },
-    {
-      "icon": "building",
-      "badge": "Outsourcing",
-      "title": "Capita Business Services: £5.3M outsourcing contract",
-      "description": "Primary outsourced services provider, used by all 4 councils but Rossendale's largest single supplier. Burnley and Pendle use Liberata for similar services.",
-      "link": "/spending?supplier=CAPITA BUSINESS SERVICES LTD",
-      "link_text": "View Capita payments →",
-      "severity": "info"
-    },
-    {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "Rapid Recruit: 1,524 agency staff transactions totalling £1.9M",
-      "description": "The most frequent commercial supplier. Averaging £1,258 per transaction suggests daily or weekly agency worker charges. Also used by Hyndburn and Pendle.",
-      "link": "/spending?supplier=RAPID RECRUIT LTD",
-      "link_text": "View Rapid Recruit payments →",
+      "title": "NAME WITHHELD: 3125 transactions totalling \u00a31.0M",
+      "description": "Averaging \u00a3325 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=NAME WITHHELD",
+      "link_text": "See all transactions \u2192",
       "severity": "info"
-    },
-    {
-      "icon": "trending-up",
-      "badge": "Year-End",
-      "title": "14 departments spike in March — most of any East Lancashire council",
-      "description": "Customer Services (7.2x), Finance (5.4x), Regeneration (5.1x), and Operations (5.5x) all show significant March spending surges suggesting year-end budget rushes.",
-      "link": "/spending",
-      "link_text": "View monthly trends →",
-      "severity": "warning"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "22 suppliers shared with neighbouring councils — £13.8M total",
-      "description": "Capita, Civica, Mazars and 19 others serve multiple East Lancashire councils. Compare pricing and service scope across all 4 councils.",
+      "title": "22 suppliers shared with neighbouring councils \u2014 \u00a313.8M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices →",
+      "link_text": "Compare prices \u2192",
       "severity": "info"
     },
     {
-      "icon": "pound-sterling",
-      "badge": "Micro-Spend",
-      "title": "12,906 micro-transactions under £100 (30% of all payments)",
-      "description": "Banner Business Solutions (stationery) accounts for 976 transactions averaging £35. Consolidation could reduce processing costs substantially.",
-      "link": "/spending",
-      "link_text": "Explore spending data →",
-      "severity": "info"
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "SCARAB SWEEPERS LTD: 9675% price gap between councils",
+      "description": "Hyndburn pays \u00a322.3K avg vs Rossendale \u00a3228 (both with 3+ transactions)",
+      "link": "/spending?supplier=SCARAB SWEEPERS LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "warning"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-08T16:30:00.000000",
+  "generated": "2026-02-08T22:07:38.959287",
   "analyses_run": [
+    "duplicates",
     "cross_council_pricing",
     "payment_patterns",
-    "data_quality",
-    "transparency_assessment"
+    "ch_compliance",
+    "benfords_law"
   ]
 }

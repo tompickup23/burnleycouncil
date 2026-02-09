@@ -1,104 +1,94 @@
 {
   "findings": [
     {
-      "value": "£1.1M",
+      "value": "\u00a339.8K",
       "label": "Paid During Active Breaches",
-      "detail": "17 suppliers received payments while in breach of Companies Act — including entities with no active directors or facing strike-off. The highest breach spend of all 4 East Lancashire councils.",
-      "severity": "critical",
-      "link": "/spending"
-    },
-    {
-      "value": "£866K",
-      "label": "CH Breach: B3P, JDS & Homewise",
-      "detail": "Three suppliers with no active directors or PSC received a combined £866K. B3P Services Ltd alone received £420K with no directors registered.",
-      "severity": "critical",
-      "link": "/spending"
-    },
-    {
-      "value": "£14.8M",
-      "label": "Suspected Split Payments",
-      "detail": "670 instances of 3+ payments just below approval thresholds in the same week. Many may be legitimate phased payments, but the volume warrants review.",
+      "detail": "1 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 1 high severity. Temporally verified against payment dates.",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "2,422",
-      "label": "Micro-Transactions to HM Land Registry",
-      "detail": "2,422 payments averaging just £5 each. While legitimate, this volume suggests batch processing that could be consolidated for efficiency.",
-      "severity": "info",
-      "link": "/spending?supplier=HM LAND REGISTRY"
+      "value": "\u00a32.8M",
+      "label": "Likely Duplicate Payments",
+      "detail": "905 high-confidence duplicate groups with same supplier, amount, date and reference number",
+      "severity": "critical",
+      "link": "/spending"
     },
     {
-      "value": "No spike",
-      "label": "Year-End Spending Pattern",
-      "detail": "March is actually Hyndburn's lowest-spending month (0.6x average). July is the peak. No evidence of year-end budget rush — a sign of good financial discipline.",
+      "value": "\u00a3127.1K",
+      "label": "Suspected Split Payments",
+      "detail": "6 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a37.8M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "414 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
+      "link": "/spending"
+    },
+    {
+      "value": "12.9x",
+      "label": "Year-End Spending Spike",
+      "detail": "Regeneration & Housing spent 12.9x their monthly average in March \u2014 potential year-end budget rush worth \u00a33.7M above normal",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=429.42",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 1 deviates 3.9% from expected distribution across 25507 transactions.",
+      "severity": "warning",
       "link": "/spending"
     }
   ],
   "key_findings": [
     {
       "icon": "alert-triangle",
-      "badge": "Critical",
-      "title": "B3P Services Ltd: £420.2K paid — no active directors",
-      "description": "Company has no active directors registered at Companies House. Council continued payments despite non-compliance.",
-      "link": "/spending?supplier=B3P SERVICES LTD",
-      "link_text": "View payments →",
-      "severity": "alert"
-    },
-    {
-      "icon": "alert-triangle",
-      "badge": "Critical",
-      "title": "JDS Trucks Ltd: £287.3K paid — no directors or PSC",
-      "description": "No active directors and no Person of Significant Control registered. Beneficial ownership completely obscured.",
-      "link": "/spending?supplier=JDS TRUCKS LTD",
-      "link_text": "View payments →",
-      "severity": "alert"
-    },
-    {
-      "icon": "alert-triangle",
-      "badge": "Critical",
-      "title": "Homewise Society Ltd: £158.6K paid — no directors or PSC",
-      "description": "No active directors and no Person of Significant Control registered. Beneficial ownership completely obscured.",
-      "link": "/spending?supplier=HOMEWISE SOCIETY LTD",
-      "link_text": "View payments →",
-      "severity": "alert"
+      "badge": "High",
+      "title": "Aj Developments (Nw) Ltd: \u00a339.8K paid during active breach",
+      "description": "Company facing strike-off; Confirmation statement overdue",
+      "link": "/spending?supplier=AJ DEVELOPMENTS (NW) LTD",
+      "link_text": "View payments \u2192",
+      "severity": "warning"
     },
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "HM Land Registry: 2,422 transactions totalling £12K",
-      "description": "Averaging £5 per transaction — the council's most frequent supplier by volume. Legitimate but administratively heavy.",
+      "title": "HM LAND REGISTRY: 2422 transactions totalling \u00a312.0K",
+      "description": "Averaging \u00a35 per transaction \u2014 the council's most frequent supplier",
       "link": "/spending?supplier=HM LAND REGISTRY",
-      "link_text": "See all transactions →",
+      "link_text": "See all transactions \u2192",
       "severity": "info"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "35 suppliers shared with neighbouring councils — £27.4M total",
-      "description": "Capita, Alliance Leisure, Lancashire County Council and 32 others serve multiple East Lancashire councils. Compare pricing across all 4 councils.",
+      "title": "35 suppliers shared with neighbouring councils \u2014 \u00a327.4M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices →",
+      "link_text": "Compare prices \u2192",
       "severity": "info"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "Alliance Leisure: £12.6M at Hyndburn vs £24.6K at Pendle",
-      "description": "Hyndburn pays £204K avg per transaction vs Pendle £12.3K. Likely reflects different contract scopes — Hyndburn's leisure centre investment programme vs ad-hoc purchases.",
-      "link": "/spending?supplier=ALLIANCE LEISURE SERVICES LTD",
-      "link_text": "Investigate →",
-      "severity": "info"
+      "title": "SCARAB SWEEPERS LTD: 9675% price gap between councils",
+      "description": "Hyndburn pays \u00a322.3K avg vs Rossendale \u00a3228 (both with 3+ transactions)",
+      "link": "/spending?supplier=SCARAB SWEEPERS LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "warning"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-08T16:30:00.000000",
+  "generated": "2026-02-08T22:07:38.958741",
   "analyses_run": [
-    "ch_compliance",
+    "duplicates",
     "cross_council_pricing",
     "payment_patterns",
-    "data_quality"
+    "ch_compliance",
+    "benfords_law"
   ]
 }

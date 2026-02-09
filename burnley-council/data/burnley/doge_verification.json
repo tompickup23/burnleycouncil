@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "label": "Data completeness",
+      "status": "pass",
+      "detail": "Dates: 99.3%, Suppliers: 100.0%, Amounts: 100.0%, Departments: 86.8%, Descriptions: 0.0%",
+      "metrics": {
+        "date_pct": 99.3,
+        "supplier_pct": 100.0,
+        "amount_pct": 100.0,
+        "dept_pct": 86.8,
+        "desc_pct": 0.0
+      }
+    },
+    {
+      "label": "Duplicate payment verification",
+      "status": "pass",
+      "detail": "298 high-confidence groups (\u00a31.2M). Duplicate ratio: 1.0%. Filtered out: 5 batch payments, 981 CSV overlaps."
+    },
+    {
+      "label": "Split payment analysis",
+      "status": "pass",
+      "detail": "11 suspect instances (\u00a35.1M, 1.4% of spend). Threshold: 5+ payments to same supplier in same week, 80%+ of approval limit."
+    },
+    {
+      "label": "Year-end spike verification",
+      "status": "warning",
+      "detail": "Highest spike: 5.7x in unknown dept. Year-end spikes are common in public sector (capital programmes, grants). Only extreme spikes (>3x) warrant concern."
+    },
+    {
+      "label": "CH breach temporal verification",
+      "status": "pass",
+      "detail": "2 suppliers with \u00a36.6K confirmed during active breach periods. Enrichment errors excluded. Only dated violations with confirmed overlap flagged."
+    },
+    {
+      "label": "Cross-council price comparison",
+      "status": "warning",
+      "detail": "38 shared suppliers found. 11 with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes."
+    },
+    {
+      "label": "Benford's Law forensic screening",
+      "status": "warning",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). \u03c7\u00b2=2541.29 on 25490 amounts >\u00a3100. Largest deviation: digit 5 (5.0% off expected)."
+    }
+  ],
+  "warnings": [
+    "CRITICAL: Only 0.0% of transactions have descriptions. This severely limits analysis quality.",
+    "11 suppliers show >200% price disparity after filtering. These are more likely genuine value concerns than extreme outliers.",
+    "Benford's Law analysis shows significant deviation (\u03c7\u00b2=2541.29). Digit 5 deviates 5.0% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments."
+  ],
+  "score": 57,
+  "total_checks": 7,
+  "passed": 4,
+  "generated": "2026-02-08T22:07:38.994742"
+}

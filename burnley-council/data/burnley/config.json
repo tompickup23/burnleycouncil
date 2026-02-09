@@ -50,13 +50,15 @@
       {"name": "Geldards LLP", "spend": "£20.3M", "note": "Pioneer Place capital development solicitors"}
     ],
     "doge_findings": {
-      "ch_breach_spend": "£223.9K to 21 suppliers during active Companies House breaches",
+      "ch_breach_spend": "£6.6K to 2 suppliers confirmed during active Companies House breaches (temporally verified)",
       "transparency_gap": "100% of transactions have no description — worst of any East Lancashire council. 13.2% missing department data.",
-      "split_payments": "£35.1M suspected across 602 instances",
-      "year_end_spike": "Mild 1.4x March premium. October is actually the highest month (£9.5M avg vs £6M normal)."
+      "split_payments": "£5.1M suspected across 11 instances (80%+ of approval thresholds)",
+      "year_end_spike": "Mild 1.4x March premium. October is actually the highest month (£9.5M avg vs £6M normal).",
+      "benfords_law": "Significant deviation from Benford's Law (χ²=2541.29, p < 0.001). Digit 5 deviates 5.0% from expected."
     },
     "notable_suppliers": [
-      {"name": "Molesworth Hotel Ltd", "spend": "£59.1K", "issue": "No active directors, no PSC registered"},
+      {"name": "DLH Professional Services Ltd", "spend": "£4K", "issue": "Paid during active strike-off / confirmation statement breach"},
+      {"name": "Home First Interiors Ltd", "spend": "£2.7K", "issue": "Paid during active strike-off / confirmation statement breach"},
       {"name": "JML Property Solutions Ltd", "spend": "£48K", "issue": "Facing strike-off proceedings"}
     ]
   }

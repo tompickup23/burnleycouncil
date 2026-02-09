@@ -1,104 +1,85 @@
 {
   "findings": [
     {
-      "value": "£37.8K",
-      "label": "Paid During Active Breaches",
-      "detail": "4 suppliers received payments while in breach of Companies Act. The lowest breach spend of the 4 East Lancashire councils — mostly minor compliance issues.",
-      "severity": "warning",
-      "link": "/spending"
-    },
-    {
-      "value": "49,741",
-      "label": "Highest Transaction Volume",
-      "detail": "More transactions than Burnley (30,580), Hyndburn (29,804) and Rossendale (42,536) despite a lower total spend of £125M. Driven by Go Plant vehicle hire and FUELMATE fuel payments.",
+      "value": "\u00a3815.2K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "23 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
       "severity": "info",
       "link": "/spending"
     },
     {
-      "value": "£19.5M",
+      "value": "\u00a32.5M",
+      "label": "Likely Duplicate Payments",
+      "detail": "1283 high-confidence duplicate groups with same supplier, amount, date and reference number",
+      "severity": "critical",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3197.7K",
       "label": "Suspected Split Payments",
-      "detail": "777 instances of 3+ payments just below approval thresholds in the same week. Many reflect vehicle hire patterns (Go Plant) rather than deliberate threshold avoidance.",
+      "detail": "3 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "5,047",
-      "label": "Fuel Micro-Payments",
-      "detail": "FUELMATE LTD received 5,047 individual payments averaging £159 each. Consolidating into monthly invoices would significantly reduce admin costs.",
+      "value": "\u00a320.1M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "774 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
-      "link": "/spending?supplier=FUELMATE LTD"
+      "link": "/spending"
     },
     {
-      "value": "No spike",
-      "label": "Year-End Spending Pattern",
-      "detail": "March spending is flat at 1.0x the monthly average. April is actually the peak month. No evidence of year-end budget rush.",
-      "severity": "info",
+      "value": "2.7x",
+      "label": "Year-End Spending Spike",
+      "detail": "Financial Services spent 2.7x their monthly average in March \u2014 potential year-end budget rush worth \u00a31.7M above normal",
+      "severity": "warning",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=1227.85",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 2 deviates 3.3% from expected distribution across 33562 transactions.",
+      "severity": "warning",
       "link": "/spending"
     }
   ],
   "key_findings": [
     {
-      "icon": "alert-triangle",
-      "badge": "Medium",
-      "title": "Marston (Holdings) Ltd: £17.1K paid during active breach",
-      "description": "Filed dormant accounts but receiving council payments for enforcement services. Minor compliance issue but should be reviewed.",
-      "link": "/spending?supplier=MARSTON (HOLDINGS) LTD",
-      "link_text": "View payments →",
-      "severity": "warning"
-    },
-    {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "Go Plant Fleet Services: 210+ identical payments of £3,540",
-      "description": "Individual vehicle hire charges for fleet vehicles. Not duplicates — each is a separate vehicle rental, but volume highlights fleet management costs.",
-      "link": "/spending?supplier=GO PLANT FLEET SERVICES LTD",
-      "link_text": "See all transactions →",
-      "severity": "info"
-    },
-    {
-      "icon": "repeat",
-      "badge": "High Volume",
-      "title": "FUELMATE LTD: 5,047 transactions totalling £800.2K",
-      "description": "Averaging £159 per transaction — the council's most frequent supplier by volume. Individual fuel fill-ups rather than consolidated invoicing.",
+      "title": "FUELMATE LTD: 5047 transactions totalling \u00a3800.2K",
+      "description": "Averaging \u00a3159 per transaction \u2014 the council's most frequent supplier",
       "link": "/spending?supplier=FUELMATE LTD",
-      "link_text": "See all transactions →",
+      "link_text": "See all transactions \u2192",
       "severity": "info"
-    },
-    {
-      "icon": "git-compare-arrows",
-      "badge": "Anomaly",
-      "title": "49,741 transactions at £125M — highest volume, lowest spend per transaction",
-      "description": "Pendle processes 67% more transactions than Burnley but spends 65% less. Fleet and fuel micro-payments drive the volume — a potential efficiency concern.",
-      "link": "/spending",
-      "link_text": "Explore patterns →",
-      "severity": "warning"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "40 suppliers shared with neighbouring councils — £39.1M total",
-      "description": "Lancashire County Council, Capita, Go Plant and 37 others serve multiple East Lancashire councils. Compare pricing across all 4 councils.",
+      "title": "40 suppliers shared with neighbouring councils \u2014 \u00a339.1M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices →",
+      "link_text": "Compare prices \u2192",
       "severity": "info"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "Go Plant: Hyndburn pays £59.9K avg vs Pendle £1.1K per transaction",
-      "description": "£2.3M across 2,118 transactions at Pendle vs £300K across 5 at Hyndburn. Different usage patterns — Pendle uses weekly vehicle hire where Hyndburn makes occasional large purchases.",
-      "link": "/spending?supplier=GO PLANT FLEET SERVICES LTD",
-      "link_text": "Investigate →",
-      "severity": "info"
+      "title": "EDF ENERGY: 8772% price gap between councils",
+      "description": "Burnley pays \u00a325.0K avg vs Pendle \u00a3282 (both with 3+ transactions)",
+      "link": "/spending?supplier=EDF ENERGY",
+      "link_text": "Investigate \u2192",
+      "severity": "warning"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-08T16:30:00.000000",
+  "generated": "2026-02-08T22:07:38.958969",
   "analyses_run": [
-    "ch_compliance",
+    "duplicates",
     "cross_council_pricing",
     "payment_patterns",
-    "data_quality"
+    "ch_compliance",
+    "benfords_law"
   ]
 }

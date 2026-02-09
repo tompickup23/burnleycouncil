@@ -71,8 +71,21 @@ def fmt_gbp(amount):
 # ═══════════════════════════════════════════════════════════════════════
 
 def analyse_duplicates(all_spending):
-    """Find true duplicate payments — same supplier, amount, date, reference."""
+    """Find true duplicate payments with improved false-positive filtering.
+
+    Key improvements over v1:
+    - Filters out likely batch/grant payments (many identical amounts on same date)
+    - Requires same reference to be "high confidence" (different refs = batch payment)
+    - Excludes common bulk payment amounts (£8K, £10K, £25K COVID grants)
+    - Excludes redacted/withheld supplier names from duplicate analysis
+    - Applies ETL dedup awareness (same source file = likely CSV overlap)
+    """
     results = {}
+
+    # Common batch payment amounts (exact round numbers often used for grants)
+    BATCH_AMOUNT_THRESHOLD = 10  # If 10+ identical payments, likely a batch/grant
+    # Suppliers to exclude from duplicate analysis
+    EXCLUDED_SUPPLIERS = {"UNKNOWN", "NAME WITHHELD", "REDACTED", "VARIOUS", "SUNDRY"}
 
     for council_id, records in all_spending.items():
         tx = [r for r in records if r.get("amount", 0) > 0]
@@ -80,17 +93,27 @@ def analyse_duplicates(all_spending):
         # Group by supplier + amount + date
         groups = defaultdict(list)
         for r in tx:
-            key = (
-                r.get("supplier_canonical", r.get("supplier", "")),
-                r.get("amount", 0),
-                r.get("date", ""),
-            )
+            supplier = r.get("supplier_canonical", r.get("supplier", ""))
+            # Skip excluded suppliers
+            if supplier.upper() in EXCLUDED_SUPPLIERS:
+                continue
+            key = (supplier, r.get("amount", 0), r.get("date", ""))
             groups[key].append(r)
 
         # Find duplicates (2+ payments with same key)
         dup_groups = []
+        filtered_batch = 0
+        filtered_csv_overlap = 0
+
         for (supplier, amount, date), recs in groups.items():
             if len(recs) < 2:
+                continue
+
+            # FILTER 1: Batch payment detection
+            # If there are many identical payments (10+), this is almost certainly
+            # a grant programme or batch distribution, not a duplicate payment error
+            if len(recs) >= BATCH_AMOUNT_THRESHOLD:
+                filtered_batch += 1
                 continue
 
             # Sub-group by reference to separate true dupes from batch payments
@@ -99,13 +122,40 @@ def analyse_duplicates(all_spending):
                 ref = r.get("reference", "") or "no_ref"
                 refs[ref].append(r)
 
-            # Same reference = very likely true duplicate
-            true_dupes = {ref: rs for ref, rs in refs.items() if len(rs) > 1}
-            # Different references = possible batch payment (lower confidence)
-            diff_refs = len(refs) > 1
+            # FILTER 2: CSV overlap detection
+            # If all records have the same reference but come from different source files,
+            # this is likely a CSV publishing overlap (quarterly files overlap)
+            # Check: if all references are unique and non-empty, these are separate transactions
+            non_empty_refs = {ref for ref in refs.keys() if ref != "no_ref"}
 
-            confidence = "high" if true_dupes else ("medium" if not diff_refs else "low")
-            overpayment = amount * (len(recs) - 1)
+            # High confidence: SAME reference appears multiple times
+            # (meaning the exact same transaction line appears twice)
+            true_dupes = {ref: rs for ref, rs in refs.items() if len(rs) > 1 and ref != "no_ref"}
+
+            # FILTER 3: If all references are DIFFERENT, this is a batch payment
+            # (different reference numbers = deliberately separate transactions)
+            all_different = len(non_empty_refs) == len(recs) and len(non_empty_refs) > 1
+            if all_different:
+                filtered_csv_overlap += 1
+                continue
+
+            # Determine confidence
+            if true_dupes:
+                confidence = "high"
+                # Overpayment is only the true duplicates (excess copies)
+                overpayment = sum(
+                    amount * (len(rs) - 1)
+                    for ref, rs in true_dupes.items()
+                )
+            elif len(refs) == 1:
+                # All records have the same (or no) reference
+                # Could be real duplicate or batch with no refs
+                confidence = "medium"
+                overpayment = amount * (len(recs) - 1)
+            else:
+                # Mix of references — low confidence
+                confidence = "low"
+                overpayment = amount * (len(recs) - 1)
 
             dup_groups.append({
                 "supplier": supplier,
@@ -117,10 +167,13 @@ def analyse_duplicates(all_spending):
                 "confidence": confidence,
                 "potential_overpayment": round(overpayment, 2),
                 "departments": list(set(r.get("department", "") for r in recs)),
-                "references": list(set(r.get("reference", "") for r in recs if r.get("reference"))),
+                "references": list(set(r.get("reference", "") for r in recs if r.get("reference")))[:10],
             })
 
-        dup_groups.sort(key=lambda x: -x["potential_overpayment"])
+        dup_groups.sort(key=lambda x: (
+            -{"high": 3, "medium": 2, "low": 1}.get(x["confidence"], 0),
+            -x["potential_overpayment"]
+        ))
 
         # Summary stats
         high_conf = [d for d in dup_groups if d["confidence"] == "high"]
@@ -133,11 +186,13 @@ def analyse_duplicates(all_spending):
             "medium_confidence": len(med_conf),
             "medium_confidence_value": round(sum(d["potential_overpayment"] for d in med_conf), 2),
             "total_potential_overpayment": round(sum(d["potential_overpayment"] for d in dup_groups), 2),
+            "filtered_batch_payments": filtered_batch,
+            "filtered_csv_overlaps": filtered_csv_overlap,
             "top_20": dup_groups[:20],
         }
 
         print(f"\n  {council_id.upper()}:")
-        print(f"    Duplicate groups: {len(dup_groups)}")
+        print(f"    Duplicate groups: {len(dup_groups)} (filtered: {filtered_batch} batch, {filtered_csv_overlap} CSV overlap)")
         print(f"    High confidence: {len(high_conf)} worth {fmt_gbp(sum(d['potential_overpayment'] for d in high_conf))}")
         print(f"    Medium confidence: {len(med_conf)} worth {fmt_gbp(sum(d['potential_overpayment'] for d in med_conf))}")
         if dup_groups:
@@ -205,8 +260,14 @@ def analyse_cross_council_pricing(all_spending, taxonomy):
     shared_suppliers.sort(key=lambda x: -x["total_combined"])
 
     # Also sort by disparity for the "worst value" list
+    # Filter: require meaningful comparison (both councils have 3+ transactions)
+    # and ignore extreme disparities that are clearly different service scopes
     high_disparity = sorted(
-        [s for s in shared_suppliers if s["total_combined"] > 10000],
+        [s for s in shared_suppliers
+         if s["total_combined"] > 10000
+         and all(v["count"] >= 3 for v in s["councils"].values())  # Both sides need 3+ txns
+         and s["avg_disparity_pct"] < 10000  # Cap at 10,000% — above this is different service
+        ],
         key=lambda x: -x["avg_disparity_pct"]
     )
 
@@ -245,14 +306,17 @@ def analyse_payment_patterns(all_spending):
     """Detect suspicious payment patterns: split payments, year-end spikes, round numbers."""
     results = {}
 
-    # Common UK council approval thresholds
-    THRESHOLDS = [500, 1000, 5000, 10000, 25000, 50000, 100000]
+    # UK council procurement thresholds (focus on the significant ones)
+    # Below £5K generally doesn't require formal procurement
+    # £30K+ requires competitive quotes, £138K+ requires full tender
+    THRESHOLDS = [5000, 10000, 25000, 50000, 100000]
 
     for council_id, records in all_spending.items():
         tx = [r for r in records if r.get("amount", 0) > 0]
 
         # ── Split Payments ──
         # Same supplier, multiple payments in same week, all just below a threshold
+        # Requires 5+ payments (not 3) to reduce over-sensitivity
         from collections import defaultdict
         weekly_groups = defaultdict(list)
         for r in tx:
@@ -269,16 +333,16 @@ def analyse_payment_patterns(all_spending):
 
         split_payment_suspects = []
         for (supplier, week), recs in weekly_groups.items():
-            if len(recs) < 3:  # Need 3+ to be suspicious
+            if len(recs) < 5:  # Need 5+ to be genuinely suspicious
                 continue
             amounts = [r["amount"] for r in recs]
             total = sum(amounts)
             max_amt = max(amounts)
 
-            # Check if all payments are just below a threshold
+            # Check if payments cluster just below a threshold (within 80% of threshold)
             for threshold in THRESHOLDS:
-                below = [a for a in amounts if a < threshold and a > threshold * 0.5]
-                if len(below) >= 3 and total > threshold:
+                below = [a for a in amounts if a < threshold and a > threshold * 0.8]
+                if len(below) >= 5 and total > threshold * 1.5:
                     split_payment_suspects.append({
                         "supplier": supplier,
                         "week": week,
@@ -390,10 +454,17 @@ def _payment_overlaps_violation(payment_date, violation):
     """Check if a payment date falls within a violation's active period.
 
     Returns:
-        "during"  — payment was made while breach was active
+        "during"  — payment was made while breach was active (CONFIRMED with dates)
         "before"  — payment was made before breach started (no issue)
         "after"   — payment was made after breach was resolved (no issue)
         "unknown" — can't determine (no dates available)
+
+    IMPORTANT: If active_from is null/None, we CANNOT confirm the payment occurred
+    during the breach. We return "unknown" rather than assuming "during", because:
+    - CH API may have failed to fetch the profile (enrichment_error)
+    - The violation may be a current snapshot that doesn't tell us WHEN it started
+    - Returning "during" for null dates would retroactively flag ALL historical
+      payments, creating massive false positives (e.g. Molesworth Hotel)
     """
     if not payment_date:
         return "unknown"
@@ -402,10 +473,9 @@ def _payment_overlaps_violation(payment_date, violation):
     active_to = violation.get("active_to")
 
     if not active_from:
-        # If we don't know when the violation started, we can only flag
-        # if it's currently active (conservative approach)
-        if violation.get("current", False):
-            return "during"  # Conservative: assume current violations affect recent payments
+        # We don't know when the violation started — CANNOT confirm overlap.
+        # This is the conservative-correct approach: absence of evidence
+        # is not evidence of absence, but nor is it evidence of guilt.
         return "unknown"
 
     try:
@@ -438,22 +508,48 @@ def analyse_ch_compliance(all_spending, taxonomy):
     suppliers = taxonomy.get("suppliers", {})
 
     # Build supplier → violation map
+    # CRITICAL: Skip suppliers with enrichment errors (API failures produce
+    # violations with null dates, causing massive false positives)
     violation_map = {}
+    skipped_errors = 0
+    skipped_no_dates = 0
     for canonical, data in suppliers.items():
         ch = data.get("companies_house")
         if not ch or not isinstance(ch, dict) or not ch.get("enriched"):
             continue
+        # Skip suppliers where the CH API failed to fetch the profile
+        if ch.get("enrichment_error"):
+            skipped_errors += 1
+            continue
         violations = ch.get("violations", [])
-        if violations:
+        if not violations:
+            continue
+        # Only include violations that have a confirmed active_from date
+        # Violations with null active_from cannot be temporally verified
+        dated_violations = [v for v in violations if v.get("active_from")]
+        undated_violations = [v for v in violations if not v.get("active_from")]
+        if undated_violations:
+            skipped_no_dates += len(undated_violations)
+        if dated_violations:
+            max_sev_num = max(
+                {"critical": 4, "high": 3, "medium": 2, "low": 1}.get(v["severity"], 0)
+                for v in dated_violations
+            )
+            max_sev_label = {4: "critical", 3: "high", 2: "medium", 1: "low"}.get(max_sev_num, "clean")
             violation_map[canonical.upper()] = {
                 "company_name": canonical,
                 "company_number": ch.get("company_number", ""),
                 "status": ch.get("status", ""),
-                "violations": violations,
-                "max_severity": ch.get("max_severity_label", ""),
+                "violations": dated_violations,
+                "undated_violations": len(undated_violations),
+                "max_severity": max_sev_label,
                 "active_directors": ch.get("active_directors"),
                 "accounts_overdue": ch.get("accounts_overdue", False),
             }
+    if skipped_errors > 0:
+        print(f"    Skipped {skipped_errors} suppliers with CH API enrichment errors")
+    if skipped_no_dates > 0:
+        print(f"    Skipped {skipped_no_dates} violations with no active_from date (unverifiable)")
 
     results = {}
     for council_id, records in all_spending.items():
@@ -561,7 +657,7 @@ def analyse_ch_compliance(all_spending, taxonomy):
 # OUTPUT: Generate Enhanced DOGE Findings JSON
 # ═══════════════════════════════════════════════════════════════════════
 
-def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance):
+def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None):
     """Generate enhanced doge_findings.json for a council."""
 
     findings = []
@@ -691,11 +787,12 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "severity": "info",
             })
 
-        # High disparity finding
+        # High disparity finding — only meaningful comparisons (3+ txns each side, <10,000%)
         high_disp = [
             s for s in cross_council.get("high_disparity", [])
             if council_id in s.get("councils", {})
             and s["avg_disparity_pct"] > 100
+            and s["avg_disparity_pct"] < 10000  # Filter extreme outliers
         ]
         if high_disp:
             worst = high_disp[0]
@@ -705,10 +802,32 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "icon": "trending-up",
                 "badge": "Price Gap",
                 "title": f"{worst['supplier']}: {worst['avg_disparity_pct']:.0f}% price gap between councils",
-                "description": f"{h_council.title()} pays {fmt_gbp(h_data['avg_transaction'])} avg vs {l_council.title()} {fmt_gbp(l_data['avg_transaction'])}",
+                "description": f"{h_council.title()} pays {fmt_gbp(h_data['avg_transaction'])} avg vs {l_council.title()} {fmt_gbp(l_data['avg_transaction'])} (both with 3+ transactions)",
                 "link": f"/spending?supplier={worst['supplier']}",
                 "link_text": "Investigate →",
                 "severity": "warning",
+            })
+
+    # ── Benford's Law finding ──
+    if benfords and council_id in benfords:
+        bf = benfords[council_id]
+        if bf.get("conformity") in ("non_conforming", "marginal"):
+            findings.append({
+                "value": f"χ²={bf['chi_squared']}",
+                "label": "Benford's Law Anomaly",
+                "detail": f"{bf['conformity_label']}. Digit {bf['max_deviation_digit']} deviates {bf['max_deviation_pct']}% from expected distribution across {bf['total_amounts_tested']} transactions.",
+                "severity": "warning" if bf["conformity"] == "non_conforming" else "info",
+                "link": "/spending",
+            })
+        elif bf.get("conformity") in ("conforming", "acceptable"):
+            key_findings.append({
+                "icon": "check-circle",
+                "badge": "Forensic",
+                "title": f"Benford's Law: No anomaly detected (χ²={bf['chi_squared']})",
+                "description": f"Payment amounts conform to expected first-digit distribution across {bf['total_amounts_tested']} transactions — no signs of fabricated invoices.",
+                "link": "/spending",
+                "link_text": "View analysis →",
+                "severity": "info",
             })
 
     return {
@@ -717,7 +836,298 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
         "cta_link": "/spending",
         "cta_text": "Explore all spending data",
         "generated": str(datetime.now().isoformat()),
-        "analyses_run": ["duplicates", "cross_council_pricing", "payment_patterns", "ch_compliance"],
+        "analyses_run": ["duplicates", "cross_council_pricing", "payment_patterns", "ch_compliance", "benfords_law"],
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 5: Benford's Law Forensic Analysis
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_benfords_law(all_spending):
+    """Apply Benford's Law to detect anomalous digit distributions.
+
+    Benford's Law predicts the frequency of leading digits in naturally occurring
+    datasets. Financial fraud, fabricated invoices, and manipulated figures tend
+    to deviate significantly from the expected distribution.
+
+    Expected first-digit frequencies:
+    1: 30.1%, 2: 17.6%, 3: 12.5%, 4: 9.7%, 5: 7.9%,
+    6: 6.7%, 7: 5.8%, 8: 5.1%, 9: 4.6%
+
+    Uses chi-squared goodness-of-fit test. p < 0.05 = significant deviation.
+    """
+    import math
+
+    BENFORD_EXPECTED = {
+        1: 0.301, 2: 0.176, 3: 0.125, 4: 0.097, 5: 0.079,
+        6: 0.067, 7: 0.058, 8: 0.051, 9: 0.046,
+    }
+
+    results = {}
+
+    for council_id, records in all_spending.items():
+        # Use amounts > £100 (Benford's law works best with multi-digit numbers)
+        amounts = [r["amount"] for r in records if r.get("amount", 0) > 100]
+        if len(amounts) < 100:
+            results[council_id] = {"status": "insufficient_data", "count": len(amounts)}
+            continue
+
+        # Count first digits
+        digit_counts = defaultdict(int)
+        for amt in amounts:
+            first_digit = int(str(abs(amt)).lstrip('0').lstrip('.')[0])
+            if 1 <= first_digit <= 9:
+                digit_counts[first_digit] += 1
+
+        total = sum(digit_counts.values())
+        if total == 0:
+            continue
+
+        # Calculate observed vs expected frequencies
+        digit_analysis = []
+        chi_squared = 0
+        max_deviation = 0
+        max_deviation_digit = 0
+
+        for d in range(1, 10):
+            observed = digit_counts[d] / total
+            expected = BENFORD_EXPECTED[d]
+            deviation = observed - expected
+            deviation_pct = round((deviation / expected) * 100, 1) if expected > 0 else 0
+
+            # Chi-squared component
+            expected_count = expected * total
+            chi_sq_component = ((digit_counts[d] - expected_count) ** 2) / expected_count
+            chi_squared += chi_sq_component
+
+            if abs(deviation) > max_deviation:
+                max_deviation = abs(deviation)
+                max_deviation_digit = d
+
+            digit_analysis.append({
+                "digit": d,
+                "observed_count": digit_counts[d],
+                "observed_pct": round(observed * 100, 1),
+                "expected_pct": round(expected * 100, 1),
+                "deviation_pct": deviation_pct,
+            })
+
+        # Chi-squared test with 8 degrees of freedom (9 digits - 1)
+        # Critical values: 15.51 (p=0.05), 20.09 (p=0.01), 26.12 (p=0.001)
+        chi_squared = round(chi_squared, 2)
+        if chi_squared > 26.12:
+            conformity = "non_conforming"
+            conformity_label = "Significant deviation from Benford's Law (p < 0.001)"
+        elif chi_squared > 20.09:
+            conformity = "marginal"
+            conformity_label = "Marginal deviation (p < 0.01)"
+        elif chi_squared > 15.51:
+            conformity = "acceptable"
+            conformity_label = "Mild deviation (p < 0.05) — within normal range"
+        else:
+            conformity = "conforming"
+            conformity_label = "Conforms to Benford's Law (p > 0.05) — no anomaly"
+
+        results[council_id] = {
+            "total_amounts_tested": total,
+            "chi_squared": chi_squared,
+            "conformity": conformity,
+            "conformity_label": conformity_label,
+            "max_deviation_digit": max_deviation_digit,
+            "max_deviation_pct": round(max_deviation * 100, 1),
+            "digit_analysis": digit_analysis,
+        }
+
+        emoji = "✓" if conformity in ("conforming", "acceptable") else "⚠" if conformity == "marginal" else "✗"
+        print(f"\n  {council_id.upper()}: {emoji} χ²={chi_squared} — {conformity_label}")
+        print(f"    Tested {total} amounts > £100")
+        print(f"    Largest deviation: digit {max_deviation_digit} ({round(max_deviation*100,1)}% off expected)")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 6: Self-Verification Engine
+# ═══════════════════════════════════════════════════════════════════════
+
+def run_verification(council_id, records, duplicates, cross_council, patterns, compliance, benfords=None):
+    """Run automated self-verification checks on all findings.
+
+    This challenges every finding with counter-evidence and rates confidence.
+    The goal is to present only findings that survive scrutiny.
+    """
+    checks = []
+    warnings = []
+
+    # ── Check 1: Data completeness baseline ──
+    total = len(records)
+    if total == 0:
+        return {"checks": [{"label": "No data", "status": "fail", "detail": "No spending records loaded"}], "warnings": [], "score": 0}
+
+    has_date = sum(1 for r in records if r.get("date"))
+    has_supplier = sum(1 for r in records if r.get("supplier_canonical"))
+    has_amount = sum(1 for r in records if r.get("amount") and r["amount"] > 0)
+    has_dept = sum(1 for r in records if r.get("department"))
+    has_desc = sum(1 for r in records if r.get("description"))
+
+    date_pct = has_date / total * 100
+    supplier_pct = has_supplier / total * 100
+    amount_pct = has_amount / total * 100
+    dept_pct = has_dept / total * 100
+    desc_pct = has_desc / total * 100
+
+    checks.append({
+        "label": "Data completeness",
+        "status": "pass" if date_pct > 95 and supplier_pct > 95 else "warning",
+        "detail": f"Dates: {date_pct:.1f}%, Suppliers: {supplier_pct:.1f}%, Amounts: {amount_pct:.1f}%, Departments: {dept_pct:.1f}%, Descriptions: {desc_pct:.1f}%",
+        "metrics": {
+            "date_pct": round(date_pct, 1),
+            "supplier_pct": round(supplier_pct, 1),
+            "amount_pct": round(amount_pct, 1),
+            "dept_pct": round(dept_pct, 1),
+            "desc_pct": round(desc_pct, 1),
+        }
+    })
+
+    if desc_pct < 5:
+        warnings.append(f"CRITICAL: Only {desc_pct:.1f}% of transactions have descriptions. This severely limits analysis quality.")
+
+    # ── Check 2: Duplicate finding verification ──
+    if council_id in duplicates:
+        dup = duplicates[council_id]
+        high_conf = dup.get("high_confidence", 0)
+        high_val = dup.get("high_confidence_value", 0)
+        med_conf = dup.get("medium_confidence", 0)
+        filtered_batch = dup.get("filtered_batch_payments", 0)
+        filtered_csv = dup.get("filtered_csv_overlaps", 0)
+
+        if high_conf > 0:
+            dup_ratio = high_conf / total * 100
+            checks.append({
+                "label": "Duplicate payment verification",
+                "status": "pass" if dup_ratio < 5 else "warning",
+                "detail": f"{high_conf} high-confidence groups ({fmt_gbp(high_val)}). Duplicate ratio: {dup_ratio:.1f}%. Filtered out: {filtered_batch} batch payments, {filtered_csv} CSV overlaps.",
+            })
+        elif filtered_batch > 0 or filtered_csv > 0:
+            checks.append({
+                "label": "Duplicate payment verification",
+                "status": "pass",
+                "detail": f"No high-confidence duplicates after filtering {filtered_batch} batch payments and {filtered_csv} CSV overlaps. Previous false positives eliminated.",
+            })
+
+    # ── Check 3: Split payment challenge ──
+    if council_id in patterns:
+        pat = patterns[council_id]
+        splits = pat.get("split_payments", {})
+        if splits.get("total_suspects", 0) > 0:
+            split_val = splits["total_value"]
+            total_spend = sum(r.get("amount", 0) for r in records if r.get("amount", 0) > 0)
+            split_pct = split_val / total_spend * 100 if total_spend > 0 else 0
+
+            checks.append({
+                "label": "Split payment analysis",
+                "status": "pass" if split_pct < 15 else "warning",
+                "detail": f"{splits['total_suspects']} suspect instances ({fmt_gbp(split_val)}, {split_pct:.1f}% of spend). Threshold: 5+ payments to same supplier in same week, 80%+ of approval limit.",
+            })
+
+            if split_pct > 25:
+                warnings.append(f"Split payments represent {split_pct:.1f}% of total spend. This high percentage may indicate the detection is still over-sensitive for this council's payment patterns.")
+        else:
+            checks.append({
+                "label": "Split payment analysis",
+                "status": "pass",
+                "detail": "No suspicious split payment patterns detected with tightened thresholds (5+ payments, 80%+ of limit).",
+            })
+
+        # Year-end challenge
+        spikes = pat.get("year_end_spikes", {})
+        if spikes.get("departments"):
+            top = spikes["departments"][0]
+            checks.append({
+                "label": "Year-end spike verification",
+                "status": "pass" if top["spike_ratio"] < 3 else "warning",
+                "detail": f"Highest spike: {top['spike_ratio']:.1f}x in {top['department'] or 'unknown dept'}. Year-end spikes are common in public sector (capital programmes, grants). Only extreme spikes (>3x) warrant concern.",
+            })
+
+            if top["spike_ratio"] < 1.5:
+                warnings.append("Year-end spike is mild (<1.5x). This is within normal variance and should not be presented as a significant finding.")
+
+    # ── Check 4: Companies House compliance verification ──
+    if council_id in compliance:
+        comp = compliance[council_id]
+        confirmed = comp.get("confirmed_during_breach", {})
+
+        if confirmed.get("suppliers", 0) > 0:
+            checks.append({
+                "label": "CH breach temporal verification",
+                "status": "pass",
+                "detail": f"{confirmed['suppliers']} suppliers with {fmt_gbp(confirmed['spend'])} confirmed during active breach periods. Enrichment errors excluded. Only dated violations with confirmed overlap flagged.",
+            })
+        else:
+            pre = comp.get("pre_breach_payments", {})
+            if pre.get("suppliers", 0) > 0:
+                checks.append({
+                    "label": "CH compliance — pre-breach only",
+                    "status": "info",
+                    "detail": f"{pre['suppliers']} suppliers have current breaches, but all payments were made before breaches started. Not violations at time of payment.",
+                })
+            else:
+                checks.append({
+                    "label": "CH compliance verification",
+                    "status": "pass",
+                    "detail": "No confirmed payments during active breach periods after filtering enrichment errors and undated violations.",
+                })
+
+    # ── Check 5: Cross-council price comparison challenge ──
+    if cross_council:
+        shared = [s for s in cross_council.get("shared_suppliers", []) if council_id in s.get("councils", {})]
+        if shared:
+            high_disp = [s for s in cross_council.get("high_disparity", [])
+                        if council_id in s.get("councils", {}) and s["avg_disparity_pct"] > 200]
+
+            checks.append({
+                "label": "Cross-council price comparison",
+                "status": "pass" if len(high_disp) < 5 else "warning",
+                "detail": f"{len(shared)} shared suppliers found. {len(high_disp)} with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes.",
+            })
+
+            if high_disp:
+                warnings.append(f"{len(high_disp)} suppliers show >200% price disparity after filtering. These are more likely genuine value concerns than extreme outliers.")
+
+    # ── Check 6: Benford's Law forensic screening ──
+    if benfords and council_id in benfords:
+        bf = benfords[council_id]
+        if bf.get("status") != "insufficient_data":
+            conformity = bf.get("conformity", "unknown")
+            chi_sq = bf.get("chi_squared", 0)
+
+            if conformity in ("conforming", "acceptable"):
+                status = "pass"
+            elif conformity == "marginal":
+                status = "warning"
+            else:
+                status = "warning"
+                warnings.append(f"Benford's Law analysis shows significant deviation (χ²={chi_sq}). Digit {bf.get('max_deviation_digit', '?')} deviates {bf.get('max_deviation_pct', '?')}% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments.")
+
+            checks.append({
+                "label": "Benford's Law forensic screening",
+                "status": status,
+                "detail": f"{bf['conformity_label']}. χ²={chi_sq} on {bf.get('total_amounts_tested', 0)} amounts >£100. Largest deviation: digit {bf.get('max_deviation_digit', '?')} ({bf.get('max_deviation_pct', '?')}% off expected).",
+            })
+
+    # ── Calculate overall verification score ──
+    pass_count = sum(1 for c in checks if c["status"] == "pass")
+    total_checks = len(checks)
+    score = round(pass_count / total_checks * 100) if total_checks > 0 else 0
+
+    return {
+        "checks": checks,
+        "warnings": warnings,
+        "score": score,
+        "total_checks": total_checks,
+        "passed": pass_count,
+        "generated": str(datetime.now().isoformat()),
     }
 
 
@@ -750,12 +1160,13 @@ def main():
     print(f"  taxonomy: {len(taxonomy.get('suppliers', {}))} suppliers")
 
     # Run analyses
-    analyses = args.analysis.split(",") if args.analysis else ["duplicates", "pricing", "patterns", "compliance"]
+    analyses = args.analysis.split(",") if args.analysis else ["duplicates", "pricing", "patterns", "compliance", "benfords"]
 
     duplicates = {}
     cross_council = {}
     patterns = {}
     compliance = {}
+    benfords = {}
 
     if "duplicates" in analyses:
         print("\n" + "=" * 60)
@@ -781,6 +1192,12 @@ def main():
         print("=" * 60)
         compliance = analyse_ch_compliance(all_spending, taxonomy)
 
+    if "benfords" in analyses:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 5: Benford's Law Forensic Screening")
+        print("=" * 60)
+        benfords = analyse_benfords_law(all_spending)
+
     # Generate output files
     if args.output or True:  # Always output for now
         print("\n" + "=" * 60)
@@ -788,11 +1205,29 @@ def main():
         print("=" * 60)
 
         for c in councils:
-            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance)
+            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords)
             output_path = DATA_DIR / c / "doge_findings.json"
             with open(output_path, "w") as f:
                 json.dump(findings, f, indent=2)
             print(f"  {c}: {len(findings['findings'])} findings, {len(findings['key_findings'])} key findings → {output_path}")
+
+        # Run self-verification on each council
+        print("\n" + "=" * 60)
+        print("ANALYSIS 6: Self-Verification Engine")
+        print("=" * 60)
+        for c in councils:
+            verification = run_verification(c, all_spending[c], duplicates, cross_council, patterns, compliance, benfords)
+            verify_path = DATA_DIR / c / "doge_verification.json"
+            with open(verify_path, "w") as f:
+                json.dump(verification, f, indent=2)
+            score = verification["score"]
+            passed = verification["passed"]
+            total_checks = verification["total_checks"]
+            warnings_count = len(verification["warnings"])
+            emoji = "✓" if score >= 80 else "⚠" if score >= 60 else "✗"
+            print(f"  {c}: {emoji} {passed}/{total_checks} checks passed (score: {score}/100), {warnings_count} warnings → {verify_path}")
+            for w in verification["warnings"]:
+                print(f"    ⚠ {w}")
 
         # Also save full analysis results
         full_results = {
@@ -800,6 +1235,7 @@ def main():
             "cross_council_pricing": cross_council,
             "payment_patterns": patterns,
             "compliance": compliance,
+            "benfords_law": benfords,
             "generated": str(datetime.now().isoformat()),
         }
         results_path = DATA_DIR / "doge_analysis_results.json"

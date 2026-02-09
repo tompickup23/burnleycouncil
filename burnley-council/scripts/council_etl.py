@@ -873,9 +873,38 @@ def export_council(records, metadata, insights, council_id):
             clean['expenditure_category'] = clean.get('service_area', '')
         clean_records.append(clean)
 
+    # Build pre-computed filter options (saves client scanning 50k records)
+    filter_sets = {
+        'financial_years': set(),
+        'types': set(),
+        'service_divisions': set(),
+        'expenditure_categories': set(),
+        'capital_revenue': set(),
+        'suppliers': set(),
+    }
+    for r in clean_records:
+        if r.get('financial_year'): filter_sets['financial_years'].add(r['financial_year'])
+        if r.get('type'): filter_sets['types'].add(r['type'])
+        if r.get('service_division'): filter_sets['service_divisions'].add(r['service_division'])
+        if r.get('expenditure_category'): filter_sets['expenditure_categories'].add(r['expenditure_category'])
+        if r.get('capital_revenue'): filter_sets['capital_revenue'].add(r['capital_revenue'])
+        if r.get('supplier'): filter_sets['suppliers'].add(r['supplier'])
+
+    spending_output = {
+        "meta": {
+            "version": 2,
+            "council_id": council_id,
+            "record_count": len(clean_records),
+        },
+        "filterOptions": {
+            k: sorted(v) for k, v in filter_sets.items()
+        },
+        "records": clean_records,
+    }
+
     with open(output_dir / "spending.json", 'w') as f:
-        json.dump(clean_records, f)
-    print(f"  spending.json: {len(clean_records)} records → {output_dir / 'spending.json'}")
+        json.dump(spending_output, f)
+    print(f"  spending.json (v2): {len(clean_records)} records, {sum(len(v) for v in filter_sets.values())} filter values → {output_dir / 'spending.json'}")
 
     with open(output_dir / "metadata.json", 'w') as f:
         json.dump(metadata, f, indent=2)
@@ -1735,6 +1764,9 @@ def companies_house_enrich(taxonomy=None, api_key=None, batch_size=200, force=Fa
 def _payment_overlaps_violation(payment_date, violation):
     """Check if a payment date falls during a violation's active period.
     Returns 'during', 'before', 'after', or 'unknown'.
+
+    FIXED: Returns 'unknown' when active_from is null rather than assuming 'during'.
+    Null dates from failed CH API calls caused massive false positives.
     """
     from datetime import date as date_type
     if not payment_date:
@@ -1744,7 +1776,8 @@ def _payment_overlaps_violation(payment_date, violation):
     active_to = violation.get("active_to")
 
     if not active_from:
-        return "during" if violation.get("current", False) else "unknown"
+        # Cannot confirm overlap without a start date
+        return "unknown"
 
     try:
         pay_dt = datetime.strptime(payment_date[:10], "%Y-%m-%d").date()
