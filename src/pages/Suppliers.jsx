@@ -175,7 +175,7 @@ function Suppliers() {
   }
 
   return (
-    <div className="suppliers-page animate-fade-in">
+    <div className="suppliers-page animate-fade-in" aria-live="polite" aria-busy={loading}>
       {/* Header */}
       <header className="suppliers-header">
         <div className="header-content">

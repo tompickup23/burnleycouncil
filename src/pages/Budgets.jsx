@@ -190,7 +190,7 @@ function Budgets() {
   ].filter(d => d.value > 0)
 
   return (
-    <div className="budgets-page animate-fade-in">
+    <div className="budgets-page animate-fade-in" aria-live="polite" aria-busy={loading}>
       <header className="page-header">
         <h1>Budget Analysis</h1>
         <p className="subtitle">

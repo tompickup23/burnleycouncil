@@ -119,6 +119,26 @@ function Spending() {
     return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
   }, [councilName])
 
+  // JSON-LD structured data for SEO (schema.org/Dataset)
+  useEffect(() => {
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Dataset',
+      name: `${councilName} Council Spending Data`,
+      description: `Public spending records for ${councilName} Borough Council including invoices, contracts, and purchase card transactions over £${config.spending_threshold || 500}.`,
+      url: window.location.href,
+      creator: { '@type': 'Organization', name: `${councilName} Borough Council` },
+      publisher: { '@type': 'Organization', name: 'AI DOGE' },
+      license: 'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
+      isAccessibleForFree: true,
+    }
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(jsonLd)
+    document.head.appendChild(script)
+    return () => { document.head.removeChild(script) }
+  }, [councilName, config.spending_threshold])
+
   // v3 chunked: default to latest financial year for fast initial load
   const hasSetDefaultYear = useRef(false)
   useEffect(() => {
@@ -215,7 +235,7 @@ function Spending() {
   }
 
   return (
-    <div className="spending-page animate-fade-in">
+    <div className="spending-page animate-fade-in" aria-live="polite" aria-busy={loading}>
       <header className="page-header">
         <div className="header-content">
           <h1>Spending Explorer</h1>

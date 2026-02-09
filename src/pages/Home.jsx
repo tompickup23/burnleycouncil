@@ -42,6 +42,28 @@ function Home() {
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
+  // JSON-LD structured data for SEO (schema.org/WebSite)
+  useEffect(() => {
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: `${councilName} Council Transparency`,
+      url: window.location.origin + (window.location.pathname.split('/').slice(0, -1).join('/') || '/'),
+      description: `Independent transparency platform for ${councilName} Borough Council public spending, budgets, and accountability.`,
+      publisher: { '@type': 'Organization', name: 'AI DOGE' },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: `${window.location.origin}${window.location.pathname}spending?q={search_term_string}` },
+        'query-input': 'required name=search_term_string',
+      },
+    }
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(jsonLd)
+    document.head.appendChild(script)
+    return () => { document.head.removeChild(script) }
+  }, [councilName])
+
   // Unpack data based on what was requested (must be before any early return)
   let idx = 0
   const insights = data?.[idx++]
@@ -110,7 +132,7 @@ function Home() {
   const keyFindings = dogeFindings?.key_findings || []
 
   return (
-    <div className="home-page animate-fade-in">
+    <div className="home-page animate-fade-in" aria-busy={loading}>
       {/* Disclaimer Banner */}
       <div className="disclaimer-banner">
         <Shield size={16} />

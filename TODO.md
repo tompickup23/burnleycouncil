@@ -8,7 +8,7 @@
 - [x] **Fix Clawdbot fetch errors** — ✅ Done (9 Feb 2026). Root cause: Discord (Gateway 4014 — Privileged Intents not enabled) and Telegram (409 conflict) were enabled but broken, causing continuous reconnection loops → `fetch failed` every 10-40s. Fix: disabled Discord and Telegram in `/root/.openclaw/openclaw.json`, restarted service. WhatsApp-only now, running clean.
 - [x] **Register Companies House API key** — ✅ Done. Key `07316ecc-...` set in `/home/ubuntu/aidoge/.env` on vps-news. Ready for `council_etl.py --companies-house`.
 - [x] **Set up DEPLOY_TOKEN for CI/CD** — ✅ Done (9 Feb 2026). deploy.yml fully fixed: tests before build, hub pages + CNAME + robots.txt in deploy, post-deploy verification. User creates PAT and adds as `DEPLOY_TOKEN` secret. Every push to main auto-deploys.
-- [ ] **Rebuild airdustodour.co.uk** — ⏰ DEADLINE 29 Mar 2026 (Bluehost expires). Plan ready at `.claude/plans/wild-zooming-rose.md`. Static HTML/CSS → Cloudflare Pages (free). Replaces WordPress. Need to: build site, set up Formspree contact form, create GitHub repo, deploy, point DNS.
+- [ ] **Rebuild airdustodour.co.uk** — ⏰ DEADLINE 29 Mar 2026 (Bluehost expires). **Separate project** at `/Users/tompickup/airdustodour/` with its own CLAUDE.md. Build started (CSS + logos done), HTML pages remaining. Static HTML/CSS → Cloudflare Pages (free).
 
 ## Priority 2 — High Impact
 
@@ -39,7 +39,7 @@
 - [x] **Build Cross-Council Comparison dashboard** — ✅ Done (CrossCouncil.jsx)
 - [x] **Build Supplier Deep Dive pages** (dynamic route `/supplier/:supplierId`) — ✅ Done (SupplierView.jsx)
 - [x] **Council-specific FOI templates** for Hyndburn, Pendle, Rossendale — ✅ Done (9 Feb 2026). Burnley 11, Hyndburn 9, Pendle 9, Rossendale 12 = 41 total templates
-- [ ] **Postcode → ward lookup** (postcodes.io, free)
+- [x] **Postcode → ward lookup** — ✅ Already implemented in MyArea.jsx. Full postcodes.io integration, ward matching, councillor display.
 
 ## Completed
 
