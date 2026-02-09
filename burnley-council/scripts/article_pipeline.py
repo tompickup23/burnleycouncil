@@ -513,6 +513,14 @@ def git_commit_and_push(councils_updated):
             cwd=GIT_REPO, capture_output=True, check=True,
         )
 
+        # Pull latest to avoid push rejections (fast-forward only, safe)
+        pull_result = subprocess.run(
+            ['git', 'pull', '--ff-only', 'origin', 'main'],
+            cwd=GIT_REPO, capture_output=True, timeout=60,
+        )
+        if pull_result.returncode != 0:
+            log.warning('git pull --ff-only failed — will try push anyway')
+
         # Stage only article files and article indexes
         files_to_add = []
         for council_id in councils_updated:
