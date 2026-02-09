@@ -132,7 +132,7 @@ function Budgets() {
 
   // Helper to get department value, handling Finance & Property split
   const getDeptValue = (budget, dept) => {
-    if (dept === 'Finance & Property' && hasFinanceSplit) {
+    if (dept === 'Finance & Property' && hasFinanceSplit && budget.departments) {
       const fp = budget.departments['Finance & Property']
       const f = budget.departments['Finance (from 01/04/2025)']
       const p = budget.departments['Property (back in-house 01/04/2025)']
@@ -155,7 +155,7 @@ function Budgets() {
 
   // Capital programme chart data
   const latestCapital = capitalProgrammes[capitalProgrammes.length - 1]
-  const capitalCategoryData = latestCapital ? Object.entries(latestCapital.categories).map(([name, data], i) => ({
+  const capitalCategoryData = latestCapital?.categories ? Object.entries(latestCapital.categories).map(([name, data], i) => ({
     name: name.length > 15 ? name.substring(0, 15) + '...' : name,
     fullName: name,
     value: data.total / 1_000_000,

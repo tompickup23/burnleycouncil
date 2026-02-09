@@ -67,7 +67,7 @@ function Home() {
     : spendingPeriod
 
   // Prepare chart data for top suppliers
-  const topSuppliersChart = insights?.supplier_analysis?.top_20_suppliers?.slice(0, 8).map(s => ({
+  const topSuppliersChart = insights?.supplier_analysis?.top_20_suppliers?.slice(0, 8)?.map(s => ({
     name: s.supplier.split(' ').slice(0, 2).join(' '),
     fullName: s.supplier,
     amount: s.total / 1_000_000,
