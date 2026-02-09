@@ -75,7 +75,7 @@ jobs:
             -d /tmp/lancashire-deploy \
             --repo https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/tompickup23/lancashire.git \
             --no-history \
-            --user "GitHub Actions <41898282+github-actions[bot]@users.noreply.github.com>"
+            --user "AI DOGE Deploy <deploy@aidoge.co.uk>"
 
       - name: Verify deployment
         if: success()
