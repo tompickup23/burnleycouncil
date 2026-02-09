@@ -44,11 +44,15 @@ jobs:
           echo "errors=$ERRORS" >> "$GITHUB_OUTPUT"
         continue-on-error: true
 
+      - name: Run improvement suggester
+        run: python3 scripts/suggest_improvements.py 2>&1
+        continue-on-error: true
+
       - name: Commit report
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add burnley-council/reports/ || true
+          git add burnley-council/reports/ IMPROVEMENTS.md || true
           if ! git diff --cached --quiet; then
             git commit -m "audit: $(date +%Y-%m-%d) — score ${{ steps.audit.outputs.score }}/100"
             git push

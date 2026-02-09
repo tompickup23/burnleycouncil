@@ -56,6 +56,11 @@ fi
 python3 "$SCRIPT_DIR/daily_audit.py" $AUDIT_FLAGS 2>&1 || true
 AUDIT_EXIT=$?
 
+# ── Run Improvement Suggester ────────────────────────────────────────
+echo ""
+echo "[2b] Running improvement suggester..."
+python3 "$SCRIPT_DIR/suggest_improvements.py" 2>&1 || true
+
 # Check if report was generated
 DATE_STR=$(date +%Y-%m-%d)
 REPORT_FILE="${REPORT_DIR}/audit_${DATE_STR}.md"
@@ -77,7 +82,7 @@ echo "[3] Results: Score ${SCORE}/100 — ${ERRORS} errors, ${WARNINGS} warnings
 echo ""
 echo "[4] Committing report..."
 
-git add "$REPORT_DIR/" 2>/dev/null || true
+git add "$REPORT_DIR/" IMPROVEMENTS.md 2>/dev/null || true
 
 if git diff --cached --quiet 2>/dev/null; then
     echo "  No changes to commit (report unchanged)"
