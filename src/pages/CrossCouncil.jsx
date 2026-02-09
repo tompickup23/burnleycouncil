@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -11,6 +11,7 @@ const COUNCIL_COLORS = {
   burnley: '#0a84ff',
   hyndburn: '#ff9f0a',
   pendle: '#30d158',
+  rossendale: '#bf5af2',
 }
 
 const TOOLTIP_STYLE = {
@@ -41,7 +42,7 @@ function CrossCouncil() {
   // Spend per head data
   const spendPerHead = councils.map(c => ({
     name: c.council_name,
-    spend: Math.round(c.total_spend / (c.population || 1)),
+    spend: Math.round((c.total_spend || 0) / (c.population || 1)),
     isCurrent: c.council_name === councilName,
   })).sort((a, b) => b.spend - a.spend)
 
@@ -160,7 +161,7 @@ function CrossCouncil() {
               />
               <Bar dataKey="spend" radius={[4, 4, 0, 0]}>
                 {spendPerHead.map((entry, i) => (
-                  <rect key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                  <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                 ))}
               </Bar>
             </BarChart>
@@ -269,7 +270,7 @@ function CrossCouncil() {
               />
               <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                 {dupeData.map((entry, i) => (
-                  <rect key={i} fill={entry.isCurrent ? '#ff453a' : '#48484a'} />
+                  <Cell key={i} fill={entry.isCurrent ? '#ff453a' : '#48484a'} />
                 ))}
               </Bar>
             </BarChart>
