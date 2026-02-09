@@ -266,6 +266,16 @@ All SPA components are now fully parameterised via `CouncilConfig` context:
 - `About.jsx`: Creator section driven by config (photo, social, quote, bio) ✅
 - `FOI.jsx`: Council-specific templates + config-driven FOI URL ✅
 
+### SPA Bug Fixes (Feb 2026) — RESOLVED
+- `CrossCouncil.jsx`: Rossendale data schema mismatch fixed (all 5 copies of cross_council.json), added rossendale to COUNCIL_COLORS, fixed `<rect>` → `<Cell>` in Recharts bars ✅
+- `Budgets.jsx`: State update in render body moved to useEffect, optional chaining for departments access, guard on latestCapital.categories ✅
+- `SupplierView.jsx`: Guard `.charAt()` on undefined risk_level and council ✅
+- `Home.jsx`: Optional chaining on `.map()` after `.slice()` for top suppliers ✅
+- `useData.js`: preloadData() now checks `r.ok` before caching ✅
+- `format.js`: getFinancialYear() validates date before parsing ✅
+- `Meetings.jsx`: Guard on undefined last_updated date ✅
+- `Rossendale articles-index.json`: Changed from `{articles:[]}` object to `[]` array ✅
+
 ### Performance
 - `spending.json` file sizes: Burnley 21MB, Hyndburn 21MB, Rossendale 25MB, **Pendle 40MB** (49,741 records)
 - All spending data fetched in one `fetch()` call — no pagination at network level
