@@ -127,24 +127,27 @@ Analysis checks: duplicate payments, split payment evasion, year-end spikes, rou
 
 ## Autonomous Data Pipeline
 
-Runs daily on vps-main (cron 7am + 8am):
+Runs daily on vps-main (cron 7am–10am):
 
 ```
-data_monitor.py (7am)                    auto_pipeline.py (8am)
-  Check council URLs for                   Read monitor state
-  new spending CSVs                        ↓
-  ↓                                        SSH vps-news → council_etl.py
-  Save hash changes to                     ↓
-  monitor_state.json                       Pull spending.json back
-  ↓                                        ↓
-  WhatsApp alert if                        Run doge_analysis.py
-  changes found                            ↓
-                                           Queue article generation
-                                           ↓
-                                           WhatsApp summary
+data_monitor.py (7am)          auto_pipeline.py (8am)          article_pipeline.py (9am)
+  Check council URLs for         Read monitor state               Data-driven topic discovery
+  new spending CSVs              ↓                                from spending + DOGE findings
+  ↓                              SSH vps-news → council_etl.py    ↓
+  Save hash changes to           ↓                                LLM generation (Kimi K2.5
+  monitor_state.json             Pull spending.json back          → Cerebras → Groq → DeepSeek)
+  ↓                              ↓                                ↓
+  WhatsApp alert if              Run doge_analysis.py             Fact verification
+  changes found                  ↓                                ↓
+                                 WhatsApp summary                 Save to articles-index.json
+
+deploy_newslancashire.sh (10am)
+  SSH vps-news → hugo --minify
+  rsync public/ → vps-main
+  wrangler pages deploy (from vps-main, NOT vps-news — 1GB OOM risk)
 ```
 
-Scripts on vps-main: `auto_pipeline.py`, `data_monitor.py`, `mega_article_writer.py`, `llm_router.py`
+Scripts on vps-main: `auto_pipeline.py`, `data_monitor.py`, `article_pipeline.py`, `llm_router.py`, `deploy_newslancashire.sh`
 Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 
 ## Key Scripts
@@ -155,7 +158,8 @@ Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 | `scripts/doge_analysis.py` | vps-main | Cross-council DOGE analysis |
 | `scripts/auto_pipeline.py` | vps-main | Autonomous ETL → analysis → articles |
 | `scripts/data_monitor.py` | vps-main | Check council websites for new data |
-| `scripts/mega_article_writer.py` | vps-main | LLM-generated articles from findings |
+| `scripts/article_pipeline.py` | vps-main | Data-driven article generation (Kimi K2.5 → Cerebras → Groq → DeepSeek failover) |
+| `scripts/deploy_newslancashire.sh` | vps-main | Hugo build on vps-news → rsync → wrangler deploy from vps-main |
 | `scripts/govuk_budgets.py` | local | GOV.UK ODS → budget JSON |
 | `scripts/govuk_trends.py` | local | Revenue trend analysis |
 | `scripts/police_etl.py` | vps-news | Police crime stats API |
@@ -199,8 +203,8 @@ Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 ```
 [RSS Feeds] ─┐
 [Bluesky]   ─┤
-[Google News]─┼→ [pipeline_v4.sh] → [SQLite DB] → [export_json.py] → [Astro Build]
-[Parliament] ─┤     (vps-news)        (news.db)                        → Cloudflare Pages
+[Google News]─┼→ [pipeline_v4.sh] → [SQLite DB] → [export_json.py] → [Hugo Build]
+[Parliament] ─┤     (vps-news)        (news.db)       (962 pages)       → Cloudflare Pages
 [Police API] ─┘                                                        (newslancashire.co.uk)
 ```
 

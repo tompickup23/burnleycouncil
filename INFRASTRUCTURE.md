@@ -57,12 +57,14 @@
 
 **News Lancashire Pipeline (v4.1, audited 9 Feb 2026):**
 - 787 articles in SQLite DB, 655 exported (after R1 fix)
+- Hugo site (NOT Astro) — builds 962 pages in ~14s
 - 9 pipeline phases, every 30 min via cron
 - AI: Kimi K2.5 → DeepSeek fallback (keys in `~/.env`)
 - Git repo initialised: `~/newslancashire/` (needs push to GitHub)
 - Planning/council minutes scrapers disabled (broken endpoints)
 - Per-phase error handling (no more cascade failures)
 - All dates normalised to ISO 8601
+- **Deploy:** `deploy_newslancashire.sh` runs from vps-main (10am cron) — SSH builds Hugo on vps-news, rsyncs output to vps-main, wrangler deploys to Cloudflare Pages from vps-main (avoids OOM on 1GB vps-news)
 
 **Resolved (9 Feb 2026):**
 - ~~`openclaw-gateway.service` — OOM-crashed, orphaned~~ → Cleaned up with `systemctl reset-failed`
@@ -93,9 +95,11 @@
 **Crons:**
 ```
 0 5 * * *     Repo sync (sync_repos.sh — git pull + rsync scripts to vps-news)
-0 6 * * *     Article writer (mega_article_writer.py)
+# 0 6 * * *  DISABLED — mega_article_writer.py (28/28 queue exhausted, replaced by article_pipeline.py)
 0 7 * * *     Data monitor (check councils for new CSVs)
 0 8 * * *     Auto pipeline (ETL + analysis + articles if new data detected)
+0 9 * * *     Article pipeline (article_pipeline.py --max-articles 2 — data-driven topic discovery + LLM generation)
+0 10 * * *    News Lancashire deploy (deploy_newslancashire.sh — Hugo build on vps-news → wrangler from vps-main)
 0 4 1 * *     Councillor scraper
 0 */6 * * *   vps-news health check + health_check.sh
 0 0 * * 0     Log_rotation (truncates openclaw, clawd-worker, openagents, ollama logs)
@@ -207,16 +211,26 @@
 | Companies House | `api.company-information.service.gov.uk` | HTTP Basic (key as username) | Free (600 req/5min) | council_etl.py `--companies-house` |
 | Police Data | `data.police.uk/api/` | None | Free | police_etl.py |
 | GOV.UK MHCLG | `assets.publishing.service.gov.uk` | None | Free (ODS downloads) | govuk_budgets.py |
-| Postcodes.io | `postcodes.io/postcodes/` | None | Free | Not yet implemented |
+| Postcodes.io | `postcodes.io/postcodes/` | None | Free | MyArea.jsx (ward lookup, councillor matching) |
 | Kimi (Moonshot) | `api.moonshot.cn` | Bearer token | Free tier | Clawdbot (octavian.json) |
 | DeepSeek | `api.deepseek.com` | Bearer token | Free/cheap | Clawdbot fallback |
 
 **Register for CH API key:** https://developer.company-information.service.gov.uk/manage-applications
 **CH API docs:** https://developer-specs.company-information.service.gov.uk/
 
+## Cloudflare Web Analytics
+
+- **Beacon token:** Set as `CF_ANALYTICS_TOKEN` GitHub Actions secret
+- **Injection:** `vite.config.js` injects beacon script at build time when `VITE_CF_ANALYTICS_TOKEN` env var is set
+- **CSP:** `index.html` Content-Security-Policy updated to allow `static.cloudflareinsights.com`
+- **Coverage:** All 4 council sites (injected during CI/CD build)
+- **Cost:** Free, cookieless, no GDPR consent needed
+- **Status:** ✅ Active (secret set 9 Feb 2026, beacon confirmed in production builds)
+
 ## Known Issues
 
 1. **aws-2 unreachable** — SSH times out. Check AWS Console for instance state.
 2. ~~**openclaw on vps-main**~~ — ✅ Fixed 9 Feb 2026. Disabled broken Discord (Gateway 4014) and Telegram (409 conflict) channels. WhatsApp-only now, running clean.
 3. **API key rotation needed** — Exposed keys (OpenAI, Kimi, DeepSeek, Companies House) were removed from .claude/settings.local.json but need rotating on provider dashboards.
-4. **vps-news is memory-constrained** — Only 1GB RAM, currently at 50% usage. Cannot take on additional workloads.
+4. **vps-news is memory-constrained** — Only 1GB RAM, currently at 50% usage. Cannot take on additional workloads. **Do NOT run Node.js/wrangler on vps-news** — causes OOM. Wrangler deploys must run from vps-main (16GB).
+5. **vps-news OOM vulnerability** — Running `npx wrangler pages deploy` directly on vps-news caused OOM crash (9 Feb 2026), making server unresponsive. Fix: `deploy_newslancashire.sh` now runs wrangler from vps-main instead. Recovery: reboot via Oracle Cloud web console.

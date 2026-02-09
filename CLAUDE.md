@@ -67,6 +67,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/govuk_budgets.py` | GOV.UK budget data fetch and parse |
 | `burnley-council/scripts/govuk_trends.py` | Revenue trend analysis |
 | `burnley-council/scripts/police_etl.py` | Police crime stats API |
+| `burnley-council/scripts/article_pipeline.py` | Data-driven article generation (topic discovery + LLM + fact verification) |
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
 
 ### Data Files (per council: `burnley-council/data/{council_id}/`)
@@ -78,7 +79,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `config.json` | Manual | Controls features, branding, navigation |
 | `doge_findings.json` | doge_analysis.py | Analysis findings for DOGE page |
 | `doge_verification.json` | doge_analysis.py | Self-verification scores |
-| `articles-index.json` | Manual/generated | Article listings |
+| `articles-index.json` | article_pipeline.py / manual | Article listings (auto-generated daily via cron) |
 | `foi_templates.json` | Manual per council | FOI request templates |
 | `revenue_trends.json` | govuk_trends.py | GOV.UK revenue data |
 | `supplier_profiles.json` | generate_supplier_profiles.py | Supplier deep dives |
@@ -176,7 +177,8 @@ VITE_COUNCIL=burnley VITE_BASE=/ npx vite
 ## Common Mistakes to Avoid
 
 - **Don't create agent/bot config files in this repo** — Clawdbot lives on vps-main, not here
-- **Don't assume Oracle VPS has lots of RAM** — vps-news is only 1GB RAM, memory-constrained
+- **Don't assume Oracle VPS has lots of RAM** — vps-news is only 1GB RAM, memory-constrained. Never run Node.js/wrangler on it (OOM risk).
+- **Don't run wrangler on vps-news** — caused OOM crash 9 Feb. Use `deploy_newslancashire.sh` on vps-main instead.
 - **Don't run `git add .` or `git add -A`** — supplier_profiles.json files are 400K+ lines each
 - **Don't edit generated JSON** — spending.json, doge_findings.json, doge_verification.json are all generated
 - **Don't duplicate info across docs** — CLAUDE.md = dev guide, ARCHITECTURE.md = software, INFRASTRUCTURE.md = ops

@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 9 February 2026 (evening session)
+> Last updated: 9 February 2026 (late evening session)
 
 ## Priority 1 — Broken / Blocking
 
@@ -15,7 +15,7 @@
 - [ ] **Set up monitoring/alerting** — No alerting exists. aws-2 died unnoticed. Free UptimeRobot (50 monitors) pinging 4 council sites + 2 servers would alert within 5 minutes.
 - [x] **Split spending.json for mobile** — ✅ Done (9 Feb 2026). ETL generates v3 year-chunked files: spending-index.json + spending-YYYY-YY.json per year. Worker tries chunked first, falls back to monolith. Latest year auto-loaded (~4-8MB vs 21-40MB). Progressive loading for older years.
 - [ ] **VPS backup strategy** — vps-main runs everything (Clawdbot, email, CRM, clawd-worker) with no backup. A `docker compose` export + rsync to Oracle (vps-news) would protect against Hostinger outage.
-- [x] **Add analytics to council sites** — ✅ Done (9 Feb 2026). Cloudflare Web Analytics (free, cookieless). Code wired via VITE_CF_ANALYTICS_TOKEN env var in vite.config.js + deploy.yml. Inactive until CF_ANALYTICS_TOKEN secret is added to GitHub repo. User needs to: create Cloudflare account → add site → copy beacon token → add as repo secret.
+- [x] **Add analytics to council sites** — ✅ Active (9 Feb 2026). Cloudflare Web Analytics beacon deployed to all 4 councils via CI/CD. Token `477d0d4d...` set as CF_ANALYTICS_TOKEN repo secret. Beacon injected at build time by vite.config.js.
 
 ## Priority 3 — Improvements
 
@@ -23,8 +23,8 @@
 - [ ] **Rotate exposed API keys** — OpenAI, Kimi, DeepSeek, Companies House keys were in .claude/settings.local.json (now removed). Need rotating on provider dashboards.
 - [x] **Fix council_etl.py `or True` bug** — ✅ Done (9 Feb 2026). Removed redundant jurisdiction filter — CH API only returns UK companies. Previous filter had overly broad `or not country` clause.
 - [x] **Fix police_etl.py import bug** — ✅ Already fixed. urllib.parse is correctly imported at line 30 (top of file). The bug was resolved in a prior session.
-- [ ] **Autonomous article pipeline** — ✅ Built (auto_pipeline.py on vps-main, cron 8am daily). Needs testing with real data change.
-- [ ] **Rebuild newslancashire.co.uk deploy** — Astro build dir was deleted (broken). Pipeline now exports 655 articles but can't deploy to Cloudflare Pages. Need to either rebuild Astro site or create a simple static HTML generator.
+- [x] **Autonomous article pipeline** — ✅ Done (9 Feb 2026). New article_pipeline.py: data-driven topic discovery from spending data → LLM generation (Kimi K2.5 → Cerebras → Groq → DeepSeek failover) → fact verification → output to articles dir. Cron 9am daily on vps-main, 2 articles/council/run. Old mega_article_writer disabled (28/28 queue exhausted). Generates supplier concentration, department spending, DOGE findings, spending trends articles.
+- [x] **Rebuild newslancashire.co.uk deploy** — ✅ Done (9 Feb 2026). Site is actually Hugo (not Astro). Pipeline: generate_hugo_content.py → hugo --minify → deploy via wrangler. Deploy moved from vps-news (1GB OOM risk) to vps-main (16GB). deploy_newslancashire.sh: SSH build on vps-news → rsync to vps-main → wrangler deploy. Cron 10am daily. 962 pages built from 796 articles.
 - [ ] **Push newslancashire repo to GitHub** — Git repo initialised on vps-news (2 commits). Need to create `tompickup23/newslancashire` private repo on GitHub, add SSH deploy key, push. One-time 5-minute task.
 - [ ] **News Lancashire Tier 2 improvements** — AI writing quality: switch to single-article rewrites, better prompts, rewrite validation, humaniser pass. See HANDOVER-NEWSLANCASHIRE.md for full list.
 - [x] **Commit accumulated work** — ✅ Done (9 Feb 2026). 3 clean commits: docs/CI/CD/git hygiene, data across 4 councils, frontend features (Web Worker, DogeInvestigation, tests). Pushed to main, CI/CD auto-deployed.
@@ -32,9 +32,9 @@
 
 ## Priority 4 — Content & Features
 
-- [ ] **Write Hyndburn articles** (8 planned in MASTERPLAN)
-- [ ] **Write Pendle articles** (8 planned in MASTERPLAN)
-- [ ] **Write more Rossendale articles** (6 published, target 20+)
+- [ ] **Write Hyndburn articles** — 20 published, 8 from MASTERPLAN. article_pipeline.py will auto-generate 4 more data-driven topics.
+- [ ] **Write Pendle articles** — 19 published, 8 from MASTERPLAN. article_pipeline.py will auto-generate 4 more data-driven topics.
+- [ ] **Write more Rossendale articles** — 7 published (6 + 1 auto-generated), target 20+. article_pipeline.py has 3 more queued.
 - [x] **Build Executive Pay Comparison page** (PayComparison.jsx) — ✅ Done
 - [x] **Build Cross-Council Comparison dashboard** — ✅ Done (CrossCouncil.jsx)
 - [x] **Build Supplier Deep Dive pages** (dynamic route `/supplier/:supplierId`) — ✅ Done (SupplierView.jsx)
@@ -43,6 +43,13 @@
 
 ## Completed
 
+- [x] Fixed CI/CD deploy: gh-pages --user format broke all deploys (brackets in email). Fixed, all 4 councils deploying (9 Feb 2026)
+- [x] Accessibility: aria-live="polite" + aria-busy on Spending, Budgets, Suppliers pages (9 Feb 2026)
+- [x] SEO: JSON-LD structured data (schema.org/Dataset on Spending, schema.org/WebSite on Home) (9 Feb 2026)
+- [x] Generated v3 year-chunked spending data for Hyndburn, Pendle, Rossendale locally (9 Feb 2026)
+- [x] Built article_pipeline.py: data-driven topic discovery + LLM generation, deployed to vps-main cron 9am (9 Feb 2026)
+- [x] Rebuilt newslancashire.co.uk deploy: Hugo site (962 pages), deploy via vps-main to Cloudflare Pages (9 Feb 2026)
+- [x] Activated Cloudflare Web Analytics on all 4 councils (CF_ANALYTICS_TOKEN secret + beacon injection) (9 Feb 2026)
 - [x] Fixed Clawdbot fetch errors: disabled broken Discord (4014) + Telegram (409) in openclaw.json, WhatsApp-only, running clean (9 Feb 2026)
 - [x] Architecture improvements: useData() TTL cache, retry, LRU eviction (9 Feb 2026)
 - [x] Per-route error boundaries in App.jsx (9 Feb 2026)
