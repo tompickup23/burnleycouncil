@@ -4,7 +4,7 @@
 > Manual entries are preserved; automated entries are marked `[auto]`.
 > Last updated: 2026-02-09
 
-**Summary**: 34 open issues | Critical: 1 | High: 10 | Medium: 12 | Low: 11
+**Summary**: 33 open issues | Critical: 0 | High: 10 | Medium: 12 | Low: 11
 
 ---
 
@@ -12,7 +12,7 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
-| S1 | Critical | XSS via `dangerouslySetInnerHTML` | `ArticleView.jsx:195` renders article HTML without sanitization. Install DOMPurify. | open |
+| S1 | Critical | XSS via `dangerouslySetInnerHTML` | `ArticleView.jsx:195` renders article HTML without sanitization. Install DOMPurify. | fixed |
 | S2 | High | No Content Security Policy | `index.html` has no CSP meta tag — allows inline scripts, arbitrary resource loading. | open |
 | S3 | Medium | `shell=True` in subprocess | `daily_audit.py` uses `subprocess.run(cmd, shell=True)`. Use array syntax. | open |
 | S4 | Medium | GitHub Actions string interpolation | `daily-audit.yml:73` interpolates audit output into issue title without numeric validation. | open |
@@ -76,3 +76,4 @@
 - **2026-02-09** — Auto-scan: 33 issues found
 - **2026-02-09** — Auto-scan: 33 issues found
 - **2026-02-09** — Auto-scan: 34 issues found
+- **2026-02-09** — Auto-scan: 33 issues found
