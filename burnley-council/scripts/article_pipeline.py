@@ -28,6 +28,7 @@ import json
 import logging
 import os
 import re
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -490,6 +491,94 @@ def save_article(council_id, topic, content):
     log.info(f"Updated index: {index_path} ({len(index)} articles)")
 
 
+# ── Git Commit & Push ────────────────────────────────────────────────
+
+# Git repo on vps-main that maps to tompickup23/burnleycouncil
+GIT_REPO = Path('/root/aidoge')
+
+def git_commit_and_push(councils_updated):
+    """Commit new articles and push to trigger GH Actions CI/CD deploy."""
+    if not GIT_REPO.exists() or not (GIT_REPO / '.git').exists():
+        log.warning(f'Git repo not found at {GIT_REPO} — skipping auto-commit')
+        return False
+
+    try:
+        # Ensure git config is set (needed for automated commits)
+        subprocess.run(
+            ['git', 'config', 'user.name', 'AI DOGE Pipeline'],
+            cwd=GIT_REPO, capture_output=True, check=True,
+        )
+        subprocess.run(
+            ['git', 'config', 'user.email', 'pipeline@aidoge.co.uk'],
+            cwd=GIT_REPO, capture_output=True, check=True,
+        )
+
+        # Stage only article files and article indexes
+        files_to_add = []
+        for council_id in councils_updated:
+            council_data = GIT_REPO / 'burnley-council' / 'data' / council_id
+            articles_dir = council_data / 'articles'
+            index_file = council_data / 'articles-index.json'
+
+            if articles_dir.exists():
+                files_to_add.append(str(articles_dir))
+            if index_file.exists():
+                files_to_add.append(str(index_file))
+
+        if not files_to_add:
+            log.info('No article files to commit')
+            return False
+
+        subprocess.run(
+            ['git', 'add'] + files_to_add,
+            cwd=GIT_REPO, capture_output=True, check=True,
+        )
+
+        # Check if there are actually staged changes
+        result = subprocess.run(
+            ['git', 'diff', '--cached', '--quiet'],
+            cwd=GIT_REPO, capture_output=True,
+        )
+        if result.returncode == 0:
+            log.info('No new article changes to commit')
+            return False
+
+        # Commit
+        date_str = datetime.now().strftime('%Y-%m-%d')
+        councils_str = ', '.join(sorted(councils_updated))
+        commit_msg = f"Auto: Add articles for {councils_str} ({date_str})"
+
+        subprocess.run(
+            ['git', 'commit', '-m', commit_msg],
+            cwd=GIT_REPO, capture_output=True, check=True,
+        )
+        log.info(f'Committed: {commit_msg}')
+
+        # Push to trigger CI/CD deploy
+        result = subprocess.run(
+            ['git', 'push', 'origin', 'main'],
+            cwd=GIT_REPO, capture_output=True, timeout=120,
+        )
+        if result.returncode == 0:
+            log.info('Pushed to origin/main — CI/CD will deploy to GitHub Pages')
+            return True
+        else:
+            stderr = result.stderr.decode() if result.stderr else ''
+            log.error(f'Push failed: {stderr}')
+            return False
+
+    except subprocess.TimeoutExpired:
+        log.error('Git push timed out after 120s')
+        return False
+    except subprocess.CalledProcessError as e:
+        stderr = e.stderr.decode() if e.stderr else ''
+        log.error(f'Git operation failed: {stderr}')
+        return False
+    except Exception as e:
+        log.error(f'Git commit/push error: {e}')
+        return False
+
+
 # ── Main ─────────────────────────────────────────────────────────────
 
 def process_council(council_id, dry_run=False, max_articles=2):
@@ -547,6 +636,8 @@ def main():
     parser.add_argument('--dry-run', action='store_true', help='Show topics without generating')
     parser.add_argument('--max-articles', type=int, default=2,
                         help='Max articles to generate per council per run (default: 2)')
+    parser.add_argument('--no-push', action='store_true',
+                        help='Generate articles but do not git commit/push')
     args = parser.parse_args()
 
     log.info(f'=== Article Pipeline Starting ({datetime.now().strftime("%Y-%m-%d %H:%M")}) ===')
@@ -555,15 +646,22 @@ def main():
 
     councils = [args.council] if args.council else COUNCILS
     total = 0
+    councils_updated = []
 
     for council_id in councils:
         try:
             count = process_council(council_id, dry_run=args.dry_run, max_articles=args.max_articles)
             total += count
+            if count > 0:
+                councils_updated.append(council_id)
         except Exception as e:
             log.error(f'Error processing {council_id}: {e}')
 
     log.info(f'=== Pipeline Complete: {total} articles {"found" if args.dry_run else "generated"} ===')
+
+    # Auto-commit and push to trigger GH Pages deploy
+    if total > 0 and not args.dry_run and not args.no_push:
+        git_commit_and_push(councils_updated)
 
 
 if __name__ == '__main__':
