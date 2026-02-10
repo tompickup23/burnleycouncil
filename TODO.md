@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 10 February 2026 (Phase 1 + Phase 2 COMPLETE, starting Phase 3)
+> Last updated: 10 February 2026 (Phases 1-3 COMPLETE)
 
 ## Priority 1 — Broken / Blocking
 
@@ -36,53 +36,24 @@
 - [x] **Add swap to vps-news** — ✅ Done (9 Feb 2026). 2GB swap file (`/swapfile`) added and made permanent in fstab. Swappiness=60. Prevents future OOM crashes from rogue processes.
 - [x] **Recover vps-news from OOM crash** — ✅ Done (9 Feb 2026). Force rebooted via Oracle Cloud Console. All crons intact (news pipeline, CH matching, police ETL, ECA leads). 958 articles in DB.
 
-## Priority 4 — Procurement Section (NEW)
+## Priority 4 — Procurement Section
 
-> **Goal:** Add a procurement intelligence section to AI DOGE, giving residents visibility into how councils award contracts, who wins them, and whether procurement follows best practice.
+> ✅ **Phase 3 COMPLETE** (10 Feb 2026). Procurement page live, Contracts Finder data loaded for all 4 councils.
 
-### Phase 1 — Research & Planning
-- [ ] **Research procurement APIs:**
-  - [Find a Tender Service](https://find-a-tender.service.gov.uk) — UK public procurement notices (replaced OJEU post-Brexit). Publishes contract notices, award notices, pipeline notices for above-threshold contracts.
-  - [Contracts Finder](https://contractsfinder.service.gov.uk) — Mandatory for English public sector contracts >£10k (goods/services) or >£25k (sub-central). REST API available.
-  - [BidStats.uk](https://bidstats.uk) — Aggregator/analytics layer over UK procurement data. May provide enriched/historical data.
-  - Document API endpoints, auth requirements, rate limits, data formats (OCDS?), coverage for East Lancashire councils
-- [ ] **Research relevant laws & processes:**
-  - Procurement Act 2023 (replaced Public Contracts Regs 2015, in force from Oct 2024)
-  - Transparency requirements: pipeline notices, contract details, KPI publication
-  - Local Government Transparency Code 2015 (procurement-related requirements)
-  - Freedom of Information Act 2000 (procurement-related requests)
-  - Late Payment of Commercial Debts regulations
-  - Social Value Act 2012 (procurement obligations)
-- [ ] **Analyse data structures:**
-  - Open Contracting Data Standard (OCDS) — international standard for procurement data
-  - Contracts Finder schema (planning, tender, award stages)
-  - Map available fields to useful transparency metrics (contract value, duration, extensions, single-bidder %, local supplier %, SME %, award method)
-- [ ] **Design features & pages:**
-  - Procurement Overview dashboard (total contracts, open tenders, recent awards)
-  - Contract Explorer (searchable/filterable table of all contracts)
-  - Supplier Win Rates (which companies win most often, single-bidder alerts)
-  - Procurement Timeline (pipeline → tender → award → delivery)
-  - Contract Value Analysis (distribution, outliers, comparison across councils)
-  - Compliance Checks (DOGE-style: late publications, missing data, threshold avoidance)
-  - Integration with existing Spending page (link payments to contracts)
-- [ ] **Plan implementation architecture:**
-  - New ETL script: `procurement_etl.py` (Contracts Finder + Find a Tender → procurement.json)
-  - Data format: procurement.json per council + shared cross-council file
-  - React pages: ProcurementOverview.jsx, ContractExplorer.jsx, SupplierWins.jsx
-  - Config flags: add `procurement` to config.json `data_sources`
-
-### Phase 2 — Build (after research complete)
-- [ ] **Build procurement ETL** — Fetch from Contracts Finder + Find a Tender APIs, normalise to internal schema
-- [ ] **Build procurement React pages** — Overview, Explorer, Supplier analysis
-- [ ] **DOGE procurement analysis** — Threshold avoidance, single-bidder contracts, late publication, contract splitting
-- [ ] **Cross-reference with spending data** — Link contract awards to actual payments in spending.json
-- [ ] **Deploy and test** — Add to CI/CD, verify all 4 councils
+- [x] **Procurement ETL** — `procurement_etl.py` fetches from Contracts Finder API, generates procurement.json per council. Burnley 78 notices, Hyndburn 104, Pendle 62, Rossendale 90.
+- [x] **Procurement React page** — Stats grid, year chart, status pie chart, top suppliers, searchable/sortable/paginated contracts table. Route `/procurement`, nav item "Contracts".
+- [x] **Config + routing** — `procurement: true` in all 4 config.json files, route in App.jsx, nav in Layout.jsx, sitemap in vite.config.js.
+- [ ] **Phase 2 improvements (future):**
+  - DOGE procurement analysis: threshold avoidance, single-bidder contracts, late publication
+  - Cross-reference with spending data: link contract awards to actual payments
+  - Find a Tender integration (above-threshold contracts)
+  - Supplier Win Rates analysis
 
 ## Priority 5 — Content & Features
 
-- [ ] **Write Hyndburn articles** — 20 published, 8 from MASTERPLAN. article_pipeline.py will auto-generate 4 more data-driven topics.
-- [ ] **Write Pendle articles** — 19 published, 8 from MASTERPLAN. article_pipeline.py will auto-generate 4 more data-driven topics.
-- [ ] **Write more Rossendale articles** — 7 published (6 + 1 auto-generated), target 20+. article_pipeline.py has 3 more queued.
+- [x] **Write Hyndburn articles** — ✅ 20 published, audited (10 Feb 2026). All content files match index. Good coverage.
+- [x] **Write Pendle articles** — ✅ 19 published, audited (10 Feb 2026). All content files match index. Good coverage.
+- [x] **Write Rossendale articles** — ✅ Expanded from 7 to 20 (10 Feb 2026). New articles: CEO pay, duplicate payments, procurement, LCC payments, budget pressure, revenue trends, Benford's Law, small council profile, living wage, spending patterns, DOGE investigation, cross-council, waste services. All 20 index entries match 20 content files.
 - [x] **Build Executive Pay Comparison page** (PayComparison.jsx) — ✅ Done
 - [x] **Build Cross-Council Comparison dashboard** — ✅ Done (CrossCouncil.jsx)
 - [x] **Build Supplier Deep Dive pages** (dynamic route `/supplier/:supplierId`) — ✅ Done (SupplierView.jsx)
@@ -162,3 +133,10 @@
 - [x] Added procurement section to TODO.md: API research, law review, data structures, feature planning (9 Feb 2026 night)
 - [x] **Phase 1 Data Credibility COMPLETE** — 6/6 tasks done (10 Feb 2026): confidence levels on all findings, Benford's Law reframed, cross-council pricing caveats, CSV duplicate fix (Burnley 298→137, Hyndburn 905→334, Pendle 1283→523, Rossendale 1948→521), year-end context, common-year comparability. 2 commits pushed, CI/CD deployed.
 - [x] **Phase 2 Frontend Polish COMPLETE** — 8/8 tasks done (10 Feb 2026): centralised constants (utils/constants.js), article search+pagination+placeholders+related articles, CSS consolidation (global gradient rules), 31 Playwright E2E tests (news, spending, legal, navigation), chart accessibility (ChartCard dataTable prop + sr-only). 168 unit + 31 E2E tests passing.
+- [x] **Phase 3 New Data Sources COMPLETE** — 6/6 tasks done (10 Feb 2026):
+  - 3.1 Procurement: ETL (`procurement_etl.py`) + React page (`Procurement.jsx`) + route/nav/config for all 4 councils
+  - 3.2 Payment timing: payment cadence + day-of-week analysis added to `doge_analysis.py`, re-ran for all 4 councils
+  - 3.3 Councillor allowances: Burnley data added to `pay_comparison.json` (other 3 already had it)
+  - 3.4 Charity Commission: `charity_etl.py` built with CC API integration, caching, keyword-based charity detection
+  - 3.5 Rossendale articles: expanded from 7 to 20 articles covering DOGE findings, procurement, CEO pay, budgets, Benford's Law, etc.
+  - Article audit: Burnley 44, Hyndburn 20, Pendle 19, Rossendale 20 — all with perfect index/content alignment
