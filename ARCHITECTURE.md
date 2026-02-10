@@ -140,14 +140,21 @@ data_monitor.py (7am)          auto_pipeline.py (8am)          article_pipeline.
   WhatsApp alert if              Run doge_analysis.py             Fact verification
   changes found                  ↓                                ↓
                                  WhatsApp summary                 Save to articles-index.json
+                                                                  ↓
+                                                                  Git commit + push → CI/CD deploy
 
 deploy_newslancashire.sh (10am)
   SSH vps-news → hugo --minify
   rsync public/ → vps-main
   wrangler pages deploy (from vps-main, NOT vps-news — 1GB OOM risk)
+
+deploy_newsburnley.sh (10:30am)
+  rsync vps-news:/home/ubuntu/newsburnley/public/ → vps-main
+  wrangler pages deploy (from vps-main)
+  50 Burnley-filtered articles from News Lancashire
 ```
 
-Scripts on vps-main: `auto_pipeline.py`, `data_monitor.py`, `article_pipeline.py`, `llm_router.py`, `deploy_newslancashire.sh`
+Scripts on vps-main: `auto_pipeline.py`, `data_monitor.py`, `article_pipeline.py`, `llm_router.py`, `deploy_newslancashire.sh`, `deploy_newsburnley.sh`
 Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 
 ## Key Scripts
@@ -158,8 +165,9 @@ Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 | `scripts/doge_analysis.py` | vps-main | Cross-council DOGE analysis |
 | `scripts/auto_pipeline.py` | vps-main | Autonomous ETL → analysis → articles |
 | `scripts/data_monitor.py` | vps-main | Check council websites for new data |
-| `scripts/article_pipeline.py` | vps-main | Data-driven article generation (Kimi K2.5 → Cerebras → Groq → DeepSeek failover) |
+| `scripts/article_pipeline.py` | vps-main | Data-driven article generation (Kimi K2.5 → Cerebras → Groq → DeepSeek failover) + auto git commit/push |
 | `scripts/deploy_newslancashire.sh` | vps-main | Hugo build on vps-news → rsync → wrangler deploy from vps-main |
+| `scripts/deploy_newsburnley.sh` | vps-main | Rsync News Burnley from vps-news → wrangler deploy from vps-main |
 | `scripts/govuk_budgets.py` | local | GOV.UK ODS → budget JSON |
 | `scripts/govuk_trends.py` | local | Revenue trend analysis |
 | `scripts/police_etl.py` | vps-news | Police crime stats API |

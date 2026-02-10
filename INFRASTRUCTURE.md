@@ -34,7 +34,7 @@
 
 **Purpose:** News pipeline, AI DOGE ETL, ECA Leads data processing
 
-**Resources:** 1GB RAM (497MB available), 47GB disk (17GB used, 38%)
+**Resources:** 1GB RAM (497MB available) + 2GB swap, 47GB disk (19GB used, 42%)
 
 **Running services:**
 - News Lancashire pipeline (cron, every 30 min)
@@ -55,16 +55,20 @@
 0 6 * * 1     ECA Leads weekly CCOD check
 ```
 
-**News Lancashire Pipeline (v4.1, audited 9 Feb 2026):**
-- 787 articles in SQLite DB, 655 exported (after R1 fix)
-- Hugo site (NOT Astro) — builds 962 pages in ~14s
+**News Lancashire Pipeline (v4.1, audited 9 Feb 2026, fixes applied 9 Feb night):**
+- 963 articles in SQLite DB (802 exported), updates every 30 min
+- Hugo site (NOT Astro) — builds 1200 HTML pages in ~15s
 - 9 pipeline phases, every 30 min via cron
-- AI: Kimi K2.5 → DeepSeek fallback (keys in `~/.env`)
-- Git repo initialised: `~/newslancashire/` (needs push to GitHub)
+- AI LLM chain (10 Feb): **Gemini 2.5 Flash** (primary, free) → Groq (blocked from VPS) → Kimi K2.5 → DeepSeek (dead)
+- Rate limiter: `scripts/llm_rate_limiter.py` tracks daily req + token usage per provider in `logs/llm_usage.json`
+- Free tier budget: ~80 calls/day × 2100 tokens ≈ 168K tokens/day (Gemini allows 250K)
+- **Kimi content filter handling** — 400 errors from sensitive articles now handled gracefully (tries individually, skips filtered)
+- **Date normalisation on INSERT** — All dates normalised to ISO 8601 on insert (143 legacy dates fixed)
+- Git repo initialised: `~/newslancashire/` (3 commits, no remote — needs push to GitHub)
 - Planning/council minutes scrapers disabled (broken endpoints)
 - Per-phase error handling (no more cascade failures)
-- All dates normalised to ISO 8601
 - **Deploy:** `deploy_newslancashire.sh` runs from vps-main (10am cron) — SSH builds Hugo on vps-news, rsyncs output to vps-main, wrangler deploys to Cloudflare Pages from vps-main (avoids OOM on 1GB vps-news)
+- **Deploy tested and working** (9 Feb 2026 night) — 1426 files deployed successfully
 
 **Resolved (9 Feb 2026):**
 - ~~`openclaw-gateway.service` — OOM-crashed, orphaned~~ → Cleaned up with `systemctl reset-failed`
@@ -100,6 +104,7 @@
 0 8 * * *     Auto pipeline (ETL + analysis + articles if new data detected)
 0 9 * * *     Article pipeline (article_pipeline.py --max-articles 2 — data-driven topic discovery + LLM generation)
 0 10 * * *    News Lancashire deploy (deploy_newslancashire.sh — Hugo build on vps-news → wrangler from vps-main)
+30 10 * * *   News Burnley deploy (deploy_newsburnley.sh — rsync from vps-news → wrangler from vps-main)
 0 4 1 * *     Councillor scraper
 0 */6 * * *   vps-news health check + health_check.sh
 0 0 * * 0     Log_rotation (truncates openclaw, clawd-worker, openagents, ollama logs)
@@ -142,12 +147,25 @@
 | clawd-worker | Data processing slave | Free (Python) | Running on vps-main, healthy |
 
 ### Model Hierarchy (cheapest first)
-1. **Kimi K2.5** (free) — Default for all Octavian tasks
-2. **DeepSeek V3** (free/cheap) — Fallback if Kimi is down
-3. **qwen2.5:7b** (free, local) — Running via Ollama on vps-main
-4. **Haiku** (~$0.25/M input) — Only if free models can't handle it
-5. **Sonnet** (~$3/M input) — Only when explicitly requested
-6. **Opus** (~$15/M input) — Never use automatically, only when Tom asks
+1. **Gemini 2.5 Flash** (free) — Primary for News Lancashire pipeline (rewriter, analyzer, digest)
+2. **Kimi K2.5** (trial credits) — Default for Octavian tasks, fallback for News Lancashire
+3. **Groq Llama 3.3 70B** (free but blocked from VPS IPs) — Only works from residential IPs
+4. **DeepSeek V3** (credits exhausted) — HTTP 402, needs top-up
+5. **qwen2.5:7b** (free, local) — Running via Ollama on vps-main
+6. **Haiku** (~$0.25/M input) — Only if free models can't handle it
+7. **Sonnet** (~$3/M input) — Only when explicitly requested
+8. **Opus** (~$15/M input) — Never use automatically, only when Tom asks
+
+### News Lancashire LLM Fallback Chain (10 Feb 2026)
+```
+Gemini 2.5 Flash → Groq Llama 3.3 70B → Kimi K2.5 → DeepSeek V3
+   (primary)         (blocked from VPS)    (trial $)    (dead, 402)
+```
+- Rate limiter: `llm_rate_limiter.py` — daily request + token tracking, 90% safety margins
+- Usage file: `logs/llm_usage.json` (auto-resets daily)
+- Gemini free tier: 500 req/day, 250K tokens/day (pipeline uses ~80 req, ~170K tokens)
+- Groq free tier: 1000 req/day, 100K tokens/day — but Cloudflare blocks VPS IPs (error 1010)
+- Keys in `/home/ubuntu/newslancashire/.env`: GEMINI_API_KEY, GROQ_API_KEY, MOONSHOT_API_KEY, DEEPSEEK_API_KEY
 
 ### Task Routing
 
@@ -156,6 +174,7 @@
 | Complex coding, architecture | Claude Code | Multi-file editing, deep reasoning |
 | Quick questions, chat | Octavian (WhatsApp) | Free via Kimi |
 | Content generation, articles | Octavian | Kimi handles this fine |
+| News Lancashire AI (rewrite, analysis, digest) | Cron on vps-news | Gemini 2.5 Flash (free), auto every 30 min |
 | ETL pipeline runs | clawd-worker / Clawdbot | SSH to vps-news, zero credits |
 | Companies House batch | Cron on vps-news | Monthly, automated |
 | Server maintenance | Claude Code | SSH + multi-step |
@@ -212,8 +231,10 @@
 | Police Data | `data.police.uk/api/` | None | Free | police_etl.py |
 | GOV.UK MHCLG | `assets.publishing.service.gov.uk` | None | Free (ODS downloads) | govuk_budgets.py |
 | Postcodes.io | `postcodes.io/postcodes/` | None | Free | MyArea.jsx (ward lookup, councillor matching) |
-| Kimi (Moonshot) | `api.moonshot.cn` | Bearer token | Free tier | Clawdbot (octavian.json) |
-| DeepSeek | `api.deepseek.com` | Bearer token | Free/cheap | Clawdbot fallback |
+| Gemini (Google) | `generativelanguage.googleapis.com/v1beta/openai/` | Bearer token | Free (500 req/day, 250K tokens/day) | News Lancashire pipeline (primary) |
+| Groq | `api.groq.com/openai/v1/` | Bearer token | Free (1000 req/day) — **blocked from VPS IPs** | Fallback (unusable from Oracle/Hostinger) |
+| Kimi (Moonshot) | `api.moonshot.ai` | Bearer token | Trial credits | Clawdbot + News Lancashire fallback |
+| DeepSeek | `api.deepseek.com` | Bearer token | Credits exhausted (402) | Dead — needs top-up |
 
 **Register for CH API key:** https://developer.company-information.service.gov.uk/manage-applications
 **CH API docs:** https://developer-specs.company-information.service.gov.uk/
@@ -233,4 +254,8 @@
 2. ~~**openclaw on vps-main**~~ — ✅ Fixed 9 Feb 2026. Disabled broken Discord (Gateway 4014) and Telegram (409 conflict) channels. WhatsApp-only now, running clean.
 3. **API key rotation needed** — Exposed keys (OpenAI, Kimi, DeepSeek, Companies House) were removed from .claude/settings.local.json but need rotating on provider dashboards.
 4. **vps-news is memory-constrained** — Only 1GB RAM, currently at 50% usage. Cannot take on additional workloads. **Do NOT run Node.js/wrangler on vps-news** — causes OOM. Wrangler deploys must run from vps-main (16GB).
-5. **vps-news OOM vulnerability** — Running `npx wrangler pages deploy` directly on vps-news caused OOM crash (9 Feb 2026), making server unresponsive. Fix: `deploy_newslancashire.sh` now runs wrangler from vps-main instead. Recovery: reboot via Oracle Cloud web console.
+5. **vps-news OOM vulnerability** — Running `npx wrangler pages deploy` directly on vps-news caused OOM crash (9 Feb 2026), making server unresponsive. Fix: `deploy_newslancashire.sh` and `deploy_newsburnley.sh` now run wrangler from vps-main instead. `news_burnley_sync.py` wrangler call disabled. 2GB swap added to prevent future OOM. Recovery: reboot via Oracle Cloud web console.
+6. ~~**DeepSeek API credits exhausted**~~ — Returns HTTP 402. Mitigated: Gemini 2.5 Flash is now primary (free), Kimi K2.5 is fallback. DeepSeek is last resort (dead until topped up).
+7. **Kimi content filter** — Kimi K2.5 rejects batches containing sensitive content (HTTP 400 "content_filter"). Fixed in ai_rewriter.py, ai_analyzer.py, ai_digest_generator.py to try articles individually and skip filtered ones.
+8. ~~**newslancashire repo has no GitHub remote**~~ — ✅ Fixed (10 Feb 2026). 4 commits pushed to `tompickup23/newslancashire`. Deploy key added, remote set, branch `master`.
+9. **Groq blocked from VPS IPs** — Groq uses Cloudflare bot detection (error 1010) that blocks Oracle Cloud and Hostinger server IPs. Only works from residential IPs. Cannot be used as server-side fallback.

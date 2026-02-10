@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 9 February 2026 (late evening session)
+> Last updated: 10 February 2026 (free LLM providers live, pipeline audit updated)
 
 ## Priority 1 — Broken / Blocking
 
@@ -23,14 +23,62 @@
 - [ ] **Rotate exposed API keys** — OpenAI, Kimi, DeepSeek, Companies House keys were in .claude/settings.local.json (now removed). Need rotating on provider dashboards.
 - [x] **Fix council_etl.py `or True` bug** — ✅ Done (9 Feb 2026). Removed redundant jurisdiction filter — CH API only returns UK companies. Previous filter had overly broad `or not country` clause.
 - [x] **Fix police_etl.py import bug** — ✅ Already fixed. urllib.parse is correctly imported at line 30 (top of file). The bug was resolved in a prior session.
-- [x] **Autonomous article pipeline** — ✅ Done (9 Feb 2026). New article_pipeline.py: data-driven topic discovery from spending data → LLM generation (Kimi K2.5 → Cerebras → Groq → DeepSeek failover) → fact verification → output to articles dir. Cron 9am daily on vps-main, 2 articles/council/run. Old mega_article_writer disabled (28/28 queue exhausted). Generates supplier concentration, department spending, DOGE findings, spending trends articles.
+- [x] **Autonomous article pipeline** — ✅ Done (9 Feb 2026). New article_pipeline.py: data-driven topic discovery from spending data → LLM generation (Kimi K2.5 → Cerebras → Groq → DeepSeek failover) → fact verification → output to articles dir. Cron 9am daily on vps-main, 2 articles/council/run. Old mega_article_writer disabled (28/28 queue exhausted). Generates supplier concentration, department spending, DOGE findings, spending trends articles. **Auto-commit added (9 Feb night):** articles now auto-committed + pushed to trigger CI/CD deploy.
 - [x] **Rebuild newslancashire.co.uk deploy** — ✅ Done (9 Feb 2026). Site is actually Hugo (not Astro). Pipeline: generate_hugo_content.py → hugo --minify → deploy via wrangler. Deploy moved from vps-news (1GB OOM risk) to vps-main (16GB). deploy_newslancashire.sh: SSH build on vps-news → rsync to vps-main → wrangler deploy. Cron 10am daily. 962 pages built from 796 articles.
-- [ ] **Push newslancashire repo to GitHub** — Git repo initialised on vps-news (2 commits). Need to create `tompickup23/newslancashire` private repo on GitHub, add SSH deploy key, push. One-time 5-minute task.
+- [x] **Push newslancashire repo to GitHub** — ✅ Done (10 Feb 2026). 4 commits pushed to `tompickup23/newslancashire` (private). Deploy key added (vps-news SSH key, write access). Remote: `origin git@github.com:tompickup23/newslancashire.git`. Branch: `master`.
+- [x] **Switch to free LLM providers** — ✅ Done (10 Feb 2026). Gemini 2.5 Flash is now primary (free, 500 req/day, 250K tokens/day). Fallback chain: Gemini → Groq (blocked from VPS) → Kimi → DeepSeek (dead). Rate limiter (`llm_rate_limiter.py`) tracks daily usage per provider. All 3 pipeline scripts patched: ai_rewriter.py, ai_analyzer.py, ai_digest_generator.py. Tested: 16 digests generated via Gemini in single run. Pipeline uses ~80 req/day, ~170K tokens — well within free tier.
+- [ ] ~~**Top up DeepSeek API credits**~~ — Mitigated: Gemini is free primary. DeepSeek still dead (402) but no longer needed.
+- [ ] **Check Moonshot/Kimi credit balance** — api.moonshot.ai working but may have limited credits. Check at platform.moonshot.ai. Now only used as fallback (not primary).
 - [ ] **News Lancashire Tier 2 improvements** — AI writing quality: switch to single-article rewrites, better prompts, rewrite validation, humaniser pass. See HANDOVER-NEWSLANCASHIRE.md for full list.
 - [x] **Commit accumulated work** — ✅ Done (9 Feb 2026). 3 clean commits: docs/CI/CD/git hygiene, data across 4 councils, frontend features (Web Worker, DogeInvestigation, tests). Pushed to main, CI/CD auto-deployed.
 - [ ] **Update newsburnley.co.uk DNS** — CNAME set to newsburnley.pages.dev. Remove old A records pointing to aws-1 (51.20.51.127). Waiting for Cloudflare domain verification.
+- [x] **Fix News Burnley deploy** — ✅ Done (9 Feb 2026). `news_burnley_sync.py` wrangler call disabled on vps-news (caused OOM). New `deploy_newsburnley.sh` on vps-main: rsync from vps-news → wrangler deploy. Cron 10:30am daily. 50 Burnley-filtered articles.
+- [x] **Add swap to vps-news** — ✅ Done (9 Feb 2026). 2GB swap file (`/swapfile`) added and made permanent in fstab. Swappiness=60. Prevents future OOM crashes from rogue processes.
+- [x] **Recover vps-news from OOM crash** — ✅ Done (9 Feb 2026). Force rebooted via Oracle Cloud Console. All crons intact (news pipeline, CH matching, police ETL, ECA leads). 958 articles in DB.
 
-## Priority 4 — Content & Features
+## Priority 4 — Procurement Section (NEW)
+
+> **Goal:** Add a procurement intelligence section to AI DOGE, giving residents visibility into how councils award contracts, who wins them, and whether procurement follows best practice.
+
+### Phase 1 — Research & Planning
+- [ ] **Research procurement APIs:**
+  - [Find a Tender Service](https://find-a-tender.service.gov.uk) — UK public procurement notices (replaced OJEU post-Brexit). Publishes contract notices, award notices, pipeline notices for above-threshold contracts.
+  - [Contracts Finder](https://contractsfinder.service.gov.uk) — Mandatory for English public sector contracts >£10k (goods/services) or >£25k (sub-central). REST API available.
+  - [BidStats.uk](https://bidstats.uk) — Aggregator/analytics layer over UK procurement data. May provide enriched/historical data.
+  - Document API endpoints, auth requirements, rate limits, data formats (OCDS?), coverage for East Lancashire councils
+- [ ] **Research relevant laws & processes:**
+  - Procurement Act 2023 (replaced Public Contracts Regs 2015, in force from Oct 2024)
+  - Transparency requirements: pipeline notices, contract details, KPI publication
+  - Local Government Transparency Code 2015 (procurement-related requirements)
+  - Freedom of Information Act 2000 (procurement-related requests)
+  - Late Payment of Commercial Debts regulations
+  - Social Value Act 2012 (procurement obligations)
+- [ ] **Analyse data structures:**
+  - Open Contracting Data Standard (OCDS) — international standard for procurement data
+  - Contracts Finder schema (planning, tender, award stages)
+  - Map available fields to useful transparency metrics (contract value, duration, extensions, single-bidder %, local supplier %, SME %, award method)
+- [ ] **Design features & pages:**
+  - Procurement Overview dashboard (total contracts, open tenders, recent awards)
+  - Contract Explorer (searchable/filterable table of all contracts)
+  - Supplier Win Rates (which companies win most often, single-bidder alerts)
+  - Procurement Timeline (pipeline → tender → award → delivery)
+  - Contract Value Analysis (distribution, outliers, comparison across councils)
+  - Compliance Checks (DOGE-style: late publications, missing data, threshold avoidance)
+  - Integration with existing Spending page (link payments to contracts)
+- [ ] **Plan implementation architecture:**
+  - New ETL script: `procurement_etl.py` (Contracts Finder + Find a Tender → procurement.json)
+  - Data format: procurement.json per council + shared cross-council file
+  - React pages: ProcurementOverview.jsx, ContractExplorer.jsx, SupplierWins.jsx
+  - Config flags: add `procurement` to config.json `data_sources`
+
+### Phase 2 — Build (after research complete)
+- [ ] **Build procurement ETL** — Fetch from Contracts Finder + Find a Tender APIs, normalise to internal schema
+- [ ] **Build procurement React pages** — Overview, Explorer, Supplier analysis
+- [ ] **DOGE procurement analysis** — Threshold avoidance, single-bidder contracts, late publication, contract splitting
+- [ ] **Cross-reference with spending data** — Link contract awards to actual payments in spending.json
+- [ ] **Deploy and test** — Add to CI/CD, verify all 4 councils
+
+## Priority 5 — Content & Features
 
 - [ ] **Write Hyndburn articles** — 20 published, 8 from MASTERPLAN. article_pipeline.py will auto-generate 4 more data-driven topics.
 - [ ] **Write Pendle articles** — 19 published, 8 from MASTERPLAN. article_pipeline.py will auto-generate 4 more data-driven topics.
@@ -99,3 +147,16 @@
 - [x] Fixed useData.test.js: 2 pre-existing test failures (fetch error timeout + cache race condition) (9 Feb 2026)
 - [x] Fixed council_etl.py CH jurisdiction filter: removed redundant `or not country` clause (9 Feb 2026)
 - [x] Added Cloudflare Web Analytics: CSP updated, vite.config.js injection, deploy.yml env var, Legal.jsx updated (9 Feb 2026)
+- [x] Recovered vps-news from OOM crash: force rebooted via Oracle Cloud Console, all crons intact (9 Feb 2026)
+- [x] Added 2GB swap to vps-news: `/swapfile`, permanent in fstab, swappiness=60 (9 Feb 2026)
+- [x] Fixed News Burnley deploy: disabled wrangler in news_burnley_sync.py, created deploy_newsburnley.sh on vps-main, cron 10:30am (9 Feb 2026)
+- [x] Updated all docs: INFRASTRUCTURE.md (swap, crons, article count), MEMORY.md (News Burnley, swap, Oracle Console) (9 Feb 2026)
+- [x] Article pipeline auto-commit: git_commit_and_push() added to article_pipeline.py, tested (9 Feb 2026 night)
+- [x] Fixed article images: remapped 6 broken refs, added onError handlers in News.jsx + ArticleView.jsx (9 Feb 2026 night)
+- [x] Fixed deploy_newslancashire.sh: removed NVM dependency (Node.js is global on vps-main) (9 Feb 2026 night)
+- [x] Fixed deploy_newsburnley.sh: removed hardcoded Cloudflare credentials (9 Feb 2026 night)
+- [x] Fixed Kimi content filter: ai_rewriter.py now tries articles individually when batch is filtered (9 Feb 2026 night)
+- [x] Fixed ai_analyzer.py model: changed kimi-latest to kimi-k2.5 (9 Feb 2026 night)
+- [x] Fixed date normalisation on INSERT: normalise_date_iso() in crawler_v3.py insert_article(), 143 legacy dates fixed (9 Feb 2026 night)
+- [x] Full end-to-end deploy test: News Lancashire (1426 files) + News Burnley (2 files) deployed to Cloudflare Pages successfully (9 Feb 2026 night)
+- [x] Added procurement section to TODO.md: API research, law review, data structures, feature planning (9 Feb 2026 night)
