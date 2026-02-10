@@ -5,28 +5,34 @@
       "label": "Suppliers with Current Red Flags",
       "detail": "23 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
       "severity": "info",
-      "link": "/spending"
+      "link": "/spending",
+      "confidence": "medium"
     },
     {
-      "value": "£2.5M",
+      "value": "£2.3M",
       "label": "Likely Duplicate Payments",
-      "detail": "1283 high-confidence duplicate groups with same supplier, amount, date and reference number",
+      "detail": "523 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 769 CSV republication artifacts)",
       "severity": "critical",
-      "link": "/spending"
+      "link": "/spending",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments."
     },
     {
       "value": "£197.7K",
       "label": "Suspected Split Payments",
       "detail": "3 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
-      "link": "/spending"
+      "link": "/spending",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions."
     },
     {
       "value": "£20.1M",
       "label": "Round-Number Payments (>£5K)",
       "detail": "774 exact round-number payments over £5,000 — may indicate estimates rather than invoiced amounts",
       "severity": "info",
-      "link": "/spending"
+      "link": "/spending",
+      "confidence": "low"
     },
     {
       "value": "2.7x",
@@ -34,7 +40,8 @@
       "detail": "Financial Services spent 2.7x their monthly average in March. Note: UK councils operate on April–March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
       "severity": "info",
       "link": "/spending",
-      "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years’ March figures for meaningful analysis."
+      "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years’ March figures for meaningful analysis.",
+      "confidence": "medium"
     },
     {
       "value": "3.3% dev",
@@ -42,7 +49,8 @@
       "detail": "Digit distribution across 33,562 transactions shows χ²=1227.85 (statistically significant due to large sample size), but max digit deviation is only 3.3% — within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
       "severity": "info",
       "link": "/spending",
-      "context_note": "Chi-squared values on samples of 33,562+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.3%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending."
+      "context_note": "Chi-squared values on samples of 33,562+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.3%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending.",
+      "confidence": "low"
     }
   ],
   "key_findings": [
@@ -53,7 +61,8 @@
       "description": "Averaging £159 per transaction — the council's most frequent supplier",
       "link": "/spending?supplier=FUELMATE LTD",
       "link_text": "See all transactions →",
-      "severity": "info"
+      "severity": "info",
+      "confidence": "high"
     },
     {
       "icon": "users",
@@ -62,7 +71,8 @@
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices →",
-      "severity": "info"
+      "severity": "info",
+      "confidence": "high"
     },
     {
       "icon": "trending-up",
@@ -72,12 +82,13 @@
       "link": "/spending?supplier=EDF ENERGY",
       "link_text": "Investigate →",
       "severity": "info",
-      "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details."
+      "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details.",
+      "confidence": "low"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T01:29:49.942939",
+  "generated": "2026-02-10T01:37:04.655616",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

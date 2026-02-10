@@ -266,7 +266,10 @@ function DogeInvestigation() {
             <Link key={i} to={f.link || '/spending'} className={`doge-finding-card ${f.severity || 'info'}`}>
               <div className="finding-severity-bar" style={{ background: severityColors[f.severity] || severityColors.info }} />
               <span className="doge-finding-value">{f.value}</span>
-              <span className="doge-finding-label">{f.label}</span>
+              <span className="doge-finding-label">
+                {f.label}
+                {f.confidence && <ConfidenceBadge level={f.confidence} />}
+              </span>
               <span className="doge-finding-detail">{f.detail}</span>
               {f.context_note && (
                 <span className="doge-finding-context">
@@ -514,6 +517,7 @@ function DogeInvestigation() {
               <Link key={i} to={f.link || '/spending'} className={`key-finding-card ${f.severity || 'info'}`}>
                 <div className="kf-header">
                   <span className={`kf-badge ${f.severity || 'info'}`}>{f.badge}</span>
+                  {f.confidence && <ConfidenceBadge level={f.confidence} />}
                 </div>
                 <h3>{f.title}</h3>
                 <p>{f.description}</p>

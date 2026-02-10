@@ -93,7 +93,7 @@ def analyse_duplicates(all_spending):
         # Group by supplier + amount + date
         groups = defaultdict(list)
         for r in tx:
-            supplier = r.get("supplier_canonical", r.get("supplier", ""))
+            supplier = r.get("supplier_canonical", r.get("supplier", "")) or ""
             # Skip excluded suppliers
             if supplier.upper() in EXCLUDED_SUPPLIERS:
                 continue
@@ -130,7 +130,30 @@ def analyse_duplicates(all_spending):
 
             # High confidence: SAME reference appears multiple times
             # (meaning the exact same transaction line appears twice)
-            true_dupes = {ref: rs for ref, rs in refs.items() if len(rs) > 1 and ref != "no_ref"}
+            true_dupes_raw = {ref: rs for ref, rs in refs.items() if len(rs) > 1 and ref != "no_ref"}
+
+            # FILTER 2b: CSV republication detection
+            # If same ref appears exactly 2x with identical departments, this is
+            # almost certainly a quarterly CSV overlap (same transaction published
+            # in two overlapping files). Only flag as duplicate if 3+ copies or
+            # if records have different source files (when available).
+            true_dupes = {}
+            csv_republication = 0
+            for ref, rs in true_dupes_raw.items():
+                depts = set(r.get("department", "") for r in rs)
+                source_files = set(r.get("_source_file", "") for r in rs if r.get("_source_file"))
+                # If exactly 2 copies with same dept: likely CSV republication
+                if len(rs) == 2 and len(depts) <= 1:
+                    # If we have source file info and they differ: definitely CSV overlap
+                    if len(source_files) > 1:
+                        csv_republication += 1
+                        continue
+                    # No source file info: still flag as CSV republication if depts match
+                    # This is the common case for Burnley/Rossendale
+                    csv_republication += 1
+                    continue
+                true_dupes[ref] = rs
+            filtered_csv_overlap += csv_republication
 
             # FILTER 3: If all references are DIFFERENT, this is a batch payment
             # (different reference numbers = deliberately separate transactions)
@@ -206,20 +229,30 @@ def analyse_duplicates(all_spending):
 # ═══════════════════════════════════════════════════════════════════════
 
 def analyse_cross_council_pricing(all_spending, taxonomy):
-    """Compare prices when the same supplier serves multiple councils."""
-    # Build per-council supplier profiles
+    """Compare prices when the same supplier serves multiple councils.
+
+    Uses common-year comparability: only compares transactions from financial
+    years where BOTH councils have data for the supplier. This prevents unfair
+    comparisons between e.g. 10-year and 5-year datasets.
+    """
+    # Build per-council, per-year supplier profiles
     council_suppliers = {}
+    council_supplier_by_year = {}  # {council: {supplier: {year: [amounts]}}}
     for council_id, records in all_spending.items():
         tx = [r for r in records if r.get("amount", 0) > 0]
         suppliers = defaultdict(lambda: {"total": 0, "count": 0, "amounts": [], "years": set()})
+        by_year = defaultdict(lambda: defaultdict(list))
         for r in tx:
-            s = r.get("supplier_canonical", r.get("supplier", ""))
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
             suppliers[s]["total"] += r["amount"]
             suppliers[s]["count"] += 1
             suppliers[s]["amounts"].append(r["amount"])
-            if r.get("financial_year"):
-                suppliers[s]["years"].add(r["financial_year"])
+            fy = r.get("financial_year", "")
+            if fy:
+                suppliers[s]["years"].add(fy)
+                by_year[s][fy].append(r["amount"])
         council_suppliers[council_id] = suppliers
+        council_supplier_by_year[council_id] = by_year
 
     # Find suppliers appearing in 2+ councils
     all_supplier_names = set()
@@ -229,16 +262,54 @@ def analyse_cross_council_pricing(all_spending, taxonomy):
     shared_suppliers = []
     for name in sorted(all_supplier_names):
         councils_with = {}
+        # Find common years across all councils that have this supplier
+        all_years_per_council = []
+        for council_id in council_supplier_by_year:
+            if name in council_supplier_by_year[council_id]:
+                all_years_per_council.append(set(council_supplier_by_year[council_id][name].keys()))
+
+        # Common years = intersection of all councils' year sets for this supplier
+        common_years = set.intersection(*all_years_per_council) if len(all_years_per_council) >= 2 else set()
+
         for council_id, suppliers in council_suppliers.items():
             if name in suppliers:
                 s = suppliers[name]
-                councils_with[council_id] = {
-                    "total": round(s["total"], 2),
-                    "count": s["count"],
-                    "avg_transaction": round(s["total"] / s["count"], 2) if s["count"] > 0 else 0,
-                    "median_transaction": round(sorted(s["amounts"])[len(s["amounts"]) // 2], 2) if s["amounts"] else 0,
-                    "years_active": len(s["years"]),
-                }
+                # If we have common years, compute stats from common years only
+                if common_years and name in council_supplier_by_year[council_id]:
+                    by_year = council_supplier_by_year[council_id][name]
+                    common_amounts = []
+                    for yr in common_years:
+                        common_amounts.extend(by_year.get(yr, []))
+                    if common_amounts:
+                        total = sum(common_amounts)
+                        count = len(common_amounts)
+                        councils_with[council_id] = {
+                            "total": round(total, 2),
+                            "count": count,
+                            "avg_transaction": round(total / count, 2),
+                            "median_transaction": round(sorted(common_amounts)[len(common_amounts) // 2], 2),
+                            "years_active": len(s["years"]),
+                            "common_years": len(common_years),
+                        }
+                    else:
+                        # Fallback: use all data
+                        councils_with[council_id] = {
+                            "total": round(s["total"], 2),
+                            "count": s["count"],
+                            "avg_transaction": round(s["total"] / s["count"], 2) if s["count"] > 0 else 0,
+                            "median_transaction": round(sorted(s["amounts"])[len(s["amounts"]) // 2], 2) if s["amounts"] else 0,
+                            "years_active": len(s["years"]),
+                            "common_years": 0,
+                        }
+                else:
+                    councils_with[council_id] = {
+                        "total": round(s["total"], 2),
+                        "count": s["count"],
+                        "avg_transaction": round(s["total"] / s["count"], 2) if s["count"] > 0 else 0,
+                        "median_transaction": round(sorted(s["amounts"])[len(s["amounts"]) // 2], 2) if s["amounts"] else 0,
+                        "years_active": len(s["years"]),
+                        "common_years": 0,
+                    }
         if len(councils_with) >= 2:
             # Calculate price disparity
             avgs = [v["avg_transaction"] for v in councils_with.values()]
@@ -673,6 +744,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Paid During Active Breaches",
                 "detail": f"{confirmed['suppliers']} suppliers received payments while in breach of Companies Act — including {comp['critical']['count']} critical and {comp['high']['count']} high severity. Temporally verified against payment dates.",
                 "severity": "critical" if comp["critical"]["count"] > 0 else "warning",
+                "confidence": "high",
                 "link": "/spending",
             })
 
@@ -689,6 +761,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                         "link": f"/spending?supplier={f['supplier']}",
                         "link_text": "View payments →",
                         "severity": "alert" if f["max_severity"] == "critical" else "warning",
+                        "confidence": "high",
                     })
         elif comp["total_flagged_suppliers"] > 0:
             findings.append({
@@ -696,6 +769,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Suppliers with Current Red Flags",
                 "detail": f"{comp['total_flagged_suppliers']} current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
                 "severity": "info",
+                "confidence": "medium",
                 "link": "/spending",
             })
 
@@ -703,11 +777,14 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
     if council_id in duplicates:
         dup = duplicates[council_id]
         if dup["high_confidence"] > 0:
+            csv_note = f" (after filtering {dup['filtered_csv_overlaps']} CSV republication artifacts)" if dup.get("filtered_csv_overlaps", 0) > 0 else ""
             findings.append({
                 "value": fmt_gbp(dup["high_confidence_value"]),
                 "label": "Likely Duplicate Payments",
-                "detail": f"{dup['high_confidence']} high-confidence duplicate groups with same supplier, amount, date and reference number",
-                "severity": "critical",
+                "detail": f"{dup['high_confidence']} high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies){csv_note}",
+                "severity": "critical" if dup["high_confidence_value"] > 50000 else "warning",
+                "confidence": "medium",
+                "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
                 "link": "/spending",
             })
         if dup["medium_confidence"] > 0:
@@ -716,6 +793,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Possible Duplicate Payments",
                 "detail": f"{dup['medium_confidence']} medium-confidence groups (same supplier/amount/date, different references)",
                 "severity": "warning",
+                "confidence": "low",
                 "link": "/spending",
             })
 
@@ -729,6 +807,8 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Suspected Split Payments",
                 "detail": f"{pat['split_payments']['total_suspects']} instances of 3+ payments just below approval thresholds in the same week",
                 "severity": "warning",
+                "confidence": "low",
+                "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
                 "link": "/spending",
             })
 
@@ -738,6 +818,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Round-Number Payments (>£5K)",
                 "detail": f"{pat['round_numbers']['count']} exact round-number payments over £5,000 — may indicate estimates rather than invoiced amounts",
                 "severity": "info",
+                "confidence": "low",
                 "link": "/spending",
             })
 
@@ -750,6 +831,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Year-End Spending Pattern",
                 "detail": f"{dept_name} spent {top_spike['spike_ratio']:.1f}x their monthly average in March ({fmt_gbp(top_spike['excess'])} above normal). Note: UK councils operate on April–March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
                 "severity": spike_severity,
+                "confidence": "medium",
                 "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years' March figures for meaningful analysis.",
                 "link": "/spending",
             })
@@ -765,6 +847,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "link": f"/spending?supplier={top_freq['supplier']}",
                 "link_text": "See all transactions →",
                 "severity": "info",
+                "confidence": "high",
             })
 
     # ── Cross-council findings ──
@@ -787,6 +870,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "link": "/spending",
                 "link_text": "Compare prices →",
                 "severity": "info",
+                "confidence": "high",
             })
 
         # High disparity finding — only meaningful comparisons (3+ txns each side, <10,000%)
@@ -800,20 +884,23 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
             worst = high_disp[0]
             h_council, h_data = worst["highest_avg"]
             l_council, l_data = worst["lowest_avg"]
+            common_yr_count = h_data.get("common_years", 0)
+            year_note = f" Compared using {common_yr_count} common financial year{'s' if common_yr_count != 1 else ''}." if common_yr_count > 0 else ""
             key_findings.append({
                 "icon": "trending-up",
                 "badge": "Price Gap",
                 "title": f"{worst['supplier']}: {worst['avg_disparity_pct']:.0f}% price gap between councils",
                 "description": (
                     f"{h_council.title()} pays {fmt_gbp(h_data['avg_transaction'])} avg vs "
-                    f"{l_council.title()} {fmt_gbp(l_data['avg_transaction'])} (both with 3+ transactions). "
+                    f"{l_council.title()} {fmt_gbp(l_data['avg_transaction'])} (both with 3+ transactions).{year_note} "
                     f"Price differences may reflect different service scope, contract terms, or volumes "
                     f"rather than overcharging — manual review recommended."
                 ),
-                "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details.",
+                "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
                 "link": f"/spending?supplier={worst['supplier']}",
                 "link_text": "Investigate →",
                 "severity": "info",
+                "confidence": "low",
             })
 
     # ── Benford's Law finding ──
@@ -846,6 +933,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "label": "Benford's Law Analysis" if not practically_significant else "Benford's Law Anomaly",
                 "detail": bf_detail,
                 "severity": bf_severity,
+                "confidence": "medium" if practically_significant else "low",
                 "context_note": f"Chi-squared values on samples of {sample_size:,}+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation ({max_dev}%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending.",
                 "link": "/spending",
             })
@@ -858,6 +946,7 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "link": "/spending",
                 "link_text": "View analysis →",
                 "severity": "info",
+                "confidence": "high",
             })
 
     return {
