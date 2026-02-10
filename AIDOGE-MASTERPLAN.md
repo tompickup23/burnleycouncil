@@ -164,15 +164,15 @@ Add to `burnley-council/hub/index.html`:
 
 ## 6. IMPROVEMENT ROADMAP
 
-### Phase 1: Data Credibility (THIS WEEK)
-| # | Task | Impact | Effort |
+### Phase 1: Data Credibility ✅ COMPLETED (10 Feb 2026)
+| # | Task | Status | Result |
 |---|------|--------|--------|
-| 1.1 | Add confidence levels to all DOGE findings | Prevents credibility damage | 2 hr |
-| 1.2 | Reframe Benford's Law finding with context note | Stops misleading non-technical readers | 30 min |
-| 1.3 | Add service-level caveat to cross-council pricing | Prevents false fraud accusations | 30 min |
-| 1.4 | Fix duplicate count to exclude CSV republication | Reduces £1.2M claim to accurate figure | 1 hr |
-| 1.5 | Add year-end context to March spending spike | Explains normal fiscal behaviour | 30 min |
-| 1.6 | Implement common-year comparability in cross_council | Fair council comparison | 1 hr |
+| 1.1 | Add confidence levels to all DOGE findings | ✅ Done | high/medium/low on every finding + key finding, ConfidenceBadge renders on cards |
+| 1.2 | Reframe Benford's Law finding with context note | ✅ Done | <5% deviation → "Analysis" (info), >5% → "Anomaly" (warning). Only Rossendale flagged |
+| 1.3 | Add service-level caveat to cross-council pricing | ✅ Done | Downgraded to info, context_note explaining limitations added |
+| 1.4 | Fix duplicate count to exclude CSV republication | ✅ Done | Burnley 298→137, Hyndburn 905→334, Pendle 1283→523, Rossendale 1948→521 |
+| 1.5 | Add year-end context to March spending spike | ✅ Done | Renamed "Pattern", fiscal year context, <3x = info |
+| 1.6 | Implement common-year comparability in cross_council | ✅ Done | Only compares overlapping fiscal years per supplier |
 
 ### Phase 2: Frontend Polish (THIS MONTH)
 | # | Task | Impact | Effort |
@@ -318,7 +318,7 @@ Contracts Finder -> procurement_etl.py (NEW) -> procurement.json -> ProcurementO
 |--------|-------|--------|--------|-------|
 | Councils live | 4 | 4 | 6+ | Lancaster + Ribble Valley next |
 | Total articles | 27 | 89 | 120+ | Rossendale needs 14 more |
-| DOGE finding confidence | None | None | All findings rated | Phase 1 priority |
+| DOGE finding confidence | None | **All rated** | All findings rated | ✅ Phase 1 complete |
 | CH match rate | ~20% | ~20% | 60%+ | Fuzzy matching needed |
 | Procurement data | None | None | All 4 councils | Phase 3-4 |
 | Unit tests | 103 | 168 | 200+ | Good trajectory |
@@ -342,5 +342,6 @@ Contracts Finder -> procurement_etl.py (NEW) -> procurement.json -> ProcurementO
 ---
 
 *Plan v3.0 authored: 10 February 2026*
+*Phase 1 completed: 10 February 2026 (6/6 tasks done)*
 *Based on: Full 4-agent codebase audit, live site review, data pipeline analysis, documentation review*
-*Next review: After Phase 1 (data credibility) complete*
+*Next review: After Phase 2 (frontend polish) complete*

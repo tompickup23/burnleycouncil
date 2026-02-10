@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 10 February 2026 (free LLM providers live, pipeline audit updated)
+> Last updated: 10 February 2026 (Phase 1 Data Credibility COMPLETE, starting Phase 2)
 
 ## Priority 1 — Broken / Blocking
 
@@ -160,3 +160,4 @@
 - [x] Fixed date normalisation on INSERT: normalise_date_iso() in crawler_v3.py insert_article(), 143 legacy dates fixed (9 Feb 2026 night)
 - [x] Full end-to-end deploy test: News Lancashire (1426 files) + News Burnley (2 files) deployed to Cloudflare Pages successfully (9 Feb 2026 night)
 - [x] Added procurement section to TODO.md: API research, law review, data structures, feature planning (9 Feb 2026 night)
+- [x] **Phase 1 Data Credibility COMPLETE** — 6/6 tasks done (10 Feb 2026): confidence levels on all findings, Benford's Law reframed, cross-council pricing caveats, CSV duplicate fix (Burnley 298→137, Hyndburn 905→334, Pendle 1283→523, Rossendale 1948→521), year-end context, common-year comparability. 2 commits pushed, CI/CD deployed.
