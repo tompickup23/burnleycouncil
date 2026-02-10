@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
-import { useData } from '../hooks/useData'
+import { useSpendingData } from '../hooks/useSpendingData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate } from '../utils/format'
@@ -31,7 +31,8 @@ function Spending() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
-  const { data: spending, loading, error } = useData('/data/spending.json')
+
+  const { data: allRecords, loading, error, loadedYears, totalYears, progressLoading } = useSpendingData()
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('table')
   const [showFilters, setShowFilters] = useState(true)
@@ -91,7 +92,7 @@ function Spending() {
   }, [councilName])
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
-  const spendingData = useMemo(() => spending || [], [spending])
+  const spendingData = useMemo(() => allRecords || [], [allRecords])
 
   // Extract unique values for filter dropdowns
   const filterOptions = useMemo(() => {
@@ -122,10 +123,10 @@ function Spending() {
       const searchLower = search.toLowerCase()
       result = result.filter(item =>
         item.supplier?.toLowerCase().includes(searchLower) ||
-        item.organisational_unit?.toLowerCase().includes(searchLower) ||
+        item.description?.toLowerCase().includes(searchLower) ||
         item.service_division?.toLowerCase().includes(searchLower) ||
         item.expenditure_category?.toLowerCase().includes(searchLower) ||
-        item.transaction_number?.toLowerCase().includes(searchLower)
+        item.reference?.toLowerCase().includes(searchLower)
       )
     }
 
@@ -300,6 +301,9 @@ function Spending() {
           <h1>Spending Explorer</h1>
           <p className="subtitle">
             Search and analyse {spendingData.length.toLocaleString()} council transactions
+            {progressLoading && totalYears > 0 && (
+              <span className="loading-progress"> — loading year {loadedYears}/{totalYears}</span>
+            )}
           </p>
           <DataFreshness source="Spending data" compact />
         </div>

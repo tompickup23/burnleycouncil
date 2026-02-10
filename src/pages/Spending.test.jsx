@@ -3,15 +3,15 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Spending from './Spending'
 
-vi.mock('../hooks/useData', () => ({
-  useData: vi.fn(),
+vi.mock('../hooks/useSpendingData', () => ({
+  useSpendingData: vi.fn(),
 }))
 
 vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
-import { useData } from '../hooks/useData'
+import { useSpendingData } from '../hooks/useSpendingData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 
 const mockConfig = {
@@ -63,22 +63,25 @@ describe('Spending', () => {
   })
 
   it('shows loading state while data loads', () => {
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    useSpendingData.mockReturnValue({ data: [], loading: true, error: null, loadedYears: 0, totalYears: 0, progressLoading: true })
     renderComponent()
     expect(screen.getByText(/loading spending data/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('fail') })
+    useSpendingData.mockReturnValue({ data: [], loading: false, error: new Error('fail'), loadedYears: 0, totalYears: 0, progressLoading: false })
     renderComponent()
     expect(screen.getByText(/unable to load data/i)).toBeInTheDocument()
   })
 
   it('renders spending page heading with data', () => {
-    useData.mockReturnValue({
+    useSpendingData.mockReturnValue({
       data: mockSpendingData,
       loading: false,
       error: null,
+      loadedYears: 1,
+      totalYears: 1,
+      progressLoading: false,
     })
     renderComponent()
     expect(screen.getByText('Spending Explorer')).toBeInTheDocument()
@@ -86,10 +89,13 @@ describe('Spending', () => {
   })
 
   it('shows search and filter controls', () => {
-    useData.mockReturnValue({
+    useSpendingData.mockReturnValue({
       data: mockSpendingData,
       loading: false,
       error: null,
+      loadedYears: 1,
+      totalYears: 1,
+      progressLoading: false,
     })
     renderComponent()
     expect(screen.getByLabelText(/search spending records/i)).toBeInTheDocument()
@@ -97,7 +103,7 @@ describe('Spending', () => {
   })
 
   it('renders with empty data array without crashing', () => {
-    useData.mockReturnValue({ data: [], loading: false, error: null })
+    useSpendingData.mockReturnValue({ data: [], loading: false, error: null, loadedYears: 0, totalYears: 0, progressLoading: false })
     renderComponent()
     expect(screen.getByText('Spending Explorer')).toBeInTheDocument()
     expect(screen.getByText(/0 council transactions/)).toBeInTheDocument()

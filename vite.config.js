@@ -38,6 +38,57 @@ function councilDataPlugin() {
       }
       console.log(`📋 Copying ${council} data → public/data/`)
       cpSync(srcDir, destDir, { recursive: true, force: true })
+
+      // Optimize spending.json — strip fields not used by the SPA
+      const spendingPath = resolve(destDir, 'spending.json')
+      if (existsSync(spendingPath)) {
+        const KEEP_FIELDS = [
+          'date', 'financial_year', 'quarter', 'month', 'supplier', 'amount',
+          'type', 'capital_revenue', 'service_division', 'expenditure_category',
+          'reference', 'description', 'is_covid_related', 'transaction_number',
+        ]
+        const raw = readFileSync(spendingPath, 'utf-8')
+        const records = JSON.parse(raw)
+        const stripped = records.map(r => {
+          const out = {}
+          for (const k of KEEP_FIELDS) {
+            if (k in r && r[k] != null) out[k] = r[k]
+          }
+          return out
+        })
+
+        // Split into per-year files for progressive loading
+        const byYear = {}
+        const years = []
+        for (const r of stripped) {
+          const fy = r.financial_year || 'unknown'
+          if (!byYear[fy]) { byYear[fy] = []; years.push(fy) }
+          byYear[fy].push(r)
+        }
+        years.sort().reverse() // newest first
+
+        // Write year index
+        const yearIndex = years.map(fy => ({
+          financial_year: fy,
+          count: byYear[fy].length,
+          total_spend: byYear[fy].reduce((s, r) => s + (Number(r.amount) || 0), 0),
+        }))
+        writeFileSync(resolve(destDir, 'spending-index.json'), JSON.stringify(yearIndex))
+
+        // Write per-year chunk files
+        for (const fy of years) {
+          const slug = fy.replace('/', '-')
+          writeFileSync(resolve(destDir, `spending-${slug}.json`), JSON.stringify(byYear[fy]))
+        }
+
+        // Write optimized full file (still needed as fallback)
+        writeFileSync(spendingPath, JSON.stringify(stripped))
+
+        const savedMB = ((raw.length - JSON.stringify(stripped).length) / 1048576).toFixed(1)
+        console.log(`✓ Optimized spending.json: stripped ${records[0] ? Object.keys(records[0]).length - KEEP_FIELDS.length : 0} unused fields, saved ${savedMB}MB`)
+        console.log(`✓ Split into ${years.length} year chunks for progressive loading`)
+      }
+
       console.log(`✓ Council data ready (${council})`)
     },
     writeBundle(options) {
