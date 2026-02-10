@@ -123,7 +123,15 @@ council_etl.py --council {id}    →  spending.json, taxonomy.json, insights.jso
 doge_analysis.py                 →  doge_findings.json, doge_verification.json (all councils)
 ```
 
-Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening.
+Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening, payment cadence, day-of-week patterns.
+
+## Procurement Pipeline
+
+```
+procurement_etl.py --council {id}  →  procurement.json (per council)
+```
+
+Data from Contracts Finder API (gov.uk). Free, no auth. Burnley 78, Hyndburn 104, Pendle 62, Rossendale 90 notices. Most councils publish <15% of contract award values — significant transparency gap.
 
 ## Autonomous Data Pipeline
 
@@ -162,6 +170,8 @@ Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 | Script | Location | Purpose |
 |--------|----------|---------|
 | `scripts/council_etl.py` | vps-news | CSV → spending.json (any council) |
+| `scripts/procurement_etl.py` | local/vps | Contracts Finder API → procurement.json |
+| `scripts/charity_etl.py` | local/vps | Charity Commission API cross-check |
 | `scripts/doge_analysis.py` | vps-main | Cross-council DOGE analysis |
 | `scripts/auto_pipeline.py` | vps-main | Autonomous ETL → analysis → articles |
 | `scripts/data_monitor.py` | vps-main | Check council websites for new data |
@@ -194,10 +204,10 @@ Scripts on vps-news: `council_etl.py`, `police_etl.py`, `ch_cron.sh`
 
 | Council | URL Path | Records | Spend | Threshold | Features |
 |---------|----------|---------|-------|-----------|----------|
-| Burnley | /burnleycouncil/ | 30,580 | £355M | £500+ | Full (spending, budgets, politics, meetings, news, FOI, DOGE) |
-| Hyndburn | /hyndburncouncil/ | 29,804 | £211M | £250+ | Spending, budgets, FOI, DOGE |
-| Pendle | /pendlecouncil/ | 49,741 | £125M | All | Spending, DOGE |
-| Rossendale | /rossendalecouncil/ | 42,536 | £64M | All | Spending, DOGE |
+| Burnley | /burnleycouncil/ | 30,580 | £355M | £500+ | Full (spending, budgets, politics, meetings, news, FOI, DOGE, procurement) |
+| Hyndburn | /hyndburncouncil/ | 29,804 | £211M | £250+ | Spending, budgets, FOI, DOGE, procurement |
+| Pendle | /pendlecouncil/ | 49,741 | £125M | All | Spending, DOGE, procurement |
+| Rossendale | /rossendalecouncil/ | 42,536 | £64M | All | Spending, DOGE, procurement |
 
 ## Repos
 

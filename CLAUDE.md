@@ -69,6 +69,8 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/govuk_budgets.py` | GOV.UK budget data fetch and parse |
 | `burnley-council/scripts/govuk_trends.py` | Revenue trend analysis |
 | `burnley-council/scripts/police_etl.py` | Police crime stats API |
+| `burnley-council/scripts/procurement_etl.py` | Contracts Finder API → procurement.json per council |
+| `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `burnley-council/scripts/article_pipeline.py` | Data-driven article generation (topic discovery + LLM + fact verification) |
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
 
@@ -90,6 +92,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `spending-index.json` | council_etl.py | v3 year manifest + filterOptions (~110KB, gitignored) |
 | `spending-YYYY-YY.json` | council_etl.py | Year-chunked records (~4-8MB each, gitignored) |
 | `config.json` | Manual | Controls features, branding, navigation |
+| `procurement.json` | procurement_etl.py | Contracts Finder procurement notices |
 | `doge_findings.json` | doge_analysis.py | Analysis findings for DOGE page |
 | `doge_verification.json` | doge_analysis.py | Self-verification scores |
 | `articles-index.json` | article_pipeline.py / manual | Article listings (auto-generated daily via cron) |
@@ -149,7 +152,7 @@ doge_analysis.py                 →  doge_findings.json, doge_verification.json
 - Worker (spending.worker.js) auto-detects version: tries v3 first, falls back to v2/v1
 - v3 reduces initial mobile download from 21-40MB to ~4-8MB (latest year only)
 
-Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening.
+Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening, payment cadence, day-of-week patterns.
 
 ## Deployment
 

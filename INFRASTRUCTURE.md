@@ -46,13 +46,15 @@
 
 **Crons:**
 ```
-*/30 * * * *  News Lancashire pipeline_v4.sh
+# PAUSED 10 Feb 2026 — saving LLM credits until upgrades done
+# */30 * * * *  News Lancashire pipeline_v4.sh
 0 2 * * *     Daily backup
 0 3 1 * *     AI DOGE CH matching
 0 4 5 * *     AI DOGE Police ETL
 0 1 3 * *     ECA Leads monthly full pipeline
 0 4 * * *     ECA Leads daily CH enrichment
 0 6 * * 1     ECA Leads weekly CCOD check
+0 3 * * *     ECA Enrichment (100 companies/run)
 ```
 
 **News Lancashire Pipeline (v4.1, audited 9 Feb 2026, fixes applied 9 Feb night):**
@@ -102,9 +104,10 @@
 # 0 6 * * *  DISABLED — mega_article_writer.py (28/28 queue exhausted, replaced by article_pipeline.py)
 0 7 * * *     Data monitor (check councils for new CSVs)
 0 8 * * *     Auto pipeline (ETL + analysis + articles if new data detected)
-0 9 * * *     Article pipeline (article_pipeline.py --max-articles 2 — data-driven topic discovery + LLM generation)
-0 10 * * *    News Lancashire deploy (deploy_newslancashire.sh — Hugo build on vps-news → wrangler from vps-main)
-30 10 * * *   News Burnley deploy (deploy_newsburnley.sh — rsync from vps-news → wrangler from vps-main)
+# PAUSED 10 Feb 2026 — saving LLM credits until upgrades done
+# 0 9 * * *     Article pipeline (article_pipeline.py)
+# 0 10 * * *    News Lancashire deploy (deploy_newslancashire.sh)
+# 30 10 * * *   News Burnley deploy (deploy_newsburnley.sh)
 0 4 1 * *     Councillor scraper
 0 */6 * * *   vps-news health check + health_check.sh
 0 0 * * 0     Log_rotation (truncates openclaw, clawd-worker, openagents, ollama logs)
@@ -228,6 +231,8 @@ Gemini 2.5 Flash → Groq Llama 3.3 70B → Kimi K2.5 → DeepSeek V3
 | API | URL | Auth | Cost | Used By |
 |-----|-----|------|------|---------|
 | Companies House | `api.company-information.service.gov.uk` | HTTP Basic (key as username) | Free (600 req/5min) | council_etl.py `--companies-house` |
+| Contracts Finder | `www.contractsfinder.service.gov.uk/Published/` | None | Free | procurement_etl.py |
+| Charity Commission | `api.charitycommission.gov.uk/register/api` | None | Free (~1000 req/day) | charity_etl.py |
 | Police Data | `data.police.uk/api/` | None | Free | police_etl.py |
 | GOV.UK MHCLG | `assets.publishing.service.gov.uk` | None | Free (ODS downloads) | govuk_budgets.py |
 | Postcodes.io | `postcodes.io/postcodes/` | None | Free | MyArea.jsx (ward lookup, councillor matching) |

@@ -29,7 +29,7 @@
 - [x] **Switch to free LLM providers** — ✅ Done (10 Feb 2026). Gemini 2.5 Flash is now primary (free, 500 req/day, 250K tokens/day). Fallback chain: Gemini → Groq (blocked from VPS) → Kimi → DeepSeek (dead). Rate limiter (`llm_rate_limiter.py`) tracks daily usage per provider. All 3 pipeline scripts patched: ai_rewriter.py, ai_analyzer.py, ai_digest_generator.py. Tested: 16 digests generated via Gemini in single run. Pipeline uses ~80 req/day, ~170K tokens — well within free tier.
 - [ ] ~~**Top up DeepSeek API credits**~~ — Mitigated: Gemini is free primary. DeepSeek still dead (402) but no longer needed.
 - [ ] **Check Moonshot/Kimi credit balance** — api.moonshot.ai working but may have limited credits. Check at platform.moonshot.ai. Now only used as fallback (not primary).
-- [ ] **News Lancashire Tier 2 improvements** — AI writing quality: switch to single-article rewrites, better prompts, rewrite validation, humaniser pass. See HANDOVER-NEWSLANCASHIRE.md for full list.
+- [ ] **News Lancashire Tier 2 improvements** — AI writing quality: switch to single-article rewrites, better prompts, rewrite validation, humaniser pass. See HANDOVER-NEWSLANCASHIRE.md for full list. ⏸️ PAUSED (10 Feb 2026) — all news site pipelines + deploys disabled until upgrades done. Coming Soon pages deployed with password gate (DOGEFather2026!).
 - [x] **Commit accumulated work** — ✅ Done (9 Feb 2026). 3 clean commits: docs/CI/CD/git hygiene, data across 4 councils, frontend features (Web Worker, DogeInvestigation, tests). Pushed to main, CI/CD auto-deployed.
 - [ ] **Update newsburnley.co.uk DNS** — CNAME set to newsburnley.pages.dev. Remove old A records pointing to aws-1 (51.20.51.127). Waiting for Cloudflare domain verification.
 - [x] **Fix News Burnley deploy** — ✅ Done (9 Feb 2026). `news_burnley_sync.py` wrangler call disabled on vps-news (caused OOM). New `deploy_newsburnley.sh` on vps-main: rsync from vps-news → wrangler deploy. Cron 10:30am daily. 50 Burnley-filtered articles.
@@ -139,4 +139,6 @@
   - 3.3 Councillor allowances: Burnley data added to `pay_comparison.json` (other 3 already had it)
   - 3.4 Charity Commission: `charity_etl.py` built with CC API integration, caching, keyword-based charity detection
   - 3.5 Rossendale articles: expanded from 7 to 20 articles covering DOGE findings, procurement, CEO pay, budgets, Benford's Law, etc.
-  - Article audit: Burnley 44, Hyndburn 20, Pendle 19, Rossendale 20 — all with perfect index/content alignment
+  - Article audit: Burnley 46, Hyndburn 22, Pendle 21, Rossendale 22 — all with perfect index/content alignment
+- [x] **ECA CRM push** — Merged haiku handover branch, committed enrichment pipeline, all pushed to `tompickup23/eca` (10 Feb 2026)
+- [x] **Paused News Lancashire + Burnley pipelines** — All 4 crons disabled (vps-news pipeline, vps-main article/NL deploy/NB deploy). Coming Soon password-gated pages deployed to both Cloudflare Pages sites (10 Feb 2026)
