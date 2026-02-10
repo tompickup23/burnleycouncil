@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { preloadData } from '../hooks/useData'
@@ -19,6 +19,7 @@ const navSections = [
       { path: '/spending', icon: PoundSterling, label: 'Spending', requires: 'spending' },
       { path: '/suppliers', icon: Building, label: 'Suppliers', requires: 'spending' },
       { path: '/budgets', icon: PieChart, label: 'Budgets', requires: ['budgets', 'budget_trends'] },
+      { path: '/procurement', icon: FileText, label: 'Contracts', requires: 'procurement' },
       { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
     ],
   },

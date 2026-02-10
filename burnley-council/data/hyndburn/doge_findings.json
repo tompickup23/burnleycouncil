@@ -1,104 +1,112 @@
 {
   "findings": [
     {
-      "value": "£39.8K",
+      "value": "\u00a339.8K",
       "label": "Paid During Active Breaches",
-      "detail": "1 suppliers received payments while in breach of Companies Act — including 0 critical and 1 high severity. Temporally verified against payment dates.",
+      "detail": "1 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 1 high severity. Temporally verified against payment dates.",
       "severity": "warning",
-      "link": "/spending",
-      "confidence": "high"
+      "confidence": "high",
+      "link": "/spending"
     },
     {
-      "value": "£1.7M",
+      "value": "\u00a31.7M",
       "label": "Likely Duplicate Payments",
-      "detail": "334 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 579 CSV republication artifacts)",
+      "detail": "334 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 821 CSV republication artifacts)",
       "severity": "critical",
-      "link": "/spending",
       "confidence": "medium",
-      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments."
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
     },
     {
-      "value": "£127.1K",
+      "value": "\u00a31.1M",
+      "label": "Possible Duplicate Payments",
+      "detail": "562 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3127.1K",
       "label": "Suspected Split Payments",
       "detail": "6 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
-      "link": "/spending",
       "confidence": "low",
-      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions."
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
     },
     {
-      "value": "£7.8M",
-      "label": "Round-Number Payments (>£5K)",
-      "detail": "414 exact round-number payments over £5,000 — may indicate estimates rather than invoiced amounts",
+      "value": "\u00a37.8M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "414 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
-      "link": "/spending",
-      "confidence": "low"
+      "confidence": "low",
+      "link": "/spending"
     },
     {
       "value": "12.9x",
       "label": "Year-End Spending Pattern",
-      "detail": "Regeneration & Housing spent 12.9x their monthly average in March. Note: UK councils operate on April–March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "detail": "Regeneration & Housing spent 12.9x their monthly average in March (\u00a33.7M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
       "severity": "warning",
-      "link": "/spending",
-      "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years’ March figures for meaningful analysis.",
-      "confidence": "medium"
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
     },
     {
       "value": "3.9% dev",
       "label": "Benford's Law Analysis",
-      "detail": "Digit distribution across 25,507 transactions shows χ²=429.42 (statistically significant due to large sample size), but max digit deviation is only 3.9% — within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "detail": "Digit distribution across 25,507 transactions shows \u03c7\u00b2=429.42 (statistically significant due to large sample size), but max digit deviation is only 3.9% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
       "severity": "info",
-      "link": "/spending",
-      "context_note": "Chi-squared values on samples of 25,507+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.9%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending.",
-      "confidence": "low"
+      "confidence": "low",
+      "context_note": "Chi-squared values on samples of 25,507+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.9%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
     }
   ],
   "key_findings": [
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Aj Developments (Nw) Ltd: £39.8K paid during active breach",
+      "title": "Aj Developments (Nw) Ltd: \u00a339.8K paid during active breach",
       "description": "Company facing strike-off; Confirmation statement overdue",
       "link": "/spending?supplier=AJ DEVELOPMENTS (NW) LTD",
-      "link_text": "View payments →",
+      "link_text": "View payments \u2192",
       "severity": "warning",
       "confidence": "high"
     },
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "HM LAND REGISTRY: 2422 transactions totalling £12.0K",
-      "description": "Averaging £5 per transaction — the council's most frequent supplier",
+      "title": "HM LAND REGISTRY: 2422 transactions totalling \u00a312.0K",
+      "description": "Averaging \u00a35 per transaction \u2014 the council's most frequent supplier",
       "link": "/spending?supplier=HM LAND REGISTRY",
-      "link_text": "See all transactions →",
+      "link_text": "See all transactions \u2192",
       "severity": "info",
       "confidence": "high"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "35 suppliers shared with neighbouring councils — £27.4M total",
+      "title": "31 suppliers shared with neighbouring councils \u2014 \u00a38.2M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices →",
+      "link_text": "Compare prices \u2192",
       "severity": "info",
       "confidence": "high"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "SCARAB SWEEPERS LTD: 9675% price gap between councils",
-      "description": "Hyndburn pays £22.3K avg vs Rossendale £228 (both with 3+ transactions) Price differences may reflect different service scope, contract terms, or volumes rather than overcharging — manual review recommended.",
-      "link": "/spending?supplier=SCARAB SWEEPERS LTD",
-      "link_text": "Investigate →",
+      "title": "GO PLANT FLEET SERVICES LTD: 5672% price gap between councils",
+      "description": "Hyndburn pays \u00a359.9K avg vs Pendle \u00a31.0K (both with 3+ transactions). Compared using 2 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=GO PLANT FLEET SERVICES LTD",
+      "link_text": "Investigate \u2192",
       "severity": "info",
-      "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details.",
       "confidence": "low"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T01:37:04.655254",
+  "generated": "2026-02-10T11:50:26.772164",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

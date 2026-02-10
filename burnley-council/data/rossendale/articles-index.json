@@ -24,10 +24,10 @@
     "date": "2026-02-09",
     "category": "Investigation",
     "title": "Where Rossendale's Money Really Goes: Top Supplier Analysis 2026",
-    "summary": "Analysis of supplier concentration in Rossendale Borough Council spending data.",
+    "summary": "Analysis of supplier concentration in Rossendale Borough Council spending data reveals heavy reliance on a handful of companies.",
     "image": "/images/articles/outsourcing.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": []
+    "tags": ["suppliers", "spending", "analysis"]
   },
   {
     "id": "name-withheld",
@@ -37,11 +37,7 @@
     "summary": "Rossendale Borough Council's spending data contains 3,167 transactions totalling \u00a31 million where the supplier name is withheld.",
     "image": "/images/articles/documents.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": [
-      "transparency",
-      "spending",
-      "FOI"
-    ]
+    "tags": ["transparency", "spending", "FOI"]
   },
   {
     "id": "capita-outsourcing",
@@ -51,66 +47,176 @@
     "summary": "Two companies \u2014 Capita Business Services and Civica UK \u2014 received \u00a33.4 million from Rossendale Borough Council.",
     "image": "/images/articles/outsourcing.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": [
-      "outsourcing",
-      "procurement",
-      "Capita",
-      "Civica"
-    ]
+    "tags": ["outsourcing", "procurement", "Capita", "Civica"]
   },
   {
     "id": "spending-patterns",
     "date": "2026-02-09",
     "category": "Analysis",
     "title": "Inside Rossendale's Spending: From Leisure Centres to Legal Fees",
-    "summary": "A comprehensive breakdown of where Rossendale Borough Council spends its money.",
+    "summary": "A comprehensive breakdown of where Rossendale Borough Council spends its money across departments and service areas.",
     "image": "/images/articles/finance.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": [
-      "spending",
-      "analysis",
-      "departments"
-    ]
+    "tags": ["spending", "analysis", "departments"]
   },
   {
     "id": "doge-investigation",
     "date": "2026-02-09",
     "category": "Investigation",
     "title": "Red Flags in Rossendale: What Automated Spending Analysis Revealed",
-    "summary": "DOGE analysis of Rossendale Borough Council spending data flagged concerns.",
+    "summary": "DOGE analysis of Rossendale Borough Council spending data flagged potential duplicate payments, split payment patterns, and statistical anomalies.",
     "image": "/images/articles/magnifying-glass.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": [
-      "DOGE",
-      "investigation",
-      "analysis"
-    ]
+    "tags": ["DOGE", "investigation", "analysis"]
   },
   {
     "id": "cross-council",
     "date": "2026-02-09",
     "category": "Analysis",
     "title": "How Rossendale Compares: East Lancashire's Spending League Table",
-    "summary": "Rossendale Borough Council compared to its East Lancashire neighbours.",
+    "summary": "Rossendale Borough Council compared to Burnley, Hyndburn, and Pendle on spending, staffing, and value for money.",
     "image": "/images/articles/council-meeting.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": [
-      "comparison",
-      "analysis"
-    ]
+    "tags": ["comparison", "analysis", "East Lancashire"]
   },
   {
     "id": "waste-services",
     "date": "2026-02-09",
     "category": "Investigation",
     "title": "Rossendale's Waste Collection: The Hidden Cost of Keeping Streets Clean",
-    "summary": "An investigation into Rossendale waste collection and recycling spending.",
+    "summary": "An investigation into Rossendale waste collection and recycling spending across the borough.",
     "image": "/images/articles/waste.jpg",
     "author": "Rossendale Council Transparency",
-    "tags": [
-      "waste",
-      "recycling",
-      "services"
-    ]
+    "tags": ["waste", "recycling", "services"]
+  },
+  {
+    "id": "agency-spend",
+    "date": "2026-02-09",
+    "category": "Investigation",
+    "title": "Rossendale's Agency Staffing Bill: \u00a31.9M to a Single Recruitment Firm",
+    "summary": "Rapid Recruit Ltd received \u00a31.9 million across 1,529 transactions \u2014 making it the council's most frequent named commercial supplier.",
+    "image": "/images/articles/finance.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["agency", "staffing", "spending"]
+  },
+  {
+    "id": "covid-grants",
+    "date": "2026-02-09",
+    "category": "Analysis",
+    "title": "The \u00a38.9M COVID Distortion: Why Rossendale's 2021 Spending Looks So High",
+    "summary": "Almost \u00a39 million in COVID business grants passed through Rossendale's accounts in 2021/22 \u2014 central government money, not council decisions.",
+    "image": "/images/articles/government.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["COVID", "grants", "analysis"]
+  },
+  {
+    "id": "leisure-trust",
+    "date": "2026-02-09",
+    "category": "Analysis",
+    "title": "Rossendale Leisure Trust: \u00a31.5M for Swimming Pools and Fitness Centres",
+    "summary": "The arms-length trust model saves money through business rates relief \u2014 but at what cost to accountability?",
+    "image": "/images/articles/construction.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["leisure", "trust", "outsourcing"]
+  },
+  {
+    "id": "spending-overview",
+    "date": "2026-02-09",
+    "category": "Analysis",
+    "title": "Rossendale by the Numbers: \u00a364M Across 42,536 Transactions",
+    "summary": "A high-level overview of Rossendale Borough Council's spending data \u2014 who gets the money, and how the council compares.",
+    "image": "/images/articles/finance.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["overview", "spending", "data"]
+  },
+  {
+    "id": "ceo-pay",
+    "date": "2026-02-10",
+    "category": "Democracy",
+    "title": "What Rossendale's Chief Executive Earns: \u00a3113,001 and How It Compares",
+    "summary": "Rob Huntington's spot salary of \u00a3113,001 is just above the national district average \u2014 but Rossendale is one of the smallest councils in England.",
+    "image": "/images/articles/government.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["pay", "CEO", "transparency"]
+  },
+  {
+    "id": "duplicate-payments",
+    "date": "2026-02-10",
+    "category": "Investigation",
+    "title": "Duplicate Payments at Rossendale: \u00a31.7M in Potential Overpayments",
+    "summary": "Automated analysis identified 478 high-confidence duplicate payment groups totalling \u00a31.7 million \u2014 same supplier, amount, date and reference appearing 3+ times.",
+    "image": "/images/articles/credit-card.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["duplicates", "DOGE", "investigation"]
+  },
+  {
+    "id": "procurement-contracts",
+    "date": "2026-02-10",
+    "category": "Analysis",
+    "title": "Rossendale's Contracts: 90 Notices but Only 4 Awards on Public Record",
+    "summary": "Only 4 of Rossendale's 90 contract notices on Contracts Finder show awarded values \u2014 raising questions about procurement transparency.",
+    "image": "/images/articles/documents.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["procurement", "contracts", "transparency"]
+  },
+  {
+    "id": "lcc-payments",
+    "date": "2026-02-10",
+    "category": "Analysis",
+    "title": "District to County: Rossendale's \u00a31.8M Flowing to Lancashire County Council",
+    "summary": "Payments to Lancashire County Council cover waste disposal levies, social care contributions, and shared services \u2014 a complex financial relationship.",
+    "image": "/images/articles/government.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["LCC", "county", "spending"]
+  },
+  {
+    "id": "budget-pressure",
+    "date": "2026-02-10",
+    "category": "Budget",
+    "title": "Rossendale's Budget Crisis: A \u00a3574K Gap This Year, Growing to \u00a3934K",
+    "summary": "With a net revenue budget of just \u00a310.6 million, Rossendale faces funding gaps that threaten frontline services.",
+    "image": "/images/articles/finance.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["budget", "funding", "austerity"]
+  },
+  {
+    "id": "revenue-trends",
+    "date": "2026-02-10",
+    "category": "Analysis",
+    "title": "Eight Years of Rossendale Budgets: Where the Money Goes and How It's Changed",
+    "summary": "GOV.UK data from 2017-18 to 2024-25 reveals how Rossendale's spending on housing, environment, and central services has shifted.",
+    "image": "/images/articles/finance.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["budget", "trends", "GOV.UK"]
+  },
+  {
+    "id": "benford-anomaly",
+    "date": "2026-02-10",
+    "category": "Investigation",
+    "title": "Benford's Law and Rossendale: What Statistical Forensics Reveal About Council Payments",
+    "summary": "Payment amounts at Rossendale show a statistically significant deviation from Benford's Law \u2014 but what does that actually mean?",
+    "image": "/images/articles/magnifying-glass.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["Benford", "forensics", "statistics"]
+  },
+  {
+    "id": "small-council",
+    "date": "2026-02-10",
+    "category": "Democracy",
+    "title": "England's Smallest Councils: Where Rossendale Fits in the District Landscape",
+    "summary": "With just 168 staff and a \u00a310.6M budget, Rossendale is one of the most compact district councils in England \u2014 but is smaller always better?",
+    "image": "/images/articles/council-meeting.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["size", "district", "efficiency"]
+  },
+  {
+    "id": "living-wage",
+    "date": "2026-02-10",
+    "category": "Democracy",
+    "title": "Rossendale: A Foundation Living Wage Employer Since 2013",
+    "summary": "Rossendale adopted the Foundation Living Wage over a decade ago \u2014 one of the first Lancashire districts. What does it mean for the lowest-paid workers?",
+    "image": "/images/articles/government.jpg",
+    "author": "Rossendale Council Transparency",
+    "tags": ["wages", "living wage", "workers"]
   }
 ]

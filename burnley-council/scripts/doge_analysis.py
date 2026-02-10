@@ -487,6 +487,75 @@ def analyse_payment_patterns(all_spending):
         ]
         high_freq.sort(key=lambda x: -x["transactions"])
 
+        # ── Payment Cadence Analysis ──
+        # For suppliers with 10+ payments, calculate average days between payments
+        # and flag those with suspiciously rapid or clock-like regular cadence
+        supplier_dates = defaultdict(list)
+        for r in tx:
+            date = r.get("date", "")
+            if not date or len(date) < 10:
+                continue
+            try:
+                dt = datetime.strptime(date[:10], "%Y-%m-%d")
+            except ValueError:
+                continue
+            s = r.get("supplier_canonical", r.get("supplier", ""))
+            supplier_dates[s].append((dt, r["amount"]))
+
+        payment_cadence = []
+        for supplier, date_amounts in supplier_dates.items():
+            if len(date_amounts) < 10:
+                continue
+            dates = sorted([d for d, _ in date_amounts])
+            intervals = [(dates[i+1] - dates[i]).days for i in range(len(dates) - 1)]
+            intervals = [d for d in intervals if d > 0]  # Exclude same-day
+            if not intervals:
+                continue
+            avg_interval = sum(intervals) / len(intervals)
+            min_interval = min(intervals)
+            max_interval = max(intervals)
+            # Standard deviation of intervals — low = suspiciously regular
+            mean = avg_interval
+            variance = sum((x - mean) ** 2 for x in intervals) / len(intervals)
+            std_dev = variance ** 0.5
+            total_spend = sum(a for _, a in date_amounts)
+            payment_cadence.append({
+                "supplier": supplier,
+                "payments": len(date_amounts),
+                "avg_days_between": round(avg_interval, 1),
+                "min_interval_days": min_interval,
+                "max_interval_days": max_interval,
+                "std_dev_days": round(std_dev, 1),
+                "total_spend": round(total_spend, 2),
+                "regularity": "high" if std_dev < 5 and len(date_amounts) >= 20 else
+                              "medium" if std_dev < 15 else "normal",
+            })
+
+        # Sort by most frequent (lowest avg interval)
+        payment_cadence.sort(key=lambda x: x["avg_days_between"])
+        rapid_payers = [p for p in payment_cadence if p["avg_days_between"] < 14]
+        regular_payers = [p for p in payment_cadence if p["regularity"] == "high"]
+
+        # ── Day of Week Distribution ──
+        day_counts = defaultdict(lambda: {"count": 0, "total": 0})
+        for r in tx:
+            date = r.get("date", "")
+            if not date or len(date) < 10:
+                continue
+            try:
+                dt = datetime.strptime(date[:10], "%Y-%m-%d")
+                day_name = dt.strftime("%A")
+                day_counts[day_name]["count"] += 1
+                day_counts[day_name]["total"] += r["amount"]
+            except ValueError:
+                continue
+
+        day_distribution = [
+            {"day": day, "count": d["count"], "total": round(d["total"], 2)}
+            for day, d in sorted(day_counts.items(),
+                                 key=lambda x: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].index(x[0]) if x[0] in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] else 7)
+        ]
+
         results[council_id] = {
             "split_payments": {
                 "suspects": split_payment_suspects[:20],
@@ -506,6 +575,13 @@ def analyse_payment_patterns(all_spending):
                 "suppliers": high_freq[:20],
                 "total_suppliers_50plus": len(high_freq),
             },
+            "payment_cadence": {
+                "rapid_payers": rapid_payers[:15],
+                "regular_payers": regular_payers[:10],
+                "all_cadence": payment_cadence[:30],
+                "total_analysed": len(payment_cadence),
+            },
+            "day_of_week": day_distribution,
         }
 
         print(f"\n  {council_id.upper()}:")
@@ -513,6 +589,8 @@ def analyse_payment_patterns(all_spending):
         print(f"    Year-end spike departments: {len(year_end_spikes)}")
         print(f"    Round number payments (>5K): {len(round_payments)} worth {fmt_gbp(sum(r['amount'] for r in round_payments))}")
         print(f"    High-frequency suppliers (50+ txns): {len(high_freq)}")
+        print(f"    Rapid payers (<14 day avg): {len(rapid_payers)}")
+        print(f"    Clock-like regular payers: {len(regular_payers)}")
 
     return results
 

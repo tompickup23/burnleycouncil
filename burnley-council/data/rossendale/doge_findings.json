@@ -1,94 +1,102 @@
 {
   "findings": [
     {
-      "value": "£998.3K",
+      "value": "\u00a3998.3K",
       "label": "Suppliers with Current Red Flags",
       "detail": "9 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
       "severity": "info",
-      "link": "/spending",
-      "confidence": "medium"
-    },
-    {
-      "value": "£1.9M",
-      "label": "Likely Duplicate Payments",
-      "detail": "521 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1630 CSV republication artifacts)",
-      "severity": "critical",
-      "link": "/spending",
       "confidence": "medium",
-      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments."
+      "link": "/spending"
     },
     {
-      "value": "£132.1K",
+      "value": "\u00a31.7M",
+      "label": "Likely Duplicate Payments",
+      "detail": "478 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 2290 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a31.7M",
+      "label": "Possible Duplicate Payments",
+      "detail": "1352 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3132.1K",
       "label": "Suspected Split Payments",
       "detail": "1 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
-      "link": "/spending",
       "confidence": "low",
-      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions."
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
     },
     {
-      "value": "£8.1M",
-      "label": "Round-Number Payments (>£5K)",
-      "detail": "673 exact round-number payments over £5,000 — may indicate estimates rather than invoiced amounts",
+      "value": "\u00a38.1M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "673 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
-      "link": "/spending",
-      "confidence": "low"
+      "confidence": "low",
+      "link": "/spending"
     },
     {
       "value": "7.2x",
       "label": "Year-End Spending Pattern",
-      "detail": "Customer Services & E-Government spent 7.2x their monthly average in March. Note: UK councils operate on April–March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "detail": "Customer Services & E-Government spent 7.2x their monthly average in March (\u00a31.9M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
       "severity": "warning",
-      "link": "/spending",
-      "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years’ March figures for meaningful analysis.",
-      "confidence": "medium"
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
     },
     {
-      "value": "χ²=2337.98",
+      "value": "\u03c7\u00b2=2337.98",
       "label": "Benford's Law Anomaly",
-      "detail": "Digit 2 deviates 6.3% from expected distribution across 27,784 transactions. Note: with 27,784 transactions, chi-squared tests are highly sensitive — the 6.3% max digit deviation is the more practical measure of anomaly.",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 2 deviates 6.3% from expected distribution across 27,784 transactions. Note: with 27,784 transactions, chi-squared tests are highly sensitive \u2014 the 6.3% max digit deviation is the more practical measure of anomaly.",
       "severity": "warning",
-      "link": "/spending",
-      "context_note": "Chi-squared values on samples of 27,784+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (6.3%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending.",
-      "confidence": "medium"
+      "confidence": "medium",
+      "context_note": "Chi-squared values on samples of 27,784+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (6.3%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
     }
   ],
   "key_findings": [
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "NAME WITHHELD: 3125 transactions totalling £1.0M",
-      "description": "Averaging £325 per transaction — the council's most frequent supplier",
+      "title": "NAME WITHHELD: 3125 transactions totalling \u00a31.0M",
+      "description": "Averaging \u00a3325 per transaction \u2014 the council's most frequent supplier",
       "link": "/spending?supplier=NAME WITHHELD",
-      "link_text": "See all transactions →",
+      "link_text": "See all transactions \u2192",
       "severity": "info",
       "confidence": "high"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "22 suppliers shared with neighbouring councils — £13.8M total",
+      "title": "21 suppliers shared with neighbouring councils \u2014 \u00a36.4M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices →",
+      "link_text": "Compare prices \u2192",
       "severity": "info",
       "confidence": "high"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "SCARAB SWEEPERS LTD: 9675% price gap between councils",
-      "description": "Hyndburn pays £22.3K avg vs Rossendale £228 (both with 3+ transactions) Price differences may reflect different service scope, contract terms, or volumes rather than overcharging — manual review recommended.",
-      "link": "/spending?supplier=SCARAB SWEEPERS LTD",
-      "link_text": "Investigate →",
+      "title": "E A FOULDS LTD: 4336% price gap between councils",
+      "description": "Pendle pays \u00a37.2K avg vs Rossendale \u00a3163 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=E A FOULDS LTD",
+      "link_text": "Investigate \u2192",
       "severity": "info",
-      "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details.",
       "confidence": "low"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T01:37:04.655960",
+  "generated": "2026-02-10T11:50:26.773427",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
