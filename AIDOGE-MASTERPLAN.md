@@ -58,15 +58,15 @@ These findings are currently live and could undermine credibility:
 | Fraud triangle analysis | Motive + opportunity + rationalisation per department | Hard (needs audit reports) |
 | Temporal spending patterns | Unusual payment velocity, clustering before deadlines | Easy (spending.json has dates) |
 
-### 2C. Frontend Issues
+### 2C. Frontend Issues ✅ RESOLVED (10 Feb 2026)
 
-| Issue | Impact | Fix Effort |
-|-------|--------|-----------|
-| Duplicate constants (TYPE_LABELS, CHART_COLORS) across files | Maintenance burden | 30 min |
-| No accessibility for chart data (no data table fallback) | Screen reader users excluded | 2 hr |
-| No E2E tests (Playwright configured but unused) | Regression risk | 2 hr |
-| CSS inconsistency (mix of BEM, snake_case, plain) | Dev confusion | 1 hr |
-| Home.jsx makes 5 parallel data requests | Potential waterfall on slow connections | 30 min |
+| Issue | Impact | Status |
+|-------|--------|--------|
+| ~~Duplicate constants (TYPE_LABELS, CHART_COLORS) across files~~ | ~~Maintenance burden~~ | ✅ Fixed: utils/constants.js |
+| ~~No accessibility for chart data~~ | ~~Screen reader users excluded~~ | ✅ Fixed: ChartCard dataTable prop + .sr-only |
+| ~~No E2E tests~~ | ~~Regression risk~~ | ✅ Fixed: 31 Playwright tests |
+| ~~CSS inconsistency~~ | ~~Dev confusion~~ | ✅ Fixed: global gradient rules, consolidated patterns |
+| Home.jsx makes 5 parallel data requests | Potential waterfall on slow connections | Remaining (low priority) |
 
 ### 2D. Documentation Sprawl (11 .md files, significant overlap)
 
@@ -174,17 +174,17 @@ Add to `burnley-council/hub/index.html`:
 | 1.5 | Add year-end context to March spending spike | ✅ Done | Renamed "Pattern", fiscal year context, <3x = info |
 | 1.6 | Implement common-year comparability in cross_council | ✅ Done | Only compares overlapping fiscal years per supplier |
 
-### Phase 2: Frontend Polish (THIS MONTH)
-| # | Task | Impact | Effort |
+### Phase 2: Frontend Polish ✅ COMPLETED (10 Feb 2026)
+| # | Task | Status | Result |
 |---|------|--------|--------|
-| 2.1 | Centralise constants (CHART_COLORS, TYPE_LABELS) into utils/constants.js | Maintainability | 30 min |
-| 2.2 | Add password gate to hub page | Development protection | 30 min |
-| 2.3 | Add article search + pagination (News page) | UX for 44+ articles | 1 hr |
-| 2.4 | Add placeholder images for missing article images | Professional appearance | 30 min |
-| 2.5 | Add related articles to ArticleView | Engagement, reduce bounce | 30 min |
-| 2.6 | Consolidate duplicate CSS patterns | DRY, easier theming | 1 hr |
-| 2.7 | Write E2E tests (Playwright already configured) | Regression safety net | 2 hr |
-| 2.8 | Add chart accessibility (data tables as fallback) | Inclusivity | 2 hr |
+| 2.1 | Centralise constants into utils/constants.js | ✅ Done | CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, SEVERITY_COLORS, COUNCIL_COLORS shared across 7 files |
+| 2.2 | Add password gate to hub page | ✅ Done | sessionStorage-based gate (done in earlier session) |
+| 2.3 | Add article search + pagination (News page) | ✅ Done | Text search across title+summary, 12/page pagination, category filters, results count |
+| 2.4 | Add placeholder images for missing article images | ✅ Done | Gradient background + FileText icon for articles without images |
+| 2.5 | Add related articles to ArticleView | ✅ Done | Same-category, max 3, with image/placeholder + date + title |
+| 2.6 | Consolidate duplicate CSS patterns | ✅ Done | Global gradient-text rules in index.css, removed from 7 per-page CSS files |
+| 2.7 | Write E2E tests (Playwright) | ✅ Done | 22 new tests (news, spending, legal, navigation) — 31 total E2E |
+| 2.8 | Add chart accessibility (data tables) | ✅ Done | ChartCard dataTable prop, aria-hidden on charts, .sr-only utility class |
 
 ### Phase 3: New Data Sources (THIS MONTH)
 | # | Task | Impact | Effort |
@@ -232,8 +232,8 @@ Add to `burnley-council/hub/index.html`:
 
 ### News / Articles
 - **Data:** articles-index.json, articles/{id}.json
-- **Current:** Category filter, image fallbacks
-- **Improve:** Text search, pagination (12 per page), related articles, RSS feed, reading time estimate, tags (currently always empty)
+- **Current:** Category filter, text search, 12/page pagination, placeholder images, related articles (same category, max 3)
+- **Improve:** RSS feed, reading time estimate, tags (currently always empty)
 
 ### Budgets
 - **Data:** budgets.json OR budgets_govuk.json + revenue_trends.json
@@ -314,19 +314,21 @@ Contracts Finder -> procurement_etl.py (NEW) -> procurement.json -> ProcurementO
 
 ## 10. SUCCESS METRICS
 
-| Metric | 7 Feb | 10 Feb | Target | Notes |
-|--------|-------|--------|--------|-------|
+| Metric | 7 Feb | 10 Feb (P2) | Target | Notes |
+|--------|-------|-------------|--------|-------|
 | Councils live | 4 | 4 | 6+ | Lancaster + Ribble Valley next |
 | Total articles | 27 | 89 | 120+ | Rossendale needs 14 more |
 | DOGE finding confidence | None | **All rated** | All findings rated | ✅ Phase 1 complete |
 | CH match rate | ~20% | ~20% | 60%+ | Fuzzy matching needed |
 | Procurement data | None | None | All 4 councils | Phase 3-4 |
 | Unit tests | 103 | 168 | 200+ | Good trajectory |
-| E2E tests | 0 | 0 | 20+ | Playwright ready, tests not written |
+| E2E tests | 0 | **31** | 20+ | ✅ Target exceeded — Phase 2 complete |
 | Monthly cost | £22 | £22 | £22 | LLMs now free (Gemini) |
 | Data freshness | Manual | Auto-monitored | Fully auto | Pipeline working |
 | Article generation | Manual | Daily auto (2/council) | Daily auto | Working via cron |
 | Procurement section | None | None | Live | Phase 4 |
+| Shared constants | Duplicated in 8 files | **utils/constants.js** | Centralised | ✅ Phase 2 complete |
+| CSS patterns | Duplicated across 9 files | **Global index.css** | Consolidated | ✅ Phase 2 complete |
 
 ---
 
@@ -343,5 +345,6 @@ Contracts Finder -> procurement_etl.py (NEW) -> procurement.json -> ProcurementO
 
 *Plan v3.0 authored: 10 February 2026*
 *Phase 1 completed: 10 February 2026 (6/6 tasks done)*
+*Phase 2 completed: 10 February 2026 (8/8 tasks done)*
 *Based on: Full 4-agent codebase audit, live site review, data pipeline analysis, documentation review*
-*Next review: After Phase 2 (frontend polish) complete*
+*Next review: After Phase 3 (new data sources) complete*

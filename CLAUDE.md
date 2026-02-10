@@ -55,9 +55,11 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/hooks/useData.js` | Data fetching hook (loads from /data/*.json) |
 | `src/hooks/useSpendingWorker.js` | Web Worker hook for spending data (v3 chunked + v2/v1 fallback) |
 | `src/workers/spending.worker.js` | Web Worker: filter, sort, paginate, stats, charts, CSV export |
+| `src/utils/constants.js` | Shared constants: CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, SEVERITY_COLORS, COUNCIL_COLORS |
 | `src/workers/spending.utils.js` | Pure utility functions shared by worker and tests |
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
+| `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation (31 tests) |
 
 ### Data Pipeline (Python)
 | File | Purpose |

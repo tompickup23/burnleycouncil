@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 10 February 2026 (Phase 1 Data Credibility COMPLETE, starting Phase 2)
+> Last updated: 10 February 2026 (Phase 1 + Phase 2 COMPLETE, starting Phase 3)
 
 ## Priority 1 — Broken / Blocking
 
@@ -161,3 +161,4 @@
 - [x] Full end-to-end deploy test: News Lancashire (1426 files) + News Burnley (2 files) deployed to Cloudflare Pages successfully (9 Feb 2026 night)
 - [x] Added procurement section to TODO.md: API research, law review, data structures, feature planning (9 Feb 2026 night)
 - [x] **Phase 1 Data Credibility COMPLETE** — 6/6 tasks done (10 Feb 2026): confidence levels on all findings, Benford's Law reframed, cross-council pricing caveats, CSV duplicate fix (Burnley 298→137, Hyndburn 905→334, Pendle 1283→523, Rossendale 1948→521), year-end context, common-year comparability. 2 commits pushed, CI/CD deployed.
+- [x] **Phase 2 Frontend Polish COMPLETE** — 8/8 tasks done (10 Feb 2026): centralised constants (utils/constants.js), article search+pagination+placeholders+related articles, CSS consolidation (global gradient rules), 31 Playwright E2E tests (news, spending, legal, navigation), chart accessibility (ChartCard dataTable prop + sr-only). 168 unit + 31 E2E tests passing.
