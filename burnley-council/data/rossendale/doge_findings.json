@@ -63,6 +63,16 @@
   ],
   "key_findings": [
     {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "10 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Banner Business Solutions Ltd \u2014 every 30.4 days (976 payments, \u00a334.5K)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
       "icon": "repeat",
       "badge": "High Volume",
       "title": "NAME WITHHELD: 3125 transactions totalling \u00a31.0M",
@@ -75,7 +85,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "21 suppliers shared with neighbouring councils \u2014 \u00a36.4M total",
+      "title": "20 suppliers shared with neighbouring councils \u2014 \u00a34.6M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -85,10 +95,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "E A FOULDS LTD: 4336% price gap between councils",
-      "description": "Pendle pays \u00a37.2K avg vs Rossendale \u00a3163 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "AVC WISE LTD: 8013% price gap between councils",
+      "description": "Lancaster pays \u00a31.3K avg vs Hyndburn \u00a316 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=E A FOULDS LTD",
+      "link": "/spending?supplier=AVC WISE LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -96,12 +106,194 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T11:50:26.773427",
+  "generated": "2026-02-10T21:48:50.402250",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
     "payment_patterns",
     "ch_compliance",
-    "benfords_law"
-  ]
+    "benfords_law",
+    "supplier_concentration"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [],
+    "regular_payers": [
+      {
+        "supplier": "BANNER BUSINESS SOLUTIONS LTD",
+        "payments": 976,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 34463.06
+      },
+      {
+        "supplier": "KAYCLIFFE LTD",
+        "payments": 1373,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 438572.71
+      },
+      {
+        "supplier": "VALLEY CLEANING SERVICES LTD",
+        "payments": 349,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 230989.61
+      },
+      {
+        "supplier": "NODE4 LTD",
+        "payments": 834,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 599172.78
+      },
+      {
+        "supplier": "TTS PAYMENTS",
+        "payments": 1166,
+        "avg_days": 30.4,
+        "std_dev": 1.0,
+        "total_spend": 583000.0
+      },
+      {
+        "supplier": "FUNKY FLAMINGO LTD",
+        "payments": 22,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 32385.5
+      },
+      {
+        "supplier": "TTS PAYMENT",
+        "payments": 119,
+        "avg_days": 30.5,
+        "std_dev": 0.5,
+        "total_spend": 59500.0
+      },
+      {
+        "supplier": "J P K PLUMBING & HEATING LTD",
+        "payments": 20,
+        "avg_days": 30.5,
+        "std_dev": 0.5,
+        "total_spend": 51657.59
+      },
+      {
+        "supplier": "QUESTECH RECRUITMENT LTD",
+        "payments": 97,
+        "avg_days": 30.5,
+        "std_dev": 0.7,
+        "total_spend": 141487.75
+      },
+      {
+        "supplier": "COVID BUSINESS GRANTS",
+        "payments": 176,
+        "avg_days": 30.6,
+        "std_dev": 0.5,
+        "total_spend": 1029470.76
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 5067,
+        "total": 5887839.02
+      },
+      {
+        "day": "Tuesday",
+        "count": 5544,
+        "total": 12529994.67
+      },
+      {
+        "day": "Wednesday",
+        "count": 7269,
+        "total": 10521515.85
+      },
+      {
+        "day": "Thursday",
+        "count": 5778,
+        "total": 9887448.48
+      },
+      {
+        "day": "Friday",
+        "count": 4945,
+        "total": 8041434.9
+      },
+      {
+        "day": "Saturday",
+        "count": 7113,
+        "total": 11259388.47
+      },
+      {
+        "day": "Sunday",
+        "count": 4571,
+        "total": 5819922.8
+      }
+    ],
+    "total_analysed": 403
+  },
+  "supplier_concentration": {
+    "total_spend": 63947544.19,
+    "unique_suppliers": 1514,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "COVID BUSINESS GRANT",
+          "total": 5362094.23,
+          "count": 868,
+          "pct": 8.4
+        },
+        {
+          "supplier": "CAPITA BUSINESS SERVICES LTD",
+          "total": 5330993.65,
+          "count": 77,
+          "pct": 8.3
+        },
+        {
+          "supplier": "DEPARTMENT FOR LEVELLING UP",
+          "total": 4134144.64,
+          "count": 8,
+          "pct": 6.5
+        },
+        {
+          "supplier": "BEIS",
+          "total": 2330269.95,
+          "count": 3,
+          "pct": 3.6
+        },
+        {
+          "supplier": "RAPID RECRUIT LTD",
+          "total": 1917135.63,
+          "count": 1524,
+          "pct": 3.0
+        }
+      ],
+      "total": 19074638.1,
+      "pct": 29.8
+    },
+    "top10_pct": 41.6,
+    "top20_pct": 54.7,
+    "hhi": 265.3,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 90,
+    "awarded_contracts": 4,
+    "threshold_suspects": [
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 2 - 1 x 12t RCV (8980)",
+        "value": 119827,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Motus Commercials Derby",
+        "pct_of_threshold": 86.4
+      }
+    ],
+    "threshold_suspect_count": 1,
+    "repeat_winners": [],
+    "repeat_winner_count": 0,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 4,
+      "pct": 0.0
+    },
+    "timing_clusters": [],
+    "timing_cluster_count": 0
+  }
 }

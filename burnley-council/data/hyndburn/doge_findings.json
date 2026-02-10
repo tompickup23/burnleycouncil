@@ -52,6 +52,14 @@
       "link": "/spending"
     },
     {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Hamelin Pest Ltd (2.0 day avg, 10 payments, \u00a3573)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
       "value": "3.9% dev",
       "label": "Benford's Law Analysis",
       "detail": "Digit distribution across 25,507 transactions shows \u03c7\u00b2=429.42 (statistically significant due to large sample size), but max digit deviation is only 3.9% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
@@ -73,6 +81,16 @@
       "confidence": "high"
     },
     {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "3 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Sellick Partnership Ltd \u2014 every 9.2 days (22 payments, \u00a313.6K)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
       "icon": "repeat",
       "badge": "High Volume",
       "title": "HM LAND REGISTRY: 2422 transactions totalling \u00a312.0K",
@@ -85,7 +103,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "31 suppliers shared with neighbouring councils \u2014 \u00a38.2M total",
+      "title": "30 suppliers shared with neighbouring councils \u2014 \u00a319.2M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -95,10 +113,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "GO PLANT FLEET SERVICES LTD: 5672% price gap between councils",
-      "description": "Hyndburn pays \u00a359.9K avg vs Pendle \u00a31.0K (both with 3+ transactions). Compared using 2 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "AVC WISE LTD: 8013% price gap between councils",
+      "description": "Lancaster pays \u00a31.3K avg vs Hyndburn \u00a316 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=GO PLANT FLEET SERVICES LTD",
+      "link": "/spending?supplier=AVC WISE LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -106,12 +124,237 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T11:50:26.772164",
+  "generated": "2026-02-10T21:48:50.400773",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
     "payment_patterns",
     "ch_compliance",
-    "benfords_law"
-  ]
+    "benfords_law",
+    "supplier_concentration"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "HAMELIN PEST LTD",
+        "payments": 10,
+        "avg_days": 2.0,
+        "total_spend": 572.64,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "SEFE ENERGY -100041428 - CONSOLIDATED",
+        "payments": 15,
+        "avg_days": 5.0,
+        "total_spend": 20598.35,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "ADECCO UK LTD",
+        "payments": 16,
+        "avg_days": 7.8,
+        "total_spend": 7549.91,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "MORGAN HUNT UK LTD",
+        "payments": 367,
+        "avg_days": 8.4,
+        "total_spend": 320195.06,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "SELLICK PARTNERSHIP LTD",
+        "payments": 22,
+        "avg_days": 9.2,
+        "total_spend": 13647.5,
+        "regularity": "high"
+      },
+      {
+        "supplier": "UNITED UTILITIES WATER",
+        "payments": 10,
+        "avg_days": 9.6,
+        "total_spend": 19364.1,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "VIVID RESOURCING",
+        "payments": 404,
+        "avg_days": 9.6,
+        "total_spend": 656084.93,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "R K GROUP",
+        "payments": 21,
+        "avg_days": 10.5,
+        "total_spend": 21703.08,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "OYSTER PARTNERSHIP",
+        "payments": 798,
+        "avg_days": 11.0,
+        "total_spend": 1072142.66,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "EDEN BROWN LTD",
+        "payments": 420,
+        "avg_days": 11.1,
+        "total_spend": 417298.07,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "SELLICK PARTNERSHIP LTD",
+        "payments": 22,
+        "avg_days": 9.2,
+        "std_dev": 4.2,
+        "total_spend": 13647.5
+      },
+      {
+        "supplier": "EDF - 1232400259 - UNMETERED SUPPLY STREET LIGHTIN",
+        "payments": 20,
+        "avg_days": 28.7,
+        "std_dev": 0.9,
+        "total_spend": 22851.63
+      },
+      {
+        "supplier": "EDF - 5946759290 - UNMETERED SUPPLY STREET LIGHTIN",
+        "payments": 21,
+        "avg_days": 30.7,
+        "std_dev": 4.1,
+        "total_spend": 5507.61
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 5321,
+        "total": 18178462.73
+      },
+      {
+        "day": "Tuesday",
+        "count": 7968,
+        "total": 40581241.0
+      },
+      {
+        "day": "Wednesday",
+        "count": 5196,
+        "total": 25337206.01
+      },
+      {
+        "day": "Thursday",
+        "count": 8802,
+        "total": 113838182.24
+      },
+      {
+        "day": "Friday",
+        "count": 2261,
+        "total": 11948623.42
+      },
+      {
+        "day": "Saturday",
+        "count": 113,
+        "total": 490439.85
+      },
+      {
+        "day": "Sunday",
+        "count": 141,
+        "total": 931220.05
+      }
+    ],
+    "total_analysed": 446
+  },
+  "supplier_concentration": {
+    "total_spend": 211305375.3,
+    "unique_suppliers": 2394,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL (DIRECT DEBIT PAYMENTS)",
+          "total": 72598235.05,
+          "count": 129,
+          "pct": 34.4
+        },
+        {
+          "supplier": "(DD) DEPARTMENT OF LEVELLING UP, HOUSING & COMM...",
+          "total": 22697988.0,
+          "count": 39,
+          "pct": 10.7
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES LTD",
+          "total": 12647308.04,
+          "count": 62,
+          "pct": 6.0
+        },
+        {
+          "supplier": "(DD ONLY) RIBBLE VALLEY BOROUGH COUNCIL",
+          "total": 7934151.0,
+          "count": 19,
+          "pct": 3.8
+        },
+        {
+          "supplier": "MORGAN SINDALL CONSTRUCTION & INFRASTRUCTURE LTD",
+          "total": 6802277.68,
+          "count": 38,
+          "pct": 3.2
+        }
+      ],
+      "total": 122679959.77,
+      "pct": 58.1
+    },
+    "top10_pct": 65.7,
+    "top20_pct": 71.1,
+    "hhi": 1376.3,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 32,
+    "awarded_contracts": 16,
+    "threshold_suspects": [
+      {
+        "title": "Lowerfold Park access and tennis court improvements",
+        "value": 26812,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "GROUND INC LTD",
+        "pct_of_threshold": 89.4
+      },
+      {
+        "title": "Milnshaw Park provision of a new play area, Lancs",
+        "value": 119714.37,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "JOHN WADE GROUNDWORKS LIMITED",
+        "pct_of_threshold": 86.3
+      }
+    ],
+    "threshold_suspect_count": 2,
+    "repeat_winners": [
+      {
+        "supplier": "Horticon Ltd",
+        "contracts": 2,
+        "total_value": 70166.2,
+        "avg_value": 35083.1
+      },
+      {
+        "supplier": "JOHN WADE GROUNDWORKS LIMITED",
+        "contracts": 2,
+        "total_value": 140357.9,
+        "avg_value": 70178.95
+      }
+    ],
+    "repeat_winner_count": 2,
+    "transparency_gap": {
+      "no_value_count": 1,
+      "total_awarded": 16,
+      "pct": 6.2
+    },
+    "timing_clusters": [],
+    "timing_cluster_count": 0
+  }
 }

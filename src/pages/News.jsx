@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Calendar, ChevronRight, ChevronLeft, AlertCircle, TrendingUp, Users, Search, X, FileText } from 'lucide-react'
+import { Calendar, Clock, ChevronRight, ChevronLeft, AlertCircle, TrendingUp, Users, Search, X, FileText } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { formatDate } from '../utils/format'
+import { formatDate, estimateReadingTime } from '../utils/format'
 import './News.css'
 
 const ARTICLES_PER_PAGE = 12
@@ -155,6 +155,10 @@ function News() {
                 <span className="article-date">
                   <Calendar size={14} />
                   {formatDate(article.date)}
+                </span>
+                <span className="article-reading-time">
+                  <Clock size={14} />
+                  {estimateReadingTime(article.summary)}
                 </span>
               </div>
               <h3>{article.title}</h3>

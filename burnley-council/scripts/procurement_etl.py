@@ -43,6 +43,22 @@ COUNCILS = {
         'search_terms': ['"Rossendale Borough Council"', '"Borough of Rossendale"'],
         'match_names': ['rossendale borough council', 'borough of rossendale', 'rossendale bc', 'rossendale council'],
     },
+    'lancaster': {
+        'search_terms': ['"Lancaster City Council"'],
+        'match_names': ['lancaster city council', 'lancaster council', 'city of lancaster'],
+    },
+    'ribble_valley': {
+        'search_terms': ['"Ribble Valley Borough Council"'],
+        'match_names': ['ribble valley borough council', 'ribble valley bc', 'ribble valley council'],
+    },
+    'chorley': {
+        'search_terms': ['"Chorley Borough Council"', '"Chorley Council"'],
+        'match_names': ['chorley borough council', 'chorley bc', 'chorley council'],
+    },
+    'south_ribble': {
+        'search_terms': ['"South Ribble Borough Council"'],
+        'match_names': ['south ribble borough council', 'south ribble bc', 'south ribble council'],
+    },
 }
 
 CF_SEARCH_URL = 'https://www.contractsfinder.service.gov.uk/api/rest/2/search_notices/json'

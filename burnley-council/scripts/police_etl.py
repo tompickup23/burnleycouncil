@@ -427,7 +427,7 @@ def load_boundary_cache(output_dir):
 
 def main():
     parser = argparse.ArgumentParser(description="Police API Crime ETL for Lancashire")
-    parser.add_argument("--council", choices=["burnley", "hyndburn", "pendle"],
+    parser.add_argument("--council", choices=["burnley", "hyndburn", "pendle", "rossendale"],
                         help="Specific council (default: all)")
     parser.add_argument("--date", help="Crime month YYYY-MM (default: latest)")
     parser.add_argument("--historical", type=int, default=0,

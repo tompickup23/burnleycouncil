@@ -66,6 +66,46 @@ ${sitemapUrls}
 </urlset>`
       writeFileSync(resolve(outDir, 'sitemap.xml'), sitemap)
       console.log('✓ Generated sitemap.xml')
+
+      // Generate RSS feed from articles-index.json
+      const articlesPath = resolve(outDir, 'data', 'articles-index.json')
+      if (existsSync(articlesPath)) {
+        try {
+          const articlesRaw = JSON.parse(readFileSync(articlesPath, 'utf-8'))
+          const articles = Array.isArray(articlesRaw) ? articlesRaw : (articlesRaw.articles || [])
+          const feedItems = articles.slice(0, 20).map(a => {
+            const pubDate = new Date(a.date).toUTCString()
+            const link = `${siteUrl}news/${a.id}`
+            const desc = (a.summary || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            const title = (a.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            return `    <item>
+      <title>${title}</title>
+      <link>${link}</link>
+      <guid>${link}</guid>
+      <pubDate>${pubDate}</pubDate>
+      <description>${desc}</description>
+      <category>${a.category || 'Analysis'}</category>
+    </item>`
+          }).join('\n')
+
+          const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${councilName} Council Transparency — AI DOGE</title>
+    <link>${siteUrl}</link>
+    <description>Independent analysis of ${councilFull} spending and governance.</description>
+    <language>en-gb</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <atom:link href="${siteUrl}feed.xml" rel="self" type="application/rss+xml" />
+${feedItems}
+  </channel>
+</rss>`
+          writeFileSync(resolve(outDir, 'feed.xml'), rss)
+          console.log(`✓ Generated feed.xml (${articles.slice(0, 20).length} items)`)
+        } catch (e) {
+          console.warn(`⚠ Could not generate RSS feed: ${e.message}`)
+        }
+      }
     },
     transformIndexHtml(html) {
       // Replace placeholders in index.html with council-specific values

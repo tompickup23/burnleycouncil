@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI DOGE — East Lancashire Council Transparency</title>
+  <title>AI DOGE — Lancashire Council Transparency</title>
+  <meta name="description" content="Independent public spending transparency for 8 Lancashire councils. Explore spending data, budgets, procurement and DOGE analysis.">
   <script>
     // GitHub Pages SPA 404 redirect
     // Detects if the URL belongs to a council SPA and redirects to the
@@ -12,7 +13,7 @@
     // to navigate to the correct client-side route.
     (function() {
       var path = window.location.pathname;
-      var councils = ['burnleycouncil', 'hyndburncouncil', 'pendlecouncil', 'rossendalecouncil'];
+      var councils = ['burnleycouncil', 'hyndburncouncil', 'pendlecouncil', 'rossendalecouncil', 'lancastercouncil', 'ribblevalleycouncil', 'chorleycouncil', 'southribblecouncil'];
       for (var i = 0; i < councils.length; i++) {
         var base = '/lancashire/' + councils[i] + '/';
         if (path.indexOf(base) === 0) {
@@ -29,15 +30,18 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e5e5e7; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .hub { max-width: 800px; padding: 2rem; text-align: center; }
+    .hub { max-width: 960px; padding: 2rem; text-align: center; }
     h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
     h1 span { color: #0a84ff; }
-    .subtitle { color: #8e8e93; margin-bottom: 2rem; }
-    .councils { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
-    .council-card { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: #e5e5e7; transition: all 0.2s; }
+    .subtitle { color: #8e8e93; margin-bottom: 0.5rem; }
+    .stats-line { color: #636366; font-size: 0.85rem; margin-bottom: 2rem; }
+    .section-label { color: #8e8e93; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; font-weight: 600; }
+    .councils { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 0 0 1.5rem; }
+    .council-card { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 12px; padding: 1.25rem 1rem; text-decoration: none; color: #e5e5e7; transition: all 0.2s; position: relative; overflow: hidden; }
     .council-card:hover { border-color: #0a84ff; transform: translateY(-2px); }
-    .council-card h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .council-card p { color: #8e8e93; font-size: 0.85rem; }
+    .council-card h2 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .council-card p { color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
+    .council-card .accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .disclaimer { color: #636366; font-size: 0.75rem; margin-top: 2rem; }
     /* Password gate overlay */
     .gate-overlay { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 9999; }
@@ -50,6 +54,14 @@
     .gate-box button { margin-top: 1rem; padding: 0.75rem 2rem; background: #0a84ff; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
     .gate-box button:hover { background: #0070e0; }
     @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    @media (max-width: 768px) {
+      .councils { grid-template-columns: repeat(2, 1fr); }
+      .hub { padding: 1.5rem; }
+      h1 { font-size: 2rem; }
+    }
+    @media (max-width: 420px) {
+      .councils { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -86,14 +98,58 @@
 
   <div class="hub">
     <h1>AI <span>DOGE</span></h1>
-    <p class="subtitle">Independent public spending transparency for East Lancashire councils</p>
+    <p class="subtitle">Independent public spending transparency across Lancashire</p>
+    <p class="stats-line">8 councils &middot; 197,000+ transactions &middot; &pound;1 billion+ tracked</p>
+
+    <p class="section-label">East Lancashire</p>
     <div class="councils">
-      <a href="/lancashire/burnleycouncil/" class="council-card"><h2>Burnley</h2><p>30,580 transactions &middot; &pound;355M</p></a>
-      <a href="/lancashire/hyndburncouncil/" class="council-card"><h2>Hyndburn</h2><p>29,804 transactions &middot; &pound;211M</p></a>
-      <a href="/lancashire/pendlecouncil/" class="council-card"><h2>Pendle</h2><p>49,741 transactions &middot; &pound;125M</p></a>
-      <a href="/lancashire/rossendalecouncil/" class="council-card"><h2>Rossendale</h2><p>42,536 transactions &middot; &pound;64M</p></a>
+      <a href="/lancashire/burnleycouncil/" class="council-card">
+        <div class="accent-bar" style="background:#0a84ff"></div>
+        <h2>Burnley</h2>
+        <p>30,580 transactions<br>&pound;355M tracked</p>
+      </a>
+      <a href="/lancashire/hyndburncouncil/" class="council-card">
+        <div class="accent-bar" style="background:#ff9f0a"></div>
+        <h2>Hyndburn</h2>
+        <p>29,804 transactions<br>&pound;211M tracked</p>
+      </a>
+      <a href="/lancashire/pendlecouncil/" class="council-card">
+        <div class="accent-bar" style="background:#30d158"></div>
+        <h2>Pendle</h2>
+        <p>49,741 transactions<br>&pound;125M tracked</p>
+      </a>
+      <a href="/lancashire/rossendalecouncil/" class="council-card">
+        <div class="accent-bar" style="background:#bf5af2"></div>
+        <h2>Rossendale</h2>
+        <p>42,536 transactions<br>&pound;64M tracked</p>
+      </a>
     </div>
-    <p class="disclaimer">NOT an official council website. Independent public scrutiny tool. Published by Tom Pickup.</p>
+
+    <p class="section-label">Central &amp; South Lancashire</p>
+    <div class="councils">
+      <a href="/lancashire/lancastercouncil/" class="council-card">
+        <div class="accent-bar" style="background:#1B5E20"></div>
+        <h2>Lancaster</h2>
+        <p>24,593 transactions<br>&pound;143M tracked</p>
+      </a>
+      <a href="/lancashire/ribblevalleycouncil/" class="council-card">
+        <div class="accent-bar" style="background:#6A1B9A"></div>
+        <h2>Ribble Valley</h2>
+        <p>3,767 transactions<br>&pound;12M tracked</p>
+      </a>
+      <a href="/lancashire/chorleycouncil/" class="council-card">
+        <div class="accent-bar" style="background:#C62828"></div>
+        <h2>Chorley</h2>
+        <p>885 transactions<br>Purchase card data</p>
+      </a>
+      <a href="/lancashire/southribblecouncil/" class="council-card">
+        <div class="accent-bar" style="background:#E65100"></div>
+        <h2>South Ribble</h2>
+        <p>16,065 transactions<br>&pound;147M tracked</p>
+      </a>
+    </div>
+
+    <p class="disclaimer">NOT an official council website. Independent public scrutiny tool. All data from publicly available council documents. Published by Tom Pickup.</p>
   </div>
 </body>
 </html>

@@ -1,0 +1,438 @@
+{
+  "borough": "rossendale",
+  "borough_name": "Rossendale",
+  "ons_code": "E07000125",
+  "date": "2025-12",
+  "total_crimes": 525,
+  "total_stop_and_search": 12,
+  "by_category": {
+    "anti-social-behaviour": 141,
+    "criminal-damage-arson": 47,
+    "other-theft": 30,
+    "possession-of-weapons": 2,
+    "violent-crime": 184,
+    "burglary": 21,
+    "drugs": 10,
+    "public-order": 25,
+    "shoplifting": 29,
+    "vehicle-crime": 19,
+    "other-crime": 12,
+    "robbery": 2,
+    "bicycle-theft": 1,
+    "theft-from-the-person": 2
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 184
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 141
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 47
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 30
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 29
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 25
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 21
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 19
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 12
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 10
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 2
+    },
+    "robbery": {
+      "name": "Robbery",
+      "count": 2
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 2
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 1
+    }
+  },
+  "outcomes": {
+    "Investigation complete; no suspect identified": 70,
+    "Unable to prosecute suspect": 106,
+    "Under investigation": 158,
+    "Awaiting court outcome": 13,
+    "Offender given a caution": 3,
+    "Local resolution": 27,
+    "Action to be taken by another organisation": 6,
+    "Offender given penalty notice": 1
+  },
+  "ward_count": 10,
+  "wards": {
+    "RO1": {
+      "ward_id": "RO1",
+      "name": "Helmshore",
+      "total_crimes": 16,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "possession-of-weapons": 1,
+        "violent-crime": 9
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 3,
+        "Under investigation": 7
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RO10": {
+      "ward_id": "RO10",
+      "name": "Whitworth",
+      "total_crimes": 55,
+      "by_category": {
+        "anti-social-behaviour": 17,
+        "burglary": 1,
+        "criminal-damage-arson": 7,
+        "drugs": 1,
+        "other-theft": 2,
+        "public-order": 1,
+        "shoplifting": 3,
+        "vehicle-crime": 1,
+        "violent-crime": 20,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Under investigation": 22,
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 10,
+        "Awaiting court outcome": 1,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "RO2": {
+      "ward_id": "RO2",
+      "name": "Longholme",
+      "total_crimes": 74,
+      "by_category": {
+        "anti-social-behaviour": 20,
+        "burglary": 4,
+        "criminal-damage-arson": 8,
+        "drugs": 1,
+        "other-theft": 6,
+        "public-order": 5,
+        "shoplifting": 6,
+        "vehicle-crime": 3,
+        "violent-crime": 19,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 8,
+        "Under investigation": 22,
+        "Unable to prosecute suspect": 10,
+        "Local resolution": 7,
+        "Awaiting court outcome": 5,
+        "Action to be taken by another organisation": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RO3": {
+      "ward_id": "RO3",
+      "name": "Bacup",
+      "total_crimes": 74,
+      "by_category": {
+        "anti-social-behaviour": 14,
+        "burglary": 3,
+        "criminal-damage-arson": 11,
+        "drugs": 2,
+        "other-theft": 5,
+        "public-order": 3,
+        "robbery": 1,
+        "shoplifting": 3,
+        "vehicle-crime": 1,
+        "violent-crime": 30,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 18,
+        "Investigation complete; no suspect identified": 11,
+        "Under investigation": 21,
+        "Local resolution": 5,
+        "Awaiting court outcome": 3,
+        "Action to be taken by another organisation": 2
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "RO4": {
+      "ward_id": "RO4",
+      "name": "Britannia &amp; Lee Mill",
+      "total_crimes": 40,
+      "by_category": {
+        "anti-social-behaviour": 9,
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "robbery": 1,
+        "shoplifting": 9,
+        "violent-crime": 17,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 13,
+        "Local resolution": 3,
+        "Investigation complete; no suspect identified": 3,
+        "Unable to prosecute suspect": 10,
+        "Awaiting court outcome": 1,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RO5": {
+      "ward_id": "RO5",
+      "name": "Goodshaw &amp; Cribden",
+      "total_crimes": 25,
+      "by_category": {
+        "anti-social-behaviour": 10,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "other-theft": 1,
+        "public-order": 2,
+        "vehicle-crime": 3,
+        "violent-crime": 6
+      },
+      "outcomes": {
+        "Under investigation": 8,
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 3,
+        "Offender given a caution": 1,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RO6": {
+      "ward_id": "RO6",
+      "name": "Greenfield &amp; Eden",
+      "total_crimes": 45,
+      "by_category": {
+        "anti-social-behaviour": 15,
+        "burglary": 5,
+        "criminal-damage-arson": 4,
+        "drugs": 1,
+        "public-order": 2,
+        "shoplifting": 2,
+        "vehicle-crime": 1,
+        "violent-crime": 15
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 5,
+        "Unable to prosecute suspect": 9,
+        "Under investigation": 15,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "RO7": {
+      "ward_id": "RO7",
+      "name": "Hareholme with Waterfoot",
+      "total_crimes": 78,
+      "by_category": {
+        "anti-social-behaviour": 20,
+        "bicycle-theft": 1,
+        "burglary": 2,
+        "criminal-damage-arson": 4,
+        "drugs": 2,
+        "other-theft": 7,
+        "public-order": 5,
+        "shoplifting": 3,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 3,
+        "violent-crime": 28,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 18,
+        "Under investigation": 19,
+        "Investigation complete; no suspect identified": 16,
+        "Local resolution": 4,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RO8": {
+      "ward_id": "RO8",
+      "name": "Haslingden",
+      "total_crimes": 67,
+      "by_category": {
+        "anti-social-behaviour": 13,
+        "burglary": 2,
+        "criminal-damage-arson": 4,
+        "drugs": 3,
+        "other-theft": 4,
+        "public-order": 6,
+        "shoplifting": 3,
+        "vehicle-crime": 4,
+        "violent-crime": 25,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 12,
+        "Local resolution": 2,
+        "Under investigation": 21,
+        "Offender given penalty notice": 1,
+        "Unable to prosecute suspect": 16,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 7
+      }
+    },
+    "RO9": {
+      "ward_id": "RO9",
+      "name": "Whitewell &amp; Stacksteads",
+      "total_crimes": 51,
+      "by_category": {
+        "anti-social-behaviour": 19,
+        "burglary": 2,
+        "criminal-damage-arson": 5,
+        "other-theft": 3,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 3,
+        "violent-crime": 15,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Under investigation": 10,
+        "Unable to prosecute suspect": 9,
+        "Local resolution": 4,
+        "Awaiting court outcome": 1,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    }
+  },
+  "generated_at": "2026-02-10T20:51:53.390464",
+  "trends": {
+    "previous_date": "2025-11",
+    "current_total": 525,
+    "previous_total": 495,
+    "change": 30,
+    "change_pct": 6.1,
+    "by_category": {
+      "vehicle-crime": {
+        "current": 19,
+        "previous": 27,
+        "change_pct": -29.6
+      },
+      "theft-from-the-person": {
+        "current": 2,
+        "previous": 0,
+        "change_pct": null
+      },
+      "violent-crime": {
+        "current": 184,
+        "previous": 179,
+        "change_pct": 2.8
+      },
+      "burglary": {
+        "current": 21,
+        "previous": 21,
+        "change_pct": 0.0
+      },
+      "public-order": {
+        "current": 25,
+        "previous": 23,
+        "change_pct": 8.7
+      },
+      "other-theft": {
+        "current": 30,
+        "previous": 41,
+        "change_pct": -26.8
+      },
+      "drugs": {
+        "current": 10,
+        "previous": 8,
+        "change_pct": 25.0
+      },
+      "other-crime": {
+        "current": 12,
+        "previous": 10,
+        "change_pct": 20.0
+      },
+      "possession-of-weapons": {
+        "current": 2,
+        "previous": 5,
+        "change_pct": -60.0
+      },
+      "robbery": {
+        "current": 2,
+        "previous": 1,
+        "change_pct": 100.0
+      },
+      "anti-social-behaviour": {
+        "current": 141,
+        "previous": 132,
+        "change_pct": 6.8
+      },
+      "criminal-damage-arson": {
+        "current": 47,
+        "previous": 29,
+        "change_pct": 62.1
+      },
+      "bicycle-theft": {
+        "current": 1,
+        "previous": 1,
+        "change_pct": 0.0
+      },
+      "shoplifting": {
+        "current": 29,
+        "previous": 18,
+        "change_pct": 61.1
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 # AI DOGE — Task List
 
 > Central task tracker. Updated by Claude Code sessions.
-> Last updated: 10 February 2026 (Phases 1-3 COMPLETE)
+> Last updated: 10 February 2026 (Phases 1-4 COMPLETE)
 
 ## Priority 1 — Broken / Blocking
 
@@ -36,18 +36,25 @@
 - [x] **Add swap to vps-news** — ✅ Done (9 Feb 2026). 2GB swap file (`/swapfile`) added and made permanent in fstab. Swappiness=60. Prevents future OOM crashes from rogue processes.
 - [x] **Recover vps-news from OOM crash** — ✅ Done (9 Feb 2026). Force rebooted via Oracle Cloud Console. All crons intact (news pipeline, CH matching, police ETL, ECA leads). 958 articles in DB.
 
-## Priority 4 — Procurement Section
+## Priority 4 — Procurement & Phase 4
 
-> ✅ **Phase 3 COMPLETE** (10 Feb 2026). Procurement page live, Contracts Finder data loaded for all 4 councils.
+> ✅ **Phases 3+4 COMPLETE** (10 Feb 2026). Procurement page live with advanced Contract Explorer, DOGE procurement compliance analysis, supplier concentration, payment velocity, accountability tracking, RSS feeds, newsletter generator.
 
-- [x] **Procurement ETL** — `procurement_etl.py` fetches from Contracts Finder API, generates procurement.json per council. Burnley 78 notices, Hyndburn 104, Pendle 62, Rossendale 90.
+- [x] **Procurement ETL** — `procurement_etl.py` fetches from Contracts Finder API, generates procurement.json per council. Burnley 94, Hyndburn 104, Pendle 62, Rossendale 90.
 - [x] **Procurement React page** — Stats grid, year chart, status pie chart, top suppliers, searchable/sortable/paginated contracts table. Route `/procurement`, nav item "Contracts".
 - [x] **Config + routing** — `procurement: true` in all 4 config.json files, route in App.jsx, nav in Layout.jsx, sitemap in vite.config.js.
-- [ ] **Phase 2 improvements (future):**
-  - DOGE procurement analysis: threshold avoidance, single-bidder contracts, late publication
-  - Cross-reference with spending data: link contract awards to actual payments
+- [x] **Contract Explorer (Phase 4)** — Expandable detail rows, CPV/year/value filters, spending cross-reference link
+- [x] **Procurement compliance analysis** — Threshold avoidance, repeat winners, timing clusters, value gap — in DOGE page
+- [x] **Supplier concentration** — HHI, top-N metrics — in DOGE page
+- [x] **Payment velocity** — Rapid payers, clock-like regulars, day-of-week chart — in DOGE page
+- [x] **"What Changed?" accountability** — Per-council outcomes.json, cards in DOGE page
+- [x] **Companies House fuzzy matching** — 90%+ threshold with SequenceMatcher, --ch-fuzzy-rematch CLI
+- [x] **RSS feeds** — Build-time XML from articles-index.json
+- [x] **Newsletter generator** — newsletter_generator.py: HTML+text per council, --dry-run support
+- [ ] **Future improvements:**
   - Find a Tender integration (above-threshold contracts)
-  - Supplier Win Rates analysis
+  - Single-bidder contract detection
+  - Late publication analysis
 
 ## Priority 5 — Content & Features
 
@@ -142,3 +149,12 @@
   - Article audit: Burnley 46, Hyndburn 22, Pendle 21, Rossendale 22 — all with perfect index/content alignment
 - [x] **ECA CRM push** — Merged haiku handover branch, committed enrichment pipeline, all pushed to `tompickup23/eca` (10 Feb 2026)
 - [x] **Paused News Lancashire + Burnley pipelines** — All 4 crons disabled (vps-news pipeline, vps-main article/NL deploy/NB deploy). Coming Soon password-gated pages deployed to both Cloudflare Pages sites (10 Feb 2026)
+- [x] **Phase 4 World-Class DOGE COMPLETE** — 8/8 tasks done (10 Feb 2026):
+  - 4.1 Procurement compliance: threshold avoidance, repeat winners, timing clusters in DOGE page
+  - 4.2 Contract Explorer: expandable rows, CPV/year/value filters, spending cross-reference
+  - 4.3 Supplier concentration: HHI index, top-N metrics (was "Win Rate" — impossible without bidder data)
+  - 4.4 Payment velocity: rapid payers, clock-like regulars, day-of-week chart
+  - 4.5 "What Changed?": outcomes.json per council, accountability cards
+  - 4.6 CH fuzzy matching: 90%+ threshold, SequenceMatcher, unambiguity margin
+  - 4.7 RSS feeds: build-time XML from articles-index.json
+  - 4.8 Newsletter generator: newsletter_generator.py (HTML+text, 4 councils)

@@ -12,12 +12,14 @@ Usage:
 
 import argparse
 import csv
+import io
 import json
 import os
 import re
 import sys
 from collections import defaultdict
 from datetime import datetime
+from difflib import SequenceMatcher
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -72,6 +74,50 @@ COUNCIL_REGISTRY = {
         "spending_threshold": 500,
         "data_start_fy": "2021/22",
         "publishes_purchase_cards": True,
+        "publishes_contracts": False,
+    },
+    "lancaster": {
+        "name": "Lancaster City Council",
+        "short_name": "Lancaster",
+        "type": "city",
+        "ons_code": "E07000121",
+        "spending_url": "https://www.lancaster.gov.uk/the-council-and-democracy/budgets-and-spending/expenditure-over-500",
+        "spending_threshold": 500,
+        "data_start_fy": "2021/22",
+        "publishes_purchase_cards": True,
+        "publishes_contracts": False,
+    },
+    "ribble_valley": {
+        "name": "Ribble Valley Borough Council",
+        "short_name": "Ribble Valley",
+        "type": "district",
+        "ons_code": "E07000124",
+        "spending_url": "https://www.ribblevalley.gov.uk/downloads/download/107/over-250-spend-data",
+        "spending_threshold": 250,
+        "data_start_fy": "2021/22",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
+    "chorley": {
+        "name": "Chorley Borough Council",
+        "short_name": "Chorley",
+        "type": "district",
+        "ons_code": "E07000118",
+        "spending_url": "https://chorley.gov.uk/transparency/spending-over-500",
+        "spending_threshold": 500,
+        "data_start_fy": "2021/22",
+        "publishes_purchase_cards": True,
+        "publishes_contracts": False,
+    },
+    "south_ribble": {
+        "name": "South Ribble Borough Council",
+        "short_name": "South Ribble",
+        "type": "district",
+        "ons_code": "E07000126",
+        "spending_url": "https://southribble.gov.uk/transparency/spending-over-500",
+        "spending_threshold": 250,
+        "data_start_fy": "2021/22",
+        "publishes_purchase_cards": False,
         "publishes_contracts": False,
     },
 }
@@ -617,6 +663,376 @@ def parse_pendle(csv_files, data_start_fy="2021/22"):
     return all_records
 
 
+# ─── Lancaster Adapter ──────────────────────────────────────────────
+
+def parse_lancaster(csv_files, data_start_fy="2021/22"):
+    """Parse Lancaster City Council quarterly CSVs.
+
+    Lancaster publishes quarterly CSVs with 6 columns (after 2-3 header rows):
+      Supplier Name, Spending Service, Nature of Spend, Ledger Date,
+      Invoice Reference, Net Amount (excluding VAT)
+
+    Separate procurement card CSVs are also available.
+    Date format: D Mon YYYY (e.g. "9 Jan 2025")
+    Amount: quoted with commas and minus signs for credits
+    """
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for csv_path in csv_files:
+        # Lancaster CSVs have 2-3 title rows before the real header.
+        rows = read_csv_with_header_search(str(csv_path), 'Supplier Name')
+        if not rows:
+            continue
+
+        records = []
+        for row in rows:
+            cleaned = {k.strip(): v for k, v in row.items() if k and k.strip()}
+
+            supplier = cleaned.get('Supplier Name', '')
+            if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                continue
+
+            date_str = cleaned.get('Ledger Date', '')
+            parsed_date = parse_date(str(date_str).strip())
+
+            amount_str = cleaned.get('Net Amount (excluding VAT)',
+                         cleaned.get('Net Amount', ''))
+            amount = parse_amount(amount_str)
+            if amount == 0:
+                continue
+
+            fy = financial_year_from_date(parsed_date)
+            dept_raw = str(cleaned.get('Spending Service', '')).strip()
+
+            # Detect if this is a procurement card file
+            is_card = 'procurement' in csv_path.name.lower() or 'card' in csv_path.name.lower()
+
+            record = {
+                "date": parsed_date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(parsed_date),
+                "month": int(parsed_date[5:7]) if parsed_date else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept_raw,
+                "department": None,
+                "service_area_raw": str(cleaned.get('Nature of Spend', '')).strip(),
+                "service_area": str(cleaned.get('Nature of Spend', '')).strip(),
+                "description": str(cleaned.get('Nature of Spend', '')).strip(),
+                "reference": str(cleaned.get('Invoice Reference', '')).strip(),
+                "type": "purchase_card" if is_card else "spend",
+                "capital_revenue": None,
+                "council": "lancaster",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            }
+            records.append(record)
+
+        # Filter by start financial year
+        for r in records:
+            fy = r.get("financial_year")
+            if fy and fy_to_start_year(fy) >= start_year:
+                all_records.append(r)
+
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+
+    print(f"  Total Lancaster records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+# ─── Ribble Valley Adapter ──────────────────────────────────────────
+
+def read_csv_with_header_search(filepath, header_marker):
+    """Read a CSV file that has title/blank rows before the real header.
+    Searches for a row containing header_marker and uses it as the header."""
+    raw_lines = []
+    for enc in ['utf-8', 'utf-8-sig', 'latin-1', 'cp1252']:
+        try:
+            with open(str(filepath), 'r', encoding=enc) as f:
+                raw_lines = f.read().strip().split('\n')
+            break
+        except UnicodeDecodeError:
+            continue
+    if not raw_lines:
+        return []
+
+    header_idx = None
+    for i, line in enumerate(raw_lines):
+        if header_marker in line:
+            header_idx = i
+            break
+    if header_idx is None:
+        return []
+
+    csv_content = '\n'.join(raw_lines[header_idx:])
+    reader = csv.DictReader(io.StringIO(csv_content))
+    return list(reader)
+
+
+def parse_ribble_valley(csv_files, data_start_fy="2021/22"):
+    """Parse Ribble Valley Borough Council monthly CSVs.
+
+    Ribble Valley publishes monthly CSVs with 19 columns (richest data):
+      Body Name, Body, Service Label, Service Code, Service Division,
+      Service Division Code, Organisational Unit, Expenditure Category,
+      Expenditure Code, SeRCOP Detailed Expenditure Type,
+      SeRCOP Detailed Expenditure Code, Narrative, Date, Transaction Number,
+      Amount, Capital or Revenue, Supplier Name, Supplier ID, Contract ID
+
+    Spending threshold: £250 (lower than standard)
+    Date format: DD/MM/YY
+    Amount: decimal, no currency symbol
+    Has 2-3 title rows before actual header with numbered columns.
+    """
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for csv_path in csv_files:
+        # Ribble Valley has title rows — search for header containing "Body Name"
+        rows = read_csv_with_header_search(str(csv_path), 'Body Name')
+        if not rows:
+            continue
+
+        records = []
+        for row in rows:
+            # Strip numbered prefixes like "(01) Body Name" → "Body Name"
+            cleaned = {}
+            for k, v in row.items():
+                if k and k.strip():
+                    clean_key = re.sub(r'^\(\d+\)\s*', '', k.strip())
+                    cleaned[clean_key] = v
+
+            supplier = cleaned.get('Supplier Name', '')
+            if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                continue
+
+            date_str = cleaned.get('Date', '')
+            parsed_date = parse_date(str(date_str).strip())
+
+            amount_str = cleaned.get('Amount', '')
+            amount = parse_amount(amount_str)
+            if amount == 0:
+                continue
+
+            fy = financial_year_from_date(parsed_date)
+            cap_rev_raw = str(cleaned.get('Capital or Revenue', '')).strip()
+            cap_rev = None
+            if cap_rev_raw.lower().startswith('cap'):
+                cap_rev = 'capital'
+            elif cap_rev_raw.lower().startswith('rev'):
+                cap_rev = 'revenue'
+
+            record = {
+                "date": parsed_date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(parsed_date),
+                "month": int(parsed_date[5:7]) if parsed_date else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": str(cleaned.get('Service Division', '')).strip(),
+                "department": None,
+                "service_area_raw": str(cleaned.get('Service Label', '')).strip(),
+                "service_area": str(cleaned.get('Service Label', '')).strip(),
+                "description": str(cleaned.get('Narrative', '')).strip(),
+                "reference": str(cleaned.get('Transaction Number', '')).strip(),
+                "type": "spend",
+                "capital_revenue": cap_rev,
+                "council": "ribble_valley",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                # Ribble Valley bonus fields
+                "organisational_unit": str(cleaned.get('Organisational Unit', '')).strip(),
+                "expenditure_category": str(cleaned.get('Expenditure Category', '')).strip(),
+                "sercop_type": str(cleaned.get('SeRCOP Detailed Expenditure Type', '')).strip(),
+                "contract_id": str(cleaned.get('Contract ID', '')).strip(),
+                "supplier_id": str(cleaned.get('Supplier ID', '')).strip(),
+                "_source_file": csv_path.name,
+            }
+            records.append(record)
+
+        # Filter by start financial year
+        for r in records:
+            fy = r.get("financial_year")
+            if fy and fy_to_start_year(fy) >= start_year:
+                all_records.append(r)
+
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+
+    print(f"  Total Ribble Valley records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+# ─── Chorley Adapter ────────────────────────────────────────────────
+
+def parse_chorley(csv_files, data_start_fy="2021/22"):
+    """Parse Chorley Borough Council CSVs.
+
+    Chorley publishes monthly/quarterly CSVs with 10 columns:
+      Body Name, Body, Transaction Date, Value, Supplier, Description,
+      Purchase Type, Cost Center, Department, Section
+
+    Date format: DD/MM/YYYY
+    Amount: includes £ symbol and commas
+    Has mixed format: some older files are monthly, newer ones quarterly.
+    """
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for csv_path in csv_files:
+        rows = read_csv_safe(str(csv_path))
+        if not rows:
+            continue
+
+        records = []
+        for row in rows:
+            cleaned = {k.strip(): v for k, v in row.items() if k and k.strip()}
+
+            supplier = cleaned.get('Supplier', '')
+            if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                continue
+
+            date_str = cleaned.get('Transaction Date', '')
+            parsed_date = parse_date(str(date_str).strip())
+
+            amount_str = cleaned.get('Value', '')
+            amount = parse_amount(amount_str)
+            if amount == 0:
+                continue
+
+            fy = financial_year_from_date(parsed_date)
+            dept_raw = str(cleaned.get('Department', '')).strip()
+            section_raw = str(cleaned.get('Section', '')).strip()
+            purchase_type = str(cleaned.get('Purchase Type', '')).strip()
+
+            # Detect purchase card transactions
+            is_card = 'card' in purchase_type.lower() or 'online' in purchase_type.lower()
+
+            record = {
+                "date": parsed_date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(parsed_date),
+                "month": int(parsed_date[5:7]) if parsed_date else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept_raw,
+                "department": None,
+                "service_area_raw": section_raw,
+                "service_area": section_raw,
+                "description": str(cleaned.get('Description', '')).strip(),
+                "reference": str(cleaned.get('Cost Center', '')).strip(),
+                "type": "purchase_card" if is_card else "spend",
+                "capital_revenue": None,
+                "council": "chorley",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            }
+            records.append(record)
+
+        # Filter by start financial year
+        for r in records:
+            fy = r.get("financial_year")
+            if fy and fy_to_start_year(fy) >= start_year:
+                all_records.append(r)
+
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+
+    print(f"  Total Chorley records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+# ─── South Ribble Adapter ───────────────────────────────────────────
+
+def parse_south_ribble(csv_files, data_start_fy="2021/22"):
+    """Parse South Ribble Borough Council monthly CSVs.
+
+    South Ribble publishes monthly CSVs with 12 columns:
+      Body Name, Body, Service Level, Expense Type, Expense Code,
+      Narrative, Date, Transaction Number, Amount, Capital and Revenue,
+      Supplier Name, Supplier ID
+
+    Spending threshold: £250 (lower than standard)
+    Date format: DD/MM/YYYY
+    Amount: includes £ symbol and commas
+    """
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for csv_path in csv_files:
+        rows = read_csv_safe(str(csv_path))
+        if not rows:
+            continue
+
+        records = []
+        for row in rows:
+            cleaned = {k.strip(): v for k, v in row.items() if k and k.strip()}
+
+            supplier = cleaned.get('Supplier Name', '')
+            if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                continue
+
+            date_str = cleaned.get('Date', '')
+            parsed_date = parse_date(str(date_str).strip())
+
+            amount_str = cleaned.get('Amount', '')
+            amount = parse_amount(amount_str)
+            if amount == 0:
+                continue
+
+            fy = financial_year_from_date(parsed_date)
+            cap_rev_raw = str(cleaned.get('Capital and Revenue',
+                              cleaned.get('Capital or Revenue', ''))).strip()
+            cap_rev = None
+            if cap_rev_raw.lower().startswith('cap'):
+                cap_rev = 'capital'
+            elif cap_rev_raw.lower().startswith('rev'):
+                cap_rev = 'revenue'
+
+            record = {
+                "date": parsed_date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(parsed_date),
+                "month": int(parsed_date[5:7]) if parsed_date else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": str(cleaned.get('Service Level', '')).strip(),
+                "department": None,
+                "service_area_raw": str(cleaned.get('Expense Type', '')).strip(),
+                "service_area": str(cleaned.get('Expense Type', '')).strip(),
+                "description": str(cleaned.get('Narrative', '')).strip(),
+                "reference": str(cleaned.get('Transaction Number', '')).strip(),
+                "type": "spend",
+                "capital_revenue": cap_rev,
+                "council": "south_ribble",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "supplier_id": str(cleaned.get('Supplier ID', '')).strip(),
+                "_source_file": csv_path.name,
+            }
+            records.append(record)
+
+        # Filter by start financial year
+        for r in records:
+            fy = r.get("financial_year")
+            if fy and fy_to_start_year(fy) >= start_year:
+                all_records.append(r)
+
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+
+    print(f"  Total South Ribble records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
 # ─── Normalise & Insights ────────────────────────────────────────────
 
 def normalise_records(records, taxonomy, council_id):
@@ -1024,12 +1440,22 @@ def _normalise_for_ch(name):
 
 
 def _is_likely_company(name):
-    """Check if a name is likely a registered company (not individual/govt)."""
+    """Check if a name is likely a registered company (not individual/govt).
+    Returns True for names with company suffixes or multi-word business names
+    that could plausibly be on Companies House."""
     upper = name.upper()
     # Definite company indicators
     if any(suffix in upper for suffix in [' LTD', ' LIMITED', ' PLC', ' LLP', ' CIC', ' INC']):
         return True
-    return False
+    # Skip single words (likely abbreviations or individuals)
+    words = upper.split()
+    if len(words) < 2:
+        return False
+    # Skip names that look like individuals (e.g. "MR J SMITH", "DR PATEL")
+    if words[0] in ('MR', 'MRS', 'MS', 'MISS', 'DR', 'PROF', 'REV', 'SIR', 'DAME', 'LORD', 'LADY'):
+        return False
+    # Multi-word names that aren't known non-companies are worth checking
+    return True
 
 
 def _is_known_non_company(name):
@@ -1062,14 +1488,36 @@ def _ch_search(name, api_key, session=None):
         return []
 
 
-def _match_company(supplier_name, ch_results):
-    """Apply 100% confidence matching rules. Returns match dict or None.
+def _core_name(name):
+    """Extract core business name for fuzzy comparison.
+    Strips suffixes (LTD, PLC, LLP, CIC) and common noise words."""
+    n = _normalise_for_ch(name)
+    # Remove company type suffixes
+    n = re.sub(r'\s+(LTD|PLC|LLP|CIC|INC|CORP)\.?$', '', n)
+    # Remove common prefixes/noise
+    n = re.sub(r'^(THE|A|AN)\s+', '', n)
+    return n.strip()
 
-    Rules (ALL must pass):
-    1. Exact name match after normalisation
-    2. Company is active
-    3. Registered in England/Wales or UK-wide
-    4. Single unambiguous result
+
+# Minimum fuzzy match ratio — 90%+ ensures near-zero false positives.
+# SequenceMatcher ratio is 0.0-1.0 where 1.0 = identical strings.
+FUZZY_MATCH_THRESHOLD = 0.90
+
+# Minimum gap between best and second-best fuzzy match — ensures unambiguity.
+FUZZY_MARGIN = 0.05
+
+
+def _match_company(supplier_name, ch_results):
+    """Match supplier to Companies House results using exact + fuzzy matching.
+
+    Strategy (in priority order):
+    1. Exact name match after normalisation (confidence 1.0)
+    2. Fuzzy match at 90%+ similarity with unambiguous result (confidence = ratio)
+
+    Requirements for ALL matches:
+    - Company must be active
+    - Single unambiguous result (for exact: only 1 exact match;
+      for fuzzy: best match must be ≥5% ahead of second-best)
     """
     normalised = _normalise_for_ch(supplier_name)
     if not normalised:
@@ -1080,37 +1528,68 @@ def _match_company(supplier_name, ch_results):
     if not active:
         return None
 
-    # No jurisdiction filter needed — Companies House API only returns UK-registered
-    # companies. Previous filter had an overly broad `or not country` clause that
-    # passed all records with missing country fields regardless of actual jurisdiction.
-    uk_active = active
-
-    # Find exact name matches (from UK-filtered results)
+    # ── Stage 1: Exact match (highest confidence) ──
     exact_matches = []
-    for r in uk_active:
+    for r in active:
         ch_name = _normalise_for_ch(r.get("title", ""))
         if ch_name == normalised:
             exact_matches.append(r)
 
-    # Must be exactly one unambiguous match
-    if len(exact_matches) != 1:
+    if len(exact_matches) == 1:
+        match = exact_matches[0]
+        company_number = match.get("company_number", "")
+        return {
+            "company_number": company_number,
+            "company_name": match.get("title", ""),
+            "status": match.get("company_status", ""),
+            "sic_codes": match.get("sic_codes", []),
+            "url": f"{CH_PUBLIC_URL}/{company_number}",
+            "match_confidence": 1.0,
+        }
+
+    # ── Stage 2: Fuzzy match (90%+ threshold) ──
+    supplier_core = _core_name(supplier_name)
+    if len(supplier_core) < 3:
+        return None  # Too short for reliable fuzzy matching
+
+    scored = []
+    for r in active:
+        ch_normalised = _normalise_for_ch(r.get("title", ""))
+        ch_core = _core_name(r.get("title", ""))
+
+        # Compare both normalised and core forms, take the higher score
+        ratio_norm = SequenceMatcher(None, normalised, ch_normalised).ratio()
+        ratio_core = SequenceMatcher(None, supplier_core, ch_core).ratio()
+        best_ratio = max(ratio_norm, ratio_core)
+
+        if best_ratio >= FUZZY_MATCH_THRESHOLD:
+            scored.append((best_ratio, r))
+
+    if not scored:
         return None
 
-    match = exact_matches[0]
+    # Sort by score descending
+    scored.sort(key=lambda x: x[0], reverse=True)
+
+    # Unambiguity check: best must be clearly ahead of second-best
+    if len(scored) >= 2:
+        if scored[0][0] - scored[1][0] < FUZZY_MARGIN:
+            return None  # Too close to call — reject ambiguous match
+
+    best_ratio, match = scored[0]
     company_number = match.get("company_number", "")
-    sic_codes = match.get("sic_codes", [])
 
     return {
         "company_number": company_number,
         "company_name": match.get("title", ""),
         "status": match.get("company_status", ""),
-        "sic_codes": sic_codes,
+        "sic_codes": match.get("sic_codes", []),
         "url": f"{CH_PUBLIC_URL}/{company_number}",
-        "match_confidence": 1.0,
+        "match_confidence": round(best_ratio, 3),
     }
 
 
-def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_size=100, dry_run=False):
+def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_size=100, dry_run=False, fuzzy_rematch=False):
     """Match all unique suppliers to Companies House records.
 
     Args:
@@ -1119,6 +1598,7 @@ def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_siz
         api_key: Companies House API key (reads COMPANIES_HOUSE_API_KEY env var if None)
         batch_size: Number of suppliers to process per run (for rate limiting)
         dry_run: If True, just report what would be done without API calls
+        fuzzy_rematch: If True, re-check previously unmatched suppliers using fuzzy matching
 
     Returns:
         Updated taxonomy dict with matches added to suppliers section
@@ -1147,7 +1627,8 @@ def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_siz
         if not spending_path.exists():
             continue
         with open(spending_path) as f:
-            records = json.load(f)
+            data = json.load(f)
+        records = data if isinstance(data, list) else data.get("records", [])
         for r in records:
             supplier = r.get("supplier_canonical") or r.get("supplier")
             if supplier and supplier != "UNKNOWN":
@@ -1158,11 +1639,21 @@ def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_siz
     # Determine which suppliers already have Companies House data in taxonomy
     existing_suppliers = taxonomy.get("suppliers", {})
     already_checked = set()
+    rematch_candidates = []
     for canonical_name, data in existing_suppliers.items():
-        if "companies_house" in data:  # Even if null — means we've already checked
+        if "companies_house" in data:
+            ch = data["companies_house"]
+            if ch is None and fuzzy_rematch:
+                # Previously unmatched — candidate for fuzzy re-check
+                rematch_candidates.append(canonical_name)
+                continue
+            # Already has a match (or checked and we're not rematching)
             already_checked.add(canonical_name.upper())
             for alias in data.get("aliases", []):
                 already_checked.add(alias.upper())
+
+    if fuzzy_rematch and rematch_candidates:
+        print(f"  Fuzzy rematch mode: {len(rematch_candidates)} previously-unmatched suppliers will be re-checked")
 
     # Filter to those needing lookup
     needs_lookup = []
@@ -1202,16 +1693,17 @@ def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_siz
     import time
     session = requests.Session()
     to_process = needs_lookup[:batch_size]
-    matched = 0
+    exact_matched = 0
+    fuzzy_matched = 0
     unmatched = 0
-    errors = 0
 
     print(f"\n  Processing {len(to_process)} suppliers against Companies House API...")
     print(f"  Rate limit: 600 requests per 5 minutes (120/min)")
+    print(f"  Fuzzy matching threshold: {FUZZY_MATCH_THRESHOLD * 100:.0f}%+")
 
     for i, supplier in enumerate(to_process):
         if i > 0 and i % 100 == 0:
-            print(f"  ... {i}/{len(to_process)} done ({matched} matched, {unmatched} unmatched)")
+            print(f"  ... {i}/{len(to_process)} done ({exact_matched} exact, {fuzzy_matched} fuzzy, {unmatched} unmatched)")
             # Brief pause every 100 to stay well within rate limits
             time.sleep(2)
 
@@ -1229,7 +1721,11 @@ def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_siz
                 "aliases": [supplier.upper(), normalised],
                 "companies_house": match,
             }
-            matched += 1
+            if match["match_confidence"] >= 1.0:
+                exact_matched += 1
+            else:
+                fuzzy_matched += 1
+                print(f"    FUZZY: {supplier} → {match['company_name']} ({match['match_confidence']:.1%})")
         else:
             # Mark as checked but unmatched
             taxonomy.setdefault("suppliers", {})[supplier] = {
@@ -1246,9 +1742,12 @@ def companies_house_lookup(taxonomy=None, councils=None, api_key=None, batch_siz
     save_taxonomy(taxonomy)
 
     # Summary
+    matched = exact_matched + fuzzy_matched
     print(f"\n  Companies House Matching Complete:")
     print(f"    Processed: {len(to_process)}")
-    print(f"    Matched (100% confidence): {matched}")
+    print(f"    Exact matches (100%): {exact_matched}")
+    print(f"    Fuzzy matches (≥{FUZZY_MATCH_THRESHOLD * 100:.0f}%): {fuzzy_matched}")
+    print(f"    Total matched: {matched}")
     print(f"    Unmatched: {unmatched}")
     print(f"    Remaining to check: {max(0, len(needs_lookup) - batch_size)}")
 
@@ -1948,6 +2447,8 @@ def main():
                         help="Deep-enrich matched companies: fetch profile/officers/PSCs, run compliance checks")
     parser.add_argument("--ch-enrich-force", action="store_true",
                         help="Force re-enrichment even if already done")
+    parser.add_argument("--ch-fuzzy-rematch", action="store_true",
+                        help="Re-check previously unmatched suppliers using fuzzy matching (90%+ threshold)")
     args = parser.parse_args()
 
     council_id = args.council
@@ -1973,7 +2474,7 @@ def main():
         save_taxonomy(taxonomy)
 
     # ── Companies House matching mode ──
-    if args.companies_house or args.ch_dry_run:
+    if args.companies_house or args.ch_dry_run or args.ch_fuzzy_rematch:
         print("\n=== Companies House Supplier Matching ===")
         companies_house_lookup(
             taxonomy=taxonomy,
@@ -1981,6 +2482,7 @@ def main():
             api_key=args.ch_api_key,
             batch_size=args.ch_batch_size,
             dry_run=args.ch_dry_run,
+            fuzzy_rematch=args.ch_fuzzy_rematch,
         )
         return
 
@@ -2055,6 +2557,58 @@ def main():
         print(f"\n  Parsing {len(csv_files)} CSV files...")
         data_start = council_info.get("data_start_fy", "2021/22")
         records = parse_pendle(csv_files, data_start)
+
+    elif council_id == "lancaster":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "lancaster_csvs"
+
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            print(f"  Download Lancaster CSVs from: {council_info['spending_url']}")
+            sys.exit(1)
+
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2021/22")
+        records = parse_lancaster(csv_files, data_start)
+
+    elif council_id == "ribble_valley":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "ribble_valley_csvs"
+
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            print(f"  Download Ribble Valley CSVs from: {council_info['spending_url']}")
+            sys.exit(1)
+
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2021/22")
+        records = parse_ribble_valley(csv_files, data_start)
+
+    elif council_id == "chorley":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "chorley_csvs"
+
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            print(f"  Download Chorley CSVs from: {council_info['spending_url']}")
+            sys.exit(1)
+
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2021/22")
+        records = parse_chorley(csv_files, data_start)
+
+    elif council_id == "south_ribble":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "south_ribble_csvs"
+
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            print(f"  Download South Ribble CSVs from: {council_info['spending_url']}")
+            sys.exit(1)
+
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2021/22")
+        records = parse_south_ribble(csv_files, data_start)
 
     if not records:
         print("  No records parsed. Check your data source.")

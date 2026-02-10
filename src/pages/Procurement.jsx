@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react'
-import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react'
+import React, { useState, useMemo, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown, ChevronDown, PoundSterling, Filter, X } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatDate } from '../utils/format'
 import { CHART_COLORS, TOOLTIP_STYLE } from '../utils/constants'
@@ -63,21 +64,142 @@ function SortHeader({ field, label, sortField, sortDir, onSort }) {
   )
 }
 
+function ContractDetail({ contract, onViewSpending }) {
+  const hasTimeline = contract.published_date || contract.deadline_date || contract.awarded_date
+  return (
+    <div className="contract-detail">
+      {contract.description && (
+        <div className="contract-detail-section">
+          <h4>Description</h4>
+          <p className="contract-detail-desc">{contract.description}</p>
+        </div>
+      )}
+      {hasTimeline && (
+        <div className="contract-detail-section">
+          <h4>Timeline</h4>
+          <div className="contract-timeline">
+            {contract.published_date && (
+              <div className="timeline-item">
+                <span className="timeline-dot timeline-published" />
+                <span className="timeline-label">Published</span>
+                <span className="timeline-date">{formatDate(contract.published_date)}</span>
+              </div>
+            )}
+            {contract.deadline_date && (
+              <div className="timeline-item">
+                <span className="timeline-dot timeline-deadline" />
+                <span className="timeline-label">Deadline</span>
+                <span className="timeline-date">{formatDate(contract.deadline_date)}</span>
+              </div>
+            )}
+            {contract.awarded_date && (
+              <div className="timeline-item">
+                <span className="timeline-dot timeline-awarded" />
+                <span className="timeline-label">Awarded</span>
+                <span className="timeline-date">{formatDate(contract.awarded_date)}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      <div className="contract-detail-meta">
+        {contract.notice_type && <span className="detail-tag">Type: {contract.notice_type}</span>}
+        {contract.cpv_description && <span className="detail-tag">CPV: {contract.cpv_description}</span>}
+        {contract.awarded_to_sme !== null && contract.awarded_to_sme !== undefined && (
+          <span className="detail-tag">{contract.awarded_to_sme ? 'SME' : 'Non-SME'}</span>
+        )}
+        {contract.region && <span className="detail-tag">{contract.region}</span>}
+        {contract.value_low > 0 && <span className="detail-tag">Estimated: {formatCurrency(contract.value_low, true)}</span>}
+      </div>
+      <div className="contract-detail-actions">
+        {contract.url && (
+          <a href={contract.url} target="_blank" rel="noopener noreferrer" className="detail-action-btn">
+            <ExternalLink size={14} /> View on Contracts Finder
+          </a>
+        )}
+        {contract.awarded_supplier && contract.awarded_supplier !== 'NOT AWARDED TO SUPPLIER' && (
+          <button className="detail-action-btn detail-action-spending" onClick={() => onViewSpending(contract.awarded_supplier)}>
+            <PoundSterling size={14} /> View Spending for {decodeHtmlEntities(contract.awarded_supplier)}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function Procurement() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
+  const navigate = useNavigate()
 
   const { data: procurementData, loading, error } = useData('/data/procurement.json')
 
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
+  const [cpvFilter, setCpvFilter] = useState('')
+  const [yearFilter, setYearFilter] = useState('')
+  const [valueMin, setValueMin] = useState('')
+  const [valueMax, setValueMax] = useState('')
   const [sortField, setSortField] = useState('published_date')
   const [sortDir, setSortDir] = useState('desc')
   const [page, setPage] = useState(1)
+  const [expandedId, setExpandedId] = useState(null)
+  const [showFilters, setShowFilters] = useState(false)
 
   const stats = procurementData?.stats || {}
   const contracts = procurementData?.contracts || []
   const meta = procurementData?.meta || {}
+
+  // Available CPV categories for filter
+  const availableCpvs = useMemo(() => {
+    const map = new Map()
+    for (const c of contracts) {
+      if (c.cpv_description) {
+        const key = c.cpv_description
+        map.set(key, (map.get(key) || 0) + 1)
+      }
+    }
+    return [...map.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, count]) => ({ name, count }))
+  }, [contracts])
+
+  // Available years for filter
+  const availableYears = useMemo(() => {
+    const years = new Set()
+    for (const c of contracts) {
+      if (c.published_date) {
+        years.add(c.published_date.substring(0, 4))
+      }
+    }
+    return [...years].sort().reverse()
+  }, [contracts])
+
+  // Active filter count
+  const activeFilterCount = useMemo(() => {
+    let count = 0
+    if (statusFilter) count++
+    if (cpvFilter) count++
+    if (yearFilter) count++
+    if (valueMin) count++
+    if (valueMax) count++
+    return count
+  }, [statusFilter, cpvFilter, yearFilter, valueMin, valueMax])
+
+  const clearAllFilters = useCallback(() => {
+    setStatusFilter('')
+    setCpvFilter('')
+    setYearFilter('')
+    setValueMin('')
+    setValueMax('')
+    setSearch('')
+    setPage(1)
+  }, [])
+
+  const handleViewSpending = useCallback((supplier) => {
+    const decoded = decodeHtmlEntities(supplier)
+    navigate(`/spending?q=${encodeURIComponent(decoded)}`)
+  }, [navigate])
 
   // Charts data
   const yearChartData = useMemo(() => {
@@ -125,6 +247,31 @@ function Procurement() {
       result = result.filter(c => c.status === statusFilter)
     }
 
+    if (cpvFilter) {
+      result = result.filter(c => c.cpv_description === cpvFilter)
+    }
+
+    if (yearFilter) {
+      result = result.filter(c => c.published_date && c.published_date.startsWith(yearFilter))
+    }
+
+    if (valueMin) {
+      const min = parseFloat(valueMin)
+      if (!isNaN(min)) {
+        result = result.filter(c => (c.awarded_value || c.value_low || 0) >= min)
+      }
+    }
+
+    if (valueMax) {
+      const max = parseFloat(valueMax)
+      if (!isNaN(max)) {
+        result = result.filter(c => {
+          const val = c.awarded_value || c.value_low || 0
+          return val > 0 && val <= max
+        })
+      }
+    }
+
     // Sort
     result = [...result].sort((a, b) => {
       let aVal, bVal
@@ -147,7 +294,7 @@ function Procurement() {
     })
 
     return result
-  }, [contracts, search, statusFilter, sortField, sortDir])
+  }, [contracts, search, statusFilter, cpvFilter, yearFilter, valueMin, valueMax, sortField, sortDir])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
   const safePage = Math.min(page, totalPages)
@@ -329,10 +476,75 @@ function Procurement() {
               ))}
             </select>
           </div>
+          <button
+            className={`procurement-filter-toggle ${showFilters ? 'active' : ''}`}
+            onClick={() => setShowFilters(f => !f)}
+          >
+            <Filter size={14} />
+            Advanced{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+            <ChevronDown size={14} className={`filter-chevron ${showFilters ? 'open' : ''}`} />
+          </button>
+          {activeFilterCount > 0 && (
+            <button className="procurement-clear-all" onClick={clearAllFilters}>
+              <X size={14} /> Clear All
+            </button>
+          )}
           <span className="procurement-filter-results">
             {formatNumber(filtered.length)} contract{filtered.length !== 1 ? 's' : ''}
           </span>
         </div>
+        {showFilters && (
+          <div className="procurement-advanced-filters">
+            <div className="procurement-filter-group">
+              <label htmlFor="cpv-filter">Service Type</label>
+              <select
+                id="cpv-filter"
+                value={cpvFilter}
+                onChange={(e) => { setCpvFilter(e.target.value); setPage(1) }}
+              >
+                <option value="">All Types</option>
+                {availableCpvs.map(c => (
+                  <option key={c.name} value={c.name}>{c.name} ({c.count})</option>
+                ))}
+              </select>
+            </div>
+            <div className="procurement-filter-group">
+              <label htmlFor="year-filter">Year Published</label>
+              <select
+                id="year-filter"
+                value={yearFilter}
+                onChange={(e) => { setYearFilter(e.target.value); setPage(1) }}
+              >
+                <option value="">All Years</option>
+                {availableYears.map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="procurement-filter-group">
+              <label htmlFor="value-min">Min Value</label>
+              <input
+                id="value-min"
+                type="number"
+                placeholder="0"
+                value={valueMin}
+                onChange={(e) => { setValueMin(e.target.value); setPage(1) }}
+                className="procurement-value-input"
+              />
+            </div>
+            <div className="procurement-filter-group">
+              <label htmlFor="value-max">Max Value</label>
+              <input
+                id="value-max"
+                type="number"
+                placeholder="No limit"
+                value={valueMax}
+                onChange={(e) => { setValueMax(e.target.value); setPage(1) }}
+                className="procurement-value-input"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Contracts Table */}
@@ -353,33 +565,61 @@ function Procurement() {
               <tr><td colSpan={6} className="procurement-empty">No contracts match your search.</td></tr>
             ) : (
               paged.map((c) => (
-                <tr key={c.id}>
-                  <td className="procurement-title-cell">
-                    <span className="procurement-contract-title">{c.title}</span>
-                    {c.cpv_description && (
-                      <span className="procurement-cpv">{c.cpv_description}</span>
-                    )}
-                  </td>
-                  <td><StatusBadge status={c.status} /></td>
-                  <td className="procurement-date-cell">{formatDate(c.published_date)}</td>
-                  <td className="amount-cell">
-                    {c.awarded_value && c.awarded_value > 0
-                      ? formatCurrency(c.awarded_value, c.awarded_value >= 100000)
-                      : c.value_low && c.value_low > 0
-                        ? <span className="text-secondary">{formatCurrency(c.value_low, true)} est.</span>
-                        : '-'}
-                  </td>
-                  <td className="procurement-supplier-cell">
-                    {c.awarded_supplier ? decodeHtmlEntities(c.awarded_supplier) : <span className="text-secondary">-</span>}
-                  </td>
-                  <td className="procurement-link-col">
-                    {c.url && (
-                      <a href={c.url} target="_blank" rel="noopener noreferrer" className="procurement-external-link" aria-label={`View ${c.title} on Contracts Finder`}>
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </td>
-                </tr>
+                <React.Fragment key={c.id}>
+                  <tr
+                    className={`procurement-row ${expandedId === c.id ? 'expanded' : ''}`}
+                    onClick={() => setExpandedId(prev => prev === c.id ? null : c.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedId(prev => prev === c.id ? null : c.id) } }}
+                    aria-expanded={expandedId === c.id}
+                  >
+                    <td className="procurement-title-cell">
+                      <div className="procurement-title-wrap">
+                        <ChevronDown size={14} className={`row-expand-icon ${expandedId === c.id ? 'open' : ''}`} />
+                        <div>
+                          <span className="procurement-contract-title">{c.title}</span>
+                          {c.cpv_description && (
+                            <span className="procurement-cpv">{c.cpv_description}</span>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                    <td><StatusBadge status={c.status} /></td>
+                    <td className="procurement-date-cell">{formatDate(c.published_date)}</td>
+                    <td className="amount-cell">
+                      {c.awarded_value && c.awarded_value > 0
+                        ? formatCurrency(c.awarded_value, c.awarded_value >= 100000)
+                        : c.value_low && c.value_low > 0
+                          ? <span className="text-secondary">{formatCurrency(c.value_low, true)} est.</span>
+                          : '-'}
+                    </td>
+                    <td className="procurement-supplier-cell">
+                      {c.awarded_supplier ? decodeHtmlEntities(c.awarded_supplier) : <span className="text-secondary">-</span>}
+                    </td>
+                    <td className="procurement-link-col">
+                      {c.url && (
+                        <a
+                          href={c.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="procurement-external-link"
+                          aria-label={`View ${c.title} on Contracts Finder`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                  {expandedId === c.id && (
+                    <tr className="procurement-detail-row">
+                      <td colSpan={6}>
+                        <ContractDetail contract={c} onViewSpending={handleViewSpending} />
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))
             )}
           </tbody>

@@ -20,7 +20,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_DIR = SCRIPT_DIR.parent
 DATA_DIR = PROJECT_DIR / "data"
-COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale"]
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble"]
 
 
 def load_spending(council_id):
@@ -30,7 +30,9 @@ def load_spending(council_id):
         print(f"  WARNING: No spending data for {council_id}")
         return []
     with open(path) as f:
-        records = json.load(f)
+        data = json.load(f)
+    # Handle both v1 (plain array) and v2 (dict with records key) formats
+    records = data if isinstance(data, list) else data.get('records', [])
     # Ensure supplier_canonical is never None (fall back to supplier)
     for r in records:
         if not r.get("supplier_canonical"):
@@ -803,10 +805,207 @@ def analyse_ch_compliance(all_spending, taxonomy):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 7: Procurement Compliance
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_procurement_compliance(councils):
+    """Analyse procurement data for compliance red flags.
+
+    Checks:
+    - Threshold avoidance (contracts just below procurement thresholds)
+    - Repeat winner concentration (same supplier winning many contracts)
+    - Value transparency gap (contracts without awarded values)
+    - Contract timing clusters (possible splitting)
+    """
+    # UK procurement thresholds (as of Procurement Act 2023)
+    THRESHOLDS = [
+        (30_000, "Low value (£30K)"),
+        (138_760, "Goods/services (£138,760)"),
+        (5_372_609, "Works (£5.37M)"),
+    ]
+    THRESHOLD_MARGIN = 0.15  # 15% below threshold = suspicious proximity
+
+    results = {}
+
+    for council_id in councils:
+        proc_path = DATA_DIR / council_id / "procurement.json"
+        if not proc_path.exists():
+            continue
+        with open(proc_path) as f:
+            proc_data = json.load(f)
+
+        contracts = proc_data.get("contracts", [])
+        awarded = [c for c in contracts if c.get("status") == "awarded"]
+        with_value = [c for c in awarded if c.get("awarded_value")]
+
+        # ── Threshold avoidance ──
+        threshold_suspects = []
+        for c in with_value:
+            val = c["awarded_value"]
+            for limit, label in THRESHOLDS:
+                lower = limit * (1 - THRESHOLD_MARGIN)
+                if lower <= val < limit:
+                    threshold_suspects.append({
+                        "title": c["title"][:80],
+                        "value": val,
+                        "threshold": limit,
+                        "threshold_label": label,
+                        "supplier": c.get("awarded_supplier", "Unknown"),
+                        "pct_of_threshold": round(val / limit * 100, 1),
+                    })
+                    break  # Only flag against closest threshold
+
+        # ── Repeat winner analysis ──
+        supplier_wins = defaultdict(list)
+        for c in awarded:
+            supplier = c.get("awarded_supplier", "Unknown")
+            if supplier and supplier not in ("NOT AWARDED TO SUPPLIER", "Unknown"):
+                supplier_wins[supplier].append({
+                    "title": c["title"][:60],
+                    "value": c.get("awarded_value", 0),
+                    "date": c.get("awarded_date", c.get("published_date", "")),
+                })
+
+        repeat_winners = []
+        for supplier, wins in sorted(supplier_wins.items(), key=lambda x: len(x[1]), reverse=True):
+            if len(wins) >= 2:
+                total_val = sum(w["value"] for w in wins)
+                repeat_winners.append({
+                    "supplier": supplier,
+                    "contracts": len(wins),
+                    "total_value": round(total_val, 2),
+                    "avg_value": round(total_val / len(wins), 2) if wins else 0,
+                })
+
+        # ── Value transparency gap ──
+        no_value = [c for c in awarded if not c.get("awarded_value")]
+        transparency_gap_pct = round(len(no_value) / len(awarded) * 100, 1) if awarded else 0
+
+        # ── Contract timing clusters (possible splitting) ──
+        timing_clusters = []
+        for supplier, wins in supplier_wins.items():
+            if len(wins) < 2:
+                continue
+            dates = sorted(w["date"] for w in wins if w["date"])
+            for i in range(len(dates) - 1):
+                try:
+                    d1 = datetime.strptime(dates[i][:10], "%Y-%m-%d")
+                    d2 = datetime.strptime(dates[i+1][:10], "%Y-%m-%d")
+                    gap = (d2 - d1).days
+                    if gap <= 30:  # Two contracts within 30 days
+                        timing_clusters.append({
+                            "supplier": supplier,
+                            "gap_days": gap,
+                            "date1": dates[i][:10],
+                            "date2": dates[i+1][:10],
+                        })
+                except (ValueError, IndexError):
+                    continue
+
+        results[council_id] = {
+            "total_contracts": len(contracts),
+            "awarded_contracts": len(awarded),
+            "threshold_suspects": threshold_suspects[:10],
+            "threshold_suspect_count": len(threshold_suspects),
+            "repeat_winners": repeat_winners[:10],
+            "repeat_winner_count": len(repeat_winners),
+            "transparency_gap": {
+                "no_value_count": len(no_value),
+                "total_awarded": len(awarded),
+                "pct": transparency_gap_pct,
+            },
+            "timing_clusters": timing_clusters[:10],
+            "timing_cluster_count": len(timing_clusters),
+        }
+
+        print(f"  {council_id.upper()}: {len(threshold_suspects)} threshold suspects, "
+              f"{len(repeat_winners)} repeat winners, "
+              f"{transparency_gap_pct}% value gap, "
+              f"{len(timing_clusters)} timing clusters")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 6b: Supplier Contract Concentration
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_supplier_concentration(all_spending):
+    """Analyse how concentrated spending is among top suppliers.
+
+    Calculates Herfindahl-Hirschman Index (HHI) and top-N concentration
+    metrics to identify whether spend is dominated by a few suppliers.
+    """
+    results = {}
+
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0]
+        if not tx:
+            continue
+
+        # Aggregate spend by supplier
+        supplier_spend = defaultdict(lambda: {"total": 0, "count": 0})
+        total_spend = 0
+        for r in tx:
+            supplier = r.get("supplier_canonical", r.get("supplier", "")) or "UNKNOWN"
+            amt = r["amount"]
+            supplier_spend[supplier]["total"] += amt
+            supplier_spend[supplier]["count"] += 1
+            total_spend += amt
+
+        if total_spend == 0:
+            continue
+
+        # Sort by total spend descending
+        ranked = sorted(
+            [{"supplier": s, "total": d["total"], "count": d["count"]} for s, d in supplier_spend.items()],
+            key=lambda x: x["total"],
+            reverse=True,
+        )
+
+        # Calculate concentration metrics
+        unique_suppliers = len(ranked)
+        top5_spend = sum(s["total"] for s in ranked[:5])
+        top10_spend = sum(s["total"] for s in ranked[:10])
+        top20_spend = sum(s["total"] for s in ranked[:20])
+
+        # HHI: sum of squared market shares (0-10000 scale)
+        # <1500 = unconcentrated, 1500-2500 = moderate, >2500 = highly concentrated
+        hhi = sum((s["total"] / total_spend * 100) ** 2 for s in ranked)
+
+        results[council_id] = {
+            "total_spend": round(total_spend, 2),
+            "unique_suppliers": unique_suppliers,
+            "top5": {
+                "suppliers": [
+                    {"supplier": s["supplier"], "total": round(s["total"], 2), "count": s["count"],
+                     "pct": round(s["total"] / total_spend * 100, 1)}
+                    for s in ranked[:5]
+                ],
+                "total": round(top5_spend, 2),
+                "pct": round(top5_spend / total_spend * 100, 1),
+            },
+            "top10_pct": round(top10_spend / total_spend * 100, 1),
+            "top20_pct": round(top20_spend / total_spend * 100, 1),
+            "hhi": round(hhi, 1),
+            "concentration_level": (
+                "high" if hhi > 2500 else
+                "moderate" if hhi > 1500 else
+                "low"
+            ),
+        }
+
+        print(f"  {council_id.upper()}: HHI={hhi:.0f} ({results[council_id]['concentration_level']}), "
+              f"top5={top5_spend/total_spend*100:.1f}%, top10={top10_spend/total_spend*100:.1f}%")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # OUTPUT: Generate Enhanced DOGE Findings JSON
 # ═══════════════════════════════════════════════════════════════════════
 
-def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None):
+def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None):
     """Generate enhanced doge_findings.json for a council."""
 
     findings = []
@@ -912,6 +1111,40 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "confidence": "medium",
                 "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years' March figures for meaningful analysis.",
                 "link": "/spending",
+            })
+
+        # ── Payment velocity findings ──
+        cadence = pat.get("payment_cadence", {})
+        rapid = cadence.get("rapid_payers", [])
+        regular = cadence.get("regular_payers", [])
+        if rapid:
+            top_rapid = rapid[0]
+            findings.append({
+                "value": str(len(rapid)),
+                "label": "Rapid Payment Suppliers",
+                "detail": (
+                    f"{len(rapid)} suppliers receive payments every <14 days on average. "
+                    f"Top: {top_rapid['supplier'].title()} ({top_rapid['avg_days_between']} day avg, "
+                    f"{top_rapid['payments']} payments, {fmt_gbp(top_rapid['total_spend'])})"
+                ),
+                "severity": "info",
+                "confidence": "high",
+                "link": "/spending",
+            })
+        if regular:
+            key_findings.append({
+                "icon": "clock",
+                "badge": "Payment Pattern",
+                "title": f"{len(regular)} suppliers with clock-like payment regularity",
+                "description": (
+                    f"These suppliers receive payments at near-identical intervals (std dev <5 days). "
+                    f"Top: {regular[0]['supplier'].title()} — every {regular[0]['avg_days_between']} days "
+                    f"({regular[0]['payments']} payments, {fmt_gbp(regular[0]['total_spend'])})"
+                ),
+                "link": "/spending",
+                "link_text": "View patterns →",
+                "severity": "info",
+                "confidence": "high",
             })
 
         # High frequency supplier key finding
@@ -1027,14 +1260,54 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "confidence": "high",
             })
 
-    return {
+    # Build payment velocity data for frontend display
+    payment_velocity = None
+    if council_id in patterns:
+        cadence = patterns[council_id].get("payment_cadence", {})
+        rapid = cadence.get("rapid_payers", [])
+        regular = cadence.get("regular_payers", [])
+        day_of_week = patterns[council_id].get("day_of_week", [])
+        if rapid or regular:
+            payment_velocity = {
+                "rapid_payers": [
+                    {
+                        "supplier": p["supplier"],
+                        "payments": p["payments"],
+                        "avg_days": p["avg_days_between"],
+                        "total_spend": p["total_spend"],
+                        "regularity": p["regularity"],
+                    }
+                    for p in rapid[:10]
+                ],
+                "regular_payers": [
+                    {
+                        "supplier": p["supplier"],
+                        "payments": p["payments"],
+                        "avg_days": p["avg_days_between"],
+                        "std_dev": p["std_dev_days"],
+                        "total_spend": p["total_spend"],
+                    }
+                    for p in regular[:10]
+                ],
+                "day_of_week": day_of_week,
+                "total_analysed": cadence.get("total_analysed", 0),
+            }
+
+    result = {
         "findings": findings[:8],  # Cap at 8
         "key_findings": key_findings[:6],  # Cap at 6
         "cta_link": "/spending",
         "cta_text": "Explore all spending data",
         "generated": str(datetime.now().isoformat()),
-        "analyses_run": ["duplicates", "cross_council_pricing", "payment_patterns", "ch_compliance", "benfords_law"],
+        "analyses_run": ["duplicates", "cross_council_pricing", "payment_patterns", "ch_compliance", "benfords_law", "supplier_concentration"],
     }
+    if payment_velocity:
+        result["payment_velocity"] = payment_velocity
+    if concentration and council_id in concentration:
+        result["supplier_concentration"] = concentration[council_id]
+    if procurement and council_id in procurement:
+        result["procurement_compliance"] = procurement[council_id]
+    return result
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -1395,6 +1668,22 @@ def main():
         print("=" * 60)
         benfords = analyse_benfords_law(all_spending)
 
+    # ── Supplier Concentration Analysis ──
+    concentration = {}
+    if True:  # Always run
+        print("\n" + "=" * 60)
+        print("ANALYSIS 6b: Supplier Contract Concentration")
+        print("=" * 60)
+        concentration = analyse_supplier_concentration(all_spending)
+
+    # ── Procurement Compliance Analysis ──
+    procurement_compliance = {}
+    if True:  # Always run
+        print("\n" + "=" * 60)
+        print("ANALYSIS 7: Procurement Compliance")
+        print("=" * 60)
+        procurement_compliance = analyse_procurement_compliance(councils)
+
     # Generate output files
     if args.output or True:  # Always output for now
         print("\n" + "=" * 60)
@@ -1402,7 +1691,7 @@ def main():
         print("=" * 60)
 
         for c in councils:
-            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords)
+            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance)
             output_path = DATA_DIR / c / "doge_findings.json"
             with open(output_path, "w") as f:
                 json.dump(findings, f, indent=2)
@@ -1433,6 +1722,8 @@ def main():
             "payment_patterns": patterns,
             "compliance": compliance,
             "benfords_law": benfords,
+            "supplier_concentration": concentration,
+            "procurement_compliance": procurement_compliance,
             "generated": str(datetime.now().isoformat()),
         }
         results_path = DATA_DIR / "doge_analysis_results.json"

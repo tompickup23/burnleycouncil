@@ -248,12 +248,17 @@
   border: 1px solid rgba(10, 132, 255, 0.3);
 }
 
-.article-date {
+.article-date,
+.article-reading-time {
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 0.8125rem;
   color: var(--text-tertiary);
+}
+
+.reading-time {
+  opacity: 0.8;
 }
 
 .article-title {

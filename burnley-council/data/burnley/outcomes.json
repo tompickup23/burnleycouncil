@@ -1,0 +1,44 @@
+{
+  "outcomes": [
+    {
+      "id": "outcome-1",
+      "date": "2026-02-10",
+      "finding": "Companies House compliance — suppliers paid during active breaches",
+      "finding_date": "2026-02-09",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "compliance",
+      "severity": "warning",
+      "next_steps": ["Submit FOI request for procurement due diligence policy", "Monitor for council policy changes"]
+    },
+    {
+      "id": "outcome-2",
+      "date": "2026-02-10",
+      "finding": "Duplicate payments detected — 47 transactions with matching reference and amount within 90 days",
+      "finding_date": "2026-02-09",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. Awaiting council explanation of CSV publication methodology.",
+      "category": "duplicates",
+      "severity": "info",
+      "next_steps": ["Request council clarification on duplicate CSV publication process", "Verify if duplicates appear in original council records"]
+    },
+    {
+      "id": "outcome-3",
+      "date": "2026-01-15",
+      "finding": "Year-end spending spike — £18.2M in final 2 weeks of fiscal year",
+      "finding_date": "2026-01-14",
+      "status": "monitoring",
+      "response": "Finding published. Council has not publicly addressed spending cadence patterns.",
+      "category": "spending_patterns",
+      "severity": "info",
+      "next_steps": ["Monitor Q1 2026/27 spending patterns for continuation", "Compare with multi-year trend analysis"]
+    }
+  ],
+  "summary": {
+    "total_findings_published": 8,
+    "council_responses_received": 0,
+    "policy_changes_tracked": 0,
+    "foi_requests_submitted": 0,
+    "last_updated": "2026-02-10"
+  }
+}

@@ -61,6 +61,26 @@ jobs:
         env:
           VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
 
+      - name: Build Lancaster
+        run: VITE_COUNCIL=lancaster VITE_BASE=/lancashire/lancastercouncil/ npx vite build --outDir /tmp/lancashire-deploy/lancastercouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+
+      - name: Build Ribble Valley
+        run: VITE_COUNCIL=ribble_valley VITE_BASE=/lancashire/ribblevalleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/ribblevalleycouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+
+      - name: Build Chorley
+        run: VITE_COUNCIL=chorley VITE_BASE=/lancashire/chorleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/chorleycouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+
+      - name: Build South Ribble
+        run: VITE_COUNCIL=south_ribble VITE_BASE=/lancashire/southribblecouncil/ npx vite build --outDir /tmp/lancashire-deploy/southribblecouncil
+        env:
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+
       # Hub pages — root 404.html is the ONLY 404 GitHub Pages reads for SPA routing
       - name: Copy hub pages and static files
         run: |
@@ -83,7 +103,7 @@ jobs:
           echo "Waiting 30s for GitHub Pages CDN propagation..."
           sleep 30
           FAIL=0
-          for path in "" "lancashire/burnleycouncil/" "lancashire/hyndburncouncil/" "lancashire/pendlecouncil/" "lancashire/rossendalecouncil/"; do
+          for path in "" "lancashire/burnleycouncil/" "lancashire/hyndburncouncil/" "lancashire/pendlecouncil/" "lancashire/rossendalecouncil/" "lancashire/lancastercouncil/" "lancashire/ribblevalleycouncil/" "lancashire/chorleycouncil/" "lancashire/southribblecouncil/"; do
             CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://aidoge.co.uk/${path}")
             echo "https://aidoge.co.uk/${path} → HTTP ${CODE}"
             if [ "$CODE" != "200" ]; then FAIL=1; fi

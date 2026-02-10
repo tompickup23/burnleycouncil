@@ -1,350 +1,382 @@
-# AI DOGE MASTER PLAN v3.0
-## 10 February 2026 — Comprehensive Review & Strategy
+# AI DOGE MASTER PLAN v4.0
+## 10 February 2026 — Post-Phase 4 Review & Strategy
 
 ---
 
 ## 1. CURRENT STATE SNAPSHOT
 
 ### Live Sites (£22/month total cost)
-| Site | URL | Records | Spend | Articles | Status |
-|------|-----|---------|-------|----------|--------|
-| Burnley | aidoge.co.uk/lancashire/burnleycouncil/ | 30,580 | £355M | 44 | LIVE |
-| Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,804 | £211M | 20 | LIVE |
-| Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 49,741 | £125M | 19 | LIVE |
-| Rossendale | aidoge.co.uk/lancashire/rossendalecouncil/ | 42,536 | £64M | 6 | LIVE |
-| News Lancashire | newslancashire.co.uk | 963 articles | - | - | LIVE |
-| News Burnley | newsburnley.co.uk | 50 articles | - | - | LIVE |
-| **Total** | | **152,661 txns** | **£755M** | **89** | |
+| Site | URL | Records | Spend | Articles | Procurement | Status |
+|------|-----|---------|-------|----------|-------------|--------|
+| Burnley | aidoge.co.uk/lancashire/burnleycouncil/ | 30,580 | £355M | 62 | 94 notices | LIVE |
+| Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,804 | £211M | 25 | 32 notices | LIVE |
+| Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 49,741 | £125M | 25 | 14 notices | LIVE |
+| Rossendale | aidoge.co.uk/lancashire/rossendalecouncil/ | 42,536 | £64M | 22 | 90 notices | LIVE |
+| **Total** | | **152,661 txns** | **£755M** | **134** | **230** | |
 
-### Autonomous Systems Running
-| Cron | Server | Time | What |
-|------|--------|------|------|
-| pipeline_v4.sh | vps-news | */30 | News crawl + AI rewrite + export |
-| data_monitor.py | vps-main | 07:00 | Check councils for new CSVs |
-| auto_pipeline.py | vps-main | 08:00 | ETL + DOGE analysis |
-| article_pipeline.py | vps-main | 09:00 | AI article generation + auto-deploy |
-| deploy_newslancashire.sh | vps-main | 10:00 | Hugo build + Cloudflare deploy |
-| deploy_newsburnley.sh | vps-main | 10:30 | Rsync + Cloudflare deploy |
+### Paused Sites
+| Site | URL | Status | Why |
+|------|-----|--------|-----|
+| News Lancashire | newslancashire.co.uk | PAUSED | Coming Soon page deployed. Pipelines disabled 10 Feb. |
+| News Burnley | newsburnley.co.uk | PAUSED | Coming Soon page deployed. Pipelines disabled 10 Feb. |
+
+### Autonomous Systems
+| Cron | Server | Time | Status | What |
+|------|--------|------|--------|------|
+| data_monitor.py | vps-main | 07:00 | ACTIVE | Check councils for new spending CSVs |
+| auto_pipeline.py | vps-main | 08:00 | ACTIVE | ETL + DOGE analysis + WhatsApp notify |
+| article_pipeline.py | vps-main | 09:00 | PAUSED | AI article generation (2/council/day) |
+| deploy_newslancashire.sh | vps-main | 10:00 | PAUSED | Hugo build + Cloudflare deploy |
+| deploy_newsburnley.sh | vps-main | 10:30 | PAUSED | Rsync + Cloudflare deploy |
+| pipeline_v4.sh | vps-news | */30 | PAUSED | News crawl + AI rewrite + export |
+| sync_repos.sh | vps-main | 05:00 | ACTIVE | Git pull + rsync scripts to vps-news |
 
 ### LLM Stack (£0/month)
-Gemini 2.5 Flash (primary, free 500 req/day) -> Kimi K2.5 (fallback, trial credits) -> [Groq blocked from VPS] -> [DeepSeek dead]
+Gemini 2.5 Flash (primary, free 500 req/day) → Kimi K2.5 (fallback, trial credits) → [Groq blocked from VPS] → [DeepSeek dead, 402]
+
+### Infrastructure
+| Server | Provider | RAM | Cost | Purpose |
+|--------|----------|-----|------|---------|
+| vps-main | Hostinger | 16GB | £22/mo | Clawdbot, email, CRM, pipelines, clawd-worker |
+| vps-news (thurinus) | Oracle Cloud | 1GB | Free | News crawl, ETL, enrichment |
+| aws-1 | AWS | 1GB | Free (until Jul 2026) | Unused — cancel before trial end |
+| aws-2 | AWS | 1GB | Free (until Jul 2026) | Dead — cancel |
 
 ---
 
-## 2. AUDIT FINDINGS (10 Feb 2026)
+## 2. PLATFORM ARCHITECTURE
 
-### 2A. Data Accuracy Issues (CRITICAL)
+### 17 Pages (all lazy-loaded with ErrorBoundary + Suspense)
+| Route | Page | Data | What It Does |
+|-------|------|------|-------------|
+| `/` | Home | insights, doge_findings, politics_summary, articles-index, revenue_trends | Dashboard with headline stats, top findings, politics, news preview |
+| `/spending` | Spending | spending.json (v3 chunks via Web Worker) | Full transaction search/filter/sort/export, year selection, charts |
+| `/doge` | DogeInvestigation | doge_findings, doge_verification, outcomes | Forensic analysis: duplicates, splits, CH compliance, Benford's, procurement compliance, payment velocity, accountability tracking |
+| `/news` | News | articles-index | Article listing with search, category filter, pagination |
+| `/news/:id` | ArticleView | articles/{id}.json | Article reader with DOMPurify, auto-ToC, related articles |
+| `/budgets` | Budgets | budgets_govuk, budgets_summary, revenue_trends | Band D comparison, service breakdown, revenue trends |
+| `/procurement` | Procurement | procurement | Contract Explorer: expandable rows, CPV/year/value filters, spending cross-reference |
+| `/politics` | Politics | councillors, politics_summary | Party breakdown, councillor grid, ward info |
+| `/my-area` | MyArea | councillors, wards + postcodes.io API | Postcode → ward → councillors + crime stats |
+| `/pay` | PayComparison | pay_comparison | Cross-council executive salary comparison |
+| `/compare` | CrossCouncil | cross_council | Cross-council spending comparison with common-year normalisation |
+| `/suppliers` | Suppliers | spending.json (aggregated by worker) | Supplier directory ranked by total spend |
+| `/supplier/:id` | SupplierView | spending.json (filtered by worker) | Individual supplier profile, payment history |
+| `/foi` | FOI | foi_templates | 41 FOI request templates with copy-to-clipboard |
+| `/meetings` | Meetings | meetings | Council meeting calendar, how to attend |
+| `/legal` | Legal | shared/legal_framework | 12 UK council oversight laws with DOGE relevance |
+| `/about` | About | config | Publisher bio, methodology, data sources |
 
-These findings are currently live and could undermine credibility:
+### Data Flow
+```
+Council CSV  →  council_etl.py  →  spending.json (v2) + v3 chunks
+                                →  insights.json, metadata.json
+                  doge_analysis.py  →  doge_findings.json, doge_verification.json
+GOV.UK ODS  →  govuk_budgets.py  →  budgets_govuk.json, budgets_summary.json
+             →  govuk_trends.py   →  revenue_trends.json
+CH API       →  council_etl.py    →  supplier enrichment in spending.json
+Contracts Finder → procurement_etl.py → procurement.json
+Charity Commission → charity_etl.py → charity_check.json (Pendle only)
+Police API   →  police_etl.py     →  crime_stats.json
+Article pipeline → article_pipeline.py → articles-index.json + articles/{id}.json
+```
 
-| # | Issue | Severity | Current Claim | Reality |
-|---|-------|----------|---------------|---------|
-| 1 | **298 "high-confidence" duplicates (£1.2M)** | HIGH | "Likely duplicate payments" | Most are CSV republication artifacts, not real duplicates. Only 2 suppliers genuinely problematic (DLH, Home First) |
-| 2 | **Benford's Law anomaly (chi-sq=2541)** | HIGH | "Significant deviation" | Large sample size inflates chi-squared. 5% max deviation is normal for UK council spending. Misleading to non-technical readers |
-| 3 | **EDF Energy 8772% price gap** | HIGH | Implies supplier overcharging | Different service scope (fleet vs street lighting). No service-level adjustment |
-| 4 | **Year-end spike "anomaly"** | MED | March 1.5x average = suspicious | Normal UK fiscal year behaviour. March spending surge is expected budget management |
-| 5 | **Burnley zero descriptions** | MED | 100% transactions have no description | Limits all downstream analysis credibility. Council publishing failure, not our bug |
+### 11 Shared Components
+Layout, ScrollToTop, ChartCard, DataFreshness, ErrorBoundary, LoadingState, PageHeader, SearchableSelect, StatCard, TabNav + barrel index.js
 
-**ACTION:** Add confidence metadata to all findings. Reframe misleading claims. Separate "investigation hint" from "proven finding."
+### Test Coverage
+- **168 unit tests** across 20 files (all pages except Procurement.jsx)
+- **31 E2E tests** across 5 files (smoke, news, spending, legal, navigation)
+- **Gap:** Procurement.jsx has no test coverage
 
-### 2B. Missing Analysis (gaps that a world-class DOGE should have)
+---
 
-| Analysis | Why It Matters | Difficulty |
-|----------|---------------|------------|
-| Procurement compliance (>£25K threshold) | Are contracts competitively tendered? | Medium (needs Contracts Finder API) |
-| Supplier payment timing | Who gets paid fast vs slow? Are SMEs disadvantaged? | Easy (date fields exist) |
-| Service quality correlation | Does spending increase correlate with better outcomes? | Hard (needs external data) |
-| Contract register cross-reference | Link payments to formal contracts | Medium (needs FOI or open data) |
-| Fraud triangle analysis | Motive + opportunity + rationalisation per department | Hard (needs audit reports) |
-| Temporal spending patterns | Unusual payment velocity, clustering before deadlines | Easy (spending.json has dates) |
+## 3. COMPLETED PHASES (1-4)
 
-### 2C. Frontend Issues ✅ RESOLVED (10 Feb 2026)
+### Phase 1: Data Credibility — ✅ COMPLETE (10 Feb 2026)
+Confidence levels on all findings, Benford's Law reframed (max deviation not chi-squared), cross-council pricing caveats, CSV duplicate fix (Burnley 298→137, Hyndburn 905→334, Pendle 1283→523, Rossendale 1948→521), year-end context, common-year comparability.
 
-| Issue | Impact | Status |
+### Phase 2: Frontend Polish — ✅ COMPLETE (10 Feb 2026)
+Centralised constants (utils/constants.js), article search+pagination+placeholders+related articles, CSS consolidation, 31 Playwright E2E tests, chart accessibility (ChartCard dataTable + sr-only).
+
+### Phase 3: New Data Sources — ✅ COMPLETE (10 Feb 2026)
+Procurement ETL + page, payment timing analysis, councillor allowances (Burnley), Charity Commission cross-check (Pendle), Rossendale articles expanded (7→22).
+
+### Phase 4: World-Class DOGE — ✅ COMPLETE (10 Feb 2026)
+Procurement compliance analysis (threshold avoidance, repeat winners, timing clusters), Contract Explorer (expandable rows, CPV/year/value filters, spending cross-reference), supplier concentration (HHI), payment velocity, "What Changed?" accountability tracking (outcomes.json), CH fuzzy matching (90%+), RSS feeds, newsletter generator.
+
+---
+
+## 4. KNOWN ISSUES & TECHNICAL DEBT
+
+### Data Accuracy (addressed in Phase 1 but ongoing)
+| Issue | Status | Impact |
 |-------|--------|--------|
-| ~~Duplicate constants (TYPE_LABELS, CHART_COLORS) across files~~ | ~~Maintenance burden~~ | ✅ Fixed: utils/constants.js |
-| ~~No accessibility for chart data~~ | ~~Screen reader users excluded~~ | ✅ Fixed: ChartCard dataTable prop + .sr-only |
-| ~~No E2E tests~~ | ~~Regression risk~~ | ✅ Fixed: 31 Playwright tests |
-| ~~CSS inconsistency~~ | ~~Dev confusion~~ | ✅ Fixed: global gradient rules, consolidated patterns |
-| Home.jsx makes 5 parallel data requests | Potential waterfall on slow connections | Remaining (low priority) |
+| Burnley: 100% transactions have no descriptions | Council's fault, not fixable | Limits analysis credibility for Burnley specifically |
+| Rossendale: 3,167 NAME WITHHELD transactions (£1M) | Documented as transparency flag | Genuine finding — council anonymises supplier names |
+| Procurement value gap: only 4-13% of notices have awarded values | Data limitation from Contracts Finder | Cannot do meaningful value analysis on most contracts |
+| Hyndburn procurement: only 32 notices vs Burnley 94 | Different publishing practices | Hyndburn may publish less on Contracts Finder |
 
-### 2D. Documentation Sprawl (11 .md files, significant overlap)
+### Code Issues
+| Issue | Severity | Fix Effort |
+|-------|----------|------------|
+| Procurement.jsx has no unit test | Medium | 1 hr |
+| Pendle spending.json is v1 format (plain array) | Low | Re-run ETL with v2 flag |
+| council_etl.py line ~1016: `or True` CH filter bug | Low | Already patched but check |
+| police_etl.py line ~121: urllib.parse import ordering | Low | Already fixed |
+| Rossendale crime_stats disabled (no data collected) | Low | Needs police_etl run |
+| Pendle theme_accent same as Burnley (#0a84ff) | Low | Change Pendle to unique colour |
+| Data flow diagram in old masterplan said "ProcurementOverview.jsx" | Fixed | Corrected to Procurement.jsx |
 
-**Current files:** CLAUDE.md, ARCHITECTURE.md, INFRASTRUCTURE.md, TODO.md, SYSTEM_AUDIT.md, IMPROVEMENTS.md, HANDOVER.md, HANDOVER-NEWSLANCASHIRE.md, AIDOGE-MASTERPLAN.md, ARTICLE-PIPELINE-AUDIT.md, README.md
-
-**Proposed consolidation:**
-| Keep | Purpose | Replaces |
-|------|---------|----------|
-| CLAUDE.md | Dev guide (AI reads this first) | - |
-| AIDOGE-MASTERPLAN.md | Strategy + roadmap (this file) | SYSTEM_AUDIT.md overlap, IMPROVEMENTS.md overlap |
-| INFRASTRUCTURE.md | Server ops + crons + keys | HANDOVER.md overlap |
-| TODO.md | Active task tracker | - |
-| ARTICLE-PIPELINE-AUDIT.md | Pipeline-specific audit | - |
-| README.md | Public-facing project overview | - |
-| **ARCHIVE:** | Move to docs/ folder | HANDOVER.md, HANDOVER-NEWSLANCASHIRE.md, SYSTEM_AUDIT.md, IMPROVEMENTS.md |
-
----
-
-## 3. NAMING CONVENTIONS (for AI + human readability)
-
-### File Naming
-```
-Scripts:     {domain}_{action}.py          e.g. council_etl.py, procurement_etl.py
-Data:        {concept}.json                e.g. spending.json, procurement.json
-Data chunks: {concept}-{period}.json       e.g. spending-2025-26.json
-Config:      config.json (per council)
-Articles:    {slug}.json in articles/      e.g. duplicate-payments-crisis.json
-Pages:       {PascalCase}.jsx              e.g. Spending.jsx, ProcurementOverview.jsx
-Components:  {PascalCase}.jsx              e.g. ChartCard.jsx, StatCard.jsx
-Hooks:       use{PascalCase}.js            e.g. useData.js, useSpendingWorker.js
-Workers:     {concept}.worker.js           e.g. spending.worker.js
-Tests:       {filename}.test.{ext}         e.g. Spending.test.jsx, useData.test.js
-CSS:         {ComponentName}.css            e.g. Spending.css, ChartCard.css
-```
-
-### Data Field Naming
-```
-JSON keys:   snake_case                    e.g. total_spend, department_name
-React state: camelCase                     e.g. totalSpend, departmentName
-Constants:   UPPER_SNAKE_CASE              e.g. CHART_COLORS, TYPE_LABELS
-CSS classes: kebab-case                    e.g. .stat-card, .chart-container
-```
-
-### Council IDs
-Always lowercase, no spaces: `burnley`, `hyndburn`, `pendle`, `rossendale`
-URL paths: `/lancashire/{council_id}council/`
+### Data Consistency Between Councils
+| Data File | Burnley | Hyndburn | Pendle | Rossendale |
+|-----------|---------|----------|--------|------------|
+| budgets.json (legacy) | ✓ | ✓ | missing | missing |
+| budget_insights.json | ✓ | ✓ | missing | missing |
+| crime_stats.json | ✓ | ✓ | ✓ | missing (disabled) |
+| charity_check.json | - | - | ✓ (unique) | - |
+| Spending format | v2 | v2 | **v1** | v2 |
+| Spending years | 5 | **10** | 5 | 5 |
 
 ---
 
-## 4. DATA COMPARABILITY FRAMEWORK
+## 5. IMPROVEMENT ROADMAP
+
+### Phase 5: Polish & Harden (COMPLETED 10 Feb 2026)
+Focus: Fix gaps exposed by the Phase 1-4 sprint, improve what exists before expanding.
+
+| # | Task | Status | Result |
+|---|------|--------|--------|
+| 5.1 | Procurement.jsx unit test | ✅ | 15 tests added. 183 total (21 files) |
+| 5.2 | UptimeRobot monitoring | ✅ | `scripts/setup_uptimerobot.sh` — 11 monitors (homepages, data, RSS) |
+| 5.3 | Spending v2 migration | ✅ | All 4 councils converted from v1→v2 format |
+| 5.4 | Rossendale crime stats | ✅ | 6 months data (Jul-Dec 2025), 10 wards, config enabled |
+| 5.5 | Evidence chain | ✅ | `ref=doge` param shows blue banner on Spending page. All DOGE supplier links carry evidence trail. CH compliance top_cases clickable |
+| 5.6 | Reading time estimates | ✅ | `estimateReadingTime()` in format.js. Shown on News cards + ArticleView |
+| 5.7 | Budget vs actual | ✅ | Assessed: Burnley has 0 service divisions, others have 7-24. Needs manual mapping table. Deferred to Phase 6+ |
+| 5.8 | VPS backup strategy | ✅ | `scripts/vps_backup.sh` — weekly rsync, 4-week retention |
+
+### Phase 6: Expand Coverage (NEXT — Feb/Mar 2026)
+Focus: Add more Lancashire councils. The architecture already supports it — just needs new data.
+
+| # | Task | Why | Effort |
+|---|------|-----|--------|
+| 6.1 | Add Lancaster City Council | Largest district in Lancashire (population 144K). CSV spending data published. | 4 hr |
+| 6.2 | Add Ribble Valley Borough Council | Completes East Lancashire coverage. CSV data published. | 4 hr |
+| 6.3 | Add Chorley Borough Council | South Lancashire. Strong spending data publication. | 4 hr |
+| 6.4 | Add South Ribble Borough Council | Adjacent to Chorley, similar data format | 4 hr |
+| 6.5 | Hub page redesign | Current hub is password-gated placeholder. Needs proper landing page for 6-8 councils | 3 hr |
+| 6.6 | Cross-council comparison expansion | CrossCouncil.jsx needs to handle 6-8 councils, not just 4 | 2 hr |
+
+### Phase 7: Public Launch Readiness (Apr/May 2026)
+Focus: Make the platform ready for media, public, and councillor use.
+
+| # | Task | Why | Effort |
+|---|------|-----|--------|
+| 7.1 | Remove password gate from hub | Go fully public | 0.5 hr |
+| 7.2 | Dark mode toggle | Modern UX expectation, especially for data-heavy reading | 3 hr |
+| 7.3 | PWA / offline support | Service worker for caching, "Add to Home Screen" on mobile | 3 hr |
+| 7.4 | Social sharing meta tags (Open Graph) | When sharing council pages on WhatsApp/Twitter, show proper previews | 1 hr |
+| 7.5 | Google Search Console setup | Get pages indexed, submit sitemaps | 1 hr |
+| 7.6 | Media kit / press page | One-page summary for journalists, councillors, residents | 2 hr |
+| 7.7 | Citizen reporting: "Flag this transaction" | Allow public to flag suspicious transactions for investigation | 4 hr |
+| 7.8 | Resume article pipeline + news sites | Uncomment crons, redeploy full sites (not coming soon pages) | 1 hr |
+
+### Phase 8: Advanced Analysis (May/Jun 2026)
+Focus: Deeper, more sophisticated DOGE analysis.
+
+| # | Task | Why | Effort |
+|---|------|-----|--------|
+| 8.1 | Find a Tender integration | Above-threshold contract data (EU/UK procurement portal) | 4 hr |
+| 8.2 | Single-bidder contract detection | Procurement notices with only 1 bid indicate weak competition | 3 hr |
+| 8.3 | Late publication analysis | Contracts published after award date = retrospective compliance | 2 hr |
+| 8.4 | Deprivation index overlay on MyArea | IMD data per ward — correlate spending with deprivation | 3 hr |
+| 8.5 | Declaration of interests cross-reference | Compare councillor interests to suppliers receiving money | 4 hr (needs FOI) |
+| 8.6 | Service quality correlation | OFSTED, CQC, other inspectorate data vs spending | Hard — external data needed |
+| 8.7 | Fraud triangle scoring | Motive + opportunity + rationalisation per department/supplier | Hard — needs audit reports |
+
+---
+
+## 6. PAGE-BY-PAGE STATUS & IMPROVEMENTS
+
+### Spending Page — MATURE
+- **Current:** Web Worker (filter, sort, paginate, stats, charts, CSV export), v3 year-chunked loading (4-8MB vs 21-40MB), year selector, search, column sort
+- **Next:** Link to procurement contracts for same supplier, evidence chain from DOGE findings
+
+### DOGE Investigation Page — MATURE
+- **Current:** Confidence badges, context notes, severity scoring, radar chart, expandable findings, procurement compliance, supplier concentration (HHI), payment velocity, accountability tracking (outcomes.json)
+- **Next:** Evidence chain (click finding → see transactions), trend comparison (this quarter vs last)
+
+### Procurement / Contract Explorer — MATURE
+- **Current:** Stats grid, year chart, status pie, top suppliers, expandable detail rows, CPV/year/value advanced filters, spending cross-reference link
+- **Next:** Find a Tender integration, single-bidder detection, late publication analysis
+
+### News / Articles — GOOD
+- **Current:** 134 articles across 4 councils, search, category filter, 12/page pagination, placeholder images, related articles, RSS feed
+- **Next:** Reading time estimate, article tags (currently empty), resume article pipeline
+
+### Budgets — GOOD
+- **Current:** Band D comparison, service breakdown, revenue trends
+- **Next:** Budget vs actual spend comparison, year-on-year trend arrows, council tax affordability index
+
+### Politics — ADEQUATE
+- **Current:** Party breakdown, councillor grid, ward info
+- **Next:** Allowances display, declaration of interests, voting records (if obtainable)
+
+### My Area — ADEQUATE
+- **Current:** Postcode lookup via postcodes.io, ward → councillors, crime stats
+- **Next:** Deprivation index, service satisfaction data
+
+### FOI Templates — ADEQUATE
+- **Current:** 41 templates across 4 councils, copy-to-clipboard
+- **Next:** Track submission outcomes, link to WhatDoTheyKnow
+
+### Meetings — ADEQUATE
+- **Current:** Calendar view, how to attend info
+- **Next:** Meeting minutes links (requires ModernGov scraping)
+
+### Pay Comparison — ADEQUATE
+- **Current:** Cross-council executive salary comparison
+- **Next:** Historical trend, national comparison benchmarks
+
+### Cross-Council — ADEQUATE
+- **Current:** Common-year normalised spending comparison
+- **Next:** Expand to 6-8 councils, add procurement comparison, add service comparison
+
+### Suppliers / Supplier View — ADEQUATE
+- **Current:** Directory ranked by spend, individual profiles with payment history
+- **Next:** CH compliance badges inline, link to procurement contracts
+
+### Legal — COMPLETE
+- **Current:** 12 UK laws with DOGE relevance, tabbed interface
+- **Next:** Add Procurement Act 2023 detail, Late Payment of Commercial Debts Act
+
+### About — COMPLETE
+- **Current:** Publisher bio, methodology, data sources
+- **Next:** No changes needed
+
+---
+
+## 7. DATA COMPARABILITY FRAMEWORK
 
 ### The Problem
-Different councils publish different numbers of years:
-- Hyndburn: 10 years (2016-2026)
-- Burnley: 5 years
-- Pendle: 5 years
-- Rossendale: 5 years
+Councils publish different year ranges and have different thresholds:
+- Hyndburn: 10 years (2016-2026), £250 threshold — deepest history
+- Burnley: 5 years (2021-2026), £500 threshold
+- Pendle: 5 years (2021-2026), £500 threshold
+- Rossendale: 5 years (2021-2026), £500 threshold
 
-Comparing "total spend" across councils is misleading when year counts differ.
-
-### The Fix
-All cross-council comparisons MUST use:
-1. **Common year range** — Only compare years that ALL councils have data for
-2. **Per-year averages** — When showing totals, normalise by year count
-3. **Explicit labelling** — Always state: "Based on data from 2021-22 to 2025-26 (5 years common to all councils)"
-4. **cross_council.json** — `generate_cross_council.py` should enforce common-year calculation
-5. **Spending page** — When "All Years" selected, show total with year count: "£355M over 5 years"
-
-### Implementation
-- `doge_analysis.py`: Add `common_years` field to cross-council comparison output
-- `CrossCouncil.jsx`: Show footnote with year range used
-- `Home.jsx` stats: Use normalised per-year figures for the headline stats
+### Rules (all implemented)
+1. **Common year range** — Cross-council comparisons only use overlapping years (2021-22 to 2025-26)
+2. **Per-year averages** — Normalise by year count when showing totals
+3. **Explicit labelling** — Always state the comparison period
+4. **Threshold awareness** — Hyndburn's £250 threshold means more transactions visible vs others' £500
 
 ---
 
-## 5. PASSWORD-PROTECTED HOMEPAGE
+## 8. NAMING CONVENTIONS
 
-### Requirement
-Temporarily gate the hub page (aidoge.co.uk) behind a simple password while development continues. Individual council pages remain accessible by direct URL.
+### Files
+```
+Scripts:     {domain}_{action}.py          council_etl.py, procurement_etl.py
+Data:        {concept}.json                spending.json, procurement.json
+Chunks:      {concept}-{period}.json       spending-2025-26.json
+Config:      config.json (per council)
+Articles:    {slug}.json in articles/      duplicate-payments-crisis.json
+Pages:       {PascalCase}.jsx              Spending.jsx, Procurement.jsx
+Components:  {PascalCase}.jsx              ChartCard.jsx, StatCard.jsx
+Hooks:       use{PascalCase}.js            useData.js, useSpendingWorker.js
+Workers:     {concept}.worker.js           spending.worker.js
+Tests:       {filename}.test.{ext}         Spending.test.jsx, useData.test.js
+CSS:         {ComponentName}.css            Spending.css, ChartCard.css
+```
 
-### Implementation (client-side, no backend)
-Add to `burnley-council/hub/index.html`:
-- On page load, check `sessionStorage` for auth flag
-- If not authenticated, show password overlay (dark modal, single input field)
-- Correct password sets sessionStorage flag, reveals the page
-- Password: configurable in the JS (not security-critical, just a development gate)
-- Individual council URLs (`/lancashire/burnleycouncil/`) are NOT gated
-
-### Why Client-Side
-- GitHub Pages has no server-side auth
-- This is a development gate, not security (the data is public anyway)
-- sessionStorage clears on browser close (no permanent cookies)
-
----
-
-## 6. IMPROVEMENT ROADMAP
-
-### Phase 1: Data Credibility ✅ COMPLETED (10 Feb 2026)
-| # | Task | Status | Result |
-|---|------|--------|--------|
-| 1.1 | Add confidence levels to all DOGE findings | ✅ Done | high/medium/low on every finding + key finding, ConfidenceBadge renders on cards |
-| 1.2 | Reframe Benford's Law finding with context note | ✅ Done | <5% deviation → "Analysis" (info), >5% → "Anomaly" (warning). Only Rossendale flagged |
-| 1.3 | Add service-level caveat to cross-council pricing | ✅ Done | Downgraded to info, context_note explaining limitations added |
-| 1.4 | Fix duplicate count to exclude CSV republication | ✅ Done | Burnley 298→137, Hyndburn 905→334, Pendle 1283→523, Rossendale 1948→521 |
-| 1.5 | Add year-end context to March spending spike | ✅ Done | Renamed "Pattern", fiscal year context, <3x = info |
-| 1.6 | Implement common-year comparability in cross_council | ✅ Done | Only compares overlapping fiscal years per supplier |
-
-### Phase 2: Frontend Polish ✅ COMPLETED (10 Feb 2026)
-| # | Task | Status | Result |
-|---|------|--------|--------|
-| 2.1 | Centralise constants into utils/constants.js | ✅ Done | CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, SEVERITY_COLORS, COUNCIL_COLORS shared across 7 files |
-| 2.2 | Add password gate to hub page | ✅ Done | sessionStorage-based gate (done in earlier session) |
-| 2.3 | Add article search + pagination (News page) | ✅ Done | Text search across title+summary, 12/page pagination, category filters, results count |
-| 2.4 | Add placeholder images for missing article images | ✅ Done | Gradient background + FileText icon for articles without images |
-| 2.5 | Add related articles to ArticleView | ✅ Done | Same-category, max 3, with image/placeholder + date + title |
-| 2.6 | Consolidate duplicate CSS patterns | ✅ Done | Global gradient-text rules in index.css, removed from 7 per-page CSS files |
-| 2.7 | Write E2E tests (Playwright) | ✅ Done | 22 new tests (news, spending, legal, navigation) — 31 total E2E |
-| 2.8 | Add chart accessibility (data tables) | ✅ Done | ChartCard dataTable prop, aria-hidden on charts, .sr-only utility class |
-
-### Phase 3: New Data Sources (THIS MONTH)
-| # | Task | Impact | Effort |
-|---|------|--------|--------|
-| 3.1 | Contracts Finder API integration (`procurement_etl.py`) | Major new DOGE capability | 4 hr |
-| 3.2 | Supplier payment timing analysis | Easy win from existing data | 2 hr |
-| 3.3 | Councillor allowances data | Transparency of politician costs | 2 hr |
-| 3.4 | Charity Commission cross-check | Verify "charities" receiving money | 2 hr |
-| 3.5 | More Rossendale articles (currently 6, target 20+) | Content parity | 2 hr |
-
-### Phase 4: World-Class DOGE (NEXT MONTH)
-| # | Task | Impact | Effort |
-|---|------|--------|--------|
-| 4.1 | Procurement compliance page (ProcurementOverview.jsx) | New major section | 8 hr |
-| 4.2 | Contract Explorer with search/filter | Users can browse contracts | 4 hr |
-| 4.3 | Supplier Win Rate analysis | Who wins most often? | 4 hr |
-| 4.4 | Payment velocity analysis | Fast/slow payment patterns | 2 hr |
-| 4.5 | "What Changed?" tracking (outcomes.json) | Accountability loop | 2 hr |
-| 4.6 | Companies House match rate to 60%+ (fuzzy matching) | More suppliers verified | 4 hr |
-| 4.7 | RSS feed per council for articles | SEO + syndication | 1 hr |
-| 4.8 | Newsletter generation from top articles | Direct audience engagement | 3 hr |
-
-### Phase 5: Scale (MARCH)
-| # | Task | Impact | Effort |
-|---|------|--------|--------|
-| 5.1 | Add Lancaster as 5th council | Expand coverage | 4 hr |
-| 5.2 | Add Ribble Valley as 6th council | Complete East Lancs | 4 hr |
-| 5.3 | Per-borough News Lancashire sites (Hyndburn, Pendle, Rossendale) | 3 more local news sites | 2 hr each |
-| 5.4 | Dark mode toggle | Modern UX expectation | 2 hr |
-| 5.5 | PWA/offline support | Mobile engagement | 2 hr |
+### Conventions
+```
+JSON keys:   snake_case                    total_spend, department_name
+React state: camelCase                     totalSpend, departmentName
+Constants:   UPPER_SNAKE_CASE              CHART_COLORS, TYPE_LABELS
+CSS classes: kebab-case                    .stat-card, .chart-container
+Council IDs: lowercase                     burnley, hyndburn, pendle, rossendale
+URL paths:   /lancashire/{id}council/
+```
 
 ---
 
-## 7. PAGE-TYPE STRATEGIES
+## 9. LEGAL FRAMEWORK
 
-### Spending Page
-- **Data:** spending.json (v3 chunked for mobile)
-- **Current:** Good. Web Worker, virtual scroll, year selection, export
-- **Improve:** Add supplier payment timing column, link to procurement contracts, add "flag this transaction" citizen reporting
-
-### DOGE / Investigation Page
-- **Data:** doge_findings.json, doge_verification.json
-- **Current:** Radar chart, severity badges, expandable findings
-- **Improve:** Add confidence metadata to every finding. Add "evidence chain" (click finding -> see underlying transactions). Add "investigation hint" vs "proven finding" distinction
-
-### News / Articles
-- **Data:** articles-index.json, articles/{id}.json
-- **Current:** Category filter, text search, 12/page pagination, placeholder images, related articles (same category, max 3)
-- **Improve:** RSS feed, reading time estimate, tags (currently always empty)
-
-### Budgets
-- **Data:** budgets.json OR budgets_govuk.json + revenue_trends.json
-- **Current:** Band D comparison, service breakdown, revenue trends
-- **Improve:** Year-on-year trend arrows, budget vs actual spend comparison, council tax affordability index
-
-### FOI Templates
-- **Data:** foi_templates.json (per council)
-- **Current:** 41 templates, copy-to-clipboard, success stories
-- **Improve:** Track which FOIs were actually submitted, add outcomes, link to WhatDoTheyKnow responses
-
-### Procurement (NEW)
-- **Data:** procurement.json (from Contracts Finder + Find a Tender APIs)
-- **Pages:** ProcurementOverview.jsx, ContractExplorer.jsx, SupplierWins.jsx
-- **Analysis:** Threshold avoidance, single-bidder contracts, late publication, contract splitting
-- **Law:** Procurement Act 2023, Transparency Code 2015, Social Value Act 2012
-
-### Politics
-- **Data:** councillors.json, politics_summary.json, wards.json
-- **Current:** Ward map, party breakdown, councillor grid
-- **Improve:** Add allowances data, voting records (if available), declaration of interests
-
-### My Area
-- **Data:** wards.json + councillors.json + postcodes.io API
-- **Current:** Ward selection -> councillors + crime stats
-- **Improve:** Postcode lookup (enter postcode, get your ward instantly), add deprivation index, add service satisfaction
-
----
-
-## 8. LEGAL FRAMEWORK EXPANSION
-
-### Currently Tracked (12 laws in legal_framework.json)
-Local Government Transparency Code 2015, Freedom of Information Act 2000, Accounts and Audit Regulations 2015, Public Contracts Regulations 2015, Local Audit and Accountability Act 2014, Localism Act 2011, and others.
+### Currently Tracked (12 laws in shared/legal_framework.json)
+Transparency Code 2015, Best Value Duty (LGA 1999 s.3), Companies Act 2006, Procurement Rules (PCR 2015 / Procurement Act 2023), Local Audit Act 2014, Section 151 Officer (LGA 1972), Freedom of Information Act 2000, Data Protection Act 2018, GDPR, Equality Act 2010, Public Services Reform, Public Interest Disclosure Act 1998.
 
 ### Laws to Add
-| Law | Why It Matters | DOGE Application |
-|-----|---------------|------------------|
-| **Procurement Act 2023** | Replaced PCR 2015 from Oct 2024 | New transparency requirements, pipeline notices, KPI publication |
-| **Late Payment of Commercial Debts (Interest) Act 1998** | Councils must pay SMEs within 30 days | Payment velocity analysis |
-| **Social Value Act 2012** | Procurement must consider social value | Contract award analysis |
-| **Public Services (Social Value) Act 2012** | Must consider social, economic, environmental wellbeing | Procurement decisions |
-| **Best Value (Accountability for Quality of Local Authority Services)** | Councils must secure continuous improvement | Performance metrics |
-
----
-
-## 9. AI-FRIENDLY SYSTEM STRUCTURE
-
-### For Claude Code Sessions
-```
-CLAUDE.md           <- READ FIRST. Dev guide, file locations, build commands
-AIDOGE-MASTERPLAN.md <- READ SECOND. Strategy, roadmap, what's working/broken
-TODO.md             <- Active task list with checkboxes
-MEMORY.md           <- Auto-memory: gotchas, patterns, cross-session learnings
-```
-
-### For Finding Things Fast
-```
-src/pages/{Page}.jsx        <- Every page component
-src/components/ui/          <- Shared UI components
-src/hooks/                  <- Data hooks
-src/workers/                <- Web workers
-burnley-council/data/{id}/  <- Per-council data
-burnley-council/scripts/    <- Python pipeline
-.github/workflows/          <- CI/CD
-```
-
-### For Understanding Data Flow
-```
-Council CSV -> council_etl.py -> spending.json -> Web Worker -> Spending.jsx
-                              -> doge_findings.json -> DogeInvestigation.jsx
-                              -> articles-index.json -> News.jsx
-GOV.UK ODS -> govuk_budgets.py -> budgets_govuk.json -> Budgets.jsx
-CH API -> council_etl.py -> supplier enrichment -> Suppliers.jsx
-Contracts Finder -> procurement_etl.py (NEW) -> procurement.json -> ProcurementOverview.jsx (NEW)
-```
+| Law | DOGE Application |
+|-----|------------------|
+| Late Payment of Commercial Debts (Interest) Act 1998 | Councils must pay SMEs within 30 days — links to payment velocity analysis |
+| Social Value Act 2012 | Procurement must consider social value — contract award analysis |
+| Best Value (Accountability for Quality) Act 2023 | Continuous improvement duty — links to outcomes tracking |
 
 ---
 
 ## 10. SUCCESS METRICS
 
-| Metric | 7 Feb | 10 Feb (P2) | Target | Notes |
-|--------|-------|-------------|--------|-------|
-| Councils live | 4 | 4 | 6+ | Lancaster + Ribble Valley next |
-| Total articles | 27 | 89 | 120+ | Rossendale needs 14 more |
-| DOGE finding confidence | None | **All rated** | All findings rated | ✅ Phase 1 complete |
-| CH match rate | ~20% | ~20% | 60%+ | Fuzzy matching needed |
-| Procurement data | None | None | All 4 councils | Phase 3-4 |
-| Unit tests | 103 | 168 | 200+ | Good trajectory |
-| E2E tests | 0 | **31** | 20+ | ✅ Target exceeded — Phase 2 complete |
-| Monthly cost | £22 | £22 | £22 | LLMs now free (Gemini) |
-| Data freshness | Manual | Auto-monitored | Fully auto | Pipeline working |
-| Article generation | Manual | Daily auto (2/council) | Daily auto | Working via cron |
-| Procurement section | None | None | Live | Phase 4 |
-| Shared constants | Duplicated in 8 files | **utils/constants.js** | Centralised | ✅ Phase 2 complete |
-| CSS patterns | Duplicated across 9 files | **Global index.css** | Consolidated | ✅ Phase 2 complete |
+| Metric | 7 Feb | 10 Feb (P4) | Target | Status |
+|--------|-------|-------------|--------|--------|
+| Councils live | 4 | 4 | 8+ | Phase 6 will add Lancaster, Ribble Valley, Chorley, South Ribble |
+| Total articles | 27 | **134** | 200+ | Pipeline paused but 134 published |
+| DOGE finding confidence | None | **All rated** | All rated | ✅ Done |
+| Procurement data | None | **230 notices** | All councils | ✅ Done |
+| Contract Explorer | None | **Live** | Advanced search + cross-reference | ✅ Done |
+| Supplier concentration (HHI) | None | **Live** | Per-council analysis | ✅ Done |
+| Payment velocity | None | **Live** | Rapid payers + patterns | ✅ Done |
+| Accountability tracking | None | **Live** | outcomes.json per council | ✅ Done |
+| RSS feeds | None | **Live** | Per-council XML | ✅ Done |
+| Newsletter generator | None | **Built** | HTML+text per council | ✅ Built (not yet sent) |
+| Unit tests | 103 | **168** | 200+ | Need Procurement test |
+| E2E tests | 0 | **31** | 30+ | ✅ Target exceeded |
+| Monthly cost | £22 | £22 | £22 | LLMs free (Gemini) |
+| CH fuzzy matching | ~20% | **90%+** | 90%+ | ✅ Done |
 
 ---
 
 ## 11. DEADLINES
 
-| Deadline | What | Action |
-|----------|------|--------|
-| **29 Mar 2026** | Bluehost expires (6 domains) | ADO rebuild must be live before this |
-| **Jul 2026** | AWS free tier ends (aws-1, aws-2) | Cancel or migrate workloads |
-| **2 Mar 2026** | Codex OpenAI trial expires | Evaluate if worth paying |
-| **Ongoing** | LGR timeline | Monitor for council merger implications |
+| Deadline | What | Action | Priority |
+|----------|------|--------|----------|
+| **29 Mar 2026** | Bluehost expires (6 domains) | ADO rebuild must be live on Cloudflare Pages before this | HIGH |
+| **Jul 2026** | AWS free tier ends (aws-1, aws-2) | Cancel both instances | MEDIUM |
+| **2 Mar 2026** | Codex OpenAI trial expires | Let expire — Claude Code covers all needs | LOW |
+| **Ongoing** | LGR (Local Government Reorganisation) | Monitor for East Lancashire unitary authority implications | WATCH |
 
 ---
 
-*Plan v3.0 authored: 10 February 2026*
-*Phase 1 completed: 10 February 2026 (6/6 tasks done)*
-*Phase 2 completed: 10 February 2026 (8/8 tasks done)*
-*Based on: Full 4-agent codebase audit, live site review, data pipeline analysis, documentation review*
-*Next review: After Phase 3 (new data sources) complete*
+## 12. AI-FRIENDLY SYSTEM STRUCTURE
+
+### For Claude Code Sessions
+```
+CLAUDE.md            ← READ FIRST. Dev guide, file locations, build commands
+AIDOGE-MASTERPLAN.md ← READ SECOND. Strategy, roadmap, current state
+TODO.md              ← Active task list with checkboxes
+MEMORY.md            ← Auto-memory: gotchas, patterns, cross-session learnings
+```
+
+### For Finding Things Fast
+```
+src/pages/{Page}.jsx        ← 17 page components (all lazy-loaded)
+src/components/ui/          ← 11 shared UI components
+src/hooks/                  ← useData.js, useSpendingWorker.js
+src/workers/                ← spending.worker.js + spending.utils.js
+src/utils/                  ← constants.js, format.js
+burnley-council/data/{id}/  ← Per-council data (4 councils)
+burnley-council/data/shared/ ← legal_framework.json, doge_knowledge_core.json
+burnley-council/scripts/    ← 17 Python ETL/analysis scripts
+.github/workflows/          ← deploy.yml (auto-deploy on push to main)
+e2e/                        ← 5 Playwright E2E test files
+__tests__/                  ← 20 Vitest unit test files
+```
+
+---
+
+*Plan v4.0 authored: 10 February 2026*
+*Phases 1-4 completed: 10 February 2026 (30/30 tasks done)*
+*Based on: Live site verification (all 4 councils confirmed), full codebase audit, data file comparison, config analysis*
+*Phase 5 complete 10 Feb 2026. Next review: After Phase 6 (Expand Coverage) complete*

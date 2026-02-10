@@ -1,0 +1,61 @@
+{
+  "council": "Chorley",
+  "council_id": "E07000118",
+  "council_type": "district",
+  "spending_threshold": 500,
+  "total_records": 885,
+  "financial_years": [
+    "2024/25"
+  ],
+  "data_types": [
+    "purchase_card",
+    "spend"
+  ],
+  "filters": {
+    "departments": [
+      {
+        "name": "0",
+        "spend": 70656.63,
+        "count": 422,
+        "suppliers": 139
+      },
+      {
+        "name": "EARL - Communities",
+        "spend": 29255.1,
+        "count": 203,
+        "suppliers": 51
+      },
+      {
+        "name": "CUST - Customer & Digital",
+        "spend": 23451.53,
+        "count": 64,
+        "suppliers": 15
+      },
+      {
+        "name": "GOVN - Policy & Governance",
+        "spend": 15652.36,
+        "count": 175,
+        "suppliers": 52
+      },
+      {
+        "name": "GROW - Commercial Services",
+        "spend": 2226.04,
+        "count": 21,
+        "suppliers": 7
+      }
+    ],
+    "department_raws": [
+      "0",
+      "CUST - Customer & Digital",
+      "EARL - Communities",
+      "GOVN - Policy & Governance",
+      "GROW - Commercial Services"
+    ]
+  },
+  "total_spend": 141241.66,
+  "unique_suppliers": 235,
+  "date_range": {
+    "min": "2024-07-01",
+    "max": "2024-12-27"
+  }
+}

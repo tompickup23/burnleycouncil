@@ -114,3 +114,18 @@ export function getFinancialYear(dateStr) {
   }
   return `${year}/${String(year + 1).slice(-2)}`
 }
+
+/**
+ * Estimate reading time from text content
+ * @param {string} text - Plain text or HTML content
+ * @param {number} wpm - Words per minute (default 200)
+ * @returns {string} "X min read"
+ */
+export function estimateReadingTime(text, wpm = 200) {
+  if (!text) return '1 min read'
+  // Strip HTML tags if present
+  const plain = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  const words = plain.split(/\s+/).filter(Boolean).length
+  const minutes = Math.max(1, Math.ceil(words / wpm))
+  return `${minutes} min read`
+}

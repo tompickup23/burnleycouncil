@@ -2,9 +2,11 @@
 
 ## What This Is
 
-Multi-council public spending transparency platform for East Lancashire. React SPA deployed per-council via GitHub Pages at aidoge.co.uk.
+Multi-council public spending transparency platform for Lancashire. React SPA deployed per-council via GitHub Pages at aidoge.co.uk.
 
-**Live councils:** Burnley (30,580 txns, £355M), Hyndburn (29,804 txns, £211M), Pendle (49,741 txns, £125M), Rossendale (42,536 txns, £64M).
+**Live councils (8):**
+- East Lancashire: Burnley (30,580 txns, £355M), Hyndburn (29,804 txns, £211M), Pendle (49,741 txns, £125M), Rossendale (42,536 txns, £64M)
+- Central/South Lancashire: Lancaster (24,593 txns, £143M), Ribble Valley (3,767 txns, £12M), Chorley (885 txns, purchase card only), South Ribble (16,065 txns, £147M)
 
 ## Architecture
 
@@ -26,12 +28,16 @@ Builds MUST be sequential (shared `public/data/` causes race conditions):
 # Build single council for dev
 VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build
 
-# Manual build all 4 councils (if CI/CD is down)
+# Manual build all 8 councils (if CI/CD is down)
 rm -rf /tmp/lancashire-deploy
 VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/burnleycouncil
 VITE_COUNCIL=hyndburn VITE_BASE=/lancashire/hyndburncouncil/ npx vite build --outDir /tmp/lancashire-deploy/hyndburncouncil
 VITE_COUNCIL=pendle VITE_BASE=/lancashire/pendlecouncil/ npx vite build --outDir /tmp/lancashire-deploy/pendlecouncil
 VITE_COUNCIL=rossendale VITE_BASE=/lancashire/rossendalecouncil/ npx vite build --outDir /tmp/lancashire-deploy/rossendalecouncil
+VITE_COUNCIL=lancaster VITE_BASE=/lancashire/lancastercouncil/ npx vite build --outDir /tmp/lancashire-deploy/lancastercouncil
+VITE_COUNCIL=ribble_valley VITE_BASE=/lancashire/ribblevalleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/ribblevalleycouncil
+VITE_COUNCIL=chorley VITE_BASE=/lancashire/chorleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/chorleycouncil
+VITE_COUNCIL=south_ribble VITE_BASE=/lancashire/southribblecouncil/ npx vite build --outDir /tmp/lancashire-deploy/southribblecouncil
 
 # Hub pages + CNAME (deploy.yml does this automatically)
 cp burnley-council/hub/index.html /tmp/lancashire-deploy/index.html
@@ -49,7 +55,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | File | Purpose |
 |------|---------|
 | `src/App.jsx` | Router with 16 lazy-loaded routes |
-| `src/pages/` | 32 page components (Spending, Budgets, DOGE, News, etc.) |
+| `src/pages/` | 32 page components + tests (Spending, Budgets, DOGE, News, Procurement, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/hooks/useData.js` | Data fetching hook (loads from /data/*.json) |
@@ -73,6 +79,8 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `burnley-council/scripts/article_pipeline.py` | Data-driven article generation (topic discovery + LLM + fact verification) |
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
+| `scripts/setup_uptimerobot.sh` | Create UptimeRobot monitors for all council sites (requires API key) |
+| `scripts/vps_backup.sh` | Weekly rsync backup of vps-main + vps-news to local machine |
 
 ### News Lancashire Scripts (on vps-news: `/home/ubuntu/newslancashire/scripts/`)
 | File | Purpose |
@@ -146,8 +154,8 @@ doge_analysis.py                 →  doge_findings.json, doge_verification.json
 ```
 
 ### Spending Data Versions
-- **v1** (legacy): spending.json as plain array of records
-- **v2** (current): spending.json as `{ meta, filterOptions, records }` object
+- **v1** (legacy): spending.json as plain array of records — no longer used (all migrated to v2, 10 Feb)
+- **v2** (current): spending.json as `{ meta, filterOptions, records }` object — all 4 councils
 - **v3** (chunked): spending-index.json (manifest + filterOptions) + spending-YYYY-YY.json per year
 - Worker (spending.worker.js) auto-detects version: tries v3 first, falls back to v2/v1
 - v3 reduces initial mobile download from 21-40MB to ~4-8MB (latest year only)

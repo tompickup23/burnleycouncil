@@ -4,7 +4,8 @@ import {
   AlertTriangle, Shield, ChevronRight, TrendingUp, Building,
   PoundSterling, Users, Repeat, GitCompareArrows, Eye,
   CheckCircle, XCircle, HelpCircle, FileText, Scale,
-  BarChart3, Search, ArrowUpRight, Info, ChevronDown, ChevronUp
+  BarChart3, Search, ArrowUpRight, Info, ChevronDown, ChevronUp,
+  Clock, Zap, Activity
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -92,6 +93,7 @@ function DogeInvestigation() {
     '/data/insights.json',
     '/data/doge_verification.json',
     '/data/shared/legal_framework.json',
+    '/data/outcomes.json',
   ]
 
   const { data, loading, error } = useData(dataUrls)
@@ -112,7 +114,7 @@ function DogeInvestigation() {
     )
   }
 
-  const [dogeFindings, dogeKnowledge, insights, verification, legalFramework] = data || []
+  const [dogeFindings, dogeKnowledge, insights, verification, legalFramework, outcomes] = data || []
 
   if (!dogeFindings) {
     return (
@@ -252,23 +254,30 @@ function DogeInvestigation() {
         </p>
 
         <div className="doge-findings-overview">
-          {findings.map((f, i) => (
-            <Link key={i} to={f.link || '/spending'} className={`doge-finding-card ${f.severity || 'info'}`}>
-              <div className="finding-severity-bar" style={{ background: severityColors[f.severity] || severityColors.info }} />
-              <span className="doge-finding-value">{f.value}</span>
-              <span className="doge-finding-label">
-                {f.label}
-                {f.confidence && <ConfidenceBadge level={f.confidence} />}
-              </span>
-              <span className="doge-finding-detail">{f.detail}</span>
-              {f.context_note && (
-                <span className="doge-finding-context">
-                  <Info size={12} /> {f.context_note}
+          {findings.map((f, i) => {
+            // Build evidence-aware link: append ref=doge for evidence trail
+            const baseLink = f.link || '/spending'
+            const evidenceLink = baseLink.includes('?')
+              ? `${baseLink}&ref=doge`
+              : `${baseLink}?ref=doge`
+            return (
+              <Link key={i} to={evidenceLink} className={`doge-finding-card ${f.severity || 'info'}`}>
+                <div className="finding-severity-bar" style={{ background: severityColors[f.severity] || severityColors.info }} />
+                <span className="doge-finding-value">{f.value}</span>
+                <span className="doge-finding-label">
+                  {f.label}
+                  {f.confidence && <ConfidenceBadge level={f.confidence} />}
                 </span>
-              )}
-              <span className="finding-link-arrow"><ArrowUpRight size={16} /></span>
-            </Link>
-          ))}
+                <span className="doge-finding-detail">{f.detail}</span>
+                {f.context_note && (
+                  <span className="doge-finding-context">
+                    <Info size={12} /> {f.context_note}
+                  </span>
+                )}
+                <span className="finding-link-arrow"><ArrowUpRight size={16} /></span>
+              </Link>
+            )
+          })}
         </div>
       </section>
 
@@ -300,9 +309,20 @@ function DogeInvestigation() {
                     <div className="cases-table">
                       {verifiedFindings.ch_breach_spend.top_cases.map((c, i) => (
                         <div key={i} className="case-row">
-                          <span className="case-name">{c.supplier || c.name}</span>
+                          <Link
+                            to={`/spending?supplier=${encodeURIComponent((c.supplier || c.name || '').toUpperCase())}&ref=doge`}
+                            className="case-name case-name-link"
+                          >
+                            {c.supplier || c.name}
+                          </Link>
                           <span className="case-amount">{c.spend || c.amount}</span>
                           <span className="case-issue">{c.issue || c.note}</span>
+                          <Link
+                            to={`/spending?supplier=${encodeURIComponent((c.supplier || c.name || '').toUpperCase())}&ref=doge`}
+                            className="case-evidence-link"
+                          >
+                            View transactions →
+                          </Link>
                         </div>
                       ))}
                     </div>
@@ -455,6 +475,301 @@ function DogeInvestigation() {
             </div>
           </ExpandableSection>
         )}
+
+        {/* Payment Velocity */}
+        {dogeFindings.payment_velocity && (
+          <ExpandableSection
+            title="Payment Velocity Analysis"
+            subtitle={`${dogeFindings.payment_velocity.total_analysed} suppliers analysed`}
+            severity="info"
+          >
+            <div className="analysis-content">
+              <div className="analysis-summary">
+                <p>
+                  Analysis of payment frequency patterns across all suppliers with 10+ transactions.
+                  Rapid payers receive payments every &lt;14 days on average. Clock-like regularity
+                  (std deviation &lt;5 days) may indicate standing orders, retainer arrangements,
+                  or automated payments.
+                </p>
+
+                {dogeFindings.payment_velocity.rapid_payers?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><Zap size={16} /> Rapid Payment Suppliers (&lt;14 day average)</h4>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Supplier</th>
+                            <th>Payments</th>
+                            <th>Avg Days</th>
+                            <th>Total Spend</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.payment_velocity.rapid_payers.map((p, i) => (
+                            <tr key={i}>
+                              <td>
+                                <Link to={`/spending?supplier=${encodeURIComponent(p.supplier)}&ref=doge`}>
+                                  {p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}
+                                </Link>
+                              </td>
+                              <td>{formatNumber(p.payments)}</td>
+                              <td>{p.avg_days}</td>
+                              <td>{formatCurrency(p.total_spend, true)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {dogeFindings.payment_velocity.regular_payers?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><Clock size={16} /> Clock-Like Regular Payers (std dev &lt;5 days)</h4>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Supplier</th>
+                            <th>Payments</th>
+                            <th>Avg Days</th>
+                            <th>Std Dev</th>
+                            <th>Total Spend</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.payment_velocity.regular_payers.map((p, i) => (
+                            <tr key={i}>
+                              <td>
+                                <Link to={`/spending?supplier=${encodeURIComponent(p.supplier)}&ref=doge`}>
+                                  {p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}
+                                </Link>
+                              </td>
+                              <td>{formatNumber(p.payments)}</td>
+                              <td>{p.avg_days}</td>
+                              <td>{p.std_dev} days</td>
+                              <td>{formatCurrency(p.total_spend, true)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {dogeFindings.payment_velocity.day_of_week?.length > 0 && (
+                  <div className="day-of-week-chart">
+                    <h4>Payments by Day of Week</h4>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={dogeFindings.payment_velocity.day_of_week}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                        <XAxis dataKey="day" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} tickFormatter={d => d.slice(0, 3)} />
+                        <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 10 }} />
+                        <Tooltip
+                          contentStyle={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13 }}
+                          formatter={(v, name) => [name === 'count' ? formatNumber(v) : formatCurrency(v, true), name === 'count' ? 'Transactions' : 'Total Value']}
+                        />
+                        <Bar dataKey="count" fill="#0a84ff" radius={[4, 4, 0, 0]} name="count" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+              <VerificationPanel checks={[
+                {
+                  label: 'Payment interval calculation',
+                  detail: 'Days between consecutive payments to each supplier. Same-day payments excluded. Minimum 10 payments required.',
+                  status: 'pass'
+                },
+                {
+                  label: 'Context',
+                  detail: 'Rapid payment patterns often reflect legitimate arrangements (retainers, agency staff, utilities). Not inherently suspicious.',
+                  status: 'info'
+                }
+              ]} />
+            </div>
+          </ExpandableSection>
+        )}
+
+        {/* Supplier Concentration */}
+        {dogeFindings.supplier_concentration && (
+          <ExpandableSection
+            title="Supplier Concentration"
+            subtitle={`HHI: ${dogeFindings.supplier_concentration.hhi} (${dogeFindings.supplier_concentration.concentration_level})`}
+            severity="info"
+          >
+            <div className="analysis-content">
+              <div className="analysis-summary">
+                <p>
+                  Top 5 suppliers account for <strong>{dogeFindings.supplier_concentration.top5?.pct}%</strong> of
+                  total spend ({formatCurrency(dogeFindings.supplier_concentration.top5?.total, true)}).
+                  Top 10 account for {dogeFindings.supplier_concentration.top10_pct}%.
+                  The HHI (Herfindahl-Hirschman Index) of {dogeFindings.supplier_concentration.hhi} indicates
+                  {dogeFindings.supplier_concentration.concentration_level === 'high' ? ' a highly concentrated market — a few suppliers dominate.'
+                   : dogeFindings.supplier_concentration.concentration_level === 'moderate' ? ' moderate concentration.'
+                   : ' a competitive supplier market with spending spread across many providers.'}
+                </p>
+
+                {dogeFindings.supplier_concentration.top5?.suppliers?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><TrendingUp size={16} /> Top 5 Suppliers by Total Spend</h4>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Supplier</th>
+                            <th>Transactions</th>
+                            <th>Total Spend</th>
+                            <th>Share</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.supplier_concentration.top5.suppliers.map((s, i) => (
+                            <tr key={i}>
+                              <td>
+                                <Link to={`/spending?supplier=${encodeURIComponent(s.supplier)}&ref=doge`}>
+                                  {s.supplier.length > 30 ? s.supplier.substring(0, 30) + '...' : s.supplier}
+                                </Link>
+                              </td>
+                              <td>{formatNumber(s.count)}</td>
+                              <td>{formatCurrency(s.total, true)}</td>
+                              <td><strong>{s.pct}%</strong></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <VerificationPanel checks={[
+                {
+                  label: 'HHI methodology',
+                  detail: `Herfindahl-Hirschman Index: sum of squared market shares. <1500 = competitive, 1500-2500 = moderate, >2500 = concentrated. Score: ${dogeFindings.supplier_concentration.hhi}.`,
+                  status: 'pass'
+                },
+                {
+                  label: 'Context',
+                  detail: `Based on ${formatNumber(dogeFindings.supplier_concentration.unique_suppliers)} unique suppliers. High concentration in local government is common for outsourced services (waste, IT, leisure).`,
+                  status: 'info'
+                }
+              ]} />
+            </div>
+          </ExpandableSection>
+        )}
+
+        {/* Procurement Compliance */}
+        {dogeFindings.procurement_compliance && (
+          <ExpandableSection
+            title="Procurement Compliance"
+            subtitle={`${dogeFindings.procurement_compliance.awarded_contracts} contracts analysed`}
+            severity={dogeFindings.procurement_compliance.threshold_suspect_count > 3 ? 'warning' : 'info'}
+          >
+            <div className="analysis-content">
+              <div className="analysis-summary">
+                <div className="procurement-stats-row">
+                  <div className="proc-stat">
+                    <span className="proc-stat-value">{dogeFindings.procurement_compliance.threshold_suspect_count}</span>
+                    <span className="proc-stat-label">Threshold Suspects</span>
+                  </div>
+                  <div className="proc-stat">
+                    <span className="proc-stat-value">{dogeFindings.procurement_compliance.repeat_winner_count}</span>
+                    <span className="proc-stat-label">Repeat Winners</span>
+                  </div>
+                  <div className="proc-stat">
+                    <span className="proc-stat-value">{dogeFindings.procurement_compliance.transparency_gap?.pct}%</span>
+                    <span className="proc-stat-label">Value Gap</span>
+                  </div>
+                  <div className="proc-stat">
+                    <span className="proc-stat-value">{dogeFindings.procurement_compliance.timing_cluster_count}</span>
+                    <span className="proc-stat-label">Timing Clusters</span>
+                  </div>
+                </div>
+
+                {dogeFindings.procurement_compliance.threshold_suspects?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><AlertTriangle size={16} /> Contracts Near Procurement Thresholds</h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-sm)' }}>
+                      Contracts valued within 15% below a procurement threshold may indicate threshold avoidance.
+                    </p>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Contract</th>
+                            <th>Value</th>
+                            <th>Threshold</th>
+                            <th>% of Limit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.procurement_compliance.threshold_suspects.map((s, i) => (
+                            <tr key={i}>
+                              <td title={s.title}>{s.title.length > 40 ? s.title.substring(0, 40) + '...' : s.title}</td>
+                              <td>{formatCurrency(s.value, true)}</td>
+                              <td>{s.threshold_label}</td>
+                              <td>{s.pct_of_threshold}%</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {dogeFindings.procurement_compliance.repeat_winners?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><Repeat size={16} /> Repeat Contract Winners</h4>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Supplier</th>
+                            <th>Contracts</th>
+                            <th>Total Value</th>
+                            <th>Avg Value</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.procurement_compliance.repeat_winners.map((w, i) => (
+                            <tr key={i}>
+                              <td>
+                                <Link to={`/spending?supplier=${encodeURIComponent(w.supplier)}&ref=doge`}>
+                                  {w.supplier.length > 30 ? w.supplier.substring(0, 30) + '...' : w.supplier}
+                                </Link>
+                              </td>
+                              <td>{w.contracts}</td>
+                              <td>{formatCurrency(w.total_value, true)}</td>
+                              <td>{formatCurrency(w.avg_value, true)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <VerificationPanel checks={[
+                {
+                  label: 'Threshold avoidance detection',
+                  detail: 'Contracts valued within 15% below UK procurement thresholds (£30K, £138,760, £5.37M) flagged for review.',
+                  status: 'pass'
+                },
+                {
+                  label: 'Limitation',
+                  detail: 'Proximity to thresholds alone does not prove avoidance. Legitimate projects naturally cluster around common budget ranges.',
+                  status: 'info'
+                },
+                {
+                  label: 'Data source',
+                  detail: 'Contracts Finder API — only published notices are available. Some contracts below threshold may not be published.',
+                  status: 'info'
+                }
+              ]} />
+            </div>
+          </ExpandableSection>
+        )}
       </section>
 
       {/* Cross-Council Comparison */}
@@ -503,22 +818,90 @@ function DogeInvestigation() {
           </p>
 
           <div className="key-findings-grid">
-            {keyFindings.map((f, i) => (
-              <Link key={i} to={f.link || '/spending'} className={`key-finding-card ${f.severity || 'info'}`}>
-                <div className="kf-header">
-                  <span className={`kf-badge ${f.severity || 'info'}`}>{f.badge}</span>
-                  {f.confidence && <ConfidenceBadge level={f.confidence} />}
+            {keyFindings.map((f, i) => {
+              const baseLink = f.link || '/spending'
+              const evidenceLink = baseLink.includes('?')
+                ? `${baseLink}&ref=doge`
+                : `${baseLink}?ref=doge`
+              return (
+                <Link key={i} to={evidenceLink} className={`key-finding-card ${f.severity || 'info'}`}>
+                  <div className="kf-header">
+                    <span className={`kf-badge ${f.severity || 'info'}`}>{f.badge}</span>
+                    {f.confidence && <ConfidenceBadge level={f.confidence} />}
+                  </div>
+                  <h3>{f.title}</h3>
+                  <p>{f.description}</p>
+                  {f.context_note && (
+                    <p className="kf-context-note">
+                      <Info size={12} /> {f.context_note}
+                    </p>
+                  )}
+                  <span className="kf-link">{f.link_text || 'Investigate →'}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* What Changed? — Accountability Tracking */}
+      {outcomes?.outcomes?.length > 0 && (
+        <section className="doge-outcomes-section">
+          <h2>
+            <Activity size={24} />
+            What Changed?
+          </h2>
+          <p className="section-intro">
+            Tracking whether our findings lead to real accountability.
+            {outcomes.summary?.council_responses_received > 0
+              ? ` ${outcomes.summary.council_responses_received} council response(s) received so far.`
+              : ' No council responses received yet.'
+            }
+          </p>
+
+          <div className="outcomes-grid">
+            {outcomes.outcomes.map((o) => (
+              <div key={o.id} className={`outcome-card status-${o.status}`}>
+                <div className="outcome-header">
+                  <span className={`outcome-status ${o.status}`}>
+                    {o.status === 'resolved' ? <CheckCircle size={14} /> :
+                     o.status === 'monitoring' ? <Eye size={14} /> :
+                     <FileText size={14} />}
+                    {o.status}
+                  </span>
+                  <span className="outcome-date">{new Date(o.date).toLocaleDateString('en-GB')}</span>
                 </div>
-                <h3>{f.title}</h3>
-                <p>{f.description}</p>
-                {f.context_note && (
-                  <p className="kf-context-note">
-                    <Info size={12} /> {f.context_note}
-                  </p>
+                <h4>{o.finding}</h4>
+                <p className="outcome-response">{o.response}</p>
+                {o.next_steps?.length > 0 && (
+                  <div className="outcome-next-steps">
+                    <span className="next-steps-label">Next steps:</span>
+                    <ul>
+                      {o.next_steps.map((s, i) => <li key={i}>{s}</li>)}
+                    </ul>
+                  </div>
                 )}
-                <span className="kf-link">{f.link_text || 'Investigate →'}</span>
-              </Link>
+              </div>
             ))}
+          </div>
+
+          <div className="outcomes-summary">
+            <div className="os-stat">
+              <span className="os-value">{outcomes.summary?.total_findings_published || 0}</span>
+              <span className="os-label">Findings Published</span>
+            </div>
+            <div className="os-stat">
+              <span className="os-value">{outcomes.summary?.council_responses_received || 0}</span>
+              <span className="os-label">Council Responses</span>
+            </div>
+            <div className="os-stat">
+              <span className="os-value">{outcomes.summary?.policy_changes_tracked || 0}</span>
+              <span className="os-label">Policy Changes</span>
+            </div>
+            <div className="os-stat">
+              <span className="os-value">{outcomes.summary?.foi_requests_submitted || 0}</span>
+              <span className="os-label">FOI Requests</span>
+            </div>
           </div>
         </section>
       )}
@@ -645,7 +1028,7 @@ function DogeInvestigation() {
         </p>
 
         <div className="action-grid">
-          <Link to="/spending" className="action-card">
+          <Link to="/spending?ref=doge" className="action-card">
             <Search size={24} />
             <h4>Search the Data</h4>
             <p>Explore every transaction yourself. Filter by supplier, department, or date.</p>

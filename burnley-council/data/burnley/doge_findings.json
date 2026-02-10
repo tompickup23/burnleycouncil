@@ -52,6 +52,14 @@
       "link": "/spending"
     },
     {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Burnley Leisure (7.0 day avg, 335 payments, \u00a312.9M)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
       "value": "5.0% dev",
       "label": "Benford's Law Analysis",
       "detail": "Digit distribution across 25,490 transactions shows \u03c7\u00b2=2541.29 (statistically significant due to large sample size), but max digit deviation is only 5.0% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
@@ -83,6 +91,16 @@
       "confidence": "high"
     },
     {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "5 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Amznmktplace \u2014 every 30.4 days (317 payments, \u00a314.0K)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
       "icon": "repeat",
       "badge": "High Volume",
       "title": "URBASER LTD: 959 transactions totalling \u00a319.5M",
@@ -95,7 +113,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "37 suppliers shared with neighbouring councils \u2014 \u00a362.0M total",
+      "title": "37 suppliers shared with neighbouring councils \u2014 \u00a368.7M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -105,10 +123,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "OAKS HOTEL: 5356% price gap between councils",
-      "description": "Pendle pays \u00a38.0K avg vs Burnley \u00a3147 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "AVC WISE LTD: 8013% price gap between councils",
+      "description": "Lancaster pays \u00a31.3K avg vs Hyndburn \u00a316 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=OAKS HOTEL",
+      "link": "/spending?supplier=AVC WISE LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -116,12 +134,334 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T11:50:26.770264",
+  "generated": "2026-02-10T21:48:50.399929",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
     "payment_patterns",
     "ch_compliance",
-    "benfords_law"
-  ]
+    "benfords_law",
+    "supplier_concentration"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "BURNLEY LEISURE",
+        "payments": 335,
+        "avg_days": 7.0,
+        "total_spend": 12932594.29,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+        "payments": 330,
+        "avg_days": 7.1,
+        "total_spend": 16830357.24,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "VIVID RESOURCING",
+        "payments": 169,
+        "avg_days": 7.3,
+        "total_spend": 265321.02,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "GELDARDS LLP",
+        "payments": 30,
+        "avg_days": 7.4,
+        "total_spend": 131463.0,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "SOUTHFIELD REFURBISHMENTS LTD",
+        "payments": 114,
+        "avg_days": 7.8,
+        "total_spend": 728379.42,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "SELLICK PARTNERSHIP LTD",
+        "payments": 126,
+        "avg_days": 7.8,
+        "total_spend": 183789.24,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "Liberata UK Ltd",
+        "payments": 488,
+        "avg_days": 8.4,
+        "total_spend": 36731554.22,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "VENN GROUP LTD",
+        "payments": 72,
+        "avg_days": 8.6,
+        "total_spend": 117540.91,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "THE OYSTER PARTNERSHIP LTD",
+        "payments": 156,
+        "avg_days": 8.7,
+        "total_spend": 147135.89,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "NORTHERN INVESTMENT GROUP",
+        "payments": 10,
+        "avg_days": 8.8,
+        "total_spend": 138460.0,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "AMZNMKTPLACE",
+        "payments": 317,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 14030.64
+      },
+      {
+        "supplier": "MAILCHIMP",
+        "payments": 47,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 5671.77
+      },
+      {
+        "supplier": "SPROUT SOCIAL",
+        "payments": 40,
+        "avg_days": 30.4,
+        "std_dev": 0.8,
+        "total_spend": 7716.63
+      },
+      {
+        "supplier": "ADOBE",
+        "payments": 37,
+        "avg_days": 30.4,
+        "std_dev": 0.9,
+        "total_spend": 2811.58
+      },
+      {
+        "supplier": "HIGH STREET VOUCHERS",
+        "payments": 34,
+        "avg_days": 30.5,
+        "std_dev": 0.5,
+        "total_spend": 1151.67
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 4566,
+        "total": 61910346.08
+      },
+      {
+        "day": "Tuesday",
+        "count": 9389,
+        "total": 130580713.55
+      },
+      {
+        "day": "Wednesday",
+        "count": 6868,
+        "total": 79871616.08
+      },
+      {
+        "day": "Thursday",
+        "count": 3980,
+        "total": 44278796.69
+      },
+      {
+        "day": "Friday",
+        "count": 3704,
+        "total": 36954798.11
+      },
+      {
+        "day": "Saturday",
+        "count": 946,
+        "total": 117865.57
+      },
+      {
+        "day": "Sunday",
+        "count": 918,
+        "total": 139768.02
+      }
+    ],
+    "total_analysed": 478
+  },
+  "supplier_concentration": {
+    "total_spend": 355218405.44,
+    "unique_suppliers": 4485,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "Liberata UK Ltd",
+          "total": 36731554.22,
+          "count": 488,
+          "pct": 10.3
+        },
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+          "total": 30765355.97,
+          "count": 77,
+          "pct": 8.7
+        },
+        {
+          "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+          "total": 29390416.08,
+          "count": 128,
+          "pct": 8.3
+        },
+        {
+          "supplier": "GELDARDS",
+          "total": 20293226.43,
+          "count": 24,
+          "pct": 5.7
+        },
+        {
+          "supplier": "URBASER LTD",
+          "total": 19477800.45,
+          "count": 959,
+          "pct": 5.5
+        }
+      ],
+      "total": 136658353.15,
+      "pct": 38.5
+    },
+    "top10_pct": 51.9,
+    "top20_pct": 60.5,
+    "hhi": 373.4,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 94,
+    "awarded_contracts": 87,
+    "threshold_suspects": [
+      {
+        "title": "Monitoring Surveyor for Nicholas Street Restoration Project",
+        "value": 26000,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Cowburn Watson Box",
+        "pct_of_threshold": 86.7
+      },
+      {
+        "title": "Roof Repairs &amp; Refurbishment Padiham Town Hall",
+        "value": 123130,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "GABLES UK LIMITED",
+        "pct_of_threshold": 88.7
+      },
+      {
+        "title": "Property Management Services Charter Walk Shopping Centre and Pioneer Place, Bur",
+        "value": 127125,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Monroe K Property Management",
+        "pct_of_threshold": 91.6
+      },
+      {
+        "title": "Towneley Hall Consultancy Services",
+        "value": 124800,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Knox McConnell Architects",
+        "pct_of_threshold": 89.9
+      },
+      {
+        "title": "Remedial Roof Works Burnley Market",
+        "value": 120945,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Castle Contractors",
+        "pct_of_threshold": 87.2
+      },
+      {
+        "title": "Appointment of Cost Consultants for leisure led development",
+        "value": 27566,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Mace Consultancy",
+        "pct_of_threshold": 91.9
+      },
+      {
+        "title": "Communicating Burnley - Public Relations Services",
+        "value": 29680,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Viva PR Limited",
+        "pct_of_threshold": 98.9
+      }
+    ],
+    "threshold_suspect_count": 7,
+    "repeat_winners": [
+      {
+        "supplier": "APF Renovations",
+        "contracts": 13,
+        "total_value": 564112,
+        "avg_value": 43393.23
+      },
+      {
+        "supplier": "WRPS Group",
+        "contracts": 3,
+        "total_value": 635357.21,
+        "avg_value": 211785.74
+      },
+      {
+        "supplier": "NI Construction",
+        "contracts": 3,
+        "total_value": 184480,
+        "avg_value": 61493.33
+      },
+      {
+        "supplier": "Knox McConnell Architects",
+        "contracts": 2,
+        "total_value": 161580,
+        "avg_value": 80790.0
+      },
+      {
+        "supplier": "Lea Hough Chartered Surveyors",
+        "contracts": 2,
+        "total_value": 47800,
+        "avg_value": 23900.0
+      }
+    ],
+    "repeat_winner_count": 5,
+    "transparency_gap": {
+      "no_value_count": 5,
+      "total_awarded": 87,
+      "pct": 5.7
+    },
+    "timing_clusters": [
+      {
+        "supplier": "APF Renovations",
+        "gap_days": 30,
+        "date1": "2022-10-25",
+        "date2": "2022-11-24"
+      },
+      {
+        "supplier": "APF Renovations",
+        "gap_days": 1,
+        "date1": "2023-06-05",
+        "date2": "2023-06-06"
+      },
+      {
+        "supplier": "APF Renovations",
+        "gap_days": 21,
+        "date1": "2024-03-25",
+        "date2": "2024-04-15"
+      },
+      {
+        "supplier": "APF Renovations",
+        "gap_days": 0,
+        "date1": "2024-12-18",
+        "date2": "2024-12-18"
+      }
+    ],
+    "timing_cluster_count": 4
+  }
 }

@@ -29,10 +29,14 @@ from collections import defaultdict
 
 # ─── Our councils ──────────────────────────────────────────────────
 COUNCILS = {
-    "E07000117": {"key": "burnley",    "name": "Burnley"},
-    "E07000120": {"key": "hyndburn",   "name": "Hyndburn"},
-    "E07000122": {"key": "pendle",     "name": "Pendle"},
-    "E07000125": {"key": "rossendale", "name": "Rossendale"},
+    "E07000117": {"key": "burnley",       "name": "Burnley"},
+    "E07000120": {"key": "hyndburn",      "name": "Hyndburn"},
+    "E07000122": {"key": "pendle",        "name": "Pendle"},
+    "E07000125": {"key": "rossendale",    "name": "Rossendale"},
+    "E07000121": {"key": "lancaster",     "name": "Lancaster"},
+    "E07000124": {"key": "ribble_valley", "name": "Ribble Valley"},
+    "E07000118": {"key": "chorley",       "name": "Chorley"},
+    "E07000126": {"key": "south_ribble",  "name": "South Ribble"},
 }
 
 # ─── Revenue Outturn columns we care about ─────────────────────────

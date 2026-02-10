@@ -1,0 +1,358 @@
+{
+  "summary": {
+    "total_spend": 141982.62,
+    "transaction_count": 875,
+    "unique_suppliers": 232,
+    "avg_transaction": 162.27,
+    "median_transaction": 67.76,
+    "date_range": {
+      "min": "2024-07-01",
+      "max": "2024-12-27"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "ALDERLEY HOTEL",
+        "total": 8435.0,
+        "transactions": 37,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ADOBE",
+        "total": 7544.44,
+        "transactions": 4,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PLAZA HOTEL CHORLEY",
+        "total": 6172.5,
+        "transactions": 18,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE ALDERLEY HOTEL",
+        "total": 5805.0,
+        "transactions": 26,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WWW.ICO.ORG.UK",
+        "total": 5800.0,
+        "transactions": 2,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ICO",
+        "total": 5800.0,
+        "transactions": 2,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "META",
+        "total": 5379.97,
+        "transactions": 39,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DVLA VEHICLE TAX",
+        "total": 4725.0,
+        "transactions": 14,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DVLA SWANSEA",
+        "total": 4725.0,
+        "transactions": 14,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE MERCURY HOTEL",
+        "total": 4033.0,
+        "transactions": 13,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FREETHOUGH FREETHOUGH",
+        "total": 3742.6,
+        "transactions": 17,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FREETHOUGHT",
+        "total": 3658.6,
+        "transactions": 16,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PLAZACHORLEY.COM",
+        "total": 2966.5,
+        "transactions": 10,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DELL PRODUCTS",
+        "total": 2723.31,
+        "transactions": 2,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DELL",
+        "total": 2723.31,
+        "transactions": 2,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SLATER MENSWEAR",
+        "total": 2488.0,
+        "transactions": 6,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ARGOS",
+        "total": 2468.36,
+        "transactions": 18,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "AMAZON",
+        "total": 2393.53,
+        "transactions": 26,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BLACKPOOL",
+        "total": 2150.0,
+        "transactions": 10,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE MERCURY BOLTON",
+        "total": 1950.0,
+        "transactions": 6,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.6035,
+    "total_unique_suppliers": 232,
+    "single_transaction_suppliers": 50
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 299,
+      "potential_value": 61732.2,
+      "items": [
+        {
+          "supplier": "ADOBE",
+          "amount": 1886.11,
+          "date": "2024-07-11",
+          "occurrences": 4,
+          "potential_overpayment": 5658.33
+        },
+        {
+          "supplier": "PLAZA HOTEL CHORLEY",
+          "amount": 491.25,
+          "date": "2024-07-01",
+          "occurrences": 8,
+          "potential_overpayment": 3438.75
+        },
+        {
+          "supplier": "DVLA VEHICLE TAX",
+          "amount": 337.5,
+          "date": "2024-10-07",
+          "occurrences": 11,
+          "potential_overpayment": 3375.0
+        },
+        {
+          "supplier": "DVLA SWANSEA",
+          "amount": 337.5,
+          "date": "2024-10-07",
+          "occurrences": 11,
+          "potential_overpayment": 3375.0
+        },
+        {
+          "supplier": "WWW.ICO.ORG.UK",
+          "amount": 2900.0,
+          "date": "2024-08-01",
+          "occurrences": 2,
+          "potential_overpayment": 2900.0
+        },
+        {
+          "supplier": "ICO",
+          "amount": 2900.0,
+          "date": "2024-08-01",
+          "occurrences": 2,
+          "potential_overpayment": 2900.0
+        },
+        {
+          "supplier": "META",
+          "amount": 1461.69,
+          "date": "2024-08-05",
+          "occurrences": 2,
+          "potential_overpayment": 1461.69
+        },
+        {
+          "supplier": "ALDERLEY HOTEL",
+          "amount": 480.0,
+          "date": "2024-07-16",
+          "occurrences": 4,
+          "potential_overpayment": 1440.0
+        },
+        {
+          "supplier": "SLATER MENSWEAR",
+          "amount": 460.0,
+          "date": "2024-07-25",
+          "occurrences": 4,
+          "potential_overpayment": 1380.0
+        },
+        {
+          "supplier": "ALDERLEY HOTEL",
+          "amount": 390.0,
+          "date": "2024-07-04",
+          "occurrences": 4,
+          "potential_overpayment": 1170.0
+        },
+        {
+          "supplier": "THE ALDERLEY HOTEL",
+          "amount": 780.0,
+          "date": "2024-11-18",
+          "occurrences": 2,
+          "potential_overpayment": 780.0
+        },
+        {
+          "supplier": "DVLA VEHICLE TAX",
+          "amount": 337.5,
+          "date": "2024-10-30",
+          "occurrences": 3,
+          "potential_overpayment": 675.0
+        },
+        {
+          "supplier": "DVLA SWANSEA",
+          "amount": 337.5,
+          "date": "2024-10-30",
+          "occurrences": 3,
+          "potential_overpayment": 675.0
+        },
+        {
+          "supplier": "FREETHOUGHT",
+          "amount": 614.1,
+          "date": "2024-07-31",
+          "occurrences": 2,
+          "potential_overpayment": 614.1
+        },
+        {
+          "supplier": "FREETHOUGH FREETHOUGH",
+          "amount": 614.1,
+          "date": "2024-07-26",
+          "occurrences": 2,
+          "potential_overpayment": 614.1
+        },
+        {
+          "supplier": "FACEBK RVWXN8LRR2",
+          "amount": 500.0,
+          "date": "2024-07-16",
+          "occurrences": 2,
+          "potential_overpayment": 500.0
+        },
+        {
+          "supplier": "FACEBK M2Z5Z7LRR2",
+          "amount": 500.0,
+          "date": "2024-07-02",
+          "occurrences": 2,
+          "potential_overpayment": 500.0
+        },
+        {
+          "supplier": "VOUCHER EXPRESS",
+          "amount": 500.0,
+          "date": "2024-07-01",
+          "occurrences": 2,
+          "potential_overpayment": 500.0
+        },
+        {
+          "supplier": "ARGOS",
+          "amount": 500.0,
+          "date": "2024-07-01",
+          "occurrences": 2,
+          "potential_overpayment": 500.0
+        },
+        {
+          "supplier": "AMAZON 204-1030962-08",
+          "amount": 499.5,
+          "date": "2024-07-06",
+          "occurrences": 2,
+          "potential_overpayment": 499.5
+        }
+      ]
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 17
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "0",
+      "spend": 71027.11,
+      "count": 417
+    },
+    {
+      "department": "EARL - Communities",
+      "spend": 29255.1,
+      "count": 203
+    },
+    {
+      "department": "CUST - Customer & Digital",
+      "spend": 23451.53,
+      "count": 64
+    },
+    {
+      "department": "GOVN - Policy & Governance",
+      "spend": 16022.84,
+      "count": 170
+    },
+    {
+      "department": "GROW - Commercial Services",
+      "spend": 2226.04,
+      "count": 21
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2024/25": 141982.62
+    },
+    "transactions_by_year": {
+      "2024/25": 875
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 875
+  }
+}

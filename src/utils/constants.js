@@ -24,6 +24,10 @@ export const COUNCIL_COLORS = {
   hyndburn: '#0a84ff',
   pendle: '#30d158',
   rossendale: '#bf5af2',
+  lancaster: '#1B5E20',
+  ribble_valley: '#6A1B9A',
+  chorley: '#C62828',
+  south_ribble: '#E65100',
 }
 
 // ── Severity / Risk Colours ──

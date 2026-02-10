@@ -1,0 +1,246 @@
+{
+  "findings": [
+    {
+      "value": "\u00a31.1M",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "12 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3394.9K",
+      "label": "Likely Duplicate Payments",
+      "detail": "104 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1113 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a33.1M",
+      "label": "Possible Duplicate Payments",
+      "detail": "758 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3368.9K",
+      "label": "Suspected Split Payments",
+      "detail": "4 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a37.9M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "243 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "5.2x",
+      "label": "Year-End Spending Pattern",
+      "detail": "Capital spent 5.2x their monthly average in March (\u00a34.5M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "5",
+      "label": "Rapid Payment Suppliers",
+      "detail": "5 suppliers receive payments every <14 days on average. Top: Moore Switched On Electrical Services (7.0 day avg, 16 payments, \u00a32.2K)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "3.8% dev",
+      "label": "Benford's Law Analysis",
+      "detail": "Digit distribution across 14,266 transactions shows \u03c7\u00b2=351.53 (statistically significant due to large sample size), but max digit deviation is only 3.8% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Chi-squared values on samples of 14,266+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.8%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "1 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: S R B C \u2014 every 192.0 days (31 payments, \u00a3806)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "PATTERSONS (BRISTOL) LTD: 295 transactions totalling \u00a316.3K",
+      "description": "Averaging \u00a355 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=PATTERSONS (BRISTOL) LTD",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "21 suppliers shared with neighbouring councils \u2014 \u00a331.3M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "Liberata UK Ltd: 6494% price gap between councils",
+      "description": "Burnley pays \u00a375.3K avg vs Lancaster \u00a31.1K (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=Liberata UK Ltd",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-10T21:48:50.404241",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "MOORE SWITCHED ON ELECTRICAL SERVICES",
+        "payments": 16,
+        "avg_days": 7.0,
+        "total_spend": 2217.9,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "CONTEL LTD",
+        "payments": 18,
+        "avg_days": 9.3,
+        "total_spend": 28882.08,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "JAMES ANDREWS RECRUITMENT SOLUTIONS LTD",
+        "payments": 12,
+        "avg_days": 11.4,
+        "total_spend": 20007.0,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "CRITIQOM",
+        "payments": 152,
+        "avg_days": 11.5,
+        "total_spend": 172130.17,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "LANCS DAF",
+        "payments": 200,
+        "avg_days": 13.5,
+        "total_spend": 142581.43,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "S R B C",
+        "payments": 31,
+        "avg_days": 192.0,
+        "std_dev": 0.0,
+        "total_spend": 805.78
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 164,
+        "total": 1349968.51
+      },
+      {
+        "day": "Tuesday",
+        "count": 228,
+        "total": 4506687.85
+      },
+      {
+        "day": "Wednesday",
+        "count": 11536,
+        "total": 108331460.44
+      },
+      {
+        "day": "Thursday",
+        "count": 261,
+        "total": 2509984.49
+      },
+      {
+        "day": "Friday",
+        "count": 3785,
+        "total": 29530847.92
+      }
+    ],
+    "total_analysed": 344
+  },
+  "supplier_concentration": {
+    "total_spend": 146228949.21,
+    "unique_suppliers": 1659,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "Lancashire County Council",
+          "total": 18388288.52,
+          "count": 206,
+          "pct": 12.6
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "total": 14958772.0,
+          "count": 11,
+          "pct": 10.2
+        },
+        {
+          "supplier": "CADDICK CONSTRUCTION (NW) LTD",
+          "total": 13809627.95,
+          "count": 19,
+          "pct": 9.4
+        },
+        {
+          "supplier": "CHORLEY BOROUGH COUNCIL",
+          "total": 10904578.37,
+          "count": 102,
+          "pct": 7.5
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES LTD",
+          "total": 8542117.91,
+          "count": 64,
+          "pct": 5.8
+        }
+      ],
+      "total": 66603384.75,
+      "pct": 45.5
+    },
+    "top10_pct": 58.6,
+    "top20_pct": 68.7,
+    "hhi": 494.7,
+    "concentration_level": "low"
+  }
+}

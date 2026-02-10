@@ -53,6 +53,41 @@
   box-shadow: 0 0 15px rgba(10, 132, 255, 0.1);
 }
 
+/* DOGE Evidence Trail Banner */
+.doge-evidence-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  background: rgba(10, 132, 255, 0.08);
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.doge-evidence-banner svg {
+  color: #0a84ff;
+  flex-shrink: 0;
+}
+
+.doge-evidence-banner a {
+  color: #0a84ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.doge-evidence-banner a:hover {
+  text-decoration: underline;
+}
+
+.doge-evidence-banner .evidence-back-link {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+}
+
 /* Search Section */
 .search-section {
   display: flex;

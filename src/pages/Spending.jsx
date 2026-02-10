@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, Shield } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -60,6 +60,7 @@ function Spending() {
 
   // Read filters from URL params (or default to empty)
   const search = searchParams.get('q') || ''
+  const dogeRef = searchParams.get('ref') // 'doge' when navigated from DOGE investigation page
   const sortField = searchParams.get('sort') || 'date'
   const sortDir = searchParams.get('dir') || 'desc'
   const page = parseInt(searchParams.get('page') || '1', 10)
@@ -245,6 +246,18 @@ function Spending() {
           </button>
         </div>
       </header>
+
+      {/* DOGE Evidence Trail Banner */}
+      {dogeRef === 'doge' && (
+        <div className="doge-evidence-banner">
+          <Shield size={16} />
+          <span>
+            Viewing evidence from <Link to="/doge">DOGE Investigation</Link>
+            {filters.supplier && <> — filtered to <strong>{filters.supplier}</strong></>}
+          </span>
+          <Link to="/doge" className="evidence-back-link">← Back to Investigation</Link>
+        </div>
+      )}
 
       {/* Search Bar */}
       <div className="search-section">

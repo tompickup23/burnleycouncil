@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-02-07",
+  "last_updated": "2026-02-10",
   "council_metadata": {
     "burnley": {
       "type": "district",
@@ -23,6 +23,38 @@
       "ons_code": "E07000122",
       "spending_threshold": 500,
       "publishes_purchase_cards": true,
+      "publishes_contracts": false,
+      "data_start": "2021/22"
+    },
+    "lancaster": {
+      "type": "city",
+      "ons_code": "E07000121",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": true,
+      "publishes_contracts": false,
+      "data_start": "2021/22"
+    },
+    "ribble_valley": {
+      "type": "district",
+      "ons_code": "E07000124",
+      "spending_threshold": 250,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2021/22"
+    },
+    "chorley": {
+      "type": "district",
+      "ons_code": "E07000118",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": true,
+      "publishes_contracts": false,
+      "data_start": "2021/22"
+    },
+    "south_ribble": {
+      "type": "district",
+      "ons_code": "E07000126",
+      "spending_threshold": 250,
+      "publishes_purchase_cards": false,
       "publishes_contracts": false,
       "data_start": "2021/22"
     }

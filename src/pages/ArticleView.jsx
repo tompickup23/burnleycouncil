@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Calendar, ArrowLeft, Tag, Share2, Link2, ChevronRight, FileText } from 'lucide-react'
+import { Calendar, Clock, ArrowLeft, Tag, Share2, Link2, ChevronRight, FileText } from 'lucide-react'
 import DOMPurify from 'dompurify'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { formatDate } from '../utils/format'
+import { formatDate, estimateReadingTime } from '../utils/format'
 import './News.css'
 
 function ArticleView() {
@@ -271,6 +271,10 @@ function ArticleView() {
             </span>
             <span className="meta-item">
               {article.author || siteName}
+            </span>
+            <span className="meta-item reading-time">
+              <Clock size={16} />
+              {estimateReadingTime(content || article.summary)}
             </span>
           </div>
         </header>
