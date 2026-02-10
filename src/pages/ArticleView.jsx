@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Calendar, ArrowLeft, Tag, Share2, Link2 } from 'lucide-react'
+import { Calendar, ArrowLeft, Tag, Share2, Link2, ChevronRight, FileText } from 'lucide-react'
 import DOMPurify from 'dompurify'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -43,6 +43,14 @@ function ArticleView() {
     })
     return result
   }, [content, headings])
+
+  // Related articles: same category, excluding current, max 3
+  const relatedArticles = useMemo(() => {
+    if (!index || !article) return []
+    return index
+      .filter(a => a.id !== articleId && a.category === article.category)
+      .slice(0, 3)
+  }, [index, article, articleId])
 
   // Copy share link to clipboard
   const copyLink = () => {
@@ -321,6 +329,30 @@ function ArticleView() {
           </div>
         )}
       </article>
+
+      {relatedArticles.length > 0 && (
+        <section className="related-articles" aria-label="Related articles">
+          <h2>Related Articles</h2>
+          <div className="related-articles-grid">
+            {relatedArticles.map(ra => (
+              <Link key={ra.id} to={`/news/${ra.id}`} className="related-card">
+                <div className="related-card-image">
+                  {ra.image ? (
+                    <img src={ra.image} alt={ra.title} loading="lazy" onError={(e) => { e.target.style.display = 'none' }} />
+                  ) : (
+                    <div className="article-image-placeholder"><FileText size={24} /></div>
+                  )}
+                </div>
+                <div className="related-card-body">
+                  <span className="article-date"><Calendar size={12} /> {formatDate(ra.date)}</span>
+                  <h4>{ra.title}</h4>
+                  <span className="read-more">Read more <ChevronRight size={12} /></span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

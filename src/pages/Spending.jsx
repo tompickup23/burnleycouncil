@@ -6,6 +6,7 @@ import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate } from '../utils/format'
+import { CHART_COLORS, SPENDING_TYPE_LABELS, TOOLTIP_STYLE } from '../utils/constants'
 import './Spending.css'
 
 const PAGE_SIZE_OPTIONS = [50, 100, 200, 500]
@@ -23,15 +24,8 @@ function useIsMobile() {
   }, [])
   return isMobile
 }
-const CHART_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2', '#64d2ff', '#ff375f', '#ffd60a', '#ac8e68', '#8e8e93']
-const TOOLTIP_STYLE = { background: 'rgba(28, 28, 30, 0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', padding: '12px 16px' }
 
-const TYPE_LABELS = {
-  spend: 'Spend',
-  contracts: 'Contracts',
-  purchase_cards: 'Purchase Cards',
-}
-const typeLabel = (t) => TYPE_LABELS[t] || t
+const typeLabel = (t) => SPENDING_TYPE_LABELS[t] || t
 
 const FILTER_KEYS = ['financial_year', 'quarter', 'month', 'type', 'service_division', 'expenditure_category', 'capital_revenue', 'supplier', 'min_amount', 'max_amount']
 

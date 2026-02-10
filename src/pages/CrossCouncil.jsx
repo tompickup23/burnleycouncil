@@ -5,20 +5,8 @@ import { formatCurrency } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import { COUNCIL_COLORS, TOOLTIP_STYLE } from '../utils/constants'
 import './CrossCouncil.css'
-
-const COUNCIL_COLORS = {
-  burnley: '#0a84ff',
-  hyndburn: '#ff9f0a',
-  pendle: '#30d158',
-  rossendale: '#bf5af2',
-}
-
-const TOOLTIP_STYLE = {
-  background: 'var(--card-bg, #1c1c1e)',
-  border: '1px solid var(--border-color, #333)',
-  borderRadius: '8px',
-}
 
 function CrossCouncil() {
   const config = useCouncilConfig()

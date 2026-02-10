@@ -16,18 +16,8 @@ import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import { SEVERITY_COLORS as severityColors } from '../utils/constants'
 import './DogeInvestigation.css'
-
-// Severity colour map
-const severityColors = {
-  critical: '#ff453a',
-  alert: '#ff453a',
-  high: '#ff6b6b',
-  warning: '#ff9f0a',
-  medium: '#ffcc02',
-  info: '#0a84ff',
-  low: '#30d158',
-}
 
 // Confidence badge
 function ConfidenceBadge({ level }) {

@@ -5,14 +5,8 @@ import { formatCurrency, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
+import { CHART_COLORS_EXTENDED as DEPT_COLORS } from '../utils/constants'
 import './Budgets.css'
-
-// Chart colors — dynamically applied by index
-const DEPT_COLORS = [
-  '#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
-  '#64d2ff', '#ffd60a', '#ff6482', '#ac8e68', '#8e8e93',
-  '#ff375f', '#34c759', '#007aff', '#5856d6', '#af52de',
-]
 
 // Departments to exclude from the main table (reserves shown separately, zero-budget items hidden)
 const EXCLUDED_DEPARTMENTS = new Set([

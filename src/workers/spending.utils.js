@@ -3,14 +3,10 @@
  * Used by the spending Web Worker. Fully testable without Worker context.
  */
 
-const TYPE_LABELS = {
-  spend: 'Spend',
-  contracts: 'Contracts',
-  purchase_cards: 'Purchase Cards',
-}
+import { SPENDING_TYPE_LABELS } from '../utils/constants'
 
 export function typeLabel(t) {
-  return TYPE_LABELS[t] || t
+  return SPENDING_TYPE_LABELS[t] || t
 }
 
 /**

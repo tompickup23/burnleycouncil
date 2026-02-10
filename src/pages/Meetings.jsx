@@ -3,27 +3,8 @@ import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, Mes
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import { MEETING_TYPE_LABELS as TYPE_LABELS, MEETING_TYPE_COLORS as TYPE_COLORS } from '../utils/constants'
 import './Meetings.css'
-
-const TYPE_LABELS = {
-  full_council: 'Full Council',
-  executive: 'Executive',
-  scrutiny: 'Scrutiny',
-  planning: 'Planning',
-  licensing: 'Licensing',
-  notice: 'Forward Plan',
-  partnership: 'Partnership',
-}
-
-const TYPE_COLORS = {
-  full_council: '#ff453a',
-  executive: '#0a84ff',
-  scrutiny: '#ff9f0a',
-  planning: '#30d158',
-  licensing: '#bf5af2',
-  notice: '#8e8e93',
-  partnership: '#64d2ff',
-}
 
 function formatMeetingDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00')

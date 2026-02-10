@@ -6,6 +6,7 @@ import { formatCurrency, formatNumber, formatDate, formatPercent } from '../util
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import { SEVERITY_COLORS, TOOLTIP_STYLE } from '../utils/constants'
 import './SupplierView.css'
 
 const RISK_COLORS = {
@@ -14,22 +15,6 @@ const RISK_COLORS = {
   medium: '#ffd60a',
   high: '#ff9f0a',
   critical: '#ff453a',
-}
-
-const SEVERITY_COLORS = {
-  critical: '#ff453a',
-  high: '#ff9f0a',
-  medium: '#ffd60a',
-  low: '#0a84ff',
-  info: '#8e8e93',
-}
-
-const TOOLTIP_STYLE = {
-  background: 'rgba(28, 28, 30, 0.95)',
-  border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: '10px',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-  padding: '12px 16px',
 }
 
 function SupplierView() {
