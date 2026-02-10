@@ -1,105 +1,108 @@
 {
   "findings": [
     {
-      "value": "\u00a36.6K",
+      "value": "£6.6K",
       "label": "Paid During Active Breaches",
-      "detail": "2 suppliers received payments while in breach of Companies Act \u2014 including 0 critical and 2 high severity. Temporally verified against payment dates.",
+      "detail": "2 suppliers received payments while in breach of Companies Act — including 0 critical and 2 high severity. Temporally verified against payment dates.",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "\u00a31.2M",
+      "value": "£1.2M",
       "label": "Likely Duplicate Payments",
       "detail": "298 high-confidence duplicate groups with same supplier, amount, date and reference number",
       "severity": "critical",
       "link": "/spending"
     },
     {
-      "value": "\u00a344.0K",
+      "value": "£44.0K",
       "label": "Possible Duplicate Payments",
       "detail": "276 medium-confidence groups (same supplier/amount/date, different references)",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "\u00a35.1M",
+      "value": "£5.1M",
       "label": "Suspected Split Payments",
       "detail": "11 instances of 3+ payments just below approval thresholds in the same week",
       "severity": "warning",
       "link": "/spending"
     },
     {
-      "value": "\u00a331.8M",
-      "label": "Round-Number Payments (>\u00a35K)",
-      "detail": "1486 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "value": "£31.8M",
+      "label": "Round-Number Payments (>£5K)",
+      "detail": "1486 exact round-number payments over £5,000 — may indicate estimates rather than invoiced amounts",
       "severity": "info",
       "link": "/spending"
     },
     {
       "value": "5.7x",
-      "label": "Year-End Spending Spike",
-      "detail": "Multiple departments spent 5.7x their monthly average in March \u2014 potential year-end budget rush worth \u00a311.7M above normal",
+      "label": "Year-End Spending Pattern",
+      "detail": "Multiple departments spent 5.7x their monthly average in March. Note: UK councils operate on April–March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
       "severity": "warning",
-      "link": "/spending"
+      "link": "/spending",
+      "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years’ March figures for meaningful analysis."
     },
     {
-      "value": "\u03c7\u00b2=2541.29",
-      "label": "Benford's Law Anomaly",
-      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 5 deviates 5.0% from expected distribution across 25490 transactions.",
-      "severity": "warning",
-      "link": "/spending"
+      "value": "5.0% dev",
+      "label": "Benford's Law Analysis",
+      "detail": "Digit distribution across 25,490 transactions shows χ²=2541.29 (statistically significant due to large sample size), but max digit deviation is only 5.0% — within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "severity": "info",
+      "link": "/spending",
+      "context_note": "Chi-squared values on samples of 25,490+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (5.0%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending."
     }
   ],
   "key_findings": [
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Dlh Professional Services Ltd: \u00a34.0K paid during active breach",
+      "title": "Dlh Professional Services Ltd: £4.0K paid during active breach",
       "description": "Company facing strike-off; Confirmation statement overdue",
       "link": "/spending?supplier=DLH PROFESSIONAL SERVICES LTD",
-      "link_text": "View payments \u2192",
+      "link_text": "View payments →",
       "severity": "warning"
     },
     {
       "icon": "alert-triangle",
       "badge": "High",
-      "title": "Home First Interiors Ltd: \u00a32.7K paid during active breach",
+      "title": "Home First Interiors Ltd: £2.7K paid during active breach",
       "description": "Company facing strike-off; Confirmation statement overdue",
       "link": "/spending?supplier=HOME FIRST INTERIORS LTD",
-      "link_text": "View payments \u2192",
+      "link_text": "View payments →",
       "severity": "warning"
     },
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "URBASER LTD: 959 transactions totalling \u00a319.5M",
-      "description": "Averaging \u00a320.3K per transaction \u2014 the council's most frequent supplier",
+      "title": "URBASER LTD: 959 transactions totalling £19.5M",
+      "description": "Averaging £20.3K per transaction — the council's most frequent supplier",
       "link": "/spending?supplier=URBASER LTD",
-      "link_text": "See all transactions \u2192",
+      "link_text": "See all transactions →",
       "severity": "info"
     },
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "38 suppliers shared with neighbouring councils \u2014 \u00a3102.2M total",
+      "title": "38 suppliers shared with neighbouring councils — £102.2M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
-      "link_text": "Compare prices \u2192",
+      "link_text": "Compare prices →",
       "severity": "info"
     },
     {
       "icon": "trending-up",
       "badge": "Price Gap",
       "title": "EDF ENERGY: 8772% price gap between councils",
-      "description": "Burnley pays \u00a325.0K avg vs Pendle \u00a3282 (both with 3+ transactions)",
+      "description": "Burnley pays £25.0K avg vs Pendle £282 (both with 3+ transactions) Price differences may reflect different service scope, contract terms, or volumes rather than overcharging — manual review recommended.",
       "link": "/spending?supplier=EDF ENERGY",
-      "link_text": "Investigate \u2192",
-      "severity": "warning"
+      "link_text": "Investigate →",
+      "severity": "info",
+      "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details."
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-08T22:07:38.957308",
+  "generated": "2026-02-10T01:29:49.941931",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

@@ -197,6 +197,26 @@
   line-height: 1.4;
 }
 
+.doge-finding-context {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  line-height: 1.35;
+  padding: 8px 10px;
+  background: rgba(10, 132, 255, 0.06);
+  border-left: 2px solid rgba(10, 132, 255, 0.3);
+  border-radius: 0 4px 4px 0;
+  margin-top: 4px;
+}
+
+.doge-finding-context svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
 .finding-link-arrow {
   position: absolute;
   top: var(--space-md);
@@ -581,6 +601,25 @@
   color: var(--text-secondary);
   line-height: 1.5;
   flex: 1;
+}
+
+.kf-context-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  line-height: 1.35;
+  padding: 8px 10px;
+  background: rgba(10, 132, 255, 0.06);
+  border-left: 2px solid rgba(10, 132, 255, 0.3);
+  border-radius: 0 4px 4px 0;
+}
+
+.kf-context-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--accent);
 }
 
 .kf-link {

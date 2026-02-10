@@ -744,11 +744,13 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
         if pat["year_end_spikes"]["departments"]:
             top_spike = pat["year_end_spikes"]["departments"][0]
             dept_name = top_spike['department'] or "Multiple departments"
+            spike_severity = "warning" if top_spike['spike_ratio'] >= 3.0 else "info"
             findings.append({
                 "value": f"{top_spike['spike_ratio']:.1f}x",
-                "label": "Year-End Spending Spike",
-                "detail": f"{dept_name} spent {top_spike['spike_ratio']:.1f}x their monthly average in March — potential year-end budget rush worth {fmt_gbp(top_spike['excess'])} above normal",
-                "severity": "warning",
+                "label": "Year-End Spending Pattern",
+                "detail": f"{dept_name} spent {top_spike['spike_ratio']:.1f}x their monthly average in March ({fmt_gbp(top_spike['excess'])} above normal). Note: UK councils operate on April–March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+                "severity": spike_severity,
+                "context_note": "March spending above the monthly average is expected for UK councils on April–March fiscal years. Compare against prior years' March figures for meaningful analysis.",
                 "link": "/spending",
             })
 
@@ -802,29 +804,57 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "icon": "trending-up",
                 "badge": "Price Gap",
                 "title": f"{worst['supplier']}: {worst['avg_disparity_pct']:.0f}% price gap between councils",
-                "description": f"{h_council.title()} pays {fmt_gbp(h_data['avg_transaction'])} avg vs {l_council.title()} {fmt_gbp(l_data['avg_transaction'])} (both with 3+ transactions)",
+                "description": (
+                    f"{h_council.title()} pays {fmt_gbp(h_data['avg_transaction'])} avg vs "
+                    f"{l_council.title()} {fmt_gbp(l_data['avg_transaction'])} (both with 3+ transactions). "
+                    f"Price differences may reflect different service scope, contract terms, or volumes "
+                    f"rather than overcharging — manual review recommended."
+                ),
+                "context_note": "Cross-council price comparisons use average transaction values for the same supplier name. Differences may reflect different service levels, contract periods, or purchasing volumes rather than inefficiency. Recommended action: FOI request for contract details.",
                 "link": f"/spending?supplier={worst['supplier']}",
                 "link_text": "Investigate →",
-                "severity": "warning",
+                "severity": "info",
             })
 
     # ── Benford's Law finding ──
     if benfords and council_id in benfords:
         bf = benfords[council_id]
+        max_dev = bf.get('max_deviation_pct', 0)
+        sample_size = bf.get('total_amounts_tested', 0)
+        # For large samples (>10K), chi-squared is naturally inflated — use max digit
+        # deviation as the practical indicator instead
+        practically_significant = max_dev > 5.0  # >5% deviation from expected is meaningful
         if bf.get("conformity") in ("non_conforming", "marginal"):
+            if practically_significant:
+                bf_severity = "warning" if bf["conformity"] == "non_conforming" else "info"
+                bf_detail = (
+                    f"{bf['conformity_label']}. Digit {bf['max_deviation_digit']} deviates "
+                    f"{max_dev}% from expected distribution across {sample_size:,} transactions. "
+                    f"Note: with {sample_size:,} transactions, chi-squared tests are highly sensitive "
+                    f"— the {max_dev}% max digit deviation is the more practical measure of anomaly."
+                )
+            else:
+                bf_severity = "info"
+                bf_detail = (
+                    f"Digit distribution across {sample_size:,} transactions shows χ²={bf['chi_squared']} "
+                    f"(statistically significant due to large sample size), but max digit deviation is only "
+                    f"{max_dev}% — within the normal range for UK council spending patterns. "
+                    f"No practical evidence of fabricated invoices."
+                )
             findings.append({
-                "value": f"χ²={bf['chi_squared']}",
-                "label": "Benford's Law Anomaly",
-                "detail": f"{bf['conformity_label']}. Digit {bf['max_deviation_digit']} deviates {bf['max_deviation_pct']}% from expected distribution across {bf['total_amounts_tested']} transactions.",
-                "severity": "warning" if bf["conformity"] == "non_conforming" else "info",
+                "value": f"{max_dev}% dev" if not practically_significant else f"χ²={bf['chi_squared']}",
+                "label": "Benford's Law Analysis" if not practically_significant else "Benford's Law Anomaly",
+                "detail": bf_detail,
+                "severity": bf_severity,
+                "context_note": f"Chi-squared values on samples of {sample_size:,}+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation ({max_dev}%) is a more meaningful indicator — deviations under 5% are typical for legitimate council spending.",
                 "link": "/spending",
             })
         elif bf.get("conformity") in ("conforming", "acceptable"):
             key_findings.append({
                 "icon": "check-circle",
                 "badge": "Forensic",
-                "title": f"Benford's Law: No anomaly detected (χ²={bf['chi_squared']})",
-                "description": f"Payment amounts conform to expected first-digit distribution across {bf['total_amounts_tested']} transactions — no signs of fabricated invoices.",
+                "title": f"Benford's Law: No anomaly detected ({max_dev}% max deviation)",
+                "description": f"Payment amounts conform to expected first-digit distribution across {sample_size:,} transactions — no signs of fabricated invoices.",
                 "link": "/spending",
                 "link_text": "View analysis →",
                 "severity": "info",

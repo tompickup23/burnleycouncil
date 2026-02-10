@@ -268,6 +268,11 @@ function DogeInvestigation() {
               <span className="doge-finding-value">{f.value}</span>
               <span className="doge-finding-label">{f.label}</span>
               <span className="doge-finding-detail">{f.detail}</span>
+              {f.context_note && (
+                <span className="doge-finding-context">
+                  <Info size={12} /> {f.context_note}
+                </span>
+              )}
               <span className="finding-link-arrow"><ArrowUpRight size={16} /></span>
             </Link>
           ))}
@@ -512,6 +517,11 @@ function DogeInvestigation() {
                 </div>
                 <h3>{f.title}</h3>
                 <p>{f.description}</p>
+                {f.context_note && (
+                  <p className="kf-context-note">
+                    <Info size={12} /> {f.context_note}
+                  </p>
+                )}
                 <span className="kf-link">{f.link_text || 'Investigate →'}</span>
               </Link>
             ))}
