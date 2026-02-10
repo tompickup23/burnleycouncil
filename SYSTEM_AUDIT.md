@@ -59,7 +59,7 @@ All routes are lazy-loaded via `React.lazy()` (including Home, added session 2).
 | File | Purpose | Size Range | Notes |
 |------|---------|-----------|-------|
 | `config.json` | Identity, features, publisher, theme | 3.4-3.7K | Drives everything |
-| `spending.json` | All transactions | 21-40MB | Largest file |
+| `spending.json` | All transactions | 8-14MB (optimised) | Stripped + split at build |
 | `supplier_profiles.json` | Cross-council supplier data | 6-15MB | Second largest |
 | `insights.json` | Top suppliers, patterns, YoY | 5-12K | |
 | `revenue_trends.json` | 8yr GOV.UK revenue/capital | 30-34K | |
@@ -134,8 +134,9 @@ npm run deploy
 
 **Vite plugin `councilDataPlugin`:**
 1. Copies `burnley-council/data/{council}/` → `public/data/`
-2. Replaces 10+ `%PLACEHOLDER%` vars in `index.html` from config.json
-3. Compression plugin generates `.gz` + `.br` for all output (spending.json: 21MB → 436KB brotli)
+2. Strips unused fields from `spending.json` (~50% size reduction) and splits into per-year chunks
+3. Replaces 10+ `%PLACEHOLDER%` vars in `index.html` from config.json
+4. Compression plugin generates `.gz` + `.br` for all output (spending.json: 14MB → 401KB brotli)
 
 **Code splitting:** recharts (350KB), vendor (react+router), tanstack (query+virtual)
 
@@ -259,6 +260,7 @@ npm run deploy
 | Data | D4-D6: Rossendale schema | insights.json, wards.json, metadata.json normalised |
 | Data | D8-D9: Feature flags | crime_stats, budgets_govuk flags added to configs |
 | Testing | A2: Page tests | Home (6), Spending (5), ErrorBoundary (6) = 17 new tests |
+| Performance | Spending data optimization | Strip unused fields (40MB→14MB), progressive year-chunk loading |
 | Infra | 404.html SPA routing | Custom 404.html generated at build time for GitHub Pages |
 
 ---
@@ -271,7 +273,7 @@ burnleycouncil/
 │   ├── pages/        15 pages   ~6,800 lines
 │   ├── components/   11 components
 │   ├── context/      CouncilConfig provider
-│   ├── hooks/        useData (cache + dedup)
+│   ├── hooks/        useData, useSpendingData (progressive loader)
 │   └── utils/        7 format functions
 ├── burnley-council/
 │   ├── data/{council}/           142MB total (4 councils x ~20 files)

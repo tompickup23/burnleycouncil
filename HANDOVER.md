@@ -142,8 +142,9 @@ The SPA is council-agnostic. A custom Vite plugin (`councilDataPlugin` in `vite.
 
 1. Reads `VITE_COUNCIL` env var (default: `burnley`)
 2. Copies data from `burnley-council/data/{council}/` to `public/data/`
-3. Injects council name, totals, and metadata into `index.html` template placeholders
-4. Builds with `VITE_BASE` as the base path (e.g. `/burnleycouncil/`, `/hyndburn/`)
+3. **Optimises `spending.json`** — strips unused fields (~50% size reduction) and splits into per-financial-year chunks for progressive loading
+4. Injects council name, totals, and metadata into `index.html` template placeholders
+5. Builds with `VITE_BASE` as the base path (e.g. `/burnleycouncil/`, `/hyndburn/`)
 
 **To build a specific council:**
 ```bash
@@ -162,7 +163,7 @@ Each council in `burnley-council/data/{council}/` has:
 | File | Purpose |
 |------|---------|
 | `config.json` | Council identity, features, theme, publisher, DOGE context |
-| `spending.json` | All transactions (5-40MB) |
+| `spending.json` | All transactions (8-14MB optimised at build, 21-40MB raw) |
 | `insights.json` | Pre-computed spending insights |
 | `metadata.json` | Data period, record counts |
 | `articles-index.json` | Article list (id, title, date, summary, tags) |
@@ -177,7 +178,7 @@ Each council in `burnley-council/data/{council}/` has:
 | `supplier_profiles.json` | Supplier metadata |
 | `meetings.json` | Council meeting calendar (shared, in public/data/) |
 
-At build time, the relevant council's data files are copied into `public/data/` so the SPA can load them as static assets.
+At build time, the relevant council's data files are copied into `public/data/` so the SPA can load them as static assets. The build plugin also generates `spending-index.json` and per-year `spending-{year}.json` chunks for progressive loading.
 
 ### Key config.json Fields
 
