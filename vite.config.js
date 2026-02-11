@@ -58,7 +58,7 @@ function councilDataPlugin() {
 
       const outDir = options.dir || resolve(rootDir, 'dist', base.replace(/\//g, ''))
       // Generate sitemap.xml with council-specific base path
-      const routes = ['', 'spending', 'doge', 'budgets', 'news', 'about', 'pay', 'compare', 'suppliers', 'procurement', 'politics', 'meetings', 'foi', 'my-area', 'legal']
+      const routes = ['', 'spending', 'doge', 'budgets', 'news', 'about', 'pay', 'compare', 'suppliers', 'procurement', 'politics', 'meetings', 'foi', 'my-area', 'legal', 'press']
       const sitemapUrls = routes.map(r => `  <url><loc>${siteUrl}${r}</loc></url>`).join('\n')
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

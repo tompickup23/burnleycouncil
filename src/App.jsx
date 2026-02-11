@@ -25,6 +25,7 @@ const DogeInvestigation = lazy(() => import('./pages/DogeInvestigation'))
 const Suppliers = lazy(() => import('./pages/Suppliers'))
 const SupplierView = lazy(() => import('./pages/SupplierView'))
 const Procurement = lazy(() => import('./pages/Procurement'))
+const Press = lazy(() => import('./pages/Press'))
 
 // Preload commonly needed data
 preloadData(['/data/config.json', '/data/insights.json'])
@@ -64,6 +65,7 @@ function App() {
           <Route path="/suppliers" element={<Guarded><Suppliers /></Guarded>} />
           <Route path="/supplier/:supplierId" element={<Guarded><SupplierView /></Guarded>} />
           <Route path="/procurement" element={<Guarded><Procurement /></Guarded>} />
+          <Route path="/press" element={<Guarded><Press /></Guarded>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

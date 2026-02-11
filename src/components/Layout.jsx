@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { preloadData } from '../hooks/useData'
@@ -34,6 +34,7 @@ const navSections = [
     items: [
       { path: '/compare', icon: GitCompareArrows, label: 'Compare' },
       { path: '/foi', icon: FileQuestion, label: 'FOI', requires: 'foi' },
+      { path: '/press', icon: Megaphone, label: 'Press' },
       { path: '/about', icon: Info, label: 'About' },
     ],
   },
