@@ -186,18 +186,18 @@ Focus: Make the platform ready for media, public, and councillor use.
 | 7.7 | Citizen reporting: "Flag this transaction" | ✅ | Flag icon on each spending row → mailto:press@aidoge.co.uk with pre-filled transaction details. Hidden on mobile. |
 | 7.8 | Resume article pipeline + news sites | Pending | Uncomment crons, redeploy full sites (not coming soon pages) |
 
-### Phase 8: Advanced Analysis (May/Jun 2026)
+### Phase 8: Advanced Analysis (Feb 2026)
 Focus: Deeper, more sophisticated DOGE analysis.
 
-| # | Task | Why | Effort |
-|---|------|-----|--------|
-| 8.1 | Find a Tender integration | Above-threshold contract data (EU/UK procurement portal) | 4 hr |
-| 8.2 | Single-bidder contract detection | Procurement notices with only 1 bid indicate weak competition | 3 hr |
-| 8.3 | Late publication analysis | Contracts published after award date = retrospective compliance | 2 hr |
-| 8.4 | Deprivation index overlay on MyArea | IMD data per ward — correlate spending with deprivation | 3 hr |
-| 8.5 | Declaration of interests cross-reference | Compare councillor interests to suppliers receiving money | 4 hr (needs FOI) |
-| 8.6 | Service quality correlation | OFSTED, CQC, other inspectorate data vs spending | Hard — external data needed |
-| 8.7 | Fraud triangle scoring | Motive + opportunity + rationalisation per department/supplier | Hard — needs audit reports |
+| # | Task | Status | Result |
+|---|------|--------|--------|
+| 8.1 | Find a Tender integration | ✅ | FTS ETL script created (fts_etl.py). Requires CDP API key from find-tender.service.gov.uk. Parses OCDS v1.1.5 with bid counts, procedure types. |
+| 8.2 | Single-bidder / weak competition detection | ✅ | Proxy signals: short tender periods (<14d), rapid awards (<7d after deadline), category monopolies. Contracts Finder lacks bid counts. |
+| 8.3 | Late publication analysis | ✅ | Detects contracts published after award date. Burnley: 74 late (avg 90d delay), Hyndburn: 16 (avg 185d). Frontend table with colour-coded severity. |
+| 8.4 | Deprivation index overlay on MyArea | ✅ | IMD 2019 data aggregated LSOA→ward for all 8 councils. Deprivation panel + ward card badges. deprivation_etl.py + deprivation.json × 8. |
+| 8.5 | Declaration of interests cross-reference | Pending | Compare councillor interests to suppliers receiving money. Needs FOI data. |
+| 8.6 | Service quality correlation | Pending | OFSTED, CQC, other inspectorate data vs spending. Needs external data. |
+| 8.7 | Fraud triangle scoring | Pending | Motive + opportunity + rationalisation per department/supplier. Needs audit reports. |
 
 ---
 
