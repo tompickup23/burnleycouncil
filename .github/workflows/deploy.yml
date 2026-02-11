@@ -88,6 +88,20 @@ jobs:
           cp burnley-council/hub/404.html /tmp/lancashire-deploy/404.html
           echo 'aidoge.co.uk' > /tmp/lancashire-deploy/CNAME
           cp public/robots.txt /tmp/lancashire-deploy/robots.txt
+          # Generate sitemap index pointing to all per-council sitemaps
+          cat > /tmp/lancashire-deploy/sitemap.xml << 'SITEMAP'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <sitemap><loc>https://aidoge.co.uk/lancashire/burnleycouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/hyndburncouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/pendlecouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/rossendalecouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/lancastercouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/ribblevalleycouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/chorleycouncil/sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://aidoge.co.uk/lancashire/southribblecouncil/sitemap.xml</loc></sitemap>
+          </sitemapindex>
+          SITEMAP
 
       - name: Deploy to GitHub Pages
         run: |

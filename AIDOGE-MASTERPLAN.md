@@ -1,5 +1,5 @@
-# AI DOGE MASTER PLAN v4.0
-## 10 February 2026 — Post-Phase 4 Review & Strategy
+# AI DOGE MASTER PLAN v5.0
+## 11 February 2026 — Post-Phase 6 Review & Phase 7 In Progress
 
 ---
 
@@ -12,7 +12,11 @@
 | Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,804 | £211M | 25 | 32 notices | LIVE |
 | Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 49,741 | £125M | 25 | 14 notices | LIVE |
 | Rossendale | aidoge.co.uk/lancashire/rossendalecouncil/ | 42,536 | £64M | 22 | 90 notices | LIVE |
-| **Total** | | **152,661 txns** | **£755M** | **134** | **230** | |
+| Lancaster | aidoge.co.uk/lancashire/lancastercouncil/ | 24,266 | £142M | 0 | 90 notices | LIVE |
+| Ribble Valley | aidoge.co.uk/lancashire/ribblevalleycouncil/ | 3,677 | £12M | 0 | - | LIVE |
+| Chorley | aidoge.co.uk/lancashire/chorleycouncil/ | 875 | £142K | 0 | - | LIVE |
+| South Ribble | aidoge.co.uk/lancashire/southribblecouncil/ | 15,974 | £146M | 0 | - | LIVE |
+| **Total** | | **197,453 txns** | **£1.06B** | **134** | **320+** | |
 
 ### Paused Sites
 | Site | URL | Status | Why |
@@ -85,9 +89,9 @@ Article pipeline → article_pipeline.py → articles-index.json + articles/{id}
 Layout, ScrollToTop, ChartCard, DataFreshness, ErrorBoundary, LoadingState, PageHeader, SearchableSelect, StatCard, TabNav + barrel index.js
 
 ### Test Coverage
-- **168 unit tests** across 20 files (all pages except Procurement.jsx)
+- **183 unit tests** across 21 files (including Procurement.jsx)
 - **31 E2E tests** across 5 files (smoke, news, spending, legal, navigation)
-- **Gap:** Procurement.jsx has no test coverage
+- All tests passing
 
 ---
 
@@ -156,31 +160,31 @@ Focus: Fix gaps exposed by the Phase 1-4 sprint, improve what exists before expa
 | 5.7 | Budget vs actual | ✅ | Assessed: Burnley has 0 service divisions, others have 7-24. Needs manual mapping table. Deferred to Phase 6+ |
 | 5.8 | VPS backup strategy | ✅ | `scripts/vps_backup.sh` — weekly rsync, 4-week retention |
 
-### Phase 6: Expand Coverage (NEXT — Feb/Mar 2026)
-Focus: Add more Lancashire councils. The architecture already supports it — just needs new data.
+### Phase 6: Expand Coverage — ✅ COMPLETE (11 Feb 2026)
+Focus: Add more Lancashire councils. 4 new councils added, hub redesigned, all data pipelines run.
 
-| # | Task | Why | Effort |
-|---|------|-----|--------|
-| 6.1 | Add Lancaster City Council | Largest district in Lancashire (population 144K). CSV spending data published. | 4 hr |
-| 6.2 | Add Ribble Valley Borough Council | Completes East Lancashire coverage. CSV data published. | 4 hr |
-| 6.3 | Add Chorley Borough Council | South Lancashire. Strong spending data publication. | 4 hr |
-| 6.4 | Add South Ribble Borough Council | Adjacent to Chorley, similar data format | 4 hr |
-| 6.5 | Hub page redesign | Current hub is password-gated placeholder. Needs proper landing page for 6-8 councils | 3 hr |
-| 6.6 | Cross-council comparison expansion | CrossCouncil.jsx needs to handle 6-8 councils, not just 4 | 2 hr |
+| # | Task | Status | Result |
+|---|------|--------|--------|
+| 6.1 | Add Lancaster City Council | ✅ | 24,266 txns, £142M. Custom CSV parser (title row detection). |
+| 6.2 | Add Ribble Valley Borough Council | ✅ | 3,677 txns, £12M. Custom CSV parser (title row detection). |
+| 6.3 | Add Chorley Borough Council | ✅ | 875 txns, £142K. Purchase card data only (not full supplier payments). |
+| 6.4 | Add South Ribble Borough Council | ✅ | 15,974 txns, £146M. Custom CSV parser (User-Agent required). |
+| 6.5 | Hub page redesign | ✅ | 8-council grid, accent bars, East/Central+South sections, responsive 4→2→1 |
+| 6.6 | Cross-council comparison | ✅ | CrossCouncil.jsx is data-driven — automatically handles all councils via cross_council.json |
 
-### Phase 7: Public Launch Readiness (Apr/May 2026)
+### Phase 7: Public Launch Readiness (IN PROGRESS — Feb 2026)
 Focus: Make the platform ready for media, public, and councillor use.
 
-| # | Task | Why | Effort |
-|---|------|-----|--------|
-| 7.1 | Remove password gate from hub | Go fully public | 0.5 hr |
-| 7.2 | Dark mode toggle | Modern UX expectation, especially for data-heavy reading | 3 hr |
-| 7.3 | PWA / offline support | Service worker for caching, "Add to Home Screen" on mobile | 3 hr |
-| 7.4 | Social sharing meta tags (Open Graph) | When sharing council pages on WhatsApp/Twitter, show proper previews | 1 hr |
-| 7.5 | Google Search Console setup | Get pages indexed, submit sitemaps | 1 hr |
-| 7.6 | Media kit / press page | One-page summary for journalists, councillors, residents | 2 hr |
-| 7.7 | Citizen reporting: "Flag this transaction" | Allow public to flag suspicious transactions for investigation | 4 hr |
-| 7.8 | Resume article pipeline + news sites | Uncomment crons, redeploy full sites (not coming soon pages) | 1 hr |
+| # | Task | Status | Result |
+|---|------|--------|--------|
+| 7.1 | Remove password gate from hub | ✅ | Gate removed from /lancashire/ hub. Fully public. |
+| 7.2 | Dark mode toggle | N/A | Site is already dark-themed. Light mode toggle deferred. |
+| 7.3 | PWA / offline support | Pending | Service worker for caching, "Add to Home Screen" on mobile |
+| 7.4 | Social sharing meta tags (Open Graph) | ✅ | OG + Twitter cards on hub pages. Per-council OG already existed in index.html template. |
+| 7.5 | Google Search Console setup | ✅ | Sitemap index at /sitemap.xml, per-council sitemaps, robots.txt updated for 8 councils. Manual GSC verification still needed. |
+| 7.6 | Media kit / press page | Pending | One-page summary for journalists, councillors, residents |
+| 7.7 | Citizen reporting: "Flag this transaction" | Pending | Allow public to flag suspicious transactions for investigation |
+| 7.8 | Resume article pipeline + news sites | Pending | Uncomment crons, redeploy full sites (not coming soon pages) |
 
 ### Phase 8: Advanced Analysis (May/Jun 2026)
 Focus: Deeper, more sophisticated DOGE analysis.
@@ -319,9 +323,9 @@ Transparency Code 2015, Best Value Duty (LGA 1999 s.3), Companies Act 2006, Proc
 
 ## 10. SUCCESS METRICS
 
-| Metric | 7 Feb | 10 Feb (P4) | Target | Status |
-|--------|-------|-------------|--------|--------|
-| Councils live | 4 | 4 | 8+ | Phase 6 will add Lancaster, Ribble Valley, Chorley, South Ribble |
+| Metric | 7 Feb | 10 Feb (P4) | 11 Feb (P7) | Target | Status |
+|--------|-------|-------------|-------------|--------|--------|
+| Councils live | 4 | 4 | **8** | 8+ | ✅ Done (Phase 6) |
 | Total articles | 27 | **134** | 200+ | Pipeline paused but 134 published |
 | DOGE finding confidence | None | **All rated** | All rated | ✅ Done |
 | Procurement data | None | **230 notices** | All councils | ✅ Done |
@@ -376,7 +380,7 @@ __tests__/                  ← 20 Vitest unit test files
 
 ---
 
-*Plan v4.0 authored: 10 February 2026*
-*Phases 1-4 completed: 10 February 2026 (30/30 tasks done)*
-*Based on: Live site verification (all 4 councils confirmed), full codebase audit, data file comparison, config analysis*
-*Phase 5 complete 10 Feb 2026. Next review: After Phase 6 (Expand Coverage) complete*
+*Plan v5.0 updated: 11 February 2026*
+*Phases 1-6 completed: 11 February 2026 — 8 councils live, £1B+ tracked*
+*Phase 7 in progress: password gate removed, OG tags added, sitemaps generated*
+*Next review: After Phase 7 (Public Launch Readiness) complete*
