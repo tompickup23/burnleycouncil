@@ -106,7 +106,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T21:48:50.402250",
+  "generated": "2026-02-11T00:38:07.204069",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -294,6 +294,46 @@
       "pct": 0.0
     },
     "timing_clusters": [],
-    "timing_cluster_count": 0
+    "timing_cluster_count": 0,
+    "late_publications": [
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council NEPO HGV lot 2 12t RCV",
+        "supplier": "NTM-GB Ltd",
+        "published_date": "2019-01-07",
+        "awarded_date": "2018-08-16",
+        "days_late": 144,
+        "awarded_value": 108109
+      },
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 2 - 1 x 12t RCV (8980)",
+        "supplier": "Motus Commercials Derby",
+        "published_date": "2021-08-24",
+        "awarded_date": "2021-07-07",
+        "days_late": 48,
+        "awarded_value": 119827
+      },
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 3 - 1 x 12t DAF XB230 LF ",
+        "supplier": "Motus Commercials",
+        "published_date": "2025-07-29",
+        "awarded_date": "2025-07-09",
+        "days_late": 20,
+        "awarded_value": 178245
+      },
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council NEPO GM &amp; P Lot 2 - 1 x Mini ",
+        "supplier": "Watling JCB Ltd",
+        "published_date": "2021-10-13",
+        "awarded_date": "2021-10-08",
+        "days_late": 5,
+        "awarded_value": 23575
+      }
+    ],
+    "late_publication_count": 4,
+    "publication_timing": {
+      "avg_delay_days": 54.2,
+      "median_delay_days": 48,
+      "total_measured": 4
+    }
   }
 }

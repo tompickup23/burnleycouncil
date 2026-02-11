@@ -881,6 +881,51 @@ def analyse_procurement_compliance(councils):
         no_value = [c for c in awarded if not c.get("awarded_value")]
         transparency_gap_pct = round(len(no_value) / len(awarded) * 100, 1) if awarded else 0
 
+        # ── Late publication detection ──
+        # Contracts where the notice was published AFTER the award date
+        # indicate retrospective compliance (contract awarded before
+        # the public tendering requirement was fulfilled).
+        late_publications = []
+        for c in awarded:
+            pub = c.get("published_date", "")
+            award = c.get("awarded_date", "")
+            if pub and award:
+                try:
+                    pub_date = datetime.strptime(pub[:10], "%Y-%m-%d")
+                    award_date = datetime.strptime(award[:10], "%Y-%m-%d")
+                    if pub_date > award_date:
+                        gap = (pub_date - award_date).days
+                        late_publications.append({
+                            "title": c["title"][:80],
+                            "supplier": c.get("awarded_supplier", "Unknown"),
+                            "published_date": pub[:10],
+                            "awarded_date": award[:10],
+                            "days_late": gap,
+                            "awarded_value": c.get("awarded_value", 0),
+                        })
+                except (ValueError, IndexError):
+                    continue
+        late_publications.sort(key=lambda x: x["days_late"], reverse=True)
+
+        # ── Award-to-publication time analysis ──
+        # Measures how long councils take to publish award notices.
+        # Even contracts published "on time" (before award) can show
+        # systematic delays in transparency if published long after deadline.
+        pub_delays = []
+        for c in awarded:
+            pub = c.get("published_date", "")
+            award = c.get("awarded_date", "")
+            if pub and award:
+                try:
+                    pub_date = datetime.strptime(pub[:10], "%Y-%m-%d")
+                    award_date = datetime.strptime(award[:10], "%Y-%m-%d")
+                    delay = (pub_date - award_date).days
+                    pub_delays.append(delay)
+                except (ValueError, IndexError):
+                    continue
+        avg_pub_delay = round(sum(pub_delays) / len(pub_delays), 1) if pub_delays else 0
+        median_pub_delay = sorted(pub_delays)[len(pub_delays) // 2] if pub_delays else 0
+
         # ── Contract timing clusters (possible splitting) ──
         timing_clusters = []
         for supplier, wins in supplier_wins.items():
@@ -916,12 +961,20 @@ def analyse_procurement_compliance(councils):
             },
             "timing_clusters": timing_clusters[:10],
             "timing_cluster_count": len(timing_clusters),
+            "late_publications": late_publications[:10],
+            "late_publication_count": len(late_publications),
+            "publication_timing": {
+                "avg_delay_days": avg_pub_delay,
+                "median_delay_days": median_pub_delay,
+                "total_measured": len(pub_delays),
+            },
         }
 
         print(f"  {council_id.upper()}: {len(threshold_suspects)} threshold suspects, "
               f"{len(repeat_winners)} repeat winners, "
               f"{transparency_gap_pct}% value gap, "
-              f"{len(timing_clusters)} timing clusters")
+              f"{len(timing_clusters)} timing clusters, "
+              f"{len(late_publications)} late publications")
 
     return results
 

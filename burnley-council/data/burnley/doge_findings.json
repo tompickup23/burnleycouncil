@@ -134,7 +134,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-10T21:48:50.399929",
+  "generated": "2026-02-11T00:38:07.201917",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -462,6 +462,94 @@
         "date2": "2024-12-18"
       }
     ],
-    "timing_cluster_count": 4
+    "timing_cluster_count": 4,
+    "late_publications": [
+      {
+        "title": "Padiham Town Hall - Repairs and Refurbishment",
+        "supplier": "B&amp;E Boys Ltd",
+        "published_date": "2025-12-19",
+        "awarded_date": "2017-02-23",
+        "days_late": 3221,
+        "awarded_value": 729152.35
+      },
+      {
+        "title": "Long Term Plan for the Town (Burnley): Consultancy Services",
+        "supplier": "Genecon Limited",
+        "published_date": "2025-09-17",
+        "awarded_date": "2024-04-23",
+        "days_late": 512,
+        "awarded_value": 55000
+      },
+      {
+        "title": "Committee Management System ITT",
+        "supplier": "Modern Mindset",
+        "published_date": "2017-11-23",
+        "awarded_date": "2016-09-26",
+        "days_late": 423,
+        "awarded_value": 103000
+      },
+      {
+        "title": "Car Parking System, Charter Walk Shopping Centre, Burnley",
+        "supplier": "Orbility Ltd",
+        "published_date": "2025-08-28",
+        "awarded_date": "2024-12-04",
+        "days_late": 267,
+        "awarded_value": 260171
+      },
+      {
+        "title": "Property Refurbishment: Piccadilly Road Area, Burnley",
+        "supplier": "WRPS Group",
+        "published_date": "2024-04-24",
+        "awarded_date": "2023-09-01",
+        "days_late": 236,
+        "awarded_value": 296859
+      },
+      {
+        "title": "Property Refurbishment Herbert Street, Burnley",
+        "supplier": "APF Renovations",
+        "published_date": "2023-06-23",
+        "awarded_date": "2022-11-24",
+        "days_late": 211,
+        "awarded_value": 37070
+      },
+      {
+        "title": "Burnley Cemetery Extension",
+        "supplier": "Pick Everard",
+        "published_date": "2025-08-28",
+        "awarded_date": "2025-01-31",
+        "days_late": 209,
+        "awarded_value": 97495.75
+      },
+      {
+        "title": "Towneley Hall Consultancy Services",
+        "supplier": "Knox McConnell Architects",
+        "published_date": "2020-10-02",
+        "awarded_date": "2020-03-24",
+        "days_late": 192,
+        "awarded_value": 124800
+      },
+      {
+        "title": "Refugee Support Services",
+        "supplier": "Calico",
+        "published_date": "2017-09-15",
+        "awarded_date": "2017-03-24",
+        "days_late": 175,
+        "awarded_value": 35000
+      },
+      {
+        "title": "Burnley Bus Station Facilities Management Services",
+        "supplier": "ZAM FM Ltd",
+        "published_date": "2024-02-09",
+        "awarded_date": "2023-09-13",
+        "days_late": 149,
+        "awarded_value": 695488
+      }
+    ],
+    "late_publication_count": 74,
+    "publication_timing": {
+      "avg_delay_days": 90.1,
+      "median_delay_days": 27,
+      "total_measured": 87
+    }
   }
 }

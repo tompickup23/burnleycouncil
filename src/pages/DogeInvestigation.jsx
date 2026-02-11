@@ -685,6 +685,12 @@ function DogeInvestigation() {
                     <span className="proc-stat-value">{dogeFindings.procurement_compliance.timing_cluster_count}</span>
                     <span className="proc-stat-label">Timing Clusters</span>
                   </div>
+                  {dogeFindings.procurement_compliance.late_publication_count > 0 && (
+                    <div className="proc-stat" style={{ borderLeft: '2px solid #ff453a' }}>
+                      <span className="proc-stat-value" style={{ color: '#ff453a' }}>{dogeFindings.procurement_compliance.late_publication_count}</span>
+                      <span className="proc-stat-label">Late Publications</span>
+                    </div>
+                  )}
                 </div>
 
                 {dogeFindings.procurement_compliance.threshold_suspects?.length > 0 && (
@@ -749,6 +755,54 @@ function DogeInvestigation() {
                     </div>
                   </div>
                 )}
+
+                {dogeFindings.procurement_compliance.late_publications?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><Clock size={16} /> Late Contract Publications</h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-sm)' }}>
+                      Contracts where the notice was published <strong>after</strong> the award date — indicating the public was
+                      only informed retrospectively. Transparency Code requires timely publication.
+                    </p>
+                    {dogeFindings.procurement_compliance.publication_timing && (
+                      <div className="procurement-stats-row" style={{ marginBottom: 'var(--space-md)' }}>
+                        <div className="proc-stat">
+                          <span className="proc-stat-value">{dogeFindings.procurement_compliance.publication_timing.avg_delay_days} days</span>
+                          <span className="proc-stat-label">Avg Publication Delay</span>
+                        </div>
+                        <div className="proc-stat">
+                          <span className="proc-stat-value">{dogeFindings.procurement_compliance.publication_timing.median_delay_days} days</span>
+                          <span className="proc-stat-label">Median Delay</span>
+                        </div>
+                      </div>
+                    )}
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Contract</th>
+                            <th>Supplier</th>
+                            <th>Awarded</th>
+                            <th>Published</th>
+                            <th>Days Late</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.procurement_compliance.late_publications.map((lp, i) => (
+                            <tr key={i}>
+                              <td title={lp.title}>{lp.title.length > 35 ? lp.title.substring(0, 35) + '...' : lp.title}</td>
+                              <td>{lp.supplier}</td>
+                              <td>{lp.awarded_date}</td>
+                              <td>{lp.published_date}</td>
+                              <td style={{ color: lp.days_late > 90 ? '#ff453a' : lp.days_late > 30 ? '#ff9f0a' : 'inherit', fontWeight: lp.days_late > 90 ? 600 : 400 }}>{lp.days_late}</td>
+                              <td>{lp.awarded_value ? formatCurrency(lp.awarded_value, true) : '—'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
               <VerificationPanel checks={[
                 {
@@ -757,8 +811,13 @@ function DogeInvestigation() {
                   status: 'pass'
                 },
                 {
+                  label: 'Late publication detection',
+                  detail: 'Contracts published after award date indicate retrospective compliance — the public was informed after the decision was made.',
+                  status: dogeFindings.procurement_compliance.late_publication_count > 5 ? 'fail' : 'pass'
+                },
+                {
                   label: 'Limitation',
-                  detail: 'Proximity to thresholds alone does not prove avoidance. Legitimate projects naturally cluster around common budget ranges.',
+                  detail: 'Proximity to thresholds alone does not prove avoidance. Late publication may reflect admin delay rather than intent to conceal.',
                   status: 'info'
                 },
                 {
