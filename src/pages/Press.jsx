@@ -29,6 +29,20 @@ const CITATION_EXAMPLES = [
   },
 ]
 
+// Fallback for clipboard API (HTTP contexts, older browsers)
+function fallbackCopy(text) {
+  try {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.style.cssText = 'position:fixed;left:-9999px'
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+    return true
+  } catch { return false }
+}
+
 function Press() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -36,10 +50,17 @@ function Press() {
   const [copiedIdx, setCopiedIdx] = useState(null)
 
   const handleCopy = (text, idx) => {
-    navigator.clipboard.writeText(text).then(() => {
+    const onSuccess = () => {
       setCopiedIdx(idx)
       setTimeout(() => setCopiedIdx(null), 2000)
-    })
+    }
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(onSuccess).catch(() => {
+        fallbackCopy(text) && onSuccess()
+      })
+    } else {
+      fallbackCopy(text) && onSuccess()
+    }
   }
 
   const currentYear = new Date().getFullYear()

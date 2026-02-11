@@ -1,14 +1,29 @@
-import { useState } from 'react'
-import { Shield, FileText, Cookie, Eye, Scale, Mail } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Shield, FileText, Cookie, Eye, Scale } from 'lucide-react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import './Legal.css'
+
+const TAB_IDS = ['disclaimer', 'privacy', 'cookies', 'terms', 'accessibility']
 
 function Legal() {
   const config = useCouncilConfig()
   const councilFullName = config.council_full_name || 'Borough Council'
   const officialUrl = config.official_website || '#'
   const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
-  const [activeTab, setActiveTab] = useState('disclaimer')
+
+  // Read initial tab from URL hash (e.g. /legal#privacy)
+  const hashTab = typeof window !== 'undefined' ? window.location.hash.slice(1) : ''
+  const [activeTab, setActiveTab] = useState(TAB_IDS.includes(hashTab) ? hashTab : 'disclaimer')
+
+  // Sync URL hash when tab changes
+  useEffect(() => {
+    if (activeTab !== 'disclaimer') {
+      window.history.replaceState(null, '', `#${activeTab}`)
+    } else {
+      // Remove hash for default tab
+      window.history.replaceState(null, '', window.location.pathname)
+    }
+  }, [activeTab])
 
   const tabs = [
     { id: 'disclaimer', label: 'Disclaimer', icon: Shield },

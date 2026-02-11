@@ -19,6 +19,17 @@ const iconMap = {
   'git-compare-arrows': GitCompareArrows,
 }
 
+// Party colors — static, safe at module scope
+const partyColors = {
+  'Independent': '#800080',
+  'Labour': '#DC241F',
+  'Labour & Co-operative Party': '#DC241F',
+  'Liberal Democrats': '#FAA61A',
+  'Conservative': '#0087DC',
+  'Green Party': '#6AB023',
+  'Reform UK': '#12B6CF',
+}
+
 function Home() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -69,7 +80,9 @@ function Home() {
   const insights = data?.[idx++]
   const dogeFindings = dataSources.doge_investigation ? data?.[idx++] : null
   const politicsSummary = dataSources.politics ? data?.[idx++] : null
-  const articlesIndex = dataSources.news ? data?.[idx++] : null
+  const articlesRaw = dataSources.news ? data?.[idx++] : null
+  // Guard against both plain array and {articles: [...]} wrapper formats
+  const articlesIndex = Array.isArray(articlesRaw) ? articlesRaw : articlesRaw?.articles || articlesRaw || []
   const revenueTrends = dataSources.budget_trends ? data?.[idx++] : null
 
   // Summary stats — handle both field name variants
@@ -96,17 +109,6 @@ function Home() {
     year,
     amount: amount / 1_000_000,
   })), [insights])
-
-  // Party colors for pie chart
-  const partyColors = {
-    'Independent': '#800080',
-    'Labour': '#DC241F',
-    'Labour & Co-operative Party': '#DC241F',
-    'Liberal Democrats': '#FAA61A',
-    'Conservative': '#0087DC',
-    'Green Party': '#6AB023',
-    'Reform UK': '#12B6CF',
-  }
 
   const partyData = useMemo(() => politicsSummary?.by_party?.map(p => ({
     name: p.party,
@@ -282,7 +284,7 @@ function Home() {
           <div className="chart-card">
             <h3>Largest Suppliers ({periodLabel})</h3>
             <p className="chart-description">Top 8 suppliers by total payments received (millions)</p>
-            <div className="chart-container">
+            <div className="chart-container" role="img" aria-label="Bar chart showing top 8 suppliers by total payment value">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={topSuppliersChart} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
@@ -317,7 +319,7 @@ function Home() {
             <div className="chart-card">
               <h3>Annual External Payments</h3>
               <p className="chart-description">Total payments to suppliers by financial year (millions)</p>
-              <div className="chart-container">
+              <div className="chart-container" role="img" aria-label="Bar chart showing annual external payment totals by financial year">
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={spendByYearChart} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
@@ -468,7 +470,7 @@ function Home() {
       </section>
 
       {/* Latest News Preview — only if news data exists */}
-      {articlesIndex && articlesIndex.length > 0 && (
+      {articlesIndex.length > 0 && (
         <section className="news-preview-section">
           <h2><Newspaper size={24} /> Latest News &amp; Findings</h2>
           <p className="section-intro">

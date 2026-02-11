@@ -71,6 +71,20 @@ const foiGuide = {
   ]
 }
 
+// Fallback for clipboard API (HTTP contexts, older browsers)
+function fallbackCopy(text) {
+  try {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.style.cssText = 'position:fixed;left:-9999px'
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+    return true
+  } catch { return false }
+}
+
 function FOI() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -91,11 +105,19 @@ function FOI() {
   }, [])
 
   const copyTemplate = (template, id) => {
-    navigator.clipboard.writeText(template).then(() => {
+    const onSuccess = () => {
       setCopiedId(id)
       if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
       copyTimerRef.current = setTimeout(() => setCopiedId(null), 2000)
-    })
+    }
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(template).then(onSuccess).catch(() => {
+        // Fallback for HTTP or older browsers
+        fallbackCopy(template) && onSuccess()
+      })
+    } else {
+      fallbackCopy(template) && onSuccess()
+    }
   }
 
   // Build FOI submission URL (prefer config, fall back to generic pattern)

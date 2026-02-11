@@ -8,6 +8,17 @@ import { LoadingState } from '../components/ui'
 import { COUNCIL_COLORS, TOOLTIP_STYLE } from '../utils/constants'
 import './CrossCouncil.css'
 
+// Static lookup tables — no component deps, safe at module scope
+const SERVICE_CATEGORIES = ['housing', 'cultural', 'environmental', 'planning', 'central', 'other']
+const SERVICE_LABELS = {
+  housing: 'Housing',
+  cultural: 'Cultural',
+  environmental: 'Environmental',
+  planning: 'Planning',
+  central: 'Central',
+  other: 'Other',
+}
+
 function CrossCouncil() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -36,17 +47,8 @@ function CrossCouncil() {
   })).sort((a, b) => b.spend - a.spend), [councils, councilName])
 
   // Service expenditure comparison
-  const serviceCategories = ['housing', 'cultural', 'environmental', 'planning', 'central', 'other']
-  const serviceLabels = {
-    housing: 'Housing',
-    cultural: 'Cultural',
-    environmental: 'Environmental',
-    planning: 'Planning',
-    central: 'Central',
-    other: 'Other',
-  }
-  const serviceData = useMemo(() => serviceCategories.map(cat => {
-    const row = { category: serviceLabels[cat] }
+  const serviceData = useMemo(() => SERVICE_CATEGORIES.map(cat => {
+    const row = { category: SERVICE_LABELS[cat] }
     councils.forEach(c => {
       row[c.council_id] = Math.round((c.service_expenditure?.[cat] || 0) / (c.population || 1))
     })
@@ -147,7 +149,7 @@ function CrossCouncil() {
         <p className="section-intro">
           Total external payments divided by population. Higher isn't necessarily worse — it depends on what services are provided.
         </p>
-        <div className="chart-container">
+        <div className="chart-container" role="img" aria-label="Bar chart comparing spend per head across councils">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={spendPerHead} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
@@ -173,7 +175,7 @@ function CrossCouncil() {
         <p className="section-intro">
           GOV.UK revenue outturn data (2024-25) divided by population, showing how each council allocates spending across service categories.
         </p>
-        <div className="chart-container">
+        <div className="chart-container" role="img" aria-label="Grouped bar chart comparing service expenditure per head across councils">
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={serviceData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
@@ -256,7 +258,7 @@ function CrossCouncil() {
         <p className="section-intro">
           Same-day payments to the same supplier for the same amount. These are flagged for investigation — not all are errors.
         </p>
-        <div className="chart-container">
+        <div className="chart-container" role="img" aria-label="Bar chart comparing potential duplicate payment values across councils">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={dupeData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
