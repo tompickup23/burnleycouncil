@@ -926,6 +926,81 @@ def analyse_procurement_compliance(councils):
         avg_pub_delay = round(sum(pub_delays) / len(pub_delays), 1) if pub_delays else 0
         median_pub_delay = sorted(pub_delays)[len(pub_delays) // 2] if pub_delays else 0
 
+        # ── Weak competition indicators (Phase 8.2) ──
+        # Since Contracts Finder doesn't publish bid counts, we use proxy signals:
+        # 1. Short tender period (published → deadline < 14 days)
+        # 2. Rapid award (deadline → awarded < 7 days = few bids to evaluate)
+        # 3. Category monopoly (only 1 supplier winning in a CPV category)
+        weak_competition = []
+
+        # Short tender periods + rapid awards
+        for c in awarded:
+            pub = c.get("published_date", "")
+            deadline = c.get("deadline_date", "")
+            award_d = c.get("awarded_date", "")
+            flags = []
+
+            tender_days = None
+            if pub and deadline:
+                try:
+                    p = datetime.strptime(pub[:10], "%Y-%m-%d")
+                    dl = datetime.strptime(deadline[:10], "%Y-%m-%d")
+                    tender_days = (dl - p).days
+                    if 0 < tender_days < 14:
+                        flags.append(f"Only {tender_days} days to bid")
+                except (ValueError, IndexError):
+                    pass
+
+            eval_days = None
+            if deadline and award_d:
+                try:
+                    dl = datetime.strptime(deadline[:10], "%Y-%m-%d")
+                    aw = datetime.strptime(award_d[:10], "%Y-%m-%d")
+                    eval_days = (aw - dl).days
+                    if 0 <= eval_days <= 7:
+                        flags.append(f"Awarded {eval_days} days after deadline")
+                except (ValueError, IndexError):
+                    pass
+
+            if flags:
+                weak_competition.append({
+                    "title": c["title"][:80],
+                    "supplier": c.get("awarded_supplier", "Unknown"),
+                    "awarded_value": c.get("awarded_value", 0),
+                    "tender_days": tender_days,
+                    "eval_days": eval_days,
+                    "flags": flags,
+                    "cpv": c.get("cpv_description", "")[:50],
+                })
+
+        # Category monopoly — CPV categories where only 1 supplier has ever won
+        cpv_winners = defaultdict(set)
+        for c in awarded:
+            cpv = c.get("cpv_description", "").strip()
+            supplier = c.get("awarded_supplier", "")
+            if cpv and supplier and supplier not in ("NOT AWARDED TO SUPPLIER", "Unknown"):
+                cpv_winners[cpv].add(supplier)
+
+        monopoly_categories = []
+        for cpv, suppliers in cpv_winners.items():
+            if len(suppliers) == 1:
+                sole_supplier = list(suppliers)[0]
+                cpv_contracts = [c for c in awarded
+                                 if c.get("cpv_description", "").strip() == cpv
+                                 and c.get("awarded_supplier") == sole_supplier]
+                if len(cpv_contracts) >= 2:  # Only flag if 2+ contracts in same category
+                    total_val = sum(c.get("awarded_value", 0) for c in cpv_contracts)
+                    monopoly_categories.append({
+                        "cpv": cpv[:60],
+                        "supplier": sole_supplier,
+                        "contracts": len(cpv_contracts),
+                        "total_value": round(total_val, 2),
+                    })
+        monopoly_categories.sort(key=lambda x: x["total_value"], reverse=True)
+
+        # Sort weak competition by value descending
+        weak_competition.sort(key=lambda x: x.get("awarded_value") or 0, reverse=True)
+
         # ── Contract timing clusters (possible splitting) ──
         timing_clusters = []
         for supplier, wins in supplier_wins.items():
@@ -968,13 +1043,19 @@ def analyse_procurement_compliance(councils):
                 "median_delay_days": median_pub_delay,
                 "total_measured": len(pub_delays),
             },
+            "weak_competition": weak_competition[:15],
+            "weak_competition_count": len(weak_competition),
+            "monopoly_categories": monopoly_categories[:10],
+            "monopoly_category_count": len(monopoly_categories),
         }
 
         print(f"  {council_id.upper()}: {len(threshold_suspects)} threshold suspects, "
               f"{len(repeat_winners)} repeat winners, "
               f"{transparency_gap_pct}% value gap, "
               f"{len(timing_clusters)} timing clusters, "
-              f"{len(late_publications)} late publications")
+              f"{len(late_publications)} late publications, "
+              f"{len(weak_competition)} weak competition, "
+              f"{len(monopoly_categories)} monopoly categories")
 
     return results
 
@@ -1311,6 +1392,49 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "link_text": "View analysis →",
                 "severity": "info",
                 "confidence": "high",
+            })
+
+    # ── Weak competition findings (Phase 8.2) ──
+    if procurement and council_id in procurement:
+        proc = procurement[council_id]
+        wc_count = proc.get("weak_competition_count", 0)
+        mono_count = proc.get("monopoly_category_count", 0)
+
+        if wc_count > 0:
+            wc_top = proc["weak_competition"][0]
+            wc_total_value = sum(w.get("awarded_value", 0) for w in proc["weak_competition"])
+            findings.append({
+                "value": str(wc_count),
+                "label": "Weak Competition Indicators",
+                "detail": (
+                    f"{wc_count} contracts show signs of limited competition (short tender periods "
+                    f"or rapid award). Top: {wc_top['title'][:50]} ({fmt_gbp(wc_top.get('awarded_value', 0))})"
+                ),
+                "severity": "warning" if wc_count >= 5 else "info",
+                "confidence": "low",
+                "context_note": (
+                    "Contracts Finder does not publish bid counts. These flags use proxy signals: "
+                    "tender periods under 14 days and awards within 7 days of deadline. "
+                    "Short timelines may have legitimate explanations (framework call-offs, urgency)."
+                ),
+                "link": "/procurement",
+            })
+
+        if mono_count > 0:
+            mono_top = proc["monopoly_categories"][0]
+            key_findings.append({
+                "icon": "shield-alert",
+                "badge": "Competition",
+                "title": f"{mono_count} service categories with a single supplier",
+                "description": (
+                    f"Top: {mono_top['supplier'][:40]} — sole winner in '{mono_top['cpv'][:40]}' "
+                    f"({mono_top['contracts']} contracts, {fmt_gbp(mono_top['total_value'])}). "
+                    f"Category monopolies may indicate market failure or specification bias."
+                ),
+                "link": "/procurement",
+                "link_text": "View procurement →",
+                "severity": "info",
+                "confidence": "medium",
             })
 
     # Build payment velocity data for frontend display

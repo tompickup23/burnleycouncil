@@ -59,6 +59,15 @@
       "confidence": "medium",
       "context_note": "Chi-squared values on samples of 27,784+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (6.3%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "4",
+      "label": "Weak Competition Indicators",
+      "detail": "4 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Rossendale: TPPL Rossendale Borough Council HCC (\u00a3178.2K)",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -106,7 +115,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:38:07.204069",
+  "generated": "2026-02-11T00:56:20.881215",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -334,6 +343,55 @@
       "avg_delay_days": 54.2,
       "median_delay_days": 48,
       "total_measured": 4
-    }
+    },
+    "weak_competition": [
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 3 - 1 x 12t DAF XB230 LF ",
+        "supplier": "Motus Commercials",
+        "awarded_value": 178245,
+        "tender_days": -20,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 2 - 1 x 12t RCV (8980)",
+        "supplier": "Motus Commercials Derby",
+        "awarded_value": 119827,
+        "tender_days": -48,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Vehicles for refuse"
+      },
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council NEPO HGV lot 2 12t RCV",
+        "supplier": "NTM-GB Ltd",
+        "awarded_value": 108109,
+        "tender_days": -144,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Vehicles for refuse"
+      },
+      {
+        "title": "GB-Rossendale: TPPL Rossendale Borough Council NEPO GM &amp; P Lot 2 - 1 x Mini ",
+        "supplier": "Watling JCB Ltd",
+        "awarded_value": 23575,
+        "tender_days": -5,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Mechanical excavators"
+      }
+    ],
+    "weak_competition_count": 4,
+    "monopoly_categories": [],
+    "monopoly_category_count": 0
   }
 }

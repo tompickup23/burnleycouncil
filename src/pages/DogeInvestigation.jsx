@@ -5,7 +5,7 @@ import {
   PoundSterling, Users, Repeat, GitCompareArrows, Eye,
   CheckCircle, XCircle, HelpCircle, FileText, Scale,
   BarChart3, Search, ArrowUpRight, Info, ChevronDown, ChevronUp,
-  Clock, Zap, Activity
+  Clock, Zap, Activity, ShieldAlert, Target
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -691,6 +691,18 @@ function DogeInvestigation() {
                       <span className="proc-stat-label">Late Publications</span>
                     </div>
                   )}
+                  {dogeFindings.procurement_compliance.weak_competition_count > 0 && (
+                    <div className="proc-stat" style={{ borderLeft: '2px solid #ff9f0a' }}>
+                      <span className="proc-stat-value" style={{ color: '#ff9f0a' }}>{dogeFindings.procurement_compliance.weak_competition_count}</span>
+                      <span className="proc-stat-label">Weak Competition</span>
+                    </div>
+                  )}
+                  {dogeFindings.procurement_compliance.monopoly_category_count > 0 && (
+                    <div className="proc-stat" style={{ borderLeft: '2px solid #ff6b35' }}>
+                      <span className="proc-stat-value" style={{ color: '#ff6b35' }}>{dogeFindings.procurement_compliance.monopoly_category_count}</span>
+                      <span className="proc-stat-label">Category Monopolies</span>
+                    </div>
+                  )}
                 </div>
 
                 {dogeFindings.procurement_compliance.threshold_suspects?.length > 0 && (
@@ -803,6 +815,73 @@ function DogeInvestigation() {
                     </div>
                   </div>
                 )}
+                {dogeFindings.procurement_compliance.weak_competition?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><ShieldAlert size={16} /> Weak Competition Indicators</h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-sm)' }}>
+                      Contracts with short tender periods (&lt;14 days) or rapid award after deadline (&lt;7 days)
+                      may indicate limited competitive bidding. Contracts Finder does not publish bid counts directly.
+                    </p>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Contract</th>
+                            <th>Supplier</th>
+                            <th>Value</th>
+                            <th>Flags</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.procurement_compliance.weak_competition.map((wc, i) => (
+                            <tr key={i}>
+                              <td title={wc.title}>{wc.title.length > 35 ? wc.title.substring(0, 35) + '...' : wc.title}</td>
+                              <td>{wc.supplier}</td>
+                              <td>{wc.awarded_value ? formatCurrency(wc.awarded_value, true) : '—'}</td>
+                              <td style={{ fontSize: '0.75rem', color: '#ff9f0a' }}>{wc.flags.join('; ')}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {dogeFindings.procurement_compliance.monopoly_categories?.length > 0 && (
+                  <div className="velocity-table-section">
+                    <h4><Target size={16} /> Category Monopolies</h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-sm)' }}>
+                      Service categories where only one supplier has ever won a contract. May indicate market failure,
+                      specification bias, or a genuinely niche service area.
+                    </p>
+                    <div className="velocity-table-wrap">
+                      <table className="velocity-table">
+                        <thead>
+                          <tr>
+                            <th>Category (CPV)</th>
+                            <th>Sole Supplier</th>
+                            <th>Contracts</th>
+                            <th>Total Value</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dogeFindings.procurement_compliance.monopoly_categories.map((mc, i) => (
+                            <tr key={i}>
+                              <td title={mc.cpv}>{mc.cpv.length > 30 ? mc.cpv.substring(0, 30) + '...' : mc.cpv}</td>
+                              <td>
+                                <Link to={`/spending?supplier=${encodeURIComponent(mc.supplier)}&ref=doge`}>
+                                  {mc.supplier.length > 25 ? mc.supplier.substring(0, 25) + '...' : mc.supplier}
+                                </Link>
+                              </td>
+                              <td>{mc.contracts}</td>
+                              <td>{formatCurrency(mc.total_value, true)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
               <VerificationPanel checks={[
                 {
@@ -816,13 +895,18 @@ function DogeInvestigation() {
                   status: dogeFindings.procurement_compliance.late_publication_count > 5 ? 'fail' : 'pass'
                 },
                 {
+                  label: 'Weak competition detection',
+                  detail: 'Proxy signals used: tender periods <14 days and awards <7 days after deadline. Contracts Finder does not publish bid counts.',
+                  status: dogeFindings.procurement_compliance.weak_competition_count > 10 ? 'fail' : dogeFindings.procurement_compliance.weak_competition_count > 0 ? 'warning' : 'pass'
+                },
+                {
                   label: 'Limitation',
-                  detail: 'Proximity to thresholds alone does not prove avoidance. Late publication may reflect admin delay rather than intent to conceal.',
+                  detail: 'Proximity to thresholds alone does not prove avoidance. Late publication may reflect admin delay rather than intent to conceal. Short tender periods may reflect framework call-offs or genuine urgency.',
                   status: 'info'
                 },
                 {
                   label: 'Data source',
-                  detail: 'Contracts Finder API — only published notices are available. Some contracts below threshold may not be published.',
+                  detail: 'Contracts Finder API — only published notices are available. Some contracts below threshold may not be published. Bid counts are not available.',
                   status: 'info'
                 }
               ]} />

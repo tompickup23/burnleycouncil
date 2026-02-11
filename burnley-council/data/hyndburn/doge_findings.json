@@ -124,7 +124,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:38:07.202899",
+  "generated": "2026-02-11T00:56:20.880226",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -443,6 +443,22 @@
       "avg_delay_days": 185.0,
       "median_delay_days": 127,
       "total_measured": 16
-    }
+    },
+    "weak_competition": [
+      {
+        "title": "Hyndburn District Council, C3.1&amp;3.2,Jul25 - E A Foulds",
+        "supplier": "E A Foulds Ltd",
+        "awarded_value": 4680,
+        "tender_days": -3,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Lift-maintenance services"
+      }
+    ],
+    "weak_competition_count": 1,
+    "monopoly_categories": [],
+    "monopoly_category_count": 0
   }
 }

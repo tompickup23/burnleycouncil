@@ -114,7 +114,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:38:07.203533",
+  "generated": "2026-02-11T00:56:20.880750",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -384,6 +384,22 @@
       "avg_delay_days": 45.0,
       "median_delay_days": 45,
       "total_measured": 1
-    }
+    },
+    "weak_competition": [
+      {
+        "title": "Dynamic Purchasing System for the Provision of Various Engineering Works",
+        "supplier": "A E Yates,A&amp;G Landscapes &amp; Groundworks LTD,Bailey Contracts Limited,Brewers Contractors Limited,Coating Services Limited,Colin Braithwaite Excavators Limited,Gallagher Groundworks &amp; Civil Engineering Ltd,James O Garnett Limited,marchbridge builders limited,Monk of Colne Ltd,O&#039;Callaghan Ltd,PP O&#039;Connor,UK Green Waste &amp; Remediation Ltd.,Andidrain,Horticon Ltd,DSM Demolition,Forshaw Demolition Ltd,Vital Heating Solutions",
+        "awarded_value": 5000000,
+        "tender_days": -52,
+        "eval_days": 7,
+        "flags": [
+          "Awarded 7 days after deadline"
+        ],
+        "cpv": "Construction work and Mechanical and electrical en"
+      }
+    ],
+    "weak_competition_count": 1,
+    "monopoly_categories": [],
+    "monopoly_category_count": 0
   }
 }
