@@ -53,6 +53,25 @@
   box-shadow: 0 0 15px rgba(10, 132, 255, 0.1);
 }
 
+/* Limited Data Warning Banner */
+.limited-data-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.limited-data-banner svg {
+  color: #ff9f0a;
+  flex-shrink: 0;
+}
+
 /* DOGE Evidence Trail Banner */
 .doge-evidence-banner {
   display: flex;

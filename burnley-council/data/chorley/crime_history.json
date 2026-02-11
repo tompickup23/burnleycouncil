@@ -1,0 +1,2821 @@
+[
+  {
+    "borough": "chorley",
+    "borough_name": "Chorley",
+    "ons_code": "E07000118",
+    "date": "2025-07",
+    "total_crimes": 928,
+    "total_stop_and_search": 49,
+    "by_category": {
+      "anti-social-behaviour": 307,
+      "burglary": 18,
+      "criminal-damage-arson": 71,
+      "other-theft": 42,
+      "public-order": 31,
+      "robbery": 6,
+      "vehicle-crime": 28,
+      "violent-crime": 358,
+      "other-crime": 20,
+      "possession-of-weapons": 7,
+      "shoplifting": 21,
+      "bicycle-theft": 2,
+      "drugs": 15,
+      "theft-from-the-person": 2
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 358
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 307
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 71
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 42
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 31
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 28
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 21
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 20
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 18
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 15
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 7
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 6
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 2
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 153,
+      "Unable to prosecute suspect": 279,
+      "Local resolution": 42,
+      "Awaiting court outcome": 46,
+      "Offender given a caution": 17,
+      "Status update unavailable": 63,
+      "Action to be taken by another organisation": 15,
+      "Further action is not in the public interest": 3,
+      "Further investigation is not in the public interest": 1,
+      "Offender given penalty notice": 2
+    },
+    "ward_count": 14,
+    "wards": {
+      "CH1": {
+        "ward_id": "CH1",
+        "name": "Chorley East",
+        "total_crimes": 92,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 2,
+          "criminal-damage-arson": 9,
+          "other-theft": 1,
+          "public-order": 6,
+          "robbery": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 40,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Unable to prosecute suspect": 34,
+          "Local resolution": 4,
+          "Awaiting court outcome": 7,
+          "Offender given a caution": 1,
+          "Status update unavailable": 2,
+          "Action to be taken by another organisation": 1,
+          "Further action is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "CH10": {
+        "ward_id": "CH10",
+        "name": "Chorley South East &amp; Heath Charnock",
+        "total_crimes": 77,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "burglary": 3,
+          "criminal-damage-arson": 10,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 22,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Status update unavailable": 7,
+          "Awaiting court outcome": 5,
+          "Unable to prosecute suspect": 20,
+          "Investigation complete; no suspect identified": 18,
+          "Local resolution": 2,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH11": {
+        "ward_id": "CH11",
+        "name": "Clayton East, Brindle &amp; Hoghton",
+        "total_crimes": 96,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "bicycle-theft": 2,
+          "burglary": 1,
+          "criminal-damage-arson": 12,
+          "drugs": 1,
+          "other-theft": 4,
+          "public-order": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 45,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Unable to prosecute suspect": 26,
+          "Status update unavailable": 4,
+          "Local resolution": 17,
+          "Awaiting court outcome": 10,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH12": {
+        "ward_id": "CH12",
+        "name": "Clayton West &amp; Cuerden",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "possession-of-weapons": 2,
+          "shoplifting": 2,
+          "violent-crime": 19,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Status update unavailable": 5,
+          "Unable to prosecute suspect": 16,
+          "Investigation complete; no suspect identified": 2,
+          "Offender given penalty notice": 1,
+          "Action to be taken by another organisation": 2,
+          "Awaiting court outcome": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "CH13": {
+        "ward_id": "CH13",
+        "name": "Croston, Mawdesley &amp; Euxton South",
+        "total_crimes": 62,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "criminal-damage-arson": 5,
+          "other-theft": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 28,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Offender given a caution": 2,
+          "Unable to prosecute suspect": 19,
+          "Action to be taken by another organisation": 3,
+          "Status update unavailable": 9,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH14": {
+        "ward_id": "CH14",
+        "name": "Eccleston, Heskin &amp; Charnock Richard",
+        "total_crimes": 52,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "criminal-damage-arson": 3,
+          "other-theft": 9,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 14,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 14,
+          "Investigation complete; no suspect identified": 9,
+          "Awaiting court outcome": 3,
+          "Local resolution": 2,
+          "Status update unavailable": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH2": {
+        "ward_id": "CH2",
+        "name": "Chorley North East",
+        "total_crimes": 31,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "criminal-damage-arson": 2,
+          "other-theft": 5,
+          "vehicle-crime": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Status update unavailable": 2,
+          "Unable to prosecute suspect": 6,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH3": {
+        "ward_id": "CH3",
+        "name": "Coppull",
+        "total_crimes": 42,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "criminal-damage-arson": 4,
+          "possession-of-weapons": 1,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 19
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Offender given a caution": 1,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 14,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "CH4": {
+        "ward_id": "CH4",
+        "name": "Chorley South West",
+        "total_crimes": 80,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 2,
+          "other-theft": 2,
+          "possession-of-weapons": 2,
+          "public-order": 4,
+          "shoplifting": 4,
+          "vehicle-crime": 7,
+          "violent-crime": 23,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 17,
+          "Local resolution": 1,
+          "Status update unavailable": 4,
+          "Unable to prosecute suspect": 22,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 4,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "CH5": {
+        "ward_id": "CH5",
+        "name": "Chorley North West",
+        "total_crimes": 114,
+        "by_category": {
+          "anti-social-behaviour": 34,
+          "burglary": 4,
+          "criminal-damage-arson": 5,
+          "drugs": 7,
+          "other-theft": 6,
+          "possession-of-weapons": 1,
+          "public-order": 6,
+          "shoplifting": 2,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 4,
+          "violent-crime": 43
+        },
+        "outcomes": {
+          "Awaiting court outcome": 6,
+          "Investigation complete; no suspect identified": 24,
+          "Unable to prosecute suspect": 30,
+          "Action to be taken by another organisation": 4,
+          "Local resolution": 8,
+          "Status update unavailable": 8
+        },
+        "stop_and_search": {
+          "total": 13
+        }
+      },
+      "CH6": {
+        "ward_id": "CH6",
+        "name": "Euxton",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "robbery": 1,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 10,
+          "Status update unavailable": 2,
+          "Local resolution": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH7": {
+        "ward_id": "CH7",
+        "name": "Adlington &amp; Anderton",
+        "total_crimes": 60,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 2,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 22,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Awaiting court outcome": 5,
+          "Unable to prosecute suspect": 15,
+          "Status update unavailable": 5,
+          "Action to be taken by another organisation": 1,
+          "Offender given a caution": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH8": {
+        "ward_id": "CH8",
+        "name": "Buckshaw &amp; Whittle",
+        "total_crimes": 75,
+        "by_category": {
+          "anti-social-behaviour": 43,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 5,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 18
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 14,
+          "Awaiting court outcome": 1,
+          "Further action is not in the public interest": 1,
+          "Status update unavailable": 4,
+          "Offender given a caution": 3
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "CH9": {
+        "ward_id": "CH9",
+        "name": "Chorley North &amp; Astley",
+        "total_crimes": 85,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "criminal-damage-arson": 6,
+          "drugs": 4,
+          "other-theft": 2,
+          "public-order": 3,
+          "shoplifting": 3,
+          "violent-crime": 46,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Status update unavailable": 7,
+          "Unable to prosecute suspect": 39,
+          "Offender given penalty notice": 1,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 3,
+          "Local resolution": 3
+        },
+        "stop_and_search": {
+          "total": 8
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:48:34.832606"
+  },
+  {
+    "borough": "chorley",
+    "borough_name": "Chorley",
+    "ons_code": "E07000118",
+    "date": "2025-08",
+    "total_crimes": 851,
+    "total_stop_and_search": 70,
+    "by_category": {
+      "anti-social-behaviour": 276,
+      "burglary": 21,
+      "criminal-damage-arson": 53,
+      "drugs": 21,
+      "other-theft": 55,
+      "possession-of-weapons": 10,
+      "public-order": 55,
+      "robbery": 1,
+      "theft-from-the-person": 2,
+      "vehicle-crime": 31,
+      "violent-crime": 277,
+      "other-crime": 18,
+      "bicycle-theft": 5,
+      "shoplifting": 26
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 277
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 276
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 55
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 55
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 53
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 31
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 26
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 21
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 21
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 18
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 10
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 5
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 1
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 158,
+      "Unable to prosecute suspect": 252,
+      "Further investigation is not in the public interest": 7,
+      "Local resolution": 26,
+      "Awaiting court outcome": 35,
+      "Status update unavailable": 57,
+      "Offender given a caution": 13,
+      "Action to be taken by another organisation": 18,
+      "Further action is not in the public interest": 1,
+      "Offender given penalty notice": 7,
+      "Formal action is not in the public interest": 1
+    },
+    "ward_count": 14,
+    "wards": {
+      "CH1": {
+        "ward_id": "CH1",
+        "name": "Chorley East",
+        "total_crimes": 79,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "burglary": 2,
+          "criminal-damage-arson": 7,
+          "drugs": 2,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 6,
+          "robbery": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 24,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 25,
+          "Further investigation is not in the public interest": 1,
+          "Local resolution": 4,
+          "Awaiting court outcome": 5,
+          "Status update unavailable": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "CH10": {
+        "ward_id": "CH10",
+        "name": "Chorley South East &amp; Heath Charnock",
+        "total_crimes": 85,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "bicycle-theft": 2,
+          "burglary": 3,
+          "criminal-damage-arson": 6,
+          "drugs": 3,
+          "other-theft": 5,
+          "public-order": 5,
+          "shoplifting": 5,
+          "vehicle-crime": 8,
+          "violent-crime": 28,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 22,
+          "Unable to prosecute suspect": 29,
+          "Local resolution": 3,
+          "Status update unavailable": 8,
+          "Further investigation is not in the public interest": 1,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "CH11": {
+        "ward_id": "CH11",
+        "name": "Clayton East, Brindle &amp; Hoghton",
+        "total_crimes": 77,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "violent-crime": 27,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 31,
+          "Offender given penalty notice": 2,
+          "Awaiting court outcome": 1,
+          "Status update unavailable": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "CH12": {
+        "ward_id": "CH12",
+        "name": "Clayton West &amp; Cuerden",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 6,
+          "shoplifting": 5,
+          "violent-crime": 15,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 15,
+          "Awaiting court outcome": 6,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 2,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH13": {
+        "ward_id": "CH13",
+        "name": "Croston, Mawdesley &amp; Euxton South",
+        "total_crimes": 60,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 3,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 29,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Status update unavailable": 13,
+          "Investigation complete; no suspect identified": 6,
+          "Offender given penalty notice": 2,
+          "Unable to prosecute suspect": 9,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 11,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "CH14": {
+        "ward_id": "CH14",
+        "name": "Eccleston, Heskin &amp; Charnock Richard",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 1,
+          "other-theft": 4,
+          "public-order": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 10,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Unable to prosecute suspect": 7,
+          "Status update unavailable": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH2": {
+        "ward_id": "CH2",
+        "name": "Chorley North East",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 5,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 1,
+          "Status update unavailable": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH3": {
+        "ward_id": "CH3",
+        "name": "Coppull",
+        "total_crimes": 39,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 11
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 10,
+          "Local resolution": 1,
+          "Status update unavailable": 1,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH4": {
+        "ward_id": "CH4",
+        "name": "Chorley South West",
+        "total_crimes": 68,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 4,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 28,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 28,
+          "Local resolution": 3,
+          "Formal action is not in the public interest": 1,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 3,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH5": {
+        "ward_id": "CH5",
+        "name": "Chorley North West",
+        "total_crimes": 136,
+        "by_category": {
+          "anti-social-behaviour": 41,
+          "burglary": 4,
+          "criminal-damage-arson": 8,
+          "drugs": 8,
+          "other-theft": 10,
+          "possession-of-weapons": 5,
+          "public-order": 12,
+          "shoplifting": 4,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 38,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 37,
+          "Awaiting court outcome": 10,
+          "Investigation complete; no suspect identified": 28,
+          "Offender given a caution": 5,
+          "Local resolution": 5,
+          "Status update unavailable": 7,
+          "Offender given penalty notice": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 36
+        }
+      },
+      "CH6": {
+        "ward_id": "CH6",
+        "name": "Euxton",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 4,
+          "public-order": 2,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 1,
+          "Action to be taken by another organisation": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH7": {
+        "ward_id": "CH7",
+        "name": "Adlington &amp; Anderton",
+        "total_crimes": 37,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 4,
+          "public-order": 3,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 8,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 5,
+          "Investigation complete; no suspect identified": 5,
+          "Local resolution": 2,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "CH8": {
+        "ward_id": "CH8",
+        "name": "Buckshaw &amp; Whittle",
+        "total_crimes": 62,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "bicycle-theft": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "vehicle-crime": 9,
+          "violent-crime": 13,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 19,
+          "Status update unavailable": 2,
+          "Unable to prosecute suspect": 15,
+          "Local resolution": 2,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH9": {
+        "ward_id": "CH9",
+        "name": "Chorley North &amp; Astley",
+        "total_crimes": 82,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 7,
+          "public-order": 7,
+          "shoplifting": 5,
+          "vehicle-crime": 2,
+          "violent-crime": 27,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Offender given penalty notice": 1,
+          "Action to be taken by another organisation": 2,
+          "Status update unavailable": 6,
+          "Unable to prosecute suspect": 23,
+          "Local resolution": 2,
+          "Further investigation is not in the public interest": 2,
+          "Awaiting court outcome": 5
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:48:45.602452"
+  },
+  {
+    "borough": "chorley",
+    "borough_name": "Chorley",
+    "ons_code": "E07000118",
+    "date": "2025-09",
+    "total_crimes": 837,
+    "total_stop_and_search": 38,
+    "by_category": {
+      "anti-social-behaviour": 251,
+      "burglary": 21,
+      "criminal-damage-arson": 59,
+      "drugs": 18,
+      "other-theft": 48,
+      "possession-of-weapons": 9,
+      "public-order": 32,
+      "robbery": 6,
+      "vehicle-crime": 17,
+      "violent-crime": 320,
+      "other-crime": 17,
+      "shoplifting": 36,
+      "bicycle-theft": 1,
+      "theft-from-the-person": 2
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 320
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 251
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 59
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 48
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 36
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 32
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 21
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 18
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 17
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 17
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 9
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 6
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 1
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 139,
+      "Unable to prosecute suspect": 266,
+      "Offender given a caution": 10,
+      "Local resolution": 36,
+      "Under investigation": 74,
+      "Awaiting court outcome": 42,
+      "Further action is not in the public interest": 3,
+      "Further investigation is not in the public interest": 5,
+      "Action to be taken by another organisation": 10,
+      "Formal action is not in the public interest": 1
+    },
+    "ward_count": 14,
+    "wards": {
+      "CH1": {
+        "ward_id": "CH1",
+        "name": "Chorley East",
+        "total_crimes": 80,
+        "by_category": {
+          "anti-social-behaviour": 31,
+          "burglary": 2,
+          "criminal-damage-arson": 7,
+          "drugs": 4,
+          "other-theft": 5,
+          "possession-of-weapons": 3,
+          "public-order": 1,
+          "robbery": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 22,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Unable to prosecute suspect": 17,
+          "Offender given a caution": 4,
+          "Local resolution": 5,
+          "Under investigation": 3,
+          "Awaiting court outcome": 5
+        },
+        "stop_and_search": {
+          "total": 10
+        }
+      },
+      "CH10": {
+        "ward_id": "CH10",
+        "name": "Chorley South East &amp; Heath Charnock",
+        "total_crimes": 69,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 28,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Unable to prosecute suspect": 25,
+          "Under investigation": 6,
+          "Awaiting court outcome": 3,
+          "Local resolution": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "CH11": {
+        "ward_id": "CH11",
+        "name": "Clayton East, Brindle &amp; Hoghton",
+        "total_crimes": 99,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 1,
+          "criminal-damage-arson": 10,
+          "drugs": 1,
+          "other-theft": 8,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "shoplifting": 15,
+          "violent-crime": 32,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 20,
+          "Offender given a caution": 3,
+          "Awaiting court outcome": 10,
+          "Unable to prosecute suspect": 32,
+          "Further investigation is not in the public interest": 1,
+          "Under investigation": 5,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH12": {
+        "ward_id": "CH12",
+        "name": "Clayton West &amp; Cuerden",
+        "total_crimes": 50,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "criminal-damage-arson": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 5,
+          "vehicle-crime": 2,
+          "violent-crime": 20,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 21,
+          "Awaiting court outcome": 4,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH13": {
+        "ward_id": "CH13",
+        "name": "Croston, Mawdesley &amp; Euxton South",
+        "total_crimes": 51,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 6,
+          "vehicle-crime": 2,
+          "violent-crime": 28,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Local resolution": 4,
+          "Investigation complete; no suspect identified": 6,
+          "Further investigation is not in the public interest": 1,
+          "Under investigation": 8,
+          "Unable to prosecute suspect": 20,
+          "Action to be taken by another organisation": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH14": {
+        "ward_id": "CH14",
+        "name": "Eccleston, Heskin &amp; Charnock Richard",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "vehicle-crime": 3,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Under investigation": 2,
+          "Investigation complete; no suspect identified": 7,
+          "Local resolution": 3,
+          "Formal action is not in the public interest": 1,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH2": {
+        "ward_id": "CH2",
+        "name": "Chorley North East",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "public-order": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 9,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH3": {
+        "ward_id": "CH3",
+        "name": "Coppull",
+        "total_crimes": 59,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "burglary": 6,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 19,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 13,
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 15,
+          "Local resolution": 1,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH4": {
+        "ward_id": "CH4",
+        "name": "Chorley South West",
+        "total_crimes": 55,
+        "by_category": {
+          "anti-social-behaviour": 26,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 21,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Unable to prosecute suspect": 19,
+          "Local resolution": 2,
+          "Under investigation": 2,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH5": {
+        "ward_id": "CH5",
+        "name": "Chorley North West",
+        "total_crimes": 129,
+        "by_category": {
+          "anti-social-behaviour": 42,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 10,
+          "drugs": 6,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 10,
+          "robbery": 2,
+          "shoplifting": 10,
+          "theft-from-the-person": 2,
+          "violent-crime": 37,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 22,
+          "Unable to prosecute suspect": 36,
+          "Local resolution": 12,
+          "Further action is not in the public interest": 1,
+          "Further investigation is not in the public interest": 1,
+          "Under investigation": 7,
+          "Awaiting court outcome": 6,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 12
+        }
+      },
+      "CH6": {
+        "ward_id": "CH6",
+        "name": "Euxton",
+        "total_crimes": 19,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "criminal-damage-arson": 3,
+          "other-theft": 1,
+          "public-order": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Under investigation": 3,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH7": {
+        "ward_id": "CH7",
+        "name": "Adlington &amp; Anderton",
+        "total_crimes": 51,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "other-theft": 5,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 21,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Unable to prosecute suspect": 14,
+          "Under investigation": 7,
+          "Offender given a caution": 1,
+          "Local resolution": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH8": {
+        "ward_id": "CH8",
+        "name": "Buckshaw &amp; Whittle",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 23,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 5,
+          "Under investigation": 3,
+          "Unable to prosecute suspect": 16,
+          "Investigation complete; no suspect identified": 2,
+          "Local resolution": 3,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH9": {
+        "ward_id": "CH9",
+        "name": "Chorley North &amp; Astley",
+        "total_crimes": 90,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 4,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 6,
+          "robbery": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 40
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Under investigation": 14,
+          "Unable to prosecute suspect": 30,
+          "Awaiting court outcome": 3,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:48:55.735948"
+  },
+  {
+    "borough": "chorley",
+    "borough_name": "Chorley",
+    "ons_code": "E07000118",
+    "date": "2025-10",
+    "total_crimes": 791,
+    "total_stop_and_search": 55,
+    "by_category": {
+      "anti-social-behaviour": 246,
+      "burglary": 17,
+      "criminal-damage-arson": 57,
+      "drugs": 12,
+      "other-theft": 53,
+      "possession-of-weapons": 11,
+      "public-order": 34,
+      "vehicle-crime": 29,
+      "violent-crime": 274,
+      "other-crime": 23,
+      "shoplifting": 26,
+      "theft-from-the-person": 6,
+      "bicycle-theft": 3
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 274
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 246
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 57
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 53
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 34
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 29
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 26
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 23
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 17
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 12
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 11
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 6
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 3
+      }
+    },
+    "outcomes": {
+      "Awaiting court outcome": 46,
+      "Investigation complete; no suspect identified": 159,
+      "Local resolution": 31,
+      "Unable to prosecute suspect": 203,
+      "Offender given a caution": 4,
+      "Under investigation": 83,
+      "Action to be taken by another organisation": 11,
+      "Further investigation is not in the public interest": 2,
+      "Offender given penalty notice": 6
+    },
+    "ward_count": 14,
+    "wards": {
+      "CH1": {
+        "ward_id": "CH1",
+        "name": "Chorley East",
+        "total_crimes": 82,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 1,
+          "criminal-damage-arson": 9,
+          "drugs": 2,
+          "other-theft": 3,
+          "possession-of-weapons": 4,
+          "public-order": 5,
+          "vehicle-crime": 6,
+          "violent-crime": 24,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Awaiting court outcome": 13,
+          "Investigation complete; no suspect identified": 13,
+          "Local resolution": 4,
+          "Unable to prosecute suspect": 16,
+          "Offender given a caution": 1,
+          "Under investigation": 8
+        },
+        "stop_and_search": {
+          "total": 8
+        }
+      },
+      "CH10": {
+        "ward_id": "CH10",
+        "name": "Chorley South East &amp; Heath Charnock",
+        "total_crimes": 68,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 4,
+          "criminal-damage-arson": 3,
+          "drugs": 4,
+          "other-theft": 2,
+          "public-order": 4,
+          "shoplifting": 3,
+          "vehicle-crime": 5,
+          "violent-crime": 28,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 18,
+          "Under investigation": 5,
+          "Awaiting court outcome": 11,
+          "Local resolution": 8,
+          "Unable to prosecute suspect": 14
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH11": {
+        "ward_id": "CH11",
+        "name": "Clayton East, Brindle &amp; Hoghton",
+        "total_crimes": 83,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 5,
+          "public-order": 3,
+          "shoplifting": 7,
+          "theft-from-the-person": 1,
+          "violent-crime": 35,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 26,
+          "Under investigation": 9,
+          "Offender given a caution": 1,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 2,
+          "Further investigation is not in the public interest": 2,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH12": {
+        "ward_id": "CH12",
+        "name": "Clayton West &amp; Cuerden",
+        "total_crimes": 50,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "criminal-damage-arson": 5,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "shoplifting": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 17
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 17,
+          "Awaiting court outcome": 2,
+          "Under investigation": 5,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH13": {
+        "ward_id": "CH13",
+        "name": "Croston, Mawdesley &amp; Euxton South",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 1,
+          "violent-crime": 18,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Offender given penalty notice": 1,
+          "Under investigation": 9,
+          "Unable to prosecute suspect": 8,
+          "Action to be taken by another organisation": 2,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "CH14": {
+        "ward_id": "CH14",
+        "name": "Eccleston, Heskin &amp; Charnock Richard",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 5,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Action to be taken by another organisation": 1,
+          "Unable to prosecute suspect": 4,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      },
+      "CH2": {
+        "ward_id": "CH2",
+        "name": "Chorley North East",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "drugs": 1,
+          "other-theft": 7,
+          "public-order": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 3
+        },
+        "outcomes": {
+          "Offender given penalty notice": 1,
+          "Under investigation": 2,
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 3,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH3": {
+        "ward_id": "CH3",
+        "name": "Coppull",
+        "total_crimes": 41,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "violent-crime": 15,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 15,
+          "Under investigation": 4,
+          "Investigation complete; no suspect identified": 8
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "CH4": {
+        "ward_id": "CH4",
+        "name": "Chorley South West",
+        "total_crimes": 51,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 24,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 21,
+          "Under investigation": 7,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "CH5": {
+        "ward_id": "CH5",
+        "name": "Chorley North West",
+        "total_crimes": 138,
+        "by_category": {
+          "anti-social-behaviour": 38,
+          "bicycle-theft": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 10,
+          "drugs": 2,
+          "other-theft": 8,
+          "possession-of-weapons": 3,
+          "public-order": 9,
+          "shoplifting": 6,
+          "theft-from-the-person": 4,
+          "violent-crime": 52,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 34,
+          "Unable to prosecute suspect": 34,
+          "Awaiting court outcome": 7,
+          "Local resolution": 7,
+          "Offender given penalty notice": 2,
+          "Under investigation": 15,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 13
+        }
+      },
+      "CH6": {
+        "ward_id": "CH6",
+        "name": "Euxton",
+        "total_crimes": 32,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 2,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 10,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 10,
+          "Action to be taken by another organisation": 3,
+          "Local resolution": 2,
+          "Under investigation": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH7": {
+        "ward_id": "CH7",
+        "name": "Adlington &amp; Anderton",
+        "total_crimes": 49,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "bicycle-theft": 2,
+          "criminal-damage-arson": 2,
+          "other-theft": 4,
+          "public-order": 2,
+          "vehicle-crime": 3,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 10,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 2,
+          "Under investigation": 4
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH8": {
+        "ward_id": "CH8",
+        "name": "Buckshaw &amp; Whittle",
+        "total_crimes": 48,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 4,
+          "public-order": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 4,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Local resolution": 4,
+          "Investigation complete; no suspect identified": 6,
+          "Offender given penalty notice": 1,
+          "Unable to prosecute suspect": 9,
+          "Under investigation": 7
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "CH9": {
+        "ward_id": "CH9",
+        "name": "Chorley North &amp; Astley",
+        "total_crimes": 62,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "other-theft": 8,
+          "public-order": 1,
+          "shoplifting": 2,
+          "theft-from-the-person": 1,
+          "violent-crime": 19,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 16,
+          "Unable to prosecute suspect": 16,
+          "Offender given a caution": 2,
+          "Under investigation": 6,
+          "Offender given penalty notice": 1,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:49:06.160092"
+  },
+  {
+    "borough": "chorley",
+    "borough_name": "Chorley",
+    "ons_code": "E07000118",
+    "date": "2025-11",
+    "total_crimes": 785,
+    "total_stop_and_search": 0,
+    "by_category": {
+      "anti-social-behaviour": 203,
+      "bicycle-theft": 4,
+      "burglary": 20,
+      "criminal-damage-arson": 50,
+      "other-theft": 32,
+      "possession-of-weapons": 4,
+      "public-order": 39,
+      "vehicle-crime": 39,
+      "violent-crime": 297,
+      "other-crime": 33,
+      "drugs": 22,
+      "robbery": 5,
+      "shoplifting": 33,
+      "theft-from-the-person": 4
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 297
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 203
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 50
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 39
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 39
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 33
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 33
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 32
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 22
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 20
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 5
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 4
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 4
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 4
+      }
+    },
+    "outcomes": {
+      "Under investigation": 150,
+      "Investigation complete; no suspect identified": 150,
+      "Awaiting court outcome": 41,
+      "Unable to prosecute suspect": 183,
+      "Offender given a caution": 6,
+      "Action to be taken by another organisation": 13,
+      "Local resolution": 34,
+      "Offender given penalty notice": 2,
+      "Further action is not in the public interest": 1,
+      "Formal action is not in the public interest": 1,
+      "Further investigation is not in the public interest": 1
+    },
+    "ward_count": 14,
+    "wards": {
+      "CH1": {
+        "ward_id": "CH1",
+        "name": "Chorley East",
+        "total_crimes": 63,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "bicycle-theft": 2,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 26,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 8,
+          "Investigation complete; no suspect identified": 12,
+          "Awaiting court outcome": 7,
+          "Unable to prosecute suspect": 16,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH10": {
+        "ward_id": "CH10",
+        "name": "Chorley South East &amp; Heath Charnock",
+        "total_crimes": 86,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 7,
+          "robbery": 1,
+          "shoplifting": 8,
+          "vehicle-crime": 7,
+          "violent-crime": 28,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 21,
+          "Investigation complete; no suspect identified": 20,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 18,
+          "Awaiting court outcome": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH11": {
+        "ward_id": "CH11",
+        "name": "Clayton East, Brindle &amp; Hoghton",
+        "total_crimes": 80,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "drugs": 2,
+          "other-theft": 4,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 7,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 21,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Under investigation": 5,
+          "Unable to prosecute suspect": 16,
+          "Offender given penalty notice": 2,
+          "Further action is not in the public interest": 1,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 4,
+          "Offender given a caution": 1,
+          "Local resolution": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH12": {
+        "ward_id": "CH12",
+        "name": "Clayton West &amp; Cuerden",
+        "total_crimes": 33,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "violent-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Under investigation": 6,
+          "Local resolution": 1,
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 7
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH13": {
+        "ward_id": "CH13",
+        "name": "Croston, Mawdesley &amp; Euxton South",
+        "total_crimes": 50,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 17,
+          "other-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Under investigation": 18,
+          "Unable to prosecute suspect": 9,
+          "Local resolution": 1,
+          "Action to be taken by another organisation": 6
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH14": {
+        "ward_id": "CH14",
+        "name": "Eccleston, Heskin &amp; Charnock Richard",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 8,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Formal action is not in the public interest": 1,
+          "Under investigation": 7,
+          "Unable to prosecute suspect": 10
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH2": {
+        "ward_id": "CH2",
+        "name": "Chorley North East",
+        "total_crimes": 20,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "burglary": 3,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Under investigation": 4,
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH3": {
+        "ward_id": "CH3",
+        "name": "Coppull",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 2,
+          "robbery": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 15,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 11,
+          "Local resolution": 4,
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 6,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH4": {
+        "ward_id": "CH4",
+        "name": "Chorley South West",
+        "total_crimes": 72,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 3,
+          "other-theft": 3,
+          "public-order": 2,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 9,
+          "violent-crime": 32,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 20,
+          "Investigation complete; no suspect identified": 14,
+          "Unable to prosecute suspect": 18,
+          "Local resolution": 6,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH5": {
+        "ward_id": "CH5",
+        "name": "Chorley North West",
+        "total_crimes": 124,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "bicycle-theft": 1,
+          "burglary": 5,
+          "criminal-damage-arson": 6,
+          "drugs": 6,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 10,
+          "robbery": 1,
+          "shoplifting": 10,
+          "vehicle-crime": 5,
+          "violent-crime": 47
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 28,
+          "Under investigation": 26,
+          "Unable to prosecute suspect": 23,
+          "Awaiting court outcome": 10,
+          "Local resolution": 6,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH6": {
+        "ward_id": "CH6",
+        "name": "Euxton",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 1,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 1,
+          "Under investigation": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH7": {
+        "ward_id": "CH7",
+        "name": "Adlington &amp; Anderton",
+        "total_crimes": 54,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "drugs": 3,
+          "other-theft": 2,
+          "public-order": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 16,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Under investigation": 10,
+          "Investigation complete; no suspect identified": 9,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 11,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH8": {
+        "ward_id": "CH8",
+        "name": "Buckshaw &amp; Whittle",
+        "total_crimes": 46,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 2,
+          "shoplifting": 2,
+          "violent-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Unable to prosecute suspect": 11,
+          "Awaiting court outcome": 3,
+          "Local resolution": 1,
+          "Under investigation": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH9": {
+        "ward_id": "CH9",
+        "name": "Chorley North &amp; Astley",
+        "total_crimes": 68,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 3,
+          "other-theft": 2,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 34,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Awaiting court outcome": 7,
+          "Under investigation": 15,
+          "Investigation complete; no suspect identified": 8,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 23
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:49:16.017294"
+  },
+  {
+    "borough": "chorley",
+    "borough_name": "Chorley",
+    "ons_code": "E07000118",
+    "date": "2025-12",
+    "total_crimes": 815,
+    "total_stop_and_search": 22,
+    "by_category": {
+      "anti-social-behaviour": 194,
+      "burglary": 21,
+      "criminal-damage-arson": 61,
+      "drugs": 19,
+      "other-theft": 50,
+      "possession-of-weapons": 9,
+      "public-order": 33,
+      "robbery": 9,
+      "vehicle-crime": 26,
+      "violent-crime": 335,
+      "other-crime": 19,
+      "shoplifting": 37,
+      "theft-from-the-person": 2
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 335
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 194
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 61
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 50
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 37
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 33
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 26
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 21
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 19
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 19
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 9
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 9
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      }
+    },
+    "outcomes": {
+      "Awaiting court outcome": 37,
+      "Investigation complete; no suspect identified": 91,
+      "Under investigation": 337,
+      "Local resolution": 20,
+      "Unable to prosecute suspect": 126,
+      "Action to be taken by another organisation": 4,
+      "Offender given penalty notice": 2,
+      "Offender given a caution": 3,
+      "Further investigation is not in the public interest": 1
+    },
+    "ward_count": 14,
+    "wards": {
+      "CH1": {
+        "ward_id": "CH1",
+        "name": "Chorley East",
+        "total_crimes": 76,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 3,
+          "criminal-damage-arson": 4,
+          "drugs": 2,
+          "other-theft": 5,
+          "possession-of-weapons": 5,
+          "public-order": 4,
+          "robbery": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 33,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Awaiting court outcome": 5,
+          "Investigation complete; no suspect identified": 5,
+          "Under investigation": 29,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 18,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH10": {
+        "ward_id": "CH10",
+        "name": "Chorley South East &amp; Heath Charnock",
+        "total_crimes": 67,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "other-theft": 5,
+          "public-order": 2,
+          "shoplifting": 5,
+          "vehicle-crime": 2,
+          "violent-crime": 22,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 26,
+          "Local resolution": 3,
+          "Investigation complete; no suspect identified": 7,
+          "Offender given penalty notice": 1,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH11": {
+        "ward_id": "CH11",
+        "name": "Clayton East, Brindle &amp; Hoghton",
+        "total_crimes": 69,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "drugs": 3,
+          "other-theft": 6,
+          "public-order": 1,
+          "robbery": 3,
+          "shoplifting": 8,
+          "vehicle-crime": 1,
+          "violent-crime": 29,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 35,
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 14,
+          "Offender given penalty notice": 1,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH12": {
+        "ward_id": "CH12",
+        "name": "Clayton West &amp; Cuerden",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "burglary": 3,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 13,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 14,
+          "Unable to prosecute suspect": 5,
+          "Awaiting court outcome": 3,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH13": {
+        "ward_id": "CH13",
+        "name": "Croston, Mawdesley &amp; Euxton South",
+        "total_crimes": 31,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "violent-crime": 16,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 20,
+          "Local resolution": 1,
+          "Investigation complete; no suspect identified": 2,
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "CH14": {
+        "ward_id": "CH14",
+        "name": "Eccleston, Heskin &amp; Charnock Richard",
+        "total_crimes": 44,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 3,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "vehicle-crime": 7,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Awaiting court outcome": 2,
+          "Local resolution": 2,
+          "Under investigation": 15,
+          "Unable to prosecute suspect": 5
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH2": {
+        "ward_id": "CH2",
+        "name": "Chorley North East",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Under investigation": 9,
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH3": {
+        "ward_id": "CH3",
+        "name": "Coppull",
+        "total_crimes": 34,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 9,
+          "Under investigation": 9,
+          "Investigation complete; no suspect identified": 5,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH4": {
+        "ward_id": "CH4",
+        "name": "Chorley South West",
+        "total_crimes": 51,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 29
+        },
+        "outcomes": {
+          "Under investigation": 26,
+          "Unable to prosecute suspect": 8,
+          "Investigation complete; no suspect identified": 3,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH5": {
+        "ward_id": "CH5",
+        "name": "Chorley North West",
+        "total_crimes": 157,
+        "by_category": {
+          "anti-social-behaviour": 41,
+          "burglary": 6,
+          "criminal-damage-arson": 13,
+          "drugs": 2,
+          "other-theft": 10,
+          "public-order": 12,
+          "robbery": 2,
+          "shoplifting": 18,
+          "vehicle-crime": 5,
+          "violent-crime": 47,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 24,
+          "Under investigation": 67,
+          "Unable to prosecute suspect": 14,
+          "Local resolution": 2,
+          "Awaiting court outcome": 9
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH6": {
+        "ward_id": "CH6",
+        "name": "Euxton",
+        "total_crimes": 34,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 3,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 15,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Under investigation": 13,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 2,
+          "Local resolution": 3
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "CH7": {
+        "ward_id": "CH7",
+        "name": "Adlington &amp; Anderton",
+        "total_crimes": 52,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 19,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 6,
+          "Investigation complete; no suspect identified": 3,
+          "Awaiting court outcome": 2,
+          "Under investigation": 19,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "CH8": {
+        "ward_id": "CH8",
+        "name": "Buckshaw &amp; Whittle",
+        "total_crimes": 44,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 4,
+          "other-theft": 3,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 24,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 16,
+          "Awaiting court outcome": 2,
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 7,
+          "Action to be taken by another organisation": 2,
+          "Local resolution": 2,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "CH9": {
+        "ward_id": "CH9",
+        "name": "Chorley North &amp; Astley",
+        "total_crimes": 102,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 2,
+          "criminal-damage-arson": 8,
+          "drugs": 3,
+          "other-theft": 2,
+          "public-order": 5,
+          "robbery": 2,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 48,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Under investigation": 39,
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 25,
+          "Local resolution": 1,
+          "Awaiting court outcome": 6
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:49:28.249704"
+  }
+]

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
-import { cpSync, existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
+import { cpSync, existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'fs'
 import { resolve } from 'path'
 
 /**
@@ -36,7 +36,11 @@ function councilDataPlugin() {
         console.warn(`⚠ Council data dir not found: ${srcDir}`)
         return
       }
-      console.log(`📋 Copying ${council} data → public/data/`)
+      // Clean previous council data to prevent cross-contamination in sequential builds
+      if (existsSync(destDir)) {
+        rmSync(destDir, { recursive: true, force: true })
+      }
+      mkdirSync(destDir, { recursive: true })
       cpSync(srcDir, destDir, { recursive: true, force: true })
 
       // Also copy shared data files

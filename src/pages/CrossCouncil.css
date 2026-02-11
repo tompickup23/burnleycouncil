@@ -23,6 +23,27 @@
   line-height: 1.5;
 }
 
+/* Data Confidence Banner */
+.cross-data-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cross-data-banner svg {
+  color: #ff9f0a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
 /* Overview Grid */
 .cross-overview {
   margin-bottom: var(--space-2xl);
@@ -334,6 +355,32 @@
   margin-top: var(--space-sm);
   font-size: 0.75rem !important;
   color: var(--text-tertiary, #666) !important;
+}
+
+.data-coverage {
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.data-coverage h5 {
+  font-size: 0.8125rem;
+  margin-bottom: var(--space-xs);
+  color: var(--text-primary);
+}
+
+.data-coverage ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 4px;
+}
+
+.data-coverage li {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
 }
 
 /* Recharts Legend */

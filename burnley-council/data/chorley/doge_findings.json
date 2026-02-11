@@ -1,45 +1,79 @@
 {
   "findings": [
     {
-      "value": "\u00a34.4K",
+      "value": "\u00a348.2K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "6 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a373.0K",
       "label": "Likely Duplicate Payments",
-      "detail": "4 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 305 CSV republication artifacts)",
-      "severity": "warning",
+      "detail": "183 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 967 CSV republication artifacts)",
+      "severity": "critical",
       "confidence": "medium",
       "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
       "link": "/spending"
     },
     {
-      "value": "\u00a337.7K",
+      "value": "\u00a395.4K",
       "label": "Possible Duplicate Payments",
-      "detail": "266 medium-confidence groups (same supplier/amount/date, different references)",
+      "detail": "408 medium-confidence groups (same supplier/amount/date, different references)",
       "severity": "warning",
       "confidence": "low",
       "link": "/spending"
     },
     {
-      "value": "6",
+      "value": "\u00a38.4M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "229 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "4.1x",
+      "label": "Year-End Spending Pattern",
+      "detail": "GOVN - Policy & Governance spent 4.1x their monthly average in March (\u00a323.0M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "11",
       "label": "Rapid Payment Suppliers",
-      "detail": "6 suppliers receive payments every <14 days on average. Top: The Alderley Hotel (4.4 day avg, 26 payments, \u00a35.8K)",
+      "detail": "11 suppliers receive payments every <14 days on average. Top: The Alderley Hotel (4.4 day avg, 26 payments, \u00a35.8K)",
       "severity": "info",
       "confidence": "high",
       "link": "/spending"
     },
     {
-      "value": "\u03c7\u00b2=93.74",
-      "label": "Benford's Law Anomaly",
-      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 1 deviates 10.2% from expected distribution across 352 transactions. Note: with 352 transactions, chi-squared tests are highly sensitive \u2014 the 10.2% max digit deviation is the more practical measure of anomaly.",
-      "severity": "warning",
-      "confidence": "medium",
-      "context_note": "Chi-squared values on samples of 352+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (10.2%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "value": "3.0% dev",
+      "label": "Benford's Law Analysis",
+      "detail": "Digit distribution across 14,603 transactions shows \u03c7\u00b2=222.53 (statistically significant due to large sample size), but max digit deviation is only 3.0% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Chi-squared values on samples of 14,603+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.0%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "7",
+      "label": "Weak Competition Indicators",
+      "detail": "7 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Chorley: TPPL Chorley Council NEPO HGV Lot 2 -  (\u00a31.4M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
     {
       "icon": "clock",
       "badge": "Payment Pattern",
-      "title": "1 suppliers with clock-like payment regularity",
+      "title": "2 suppliers with clock-like payment regularity",
       "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: The Alderley Hotel \u2014 every 4.4 days (26 payments, \u00a35.8K)",
       "link": "/spending",
       "link_text": "View patterns \u2192",
@@ -47,19 +81,50 @@
       "confidence": "high"
     },
     {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "SUEZ R&R UK LTD: 869 transactions totalling \u00a3250.4K",
+      "description": "Averaging \u00a3288 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=SUEZ R&R UK LTD",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "2 suppliers shared with neighbouring councils \u2014 \u00a3203 total",
+      "title": "28 suppliers shared with neighbouring councils \u2014 \u00a342.2M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
       "severity": "info",
       "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "CHESHIRE TURF MACHINERY LTD: 8657% price gap between councils",
+      "description": "Lancaster pays \u00a37.4K avg vs Chorley \u00a385 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=CHESHIRE TURF MACHINERY LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    },
+    {
+      "icon": "shield-alert",
+      "badge": "Competition",
+      "title": "2 service categories with a single supplier",
+      "description": "Top: Pick Everard \u2014 sole winner in 'Civil engineering consultancy services' (2 contracts, \u00a3154.4K). Category monopolies may indicate market failure or specification bias.",
+      "link": "/procurement",
+      "link_text": "View procurement \u2192",
+      "severity": "info",
+      "confidence": "medium"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:56:20.882621",
+  "generated": "2026-02-11T06:06:32.940794",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -78,6 +143,20 @@
         "regularity": "high"
       },
       {
+        "supplier": "GOSLING CONSTRUCTION SERVICES",
+        "payments": 14,
+        "avg_days": 7.0,
+        "total_spend": 16073.5,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "DEEKAY TECHNICAL RECRUIT LTD",
+        "payments": 15,
+        "avg_days": 7.7,
+        "total_spend": 23373.54,
+        "regularity": "medium"
+      },
+      {
         "supplier": "ASDA",
         "payments": 20,
         "avg_days": 9.2,
@@ -92,6 +171,13 @@
         "regularity": "medium"
       },
       {
+        "supplier": "GOS HEATING LTD",
+        "payments": 23,
+        "avg_days": 9.8,
+        "total_spend": 48701.71,
+        "regularity": "high"
+      },
+      {
         "supplier": "THE MERCURY HOTEL",
         "payments": 13,
         "avg_days": 9.8,
@@ -103,6 +189,13 @@
         "payments": 37,
         "avg_days": 10.5,
         "total_spend": 8435.0,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "MATCHTECH",
+        "payments": 81,
+        "avg_days": 10.7,
+        "total_spend": 128484.2,
         "regularity": "medium"
       },
       {
@@ -120,33 +213,40 @@
         "avg_days": 4.4,
         "std_dev": 5.0,
         "total_spend": 5805.0
+      },
+      {
+        "supplier": "GOS HEATING LTD",
+        "payments": 23,
+        "avg_days": 9.8,
+        "std_dev": 3.4,
+        "total_spend": 48701.71
       }
     ],
     "day_of_week": [
       {
         "day": "Monday",
-        "count": 191,
-        "total": 35888.1
+        "count": 819,
+        "total": 69648346.56
       },
       {
         "day": "Tuesday",
-        "count": 144,
-        "total": 18389.16
+        "count": 239,
+        "total": 519225.66
       },
       {
         "day": "Wednesday",
-        "count": 144,
-        "total": 20247.62
+        "count": 10692,
+        "total": 121070125.02
       },
       {
         "day": "Thursday",
-        "count": 137,
-        "total": 36980.66
+        "count": 324,
+        "total": 62157975.9
       },
       {
         "day": "Friday",
-        "count": 157,
-        "total": 21944.87
+        "count": 4876,
+        "total": 84841221.71
       },
       {
         "day": "Saturday",
@@ -159,50 +259,407 @@
         "total": 3029.02
       }
     ],
-    "total_analysed": 17
+    "total_analysed": 310
   },
   "supplier_concentration": {
-    "total_spend": 141982.62,
-    "unique_suppliers": 232,
+    "total_spend": 338245427.06,
+    "unique_suppliers": 1786,
     "top5": {
       "suppliers": [
         {
-          "supplier": "ALDERLEY HOTEL",
-          "total": 8435.0,
-          "count": 37,
-          "pct": 5.9
+          "supplier": "Lancashire County Council",
+          "total": 148461303.36,
+          "count": 153,
+          "pct": 43.9
         },
         {
-          "supplier": "ADOBE",
-          "total": 7544.44,
-          "count": 4,
-          "pct": 5.3
+          "supplier": "MINISTRY OF HOUSING COMMUNITIES & LOCAL GOVERNMENT",
+          "total": 32432202.0,
+          "count": 50,
+          "pct": 9.6
         },
         {
-          "supplier": "PLAZA HOTEL CHORLEY",
-          "total": 6172.5,
-          "count": 18,
-          "pct": 4.3
+          "supplier": "POLICE & CRIME COMMISSIONER",
+          "total": 21766378.32,
+          "count": 31,
+          "pct": 6.4
         },
         {
-          "supplier": "THE ALDERLEY HOTEL",
-          "total": 5805.0,
-          "count": 26,
-          "pct": 4.1
+          "supplier": "RIBBLE VALLEY BOROUGH COUNCIL DIRECT DEBIT ONLY",
+          "total": 16563469.0,
+          "count": 29,
+          "pct": 4.9
         },
         {
-          "supplier": "WWW.ICO.ORG.UK",
-          "total": 5800.0,
-          "count": 2,
-          "pct": 4.1
+          "supplier": "MINISTRY OF HOUSING,COMMUNITIES&LOCAL GOVERNMENT",
+          "total": 12063252.0,
+          "count": 17,
+          "pct": 3.6
         }
       ],
-      "total": 33756.94,
-      "pct": 23.8
+      "total": 231286604.68,
+      "pct": 68.4
     },
-    "top10_pct": 41.1,
-    "top20_pct": 60.3,
-    "hhi": 234.3,
-    "concentration_level": "low"
+    "top10_pct": 80.1,
+    "top20_pct": 85.8,
+    "hhi": 2130.8,
+    "concentration_level": "moderate"
+  },
+  "procurement_compliance": {
+    "total_contracts": 150,
+    "awarded_contracts": 111,
+    "threshold_suspects": [
+      {
+        "title": "Quotation for the provision of Quantity Surveying and Procurement Support Servic",
+        "value": 27200,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Gosling Consulting",
+        "pct_of_threshold": 90.7
+      },
+      {
+        "title": "TENDER FOR INSTALLATION OF LIGHTING AT ASTLEY PARK, CHORLEY",
+        "value": 135637.69,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Altitude Services Limited",
+        "pct_of_threshold": 97.7
+      },
+      {
+        "title": "Tender for the provision of a Trade Waste Collection and Disposal Service from v",
+        "value": 132230,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "SUEZ Recycling and Recovery UK Ltd",
+        "pct_of_threshold": 95.3
+      },
+      {
+        "title": "Quotation for the Refurbishment of the Play Area at Grey Heights View, Chorley",
+        "value": 26000,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "HAGS SMP Ltd",
+        "pct_of_threshold": 86.7
+      },
+      {
+        "title": "Invitation to Quote for Phase 2 Site Investigation, Land off Shady Lane, Clayton",
+        "value": 25984,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "WSP Plc",
+        "pct_of_threshold": 86.6
+      },
+      {
+        "title": "QUOTATION FOR THE REFURBISHMENT OF CORONATION RECREATION GROUND REFRESHMENT HUT",
+        "value": 29965.65,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Bryan Lee Building Contracts Ltd",
+        "pct_of_threshold": 99.9
+      },
+      {
+        "title": "Architectural Services to progress design from RIBA Stage 2 to RIBA Stage 4 - Un",
+        "value": 28684.21,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "AEW Architects &amp; Designers Ltd",
+        "pct_of_threshold": 95.6
+      },
+      {
+        "title": "Contract Award Notice for the Provision of a Night Caretaking and Concierge Serv",
+        "value": 119390,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Sector Security Services Ltd",
+        "pct_of_threshold": 86.0
+      },
+      {
+        "title": "Quotation for Tennis Court Refurbishment at Astley Park, Chorley, PR7 1XA",
+        "value": 26950,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Landscape Engineering Ltd",
+        "pct_of_threshold": 89.8
+      }
+    ],
+    "threshold_suspect_count": 9,
+    "repeat_winners": [
+      {
+        "supplier": "Field &amp; Lawn (Marquees) Ltd",
+        "contracts": 4,
+        "total_value": 169216.55,
+        "avg_value": 42304.14
+      },
+      {
+        "supplier": "SUEZ Recycling and Recovery UK Ltd",
+        "contracts": 4,
+        "total_value": 384778.69,
+        "avg_value": 96194.67
+      },
+      {
+        "supplier": "HAGS SMP Ltd",
+        "contracts": 4,
+        "total_value": 380948,
+        "avg_value": 95237.0
+      },
+      {
+        "supplier": "Landscape Engineering Ltd",
+        "contracts": 3,
+        "total_value": 145760.71,
+        "avg_value": 48586.9
+      },
+      {
+        "supplier": "LANDSCAPE ENGINEERING LTD",
+        "contracts": 2,
+        "total_value": 537733.04,
+        "avg_value": 268866.52
+      },
+      {
+        "supplier": "Wade Group",
+        "contracts": 2,
+        "total_value": 268161.28,
+        "avg_value": 134080.64
+      },
+      {
+        "supplier": "Chorley Women&#039;s Centre",
+        "contracts": 2,
+        "total_value": 75000,
+        "avg_value": 37500.0
+      },
+      {
+        "supplier": "MOBILITY CARE SERVICES",
+        "contracts": 2,
+        "total_value": 401350,
+        "avg_value": 200675.0
+      },
+      {
+        "supplier": "Duncan Ross Land Drainage Ltd",
+        "contracts": 2,
+        "total_value": 235966.37,
+        "avg_value": 117983.18
+      },
+      {
+        "supplier": "Conservation Contracts North West Ltd",
+        "contracts": 2,
+        "total_value": 113233,
+        "avg_value": 56616.5
+      }
+    ],
+    "repeat_winner_count": 12,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 111,
+      "pct": 0.0
+    },
+    "timing_clusters": [
+      {
+        "supplier": "SUEZ Recycling and Recovery UK Ltd",
+        "gap_days": 0,
+        "date1": "2021-03-08",
+        "date2": "2021-03-08"
+      },
+      {
+        "supplier": "HAGS SMP Ltd",
+        "gap_days": 5,
+        "date1": "2018-09-05",
+        "date2": "2018-09-10"
+      },
+      {
+        "supplier": "Neales Waste Management Ltd",
+        "gap_days": 22,
+        "date1": "2017-03-08",
+        "date2": "2017-03-30"
+      },
+      {
+        "supplier": "Pick Everard",
+        "gap_days": 0,
+        "date1": "2016-12-13",
+        "date2": "2016-12-13"
+      }
+    ],
+    "timing_cluster_count": 4,
+    "late_publications": [
+      {
+        "title": "Invitation to tender for the enhancement works of Jubilee Recreation Ground, Sta",
+        "supplier": "LANDSCAPE ENGINEERING LTD",
+        "published_date": "2025-01-29",
+        "awarded_date": "2024-03-13",
+        "days_late": 322,
+        "awarded_value": 375000
+      },
+      {
+        "title": "Brinscall Baths Basement Structural Repairs and Poolside Refurbishment Scheme",
+        "supplier": "Schofield and Sons Ltd",
+        "published_date": "2024-07-18",
+        "awarded_date": "2024-01-05",
+        "days_late": 195,
+        "awarded_value": 630000
+      },
+      {
+        "title": "Invitation to Tender for Queens Road Car Park (Chorley) Improvement Scheme",
+        "supplier": "Wade Group",
+        "published_date": "2024-05-20",
+        "awarded_date": "2024-01-22",
+        "days_late": 119,
+        "awarded_value": 215000
+      },
+      {
+        "title": "INVITATION TO QUOTE FOR SUPPLY &amp; ERECTION OF HEIGHT RESTRICTION BARRIERS AND",
+        "supplier": "Landscape Engineering Ltd",
+        "published_date": "2022-08-30",
+        "awarded_date": "2022-05-30",
+        "days_late": 92,
+        "awarded_value": 65388.21
+      },
+      {
+        "title": "Invitation to Tender for the provision of the Design, Install, Provision and Sup",
+        "supplier": "CCTV Services Ltd",
+        "published_date": "2024-03-18",
+        "awarded_date": "2023-12-20",
+        "days_late": 89,
+        "awarded_value": 359700
+      },
+      {
+        "title": "Invitation to Quote for Gas &amp; Heating Planned &amp; Reactive Maintenance Wor",
+        "supplier": "Lancashire Gas Services Ltd",
+        "published_date": "2019-09-27",
+        "awarded_date": "2019-07-03",
+        "days_late": 86,
+        "awarded_value": 44700
+      },
+      {
+        "title": "Quotation for the Provision of Asset Valuation Services",
+        "supplier": "Aspin and Company Chartered Surveyors",
+        "published_date": "2024-03-06",
+        "awarded_date": "2023-12-12",
+        "days_late": 85,
+        "awarded_value": 9995
+      },
+      {
+        "title": "Tender for the Design &amp; Build of a MUGA, Fitness Zone &amp; Play Area at Cor",
+        "supplier": "HAGS SMP Ltd",
+        "published_date": "2018-11-26",
+        "awarded_date": "2018-09-10",
+        "days_late": 77,
+        "awarded_value": 170000
+      },
+      {
+        "title": "Contract Award Notice for Architectural and Principal Designer Services for prop",
+        "supplier": "Howarth Litchfield",
+        "published_date": "2017-01-24",
+        "awarded_date": "2016-11-08",
+        "days_late": 77,
+        "awarded_value": 76611
+      },
+      {
+        "title": "Contract Award Notice for Quantity Surveyor Services for proposed Digital Office",
+        "supplier": "Rider Levett Bucknall Uk Ltd",
+        "published_date": "2017-01-24",
+        "awarded_date": "2016-11-08",
+        "days_late": 77,
+        "awarded_value": 53000
+      }
+    ],
+    "late_publication_count": 87,
+    "publication_timing": {
+      "avg_delay_days": 27.3,
+      "median_delay_days": 11,
+      "total_measured": 111
+    },
+    "weak_competition": [
+      {
+        "title": "GB-Chorley: TPPL Chorley Council NEPO HGV Lot 2 - 12 x 12t &amp; 1 x 7.5t Food W",
+        "supplier": "Terberg Matec UK Limited",
+        "awarded_value": 1415785,
+        "tender_days": -52,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Specialist vehicles"
+      },
+      {
+        "title": "Quotation for hire of marquees for the Chorley Flower Show, 26 - 28 July 2024",
+        "supplier": "0100165SC",
+        "awarded_value": 60000,
+        "tender_days": -14,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tents and Event services and Miscellaneous service"
+      },
+      {
+        "title": "Union Street Accommodation Review",
+        "supplier": "Stringfellow Building Contractors Ltd",
+        "awarded_value": 55281.75,
+        "tender_days": -60,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Refurbishment work"
+      },
+      {
+        "title": "Shared Learning Management System Learning Pool Ltd Contract",
+        "supplier": "LEARNING POOL LIMITED",
+        "awarded_value": 42648,
+        "tender_days": -34,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "IT software package"
+      },
+      {
+        "title": "Quotation for Market Walk Extension Hoardings Branding",
+        "supplier": "Poppy Signs Ltd",
+        "awarded_value": 33000,
+        "tender_days": -8,
+        "eval_days": 7,
+        "flags": [
+          "Awarded 7 days after deadline"
+        ],
+        "cpv": "Signage"
+      },
+      {
+        "title": "Architectural Services to progress design from RIBA Stage 2 to RIBA Stage 4 - Un",
+        "supplier": "AEW Architects &amp; Designers Ltd",
+        "awarded_value": 28684.21,
+        "tender_days": -45,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Architectural and related services"
+      },
+      {
+        "title": "Quotation for the Provision of Asset Valuation Services",
+        "supplier": "Aspin and Company Chartered Surveyors",
+        "awarded_value": 9995,
+        "tender_days": -91,
+        "eval_days": 6,
+        "flags": [
+          "Awarded 6 days after deadline"
+        ],
+        "cpv": "Financial management consultancy services"
+      }
+    ],
+    "weak_competition_count": 7,
+    "monopoly_categories": [
+      {
+        "cpv": "Civil engineering consultancy services",
+        "supplier": "Pick Everard",
+        "contracts": 2,
+        "total_value": 154440
+      },
+      {
+        "cpv": "Miscellaneous building structures",
+        "supplier": "Field &amp; Lawn (Marquees) Ltd",
+        "contracts": 2,
+        "total_value": 79473.05
+      }
+    ],
+    "monopoly_category_count": 2
   }
 }

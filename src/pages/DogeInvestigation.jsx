@@ -246,6 +246,18 @@ function DogeInvestigation() {
         </div>
       </div>
 
+      {/* Limited Data Warning */}
+      {totalRecords > 0 && totalRecords < 5000 && (
+        <div className="methodology-banner" style={{ background: 'rgba(255, 159, 10, 0.08)', borderColor: 'rgba(255, 159, 10, 0.2)' }}>
+          <AlertTriangle size={18} style={{ color: '#ff9f0a' }} />
+          <div>
+            <strong>Limited dataset:</strong> This council has {formatNumber(totalRecords)} transactions in the dataset.
+            Some analysis sections may show fewer findings or lower statistical significance compared to councils with larger
+            datasets (e.g. Burnley with 30,000+ or Pendle with 49,000+). Findings should be interpreted with this context.
+          </div>
+        </div>
+      )}
+
       {/* Critical Findings */}
       <section className="doge-findings-section" aria-label="Key findings">
         <h2>Key Findings</h2>

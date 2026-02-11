@@ -93,7 +93,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "21 suppliers shared with neighbouring councils \u2014 \u00a331.3M total",
+      "title": "26 suppliers shared with neighbouring councils \u2014 \u00a343.5M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -114,7 +114,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:56:20.882919",
+  "generated": "2026-02-11T06:06:32.941591",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -242,5 +242,246 @@
     "top20_pct": 68.7,
     "hhi": 494.7,
     "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 88,
+    "awarded_contracts": 67,
+    "threshold_suspects": [
+      {
+        "title": "Invitation to Tender for Design &amp; Build of New Toddler, Junior &amp; Teen Pl",
+        "value": 135000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "KOMPAN",
+        "pct_of_threshold": 97.3
+      },
+      {
+        "title": "Invitation to Tender for Design &amp; Build of New Toddler, Junior &amp; Teen Pl",
+        "value": 120000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Playsound Services Ltd",
+        "pct_of_threshold": 86.5
+      },
+      {
+        "title": "Invitation to Tender for Provision of Structural and Drainage Services to RIBA S",
+        "value": 134772.4,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Woolgar Hunter Limited",
+        "pct_of_threshold": 97.1
+      },
+      {
+        "title": "Quotation for consultancy service to advise and support a programme to achieve t",
+        "value": 29902.5,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Purcell Miller Tritton",
+        "pct_of_threshold": 99.7
+      }
+    ],
+    "threshold_suspect_count": 4,
+    "repeat_winners": [
+      {
+        "supplier": "Wade Group",
+        "contracts": 6,
+        "total_value": 416937.9,
+        "avg_value": 69489.65
+      },
+      {
+        "supplier": "KOMPAN Ltd",
+        "contracts": 5,
+        "total_value": 589999.99,
+        "avg_value": 118000.0
+      },
+      {
+        "supplier": "Proludic Ltd",
+        "contracts": 2,
+        "total_value": 314999.37,
+        "avg_value": 157499.68
+      },
+      {
+        "supplier": "Krol Corlett Construction Limited",
+        "contracts": 2,
+        "total_value": 1477250.25,
+        "avg_value": 738625.12
+      },
+      {
+        "supplier": "Knight, Kavanagh &amp; Page",
+        "contracts": 2,
+        "total_value": 142700,
+        "avg_value": 71350.0
+      },
+      {
+        "supplier": "LANDSCAPE ENGINEERING LTD",
+        "contracts": 2,
+        "total_value": 105969.25,
+        "avg_value": 52984.62
+      },
+      {
+        "supplier": "Play and Leisure",
+        "contracts": 2,
+        "total_value": 350000,
+        "avg_value": 175000.0
+      }
+    ],
+    "repeat_winner_count": 7,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 67,
+      "pct": 0.0
+    },
+    "timing_clusters": [
+      {
+        "supplier": "Krol Corlett Construction Limited",
+        "gap_days": 0,
+        "date1": "2024-07-05",
+        "date2": "2024-07-05"
+      },
+      {
+        "supplier": "Play and Leisure",
+        "gap_days": 0,
+        "date1": "2020-01-16",
+        "date2": "2020-01-16"
+      }
+    ],
+    "timing_cluster_count": 2,
+    "late_publications": [
+      {
+        "title": "Tyre Supply and Maintenance for South Ribble Borough Council",
+        "supplier": "Tructyre Fleet Management Limited",
+        "published_date": "2025-11-18",
+        "awarded_date": "2024-07-25",
+        "days_late": 481,
+        "awarded_value": 79500
+      },
+      {
+        "title": "ITT FOR THE PROVISION OF A LEAD DESIGN CONSULTANT - PENWORTHAM MASTERPLAN (RIBA ",
+        "supplier": "WSP UK Limited",
+        "published_date": "2025-02-25",
+        "awarded_date": "2024-03-15",
+        "days_late": 347,
+        "awarded_value": 69000
+      },
+      {
+        "title": "Invitation to Quote for Construction of Pocket Park, Mounsey Road, Bamber Bridge",
+        "supplier": "LANDSCAPE ENGINEERING LTD",
+        "published_date": "2024-03-05",
+        "awarded_date": "2023-04-17",
+        "days_late": 323,
+        "awarded_value": 63030.3
+      },
+      {
+        "title": "Quotation for Construction of Garden and New Footpaths at Strawberry Valley Park",
+        "supplier": "Ground Inc Ltd",
+        "published_date": "2024-01-26",
+        "awarded_date": "2023-03-15",
+        "days_late": 317,
+        "awarded_value": 44317.58
+      },
+      {
+        "title": "Leyland Leisure Centre Refurbishment Works",
+        "supplier": "Krol Corlett Construction Limited",
+        "published_date": "2025-05-16",
+        "awarded_date": "2024-07-05",
+        "days_late": 315,
+        "awarded_value": 1099434.62
+      },
+      {
+        "title": "Penwortham Leisure Centre Refurbishment Works",
+        "supplier": "Krol Corlett Construction Limited",
+        "published_date": "2025-05-16",
+        "awarded_date": "2024-07-05",
+        "days_late": 315,
+        "awarded_value": 377815.63
+      },
+      {
+        "title": "Bamber Bridge Leisure Centre Refurbishment Works",
+        "supplier": "Krol Corlett Construction",
+        "published_date": "2025-05-16",
+        "awarded_date": "2024-07-05",
+        "days_late": 315,
+        "awarded_value": 812272.6
+      },
+      {
+        "title": "INVITATION TO QUOTE FOR THE DESIGN &amp; BUILD OF A NEW TODDLER AND JUNIOR PLAYG",
+        "supplier": "KOMPAN Ltd",
+        "published_date": "2023-11-10",
+        "awarded_date": "2023-05-02",
+        "days_late": 192,
+        "awarded_value": 95000
+      },
+      {
+        "title": "Civic Centre Fixed Council Chamber Refurbishment Works",
+        "supplier": "John Wade Groundworks Limited",
+        "published_date": "2025-07-04",
+        "awarded_date": "2025-01-06",
+        "days_late": 179,
+        "awarded_value": 199463.86
+      },
+      {
+        "title": "INVITATION TO QUOTE FOR THE CONSTRUCTION OF NEW POND BANKS AND FENCING, HURST GR",
+        "supplier": "Wade Group",
+        "published_date": "2023-02-08",
+        "awarded_date": "2022-09-04",
+        "days_late": 157,
+        "awarded_value": 59250
+      }
+    ],
+    "late_publication_count": 57,
+    "publication_timing": {
+      "avg_delay_days": 71.5,
+      "median_delay_days": 28,
+      "total_measured": 67
+    },
+    "weak_competition": [
+      {
+        "title": "GB-Leyland: TPPL South Ribble Borough Council NEPO HGV Lot 1 - 5 x RCVs (22638)",
+        "supplier": "Dennis Eagle Limited",
+        "awarded_value": 1208603,
+        "tender_days": -30,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "Hybrid Mail for Chorley Council and South Ribble Borough Council",
+        "supplier": "IMail Comms Limited",
+        "awarded_value": 310758,
+        "tender_days": -94,
+        "eval_days": 4,
+        "flags": [
+          "Awarded 4 days after deadline"
+        ],
+        "cpv": "Post and courier services and Electronic mail serv"
+      },
+      {
+        "title": "Bannister Brook, Leyland - Bridge footpath creation &amp; footpath improvements",
+        "supplier": "John Wade Groundworks Ltd",
+        "awarded_value": 66741,
+        "tender_days": -7,
+        "eval_days": 3,
+        "flags": [
+          "Awarded 3 days after deadline"
+        ],
+        "cpv": "Footpath construction work"
+      },
+      {
+        "title": "Further Competition under Lot 3 of the Innovation Chain North Framework Agreemen",
+        "supplier": "RP Tyson Construction LTD",
+        "awarded_value": 35816,
+        "tender_days": -38,
+        "eval_days": 6,
+        "flags": [
+          "Awarded 6 days after deadline"
+        ],
+        "cpv": "Construction work"
+      }
+    ],
+    "weak_competition_count": 4,
+    "monopoly_categories": [],
+    "monopoly_category_count": 0
   }
 }

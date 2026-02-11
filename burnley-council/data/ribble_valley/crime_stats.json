@@ -1,0 +1,651 @@
+{
+  "borough": "ribble_valley",
+  "borough_name": "Ribble Valley",
+  "ons_code": "E07000124",
+  "date": "2025-12",
+  "total_crimes": 292,
+  "total_stop_and_search": 5,
+  "by_category": {
+    "anti-social-behaviour": 87,
+    "criminal-damage-arson": 17,
+    "violent-crime": 120,
+    "other-crime": 6,
+    "burglary": 12,
+    "other-theft": 16,
+    "public-order": 14,
+    "possession-of-weapons": 1,
+    "vehicle-crime": 10,
+    "drugs": 3,
+    "bicycle-theft": 3,
+    "theft-from-the-person": 1,
+    "shoplifting": 2
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 120
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 87
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 17
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 16
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 14
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 12
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 10
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 6
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 3
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 3
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 2
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 1
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 1
+    }
+  },
+  "outcomes": {
+    "Under investigation": 105,
+    "Investigation complete; no suspect identified": 27,
+    "Unable to prosecute suspect": 59,
+    "Awaiting court outcome": 4,
+    "Local resolution": 8,
+    "Action to be taken by another organisation": 1,
+    "Offender given a caution": 1
+  },
+  "ward_count": 26,
+  "wards": {
+    "RV1": {
+      "ward_id": "RV1",
+      "name": "Alston &amp; Hothersall",
+      "total_crimes": 17,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "criminal-damage-arson": 1,
+        "violent-crime": 9,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Under investigation": 6,
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 4,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV10": {
+      "ward_id": "RV10",
+      "name": "East Whalley Read &amp; Simonstone",
+      "total_crimes": 11,
+      "by_category": {
+        "anti-social-behaviour": 1,
+        "burglary": 2,
+        "other-theft": 2,
+        "public-order": 2,
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Under investigation": 7,
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV11": {
+      "ward_id": "RV11",
+      "name": "Edisford &amp; Low Moor",
+      "total_crimes": 7,
+      "by_category": {
+        "anti-social-behaviour": 2,
+        "criminal-damage-arson": 1,
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Under investigation": 2,
+        "Unable to prosecute suspect": 2,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "RV12": {
+      "ward_id": "RV12",
+      "name": "Gisburn &amp; Rimington",
+      "total_crimes": 8,
+      "by_category": {
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "violent-crime": 5,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 3,
+        "Unable to prosecute suspect": 5
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV13": {
+      "ward_id": "RV13",
+      "name": "Hurst Green &amp; Whitewell",
+      "total_crimes": 3,
+      "by_category": {
+        "anti-social-behaviour": 2,
+        "violent-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV14": {
+      "ward_id": "RV14",
+      "name": "Littlemoor",
+      "total_crimes": 20,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "burglary": 1,
+        "criminal-damage-arson": 5,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "violent-crime": 5
+      },
+      "outcomes": {
+        "Under investigation": 6,
+        "Unable to prosecute suspect": 3,
+        "Awaiting court outcome": 2,
+        "Action to be taken by another organisation": 1,
+        "Investigation complete; no suspect identified": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV15": {
+      "ward_id": "RV15",
+      "name": "Mellor",
+      "total_crimes": 10,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "other-theft": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 5
+      },
+      "outcomes": {
+        "Under investigation": 5,
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "RV16": {
+      "ward_id": "RV16",
+      "name": "Primrose",
+      "total_crimes": 19,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "other-theft": 1,
+        "violent-crime": 9
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 3,
+        "Under investigation": 8,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV17": {
+      "ward_id": "RV17",
+      "name": "Ribchester",
+      "total_crimes": 8,
+      "by_category": {
+        "anti-social-behaviour": 2,
+        "other-theft": 3,
+        "public-order": 1,
+        "violent-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 1,
+        "Under investigation": 4,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV18": {
+      "ward_id": "RV18",
+      "name": "Sabden",
+      "total_crimes": 2,
+      "by_category": {
+        "anti-social-behaviour": 1,
+        "vehicle-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV19": {
+      "ward_id": "RV19",
+      "name": "Salthill",
+      "total_crimes": 36,
+      "by_category": {
+        "anti-social-behaviour": 16,
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 3,
+        "public-order": 4,
+        "vehicle-crime": 1,
+        "violent-crime": 9
+      },
+      "outcomes": {
+        "Under investigation": 11,
+        "Local resolution": 3,
+        "Investigation complete; no suspect identified": 2,
+        "Offender given a caution": 1,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "RV2": {
+      "ward_id": "RV2",
+      "name": "Billington &amp; Langho",
+      "total_crimes": 15,
+      "by_category": {
+        "anti-social-behaviour": 2,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "violent-crime": 11
+      },
+      "outcomes": {
+        "Under investigation": 12,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV20": {
+      "ward_id": "RV20",
+      "name": "St Mary's - Ribble Valley",
+      "total_crimes": 8,
+      "by_category": {
+        "anti-social-behaviour": 1,
+        "bicycle-theft": 1,
+        "drugs": 1,
+        "public-order": 1,
+        "theft-from-the-person": 1,
+        "violent-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 2,
+        "Under investigation": 3,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV21": {
+      "ward_id": "RV21",
+      "name": "Waddington, Bashall Eaves &amp; Mitton",
+      "total_crimes": 4,
+      "by_category": {
+        "burglary": 1,
+        "other-theft": 2,
+        "violent-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 2,
+        "Investigation complete; no suspect identified": 1,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV22": {
+      "ward_id": "RV22",
+      "name": "West Bradford &amp; Grindleton",
+      "total_crimes": 0,
+      "by_category": {},
+      "outcomes": {},
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV23": {
+      "ward_id": "RV23",
+      "name": "Whalley &amp; Painterwood",
+      "total_crimes": 17,
+      "by_category": {
+        "anti-social-behaviour": 9,
+        "violent-crime": 7,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 7,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV24": {
+      "ward_id": "RV24",
+      "name": "Whalley Nethertown",
+      "total_crimes": 24,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "public-order": 2,
+        "violent-crime": 15
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 12,
+        "Under investigation": 6
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV25": {
+      "ward_id": "RV25",
+      "name": "Wilpshire &amp; Ramsgreave",
+      "total_crimes": 10,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "criminal-damage-arson": 2,
+        "public-order": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 3,
+        "Unable to prosecute suspect": 3,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV26": {
+      "ward_id": "RV26",
+      "name": "Wiswell &amp; Barrow",
+      "total_crimes": 18,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "bicycle-theft": 1,
+        "burglary": 2,
+        "criminal-damage-arson": 2,
+        "other-theft": 1,
+        "public-order": 1,
+        "vehicle-crime": 2,
+        "violent-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 4,
+        "Investigation complete; no suspect identified": 6,
+        "Awaiting court outcome": 1,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV3": {
+      "ward_id": "RV3",
+      "name": "Bowland",
+      "total_crimes": 3,
+      "by_category": {
+        "anti-social-behaviour": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 1,
+        "Under investigation": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV4": {
+      "ward_id": "RV4",
+      "name": "Brockhall &amp; Dinckley",
+      "total_crimes": 2,
+      "by_category": {
+        "anti-social-behaviour": 1,
+        "violent-crime": 1
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV5": {
+      "ward_id": "RV5",
+      "name": "Chatburn",
+      "total_crimes": 6,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "burglary": 1,
+        "drugs": 1,
+        "other-theft": 1
+      },
+      "outcomes": {
+        "Under investigation": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV6": {
+      "ward_id": "RV6",
+      "name": "Chipping",
+      "total_crimes": 6,
+      "by_category": {
+        "vehicle-crime": 1,
+        "violent-crime": 5
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 5,
+        "Under investigation": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV7": {
+      "ward_id": "RV7",
+      "name": "Clayton-le-dale &amp; Salesbury",
+      "total_crimes": 4,
+      "by_category": {
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 1,
+        "Under investigation": 2,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "RV8": {
+      "ward_id": "RV8",
+      "name": "Derby &amp; Thornley",
+      "total_crimes": 26,
+      "by_category": {
+        "anti-social-behaviour": 8,
+        "burglary": 1,
+        "public-order": 1,
+        "shoplifting": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 10,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Under investigation": 10,
+        "Unable to prosecute suspect": 6,
+        "Local resolution": 1,
+        "Investigation complete; no suspect identified": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "RV9": {
+      "ward_id": "RV9",
+      "name": "Dilworth",
+      "total_crimes": 8,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "bicycle-theft": 1,
+        "violent-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 1,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    }
+  },
+  "generated_at": "2026-02-11T05:48:25.483015",
+  "trends": {
+    "previous_date": "2025-11",
+    "current_total": 292,
+    "previous_total": 295,
+    "change": -3,
+    "change_pct": -1.0,
+    "by_category": {
+      "public-order": {
+        "current": 14,
+        "previous": 8,
+        "change_pct": 75.0
+      },
+      "theft-from-the-person": {
+        "current": 1,
+        "previous": 0,
+        "change_pct": null
+      },
+      "robbery": {
+        "current": 0,
+        "previous": 2,
+        "change_pct": -100.0
+      },
+      "vehicle-crime": {
+        "current": 10,
+        "previous": 19,
+        "change_pct": -47.4
+      },
+      "bicycle-theft": {
+        "current": 3,
+        "previous": 0,
+        "change_pct": null
+      },
+      "anti-social-behaviour": {
+        "current": 87,
+        "previous": 72,
+        "change_pct": 20.8
+      },
+      "drugs": {
+        "current": 3,
+        "previous": 6,
+        "change_pct": -50.0
+      },
+      "other-theft": {
+        "current": 16,
+        "previous": 20,
+        "change_pct": -20.0
+      },
+      "other-crime": {
+        "current": 6,
+        "previous": 8,
+        "change_pct": -25.0
+      },
+      "violent-crime": {
+        "current": 120,
+        "previous": 124,
+        "change_pct": -3.2
+      },
+      "burglary": {
+        "current": 12,
+        "previous": 8,
+        "change_pct": 50.0
+      },
+      "criminal-damage-arson": {
+        "current": 17,
+        "previous": 17,
+        "change_pct": 0.0
+      },
+      "shoplifting": {
+        "current": 2,
+        "previous": 10,
+        "change_pct": -80.0
+      },
+      "possession-of-weapons": {
+        "current": 1,
+        "previous": 1,
+        "change_pct": 0.0
+      }
+    }
+  }
+}

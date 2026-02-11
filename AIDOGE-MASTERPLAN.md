@@ -1,5 +1,5 @@
-# AI DOGE MASTER PLAN v7.0
-## 11 February 2026 — Phase 9 Complete, All Systems Live
+# AI DOGE MASTER PLAN v10.0
+## 11 February 2026 — Phase 10 Near Complete: Data Completeness & Accuracy
 
 ---
 
@@ -131,10 +131,32 @@ Procurement compliance analysis (threshold avoidance, repeat winners, timing clu
 | Data File | Burnley | Hyndburn | Pendle | Rossendale | Lancaster | Ribble V | Chorley | South Ribble |
 |-----------|---------|----------|--------|------------|-----------|----------|---------|-------------|
 | spending.json format | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 |
+| Spending date range | 2021-2025 | 2016-2026 | 2021-2026 | 2021-2026 | 2021-2025 | 2024-2025 | 2021-2025 | 2021-2025 |
+| budgets.json (detailed) | ✓ | ✓ | - | - | - | - | - | - |
+| budget_insights.json | ✓ | ✓ | - | - | - | - | - | - |
 | budgets_govuk.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| crime_stats.json | ✓ | ✓ | ✓ | ✓ | - | - | - | - |
+| revenue_trends.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| crime_stats.json | - | - | - | ✓ | - | - | - | - |
 | deprivation.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| procurement.json | ✓ | ✓ | ✓ | ✓ | ✓ | - | - | - |
+| procurement.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓(21) | ✓(150) | ✓(88) |
+| doge_findings.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| DOGE page enabled | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| articles (count) | 62 | 25 | 25 | 22 | 0 | 0 | 0 | 0 |
+| outcomes.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| foi_templates.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Critical Data Gaps (Phase 10 status — ALL RESOLVED)
+| Council | Gap | Severity | Status |
+|---------|-----|----------|--------|
+| ALL except Burnley | Budget page shows wrong/stale £17.3M figure | CRITICAL | ✅ FIXED — config.json budgets:false, BudgetTrendsView enhanced with budgets_summary.json |
+| Chorley | Only 875 txns / £142K (purchase cards) | CRITICAL | ✅ FIXED — parse_chorley() updated for CIPFA format. Now 17,212 txns / £338M |
+| Ribble Valley | Only 3,677 txns from Apr 2024 (1 year) | HIGH | ✅ Confirmed — council only publishes from 2024. Config updated. Data confidence banners added. |
+| Lancaster | Missing 2021/22 Q1 spending data | HIGH | ✅ FIXED — parse_date() missing `%b %d, %Y` format. Now 27,317 txns / £157M (+2,724 records) |
+| South Ribble | Data stops Mar 2025 | MEDIUM | ✅ Verified current — no newer CSVs available from portal |
+| 4 newer councils | No DOGE investigation page | HIGH | ✅ FIXED — all 8 councils have DOGE enabled |
+| 4 newer councils | Zero articles | MEDIUM | ✅ FIXED — 20 seed articles created (5 per council) |
+| RV/Chorley/SR | No procurement data | MEDIUM | ✅ FIXED — RV 21, Chorley 150, SR 88 contracts |
+| 4 newer councils | No crime stats | MEDIUM | ✅ FIXED — police_etl.py run on VPS for all 4, config enabled |
 
 ---
 
@@ -159,10 +181,10 @@ Focus: Add more Lancashire councils. 4 new councils added, hub redesigned, all d
 
 | # | Task | Status | Result |
 |---|------|--------|--------|
-| 6.1 | Add Lancaster City Council | ✅ | 24,266 txns, £142M. Custom CSV parser (title row detection). |
-| 6.2 | Add Ribble Valley Borough Council | ✅ | 3,677 txns, £12M. Custom CSV parser (title row detection). |
-| 6.3 | Add Chorley Borough Council | ✅ | 875 txns, £142K. Purchase card data only (not full supplier payments). |
-| 6.4 | Add South Ribble Borough Council | ✅ | 15,974 txns, £146M. Custom CSV parser (User-Agent required). |
+| 6.1 | Add Lancaster City Council | ✅ | 27,317 txns, £157M. Custom CSV parser (title row detection). Date format fix added `%b %d, %Y`. |
+| 6.2 | Add Ribble Valley Borough Council | ✅ | 3,767 txns, £12M. Custom CSV parser (title row detection). Only publishes from Apr 2024. |
+| 6.3 | Add Chorley Borough Council | ✅ | 17,212 txns, £338M. Dual-format CIPFA (16-col) + PCard (10-col) detection. |
+| 6.4 | Add South Ribble Borough Council | ✅ | 16,065 txns, £147M. Custom CSV parser (User-Agent required). |
 | 6.5 | Hub page redesign | ✅ | 8-council grid, accent bars, East/Central+South sections, responsive 4→2→1 |
 | 6.6 | Cross-council comparison | ✅ | CrossCouncil.jsx is data-driven — automatically handles all councils via cross_council.json |
 
@@ -211,6 +233,84 @@ Focus: Keyboard accessibility, ARIA compliance, code quality polish. Based on co
 | 9.11 | Meetings formatTime midnight fix | Deferred | Low | Cosmetic only, rarely triggered. |
 | 9.12 | Press.jsx derive PLATFORM_STATS | Deferred | Low | Would need config refactor. Current hardcoded values are accurate. |
 | 9.13 | CrossCouncil ScoreBar ARIA | Deferred | Low | Would need ScoreBar component creation. Current implementation is visual-only. |
+
+### Phase 10: Data Completeness & Accuracy — NEAR COMPLETE (Feb 2026)
+Focus: Fix the budget display bug, fill all data gaps so every council has comprehensive coverage from 2021/22 onwards, enable DOGE + articles + procurement for all 8 councils. Goal: no council should feel "half-built."
+
+#### 10.1 — CRITICAL: Fix Budget Page Display Bug ✅ COMPLETED
+| # | Task | Status | Details |
+|---|------|--------|---------|
+| 10.1.1 | Fix config.json for 6 councils | ✅ Done | Set `budgets: false` for Pendle, Rossendale, Lancaster, Ribble Valley, Chorley, South Ribble. |
+| 10.1.2 | Verify BudgetTrendsView renders correctly | ✅ Done | Confirmed GOV.UK trends rendering path activates with budgets:false + budget_trends:true. |
+| 10.1.3 | Enhance BudgetTrendsView with budgets_summary.json | ✅ Done | Added Band D Council Tax History chart + Detailed Service Breakdown table from budgets_summary.json as third data source. |
+| 10.1.4 | Generate budgets.json for Pendle + Rossendale | Deferred | Requires manual budget book parsing — low ROI given BudgetTrendsView enhancement. |
+| 10.1.5 | Generate budget_insights.json for all councils | Deferred | Requires script extension — lower priority now that BudgetTrendsView has richer data. |
+
+#### 10.2 — CRITICAL: Spending Data Coverage Gaps ✅ COMPLETED
+**Key Discovery:** Chorley had 44 CIPFA full supplier payment CSV files that were being completely ignored! The `parse_chorley()` function only handled the 2 purchase card files. Fixed to detect and parse both formats. Lancaster had a date parser bug (`%b %d, %Y` format missing).
+
+| # | Task | Status | Details |
+|---|------|--------|---------|
+| 10.2.1 | Fix Chorley CIPFA parser | ✅ Done | **Major fix:** parse_chorley() now detects CIPFA (16-col) vs PCard (10-col) format. Chorley went from 885 txns/£142K to **17,212 txns/£338M** — a 20x improvement. |
+| 10.2.2 | Investigate Ribble Valley historical CSVs | ✅ Done | Only data from Apr 2024 onwards (14 files). No historical data found. Config updated to "April 2024 – present". |
+| 10.2.3 | Fix Lancaster 2021/22 Q1 gap | ✅ Done | **Root cause:** `parse_date()` was missing `%b %d, %Y` format (e.g. "Jun 28, 2021"). Added it → Lancaster jumped 24,593→**27,317 records** (+2,724). Full 2021/22 year now covered. 2022/23 genuinely missing from portal. |
+| 10.2.4 | Update South Ribble with latest CSVs | ✅ Done | Verified data current to Mar 2025. No newer CSVs available from portal yet. |
+| 10.2.5 | Re-run council_etl.py for Chorley | ✅ Done | 17,212 records, £338M, 1,786 suppliers, 4 financial years. |
+| 10.2.6 | Update configs with accurate data periods | ✅ Done | Chorley: "January 2021 – present", Ribble Valley: "April 2024 – present". doge_context updated. |
+| 10.2.7 | Add data confidence banners | ✅ Done | Limited data warning on Spending + DOGE pages when <5,000 records. Shows record count + data period. |
+
+#### 10.3 — HIGH: Enable DOGE Investigation for All Councils ✅ COMPLETED
+| # | Task | Status | Details |
+|---|------|--------|---------|
+| 10.3.1 | Set doge_investigation: true for 4 newer councils | ✅ Done | Lancaster, Ribble Valley, Chorley, South Ribble all enabled. |
+| 10.3.2 | Re-run doge_analysis.py for all 8 councils | ✅ Done | All councils regenerated. Chorley now has meaningful findings: HHI=2131 (moderate concentration), 87 late publications, 7 weak competition, 2 monopoly categories. |
+| 10.3.3 | DOGE nav already config-driven | ✅ N/A | Layout.jsx `requires: 'doge_investigation'` handles this automatically. |
+| 10.3.4 | Data confidence banners for small datasets | ✅ Done | Merged into 10.2.7. |
+
+#### 10.4 — HIGH: Procurement Data for Missing Councils ✅ COMPLETED
+| # | Task | Status | Details |
+|---|------|--------|---------|
+| 10.4.1 | Run procurement_etl.py for Ribble Valley | ✅ Done | 21 contracts found. |
+| 10.4.2 | Run procurement_etl.py for Chorley | ✅ Done | 150 contracts found. |
+| 10.4.3 | Run procurement_etl.py for South Ribble | ✅ Done | 88 contracts found. |
+| 10.4.4 | Enable procurement nav | ✅ N/A | Already enabled in config.json for all councils. |
+| 10.4.5 | Re-run procurement for existing councils | Deferred | Can refresh later — current data is from Feb 2026. |
+
+#### 10.5 — HIGH: Crime Stats Expansion ✅ COMPLETED
+| # | Task | Status | Details |
+|---|------|--------|---------|
+| 10.5.1 | Add all 8 councils to police_etl.py | ✅ Done | Added Lancaster, Ribble Valley, Chorley, South Ribble to BOROUGH_CONFIG. Argparse now uses `list(BOROUGH_CONFIG.keys())`. |
+| 10.5.2 | Run police_etl.py for all councils | ✅ Done | Ran on VPS (Python 3.13, OpenSSL 3.5.3). Lancaster 27 wards ~1,250 crimes/mo, Ribble Valley 26 wards ~310 crimes/mo, Chorley 14 wards ~850 crimes/mo, South Ribble 23 wards ~810 crimes/mo. |
+| 10.5.3 | Enable crime_stats in config.json | ✅ Done | All 4 new councils now have `crime_stats: true`. |
+| 10.5.4 | Verify MyArea crime display | ✅ Done | Builds verified for all councils. |
+
+#### 10.6 — MEDIUM: Article Generation for New Councils — MOSTLY COMPLETE
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 10.6.1 | Create seed articles for 4 new councils | ✅ Done | 20 seed articles created (5 per council): spending overview, duplicates, procurement, plus council-specific topics (Lancaster Eden Project, Chorley shared services, RV crime, SR Caddick Construction). |
+| 10.6.2 | Enable news navigation for new councils | ✅ N/A | News nav already enabled via `news: true` in config.json. |
+| 10.6.3 | Resume article_pipeline.py cron | Pending | Uncomment cron on vps-main (09:00 daily). Set to generate 2 articles/council/day for the 4 new councils. |
+
+#### 10.7 — MEDIUM: Data Accuracy & Context
+**Problem:** Data without context is misleading. Small datasets need explicit warnings; cross-council comparisons need fairness guards.
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 10.7.1 | Add data confidence banners | ✅ Done | Spending + DOGE already had banners. Added CrossCouncil.jsx `cross-data-banner` for low-data councils + year-range differences. |
+| 10.7.2 | Fix CrossCouncil comparisons | ✅ Done | All metrics annualized (annual_spend, annual_records, num_years). Methodology section shows per-council data periods. Data confidence banner warns about year-range differences. |
+| 10.7.3 | Update Home page stats dynamically | Medium | Home.jsx headline stats (total spend, transaction count, date range) should be derived from the actual spending data loaded, not from potentially stale config values. |
+| 10.7.4 | Validate budgets_summary.json accuracy | Medium | Spot-check MHCLG budget figures against GOV.UK source ODS files for all 8 councils. Verify ONS codes, council names, and service expenditure totals. Document any discrepancies. |
+
+#### Phase 10 Dependencies & Execution Order
+```
+10.1 (Budget fix)     → Can be done immediately, no external dependencies
+10.2 (Spending gaps)  → Requires CSV source research + ETL re-runs
+10.3 (DOGE enable)    → Depends on 10.2.5 (latest spending data for analysis)
+10.4 (Procurement)    → Can run in parallel with 10.2 (Contracts Finder API is independent)
+10.5 (Crime stats)    → Can run in parallel (Police API is independent)
+10.6 (Articles)       → Depends on 10.3 (need DOGE findings to generate articles from)
+10.7 (Data accuracy)  → Can start immediately, ongoing
+```
 
 ---
 
@@ -402,7 +502,10 @@ __tests__/                  ← 20 Vitest unit test files
 
 ---
 
-*Plan v7.0 updated: 11 February 2026*
+*Plan v8.0 updated: 11 February 2026*
 *Phases 1-9 completed: 11 February 2026 — 8 councils live, £1B+ tracked, 200 tests, avg page quality 8.5/10+*
+*Phase 10 planned: Data Completeness & Accuracy — 30 tasks across 7 workstreams (budget fix, spending gaps, DOGE/procurement/crime/articles expansion, data accuracy)*
 *Phase 9 complete: 10/13 items done (3 low-priority deferred). Keyboard a11y, ARIA tabs, clipboard fallback, format guards, hash tabs, double query fix, chart labels, module-scope constants.*
-*Next: Phase 8.5-8.7 (external data: declaration of interests, OFSTED/CQC, audit reports)*
+
+*Phase 10 in progress (11 Feb 2026): Budget display FIXED (budgets:false + BudgetTrendsView enhanced). Chorley CIPFA parser FIXED (885→17,212 txns, £142K→£338M — 20x improvement). DOGE enabled for all 8 councils. Procurement data added for RV/Chorley/SR. Data confidence banners added. Police ETL code updated for all 8 councils (needs VPS run due to local SSL). 200 tests passing.*
+*Remaining: Crime stats VPS run, Lancaster Q1 gap, South Ribble data refresh, articles for new councils.*

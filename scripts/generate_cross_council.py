@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "burnley-council" / "data"
 PUBLIC_DATA = ROOT / "public" / "data"
 
-COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale"]
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble"]
 
 # Population figures (2021 Census) — updated manually when new census data available
 POPULATIONS = {
@@ -35,6 +35,10 @@ POPULATIONS = {
     "hyndburn": 81000,
     "pendle": 92000,
     "rossendale": 73045,
+    "lancaster": 144246,
+    "ribble_valley": 61561,
+    "chorley": 118300,
+    "south_ribble": 111600,
 }
 
 
@@ -228,6 +232,11 @@ def build_council_entry(council_id):
         "reserves_total": reserves_total,
     }
 
+    # Annualized metrics for fair cross-council comparison
+    num_years = len(financial_years) if financial_years else 1
+    annual_spend = round(total_spend / num_years, 2) if num_years > 0 else total_spend
+    annual_records = round(total_records / num_years) if num_years > 0 else total_records
+
     return {
         "council_id": council_id,
         "council_name": council_name,
@@ -236,6 +245,9 @@ def build_council_entry(council_id):
         "unique_suppliers": unique_suppliers,
         "date_range": date_range,
         "financial_years": financial_years,
+        "num_years": num_years,
+        "annual_spend": annual_spend,
+        "annual_records": annual_records,
         "population": population,
         "avg_transaction": avg_transaction,
         "top10_supplier_pct": top10_pct,

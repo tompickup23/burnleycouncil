@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, Shield, Flag } from 'lucide-react'
+import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, Shield, Flag, AlertTriangle } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -242,6 +242,17 @@ function Spending() {
           </button>
         </div>
       </header>
+
+      {/* Limited Data Warning */}
+      {!loading && totalRecords > 0 && totalRecords < 5000 && (
+        <div className="limited-data-banner">
+          <AlertTriangle size={16} />
+          <span>
+            This council has limited spending data ({totalRecords.toLocaleString()} records{config.spending_data_period ? ` from ${config.spending_data_period}` : ''}).
+            Analysis may be less comprehensive than councils with fuller datasets.
+          </span>
+        </div>
+      )}
 
       {/* DOGE Evidence Trail Banner */}
       {dogeRef === 'doge' && (

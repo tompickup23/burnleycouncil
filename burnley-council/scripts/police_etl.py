@@ -57,6 +57,26 @@ BOROUGH_CONFIG = {
         "prefix": "RO",
         "ons_code": "E07000125",
     },
+    "lancaster": {
+        "name": "Lancaster",
+        "prefix": "LA",
+        "ons_code": "E07000121",
+    },
+    "ribble_valley": {
+        "name": "Ribble Valley",
+        "prefix": "RV",
+        "ons_code": "E07000124",
+    },
+    "chorley": {
+        "name": "Chorley",
+        "prefix": "CH",
+        "ons_code": "E07000118",
+    },
+    "south_ribble": {
+        "name": "South Ribble",
+        "prefix": "SR",
+        "ons_code": "E07000126",
+    },
 }
 
 # Crime category display names
@@ -427,7 +447,7 @@ def load_boundary_cache(output_dir):
 
 def main():
     parser = argparse.ArgumentParser(description="Police API Crime ETL for Lancashire")
-    parser.add_argument("--council", choices=["burnley", "hyndburn", "pendle", "rossendale"],
+    parser.add_argument("--council", choices=list(BOROUGH_CONFIG.keys()),
                         help="Specific council (default: all)")
     parser.add_argument("--date", help="Crime month YYYY-MM (default: latest)")
     parser.add_argument("--historical", type=int, default=0,

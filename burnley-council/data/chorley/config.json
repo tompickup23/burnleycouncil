@@ -10,20 +10,20 @@
   "spending_threshold": 500,
   "data_sources": {
     "spending": true,
-    "budgets": true,
+    "budgets": false,
     "budgets_govuk": true,
-    "crime_stats": false,
+    "crime_stats": true,
     "budget_trends": true,
     "politics": true,
     "meetings": true,
     "news": true,
     "my_area": true,
     "foi": true,
-    "doge_investigation": false,
+    "doge_investigation": true,
     "pay_comparison": true,
     "procurement": true
   },
-  "spending_data_period": "April 2021 \u2013 present",
+  "spending_data_period": "January 2021 \u2013 present",
   "hero_subtitle": "Explore how Chorley Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Chorley Borough Council",
   "publisher": "Tom Pickup",
@@ -65,9 +65,9 @@
   "theme_accent": "#C62828",
   "political_control": "Labour majority (36 seats of 42). Conservative 4, Reform UK 1, Independent 1.",
   "doge_context": {
-    "total_spend": "\u00a30M",
-    "transactions": 885,
-    "suppliers": 235,
-    "data_period": "2024/2025 - 2024/2025"
+    "total_spend": "\u00a3338M",
+    "transactions": 17212,
+    "suppliers": 1786,
+    "data_period": "2021/2022 - 2024/2025"
   }
 }

@@ -39,10 +39,11 @@ function CrossCouncil() {
     [councils, councilName]
   )
 
-  // Spend per head data
+  // Spend per head data — use annualized spend for fair comparison across different year ranges
   const spendPerHead = useMemo(() => councils.map(c => ({
     name: c.council_name,
-    spend: Math.round((c.total_spend || 0) / (c.population || 1)),
+    spend: Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1)),
+    years: c.num_years || 1,
     isCurrent: c.council_name === councilName,
   })).sort((a, b) => b.spend - a.spend), [councils, councilName])
 
@@ -81,13 +82,19 @@ function CrossCouncil() {
     }))
     .sort((a, b) => b.salary - a.salary), [councils, councilName])
 
-  // Duplicate flagged value comparison
-  const dupeData = useMemo(() => councils.map(c => ({
-    name: c.council_name,
-    value: c.duplicate_value || 0,
-    count: c.duplicate_count || 0,
-    isCurrent: c.council_name === councilName,
-  })).sort((a, b) => b.value - a.value), [councils, councilName])
+  // Duplicate flagged value comparison — annualized for fair comparison
+  const dupeData = useMemo(() => councils.map(c => {
+    const years = c.num_years || 1
+    return {
+      name: c.council_name,
+      value: Math.round((c.duplicate_value || 0) / years),
+      count: Math.round((c.duplicate_count || 0) / years),
+      rawValue: c.duplicate_value || 0,
+      rawCount: c.duplicate_count || 0,
+      years,
+      isCurrent: c.council_name === councilName,
+    }
+  }).sort((a, b) => b.value - a.value), [councils, councilName])
 
   if (loading) return <LoadingState message="Loading comparison data..." />
   if (error) return (
@@ -97,6 +104,11 @@ function CrossCouncil() {
     </div>
   )
   if (!councils.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
+
+  const yearRange = councils.map(c => c.num_years || 1)
+  const maxYears = Math.max(...yearRange)
+  const minYears = Math.min(...yearRange)
+  const lowDataCouncils = councils.filter(c => (c.total_records || 0) < 5000)
 
   return (
     <div className="cross-page animate-fade-in">
@@ -110,6 +122,27 @@ function CrossCouncil() {
         </div>
       </header>
 
+      {/* Data Confidence Banner */}
+      {(lowDataCouncils.length > 0 || maxYears - minYears >= 3) && (
+        <div className="cross-data-banner">
+          <AlertTriangle size={16} />
+          <div>
+            <strong>Data comparability note:</strong>{' '}
+            {lowDataCouncils.length > 0 && (
+              <span>
+                {lowDataCouncils.map(c => c.council_name).join(', ')} ha{lowDataCouncils.length === 1 ? 's' : 've'} limited
+                data ({lowDataCouncils.map(c => `${(c.total_records || 0).toLocaleString()} records`).join(', ')}).{' '}
+              </span>
+            )}
+            {maxYears - minYears >= 3 && (
+              <span>
+                Data periods range from {minYears} to {maxYears} years — all figures are annualized for fair comparison.
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Overview Cards */}
       <section className="cross-overview">
         <h2><Building size={22} /> Council Overview</h2>
@@ -122,20 +155,20 @@ function CrossCouncil() {
               </div>
               <div className="overview-stats">
                 <div className="ov-stat">
-                  <span className="ov-value">{formatCurrency(c.total_spend, true)}</span>
-                  <span className="ov-label">Total External Spend</span>
+                  <span className="ov-value">{formatCurrency(c.annual_spend || c.total_spend, true)}</span>
+                  <span className="ov-label">Annual Spend (avg)</span>
                 </div>
                 <div className="ov-stat">
-                  <span className="ov-value">{c.total_records?.toLocaleString()}</span>
-                  <span className="ov-label">Transactions</span>
+                  <span className="ov-value">{(c.annual_records || c.total_records)?.toLocaleString()}</span>
+                  <span className="ov-label">Transactions / Year</span>
                 </div>
                 <div className="ov-stat">
                   <span className="ov-value">{c.unique_suppliers?.toLocaleString()}</span>
                   <span className="ov-label">Unique Suppliers</span>
                 </div>
                 <div className="ov-stat">
-                  <span className="ov-value">{c.population?.toLocaleString()}</span>
-                  <span className="ov-label">Population</span>
+                  <span className="ov-value">{c.num_years || '—'}</span>
+                  <span className="ov-label">Years of Data</span>
                 </div>
               </div>
             </div>
@@ -145,9 +178,10 @@ function CrossCouncil() {
 
       {/* Spend Per Head */}
       <section className="cross-section">
-        <h2><PoundSterling size={22} /> Spend Per Head of Population</h2>
+        <h2><PoundSterling size={22} /> Annual Spend Per Head of Population</h2>
         <p className="section-intro">
-          Total external payments divided by population. Higher isn't necessarily worse — it depends on what services are provided.
+          Average annual external payments divided by population. Figures are annualized to allow fair comparison
+          across councils with different data periods. Higher isn't necessarily worse — it depends on what services are provided.
         </p>
         <div className="chart-container" role="img" aria-label="Bar chart comparing spend per head across councils">
           <ResponsiveContainer width="100%" height={220}>
@@ -156,7 +190,7 @@ function CrossCouncil() {
               <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
               <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
               <Tooltip
-                formatter={(v) => [`£${v.toLocaleString()}`, 'Spend per head']}
+                formatter={(v) => [`£${v.toLocaleString()}`, 'Annual spend per head']}
                 contentStyle={TOOLTIP_STYLE}
               />
               <Bar dataKey="spend" radius={[4, 4, 0, 0]}>
@@ -254,9 +288,10 @@ function CrossCouncil() {
 
       {/* Duplicate Payments Flagged */}
       <section className="cross-section">
-        <h2><AlertTriangle size={22} /> Potential Duplicate Payments</h2>
+        <h2><AlertTriangle size={22} /> Potential Duplicate Payments (Annualized)</h2>
         <p className="section-intro">
-          Same-day payments to the same supplier for the same amount. These are flagged for investigation — not all are errors.
+          Same-day payments to the same supplier for the same amount, annualized for fair comparison.
+          These are flagged for investigation — not all are errors.
         </p>
         <div className="chart-container" role="img" aria-label="Bar chart comparing potential duplicate payment values across councils">
           <ResponsiveContainer width="100%" height={220}>
@@ -277,11 +312,11 @@ function CrossCouncil() {
           </ResponsiveContainer>
         </div>
         <div className="dupe-stats">
-          {councils.map(c => (
-            <div key={c.council_id} className="dupe-stat">
-              <span className="dupe-council" style={{ color: COUNCIL_COLORS[c.council_id] }}>{c.council_name}</span>
-              <span className="dupe-count">{(c.duplicate_count || 0).toLocaleString()} flagged transactions</span>
-              <span className="dupe-value">{formatCurrency(c.duplicate_value || 0)} total value</span>
+          {dupeData.map(d => (
+            <div key={d.name} className="dupe-stat">
+              <span className="dupe-council" style={{ color: COUNCIL_COLORS[councils.find(c => c.council_name === d.name)?.council_id] }}>{d.name}</span>
+              <span className="dupe-count">~{d.count.toLocaleString()} / year ({d.rawCount.toLocaleString()} total over {d.years}yr)</span>
+              <span className="dupe-value">{formatCurrency(d.value)} / year</span>
             </div>
           ))}
         </div>
@@ -292,13 +327,23 @@ function CrossCouncil() {
         <div className="methodology-note">
           <Shield size={18} />
           <div>
-            <h4>Methodology</h4>
+            <h4>Methodology &amp; Data Coverage</h4>
             <p>
               All data is sourced from publicly available council documents including transparency returns,
               GOV.UK revenue outturn data, and Pay Policy Statements. Spending figures cover external payments
-              over £500 from {councils[0]?.financial_years?.[0] || '2021/22'} to {councils[0]?.financial_years?.slice(-1)[0] || '2025/26'}.
-              Population figures from ONS mid-year estimates.
+              over £500. Where councils have different data periods, figures are <strong>annualized</strong> to
+              enable fair comparison. Population figures from ONS mid-year estimates.
             </p>
+            <div className="data-coverage">
+              <h5>Data periods by council:</h5>
+              <ul>
+                {councils.map(c => (
+                  <li key={c.council_id}>
+                    <strong>{c.council_name}</strong>: {c.financial_years?.[0] || '—'} to {c.financial_years?.slice(-1)[0] || '—'} ({c.num_years || '?'} years)
+                  </li>
+                ))}
+              </ul>
+            </div>
             <p className="generated-date">Comparison generated: {comparison.generated}</p>
           </div>
         </div>

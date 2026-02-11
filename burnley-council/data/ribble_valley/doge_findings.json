@@ -93,7 +93,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "11 suppliers shared with neighbouring councils \u2014 \u00a31.7M total",
+      "title": "11 suppliers shared with neighbouring councils \u2014 \u00a31.9M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -103,10 +103,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "INSIGHT DIRECT (UK) LTD: 5952% price gap between councils",
-      "description": "Ribble_Valley pays \u00a343.3K avg vs Hyndburn \u00a3716 (both with 3+ transactions). Compared using 2 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "WATER PLUS LTD: 9171% price gap between councils",
+      "description": "Lancaster pays \u00a328.0K avg vs Pendle \u00a3302 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=INSIGHT DIRECT (UK) LTD",
+      "link": "/spending?supplier=WATER PLUS LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -114,7 +114,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:56:20.882257",
+  "generated": "2026-02-11T06:06:32.940376",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -301,5 +301,31 @@
     "top20_pct": 45.2,
     "hhi": 170.8,
     "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 21,
+    "awarded_contracts": 0,
+    "threshold_suspects": [],
+    "threshold_suspect_count": 0,
+    "repeat_winners": [],
+    "repeat_winner_count": 0,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 0,
+      "pct": 0
+    },
+    "timing_clusters": [],
+    "timing_cluster_count": 0,
+    "late_publications": [],
+    "late_publication_count": 0,
+    "publication_timing": {
+      "avg_delay_days": 0,
+      "median_delay_days": 0,
+      "total_measured": 0
+    },
+    "weak_competition": [],
+    "weak_competition_count": 0,
+    "monopoly_categories": [],
+    "monopoly_category_count": 0
   }
 }

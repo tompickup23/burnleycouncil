@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-09T12:42:40",
+  "generated": "2026-02-11T06:06:39",
   "councils": [
     {
       "council_id": "burnley",
@@ -18,6 +18,9 @@
         "2024/25",
         "2025/26"
       ],
+      "num_years": 5,
+      "annual_spend": 71043681.09,
+      "annual_records": 6116,
       "population": 88600,
       "avg_transaction": 11616.04,
       "top10_supplier_pct": 0.6054,
@@ -26,8 +29,8 @@
         "has_suppliers": 100.0,
         "has_departments": 100.0
       },
-      "duplicate_count": 574,
-      "duplicate_value": 1244000,
+      "duplicate_count": 561,
+      "duplicate_value": 1135100,
       "pay": {
         "ceo_salary_band": "£110,000 - £120,000",
         "ceo_midpoint": 115000,
@@ -71,6 +74,9 @@
         "2024/25",
         "2025/26"
       ],
+      "num_years": 10,
+      "annual_spend": 21130269.88,
+      "annual_records": 2980,
       "population": 81000,
       "avg_transaction": 7089.74,
       "top10_supplier_pct": 0.7113,
@@ -79,7 +85,7 @@
         "has_suppliers": 100.0,
         "has_departments": 100.0
       },
-      "duplicate_count": 905,
+      "duplicate_count": 896,
       "duplicate_value": 2800000,
       "pay": {
         "ceo_salary_band": "Not published — estimated from pay ratios",
@@ -119,6 +125,9 @@
         "2024/25",
         "2025/26"
       ],
+      "num_years": 5,
+      "annual_spend": 24990986.45,
+      "annual_records": 9948,
       "population": 92000,
       "avg_transaction": 2512.11,
       "top10_supplier_pct": 0.5135,
@@ -127,8 +136,8 @@
         "has_suppliers": 100.0,
         "has_departments": 100.0
       },
-      "duplicate_count": 1283,
-      "duplicate_value": 2500000,
+      "duplicate_count": 1260,
+      "duplicate_value": 2525600,
       "pay": {
         "ceo_salary_band": "Below £150,000 (confirmed by transparency data)",
         "ceo_midpoint": 108000,
@@ -167,6 +176,9 @@
         "2024/25",
         "2025/26"
       ],
+      "num_years": 5,
+      "annual_spend": 12789508.84,
+      "annual_records": 8507,
       "population": 73045,
       "avg_transaction": 1503.37,
       "top10_supplier_pct": 0.572,
@@ -175,8 +187,8 @@
         "has_suppliers": 100.0,
         "has_departments": 100.0
       },
-      "duplicate_count": 1948,
-      "duplicate_value": 3500000,
+      "duplicate_count": 1830,
+      "duplicate_value": 3400000,
       "pay": {
         "ceo_salary_band": "£113,001 (spot salary)",
         "ceo_midpoint": 113001,
@@ -195,6 +207,204 @@
       },
       "budget_summary": {
         "council_tax_band_d": 317.66,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "lancaster",
+      "council_name": "Lancaster",
+      "total_records": 27317,
+      "total_spend": 155843646.9,
+      "unique_suppliers": 1916,
+      "date_range": {
+        "min": "2021-04-01",
+        "max": "2025-09-30"
+      },
+      "financial_years": [
+        "2021/22",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 4,
+      "annual_spend": 38960911.73,
+      "annual_records": 6829,
+      "population": 144246,
+      "avg_transaction": 5705.01,
+      "top10_supplier_pct": 0.3841,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 2118,
+      "duplicate_value": 12205500,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {
+        "year": "2024-25",
+        "housing": 4271,
+        "cultural": 4850,
+        "environmental": 7941,
+        "planning": 6056,
+        "central": 7130,
+        "other": 0,
+        "total": 27919
+      },
+      "budget_summary": {
+        "council_tax_band_d": 264.3,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "ribble_valley",
+      "council_name": "Ribble Valley",
+      "total_records": 3767,
+      "total_spend": 11382460.79,
+      "unique_suppliers": 672,
+      "date_range": {
+        "min": "2024-04-16",
+        "max": "2025-06-30"
+      },
+      "financial_years": [
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 2,
+      "annual_spend": 5691230.39,
+      "annual_records": 1884,
+      "population": 61561,
+      "avg_transaction": 3021.62,
+      "top10_supplier_pct": 0.4524,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 370,
+      "duplicate_value": 1274500,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {
+        "year": "2024-25",
+        "housing": 249,
+        "cultural": 1805,
+        "environmental": 3923,
+        "planning": 905,
+        "central": 2572,
+        "other": 0,
+        "total": 9260
+      },
+      "budget_summary": {
+        "council_tax_band_d": 170.69,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "chorley",
+      "council_name": "Chorley",
+      "total_records": 17212,
+      "total_spend": 330867273.34,
+      "unique_suppliers": 1791,
+      "date_range": {
+        "min": "2021-04-07",
+        "max": "2024-12-27"
+      },
+      "financial_years": [
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25"
+      ],
+      "num_years": 4,
+      "annual_spend": 82716818.33,
+      "annual_records": 4303,
+      "population": 118300,
+      "avg_transaction": 19223.06,
+      "top10_supplier_pct": 0.8581,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 591,
+      "duplicate_value": 168400,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {
+        "year": "2024-25",
+        "housing": 972,
+        "cultural": 4770,
+        "environmental": 5171,
+        "planning": 563,
+        "central": 4424,
+        "other": 0,
+        "total": 15940
+      },
+      "budget_summary": {
+        "council_tax_band_d": 215.99,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "south_ribble",
+      "council_name": "South Ribble",
+      "total_records": 16065,
+      "total_spend": 145948203.26,
+      "unique_suppliers": 1661,
+      "date_range": {
+        "min": "2021-04-07",
+        "max": "2025-03-26"
+      },
+      "financial_years": [
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25"
+      ],
+      "num_years": 4,
+      "annual_spend": 36487050.81,
+      "annual_records": 4016,
+      "population": 111600,
+      "avg_transaction": 9084.86,
+      "top10_supplier_pct": 0.6874,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 862,
+      "duplicate_value": 3494900,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {
+        "year": "2024-25",
+        "housing": 1194,
+        "cultural": 4363,
+        "environmental": 5316,
+        "planning": 3806,
+        "central": 6147,
+        "other": 0,
+        "total": 21003
+      },
+      "budget_summary": {
+        "council_tax_band_d": 236.78,
         "reserves_total": 0
       }
     }

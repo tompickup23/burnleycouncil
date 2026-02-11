@@ -55,9 +55,9 @@ function Budgets() {
   // Load different data depending on what's available
   const budgetUrls = hasBudgets
     ? ['/data/budgets.json', '/data/budget_insights.json']
-    : ['/data/budgets_govuk.json', '/data/revenue_trends.json']
+    : ['/data/budgets_govuk.json', '/data/revenue_trends.json', '/data/budgets_summary.json']
   const { data, loading, error } = useData(budgetUrls)
-  const [budgetData, insights] = data || [null, null]
+  const [budgetData, insights, budgetSummary] = data || [null, null, null]
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -154,7 +154,7 @@ function Budgets() {
 
   // For councils without detailed budgets.json, render a simpler GOV.UK trends view
   if (!hasBudgets && hasBudgetTrends) {
-    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} />
+    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} summaryData={budgetSummary} />
   }
 
   if (!budgetData) {
@@ -856,7 +856,7 @@ function Budgets() {
  * (i.e. no detailed budget book PDFs available). Shows service expenditure
  * breakdown and revenue trends over time.
  */
-function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData }) {
+function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData }) {
   // Service expenditure bar chart — only district-relevant services with non-zero values
   const serviceData = govukData?.revenue_summary?.service_expenditure
     ? Object.entries(govukData?.revenue_summary?.service_expenditure || {})
@@ -1077,6 +1077,84 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData 
           </div>
         </section>
       )}
+
+      {/* Band D Council Tax History from budgets_summary.json */}
+      {summaryData?.council_tax?.band_d_by_year && (() => {
+        const bandDData = Object.entries(summaryData.council_tax.band_d_by_year)
+          .filter(([year]) => {
+            const startYear = parseInt(year.split('/')[0])
+            return startYear >= 2010
+          })
+          .map(([year, value]) => ({ year: year.replace('/', '/'), value }))
+        return bandDData.length > 0 ? (
+          <section className="chart-section">
+            <h2>Band D Council Tax ({councilName} element)</h2>
+            <p className="section-note">
+              District council element only — excludes county, police, and fire precepts.
+              Current: £{bandDData[bandDData.length - 1]?.value?.toFixed(2)} ({summaryData.council_tax.band_d_by_year && Object.keys(summaryData.council_tax.band_d_by_year).pop()})
+            </p>
+            <div className="chart-card">
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={bandDData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                  <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} interval={2} />
+                  <YAxis
+                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tickFormatter={(v) => `£${v}`}
+                    domain={['dataMin - 10', 'dataMax + 10']}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '8px',
+                    }}
+                    formatter={(value) => [`£${value.toFixed(2)}`, `${councilName} Band D`]}
+                  />
+                  <Line type="monotone" dataKey="value" stroke="#ff9f0a" strokeWidth={2} dot={{ fill: '#ff9f0a', r: 3 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        ) : null
+      })()}
+
+      {/* Detailed Service Breakdown from budgets_summary.json */}
+      {summaryData?.detail && (() => {
+        const allServices = [
+          ...(summaryData.detail.cultural_environmental_planning ? Object.entries(summaryData.detail.cultural_environmental_planning) : []),
+          ...(summaryData.detail.housing ? Object.entries(summaryData.detail.housing) : []),
+          ...(summaryData.detail.central_services ? Object.entries(summaryData.detail.central_services) : []),
+        ].filter(([, val]) => val !== 0)
+          .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+
+        return allServices.length > 0 ? (
+          <section className="chart-section">
+            <h2>Detailed Service Breakdown ({summaryData.financial_year})</h2>
+            <p className="section-note">Granular outturn spending by individual service line — {allServices.length} services</p>
+            <div className="department-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left' }}>Service</th>
+                    <th style={{ textAlign: 'right' }}>Outturn (£)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allServices.map(([name, val]) => (
+                    <tr key={name}>
+                      <td>{name}</td>
+                      <td style={{ textAlign: 'right', color: val < 0 ? '#30d158' : 'inherit' }}>
+                        {formatCurrency(val, false)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ) : null
+      })()}
 
       {/* Data Source & Context */}
       <section className="context-section">

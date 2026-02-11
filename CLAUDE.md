@@ -6,7 +6,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 
 **Live councils (8):**
 - East Lancashire: Burnley (30,580 txns, £355M), Hyndburn (29,804 txns, £211M), Pendle (49,741 txns, £125M), Rossendale (42,536 txns, £64M)
-- Central/South Lancashire: Lancaster (24,593 txns, £143M), Ribble Valley (3,767 txns, £12M), Chorley (885 txns, purchase card only), South Ribble (16,065 txns, £147M)
+- Central/South Lancashire: Lancaster (27,317 txns, £157M), Ribble Valley (3,767 txns, £12M), Chorley (17,212 txns, £338M), South Ribble (16,065 txns, £147M)
 
 ## Architecture
 

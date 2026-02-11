@@ -140,7 +140,7 @@ function Press() {
               <ul>
                 <li>Lancaster City Council — 24,593 transactions, multi-year</li>
                 <li>Ribble Valley Borough Council — 3,767 transactions, multi-year</li>
-                <li>Chorley Council — 885 transactions (purchase card data)</li>
+                <li>Chorley Council — 17,212 transactions, multi-year</li>
                 <li>South Ribble Borough Council — 16,065 transactions, multi-year</li>
               </ul>
             </div>

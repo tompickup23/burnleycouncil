@@ -3,7 +3,7 @@
   "council_id": "E07000121",
   "council_type": "city",
   "spending_threshold": 500,
-  "total_records": 24593,
+  "total_records": 27317,
   "financial_years": [
     "2021/22",
     "2023/24",
@@ -16,16 +16,16 @@
   "filters": {
     "departments": [
       {
+        "name": "Environmental Services",
+        "spend": 21869888.85,
+        "count": 5114,
+        "suppliers": 405
+      },
+      {
         "name": "ENVIRONMENT AND PLACE",
         "spend": 17669195.78,
         "count": 4036,
         "suppliers": 563
-      },
-      {
-        "name": "Environmental Services",
-        "spend": 17247823.74,
-        "count": 3990,
-        "suppliers": 353
       },
       {
         "name": "RESOURCES",
@@ -34,16 +34,22 @@
         "suppliers": 86
       },
       {
-        "name": "Resources",
-        "spend": 11351635.25,
-        "count": 1298,
-        "suppliers": 158
+        "name": "Health & Housing",
+        "spend": 14869641.07,
+        "count": 2571,
+        "suppliers": 422
       },
       {
-        "name": "Health & Housing",
-        "spend": 11224849.44,
-        "count": 1874,
-        "suppliers": 365
+        "name": "Resources",
+        "spend": 14374804.59,
+        "count": 1675,
+        "suppliers": 183
+      },
+      {
+        "name": "Regeneration and Planning",
+        "spend": 9197995.86,
+        "count": 1002,
+        "suppliers": 304
       },
       {
         "name": "HOUSING AND PROPERTY",
@@ -62,12 +68,6 @@
         "spend": 7836327.98,
         "count": 1741,
         "suppliers": 158
-      },
-      {
-        "name": "Regeneration and Planning",
-        "spend": 7551548.34,
-        "count": 726,
-        "suppliers": 247
       },
       {
         "name": "Housing & Property",
@@ -100,10 +100,22 @@
         "suppliers": 138
       },
       {
+        "name": "Information Services",
+        "spend": 2103470.17,
+        "count": 283,
+        "suppliers": 37
+      },
+      {
         "name": "GOVERNANCE",
         "spend": 1875076.83,
         "count": 339,
         "suppliers": 83
+      },
+      {
+        "name": "Governance",
+        "spend": 1846290.59,
+        "count": 429,
+        "suppliers": 90
       },
       {
         "name": "Other Items",
@@ -112,34 +124,22 @@
         "suppliers": 36
       },
       {
-        "name": "Information Services",
-        "spend": 1396881.59,
-        "count": 188,
-        "suppliers": 32
-      },
-      {
-        "name": "Governance",
-        "spend": 1241771.43,
-        "count": 302,
-        "suppliers": 78
-      },
-      {
         "name": "Environment & Place",
         "spend": 1162515.68,
         "count": 514,
         "suppliers": 180
       },
       {
+        "name": "Management Team",
+        "spend": 626843.8,
+        "count": 81,
+        "suppliers": 52
+      },
+      {
         "name": "Sustainable Growth",
         "spend": 520731.09,
         "count": 108,
         "suppliers": 41
-      },
-      {
-        "name": "Management Team",
-        "spend": 433470.99,
-        "count": 53,
-        "suppliers": 38
       },
       {
         "name": "Health and Housing OBS",
@@ -236,10 +236,10 @@
       "Sustainable Growth"
     ]
   },
-  "total_spend": 141402692.75,
-  "unique_suppliers": 1785,
+  "total_spend": 155843646.9,
+  "unique_suppliers": 1916,
   "date_range": {
-    "min": "2021-07-01",
+    "min": "2021-04-01",
     "max": "2025-09-30"
   }
 }

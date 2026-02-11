@@ -132,7 +132,7 @@ def parse_date(date_str):
     formats = [
         "%d/%m/%Y", "%d/%m/%y", "%d-%m-%Y", "%d-%m-%y",
         "%d-%b-%y", "%d-%b-%Y", "%d %b %Y", "%d %B %Y",
-        "%Y-%m-%d", "%m/%d/%Y",
+        "%Y-%m-%d", "%m/%d/%Y", "%b %d, %Y",
     ]
     for fmt in formats:
         try:
@@ -873,13 +873,19 @@ def parse_ribble_valley(csv_files, data_start_fy="2021/22"):
 def parse_chorley(csv_files, data_start_fy="2021/22"):
     """Parse Chorley Borough Council CSVs.
 
-    Chorley publishes monthly/quarterly CSVs with 10 columns:
-      Body Name, Body, Transaction Date, Value, Supplier, Description,
-      Purchase Type, Cost Center, Department, Section
+    Chorley publishes TWO CSV formats:
+      Format A - CIPFA full supplier payments (16 columns):
+        Body Name, Body, Service Division Label, Service Division Code,
+        Organisational Unit, Expenditure Category, Expenditure Code,
+        CIPFA detailed expediture type, CIPFA detailed expediture code,
+        Narrative, Date, Transaction number, Net Amount, Capital and Revenue,
+        Supplier Name, Supplier ID
+      Format B - Purchase card transactions (10 columns):
+        Body Name, Body, Transaction Date, Value, Supplier, Description,
+        Purchase Type, Cost Center, Department, Section
 
     Date format: DD/MM/YYYY
-    Amount: includes £ symbol and commas
-    Has mixed format: some older files are monthly, newer ones quarterly.
+    Amount: may include £ symbol and commas (older CIPFA files) or plain numbers (newer).
     """
     all_records = []
     start_year = fy_to_start_year(data_start_fy)
@@ -889,51 +895,98 @@ def parse_chorley(csv_files, data_start_fy="2021/22"):
         if not rows:
             continue
 
+        # Detect format from first row's keys
+        first_keys = set(k.strip() for k in rows[0].keys() if k and k.strip())
+        is_cipfa = 'Supplier Name' in first_keys or 'Net Amount' in first_keys
+
         records = []
         for row in rows:
             cleaned = {k.strip(): v for k, v in row.items() if k and k.strip()}
 
-            supplier = cleaned.get('Supplier', '')
-            if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
-                continue
+            if is_cipfa:
+                # CIPFA format
+                supplier = cleaned.get('Supplier Name', '')
+                if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                    continue
 
-            date_str = cleaned.get('Transaction Date', '')
-            parsed_date = parse_date(str(date_str).strip())
+                date_str = cleaned.get('Date', '')
+                parsed_date = parse_date(str(date_str).strip())
 
-            amount_str = cleaned.get('Value', '')
-            amount = parse_amount(amount_str)
-            if amount == 0:
-                continue
+                amount_str = cleaned.get('Net Amount', '')
+                amount = parse_amount(amount_str)
+                if amount == 0:
+                    continue
 
-            fy = financial_year_from_date(parsed_date)
-            dept_raw = str(cleaned.get('Department', '')).strip()
-            section_raw = str(cleaned.get('Section', '')).strip()
-            purchase_type = str(cleaned.get('Purchase Type', '')).strip()
+                fy = financial_year_from_date(parsed_date)
+                service_div = str(cleaned.get('Service Division Label', '')).strip()
+                org_unit = str(cleaned.get('Organisational Unit', '')).strip()
+                expenditure_cat = str(cleaned.get('Expenditure Category', '')).strip()
+                cap_rev = str(cleaned.get('Capital and Revenue', '')).strip()
 
-            # Detect purchase card transactions
-            is_card = 'card' in purchase_type.lower() or 'online' in purchase_type.lower()
+                record = {
+                    "date": parsed_date,
+                    "financial_year": fy,
+                    "quarter": quarter_from_date(parsed_date),
+                    "month": int(parsed_date[5:7]) if parsed_date else None,
+                    "supplier": normalize_supplier(supplier),
+                    "supplier_canonical": None,
+                    "amount": amount,
+                    "department_raw": org_unit,
+                    "department": None,
+                    "service_area_raw": service_div,
+                    "service_area": service_div,
+                    "description": str(cleaned.get('Narrative', '')).strip(),
+                    "reference": str(cleaned.get('Transaction number', '')).strip(),
+                    "type": "spend",
+                    "capital_revenue": cap_rev if cap_rev else None,
+                    "council": "chorley",
+                    "supplier_company_number": None,
+                    "supplier_company_url": None,
+                    "_source_file": csv_path.name,
+                }
+            else:
+                # Purchase card format
+                supplier = cleaned.get('Supplier', '')
+                if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                    continue
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept_raw,
-                "department": None,
-                "service_area_raw": section_raw,
-                "service_area": section_raw,
-                "description": str(cleaned.get('Description', '')).strip(),
-                "reference": str(cleaned.get('Cost Center', '')).strip(),
-                "type": "purchase_card" if is_card else "spend",
-                "capital_revenue": None,
-                "council": "chorley",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            }
+                date_str = cleaned.get('Transaction Date', '')
+                parsed_date = parse_date(str(date_str).strip())
+
+                amount_str = cleaned.get('Value', '')
+                amount = parse_amount(amount_str)
+                if amount == 0:
+                    continue
+
+                fy = financial_year_from_date(parsed_date)
+                dept_raw = str(cleaned.get('Department', '')).strip()
+                section_raw = str(cleaned.get('Section', '')).strip()
+                purchase_type = str(cleaned.get('Purchase Type', '')).strip()
+
+                is_card = 'card' in purchase_type.lower() or 'online' in purchase_type.lower()
+
+                record = {
+                    "date": parsed_date,
+                    "financial_year": fy,
+                    "quarter": quarter_from_date(parsed_date),
+                    "month": int(parsed_date[5:7]) if parsed_date else None,
+                    "supplier": normalize_supplier(supplier),
+                    "supplier_canonical": None,
+                    "amount": amount,
+                    "department_raw": dept_raw,
+                    "department": None,
+                    "service_area_raw": section_raw,
+                    "service_area": section_raw,
+                    "description": str(cleaned.get('Description', '')).strip(),
+                    "reference": str(cleaned.get('Cost Center', '')).strip(),
+                    "type": "purchase_card" if is_card else "spend",
+                    "capital_revenue": None,
+                    "council": "chorley",
+                    "supplier_company_number": None,
+                    "supplier_company_url": None,
+                    "_source_file": csv_path.name,
+                }
+
             records.append(record)
 
         # Filter by start financial year
@@ -942,8 +995,9 @@ def parse_chorley(csv_files, data_start_fy="2021/22"):
             if fy and fy_to_start_year(fy) >= start_year:
                 all_records.append(r)
 
+        fmt_label = "CIPFA" if is_cipfa else "PCard"
         if records:
-            print(f"  {csv_path.name}: {len(records)} records")
+            print(f"  {csv_path.name} [{fmt_label}]: {len(records)} records")
 
     print(f"  Total Chorley records (from {data_start_fy}): {len(all_records)}")
     return all_records

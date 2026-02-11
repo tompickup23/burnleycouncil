@@ -1,0 +1,715 @@
+{
+  "borough": "south_ribble",
+  "borough_name": "South Ribble",
+  "ons_code": "E07000126",
+  "date": "2025-12",
+  "total_crimes": 745,
+  "total_stop_and_search": 25,
+  "by_category": {
+    "anti-social-behaviour": 218,
+    "burglary": 21,
+    "criminal-damage-arson": 46,
+    "drugs": 13,
+    "other-theft": 51,
+    "possession-of-weapons": 8,
+    "public-order": 17,
+    "robbery": 7,
+    "shoplifting": 60,
+    "theft-from-the-person": 1,
+    "vehicle-crime": 20,
+    "violent-crime": 266,
+    "other-crime": 16,
+    "bicycle-theft": 1
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 266
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 218
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 60
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 51
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 46
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 21
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 20
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 17
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 16
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 13
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 8
+    },
+    "robbery": {
+      "name": "Robbery",
+      "count": 7
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 1
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 1
+    }
+  },
+  "outcomes": {
+    "Under investigation": 254,
+    "Unable to prosecute suspect": 111,
+    "Investigation complete; no suspect identified": 114,
+    "Formal action is not in the public interest": 1,
+    "Awaiting court outcome": 31,
+    "Local resolution": 9,
+    "Action to be taken by another organisation": 5,
+    "Further investigation is not in the public interest": 1,
+    "Offender given a caution": 1
+  },
+  "ward_count": 23,
+  "wards": {
+    "SR1": {
+      "ward_id": "SR1",
+      "name": "Bamber Bridge East",
+      "total_crimes": 74,
+      "by_category": {
+        "anti-social-behaviour": 15,
+        "burglary": 1,
+        "criminal-damage-arson": 5,
+        "drugs": 2,
+        "other-theft": 5,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "robbery": 2,
+        "shoplifting": 14,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 5,
+        "violent-crime": 21
+      },
+      "outcomes": {
+        "Under investigation": 29,
+        "Unable to prosecute suspect": 5,
+        "Investigation complete; no suspect identified": 18,
+        "Formal action is not in the public interest": 1,
+        "Awaiting court outcome": 6
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "SR10": {
+      "ward_id": "SR10",
+      "name": "Farington West",
+      "total_crimes": 42,
+      "by_category": {
+        "anti-social-behaviour": 14,
+        "burglary": 1,
+        "criminal-damage-arson": 5,
+        "drugs": 1,
+        "other-theft": 2,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 16
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Under investigation": 16,
+        "Unable to prosecute suspect": 4,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "SR11": {
+      "ward_id": "SR11",
+      "name": "Hoole",
+      "total_crimes": 18,
+      "by_category": {
+        "anti-social-behaviour": 8,
+        "criminal-damage-arson": 3,
+        "other-theft": 1,
+        "violent-crime": 6
+      },
+      "outcomes": {
+        "Under investigation": 4,
+        "Unable to prosecute suspect": 4,
+        "Local resolution": 1,
+        "Investigation complete; no suspect identified": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR12": {
+      "ward_id": "SR12",
+      "name": "Howick &amp; Priory",
+      "total_crimes": 14,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "violent-crime": 8
+      },
+      "outcomes": {
+        "Under investigation": 3,
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 5,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR13": {
+      "ward_id": "SR13",
+      "name": "Leyland Central",
+      "total_crimes": 45,
+      "by_category": {
+        "anti-social-behaviour": 16,
+        "burglary": 1,
+        "other-theft": 1,
+        "public-order": 1,
+        "shoplifting": 3,
+        "vehicle-crime": 2,
+        "violent-crime": 20,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 13,
+        "Awaiting court outcome": 4,
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 9,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR14": {
+      "ward_id": "SR14",
+      "name": "Longton &amp; Hutton West",
+      "total_crimes": 8,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "violent-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR15": {
+      "ward_id": "SR15",
+      "name": "Lostock Hall",
+      "total_crimes": 35,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "criminal-damage-arson": 2,
+        "other-theft": 3,
+        "robbery": 1,
+        "shoplifting": 1,
+        "violent-crime": 22
+      },
+      "outcomes": {
+        "Under investigation": 16,
+        "Unable to prosecute suspect": 9,
+        "Investigation complete; no suspect identified": 4
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "SR16": {
+      "ward_id": "SR16",
+      "name": "Middleforth",
+      "total_crimes": 42,
+      "by_category": {
+        "anti-social-behaviour": 10,
+        "burglary": 2,
+        "criminal-damage-arson": 3,
+        "other-theft": 2,
+        "robbery": 1,
+        "shoplifting": 12,
+        "vehicle-crime": 1,
+        "violent-crime": 11
+      },
+      "outcomes": {
+        "Under investigation": 25,
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 2,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR17": {
+      "ward_id": "SR17",
+      "name": "Moss Side",
+      "total_crimes": 18,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "burglary": 3,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "shoplifting": 1,
+        "violent-crime": 6
+      },
+      "outcomes": {
+        "Under investigation": 6,
+        "Investigation complete; no suspect identified": 3,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR18": {
+      "ward_id": "SR18",
+      "name": "New Longton &amp; Hutton East",
+      "total_crimes": 37,
+      "by_category": {
+        "anti-social-behaviour": 30,
+        "criminal-damage-arson": 1,
+        "other-theft": 3,
+        "violent-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 2,
+        "Investigation complete; no suspect identified": 3,
+        "Unable to prosecute suspect": 1,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "SR19": {
+      "ward_id": "SR19",
+      "name": "Samlesbury &amp; Walton",
+      "total_crimes": 31,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "burglary": 3,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 3,
+        "shoplifting": 4,
+        "vehicle-crime": 2,
+        "violent-crime": 9,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Under investigation": 9,
+        "Awaiting court outcome": 3,
+        "Unable to prosecute suspect": 7
+      },
+      "stop_and_search": {
+        "total": 3
+      }
+    },
+    "SR2": {
+      "ward_id": "SR2",
+      "name": "Bamber Bridge West",
+      "total_crimes": 64,
+      "by_category": {
+        "anti-social-behaviour": 13,
+        "burglary": 3,
+        "criminal-damage-arson": 7,
+        "drugs": 2,
+        "other-theft": 5,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "robbery": 1,
+        "shoplifting": 11,
+        "vehicle-crime": 1,
+        "violent-crime": 15,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 22,
+        "Unable to prosecute suspect": 3,
+        "Investigation complete; no suspect identified": 20,
+        "Local resolution": 3,
+        "Awaiting court outcome": 2,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 3
+      }
+    },
+    "SR20": {
+      "ward_id": "SR20",
+      "name": "Seven Stars",
+      "total_crimes": 53,
+      "by_category": {
+        "anti-social-behaviour": 8,
+        "bicycle-theft": 1,
+        "criminal-damage-arson": 2,
+        "drugs": 1,
+        "other-theft": 4,
+        "public-order": 2,
+        "shoplifting": 3,
+        "violent-crime": 31,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 24,
+        "Investigation complete; no suspect identified": 6,
+        "Unable to prosecute suspect": 11,
+        "Awaiting court outcome": 2,
+        "Action to be taken by another organisation": 1,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR21": {
+      "ward_id": "SR21",
+      "name": "St Ambrose",
+      "total_crimes": 51,
+      "by_category": {
+        "anti-social-behaviour": 25,
+        "burglary": 3,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 2,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "robbery": 1,
+        "vehicle-crime": 2,
+        "violent-crime": 14
+      },
+      "outcomes": {
+        "Under investigation": 12,
+        "Investigation complete; no suspect identified": 6,
+        "Unable to prosecute suspect": 7,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 11
+      }
+    },
+    "SR22": {
+      "ward_id": "SR22",
+      "name": "Walton-le-dale East",
+      "total_crimes": 19,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "drugs": 1,
+        "other-theft": 4,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 3,
+        "Under investigation": 7,
+        "Awaiting court outcome": 1,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR23": {
+      "ward_id": "SR23",
+      "name": "Walton-le-dale West",
+      "total_crimes": 14,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "possession-of-weapons": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 8,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 3,
+        "Investigation complete; no suspect identified": 2,
+        "Under investigation": 6
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR3": {
+      "ward_id": "SR3",
+      "name": "Broad Oak",
+      "total_crimes": 21,
+      "by_category": {
+        "anti-social-behaviour": 2,
+        "criminal-damage-arson": 1,
+        "other-theft": 2,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "shoplifting": 2,
+        "violent-crime": 11,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 12,
+        "Investigation complete; no suspect identified": 3,
+        "Unable to prosecute suspect": 4
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR4": {
+      "ward_id": "SR4",
+      "name": "Broadfield",
+      "total_crimes": 56,
+      "by_category": {
+        "anti-social-behaviour": 10,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "drugs": 2,
+        "other-theft": 4,
+        "possession-of-weapons": 1,
+        "public-order": 4,
+        "shoplifting": 8,
+        "vehicle-crime": 1,
+        "violent-crime": 22,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 13,
+        "Investigation complete; no suspect identified": 6,
+        "Awaiting court outcome": 3,
+        "Under investigation": 20,
+        "Further investigation is not in the public interest": 1,
+        "Local resolution": 1,
+        "Action to be taken by another organisation": 1,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "SR5": {
+      "ward_id": "SR5",
+      "name": "Buckshaw &amp; Worden",
+      "total_crimes": 14,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 4,
+        "Under investigation": 1,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR6": {
+      "ward_id": "SR6",
+      "name": "Charnock",
+      "total_crimes": 17,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 3,
+        "violent-crime": 8
+      },
+      "outcomes": {
+        "Awaiting court outcome": 3,
+        "Local resolution": 1,
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 1,
+        "Action to be taken by another organisation": 1,
+        "Under investigation": 5
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR7": {
+      "ward_id": "SR7",
+      "name": "Coupe Green &amp; Gregson Lane",
+      "total_crimes": 22,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "drugs": 1,
+        "other-theft": 2,
+        "robbery": 1,
+        "violent-crime": 9
+      },
+      "outcomes": {
+        "Under investigation": 7,
+        "Investigation complete; no suspect identified": 3,
+        "Unable to prosecute suspect": 4,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR8": {
+      "ward_id": "SR8",
+      "name": "Earnshaw Bridge",
+      "total_crimes": 32,
+      "by_category": {
+        "anti-social-behaviour": 8,
+        "criminal-damage-arson": 2,
+        "other-theft": 1,
+        "public-order": 2,
+        "shoplifting": 1,
+        "vehicle-crime": 2,
+        "violent-crime": 11,
+        "other-crime": 5
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 6,
+        "Under investigation": 12,
+        "Investigation complete; no suspect identified": 4,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "SR9": {
+      "ward_id": "SR9",
+      "name": "Farington East",
+      "total_crimes": 18,
+      "by_category": {
+        "anti-social-behaviour": 10,
+        "criminal-damage-arson": 2,
+        "other-theft": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 3,
+        "Under investigation": 3,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    }
+  },
+  "generated_at": "2026-02-11T05:51:33.634919",
+  "trends": {
+    "previous_date": "2025-11",
+    "current_total": 745,
+    "previous_total": 781,
+    "change": -36,
+    "change_pct": -4.6,
+    "by_category": {
+      "shoplifting": {
+        "current": 60,
+        "previous": 49,
+        "change_pct": 22.4
+      },
+      "anti-social-behaviour": {
+        "current": 218,
+        "previous": 217,
+        "change_pct": 0.5
+      },
+      "criminal-damage-arson": {
+        "current": 46,
+        "previous": 50,
+        "change_pct": -8.0
+      },
+      "possession-of-weapons": {
+        "current": 8,
+        "previous": 3,
+        "change_pct": 166.7
+      },
+      "theft-from-the-person": {
+        "current": 1,
+        "previous": 2,
+        "change_pct": -50.0
+      },
+      "public-order": {
+        "current": 17,
+        "previous": 24,
+        "change_pct": -29.2
+      },
+      "vehicle-crime": {
+        "current": 20,
+        "previous": 39,
+        "change_pct": -48.7
+      },
+      "bicycle-theft": {
+        "current": 1,
+        "previous": 4,
+        "change_pct": -75.0
+      },
+      "drugs": {
+        "current": 13,
+        "previous": 18,
+        "change_pct": -27.8
+      },
+      "violent-crime": {
+        "current": 266,
+        "previous": 285,
+        "change_pct": -6.7
+      },
+      "burglary": {
+        "current": 21,
+        "previous": 18,
+        "change_pct": 16.7
+      },
+      "robbery": {
+        "current": 7,
+        "previous": 12,
+        "change_pct": -41.7
+      },
+      "other-crime": {
+        "current": 16,
+        "previous": 19,
+        "change_pct": -15.8
+      },
+      "other-theft": {
+        "current": 51,
+        "previous": 41,
+        "change_pct": 24.4
+      }
+    }
+  }
+}

@@ -35,7 +35,7 @@
     {
       "label": "Cross-council price comparison",
       "status": "warning",
-      "detail": "20 shared suppliers found. 9 with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes."
+      "detail": "20 shared suppliers found. 7 with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes."
     },
     {
       "label": "Benford's Law forensic screening",
@@ -44,11 +44,11 @@
     }
   ],
   "warnings": [
-    "9 suppliers show >200% price disparity after filtering. These are more likely genuine value concerns than extreme outliers.",
+    "7 suppliers show >200% price disparity after filtering. These are more likely genuine value concerns than extreme outliers.",
     "Benford's Law analysis shows significant deviation (\u03c7\u00b2=2337.98). Digit 2 deviates 6.3% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments."
   ],
   "score": 43,
   "total_checks": 7,
   "passed": 3,
-  "generated": "2026-02-11T00:56:21.086918"
+  "generated": "2026-02-11T06:06:33.143294"
 }

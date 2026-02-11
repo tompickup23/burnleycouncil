@@ -93,7 +93,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "36 suppliers shared with neighbouring councils \u2014 \u00a331.0M total",
+      "title": "30 suppliers shared with neighbouring councils \u2014 \u00a329.7M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -103,10 +103,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "AVC WISE LTD: 8013% price gap between councils",
-      "description": "Lancaster pays \u00a31.3K avg vs Hyndburn \u00a316 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "WATER PLUS LTD: 9171% price gap between councils",
+      "description": "Lancaster pays \u00a328.0K avg vs Pendle \u00a3302 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=AVC WISE LTD",
+      "link": "/spending?supplier=WATER PLUS LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -114,7 +114,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T00:56:20.880750",
+  "generated": "2026-02-11T06:06:32.938739",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

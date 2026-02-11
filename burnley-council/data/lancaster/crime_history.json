@@ -1,0 +1,4575 @@
+[
+  {
+    "borough": "lancaster",
+    "borough_name": "Lancaster",
+    "ons_code": "E07000121",
+    "date": "2025-07",
+    "total_crimes": 1328,
+    "total_stop_and_search": 97,
+    "by_category": {
+      "anti-social-behaviour": 434,
+      "burglary": 55,
+      "criminal-damage-arson": 113,
+      "drugs": 33,
+      "other-theft": 67,
+      "possession-of-weapons": 14,
+      "public-order": 70,
+      "vehicle-crime": 45,
+      "violent-crime": 387,
+      "other-crime": 29,
+      "bicycle-theft": 8,
+      "shoplifting": 59,
+      "robbery": 9,
+      "theft-from-the-person": 5
+    },
+    "category_display": {
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 434
+      },
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 387
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 113
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 70
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 67
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 59
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 55
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 45
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 33
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 29
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 14
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 9
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 8
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 5
+      }
+    },
+    "outcomes": {
+      "Unable to prosecute suspect": 355,
+      "Investigation complete; no suspect identified": 282,
+      "Status update unavailable": 96,
+      "Local resolution": 75,
+      "Offender given a caution": 12,
+      "Action to be taken by another organisation": 10,
+      "Further action is not in the public interest": 3,
+      "Awaiting court outcome": 54,
+      "Further investigation is not in the public interest": 5,
+      "Offender given penalty notice": 2
+    },
+    "ward_count": 27,
+    "wards": {
+      "LA1": {
+        "ward_id": "LA1",
+        "name": "Heysham South",
+        "total_crimes": 54,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "vehicle-crime": 5,
+          "violent-crime": 19,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 18,
+          "Investigation complete; no suspect identified": 9,
+          "Status update unavailable": 2,
+          "Local resolution": 4,
+          "Offender given a caution": 2,
+          "Action to be taken by another organisation": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA10": {
+        "ward_id": "LA10",
+        "name": "Bowerham",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 1,
+          "other-theft": 1,
+          "violent-crime": 6,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 5,
+          "Status update unavailable": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA11": {
+        "ward_id": "LA11",
+        "name": "Bulk",
+        "total_crimes": 61,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "bicycle-theft": 1,
+          "burglary": 4,
+          "criminal-damage-arson": 4,
+          "other-theft": 3,
+          "public-order": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 18,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 18,
+          "Status update unavailable": 3,
+          "Local resolution": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA12": {
+        "ward_id": "LA12",
+        "name": "Carnforth &amp; Millhead",
+        "total_crimes": 45,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "other-theft": 4,
+          "public-order": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 17,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 19,
+          "Awaiting court outcome": 3,
+          "Investigation complete; no suspect identified": 7,
+          "Status update unavailable": 1,
+          "Local resolution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA13": {
+        "ward_id": "LA13",
+        "name": "Castle",
+        "total_crimes": 179,
+        "by_category": {
+          "anti-social-behaviour": 58,
+          "bicycle-theft": 2,
+          "burglary": 8,
+          "criminal-damage-arson": 11,
+          "drugs": 4,
+          "other-theft": 4,
+          "possession-of-weapons": 2,
+          "public-order": 21,
+          "robbery": 4,
+          "shoplifting": 16,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 44,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Status update unavailable": 14,
+          "Investigation complete; no suspect identified": 37,
+          "Unable to prosecute suspect": 41,
+          "Awaiting court outcome": 18,
+          "Offender given a caution": 3,
+          "Local resolution": 6,
+          "Further investigation is not in the public interest": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 20
+        }
+      },
+      "LA14": {
+        "ward_id": "LA14",
+        "name": "Ellel",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 10,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 3,
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 7,
+          "Status update unavailable": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA15": {
+        "ward_id": "LA15",
+        "name": "Halton with Aughton &amp; Kellet",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 3,
+          "violent-crime": 2,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 5,
+          "Status update unavailable": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA16": {
+        "ward_id": "LA16",
+        "name": "John O'Gaunt",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "burglary": 2,
+          "criminal-damage-arson": 4,
+          "other-theft": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 5,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 2,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA17": {
+        "ward_id": "LA17",
+        "name": "Lower Lune Valley",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 5,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 8,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Awaiting court outcome": 5,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 6
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA18": {
+        "ward_id": "LA18",
+        "name": "Marsh",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 3,
+          "criminal-damage-arson": 7,
+          "other-theft": 3,
+          "public-order": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Awaiting court outcome": 3,
+          "Investigation complete; no suspect identified": 11,
+          "Status update unavailable": 3,
+          "Unable to prosecute suspect": 10,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA19": {
+        "ward_id": "LA19",
+        "name": "Overton - Lancaster",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA2": {
+        "ward_id": "LA2",
+        "name": "Heysham North",
+        "total_crimes": 59,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 3,
+          "other-theft": 3,
+          "public-order": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 17
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Unable to prosecute suspect": 15,
+          "Status update unavailable": 3,
+          "Local resolution": 4,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 13
+        }
+      },
+      "LA20": {
+        "ward_id": "LA20",
+        "name": "Poulton - Lancaster",
+        "total_crimes": 149,
+        "by_category": {
+          "anti-social-behaviour": 44,
+          "burglary": 9,
+          "criminal-damage-arson": 12,
+          "drugs": 4,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 8,
+          "robbery": 2,
+          "shoplifting": 14,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 41,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 39,
+          "Investigation complete; no suspect identified": 34,
+          "Status update unavailable": 10,
+          "Local resolution": 14,
+          "Awaiting court outcome": 7,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 30
+        }
+      },
+      "LA21": {
+        "ward_id": "LA21",
+        "name": "Scale Hall",
+        "total_crimes": 75,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 2,
+          "criminal-damage-arson": 20,
+          "drugs": 1,
+          "other-theft": 4,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 24,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 17,
+          "Unable to prosecute suspect": 25,
+          "Status update unavailable": 8,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 1,
+          "Further action is not in the public interest": 1,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "LA22": {
+        "ward_id": "LA22",
+        "name": "Scotforth East",
+        "total_crimes": 29,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "other-theft": 3,
+          "public-order": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 12,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Local resolution": 2,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 7,
+          "Status update unavailable": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA23": {
+        "ward_id": "LA23",
+        "name": "Skerton",
+        "total_crimes": 91,
+        "by_category": {
+          "anti-social-behaviour": 33,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "drugs": 6,
+          "other-theft": 2,
+          "possession-of-weapons": 3,
+          "public-order": 4,
+          "robbery": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 26,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Status update unavailable": 9,
+          "Unable to prosecute suspect": 24,
+          "Local resolution": 7,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 1,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "LA24": {
+        "ward_id": "LA24",
+        "name": "Torrisholme - Lancaster",
+        "total_crimes": 20,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 1,
+          "drugs": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Local resolution": 4,
+          "Unable to prosecute suspect": 8
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA25": {
+        "ward_id": "LA25",
+        "name": "University - Lancaster",
+        "total_crimes": 7,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "burglary": 1,
+          "other-theft": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA26": {
+        "ward_id": "LA26",
+        "name": "Warton - Lancaster",
+        "total_crimes": 15,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 4,
+          "Status update unavailable": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA27": {
+        "ward_id": "LA27",
+        "name": "West End - Lancaster",
+        "total_crimes": 118,
+        "by_category": {
+          "anti-social-behaviour": 43,
+          "bicycle-theft": 2,
+          "burglary": 4,
+          "criminal-damage-arson": 4,
+          "drugs": 5,
+          "other-theft": 5,
+          "possession-of-weapons": 3,
+          "public-order": 3,
+          "shoplifting": 7,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 8,
+          "violent-crime": 32,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 21,
+          "Status update unavailable": 12,
+          "Unable to prosecute suspect": 30,
+          "Offender given a caution": 1,
+          "Offender given penalty notice": 1,
+          "Local resolution": 7,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "LA3": {
+        "ward_id": "LA3",
+        "name": "Heysham Central",
+        "total_crimes": 53,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "bicycle-theft": 1,
+          "burglary": 5,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "vehicle-crime": 3,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Status update unavailable": 1,
+          "Unable to prosecute suspect": 15,
+          "Local resolution": 8,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA4": {
+        "ward_id": "LA4",
+        "name": "Westgate - Lancaster",
+        "total_crimes": 75,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 1,
+          "criminal-damage-arson": 12,
+          "drugs": 3,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 21,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 20,
+          "Unable to prosecute suspect": 19,
+          "Status update unavailable": 3,
+          "Offender given penalty notice": 1,
+          "Local resolution": 1,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "LA5": {
+        "ward_id": "LA5",
+        "name": "Silverdale",
+        "total_crimes": 6,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "criminal-damage-arson": 1,
+          "other-theft": 2
+        },
+        "outcomes": {
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 1,
+          "Status update unavailable": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA6": {
+        "ward_id": "LA6",
+        "name": "Upper Lune Valley",
+        "total_crimes": 7,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA7": {
+        "ward_id": "LA7",
+        "name": "Scotforth West",
+        "total_crimes": 38,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 3,
+          "public-order": 4,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Status update unavailable": 2,
+          "Unable to prosecute suspect": 11,
+          "Local resolution": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA8": {
+        "ward_id": "LA8",
+        "name": "Bare",
+        "total_crimes": 38,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 3,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 5,
+          "Status update unavailable": 6,
+          "Awaiting court outcome": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA9": {
+        "ward_id": "LA9",
+        "name": "Bolton &amp; Slyne",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "criminal-damage-arson": 4,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Offender given a caution": 1,
+          "Status update unavailable": 2,
+          "Unable to prosecute suspect": 8,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:44:19.619066"
+  },
+  {
+    "borough": "lancaster",
+    "borough_name": "Lancaster",
+    "ons_code": "E07000121",
+    "date": "2025-08",
+    "total_crimes": 1366,
+    "total_stop_and_search": 69,
+    "by_category": {
+      "anti-social-behaviour": 427,
+      "burglary": 71,
+      "criminal-damage-arson": 111,
+      "other-theft": 64,
+      "possession-of-weapons": 17,
+      "public-order": 78,
+      "vehicle-crime": 41,
+      "violent-crime": 425,
+      "drugs": 32,
+      "shoplifting": 57,
+      "other-crime": 21,
+      "bicycle-theft": 10,
+      "robbery": 9,
+      "theft-from-the-person": 3
+    },
+    "category_display": {
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 427
+      },
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 425
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 111
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 78
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 71
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 64
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 57
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 41
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 32
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 21
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 17
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 10
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 9
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 3
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 288,
+      "Status update unavailable": 125,
+      "Offender given a caution": 14,
+      "Unable to prosecute suspect": 357,
+      "Awaiting court outcome": 83,
+      "Local resolution": 59,
+      "Action to be taken by another organisation": 4,
+      "Further action is not in the public interest": 3,
+      "Offender given penalty notice": 1,
+      "Further investigation is not in the public interest": 5
+    },
+    "ward_count": 27,
+    "wards": {
+      "LA1": {
+        "ward_id": "LA1",
+        "name": "Heysham South",
+        "total_crimes": 46,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 3,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 23
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Status update unavailable": 3,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 21
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA10": {
+        "ward_id": "LA10",
+        "name": "Bowerham",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 4,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Awaiting court outcome": 1,
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA11": {
+        "ward_id": "LA11",
+        "name": "Bulk",
+        "total_crimes": 66,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "drugs": 5,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 20,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Unable to prosecute suspect": 15,
+          "Local resolution": 5,
+          "Status update unavailable": 8,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA12": {
+        "ward_id": "LA12",
+        "name": "Carnforth &amp; Millhead",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "burglary": 3,
+          "other-theft": 3,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 13,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 10,
+          "Status update unavailable": 1,
+          "Awaiting court outcome": 1,
+          "Local resolution": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA13": {
+        "ward_id": "LA13",
+        "name": "Castle",
+        "total_crimes": 196,
+        "by_category": {
+          "anti-social-behaviour": 55,
+          "bicycle-theft": 4,
+          "burglary": 13,
+          "criminal-damage-arson": 13,
+          "drugs": 7,
+          "other-theft": 6,
+          "possession-of-weapons": 1,
+          "public-order": 17,
+          "robbery": 3,
+          "shoplifting": 17,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 56
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 42,
+          "Awaiting court outcome": 27,
+          "Unable to prosecute suspect": 39,
+          "Status update unavailable": 20,
+          "Local resolution": 9,
+          "Offender given penalty notice": 1,
+          "Further investigation is not in the public interest": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 12
+        }
+      },
+      "LA14": {
+        "ward_id": "LA14",
+        "name": "Ellel",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "drugs": 2,
+          "public-order": 2,
+          "vehicle-crime": 4,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Local resolution": 4,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 5,
+          "Status update unavailable": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA15": {
+        "ward_id": "LA15",
+        "name": "Halton with Aughton &amp; Kellet",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Status update unavailable": 5,
+          "Investigation complete; no suspect identified": 3,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 7,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA16": {
+        "ward_id": "LA16",
+        "name": "John O'Gaunt",
+        "total_crimes": 14,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 2,
+          "Status update unavailable": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA17": {
+        "ward_id": "LA17",
+        "name": "Lower Lune Valley",
+        "total_crimes": 29,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "criminal-damage-arson": 4,
+          "other-theft": 2,
+          "public-order": 2,
+          "violent-crime": 9,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 5,
+          "Status update unavailable": 5,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA18": {
+        "ward_id": "LA18",
+        "name": "Marsh",
+        "total_crimes": 38,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 1,
+          "possession-of-weapons": 2,
+          "public-order": 4,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 8,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 4,
+          "Status update unavailable": 5,
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 6,
+          "Local resolution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "LA19": {
+        "ward_id": "LA19",
+        "name": "Overton - Lancaster",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "public-order": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 17
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Status update unavailable": 4,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 12,
+          "Further action is not in the public interest": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA2": {
+        "ward_id": "LA2",
+        "name": "Heysham North",
+        "total_crimes": 75,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "bicycle-theft": 1,
+          "burglary": 6,
+          "criminal-damage-arson": 9,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 20,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 16,
+          "Status update unavailable": 12,
+          "Local resolution": 5,
+          "Investigation complete; no suspect identified": 16,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 17
+        }
+      },
+      "LA20": {
+        "ward_id": "LA20",
+        "name": "Poulton - Lancaster",
+        "total_crimes": 166,
+        "by_category": {
+          "anti-social-behaviour": 37,
+          "bicycle-theft": 1,
+          "burglary": 13,
+          "criminal-damage-arson": 15,
+          "drugs": 8,
+          "other-theft": 11,
+          "possession-of-weapons": 3,
+          "public-order": 7,
+          "robbery": 1,
+          "shoplifting": 13,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 51,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 48,
+          "Unable to prosecute suspect": 41,
+          "Awaiting court outcome": 12,
+          "Status update unavailable": 16,
+          "Local resolution": 9,
+          "Further investigation is not in the public interest": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 15
+        }
+      },
+      "LA21": {
+        "ward_id": "LA21",
+        "name": "Scale Hall",
+        "total_crimes": 82,
+        "by_category": {
+          "anti-social-behaviour": 29,
+          "bicycle-theft": 2,
+          "burglary": 1,
+          "criminal-damage-arson": 12,
+          "drugs": 3,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 26
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Unable to prosecute suspect": 19,
+          "Awaiting court outcome": 7,
+          "Local resolution": 2,
+          "Status update unavailable": 8,
+          "Further action is not in the public interest": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA22": {
+        "ward_id": "LA22",
+        "name": "Scotforth East",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 4,
+          "public-order": 1,
+          "shoplifting": 5,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 1,
+          "Status update unavailable": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA23": {
+        "ward_id": "LA23",
+        "name": "Skerton",
+        "total_crimes": 74,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 5,
+          "criminal-damage-arson": 12,
+          "other-theft": 1,
+          "possession-of-weapons": 2,
+          "public-order": 5,
+          "robbery": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 16,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Status update unavailable": 7,
+          "Unable to prosecute suspect": 24,
+          "Local resolution": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA24": {
+        "ward_id": "LA24",
+        "name": "Torrisholme - Lancaster",
+        "total_crimes": 19,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 3
+        },
+        "outcomes": {
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 5,
+          "Investigation complete; no suspect identified": 4
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA25": {
+        "ward_id": "LA25",
+        "name": "University - Lancaster",
+        "total_crimes": 1,
+        "by_category": {
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA26": {
+        "ward_id": "LA26",
+        "name": "Warton - Lancaster",
+        "total_crimes": 7,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "other-theft": 1,
+          "violent-crime": 2,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA27": {
+        "ward_id": "LA27",
+        "name": "West End - Lancaster",
+        "total_crimes": 108,
+        "by_category": {
+          "anti-social-behaviour": 31,
+          "burglary": 1,
+          "criminal-damage-arson": 8,
+          "drugs": 2,
+          "other-theft": 10,
+          "public-order": 3,
+          "shoplifting": 10,
+          "vehicle-crime": 3,
+          "violent-crime": 39,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 21,
+          "Unable to prosecute suspect": 33,
+          "Local resolution": 3,
+          "Status update unavailable": 7,
+          "Awaiting court outcome": 11,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "LA3": {
+        "ward_id": "LA3",
+        "name": "Heysham Central",
+        "total_crimes": 42,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 12,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Status update unavailable": 6,
+          "Investigation complete; no suspect identified": 4,
+          "Unable to prosecute suspect": 14,
+          "Awaiting court outcome": 2,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA4": {
+        "ward_id": "LA4",
+        "name": "Westgate - Lancaster",
+        "total_crimes": 112,
+        "by_category": {
+          "anti-social-behaviour": 39,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 8,
+          "drugs": 1,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 7,
+          "shoplifting": 3,
+          "vehicle-crime": 5,
+          "violent-crime": 38,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 22,
+          "Status update unavailable": 4,
+          "Unable to prosecute suspect": 38,
+          "Local resolution": 5,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 3
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "LA5": {
+        "ward_id": "LA5",
+        "name": "Silverdale",
+        "total_crimes": 5,
+        "by_category": {
+          "other-theft": 1,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 3,
+          "Local resolution": 1,
+          "Investigation complete; no suspect identified": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA6": {
+        "ward_id": "LA6",
+        "name": "Upper Lune Valley",
+        "total_crimes": 4,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "burglary": 1,
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA7": {
+        "ward_id": "LA7",
+        "name": "Scotforth West",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 5,
+          "criminal-damage-arson": 4,
+          "drugs": 2,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 7,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Unable to prosecute suspect": 13,
+          "Local resolution": 4,
+          "Awaiting court outcome": 3,
+          "Status update unavailable": 3
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA8": {
+        "ward_id": "LA8",
+        "name": "Bare",
+        "total_crimes": 42,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 8,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 5,
+          "Investigation complete; no suspect identified": 7,
+          "Status update unavailable": 5,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA9": {
+        "ward_id": "LA9",
+        "name": "Bolton &amp; Slyne",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 9,
+          "Local resolution": 2,
+          "Status update unavailable": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:44:39.583932"
+  },
+  {
+    "borough": "lancaster",
+    "borough_name": "Lancaster",
+    "ons_code": "E07000121",
+    "date": "2025-09",
+    "total_crimes": 1279,
+    "total_stop_and_search": 97,
+    "by_category": {
+      "anti-social-behaviour": 361,
+      "criminal-damage-arson": 108,
+      "other-theft": 71,
+      "possession-of-weapons": 13,
+      "public-order": 39,
+      "shoplifting": 84,
+      "vehicle-crime": 45,
+      "violent-crime": 398,
+      "other-crime": 16,
+      "burglary": 88,
+      "drugs": 32,
+      "bicycle-theft": 8,
+      "robbery": 9,
+      "theft-from-the-person": 7
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 398
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 361
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 108
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 88
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 84
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 71
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 45
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 39
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 32
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 16
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 13
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 9
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 8
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 7
+      }
+    },
+    "outcomes": {
+      "Unable to prosecute suspect": 352,
+      "Local resolution": 51,
+      "Investigation complete; no suspect identified": 252,
+      "Under investigation": 149,
+      "Action to be taken by another organisation": 7,
+      "Formal action is not in the public interest": 1,
+      "Awaiting court outcome": 98,
+      "Offender given a caution": 2,
+      "Further investigation is not in the public interest": 3,
+      "Further action is not in the public interest": 3
+    },
+    "ward_count": 27,
+    "wards": {
+      "LA1": {
+        "ward_id": "LA1",
+        "name": "Heysham South",
+        "total_crimes": 64,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 29,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 25,
+          "Local resolution": 3,
+          "Investigation complete; no suspect identified": 7,
+          "Under investigation": 5,
+          "Action to be taken by another organisation": 1,
+          "Formal action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA10": {
+        "ward_id": "LA10",
+        "name": "Bowerham",
+        "total_crimes": 15,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 1,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA11": {
+        "ward_id": "LA11",
+        "name": "Bulk",
+        "total_crimes": 62,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "burglary": 3,
+          "criminal-damage-arson": 9,
+          "drugs": 2,
+          "other-theft": 6,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 5,
+          "vehicle-crime": 2,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 20,
+          "Unable to prosecute suspect": 9,
+          "Under investigation": 7,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA12": {
+        "ward_id": "LA12",
+        "name": "Carnforth &amp; Millhead",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 4,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 8,
+          "Investigation complete; no suspect identified": 4
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "LA13": {
+        "ward_id": "LA13",
+        "name": "Castle",
+        "total_crimes": 194,
+        "by_category": {
+          "anti-social-behaviour": 51,
+          "bicycle-theft": 1,
+          "burglary": 21,
+          "criminal-damage-arson": 9,
+          "drugs": 7,
+          "other-theft": 14,
+          "possession-of-weapons": 1,
+          "public-order": 8,
+          "robbery": 1,
+          "shoplifting": 31,
+          "theft-from-the-person": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 42,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 47,
+          "Awaiting court outcome": 35,
+          "Unable to prosecute suspect": 31,
+          "Under investigation": 21,
+          "Local resolution": 8,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 19
+        }
+      },
+      "LA14": {
+        "ward_id": "LA14",
+        "name": "Ellel",
+        "total_crimes": 17,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "criminal-damage-arson": 3,
+          "other-theft": 3,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Further investigation is not in the public interest": 1,
+          "Awaiting court outcome": 1,
+          "Under investigation": 1,
+          "Unable to prosecute suspect": 6
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA15": {
+        "ward_id": "LA15",
+        "name": "Halton with Aughton &amp; Kellet",
+        "total_crimes": 13,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 3,
+          "Local resolution": 1,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA16": {
+        "ward_id": "LA16",
+        "name": "John O'Gaunt",
+        "total_crimes": 30,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 1,
+          "other-theft": 3,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "LA17": {
+        "ward_id": "LA17",
+        "name": "Lower Lune Valley",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "burglary": 4,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "public-order": 2,
+          "violent-crime": 3,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 3,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA18": {
+        "ward_id": "LA18",
+        "name": "Marsh",
+        "total_crimes": 45,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 4,
+          "vehicle-crime": 2,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 13,
+          "Under investigation": 6,
+          "Investigation complete; no suspect identified": 12,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA19": {
+        "ward_id": "LA19",
+        "name": "Overton - Lancaster",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "other-theft": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 3,
+          "violent-crime": 8,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 12,
+          "Local resolution": 1,
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA2": {
+        "ward_id": "LA2",
+        "name": "Heysham North",
+        "total_crimes": 58,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "bicycle-theft": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 9,
+          "drugs": 2,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 18,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Unable to prosecute suspect": 16,
+          "Awaiting court outcome": 5,
+          "Under investigation": 6,
+          "Local resolution": 4
+        },
+        "stop_and_search": {
+          "total": 12
+        }
+      },
+      "LA20": {
+        "ward_id": "LA20",
+        "name": "Poulton - Lancaster",
+        "total_crimes": 136,
+        "by_category": {
+          "anti-social-behaviour": 53,
+          "burglary": 4,
+          "criminal-damage-arson": 17,
+          "drugs": 4,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "robbery": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 6,
+          "violent-crime": 41
+        },
+        "outcomes": {
+          "Awaiting court outcome": 8,
+          "Investigation complete; no suspect identified": 22,
+          "Under investigation": 14,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 34,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 27
+        }
+      },
+      "LA21": {
+        "ward_id": "LA21",
+        "name": "Scale Hall",
+        "total_crimes": 101,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "bicycle-theft": 1,
+          "burglary": 25,
+          "criminal-damage-arson": 8,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 9,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 28
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 16,
+          "Awaiting court outcome": 13,
+          "Under investigation": 23,
+          "Unable to prosecute suspect": 25,
+          "Local resolution": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA22": {
+        "ward_id": "LA22",
+        "name": "Scotforth East",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 12,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 11,
+          "Under investigation": 3,
+          "Awaiting court outcome": 7,
+          "Local resolution": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA23": {
+        "ward_id": "LA23",
+        "name": "Skerton",
+        "total_crimes": 73,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "bicycle-theft": 2,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 4,
+          "other-theft": 3,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "robbery": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 6,
+          "violent-crime": 19
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Unable to prosecute suspect": 19,
+          "Under investigation": 8,
+          "Local resolution": 3,
+          "Awaiting court outcome": 5,
+          "Further investigation is not in the public interest": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      },
+      "LA24": {
+        "ward_id": "LA24",
+        "name": "Torrisholme - Lancaster",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "burglary": 4,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 7,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 6,
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 7,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA25": {
+        "ward_id": "LA25",
+        "name": "University - Lancaster",
+        "total_crimes": 1,
+        "by_category": {
+          "anti-social-behaviour": 1
+        },
+        "outcomes": {},
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA26": {
+        "ward_id": "LA26",
+        "name": "Warton - Lancaster",
+        "total_crimes": 3,
+        "by_category": {
+          "burglary": 1,
+          "other-theft": 1,
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA27": {
+        "ward_id": "LA27",
+        "name": "West End - Lancaster",
+        "total_crimes": 113,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 11,
+          "drugs": 5,
+          "other-theft": 8,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "robbery": 3,
+          "shoplifting": 6,
+          "vehicle-crime": 4,
+          "violent-crime": 42,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 22,
+          "Awaiting court outcome": 7,
+          "Under investigation": 12,
+          "Unable to prosecute suspect": 33,
+          "Local resolution": 11,
+          "Further investigation is not in the public interest": 1,
+          "Further action is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 15
+        }
+      },
+      "LA3": {
+        "ward_id": "LA3",
+        "name": "Heysham Central",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 2,
+          "possession-of-weapons": 2,
+          "robbery": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 7,
+          "Awaiting court outcome": 4,
+          "Under investigation": 2,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA4": {
+        "ward_id": "LA4",
+        "name": "Westgate - Lancaster",
+        "total_crimes": 103,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 5,
+          "other-theft": 7,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "robbery": 1,
+          "shoplifting": 8,
+          "vehicle-crime": 3,
+          "violent-crime": 46
+        },
+        "outcomes": {
+          "Under investigation": 11,
+          "Investigation complete; no suspect identified": 14,
+          "Unable to prosecute suspect": 50,
+          "Awaiting court outcome": 6,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "LA5": {
+        "ward_id": "LA5",
+        "name": "Silverdale",
+        "total_crimes": 2,
+        "by_category": {
+          "criminal-damage-arson": 1,
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA6": {
+        "ward_id": "LA6",
+        "name": "Upper Lune Valley",
+        "total_crimes": 0,
+        "by_category": {},
+        "outcomes": {},
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA7": {
+        "ward_id": "LA7",
+        "name": "Scotforth West",
+        "total_crimes": 34,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 5,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 11,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Unable to prosecute suspect": 10,
+          "Under investigation": 4
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA8": {
+        "ward_id": "LA8",
+        "name": "Bare",
+        "total_crimes": 34,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 5,
+          "criminal-damage-arson": 4,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 13
+        },
+        "outcomes": {
+          "Awaiting court outcome": 3,
+          "Investigation complete; no suspect identified": 7,
+          "Under investigation": 8,
+          "Unable to prosecute suspect": 5,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA9": {
+        "ward_id": "LA9",
+        "name": "Bolton &amp; Slyne",
+        "total_crimes": 31,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 16,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 1,
+          "Local resolution": 3,
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 14,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:45:00.549610"
+  },
+  {
+    "borough": "lancaster",
+    "borough_name": "Lancaster",
+    "ons_code": "E07000121",
+    "date": "2025-10",
+    "total_crimes": 1170,
+    "total_stop_and_search": 143,
+    "by_category": {
+      "anti-social-behaviour": 354,
+      "criminal-damage-arson": 104,
+      "other-theft": 57,
+      "vehicle-crime": 39,
+      "violent-crime": 378,
+      "burglary": 46,
+      "drugs": 30,
+      "public-order": 50,
+      "robbery": 8,
+      "shoplifting": 41,
+      "other-crime": 30,
+      "bicycle-theft": 19,
+      "theft-from-the-person": 4,
+      "possession-of-weapons": 10
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 378
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 354
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 104
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 57
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 50
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 46
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 41
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 39
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 30
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 30
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 19
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 10
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 8
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 4
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 240,
+      "Unable to prosecute suspect": 318,
+      "Under investigation": 130,
+      "Local resolution": 59,
+      "Offender given penalty notice": 3,
+      "Awaiting court outcome": 38,
+      "Action to be taken by another organisation": 8,
+      "Offender given a caution": 16,
+      "Further investigation is not in the public interest": 3,
+      "Further action is not in the public interest": 1
+    },
+    "ward_count": 27,
+    "wards": {
+      "LA1": {
+        "ward_id": "LA1",
+        "name": "Heysham South",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 6,
+          "other-theft": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 20
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 16,
+          "Under investigation": 4,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA10": {
+        "ward_id": "LA10",
+        "name": "Bowerham",
+        "total_crimes": 15,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "drugs": 2,
+          "other-theft": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 2,
+          "Under investigation": 1,
+          "Offender given penalty notice": 1,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA11": {
+        "ward_id": "LA11",
+        "name": "Bulk",
+        "total_crimes": 77,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 2,
+          "other-theft": 6,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 5,
+          "vehicle-crime": 1,
+          "violent-crime": 35,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 17,
+          "Unable to prosecute suspect": 27,
+          "Under investigation": 10,
+          "Local resolution": 2,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 12
+        }
+      },
+      "LA12": {
+        "ward_id": "LA12",
+        "name": "Carnforth &amp; Millhead",
+        "total_crimes": 57,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "burglary": 3,
+          "criminal-damage-arson": 6,
+          "drugs": 2,
+          "other-theft": 2,
+          "violent-crime": 22
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Offender given a caution": 2,
+          "Unable to prosecute suspect": 14,
+          "Local resolution": 5,
+          "Under investigation": 6,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "LA13": {
+        "ward_id": "LA13",
+        "name": "Castle",
+        "total_crimes": 209,
+        "by_category": {
+          "anti-social-behaviour": 66,
+          "bicycle-theft": 6,
+          "burglary": 4,
+          "criminal-damage-arson": 10,
+          "drugs": 7,
+          "other-theft": 10,
+          "public-order": 14,
+          "robbery": 2,
+          "shoplifting": 19,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 8,
+          "violent-crime": 57,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 42,
+          "Under investigation": 21,
+          "Local resolution": 15,
+          "Unable to prosecute suspect": 44,
+          "Offender given penalty notice": 1,
+          "Awaiting court outcome": 15,
+          "Offender given a caution": 4,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 33
+        }
+      },
+      "LA14": {
+        "ward_id": "LA14",
+        "name": "Ellel",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 2,
+          "other-theft": 2,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 5,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA15": {
+        "ward_id": "LA15",
+        "name": "Halton with Aughton &amp; Kellet",
+        "total_crimes": 13,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 1,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA16": {
+        "ward_id": "LA16",
+        "name": "John O'Gaunt",
+        "total_crimes": 11,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "violent-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 1,
+          "Investigation complete; no suspect identified": 2,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 1,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "LA17": {
+        "ward_id": "LA17",
+        "name": "Lower Lune Valley",
+        "total_crimes": 19,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "violent-crime": 5,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 1,
+          "Unable to prosecute suspect": 6,
+          "Offender given a caution": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA18": {
+        "ward_id": "LA18",
+        "name": "Marsh",
+        "total_crimes": 42,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "bicycle-theft": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 12,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Under investigation": 4,
+          "Local resolution": 4,
+          "Unable to prosecute suspect": 11,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 11
+        }
+      },
+      "LA19": {
+        "ward_id": "LA19",
+        "name": "Overton - Lancaster",
+        "total_crimes": 17,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "criminal-damage-arson": 2,
+          "public-order": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 5,
+          "Under investigation": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA2": {
+        "ward_id": "LA2",
+        "name": "Heysham North",
+        "total_crimes": 38,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 2,
+          "possession-of-weapons": 2,
+          "public-order": 1,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Local resolution": 4,
+          "Under investigation": 6,
+          "Unable to prosecute suspect": 11,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 12
+        }
+      },
+      "LA20": {
+        "ward_id": "LA20",
+        "name": "Poulton - Lancaster",
+        "total_crimes": 120,
+        "by_category": {
+          "anti-social-behaviour": 42,
+          "burglary": 4,
+          "criminal-damage-arson": 12,
+          "drugs": 6,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 5,
+          "robbery": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 3,
+          "violent-crime": 35,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 25,
+          "Unable to prosecute suspect": 26,
+          "Under investigation": 19,
+          "Local resolution": 3,
+          "Action to be taken by another organisation": 2,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 24
+        }
+      },
+      "LA21": {
+        "ward_id": "LA21",
+        "name": "Scale Hall",
+        "total_crimes": 69,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "bicycle-theft": 2,
+          "burglary": 4,
+          "criminal-damage-arson": 10,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 22,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 18,
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 25,
+          "Awaiting court outcome": 3,
+          "Local resolution": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA22": {
+        "ward_id": "LA22",
+        "name": "Scotforth East",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "public-order": 4,
+          "shoplifting": 2,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 5,
+          "Investigation complete; no suspect identified": 2,
+          "Local resolution": 5,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA23": {
+        "ward_id": "LA23",
+        "name": "Skerton",
+        "total_crimes": 63,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 8,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 22,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 21,
+          "Local resolution": 4,
+          "Offender given penalty notice": 1,
+          "Offender given a caution": 1,
+          "Under investigation": 3
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "LA24": {
+        "ward_id": "LA24",
+        "name": "Torrisholme - Lancaster",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 3,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 3,
+          "Under investigation": 3,
+          "Investigation complete; no suspect identified": 3,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA25": {
+        "ward_id": "LA25",
+        "name": "University - Lancaster",
+        "total_crimes": 4,
+        "by_category": {
+          "bicycle-theft": 2,
+          "other-theft": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA26": {
+        "ward_id": "LA26",
+        "name": "Warton - Lancaster",
+        "total_crimes": 12,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "shoplifting": 1,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Local resolution": 1,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 3,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA27": {
+        "ward_id": "LA27",
+        "name": "West End - Lancaster",
+        "total_crimes": 100,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "bicycle-theft": 3,
+          "burglary": 2,
+          "criminal-damage-arson": 10,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 5,
+          "robbery": 2,
+          "shoplifting": 7,
+          "vehicle-crime": 5,
+          "violent-crime": 29,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 25,
+          "Awaiting court outcome": 3,
+          "Under investigation": 16,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 24,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "LA3": {
+        "ward_id": "LA3",
+        "name": "Heysham Central",
+        "total_crimes": 29,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "public-order": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Awaiting court outcome": 1,
+          "Investigation complete; no suspect identified": 8,
+          "Under investigation": 3,
+          "Unable to prosecute suspect": 11,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA4": {
+        "ward_id": "LA4",
+        "name": "Westgate - Lancaster",
+        "total_crimes": 87,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "bicycle-theft": 1,
+          "burglary": 5,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 4,
+          "violent-crime": 25,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 19,
+          "Unable to prosecute suspect": 25,
+          "Under investigation": 9,
+          "Awaiting court outcome": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "LA5": {
+        "ward_id": "LA5",
+        "name": "Silverdale",
+        "total_crimes": 3,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "violent-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA6": {
+        "ward_id": "LA6",
+        "name": "Upper Lune Valley",
+        "total_crimes": 2,
+        "by_category": {
+          "burglary": 1,
+          "criminal-damage-arson": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA7": {
+        "ward_id": "LA7",
+        "name": "Scotforth West",
+        "total_crimes": 41,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "other-theft": 4,
+          "public-order": 5,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 11
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 12,
+          "Investigation complete; no suspect identified": 10,
+          "Awaiting court outcome": 1,
+          "Local resolution": 2,
+          "Offender given a caution": 1,
+          "Under investigation": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA8": {
+        "ward_id": "LA8",
+        "name": "Bare",
+        "total_crimes": 30,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 2,
+          "shoplifting": 1,
+          "violent-crime": 10,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 7,
+          "Local resolution": 2,
+          "Under investigation": 6
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA9": {
+        "ward_id": "LA9",
+        "name": "Bolton &amp; Slyne",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 4,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 11
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:45:20.443578"
+  },
+  {
+    "borough": "lancaster",
+    "borough_name": "Lancaster",
+    "ons_code": "E07000121",
+    "date": "2025-11",
+    "total_crimes": 1234,
+    "total_stop_and_search": 1,
+    "by_category": {
+      "anti-social-behaviour": 329,
+      "criminal-damage-arson": 101,
+      "drugs": 25,
+      "other-theft": 68,
+      "public-order": 67,
+      "theft-from-the-person": 4,
+      "vehicle-crime": 41,
+      "violent-crime": 412,
+      "other-crime": 39,
+      "bicycle-theft": 20,
+      "burglary": 43,
+      "robbery": 8,
+      "shoplifting": 68,
+      "possession-of-weapons": 9
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 412
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 329
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 101
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 68
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 68
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 67
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 43
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 41
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 39
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 25
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 20
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 9
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 8
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 4
+      }
+    },
+    "outcomes": {
+      "Unable to prosecute suspect": 264,
+      "Under investigation": 223,
+      "Investigation complete; no suspect identified": 244,
+      "Local resolution": 65,
+      "Further action is not in the public interest": 9,
+      "Awaiting court outcome": 68,
+      "Action to be taken by another organisation": 13,
+      "Offender given a caution": 14,
+      "Further investigation is not in the public interest": 3,
+      "Offender given penalty notice": 2
+    },
+    "ward_count": 27,
+    "wards": {
+      "LA1": {
+        "ward_id": "LA1",
+        "name": "Heysham South",
+        "total_crimes": 33,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 18,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 13,
+          "Under investigation": 8,
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA10": {
+        "ward_id": "LA10",
+        "name": "Bowerham",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA11": {
+        "ward_id": "LA11",
+        "name": "Bulk",
+        "total_crimes": 41,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 3,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 16,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Under investigation": 9,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 5,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA12": {
+        "ward_id": "LA12",
+        "name": "Carnforth &amp; Millhead",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "theft-from-the-person": 1,
+          "violent-crime": 11,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 6,
+          "Under investigation": 6,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA13": {
+        "ward_id": "LA13",
+        "name": "Castle",
+        "total_crimes": 168,
+        "by_category": {
+          "anti-social-behaviour": 43,
+          "bicycle-theft": 4,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 9,
+          "other-theft": 6,
+          "public-order": 21,
+          "robbery": 1,
+          "shoplifting": 28,
+          "vehicle-crime": 2,
+          "violent-crime": 41,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 34,
+          "Under investigation": 24,
+          "Local resolution": 7,
+          "Awaiting court outcome": 31,
+          "Unable to prosecute suspect": 25,
+          "Offender given a caution": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA14": {
+        "ward_id": "LA14",
+        "name": "Ellel",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "criminal-damage-arson": 4,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 3,
+          "Unable to prosecute suspect": 7,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA15": {
+        "ward_id": "LA15",
+        "name": "Halton with Aughton &amp; Kellet",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "violent-crime": 10,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 6,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA16": {
+        "ward_id": "LA16",
+        "name": "John O'Gaunt",
+        "total_crimes": 12,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 1,
+          "other-theft": 1,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 1,
+          "Local resolution": 1,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA17": {
+        "ward_id": "LA17",
+        "name": "Lower Lune Valley",
+        "total_crimes": 13,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Offender given a caution": 1,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA18": {
+        "ward_id": "LA18",
+        "name": "Marsh",
+        "total_crimes": 46,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 5,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "public-order": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 17,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 13,
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 12,
+          "Local resolution": 1,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA19": {
+        "ward_id": "LA19",
+        "name": "Overton - Lancaster",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 3,
+          "violent-crime": 11,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 6,
+          "Investigation complete; no suspect identified": 6,
+          "Awaiting court outcome": 1,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 8
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA2": {
+        "ward_id": "LA2",
+        "name": "Heysham North",
+        "total_crimes": 59,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 3,
+          "shoplifting": 3,
+          "vehicle-crime": 5,
+          "violent-crime": 23
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 11,
+          "Local resolution": 4,
+          "Under investigation": 10,
+          "Action to be taken by another organisation": 2,
+          "Offender given a caution": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA20": {
+        "ward_id": "LA20",
+        "name": "Poulton - Lancaster",
+        "total_crimes": 135,
+        "by_category": {
+          "anti-social-behaviour": 45,
+          "bicycle-theft": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 13,
+          "drugs": 4,
+          "other-theft": 6,
+          "possession-of-weapons": 2,
+          "public-order": 6,
+          "robbery": 4,
+          "shoplifting": 5,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 39,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Under investigation": 11,
+          "Investigation complete; no suspect identified": 30,
+          "Unable to prosecute suspect": 36,
+          "Offender given a caution": 2,
+          "Local resolution": 9,
+          "Offender given penalty notice": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA21": {
+        "ward_id": "LA21",
+        "name": "Scale Hall",
+        "total_crimes": 84,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 10,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 5,
+          "shoplifting": 4,
+          "vehicle-crime": 2,
+          "violent-crime": 34,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Under investigation": 23,
+          "Unable to prosecute suspect": 18,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 3,
+          "Further action is not in the public interest": 1,
+          "Local resolution": 6
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA22": {
+        "ward_id": "LA22",
+        "name": "Scotforth East",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "criminal-damage-arson": 4,
+          "possession-of-weapons": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 5,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 9,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA23": {
+        "ward_id": "LA23",
+        "name": "Skerton",
+        "total_crimes": 103,
+        "by_category": {
+          "anti-social-behaviour": 29,
+          "bicycle-theft": 2,
+          "burglary": 2,
+          "criminal-damage-arson": 9,
+          "drugs": 5,
+          "other-theft": 7,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "shoplifting": 2,
+          "vehicle-crime": 6,
+          "violent-crime": 32,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 21,
+          "Awaiting court outcome": 5,
+          "Under investigation": 20,
+          "Local resolution": 10,
+          "Offender given a caution": 1,
+          "Further action is not in the public interest": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA24": {
+        "ward_id": "LA24",
+        "name": "Torrisholme - Lancaster",
+        "total_crimes": 10,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "possession-of-weapons": 1,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Local resolution": 1,
+          "Under investigation": 1,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA25": {
+        "ward_id": "LA25",
+        "name": "University - Lancaster",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "bicycle-theft": 7,
+          "other-theft": 5,
+          "violent-crime": 1,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA26": {
+        "ward_id": "LA26",
+        "name": "Warton - Lancaster",
+        "total_crimes": 8,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "violent-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Local resolution": 1,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA27": {
+        "ward_id": "LA27",
+        "name": "West End - Lancaster",
+        "total_crimes": 120,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "bicycle-theft": 1,
+          "burglary": 4,
+          "criminal-damage-arson": 13,
+          "drugs": 2,
+          "other-theft": 8,
+          "public-order": 8,
+          "robbery": 1,
+          "shoplifting": 11,
+          "vehicle-crime": 2,
+          "violent-crime": 37,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 32,
+          "Awaiting court outcome": 8,
+          "Local resolution": 5,
+          "Unable to prosecute suspect": 18,
+          "Under investigation": 22,
+          "Offender given penalty notice": 1,
+          "Action to be taken by another organisation": 2,
+          "Further action is not in the public interest": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA3": {
+        "ward_id": "LA3",
+        "name": "Heysham Central",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 1,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 7,
+          "Unable to prosecute suspect": 6,
+          "Local resolution": 1,
+          "Further action is not in the public interest": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA4": {
+        "ward_id": "LA4",
+        "name": "Westgate - Lancaster",
+        "total_crimes": 121,
+        "by_category": {
+          "anti-social-behaviour": 26,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 12,
+          "drugs": 2,
+          "other-theft": 7,
+          "possession-of-weapons": 1,
+          "public-order": 7,
+          "shoplifting": 8,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 8,
+          "violent-crime": 42,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 25,
+          "Under investigation": 25,
+          "Awaiting court outcome": 6,
+          "Unable to prosecute suspect": 30,
+          "Local resolution": 7,
+          "Action to be taken by another organisation": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA5": {
+        "ward_id": "LA5",
+        "name": "Silverdale",
+        "total_crimes": 5,
+        "by_category": {
+          "burglary": 3,
+          "other-theft": 1,
+          "violent-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA6": {
+        "ward_id": "LA6",
+        "name": "Upper Lune Valley",
+        "total_crimes": 0,
+        "by_category": {},
+        "outcomes": {},
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA7": {
+        "ward_id": "LA7",
+        "name": "Scotforth West",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "other-theft": 3,
+          "public-order": 4,
+          "robbery": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 16
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 12,
+          "Under investigation": 6,
+          "Awaiting court outcome": 3,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA8": {
+        "ward_id": "LA8",
+        "name": "Bare",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 2,
+          "public-order": 2,
+          "robbery": 1,
+          "shoplifting": 2,
+          "violent-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 2,
+          "Under investigation": 4,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA9": {
+        "ward_id": "LA9",
+        "name": "Bolton &amp; Slyne",
+        "total_crimes": 31,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 10,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 9
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:45:41.546034"
+  },
+  {
+    "borough": "lancaster",
+    "borough_name": "Lancaster",
+    "ons_code": "E07000121",
+    "date": "2025-12",
+    "total_crimes": 1111,
+    "total_stop_and_search": 38,
+    "by_category": {
+      "anti-social-behaviour": 263,
+      "criminal-damage-arson": 101,
+      "other-theft": 44,
+      "public-order": 46,
+      "vehicle-crime": 35,
+      "violent-crime": 421,
+      "other-crime": 27,
+      "burglary": 50,
+      "drugs": 33,
+      "possession-of-weapons": 7,
+      "shoplifting": 62,
+      "bicycle-theft": 12,
+      "robbery": 6,
+      "theft-from-the-person": 4
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 421
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 263
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 101
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 62
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 50
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 46
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 44
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 35
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 33
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 27
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 12
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 7
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 6
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 4
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 156,
+      "Under investigation": 402,
+      "Unable to prosecute suspect": 162,
+      "Offender given a caution": 14,
+      "Awaiting court outcome": 57,
+      "Formal action is not in the public interest": 1,
+      "Local resolution": 46,
+      "Action to be taken by another organisation": 7,
+      "Further investigation is not in the public interest": 3
+    },
+    "ward_count": 27,
+    "wards": {
+      "LA1": {
+        "ward_id": "LA1",
+        "name": "Heysham South",
+        "total_crimes": 38,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 5,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 21,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Under investigation": 11,
+          "Unable to prosecute suspect": 9,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA10": {
+        "ward_id": "LA10",
+        "name": "Bowerham",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 4,
+          "criminal-damage-arson": 2,
+          "violent-crime": 4,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 5,
+          "Awaiting court outcome": 1,
+          "Formal action is not in the public interest": 1,
+          "Unable to prosecute suspect": 2,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA11": {
+        "ward_id": "LA11",
+        "name": "Bulk",
+        "total_crimes": 67,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 7,
+          "criminal-damage-arson": 3,
+          "drugs": 8,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 27
+        },
+        "outcomes": {
+          "Awaiting court outcome": 6,
+          "Under investigation": 22,
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 6,
+          "Unable to prosecute suspect": 14,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA12": {
+        "ward_id": "LA12",
+        "name": "Carnforth &amp; Millhead",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 15,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 3,
+          "Under investigation": 14,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "LA13": {
+        "ward_id": "LA13",
+        "name": "Castle",
+        "total_crimes": 139,
+        "by_category": {
+          "anti-social-behaviour": 32,
+          "bicycle-theft": 1,
+          "burglary": 6,
+          "criminal-damage-arson": 14,
+          "drugs": 3,
+          "other-theft": 4,
+          "public-order": 7,
+          "robbery": 2,
+          "shoplifting": 23,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 45
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 16,
+          "Under investigation": 54,
+          "Unable to prosecute suspect": 19,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 16,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      },
+      "LA14": {
+        "ward_id": "LA14",
+        "name": "Ellel",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "theft-from-the-person": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Under investigation": 9,
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA15": {
+        "ward_id": "LA15",
+        "name": "Halton with Aughton &amp; Kellet",
+        "total_crimes": 19,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "violent-crime": 9,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 4,
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 5,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA16": {
+        "ward_id": "LA16",
+        "name": "John O'Gaunt",
+        "total_crimes": 14,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "violent-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 1,
+          "Local resolution": 1,
+          "Under investigation": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA17": {
+        "ward_id": "LA17",
+        "name": "Lower Lune Valley",
+        "total_crimes": 10,
+        "by_category": {
+          "criminal-damage-arson": 1,
+          "drugs": 2,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 3,
+          "Under investigation": 5,
+          "Investigation complete; no suspect identified": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA18": {
+        "ward_id": "LA18",
+        "name": "Marsh",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 6,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 4,
+          "Under investigation": 13,
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 4
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "LA19": {
+        "ward_id": "LA19",
+        "name": "Overton - Lancaster",
+        "total_crimes": 29,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Local resolution": 2,
+          "Under investigation": 16,
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 3,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA2": {
+        "ward_id": "LA2",
+        "name": "Heysham North",
+        "total_crimes": 52,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "bicycle-theft": 3,
+          "burglary": 5,
+          "criminal-damage-arson": 6,
+          "other-theft": 2,
+          "public-order": 2,
+          "vehicle-crime": 6,
+          "violent-crime": 17,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Under investigation": 20,
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 10,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA20": {
+        "ward_id": "LA20",
+        "name": "Poulton - Lancaster",
+        "total_crimes": 136,
+        "by_category": {
+          "anti-social-behaviour": 33,
+          "bicycle-theft": 2,
+          "burglary": 2,
+          "criminal-damage-arson": 16,
+          "drugs": 6,
+          "other-theft": 4,
+          "public-order": 6,
+          "robbery": 2,
+          "shoplifting": 8,
+          "vehicle-crime": 7,
+          "violent-crime": 46,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 24,
+          "Unable to prosecute suspect": 10,
+          "Under investigation": 54,
+          "Local resolution": 9,
+          "Offender given a caution": 4,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "LA21": {
+        "ward_id": "LA21",
+        "name": "Scale Hall",
+        "total_crimes": 67,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 3,
+          "criminal-damage-arson": 5,
+          "drugs": 2,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "robbery": 1,
+          "shoplifting": 7,
+          "vehicle-crime": 3,
+          "violent-crime": 23,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Awaiting court outcome": 11,
+          "Under investigation": 24,
+          "Investigation complete; no suspect identified": 4,
+          "Offender given a caution": 3,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 9
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "LA22": {
+        "ward_id": "LA22",
+        "name": "Scotforth East",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 6,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 9,
+          "Awaiting court outcome": 1,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA23": {
+        "ward_id": "LA23",
+        "name": "Skerton",
+        "total_crimes": 66,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 2,
+          "other-theft": 2,
+          "public-order": 3,
+          "violent-crime": 31,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 23,
+          "Offender given a caution": 1,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 9,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 3
+        },
+        "stop_and_search": {
+          "total": 8
+        }
+      },
+      "LA24": {
+        "ward_id": "LA24",
+        "name": "Torrisholme - Lancaster",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 3,
+          "shoplifting": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Under investigation": 6,
+          "Unable to prosecute suspect": 4,
+          "Investigation complete; no suspect identified": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA25": {
+        "ward_id": "LA25",
+        "name": "University - Lancaster",
+        "total_crimes": 6,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "public-order": 1,
+          "violent-crime": 3
+        },
+        "outcomes": {
+          "Under investigation": 3,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA26": {
+        "ward_id": "LA26",
+        "name": "Warton - Lancaster",
+        "total_crimes": 11,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "burglary": 4,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "violent-crime": 2,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 3,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA27": {
+        "ward_id": "LA27",
+        "name": "West End - Lancaster",
+        "total_crimes": 89,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "bicycle-theft": 2,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 2,
+          "other-theft": 7,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 7,
+          "vehicle-crime": 6,
+          "violent-crime": 34,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 18,
+          "Unable to prosecute suspect": 16,
+          "Under investigation": 25,
+          "Local resolution": 5,
+          "Awaiting court outcome": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA3": {
+        "ward_id": "LA3",
+        "name": "Heysham Central",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "public-order": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 16,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 10,
+          "Local resolution": 1,
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 8,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA4": {
+        "ward_id": "LA4",
+        "name": "Westgate - Lancaster",
+        "total_crimes": 84,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "bicycle-theft": 3,
+          "burglary": 3,
+          "criminal-damage-arson": 10,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 32,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 11,
+          "Investigation complete; no suspect identified": 11,
+          "Under investigation": 30,
+          "Further investigation is not in the public interest": 1,
+          "Awaiting court outcome": 6,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "LA5": {
+        "ward_id": "LA5",
+        "name": "Silverdale",
+        "total_crimes": 4,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "burglary": 1,
+          "theft-from-the-person": 1
+        },
+        "outcomes": {
+          "Under investigation": 1,
+          "Investigation complete; no suspect identified": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA6": {
+        "ward_id": "LA6",
+        "name": "Upper Lune Valley",
+        "total_crimes": 6,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "burglary": 1,
+          "public-order": 1,
+          "violent-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA7": {
+        "ward_id": "LA7",
+        "name": "Scotforth West",
+        "total_crimes": 39,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 3,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 1,
+          "violent-crime": 22,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 15,
+          "Unable to prosecute suspect": 9,
+          "Investigation complete; no suspect identified": 2,
+          "Awaiting court outcome": 3,
+          "Local resolution": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA8": {
+        "ward_id": "LA8",
+        "name": "Bare",
+        "total_crimes": 39,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 5,
+          "other-theft": 3,
+          "public-order": 1,
+          "shoplifting": 5,
+          "theft-from-the-person": 1,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Under investigation": 10,
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "LA9": {
+        "ward_id": "LA9",
+        "name": "Bolton &amp; Slyne",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "other-theft": 2,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 8,
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-11T05:46:02.539904"
+  }
+]
