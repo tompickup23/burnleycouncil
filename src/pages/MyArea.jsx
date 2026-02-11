@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -11,8 +11,10 @@ function MyArea() {
   const { data, loading, error } = useData([
     '/data/wards.json',
     '/data/councillors.json',
+    '/data/deprivation.json',
   ])
-  const [wards, councillors] = data || [{}, []]
+  const [wards, councillors, deprivationRaw] = data || [{}, [], null]
+  const deprivation = deprivationRaw?.wards || {}
   const [selectedWard, setSelectedWard] = useState(null)
   const [postcode, setPostcode] = useState('')
   const [postcodeLoading, setPostcodeLoading] = useState(false)
@@ -101,6 +103,26 @@ function MyArea() {
   }
 
   const wardList = Object.values(wards).sort((a, b) => a.name.localeCompare(b.name))
+
+  const getDeprivationColor = (level) => {
+    switch (level) {
+      case 'Very High': return '#ff453a'
+      case 'High': return '#ff6b35'
+      case 'Medium-High': return '#ff9f0a'
+      case 'Medium': return '#ffd60a'
+      case 'Low': return '#30d158'
+      case 'Very Low': return '#66d4cf'
+      default: return '#86868b'
+    }
+  }
+
+  const getDeprivationForWard = (wardName) => {
+    if (!wardName || !deprivation) return null
+    // Try exact match first, then case-insensitive
+    return deprivation[wardName] || Object.entries(deprivation).find(
+      ([k]) => k.toLowerCase() === wardName.toLowerCase()
+    )?.[1] || null
+  }
 
   const getWardCouncillors = (wardName) => {
     return councillors.filter(c => c.ward === wardName)
@@ -197,6 +219,41 @@ function MyArea() {
             </div>
           </div>
 
+          {(() => {
+            const depData = getDeprivationForWard(selectedWard)
+            if (!depData) return null
+            const color = getDeprivationColor(depData.deprivation_level)
+            return (
+              <div className="deprivation-panel">
+                <h3><BarChart3 size={16} /> Deprivation Index</h3>
+                <div className="deprivation-stats">
+                  <div className="dep-stat">
+                    <span className="dep-badge" style={{ background: color + '20', color, borderColor: color }}>
+                      {depData.deprivation_level}
+                    </span>
+                    <span className="dep-label">Deprivation Level</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{depData.avg_imd_score}</span>
+                    <span className="dep-label">IMD Score</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{depData.avg_imd_decile}</span>
+                    <span className="dep-label">Decile (1=most deprived)</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{depData.national_percentile ? `${depData.national_percentile}%` : '—'}</span>
+                    <span className="dep-label">National Percentile</span>
+                  </div>
+                </div>
+                <p className="dep-note">
+                  Based on the English Indices of Deprivation 2019 (MHCLG). A score above 30 indicates significant deprivation.
+                  Averaged across {depData.lsoa_count} small areas (LSOAs) in this ward.
+                </p>
+              </div>
+            )
+          })()}
+
           <div className="ward-councillors">
             {getWardCouncillors(selectedWard).map(councillor => (
               <div key={councillor.id} className="councillor-detail-card">
@@ -256,6 +313,7 @@ function MyArea() {
         <div className="wards-grid">
           {wardList.map(ward => {
             const wardCouncillors = getWardCouncillors(ward.name)
+            const wardDep = getDeprivationForWard(ward.name)
 
             return (
               <div
@@ -272,6 +330,18 @@ function MyArea() {
                   <p className="ward-parties text-secondary">
                     {ward.parties?.join(', ')}
                   </p>
+                  {wardDep && (
+                    <span
+                      className="ward-dep-badge"
+                      style={{
+                        background: getDeprivationColor(wardDep.deprivation_level) + '20',
+                        color: getDeprivationColor(wardDep.deprivation_level),
+                        borderColor: getDeprivationColor(wardDep.deprivation_level),
+                      }}
+                    >
+                      {wardDep.deprivation_level} deprivation
+                    </span>
+                  )}
                   <div className="ward-councillor-names">
                     {wardCouncillors.map(c => (
                       <span key={c.id} className="councillor-name">{c.name}</span>
