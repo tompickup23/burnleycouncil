@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-02-10
+> Last updated: 2026-02-11
 
-**Summary**: 2 open issues | Critical: 0 | High: 2 | Medium: 0 | Low: 0
+**Summary**: 5 open issues | Critical: 0 | High: 2 | Medium: 3 | Low: 0
 
 ---
 
@@ -17,6 +17,7 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
+| D9 | Medium | Feature flag / file existence mismatch [auto] | pendle: `budgets=false` but `budgets_summary.json` exists | rossendale: `budgets=false` but `budgets_summary.json` exists. UI hides available data. | open |
 
 ## Process Efficiency
 
@@ -29,9 +30,12 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
+| A17 | Medium | Unguarded chained property access (4 instances) [auto] | At Budgets:1083, Budgets:1125, Budgets:1126, Budgets:1127. Use optional chaining or `|| {}` defaults. | open |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Press.jsx:55`. Add clearTimeout in useEffect cleanup. | open |
 
 ---
 
 ## Changelog
 
 - **2026-02-10** — Auto-scan: 2 issues found
+- **2026-02-11** — Auto-scan: 5 issues found
