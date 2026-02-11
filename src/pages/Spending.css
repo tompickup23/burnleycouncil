@@ -588,6 +588,30 @@
   color: var(--accent-green);
 }
 
+/* Flag column */
+.flag-col {
+  width: 36px;
+  text-align: center;
+  padding: 0 !important;
+}
+
+.flag-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.flag-btn:hover {
+  color: #ff453a;
+  background: rgba(255, 69, 58, 0.12);
+}
+
 /* Pagination */
 .pagination {
   display: flex;
@@ -941,5 +965,9 @@
 
   .chart-year-footer {
     gap: var(--space-md);
+  }
+
+  .flag-col {
+    display: none;
   }
 }

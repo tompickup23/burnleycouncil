@@ -179,11 +179,11 @@ Focus: Make the platform ready for media, public, and councillor use.
 |---|------|--------|--------|
 | 7.1 | Remove password gate from hub | ✅ | Gate removed from /lancashire/ hub. Fully public. |
 | 7.2 | Dark mode toggle | N/A | Site is already dark-themed. Light mode toggle deferred. |
-| 7.3 | PWA / offline support | Pending | Service worker for caching, "Add to Home Screen" on mobile |
+| 7.3 | PWA / offline support | ✅ | Service worker (cache-first static, network-first data), manifest.webmanifest per council, 192/512px icons. |
 | 7.4 | Social sharing meta tags (Open Graph) | ✅ | OG + Twitter cards on hub pages. Per-council OG already existed in index.html template. |
 | 7.5 | Google Search Console setup | ✅ | Sitemap index at /sitemap.xml, per-council sitemaps, robots.txt updated for 8 councils. Manual GSC verification still needed. |
-| 7.6 | Media kit / press page | Pending | One-page summary for journalists, councillors, residents |
-| 7.7 | Citizen reporting: "Flag this transaction" | Pending | Allow public to flag suspicious transactions for investigation |
+| 7.6 | Media kit / press page | ✅ | /press route: elevator pitch, stats, coverage, citations (copy-to-clipboard), methodology, contact, licence. 17 tests. |
+| 7.7 | Citizen reporting: "Flag this transaction" | ✅ | Flag icon on each spending row → mailto:press@aidoge.co.uk with pre-filled transaction details. Hidden on mobile. |
 | 7.8 | Resume article pipeline + news sites | Pending | Uncomment crons, redeploy full sites (not coming soon pages) |
 
 ### Phase 8: Advanced Analysis (May/Jun 2026)

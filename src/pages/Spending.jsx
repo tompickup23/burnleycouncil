@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, Shield } from 'lucide-react'
+import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, Shield, Flag } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -427,6 +427,7 @@ function Spending() {
                     Amount <SortIcon field="amount" sortField={sortField} sortDir={sortDir} />
                   </th>
                   <th scope="col">Type</th>
+                  <th scope="col" className="flag-col" aria-label="Flag transaction"></th>
                 </tr>
               </thead>
               <tbody>
@@ -444,6 +445,17 @@ function Spending() {
                       <span className={`type-badge ${item.type}`}>
                         {typeLabel(item.type)}
                       </span>
+                    </td>
+                    <td className="flag-col">
+                      <a
+                        href={`mailto:press@aidoge.co.uk?subject=${encodeURIComponent(`Flag: ${item.supplier} — ${formatCurrency(item.amount)}`)}&body=${encodeURIComponent(`I'd like to flag this transaction for investigation:\n\nCouncil: ${councilName}\nSupplier: ${item.supplier}\nAmount: ${formatCurrency(item.amount)}\nDate: ${formatDate(item.date)}\nService: ${item.service_division || 'N/A'}\nCategory: ${item.expenditure_category || 'N/A'}\nRef: ${item.transaction_number || 'N/A'}\n\nReason for flagging:\n[Please describe why you think this transaction warrants investigation]\n`)}`}
+                        className="flag-btn"
+                        title="Flag this transaction for investigation"
+                        aria-label={`Flag transaction to ${item.supplier} for ${formatCurrency(item.amount)}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Flag size={14} />
+                      </a>
                     </td>
                   </tr>
                 ))}
