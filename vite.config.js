@@ -67,6 +67,25 @@ ${sitemapUrls}
       writeFileSync(resolve(outDir, 'sitemap.xml'), sitemap)
       console.log('✓ Generated sitemap.xml')
 
+      // Generate PWA manifest
+      const themeAccent = config.theme_accent || '#0a84ff'
+      const manifest = {
+        name: `${councilName} Council Transparency — AI DOGE`,
+        short_name: `${councilName} DOGE`,
+        description: `Independent spending transparency for ${councilFull}`,
+        start_url: base,
+        scope: base,
+        display: 'standalone',
+        background_color: '#0a0a0a',
+        theme_color: '#0a0a0a',
+        icons: [
+          { src: `${base}icon-192.png`, sizes: '192x192', type: 'image/png' },
+          { src: `${base}icon-512.png`, sizes: '512x512', type: 'image/png' },
+        ],
+      }
+      writeFileSync(resolve(outDir, 'manifest.webmanifest'), JSON.stringify(manifest, null, 2))
+      console.log('✓ Generated manifest.webmanifest')
+
       // Generate RSS feed from articles-index.json
       const articlesPath = resolve(outDir, 'data', 'articles-index.json')
       if (existsSync(articlesPath)) {
