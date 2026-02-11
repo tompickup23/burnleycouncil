@@ -27,10 +27,14 @@ function Legal() {
         </p>
       </header>
 
-      <div className="legal-tabs">
+      <div className="legal-tabs" role="tablist" aria-label="Legal information sections">
         {tabs.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
+            role="tab"
+            aria-selected={activeTab === id}
+            aria-controls={`tabpanel-${id}`}
+            id={`tab-${id}`}
             className={`legal-tab ${activeTab === id ? 'active' : ''}`}
             onClick={() => setActiveTab(id)}
           >
@@ -40,7 +44,7 @@ function Legal() {
         ))}
       </div>
 
-      <div className="legal-content">
+      <div className="legal-content" role="tabpanel" id={`tabpanel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
         {activeTab === 'disclaimer' && (
           <div className="legal-section">
             <h2><Shield size={24} /> Important Disclaimer</h2>

@@ -13,7 +13,8 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Frontend:** React 19 + Vite 7, lazy-loaded routes, config-driven per council, Web Worker for spending data
 - **Data layer 1:** Council CSV spending data → `council_etl.py` → `spending.json` + year-chunked `spending-index.json` + `spending-YYYY-YY.json`
 - **Data layer 2:** GOV.UK MHCLG standardised budgets → `govuk_budgets.py` → `budgets_govuk.json`
-- **Analysis:** `doge_analysis.py` — duplicates, split payments, CH compliance, Benford's Law, cross-council pricing
+- **Analysis:** `doge_analysis.py` — duplicates, split payments, CH compliance, Benford's Law, cross-council pricing, weak competition, category monopolies, supplier concentration
+- **Deprivation:** `deprivation_etl.py` — IMD 2019 ward-level data from MHCLG + ONS ArcGIS
 - **Hosting:** GitHub Pages (free), custom domain aidoge.co.uk
 - **Servers:** Thurinus (Oracle x86, 1GB RAM, free), vps-main (Hostinger, 16GB RAM, £22/mo), 2x AWS t3.micro (free trial until Jul 2026)
 
@@ -76,6 +77,8 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/govuk_trends.py` | Revenue trend analysis |
 | `burnley-council/scripts/police_etl.py` | Police crime stats API |
 | `burnley-council/scripts/procurement_etl.py` | Contracts Finder API → procurement.json per council |
+| `burnley-council/scripts/deprivation_etl.py` | IMD 2019 ward-level deprivation from MHCLG + ONS ArcGIS |
+| `burnley-council/scripts/fts_etl.py` | Find a Tender Service ETL scaffold (needs CDP API key) |
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `burnley-council/scripts/article_pipeline.py` | Data-driven article generation (topic discovery + LLM + fact verification) |
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
@@ -106,6 +109,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `articles-index.json` | article_pipeline.py / manual | Article listings (auto-generated daily via cron) |
 | `foi_templates.json` | Manual per council | FOI request templates |
 | `revenue_trends.json` | govuk_trends.py | GOV.UK revenue data |
+| `deprivation.json` | deprivation_etl.py | Ward-level IMD 2019 deprivation data |
 | `supplier_profiles.json` | generate_supplier_profiles.py | Supplier deep dives |
 
 ### Shared Data (`burnley-council/data/shared/`)
@@ -138,7 +142,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ## How Multi-Council Works
 
 `vite.config.js` contains `councilDataPlugin()` which:
-1. Reads `VITE_COUNCIL` env var (burnley/hyndburn/pendle/rossendale)
+1. Reads `VITE_COUNCIL` env var (burnley/hyndburn/pendle/rossendale/lancaster/ribble_valley/chorley/south_ribble)
 2. Copies `burnley-council/data/{council}/` → `public/data/`
 3. Copies `burnley-council/data/shared/` → `public/data/shared/`
 4. Replaces `%PLACEHOLDER%` tokens in index.html with council-specific values from config.json
@@ -155,22 +159,22 @@ doge_analysis.py                 →  doge_findings.json, doge_verification.json
 
 ### Spending Data Versions
 - **v1** (legacy): spending.json as plain array of records — no longer used (all migrated to v2, 10 Feb)
-- **v2** (current): spending.json as `{ meta, filterOptions, records }` object — all 4 councils
+- **v2** (current): spending.json as `{ meta, filterOptions, records }` object — all 8 councils
 - **v3** (chunked): spending-index.json (manifest + filterOptions) + spending-YYYY-YY.json per year
 - Worker (spending.worker.js) auto-detects version: tries v3 first, falls back to v2/v1
 - v3 reduces initial mobile download from 21-40MB to ~4-8MB (latest year only)
 
-Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening, payment cadence, day-of-week patterns.
+Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening, payment cadence, day-of-week patterns, weak competition detection (short tenders, rapid awards), category monopoly analysis, late contract publication.
 
 ## Deployment
 
-**Automated:** Push to `main` triggers `.github/workflows/deploy.yml` which builds all 4 councils and deploys to GitHub Pages. Zero AI tokens, zero cost.
+**Automated:** Push to `main` triggers `.github/workflows/deploy.yml` which builds all 8 councils and deploys to GitHub Pages. Zero AI tokens, zero cost.
 
 - **Source repo:** tompickup23/burnleycouncil (this repo)
 - **Deploy repo:** tompickup23/lancashire (gh-pages branch)
 - **Hub repo:** tompickup23/tompickup23.github.io
 - **Domain:** aidoge.co.uk → GitHub Pages with CNAME
-- **CI/CD:** GitHub Actions (`deploy.yml`) — tests → build 4 councils → deploy → verify
+- **CI/CD:** GitHub Actions (`deploy.yml`) — tests → build 8 councils → deploy → verify
 - **Hub pages:** `burnley-council/hub/` — root 404.html handles SPA routing for all councils
 - **Docs-only changes** (`.md` files, reports) do NOT trigger a rebuild
 

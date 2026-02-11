@@ -156,19 +156,15 @@ function Spending() {
     }
   }, [filters.financial_year, chunked, yearManifest, loadedYears, allYearsLoaded, loadYear, loadAllYears])
 
-  // Re-query after a year finishes loading (new data available in worker)
+  // Send query to worker whenever filter state changes or new year data loads
   const prevLoadedCount = useRef(0)
   useEffect(() => {
+    // Track year loading for ref bookkeeping (prevents stale closure issues)
     if (loadedYears.length > prevLoadedCount.current) {
       prevLoadedCount.current = loadedYears.length
-      query({ filters, search, sortField, sortDir, page, pageSize })
     }
-  }, [loadedYears, filters, search, sortField, sortDir, page, pageSize, query])
-
-  // Send query to worker whenever filter state changes
-  useEffect(() => {
     query({ filters, search, sortField, sortDir, page, pageSize })
-  }, [filters, search, sortField, sortDir, page, pageSize, query])
+  }, [loadedYears, filters, search, sortField, sortDir, page, pageSize, query])
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
 

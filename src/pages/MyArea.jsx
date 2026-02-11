@@ -5,6 +5,19 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import './MyArea.css'
 
+// Pure helper — no component deps, safe at module scope
+const getDeprivationColor = (level) => {
+  switch (level) {
+    case 'Very High': return '#ff453a'
+    case 'High': return '#ff6b35'
+    case 'Medium-High': return '#ff9f0a'
+    case 'Medium': return '#ffd60a'
+    case 'Low': return '#30d158'
+    case 'Very Low': return '#66d4cf'
+    default: return '#86868b'
+  }
+}
+
 function MyArea() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -103,18 +116,6 @@ function MyArea() {
   }
 
   const wardList = Object.values(wards).sort((a, b) => a.name.localeCompare(b.name))
-
-  const getDeprivationColor = (level) => {
-    switch (level) {
-      case 'Very High': return '#ff453a'
-      case 'High': return '#ff6b35'
-      case 'Medium-High': return '#ff9f0a'
-      case 'Medium': return '#ffd60a'
-      case 'Low': return '#30d158'
-      case 'Very Low': return '#66d4cf'
-      default: return '#86868b'
-    }
-  }
 
   const getDeprivationForWard = (wardName) => {
     if (!wardName || !deprivation) return null
@@ -319,7 +320,11 @@ function MyArea() {
               <div
                 key={ward.name}
                 className={`ward-card ${selectedWard === ward.name ? 'selected' : ''}`}
+                role="button"
+                tabIndex={0}
+                aria-pressed={selectedWard === ward.name}
                 onClick={() => setSelectedWard(ward.name)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedWard(ward.name) } }}
               >
                 <div
                   className="ward-party-indicator"

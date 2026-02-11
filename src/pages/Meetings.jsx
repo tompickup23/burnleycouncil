@@ -196,7 +196,11 @@ function Meetings() {
             <article
               key={meeting.id}
               className={`meeting-card ${meeting.cancelled ? 'cancelled' : ''} ${isPast ? 'past' : ''} ${isToday ? 'today' : ''} ${isExpanded ? 'expanded' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-expanded={isExpanded}
               onClick={() => setExpandedId(isExpanded ? null : meeting.id)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedId(isExpanded ? null : meeting.id) } }}
             >
               <div className="meeting-header">
                 <div className="meeting-date-block">

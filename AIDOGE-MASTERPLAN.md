@@ -199,65 +199,97 @@ Focus: Deeper, more sophisticated DOGE analysis.
 | 8.6 | Service quality correlation | Pending | OFSTED, CQC, other inspectorate data vs spending. Needs external data. |
 | 8.7 | Fraud triangle scoring | Pending | Motive + opportunity + rationalisation per department/supplier. Needs audit reports. |
 
+### Phase 9: Quality & Accessibility (Feb 2026)
+Focus: Keyboard accessibility, ARIA compliance, code quality polish. Based on comprehensive quality audit (11 Feb 2026, avg score 7.7/10).
+
+| # | Task | Status | Priority | Details |
+|---|------|--------|----------|---------|
+| 9.1 | Keyboard accessibility on clickable cards | Pending | Critical | Politics councillor cards, MyArea ward cards, Meetings meeting cards all use onClick without tabIndex/role/onKeyDown. Add `role="button" tabIndex={0} onKeyDown` to all interactive non-button elements. Affects 4 pages. |
+| 9.2 | ARIA tab pattern on Legal.jsx | Pending | Critical | Add role="tablist", role="tab", role="tabpanel", aria-controls, aria-labelledby. Screen readers cannot identify the tab interface. |
+| 9.3 | articles-index.json format guard | Pending | Critical | News.jsx assumes plain array but data can be `{articles: [...]}` wrapper. Add guard: `const list = Array.isArray(articles) ? articles : articles?.articles || []` |
+| 9.4 | Chart accessibility | Pending | High | All Recharts visualizations lack screen-reader alternatives. Add aria-label on chart containers + "view as table" toggle for key charts. Affects 5 pages. |
+| 9.5 | Extract helpers from render bodies | Pending | High | getDeprivationColor, getCategoryIcon etc. defined inside component bodies. Move to module scope or memoize. |
+| 9.6 | Static constants outside components | Pending | High | partyColors (Home), serviceCategories (CrossCouncil), PLATFORM_STATS (Press) recreated each render. Move to module level. |
+| 9.7 | Clipboard API fallback | Pending | Medium | Add try/catch with document.execCommand('copy') fallback for HTTP contexts. Affects FOI, ArticleView, Press. |
+| 9.8 | Spending.jsx double query fix | Pending | Medium | Two useEffects with overlapping deps both call query(). Merge or add guard. |
+| 9.9 | Meta tag cleanup in ArticleView | Pending | Medium | OG tags persist after navigation. Add cleanup in effect return. |
+| 9.10 | Legal.jsx URL hash tabs | Pending | Medium | Support #privacy, #cookies for deep-linking to legal sections. |
+| 9.11 | Meetings formatTime midnight fix | Pending | Low | Hour 0 displays "0:00 AM" instead of "12:00 AM". |
+| 9.12 | Press.jsx derive PLATFORM_STATS | Pending | Low | Hardcoded stats (8 councils, £1B+) should come from config/data. |
+| 9.13 | CrossCouncil ScoreBar ARIA | Pending | Low | Add role="progressbar" with aria-valuenow/min/max. |
+
 ---
 
 ## 6. PAGE-BY-PAGE STATUS & IMPROVEMENTS
 
-### Spending Page — MATURE
-- **Current:** Web Worker (filter, sort, paginate, stats, charts, CSV export), v3 year-chunked loading (4-8MB vs 21-40MB), year selector, search, column sort
-- **Next:** Link to procurement contracts for same supplier, evidence chain from DOGE findings
+### Spending Page — 9/10 MATURE
+- **Strengths:** Web Worker offloading, URL-persisted state, evidence trail banner, ARIA sort headers, CSV export, v3 chunked loading
+- **Issues:** Double query effect (two useEffects fire together), no empty-state message
+- **Next:** Fix double query, add "no results" message, chart aria-labels
 
-### DOGE Investigation Page — MATURE
-- **Current:** Confidence badges, context notes, severity scoring, radar chart, expandable findings, procurement compliance, supplier concentration (HHI), payment velocity, accountability tracking (outcomes.json)
-- **Next:** Evidence chain (click finding → see transactions), trend comparison (this quarter vs last)
+### DOGE Investigation Page — 8/10 MATURE
+- **Strengths:** Self-verification, confidence levels, expandable sections, weak competition + category monopolies, late publication, accountability tracking
+- **Issues:** All-or-nothing error state (one data file failure = entire page down), extensive inline styles
+- **Next:** Graceful degradation per section, CSS class consolidation, share/copy individual findings
 
-### Procurement / Contract Explorer — MATURE
-- **Current:** Stats grid, year chart, status pie, top suppliers, expandable detail rows, CPV/year/value advanced filters, spending cross-reference link
-- **Next:** Find a Tender integration, single-bidder detection, late publication analysis
+### Procurement / Contract Explorer — 8/10 MATURE
+- **Strengths:** Best-in-class ARIA (aria-sort, aria-expanded, role), proper keyboard handling, comprehensive filters
+- **Issues:** decodeHtmlEntities uses textarea.innerHTML pattern
+- **Next:** FTS integration (pending API key), CSV export, link procurement↔spending
 
-### News / Articles — GOOD
-- **Current:** 134 articles across 4 councils, search, category filter, 12/page pagination, placeholder images, related articles, RSS feed
-- **Next:** Reading time estimate, article tags (currently empty), resume article pipeline
+### News / Articles — 8/10 GOOD
+- **Strengths:** Search + filter + pagination, reading time, image error handling, RSS feed
+- **Issues:** articles-index.json wrapper guard missing, no aria-pressed on filter buttons
+- **Next:** Add format guard, sort options, surface RSS link on page
 
-### Budgets — GOOD
-- **Current:** Band D comparison, service breakdown, revenue trends
-- **Next:** Budget vs actual spend comparison, year-on-year trend arrows, council tax affordability index
+### ArticleView — 9/10 MATURE
+- **Strengths:** SEO (JSON-LD + OG tags), DOMPurify sanitization, auto-ToC, social sharing
+- **Issues:** Meta tag cleanup incomplete on unmount, clipboard has no fallback
+- **Next:** Fix meta cleanup, add print button, scroll progress indicator
 
-### Politics — ADEQUATE
-- **Current:** Party breakdown, councillor grid, ward info
-- **Next:** Allowances display, declaration of interests, voting records (if obtainable)
+### Budgets — 8/10 GOOD
+- **Strengths:** ARIA tabs, funding breakdown, revenue trends, department detail
+- **Issues:** BudgetTrendsView 250 lines in same file, unmemoized computations
+- **Next:** Extract BudgetTrendsView to own file, memoize coreDepartments
 
-### My Area — ADEQUATE
-- **Current:** Postcode lookup via postcodes.io, ward → councillors, crime stats
-- **Next:** Deprivation index, service satisfaction data
+### Politics — 7/10 ADEQUATE
+- **Strengths:** Seat diagram, key figures, party breakdown
+- **Issues:** Councillor cards completely keyboard-inaccessible, search/filter missing aria-labels
+- **Next:** Add keyboard nav (role="button" + tabIndex + onKeyDown), aria-labels
 
-### FOI Templates — ADEQUATE
-- **Current:** 41 templates across 4 councils, copy-to-clipboard
-- **Next:** Track submission outcomes, link to WhatDoTheyKnow
+### My Area — 8/10 GOOD
+- **Strengths:** Postcode API, deprivation panel + ward badges, case-insensitive ward matching
+- **Issues:** Ward cards keyboard-inaccessible, helpers defined inside render body
+- **Next:** Keyboard nav on ward cards, extract helpers to module scope, map visualization
 
-### Meetings — ADEQUATE
-- **Current:** Calendar view, how to attend info
-- **Next:** Meeting minutes links (requires ModernGov scraping)
+### FOI Templates — 7/10 ADEQUATE
+- **Strengths:** Pre-written templates, copy-to-clipboard, category selection
+- **Issues:** Hardcoded scandal examples may go stale, clipboard no fallback, timeout not cleaned up
+- **Next:** Clipboard fallback, template customization, submission tracking
 
-### Pay Comparison — ADEQUATE
-- **Current:** Cross-council executive salary comparison
-- **Next:** Historical trend, national comparison benchmarks
+### Meetings — 7/10 ADEQUATE
+- **Strengths:** How-to-attend civic guidance, DOGE relevance indicator
+- **Issues:** Meeting cards keyboard-inaccessible, formatTime midnight bug, non-semantic list
+- **Next:** Keyboard access, fix formatTime, iCal integration
 
-### Cross-Council — ADEQUATE
-- **Current:** Common-year normalised spending comparison
-- **Next:** Expand to 6-8 councils, add procurement comparison, add service comparison
+### Pay Comparison — 8/10 GOOD
+- **Strengths:** Comprehensive salary data, gender pay gap, allowances, FOI CTA
+- **Next:** Historical trends, national benchmarks
 
-### Suppliers / Supplier View — ADEQUATE
-- **Current:** Directory ranked by spend, individual profiles with payment history
-- **Next:** CH compliance badges inline, link to procurement contracts
+### Cross-Council — 7/10 ADEQUATE
+- **Strengths:** Population-normalized metrics, methodology note
+- **Issues:** Static constants inside component, radar data mutation, ScoreBar missing ARIA
+- **Next:** ScoreBar progressbar ARIA, per-metric drill-down
 
-### Legal — COMPLETE
-- **Current:** 12 UK laws with DOGE relevance, tabbed interface
-- **Next:** Add Procurement Act 2023 detail, Late Payment of Commercial Debts Act
+### Legal — 7/10 ADEQUATE
+- **Strengths:** Honest accessibility statement, Elections Act 2022 compliance
+- **Issues:** Tabs missing ARIA tab pattern entirely, hardcoded dates, no URL hash support
+- **Next:** Full ARIA tab pattern, URL hash tabs (#privacy etc.), update dates
 
-### About — COMPLETE
-- **Current:** Publisher bio, methodology, data sources
-- **Next:** No changes needed
+### Press — 7/10 ADEQUATE
+- **Strengths:** Citation copy buttons, methodology section, publisher contact
+- **Issues:** PLATFORM_STATS hardcoded, copy timeout not cleaned up
+- **Next:** Derive stats from data, downloadable media kit
 
 ---
 
@@ -380,7 +412,8 @@ __tests__/                  ← 20 Vitest unit test files
 
 ---
 
-*Plan v5.0 updated: 11 February 2026*
-*Phases 1-6 completed: 11 February 2026 — 8 councils live, £1B+ tracked*
-*Phase 7 in progress: password gate removed, OG tags added, sitemaps generated*
-*Next review: After Phase 7 (Public Launch Readiness) complete*
+*Plan v6.0 updated: 11 February 2026*
+*Phases 1-8 completed: 11 February 2026 — 8 councils live, £1B+ tracked, 200 tests*
+*Phase 8.1-8.4 complete: FTS scaffold, weak competition, late publication, deprivation overlay*
+*Phase 9 planned: Quality & accessibility audit findings (avg 7.7/10, 13 improvements identified)*
+*Next review: After Phase 9 critical items (9.1-9.3) complete*

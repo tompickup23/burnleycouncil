@@ -11,7 +11,9 @@ const ARTICLES_PER_PAGE = 12
 
 function News() {
   const { council_name: councilName = 'Council' } = useCouncilConfig()
-  const { data: articles, loading, error } = useData('/data/articles-index.json')
+  const { data: articlesRaw, loading, error } = useData('/data/articles-index.json')
+  // Guard against both plain array and {articles: [...]} wrapper formats
+  const articles = Array.isArray(articlesRaw) ? articlesRaw : articlesRaw?.articles || articlesRaw || []
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [page, setPage] = useState(1)

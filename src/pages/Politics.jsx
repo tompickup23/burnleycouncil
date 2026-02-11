@@ -181,12 +181,14 @@ function Politics() {
               placeholder="Search by name or ward..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search councillors by name or ward"
             />
           </div>
 
           <select
             value={partyFilter}
             onChange={(e) => setPartyFilter(e.target.value)}
+            aria-label="Filter by political party"
           >
             <option value="">All Parties</option>
             {seatsByParty.map(p => (
@@ -200,7 +202,11 @@ function Politics() {
             <div
               key={councillor.id}
               className="councillor-card"
+              role="button"
+              tabIndex={0}
+              aria-expanded={selectedCouncillor?.id === councillor.id}
               onClick={() => setSelectedCouncillor(selectedCouncillor?.id === councillor.id ? null : councillor)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedCouncillor(selectedCouncillor?.id === councillor.id ? null : councillor) } }}
             >
               <div className="councillor-header">
                 <div
