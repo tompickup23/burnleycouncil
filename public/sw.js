@@ -1,12 +1,13 @@
 // AI DOGE Service Worker — offline caching for council transparency data
-const CACHE_NAME = 'aidoge-v1'
+const CACHE_NAME = 'aidoge-v2'
 const STATIC_ASSETS = [
   './',
   './index.html',
 ]
 
-// Cache-first for static assets (JS, CSS, fonts)
-// Network-first for data files (JSON) — always try fresh data first
+// Network-first for HTML (prevents stale index.html referencing dead JS chunks after deploy)
+// Stale-while-revalidate for hashed assets (JS/CSS — hash in filename guarantees freshness)
+// Network-first for data files (JSON — always try fresh data first)
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
@@ -44,7 +45,22 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // Static assets: cache-first
+  // HTML pages (index.html, navigation requests): network-first
+  // This prevents stale HTML from referencing JS chunks that no longer exist after deploy
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clone = response.clone()
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone))
+          return response
+        })
+        .catch(() => caches.match(event.request))
+    )
+    return
+  }
+
+  // Hashed static assets (JS, CSS): cache-first (hash in filename = immutable)
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached
