@@ -1,5 +1,5 @@
-# AI DOGE MASTER PLAN v10.0
-## 11 February 2026 — Phase 10 Near Complete: Data Completeness & Accuracy
+# AI DOGE MASTER PLAN v11.0
+## 12 February 2026 — Phases 1-10 Complete, Phase 11 Planned
 
 ---
 
@@ -9,30 +9,30 @@
 | Site | URL | Records | Spend | Articles | Procurement | Status |
 |------|-----|---------|-------|----------|-------------|--------|
 | Burnley | aidoge.co.uk/lancashire/burnleycouncil/ | 30,580 | £355M | 62 | 94 notices | LIVE |
-| Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,804 | £211M | 25 | 32 notices | LIVE |
-| Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 49,741 | £125M | 25 | 14 notices | LIVE |
+| Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,802 | £211M | 25 | 32 notices | LIVE |
+| Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 48,785 | £127M | 25 | 14 notices | LIVE |
 | Rossendale | aidoge.co.uk/lancashire/rossendalecouncil/ | 42,536 | £64M | 22 | 90 notices | LIVE |
-| Lancaster | aidoge.co.uk/lancashire/lancastercouncil/ | 24,266 | £142M | 0 | 90 notices | LIVE |
-| Ribble Valley | aidoge.co.uk/lancashire/ribblevalleycouncil/ | 3,677 | £12M | 0 | - | LIVE |
-| Chorley | aidoge.co.uk/lancashire/chorleycouncil/ | 875 | £142K | 0 | - | LIVE |
-| South Ribble | aidoge.co.uk/lancashire/southribblecouncil/ | 15,974 | £146M | 0 | - | LIVE |
-| **Total** | | **197,453 txns** | **£1.06B** | **134** | **320+** | |
+| Lancaster | aidoge.co.uk/lancashire/lancastercouncil/ | 26,975 | £157M | 5 | 90 notices | LIVE |
+| Ribble Valley | aidoge.co.uk/lancashire/ribblevalleycouncil/ | 3,677 | £12M | 5 | 21 notices | LIVE |
+| Chorley | aidoge.co.uk/lancashire/chorleycouncil/ | 17,052 | £338M | 5 | 150 notices | LIVE |
+| South Ribble | aidoge.co.uk/lancashire/southribblecouncil/ | 15,974 | £146M | 5 | 88 notices | LIVE |
+| **Total** | | **215,381 txns** | **£1.41B** | **154** | **579** | |
 
-### Paused Sites
+### News Sites
 | Site | URL | Status | Why |
 |------|-----|--------|-----|
-| News Lancashire | newslancashire.co.uk | PAUSED | Coming Soon page deployed. Pipelines disabled 10 Feb. |
-| News Burnley | newsburnley.co.uk | PAUSED | Coming Soon page deployed. Pipelines disabled 10 Feb. |
+| News Lancashire | newslancashire.co.uk | ACTIVE | Pipelines resumed 12 Feb. |
+| News Burnley | newsburnley.co.uk | ACTIVE | Pipelines resumed 12 Feb. |
 
 ### Autonomous Systems
 | Cron | Server | Time | Status | What |
 |------|--------|------|--------|------|
 | data_monitor.py | vps-main | 07:00 | ACTIVE | Check councils for new spending CSVs |
 | auto_pipeline.py | vps-main | 08:00 | ACTIVE | ETL + DOGE analysis + WhatsApp notify |
-| article_pipeline.py | vps-main | 09:00 | PAUSED | AI article generation (2/council/day) |
-| deploy_newslancashire.sh | vps-main | 10:00 | PAUSED | Hugo build + Cloudflare deploy |
-| deploy_newsburnley.sh | vps-main | 10:30 | PAUSED | Rsync + Cloudflare deploy |
-| pipeline_v4.sh | vps-news | */30 | PAUSED | News crawl + AI rewrite + export |
+| article_pipeline.py | vps-main | 09:00 | ACTIVE | AI article generation (2/council/day) |
+| deploy_newslancashire.sh | vps-main | 10:00 | ACTIVE | Hugo build + Cloudflare deploy |
+| deploy_newsburnley.sh | vps-main | 10:30 | ACTIVE | Rsync + Cloudflare deploy |
+| pipeline_v4.sh | vps-news | */30 | ACTIVE | News crawl + AI rewrite + export |
 | sync_repos.sh | vps-main | 05:00 | ACTIVE | Git pull + rsync scripts to vps-news |
 
 ### LLM Stack (£0/month)
@@ -125,7 +125,7 @@ Procurement compliance analysis (threshold avoidance, repeat winners, timing clu
 | Issue | Severity | Fix Effort |
 |-------|----------|------------|
 | council_etl.py line ~1016: `or True` CH filter bug | Low | Already patched but check |
-| Pendle theme_accent same as Burnley (#0a84ff) | Low | Change Pendle to unique colour |
+| ~~Pendle theme_accent same as Burnley~~ | ✅ Fixed | Changed Pendle to #F9A825 (amber) — 12 Feb 2026 |
 
 ### Data Consistency Between Councils
 | Data File | Burnley | Hyndburn | Pendle | Rossendale | Lancaster | Ribble V | Chorley | South Ribble |
@@ -141,7 +141,7 @@ Procurement compliance analysis (threshold avoidance, repeat winners, timing clu
 | procurement.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓(21) | ✓(150) | ✓(88) |
 | doge_findings.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | DOGE page enabled | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| articles (count) | 62 | 25 | 25 | 22 | 0 | 0 | 0 | 0 |
+| articles (count) | 62 | 25 | 25 | 22 | 5 | 5 | 5 | 5 |
 | outcomes.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | foi_templates.json | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -188,7 +188,7 @@ Focus: Add more Lancashire councils. 4 new councils added, hub redesigned, all d
 | 6.5 | Hub page redesign | ✅ | 8-council grid, accent bars, East/Central+South sections, responsive 4→2→1 |
 | 6.6 | Cross-council comparison | ✅ | CrossCouncil.jsx is data-driven — automatically handles all councils via cross_council.json |
 
-### Phase 7: Public Launch Readiness (IN PROGRESS — Feb 2026)
+### Phase 7: Public Launch Readiness — ✅ COMPLETE (12 Feb 2026)
 Focus: Make the platform ready for media, public, and councillor use.
 
 | # | Task | Status | Result |
@@ -200,7 +200,7 @@ Focus: Make the platform ready for media, public, and councillor use.
 | 7.5 | Google Search Console setup | ✅ | Sitemap index at /sitemap.xml, per-council sitemaps, robots.txt updated for 8 councils. Manual GSC verification still needed. |
 | 7.6 | Media kit / press page | ✅ | /press route: elevator pitch, stats, coverage, citations (copy-to-clipboard), methodology, contact, licence. 17 tests. |
 | 7.7 | Citizen reporting: "Flag this transaction" | ✅ | Flag icon on each spending row → mailto:press@aidoge.co.uk with pre-filled transaction details. Hidden on mobile. |
-| 7.8 | Resume article pipeline + news sites | Pending | Uncomment crons, redeploy full sites (not coming soon pages) |
+| 7.8 | Resume article pipeline + news sites | ✅ | All 4 crons resumed 12 Feb: article_pipeline.py (09:00 vps-main), deploy_newslancashire.sh (10:00 vps-main), deploy_newsburnley.sh (10:30 vps-main), pipeline_v4.sh (*/30 vps-news). |
 
 ### Phase 8: Advanced Analysis (Feb 2026)
 Focus: Deeper, more sophisticated DOGE analysis.
@@ -234,7 +234,7 @@ Focus: Keyboard accessibility, ARIA compliance, code quality polish. Based on co
 | 9.12 | Press.jsx derive PLATFORM_STATS | Deferred | Low | Would need config refactor. Current hardcoded values are accurate. |
 | 9.13 | CrossCouncil ScoreBar ARIA | Deferred | Low | Would need ScoreBar component creation. Current implementation is visual-only. |
 
-### Phase 10: Data Completeness & Accuracy — NEAR COMPLETE (Feb 2026)
+### Phase 10: Data Completeness & Accuracy — ✅ COMPLETE (12 Feb 2026)
 Focus: Fix the budget display bug, fill all data gaps so every council has comprehensive coverage from 2021/22 onwards, enable DOGE + articles + procurement for all 8 councils. Goal: no council should feel "half-built."
 
 #### 10.1 — CRITICAL: Fix Budget Page Display Bug ✅ COMPLETED
@@ -284,22 +284,22 @@ Focus: Fix the budget display bug, fill all data gaps so every council has compr
 | 10.5.3 | Enable crime_stats in config.json | ✅ Done | All 4 new councils now have `crime_stats: true`. |
 | 10.5.4 | Verify MyArea crime display | ✅ Done | Builds verified for all councils. |
 
-#### 10.6 — MEDIUM: Article Generation for New Councils — MOSTLY COMPLETE
+#### 10.6 — MEDIUM: Article Generation for New Councils ✅ COMPLETED
 | # | Task | Priority | Details |
 |---|------|----------|---------|
 | 10.6.1 | Create seed articles for 4 new councils | ✅ Done | 20 seed articles created (5 per council): spending overview, duplicates, procurement, plus council-specific topics (Lancaster Eden Project, Chorley shared services, RV crime, SR Caddick Construction). |
 | 10.6.2 | Enable news navigation for new councils | ✅ N/A | News nav already enabled via `news: true` in config.json. |
-| 10.6.3 | Resume article_pipeline.py cron | Pending | Uncomment cron on vps-main (09:00 daily). Set to generate 2 articles/council/day for the 4 new councils. |
+| 10.6.3 | Resume article_pipeline.py cron | ✅ Done | Cron uncommented on vps-main 12 Feb. Runs daily at 09:00 UTC, 2 articles/council/day. |
 
-#### 10.7 — MEDIUM: Data Accuracy & Context
+#### 10.7 — MEDIUM: Data Accuracy & Context ✅ COMPLETED
 **Problem:** Data without context is misleading. Small datasets need explicit warnings; cross-council comparisons need fairness guards.
 
 | # | Task | Priority | Details |
 |---|------|----------|---------|
 | 10.7.1 | Add data confidence banners | ✅ Done | Spending + DOGE already had banners. Added CrossCouncil.jsx `cross-data-banner` for low-data councils + year-range differences. |
 | 10.7.2 | Fix CrossCouncil comparisons | ✅ Done | All metrics annualized (annual_spend, annual_records, num_years). Methodology section shows per-council data periods. Data confidence banner warns about year-range differences. |
-| 10.7.3 | Update Home page stats dynamically | Medium | Home.jsx headline stats (total spend, transaction count, date range) should be derived from the actual spending data loaded, not from potentially stale config values. |
-| 10.7.4 | Validate budgets_summary.json accuracy | Medium | Spot-check MHCLG budget figures against GOV.UK source ODS files for all 8 councils. Verify ONS codes, council names, and service expenditure totals. Document any discrepancies. |
+| 10.7.3 | Update Home page stats dynamically | ✅ Done | Verified: Home.jsx already derives all headline stats (totalSpend, totalRecords, uniqueSuppliers, periodLabel) from insights.json, not config values. No code change needed. |
+| 10.7.4 | Validate budgets_summary.json accuracy | ✅ Done | Cross-checked against GOV.UK ODS source files: 48/48 council tax Band D figures exact match (all 3 series × 8 councils × 2 years). 8/8 revenue expenditure figures match (3 councils have sub-thousand precision from detailed RO forms vs GOV.UK rounded summary — not errors, higher fidelity). doge_context transaction counts synced with insights.json for 6 councils. Pendle theme_accent changed from #0a84ff (duplicate of Burnley) to #F9A825 (amber). |
 
 #### Phase 10 Dependencies & Execution Order
 ```
@@ -502,10 +502,68 @@ __tests__/                  ← 20 Vitest unit test files
 
 ---
 
-*Plan v8.0 updated: 11 February 2026*
-*Phases 1-9 completed: 11 February 2026 — 8 councils live, £1B+ tracked, 200 tests, avg page quality 8.5/10+*
-*Phase 10 planned: Data Completeness & Accuracy — 30 tasks across 7 workstreams (budget fix, spending gaps, DOGE/procurement/crime/articles expansion, data accuracy)*
-*Phase 9 complete: 10/13 items done (3 low-priority deferred). Keyboard a11y, ARIA tabs, clipboard fallback, format guards, hash tabs, double query fix, chart labels, module-scope constants.*
+*Plan v10.0 updated: 12 February 2026*
+*Phases 1-10 completed: 12 February 2026 — 8 councils live, £1.06B tracked, 200 tests, avg page quality 8.5/10+*
+*Phase 10 complete (12 Feb): All 7 workstreams done. Budget validation: 48/48 CT exact matches vs GOV.UK. doge_context synced for 6 councils. Pendle unique theme (#F9A825). Article pipeline + news sites resumed (4 crons). Home stats verified dynamic from insights.json.*
+*Phase 7 complete (12 Feb): All 8 items done including 7.8 (cron resume). Platform fully public-launch-ready.*
 
-*Phase 10 in progress (11 Feb 2026): Budget display FIXED (budgets:false + BudgetTrendsView enhanced). Chorley CIPFA parser FIXED (885→17,212 txns, £142K→£338M — 20x improvement). DOGE enabled for all 8 councils. Procurement data added for RV/Chorley/SR. Data confidence banners added. Police ETL code updated for all 8 councils (needs VPS run due to local SSL). 200 tests passing.*
-*Remaining: Crime stats VPS run, Lancaster Q1 gap, South Ribble data refresh, articles for new councils.*
+---
+
+## 13. EXPANSION PLAN: LANCASHIRE COUNTY COUNCIL & BLACKPOOL
+
+### Strategic Context
+- **LGR**: Government consultation launched 5 Feb 2026 to abolish all 15 Lancashire councils by spring 2028. AI DOGE should document the financial position being handed to successor authorities.
+- **LCC**: Upper-tier county council (£1.324B net budget, Reform UK control). Publishes spending >£500.
+- **Blackpool**: Unitary authority (combined district+county). Budget data exists; spending CSV URL TBC.
+- Both will ultimately be added to the aidoge.co.uk Lancashire system in some form.
+
+### Phase 11: Upper-Tier Expansion (PLANNED)
+Focus: Add Lancashire County Council and Blackpool as new authority types. Requires hub restructuring for mixed authority tiers.
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 11.1 | Restructure hub for mixed authority types | HIGH | Current hub hardcodes 8 district councils. Need sections: "County Council", "Unitary Authorities", "District Councils". |
+| 11.2 | Add LCC spending CSV parser | HIGH | Find spending CSV URL at lancashire.gov.uk/council/finance/spending-over-500/. Write `parse_lancashire_cc()`. Expect 100K+ transactions. |
+| 11.3 | LCC config.json + data directory | HIGH | Create `burnley-council/data/lancashire_cc/config.json`. Budget data already exists (govuk). |
+| 11.4 | Scale worker for large datasets | HIGH | LCC spending will be £1.3B+ / 100K+ txns. Test v3 chunked loading at this scale. May need additional year-splitting. |
+| 11.5 | Add Blackpool spending CSV parser | MEDIUM | Find spending CSV URL. Write `parse_blackpool()`. Create config.json. |
+| 11.6 | LCC-specific DOGE analysis | MEDIUM | VeLTIP bonds, DSG deficit, savings delivery, care home review — these need custom analysis modules. |
+| 11.7 | LCC politics page | MEDIUM | 84 councillors, 7 parties, Reform majority. Full council recorded votes data available at council.lancashire.gov.uk. |
+| 11.8 | LCC budget page | MEDIUM | Can show £1.324B budget breakdown from MHCLG data + detailed budget book parsing if available. |
+| 11.9 | Update deploy.yml for new councils | LOW | Add LCC + Blackpool build steps. Sequential constraint still applies. |
+| 11.10 | Cross-tier comparison framework | LOW | Compare LCC spending to sum of district spending. Avoid double-counting (LCC covers education/social care, districts cover planning/housing). |
+
+### LCC-Specific Data Sources
+| Source | URL | Notes |
+|--------|-----|-------|
+| Spending >£500 | lancashire.gov.uk/council/finance/spending-over-500/ | Monthly CSVs, likely large (£1.3B budget) |
+| Budget reports | council.lancashire.gov.uk (Cabinet papers) | 452-page PDF for 2026/27 budget pack |
+| Full Council minutes | council.lancashire.gov.uk | Recorded votes available per meeting |
+| Treasury Management | In budget pack | VeLTIP bond details, borrowing strategy |
+| CQC Assessment | cqc.org.uk | "Requires Improvement" (2.0/4) |
+| Standing Orders | lancashire.gov.uk/council/constitution | Section B: Full Council Procedural Standing Orders |
+| MHCLG Budgets | GOV.UK | Already handled by govuk_budgets.py |
+
+### Key LCC Financial Data (for DOGE analysis)
+- **VeLTIP**: £519m invested in bonds, ~£169m current value (~£350m paper loss). Maturity up to 92 years. Annual income £16.9m.
+- **DSG deficit**: £95.5m (2025/26) → £171.4m → £296.5m → £419.9m by 2028/29. Borrowing costs £11.5m→£25.6m.
+- **Savings delivery**: 91.5% (2023/24) → 48% (2024/25). £103m needed over 2 years. Phase 1 efficiency review found £22m.
+- **Adult Services**: CQC 2.0/4. 2,100 waiting initial assessment. 3,800+ waiting annual review (some 7+ years).
+- **Capital programme**: £292m budget, £95.8m slippage (32%) in 2025/26.
+- **Pension**: £21.2m reduction from triennial actuarial valuation.
+- **Fair Funding Review**: £24m additional in 2026/27, rising to £58.4m by 2028/29.
+- **Operation Sheridan**: Former leader Geoff Driver + 3 others awaiting criminal trial (2027). Charges: conspiracy to pervert course of justice, witness intimidation, misconduct in public office.
+
+### Political Context (for politics page / articles)
+- **Reform UK** won 53/84 seats in May 2025 on promises of CT freeze + DOGE unit. Neither delivered.
+- **Labour minority administration** 2013-2017 (Leader: Jennifer Mein, then Ali as cabinet member): closed 40 libraries, 59 bus routes, 5 museums. Largest service closure programme in LCC history.
+- **Conservative administration** 2017-2025: CT rises every year (48% cumulative). Bond portfolio created. Savings collapsed to 48%. Oracle Fusion IT failure. Geoff Driver (2017-2021), Phillippa Williamson (2021-2025).
+- **Hypocrisy angles**: Azhar Ali voted FOR 3.99% CT in 2023, now calls 3.8% "whopping". Kim Snape's own Labour cabinet dismissed her Adlington Library call-in. David Whipp raises CT to max at Pendle BC where he's Leader.
+
+### War-Game Reports (Reference Documents)
+| File | Purpose |
+|------|---------|
+| `LCC_Budget_2026-27_War_Game.md` | Opposition attack playbook: 7 arguments, amendment, 6 exchanges, closing speech |
+| `LCC_Budget_2026-27_Reform_Defence.md` | Reform counter-attack: opposition dossiers, voting records, hypocrisy, nuclear options |
+| `~/Desktop/LCC_Budget_2026-27_War_Game.pdf` | PDF with 8 charts (budget growth, savings, DSG, VeLTIP, seats, etc.) |
+| `~/Desktop/LCC_Budget_2026-27_Reform_Defence.pdf` | PDF with 7 charts (CT history, voting heatmap, closures, bonds timeline, etc.) |

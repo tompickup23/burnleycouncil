@@ -212,4 +212,21 @@ VITE_COUNCIL=burnley VITE_BASE=/ npx vite
 - **Don't edit generated JSON** — spending.json, doge_findings.json, doge_verification.json are all generated
 - **Don't duplicate info across docs** — CLAUDE.md = dev guide, ARCHITECTURE.md = software, INFRASTRUCTURE.md = ops
 
+## Expansion Targets
+
+### Lancashire County Council (upper-tier)
+- **Net budget**: £1,324.444m (Reform UK, 53/84 seats)
+- **Spending data**: lancashire.gov.uk/council/finance/spending-over-500/
+- **Budget data**: Already in MHCLG dataset (govuk_budgets.py)
+- **Key issues**: VeLTIP bonds (£350m loss), DSG deficit (£171m→£420m), CQC worst, Operation Sheridan
+- **War-game reports**: `LCC_Budget_2026-27_War_Game.md`, `LCC_Budget_2026-27_Reform_Defence.md`
+
+### Blackpool (unitary authority)
+- **Data dir exists**: `burnley-council/data/blackpool/` (budgets_govuk.json + budgets_summary.json only)
+- **NOT yet in COUNCIL_REGISTRY** — needs spending CSV parser
+- **Budget analysis**: `blackpool_budget_analysis.md` (Reform councillor strategy)
+
+### Adding New Councils
+See AIDOGE-MASTERPLAN.md Phase 11 for full expansion plan. Key constraint: LCC is 10x larger than any current district council — may need worker optimisation for 100K+ transactions.
+
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Gemini free tier). 2x AWS free trial ends Jul 2026.
