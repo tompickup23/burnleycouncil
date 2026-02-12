@@ -2,7 +2,7 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-02-11
+> Last updated: 2026-02-12
 
 **Summary**: 5 open issues | Critical: 0 | High: 2 | Medium: 3 | Low: 0
 
@@ -39,3 +39,4 @@
 
 - **2026-02-10** — Auto-scan: 2 issues found
 - **2026-02-11** — Auto-scan: 5 issues found
+- **2026-02-12** — Auto-scan: 5 issues found
