@@ -102,7 +102,7 @@ async function handleInit(url) {
     // ── v2/v1: Monolith fallback ──
     const data = await fetchAndParse(url)
 
-    if (data && data.meta?.version === 2) {
+    if (data && (data.meta?.version === 2 || data.meta?.format_version === 2)) {
       allRecords = data.records || []
       filterOptions = data.filterOptions || {}
       if (!filterOptions.months) filterOptions.months = computeMonths(allRecords)
