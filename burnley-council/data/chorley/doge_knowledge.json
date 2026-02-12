@@ -1,0 +1,51 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-12",
+  "council": "chorley",
+  "core_knowledge": "shared/doge_knowledge_core.json",
+
+  "council_profile": {
+    "total_spend": "£338M",
+    "transactions": 17052,
+    "unique_suppliers": 1786,
+    "data_period": "April 2021 – December 2024",
+    "spending_threshold": 500,
+    "political_control": "Labour majority (36 seats of 42). Conservative 4, Reform UK 1, Independent 1.",
+    "annual_net_revenue_budget": "£17.8M"
+  },
+
+  "data_quality": {
+    "overall_score": 74.0,
+    "description_completeness": "0.0% — no transaction descriptions published",
+    "department_completeness": "100.0% — all records have department codes",
+    "date_completeness": "100.0% — all records have dates",
+    "ch_match_rate": "12.5% — low Companies House linkage",
+    "duplicate_records": "5.7% — quarterly CSV overlaps filtered"
+  },
+
+  "verified_findings": {
+    "ch_breach_spend": {
+      "value": "£48.2K",
+      "suppliers": "6",
+      "confidence": "medium",
+      "note": "6 current suppliers have Companies House compliance issues. Historical payments were made before breaches started."
+    },
+    "year_end_pattern": {
+      "march_multiple": "4.1x",
+      "note": "GOVN - Policy & Governance spent 4.1x their monthly average in March. Significant spike warrants scrutiny.",
+      "confidence": "medium"
+    }
+  },
+
+  "key_suppliers": {
+    "lancashire_county_council": {"total_spend": "£148.5M", "note": "Largest supplier by far — cross-authority transfers dominate spending"},
+    "mhclg": {"total_spend": "£32.4M", "note": "Central government transfers"},
+    "police_crime_commissioner": {"total_spend": "£21.8M", "note": "Policing precept transfers"}
+  },
+
+  "cross_council_context": {
+    "shared_suppliers": 15,
+    "shared_supplier_spend": "£8.7M",
+    "price_gap_notes": "Highest HHI supplier concentration (2,131) — dominated by LCC transfers. Most concentrated supplier base of all 8 councils."
+  }
+}

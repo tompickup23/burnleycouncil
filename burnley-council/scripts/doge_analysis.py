@@ -1136,10 +1136,248 @@ def analyse_supplier_concentration(all_spending):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 8: Fraud Triangle Risk Scoring
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance):
+    """Synthesise existing analysis signals into a fraud triangle risk model.
+
+    The fraud triangle (Cressey 1953) identifies three conditions for fraud:
+      - Opportunity: weak controls, procurement gaps, split payments
+      - Pressure: year-end spikes, budget stress, rapid payment patterns
+      - Rationalization: CH compliance gaps, data quality issues, late publications
+
+    Each dimension scored 0-100. Overall risk = geometric mean of three dimensions.
+    This is a SCREENING tool — high scores warrant investigation, not accusation.
+    """
+    signals = {"opportunity": [], "pressure": [], "rationalization": []}
+    scores = {"opportunity": 0, "pressure": 0, "rationalization": 0}
+
+    records = all_spending.get(council_id, [])
+    if not records:
+        return None
+
+    total_spend = sum(r.get("amount", 0) for r in records if r.get("amount", 0) > 0)
+    tx_count = len(records)
+
+    # ── OPPORTUNITY signals ──
+
+    # Split payments: higher instances = higher opportunity score
+    if council_id in patterns:
+        splits = patterns[council_id].get("split_payments", {})
+        split_count = splits.get("total_suspects", 0)
+        split_value = splits.get("total_value", 0)
+        if split_count > 0:
+            # Score: 10 base + 5 per instance, capped at 40
+            opp_split = min(40, 10 + split_count * 5)
+            signals["opportunity"].append({
+                "signal": f"{split_count} suspected split payment instances ({fmt_gbp(split_value)})",
+                "score": opp_split,
+                "source": "payment_patterns"
+            })
+            scores["opportunity"] += opp_split
+
+    # Weak competition from procurement
+    if council_id in procurement_compliance:
+        proc = procurement_compliance[council_id]
+        weak_count = proc.get("weak_competition_count", 0)
+        if weak_count > 0:
+            opp_weak = min(30, weak_count * 6)
+            signals["opportunity"].append({
+                "signal": f"{weak_count} contracts with weak competition indicators",
+                "score": opp_weak,
+                "source": "procurement_compliance"
+            })
+            scores["opportunity"] += opp_weak
+
+        # Category monopolies
+        mono_count = proc.get("monopoly_category_count", 0)
+        if mono_count > 0:
+            opp_mono = min(20, mono_count * 4)
+            signals["opportunity"].append({
+                "signal": f"{mono_count} service categories with a single supplier",
+                "score": opp_mono,
+                "source": "procurement_compliance"
+            })
+            scores["opportunity"] += opp_mono
+
+    # High supplier concentration
+    if council_id in concentration:
+        conc = concentration[council_id]
+        hhi = conc.get("hhi", 0)
+        if hhi > 2500:
+            signals["opportunity"].append({
+                "signal": f"Highly concentrated supplier market (HHI: {hhi:.0f})",
+                "score": 15,
+                "source": "supplier_concentration"
+            })
+            scores["opportunity"] += 15
+        elif hhi > 1500:
+            signals["opportunity"].append({
+                "signal": f"Moderately concentrated supplier market (HHI: {hhi:.0f})",
+                "score": 8,
+                "source": "supplier_concentration"
+            })
+            scores["opportunity"] += 8
+
+    # ── PRESSURE signals ──
+
+    # Year-end spending spikes
+    if council_id in patterns:
+        yearend = patterns[council_id].get("year_end_spikes", [])
+        if yearend:
+            max_spike = max(s.get("march_multiple", 0) for s in yearend) if yearend else 0
+            if max_spike > 3:
+                pres_ye = min(35, int((max_spike - 1) * 8))
+                signals["pressure"].append({
+                    "signal": f"Year-end spike: {max_spike:.1f}x monthly average in March",
+                    "score": pres_ye,
+                    "source": "payment_patterns"
+                })
+                scores["pressure"] += pres_ye
+
+    # Duplicate payments suggest control pressure
+    if council_id in duplicates:
+        dup = duplicates[council_id]
+        high_conf = dup.get("high_confidence", 0)
+        high_val = dup.get("high_confidence_value", 0)
+        if high_conf > 0:
+            pres_dup = min(30, 5 + int(high_val / 10000))
+            signals["pressure"].append({
+                "signal": f"{high_conf} likely duplicate payments ({fmt_gbp(high_val)})",
+                "score": pres_dup,
+                "source": "duplicates"
+            })
+            scores["pressure"] += pres_dup
+
+    # Round-number payments suggest estimation pressure
+    if council_id in patterns:
+        rounds = patterns[council_id].get("round_numbers", {})
+        round_count = rounds.get("count", 0)
+        round_value = rounds.get("total_value", 0)
+        if round_count > 50 and round_value > 100000:
+            pres_round = min(20, int(round_count / 10))
+            signals["pressure"].append({
+                "signal": f"{round_count} round-number payments over £5K ({fmt_gbp(round_value)})",
+                "score": pres_round,
+                "source": "payment_patterns"
+            })
+            scores["pressure"] += pres_round
+
+    # Benford's Law anomaly
+    if council_id in benfords:
+        ben = benfords[council_id]
+        max_dev = ben.get("max_digit_deviation", 0)
+        if max_dev > 5:
+            pres_ben = min(25, int(max_dev * 2))
+            signals["pressure"].append({
+                "signal": f"Benford's Law deviation: {max_dev:.1f}% max digit deviation",
+                "score": pres_ben,
+                "source": "benfords_law"
+            })
+            scores["pressure"] += pres_ben
+
+    # ── RATIONALIZATION signals ──
+
+    # CH compliance issues: paying non-compliant companies normalizes poor governance
+    if council_id in compliance:
+        comp = compliance[council_id]
+        confirmed = comp.get("confirmed_during_breach", {})
+        if confirmed.get("suppliers", 0) > 0:
+            rat_ch = min(35, 15 + confirmed["suppliers"] * 3)
+            signals["rationalization"].append({
+                "signal": f"{confirmed['suppliers']} suppliers paid during active CH breaches ({fmt_gbp(confirmed['spend'])})",
+                "score": rat_ch,
+                "source": "ch_compliance"
+            })
+            scores["rationalization"] += rat_ch
+        elif comp.get("total_flagged_suppliers", 0) > 0:
+            rat_ch = min(20, comp["total_flagged_suppliers"] * 2)
+            signals["rationalization"].append({
+                "signal": f"{comp['total_flagged_suppliers']} suppliers with current CH red flags",
+                "score": rat_ch,
+                "source": "ch_compliance"
+            })
+            scores["rationalization"] += rat_ch
+
+    # Late publications: retrospective transparency suggests a culture of opacity
+    if council_id in procurement_compliance:
+        proc = procurement_compliance[council_id]
+        late_count = proc.get("late_publication_count", 0)
+        if late_count > 0:
+            rat_late = min(25, late_count * 3)
+            signals["rationalization"].append({
+                "signal": f"{late_count} contracts published after award date",
+                "score": rat_late,
+                "source": "procurement_compliance"
+            })
+            scores["rationalization"] += rat_late
+
+    # Data quality gaps: missing descriptions, departments etc.
+    # Check from spending records directly
+    missing_desc = sum(1 for r in records if not r.get("description"))
+    desc_pct = (missing_desc / tx_count * 100) if tx_count > 0 else 0
+    if desc_pct > 90:
+        signals["rationalization"].append({
+            "signal": f"{desc_pct:.0f}% of transactions have no description",
+            "score": 15,
+            "source": "data_quality"
+        })
+        scores["rationalization"] += 15
+    elif desc_pct > 50:
+        signals["rationalization"].append({
+            "signal": f"{desc_pct:.0f}% of transactions have no description",
+            "score": 8,
+            "source": "data_quality"
+        })
+        scores["rationalization"] += 8
+
+    # Cap each dimension at 100
+    for dim in scores:
+        scores[dim] = min(100, scores[dim])
+
+    # Overall risk: geometric mean of three dimensions (0-100)
+    import math
+    dims = [scores["opportunity"], scores["pressure"], scores["rationalization"]]
+    if all(d > 0 for d in dims):
+        overall = round(math.pow(dims[0] * dims[1] * dims[2], 1/3), 1)
+    else:
+        overall = round(sum(dims) / 3, 1)
+
+    # Risk level
+    if overall >= 60:
+        risk_level = "elevated"
+    elif overall >= 35:
+        risk_level = "moderate"
+    elif overall >= 15:
+        risk_level = "low"
+    else:
+        risk_level = "minimal"
+
+    result = {
+        "overall_score": overall,
+        "risk_level": risk_level,
+        "dimensions": {
+            "opportunity": {"score": scores["opportunity"], "signals": signals["opportunity"]},
+            "pressure": {"score": scores["pressure"], "signals": signals["pressure"]},
+            "rationalization": {"score": scores["rationalization"], "signals": signals["rationalization"]},
+        },
+        "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+        "total_signals": sum(len(s) for s in signals.values()),
+    }
+
+    print(f"  {council_id.upper()}: overall={overall:.0f}/100 ({risk_level}) — "
+          f"O={scores['opportunity']}, P={scores['pressure']}, R={scores['rationalization']} — "
+          f"{result['total_signals']} signals")
+
+    return result
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # OUTPUT: Generate Enhanced DOGE Findings JSON
 # ═══════════════════════════════════════════════════════════════════════
 
-def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None):
+def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None, fraud_triangle=None):
     """Generate enhanced doge_findings.json for a council."""
 
     findings = []
@@ -1484,6 +1722,9 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
         result["supplier_concentration"] = concentration[council_id]
     if procurement and council_id in procurement:
         result["procurement_compliance"] = procurement[council_id]
+    if fraud_triangle:
+        result["fraud_triangle"] = fraud_triangle
+        result["analyses_run"].append("fraud_triangle")
     return result
 
 
@@ -1861,6 +2102,17 @@ def main():
         print("=" * 60)
         procurement_compliance = analyse_procurement_compliance(councils)
 
+    # ── Fraud Triangle Risk Scoring ──
+    fraud_triangles = {}
+    if True:  # Always run
+        print("\n" + "=" * 60)
+        print("ANALYSIS 8: Fraud Triangle Risk Scoring")
+        print("=" * 60)
+        for c in councils:
+            ft = analyse_fraud_triangle(c, all_spending, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance)
+            if ft:
+                fraud_triangles[c] = ft
+
     # Generate output files
     if args.output or True:  # Always output for now
         print("\n" + "=" * 60)
@@ -1868,7 +2120,7 @@ def main():
         print("=" * 60)
 
         for c in councils:
-            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance)
+            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, fraud_triangles.get(c))
             output_path = DATA_DIR / c / "doge_findings.json"
             with open(output_path, "w") as f:
                 json.dump(findings, f, indent=2)
@@ -1901,6 +2153,7 @@ def main():
             "benfords_law": benfords,
             "supplier_concentration": concentration,
             "procurement_compliance": procurement_compliance,
+            "fraud_triangles": fraud_triangles,
             "generated": str(datetime.now().isoformat()),
         }
         results_path = DATA_DIR / "doge_analysis_results.json"

@@ -1,0 +1,57 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-12",
+  "council": "south_ribble",
+  "core_knowledge": "shared/doge_knowledge_core.json",
+
+  "council_profile": {
+    "total_spend": "£146M",
+    "transactions": 15974,
+    "unique_suppliers": 1659,
+    "data_period": "April 2021 – March 2025",
+    "spending_threshold": 500,
+    "political_control": "Labour majority (28 seats of 50). Conservative 16, Liberal Democrat 5, Reform 1.",
+    "annual_net_revenue_budget": "£14.5M"
+  },
+
+  "data_quality": {
+    "overall_score": 73.0,
+    "description_completeness": "0.0% — no transaction descriptions published",
+    "department_completeness": "100.0% — all records have department codes",
+    "date_completeness": "100.0% — all records have dates",
+    "ch_match_rate": "13.1% — low Companies House linkage",
+    "duplicate_records": "6.9% — quarterly CSV overlaps filtered"
+  },
+
+  "verified_findings": {
+    "ch_breach_spend": {
+      "value": "£1.1M",
+      "suppliers": "12",
+      "confidence": "medium",
+      "note": "12 current suppliers have Companies House compliance issues — highest of all 8 councils. Historical payments were made before breaches started."
+    },
+    "split_payments": {
+      "value": "£368.9K",
+      "instances": 4,
+      "confidence": "low",
+      "note": "4 instances detected. Split payment detection has a high false-positive rate."
+    },
+    "year_end_pattern": {
+      "march_multiple": "5.2x",
+      "note": "Capital spent 5.2x their monthly average in March. Significant spike warrants scrutiny.",
+      "confidence": "medium"
+    }
+  },
+
+  "key_suppliers": {
+    "lancashire_county_council": {"total_spend": "£18.4M", "note": "Largest supplier — cross-authority transfers"},
+    "dclg": {"total_spend": "£15M", "note": "Central government transfers"},
+    "caddick_construction": {"total_spend": "£13.8M", "note": "Major construction contractor"}
+  },
+
+  "cross_council_context": {
+    "shared_suppliers": 17,
+    "shared_supplier_spend": "£6.2M",
+    "price_gap_notes": "Shared services arrangement with Chorley BC (£10.9M in cross-payments). Similar supplier base due to joint management structure."
+  }
+}

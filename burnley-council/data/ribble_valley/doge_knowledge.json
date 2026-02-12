@@ -1,0 +1,57 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-12",
+  "council": "ribble_valley",
+  "core_knowledge": "shared/doge_knowledge_core.json",
+
+  "council_profile": {
+    "total_spend": "£11.7M",
+    "transactions": 3677,
+    "unique_suppliers": 672,
+    "data_period": "April 2024 – June 2025",
+    "spending_threshold": 250,
+    "political_control": "Conservative minority administration (no overall control since 2023). 40 councillors across 26 wards.",
+    "annual_net_revenue_budget": "£8.7M"
+  },
+
+  "data_quality": {
+    "overall_score": 72.0,
+    "description_completeness": "0.0% — no transaction descriptions published",
+    "department_completeness": "100.0% — all records have department codes",
+    "date_completeness": "100.0% — all records have dates",
+    "ch_match_rate": "14.2% — low Companies House linkage",
+    "duplicate_records": "9.5% — quarterly CSV overlaps filtered"
+  },
+
+  "verified_findings": {
+    "ch_breach_spend": {
+      "value": "£385.3K",
+      "suppliers": "7",
+      "confidence": "medium",
+      "note": "7 current suppliers have Companies House compliance issues. Historical payments were made before breaches started."
+    },
+    "split_payments": {
+      "value": "£46.5K",
+      "instances": 1,
+      "confidence": "low",
+      "note": "Only 1 instance detected — low risk. May be legitimate phased payment."
+    },
+    "year_end_pattern": {
+      "march_multiple": "6.0x",
+      "note": "Community Capital spent 6.0x their monthly average in March. Significant spike warrants further scrutiny.",
+      "confidence": "medium"
+    }
+  },
+
+  "key_suppliers": {
+    "lancashire_county_council": {"total_spend": "£845K", "note": "Largest supplier — cross-authority transfers"},
+    "zurich_insurance": {"total_spend": "£607K", "transactions": 210, "note": "Insurance premiums"},
+    "dennis_eagle": {"total_spend": "£366K", "note": "Waste collection vehicles"}
+  },
+
+  "cross_council_context": {
+    "shared_suppliers": 11,
+    "shared_supplier_spend": "£1.9M",
+    "price_gap_notes": "WATER PLUS LTD: 9,171% price gap — Lancaster pays £28K avg vs Pendle £302. Different service scope likely."
+  }
+}

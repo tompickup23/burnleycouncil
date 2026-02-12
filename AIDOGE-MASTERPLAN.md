@@ -202,8 +202,8 @@ Focus: Make the platform ready for media, public, and councillor use.
 | 7.7 | Citizen reporting: "Flag this transaction" | ✅ | Flag icon on each spending row → mailto:press@aidoge.co.uk with pre-filled transaction details. Hidden on mobile. |
 | 7.8 | Resume article pipeline + news sites | ✅ | All 4 crons resumed 12 Feb: article_pipeline.py (09:00 vps-main), deploy_newslancashire.sh (10:00 vps-main), deploy_newsburnley.sh (10:30 vps-main), pipeline_v4.sh (*/30 vps-news). |
 
-### Phase 8: Advanced Analysis (Feb 2026)
-Focus: Deeper, more sophisticated DOGE analysis.
+### Phase 8: Advanced Analysis — ✅ COMPLETE (12 Feb 2026)
+Focus: Deeper, more sophisticated DOGE analysis. 8.5/8.6 deferred to Phase 11 (LCC expansion, where upper-tier data is available).
 
 | # | Task | Status | Result |
 |---|------|--------|--------|
@@ -211,9 +211,9 @@ Focus: Deeper, more sophisticated DOGE analysis.
 | 8.2 | Single-bidder / weak competition detection | ✅ | Proxy signals: short tender periods (<14d), rapid awards (<7d after deadline), category monopolies. Contracts Finder lacks bid counts. |
 | 8.3 | Late publication analysis | ✅ | Detects contracts published after award date. Burnley: 74 late (avg 90d delay), Hyndburn: 16 (avg 185d). Frontend table with colour-coded severity. |
 | 8.4 | Deprivation index overlay on MyArea | ✅ | IMD 2019 data aggregated LSOA→ward for all 8 councils. Deprivation panel + ward card badges. deprivation_etl.py + deprivation.json × 8. |
-| 8.5 | Declaration of interests cross-reference | Pending | Compare councillor interests to suppliers receiving money. Needs FOI data. |
-| 8.6 | Service quality correlation | Pending | OFSTED, CQC, other inspectorate data vs spending. Needs external data. |
-| 8.7 | Fraud triangle scoring | Pending | Motive + opportunity + rationalisation per department/supplier. Needs audit reports. |
+| 8.5 | Declaration of interests cross-reference | Deferred | Needs councillor interest register data. ModernGov scraping or FOI. Will implement when LCC expansion begins (Phase 11). |
+| 8.6 | Service quality correlation | Deferred | Ofsted/CQC primarily upper-tier (county council) responsibility. Will implement alongside LCC expansion (Phase 11). |
+| 8.7 | Fraud triangle scoring | ✅ | Three-dimension risk model (opportunity/pressure/rationalization) scoring 0-100 per council. Synthesises existing DOGE signals (splits, duplicates, CH compliance, concentration, Benford's, procurement). Radar chart + signal breakdown on DOGE page. |
 
 ### Phase 9: Quality & Accessibility — ✅ COMPLETE (11 Feb 2026)
 Focus: Keyboard accessibility, ARIA compliance, code quality polish. Based on comprehensive quality audit (11 Feb 2026, avg score 7.7/10 → 8.5/10+).

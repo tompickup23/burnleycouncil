@@ -89,7 +89,6 @@ function DogeInvestigation() {
 
   const dataUrls = [
     '/data/doge_findings.json',
-    '/data/doge_knowledge.json',
     '/data/insights.json',
     '/data/doge_verification.json',
     '/data/shared/legal_framework.json',
@@ -97,6 +96,8 @@ function DogeInvestigation() {
   ]
 
   const { data, loading, error } = useData(dataUrls)
+  // doge_knowledge.json is optional — only exists for some councils
+  const { data: dogeKnowledge } = useData('/data/doge_knowledge.json')
 
   useEffect(() => {
     document.title = `DOGE Investigation | ${councilName} Council Transparency`
@@ -114,7 +115,7 @@ function DogeInvestigation() {
     )
   }
 
-  const [dogeFindings, dogeKnowledge, insights, verification, legalFramework, outcomes] = data || []
+  const [dogeFindings, insights, verification, legalFramework, outcomes] = data || []
 
   if (!dogeFindings) {
     return (
@@ -926,6 +927,106 @@ function DogeInvestigation() {
           </ExpandableSection>
         )}
       </section>
+
+      {/* Fraud Triangle Risk Assessment */}
+      {dogeFindings.fraud_triangle && (
+        <ExpandableSection
+          title="Risk Assessment: Fraud Triangle"
+          subtitle={`Overall: ${dogeFindings.fraud_triangle.overall_score}/100 (${dogeFindings.fraud_triangle.risk_level})`}
+          severity={dogeFindings.fraud_triangle.risk_level === 'elevated' ? 'critical' : dogeFindings.fraud_triangle.risk_level === 'moderate' ? 'warning' : 'info'}
+        >
+          <div className="analysis-content">
+            <div className="analysis-summary">
+              <p>
+                The fraud triangle model (Cressey 1953) identifies three conditions that increase fraud risk:
+                <strong> Opportunity</strong> (weak controls), <strong>Pressure</strong> (budget stress),
+                and <strong>Rationalization</strong> (cultural tolerance of non-compliance).
+                This is a <em>screening tool</em> — elevated scores warrant investigation, not accusation.
+              </p>
+
+              <div className="fraud-triangle-scores">
+                {['opportunity', 'pressure', 'rationalization'].map(dim => {
+                  const d = dogeFindings.fraud_triangle.dimensions[dim]
+                  const color = d.score >= 50 ? '#ff453a' : d.score >= 25 ? '#ff9f0a' : '#30d158'
+                  return (
+                    <div key={dim} className="ft-dimension">
+                      <div className="ft-dim-header">
+                        <span className="ft-dim-label">{dim.charAt(0).toUpperCase() + dim.slice(1)}</span>
+                        <span className="ft-dim-score" style={{ color }}>{d.score}/100</span>
+                      </div>
+                      <div className="ft-bar-track">
+                        <div className="ft-bar-fill" style={{ width: `${d.score}%`, background: color }} />
+                      </div>
+                      {d.signals.length > 0 && (
+                        <ul className="ft-signals">
+                          {d.signals.map((s, i) => (
+                            <li key={i}>{s.signal}</li>
+                          ))}
+                        </ul>
+                      )}
+                      {d.signals.length === 0 && (
+                        <p className="ft-no-signals">No signals detected in this dimension.</p>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+
+              {dogeFindings.fraud_triangle.dimensions && (() => {
+                const dims = dogeFindings.fraud_triangle.dimensions
+                const radarData = [
+                  { metric: 'Opportunity', score: dims.opportunity.score },
+                  { metric: 'Pressure', score: dims.pressure.score },
+                  { metric: 'Rationalization', score: dims.rationalization.score },
+                ]
+                return (
+                  <div className="quality-chart">
+                    <h4>Risk Dimensions</h4>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <RadarChart data={radarData}>
+                        <PolarGrid stroke="rgba(255,255,255,0.1)" />
+                        <PolarAngleAxis
+                          dataKey="metric"
+                          tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                        />
+                        <PolarRadiusAxis
+                          angle={90}
+                          domain={[0, 100]}
+                          tick={{ fill: 'var(--text-tertiary)', fontSize: 10 }}
+                        />
+                        <Radar
+                          name="Risk Score"
+                          dataKey="score"
+                          stroke="#ff9f0a"
+                          fill="#ff9f0a"
+                          fillOpacity={0.2}
+                        />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )
+              })()}
+            </div>
+            <VerificationPanel checks={[
+              {
+                label: 'Methodology',
+                detail: 'Fraud triangle (Cressey 1953): scores synthesised from existing DOGE analysis signals. Overall score is geometric mean of three dimensions.',
+                status: 'pass'
+              },
+              {
+                label: 'Signal count',
+                detail: `${dogeFindings.fraud_triangle.total_signals} signals detected across 3 dimensions from ${dogeFindings.fraud_triangle.dimensions ? Object.keys(dogeFindings.fraud_triangle.dimensions).length : 3} risk categories.`,
+                status: 'pass'
+              },
+              {
+                label: 'Critical limitation',
+                detail: 'This is a screening tool based on publicly available spending data. It cannot detect collusion, bribery, or other forms of fraud that leave no paper trail. High scores warrant investigation, not accusation.',
+                status: 'info'
+              }
+            ]} />
+          </div>
+        </ExpandableSection>
+      )}
 
       {/* Cross-Council Comparison */}
       {crossCouncil && (crossCouncil.shared_suppliers || crossCouncil.shared_supplier_count) && (

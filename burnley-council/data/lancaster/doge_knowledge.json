@@ -1,0 +1,57 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-12",
+  "council": "lancaster",
+  "core_knowledge": "shared/doge_knowledge_core.json",
+
+  "council_profile": {
+    "total_spend": "£157M",
+    "transactions": 26975,
+    "unique_suppliers": 1916,
+    "data_period": "April 2021 – September 2025",
+    "spending_threshold": 500,
+    "political_control": "No overall control. Green largest group (~22 seats of 61), Labour close second (~21), Lib Dem 7, Conservative 5, Morecambe Bay Independents 3, others.",
+    "annual_net_revenue_budget": "£22.5M"
+  },
+
+  "data_quality": {
+    "overall_score": 75.0,
+    "description_completeness": "0.0% — no transaction descriptions published",
+    "department_completeness": "100.0% — all records have department codes",
+    "date_completeness": "100.0% — all records have dates",
+    "ch_match_rate": "15.8% — low Companies House linkage",
+    "duplicate_records": "9.9% — quarterly CSV overlaps filtered"
+  },
+
+  "verified_findings": {
+    "ch_breach_spend": {
+      "value": "£175.3K",
+      "suppliers": "8",
+      "confidence": "medium",
+      "note": "8 current suppliers have Companies House compliance issues. Historical payments were made before breaches started."
+    },
+    "split_payments": {
+      "value": "£2.1M",
+      "instances": 10,
+      "confidence": "low",
+      "note": "Split payment detection has a high false-positive rate. Batch processing and legitimate recurring payments can trigger this pattern."
+    },
+    "year_end_pattern": {
+      "march_multiple": "3.4x",
+      "note": "ENVIRONMENT AND PLACE spent 3.4x their monthly average in March. Borderline spike warrants monitoring.",
+      "confidence": "medium"
+    }
+  },
+
+  "key_suppliers": {
+    "preston_city_council": {"total_spend": "£8.4M", "note": "Shared services arrangement with Preston CC"},
+    "west_dunbartonshire_council": {"total_spend": "£5M", "transactions": 1, "note": "Single large cross-authority transfer"},
+    "npower_commercial_gas": {"total_spend": "£4.9M", "transactions": 1376, "note": "Energy supplier — high transaction volume"}
+  },
+
+  "cross_council_context": {
+    "shared_suppliers": 19,
+    "shared_supplier_spend": "£12.3M",
+    "price_gap_notes": "Lowest HHI supplier concentration (118) — most competitive supplier market of all 8 councils."
+  }
+}
