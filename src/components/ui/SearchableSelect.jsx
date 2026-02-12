@@ -13,7 +13,8 @@ function SearchableSelect({ label, value, options, onChange, placeholder }) {
   const searchRef = useRef(null)
   const listRef = useRef(null)
 
-  const filteredOptions = options.filter(opt =>
+  const stringOptions = options.map(opt => String(opt))
+  const filteredOptions = stringOptions.filter(opt =>
     opt.toLowerCase().includes(searchTerm.toLowerCase())
   )
 

@@ -105,8 +105,14 @@ async function handleInit(url) {
     if (data && (data.meta?.version === 2 || data.meta?.format_version === 2)) {
       allRecords = data.records || []
       filterOptions = data.filterOptions || {}
-      if (!filterOptions.months) filterOptions.months = computeMonths(allRecords)
-      if (!filterOptions.quarters) filterOptions.quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+      // Normalize quarters: older data has integers [1,2,3,4], we need strings ['Q1','Q2','Q3','Q4']
+      if (!filterOptions.quarters || (filterOptions.quarters.length && typeof filterOptions.quarters[0] === 'number')) {
+        filterOptions.quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+      }
+      // Normalize months: older data has integers [1..12], we need "Month Year" strings
+      if (!filterOptions.months || (filterOptions.months.length && typeof filterOptions.months[0] === 'number')) {
+        filterOptions.months = computeMonths(allRecords)
+      }
     } else {
       allRecords = Array.isArray(data) ? data : []
       filterOptions = buildFilterOptions(allRecords)
