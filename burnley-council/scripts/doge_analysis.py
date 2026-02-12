@@ -1224,9 +1224,10 @@ def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, 
 
     # Year-end spending spikes
     if council_id in patterns:
-        yearend = patterns[council_id].get("year_end_spikes", [])
-        if yearend:
-            max_spike = max(s.get("march_multiple", 0) for s in yearend) if yearend else 0
+        yearend_data = patterns[council_id].get("year_end_spikes", {})
+        yearend_depts = yearend_data.get("departments", []) if isinstance(yearend_data, dict) else yearend_data
+        if yearend_depts:
+            max_spike = max(s.get("spike_ratio", 0) for s in yearend_depts) if yearend_depts else 0
             if max_spike > 3:
                 pres_ye = min(35, int((max_spike - 1) * 8))
                 signals["pressure"].append({

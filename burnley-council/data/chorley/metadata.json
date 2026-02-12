@@ -3,12 +3,13 @@
   "council_id": "E07000118",
   "council_type": "district",
   "spending_threshold": 500,
-  "total_records": 17212,
+  "total_records": 21421,
   "financial_years": [
     "2021/22",
     "2022/23",
     "2023/24",
-    "2024/25"
+    "2024/25",
+    "2025/26"
   ],
   "data_types": [
     "purchase_card",
@@ -18,9 +19,9 @@
     "departments": [
       {
         "name": "GOVN - Policy & Governance",
-        "spend": 226681492.93,
-        "count": 2733,
-        "suppliers": 607
+        "spend": 234668227.64,
+        "count": 3490,
+        "suppliers": 806
       },
       {
         "name": "Policy & Governance",
@@ -29,16 +30,28 @@
         "suppliers": 199
       },
       {
+        "name": "CUST - Customer & Digital",
+        "spend": 21513740.83,
+        "count": 3209,
+        "suppliers": 313
+      },
+      {
         "name": "GROW - Commercial & Property",
         "spend": 19581582.74,
         "count": 3588,
         "suppliers": 262
       },
       {
-        "name": "CUST - Customer & Digital",
-        "spend": 14400139.61,
-        "count": 2385,
-        "suppliers": 266
+        "name": "GROW - Commercial Services",
+        "spend": 12060814.81,
+        "count": 2914,
+        "suppliers": 311
+      },
+      {
+        "name": "EARL - Communities",
+        "spend": 11395918.75,
+        "count": 3104,
+        "suppliers": 510
       },
       {
         "name": "Commercial & Property",
@@ -47,22 +60,10 @@
         "suppliers": 173
       },
       {
-        "name": "EARL - Communities",
-        "spend": 7792201.19,
-        "count": 2318,
-        "suppliers": 400
-      },
-      {
-        "name": "GROW - Commercial Services",
-        "spend": 5449605.62,
-        "count": 1322,
-        "suppliers": 194
-      },
-      {
         "name": "PLAN - Planning & Development",
-        "spend": 4651876.23,
-        "count": 861,
-        "suppliers": 144
+        "spend": 5886604.29,
+        "count": 1103,
+        "suppliers": 171
       },
       {
         "name": "Customer & Digital",
@@ -90,8 +91,8 @@
       },
       {
         "name": "System",
-        "spend": 41593.88,
-        "count": 34,
+        "spend": 65466.41,
+        "count": 42,
         "suppliers": 2
       }
     ],
@@ -111,10 +112,10 @@
       "System"
     ]
   },
-  "total_spend": 330867273.34,
-  "unique_suppliers": 1791,
+  "total_spend": 357441136.61,
+  "unique_suppliers": 2175,
   "date_range": {
     "min": "2021-04-07",
-    "max": "2024-12-27"
+    "max": "2025-12-22"
   }
 }

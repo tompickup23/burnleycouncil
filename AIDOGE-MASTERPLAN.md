@@ -1,5 +1,5 @@
-# AI DOGE MASTER PLAN v11.0
-## 12 February 2026 — Phases 1-10 Complete, Phase 11 Planned
+# AI DOGE MASTER PLAN v12.0
+## 12 February 2026 — Phases 1-10 Complete, Phases 11-15 Planned (Multi-Tier Lancashire)
 
 ---
 
@@ -385,18 +385,28 @@ Focus: Fix the budget display bug, fill all data gaps so every council has compr
 
 ## 7. DATA COMPARABILITY FRAMEWORK
 
-### The Problem
+### The Tier Problem
+Councils at different tiers provide DIFFERENT SERVICES and are NOT directly comparable:
+- **District vs District**: Valid comparison (same services: housing, waste collection, planning)
+- **Unitary vs Unitary**: Valid comparison (same services: all local government functions)
+- **District vs County**: INVALID — different services entirely
+- **District vs Unitary**: INVALID unless using "Full Picture" mode (district + county share)
+- **"Full Picture"**: District spend + population-proportioned LCC share ≈ unitary equivalent
+
+### The Time Problem
 Councils publish different year ranges and have different thresholds:
 - Hyndburn: 10 years (2016-2026), £250 threshold — deepest history
 - Burnley: 5 years (2021-2026), £500 threshold
-- Pendle: 5 years (2021-2026), £500 threshold
-- Rossendale: 5 years (2021-2026), £500 threshold
+- Ribble Valley: 10 months (2024-2025), £250 threshold — shallowest
+- Chorley: 4 years (2021-2024), £500 threshold — stale since Dec 2024
 
 ### Rules (all implemented)
 1. **Common year range** — Cross-council comparisons only use overlapping years (2021-22 to 2025-26)
 2. **Per-year averages** — Normalise by year count when showing totals
 3. **Explicit labelling** — Always state the comparison period
-4. **Threshold awareness** — Hyndburn's £250 threshold means more transactions visible vs others' £500
+4. **Threshold awareness** — Hyndburn/RV/SR £250 threshold means more transactions visible vs others' £500
+5. **Tier-aware comparison** (Phase 12) — Only compare within same tier. Explain why tiers differ.
+6. **"Full Picture" composite** (Phase 12) — For LGR: district + county share = synthetic unitary for valid comparison against Blackpool/Blackburn
 
 ---
 
@@ -502,36 +512,165 @@ __tests__/                  ← 20 Vitest unit test files
 
 ---
 
-*Plan v10.0 updated: 12 February 2026*
-*Phases 1-10 completed: 12 February 2026 — 8 councils live, £1.06B tracked, 200 tests, avg page quality 8.5/10+*
-*Phase 10 complete (12 Feb): All 7 workstreams done. Budget validation: 48/48 CT exact matches vs GOV.UK. doge_context synced for 6 councils. Pendle unique theme (#F9A825). Article pipeline + news sites resumed (4 crons). Home stats verified dynamic from insights.json.*
-*Phase 7 complete (12 Feb): All 8 items done including 7.8 (cron resume). Platform fully public-launch-ready.*
+*Plan v12.0 updated: 12 February 2026*
+*Phases 1-10 completed: 12 February 2026 — 8 councils live, £1.41B tracked, 200 tests, avg page quality 8.5/10+*
+*v12.0 (12 Feb): Comprehensive multi-tier architecture plan. Phases 11-15 cover all 15 Lancashire councils (12 districts + 1 county + 2 unitaries). LGR tracker planned for Phase 15. Three-tier service comparability framework designed.*
+*Phase 8 (12 Feb): Fraud triangle analysis (Phase 8.7). doge_knowledge.json for all 8 councils.*
 
 ---
 
-## 13. EXPANSION PLAN: LANCASHIRE COUNTY COUNCIL & BLACKPOOL
+## 13. LANCASHIRE LOCAL GOVERNMENT: THREE-TIER ARCHITECTURE
 
-### Strategic Context
-- **LGR**: Government consultation launched 5 Feb 2026 to abolish all 15 Lancashire councils by spring 2028. AI DOGE should document the financial position being handed to successor authorities.
-- **LCC**: Upper-tier county council (£1.324B net budget, Reform UK control). Publishes spending >£500.
-- **Blackpool**: Unitary authority (combined district+county). Budget data exists; spending CSV URL TBC.
-- Both will ultimately be added to the aidoge.co.uk Lancashire system in some form.
+### The 15 Lancashire Councils
+Lancashire has a **three-tier** local government structure. Understanding this is CRITICAL for comparability:
 
-### Phase 11: Upper-Tier Expansion (PLANNED)
-Focus: Add Lancashire County Council and Blackpool as new authority types. Requires hub restructuring for mixed authority tiers.
+| Tier | Authority | Type Code | Services | Budget Scale | Count |
+|------|-----------|-----------|----------|-------------|-------|
+| **Upper** | Lancashire County Council | `county` | Education, social care, highways, fire, waste disposal, libraries, public health | £1,324M | 1 |
+| **Unitary** | Blackpool, Blackburn with Darwen | `unitary` | ALL services (combined district + county) | £300-500M est. | 2 |
+| **Lower** | 12 district/borough/city councils | `district` | Housing, planning, waste collection, leisure, council tax collection, parking | £12-355M | 12 |
+
+### Service Scope Comparison
+```
+UPPER TIER (LCC)              LOWER TIER (Districts)         UNITARY (Blackpool/Blackburn)
+─────────────────             ──────────────────────         ─────────────────────────────
+Education (£450M+)            Housing & planning             ALL of upper tier services
+Adult social care (£370M+)    Waste collection               + ALL of lower tier services
+Children's services           Leisure centres                = Complete local government
+Highways & transport          Council tax collection
+Fire & rescue                 Car parks & parking
+Waste disposal                Env. health & licensing
+Libraries                     Local planning
+Public health                 Street cleaning
+Trading standards             Elections administration
+```
+
+### Why This Matters for AI DOGE
+1. **Burnley ≠ Lancashire** — Burnley spends £355M on housing, waste collection, leisure. LCC spends £1,324M on education, social care, highways. Completely different services.
+2. **LCC + Burnley ≈ Blackpool** — A district council PLUS its county council together provide roughly the same services as a unitary authority. This is key to LGR assessment.
+3. **Districts ARE comparable to each other** — All 12 districts provide similar services at similar scales. Cross-district comparison is valid.
+4. **Unitaries ARE comparable to each other** — Blackpool vs Blackburn with Darwen is valid. Also comparable to "district + county share" synthetic authorities.
+5. **LGR makes this essential** — If Lancashire abolishes all 15 councils and creates 2-3 unitaries, we need to model what the successor authorities inherit.
+
+### All 15 Lancashire Councils
+| # | Council | Type | ONS Code | Status | Data | Notes |
+|---|---------|------|----------|--------|------|-------|
+| 1 | Burnley | district | E07000117 | ✅ LIVE | 30,580 txns / £355M | |
+| 2 | Hyndburn | district | E07000120 | ✅ LIVE | 29,802 txns / £211M | |
+| 3 | Pendle | district | E07000122 | ✅ LIVE | 48,785 txns / £127M | |
+| 4 | Rossendale | district | E07000125 | ✅ LIVE | 42,536 txns / £64M | |
+| 5 | Lancaster | city/district | E07000121 | ✅ LIVE | 26,975 txns / £157M | |
+| 6 | Ribble Valley | district | E07000124 | ✅ LIVE | 3,677 txns / £12M | Only from Apr 2024 |
+| 7 | Chorley | district | E07000118 | ✅ LIVE | 17,052 txns / £338M | Stale — data to Dec 2024 |
+| 8 | South Ribble | district | E07000126 | ✅ LIVE | 15,974 txns / £146M | Data to Mar 2025 |
+| 9 | Preston | city/district | E07000123 | PLANNED | — | Spending URL TBC |
+| 10 | West Lancashire | district | E07000127 | PLANNED | — | Spending URL TBC |
+| 11 | Fylde | district | E07000119 | PLANNED | — | Spending URL TBC |
+| 12 | Wyre | district | E07000128 | PLANNED | — | Spending URL TBC |
+| 13 | **Lancashire CC** | **county** | **E10000017** | PLANNED | — | £1.3B budget, 100K+ txns expected |
+| 14 | **Blackpool** | **unitary** | **E06000009** | PLANNED | budgets only | Budget data in govuk_budgets.py |
+| 15 | **Blackburn w/ Darwen** | **unitary** | **E06000008** | PLANNED | budgets only | Budget data in govuk_budgets.py |
+
+### Data Gaps to Fill (Existing 8 Councils)
+| Council | Issue | Severity | Action |
+|---------|-------|----------|--------|
+| Chorley | Data stops Dec 2024 (14 months stale) | HIGH | Re-crawl for 2025 CSVs |
+| Ribble Valley | Only 10 months of data (Apr 2024 – Jan 2025) | HIGH | Check for older CSVs on council site |
+| Lancaster | Data stops Sep 2025 | MEDIUM | Re-crawl for latest quarter |
+| South Ribble | Data stops Mar 2025 | MEDIUM | Re-crawl when new CSVs available |
+| Hub page | Stats stale (Chorley shows "885", Lancaster shows "24,593") | HIGH | Update to current figures |
+| Fraud triangle | Code written but not run — no councils have fraud_triangle in doge_findings.json | HIGH | Re-run doge_analysis.py |
+
+---
+
+## 14. EXPANSION PHASES (11-15)
+
+### Phase 11: Data Gap Fill & Hardening (NEXT)
+Focus: Fill gaps in existing 8 councils, run new analysis, update hub. Get the existing platform to maximum quality before expanding.
 
 | # | Task | Priority | Details |
 |---|------|----------|---------|
-| 11.1 | Restructure hub for mixed authority types | HIGH | Current hub hardcodes 8 district councils. Need sections: "County Council", "Unitary Authorities", "District Councils". |
-| 11.2 | Add LCC spending CSV parser | HIGH | Find spending CSV URL at lancashire.gov.uk/council/finance/spending-over-500/. Write `parse_lancashire_cc()`. Expect 100K+ transactions. |
-| 11.3 | LCC config.json + data directory | HIGH | Create `burnley-council/data/lancashire_cc/config.json`. Budget data already exists (govuk). |
-| 11.4 | Scale worker for large datasets | HIGH | LCC spending will be £1.3B+ / 100K+ txns. Test v3 chunked loading at this scale. May need additional year-splitting. |
-| 11.5 | Add Blackpool spending CSV parser | MEDIUM | Find spending CSV URL. Write `parse_blackpool()`. Create config.json. |
-| 11.6 | LCC-specific DOGE analysis | MEDIUM | VeLTIP bonds, DSG deficit, savings delivery, care home review — these need custom analysis modules. |
-| 11.7 | LCC politics page | MEDIUM | 84 councillors, 7 parties, Reform majority. Full council recorded votes data available at council.lancashire.gov.uk. |
-| 11.8 | LCC budget page | MEDIUM | Can show £1.324B budget breakdown from MHCLG data + detailed budget book parsing if available. |
-| 11.9 | Update deploy.yml for new councils | LOW | Add LCC + Blackpool build steps. Sequential constraint still applies. |
-| 11.10 | Cross-tier comparison framework | LOW | Compare LCC spending to sum of district spending. Avoid double-counting (LCC covers education/social care, districts cover planning/housing). |
+| 11.1 | Re-crawl Chorley for 2025 spending data | HIGH | Check chorley.gov.uk/transparency/spending-over-500 for new CSVs since Dec 2024. Run council_etl.py --council chorley. |
+| 11.2 | Re-crawl Ribble Valley for historical data | HIGH | Check ribblevalley.gov.uk for any older spending CSVs (pre-Apr 2024). |
+| 11.3 | Re-crawl Lancaster for latest quarter | MEDIUM | Check lancaster.gov.uk for CSVs after Sep 2025. |
+| 11.4 | Re-crawl South Ribble for 2025/26 data | MEDIUM | Check southribble.gov.uk for CSVs after Mar 2025. |
+| 11.5 | Update hub page stats | HIGH | Fix stale figures: Chorley 885→17,052, Lancaster 24,593→26,975, stats line 197K→215K. |
+| 11.6 | Run doge_analysis.py with fraud triangle | HIGH | Generate fraud_triangle data in doge_findings.json for all 8 councils. |
+| 11.7 | Add `council_tier` to all config.json files | MEDIUM | Add `"council_tier": "district"` to all 8 configs. Future-proofing for multi-tier comparison. |
+| 11.8 | Declaration of interests (if data available) | LOW | Check ModernGov for councillor interest registers. May defer to Phase 13. |
+
+### Phase 12: Multi-Tier Architecture
+Focus: Restructure the platform to support county, unitary, and district councils as distinct tiers with appropriate comparison frameworks.
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 12.1 | Add `council_tier` field to config.json schema | HIGH | Values: `district`, `county`, `unitary`. Controls comparison grouping, hub placement, service scope display. |
+| 12.2 | Restructure hub page to be tier-aware | HIGH | Three sections: "County Council" (1), "Unitary Authorities" (2), "District Councils" (12). Data-driven from config files or hub manifest JSON. |
+| 12.3 | Tier-aware cross-council comparison | HIGH | CrossCouncil.jsx: only compare within same tier. Districts vs districts, unitaries vs unitaries. Add explanation of why tiers aren't compared. |
+| 12.4 | "Full Picture" composite view | MEDIUM | New component: "What does it cost to run [district]?" = district spend + LCC share (population-proportioned). Enables comparison against unitaries. |
+| 12.5 | Service scope badges on council pages | MEDIUM | Show which services the council provides (housing ✓, education ✗ for districts). Helps citizens understand tier split. |
+| 12.6 | Update deploy.yml for N councils | MEDIUM | Move from hardcoded 8 build steps to a loop over COUNCIL_REGISTRY. |
+| 12.7 | Add `comparable_councils` to config | LOW | Explicit list of valid comparison targets per council. |
+
+### Phase 13: Lancashire County Council
+Focus: Add LCC as the first upper-tier authority. This is the most complex addition — £1.3B budget, 100K+ transactions, unique DOGE issues (VeLTIP, DSG, CQC).
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 13.1 | Parse LCC spending CSVs | HIGH | Find CSV format at lancashire.gov.uk/council/finance/spending-over-500/. Write `parse_lancashire_cc()`. Expect 100K+ txns. |
+| 13.2 | Create LCC config.json | HIGH | `council_tier: "county"`, all features enabled. Budget data already in govuk_budgets.py (E10000017). |
+| 13.3 | Scale worker for LCC volume | HIGH | 100K+ txns = ~80MB spending.json. v3 chunking essential. Test year-chunk sizes. May need sub-year splitting (quarterly). |
+| 13.4 | LCC-specific DOGE modules | HIGH | Custom analysis for: VeLTIP bonds (£350m paper loss), DSG deficit (£95.5m→£419.9m), savings delivery (48%), CQC (2.0/4), capital slippage (32%), Operation Sheridan. |
+| 13.5 | LCC politics page | MEDIUM | 84 councillors, 7 parties, Reform UK majority. ModernGov scraping for meeting data + recorded votes. |
+| 13.6 | LCC budget deep-dive | MEDIUM | £1.324B breakdown. Parse 452-page budget PDF or use MHCLG data + manual enhancement. |
+| 13.7 | Run all ETL pipelines for LCC | MEDIUM | council_etl, doge_analysis, procurement_etl, police_etl, deprivation_etl, govuk_budgets. |
+| 13.8 | Verify "Full Picture" mode | LOW | Test LCC + each district = synthetic unitary. Compare against Blackpool/Blackburn. |
+
+### Phase 14: Remaining District Councils + Unitaries
+Focus: Add the 4 missing districts (Preston, West Lancs, Fylde, Wyre) and 2 unitaries (Blackpool, Blackburn with Darwen).
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 14.1 | Add Preston City Council | HIGH | Find spending CSV URL. Write parser. ONS code E07000123. |
+| 14.2 | Add West Lancashire Borough Council | HIGH | Find spending CSV URL. Write parser. ONS code E07000127. |
+| 14.3 | Add Fylde Borough Council | MEDIUM | Find spending CSV URL. Write parser. ONS code E07000119. |
+| 14.4 | Add Wyre Borough Council | MEDIUM | Find spending CSV URL. Write parser. ONS code E07000128. |
+| 14.5 | Add Blackpool Council | HIGH | Find spending CSV URL. Budget data already exists. `council_tier: "unitary"`. ONS code E06000009. |
+| 14.6 | Add Blackburn with Darwen Borough Council | HIGH | Find spending CSV URL. `council_tier: "unitary"`. ONS code E06000008. |
+| 14.7 | Run all ETL pipelines for 6 new councils | HIGH | Full pipeline per council: spending, DOGE, procurement, deprivation, police, budgets. |
+| 14.8 | Cross-tier comparison validation | MEDIUM | Verify district-to-district, unitary-to-unitary comparisons work. Test "full picture" composites. |
+
+### Phase 15: Complete Lancashire & LGR Tracker
+Focus: With all 15 councils live, build the LGR transition tracker — a unique product no one else has.
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 15.1 | LGR transition tracker page | HIGH | New page: map proposed unitary boundaries, model financial positions of successor authorities, track consultation progress. |
+| 15.2 | "What your area costs" calculator | HIGH | Postcode → ward → district + LCC share → total cost per household. Compare against unitary equivalent. |
+| 15.3 | Financial handover dashboard | HIGH | For each proposed unitary: aggregate all constituent council spending, debt, reserves, pension obligations. Show what the new authority inherits. |
+| 15.4 | Service gap analysis | MEDIUM | Map all services by provider. Identify where LGR creates gaps or duplications. |
+| 15.5 | 15-council cross-analysis | MEDIUM | Run doge_analysis.py cross-council with all 15. Largest cross-council pricing comparison in Lancashire history. |
+| 15.6 | Historical spending archive | LOW | Preserve pre-LGR spending data. When councils cease to exist (spring 2028), this becomes the historical record. |
+| 15.7 | National expansion planning | LOW | Architecture lessons learned for expanding beyond Lancashire (other two-tier counties: Kent, Hampshire, etc.) |
+
+### Execution Order
+```
+Phase 11 (NOW)     → Fix existing data gaps, run fraud triangle, update hub
+Phase 12 (next)    → Multi-tier architecture (hub, comparison, config)
+Phase 13 (after)   → LCC (largest single addition, most complex)
+Phase 14 (then)    → 4 districts + 2 unitaries (6 councils, standard pipeline)
+Phase 15 (final)   → LGR tracker + "what your area costs" calculator
+```
+
+### LGR Context (Local Government Reorganisation)
+- **Government consultation**: Launched 5 Feb 2026. Proposes abolishing all 15 Lancashire councils.
+- **Timeline**: New unitary authorities by spring 2028 (shadow authorities elected ~2027).
+- **AI DOGE's unique position**: With all 15 councils' spending data, we can model the financial position of successor authorities better than anyone — including the Government's own analysis.
+- **Key questions we can answer**: What does each proposed unitary inherit? Where are the financial risks? Which services have the biggest gaps? What happens to joint arrangements (Chorley–South Ribble shared services, LCC-district transfers)?
+
+---
+
+## 15. LCC REFERENCE DATA
 
 ### LCC-Specific Data Sources
 | Source | URL | Notes |
@@ -542,7 +681,7 @@ Focus: Add Lancashire County Council and Blackpool as new authority types. Requi
 | Treasury Management | In budget pack | VeLTIP bond details, borrowing strategy |
 | CQC Assessment | cqc.org.uk | "Requires Improvement" (2.0/4) |
 | Standing Orders | lancashire.gov.uk/council/constitution | Section B: Full Council Procedural Standing Orders |
-| MHCLG Budgets | GOV.UK | Already handled by govuk_budgets.py |
+| MHCLG Budgets | GOV.UK | Already handled by govuk_budgets.py (E10000017) |
 
 ### Key LCC Financial Data (for DOGE analysis)
 - **VeLTIP**: £519m invested in bonds, ~£169m current value (~£350m paper loss). Maturity up to 92 years. Annual income £16.9m.

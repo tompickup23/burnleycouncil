@@ -93,7 +93,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "22 suppliers shared with neighbouring councils \u2014 \u00a319.4M total",
+      "title": "21 suppliers shared with neighbouring councils \u2014 \u00a321.0M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -103,10 +103,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "WATER PLUS LTD: 9171% price gap between councils",
-      "description": "Lancaster pays \u00a328.0K avg vs Pendle \u00a3302 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "CHESHIRE TURF MACHINERY LTD: 8657% price gap between councils",
+      "description": "Lancaster pays \u00a37.4K avg vs Chorley \u00a385 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=WATER PLUS LTD",
+      "link": "/spending?supplier=CHESHIRE TURF MACHINERY LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -114,14 +114,15 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T06:06:32.939676",
+  "generated": "2026-02-12T02:53:45.396757",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
     "payment_patterns",
     "ch_compliance",
     "benfords_law",
-    "supplier_concentration"
+    "supplier_concentration",
+    "fraud_triangle"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -301,5 +302,53 @@
     "top20_pct": 38.4,
     "hhi": 113.0,
     "concentration_level": "low"
+  },
+  "fraud_triangle": {
+    "overall_score": 37.6,
+    "risk_level": "moderate",
+    "dimensions": {
+      "opportunity": {
+        "score": 40,
+        "signals": [
+          {
+            "signal": "10 suspected split payment instances (\u00a32.1M)",
+            "score": 40,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 83,
+        "signals": [
+          {
+            "signal": "Year-end spike: 5.2x monthly average in March",
+            "score": 33,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "29 likely duplicate payments (\u00a3605.5K)",
+            "score": 30,
+            "source": "duplicates"
+          },
+          {
+            "signal": "300 round-number payments over \u00a35K (\u00a314.1M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 16,
+        "signals": [
+          {
+            "signal": "8 suppliers with current CH red flags",
+            "score": 16,
+            "source": "ch_compliance"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 5
   }
 }

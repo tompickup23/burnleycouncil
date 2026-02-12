@@ -113,7 +113,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "30 suppliers shared with neighbouring councils \u2014 \u00a368.6M total",
+      "title": "29 suppliers shared with neighbouring councils \u2014 \u00a371.0M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -123,10 +123,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "WATER PLUS LTD: 9171% price gap between councils",
-      "description": "Lancaster pays \u00a328.0K avg vs Pendle \u00a3302 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "AVC WISE LTD: 8013% price gap between councils",
+      "description": "Lancaster pays \u00a31.3K avg vs Hyndburn \u00a316 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=WATER PLUS LTD",
+      "link": "/spending?supplier=AVC WISE LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -134,14 +134,15 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-11T06:06:32.936366",
+  "generated": "2026-02-12T02:53:45.392535",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
     "payment_patterns",
     "ch_compliance",
     "benfords_law",
-    "supplier_concentration"
+    "supplier_concentration",
+    "fraud_triangle"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -721,5 +722,68 @@
     "weak_competition_count": 23,
     "monopoly_categories": [],
     "monopoly_category_count": 0
+  },
+  "fraud_triangle": {
+    "overall_score": 71.3,
+    "risk_level": "elevated",
+    "dimensions": {
+      "opportunity": {
+        "score": 70,
+        "signals": [
+          {
+            "signal": "11 suspected split payment instances (\u00a35.1M)",
+            "score": 40,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "23 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 85,
+        "signals": [
+          {
+            "signal": "Year-end spike: 9.9x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "137 likely duplicate payments (\u00a3510.7K)",
+            "score": 30,
+            "source": "duplicates"
+          },
+          {
+            "signal": "1486 round-number payments over \u00a35K (\u00a331.8M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 61,
+        "signals": [
+          {
+            "signal": "2 suppliers paid during active CH breaches (\u00a36.6K)",
+            "score": 21,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "74 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "100% of transactions have no description",
+            "score": 15,
+            "source": "data_quality"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 8
   }
 }

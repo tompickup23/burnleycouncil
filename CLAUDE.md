@@ -13,7 +13,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Frontend:** React 19 + Vite 7, lazy-loaded routes, config-driven per council, Web Worker for spending data
 - **Data layer 1:** Council CSV spending data → `council_etl.py` → `spending.json` + year-chunked `spending-index.json` + `spending-YYYY-YY.json`
 - **Data layer 2:** GOV.UK MHCLG standardised budgets → `govuk_budgets.py` → `budgets_govuk.json`
-- **Analysis:** `doge_analysis.py` — duplicates, split payments, CH compliance, Benford's Law, cross-council pricing, weak competition, category monopolies, supplier concentration
+- **Analysis:** `doge_analysis.py` — duplicates, split payments, CH compliance, Benford's Law, cross-council pricing, weak competition, category monopolies, supplier concentration, fraud triangle
 - **Deprivation:** `deprivation_etl.py` — IMD 2019 ward-level data from MHCLG + ONS ArcGIS
 - **Hosting:** GitHub Pages (free), custom domain aidoge.co.uk
 - **Servers:** Thurinus (Oracle x86, 1GB RAM, free), vps-main (Hostinger, 16GB RAM, £22/mo), 2x AWS t3.micro (free trial until Jul 2026)
@@ -212,21 +212,39 @@ VITE_COUNCIL=burnley VITE_BASE=/ npx vite
 - **Don't edit generated JSON** — spending.json, doge_findings.json, doge_verification.json are all generated
 - **Don't duplicate info across docs** — CLAUDE.md = dev guide, ARCHITECTURE.md = software, INFRASTRUCTURE.md = ops
 
-## Expansion Targets
+## Lancashire Three-Tier Architecture
 
-### Lancashire County Council (upper-tier)
-- **Net budget**: £1,324.444m (Reform UK, 53/84 seats)
-- **Spending data**: lancashire.gov.uk/council/finance/spending-over-500/
-- **Budget data**: Already in MHCLG dataset (govuk_budgets.py)
-- **Key issues**: VeLTIP bonds (£350m loss), DSG deficit (£171m→£420m), CQC worst, Operation Sheridan
-- **War-game reports**: `LCC_Budget_2026-27_War_Game.md`, `LCC_Budget_2026-27_Reform_Defence.md`
+Lancashire has **15 councils** across three tiers. Understanding this is critical:
 
-### Blackpool (unitary authority)
-- **Data dir exists**: `burnley-council/data/blackpool/` (budgets_govuk.json + budgets_summary.json only)
-- **NOT yet in COUNCIL_REGISTRY** — needs spending CSV parser
-- **Budget analysis**: `blackpool_budget_analysis.md` (Reform councillor strategy)
+| Tier | Councils | Services | Budget Scale |
+|------|----------|----------|-------------|
+| **County** (1) | Lancashire CC | Education, social care, highways, fire, libraries | £1,324M |
+| **Unitary** (2) | Blackpool, Blackburn w/ Darwen | ALL services combined | £300-500M est. |
+| **District** (12) | Burnley, Hyndburn, Pendle, Rossendale, Lancaster, Ribble Valley, Chorley, South Ribble + Preston, West Lancs, Fylde, Wyre | Housing, planning, waste collection, leisure | £12-355M |
 
-### Adding New Councils
-See AIDOGE-MASTERPLAN.md Phase 11 for full expansion plan. Key constraint: LCC is 10x larger than any current district council — may need worker optimisation for 100K+ transactions.
+**Key rule**: Districts are only comparable to other districts. LCC + district ≈ unitary (for LGR modelling).
+
+### Currently Live (8 districts)
+All 8 existing councils are district/borough/city tier. `council_tier: "district"` in config.json.
+
+### Expansion Targets (7 remaining)
+| Council | Type | ONS Code | Status |
+|---------|------|----------|--------|
+| Lancashire CC | county | E10000017 | Phase 13 — spending CSVs at lancashire.gov.uk, 100K+ txns expected |
+| Blackpool | unitary | E06000009 | Phase 14 — budget data exists, spending CSV URL TBC |
+| Blackburn w/ Darwen | unitary | E06000008 | Phase 14 — spending CSV URL TBC |
+| Preston | district | E07000123 | Phase 14 — spending CSV URL TBC |
+| West Lancashire | district | E07000127 | Phase 14 — spending CSV URL TBC |
+| Fylde | district | E07000119 | Phase 14 — spending CSV URL TBC |
+| Wyre | district | E07000128 | Phase 14 — spending CSV URL TBC |
+
+### Expansion Phases
+- **Phase 11**: Data gap fill (re-crawl stale councils, run fraud triangle, update hub)
+- **Phase 12**: Multi-tier architecture (tier-aware hub, comparison, deploy loop)
+- **Phase 13**: LCC (upper-tier, largest addition, custom DOGE modules)
+- **Phase 14**: 4 districts + 2 unitaries (standard pipeline)
+- **Phase 15**: Complete Lancashire + LGR tracker
+
+See AIDOGE-MASTERPLAN.md Sections 13-15 for full expansion plan.
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Gemini free tier). 2x AWS free trial ends Jul 2026.
