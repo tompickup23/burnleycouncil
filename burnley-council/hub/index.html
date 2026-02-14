@@ -52,6 +52,11 @@
     .council-card h2 { font-size: 1.1rem; margin-bottom: 0.4rem; }
     .council-card p { color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
     .council-card .accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .tier-explainer { color: #636366; font-size: 0.8rem; margin-bottom: 2rem; max-width: 640px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+    .coming-soon-label { color: #48484a; }
+    .coming-soon-grid { opacity: 0.5; }
+    .council-card.coming-soon { cursor: default; border-style: dashed; }
+    .council-card.coming-soon:hover { border-color: #2c2c2e; transform: none; }
     .disclaimer { color: #636366; font-size: 0.75rem; margin-top: 2rem; }
     @media (max-width: 768px) {
       .councils { grid-template-columns: repeat(2, 1fr); }
@@ -67,9 +72,10 @@
   <div class="hub">
     <h1>AI <span>DOGE</span></h1>
     <p class="subtitle">Independent public spending transparency across Lancashire</p>
-    <p class="stats-line">8 councils &middot; 229,000+ transactions &middot; &pound;1.4 billion+ tracked</p>
+    <p class="stats-line">8 district councils &middot; 229,000+ transactions &middot; &pound;1.4 billion+ tracked</p>
+    <p class="tier-explainer">Lancashire has 15 councils across three tiers. District councils handle housing, planning and waste. The County Council covers education, social care and highways. Unitary authorities do both. More councils coming soon.</p>
 
-    <p class="section-label">East Lancashire</p>
+    <p class="section-label">District Councils &mdash; East Lancashire</p>
     <div class="councils">
       <a href="/lancashire/burnleycouncil/" class="council-card">
         <div class="accent-bar" style="background:#0a84ff"></div>
@@ -93,7 +99,7 @@
       </a>
     </div>
 
-    <p class="section-label">Central &amp; South Lancashire</p>
+    <p class="section-label">District Councils &mdash; Central &amp; South Lancashire</p>
     <div class="councils">
       <a href="/lancashire/lancastercouncil/" class="council-card">
         <div class="accent-bar" style="background:#1B5E20"></div>
@@ -115,6 +121,29 @@
         <h2>South Ribble</h2>
         <p>16,065 transactions<br>&pound;147M tracked</p>
       </a>
+    </div>
+
+    <p class="section-label coming-soon-label">County Council &mdash; Coming Soon</p>
+    <div class="councils coming-soon-grid">
+      <div class="council-card coming-soon">
+        <div class="accent-bar" style="background:#555"></div>
+        <h2>Lancashire County Council</h2>
+        <p>&pound;1.3 billion budget<br>Education, social care, highways</p>
+      </div>
+    </div>
+
+    <p class="section-label coming-soon-label">Unitary Authorities &mdash; Coming Soon</p>
+    <div class="councils coming-soon-grid">
+      <div class="council-card coming-soon">
+        <div class="accent-bar" style="background:#555"></div>
+        <h2>Blackpool</h2>
+        <p>All council services combined</p>
+      </div>
+      <div class="council-card coming-soon">
+        <div class="accent-bar" style="background:#555"></div>
+        <h2>Blackburn with Darwen</h2>
+        <p>All council services combined</p>
+      </div>
     </div>
 
     <p class="disclaimer">NOT an official council website. Independent public scrutiny tool. All data from publicly available council documents. Published by Tom Pickup.</p>

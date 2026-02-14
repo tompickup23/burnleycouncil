@@ -29,6 +29,63 @@
 }
 
 /* Context Banner */
+/* Service Scope Badges */
+.service-scope {
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+}
+
+.service-scope-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.service-scope-header svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.service-scope-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.scope-badge {
+  font-size: 0.6875rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.scope-yes {
+  background: rgba(48, 209, 88, 0.12);
+  color: #30d158;
+  border: 1px solid rgba(48, 209, 88, 0.2);
+}
+
+.scope-no {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-tertiary, #555);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: line-through;
+}
+
+.service-scope-note {
+  font-size: 0.75rem;
+  color: var(--text-tertiary, #666);
+  margin-top: var(--space-xs);
+  line-height: 1.4;
+}
+
 .context-banner {
   background: rgba(10, 132, 255, 0.08);
   border: 1px solid rgba(10, 132, 255, 0.2);

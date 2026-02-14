@@ -40,68 +40,39 @@ jobs:
       - name: Create deploy directory
         run: mkdir -p /tmp/lancashire-deploy
 
-      # Build each council sequentially — they share public/data/ so cannot run in parallel
-      - name: Build Burnley
-        run: VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/burnleycouncil
+      # Council registry: council_id:slug pairs. To add a new council, add it here.
+      # Builds run sequentially — they share public/data/ so cannot run in parallel.
+      - name: Build all councils
         env:
           VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build Hyndburn
-        run: VITE_COUNCIL=hyndburn VITE_BASE=/lancashire/hyndburncouncil/ npx vite build --outDir /tmp/lancashire-deploy/hyndburncouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build Pendle
-        run: VITE_COUNCIL=pendle VITE_BASE=/lancashire/pendlecouncil/ npx vite build --outDir /tmp/lancashire-deploy/pendlecouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build Rossendale
-        run: VITE_COUNCIL=rossendale VITE_BASE=/lancashire/rossendalecouncil/ npx vite build --outDir /tmp/lancashire-deploy/rossendalecouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build Lancaster
-        run: VITE_COUNCIL=lancaster VITE_BASE=/lancashire/lancastercouncil/ npx vite build --outDir /tmp/lancashire-deploy/lancastercouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build Ribble Valley
-        run: VITE_COUNCIL=ribble_valley VITE_BASE=/lancashire/ribblevalleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/ribblevalleycouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build Chorley
-        run: VITE_COUNCIL=chorley VITE_BASE=/lancashire/chorleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/chorleycouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
-
-      - name: Build South Ribble
-        run: VITE_COUNCIL=south_ribble VITE_BASE=/lancashire/southribblecouncil/ npx vite build --outDir /tmp/lancashire-deploy/southribblecouncil
-        env:
-          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+        run: |
+          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil"
+          for entry in $COUNCILS; do
+            COUNCIL_ID="${entry%%:*}"
+            COUNCIL_SLUG="${entry##*:}"
+            echo "::group::Building ${COUNCIL_ID}"
+            VITE_COUNCIL="${COUNCIL_ID}" VITE_BASE="/lancashire/${COUNCIL_SLUG}/" npx vite build --outDir "/tmp/lancashire-deploy/${COUNCIL_SLUG}"
+            echo "::endgroup::"
+          done
 
       # Hub pages — root 404.html is the ONLY 404 GitHub Pages reads for SPA routing
-      - name: Copy hub pages and static files
+      - name: Copy hub pages and generate sitemap
         run: |
+          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil"
           cp burnley-council/hub/index.html /tmp/lancashire-deploy/index.html
           cp burnley-council/hub/404.html /tmp/lancashire-deploy/404.html
           echo 'aidoge.co.uk' > /tmp/lancashire-deploy/CNAME
           cp public/robots.txt /tmp/lancashire-deploy/robots.txt
-          # Generate sitemap index pointing to all per-council sitemaps
-          cat > /tmp/lancashire-deploy/sitemap.xml << 'SITEMAP'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <sitemap><loc>https://aidoge.co.uk/lancashire/burnleycouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/hyndburncouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/pendlecouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/rossendalecouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/lancastercouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/ribblevalleycouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/chorleycouncil/sitemap.xml</loc></sitemap>
-            <sitemap><loc>https://aidoge.co.uk/lancashire/southribblecouncil/sitemap.xml</loc></sitemap>
-          </sitemapindex>
-          SITEMAP
+          # Generate sitemap index dynamically from council registry
+          {
+            echo '<?xml version="1.0" encoding="UTF-8"?>'
+            echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            for entry in $COUNCILS; do
+              COUNCIL_SLUG="${entry##*:}"
+              echo "  <sitemap><loc>https://aidoge.co.uk/lancashire/${COUNCIL_SLUG}/sitemap.xml</loc></sitemap>"
+            done
+            echo '</sitemapindex>'
+          } > /tmp/lancashire-deploy/sitemap.xml
 
       - name: Deploy to GitHub Pages
         run: |
@@ -114,17 +85,24 @@ jobs:
       - name: Verify deployment
         if: success()
         run: |
+          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil"
           echo "Waiting 30s for GitHub Pages CDN propagation..."
           sleep 30
           FAIL=0
-          for path in "" "lancashire/burnleycouncil/" "lancashire/hyndburncouncil/" "lancashire/pendlecouncil/" "lancashire/rossendalecouncil/" "lancashire/lancastercouncil/" "lancashire/ribblevalleycouncil/" "lancashire/chorleycouncil/" "lancashire/southribblecouncil/"; do
-            CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://aidoge.co.uk/${path}")
-            echo "https://aidoge.co.uk/${path} → HTTP ${CODE}"
+          # Check hub
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://aidoge.co.uk/")
+          echo "https://aidoge.co.uk/ → HTTP ${CODE}"
+          if [ "$CODE" != "200" ]; then FAIL=1; fi
+          # Check each council
+          for entry in $COUNCILS; do
+            COUNCIL_SLUG="${entry##*:}"
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://aidoge.co.uk/lancashire/${COUNCIL_SLUG}/")
+            echo "https://aidoge.co.uk/lancashire/${COUNCIL_SLUG}/ → HTTP ${CODE}"
             if [ "$CODE" != "200" ]; then FAIL=1; fi
           done
           if [ "$FAIL" = "1" ]; then
-            echo "⚠️ Some pages returned non-200 — CDN may still be propagating (takes ~10 min)"
+            echo "Some pages returned non-200 — CDN may still be propagating (takes ~10 min)"
           else
-            echo "✅ All pages returned 200"
+            echo "All pages returned 200"
           fi
         continue-on-error: true

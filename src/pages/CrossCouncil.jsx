@@ -19,15 +19,31 @@ const SERVICE_LABELS = {
   other: 'Other',
 }
 
+const TIER_LABELS = {
+  district: 'District Councils',
+  county: 'County Councils',
+  unitary: 'Unitary Authorities',
+}
+
+const TIER_DESCRIPTIONS = {
+  district: 'District councils provide housing, planning, waste collection, leisure and environmental services. Education, social care and highways are handled by the county council.',
+  county: 'County councils provide education, social care, highways, fire services, libraries and public health.',
+  unitary: 'Unitary authorities provide all council services — combining district and county responsibilities.',
+}
+
 function CrossCouncil() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
+  const councilTier = config.council_tier || 'district'
 
   const { data, loading, error } = useData('/data/cross_council.json')
   const comparison = data
 
-  const councils = comparison?.councils || []
+  const allCouncils = comparison?.councils || []
+  // Filter to same tier for fair comparison
+  const councils = allCouncils.filter(c => (c.council_tier || 'district') === councilTier)
+  const otherTierCount = allCouncils.length - councils.length
 
   useEffect(() => {
     document.title = `Cross-Council Comparison | ${councilName} Council Transparency`
@@ -116,11 +132,26 @@ function CrossCouncil() {
         <div className="hero-content">
           <h1>Cross-Council Comparison</h1>
           <p className="hero-subtitle">
-            Side-by-side performance metrics for {councils.map(c => c.council_name).join(', ')} councils.
+            Side-by-side performance metrics for {councils.length} {TIER_LABELS[councilTier]?.toLowerCase() || 'councils'}.
             {councilName} is highlighted throughout.
           </p>
         </div>
       </header>
+
+      {/* Tier explanation banner */}
+      <div className="cross-tier-banner">
+        <Building size={16} />
+        <div>
+          <strong>Comparing {TIER_LABELS[councilTier] || 'councils'} only.</strong>{' '}
+          {TIER_DESCRIPTIONS[councilTier]}{' '}
+          {otherTierCount > 0 && (
+            <span>
+              {otherTierCount} council{otherTierCount !== 1 ? 's' : ''} from other tiers are excluded because they provide different services
+              and have different budget scales.
+            </span>
+          )}
+        </div>
+      </div>
 
       {/* Data Confidence Banner */}
       {(lowDataCouncils.length > 0 || maxYears - minYears >= 3) && (

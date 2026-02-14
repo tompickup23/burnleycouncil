@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { preloadData } from '../hooks/useData'
@@ -27,6 +27,7 @@ const navSections = [
     items: [
       { path: '/politics', icon: Users, label: 'Politics', requires: 'politics' },
       { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
+      { path: '/demographics', icon: Globe, label: 'Demographics', requires: 'demographics' },
       { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
     ],
   },

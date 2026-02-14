@@ -181,6 +181,9 @@ function Home() {
         </div>
       </header>
 
+      {/* Service Scope — shows what this council tier handles */}
+      <ServiceScope tier={config.council_tier} councilName={councilName} />
+
       {/* Data Context Banner */}
       <div className="context-banner">
         <Info size={18} />
@@ -553,6 +556,48 @@ function Home() {
           </div>
         </div>
       </section>
+    </div>
+  )
+}
+
+// Service scope badges — shows which services each council tier provides
+const SERVICE_SCOPE = {
+  district: {
+    provides: ['Housing', 'Planning', 'Waste Collection', 'Leisure', 'Parking', 'Council Tax Collection'],
+    doesNotProvide: ['Education', 'Social Care', 'Highways', 'Fire', 'Libraries'],
+    note: 'Education, social care and highways are provided by Lancashire County Council.',
+  },
+  county: {
+    provides: ['Education', 'Social Care', 'Highways', 'Fire', 'Libraries', 'Public Health', 'Waste Disposal'],
+    doesNotProvide: ['Housing', 'Planning', 'Waste Collection', 'Leisure', 'Parking'],
+    note: 'Housing, planning and waste collection are provided by the 12 district councils.',
+  },
+  unitary: {
+    provides: ['Housing', 'Planning', 'Education', 'Social Care', 'Highways', 'Waste', 'Leisure', 'Fire'],
+    doesNotProvide: [],
+    note: 'Unitary authorities provide all council services.',
+  },
+}
+
+function ServiceScope({ tier, councilName }) {
+  const scope = SERVICE_SCOPE[tier || 'district']
+  if (!scope) return null
+
+  return (
+    <div className="service-scope">
+      <div className="service-scope-header">
+        <Building size={16} />
+        <strong>{councilName} is a {tier === 'county' ? 'county council' : tier === 'unitary' ? 'unitary authority' : 'district council'}</strong>
+      </div>
+      <div className="service-scope-badges">
+        {scope.provides.map(s => (
+          <span key={s} className="scope-badge scope-yes">{s}</span>
+        ))}
+        {scope.doesNotProvide.map(s => (
+          <span key={s} className="scope-badge scope-no">{s}</span>
+        ))}
+      </div>
+      {scope.note && <p className="service-scope-note">{scope.note}</p>}
     </div>
   )
 }

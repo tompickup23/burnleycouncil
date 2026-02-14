@@ -237,9 +237,12 @@ def build_council_entry(council_id):
     annual_spend = round(total_spend / num_years, 2) if num_years > 0 else total_spend
     annual_records = round(total_records / num_years) if num_years > 0 else total_records
 
+    council_tier = config.get("council_tier", "district")
+
     return {
         "council_id": council_id,
         "council_name": council_name,
+        "council_tier": council_tier,
         "total_records": total_records,
         "total_spend": total_spend,
         "unique_suppliers": unique_suppliers,
