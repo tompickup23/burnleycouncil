@@ -15,6 +15,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Data layer 2:** GOV.UK MHCLG standardised budgets → `govuk_budgets.py` → `budgets_govuk.json`
 - **Analysis:** `doge_analysis.py` — duplicates, split payments, CH compliance, Benford's Law, cross-council pricing, weak competition, category monopolies, supplier concentration, fraud triangle
 - **Deprivation:** `deprivation_etl.py` — IMD 2019 ward-level data from MHCLG + ONS ArcGIS
+- **Demographics:** `census_etl.py` — Census 2021 ward-level age, sex, ethnicity, religion, country of birth, economic activity from ONS Nomis API (CSV format)
 - **Hosting:** GitHub Pages (free), custom domain aidoge.co.uk
 - **Servers:** Thurinus (Oracle x86, 1GB RAM, free), vps-main (Hostinger, 16GB RAM, £22/mo), 2x AWS t3.micro (free trial until Jul 2026)
 
@@ -78,6 +79,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/police_etl.py` | Police crime stats API |
 | `burnley-council/scripts/procurement_etl.py` | Contracts Finder API → procurement.json per council |
 | `burnley-council/scripts/deprivation_etl.py` | IMD 2019 ward-level deprivation from MHCLG + ONS ArcGIS |
+| `burnley-council/scripts/census_etl.py` | Census 2021 demographics from ONS Nomis API (age, sex, ethnicity, religion, CoB, econ) |
 | `burnley-council/scripts/fts_etl.py` | Find a Tender Service ETL scaffold (needs CDP API key) |
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (reads metadata.json from all 8 councils) |
