@@ -132,7 +132,7 @@ function CrossCouncil() {
         <div className="hero-content">
           <h1>Cross-Council Comparison</h1>
           <p className="hero-subtitle">
-            Side-by-side performance metrics for {councils.length} {TIER_LABELS[councilTier]?.toLowerCase() || 'councils'}.
+            Side-by-side performance metrics for {councils.length} {TIER_LABELS[councilTier]?.toLowerCase() || 'councils'}.{' '}
             {councilName} is highlighted throughout.
           </p>
         </div>
