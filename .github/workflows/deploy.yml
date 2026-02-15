@@ -42,6 +42,41 @@ jobs:
       - name: Create deploy directory
         run: mkdir -p /tmp/lancashire-deploy
 
+      # v4 monthly spending chunks for large councils are gitignored (~647MB).
+      # Restore them from the previous deploy so spending pages stay live.
+      # The Vite build plugin copies everything from burnley-council/data/{council}/ to public/data/.
+      - name: Restore v4 spending chunks from previous deploy
+        run: |
+          V4_COUNCILS="lancashire_cc:lancashirecc blackpool:blackpoolcouncil blackburn:blackburncouncil"
+          echo "Fetching spending data from previous deploy..."
+          DEPLOY_URL="https://aidoge.co.uk/lancashire"
+          RESTORED=0
+          for entry in $V4_COUNCILS; do
+            COUNCIL_ID="${entry%%:*}"
+            SLUG="${entry##*:}"
+            DEST="burnley-council/data/${COUNCIL_ID}"
+            INDEX_URL="${DEPLOY_URL}/${SLUG}/data/spending-index.json"
+            # Download spending-index.json
+            if curl -sf "${INDEX_URL}" -o "${DEST}/spending-index.json"; then
+              # Parse month file list from index and download each chunk
+              CHUNKS=$(node -e "const idx=require('./${DEST}/spending-index.json'); const yrs=idx.years||{}; Object.values(yrs).forEach(y=>{if(y.months){Object.values(y.months).forEach(m=>console.log(m.file))}})")
+              COUNT=0
+              for CHUNK_FILE in $CHUNKS; do
+                CHUNK_URL="${DEPLOY_URL}/${SLUG}/data/${CHUNK_FILE}"
+                if curl -sf "${CHUNK_URL}" -o "${DEST}/${CHUNK_FILE}"; then
+                  COUNT=$((COUNT + 1))
+                fi
+              done
+              # Enable spending in config
+              sed -i 's/"spending": false/"spending": true/' "${DEST}/config.json"
+              echo "✓ ${COUNCIL_ID}: restored spending-index.json + ${COUNT} monthly chunks"
+              RESTORED=$((RESTORED + 1))
+            else
+              echo "⚠ ${COUNCIL_ID}: no spending data in previous deploy (first deploy?)"
+            fi
+          done
+          echo "Restored spending data for ${RESTORED}/3 councils"
+
       # Council registry defined in job env.COUNCILS above. To add a council, edit it there.
       # Builds run sequentially — they share public/data/ so cannot run in parallel.
       - name: Build all councils
@@ -54,6 +89,32 @@ jobs:
             echo "::group::Building ${COUNCIL_ID}"
             VITE_COUNCIL="${COUNCIL_ID}" VITE_BASE="/lancashire/${COUNCIL_SLUG}/" npx vite build --outDir "/tmp/lancashire-deploy/${COUNCIL_SLUG}"
             echo "::endgroup::"
+          done
+
+      # Remove spending.json monoliths and v3 year chunks from v4 councils to save deploy size.
+      # The v4 worker loads from spending-index.json + monthly chunks, not spending.json.
+      - name: Clean v4 council deploy artifacts
+        run: |
+          V4_SLUGS="lancashirecc blackpoolcouncil blackburncouncil"
+          for SLUG in $V4_SLUGS; do
+            DIR="/tmp/lancashire-deploy/${SLUG}/data"
+            if [ -f "${DIR}/spending-index.json" ]; then
+              # Remove monolith spending.json + compressed variants (v4 uses chunks instead)
+              rm -f "${DIR}/spending.json" "${DIR}/spending.json.gz" "${DIR}/spending.json.br"
+              # Remove v3 year chunks (spending-YYYY-YY.json where YY > 12)
+              # and compressed monthly chunks (GitHub Pages doesn't serve .gz/.br)
+              for f in "${DIR}"/spending-20??-??.json*; do
+                BASE=$(basename "$f")
+                # Extract last 2 digits before .json — year chunks have 13-99, months have 01-12
+                SUFFIX=$(echo "$BASE" | sed 's/.*-\([0-9][0-9]\)\.json.*/\1/')
+                if [ "$SUFFIX" -gt 12 ] 2>/dev/null; then
+                  rm -f "$f"
+                elif echo "$BASE" | grep -qE '\.(gz|br)$'; then
+                  rm -f "$f"
+                fi
+              done
+              echo "✓ Cleaned ${SLUG}: kept spending-index.json + monthly chunks only"
+            fi
           done
 
       # Hub pages — root 404.html is the ONLY 404 GitHub Pages reads for SPA routing
