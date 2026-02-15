@@ -1,6 +1,7 @@
 {
   "council_id": "fylde",
   "council_name": "Fylde",
+  "council_tier": "district",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -45,8 +46,7 @@
     },
     "housing": {
       "Administration of financial support for repairs and improvements": 162000,
-      "Housing Benefits Administration": 488000,
-      "Supporting People": 57000
+      "Housing Benefits Administration": 488000
     },
     "central_services": {
       "Corporate and Democratic Core": 2767000,
@@ -60,6 +60,16 @@
       "MANAGEMENT AND SUPPORT SERVICES": -1730000
     }
   },
+  "reserves": {
+    "earmarked_opening": 11989000,
+    "earmarked_closing": 10820000,
+    "unallocated_opening": 5105000,
+    "unallocated_closing": 4937000,
+    "total_opening": 17094000,
+    "total_closing": 15757000,
+    "change": -1337000
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1996/97": 85.2,

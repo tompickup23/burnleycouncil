@@ -1,6 +1,7 @@
 {
   "council_id": "ribble_valley",
   "council_name": "Ribble Valley",
+  "council_tier": "district",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -44,8 +45,7 @@
       "Bed and breakfast hotels": 21930,
       "Rent allowances - discretionary payments": 38650,
       "Housing Benefits Administration": 297880,
-      "Other council property (Non-HRA)": -553410,
-      "Supporting People": 37350
+      "Other council property (Non-HRA)": -553410
     },
     "central_services": {
       "Corporate and Democratic Core": 1436000,
@@ -59,6 +59,16 @@
       "MANAGEMENT AND SUPPORT SERVICES": -135040
     }
   },
+  "reserves": {
+    "earmarked_opening": 15645000,
+    "earmarked_closing": 16643720,
+    "unallocated_opening": 2896000,
+    "unallocated_closing": 4082000,
+    "total_opening": 18541000,
+    "total_closing": 20725720,
+    "change": 2184720
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1996/97": 86.67,

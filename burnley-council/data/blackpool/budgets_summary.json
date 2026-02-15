@@ -1,6 +1,7 @@
 {
   "council_id": "blackpool",
   "council_name": "Blackpool UA",
+  "council_tier": "unitary",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -10,7 +11,11 @@
     "council_tax_requirement": 74755000
   },
   "service_breakdown": {
+    "Education services": 65299000,
     "Highways and transport services": 7706000,
+    "Children Social Care": 85832000,
+    "Adult Social Care": 76650000,
+    "Public Health": 20399000,
     "Housing services (GFRA only)": 5155000,
     "Cultural and related services": 8082000,
     "Environmental and regulatory services": 21101000,
@@ -27,7 +32,9 @@
       "Foreshore": 298000,
       "Sports development and community recreation": 744000,
       "Tourism": 3777000,
+      "Library service": -204000,
       "Cemetery, cremation and mortuary services": -784000,
+      "Trading standards": 476000,
       "Food safety / hygiene": 336000,
       "Housing standards and HMO licensing": -218000,
       "Public conveniences": 795000,
@@ -41,6 +48,7 @@
       "Coast protection": 367000,
       "Street cleansing (not chargeable to highways)": 5939000,
       "Waste collection": 2896000,
+      "Waste disposal": 10365000,
       "Trade waste": -317000,
       "Recycling": -284000,
       "Waste minimisation": 97000,
@@ -62,15 +70,28 @@
       "Supporting People": 58000
     },
     "central_services": {
+      "Fire/rescue service emergency planning and civil defence": 7000,
       "Corporate and Democratic Core": 3864000,
       "Council tax collection": 773000,
       "Non-domestic rates collection": 6000,
+      "Registration of births, deaths and marriages": 35000,
       "Registration of electors": 230000,
       "Conducting elections": 26000,
       "Local land charges": -17000,
+      "Coroners' court services": 450000,
       "MANAGEMENT AND SUPPORT SERVICES": -6039000
     }
   },
+  "reserves": {
+    "earmarked_opening": 31642000,
+    "earmarked_closing": 34206000,
+    "unallocated_opening": 7104000,
+    "unallocated_closing": 509000,
+    "total_opening": 38746000,
+    "total_closing": 34715000,
+    "change": -4031000
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1998/99": 579.52,

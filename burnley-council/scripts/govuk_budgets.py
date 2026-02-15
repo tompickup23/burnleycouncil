@@ -102,26 +102,38 @@ DOWNLOAD_URLS = {
 # We only extract Net Current Expenditure (C7) for the output JSON
 
 # These define which services to extract from each RO file.
-# format: (form_name, category, service_label, relevant_to_districts)
+# format: (form_name, category, service_label, tier_relevance_dict)
+# tier_relevance: which council tiers this service is relevant to
+# "district" = shire district, "county" = county council, "unitary" = unitary authority
+def _tiers(*args):
+    """Helper to build tier relevance dict. E.g. _tiers('district','unitary') → {district:True, county:False, unitary:True}"""
+    return {"district": "district" in args, "county": "county" in args, "unitary": "unitary" in args}
+
+ALL_TIERS = _tiers("district", "county", "unitary")
+DISTRICT_ONLY = _tiers("district")
+UPPER_TIER = _tiers("county", "unitary")         # education, social care, public health
+DISTRICT_UNITARY = _tiers("district", "unitary")  # housing, most environmental
+COUNTY_ONLY = _tiers("county")                    # police/fire levies, registration
+
 RO_SERVICES = {
     "RSX": {
         "category": "Summary",
         "description": "Service expenditure summary (high-level totals)",
         "services": [
-            ("Education services", False),
-            ("Highways and transport services", True),
-            ("Children's Social Care", False),
-            ("Adult Social Care", False),
-            ("Public Health", False),
-            ("Housing services (GFRA only)", True),
-            ("Cultural and related services", True),
-            ("Environmental and regulatory services", True),
-            ("Planning and development services", True),
-            ("Police services", False),
-            ("Fire and rescue services", False),
-            ("Central services", True),
-            ("Other services", True),
-            ("Total Service Expenditure", True),
+            ("Education services", UPPER_TIER),
+            ("Highways and transport services", ALL_TIERS),
+            ("Children Social Care", UPPER_TIER),
+            ("Adult Social Care", UPPER_TIER),
+            ("Public Health", UPPER_TIER),
+            ("Housing services (GFRA only)", DISTRICT_UNITARY),
+            ("Cultural and related services", ALL_TIERS),
+            ("Environmental and regulatory services", ALL_TIERS),
+            ("Planning and development services", ALL_TIERS),
+            ("Police services", COUNTY_ONLY),
+            ("Fire and rescue services", COUNTY_ONLY),
+            ("Central services", ALL_TIERS),
+            ("Other services", ALL_TIERS),
+            ("Total Service Expenditure", ALL_TIERS),
         ],
     },
     "RO5": {
@@ -129,123 +141,123 @@ RO_SERVICES = {
         "description": "Detailed breakdown of cultural, environmental, regulatory and planning services",
         "services": [
             # Cultural
-            ("Culture and heritage - Archives", True),
-            ("Culture and heritage - Arts development and support", True),
-            ("Culture and heritage - Heritage", True),
-            ("Culture and heritage - Museums and galleries", True),
-            ("Culture and heritage - Theatres and public entertainment", True),
-            ("Recreation and sport - Community centres and public halls", True),
-            ("Recreation and sport - Foreshore", True),
-            ("Recreation and sport - Sports development and community recreation", True),
-            ("Recreation and sport - Sports and recreation facilities including golf courses", True),
-            ("Open spaces - Parks and open spaces", True),
-            ("Open spaces - Allotments", True),
-            ("Tourism", True),
-            ("Library service - Library service", False),  # County function
-            ("TOTAL CULTURAL AND RELATED SERVICES", True),
+            ("Culture and heritage - Archives", ALL_TIERS),
+            ("Culture and heritage - Arts development and support", ALL_TIERS),
+            ("Culture and heritage - Heritage", ALL_TIERS),
+            ("Culture and heritage - Museums and galleries", ALL_TIERS),
+            ("Culture and heritage - Theatres and public entertainment", ALL_TIERS),
+            ("Recreation and sport - Community centres and public halls", ALL_TIERS),
+            ("Recreation and sport - Foreshore", ALL_TIERS),
+            ("Recreation and sport - Sports development and community recreation", ALL_TIERS),
+            ("Recreation and sport - Sports and recreation facilities including golf courses", ALL_TIERS),
+            ("Open spaces - Parks and open spaces", ALL_TIERS),
+            ("Open spaces - Allotments", ALL_TIERS),
+            ("Tourism", ALL_TIERS),
+            ("Library service - Library service", UPPER_TIER),  # County/unitary function
+            ("TOTAL CULTURAL AND RELATED SERVICES", ALL_TIERS),
             # Environmental
-            ("Cemetery, cremation and mortuary services", True),
-            ("Trading standards", False),  # County function
-            ("Water safety", True),
-            ("Food safety / hygiene", True),
-            ("Environmental protection / noise and nuisance", True),
-            ("Housing standards and HMO licensing", True),
-            ("Health and safety", True),
-            ("Port health", True),
-            ("Port health - levies", True),
-            ("Pest control", True),
-            ("Public conveniences", True),
-            ("Animal and public health", True),
-            ("Licensing", True),
-            ("Crime Reduction", True),
-            ("Safety Services", True),
-            ("CCTV", True),
-            ("Defences against flooding", True),
-            ("Land drainage", True),
-            ("Land drainage - levies", True),
-            ("Coast protection", True),
-            ("Agricultural and fisheries services", True),
-            ("Street cleansing (not chargeable to highways)", True),
-            ("Waste collection", True),
-            ("Waste disposal", False),  # County function
-            ("Trade waste", True),
-            ("Recycling", True),
-            ("Waste minimisation", True),
-            ("Climate change costs", True),
-            ("TOTAL ENVIRONMENTAL AND REGULATORY SERVICES", True),
+            ("Cemetery, cremation and mortuary services", DISTRICT_UNITARY),
+            ("Trading standards", UPPER_TIER),  # County/unitary function
+            ("Water safety", ALL_TIERS),
+            ("Food safety / hygiene", DISTRICT_UNITARY),
+            ("Environmental protection / noise and nuisance", DISTRICT_UNITARY),
+            ("Housing standards and HMO licensing", DISTRICT_UNITARY),
+            ("Health and safety", ALL_TIERS),
+            ("Port health", DISTRICT_UNITARY),
+            ("Port health - levies", DISTRICT_UNITARY),
+            ("Pest control", DISTRICT_UNITARY),
+            ("Public conveniences", DISTRICT_UNITARY),
+            ("Animal and public health", ALL_TIERS),
+            ("Licensing", DISTRICT_UNITARY),
+            ("Crime Reduction", ALL_TIERS),
+            ("Safety Services", ALL_TIERS),
+            ("CCTV", ALL_TIERS),
+            ("Defences against flooding", ALL_TIERS),
+            ("Land drainage", ALL_TIERS),
+            ("Land drainage - levies", ALL_TIERS),
+            ("Coast protection", ALL_TIERS),
+            ("Agricultural and fisheries services", ALL_TIERS),
+            ("Street cleansing (not chargeable to highways)", DISTRICT_UNITARY),
+            ("Waste collection", DISTRICT_UNITARY),
+            ("Waste disposal", UPPER_TIER),  # County/unitary function
+            ("Trade waste", DISTRICT_UNITARY),
+            ("Recycling", ALL_TIERS),
+            ("Waste minimisation", ALL_TIERS),
+            ("Climate change costs", ALL_TIERS),
+            ("TOTAL ENVIRONMENTAL AND REGULATORY SERVICES", ALL_TIERS),
             # Planning
-            ("Building control", True),
-            ("Development control", True),
-            ("Conservation and listed buildings", True),
-            ("Other planning policy and specialist advice", True),
-            ("Environmental initiatives", True),
-            ("Economic development", True),
-            ("Economic research and intelligence", True),
-            ("Business support and promotion", True),
-            ("Community development and safety", True),
-            ("TOTAL PLANNING AND DEVELOPMENT SERVICES", True),
+            ("Building control", DISTRICT_UNITARY),
+            ("Development control", ALL_TIERS),
+            ("Conservation and listed buildings", ALL_TIERS),
+            ("Other planning policy and specialist advice", ALL_TIERS),
+            ("Environmental initiatives", ALL_TIERS),
+            ("Economic development", ALL_TIERS),
+            ("Economic research and intelligence", ALL_TIERS),
+            ("Business support and promotion", ALL_TIERS),
+            ("Community development and safety", ALL_TIERS),
+            ("TOTAL PLANNING AND DEVELOPMENT SERVICES", ALL_TIERS),
             # Grand total
-            ("TOTAL CULTURAL, ENVIRONMENTAL, REGULATORY AND PLANNING SERVICES", True),
+            ("TOTAL CULTURAL, ENVIRONMENTAL, REGULATORY AND PLANNING SERVICES", ALL_TIERS),
         ],
     },
     "RO4": {
         "category": "Housing",
         "description": "Housing services including homelessness and housing benefits",
         "services": [
-            ("Housing strategy and advice", True),
-            ("Housing advances", True),
-            ("Administration of financial support for repairs and improvements", True),
-            ("Other private sector renewal", True),
-            ("Nightly paid accommodation (self-contained)", True),
-            ("Private sector leased", True),
-            ("Hostels (not nightly paid, not registered care homes)", True),
-            ("Bed and breakfast hotels", True),
-            ("LA stock and housing association stock", True),
-            ("Other temporary accommodation", True),
-            ("Homelessness administration - Temporary accommodation", True),
-            ("Homelessness administration - Homelessness Reduction Act", True),
-            ("Homelessness - Non-HRA housing admin", True),
-            ("TOTAL HOMELESSNESS SERVICES", True),
-            ("Rent allowances - discretionary payments", True),
-            ("Non-HRA rent rebates - discretionary payments", True),
-            ("Housing Benefits Administration", True),
-            ("Other council property (Non-HRA)", True),
-            ("Supporting People", True),
-            ("Other welfare services", True),
-            ("TOTAL HOUSING SERVICES (GFRA only)", True),
+            ("Housing strategy and advice", DISTRICT_UNITARY),
+            ("Housing advances", DISTRICT_UNITARY),
+            ("Administration of financial support for repairs and improvements", DISTRICT_UNITARY),
+            ("Other private sector renewal", DISTRICT_UNITARY),
+            ("Nightly paid accommodation (self-contained)", DISTRICT_UNITARY),
+            ("Private sector leased", DISTRICT_UNITARY),
+            ("Hostels (not nightly paid, not registered care homes)", DISTRICT_UNITARY),
+            ("Bed and breakfast hotels", DISTRICT_UNITARY),
+            ("LA stock and housing association stock", DISTRICT_UNITARY),
+            ("Other temporary accommodation", DISTRICT_UNITARY),
+            ("Homelessness administration - Temporary accommodation", DISTRICT_UNITARY),
+            ("Homelessness administration - Homelessness Reduction Act", DISTRICT_UNITARY),
+            ("Homelessness - Non-HRA housing admin", DISTRICT_UNITARY),
+            ("TOTAL HOMELESSNESS SERVICES", DISTRICT_UNITARY),
+            ("Rent allowances - discretionary payments", DISTRICT_UNITARY),
+            ("Non-HRA rent rebates - discretionary payments", DISTRICT_UNITARY),
+            ("Housing Benefits Administration", DISTRICT_UNITARY),
+            ("Other council property (Non-HRA)", DISTRICT_UNITARY),
+            ("Supporting People", UPPER_TIER),  # County/unitary function
+            ("Other welfare services", ALL_TIERS),
+            ("TOTAL HOUSING SERVICES (GFRA only)", ALL_TIERS),
         ],
     },
     "RO6": {
         "category": "Central & Other",
         "description": "Central services, protective services and other",
         "services": [
-            ("TOTAL POLICE SERVICES", False),
-            ("Community fire safety", False),
-            ("Fire fighting and rescue operations", False),
-            ("Fire/rescue service emergency planning and civil defence", False),
-            ("TOTAL FIRE AND RESCUE SERVICES", False),
-            ("Corporate and Democratic Core", True),
-            ("Council tax collection", True),
-            ("Council tax discounts - prompt payment", True),
-            ("Council tax discounts - locally funded", True),
-            ("Council tax support - administration", True),
-            ("Non-domestic rates collection", True),
-            ("Business Improvement District ballots", True),
-            ("Registration of births, deaths and marriages", False),  # County
-            ("Registration of electors", True),
-            ("Conducting elections", True),
-            ("Emergency planning", True),
-            ("Local land charges", True),
-            ("Local welfare assistance", True),
-            ("General grants, bequests and donations", True),
-            ("Coroners' court services", False),  # County
-            ("Other court services", True),
-            ("Retirement benefits", True),
-            ("Costs of unused shares of IT facilities and other assets", True),
-            ("Revenue expenditure on surplus assets", True),
-            ("MANAGEMENT AND SUPPORT SERVICES", True),
-            ("TOTAL CENTRAL SERVICES", True),
-            ("TOTAL OTHER SERVICES", True),
+            ("TOTAL POLICE SERVICES", COUNTY_ONLY),
+            ("Community fire safety", UPPER_TIER),
+            ("Fire fighting and rescue operations", UPPER_TIER),
+            ("Fire/rescue service emergency planning and civil defence", UPPER_TIER),
+            ("TOTAL FIRE AND RESCUE SERVICES", UPPER_TIER),
+            ("Corporate and Democratic Core", ALL_TIERS),
+            ("Council tax collection", DISTRICT_UNITARY),
+            ("Council tax discounts - prompt payment", DISTRICT_UNITARY),
+            ("Council tax discounts - locally funded", DISTRICT_UNITARY),
+            ("Council tax support - administration", DISTRICT_UNITARY),
+            ("Non-domestic rates collection", DISTRICT_UNITARY),
+            ("Business Improvement District ballots", DISTRICT_UNITARY),
+            ("Registration of births, deaths and marriages", UPPER_TIER),  # County/unitary
+            ("Registration of electors", DISTRICT_UNITARY),
+            ("Conducting elections", ALL_TIERS),
+            ("Emergency planning", ALL_TIERS),
+            ("Local land charges", DISTRICT_UNITARY),
+            ("Local welfare assistance", ALL_TIERS),
+            ("General grants, bequests and donations", ALL_TIERS),
+            ("Coroners' court services", UPPER_TIER),  # County/unitary
+            ("Other court services", ALL_TIERS),
+            ("Retirement benefits", ALL_TIERS),
+            ("Costs of unused shares of IT facilities and other assets", ALL_TIERS),
+            ("Revenue expenditure on surplus assets", ALL_TIERS),
+            ("MANAGEMENT AND SUPPORT SERVICES", ALL_TIERS),
+            ("TOTAL CENTRAL SERVICES", ALL_TIERS),
+            ("TOTAL OTHER SERVICES", ALL_TIERS),
         ],
     },
     "RO2": {
@@ -254,7 +266,7 @@ RO_SERVICES = {
         "services": [
             # District councils typically show zeros for most highway items
             # but may have some agency arrangements
-            ("TOTAL HIGHWAYS AND TRANSPORT SERVICES", True),
+            ("TOTAL HIGHWAYS AND TRANSPORT SERVICES", ALL_TIERS),
         ],
     },
 }
@@ -262,20 +274,20 @@ RO_SERVICES = {
 # RS (Revenue Summary) special columns — these are single-value columns, not 7-sub-column services
 RS_COLUMNS = {
     "service_expenditure": {
-        "Education services": False,
-        "Highways and transport services": True,
-        "Children's Social Care": False,
-        "Adult Social Care": False,
-        "Public Health": False,
-        "Housing services (GFRA only)": True,
-        "Cultural and related services": True,
-        "Environmental and regulatory services": True,
-        "Planning and development services": True,
-        "Police services": False,
-        "Fire and rescue services": False,
-        "Central services": True,
-        "Other services": True,
-        "TOTAL SERVICE EXPENDITURE": True,
+        "Education services": UPPER_TIER,
+        "Highways and transport services": ALL_TIERS,
+        "Children Social Care": UPPER_TIER,
+        "Adult Social Care": UPPER_TIER,
+        "Public Health": UPPER_TIER,
+        "Housing services (GFRA only)": DISTRICT_UNITARY,
+        "Cultural and related services": ALL_TIERS,
+        "Environmental and regulatory services": ALL_TIERS,
+        "Planning and development services": ALL_TIERS,
+        "Police services": COUNTY_ONLY,
+        "Fire and rescue services": UPPER_TIER,
+        "Central services": ALL_TIERS,
+        "Other services": ALL_TIERS,
+        "TOTAL SERVICE EXPENDITURE": ALL_TIERS,
     },
     "key_financials": [
         "NET CURRENT EXPENDITURE",
@@ -284,13 +296,29 @@ RS_COLUMNS = {
         "COUNCIL TAX REQUIREMENT",
     ],
     "reserves": [
-        "Other earmarked financial reserves at 1 April",
-        "Other earmarked financial reserves at 31 March",
-        "Unallocated financial reserves at 1 April",
-        "Unallocated financial reserves at 31 March",
+        # Actual RS headers have prefix like "Reserves at 1 April 2024 - Estimated other earmarked..."
+        # and "Reserves (continued) - Estimated unallocated..."
+        # We search for the distinctive part after the dash
+        "Estimated other earmarked financial reserves level at 1 April",
+        "Estimated other earmarked financial reserves level at 31 March",
+        "Estimated unallocated financial reserves level at 1 April",
+        "Estimated unallocated financial reserves level at 31 March",
     ],
     "council_tax_support": [
-        "Council tax support - foregone council tax",
+        # Actual header: "Local Council Tax Support (LCTS) - Total amount of council tax revenue foregone"
+        "Total amount of council tax revenue foregone",
+    ],
+    "debt_costs": [
+        # Memorandum section on debt costs (columns 156-161)
+        "General fund: Interest costs",
+        "General fund: Finance cost of credit arrangements",
+        "General fund: Revenue cost of the repayment of the principal of debt",
+    ],
+    "financing": [
+        # Revenue expenditure financing items useful for LGR
+        "Revenue Support Grant",
+        "Retained income from Rate Retention Scheme",
+        "Collection fund surplus/deficits for council tax",
     ],
 }
 
@@ -426,6 +454,8 @@ def parse_rs(filepath, ons_code):
         "key_financials": {},
         "reserves": {},
         "council_tax_support": {},
+        "debt_costs": {},
+        "financing": {},
     }
 
     # Build header index for quick lookup
@@ -438,16 +468,21 @@ def parse_rs(filepath, ons_code):
                 header_idx[clean] = i
 
     # Extract service expenditure line items
-    for service, relevant in RS_COLUMNS["service_expenditure"].items():
+    for service, tier_relevance in RS_COLUMNS["service_expenditure"].items():
         # Find matching column - headers may have slightly different text
         col_idx = _find_column(headers, service)
         if col_idx is not None:
             val = safe_float(row[col_idx])
-            result["service_expenditure"][service] = {
+            entry = {
                 "value_thousands": val,
                 "value_pounds": thousands_to_pounds(val),
-                "relevant_to_districts": relevant,
+                # Backward-compatible boolean (True if relevant to districts)
+                "relevant_to_districts": tier_relevance.get("district", False),
+                # New tier-aware relevance flags
+                "relevant_to_county": tier_relevance.get("county", False),
+                "relevant_to_unitary": tier_relevance.get("unitary", False),
             }
+            result["service_expenditure"][service] = entry
 
     # Extract key financial totals
     for item in RS_COLUMNS["key_financials"]:
@@ -475,6 +510,26 @@ def parse_rs(filepath, ons_code):
         if col_idx is not None:
             val = safe_float(row[col_idx])
             result["council_tax_support"][item] = {
+                "value_thousands": val,
+                "value_pounds": thousands_to_pounds(val),
+            }
+
+    # Debt costs (memorandum section)
+    for item in RS_COLUMNS.get("debt_costs", []):
+        col_idx = _find_column(headers, item)
+        if col_idx is not None:
+            val = safe_float(row[col_idx])
+            result["debt_costs"][item] = {
+                "value_thousands": val,
+                "value_pounds": thousands_to_pounds(val),
+            }
+
+    # Financing items (RSG, NNDR retention, CT surplus/deficit)
+    for item in RS_COLUMNS.get("financing", []):
+        col_idx = _find_column(headers, item)
+        if col_idx is not None:
+            val = safe_float(row[col_idx])
+            result["financing"][item] = {
                 "value_thousands": val,
                 "value_pounds": thousands_to_pounds(val),
             }
@@ -546,9 +601,13 @@ def parse_ro(filepath, ons_code, form_name):
         ("net_current_expenditure", "Net Current Expenditure"),
     ]
 
-    for service_name, relevant in schema["services"]:
+    for service_name, tier_relevance in schema["services"]:
         service_data = {
-            "relevant_to_districts": relevant,
+            # Backward-compatible boolean
+            "relevant_to_districts": tier_relevance.get("district", False),
+            # New tier-aware relevance flags
+            "relevant_to_county": tier_relevance.get("county", False),
+            "relevant_to_unitary": tier_relevance.get("unitary", False),
         }
 
         # Find the block of 7 columns for this service
@@ -744,6 +803,8 @@ def build_council_budget(council_id, ons_code, year="2024-25"):
                 "key_financials": rs_data["key_financials"],
                 "reserves": rs_data["reserves"],
                 "council_tax_support": rs_data["council_tax_support"],
+                "debt_costs": rs_data.get("debt_costs", {}),
+                "financing": rs_data.get("financing", {}),
             }
     else:
         print(f"  RS file not found: {rs_path}")
@@ -800,19 +861,25 @@ def build_comparison_summary(councils_data):
         council_entry["net_revenue_expenditure"] = _extract_pounds(kf, "NET REVENUE EXPENDITURE")
         council_entry["council_tax_requirement"] = _extract_pounds(kf, "COUNCIL TAX REQUIREMENT")
 
-        # Service breakdown (district-relevant only)
+        # Service breakdown — all services (let consumer filter by tier)
         council_entry["services"] = {}
+        council_entry["services_all"] = {}
         for svc, data in se.items():
+            val = data.get("value_pounds")
+            council_entry["services_all"][svc] = val
+            # Backward compat: district-relevant services
             if data.get("relevant_to_districts"):
-                council_entry["services"][svc] = data.get("value_pounds")
+                council_entry["services"][svc] = val
 
         # Reserves
         council_entry["reserves_earmarked_start"] = _extract_pounds(
-            reserves, "Other earmarked financial reserves at 1 April")
+            reserves, "Estimated other earmarked financial reserves level at 1 April")
         council_entry["reserves_earmarked_end"] = _extract_pounds(
-            reserves, "Other earmarked financial reserves at 31 March")
+            reserves, "Estimated other earmarked financial reserves level at 31 March")
         council_entry["reserves_unallocated_start"] = _extract_pounds(
-            reserves, "Unallocated financial reserves at 1 April")
+            reserves, "Estimated unallocated financial reserves level at 1 April")
+        council_entry["reserves_unallocated_end"] = _extract_pounds(
+            reserves, "Estimated unallocated financial reserves level at 31 March")
 
         # Council tax
         ct = cd.get("council_tax", {})
@@ -881,12 +948,19 @@ def _build_spa_budget(budget_data):
     rs = budget_data.get("revenue_summary", {})
     se = rs.get("service_expenditure", {})
     kf = rs.get("key_financials", {})
-    reserves = rs.get("reserves", {})
+    reserves_raw = rs.get("reserves", {})
+    ct_support_raw = rs.get("council_tax_support", {})
 
-    # Service breakdown for charts — only district-relevant, in pounds
+    # Determine council tier for filtering
+    council_id = budget_data.get("council_id", "")
+    council_info = LANCASHIRE_COUNCILS.get(council_id, {})
+    council_tier = council_info.get("type", "district")
+    tier_key = f"relevant_to_{council_tier}" if council_tier != "district" else "relevant_to_districts"
+
+    # Service breakdown for charts — filtered by council tier, in pounds
     services = {}
     for svc, data in se.items():
-        if data.get("relevant_to_districts") and svc != "TOTAL SERVICE EXPENDITURE":
+        if data.get(tier_key, data.get("relevant_to_districts")) and svc != "TOTAL SERVICE EXPENDITURE":
             val = data.get("value_pounds")
             if val is not None and val != 0:
                 services[svc] = val
@@ -895,7 +969,7 @@ def _build_spa_budget(budget_data):
     ro5_detail = {}
     ro5 = budget_data.get("detailed_services", {}).get("RO5", {})
     for svc_name, svc_data in ro5.get("services", {}).items():
-        if svc_data.get("relevant_to_districts"):
+        if svc_data.get(tier_key, svc_data.get("relevant_to_districts")):
             nce = svc_data.get("net_current_expenditure", {})
             val = nce.get("value_pounds")
             if val is not None and val != 0 and "TOTAL" not in svc_name:
@@ -910,7 +984,7 @@ def _build_spa_budget(budget_data):
     ro4_detail = {}
     ro4 = budget_data.get("detailed_services", {}).get("RO4", {})
     for svc_name, svc_data in ro4.get("services", {}).items():
-        if svc_data.get("relevant_to_districts"):
+        if svc_data.get(tier_key, svc_data.get("relevant_to_districts")):
             nce = svc_data.get("net_current_expenditure", {})
             val = nce.get("value_pounds")
             if val is not None and val != 0 and "TOTAL" not in svc_name:
@@ -920,15 +994,37 @@ def _build_spa_budget(budget_data):
     ro6_detail = {}
     ro6 = budget_data.get("detailed_services", {}).get("RO6", {})
     for svc_name, svc_data in ro6.get("services", {}).items():
-        if svc_data.get("relevant_to_districts"):
+        if svc_data.get(tier_key, svc_data.get("relevant_to_districts")):
             nce = svc_data.get("net_current_expenditure", {})
             val = nce.get("value_pounds")
             if val is not None and val != 0 and "TOTAL" not in svc_name:
                 ro6_detail[svc_name] = val
 
+    # Build reserves summary
+    reserves = {}
+    earmarked_start = _extract_pounds(reserves_raw, "Estimated other earmarked financial reserves level at 1 April")
+    earmarked_end = _extract_pounds(reserves_raw, "Estimated other earmarked financial reserves level at 31 March")
+    unallocated_start = _extract_pounds(reserves_raw, "Estimated unallocated financial reserves level at 1 April")
+    unallocated_end = _extract_pounds(reserves_raw, "Estimated unallocated financial reserves level at 31 March")
+    if any(v is not None for v in [earmarked_start, earmarked_end, unallocated_start, unallocated_end]):
+        reserves = {
+            "earmarked_opening": earmarked_start,
+            "earmarked_closing": earmarked_end,
+            "unallocated_opening": unallocated_start,
+            "unallocated_closing": unallocated_end,
+            "total_opening": (earmarked_start or 0) + (unallocated_start or 0) if earmarked_start is not None or unallocated_start is not None else None,
+            "total_closing": (earmarked_end or 0) + (unallocated_end or 0) if earmarked_end is not None or unallocated_end is not None else None,
+        }
+        if reserves.get("total_opening") is not None and reserves.get("total_closing") is not None:
+            reserves["change"] = reserves["total_closing"] - reserves["total_opening"]
+
+    # Council tax support
+    ct_support = _extract_pounds(ct_support_raw, "Council tax support - foregone council tax")
+
     spa = {
         "council_id": budget_data["council_id"],
         "council_name": budget_data.get("council_name", ""),
+        "council_tier": council_tier,
         "financial_year": budget_data["financial_year"],
         "data_source": "MHCLG Revenue Outturn",
         "headline": {
@@ -943,6 +1039,8 @@ def _build_spa_budget(budget_data):
             "housing": ro4_detail,
             "central_services": ro6_detail,
         },
+        "reserves": reserves,
+        "council_tax_support": ct_support,
         "council_tax": budget_data.get("council_tax", {}),
     }
 
@@ -962,6 +1060,10 @@ def main():
     parser.add_argument(
         "--all-districts", action="store_true",
         help="Process all Lancashire district councils"
+    )
+    parser.add_argument(
+        "--all", action="store_true",
+        help="Process all 15 Lancashire councils (districts + county + unitaries)"
     )
     parser.add_argument(
         "--download", action="store_true",
@@ -996,7 +1098,9 @@ def main():
 
     # Determine which councils to process
     council_ids = []
-    if args.all_districts:
+    if args.all:
+        council_ids = list(LANCASHIRE_COUNCILS.keys())
+    elif args.all_districts:
         council_ids = [cid for cid, info in LANCASHIRE_COUNCILS.items()
                        if info["type"] == "district"]
     elif args.councils:
@@ -1054,9 +1158,12 @@ def main():
         print(f"    Total Service Expenditure: £{total:,.0f}" if total else "    Total Service Expenditure: N/A")
         print(f"    Council Tax Requirement:   £{ct_req:,.0f}" if ct_req else "    Council Tax Requirement: N/A")
 
-        # Service breakdown
+        # Service breakdown — show tier-relevant services
+        council_info = LANCASHIRE_COUNCILS.get(b["council_id"], {})
+        tier = council_info.get("type", "district")
+        tier_key = f"relevant_to_{tier}" if tier != "district" else "relevant_to_districts"
         for svc, data in se.items():
-            if data.get("relevant_to_districts") and svc != "TOTAL SERVICE EXPENDITURE":
+            if data.get(tier_key, data.get("relevant_to_districts")) and svc != "TOTAL SERVICE EXPENDITURE":
                 val = data.get("value_pounds")
                 if val is not None:
                     print(f"      {svc}: £{val:,.0f}")

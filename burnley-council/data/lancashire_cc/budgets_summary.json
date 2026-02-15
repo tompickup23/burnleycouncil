@@ -1,6 +1,7 @@
 {
   "council_id": "lancashire_cc",
   "council_name": "Lancashire CC",
+  "council_tier": "county",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -10,7 +11,11 @@
     "council_tax_requirement": 642208000
   },
   "service_breakdown": {
+    "Education services": 1266580000,
     "Highways and transport services": 68472000,
+    "Children Social Care": 291482000,
+    "Adult Social Care": 584501000,
+    "Public Health": 97641000,
     "Cultural and related services": 23653000,
     "Environmental and regulatory services": 94348000,
     "Planning and development services": 7597000,
@@ -20,9 +25,12 @@
     "cultural_environmental_planning": {
       "Archives": 1087000,
       "Arts development and support": 718000,
+      "Library service": 16421000,
+      "Trading standards": 2954000,
       "Health and safety": 603000,
       "Land drainage": 842000,
       "Agricultural and fisheries services": -3000,
+      "Waste disposal": 88260000,
       "Recycling": -18000,
       "Waste minimisation": 149000,
       "Development control": -1247000,
@@ -33,14 +41,27 @@
     },
     "housing": {},
     "central_services": {
+      "Fire/rescue service emergency planning and civil defence": 1006000,
       "Corporate and Democratic Core": 21963000,
+      "Registration of births, deaths and marriages": 323000,
       "Conducting elections": 45000,
       "General grants, bequests and donations": 235000,
+      "Coroners' court services": 3264000,
       "Retirement benefits": 11947000,
       "Revenue expenditure on surplus assets": 308000,
       "MANAGEMENT AND SUPPORT SERVICES": 2790000
     }
   },
+  "reserves": {
+    "earmarked_opening": 343554000,
+    "earmarked_closing": 289040000,
+    "unallocated_opening": 23435000,
+    "unallocated_closing": 56000000,
+    "total_opening": 366989000,
+    "total_closing": 345040000,
+    "change": -21949000
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1996/97": 557.0,

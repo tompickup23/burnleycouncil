@@ -14,67 +14,100 @@
       "Education services": {
         "value_thousands": 0.0,
         "value_pounds": 0,
-        "relevant_to_districts": false
+        "relevant_to_districts": false,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Highways and transport services": {
         "value_thousands": 513.0,
         "value_pounds": 513000,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
+      },
+      "Children Social Care": {
+        "value_thousands": 0.0,
+        "value_pounds": 0,
+        "relevant_to_districts": false,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Adult Social Care": {
         "value_thousands": 0.0,
         "value_pounds": 0,
-        "relevant_to_districts": false
+        "relevant_to_districts": false,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Public Health": {
         "value_thousands": 0.0,
         "value_pounds": 0,
-        "relevant_to_districts": false
+        "relevant_to_districts": false,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Housing services (GFRA only)": {
         "value_thousands": 880.92,
         "value_pounds": 880920,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": false,
+        "relevant_to_unitary": true
       },
       "Cultural and related services": {
         "value_thousands": 2832.0,
         "value_pounds": 2832000,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Environmental and regulatory services": {
         "value_thousands": 4416.0,
         "value_pounds": 4416000,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Planning and development services": {
         "value_thousands": 2885.0,
         "value_pounds": 2885000,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Police services": {
         "value_thousands": 0.0,
         "value_pounds": 0,
-        "relevant_to_districts": false
+        "relevant_to_districts": false,
+        "relevant_to_county": true,
+        "relevant_to_unitary": false
       },
       "Fire and rescue services": {
         "value_thousands": 0.0,
         "value_pounds": 0,
-        "relevant_to_districts": false
+        "relevant_to_districts": false,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Central services": {
         "value_thousands": 5252.0,
         "value_pounds": 5252000,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "Other services": {
         "value_thousands": 0.0,
         "value_pounds": 0,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       },
       "TOTAL SERVICE EXPENDITURE": {
         "value_thousands": 16778.92,
         "value_pounds": 16778920,
-        "relevant_to_districts": true
+        "relevant_to_districts": true,
+        "relevant_to_county": true,
+        "relevant_to_unitary": true
       }
     },
     "key_financials": {
@@ -95,8 +128,58 @@
         "value_pounds": 10323000
       }
     },
-    "reserves": {},
-    "council_tax_support": {}
+    "reserves": {
+      "Estimated other earmarked financial reserves level at 1 April": {
+        "value_thousands": 10818.02,
+        "value_pounds": 10818020
+      },
+      "Estimated other earmarked financial reserves level at 31 March": {
+        "value_thousands": 13461.39,
+        "value_pounds": 13461390
+      },
+      "Estimated unallocated financial reserves level at 1 April": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      },
+      "Estimated unallocated financial reserves level at 31 March": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      }
+    },
+    "council_tax_support": {
+      "Total amount of council tax revenue foregone": {
+        "value_thousands": 8589.0,
+        "value_pounds": 8589000
+      }
+    },
+    "debt_costs": {
+      "General fund: Interest costs": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      },
+      "General fund: Finance cost of credit arrangements": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      },
+      "General fund: Revenue cost of the repayment of the principal of debt": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      }
+    },
+    "financing": {
+      "Revenue Support Grant": {
+        "value_thousands": -1556.0,
+        "value_pounds": -1556000
+      },
+      "Retained income from Rate Retention Scheme": {
+        "value_thousands": -7483.0,
+        "value_pounds": -7483000
+      },
+      "Collection fund surplus/deficits for council tax": {
+        "value_thousands": -997.0,
+        "value_pounds": -997000
+      }
+    }
   },
   "detailed_services": {
     "RSX": {
@@ -106,6 +189,8 @@
       "services": {
         "Education services": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -137,6 +222,8 @@
         },
         "Highways and transport services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 10.0,
             "value_pounds": 10000
@@ -166,39 +253,43 @@
             "value_pounds": 513000
           }
         },
-        "Children's Social Care": {
+        "Children Social Care": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           },
           "running_expenses": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           },
           "total_expenditure": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           },
           "sales_fees_charges": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           },
           "other_income": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           },
           "total_income": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           },
           "net_current_expenditure": {
-            "value_thousands": null,
-            "value_pounds": null
+            "value_thousands": 0.0,
+            "value_pounds": 0
           }
         },
         "Adult Social Care": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -230,6 +321,8 @@
         },
         "Public Health": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -261,6 +354,8 @@
         },
         "Housing services (GFRA only)": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 37.0,
             "value_pounds": 37000
@@ -292,6 +387,8 @@
         },
         "Cultural and related services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 799.0,
             "value_pounds": 799000
@@ -323,6 +420,8 @@
         },
         "Environmental and regulatory services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 2475.0,
             "value_pounds": 2475000
@@ -354,6 +453,8 @@
         },
         "Planning and development services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 170.0,
             "value_pounds": 170000
@@ -385,6 +486,8 @@
         },
         "Police services": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": false,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -416,6 +519,8 @@
         },
         "Fire and rescue services": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": false,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -447,6 +552,8 @@
         },
         "Central services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 7254.0,
             "value_pounds": 7254000
@@ -478,6 +585,8 @@
         },
         "Other services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -509,6 +618,8 @@
         },
         "Total Service Expenditure": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 10745.0,
             "value_pounds": 10745000
@@ -547,6 +658,8 @@
       "services": {
         "TOTAL HIGHWAYS AND TRANSPORT SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 10.0,
             "value_pounds": 10000
@@ -585,6 +698,8 @@
       "services": {
         "Housing strategy and advice": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -616,6 +731,8 @@
         },
         "Housing advances": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -647,6 +764,8 @@
         },
         "Administration of financial support for repairs and improvements": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -678,6 +797,8 @@
         },
         "Other private sector renewal": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -709,6 +830,8 @@
         },
         "Nightly paid accommodation (self-contained)": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -740,6 +863,8 @@
         },
         "Private sector leased": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -771,6 +896,8 @@
         },
         "Hostels (not nightly paid, not registered care homes)": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -802,6 +929,8 @@
         },
         "Bed and breakfast hotels": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 37.0,
             "value_pounds": 37000
@@ -833,6 +962,8 @@
         },
         "LA stock and housing association stock": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -864,6 +995,8 @@
         },
         "Other temporary accommodation": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -895,6 +1028,8 @@
         },
         "Homelessness administration - Temporary accommodation": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -926,6 +1061,8 @@
         },
         "Homelessness administration - Homelessness Reduction Act": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -957,6 +1094,8 @@
         },
         "Homelessness - Non-HRA housing admin": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -988,6 +1127,8 @@
         },
         "TOTAL HOMELESSNESS SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 37.0,
             "value_pounds": 37000
@@ -1019,6 +1160,8 @@
         },
         "Rent allowances - discretionary payments": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1050,6 +1193,8 @@
         },
         "Non-HRA rent rebates - discretionary payments": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1081,6 +1226,8 @@
         },
         "Housing Benefits Administration": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1112,6 +1259,8 @@
         },
         "Other council property (Non-HRA)": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1142,7 +1291,9 @@
           }
         },
         "Supporting People": {
-          "relevant_to_districts": true,
+          "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1174,6 +1325,8 @@
         },
         "Other welfare services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1205,6 +1358,8 @@
         },
         "TOTAL HOUSING SERVICES (GFRA only)": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 37.0,
             "value_pounds": 37000
@@ -1243,6 +1398,8 @@
       "services": {
         "Culture and heritage - Archives": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1274,6 +1431,8 @@
         },
         "Culture and heritage - Arts development and support": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1305,6 +1464,8 @@
         },
         "Culture and heritage - Heritage": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1336,6 +1497,8 @@
         },
         "Culture and heritage - Museums and galleries": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1367,6 +1530,8 @@
         },
         "Culture and heritage - Theatres and public entertainment": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1398,6 +1563,8 @@
         },
         "Recreation and sport - Community centres and public halls": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1429,6 +1596,8 @@
         },
         "Recreation and sport - Foreshore": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1460,6 +1629,8 @@
         },
         "Recreation and sport - Sports development and community recreation": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1491,6 +1662,8 @@
         },
         "Recreation and sport - Sports and recreation facilities including golf courses": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -1522,6 +1695,8 @@
         },
         "Open spaces - Parks and open spaces": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -1553,6 +1728,8 @@
         },
         "Open spaces - Allotments": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1584,6 +1761,8 @@
         },
         "Tourism": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1615,6 +1794,8 @@
         },
         "Library service - Library service": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1646,6 +1827,8 @@
         },
         "TOTAL CULTURAL AND RELATED SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 799.0,
             "value_pounds": 799000
@@ -1677,6 +1860,8 @@
         },
         "Cemetery, cremation and mortuary services": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1708,6 +1893,8 @@
         },
         "Trading standards": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1739,6 +1926,8 @@
         },
         "Water safety": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1770,6 +1959,8 @@
         },
         "Food safety / hygiene": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1801,6 +1992,8 @@
         },
         "Environmental protection / noise and nuisance": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -1832,6 +2025,8 @@
         },
         "Housing standards and HMO licensing": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1863,6 +2058,8 @@
         },
         "Health and safety": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1894,6 +2091,8 @@
         },
         "Port health": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1925,6 +2124,8 @@
         },
         "Port health - levies": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -1956,6 +2157,8 @@
         },
         "Pest control": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -1987,6 +2190,8 @@
         },
         "Public conveniences": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2018,6 +2223,8 @@
         },
         "Animal and public health": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 6.0,
             "value_pounds": 6000
@@ -2049,6 +2256,8 @@
         },
         "Licensing": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2080,6 +2289,8 @@
         },
         "Crime Reduction": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2111,6 +2322,8 @@
         },
         "Safety Services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2142,6 +2355,8 @@
         },
         "CCTV": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2173,6 +2388,8 @@
         },
         "Defences against flooding": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2204,6 +2421,8 @@
         },
         "Land drainage": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2235,6 +2454,8 @@
         },
         "Land drainage - levies": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -2266,6 +2487,8 @@
         },
         "Coast protection": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2297,6 +2520,8 @@
         },
         "Agricultural and fisheries services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2328,6 +2553,8 @@
         },
         "Street cleansing (not chargeable to highways)": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 687.0,
             "value_pounds": 687000
@@ -2359,6 +2586,8 @@
         },
         "Waste collection": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 954.0,
             "value_pounds": 954000
@@ -2390,6 +2619,8 @@
         },
         "Waste disposal": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2421,6 +2652,8 @@
         },
         "Trade waste": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 81.0,
             "value_pounds": 81000
@@ -2452,6 +2685,8 @@
         },
         "Recycling": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 747.0,
             "value_pounds": 747000
@@ -2483,6 +2718,8 @@
         },
         "Waste minimisation": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2514,6 +2751,8 @@
         },
         "Climate change costs": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2545,6 +2784,8 @@
         },
         "TOTAL ENVIRONMENTAL AND REGULATORY SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 2475.0,
             "value_pounds": 2475000
@@ -2576,6 +2817,8 @@
         },
         "Building control": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2607,6 +2850,8 @@
         },
         "Development control": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2638,6 +2883,8 @@
         },
         "Conservation and listed buildings": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2669,6 +2916,8 @@
         },
         "Other planning policy and specialist advice": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2700,6 +2949,8 @@
         },
         "Environmental initiatives": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2731,6 +2982,8 @@
         },
         "Economic development": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 142.0,
             "value_pounds": 142000
@@ -2762,6 +3015,8 @@
         },
         "Economic research and intelligence": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2793,6 +3048,8 @@
         },
         "Business support and promotion": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2824,6 +3081,8 @@
         },
         "Community development and safety": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 28.0,
             "value_pounds": 28000
@@ -2855,6 +3114,8 @@
         },
         "TOTAL PLANNING AND DEVELOPMENT SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 170.0,
             "value_pounds": 170000
@@ -2886,6 +3147,8 @@
         },
         "TOTAL CULTURAL, ENVIRONMENTAL, REGULATORY AND PLANNING SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 3444.0,
             "value_pounds": 3444000
@@ -2924,6 +3187,8 @@
       "services": {
         "TOTAL POLICE SERVICES": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": false,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2955,6 +3220,8 @@
         },
         "Community fire safety": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -2986,6 +3253,8 @@
         },
         "Fire fighting and rescue operations": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3017,6 +3286,8 @@
         },
         "Fire/rescue service emergency planning and civil defence": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3048,6 +3319,8 @@
         },
         "TOTAL FIRE AND RESCUE SERVICES": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3079,6 +3352,8 @@
         },
         "Corporate and Democratic Core": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 6996.0,
             "value_pounds": 6996000
@@ -3110,6 +3385,8 @@
         },
         "Council tax collection": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3141,6 +3418,8 @@
         },
         "Council tax discounts - prompt payment": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -3172,6 +3451,8 @@
         },
         "Council tax discounts - locally funded": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -3203,6 +3484,8 @@
         },
         "Council tax support - administration": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -3234,6 +3517,8 @@
         },
         "Non-domestic rates collection": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3265,6 +3550,8 @@
         },
         "Business Improvement District ballots": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": null,
             "value_pounds": null
@@ -3296,6 +3583,8 @@
         },
         "Registration of births, deaths and marriages": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3327,6 +3616,8 @@
         },
         "Registration of electors": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 8.0,
             "value_pounds": 8000
@@ -3358,6 +3649,8 @@
         },
         "Conducting elections": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 4.0,
             "value_pounds": 4000
@@ -3389,6 +3682,8 @@
         },
         "Emergency planning": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3420,6 +3715,8 @@
         },
         "Local land charges": {
           "relevant_to_districts": true,
+          "relevant_to_county": false,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3451,6 +3748,8 @@
         },
         "Local welfare assistance": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3482,6 +3781,8 @@
         },
         "General grants, bequests and donations": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3513,6 +3814,8 @@
         },
         "Coroners' court services": {
           "relevant_to_districts": false,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3544,6 +3847,8 @@
         },
         "Other court services": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3575,6 +3880,8 @@
         },
         "Retirement benefits": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 246.0,
             "value_pounds": 246000
@@ -3606,6 +3913,8 @@
         },
         "Costs of unused shares of IT facilities and other assets": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3637,6 +3946,8 @@
         },
         "Revenue expenditure on surplus assets": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3668,6 +3979,8 @@
         },
         "MANAGEMENT AND SUPPORT SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0
@@ -3699,6 +4012,8 @@
         },
         "TOTAL CENTRAL SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 7254.0,
             "value_pounds": 7254000
@@ -3730,6 +4045,8 @@
         },
         "TOTAL OTHER SERVICES": {
           "relevant_to_districts": true,
+          "relevant_to_county": true,
+          "relevant_to_unitary": true,
           "employees": {
             "value_thousands": 0.0,
             "value_pounds": 0

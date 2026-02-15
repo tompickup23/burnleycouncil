@@ -1,6 +1,7 @@
 {
   "council_id": "south_ribble",
   "council_name": "South Ribble",
+  "council_tier": "district",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -46,8 +47,7 @@
     "housing": {
       "Administration of financial support for repairs and improvements": 8000,
       "Bed and breakfast hotels": 494000,
-      "Housing Benefits Administration": 337000,
-      "Supporting People": -170000
+      "Housing Benefits Administration": 337000
     },
     "central_services": {
       "Corporate and Democratic Core": 2939000,
@@ -62,6 +62,16 @@
       "MANAGEMENT AND SUPPORT SERVICES": 1824000
     }
   },
+  "reserves": {
+    "earmarked_opening": 13941000,
+    "earmarked_closing": 14727000,
+    "unallocated_opening": 5167000,
+    "unallocated_closing": 5167000,
+    "total_opening": 19108000,
+    "total_closing": 19894000,
+    "change": 786000
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1996/97": 85.36,

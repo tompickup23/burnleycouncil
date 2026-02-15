@@ -1,6 +1,7 @@
 {
   "council_id": "chorley",
   "council_name": "Chorley",
+  "council_tier": "district",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -48,7 +49,6 @@
       "Administration of financial support for repairs and improvements": 25000,
       "Bed and breakfast hotels": 70000,
       "Housing Benefits Administration": 493000,
-      "Supporting People": -233000,
       "Other welfare services": -1000
     },
     "central_services": {
@@ -63,6 +63,16 @@
       "MANAGEMENT AND SUPPORT SERVICES": 71000
     }
   },
+  "reserves": {
+    "earmarked_opening": 5519000,
+    "earmarked_closing": 7327000,
+    "unallocated_opening": 4092000,
+    "unallocated_closing": 4311000,
+    "total_opening": 9611000,
+    "total_closing": 11638000,
+    "change": 2027000
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1996/97": 75.09,

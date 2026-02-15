@@ -193,6 +193,11 @@ def build_council_entry(council_id):
     if svc_breakdown:
         svc = {
             "year": budgets.get("financial_year", ""),
+            "education": 0,
+            "children_social_care": 0,
+            "adult_social_care": 0,
+            "public_health": 0,
+            "highways": 0,
             "housing": 0,
             "cultural": 0,
             "environmental": 0,
@@ -204,7 +209,17 @@ def build_council_entry(council_id):
         for key, val in svc_breakdown.items():
             val_k = round(val / 1000) if val else 0
             key_lower = key.lower()
-            if "housing" in key_lower:
+            if "education" in key_lower:
+                svc["education"] += val_k
+            elif "children" in key_lower and "social" in key_lower:
+                svc["children_social_care"] += val_k
+            elif "adult" in key_lower and "social" in key_lower:
+                svc["adult_social_care"] += val_k
+            elif "public health" in key_lower:
+                svc["public_health"] += val_k
+            elif "highway" in key_lower:
+                svc["highways"] += val_k
+            elif "housing" in key_lower:
                 svc["housing"] += val_k
             elif "cultural" in key_lower:
                 svc["cultural"] += val_k
@@ -214,15 +229,13 @@ def build_council_entry(council_id):
                 svc["planning"] += val_k
             elif "central" in key_lower:
                 svc["central"] += val_k
-            elif "highway" in key_lower:
-                pass  # Highways often negative for districts, exclude
             else:
                 svc["other"] += val_k
         # Convert total to thousands too
         if svc["total"]:
             svc["total"] = round(svc["total"] / 1000)
 
-    # Budget summary: council tax band D + reserves
+    # Budget summary: council tax band D + reserves + LGR-critical fields
     ct = budgets.get("council_tax", {})
     band_d_years = ct.get("band_d_by_year", {})
     latest_band_d = 0
@@ -230,13 +243,43 @@ def build_council_entry(council_id):
         latest_year = max(band_d_years.keys())
         latest_band_d = band_d_years[latest_year]
 
-    reserves_earmarked = headline.get("reserves_earmarked", 0) or 0
-    reserves_unallocated = headline.get("reserves_unallocated", 0) or 0
-    reserves_total = reserves_earmarked + reserves_unallocated
+    # Band D total (including police/fire precepts) for full CT picture
+    band_d_total_years = ct.get("band_d_total_by_year", {})
+    latest_band_d_total = 0
+    if band_d_total_years:
+        latest_total_year = max(band_d_total_years.keys())
+        latest_band_d_total = band_d_total_years[latest_total_year]
+
+    # Reserves from enriched budgets_summary.json (new format with separate reserves dict)
+    reserves = budgets.get("reserves", {})
+    reserves_earmarked_opening = reserves.get("earmarked_opening", 0) or 0
+    reserves_earmarked_closing = reserves.get("earmarked_closing", 0) or 0
+    reserves_unallocated_opening = reserves.get("unallocated_opening", 0) or 0
+    reserves_unallocated_closing = reserves.get("unallocated_closing", 0) or 0
+    reserves_total_opening = reserves.get("total_opening", 0) or 0
+    reserves_total_closing = reserves.get("total_closing", 0) or 0
+    reserves_change = reserves.get("change", 0) or 0
+
+    # LGR-critical headline financials
+    total_service_expenditure = headline.get("total_service_expenditure", 0) or 0
+    net_revenue_expenditure = headline.get("net_revenue_expenditure", 0) or 0
+    council_tax_requirement = headline.get("council_tax_requirement", 0) or 0
+    council_tax_support = budgets.get("council_tax_support") or 0
 
     budget_summary = {
+        "financial_year": budgets.get("financial_year", ""),
         "council_tax_band_d": latest_band_d,
-        "reserves_total": reserves_total,
+        "council_tax_band_d_total": latest_band_d_total,
+        "total_service_expenditure": total_service_expenditure,
+        "net_revenue_expenditure": net_revenue_expenditure,
+        "council_tax_requirement": council_tax_requirement,
+        "council_tax_support": council_tax_support,
+        "reserves_earmarked_opening": reserves_earmarked_opening,
+        "reserves_earmarked_closing": reserves_earmarked_closing,
+        "reserves_unallocated_opening": reserves_unallocated_opening,
+        "reserves_unallocated_closing": reserves_unallocated_closing,
+        "reserves_total": reserves_total_closing,
+        "reserves_change": reserves_change,
     }
 
     # Annualized metrics for fair cross-council comparison

@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle } from 'lucide-react'
+import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
 import { useData } from '../hooks/useData'
@@ -8,9 +8,15 @@ import { LoadingState } from '../components/ui'
 import { COUNCIL_COLORS, TOOLTIP_STYLE } from '../utils/constants'
 import './CrossCouncil.css'
 
-// Static lookup tables — no component deps, safe at module scope
-const SERVICE_CATEGORIES = ['housing', 'cultural', 'environmental', 'planning', 'central', 'other']
-const SERVICE_LABELS = {
+// Service categories by tier — upper-tier services only shown for county/unitary
+const DISTRICT_SERVICE_CATEGORIES = ['housing', 'cultural', 'environmental', 'planning', 'central', 'other']
+const UPPER_TIER_SERVICE_CATEGORIES = ['education', 'adult_social_care', 'children_social_care', 'public_health', 'highways', 'cultural', 'environmental', 'planning', 'central', 'other']
+const ALL_SERVICE_LABELS = {
+  education: 'Education',
+  adult_social_care: 'Adult Social Care',
+  children_social_care: "Children's Social Care",
+  public_health: 'Public Health',
+  highways: 'Highways',
   housing: 'Housing',
   cultural: 'Cultural',
   environmental: 'Environmental',
@@ -63,14 +69,53 @@ function CrossCouncil() {
     isCurrent: c.council_name === councilName,
   })).sort((a, b) => b.spend - a.spend), [councils, councilName])
 
-  // Service expenditure comparison
-  const serviceData = useMemo(() => SERVICE_CATEGORIES.map(cat => {
-    const row = { category: SERVICE_LABELS[cat] }
+  // Service expenditure comparison — tier-aware categories
+  const serviceCategories = councilTier === 'district' ? DISTRICT_SERVICE_CATEGORIES : UPPER_TIER_SERVICE_CATEGORIES
+  const serviceData = useMemo(() => serviceCategories.map(cat => {
+    const row = { category: ALL_SERVICE_LABELS[cat] || cat }
     councils.forEach(c => {
       row[c.council_id] = Math.round((c.service_expenditure?.[cat] || 0) / (c.population || 1))
     })
     return row
-  }), [councils])
+  }), [councils, serviceCategories])
+
+  // Council Tax Band D comparison
+  const councilTaxData = useMemo(() => councils
+    .filter(c => c.budget_summary?.council_tax_band_d)
+    .map(c => ({
+      name: c.council_name,
+      bandD: c.budget_summary.council_tax_band_d,
+      bandDTotal: c.budget_summary.council_tax_band_d_total || 0,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.bandD - a.bandD), [councils, councilName])
+
+  // Reserves comparison
+  const reservesData = useMemo(() => councils
+    .filter(c => c.budget_summary?.reserves_total)
+    .map(c => ({
+      name: c.council_name,
+      earmarked: Math.round((c.budget_summary.reserves_earmarked_closing || 0) / 1_000_000),
+      unallocated: Math.round((c.budget_summary.reserves_unallocated_closing || 0) / 1_000_000),
+      total: Math.round((c.budget_summary.reserves_total || 0) / 1_000_000),
+      change: Math.round((c.budget_summary.reserves_change || 0) / 1_000_000),
+      perHead: Math.round((c.budget_summary.reserves_total || 0) / (c.population || 1)),
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.perHead - a.perHead), [councils, councilName])
+
+  // Net Revenue Expenditure comparison
+  const nreData = useMemo(() => councils
+    .filter(c => c.budget_summary?.net_revenue_expenditure)
+    .map(c => ({
+      name: c.council_name,
+      nre: c.budget_summary.net_revenue_expenditure,
+      nrePerHead: Math.round(c.budget_summary.net_revenue_expenditure / (c.population || 1)),
+      ctReq: c.budget_summary.council_tax_requirement || 0,
+      ctReqPerHead: Math.round((c.budget_summary.council_tax_requirement || 0) / (c.population || 1)),
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.nrePerHead - a.nrePerHead), [councils, councilName])
 
   // Transparency radar data
   const radarData = useMemo(() => [
@@ -261,6 +306,110 @@ function CrossCouncil() {
           </ResponsiveContainer>
         </div>
       </section>
+
+      {/* Council Tax Band D Comparison */}
+      {councilTaxData.length > 0 && (
+        <section className="cross-section">
+          <h2><Wallet size={22} /> Council Tax Band D {councilTier === 'county' ? '(County Precept)' : ''}</h2>
+          <p className="section-intro">
+            {councilTier === 'county'
+              ? 'The county council precept element of Band D council tax (2025-26). This is added to district council and police/fire precepts to give the total bill.'
+              : councilTier === 'unitary'
+              ? 'Band D council tax set by the unitary authority (2025-26), excluding police and fire precepts.'
+              : 'District council element of Band D council tax (2025-26). This is part of the total bill which also includes county, police and fire precepts.'}
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing council tax Band D rates">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={councilTaxData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
+                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <Tooltip
+                  formatter={(v) => [`£${v.toLocaleString()}`, 'Band D']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="bandD" name="Band D" radius={[4, 4, 0, 0]}>
+                  {councilTaxData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Net Revenue Expenditure Per Head */}
+      {nreData.length > 0 && (
+        <section className="cross-section">
+          <h2><Landmark size={22} /> Net Revenue Expenditure Per Head</h2>
+          <p className="section-intro">
+            NRE is the total cost of running the council after fees and grants but before council tax.
+            This is the key comparator for council financial size — the amount that must be funded from
+            council tax, government grants, and business rates.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing net revenue expenditure per head">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={nreData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
+                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <Tooltip
+                  formatter={(v, name) => [`£${v.toLocaleString()}`, name === 'nrePerHead' ? 'NRE per head' : 'CT requirement per head']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="nrePerHead" name="NRE per head" radius={[4, 4, 0, 0]}>
+                  {nreData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#30d158' : '#48484a'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Reserves Comparison */}
+      {reservesData.length > 0 && (
+        <section className="cross-section">
+          <h2><TrendingUp size={22} /> Reserves Per Head (Closing Balance)</h2>
+          <p className="section-intro">
+            Reserves are a council's financial safety net — earmarked reserves are committed to specific projects
+            while unallocated reserves provide a general buffer. Higher reserves per head indicate greater financial resilience.
+          </p>
+          <div className="chart-container" role="img" aria-label="Stacked bar chart comparing reserves per head">
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart data={reservesData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
+                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <YAxis tickFormatter={v => `£${v}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <Tooltip
+                  formatter={(v, name) => [`£${v.toLocaleString()}`, name === 'perHead' ? 'Total per head' : name === 'earmarked' ? 'Earmarked (£M)' : 'Unallocated (£M)']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="perHead" name="Total per head" radius={[4, 4, 0, 0]}>
+                  {reservesData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#ff9f0a' : '#48484a'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="reserves-detail-grid">
+            {reservesData.map(r => (
+              <div key={r.name} className={`reserves-detail-card ${r.isCurrent ? 'current' : ''}`}>
+                <h4>{r.name}</h4>
+                <div className="reserves-figures">
+                  <div><span className="fig-label">Earmarked</span><span className="fig-value">£{r.earmarked}M</span></div>
+                  <div><span className="fig-label">Unallocated</span><span className="fig-value">£{r.unallocated}M</span></div>
+                  <div><span className="fig-label">Total</span><span className="fig-value">£{r.total}M</span></div>
+                  <div><span className="fig-label">Change</span><span className={`fig-value ${r.change >= 0 ? 'positive' : 'negative'}`}>{r.change >= 0 ? '+' : ''}£{r.change}M</span></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Transparency Scorecard */}
       <section className="cross-section">

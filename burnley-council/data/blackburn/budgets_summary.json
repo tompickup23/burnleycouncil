@@ -1,6 +1,7 @@
 {
   "council_id": "blackburn",
   "council_name": "Blackburn with Darwen UA",
+  "council_tier": "unitary",
   "financial_year": "2024-25",
   "data_source": "MHCLG Revenue Outturn",
   "headline": {
@@ -10,7 +11,11 @@
     "council_tax_requirement": 69563000
   },
   "service_breakdown": {
+    "Education services": 151486000,
     "Highways and transport services": 3460000,
+    "Children Social Care": 54348000,
+    "Adult Social Care": 72679300,
+    "Public Health": 18630000,
     "Housing services (GFRA only)": 4668000,
     "Cultural and related services": 10651000,
     "Environmental and regulatory services": 15544000,
@@ -24,7 +29,9 @@
       "Community centres and public halls": 41000,
       "Sports development and community recreation": 951000,
       "Tourism": 2692000,
+      "Library service": 1887000,
       "Cemetery, cremation and mortuary services": -1132000,
+      "Trading standards": 286000,
       "Food safety / hygiene": 254000,
       "Housing standards and HMO licensing": 136000,
       "Pest control": 103000,
@@ -34,6 +41,7 @@
       "CCTV": 137000,
       "Street cleansing (not chargeable to highways)": 2552000,
       "Waste collection": 1832000,
+      "Waste disposal": 7876000,
       "Trade waste": -839000,
       "Recycling": 1516000,
       "Building control": 651000,
@@ -49,8 +57,10 @@
       "Supporting People": 1265000
     },
     "central_services": {
+      "Fire/rescue service emergency planning and civil defence": 371000,
       "Corporate and Democratic Core": 4974000,
       "Council tax collection": 741000,
+      "Registration of births, deaths and marriages": 55000,
       "Registration of electors": 219000,
       "Conducting elections": 495000,
       "Local land charges": -64000,
@@ -58,6 +68,16 @@
       "MANAGEMENT AND SUPPORT SERVICES": 4000000
     }
   },
+  "reserves": {
+    "earmarked_opening": 59892000,
+    "earmarked_closing": 70637000,
+    "unallocated_opening": 7000000,
+    "unallocated_closing": 9000000,
+    "total_opening": 66892000,
+    "total_closing": 79637000,
+    "change": 12745000
+  },
+  "council_tax_support": null,
   "council_tax": {
     "band_d_by_year": {
       "1998/99": 817.0,

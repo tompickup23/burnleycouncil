@@ -857,10 +857,18 @@ function Budgets() {
  * breakdown and revenue trends over time.
  */
 function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData }) {
-  // Service expenditure bar chart — only district-relevant services with non-zero values
+  const config = useCouncilConfig()
+  const councilTier = config.council_tier || 'district'
+
+  // Service expenditure bar chart — tier-aware: show relevant services for this council type
+  // Districts see district services, county sees county services, unitaries see all services
+  const tierFilterKey = councilTier === 'county' ? 'relevant_to_county'
+    : councilTier === 'unitary' ? 'relevant_to_unitary'
+    : 'relevant_to_districts'
+
   const serviceData = govukData?.revenue_summary?.service_expenditure
     ? Object.entries(govukData?.revenue_summary?.service_expenditure || {})
-        .filter(([name, d]) => d.relevant_to_districts && d.value_pounds > 0 && name !== 'TOTAL SERVICE EXPENDITURE')
+        .filter(([name, d]) => d[tierFilterKey] && d.value_pounds > 0 && name !== 'TOTAL SERVICE EXPENDITURE')
         .sort((a, b) => b[1].value_pounds - a[1].value_pounds)
         .map(([name, d], i) => ({
           name: name.length > 25 ? name.substring(0, 22) + '...' : name,
@@ -1156,6 +1164,46 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
         ) : null
       })()}
 
+      {/* Reserves Section */}
+      {summaryData?.reserves && summaryData.reserves.total_opening != null && (
+        <section className="chart-section">
+          <h2><PiggyBank size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Financial Reserves ({summaryData.financial_year})</h2>
+          <div className="stats-grid" style={{ marginBottom: '1rem' }}>
+            <div className="stat-card">
+              <div className="stat-label">Total Reserves (Opening)</div>
+              <div className="stat-value">{formatCurrency(summaryData.reserves.total_opening, false)}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-label">Total Reserves (Closing)</div>
+              <div className="stat-value">{formatCurrency(summaryData.reserves.total_closing, false)}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-label">Year-on-Year Change</div>
+              <div className="stat-value" style={{ color: summaryData.reserves.change < 0 ? '#ff453a' : '#30d158' }}>
+                {summaryData.reserves.change > 0 ? '+' : ''}{formatCurrency(summaryData.reserves.change, false)}
+              </div>
+            </div>
+          </div>
+          <div className="stats-grid">
+            <div className="stat-card" style={{ background: 'var(--bg-tertiary)' }}>
+              <div className="stat-label">Earmarked Reserves</div>
+              <div className="stat-value" style={{ fontSize: '1.1rem' }}>
+                {formatCurrency(summaryData.reserves.earmarked_opening, false)} → {formatCurrency(summaryData.reserves.earmarked_closing, false)}
+              </div>
+            </div>
+            <div className="stat-card" style={{ background: 'var(--bg-tertiary)' }}>
+              <div className="stat-label">Unallocated Reserves</div>
+              <div className="stat-value" style={{ fontSize: '1.1rem' }}>
+                {formatCurrency(summaryData.reserves.unallocated_opening, false)} → {formatCurrency(summaryData.reserves.unallocated_closing, false)}
+              </div>
+            </div>
+          </div>
+          <p className="section-note" style={{ marginTop: '0.5rem' }}>
+            Earmarked reserves are set aside for specific purposes. Unallocated reserves provide a general financial safety net.
+          </p>
+        </section>
+      )}
+
       {/* Data Source & Context */}
       <section className="context-section">
         <h2>About This Data</h2>
@@ -1171,18 +1219,27 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="context-item">
             <h4>What's Included</h4>
             <p>
-              Service expenditure covers the main areas of council spending: housing, environmental services, planning,
-              cultural services, highways, and central administration. Figures show <em>actual outturn</em> (what was
-              really spent), not budget estimates. Non-district services (education, police, fire, adult social care) are
-              excluded as they are provided by Lancashire County Council.
+              {councilTier === 'district' ? (
+                <>Service expenditure covers the main areas of district council spending: housing, environmental services, planning,
+                cultural services, highways, and central administration. Non-district services (education, police, fire, adult social care) are
+                excluded as they are provided by Lancashire County Council.</>
+              ) : councilTier === 'county' ? (
+                <>Service expenditure covers all county council responsibilities including education, children's and adult social care,
+                public health, highways, waste disposal, libraries, and central services. District-level services (housing, waste collection)
+                are excluded as they are provided by borough councils.</>
+              ) : (
+                <>As a unitary authority, service expenditure covers all council responsibilities including education, social care,
+                public health, housing, environmental services, planning, highways, and central administration.</>
+              )}
+              {' '}Figures show <em>actual outturn</em> (what was really spent), not budget estimates.
             </p>
           </div>
           <div className="context-item">
-            <h4>Detailed Budgets Coming Soon</h4>
+            <h4>Financial Reserves</h4>
             <p>
-              We're working on extracting detailed budget book data for {councilFullName}, which will provide departmental
-              breakdowns, capital programme details, treasury management information, and year-on-year budget comparisons
-              similar to other councils on this site.
+              Reserves data shows the council's financial safety cushion. Earmarked reserves are ring-fenced for specific purposes
+              (e.g. insurance, capital programmes). Unallocated reserves provide flexibility for unexpected costs.
+              Healthy reserves are typically 5-10% of net revenue expenditure.
             </p>
           </div>
         </div>

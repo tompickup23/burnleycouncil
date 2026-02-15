@@ -345,6 +345,63 @@
   color: #ff453a;
 }
 
+/* Reserves Detail Grid */
+.reserves-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.reserves-detail-card {
+  padding: var(--space-md);
+  background: rgba(28, 28, 30, 0.5);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.reserves-detail-card.current {
+  border-color: rgba(255, 159, 10, 0.25);
+}
+
+.reserves-detail-card h4 {
+  font-size: 0.875rem;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.reserves-figures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.reserves-figures > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fig-label {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.fig-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.fig-value.positive {
+  color: #30d158;
+}
+
+.fig-value.negative {
+  color: #ff453a;
+}
+
 /* Methodology Note */
 .methodology-note {
   display: flex;
@@ -431,6 +488,10 @@
   }
 
   .dupe-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .reserves-detail-grid {
     grid-template-columns: 1fr;
   }
 
