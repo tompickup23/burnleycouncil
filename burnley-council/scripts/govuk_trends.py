@@ -37,6 +37,7 @@ COUNCILS = {
     "E07000124": {"key": "ribble_valley", "name": "Ribble Valley"},
     "E07000118": {"key": "chorley",       "name": "Chorley"},
     "E07000126": {"key": "south_ribble",  "name": "South Ribble"},
+    "E10000017": {"key": "lancashire_cc", "name": "Lancashire CC"},
 }
 
 # ─── Revenue Outturn columns we care about ─────────────────────────

@@ -38,6 +38,26 @@ COUNCILS = {
     "ribble_valley": {"ons": "E07000124", "name": "Ribble Valley"},
     "chorley": {"ons": "E07000118", "name": "Chorley"},
     "south_ribble": {"ons": "E07000126", "name": "South Ribble"},
+    "lancashire_cc": {
+        "ons": "E10000017",
+        "name": "Lancashire",
+        "type": "county",
+        # County councils don't have TYPE153 wards directly — must query via constituent districts
+        "district_codes": [
+            "E07000117",  # Burnley
+            "E07000118",  # Chorley
+            "E07000119",  # Fylde
+            "E07000120",  # Hyndburn
+            "E07000121",  # Lancaster
+            "E07000122",  # Pendle
+            "E07000123",  # Preston
+            "E07000124",  # Ribble Valley
+            "E07000125",  # Rossendale
+            "E07000126",  # South Ribble
+            "E07000127",  # West Lancashire
+            "E07000128",  # Wyre
+        ],
+    },
 }
 
 # Census 2021 Topic Summary datasets on Nomis
@@ -140,14 +160,28 @@ def build_council_demographics(council_id, council_info):
         "wards": {},
     }
 
+    # County councils need ward data from each constituent district
+    is_county = council_info.get("type") == "county"
+    district_codes = council_info.get("district_codes", [])
+
     for topic, ds in DATASETS.items():
         print(f"  Fetching {topic}...", file=sys.stderr)
         time.sleep(0.5)  # Be polite to Nomis
 
         try:
-            # Fetch ward-level data (TYPE153 = 2022 wards within LA for Census 2021)
-            ward_rows = fetch_data_csv(ds["id"], f"{ons}TYPE153", ds["cat_col"])
-            ward_parsed = parse_csv_rows(ward_rows, ds["cat_col"])
+            # Fetch ward-level data
+            if is_county and district_codes:
+                # County councils: query each district's wards individually
+                ward_parsed = {}
+                for dc in district_codes:
+                    time.sleep(0.3)
+                    rows = fetch_data_csv(ds["id"], f"{dc}TYPE153", ds["cat_col"])
+                    parsed = parse_csv_rows(rows, ds["cat_col"])
+                    ward_parsed.update(parsed)
+            else:
+                # District/unitary: TYPE153 wards within LA
+                ward_rows = fetch_data_csv(ds["id"], f"{ons}TYPE153", ds["cat_col"])
+                ward_parsed = parse_csv_rows(ward_rows, ds["cat_col"])
 
             # Store ward data
             for ward_code, ward_info in ward_parsed.items():

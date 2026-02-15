@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "burnley-council" / "data"
 PUBLIC_DATA = ROOT / "public" / "data"
 
-COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble"]
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc"]
 
 # Population figures (2021 Census) — updated manually when new census data available
 POPULATIONS = {
@@ -39,6 +39,7 @@ POPULATIONS = {
     "ribble_valley": 61561,
     "chorley": 118300,
     "south_ribble": 111600,
+    "lancashire_cc": 1235356,
 }
 
 

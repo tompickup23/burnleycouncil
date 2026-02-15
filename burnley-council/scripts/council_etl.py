@@ -120,6 +120,17 @@ COUNCIL_REGISTRY = {
         "publishes_purchase_cards": False,
         "publishes_contracts": False,
     },
+    "lancashire_cc": {
+        "name": "Lancashire County Council",
+        "short_name": "Lancashire CC",
+        "type": "county",
+        "ons_code": "E10000017",
+        "spending_url": "https://transparency.lancashire.gov.uk/",
+        "spending_threshold": 250,
+        "data_start_fy": "2024/25",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
 }
 
 # ─── Utility Functions ───────────────────────────────────────────────
@@ -1084,6 +1095,94 @@ def parse_south_ribble(csv_files, data_start_fy="2021/22"):
             print(f"  {csv_path.name}: {len(records)} records")
 
     print(f"  Total South Ribble records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+# ─── Lancashire CC Adapter ──────────────────────────────────────────
+
+def parse_lancashire_cc(csv_files, data_start_fy="2024/25"):
+    """Parse Lancashire County Council monthly CSVs.
+
+    LCC publishes monthly CSVs from its transparency portal with 9 columns:
+      Service label, Service code, Organisational unit, Expenditure category,
+      Expenditure code, Date, Transaction number, Amount, Supplier name
+
+    Threshold: £250 (all payments over £250 inc. VAT)
+    Date format: DD/MM/YYYY
+    Volume: ~25,000-50,000 records/month (upper-tier authority)
+    Note: CSV rows have a trailing comma — handled by csv.DictReader as empty final column
+    """
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for csv_path in csv_files:
+        rows = read_csv_safe(str(csv_path))
+        if not rows:
+            continue
+
+        records = []
+        for row in rows:
+            cleaned = {k.strip(): v for k, v in row.items() if k and k.strip()}
+
+            supplier = cleaned.get('Supplier name', '')
+            if not supplier or str(supplier).strip() in ('', 'nan', 'None', 'Redacted'):
+                # LCC redacts some supplier names — still include with REDACTED marker
+                if str(supplier).strip() == 'Redacted':
+                    supplier = 'REDACTED'
+                else:
+                    continue
+
+            date_str = cleaned.get('Date', '')
+            parsed_date = parse_date(str(date_str).strip())
+
+            amount_str = cleaned.get('Amount', '')
+            amount = parse_amount(amount_str)
+            if amount == 0:
+                continue
+
+            fy = financial_year_from_date(parsed_date)
+
+            # Map LCC service label + organisational unit to department
+            service_label = str(cleaned.get('Service label', '')).strip()
+            org_unit = str(cleaned.get('Organisational unit', '')).strip()
+            dept_raw = org_unit if org_unit else service_label
+
+            record = {
+                "date": parsed_date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(parsed_date),
+                "month": int(parsed_date[5:7]) if parsed_date else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept_raw,
+                "department": None,
+                "service_area_raw": str(cleaned.get('Expenditure category', '')).strip(),
+                "service_area": str(cleaned.get('Expenditure category', '')).strip(),
+                "description": "",
+                "reference": str(cleaned.get('Transaction number', '')).strip(),
+                "type": "spend",
+                "capital_revenue": None,
+                "council": "lancashire_cc",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "supplier_id": "",
+                "_source_file": csv_path.name,
+                "_service_code": str(cleaned.get('Service code', '')).strip(),
+                "_expenditure_code": str(cleaned.get('Expenditure code', '')).strip(),
+            }
+            records.append(record)
+
+        # Filter by start financial year
+        for r in records:
+            fy = r.get("financial_year")
+            if fy and fy_to_start_year(fy) >= start_year:
+                all_records.append(r)
+
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+
+    print(f"  Total Lancashire CC records (from {data_start_fy}): {len(all_records)}")
     return all_records
 
 
@@ -2663,6 +2762,19 @@ def main():
         print(f"\n  Parsing {len(csv_files)} CSV files...")
         data_start = council_info.get("data_start_fy", "2021/22")
         records = parse_south_ribble(csv_files, data_start)
+
+    elif council_id == "lancashire_cc":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "lancashire_cc_csvs"
+
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            print(f"  Download LCC CSVs from: {council_info['spending_url']}")
+            sys.exit(1)
+
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2024/25")
+        records = parse_lancashire_cc(csv_files, data_start)
 
     if not records:
         print("  No records parsed. Check your data source.")

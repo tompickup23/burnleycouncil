@@ -1,0 +1,851 @@
+{
+  "findings": [
+    {
+      "value": "\u00a31.3M",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "13 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a393.6M",
+      "label": "Likely Duplicate Payments",
+      "detail": "15452 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 22403 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3169.0M",
+      "label": "Possible Duplicate Payments",
+      "detail": "22582 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3433.6M",
+      "label": "Suspected Split Payments",
+      "detail": "439 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3134.9M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "1540 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "14.7x",
+      "label": "Year-End Spending Pattern",
+      "detail": "Corporate Accounting General (BS) spent 14.7x their monthly average in March (\u00a361.3M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Onecall24 Ltd (1.0 day avg, 21 payments, \u00a325.6K)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "3.1% dev",
+      "label": "Benford's Law Analysis",
+      "detail": "Digit distribution across 584,710 transactions shows \u03c7\u00b2=8141.03 (statistically significant due to large sample size), but max digit deviation is only 3.1% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Chi-squared values on samples of 584,710+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.1%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "10 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Onecall24 Ltd \u2014 every 1.0 days (21 payments, \u00a325.6K)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "REDACTED: 153160 transactions totalling \u00a3209.5M",
+      "description": "Averaging \u00a31.4K per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=REDACTED",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "shield-alert",
+      "badge": "Competition",
+      "title": "5 service categories with a single supplier",
+      "description": "Top: Ford Motor Co. Ltd Self Billing \u2014 sole winner in 'Tipper trucks' (2 contracts, \u00a3805.3K). Category monopolies may indicate market failure or specification bias.",
+      "link": "/procurement",
+      "link_text": "View procurement \u2192",
+      "severity": "info",
+      "confidence": "medium"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-15T00:02:55.395395",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration",
+    "fraud_triangle"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "ONECALL24 LTD",
+        "payments": 21,
+        "avg_days": 1.0,
+        "total_spend": 25620.72,
+        "regularity": "high"
+      },
+      {
+        "supplier": "POWER PIPES LTD",
+        "payments": 12,
+        "avg_days": 1.0,
+        "total_spend": 803.46,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "REDACT",
+        "payments": 37853,
+        "avg_days": 1.5,
+        "total_spend": 51935953.24,
+        "regularity": "high"
+      },
+      {
+        "supplier": "HOLCIM UK LTD",
+        "payments": 2183,
+        "avg_days": 1.6,
+        "total_spend": 4293362.05,
+        "regularity": "high"
+      },
+      {
+        "supplier": "AGGREGATE INDUSTRIES UK LTD",
+        "payments": 3907,
+        "avg_days": 1.7,
+        "total_spend": 4015314.82,
+        "regularity": "high"
+      },
+      {
+        "supplier": "VENTBROOK LTD",
+        "payments": 4065,
+        "avg_days": 1.7,
+        "total_spend": 6593027.66,
+        "regularity": "high"
+      },
+      {
+        "supplier": "ASH INTEGRATED SERVICES LTD",
+        "payments": 4324,
+        "avg_days": 1.7,
+        "total_spend": 3042357.88,
+        "regularity": "high"
+      },
+      {
+        "supplier": "REDACTED",
+        "payments": 153160,
+        "avg_days": 1.8,
+        "total_spend": 209539745.22,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "ICONIC MEDIA - FORMERLY NATIONAL WORLD PUBLISHING LTD",
+        "payments": 260,
+        "avg_days": 1.8,
+        "total_spend": 116266.0,
+        "regularity": "high"
+      },
+      {
+        "supplier": "AUSTIN WATSON LTD",
+        "payments": 941,
+        "avg_days": 2.2,
+        "total_spend": 1724867.5,
+        "regularity": "high"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "ONECALL24 LTD",
+        "payments": 21,
+        "avg_days": 1.0,
+        "std_dev": 0.0,
+        "total_spend": 25620.72
+      },
+      {
+        "supplier": "REDACT",
+        "payments": 37853,
+        "avg_days": 1.5,
+        "std_dev": 1.0,
+        "total_spend": 51935953.24
+      },
+      {
+        "supplier": "HOLCIM UK LTD",
+        "payments": 2183,
+        "avg_days": 1.6,
+        "std_dev": 1.0,
+        "total_spend": 4293362.05
+      },
+      {
+        "supplier": "AGGREGATE INDUSTRIES UK LTD",
+        "payments": 3907,
+        "avg_days": 1.7,
+        "std_dev": 2.6,
+        "total_spend": 4015314.82
+      },
+      {
+        "supplier": "VENTBROOK LTD",
+        "payments": 4065,
+        "avg_days": 1.7,
+        "std_dev": 1.9,
+        "total_spend": 6593027.66
+      },
+      {
+        "supplier": "ASH INTEGRATED SERVICES LTD",
+        "payments": 4324,
+        "avg_days": 1.7,
+        "std_dev": 2.0,
+        "total_spend": 3042357.88
+      },
+      {
+        "supplier": "ICONIC MEDIA - FORMERLY NATIONAL WORLD PUBLISHING LTD",
+        "payments": 260,
+        "avg_days": 1.8,
+        "std_dev": 1.5,
+        "total_spend": 116266.0
+      },
+      {
+        "supplier": "AUSTIN WATSON LTD",
+        "payments": 941,
+        "avg_days": 2.2,
+        "std_dev": 2.5,
+        "total_spend": 1724867.5
+      },
+      {
+        "supplier": "TARMAC TRADING LTD",
+        "payments": 1497,
+        "avg_days": 2.2,
+        "std_dev": 2.5,
+        "total_spend": 3934698.11
+      },
+      {
+        "supplier": "A D C - AUTOMATIC DOOR CO",
+        "payments": 24,
+        "avg_days": 2.2,
+        "std_dev": 1.4,
+        "total_spend": 16051.66
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 143812,
+        "total": 620034397.33
+      },
+      {
+        "day": "Tuesday",
+        "count": 103980,
+        "total": 532318780.76
+      },
+      {
+        "day": "Wednesday",
+        "count": 187365,
+        "total": 963241706.02
+      },
+      {
+        "day": "Thursday",
+        "count": 195807,
+        "total": 1026982378.86
+      },
+      {
+        "day": "Friday",
+        "count": 81845,
+        "total": 457336551.74
+      },
+      {
+        "day": "Saturday",
+        "count": 16,
+        "total": 77323.0
+      },
+      {
+        "day": "Sunday",
+        "count": 771,
+        "total": 22036866.58
+      }
+    ],
+    "total_analysed": 3818
+  },
+  "supplier_concentration": {
+    "total_spend": 3622028004.29,
+    "unique_suppliers": 11482,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "REDACTED",
+          "total": 209539745.22,
+          "count": 153160,
+          "pct": 5.8
+        },
+        {
+          "supplier": "NHS LANCASHIRE & SOUTH CUMBRIA ICB",
+          "total": 170741558.12,
+          "count": 292,
+          "pct": 4.7
+        },
+        {
+          "supplier": "LANCASHIRE RENEWABLES LTD",
+          "total": 71162536.77,
+          "count": 40,
+          "pct": 2.0
+        },
+        {
+          "supplier": "SUEZ RECYCLING & RECOVERY UK LTD",
+          "total": 58806324.55,
+          "count": 774,
+          "pct": 1.6
+        },
+        {
+          "supplier": "REDACT",
+          "total": 51935953.24,
+          "count": 37853,
+          "pct": 1.4
+        }
+      ],
+      "total": 562186117.9,
+      "pct": 15.5
+    },
+    "top10_pct": 21.2,
+    "top20_pct": 27.7,
+    "hhi": 84.9,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 91,
+    "awarded_contracts": 66,
+    "threshold_suspects": [
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 1 - Up to 4 x L1H1 9-Sea",
+        "value": 130618.08,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Ford Motor Co. Ltd",
+        "pct_of_threshold": 94.1
+      },
+      {
+        "title": "LPS CORP - The Supply and Delivery of Pasta and Rice Based Meals - LCC26790",
+        "value": 120000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Pasta King UK Ltd",
+        "pct_of_threshold": 86.5
+      },
+      {
+        "title": "LPS CORP - The Supply and Distribution of Fresh Bread &amp; Morning Goods, Fresh",
+        "value": 5244400,
+        "threshold": 5372609,
+        "threshold_label": "Works (\u00a35.37M)",
+        "supplier": "DUNSTERS FARM LIMITED,MORRIS QUALITY BAKERS LTD,RALPH LIVESEY LTD",
+        "pct_of_threshold": 97.6
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council NEPO GM &amp; P Lot 2 - 2 x Telescopi",
+        "value": 137460,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Watling JCB Ltd",
+        "pct_of_threshold": 99.1
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council NEPO GMP Lot 2 1 x JCB 8026 CTS Mini ",
+        "value": 29189,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Watling JCB Ltd",
+        "pct_of_threshold": 97.3
+      },
+      {
+        "title": "LPS CORP - Provision of External Audit and Taxation Advisory Services - RFQ 1526",
+        "value": 131000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Beever and Struthers Chartered Accountants and Business Advisors",
+        "pct_of_threshold": 94.4
+      }
+    ],
+    "threshold_suspect_count": 6,
+    "repeat_winners": [
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "contracts": 11,
+        "total_value": 1937335.85,
+        "avg_value": 176121.44
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd",
+        "contracts": 4,
+        "total_value": 4716258.66,
+        "avg_value": 1179064.67
+      },
+      {
+        "supplier": "Ford Motor Company Ltd",
+        "contracts": 3,
+        "total_value": 395873.19,
+        "avg_value": 131957.73
+      },
+      {
+        "supplier": "Watling JCB Ltd",
+        "contracts": 3,
+        "total_value": 510299,
+        "avg_value": 170099.67
+      },
+      {
+        "supplier": "Bloom Procurement Services Ltd",
+        "contracts": 2,
+        "total_value": 1907158,
+        "avg_value": 953579.0
+      }
+    ],
+    "repeat_winner_count": 5,
+    "transparency_gap": {
+      "no_value_count": 1,
+      "total_awarded": 66,
+      "pct": 1.5
+    },
+    "timing_clusters": [
+      {
+        "supplier": "Ford Motor Co. Ltd",
+        "gap_days": 0,
+        "date1": "2024-05-30",
+        "date2": "2024-05-30"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd",
+        "gap_days": 0,
+        "date1": "2024-05-30",
+        "date2": "2024-05-30"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 28,
+        "date1": "2022-08-09",
+        "date2": "2022-09-06"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 7,
+        "date1": "2022-09-06",
+        "date2": "2022-09-13"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 3,
+        "date1": "2022-09-13",
+        "date2": "2022-09-16"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 0,
+        "date1": "2024-05-30",
+        "date2": "2024-05-30"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 0,
+        "date1": "2024-05-30",
+        "date2": "2024-05-30"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 0,
+        "date1": "2024-05-30",
+        "date2": "2024-05-30"
+      },
+      {
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "gap_days": 0,
+        "date1": "2024-05-30",
+        "date2": "2024-05-30"
+      }
+    ],
+    "timing_cluster_count": 9,
+    "late_publications": [
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council NEPO GM &amp; P Lot 1 3 x Stand On Al",
+        "supplier": "F R Sharrock Limited",
+        "published_date": "2024-02-06",
+        "awarded_date": "2023-03-27",
+        "days_late": 316,
+        "awarded_value": 50985
+      },
+      {
+        "title": "LPS CORP - Provision of Local Bus Services and School Bus Services - Dynamic Pur",
+        "supplier": "Multiple suppliers - see attached spreadsheet",
+        "published_date": "2020-12-15",
+        "awarded_date": "2020-02-29",
+        "days_late": 290,
+        "awarded_value": 1
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 2 - 1 x MEWP - NEW FORD Trans",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "published_date": "2022-10-31",
+        "awarded_date": "2022-03-30",
+        "days_late": 215,
+        "awarded_value": 68496.69
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council NEPO GMP Lot 2 1 x JCB 8026 CTS Mini ",
+        "supplier": "Watling JCB Ltd",
+        "published_date": "2021-11-11",
+        "awarded_date": "2021-04-13",
+        "days_late": 212,
+        "awarded_value": 29189
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 2 - Up to 25 x 3.5t L3H2",
+        "supplier": "Ford Motor Co. Ltd",
+        "published_date": "2025-04-24",
+        "awarded_date": "2024-12-13",
+        "days_late": 132,
+        "awarded_value": 1748679.75
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 2 - Up to 17 x 3.5t L2 FWD En",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "published_date": "2024-09-03",
+        "awarded_date": "2024-05-30",
+        "days_late": 96,
+        "awarded_value": 594713.55
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 3 - Up to 6 x MEWP Vehicles (",
+        "supplier": "Iveco Limited",
+        "published_date": "2024-09-03",
+        "awarded_date": "2024-05-30",
+        "days_late": 96,
+        "awarded_value": 912344
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 1 - Up to 4 x L1H1 9-Sea",
+        "supplier": "Ford Motor Co. Ltd",
+        "published_date": "2024-09-03",
+        "awarded_date": "2024-05-30",
+        "days_late": 96,
+        "awarded_value": 130618.08
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 1 - Up to 8 x Medium Size Pet",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "published_date": "2024-09-02",
+        "awarded_date": "2024-05-30",
+        "days_late": 95,
+        "awarded_value": 158924.56
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 2 - Up to 4 x Single Cab AWD ",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "published_date": "2024-09-02",
+        "awarded_date": "2024-05-30",
+        "days_late": 95,
+        "awarded_value": 102694.4
+      }
+    ],
+    "late_publication_count": 65,
+    "publication_timing": {
+      "avg_delay_days": 45.5,
+      "median_delay_days": 21,
+      "total_measured": 66
+    },
+    "weak_competition": [
+      {
+        "title": "Supply of HH, NHH, UMS Electricity to Lancashire County Council and Schools",
+        "supplier": "Npower Commercial Gas Limited",
+        "awarded_value": 110800000,
+        "tender_days": -5,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Electricity"
+      },
+      {
+        "title": "Supply of Natural Gas to Lancashire County Council and Schools",
+        "supplier": "TotalEnergies Gas &amp; Power Ltd",
+        "awarded_value": 60000000,
+        "tender_days": -3,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Mains gas"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 2 - Up to 32 x Minibuses",
+        "supplier": "Ford Motor Co. Ltd",
+        "awarded_value": 2113929.83,
+        "tender_days": -89,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 3 - Up to 15 x 5t LWB Hi",
+        "supplier": "WN Vtech T/A Mellor Coachcraft",
+        "awarded_value": 1878000,
+        "tender_days": -89,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 2 - Up to 25 x 3.5t L3H2",
+        "supplier": "Ford Motor Co. Ltd",
+        "awarded_value": 1748679.75,
+        "tender_days": -132,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "Consultancy - Procurement Support to Lancashire County Council",
+        "supplier": "Bloom Procurement Services Ltd",
+        "awarded_value": 1513158,
+        "tender_days": -47,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Procurement consultancy services"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 3 - Up to 6 x MEWP Vehicles (",
+        "supplier": "Iveco Limited",
+        "awarded_value": 912344,
+        "tender_days": -96,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Access platforms"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council BNES Bus Lot 2 - Up to 12 x Electric ",
+        "supplier": "Ford Motor Co. Ltd",
+        "awarded_value": 723031,
+        "tender_days": -89,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 2 - Up to 17 x 3.5t L2 FWD En",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "awarded_value": 594713.55,
+        "tender_days": -96,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tipper trucks"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 2 - Up to 10 x Electric L2H3 ",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "awarded_value": 514700.5,
+        "tender_days": -95,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Panel vans"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council NEPO HGV Lot 2 - 2 x Unimog 4x4 min.5",
+        "supplier": "Bucher Municipal Ltd",
+        "awarded_value": 422220.7,
+        "tender_days": -19,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Salt spreaders"
+      },
+      {
+        "title": "Consultancy Services - Support to Lancashire County Council on medium-term ambit",
+        "supplier": "Bloom Procurement Services Ltd",
+        "awarded_value": 394000,
+        "tender_days": -24,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Financial consultancy services"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council NEPO GM &amp; P Lot 2 - 5 x Telescopi",
+        "supplier": "Watling JCB Ltd",
+        "awarded_value": 343650,
+        "tender_days": -14,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Loading equipment"
+      },
+      {
+        "title": "Lancashire County Council, Feb24, Cat10",
+        "supplier": "Nationwide Data Collection Ltd",
+        "awarded_value": 250000,
+        "tender_days": -23,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Building services consultancy services"
+      },
+      {
+        "title": "GB-Preston: TPPL Lancashire County Council HCC Lot 2 - 4 x L2H1 4.5t Arborists T",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "awarded_value": 210570.24,
+        "tender_days": -11,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tipper trucks"
+      }
+    ],
+    "weak_competition_count": 33,
+    "monopoly_categories": [
+      {
+        "cpv": "Tipper trucks",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "contracts": 2,
+        "total_value": 805283.79
+      },
+      {
+        "cpv": "Panel vans",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "contracts": 3,
+        "total_value": 728628.93
+      },
+      {
+        "cpv": "Loading equipment",
+        "supplier": "Watling JCB Ltd",
+        "contracts": 2,
+        "total_value": 481110
+      },
+      {
+        "cpv": "Vans",
+        "supplier": "Ford Motor Company Ltd",
+        "contracts": 3,
+        "total_value": 395873.19
+      },
+      {
+        "cpv": "Passenger cars",
+        "supplier": "Ford Motor Co. Ltd Self Billing",
+        "contracts": 3,
+        "total_value": 209879.74
+      }
+    ],
+    "monopoly_category_count": 5
+  },
+  "fraud_triangle": {
+    "overall_score": 77.1,
+    "risk_level": "elevated",
+    "dimensions": {
+      "opportunity": {
+        "score": 90,
+        "signals": [
+          {
+            "signal": "439 suspected split payment instances (\u00a3433.6M)",
+            "score": 40,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "33 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "5 service categories with a single supplier",
+            "score": 20,
+            "source": "procurement_compliance"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 85,
+        "signals": [
+          {
+            "signal": "Year-end spike: 14.7x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "15452 likely duplicate payments (\u00a393.6M)",
+            "score": 30,
+            "source": "duplicates"
+          },
+          {
+            "signal": "1540 round-number payments over \u00a35K (\u00a3134.9M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 60,
+        "signals": [
+          {
+            "signal": "13 suppliers with current CH red flags",
+            "score": 20,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "65 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "100% of transactions have no description",
+            "score": 15,
+            "source": "data_quality"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 9
+  }
+}

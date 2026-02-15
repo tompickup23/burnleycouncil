@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-14T22:54:50",
+  "generated": "2026-02-15T00:03:28",
   "councils": [
     {
       "council_id": "burnley",
@@ -417,6 +417,55 @@
       },
       "budget_summary": {
         "council_tax_band_d": 236.78,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "lancashire_cc",
+      "council_name": "Lancashire",
+      "council_tier": "county",
+      "total_records": 753220,
+      "total_spend": 3558124490.37,
+      "unique_suppliers": 11509,
+      "date_range": {
+        "min": "2024-04-02",
+        "max": "2025-12-31"
+      },
+      "financial_years": [
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 2,
+      "annual_spend": 1779062245.18,
+      "annual_records": 376610,
+      "population": 1235356,
+      "avg_transaction": 4723.88,
+      "top10_supplier_pct": 0.2768,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 38034,
+      "duplicate_value": 262600000,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {
+        "year": "2024-25",
+        "housing": 0,
+        "cultural": 23653,
+        "environmental": 94348,
+        "planning": 7597,
+        "central": 41881,
+        "other": 0,
+        "total": 2476155
+      },
+      "budget_summary": {
+        "council_tax_band_d": 1735.79,
         "reserves_total": 0
       }
     }

@@ -59,6 +59,10 @@ COUNCILS = {
         'search_terms': ['"South Ribble Borough Council"'],
         'match_names': ['south ribble borough council', 'south ribble bc', 'south ribble council'],
     },
+    'lancashire_cc': {
+        'search_terms': ['"Lancashire County Council"'],
+        'match_names': ['lancashire county council', 'lancashire cc', 'county of lancashire'],
+    },
 }
 
 CF_SEARCH_URL = 'https://www.contractsfinder.service.gov.uk/api/rest/2/search_notices/json'

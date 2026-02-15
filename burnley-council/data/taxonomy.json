@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-02-10",
+  "last_updated": "2026-02-14",
   "council_metadata": {
     "burnley": {
       "type": "district",
@@ -57,6 +57,14 @@
       "publishes_purchase_cards": false,
       "publishes_contracts": false,
       "data_start": "2021/22"
+    },
+    "lancashire_cc": {
+      "type": "county",
+      "ons_code": "E10000017",
+      "spending_threshold": 250,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2024/25"
     }
   },
   "departments": {
