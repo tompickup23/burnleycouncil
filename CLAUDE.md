@@ -238,11 +238,11 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 
 **Key rule**: Districts are only comparable to other districts. LCC + district ≈ unitary (for LGR modelling).
 
-### All 15 councils LIVE (Phase 14 complete, 15 Feb 2026)
-- 12 districts: All have spending data on platform
-- 1 county: LCC (spending page disabled — 484MB exceeds GH Pages)
-- 2 unitaries: Blackpool (spending disabled — 370MB), Blackburn (spending disabled — 307MB)
-- **3 councils with spending disabled in CI** — v4 monthly chunking code deployed but config `spending: false` since chunk data (~647MB) is gitignored. Enable locally with data present.
+### All 15 councils LIVE with spending (15 Feb 2026)
+- 12 districts: All have spending data (v3 year-chunked)
+- 1 county: LCC (v4 monthly-chunked, 20 files, 8-18MB each)
+- 2 unitaries: Blackpool (v4, 77 files), Blackburn (v4, 68 files)
+- **CI self-sustaining**: deploy.yml downloads v4 chunks from previous deploy, flips `spending:true`, builds, cleans monoliths. Config stays `spending: false` in git.
 
 ### Data gaps in new councils (Phase 14)
 - **No GOV.UK budgets**: West Lancs, Blackburn, Wyre, Preston, Fylde (need `govuk_budgets.py` run)
