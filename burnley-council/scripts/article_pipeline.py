@@ -67,7 +67,18 @@ for alt in [
         DATA_DIR = alt
         break
 
-COUNCILS = ['burnley', 'hyndburn', 'pendle', 'rossendale']
+COUNCILS = [
+    # East Lancashire
+    'burnley', 'hyndburn', 'pendle', 'rossendale',
+    # Central & South Lancashire
+    'lancaster', 'ribble_valley', 'chorley', 'south_ribble',
+    # Fylde Coast & West
+    'preston', 'west_lancashire', 'wyre', 'fylde',
+    # County
+    'lancashire_cc',
+    # Unitary
+    'blackpool', 'blackburn',
+]
 
 ARTICLE_IMAGES = {
     'spending': '/images/articles/finance.jpg',
@@ -80,7 +91,7 @@ ARTICLE_IMAGES = {
 }
 
 # ── System Prompt for Article Generation ─────────────────────────────
-SYSTEM_PROMPT = """You are a senior investigative journalist writing for AI DOGE (aidoge.co.uk), a public spending transparency platform for East Lancashire borough councils.
+SYSTEM_PROMPT = """You are a senior investigative journalist writing for AI DOGE (aidoge.co.uk), a public spending transparency platform covering all 15 Lancashire councils.
 
 WRITING RULES:
 - Write 800-1200 words in clean HTML format
