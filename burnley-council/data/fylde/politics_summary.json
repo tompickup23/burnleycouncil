@@ -1,1 +1,40 @@
-{"council":"","summary":null}
+{
+  "total_councillors": 37,
+  "total_wards": 17,
+  "majority_threshold": 19,
+  "by_party": [
+    {
+      "party": "Conservative",
+      "count": 21,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Independent",
+      "count": 12,
+      "color": "#808080"
+    },
+    {
+      "party": "Labour",
+      "count": 2,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Liberal Democrats",
+      "count": 2,
+      "color": "#FAA61A"
+    }
+  ],
+  "coalition": {
+    "type": "majority",
+    "parties": [
+      "Conservative"
+    ],
+    "total_seats": 21,
+    "majority": true
+  },
+  "opposition_seats": 16,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://opencouncildata.co.uk/council.php?c=74&y=0",
+  "scraped_date": "2026-02-15"
+}

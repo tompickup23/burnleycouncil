@@ -1,1 +1,51 @@
-{"council":"","summary":null}
+{
+  "total_councillors": 48,
+  "total_wards": 16,
+  "majority_threshold": 25,
+  "by_party": [
+    {
+      "party": "Labour",
+      "count": 26,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Liberal Democrats",
+      "count": 14,
+      "color": "#FAA61A"
+    },
+    {
+      "party": "Conservative",
+      "count": 5,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Ashton Independent",
+      "count": 1,
+      "color": "#808080"
+    },
+    {
+      "party": "Independent",
+      "count": 1,
+      "color": "#808080"
+    },
+    {
+      "party": "Reform UK",
+      "count": 1,
+      "color": "#12B6CF"
+    }
+  ],
+  "coalition": {
+    "type": "majority",
+    "parties": [
+      "Labour",
+      "Labour & Co-operative"
+    ],
+    "total_seats": 26,
+    "majority": true
+  },
+  "opposition_seats": 22,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://preston.moderngov.co.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
+  "scraped_date": "2026-02-15"
+}

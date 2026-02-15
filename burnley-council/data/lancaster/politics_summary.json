@@ -1,1 +1,50 @@
-{"council":"","parties":[]}
+{
+  "total_councillors": 61,
+  "total_wards": 27,
+  "majority_threshold": 31,
+  "by_party": [
+    {
+      "party": "Green Party",
+      "count": 23,
+      "color": "#6AB023"
+    },
+    {
+      "party": "Labour",
+      "count": 20,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Liberal Democrats",
+      "count": 7,
+      "color": "#FAA61A"
+    },
+    {
+      "party": "Conservative",
+      "count": 5,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Morecambe Bay Independents",
+      "count": 3,
+      "color": "#808080"
+    },
+    {
+      "party": "Independent",
+      "count": 3,
+      "color": "#808080"
+    }
+  ],
+  "coalition": {
+    "type": "minority/NOC",
+    "parties": [
+      "Green Party"
+    ],
+    "total_seats": 23,
+    "majority": false
+  },
+  "opposition_seats": 38,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://committeeadmin.lancaster.gov.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
+  "scraped_date": "2026-02-15"
+}

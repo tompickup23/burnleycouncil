@@ -1,1 +1,45 @@
-{"council":"","summary":null}
+{
+  "total_councillors": 50,
+  "total_wards": 24,
+  "majority_threshold": 26,
+  "by_party": [
+    {
+      "party": "Conservative",
+      "count": 27,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Labour",
+      "count": 15,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Reform UK",
+      "count": 4,
+      "color": "#12B6CF"
+    },
+    {
+      "party": "Independent",
+      "count": 2,
+      "color": "#808080"
+    },
+    {
+      "party": "Wyre Independent Group",
+      "count": 2,
+      "color": "#808080"
+    }
+  ],
+  "coalition": {
+    "type": "majority",
+    "parties": [
+      "Conservative"
+    ],
+    "total_seats": 27,
+    "majority": true
+  },
+  "opposition_seats": 23,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://wyre.moderngov.co.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
+  "scraped_date": "2026-02-15"
+}

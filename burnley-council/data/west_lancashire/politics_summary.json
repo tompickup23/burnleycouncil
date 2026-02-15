@@ -1,1 +1,50 @@
-{"council":"","summary":null}
+{
+  "total_councillors": 45,
+  "total_wards": 15,
+  "majority_threshold": 23,
+  "by_party": [
+    {
+      "party": "Labour & Co-operative",
+      "count": 16,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Conservative",
+      "count": 14,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Our West Lancashire",
+      "count": 7,
+      "color": "#7B2D8E"
+    },
+    {
+      "party": "Labour",
+      "count": 5,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Independent",
+      "count": 2,
+      "color": "#808080"
+    },
+    {
+      "party": "Your Party",
+      "count": 1,
+      "color": "#808080"
+    }
+  ],
+  "coalition": {
+    "type": "minority/NOC",
+    "parties": [
+      "Labour & Co-operative"
+    ],
+    "total_seats": 16,
+    "majority": false
+  },
+  "opposition_seats": 29,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://democracy.westlancs.gov.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
+  "scraped_date": "2026-02-15"
+}

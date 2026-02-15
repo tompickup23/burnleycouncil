@@ -1,1 +1,41 @@
-{"council":"","summary":null}
+{
+  "total_councillors": 51,
+  "total_wards": 17,
+  "majority_threshold": 26,
+  "by_party": [
+    {
+      "party": "Labour",
+      "count": 29,
+      "color": "#DC241F"
+    },
+    {
+      "party": "4 BwD",
+      "count": 12,
+      "color": "#FF6600"
+    },
+    {
+      "party": "Conservative",
+      "count": 9,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Independent",
+      "count": 1,
+      "color": "#808080"
+    }
+  ],
+  "coalition": {
+    "type": "majority",
+    "parties": [
+      "Labour",
+      "Labour & Co-operative"
+    ],
+    "total_seats": 29,
+    "majority": true
+  },
+  "opposition_seats": 22,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://democracy.blackburn.gov.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
+  "scraped_date": "2026-02-15"
+}

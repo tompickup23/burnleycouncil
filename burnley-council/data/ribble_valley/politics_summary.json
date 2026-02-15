@@ -1,1 +1,60 @@
-{"council":"","parties":[]}
+{
+  "total_councillors": 40,
+  "total_wards": 26,
+  "majority_threshold": 21,
+  "by_party": [
+    {
+      "party": "Conservative",
+      "count": 17,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Independent",
+      "count": 7,
+      "color": "#808080"
+    },
+    {
+      "party": "Liberal Democrats",
+      "count": 6,
+      "color": "#FAA61A"
+    },
+    {
+      "party": "Labour",
+      "count": 4,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Green Party",
+      "count": 2,
+      "color": "#6AB023"
+    },
+    {
+      "party": "Progressive Liberal Group",
+      "count": 2,
+      "color": "#FAA61A"
+    },
+    {
+      "party": "Reform UK",
+      "count": 1,
+      "color": "#12B6CF"
+    },
+    {
+      "party": "Labour & Co-operative",
+      "count": 1,
+      "color": "#DC241F"
+    }
+  ],
+  "coalition": {
+    "type": "minority/NOC",
+    "parties": [
+      "Conservative"
+    ],
+    "total_seats": 17,
+    "majority": false
+  },
+  "opposition_seats": 23,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://www.ribblevalley.gov.uk/councillors",
+  "scraped_date": "2026-02-15"
+}

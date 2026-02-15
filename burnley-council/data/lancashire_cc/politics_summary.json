@@ -1,0 +1,60 @@
+{
+  "total_councillors": 84,
+  "total_wards": 82,
+  "majority_threshold": 43,
+  "by_party": [
+    {
+      "party": "Reform UK",
+      "count": 52,
+      "color": "#12B6CF"
+    },
+    {
+      "party": "Independent",
+      "count": 9,
+      "color": "#808080"
+    },
+    {
+      "party": "Conservative",
+      "count": 8,
+      "color": "#0087DC"
+    },
+    {
+      "party": "Liberal Democrats",
+      "count": 5,
+      "color": "#FAA61A"
+    },
+    {
+      "party": "Labour",
+      "count": 3,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Green Party",
+      "count": 3,
+      "color": "#6AB023"
+    },
+    {
+      "party": "Labour & Co-operative",
+      "count": 2,
+      "color": "#DC241F"
+    },
+    {
+      "party": "Our West Lancashire",
+      "count": 2,
+      "color": "#7B2D8E"
+    }
+  ],
+  "coalition": {
+    "type": "majority",
+    "parties": [
+      "Reform UK"
+    ],
+    "total_seats": 52,
+    "majority": true
+  },
+  "opposition_seats": 32,
+  "council_leader": "",
+  "mayor": "",
+  "data_source": "https://council.lancashire.gov.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
+  "scraped_date": "2026-02-15"
+}
