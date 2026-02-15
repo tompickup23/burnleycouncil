@@ -81,6 +81,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/procurement_etl.py` | Contracts Finder API → procurement.json per council |
 | `burnley-council/scripts/deprivation_etl.py` | IMD 2019 ward-level deprivation from MHCLG + ONS ArcGIS |
 | `burnley-council/scripts/census_etl.py` | Census 2021 demographics from ONS Nomis API (age, sex, ethnicity, religion, CoB, econ) |
+| `burnley-council/scripts/councillors_etl.py` | ModernGov scraper → councillors.json, politics_summary.json, wards.json |
 | `burnley-council/scripts/fts_etl.py` | Find a Tender Service ETL scaffold (needs CDP API key) |
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (reads metadata.json from all 15 councils) |
@@ -116,6 +117,9 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `revenue_trends.json` | govuk_trends.py | GOV.UK revenue data |
 | `deprivation.json` | deprivation_etl.py | Ward-level IMD 2019 deprivation data |
 | `supplier_profiles.json` | generate_supplier_profiles.py | Supplier deep dives |
+| `councillors.json` | councillors_etl.py / manual | Councillor data (name, ward, party, contact) |
+| `politics_summary.json` | councillors_etl.py / manual | Party seat counts, coalition info, majority threshold |
+| `wards.json` | councillors_etl.py / manual | Ward→councillors mapping with party colours |
 
 ### Shared Data (`burnley-council/data/shared/`)
 | File | Purpose |
@@ -161,6 +165,7 @@ The React app is council-agnostic — it reads config.json at runtime and condit
 council_etl.py --council {id}    →  spending.json (v2), spending-index.json + spending-YYYY-YY.json (v3) or spending-YYYY-MM.json (v4 monthly)
 doge_analysis.py                 →  doge_findings.json, doge_verification.json (all councils)
 generate_cross_council.py        →  cross_council.json (all councils, reads metadata.json)
+councillors_etl.py --council {id} →  councillors.json, politics_summary.json, wards.json (ModernGov scraper)
 ```
 
 **IMPORTANT**: After re-running council_etl.py for any council, you MUST also re-run `generate_cross_council.py` to update cross-council comparison data. It lives at `scripts/generate_cross_council.py` (not in burnley-council/scripts/).
@@ -243,6 +248,13 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - 1 county: LCC (v4 monthly-chunked, 20 files, 8-18MB each)
 - 2 unitaries: Blackpool (v4, 77 files), Blackburn (v4, 68 files)
 - **CI self-sustaining**: deploy.yml downloads v4 chunks from previous deploy, flips `spending:true`, builds, cleans monoliths. Config stays `spending: false` in git.
+
+### Politics data — ALL 15 councils LIVE (15 Feb 2026)
+- All 15 councils have councillors.json, politics_summary.json, wards.json
+- 9 councils scraped via `councillors_etl.py` (ModernGov): LCC, Blackpool, Blackburn, Preston, West Lancs, Wyre, Lancaster, Chorley, South Ribble
+- 2 councils compiled manually: Fylde (CMIS, no ModernGov), Ribble Valley (council website)
+- 4 councils already had data: Burnley, Hyndburn, Pendle, Rossendale
+- Total: 648 councillors, 345 wards/divisions across 15 councils
 
 ### Data gaps in new councils (Phase 14)
 - **No GOV.UK budgets**: West Lancs, Blackburn, Wyre, Preston, Fylde (need `govuk_budgets.py` run)

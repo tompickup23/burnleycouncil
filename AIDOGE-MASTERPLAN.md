@@ -1,22 +1,29 @@
-# AI DOGE MASTER PLAN v12.0
-## 12 February 2026 — Phases 1-10 Complete, Phases 11-15 Planned (Multi-Tier Lancashire)
+# AI DOGE MASTER PLAN v13.0
+## 15 February 2026 — Phases 1-14 Complete, All 15 Lancashire Councils Live, Phase 15 Planned
 
 ---
 
 ## 1. CURRENT STATE SNAPSHOT
 
-### Live Sites (£22/month total cost)
-| Site | URL | Records | Spend | Articles | Procurement | Status |
-|------|-----|---------|-------|----------|-------------|--------|
-| Burnley | aidoge.co.uk/lancashire/burnleycouncil/ | 30,580 | £355M | 62 | 94 notices | LIVE |
-| Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,802 | £211M | 25 | 32 notices | LIVE |
-| Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 48,785 | £127M | 25 | 14 notices | LIVE |
-| Rossendale | aidoge.co.uk/lancashire/rossendalecouncil/ | 42,536 | £64M | 22 | 90 notices | LIVE |
-| Lancaster | aidoge.co.uk/lancashire/lancastercouncil/ | 26,975 | £157M | 5 | 90 notices | LIVE |
-| Ribble Valley | aidoge.co.uk/lancashire/ribblevalleycouncil/ | 3,677 | £12M | 5 | 21 notices | LIVE |
-| Chorley | aidoge.co.uk/lancashire/chorleycouncil/ | 17,052 | £338M | 5 | 150 notices | LIVE |
-| South Ribble | aidoge.co.uk/lancashire/southribblecouncil/ | 15,974 | £146M | 5 | 88 notices | LIVE |
-| **Total** | | **215,381 txns** | **£1.41B** | **154** | **579** | |
+### Live Sites (£22/month total cost) — ALL 15 LANCASHIRE COUNCILS
+| Site | URL | Records | Spend | Politics | Status |
+|------|-----|---------|-------|----------|--------|
+| Burnley | aidoge.co.uk/lancashire/burnleycouncil/ | 30,580 | £355M | 45 councillors | LIVE |
+| Hyndburn | aidoge.co.uk/lancashire/hyndburncouncil/ | 29,804 | £211M | 34 councillors | LIVE |
+| Pendle | aidoge.co.uk/lancashire/pendlecouncil/ | 49,741 | £125M | 49 councillors | LIVE |
+| Rossendale | aidoge.co.uk/lancashire/rossendalecouncil/ | 42,536 | £64M | 36 councillors | LIVE |
+| Lancaster | aidoge.co.uk/lancashire/lancastercouncil/ | 26,975 | £157M | 61 councillors | LIVE |
+| Ribble Valley | aidoge.co.uk/lancashire/ribblevalleycouncil/ | 13,723 | £38M | 40 councillors | LIVE |
+| Chorley | aidoge.co.uk/lancashire/chorleycouncil/ | 21,421 | £365M | 42 councillors | LIVE |
+| South Ribble | aidoge.co.uk/lancashire/southribblecouncil/ | 16,065 | £147M | 50 councillors | LIVE |
+| Preston | aidoge.co.uk/lancashire/prestoncouncil/ | 46,711 | £205M | 48 councillors | LIVE |
+| West Lancashire | aidoge.co.uk/lancashire/westlancashirecouncil/ | 43,063 | £333M | 45 councillors | LIVE |
+| Wyre | aidoge.co.uk/lancashire/wyrecouncil/ | 51,092 | £678M | 50 councillors | LIVE |
+| Fylde | aidoge.co.uk/lancashire/fyldecouncil/ | 37,514 | £155M | 37 councillors | LIVE |
+| Lancashire CC | aidoge.co.uk/lancashire/lancashirecc/ | 753,220 | £3.6B | 84 councillors | LIVE |
+| Blackpool | aidoge.co.uk/lancashire/blackpoolcouncil/ | 630,914 | £4.1B | 42 councillors | LIVE |
+| Blackburn | aidoge.co.uk/lancashire/blackburncouncil/ | 492,973 | £1.7B | 51 councillors | LIVE |
+| **Total** | | **2,286,332 txns** | **£12B+** | **648 councillors** | |
 
 ### News Sites
 | Site | URL | Status | Why |
@@ -83,13 +90,14 @@ Contracts Finder → procurement_etl.py → procurement.json
 Charity Commission → charity_etl.py → charity_check.json (Pendle only)
 Police API   →  police_etl.py     →  crime_stats.json
 Article pipeline → article_pipeline.py → articles-index.json + articles/{id}.json
+ModernGov     → councillors_etl.py → councillors.json, politics_summary.json, wards.json
 ```
 
 ### 11 Shared Components
 Layout, ScrollToTop, ChartCard, DataFreshness, ErrorBoundary, LoadingState, PageHeader, SearchableSelect, StatCard, TabNav + barrel index.js
 
 ### Test Coverage
-- **200 unit tests** across 22 files
+- **204 unit tests** across 22 files
 - **31 E2E tests** across 5 files (smoke, news, spending, legal, navigation)
 - All tests passing
 
@@ -655,11 +663,12 @@ Focus: With all 15 councils live, build the LGR transition tracker — a unique 
 
 ### Execution Order
 ```
-Phase 11 (NOW)     → Fix existing data gaps, run fraud triangle, update hub
-Phase 12 (next)    → Multi-tier architecture (hub, comparison, config)
-Phase 13 (after)   → LCC (largest single addition, most complex)
-Phase 14 (then)    → 4 districts + 2 unitaries (6 councils, standard pipeline)
-Phase 15 (final)   → LGR tracker + "what your area costs" calculator
+Phase 11 (DONE)    → Data gap fill, fraud triangle, hub stats
+Phase 12 (DONE)    → Multi-tier architecture, Census 2021 demographics
+Phase 13 (DONE)    → LCC (753K txns, £3.6B, v4 monthly chunks)
+Phase 14 (DONE)    → 4 districts + 2 unitaries (all 15 councils live)
+Phase 14b (DONE)   → Politics data all 15 councils (councillors_etl.py, 648 councillors)
+Phase 15 (NEXT)    → LGR tracker + "what your area costs" calculator
 ```
 
 ### LGR Context (Local Government Reorganisation)
