@@ -23,46 +23,89 @@
     "pay_comparison": true,
     "procurement": true,
     "demographics": true,
-    "lgr_tracker": true
+    "lgr_tracker": true,
+    "integrity": true
   },
-  "spending_data_period": "April 2021 – present",
+  "spending_data_period": "April 2021 \u2013 present",
   "hero_subtitle": "Explore how Pendle Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Pendle Borough Council",
   "publisher": "Tom Pickup",
-  "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Formerly part of the Reform UK internal DOGE team and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across East Lancashire.",
-  "publisher_titles": ["County Councillor for Padiham & Burnley West", "County Councillor for Clowbridge with Dunnockshaw"],
+  "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
+  "publisher_titles": [
+    "County Councillor for Padiham & Burnley West",
+    "County Councillor for Clowbridge with Dunnockshaw"
+  ],
   "publisher_photo": "/images/tom-pickup.jpg",
   "publisher_quote": "It's your money. The more people understand where it goes, the better.",
   "publisher_social": [
-    {"platform": "x", "url": "https://x.com/tompickup", "label": "@tompickup"},
-    {"platform": "facebook", "url": "https://facebook.com/tompickupburnley", "label": "Facebook"},
-    {"platform": "instagram", "url": "https://instagram.com/tompickupburnley", "label": "Instagram"},
-    {"platform": "tiktok", "url": "https://tiktok.com/@tompickupburnley", "label": "TikTok"},
-    {"platform": "email", "url": "mailto:tom.pickup@lancashire.gov.uk", "label": "Email"}
+    {
+      "platform": "x",
+      "url": "https://x.com/tompickup",
+      "label": "@tompickup"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://facebook.com/tompickupburnley",
+      "label": "Facebook"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://instagram.com/tompickupburnley",
+      "label": "Instagram"
+    },
+    {
+      "platform": "tiktok",
+      "url": "https://tiktok.com/@tompickupburnley",
+      "label": "TikTok"
+    },
+    {
+      "platform": "email",
+      "url": "mailto:tom.pickup@lancashire.gov.uk",
+      "label": "Email"
+    }
   ],
   "foi_url": "https://www.pendle.gov.uk/info/20063/data_protection_and_freedom_of_information",
   "theme_accent": "#F9A825",
-
   "doge_context": {
-    "total_spend": "£125M",
+    "total_spend": "\u00a3125M",
     "transactions": 49741,
     "suppliers": 3019,
-    "data_period": "April 2021 – present",
-    "transaction_profile": "Highest transaction volume despite lowest total spend — many small payments.",
+    "data_period": "April 2021 \u2013 present",
+    "transaction_profile": "Highest transaction volume despite lowest total spend \u2014 many small payments.",
     "key_suppliers": [
-      {"name": "Liberata UK Ltd", "spend": "£16.7M", "note": "Same outsourcing company as Burnley"},
-      {"name": "FUELMATE LTD", "spend": "£800.2K", "transactions": 5047, "note": "Most frequent supplier by volume"}
+      {
+        "name": "Liberata UK Ltd",
+        "spend": "\u00a316.7M",
+        "note": "Same outsourcing company as Burnley"
+      },
+      {
+        "name": "FUELMATE LTD",
+        "spend": "\u00a3800.2K",
+        "transactions": 5047,
+        "note": "Most frequent supplier by volume"
+      }
     ],
     "doge_findings": {
-      "ch_breach_spend": "£37.8K to 4 suppliers during active Companies House breaches — lowest of 3 councils",
-      "transaction_volume": "49,741 transactions — highest of 3 councils despite lowest total spend, driven by vehicle hire and fuel micro-payments",
-      "split_payments": "£19.5M suspected across 777 instances",
-      "year_end_spike": "No spike — March spending is flat at 1.0x monthly average. April is the peak month."
+      "ch_breach_spend": "\u00a337.8K to 4 suppliers during active Companies House breaches \u2014 lowest of 3 councils",
+      "transaction_volume": "49,741 transactions \u2014 highest of 3 councils despite lowest total spend, driven by vehicle hire and fuel micro-payments",
+      "split_payments": "\u00a319.5M suspected across 777 instances",
+      "year_end_spike": "No spike \u2014 March spending is flat at 1.0x monthly average. April is the peak month."
     },
     "notable_suppliers": [
-      {"name": "Brentwood Borough Council", "spend": "£3M", "note": "Single £3M payment — cross-authority transfer"},
-      {"name": "Surrey County Council", "spend": "£3M", "note": "Single £3M payment — cross-authority transfer"},
-      {"name": "WALTON SUMMIT TRUCK CENTRE LTD", "note": "115,237% price gap vs Burnley (£49 avg here vs £56K at Burnley)"}
+      {
+        "name": "Brentwood Borough Council",
+        "spend": "\u00a33M",
+        "note": "Single \u00a33M payment \u2014 cross-authority transfer"
+      },
+      {
+        "name": "Surrey County Council",
+        "spend": "\u00a33M",
+        "note": "Single \u00a33M payment \u2014 cross-authority transfer"
+      },
+      {
+        "name": "WALTON SUMMIT TRUCK CENTRE LTD",
+        "note": "115,237% price gap vs Burnley (\u00a349 avg here vs \u00a356K at Burnley)"
+      }
     ]
   }
 }

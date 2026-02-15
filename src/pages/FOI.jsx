@@ -55,7 +55,7 @@ const foiGuide = {
   localSuccesses: [
     {
       topic: 'Council Executive Pay',
-      outcome: 'FOI requests across East Lancashire revealed senior officer pay packages, enabling cross-council comparisons that showed some councils paying above-average rates for similar roles.',
+      outcome: 'FOI requests across Lancashire revealed senior officer pay packages, enabling cross-council comparisons that showed some councils paying above-average rates for similar roles.',
       impact: 'Greater public scrutiny of executive remuneration decisions'
     },
     {
@@ -320,7 +320,7 @@ function FOI() {
 
       {/* Local FOI Successes */}
       <section className="foi-successes">
-        <h2><Award size={24} /> FOI Successes in East Lancashire</h2>
+        <h2><Award size={24} /> FOI Successes in Lancashire</h2>
         <p className="section-intro">
           Freedom of Information has made a real difference in understanding how local councils operate.
         </p>

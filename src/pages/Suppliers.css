@@ -440,6 +440,75 @@
 }
 
 /* ============================================ */
+/* Fallback Mode (insights.json)               */
+/* ============================================ */
+.suppliers-fallback-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(10, 132, 255, 0.08);
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-lg);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.suppliers-fallback-banner svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Fallback table tweaks */
+.suppliers-table-fallback {
+  min-width: 600px;
+}
+
+.fallback-rank-col {
+  width: 48px;
+  text-align: center;
+}
+
+.fallback-rank {
+  text-align: center !important;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.supplier-name-text {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Share bar — visual percentage indicator */
+.share-bar-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 120px;
+}
+
+.share-bar {
+  height: 6px;
+  background: var(--accent-blue);
+  border-radius: 3px;
+  min-width: 2px;
+  transition: width 0.3s ease;
+  opacity: 0.7;
+}
+
+.share-value {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+}
+
+/* ============================================ */
 /* Responsive                                   */
 /* ============================================ */
 @media (max-width: 1024px) {

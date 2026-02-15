@@ -4,13 +4,13 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import './Press.css'
 
 const PLATFORM_STATS = {
-  councils: 8,
+  councils: 15,
   county: 'Lancashire',
-  totalSpend: '£1 billion+',
-  totalTransactions: '200,000+',
+  totalSpend: '£12 billion+',
+  totalTransactions: '2,286,000+',
   dataYears: '10+ years',
   dogeChecks: '12 automated checks',
-  articles: '100+ investigations',
+  articles: '140+ investigations',
   freeForever: true,
 }
 
@@ -124,24 +124,46 @@ function Press() {
       <section className="press-section">
         <h2><Globe size={20} /> Coverage</h2>
         <div className="press-card">
-          <h3>Currently live ({PLATFORM_STATS.county})</h3>
+          <h3>All {PLATFORM_STATS.councils} {PLATFORM_STATS.county} councils live</h3>
           <div className="council-list">
             <div className="council-group">
-              <h4>East Lancashire</h4>
+              <h4>East Lancashire (Districts)</h4>
               <ul>
-                <li>Burnley Borough Council — 30,580 transactions, {'>'}10 years of data</li>
-                <li>Hyndburn Borough Council — 29,804 transactions, 10 years</li>
-                <li>Pendle Borough Council — 49,741 transactions, 5 years</li>
-                <li>Rossendale Borough Council — 42,536 transactions, 5 years</li>
+                <li>Burnley Borough Council — 30,580 transactions, £355M tracked</li>
+                <li>Hyndburn Borough Council — 29,804 transactions, £211M tracked</li>
+                <li>Pendle Borough Council — 49,741 transactions, £125M tracked</li>
+                <li>Rossendale Borough Council — 42,536 transactions, £64M tracked</li>
               </ul>
             </div>
             <div className="council-group">
-              <h4>Central &amp; South Lancashire</h4>
+              <h4>Central &amp; South Lancashire (Districts)</h4>
               <ul>
-                <li>Lancaster City Council — 24,593 transactions, multi-year</li>
-                <li>Ribble Valley Borough Council — 3,767 transactions, multi-year</li>
-                <li>Chorley Council — 17,212 transactions, multi-year</li>
-                <li>South Ribble Borough Council — 16,065 transactions, multi-year</li>
+                <li>Lancaster City Council — 32,574 transactions, £185M tracked</li>
+                <li>Ribble Valley Borough Council — 13,723 transactions, £38M tracked</li>
+                <li>Chorley Council — 21,421 transactions, £365M tracked</li>
+                <li>South Ribble Borough Council — 18,517 transactions, £178M tracked</li>
+              </ul>
+            </div>
+            <div className="council-group">
+              <h4>Fylde Coast &amp; West Lancashire (Districts)</h4>
+              <ul>
+                <li>Preston City Council — 46,711 transactions, £205M tracked</li>
+                <li>West Lancashire Borough Council — 43,063 transactions, £333M tracked</li>
+                <li>Wyre Council — 51,092 transactions, £678M tracked</li>
+                <li>Fylde Council — 37,514 transactions, £155M tracked</li>
+              </ul>
+            </div>
+            <div className="council-group">
+              <h4>County Council</h4>
+              <ul>
+                <li>Lancashire County Council — 753,220 transactions, £3.6B tracked</li>
+              </ul>
+            </div>
+            <div className="council-group">
+              <h4>Unitary Authorities</h4>
+              <ul>
+                <li>Blackpool Council — 630,914 transactions, £4.1B tracked</li>
+                <li>Blackburn with Darwen Borough Council — 492,973 transactions, £1.7B tracked</li>
               </ul>
             </div>
           </div>

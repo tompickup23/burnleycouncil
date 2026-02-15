@@ -1033,7 +1033,7 @@ function DogeInvestigation() {
         <section className="doge-cross-council">
           <h2>Cross-Council Intelligence</h2>
           <p className="section-intro">
-            How {councilName} compares with neighbouring East Lancashire councils.
+            How {councilName} compares with neighbouring Lancashire councils.
           </p>
 
           <div className="cross-council-stats">
@@ -1055,7 +1055,7 @@ function DogeInvestigation() {
 
           <div className="cross-council-insight">
             <p>
-              Multiple East Lancashire councils use the same suppliers — but often pay very different prices.
+              Multiple Lancashire councils use the same suppliers — but often pay very different prices.
               Cross-council procurement analysis can identify where councils could negotiate better value.
             </p>
             <Link to="/compare" className="insight-link">
@@ -1207,7 +1207,7 @@ function DogeInvestigation() {
             <div className="methodology-card">
               <GitCompareArrows size={20} />
               <h5>Cross-Validation</h5>
-              <p>Results compared across 4 neighbouring councils to identify systemic vs local issues.</p>
+              <p>Results compared across neighbouring Lancashire councils to identify systemic vs local issues.</p>
             </div>
             <div className="methodology-card">
               <Eye size={20} />

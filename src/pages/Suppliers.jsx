@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Building, AlertTriangle, Shield, ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react'
+import { Search, Building, AlertTriangle, Shield, ChevronLeft, ChevronRight, ArrowUpDown, Info, TrendingUp, Hash } from 'lucide-react'
 import { formatCurrency, formatNumber } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -20,6 +20,13 @@ const SORT_FIELDS = {
   ch_status: { label: 'CH Status', getter: (p) => p.companies_house ? 1 : 0 },
   risk_level: { label: 'Risk Level', getter: (p) => RISK_LEVELS.indexOf(p.compliance?.risk_level || 'clean') },
   violations: { label: 'Violations', getter: (p) => p.compliance?.violation_count || 0 },
+}
+
+// Simplified sort fields for fallback mode (insights.json)
+const FALLBACK_SORT_FIELDS = {
+  name: { label: 'Name', getter: (s) => (s.supplier || '').toLowerCase() },
+  total_spend: { label: 'Total Spend', getter: (s) => s.total || 0 },
+  transactions: { label: 'Transactions', getter: (s) => s.transactions || 0 },
 }
 
 function SortHeader({ field, label, sortField, sortDir, onSort }) {
@@ -69,13 +76,10 @@ function CHStatusBadge({ companiesHouse }) {
   return <span className="ch-badge unmatched">Unmatched</span>
 }
 
-function Suppliers() {
-  const config = useCouncilConfig()
-  const councilName = config.council_name || 'Council'
-
-  const { data: profilesData, loading, error } = useData('/data/supplier_profiles.json')
-  const profiles = profilesData?.profiles || []
-
+// ===================================================================
+// Full supplier profiles view (when supplier_profiles.json is available)
+// ===================================================================
+function FullSuppliersView({ profiles, councilName }) {
   const [search, setSearch] = useState('')
   const [riskFilter, setRiskFilter] = useState('')
   const [chFilter, setChFilter] = useState('')
@@ -83,12 +87,6 @@ function Suppliers() {
   const [sortDir, setSortDir] = useState('desc')
   const [page, setPage] = useState(1)
 
-  useEffect(() => {
-    document.title = `Supplier Directory | ${councilName} Council Transparency`
-    return () => { document.title = `${councilName} Council Transparency` }
-  }, [councilName])
-
-  // Reset to page 1 when filters or search change
   useEffect(() => {
     setPage(1)
   }, [search, riskFilter, chFilter, sortField, sortDir])
@@ -102,7 +100,6 @@ function Suppliers() {
     }
   }
 
-  // Summary statistics
   const stats = useMemo(() => {
     const total = profiles.length
     const chMatched = profiles.filter(p => p.companies_house).length
@@ -111,11 +108,9 @@ function Suppliers() {
     return { total, chMatched, withViolations, criticalRisk }
   }, [profiles])
 
-  // Filtered and sorted data
   const filteredData = useMemo(() => {
     let result = profiles
 
-    // Search filter
     if (search) {
       const searchLower = search.toLowerCase().trim()
       result = result.filter(p => {
@@ -127,19 +122,16 @@ function Suppliers() {
       })
     }
 
-    // Risk level filter
     if (riskFilter) {
       result = result.filter(p => (p.compliance?.risk_level || 'clean') === riskFilter)
     }
 
-    // Companies House status filter
     if (chFilter === 'matched') {
       result = result.filter(p => p.companies_house)
     } else if (chFilter === 'unmatched') {
       result = result.filter(p => !p.companies_house)
     }
 
-    // Sort
     const sortConfig = SORT_FIELDS[sortField]
     if (sortConfig) {
       result = [...result].sort((a, b) => {
@@ -154,28 +146,14 @@ function Suppliers() {
     return result
   }, [profiles, search, riskFilter, chFilter, sortField, sortDir])
 
-  // Paginated data
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
   const paginatedData = useMemo(() => {
     const start = (page - 1) * ITEMS_PER_PAGE
     return filteredData.slice(start, start + ITEMS_PER_PAGE)
   }, [filteredData, page])
 
-  if (loading) {
-    return <LoadingState message="Loading supplier profiles..." />
-  }
-
-  if (error) {
-    return (
-      <div className="page-error">
-        <h2>Unable to load data</h2>
-        <p>Please try refreshing the page.</p>
-      </div>
-    )
-  }
-
   return (
-    <div className="suppliers-page animate-fade-in" aria-live="polite" aria-busy={loading}>
+    <div className="suppliers-page animate-fade-in" aria-live="polite">
       {/* Header */}
       <header className="suppliers-header">
         <div className="header-content">
@@ -387,6 +365,252 @@ function Suppliers() {
           </button>
         </div>
       )}
+    </div>
+  )
+}
+
+// ===================================================================
+// Fallback view (when only insights.json is available)
+// ===================================================================
+function FallbackSuppliersView({ supplierAnalysis, councilName }) {
+  const topSuppliers = supplierAnalysis?.top_20_suppliers || []
+  const totalUnique = supplierAnalysis?.total_unique_suppliers || 0
+  const concentrationRatio = supplierAnalysis?.concentration_ratio || 0
+  const singleTxn = supplierAnalysis?.single_transaction_suppliers || 0
+
+  const [search, setSearch] = useState('')
+  const [sortField, setSortField] = useState('total_spend')
+  const [sortDir, setSortDir] = useState('desc')
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDir(prev => prev === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortDir('desc')
+    }
+  }
+
+  const filteredData = useMemo(() => {
+    let result = topSuppliers
+
+    if (search) {
+      const searchLower = search.toLowerCase().trim()
+      result = result.filter(s => s.supplier?.toLowerCase().includes(searchLower))
+    }
+
+    const sortConfig = FALLBACK_SORT_FIELDS[sortField]
+    if (sortConfig) {
+      result = [...result].sort((a, b) => {
+        const aVal = sortConfig.getter(a)
+        const bVal = sortConfig.getter(b)
+        if (aVal < bVal) return sortDir === 'asc' ? -1 : 1
+        if (aVal > bVal) return sortDir === 'asc' ? 1 : -1
+        return 0
+      })
+    }
+
+    return result
+  }, [topSuppliers, search, sortField, sortDir])
+
+  // Compute total spend across top 20
+  const totalSpend = useMemo(
+    () => topSuppliers.reduce((sum, s) => sum + (s.total || 0), 0),
+    [topSuppliers]
+  )
+
+  return (
+    <div className="suppliers-page animate-fade-in" aria-live="polite">
+      {/* Header */}
+      <header className="suppliers-header">
+        <div className="header-content">
+          <h1>Top Suppliers</h1>
+          <p className="suppliers-subtitle">
+            Largest suppliers by total spend for {councilName} Council
+          </p>
+        </div>
+      </header>
+
+      {/* Fallback banner */}
+      <div className="suppliers-fallback-banner">
+        <Info size={18} />
+        <span>
+          Showing top 20 suppliers by spend. Full supplier profiles with Companies House data, risk levels,
+          and compliance checks are coming soon.
+        </span>
+      </div>
+
+      {/* Summary Stats */}
+      <div className="suppliers-stats-grid">
+        <div className="suppliers-stat-card">
+          <div className="suppliers-stat-icon">
+            <Building size={20} />
+          </div>
+          <div className="suppliers-stat-body">
+            <span className="suppliers-stat-value">{formatNumber(totalUnique)}</span>
+            <span className="suppliers-stat-label">Unique Suppliers</span>
+          </div>
+        </div>
+        <div className="suppliers-stat-card">
+          <div className="suppliers-stat-icon stat-icon-blue">
+            <TrendingUp size={20} />
+          </div>
+          <div className="suppliers-stat-body">
+            <span className="suppliers-stat-value">{formatCurrency(totalSpend, true)}</span>
+            <span className="suppliers-stat-label">Top 20 Spend</span>
+          </div>
+        </div>
+        <div className="suppliers-stat-card">
+          <div className="suppliers-stat-icon stat-icon-orange">
+            <AlertTriangle size={20} />
+          </div>
+          <div className="suppliers-stat-body">
+            <span className="suppliers-stat-value">{(concentrationRatio * 100).toFixed(1)}%</span>
+            <span className="suppliers-stat-label">Top 20 Concentration</span>
+          </div>
+        </div>
+        <div className="suppliers-stat-card">
+          <div className="suppliers-stat-icon stat-icon-red">
+            <Hash size={20} />
+          </div>
+          <div className="suppliers-stat-body">
+            <span className="suppliers-stat-value">{formatNumber(singleTxn)}</span>
+            <span className="suppliers-stat-label">Single-Txn Suppliers</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="suppliers-controls">
+        <div className="suppliers-search-bar">
+          <Search size={20} className="suppliers-search-icon" />
+          <input
+            type="text"
+            placeholder="Search supplier name..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search suppliers"
+          />
+          {search && (
+            <button
+              className="suppliers-search-clear"
+              onClick={() => setSearch('')}
+              aria-label="Clear search"
+            >
+              &times;
+            </button>
+          )}
+        </div>
+
+        <div className="suppliers-filter-row">
+          <div className="suppliers-filter-results">
+            {filteredData.length === topSuppliers.length
+              ? `${formatNumber(filteredData.length)} top suppliers`
+              : `${formatNumber(filteredData.length)} of ${formatNumber(topSuppliers.length)} top suppliers`
+            }
+          </div>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="suppliers-table-container">
+        <table className="suppliers-table suppliers-table-fallback" role="table" aria-label="Top suppliers by spend">
+          <thead>
+            <tr>
+              <th className="fallback-rank-col" scope="col">#</th>
+              <SortHeader field="name" label="Supplier" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+              <SortHeader field="total_spend" label="Total Spend" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+              <SortHeader field="transactions" label="Transactions" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+              <th scope="col">Share of Top 20</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="suppliers-empty">
+                  No suppliers match your search criteria.
+                </td>
+              </tr>
+            ) : (
+              filteredData.map((supplier, idx) => {
+                const share = totalSpend > 0 ? ((supplier.total || 0) / totalSpend) * 100 : 0
+                // Original rank (before search/sort) based on position in the original top_20 array
+                const originalRank = topSuppliers.indexOf(supplier) + 1
+                return (
+                  <tr key={supplier.supplier}>
+                    <td className="number-cell fallback-rank">{originalRank}</td>
+                    <td className="supplier-name-cell">
+                      <span className="supplier-name-text">{supplier.supplier}</span>
+                    </td>
+                    <td className="amount-cell">
+                      {formatCurrency(supplier.total, true)}
+                    </td>
+                    <td className="number-cell">
+                      {formatNumber(supplier.transactions)}
+                    </td>
+                    <td className="number-cell">
+                      <div className="share-bar-container">
+                        <div className="share-bar" style={{ width: `${Math.min(share, 100)}%` }} />
+                        <span className="share-value">{share.toFixed(1)}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+// ===================================================================
+// Main Suppliers component — orchestrates data loading + view selection
+// ===================================================================
+function Suppliers() {
+  const config = useCouncilConfig()
+  const councilName = config.council_name || 'Council'
+
+  // Always call both hooks (React rules of hooks — no conditional calls)
+  const { data: profilesData, loading: profilesLoading, error: profilesError } = useData('/data/supplier_profiles.json')
+  const { data: insightsData, loading: insightsLoading, error: insightsError } = useData('/data/insights.json')
+
+  const profiles = profilesData?.profiles || []
+  const supplierAnalysis = insightsData?.supplier_analysis || null
+
+  // Determine which mode we are in
+  const hasProfiles = !profilesError && profiles.length > 0
+  const hasFallback = !insightsError && supplierAnalysis && (supplierAnalysis.top_20_suppliers?.length || 0) > 0
+
+  // Still loading if profiles is loading, or if profiles failed and insights is still loading
+  const isLoading = profilesLoading || (!hasProfiles && insightsLoading)
+
+  useEffect(() => {
+    const pageTitle = hasProfiles ? 'Supplier Directory' : 'Top Suppliers'
+    document.title = `${pageTitle} | ${councilName} Council Transparency`
+    return () => { document.title = `${councilName} Council Transparency` }
+  }, [councilName, hasProfiles])
+
+  if (isLoading) {
+    return <LoadingState message="Loading supplier data..." />
+  }
+
+  // Full profiles mode
+  if (hasProfiles) {
+    return <FullSuppliersView profiles={profiles} councilName={councilName} />
+  }
+
+  // Fallback mode — insights.json
+  if (hasFallback) {
+    return <FallbackSuppliersView supplierAnalysis={supplierAnalysis} councilName={councilName} />
+  }
+
+  // Both failed
+  return (
+    <div className="page-error">
+      <h2>Unable to load data</h2>
+      <p>Please try refreshing the page.</p>
     </div>
   )
 }
