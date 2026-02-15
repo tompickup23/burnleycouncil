@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-02-14
+> Last updated: 2026-02-15
 
-**Summary**: 5 open issues | Critical: 0 | High: 2 | Medium: 3 | Low: 0
+**Summary**: 7 open issues | Critical: 0 | High: 3 | Medium: 4 | Low: 0
 
 ---
 
@@ -30,7 +30,9 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
+| A2 | High | 1 pages have zero tests [auto] | Untested: Demographics (391L). | open |
 | A17 | Medium | Unguarded chained property access (4 instances) [auto] | At Budgets:1083, Budgets:1125, Budgets:1126, Budgets:1127. Use optional chaining or `|| {}` defaults. | open |
+| A4 | Medium | Accessibility gaps in 1 pages [auto] | Pages with no ARIA attributes: Demographics. | open |
 | A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Press.jsx:55`. Add clearTimeout in useEffect cleanup. | open |
 
 ---
@@ -42,3 +44,4 @@
 - **2026-02-12** — Auto-scan: 5 issues found
 - **2026-02-13** — Auto-scan: 5 issues found
 - **2026-02-14** — Auto-scan: 5 issues found
+- **2026-02-15** — Auto-scan: 7 issues found
