@@ -439,6 +439,46 @@ def download_hyndburn_csvs(output_dir):
     return sorted(output_dir.glob("*.csv"))
 
 
+# ── Record construction utilities ─────────────────────────────────────
+
+def build_record(date, supplier, amount, council_id,
+                 department_raw="", service_area_raw="", description="",
+                 reference="", type_="spend", capital_revenue=None,
+                 source_file="", extra=None):
+    """Build standardized spending record with 20 base fields + optional extras."""
+    record = {
+        "date": date,
+        "financial_year": financial_year_from_date(date),
+        "quarter": quarter_from_date(date),
+        "month": int(date[5:7]) if date else None,
+        "supplier": normalize_supplier(supplier),
+        "supplier_canonical": None,
+        "amount": amount,
+        "department_raw": str(department_raw).strip(),
+        "department": None,
+        "service_area_raw": str(service_area_raw).strip(),
+        "service_area": str(service_area_raw).strip(),
+        "description": str(description).strip(),
+        "reference": str(reference).strip(),
+        "type": type_,
+        "capital_revenue": capital_revenue,
+        "council": council_id,
+        "supplier_company_number": None,
+        "supplier_company_url": None,
+        "_source_file": source_file,
+    }
+    if extra:
+        record.update(extra)
+    return record
+
+
+def filter_records_by_fy(records, data_start_fy):
+    """Filter records to only include those from data_start_fy onwards."""
+    start_year = fy_to_start_year(data_start_fy)
+    return [r for r in records
+            if r.get("financial_year") and fy_to_start_year(r["financial_year"]) >= start_year]
+
+
 def detect_hyndburn_schema(rows):
     """Detect old vs new Hyndburn CSV format based on column names."""
     if not rows:
@@ -480,29 +520,14 @@ def parse_hyndburn_old(rows, filename):
         if amount == 0:
             continue
 
-        fy = financial_year_from_date(parsed_date)
-        record = {
-            "date": parsed_date,
-            "financial_year": fy,
-            "quarter": quarter_from_date(parsed_date),
-            "month": int(parsed_date[5:7]) if parsed_date else None,
-            "supplier": normalize_supplier(name),
-            "supplier_canonical": None,  # filled by taxonomy
-            "amount": amount,
-            "department_raw": str(cleaned.get('Service Cost Centre', '')).strip(),
-            "department": None,  # filled by taxonomy
-            "service_area_raw": str(cleaned.get('Account Detail', '')).strip(),
-            "service_area": str(cleaned.get('Account Detail', '')).strip(),
-            "description": str(cleaned.get('Description', '')).strip(),
-            "reference": str(cleaned.get('HBC ref no', cleaned.get('HBC Ref No.', ''))).strip(),
-            "type": "spend",
-            "capital_revenue": None,
-            "council": "hyndburn",
-            "supplier_company_number": None,
-            "supplier_company_url": None,
-            "_source_file": filename,
-        }
-        records.append(record)
+        records.append(build_record(
+            date=parsed_date, supplier=name, amount=amount, council_id="hyndburn",
+            department_raw=cleaned.get('Service Cost Centre', ''),
+            service_area_raw=cleaned.get('Account Detail', ''),
+            description=cleaned.get('Description', ''),
+            reference=cleaned.get('HBC ref no', cleaned.get('HBC Ref No.', '')),
+            source_file=filename,
+        ))
     return records
 
 
@@ -543,32 +568,14 @@ def parse_hyndburn_new(rows, filename):
         if amount == 0:
             continue
 
-        fy = financial_year_from_date(parsed_date)
-        dept_raw = str(cleaned.get('Department Area', '')).strip()
-        service_raw = str(cleaned.get('Service Area', '')).strip()
-
-        record = {
-            "date": parsed_date,
-            "financial_year": fy,
-            "quarter": quarter_from_date(parsed_date),
-            "month": int(parsed_date[5:7]) if parsed_date else None,
-            "supplier": normalize_supplier(name),
-            "supplier_canonical": None,
-            "amount": amount,
-            "department_raw": dept_raw,
-            "department": None,
-            "service_area_raw": service_raw,
-            "service_area": service_raw,
-            "description": str(cleaned.get('Description', '')).strip(),
-            "reference": str(cleaned.get('HBC Ref No.', cleaned.get('HBC Ref No', ''))).strip(),
-            "type": "spend",
-            "capital_revenue": None,
-            "council": "hyndburn",
-            "supplier_company_number": None,
-            "supplier_company_url": None,
-            "_source_file": filename,
-        }
-        records.append(record)
+        records.append(build_record(
+            date=parsed_date, supplier=name, amount=amount, council_id="hyndburn",
+            department_raw=cleaned.get('Department Area', ''),
+            service_area_raw=cleaned.get('Service Area', ''),
+            description=cleaned.get('Description', ''),
+            reference=cleaned.get('HBC Ref No.', cleaned.get('HBC Ref No', '')),
+            source_file=filename,
+        ))
     return records
 
 
@@ -593,11 +600,8 @@ def parse_hyndburn(csv_files, data_start_fy="2016/17"):
             if not records:
                 records = parse_hyndburn_old(rows, csv_path.name)
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         if records:
             print(f"  {csv_path.name}: {len(records)} records ({schema} format)")
@@ -616,31 +620,25 @@ def retrofit_burnley(existing_json_path):
 
     records = []
     for r in existing:
-        date = r.get("date")
-        record = {
-            "date": date,
-            "financial_year": r.get("financial_year"),
-            "quarter": r.get("quarter"),
-            "month": int(date[5:7]) if date and len(date) >= 7 else None,
-            "supplier": r.get("supplier", "UNKNOWN"),
-            "supplier_canonical": None,  # filled by taxonomy
-            "amount": r.get("amount", 0),
-            "department_raw": r.get("service_division", ""),
-            "department": None,  # filled by taxonomy
-            "service_area_raw": r.get("organisational_unit", ""),
-            "service_area": r.get("organisational_unit", ""),
-            "description": "",
-            "reference": r.get("transaction_number", r.get("order_number", "")),
-            "type": r.get("type", "spend"),
-            "capital_revenue": r.get("capital_revenue", None),
-            "council": "burnley",
-            "supplier_company_number": None,
-            "supplier_company_url": None,
-            # Burnley-specific fields preserved
-            "expenditure_category": r.get("expenditure_category", ""),
-            "cipfa_type": r.get("cipfa_type", ""),
-            "is_covid_related": r.get("is_covid_related", False),
-        }
+        record = build_record(
+            date=r.get("date"), supplier=r.get("supplier", "UNKNOWN"),
+            amount=r.get("amount", 0), council_id="burnley",
+            department_raw=r.get("service_division", ""),
+            service_area_raw=r.get("organisational_unit", ""),
+            reference=r.get("transaction_number", r.get("order_number", "")),
+            type_=r.get("type", "spend"),
+            capital_revenue=r.get("capital_revenue"),
+            extra={
+                "expenditure_category": r.get("expenditure_category", ""),
+                "cipfa_type": r.get("cipfa_type", ""),
+                "is_covid_related": r.get("is_covid_related", False),
+            },
+        )
+        # Preserve original FY/quarter if present (retrofit keeps existing values)
+        if r.get("financial_year"):
+            record["financial_year"] = r["financial_year"]
+        if r.get("quarter"):
+            record["quarter"] = r["quarter"]
         records.append(record)
 
     print(f"  Burnley retrofit: {len(records)} records")
@@ -698,40 +696,25 @@ def parse_pendle(csv_files, data_start_fy="2021/22"):
             charity_no = str(cleaned.get('Charity Number', '')).strip()
             cipfa_code = str(cleaned.get('Expenditure CIPFA Sub Group', '')).strip()
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": str(cleaned.get('Department', '')).strip(),
-                "department": None,
-                "service_area_raw": str(cleaned.get('Service Cat Label', '')).strip(),
-                "service_area": str(cleaned.get('Service Cat Label', '')).strip(),
-                "description": str(cleaned.get('Purpose of Spend', '')).strip(),
-                "reference": str(cleaned.get('Transaction Number', '')).strip(),
-                "type": "purchase_card" if is_card else "spend",
-                "capital_revenue": None,
-                "council": "pendle",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                # Pendle-specific enrichments
-                "supplier_ref": str(cleaned.get('Supplier Reference', '')).strip(),
-                "cipfa_code": cipfa_code,
-                "is_vcse_grant": is_vcse,
-                "charity_number": charity_no if charity_no and charity_no != 'nan' else None,
-                "irrecoverable_vat": str(cleaned.get('Irrecoverable VAT', 'N')).strip().upper() == 'Y',
-                "_source_file": csv_path.name,
-            }
-            records.append(record)
+            records.append(build_record(
+                date=parsed_date, supplier=supplier, amount=amount, council_id="pendle",
+                department_raw=cleaned.get('Department', ''),
+                service_area_raw=cleaned.get('Service Cat Label', ''),
+                description=cleaned.get('Purpose of Spend', ''),
+                reference=cleaned.get('Transaction Number', ''),
+                type_="purchase_card" if is_card else "spend",
+                source_file=csv_path.name,
+                extra={
+                    "supplier_ref": str(cleaned.get('Supplier Reference', '')).strip(),
+                    "cipfa_code": cipfa_code,
+                    "is_vcse_grant": is_vcse,
+                    "charity_number": charity_no if charity_no and charity_no != 'nan' else None,
+                    "irrecoverable_vat": str(cleaned.get('Irrecoverable VAT', 'N')).strip().upper() == 'Y',
+                },
+            ))
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
@@ -785,34 +768,18 @@ def parse_lancaster(csv_files, data_start_fy="2021/22"):
             # Detect if this is a procurement card file
             is_card = 'procurement' in csv_path.name.lower() or 'card' in csv_path.name.lower()
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept_raw,
-                "department": None,
-                "service_area_raw": str(cleaned.get('Nature of Spend', '')).strip(),
-                "service_area": str(cleaned.get('Nature of Spend', '')).strip(),
-                "description": str(cleaned.get('Nature of Spend', '')).strip(),
-                "reference": str(cleaned.get('Invoice Reference', '')).strip(),
-                "type": "purchase_card" if is_card else "spend",
-                "capital_revenue": None,
-                "council": "lancaster",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            }
-            records.append(record)
+            records.append(build_record(
+                date=parsed_date, supplier=supplier, amount=amount, council_id="lancaster",
+                department_raw=dept_raw,
+                service_area_raw=cleaned.get('Nature of Spend', ''),
+                description=cleaned.get('Nature of Spend', ''),
+                reference=cleaned.get('Invoice Reference', ''),
+                type_="purchase_card" if is_card else "spend",
+                source_file=csv_path.name,
+            ))
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
@@ -903,40 +870,25 @@ def parse_ribble_valley(csv_files, data_start_fy="2021/22"):
             elif cap_rev_raw.lower().startswith('rev'):
                 cap_rev = 'revenue'
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": str(cleaned.get('Service Division', '')).strip(),
-                "department": None,
-                "service_area_raw": str(cleaned.get('Service Label', '')).strip(),
-                "service_area": str(cleaned.get('Service Label', '')).strip(),
-                "description": str(cleaned.get('Narrative', '')).strip(),
-                "reference": str(cleaned.get('Transaction Number', '')).strip(),
-                "type": "spend",
-                "capital_revenue": cap_rev,
-                "council": "ribble_valley",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                # Ribble Valley bonus fields
-                "organisational_unit": str(cleaned.get('Organisational Unit', '')).strip(),
-                "expenditure_category": str(cleaned.get('Expenditure Category', '')).strip(),
-                "sercop_type": str(cleaned.get('SeRCOP Detailed Expenditure Type', '')).strip(),
-                "contract_id": str(cleaned.get('Contract ID', '')).strip(),
-                "supplier_id": str(cleaned.get('Supplier ID', '')).strip(),
-                "_source_file": csv_path.name,
-            }
-            records.append(record)
+            records.append(build_record(
+                date=parsed_date, supplier=supplier, amount=amount, council_id="ribble_valley",
+                department_raw=cleaned.get('Service Division', ''),
+                service_area_raw=cleaned.get('Service Label', ''),
+                description=cleaned.get('Narrative', ''),
+                reference=cleaned.get('Transaction Number', ''),
+                capital_revenue=cap_rev,
+                source_file=csv_path.name,
+                extra={
+                    "organisational_unit": str(cleaned.get('Organisational Unit', '')).strip(),
+                    "expenditure_category": str(cleaned.get('Expenditure Category', '')).strip(),
+                    "sercop_type": str(cleaned.get('SeRCOP Detailed Expenditure Type', '')).strip(),
+                    "contract_id": str(cleaned.get('Contract ID', '')).strip(),
+                    "supplier_id": str(cleaned.get('Supplier ID', '')).strip(),
+                },
+            ))
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
@@ -1000,27 +952,14 @@ def parse_chorley(csv_files, data_start_fy="2021/22"):
                 expenditure_cat = str(cleaned.get('Expenditure Category', '')).strip()
                 cap_rev = str(cleaned.get('Capital and Revenue', '')).strip()
 
-                record = {
-                    "date": parsed_date,
-                    "financial_year": fy,
-                    "quarter": quarter_from_date(parsed_date),
-                    "month": int(parsed_date[5:7]) if parsed_date else None,
-                    "supplier": normalize_supplier(supplier),
-                    "supplier_canonical": None,
-                    "amount": amount,
-                    "department_raw": org_unit,
-                    "department": None,
-                    "service_area_raw": service_div,
-                    "service_area": service_div,
-                    "description": str(cleaned.get('Narrative', '')).strip(),
-                    "reference": str(cleaned.get('Transaction number', '')).strip(),
-                    "type": "spend",
-                    "capital_revenue": cap_rev if cap_rev else None,
-                    "council": "chorley",
-                    "supplier_company_number": None,
-                    "supplier_company_url": None,
-                    "_source_file": csv_path.name,
-                }
+                record = build_record(
+                    date=parsed_date, supplier=supplier, amount=amount, council_id="chorley",
+                    department_raw=org_unit, service_area_raw=service_div,
+                    description=cleaned.get('Narrative', ''),
+                    reference=cleaned.get('Transaction number', ''),
+                    capital_revenue=cap_rev if cap_rev else None,
+                    source_file=csv_path.name,
+                )
             else:
                 # Purchase card format
                 supplier = cleaned.get('Supplier', '')
@@ -1042,35 +981,19 @@ def parse_chorley(csv_files, data_start_fy="2021/22"):
 
                 is_card = 'card' in purchase_type.lower() or 'online' in purchase_type.lower()
 
-                record = {
-                    "date": parsed_date,
-                    "financial_year": fy,
-                    "quarter": quarter_from_date(parsed_date),
-                    "month": int(parsed_date[5:7]) if parsed_date else None,
-                    "supplier": normalize_supplier(supplier),
-                    "supplier_canonical": None,
-                    "amount": amount,
-                    "department_raw": dept_raw,
-                    "department": None,
-                    "service_area_raw": section_raw,
-                    "service_area": section_raw,
-                    "description": str(cleaned.get('Description', '')).strip(),
-                    "reference": str(cleaned.get('Cost Center', '')).strip(),
-                    "type": "purchase_card" if is_card else "spend",
-                    "capital_revenue": None,
-                    "council": "chorley",
-                    "supplier_company_number": None,
-                    "supplier_company_url": None,
-                    "_source_file": csv_path.name,
-                }
+                record = build_record(
+                    date=parsed_date, supplier=supplier, amount=amount, council_id="chorley",
+                    department_raw=dept_raw, service_area_raw=section_raw,
+                    description=cleaned.get('Description', ''),
+                    reference=cleaned.get('Cost Center', ''),
+                    type_="purchase_card" if is_card else "spend",
+                    source_file=csv_path.name,
+                )
 
             records.append(record)
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         fmt_label = "CIPFA" if is_cipfa else "PCard"
         if records:
@@ -1127,35 +1050,19 @@ def parse_south_ribble(csv_files, data_start_fy="2021/22"):
             elif cap_rev_raw.lower().startswith('rev'):
                 cap_rev = 'revenue'
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": str(cleaned.get('Service Level', '')).strip(),
-                "department": None,
-                "service_area_raw": str(cleaned.get('Expense Type', '')).strip(),
-                "service_area": str(cleaned.get('Expense Type', '')).strip(),
-                "description": str(cleaned.get('Narrative', '')).strip(),
-                "reference": str(cleaned.get('Transaction Number', '')).strip(),
-                "type": "spend",
-                "capital_revenue": cap_rev,
-                "council": "south_ribble",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "supplier_id": str(cleaned.get('Supplier ID', '')).strip(),
-                "_source_file": csv_path.name,
-            }
-            records.append(record)
+            records.append(build_record(
+                date=parsed_date, supplier=supplier, amount=amount, council_id="south_ribble",
+                department_raw=cleaned.get('Service Level', ''),
+                service_area_raw=cleaned.get('Expense Type', ''),
+                description=cleaned.get('Narrative', ''),
+                reference=cleaned.get('Transaction Number', ''),
+                capital_revenue=cap_rev,
+                source_file=csv_path.name,
+                extra={"supplier_id": str(cleaned.get('Supplier ID', '')).strip()},
+            ))
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
@@ -1213,37 +1120,21 @@ def parse_lancashire_cc(csv_files, data_start_fy="2024/25"):
             org_unit = str(cleaned.get('Organisational unit', '')).strip()
             dept_raw = org_unit if org_unit else service_label
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept_raw,
-                "department": None,
-                "service_area_raw": str(cleaned.get('Expenditure category', '')).strip(),
-                "service_area": str(cleaned.get('Expenditure category', '')).strip(),
-                "description": "",
-                "reference": str(cleaned.get('Transaction number', '')).strip(),
-                "type": "spend",
-                "capital_revenue": None,
-                "council": "lancashire_cc",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "supplier_id": "",
-                "_source_file": csv_path.name,
-                "_service_code": str(cleaned.get('Service code', '')).strip(),
-                "_expenditure_code": str(cleaned.get('Expenditure code', '')).strip(),
-            }
-            records.append(record)
+            records.append(build_record(
+                date=parsed_date, supplier=supplier, amount=amount, council_id="lancashire_cc",
+                department_raw=dept_raw,
+                service_area_raw=cleaned.get('Expenditure category', ''),
+                reference=cleaned.get('Transaction number', ''),
+                source_file=csv_path.name,
+                extra={
+                    "supplier_id": "",
+                    "_service_code": str(cleaned.get('Service code', '')).strip(),
+                    "_expenditure_code": str(cleaned.get('Expenditure code', '')).strip(),
+                },
+            ))
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
@@ -1438,35 +1329,18 @@ def parse_blackpool(csv_files, data_start_fy="2019/20"):
                     supplier_id = str(cleaned[key]).strip()
                     break
 
-            record = {
-                "date": parsed_date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(parsed_date),
-                "month": int(parsed_date[5:7]) if parsed_date else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept_raw,
-                "department": None,
-                "service_area_raw": service_raw,
-                "service_area": service_raw,
-                "description": str(cleaned.get('Sub Team Description', '')).strip(),
-                "reference": ref,
-                "type": "purchase_card" if is_pcard else "spend",
-                "capital_revenue": None,
-                "council": "blackpool",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "supplier_id": supplier_id,
-                "_source_file": csv_path.name,
-            }
-            records.append(record)
+            records.append(build_record(
+                date=parsed_date, supplier=supplier, amount=amount, council_id="blackpool",
+                department_raw=dept_raw, service_area_raw=service_raw,
+                description=cleaned.get('Sub Team Description', ''),
+                reference=ref,
+                type_="purchase_card" if is_pcard else "spend",
+                source_file=csv_path.name,
+                extra={"supplier_id": supplier_id},
+            ))
 
-        # Filter by start financial year
-        for r in records:
-            fy = r.get("financial_year")
-            if fy and fy_to_start_year(fy) >= start_year:
-                all_records.append(r)
+        filtered = filter_records_by_fy(records, data_start_fy)
+        all_records.extend(filtered)
 
         fmt_label = "PCard" if is_pcard else ("CIAXLONE" if is_ciaxlone else "Spend")
         if records:
@@ -1539,28 +1413,12 @@ def parse_west_lancashire(csv_files, data_start_fy="2016/17"):
             purpose = (row.get("Purpose of Expenditure") or "").strip()
             ref = (row.get("Reference") or row.get("Ref No (Line)") or "").strip()
 
-            fy = financial_year_from_date(date)
-            records.append({
-                "date": date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(date),
-                "month": int(date[5:7]) if date and len(date) >= 7 else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept,
-                "department": dept or None,
-                "service_area_raw": category or purpose,
-                "service_area": category or purpose,
-                "description": purpose,
-                "reference": ref,
-                "type": "spend",
-                "capital_revenue": None,
-                "council": "west_lancashire",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            })
+            records.append(build_record(
+                date=date, supplier=supplier, amount=amount, council_id="west_lancashire",
+                department_raw=dept, service_area_raw=category or purpose,
+                description=purpose, reference=ref,
+                source_file=csv_path.name,
+            ))
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
         all_records.extend(records)
@@ -1619,28 +1477,12 @@ def parse_blackburn(csv_files, data_start_fy="2019/20"):
             description = row.get("Narrative") or row.get("Summaryofthepurposeofexpenditure") or ""
             ref = row.get("Transaction Number") or row.get("Transactionnumber") or ""
 
-            fy = financial_year_from_date(date)
-            records.append({
-                "date": date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(date),
-                "month": int(date[5:7]) if date and len(date) >= 7 else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept,
-                "department": dept or None,
-                "service_area_raw": category,
-                "service_area": category,
-                "description": description,
-                "reference": ref,
-                "type": "spend",
-                "capital_revenue": None,
-                "council": "blackburn",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            })
+            records.append(build_record(
+                date=date, supplier=supplier, amount=amount, council_id="blackburn",
+                department_raw=dept, service_area_raw=category,
+                description=description, reference=ref,
+                source_file=csv_path.name,
+            ))
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
         all_records.extend(records)
@@ -1713,28 +1555,12 @@ def parse_wyre(csv_files, data_start_fy="2017/18"):
             purpose = (row.get("Purpose_of_the_expenditure") or row.get("Merchant Category") or "").strip()
             ref = (row.get("Transaction Number") or "").strip()
 
-            fy = financial_year_from_date(date)
-            records.append({
-                "date": date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(date),
-                "month": int(date[5:7]) if date and len(date) >= 7 else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept,
-                "department": dept or None,
-                "service_area_raw": category,
-                "service_area": category,
-                "description": purpose,
-                "reference": ref,
-                "type": "spend",
-                "capital_revenue": None,
-                "council": "wyre",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            })
+            records.append(build_record(
+                date=date, supplier=supplier, amount=amount, council_id="wyre",
+                department_raw=dept, service_area_raw=category,
+                description=purpose, reference=ref,
+                source_file=csv_path.name,
+            ))
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
         all_records.extend(records)
@@ -1827,28 +1653,12 @@ def parse_preston(csv_files, data_start_fy="2019/20"):
             ref = str(row.get("TRANSACTION NUMBER", "") or "").strip()
             description = dept2 if dept2 else category
 
-            fy = financial_year_from_date(date)
-            records.append({
-                "date": date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(date),
-                "month": int(date[5:7]) if date and len(date) >= 7 else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept,
-                "department": dept or None,
-                "service_area_raw": category,
-                "service_area": category,
-                "description": description,
-                "reference": ref,
-                "type": "spend",
-                "capital_revenue": None,
-                "council": "preston",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            })
+            records.append(build_record(
+                date=date, supplier=supplier, amount=amount, council_id="preston",
+                department_raw=dept, service_area_raw=category,
+                description=description, reference=ref,
+                source_file=csv_path.name,
+            ))
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
         all_records.extend(records)
@@ -1987,28 +1797,12 @@ def parse_fylde(csv_files, data_start_fy="2015/16"):
             category = str(row.get(cat_key, "") if cat_key else "").strip()
             ref = str(row.get(ref_key, "") if ref_key else "").strip()
 
-            fy = financial_year_from_date(date)
-            records.append({
-                "date": date,
-                "financial_year": fy,
-                "quarter": quarter_from_date(date),
-                "month": int(date[5:7]) if date and len(date) >= 7 else None,
-                "supplier": normalize_supplier(supplier),
-                "supplier_canonical": None,
-                "amount": amount,
-                "department_raw": dept,
-                "department": dept or None,
-                "service_area_raw": category,
-                "service_area": category,
-                "description": category,
-                "reference": ref,
-                "type": "spend",
-                "capital_revenue": None,
-                "council": "fylde",
-                "supplier_company_number": None,
-                "supplier_company_url": None,
-                "_source_file": csv_path.name,
-            })
+            records.append(build_record(
+                date=date, supplier=supplier, amount=amount, council_id="fylde",
+                department_raw=dept, service_area_raw=category,
+                description=category, reference=ref,
+                source_file=csv_path.name,
+            ))
         if records:
             print(f"  {csv_path.name}: {len(records)} records")
         all_records.extend(records)
