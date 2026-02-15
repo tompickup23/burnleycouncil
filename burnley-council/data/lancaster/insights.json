@@ -1,10 +1,10 @@
 {
   "summary": {
-    "total_spend": 156751051.75,
-    "transaction_count": 26975,
-    "unique_suppliers": 1916,
-    "avg_transaction": 5810.98,
-    "median_transaction": 1333.6,
+    "total_spend": 184610194.14,
+    "transaction_count": 32196,
+    "unique_suppliers": 2088,
+    "avg_transaction": 5733.95,
+    "median_transaction": 1333.17,
     "date_range": {
       "min": "2021-04-01",
       "max": "2025-09-30"
@@ -14,8 +14,15 @@
     "top_20_suppliers": [
       {
         "supplier": "PRESTON CITY COUNCIL",
-        "total": 8429555.69,
-        "transactions": 208,
+        "total": 9977696.79,
+        "transactions": 251,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NPOWER COMMERCIAL GAS LTD",
+        "total": 6102322.36,
+        "transactions": 1736,
         "company_number": null,
         "company_url": null
       },
@@ -23,13 +30,6 @@
         "supplier": "WEST DUNBARTONSHIRE COUNCIL",
         "total": 5000000.0,
         "transactions": 1,
-        "company_number": null,
-        "company_url": null
-      },
-      {
-        "supplier": "NPOWER COMMERCIAL GAS LTD",
-        "total": 4935292.56,
-        "transactions": 1376,
         "company_number": null,
         "company_url": null
       },
@@ -42,8 +42,8 @@
       },
       {
         "supplier": "Lancashire County Council",
-        "total": 3668999.35,
-        "transactions": 412,
+        "total": 4083247.08,
+        "transactions": 477,
         "company_number": null,
         "company_url": null
       },
@@ -56,8 +56,8 @@
       },
       {
         "supplier": "BRABNERS LLP",
-        "total": 3491132.44,
-        "transactions": 105,
+        "total": 3503724.44,
+        "transactions": 112,
         "company_number": null,
         "company_url": null
       },
@@ -69,6 +69,27 @@
         "company_url": null
       },
       {
+        "supplier": "WESTHOUGHTON R&P SERVICES LTD T/A WRPS",
+        "total": 3016172.41,
+        "transactions": 68,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BTB JOINERY LTD",
+        "total": 2560808.79,
+        "transactions": 187,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "STANDARD FUEL OILS LTD",
+        "total": 2366170.42,
+        "transactions": 124,
+        "company_number": null,
+        "company_url": null
+      },
+      {
         "supplier": "WILLIS LTD",
         "total": 2365222.58,
         "transactions": 18,
@@ -76,9 +97,16 @@
         "company_url": null
       },
       {
-        "supplier": "WESTHOUGHTON R&P SERVICES LTD T/A WRPS",
-        "total": 2201677.05,
-        "transactions": 49,
+        "supplier": "PHOENIX SOFTWARE LTD",
+        "total": 2351715.64,
+        "transactions": 62,
+        "company_number": "02548628",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/02548628"
+      },
+      {
+        "supplier": "TF JONES PROPERTY SERVICES LTD",
+        "total": 2269170.3,
+        "transactions": 332,
         "company_number": null,
         "company_url": null
       },
@@ -97,9 +125,9 @@
         "company_url": null
       },
       {
-        "supplier": "BTB JOINERY LTD",
-        "total": 2132775.93,
-        "transactions": 148,
+        "supplier": "EMCOR FACILITIES SERVICES LTD",
+        "total": 2126195.13,
+        "transactions": 55,
         "company_number": null,
         "company_url": null
       },
@@ -111,59 +139,31 @@
         "company_url": null
       },
       {
-        "supplier": "PHOENIX SOFTWARE LTD",
-        "total": 2013454.87,
-        "transactions": 57,
-        "company_number": "02548628",
-        "company_url": "https://find-and-update.company-information.service.gov.uk/company/02548628"
-      },
-      {
-        "supplier": "STANDARD FUEL OILS LTD",
-        "total": 1893111.7,
-        "transactions": 102,
+        "supplier": "CORONA ENERGY",
+        "total": 2092646.86,
+        "transactions": 873,
         "company_number": null,
         "company_url": null
       },
       {
         "supplier": "RHEA PROJECTS LTD",
-        "total": 1890897.57,
-        "transactions": 186,
+        "total": 1903445.07,
+        "transactions": 192,
         "company_number": "11644705",
         "company_url": "https://find-and-update.company-information.service.gov.uk/company/11644705"
-      },
-      {
-        "supplier": "TF JONES PROPERTY SERVICES LTD",
-        "total": 1740465.04,
-        "transactions": 292,
-        "company_number": null,
-        "company_url": null
-      },
-      {
-        "supplier": "BALDWIN BUILDING SERVICES LTD",
-        "total": 1682436.68,
-        "transactions": 81,
-        "company_number": null,
-        "company_url": null
-      },
-      {
-        "supplier": "THE NETWORKING PEOPLE (NORTH WEST) LTD",
-        "total": 1635224.56,
-        "transactions": 150,
-        "company_number": null,
-        "company_url": null
       }
     ],
-    "concentration_ratio": 0.3841,
-    "total_unique_suppliers": 1916,
-    "single_transaction_suppliers": 596
+    "concentration_ratio": 0.3621,
+    "total_unique_suppliers": 2088,
+    "single_transaction_suppliers": 683
   },
   "efficiency_flags": [
     {
       "type": "same_day_duplicates",
       "severity": "high",
       "description": "Identical payments to same supplier on same day",
-      "count": 2661,
-      "potential_value": 13898623.95,
+      "count": 2765,
+      "potential_value": 14572787.06,
       "items": [
         {
           "supplier": "PRESTON CITY COUNCIL",
@@ -178,6 +178,13 @@
           "date": "2025-03-12",
           "occurrences": 2,
           "potential_overpayment": 358198.73
+        },
+        {
+          "supplier": "PYE MOTORS LTD",
+          "amount": 46292.3,
+          "date": "2023-01-05",
+          "occurrences": 7,
+          "potential_overpayment": 277753.8
         },
         {
           "supplier": "PHOENIX SOFTWARE LTD",
@@ -236,6 +243,13 @@
           "potential_overpayment": 125114.15
         },
         {
+          "supplier": "PYE MOTORS LTD",
+          "amount": 41292.3,
+          "date": "2022-12-08",
+          "occurrences": 4,
+          "potential_overpayment": 123876.9
+        },
+        {
           "supplier": "LANCASTER DISTRICT COMMUNITY & VOLUNTARY SOLUTIONS",
           "amount": 110000.0,
           "date": "2025-02-26",
@@ -290,20 +304,6 @@
           "date": "2025-02-25",
           "occurrences": 2,
           "potential_overpayment": 75192.89
-        },
-        {
-          "supplier": "GREENHOUS GROUP T/A GREENHOUS FLEET SERVICES",
-          "amount": 18191.93,
-          "date": "2021-04-16",
-          "occurrences": 5,
-          "potential_overpayment": 72767.72
-        },
-        {
-          "supplier": "CLARKSON HIRST SOLICITORS LTD",
-          "amount": 72500.0,
-          "date": "2025-02-26",
-          "occurrences": 2,
-          "potential_overpayment": 72500.0
         }
       ]
     },
@@ -311,15 +311,25 @@
       "type": "round_number_payments",
       "severity": "low",
       "description": "Large round-number payments (may indicate estimates)",
-      "count": 519,
-      "total_value": 14679000.0
+      "count": 640,
+      "total_value": 16905000.0
     }
   ],
   "department_breakdown": [
     {
       "department": "Environmental Services",
-      "spend": 21919332.96,
-      "count": 5086
+      "spend": 33867979.26,
+      "count": 7476
+    },
+    {
+      "department": "Health & Housing",
+      "spend": 21119262.84,
+      "count": 3650
+    },
+    {
+      "department": "Resources",
+      "spend": 19863731.22,
+      "count": 2561
     },
     {
       "department": "ENVIRONMENT AND PLACE",
@@ -332,19 +342,9 @@
       "count": 646
     },
     {
-      "department": "Health & Housing",
-      "spend": 14904888.14,
-      "count": 2561
-    },
-    {
-      "department": "Resources",
-      "spend": 14497451.53,
-      "count": 1623
-    },
-    {
       "department": "Regeneration and Planning",
-      "spend": 9202379.99,
-      "count": 1001
+      "spend": 11785579.55,
+      "count": 1503
     },
     {
       "department": "HOUSING AND PROPERTY",
@@ -382,24 +382,24 @@
       "count": 337
     },
     {
+      "department": "Information Services",
+      "spend": 3079837.51,
+      "count": 423
+    },
+    {
       "department": "HOUSING & PROPERTY",
       "spend": 3042876.12,
       "count": 827
     },
     {
-      "department": "Information Services",
-      "spend": 2105712.27,
-      "count": 282
+      "department": "Governance",
+      "spend": 2456675.68,
+      "count": 573
     },
     {
       "department": "GOVERNANCE",
       "spend": 1875076.83,
       "count": 339
-    },
-    {
-      "department": "Governance",
-      "spend": 1846290.59,
-      "count": 429
     },
     {
       "department": "Other Items",
@@ -413,8 +413,8 @@
     },
     {
       "department": "Management Team",
-      "spend": 626843.8,
-      "count": 81
+      "spend": 788975.61,
+      "count": 98
     },
     {
       "department": "Sustainable Growth",
@@ -475,12 +475,14 @@
   "yoy_analysis": {
     "spend_by_year": {
       "2021/22": 33432853.82,
+      "2022/23": 27859142.39,
       "2023/24": 41233521.93,
       "2024/25": 60460147.42,
       "2025/26": 21624528.58
     },
     "transactions_by_year": {
       "2021/22": 5587,
+      "2022/23": 5221,
       "2023/24": 7513,
       "2024/25": 10239,
       "2025/26": 3636
@@ -490,6 +492,6 @@
     "has_dates": 100.0,
     "has_suppliers": 100.0,
     "has_departments": 100.0,
-    "total_records": 26975
+    "total_records": 32196
   }
 }

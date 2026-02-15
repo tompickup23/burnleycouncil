@@ -1,7 +1,7 @@
 {
   "findings": [
     {
-      "value": "\u00a31.1M",
+      "value": "\u00a31.3M",
       "label": "Suppliers with Current Red Flags",
       "detail": "12 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
       "severity": "info",
@@ -9,9 +9,9 @@
       "link": "/spending"
     },
     {
-      "value": "\u00a3394.9K",
+      "value": "\u00a3406.0K",
       "label": "Likely Duplicate Payments",
-      "detail": "104 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1113 CSV republication artifacts)",
+      "detail": "105 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1174 CSV republication artifacts)",
       "severity": "critical",
       "confidence": "medium",
       "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
@@ -20,7 +20,7 @@
     {
       "value": "\u00a33.1M",
       "label": "Possible Duplicate Payments",
-      "detail": "758 medium-confidence groups (same supplier/amount/date, different references)",
+      "detail": "765 medium-confidence groups (same supplier/amount/date, different references)",
       "severity": "warning",
       "confidence": "low",
       "link": "/spending"
@@ -35,37 +35,37 @@
       "link": "/spending"
     },
     {
-      "value": "\u00a37.9M",
+      "value": "\u00a38.7M",
       "label": "Round-Number Payments (>\u00a35K)",
-      "detail": "243 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "detail": "277 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
       "severity": "info",
       "confidence": "low",
       "link": "/spending"
     },
     {
-      "value": "5.2x",
+      "value": "4.9x",
       "label": "Year-End Spending Pattern",
-      "detail": "Capital spent 5.2x their monthly average in March (\u00a34.5M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "detail": "Capital spent 4.9x their monthly average in March (\u00a34.4M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
       "severity": "warning",
       "confidence": "medium",
       "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
       "link": "/spending"
     },
     {
-      "value": "5",
+      "value": "7",
       "label": "Rapid Payment Suppliers",
-      "detail": "5 suppliers receive payments every <14 days on average. Top: Moore Switched On Electrical Services (7.0 day avg, 16 payments, \u00a32.2K)",
+      "detail": "7 suppliers receive payments every <14 days on average. Top: Moore Switched On Electrical Services (7.0 day avg, 16 payments, \u00a32.2K)",
       "severity": "info",
       "confidence": "high",
       "link": "/spending"
     },
     {
-      "value": "3.8% dev",
+      "value": "4.0% dev",
       "label": "Benford's Law Analysis",
-      "detail": "Digit distribution across 14,266 transactions shows \u03c7\u00b2=351.53 (statistically significant due to large sample size), but max digit deviation is only 3.8% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "detail": "Digit distribution across 16,718 transactions shows \u03c7\u00b2=468.04 (statistically significant due to large sample size), but max digit deviation is only 4.0% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
       "severity": "info",
       "confidence": "low",
-      "context_note": "Chi-squared values on samples of 14,266+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.8%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "context_note": "Chi-squared values on samples of 16,718+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (4.0%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
     }
   ],
@@ -83,8 +83,8 @@
     {
       "icon": "repeat",
       "badge": "High Volume",
-      "title": "PATTERSONS (BRISTOL) LTD: 295 transactions totalling \u00a316.3K",
-      "description": "Averaging \u00a355 per transaction \u2014 the council's most frequent supplier",
+      "title": "PATTERSONS (BRISTOL) LTD: 301 transactions totalling \u00a323.0K",
+      "description": "Averaging \u00a377 per transaction \u2014 the council's most frequent supplier",
       "link": "/spending?supplier=PATTERSONS (BRISTOL) LTD",
       "link_text": "See all transactions \u2192",
       "severity": "info",
@@ -93,7 +93,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "14 suppliers shared with neighbouring councils \u2014 \u00a345.7M total",
+      "title": "15 suppliers shared with neighbouring councils \u2014 \u00a356.9M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -114,7 +114,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T10:10:22.815750",
+  "generated": "2026-02-15T20:25:05.635209",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -141,6 +141,13 @@
         "regularity": "medium"
       },
       {
+        "supplier": "GEORGE PEARCE & SONS LTD",
+        "payments": 27,
+        "avg_days": 11.3,
+        "total_spend": 85417.0,
+        "regularity": "medium"
+      },
+      {
         "supplier": "JAMES ANDREWS RECRUITMENT SOLUTIONS LTD",
         "payments": 12,
         "avg_days": 11.4,
@@ -155,10 +162,17 @@
         "regularity": "medium"
       },
       {
+        "supplier": "MICOM TECHNOLOGIES LTD",
+        "payments": 30,
+        "avg_days": 11.8,
+        "total_spend": 34974.69,
+        "regularity": "medium"
+      },
+      {
         "supplier": "LANCS DAF",
-        "payments": 200,
-        "avg_days": 13.5,
-        "total_spend": 142581.43,
+        "payments": 232,
+        "avg_days": 13.7,
+        "total_spend": 171304.81,
         "regularity": "medium"
       }
     ],
@@ -174,8 +188,8 @@
     "day_of_week": [
       {
         "day": "Monday",
-        "count": 164,
-        "total": 1349968.51
+        "count": 199,
+        "total": 1597055.1
       },
       {
         "day": "Tuesday",
@@ -184,64 +198,64 @@
       },
       {
         "day": "Wednesday",
-        "count": 11536,
-        "total": 108331460.44
+        "count": 13930,
+        "total": 139447620.21
       },
       {
         "day": "Thursday",
-        "count": 261,
-        "total": 2509984.49
+        "count": 274,
+        "total": 2585834.21
       },
       {
         "day": "Friday",
-        "count": 3785,
-        "total": 29530847.92
+        "count": 3795,
+        "total": 29574345.16
       }
     ],
-    "total_analysed": 344
+    "total_analysed": 387
   },
   "supplier_concentration": {
-    "total_spend": 146228949.21,
-    "unique_suppliers": 1659,
+    "total_spend": 177711542.53,
+    "unique_suppliers": 1848,
     "top5": {
       "suppliers": [
         {
           "supplier": "Lancashire County Council",
-          "total": 18388288.52,
-          "count": 206,
-          "pct": 12.6
+          "total": 23102528.52,
+          "count": 243,
+          "pct": 13.0
+        },
+        {
+          "supplier": "CADDICK CONSTRUCTION (NW) LTD",
+          "total": 17647126.89,
+          "count": 31,
+          "pct": 9.9
         },
         {
           "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
           "total": 14958772.0,
           "count": 11,
-          "pct": 10.2
-        },
-        {
-          "supplier": "CADDICK CONSTRUCTION (NW) LTD",
-          "total": 13809627.95,
-          "count": 19,
-          "pct": 9.4
+          "pct": 8.4
         },
         {
           "supplier": "CHORLEY BOROUGH COUNCIL",
-          "total": 10904578.37,
-          "count": 102,
-          "pct": 7.5
+          "total": 14098138.75,
+          "count": 120,
+          "pct": 7.9
         },
         {
           "supplier": "ALLIANCE LEISURE SERVICES LTD",
-          "total": 8542117.91,
-          "count": 64,
-          "pct": 5.8
+          "total": 8790725.14,
+          "count": 73,
+          "pct": 4.9
         }
       ],
-      "total": 66603384.75,
-      "pct": 45.5
+      "total": 78597291.3,
+      "pct": 44.2
     },
-    "top10_pct": 58.6,
-    "top20_pct": 68.7,
-    "hhi": 494.7,
+    "top10_pct": 57.7,
+    "top20_pct": 67.7,
+    "hhi": 478.9,
     "concentration_level": "low"
   },
   "procurement_compliance": {
@@ -508,17 +522,17 @@
         "score": 85,
         "signals": [
           {
-            "signal": "Year-end spike: 41.8x monthly average in March",
+            "signal": "Year-end spike: 45.4x monthly average in March",
             "score": 35,
             "source": "payment_patterns"
           },
           {
-            "signal": "104 likely duplicate payments (\u00a3394.9K)",
+            "signal": "105 likely duplicate payments (\u00a3406.0K)",
             "score": 30,
             "source": "duplicates"
           },
           {
-            "signal": "243 round-number payments over \u00a35K (\u00a37.9M)",
+            "signal": "277 round-number payments over \u00a35K (\u00a38.7M)",
             "score": 20,
             "source": "payment_patterns"
           }

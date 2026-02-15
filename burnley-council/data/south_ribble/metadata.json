@@ -3,12 +3,13 @@
   "council_id": "E07000126",
   "council_type": "district",
   "spending_threshold": 250,
-  "total_records": 16065,
+  "total_records": 18517,
   "financial_years": [
     "2021/22",
     "2022/23",
     "2023/24",
-    "2024/25"
+    "2024/25",
+    "2025/26"
   ],
   "data_types": [
     "spend"
@@ -17,15 +18,27 @@
     "departments": [
       {
         "name": "Capital",
-        "spend": 45961331.89,
-        "count": 1953,
-        "suppliers": 336
+        "spend": 58470029.96,
+        "count": 2354,
+        "suppliers": 378
       },
       {
         "name": "Planning Policy",
-        "spend": 16049071.71,
-        "count": 30,
+        "spend": 20542155.23,
+        "count": 39,
         "suppliers": 9
+      },
+      {
+        "name": "Central Support Services",
+        "spend": 18111871.77,
+        "count": 5445,
+        "suppliers": 542
+      },
+      {
+        "name": "Corporate Management",
+        "spend": 16349973.54,
+        "count": 428,
+        "suppliers": 115
       },
       {
         "name": "General Government Grants",
@@ -34,28 +47,16 @@
         "suppliers": 1
       },
       {
-        "name": "Corporate Management",
-        "spend": 14402010.34,
-        "count": 353,
-        "suppliers": 97
-      },
-      {
-        "name": "Central Support Services",
-        "spend": 14011717.53,
-        "count": 4708,
-        "suppliers": 481
-      },
-      {
         "name": "Short Term Creditors",
-        "spend": 9079071.76,
-        "count": 471,
-        "suppliers": 61
+        "spend": 12300807.96,
+        "count": 572,
+        "suppliers": 66
       },
       {
         "name": "Recreation & Sport",
-        "spend": 4747541.91,
-        "count": 1203,
-        "suppliers": 180
+        "spend": 5338156.08,
+        "count": 1256,
+        "suppliers": 190
       },
       {
         "name": "COMP-Commercial and Property",
@@ -65,56 +66,62 @@
       },
       {
         "name": "Economic Development",
-        "spend": 2263151.77,
-        "count": 688,
-        "suppliers": 252
+        "spend": 2571957.25,
+        "count": 760,
+        "suppliers": 275
       },
       {
         "name": "Payments of Precepts to Parish",
-        "spend": 1745578.0,
-        "count": 28,
-        "suppliers": 7
-      },
-      {
-        "name": "Recycling",
-        "spend": 1501333.55,
-        "count": 103,
-        "suppliers": 10
-      },
-      {
-        "name": "Service Management & Support",
-        "spend": 1391457.54,
-        "count": 143,
-        "suppliers": 7
-      },
-      {
-        "name": "Homelessness",
-        "spend": 1377841.13,
-        "count": 493,
-        "suppliers": 34
-      },
-      {
-        "name": "Community Development",
-        "spend": 1338754.19,
-        "count": 756,
-        "suppliers": 213
+        "spend": 2228423.0,
+        "count": 35,
+        "suppliers": 8
       },
       {
         "name": "Surplus or Deficit on Trading",
-        "spend": 1283247.68,
-        "count": 985,
-        "suppliers": 102
+        "spend": 1822028.53,
+        "count": 1171,
+        "suppliers": 127
+      },
+      {
+        "name": "Homelessness",
+        "spend": 1729040.62,
+        "count": 551,
+        "suppliers": 36
+      },
+      {
+        "name": "Community Development",
+        "spend": 1722926.26,
+        "count": 895,
+        "suppliers": 254
       },
       {
         "name": "Open Spaces",
-        "spend": 1224150.75,
-        "count": 857,
-        "suppliers": 167
+        "spend": 1636876.17,
+        "count": 1040,
+        "suppliers": 187
+      },
+      {
+        "name": "Service Management & Support",
+        "spend": 1548574.14,
+        "count": 158,
+        "suppliers": 8
+      },
+      {
+        "name": "Recycling",
+        "spend": 1542629.28,
+        "count": 111,
+        "suppliers": 10
+      },
+      {
+        "name": "Trade Waste",
+        "spend": 1219977.18,
+        "count": 52,
+        "suppliers": 3
       },
       {
         "name": "Waste Collection",
-        "spend": 1210769.02,
-        "count": 235,
+        "spend": 1218058.04,
+        "count": 245,
         "suppliers": 12
       },
       {
@@ -130,10 +137,10 @@
         "suppliers": 77
       },
       {
-        "name": "Trade Waste",
-        "spend": 1011592.22,
-        "count": 48,
-        "suppliers": 2
+        "name": "Recognised Cap Grants & Conts",
+        "spend": 960875.21,
+        "count": 32,
+        "suppliers": 8
       },
       {
         "name": "POLY-Policy",
@@ -142,22 +149,28 @@
         "suppliers": 30
       },
       {
+        "name": "Elections",
+        "spend": 792093.79,
+        "count": 245,
+        "suppliers": 35
+      },
+      {
+        "name": "Unapportionable Central OHeads",
+        "spend": 781463.38,
+        "count": 44,
+        "suppliers": 5
+      },
+      {
         "name": "CDIG-Customer and Digital",
         "spend": 776861.24,
         "count": 463,
         "suppliers": 128
       },
       {
-        "name": "Unapportionable Central OHeads",
-        "spend": 743910.38,
-        "count": 35,
-        "suppliers": 5
-      },
-      {
-        "name": "Elections",
-        "spend": 625487.53,
-        "count": 207,
-        "suppliers": 32
+        "name": "Regulatory Services",
+        "spend": 494192.87,
+        "count": 213,
+        "suppliers": 41
       },
       {
         "name": "Capital Grants & Contributions",
@@ -167,69 +180,75 @@
       },
       {
         "name": "Short Term Debtors",
-        "spend": 456999.46,
-        "count": 65,
-        "suppliers": 12
-      },
-      {
-        "name": "Regulatory Services",
-        "spend": 455526.31,
-        "count": 184,
-        "suppliers": 38
+        "spend": 465489.14,
+        "count": 71,
+        "suppliers": 13
       },
       {
         "name": "Parking Services",
-        "spend": 289875.68,
-        "count": 254,
-        "suppliers": 23
-      },
-      {
-        "name": "Democratic Represent and  Mgnt",
-        "spend": 284960.01,
-        "count": 204,
-        "suppliers": 63
-      },
-      {
-        "name": "Local Tax Collection",
-        "spend": 268608.08,
-        "count": 237,
-        "suppliers": 14
-      },
-      {
-        "name": "Development Control",
-        "spend": 235666.88,
-        "count": 166,
+        "spend": 359626.43,
+        "count": 283,
         "suppliers": 29
       },
       {
-        "name": "Recognised Cap Grants & Conts",
-        "spend": 215171.57,
-        "count": 22,
-        "suppliers": 5
+        "name": "Democratic Represent and  Mgnt",
+        "spend": 331732.01,
+        "count": 229,
+        "suppliers": 66
+      },
+      {
+        "name": "Development Control",
+        "spend": 309761.96,
+        "count": 212,
+        "suppliers": 35
+      },
+      {
+        "name": "Local Tax Collection",
+        "spend": 277478.01,
+        "count": 247,
+        "suppliers": 14
       },
       {
         "name": "Tourism",
-        "spend": 166976.01,
-        "count": 96,
-        "suppliers": 25
-      },
-      {
-        "name": "Culture & Heritage",
-        "spend": 160260.51,
-        "count": 52,
-        "suppliers": 26
+        "spend": 237494.52,
+        "count": 117,
+        "suppliers": 28
       },
       {
         "name": "Housing Advice",
-        "spend": 153521.68,
-        "count": 94,
-        "suppliers": 5
+        "spend": 231062.55,
+        "count": 127,
+        "suppliers": 6
+      },
+      {
+        "name": "Culture & Heritage",
+        "spend": 173797.54,
+        "count": 62,
+        "suppliers": 34
+      },
+      {
+        "name": "Suspended Items",
+        "spend": 162816.66,
+        "count": 48,
+        "suppliers": 18
       },
       {
         "name": "General Grants Bequests & Dona",
-        "spend": 150000.0,
-        "count": 6,
-        "suppliers": 1
+        "spend": 160000.0,
+        "count": 7,
+        "suppliers": 2
+      },
+      {
+        "name": "Street Cleansing",
+        "spend": 159884.81,
+        "count": 86,
+        "suppliers": 26
+      },
+      {
+        "name": "Housing Mgnt & Support Service",
+        "spend": 155519.64,
+        "count": 40,
+        "suppliers": 17
       },
       {
         "name": "Long Term Debtors",
@@ -238,16 +257,16 @@
         "suppliers": 1
       },
       {
-        "name": "Suspended Items",
-        "spend": 148476.06,
-        "count": 44,
-        "suppliers": 15
+        "name": "Building Control",
+        "spend": 118561.7,
+        "count": 64,
+        "suppliers": 10
       },
       {
-        "name": "Street Cleansing",
-        "spend": 126701.11,
-        "count": 78,
-        "suppliers": 23
+        "name": "Community Safety Services",
+        "spend": 106887.15,
+        "count": 29,
+        "suppliers": 14
       },
       {
         "name": "PDEV-Planning and Development",
@@ -256,10 +275,10 @@
         "suppliers": 19
       },
       {
-        "name": "Community Safety Services",
-        "spend": 91822.15,
-        "count": 26,
-        "suppliers": 13
+        "name": "Local Land Charges",
+        "spend": 52401.4,
+        "count": 53,
+        "suppliers": 2
       },
       {
         "name": "GOVE-Governance",
@@ -268,39 +287,21 @@
         "suppliers": 17
       },
       {
-        "name": "Local Land Charges",
-        "spend": 39851.4,
-        "count": 44,
-        "suppliers": 2
-      },
-      {
         "name": "Cash and Cash Equivalents",
-        "spend": 24170.76,
-        "count": 16,
-        "suppliers": 11
+        "spend": 43640.62,
+        "count": 24,
+        "suppliers": 17
       },
       {
         "name": "Other Welfare Services",
-        "spend": 20274.79,
-        "count": 25,
-        "suppliers": 11
-      },
-      {
-        "name": "Building Control",
-        "spend": 10223.51,
-        "count": 9,
-        "suppliers": 5
-      },
-      {
-        "name": "Housing Mgnt & Support Service",
-        "spend": 10000.0,
-        "count": 2,
-        "suppliers": 1
+        "spend": 30274.79,
+        "count": 26,
+        "suppliers": 12
       },
       {
         "name": "Emergency Planning",
-        "spend": 4060.53,
-        "count": 5,
+        "spend": 5219.53,
+        "count": 6,
         "suppliers": 2
       },
       {
@@ -376,10 +377,10 @@
       "Waste Collection"
     ]
   },
-  "total_spend": 145948203.26,
-  "unique_suppliers": 1661,
+  "total_spend": 177430796.58,
+  "unique_suppliers": 1850,
   "date_range": {
     "min": "2021-04-07",
-    "max": "2025-03-26"
+    "max": "2025-12-22"
   }
 }

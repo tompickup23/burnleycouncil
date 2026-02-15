@@ -1,21 +1,28 @@
 {
   "summary": {
-    "total_spend": 146228949.21,
-    "transaction_count": 15974,
-    "unique_suppliers": 1659,
-    "avg_transaction": 9154.18,
-    "median_transaction": 963.32,
+    "total_spend": 177711542.53,
+    "transaction_count": 18426,
+    "unique_suppliers": 1848,
+    "avg_transaction": 9644.61,
+    "median_transaction": 1067.0,
     "date_range": {
       "min": "2021-04-07",
-      "max": "2025-03-26"
+      "max": "2025-12-22"
     }
   },
   "supplier_analysis": {
     "top_20_suppliers": [
       {
         "supplier": "Lancashire County Council",
-        "total": 18388288.52,
-        "transactions": 206,
+        "total": 23102528.52,
+        "transactions": 243,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CADDICK CONSTRUCTION (NW) LTD",
+        "total": 17647126.89,
+        "transactions": 31,
         "company_number": null,
         "company_url": null
       },
@@ -27,25 +34,32 @@
         "company_url": null
       },
       {
-        "supplier": "CADDICK CONSTRUCTION (NW) LTD",
-        "total": 13809627.95,
-        "transactions": 19,
-        "company_number": null,
-        "company_url": null
-      },
-      {
         "supplier": "CHORLEY BOROUGH COUNCIL",
-        "total": 10904578.37,
-        "transactions": 102,
+        "total": 14098138.75,
+        "transactions": 120,
         "company_number": null,
         "company_url": null
       },
       {
         "supplier": "ALLIANCE LEISURE SERVICES LTD",
-        "total": 8542117.91,
-        "transactions": 64,
+        "total": 8790725.14,
+        "transactions": 73,
         "company_number": "02723797",
         "company_url": "https://find-and-update.company-information.service.gov.uk/company/02723797"
+      },
+      {
+        "supplier": "RP TYSON CONSTRUCTION LTD",
+        "total": 5194576.32,
+        "transactions": 31,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "INLAND REVENUE 0065PV00107808",
+        "total": 5045093.44,
+        "transactions": 79,
+        "company_number": null,
+        "company_url": null
       },
       {
         "supplier": "DEPT FOR BUSINESS ENERGY & IND. STRATEGY (BEIS)",
@@ -56,8 +70,8 @@
       },
       {
         "supplier": "SOUTH RIBBLE LEISURE LTD",
-        "total": 4549772.6,
-        "transactions": 68,
+        "total": 4582861.77,
+        "transactions": 82,
         "company_number": null,
         "company_url": null
       },
@@ -65,13 +79,6 @@
         "supplier": "HM REVENUE & CUSTOMS 065PV00107808",
         "total": 4159464.18,
         "transactions": 79,
-        "company_number": null,
-        "company_url": null
-      },
-      {
-        "supplier": "RP TYSON CONSTRUCTION LTD",
-        "total": 2762290.89,
-        "transactions": 22,
         "company_number": null,
         "company_url": null
       },
@@ -90,30 +97,37 @@
         "company_url": null
       },
       {
-        "supplier": "INLAND REVENUE 0065PV00107808",
-        "total": 2203914.71,
-        "transactions": 36,
-        "company_number": null,
-        "company_url": null
+        "supplier": "KROL CORLETT CONSTRUCTION LTD",
+        "total": 2264727.46,
+        "transactions": 29,
+        "company_number": "05974400",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/05974400"
       },
       {
         "supplier": "KOMPAN LTD",
-        "total": 1760438.73,
-        "transactions": 42,
+        "total": 1980637.01,
+        "transactions": 50,
         "company_number": "01704623",
         "company_url": "https://find-and-update.company-information.service.gov.uk/company/01704623"
       },
       {
         "supplier": "ARTHUR J. GALLAGHER",
-        "total": 1688827.14,
-        "transactions": 55,
+        "total": 1695577.38,
+        "transactions": 56,
         "company_number": null,
         "company_url": null
       },
       {
         "supplier": "STANDARD FUEL OILS LTDMAIN",
-        "total": 1411364.42,
-        "transactions": 101,
+        "total": 1549971.85,
+        "transactions": 113,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PENWORTHAM TOWN COUNCIL",
+        "total": 1330560.21,
+        "transactions": 19,
         "company_number": null,
         "company_url": null
       },
@@ -125,45 +139,31 @@
         "company_url": null
       },
       {
-        "supplier": "CODE BUILDING SOLUTIONS LTD",
-        "total": 1198992.8,
-        "transactions": 12,
+        "supplier": "JOHN WADE GROUNDWORKS LTD T/A WADE GROUP",
+        "total": 1250821.01,
+        "transactions": 90,
         "company_number": null,
         "company_url": null
-      },
-      {
-        "supplier": "DENNIS EAGLE LTD",
-        "total": 938679.52,
-        "transactions": 152,
-        "company_number": "03794455",
-        "company_url": "https://find-and-update.company-information.service.gov.uk/company/03794455"
       },
       {
         "supplier": "ALS MANAGED SERVICES LTD",
-        "total": 938108.38,
-        "transactions": 134,
-        "company_number": null,
-        "company_url": null
-      },
-      {
-        "supplier": "CHADWICK LAWRENCE SOLICITORS LLP",
-        "total": 897253.94,
-        "transactions": 16,
+        "total": 1216080.57,
+        "transactions": 174,
         "company_number": null,
         "company_url": null
       }
     ],
-    "concentration_ratio": 0.6874,
-    "total_unique_suppliers": 1659,
-    "single_transaction_suppliers": 600
+    "concentration_ratio": 0.6768,
+    "total_unique_suppliers": 1848,
+    "single_transaction_suppliers": 676
   },
   "efficiency_flags": [
     {
       "type": "same_day_duplicates",
       "severity": "high",
       "description": "Identical payments to same supplier on same day",
-      "count": 1214,
-      "potential_value": 4378157.36,
+      "count": 1276,
+      "potential_value": 4532717.44,
       "items": [
         {
           "supplier": "LANCS COUNTY COUNCIL",
@@ -311,8 +311,8 @@
       "type": "round_number_payments",
       "severity": "low",
       "description": "Large round-number payments (may indicate estimates)",
-      "count": 429,
-      "total_value": 8363000.0
+      "count": 504,
+      "total_value": 9320000.0
     },
     {
       "type": "frequent_small_transactions",
@@ -324,13 +324,23 @@
   "department_breakdown": [
     {
       "department": "Capital",
-      "spend": 45972005.53,
-      "count": 1949
+      "spend": 58480703.6,
+      "count": 2350
     },
     {
       "department": "Planning Policy",
-      "spend": 16049071.71,
-      "count": 30
+      "spend": 20542155.23,
+      "count": 39
+    },
+    {
+      "department": "Central Support Services",
+      "spend": 18111871.77,
+      "count": 5445
+    },
+    {
+      "department": "Corporate Management",
+      "spend": 16350045.06,
+      "count": 426
     },
     {
       "department": "General Government Grants",
@@ -338,24 +348,14 @@
       "count": 10
     },
     {
-      "department": "Corporate Management",
-      "spend": 14402081.86,
-      "count": 351
-    },
-    {
-      "department": "Central Support Services",
-      "spend": 14011717.53,
-      "count": 4708
-    },
-    {
       "department": "Short Term Creditors",
-      "spend": 9197191.72,
-      "count": 413
+      "spend": 12418927.92,
+      "count": 514
     },
     {
       "department": "Recreation & Sport",
-      "spend": 4752469.51,
-      "count": 1202
+      "spend": 5343083.68,
+      "count": 1255
     },
     {
       "department": "COMP-Commercial and Property",
@@ -364,48 +364,53 @@
     },
     {
       "department": "Economic Development",
-      "spend": 2263151.77,
-      "count": 688
+      "spend": 2571957.25,
+      "count": 760
     },
     {
       "department": "Payments of Precepts to Parish",
-      "spend": 1745578.0,
-      "count": 28
-    },
-    {
-      "department": "Recycling",
-      "spend": 1501333.55,
-      "count": 103
-    },
-    {
-      "department": "Service Management & Support",
-      "spend": 1391457.54,
-      "count": 143
-    },
-    {
-      "department": "Homelessness",
-      "spend": 1377841.13,
-      "count": 493
-    },
-    {
-      "department": "Community Development",
-      "spend": 1338754.19,
-      "count": 756
+      "spend": 2228423.0,
+      "count": 35
     },
     {
       "department": "Surplus or Deficit on Trading",
-      "spend": 1303197.68,
-      "count": 978
+      "spend": 1841978.53,
+      "count": 1164
+    },
+    {
+      "department": "Homelessness",
+      "spend": 1729040.62,
+      "count": 551
+    },
+    {
+      "department": "Community Development",
+      "spend": 1722926.26,
+      "count": 895
     },
     {
       "department": "Open Spaces",
-      "spend": 1224152.41,
-      "count": 856
+      "spend": 1636877.83,
+      "count": 1039
+    },
+    {
+      "department": "Service Management & Support",
+      "spend": 1548574.14,
+      "count": 158
+    },
+    {
+      "department": "Recycling",
+      "spend": 1542629.28,
+      "count": 111
+    },
+    {
+      "department": "Trade Waste",
+      "spend": 1219977.18,
+      "count": 52
     },
     {
       "department": "Waste Collection",
-      "spend": 1210953.45,
-      "count": 230
+      "spend": 1218242.47,
+      "count": 240
     },
     {
       "department": "Non Domestic Rates Redistribut",
@@ -418,9 +423,9 @@
       "count": 159
     },
     {
-      "department": "Trade Waste",
-      "spend": 1011592.22,
-      "count": 48
+      "department": "Recognised Cap Grants & Conts",
+      "spend": 960875.21,
+      "count": 32
     },
     {
       "department": "POLY-Policy",
@@ -428,19 +433,24 @@
       "count": 74
     },
     {
+      "department": "Elections",
+      "spend": 792093.79,
+      "count": 245
+    },
+    {
+      "department": "Unapportionable Central OHeads",
+      "spend": 781463.38,
+      "count": 44
+    },
+    {
       "department": "CDIG-Customer and Digital",
       "spend": 776861.24,
       "count": 463
     },
     {
-      "department": "Unapportionable Central OHeads",
-      "spend": 743910.38,
-      "count": 35
-    },
-    {
-      "department": "Elections",
-      "spend": 625487.53,
-      "count": 207
+      "department": "Regulatory Services",
+      "spend": 494192.87,
+      "count": 213
     },
     {
       "department": "Capital Grants & Contributions",
@@ -449,58 +459,63 @@
     },
     {
       "department": "Short Term Debtors",
-      "spend": 458094.6,
-      "count": 57
-    },
-    {
-      "department": "Regulatory Services",
-      "spend": 455526.31,
-      "count": 184
+      "spend": 466584.28,
+      "count": 63
     },
     {
       "department": "Parking Services",
-      "spend": 289875.68,
-      "count": 254
+      "spend": 359626.43,
+      "count": 283
     },
     {
       "department": "Democratic Represent and  Mgnt",
-      "spend": 284960.01,
-      "count": 204
-    },
-    {
-      "department": "Local Tax Collection",
-      "spend": 268608.08,
-      "count": 237
+      "spend": 331732.01,
+      "count": 229
     },
     {
       "department": "Development Control",
-      "spend": 235666.88,
-      "count": 166
+      "spend": 309761.96,
+      "count": 212
     },
     {
-      "department": "Recognised Cap Grants & Conts",
-      "spend": 215171.57,
-      "count": 22
+      "department": "Local Tax Collection",
+      "spend": 277478.01,
+      "count": 247
     },
     {
       "department": "Tourism",
-      "spend": 166976.01,
-      "count": 96
-    },
-    {
-      "department": "Culture & Heritage",
-      "spend": 160260.51,
-      "count": 52
+      "spend": 237494.52,
+      "count": 117
     },
     {
       "department": "Housing Advice",
-      "spend": 153521.68,
-      "count": 94
+      "spend": 231062.55,
+      "count": 127
+    },
+    {
+      "department": "Culture & Heritage",
+      "spend": 173797.54,
+      "count": 62
+    },
+    {
+      "department": "Suspended Items",
+      "spend": 162816.66,
+      "count": 48
     },
     {
       "department": "General Grants Bequests & Dona",
-      "spend": 150000.0,
-      "count": 6
+      "spend": 160000.0,
+      "count": 7
+    },
+    {
+      "department": "Street Cleansing",
+      "spend": 159884.81,
+      "count": 86
+    },
+    {
+      "department": "Housing Mgnt & Support Service",
+      "spend": 155519.64,
+      "count": 40
     },
     {
       "department": "Long Term Debtors",
@@ -508,14 +523,14 @@
       "count": 2
     },
     {
-      "department": "Suspended Items",
-      "spend": 148476.06,
-      "count": 44
+      "department": "Building Control",
+      "spend": 118561.7,
+      "count": 64
     },
     {
-      "department": "Street Cleansing",
-      "spend": 126701.11,
-      "count": 78
+      "department": "Community Safety Services",
+      "spend": 106887.15,
+      "count": 29
     },
     {
       "department": "PDEV-Planning and Development",
@@ -523,9 +538,9 @@
       "count": 59
     },
     {
-      "department": "Community Safety Services",
-      "spend": 91822.15,
-      "count": 26
+      "department": "Local Land Charges",
+      "spend": 52401.4,
+      "count": 53
     },
     {
       "department": "GOVE-Governance",
@@ -533,34 +548,19 @@
       "count": 34
     },
     {
-      "department": "Local Land Charges",
-      "spend": 39851.4,
-      "count": 44
-    },
-    {
       "department": "Cash and Cash Equivalents",
-      "spend": 24170.76,
-      "count": 16
+      "spend": 43640.62,
+      "count": 24
     },
     {
       "department": "Other Welfare Services",
-      "spend": 20274.79,
-      "count": 25
-    },
-    {
-      "department": "Building Control",
-      "spend": 10223.51,
-      "count": 9
-    },
-    {
-      "department": "Housing Mgnt & Support Service",
-      "spend": 10000.0,
-      "count": 2
+      "spend": 30274.79,
+      "count": 26
     },
     {
       "department": "Emergency Planning",
-      "spend": 4060.53,
-      "count": 5
+      "spend": 5219.53,
+      "count": 6
     },
     {
       "department": "Housing Strategy",
@@ -583,19 +583,21 @@
       "2021/22": 34641195.75,
       "2022/23": 37898666.11,
       "2023/24": 37428322.8,
-      "2024/25": 36260764.55
+      "2024/25": 36260764.55,
+      "2025/26": 31482593.32
     },
     "transactions_by_year": {
       "2021/22": 5664,
       "2022/23": 4743,
       "2023/24": 2808,
-      "2024/25": 2759
+      "2024/25": 2759,
+      "2025/26": 2452
     }
   },
   "transparency_metrics": {
     "has_dates": 100.0,
     "has_suppliers": 100.0,
     "has_departments": 100.0,
-    "total_records": 15974
+    "total_records": 18426
   }
 }

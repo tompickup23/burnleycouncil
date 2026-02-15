@@ -3,29 +3,29 @@
     {
       "label": "Data completeness",
       "status": "pass",
-      "detail": "Dates: 100.0%, Suppliers: 100.0%, Amounts: 99.4%, Departments: 100.0%, Descriptions: 98.4%",
+      "detail": "Dates: 100.0%, Suppliers: 100.0%, Amounts: 99.5%, Departments: 100.0%, Descriptions: 98.5%",
       "metrics": {
         "date_pct": 100.0,
         "supplier_pct": 100.0,
-        "amount_pct": 99.4,
+        "amount_pct": 99.5,
         "dept_pct": 100.0,
-        "desc_pct": 98.4
+        "desc_pct": 98.5
       }
     },
     {
       "label": "Duplicate payment verification",
       "status": "pass",
-      "detail": "104 high-confidence groups (\u00a3394.9K). Duplicate ratio: 0.6%. Filtered out: 20 batch payments, 1113 CSV overlaps."
+      "detail": "105 high-confidence groups (\u00a3406.0K). Duplicate ratio: 0.6%. Filtered out: 20 batch payments, 1174 CSV overlaps."
     },
     {
       "label": "Split payment analysis",
       "status": "pass",
-      "detail": "4 suspect instances (\u00a3368.9K, 0.3% of spend). Threshold: 5+ payments to same supplier in same week, 80%+ of approval limit."
+      "detail": "4 suspect instances (\u00a3368.9K, 0.2% of spend). Threshold: 5+ payments to same supplier in same week, 80%+ of approval limit."
     },
     {
       "label": "Year-end spike verification",
       "status": "warning",
-      "detail": "Highest spike: 5.2x in Capital. Year-end spikes are common in public sector (capital programmes, grants). Only extreme spikes (>3x) warrant concern."
+      "detail": "Highest spike: 4.9x in Capital. Year-end spikes are common in public sector (capital programmes, grants). Only extreme spikes (>3x) warrant concern."
     },
     {
       "label": "CH compliance \u2014 pre-breach only",
@@ -35,20 +35,20 @@
     {
       "label": "Cross-council price comparison",
       "status": "pass",
-      "detail": "14 shared suppliers found. 1 with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes."
+      "detail": "15 shared suppliers found. 1 with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes."
     },
     {
       "label": "Benford's Law forensic screening",
       "status": "warning",
-      "detail": "Significant deviation from Benford's Law (p < 0.001). \u03c7\u00b2=351.53 on 14266 amounts >\u00a3100. Largest deviation: digit 5 (3.8% off expected)."
+      "detail": "Significant deviation from Benford's Law (p < 0.001). \u03c7\u00b2=468.04 on 16718 amounts >\u00a3100. Largest deviation: digit 5 (4.0% off expected)."
     }
   ],
   "warnings": [
     "1 suppliers show >200% price disparity after filtering. These are more likely genuine value concerns than extreme outliers.",
-    "Benford's Law analysis shows significant deviation (\u03c7\u00b2=351.53). Digit 5 deviates 3.8% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments."
+    "Benford's Law analysis shows significant deviation (\u03c7\u00b2=468.04). Digit 5 deviates 4.0% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments."
   ],
   "score": 57,
   "total_checks": 7,
   "passed": 4,
-  "generated": "2026-02-15T10:10:23.353920"
+  "generated": "2026-02-15T20:25:06.155472"
 }
