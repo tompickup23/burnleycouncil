@@ -41,6 +41,9 @@ burnley-council/data/blackburn/spending.json
 burnley-council/data/*/spending-index.json
 burnley-council/data/*/spending-20*.json
 
+# Political analysis docs (separate from AI DOGE codebase)
+political-analysis/
+
 # Test output
 test-results/
 
@@ -54,3 +57,6 @@ test-results/
 *.njsproj
 *.sln
 *.sw?
+
+# Unrelated investigation projects
+norwich-investigation/

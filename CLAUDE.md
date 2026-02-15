@@ -4,10 +4,14 @@
 
 Multi-council public spending transparency platform for Lancashire. React SPA deployed per-council via GitHub Pages at aidoge.co.uk.
 
-**Live councils (9):**
+**All 15 Lancashire councils live:**
 - East Lancashire: Burnley (30,580 txns, £355M), Hyndburn (29,804 txns, £211M), Pendle (49,741 txns, £125M), Rossendale (42,536 txns, £64M)
-- Central/South Lancashire: Lancaster (26,975 txns, £157M), Ribble Valley (13,723 txns, £38M), Chorley (21,421 txns, £365M), South Ribble (16,065 txns, £147M)
+- Central/South: Lancaster (26,975 txns, £157M), Ribble Valley (13,723 txns, £38M), Chorley (21,421 txns, £365M), South Ribble (16,065 txns, £147M)
+- Fylde Coast/West: Preston (46,711 txns, £205M), West Lancashire (43,063 txns, £333M), Wyre (51,092 txns, £678M), Fylde (37,514 txns, £155M)
 - County: Lancashire CC (753,220 txns, £3.6B — spending page disabled, data too large for static hosting)
+- Unitary: Blackpool (630,914 txns, £4.1B — spending disabled), Blackburn with Darwen (492,973 txns, £1.7B — spending disabled)
+
+**Total: 2,286,000+ transactions, £12 billion+ tracked**
 
 ## Architecture
 
@@ -31,17 +35,12 @@ Builds MUST be sequential (shared `public/data/` causes race conditions):
 # Build single council for dev
 VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build
 
-# Manual build all 8 councils (if CI/CD is down)
+# Manual build all 15 councils (if CI/CD is down)
 rm -rf /tmp/lancashire-deploy
-VITE_COUNCIL=burnley VITE_BASE=/lancashire/burnleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/burnleycouncil
-VITE_COUNCIL=hyndburn VITE_BASE=/lancashire/hyndburncouncil/ npx vite build --outDir /tmp/lancashire-deploy/hyndburncouncil
-VITE_COUNCIL=pendle VITE_BASE=/lancashire/pendlecouncil/ npx vite build --outDir /tmp/lancashire-deploy/pendlecouncil
-VITE_COUNCIL=rossendale VITE_BASE=/lancashire/rossendalecouncil/ npx vite build --outDir /tmp/lancashire-deploy/rossendalecouncil
-VITE_COUNCIL=lancaster VITE_BASE=/lancashire/lancastercouncil/ npx vite build --outDir /tmp/lancashire-deploy/lancastercouncil
-VITE_COUNCIL=ribble_valley VITE_BASE=/lancashire/ribblevalleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/ribblevalleycouncil
-VITE_COUNCIL=chorley VITE_BASE=/lancashire/chorleycouncil/ npx vite build --outDir /tmp/lancashire-deploy/chorleycouncil
-VITE_COUNCIL=south_ribble VITE_BASE=/lancashire/southribblecouncil/ npx vite build --outDir /tmp/lancashire-deploy/southribblecouncil
-VITE_COUNCIL=lancashire_cc VITE_BASE=/lancashire/lancashirecc/ npx vite build --outDir /tmp/lancashire-deploy/lancashirecc
+for entry in burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc blackpool:blackpoolcouncil west_lancashire:westlancashirecouncil blackburn:blackburncouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil; do
+  ID="${entry%%:*}"; SLUG="${entry##*:}"
+  VITE_COUNCIL=$ID VITE_BASE=/lancashire/$SLUG/ npx vite build --outDir /tmp/lancashire-deploy/$SLUG
+done
 
 # Hub pages + CNAME (deploy.yml does this automatically)
 cp burnley-council/hub/index.html /tmp/lancashire-deploy/index.html
@@ -84,7 +83,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/census_etl.py` | Census 2021 demographics from ONS Nomis API (age, sex, ethnicity, religion, CoB, econ) |
 | `burnley-council/scripts/fts_etl.py` | Find a Tender Service ETL scaffold (needs CDP API key) |
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
-| `scripts/generate_cross_council.py` | Cross-council comparison data (reads metadata.json from all 8 councils) |
+| `scripts/generate_cross_council.py` | Cross-council comparison data (reads metadata.json from all 15 councils) |
 | `burnley-council/scripts/article_pipeline.py` | Data-driven article generation (topic discovery + LLM + fact verification) |
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
 | `scripts/setup_uptimerobot.sh` | Create UptimeRobot monitors for all council sites (requires API key) |
@@ -147,7 +146,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ## How Multi-Council Works
 
 `vite.config.js` contains `councilDataPlugin()` which:
-1. Reads `VITE_COUNCIL` env var (burnley/hyndburn/pendle/rossendale/lancaster/ribble_valley/chorley/south_ribble/lancashire_cc)
+1. Reads `VITE_COUNCIL` env var (any of 15 council IDs: burnley, hyndburn, pendle, rossendale, lancaster, ribble_valley, chorley, south_ribble, lancashire_cc, blackpool, west_lancashire, blackburn, wyre, preston, fylde)
 2. Copies `burnley-council/data/{council}/` → `public/data/`
 3. Copies `burnley-council/data/shared/` → `public/data/shared/`
 4. Replaces `%PLACEHOLDER%` tokens in index.html with council-specific values from config.json
@@ -167,7 +166,7 @@ generate_cross_council.py        →  cross_council.json (all councils, reads me
 
 ### Spending Data Versions
 - **v1** (legacy): spending.json as plain array of records — no longer used (all migrated to v2, 10 Feb)
-- **v2** (current): spending.json as `{ meta, filterOptions, records }` object — all 8 councils
+- **v2** (current): spending.json as `{ meta, filterOptions, records }` object — all 15 councils
 - **v3** (chunked): spending-index.json (manifest + filterOptions) + spending-YYYY-YY.json per year
 - Worker (spending.worker.js) auto-detects version: tries v3 first, falls back to v2/v1
 - v3 reduces initial mobile download from 21-40MB to ~4-8MB (latest year only)
@@ -176,13 +175,13 @@ Analysis checks: duplicate payments, split payment evasion, year-end spikes, rou
 
 ## Deployment
 
-**Automated:** Push to `main` triggers `.github/workflows/deploy.yml` which builds all 8 councils and deploys to GitHub Pages. Zero AI tokens, zero cost.
+**Automated:** Push to `main` triggers `.github/workflows/deploy.yml` which builds all 15 councils and deploys to GitHub Pages. Zero AI tokens, zero cost.
 
 - **Source repo:** tompickup23/burnleycouncil (this repo)
 - **Deploy repo:** tompickup23/lancashire (gh-pages branch)
 - **Hub repo:** tompickup23/tompickup23.github.io
 - **Domain:** aidoge.co.uk → GitHub Pages with CNAME
-- **CI/CD:** GitHub Actions (`deploy.yml`) — tests → build 8 councils → deploy → verify
+- **CI/CD:** GitHub Actions (`deploy.yml`) — tests → build 15 councils → deploy → verify
 - **Hub pages:** `burnley-council/hub/` — root 404.html handles SPA routing for all councils
 - **Docs-only changes** (`.md` files, reports) do NOT trigger a rebuild
 
@@ -232,27 +231,21 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 
 **Key rule**: Districts are only comparable to other districts. LCC + district ≈ unitary (for LGR modelling).
 
-### Currently Live (8 districts)
-All 8 existing councils are district/borough/city tier. `council_tier: "district"` in config.json.
+### All 15 councils LIVE (Phase 14 complete, 15 Feb 2026)
+- 12 districts: All have spending data on platform
+- 1 county: LCC (spending page disabled — 484MB exceeds GH Pages)
+- 2 unitaries: Blackpool (spending disabled — 370MB), Blackburn (spending disabled — 307MB)
+- **3 councils with spending disabled** need CDN/sub-chunking solution for future
 
-### Expansion Targets (7 remaining)
-| Council | Type | ONS Code | Status |
-|---------|------|----------|--------|
-| Lancashire CC | county | E10000017 | **LIVE** — 753K txns, £3.6B. Spending page disabled (484MB too large for static hosting) |
-| Blackpool | unitary | E06000009 | Phase 14 — budget data exists, spending CSV URL TBC |
-| Blackburn w/ Darwen | unitary | E06000008 | Phase 14 — spending CSV URL TBC |
-| Preston | district | E07000123 | Phase 14 — spending CSV URL TBC |
-| West Lancashire | district | E07000127 | Phase 14 — spending CSV URL TBC |
-| Fylde | district | E07000119 | Phase 14 — spending CSV URL TBC |
-| Wyre | district | E07000128 | Phase 14 — spending CSV URL TBC |
+### Data gaps in new councils (Phase 14)
+- **No GOV.UK budgets**: West Lancs, Blackburn, Wyre, Preston, Fylde (need `govuk_budgets.py` run)
+- **No Lancaster procurement.json**: Contracts Finder returned no results
+- **No LCC deprivation.json**: County council — deprivation is at district level
+- **0 articles**: All 6 new councils have empty articles-index.json
 
-### Expansion Phases
-- **Phase 11** (done): Data gap fill (re-crawl stale councils, run fraud triangle, update hub)
-- **Phase 12** (done): Multi-tier architecture (tier-aware hub, comparison, service scope badges, deploy loop)
-- **Phase 13** (done): LCC (753K txns, £3.6B, county-tier ETL, census ward aggregation across 12 districts, spending page disabled — 484MB exceeds GH Pages limits)
-- **Phase 14**: 4 districts + 2 unitaries (standard pipeline)
-- **Phase 15**: Complete Lancashire + LGR tracker
-
-See AIDOGE-MASTERPLAN.md Sections 13-15 for full expansion plan.
+### Phase History
+- **Phases 1-13** (done): See AIDOGE-MASTERPLAN.md for details
+- **Phase 14** (done, 15 Feb): All remaining 6 councils (Preston, West Lancs, Fylde, Wyre, Blackpool, Blackburn w/ Darwen)
+- **Phase 15** (next): LGR tracker, "what your area costs" calculator, financial handover dashboard
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Gemini free tier). 2x AWS free trial ends Jul 2026.
