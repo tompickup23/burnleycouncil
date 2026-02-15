@@ -60,7 +60,7 @@ describe('Suppliers', () => {
   it('shows loading state while data loads', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText(/loading supplier profiles/i)).toBeInTheDocument()
+    expect(screen.getByText(/loading supplier data/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {

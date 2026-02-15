@@ -83,8 +83,8 @@ describe('Home', () => {
       error: null,
     })
     renderComponent()
-    expect(screen.getByText(/your money/i)).toBeInTheDocument()
-    expect(screen.getByText(/your right to know/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/your money/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/we audited every pound/i)).toBeInTheDocument()
   })
 
   it('renders disclaimer banner', () => {
@@ -119,6 +119,6 @@ describe('Home', () => {
       error: null,
     })
     renderComponent(minimalConfig)
-    expect(screen.getByText(/your money/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/your money/i).length).toBeGreaterThan(0)
   })
 })
