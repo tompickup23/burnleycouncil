@@ -469,6 +469,345 @@
   line-height: 1.4;
 }
 
+/* Score bar */
+.score-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+}
+
+.score-bar-track {
+  flex: 1;
+  height: 8px;
+  background: #2c2c2e;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.score-bar-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* Threshold badge */
+.threshold-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.threshold-badge.meets {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+}
+
+.threshold-badge.below {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+/* Model metadata */
+.model-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+}
+
+.model-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.threshold-pass {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #30d158;
+  font-weight: 600;
+}
+
+.threshold-fail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #ff453a;
+  font-weight: 600;
+}
+
+.savings-positive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #30d158;
+  font-weight: 600;
+}
+
+.savings-negative {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #ff453a;
+  font-weight: 600;
+}
+
+.model-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #0a84ff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.model-source-link:hover {
+  color: #409cff;
+}
+
+/* Model tab name/by */
+.model-tab-name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.model-tab-by {
+  display: block;
+  font-size: 0.7rem;
+  opacity: 0.7;
+  line-height: 1.2;
+}
+
+/* Authority name row */
+.authority-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.authority-name-row h3 {
+  margin-bottom: 0;
+}
+
+/* Strengths & Weaknesses */
+.strengths-weaknesses {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.sw-column {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.sw-column h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+.sw-column.strengths h4 {
+  color: #30d158;
+}
+
+.sw-column.weaknesses h4 {
+  color: #ff453a;
+}
+
+.sw-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sw-column ul li {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #2c2c2e;
+}
+
+.sw-column ul li:last-child {
+  border-bottom: none;
+}
+
+.sw-column.strengths ul li::before {
+  content: '✓ ';
+  color: #30d158;
+  font-weight: 700;
+}
+
+.sw-column.weaknesses ul li::before {
+  content: '✗ ';
+  color: #ff453a;
+  font-weight: 700;
+}
+
+/* AI DOGE Verdict */
+.doge-verdict {
+  background: rgba(10, 132, 255, 0.06);
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.doge-verdict-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.doge-verdict-header svg:first-child {
+  color: #0a84ff;
+  flex-shrink: 0;
+}
+
+.doge-verdict-header h4 {
+  flex: 1;
+  font-size: 1rem;
+  color: #e5e5e7;
+}
+
+.doge-verdict p {
+  font-size: 0.9rem;
+  color: #8e8e93;
+  line-height: 1.6;
+}
+
+/* AI DOGE Recommendation */
+.doge-recommendation {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.08), rgba(48, 209, 88, 0.05));
+  border: 1px solid rgba(10, 132, 255, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.doge-rec-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.doge-rec-header svg {
+  color: #0a84ff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.doge-rec-header h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.doge-rec-subtitle {
+  font-size: 0.9rem;
+  color: #8e8e93;
+}
+
+.doge-scores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.doge-score-card {
+  background: rgba(28, 28, 30, 0.8);
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.doge-score-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e5e5e7;
+  margin-bottom: 0.15rem;
+}
+
+.doge-score-verdict {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  margin-bottom: 0.5rem;
+}
+
+.doge-rec-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(48, 209, 88, 0.08);
+  border: 1px solid rgba(48, 209, 88, 0.2);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.doge-rec-text svg {
+  color: #30d158;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.doge-rec-text p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e5e5e7;
+  margin: 0;
+}
+
+/* CCN source footnote */
+.ccn-source {
+  font-size: 0.8rem;
+  color: #636366;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Methodology links */
+.lgr-methodology a {
+  color: #0a84ff;
+  text-decoration: none;
+}
+
+.lgr-methodology a:hover {
+  text-decoration: underline;
+}
+
 /* Methodology */
 .lgr-methodology {
   background: #1c1c1e;
@@ -486,6 +825,16 @@
   color: #8e8e93;
   line-height: 1.6;
   margin-bottom: 0.5rem;
+}
+
+/* Model tab refinement */
+.model-tab {
+  text-align: left;
+  padding: 0.5rem 1rem;
+}
+
+.model-tab.active {
+  border-color: transparent;
 }
 
 /* Responsive */
@@ -513,5 +862,34 @@
   .issue-figure {
     order: -1;
     width: 100%;
+  }
+
+  .strengths-weaknesses {
+    grid-template-columns: 1fr;
+  }
+
+  .doge-scores-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .model-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .doge-recommendation {
+    padding: 1.25rem;
+  }
+
+  .model-tabs {
+    gap: 0.35rem;
+  }
+
+  .model-tab {
+    flex: 1;
+    min-width: 0;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
   }
 }
