@@ -837,6 +837,772 @@
   border-color: transparent;
 }
 
+/* Section Navigation */
+.lgr-section-nav {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.section-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.85rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #8e8e93;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.section-nav-btn:hover {
+  background: #2c2c2e;
+  color: #e5e5e7;
+}
+
+.section-nav-btn.active {
+  background: #0a84ff;
+  color: #fff;
+  border-color: transparent;
+}
+
+.section-nav-btn svg {
+  flex-shrink: 0;
+}
+
+/* Score bar category label */
+.score-bar-cat {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  min-width: 70px;
+  white-space: nowrap;
+}
+
+/* Multi-score grid in verdict */
+.doge-multi-score {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Model Assumptions */
+.lgr-assumptions {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.lgr-assumptions h3 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: #e5e5e7;
+}
+
+.assumptions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+
+.assumption-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(44, 44, 46, 0.5);
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.assumption-key {
+  color: #8e8e93;
+  text-transform: capitalize;
+}
+
+.assumption-val {
+  font-weight: 600;
+  color: #e5e5e7;
+}
+
+/* Self-critique */
+.lgr-self-critique {
+  background: rgba(255, 159, 10, 0.06);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.lgr-self-critique h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #ff9f0a;
+}
+
+.lgr-self-critique .critique-intro {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  margin-bottom: 0.75rem;
+}
+
+.lgr-self-critique ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lgr-self-critique ul li {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255, 159, 10, 0.1);
+}
+
+.lgr-self-critique ul li:last-child {
+  border-bottom: none;
+}
+
+.lgr-self-critique ul li::before {
+  content: '⚠ ';
+  color: #ff9f0a;
+}
+
+/* CCN Critique cards */
+.critique-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.critique-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.critique-card:hover {
+  border-color: #48484a;
+}
+
+.critique-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.critique-header h3 {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.critique-header svg {
+  color: #636366;
+  flex-shrink: 0;
+}
+
+.critique-detail {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid #2c2c2e;
+}
+
+.critique-detail p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e5e5e7;
+  margin-top: 0.75rem;
+}
+
+/* Authority demographics */
+.authority-demographics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(44, 44, 46, 0.5);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.demo-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.demo-row span {
+  color: #8e8e93;
+}
+
+.demo-row strong {
+  color: #e5e5e7;
+}
+
+/* Political analysis box per proposal */
+.political-analysis-box {
+  background: rgba(10, 132, 255, 0.04);
+  border: 1px solid rgba(10, 132, 255, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.political-analysis-box h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: #e5e5e7;
+}
+
+.pol-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.pol-item {
+  font-size: 0.85rem;
+}
+
+.pol-label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #636366;
+  margin-bottom: 0.2rem;
+}
+
+.pol-item p {
+  color: #e5e5e7;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* AI DOGE Alternative Proposals */
+.doge-proposals {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.06), rgba(191, 90, 242, 0.04));
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.doge-proposals-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.doge-proposals-header svg {
+  color: #ffd60a;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.doge-proposals-header h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.doge-proposal-card {
+  background: rgba(28, 28, 30, 0.8);
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.doge-proposal-card:last-child {
+  margin-bottom: 0;
+}
+
+.doge-proposal-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.doge-prop-desc {
+  font-size: 0.9rem;
+  color: #e5e5e7;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.doge-prop-rationale {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.doge-prop-authorities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.doge-prop-auth {
+  background: rgba(44, 44, 46, 0.6);
+  border: 1px solid #3a3a3c;
+  border-radius: 10px;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.doge-prop-auth h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.doge-prop-cases {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.prop-case {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  padding: 0.5rem 0.75rem;
+  background: rgba(44, 44, 46, 0.4);
+  border-radius: 6px;
+}
+
+.prop-case.risk {
+  background: rgba(255, 69, 58, 0.08);
+  border-left: 3px solid #ff453a;
+}
+
+.prop-case strong {
+  color: #8e8e93;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Academic note */
+.academic-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 214, 10, 0.06);
+  border: 1px solid rgba(255, 214, 10, 0.15);
+  border-radius: 8px;
+}
+
+.academic-note svg {
+  color: #ffd60a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.academic-note p {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Demographics section */
+.demo-trends {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.demo-trend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+}
+
+.demo-trend-item svg {
+  color: #0a84ff;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.demo-dynamics {
+  margin-top: 1rem;
+}
+
+.demo-dynamics h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.dynamic-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.dynamic-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.dynamic-card .dynamic-areas {
+  font-size: 0.8rem;
+  color: #636366;
+  margin-bottom: 0.35rem;
+}
+
+.dynamic-card p {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Political context — council control grid */
+.council-control-table {
+  margin-bottom: 1.5rem;
+}
+
+.council-control-table h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.control-council {
+  flex: 1;
+  color: #e5e5e7;
+  font-weight: 500;
+}
+
+.control-seats {
+  color: #636366;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Party badges */
+.party-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.party-labour,
+.party-lab--co-op {
+  background: #dc241f;
+  color: #fff;
+}
+
+.party-conservative {
+  background: #0087dc;
+  color: #fff;
+}
+
+.party-reform-uk {
+  background: #12b6cf;
+  color: #fff;
+}
+
+.party-green {
+  background: #6ab023;
+  color: #fff;
+}
+
+.party-liberal-democrat,
+.party-lib-dem {
+  background: #fdbb30;
+  color: #000;
+}
+
+.party-independent {
+  background: #636366;
+  color: #fff;
+}
+
+/* Self-interest analysis */
+.self-interest {
+  margin-bottom: 1.5rem;
+}
+
+.self-interest h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.interest-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.interest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.interest-header h4 {
+  font-size: 0.95rem;
+}
+
+.interest-card p {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.conflict-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.conflict-badge.conflict-high {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+.conflict-badge.conflict-medium {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+
+.conflict-badge.conflict-low {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+}
+
+/* Reform UK impact */
+.reform-impact {
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.reform-impact h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.reform-impact p {
+  font-size: 0.9rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.reform-impact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reform-impact ul li {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgba(18, 182, 207, 0.1);
+}
+
+.reform-impact ul li:last-child {
+  border-bottom: none;
+}
+
+.reform-impact ul li::before {
+  content: '→ ';
+  color: #12b6cf;
+  font-weight: 700;
+}
+
+/* National Context */
+.national-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nat-stat {
+  flex: 1;
+  min-width: 140px;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.nat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff453a;
+  line-height: 1.1;
+}
+
+.nat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-top: 0.25rem;
+}
+
+.national-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.nat-fact {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.nat-fact h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+  color: #e5e5e7;
+}
+
+.nat-fact p {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* National comparison bars */
+.national-comparison {
+  margin-top: 0.5rem;
+}
+
+.national-comparison h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.comparison-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.comparison-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.comp-label {
+  min-width: 120px;
+  font-size: 0.85rem;
+  color: #8e8e93;
+  text-align: right;
+}
+
+.comp-bar-track {
+  flex: 1;
+  height: 24px;
+  background: #2c2c2e;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.comp-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+.comp-count {
+  min-width: 40px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e5e5e7;
+}
+
+/* Precedent outcome */
+.precedent-outcome {
+  font-size: 0.8rem;
+  color: #ff9f0a;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  background: rgba(255, 159, 10, 0.08);
+  border-radius: 4px;
+  font-style: italic;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .lgr-header-row {
@@ -891,5 +1657,55 @@
     min-width: 0;
     padding: 0.4rem 0.6rem;
     font-size: 0.8rem;
+  }
+
+  .lgr-section-nav {
+    position: static;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .lgr-section-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .section-nav-btn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.75rem;
+  }
+
+  .assumptions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pol-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .doge-proposals {
+    padding: 1.25rem;
+  }
+
+  .doge-prop-authorities {
+    grid-template-columns: 1fr;
+  }
+
+  .national-stats {
+    flex-direction: column;
+  }
+
+  .national-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .control-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comp-label {
+    min-width: 80px;
+    font-size: 0.75rem;
   }
 }
