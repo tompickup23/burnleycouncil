@@ -131,6 +131,72 @@ COUNCIL_REGISTRY = {
         "publishes_purchase_cards": False,
         "publishes_contracts": False,
     },
+    "blackpool": {
+        "name": "Blackpool Council",
+        "short_name": "Blackpool",
+        "type": "unitary",
+        "ons_code": "E06000009",
+        "spending_url": "https://www.blackpool.gov.uk/Your-Council/Transparency-and-open-data/Budget,-spending-and-procurement/Payments-over-250.aspx",
+        "spending_threshold": 250,
+        "data_start_fy": "2019/20",
+        "publishes_purchase_cards": True,
+        "publishes_contracts": False,
+    },
+    "west_lancashire": {
+        "name": "West Lancashire Borough Council",
+        "short_name": "West Lancashire",
+        "type": "district",
+        "ons_code": "E07000127",
+        "spending_url": "https://www.westlancs.gov.uk/about-the-council/spending-strategies-performance/council-budget/spending-over-500.aspx",
+        "spending_threshold": 500,
+        "data_start_fy": "2016/17",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
+    "blackburn": {
+        "name": "Blackburn with Darwen Borough Council",
+        "short_name": "Blackburn with Darwen",
+        "type": "unitary",
+        "ons_code": "E06000008",
+        "spending_url": "http://datashare.blackburn.gov.uk/node/2",
+        "spending_threshold": 0,
+        "data_start_fy": "2019/20",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
+    "wyre": {
+        "name": "Wyre Council",
+        "short_name": "Wyre",
+        "type": "district",
+        "ons_code": "E07000128",
+        "spending_url": "https://www.wyre.gov.uk/open-data",
+        "spending_threshold": 500,
+        "data_start_fy": "2017/18",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
+    "preston": {
+        "name": "Preston City Council",
+        "short_name": "Preston",
+        "type": "district",
+        "ons_code": "E07000123",
+        "spending_url": "https://www.preston.gov.uk/article/1498/Spending-over-500",
+        "spending_threshold": 500,
+        "data_start_fy": "2019/20",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
+    "fylde": {
+        "name": "Fylde Borough Council",
+        "short_name": "Fylde",
+        "type": "district",
+        "ons_code": "E07000119",
+        "spending_url": "https://new.fylde.gov.uk/council/transparency/spending/",
+        "spending_threshold": 500,
+        "data_start_fy": "2015/16",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
 }
 
 # ─── Utility Functions ───────────────────────────────────────────────
@@ -1183,6 +1249,771 @@ def parse_lancashire_cc(csv_files, data_start_fy="2024/25"):
             print(f"  {csv_path.name}: {len(records)} records")
 
     print(f"  Total Lancashire CC records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_blackpool(csv_files, data_start_fy="2019/20"):
+    """Parse Blackpool Council spending + purchase card CSVs.
+
+    Blackpool is a unitary authority publishing two file types:
+      - spend-YYYY-MM.csv: Main supplier payments (>£250)
+      - pcard-YYYY-MM.csv: Purchase card transactions
+
+    FIVE CSV format variants across the data period:
+
+    Format A — 2019 (13 cols, old headers):
+      Body Name, Supplier ID, Supplier Name, Transaction Number, Their Ref,
+      Date, Gross Value, VAT Amount, Service Label, Service Code,
+      Expenditure Code, Expenditure Category, Service Division Label
+
+    Format B — 2020, 2022 (13 cols, cost centre):
+      Body Name, Supplier Code, Supplier Name, Transaction Ref/No, Their Ref,
+      Date Paid, Gross Value (Detail), VAT Amount, 7CCC, 7CCN, 9AC, 9AN, 4CCN
+
+    Format C — 2021 only (12 cols, no Body Name):
+      Supplier Code, Supplier Name, Transaction Ref/No, Their Ref, Date Paid,
+      Gross Value (Detail), VAT Amount, 7CCC, 7CCN, 9AC, 9AN, 4CCN
+
+    Format D — CIAXLONE (2023 – mid-2024):
+      Row 1: FORMAT CIAXLONE REPORT,DefnSheetName=_defntemp_,...
+      Row 2: *,Body Name,Supplier Name,...,Reference
+      Data rows: LIST,Blackpool Council,...
+
+    Format E — 2024-Oct onward (19 cols, clean):
+      Body Name, Supplier Name, Transaction Ref/No, Supplier Code,
+      Payment Date, Gross Value (detail), Vat Amount, Service Label, ...,
+      Reference, Unique Reference
+      (May have DefnSheetName=_defntemp_ as first row to skip)
+
+    Purchase card format (pcard-*):
+      Body Name, Supplier Code, Supplier Name, Transaction Ref/No, Their Ref,
+      Date Paid, Gross Value (Detail), VAT Amount, 7CCC, 7CCN, 9AC, 9AN, 4CCN
+
+    Date format: DD/MM/YYYY (sometimes D/MM/YYYY)
+    Amount: may include commas in quoted strings (e.g. "1,754.86")
+    """
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for csv_path in csv_files:
+        is_pcard = csv_path.name.startswith('pcard-')
+
+        # --- Read raw lines to handle CIAXLONE / DefnSheetName headers ---
+        raw_lines = []
+        for enc in ['utf-8', 'utf-8-sig', 'latin-1', 'cp1252']:
+            try:
+                with open(str(csv_path), 'r', encoding=enc) as f:
+                    raw_lines = f.read().strip().split('\n')
+                break
+            except (UnicodeDecodeError, UnicodeError):
+                continue
+        if not raw_lines:
+            continue
+
+        # Detect and handle CIAXLONE format
+        is_ciaxlone = False
+        if raw_lines[0].startswith('FORMAT CIAXLONE REPORT') or raw_lines[0].startswith('\ufeffFORMAT CIAXLONE REPORT'):
+            is_ciaxlone = True
+            # Row 0: FORMAT CIAXLONE REPORT,...
+            # Row 1: *,Body Name,Supplier Name,...
+            # Row 2+: LIST,Blackpool Council,...
+            if len(raw_lines) < 3:
+                continue
+            # Parse column headers from row 1 (skip leading *)
+            header_line = raw_lines[1]
+            if header_line.startswith('*,'):
+                header_line = header_line[2:]
+            elif header_line.startswith('\ufeff*,'):
+                header_line = header_line[3:]
+            # Build new lines: header + data rows (strip LIST, prefix)
+            data_lines = []
+            for line in raw_lines[2:]:
+                if line.startswith('LIST,'):
+                    data_lines.append(line[5:])  # strip "LIST,"
+                elif line.strip():
+                    data_lines.append(line)
+            raw_lines = [header_line] + data_lines
+
+        # Skip DefnSheetName header line (non-CIAXLONE variant)
+        elif 'DefnSheetName=' in raw_lines[0]:
+            raw_lines = raw_lines[1:]
+
+        if not raw_lines:
+            continue
+
+        # Parse CSV from cleaned lines
+        reader = csv.DictReader(raw_lines)
+        rows = list(reader)
+        if not rows:
+            continue
+
+        # Detect format from column keys
+        first_keys = set(k.strip() for k in rows[0].keys() if k and k.strip())
+
+        records = []
+        for row in rows:
+            cleaned = {k.strip(): v for k, v in row.items() if k and k.strip()}
+
+            # --- Extract supplier ---
+            supplier = ''
+            if 'Supplier Name' in first_keys:
+                supplier = cleaned.get('Supplier Name', '')
+            elif 'Supplier name' in first_keys:
+                supplier = cleaned.get('Supplier name', '')
+            if not supplier or str(supplier).strip() in ('', 'nan', 'None'):
+                continue
+            supplier = str(supplier).strip()
+            if supplier.upper() in ('REDACTED', 'REDACTED PERSONAL DATA'):
+                supplier = 'REDACTED'
+
+            # --- Extract date ---
+            date_str = ''
+            for key in ('Payment Date', 'Date Paid', 'Date'):
+                if key in cleaned and cleaned[key]:
+                    date_str = str(cleaned[key]).strip()
+                    break
+            parsed_date = parse_date(date_str)
+
+            # --- Extract amount ---
+            amount_str = ''
+            for key in ('Gross Value (detail)', 'Gross Value (Detail)', 'Gross Value'):
+                if key in cleaned and cleaned[key]:
+                    amount_str = str(cleaned[key]).strip()
+                    break
+            amount = parse_amount(amount_str)
+            if amount == 0:
+                continue
+
+            fy = financial_year_from_date(parsed_date)
+
+            # --- Extract service/department info ---
+            # Newer formats have Service Label + Directorate
+            service_label = str(cleaned.get('Service Label', '')).strip()
+            expenditure_cat = str(cleaned.get('Expenditure Category', '')).strip()
+            directorate = str(cleaned.get('Directorate', '')).strip()
+            dept_desc = str(cleaned.get('Department Description', '')).strip()
+            service_div = str(cleaned.get('Service Division', '') or
+                             cleaned.get('Service Division Label', '')).strip()
+
+            # Older formats use cost centre codes
+            cost_centre_name = str(cleaned.get('7CCN - Level 7 Cost Centre Name', '') or
+                                   cleaned.get('7CCN', '')).strip()
+            account_name = str(cleaned.get('9AN - Level 9 Account Name', '') or
+                               cleaned.get('9AN', '')).strip()
+            level4_name = str(cleaned.get('4CCN - Level 4 Cost Centre Name', '') or
+                              cleaned.get('4CCN', '')).strip()
+
+            # Build department and service area from best available data
+            if directorate:
+                dept_raw = directorate
+            elif level4_name:
+                dept_raw = level4_name
+            elif service_div:
+                dept_raw = service_div
+            else:
+                dept_raw = ''
+
+            if expenditure_cat:
+                service_raw = expenditure_cat
+            elif account_name:
+                service_raw = account_name
+            elif service_label:
+                service_raw = service_label
+            elif cost_centre_name:
+                service_raw = cost_centre_name
+            else:
+                service_raw = ''
+
+            # --- Extract reference ---
+            ref = ''
+            for key in ('Transaction Ref/No', 'Transaction Number', 'Reference'):
+                if key in cleaned and cleaned[key]:
+                    ref = str(cleaned[key]).strip()
+                    break
+
+            # --- Extract supplier ID ---
+            supplier_id = ''
+            for key in ('Supplier Code', 'Supplier ID'):
+                if key in cleaned and cleaned[key]:
+                    supplier_id = str(cleaned[key]).strip()
+                    break
+
+            record = {
+                "date": parsed_date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(parsed_date),
+                "month": int(parsed_date[5:7]) if parsed_date else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept_raw,
+                "department": None,
+                "service_area_raw": service_raw,
+                "service_area": service_raw,
+                "description": str(cleaned.get('Sub Team Description', '')).strip(),
+                "reference": ref,
+                "type": "purchase_card" if is_pcard else "spend",
+                "capital_revenue": None,
+                "council": "blackpool",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "supplier_id": supplier_id,
+                "_source_file": csv_path.name,
+            }
+            records.append(record)
+
+        # Filter by start financial year
+        for r in records:
+            fy = r.get("financial_year")
+            if fy and fy_to_start_year(fy) >= start_year:
+                all_records.append(r)
+
+        fmt_label = "PCard" if is_pcard else ("CIAXLONE" if is_ciaxlone else "Spend")
+        if records:
+            print(f"  {csv_path.name} [{fmt_label}]: {len(records)} records")
+
+    print(f"  Total Blackpool records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_west_lancashire(csv_files, data_start_fy="2016/17"):
+    """Parse West Lancashire Borough Council quarterly spending CSVs.
+
+    Two header variants:
+      Old (2016-2023): Date, Service, Payee, Purpose of Expenditure, Amount, Merchant Category, Reference
+      New (2024+):     Journal Date, Service, Source Account Name, Purpose of Expenditure, Amount, Merchant Category, Ref No (Line)
+    Amount may contain commas and leading/trailing spaces. One file is XLSX (Q4 2021-22).
+    """
+    start_year = fy_to_start_year(data_start_fy)
+    all_records = []
+    for csv_path in csv_files:
+        if csv_path.suffix.lower() == ".xlsx":
+            try:
+                import openpyxl
+                wb = openpyxl.load_workbook(csv_path, read_only=True)
+                ws = wb.active
+                rows_iter = ws.iter_rows(values_only=True)
+                header = [str(c).strip() if c else "" for c in next(rows_iter)]
+                rows = []
+                for r in rows_iter:
+                    rows.append({header[i]: (str(r[i]).strip() if r[i] is not None else "") for i in range(min(len(header), len(r)))})
+                wb.close()
+            except Exception as e:
+                print(f"  SKIP {csv_path.name}: {e}")
+                continue
+        else:
+            try:
+                text = csv_path.read_text(encoding="utf-8-sig", errors="replace")
+            except Exception:
+                text = csv_path.read_text(encoding="latin-1", errors="replace")
+            reader = csv.DictReader(io.StringIO(text))
+            rows = list(reader)
+
+        records = []
+        for row in rows:
+            # Date
+            date_str = (row.get("Journal Date") or row.get("Date") or "").strip()
+            date = parse_date(date_str)
+            if not date:
+                continue
+            if date and start_year:
+                try:
+                    yr = int(date[:4])
+                    # FY starts in April: 2016-04 = FY 2016/17
+                    m = int(date[5:7]) if len(date) >= 7 else 1
+                    fy_yr = yr if m >= 4 else yr - 1
+                    if fy_yr < start_year:
+                        continue
+                except (ValueError, IndexError):
+                    pass
+
+            # Amount — may have commas and spaces
+            amount_str = (row.get("Amount") or row.get(" Amount ") or "").strip()
+            amount = parse_amount(amount_str.replace(",", ""))
+            if amount is None or amount == 0:
+                continue
+
+            supplier = (row.get("Payee") or row.get("Source Account Name") or "").strip()
+            dept = (row.get("Service") or "").strip()
+            category = (row.get("Merchant Category") or "").strip()
+            purpose = (row.get("Purpose of Expenditure") or "").strip()
+            ref = (row.get("Reference") or row.get("Ref No (Line)") or "").strip()
+
+            fy = financial_year_from_date(date)
+            records.append({
+                "date": date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(date),
+                "month": int(date[5:7]) if date and len(date) >= 7 else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept,
+                "department": dept or None,
+                "service_area_raw": category or purpose,
+                "service_area": category or purpose,
+                "description": purpose,
+                "reference": ref,
+                "type": "spend",
+                "capital_revenue": None,
+                "council": "west_lancashire",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            })
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+        all_records.extend(records)
+
+    print(f"  Total West Lancashire records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_blackburn(csv_files, data_start_fy="2019/20"):
+    """Parse Blackburn with Darwen Borough Council annual spending CSVs.
+
+    Two header formats:
+      Old (2019-2023): Dateexpenditureoccurred, Department, Suppliername, Summaryofthepurposeofexpenditure, Expenditurecategory, Netamount, Transactionnumber
+      New (2024+):     Date, Service Label, Supplier Name, Narrative, Expenditure Category, Net Amount, Transaction Number
+    Headers may have trailing whitespace. Amounts have no commas.
+    """
+    start_year = fy_to_start_year(data_start_fy)
+    all_records = []
+    for csv_path in csv_files:
+        try:
+            text = csv_path.read_text(encoding="utf-8-sig", errors="replace")
+        except Exception:
+            text = csv_path.read_text(encoding="latin-1", errors="replace")
+        reader = csv.DictReader(io.StringIO(text))
+        # Strip whitespace from field names
+        if reader.fieldnames:
+            reader.fieldnames = [f.strip() for f in reader.fieldnames]
+
+        records = []
+        for row in reader:
+            row = {k.strip(): v.strip() if v else "" for k, v in row.items()}
+
+            date_str = row.get("Date") or row.get("Dateexpenditureoccurred") or ""
+            date = parse_date(date_str)
+            if not date:
+                continue
+            if date and start_year:
+                try:
+                    yr = int(date[:4])
+                    # FY starts in April: 2016-04 = FY 2016/17
+                    m = int(date[5:7]) if len(date) >= 7 else 1
+                    fy_yr = yr if m >= 4 else yr - 1
+                    if fy_yr < start_year:
+                        continue
+                except (ValueError, IndexError):
+                    pass
+
+            amount_str = row.get("Net Amount") or row.get("Netamount") or ""
+            amount = parse_amount(amount_str.replace(",", ""))
+            if amount is None or amount == 0:
+                continue
+
+            supplier = row.get("Supplier Name") or row.get("Suppliername") or ""
+            dept = row.get("Service Label") or row.get("Department") or ""
+            category = row.get("Expenditure Category") or row.get("Expenditurecategory") or ""
+            description = row.get("Narrative") or row.get("Summaryofthepurposeofexpenditure") or ""
+            ref = row.get("Transaction Number") or row.get("Transactionnumber") or ""
+
+            fy = financial_year_from_date(date)
+            records.append({
+                "date": date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(date),
+                "month": int(date[5:7]) if date and len(date) >= 7 else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept,
+                "department": dept or None,
+                "service_area_raw": category,
+                "service_area": category,
+                "description": description,
+                "reference": ref,
+                "type": "spend",
+                "capital_revenue": None,
+                "council": "blackburn",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            })
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+        all_records.extend(records)
+
+    print(f"  Total Blackburn with Darwen records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_wyre(csv_files, data_start_fy="2017/18"):
+    """Parse Wyre Council monthly spending CSVs.
+
+    Consistent 13-column format (2017-2024), 12-column from 2025 (Purpose dropped):
+      Organisation Name, Organisation Code, Effective Date, Directorate,
+      Service Category, Service Category URI, Supplier Name, Payment Date,
+      Transaction Number, Net Amount, Irrecoverable VAT,
+      [Purpose_of_the_expenditure,] Merchant Category
+    Some files are XLSX (Jan/Feb 2021, Oct 2024). Trailing comma on some files.
+    """
+    start_year = fy_to_start_year(data_start_fy)
+    all_records = []
+    for csv_path in csv_files:
+        if csv_path.suffix.lower() == ".xlsx":
+            try:
+                import openpyxl
+                wb = openpyxl.load_workbook(csv_path, read_only=True)
+                ws = wb.active
+                rows_iter = ws.iter_rows(values_only=True)
+                header = [str(c).strip() if c else "" for c in next(rows_iter)]
+                rows = []
+                for r in rows_iter:
+                    rows.append({header[i]: (str(r[i]).strip() if r[i] is not None else "") for i in range(min(len(header), len(r)))})
+                wb.close()
+            except Exception as e:
+                print(f"  SKIP {csv_path.name}: {e}")
+                continue
+        else:
+            try:
+                text = csv_path.read_text(encoding="utf-8-sig", errors="replace")
+            except Exception:
+                text = csv_path.read_text(encoding="latin-1", errors="replace")
+            text = text.replace("\x00", "")  # Remove NUL bytes
+            reader = csv.DictReader(io.StringIO(text))
+            rows = list(reader)
+
+        records = []
+        for row in rows:
+            date_str = (row.get("Payment Date") or "").strip()
+            date = parse_date(date_str)
+            if not date:
+                continue
+            if date and start_year:
+                try:
+                    yr = int(date[:4])
+                    # FY starts in April: 2016-04 = FY 2016/17
+                    m = int(date[5:7]) if len(date) >= 7 else 1
+                    fy_yr = yr if m >= 4 else yr - 1
+                    if fy_yr < start_year:
+                        continue
+                except (ValueError, IndexError):
+                    pass
+
+            amount_str = (row.get("Net Amount") or "").strip()
+            amount = parse_amount(amount_str.replace(",", ""))
+            if amount is None or amount == 0:
+                continue
+
+            supplier = (row.get("Supplier Name") or "").strip()
+            dept = (row.get("Directorate") or "").strip()
+            category = (row.get("Service Category") or row.get("Merchant Category") or "").strip()
+            purpose = (row.get("Purpose_of_the_expenditure") or row.get("Merchant Category") or "").strip()
+            ref = (row.get("Transaction Number") or "").strip()
+
+            fy = financial_year_from_date(date)
+            records.append({
+                "date": date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(date),
+                "month": int(date[5:7]) if date and len(date) >= 7 else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept,
+                "department": dept or None,
+                "service_area_raw": category,
+                "service_area": category,
+                "description": purpose,
+                "reference": ref,
+                "type": "spend",
+                "capital_revenue": None,
+                "council": "wyre",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            })
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+        all_records.extend(records)
+
+    print(f"  Total Wyre records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_preston(csv_files, data_start_fy="2019/20"):
+    """Parse Preston City Council monthly XLSX/XLS spending files.
+
+    Three format variants:
+      10-col (2019-20 only): DATE, TRANSACTION NUMBER, INVOICE NUMBER, AMOUNT, NON RECOVERABLE VAT, SUPPLIER NAME, EXPENSE AREA, EXPENSE TYPE, EXPENSE AREA 2, NOTES
+      9-col (2020-mid2024): DATE, TRANSACTION NUMBER, INVOICE NUMBER, AMOUNT, NON RECOVERABLE VAT, SUPPLIER NAME, EXPENSE AREA, EXPENSE TYPE, EXPENSE AREA 2
+      7-col (late 2024+):   DATE, TRANSACTION NUMBER, AMOUNT, SUPPLIER NAME, EXPENSE AREA, EXPENSE TYPE, EXPENSE AREA 2
+    2019-21 use XLS format, 2022+ use XLSX.
+    """
+    start_year = fy_to_start_year(data_start_fy)
+    all_records = []
+    for csv_path in csv_files:
+        rows = []
+        header = []
+        try:
+            if csv_path.suffix.lower() == ".xlsx":
+                import openpyxl
+                wb = openpyxl.load_workbook(csv_path, read_only=True)
+                ws = wb.active
+                rows_iter = ws.iter_rows(values_only=True)
+                header = [str(c).strip() if c else "" for c in next(rows_iter)]
+                for r in rows_iter:
+                    rows.append({header[i]: r[i] for i in range(min(len(header), len(r)))})
+                wb.close()
+            elif csv_path.suffix.lower() == ".xls":
+                import xlrd
+                wb = xlrd.open_workbook(str(csv_path))
+                ws = wb.sheet_by_index(0)
+                header = [str(ws.cell_value(0, j)).strip() for j in range(ws.ncols)]
+                for i in range(1, ws.nrows):
+                    row_dict = {}
+                    for j in range(ws.ncols):
+                        cell = ws.cell(i, j)
+                        if cell.ctype == xlrd.XL_CELL_DATE:
+                            try:
+                                dt = xlrd.xldate_as_datetime(cell.value, wb.datemode)
+                                row_dict[header[j]] = dt.strftime("%d/%m/%Y")
+                            except Exception:
+                                row_dict[header[j]] = str(cell.value)
+                        else:
+                            row_dict[header[j]] = cell.value
+                    rows.append(row_dict)
+                wb.release_resources()
+            else:
+                continue
+        except Exception as e:
+            print(f"  SKIP {csv_path.name}: {e}")
+            continue
+
+        records = []
+        for row in rows:
+            date_val = row.get("DATE", "")
+            if isinstance(date_val, datetime):
+                date = date_val.strftime("%Y-%m-%d")
+            else:
+                date = parse_date(str(date_val).strip())
+            if not date:
+                continue
+            if date and start_year:
+                try:
+                    yr = int(date[:4])
+                    # FY starts in April: 2016-04 = FY 2016/17
+                    m = int(date[5:7]) if len(date) >= 7 else 1
+                    fy_yr = yr if m >= 4 else yr - 1
+                    if fy_yr < start_year:
+                        continue
+                except (ValueError, IndexError):
+                    pass
+
+            amount_val = row.get("AMOUNT", "")
+            if isinstance(amount_val, (int, float)):
+                amount = round(float(amount_val), 2)
+            else:
+                amount = parse_amount(str(amount_val).replace(",", ""))
+            if amount is None or amount == 0:
+                continue
+
+            supplier = str(row.get("SUPPLIER NAME", "") or "").strip()
+            dept = str(row.get("EXPENSE AREA", "") or "").strip()
+            category = str(row.get("EXPENSE TYPE", "") or "").strip()
+            dept2 = str(row.get("EXPENSE AREA 2", "") or "").strip()
+            ref = str(row.get("TRANSACTION NUMBER", "") or "").strip()
+            description = dept2 if dept2 else category
+
+            fy = financial_year_from_date(date)
+            records.append({
+                "date": date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(date),
+                "month": int(date[5:7]) if date and len(date) >= 7 else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept,
+                "department": dept or None,
+                "service_area_raw": category,
+                "service_area": category,
+                "description": description,
+                "reference": ref,
+                "type": "spend",
+                "capital_revenue": None,
+                "council": "preston",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            })
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+        all_records.extend(records)
+
+    print(f"  Total Preston records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_fylde(csv_files, data_start_fy="2015/16"):
+    """Parse Fylde Borough Council monthly XLS spending files.
+
+    Fylde publishes monthly XLS files with various column formats.
+    Need to detect columns dynamically. Common columns:
+      Supplier Name/Payee, Date/Payment Date, Amount/Net Amount,
+      Service Area/Department, Transaction Ref/Number
+    """
+    start_year = fy_to_start_year(data_start_fy)
+    all_records = []
+    for csv_path in csv_files:
+        rows = []
+        header = []
+        try:
+            if csv_path.suffix.lower() in (".xls",):
+                import xlrd
+                wb = xlrd.open_workbook(str(csv_path))
+                ws = wb.sheet_by_index(0)
+                # Find the header row — skip any title rows
+                header_row = 0
+                for i in range(min(5, ws.nrows)):
+                    vals = [str(ws.cell_value(i, j)).strip().upper() for j in range(ws.ncols)]
+                    if any(k in " ".join(vals) for k in ["DATE", "SUPPLIER", "AMOUNT", "PAYEE"]):
+                        header_row = i
+                        break
+                header = [str(ws.cell_value(header_row, j)).strip() for j in range(ws.ncols)]
+                for i in range(header_row + 1, ws.nrows):
+                    row_dict = {}
+                    for j in range(ws.ncols):
+                        cell = ws.cell(i, j)
+                        if cell.ctype == xlrd.XL_CELL_DATE:
+                            try:
+                                dt = xlrd.xldate_as_datetime(cell.value, wb.datemode)
+                                row_dict[header[j]] = dt.strftime("%d/%m/%Y")
+                            except Exception:
+                                row_dict[header[j]] = str(cell.value)
+                        else:
+                            row_dict[header[j]] = cell.value
+                    rows.append(row_dict)
+                wb.release_resources()
+            elif csv_path.suffix.lower() == ".xlsx":
+                import openpyxl
+                wb = openpyxl.load_workbook(csv_path, read_only=True)
+                ws = wb.active
+                rows_iter = ws.iter_rows(values_only=True)
+                header = [str(c).strip() if c else "" for c in next(rows_iter)]
+                for r in rows_iter:
+                    rows.append({header[i]: r[i] for i in range(min(len(header), len(r)))})
+                wb.close()
+            elif csv_path.suffix.lower() == ".csv":
+                try:
+                    text = csv_path.read_text(encoding="utf-8-sig", errors="replace")
+                except Exception:
+                    text = csv_path.read_text(encoding="latin-1", errors="replace")
+                reader = csv.DictReader(io.StringIO(text))
+                header = reader.fieldnames or []
+                rows = list(reader)
+            else:
+                continue
+        except Exception as e:
+            print(f"  SKIP {csv_path.name}: {e}")
+            continue
+
+        if not rows:
+            continue
+
+        # Dynamically map columns
+        header_upper = {h.upper().strip(): h for h in header if h}
+        date_key = None
+        for k in ["PAYMENT DATE", "DATE", "DATE PAID", "EFFECTIVE DATE"]:
+            if k in header_upper:
+                date_key = header_upper[k]; break
+        supplier_key = None
+        for k in ["SUPPLIER NAME", "PAYEE", "SUPPLIER", "SUPPLIER NAME "]:
+            if k in header_upper:
+                supplier_key = header_upper[k]; break
+        amount_key = None
+        for k in ["NET AMOUNT", "AMOUNT", "GROSS AMOUNT", "NET AMOUNT "]:
+            if k in header_upper:
+                amount_key = header_upper[k]; break
+        dept_key = None
+        for k in ["SERVICE AREA", "DEPARTMENT", "DIRECTORATE", "SERVICE"]:
+            if k in header_upper:
+                dept_key = header_upper[k]; break
+        cat_key = None
+        for k in ["EXPENSE TYPE", "CATEGORY", "MERCHANT CATEGORY", "EXPENDITURE CATEGORY"]:
+            if k in header_upper:
+                cat_key = header_upper[k]; break
+        ref_key = None
+        for k in ["TRANSACTION NUMBER", "TRANSACTION REF", "REFERENCE", "REF"]:
+            if k in header_upper:
+                ref_key = header_upper[k]; break
+
+        if not date_key or not amount_key:
+            print(f"  SKIP {csv_path.name}: missing date/amount columns in {list(header_upper.keys())[:5]}")
+            continue
+
+        records = []
+        for row in rows:
+            date_val = row.get(date_key, "")
+            if isinstance(date_val, datetime):
+                date = date_val.strftime("%Y-%m-%d")
+            else:
+                date = parse_date(str(date_val).strip())
+            if not date:
+                continue
+            if date and start_year:
+                try:
+                    yr = int(date[:4])
+                    # FY starts in April: 2016-04 = FY 2016/17
+                    m = int(date[5:7]) if len(date) >= 7 else 1
+                    fy_yr = yr if m >= 4 else yr - 1
+                    if fy_yr < start_year:
+                        continue
+                except (ValueError, IndexError):
+                    pass
+
+            amount_val = row.get(amount_key, "")
+            if isinstance(amount_val, (int, float)):
+                amount = round(float(amount_val), 2)
+            else:
+                amount = parse_amount(str(amount_val).replace(",", ""))
+            if amount is None or amount == 0:
+                continue
+
+            supplier = str(row.get(supplier_key, "") if supplier_key else "").strip()
+            dept = str(row.get(dept_key, "") if dept_key else "").strip()
+            category = str(row.get(cat_key, "") if cat_key else "").strip()
+            ref = str(row.get(ref_key, "") if ref_key else "").strip()
+
+            fy = financial_year_from_date(date)
+            records.append({
+                "date": date,
+                "financial_year": fy,
+                "quarter": quarter_from_date(date),
+                "month": int(date[5:7]) if date and len(date) >= 7 else None,
+                "supplier": normalize_supplier(supplier),
+                "supplier_canonical": None,
+                "amount": amount,
+                "department_raw": dept,
+                "department": dept or None,
+                "service_area_raw": category,
+                "service_area": category,
+                "description": category,
+                "reference": ref,
+                "type": "spend",
+                "capital_revenue": None,
+                "council": "fylde",
+                "supplier_company_number": None,
+                "supplier_company_url": None,
+                "_source_file": csv_path.name,
+            })
+        if records:
+            print(f"  {csv_path.name}: {len(records)} records")
+        all_records.extend(records)
+
+    print(f"  Total Fylde records (from {data_start_fy}): {len(all_records)}")
     return all_records
 
 
@@ -2775,6 +3606,69 @@ def main():
         print(f"\n  Parsing {len(csv_files)} CSV files...")
         data_start = council_info.get("data_start_fy", "2024/25")
         records = parse_lancashire_cc(csv_files, data_start)
+
+    elif council_id == "blackpool":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "blackpool_csvs"
+
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            print(f"  Download Blackpool CSVs from: {council_info['spending_url']}")
+            sys.exit(1)
+
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2019/20")
+        records = parse_blackpool(csv_files, data_start)
+
+    elif council_id == "west_lancashire":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "westlancs_csvs"
+        csv_files = sorted(list(csv_dir.glob("*.csv")) + list(csv_dir.glob("*.xlsx")))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} files...")
+        data_start = council_info.get("data_start_fy", "2016/17")
+        records = parse_west_lancashire(csv_files, data_start)
+
+    elif council_id == "blackburn":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "blackburn_csvs"
+        csv_files = sorted(csv_dir.glob("*.csv"))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} CSV files...")
+        data_start = council_info.get("data_start_fy", "2019/20")
+        records = parse_blackburn(csv_files, data_start)
+
+    elif council_id == "wyre":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "wyre_csvs"
+        csv_files = sorted(list(csv_dir.glob("*.csv")) + list(csv_dir.glob("*.xlsx")))
+        if not csv_files:
+            print(f"  No CSVs found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} files...")
+        data_start = council_info.get("data_start_fy", "2017/18")
+        records = parse_wyre(csv_files, data_start)
+
+    elif council_id == "preston":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "preston_csvs"
+        csv_files = sorted(list(csv_dir.glob("*.xlsx")) + list(csv_dir.glob("*.xls")))
+        if not csv_files:
+            print(f"  No files found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} files...")
+        data_start = council_info.get("data_start_fy", "2019/20")
+        records = parse_preston(csv_files, data_start)
+
+    elif council_id == "fylde":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "fylde_csvs"
+        csv_files = sorted(list(csv_dir.glob("*.xls")) + list(csv_dir.glob("*.xlsx")) + list(csv_dir.glob("*.csv")))
+        if not csv_files:
+            print(f"  No files found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} files...")
+        data_start = council_info.get("data_start_fy", "2015/16")
+        records = parse_fylde(csv_files, data_start)
 
     if not records:
         print("  No records parsed. Check your data source.")

@@ -1,0 +1,60 @@
+{
+  "council": "Wyre",
+  "council_id": "E07000128",
+  "council_type": "district",
+  "spending_threshold": 500,
+  "total_records": 51092,
+  "financial_years": [
+    "2017/18",
+    "2019/20",
+    "2020/21",
+    "2021/22",
+    "2022/23",
+    "2023/24",
+    "2024/25",
+    "2025/26"
+  ],
+  "data_types": [
+    "spend"
+  ],
+  "filters": {
+    "departments": [
+      {
+        "name": "Finance",
+        "spend": 510394308.76,
+        "count": 1530,
+        "suppliers": 17
+      },
+      {
+        "name": "People and Places",
+        "spend": 87948535.02,
+        "count": 32228,
+        "suppliers": 1185
+      },
+      {
+        "name": "Resources",
+        "spend": 75336969.26,
+        "count": 17333,
+        "suppliers": 638
+      },
+      {
+        "name": "Transformation",
+        "spend": 8000.0,
+        "count": 1,
+        "suppliers": 1
+      }
+    ],
+    "department_raws": [
+      "Finance",
+      "People and Places",
+      "Resources",
+      "Transformation"
+    ]
+  },
+  "total_spend": 673687813.04,
+  "unique_suppliers": 1563,
+  "date_range": {
+    "min": "2017-04-01",
+    "max": "2025-12-11"
+  }
+}

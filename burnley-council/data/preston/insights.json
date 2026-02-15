@@ -1,0 +1,447 @@
+{
+  "summary": {
+    "total_spend": 205466458.73,
+    "transaction_count": 46512,
+    "unique_suppliers": 2517,
+    "avg_transaction": 4417.49,
+    "median_transaction": 655.16,
+    "date_range": {
+      "min": "2019-04-04",
+      "max": "2025-12-31"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "MAPLE GROVE DEVELOPMENTS",
+        "total": 31542129.13,
+        "transactions": 92,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 27977314.61,
+        "transactions": 450,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CONLON CONSTRUCTION LTD",
+        "total": 10644869.29,
+        "transactions": 110,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ERIC WRIGHT CIVIL ENGINEERING LTD",
+        "total": 6678392.77,
+        "transactions": 129,
+        "company_number": "02565379",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/02565379"
+      },
+      {
+        "supplier": "ZURICH MUNICIPAL",
+        "total": 5293404.55,
+        "transactions": 119,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MATRIX SCM LTD",
+        "total": 4620335.57,
+        "transactions": 5445,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SOFTCAT LTD",
+        "total": 4163094.75,
+        "transactions": 226,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PRESTON YOUTH ZONE LTD",
+        "total": 3593422.0,
+        "transactions": 1,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FAUN ZOELLER (UK) LTD",
+        "total": 3208732.97,
+        "transactions": 19,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "STANDARD FUEL OILS LTD",
+        "total": 3105283.12,
+        "transactions": 155,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EDF ENERGY CUSTOMERS LTD - DD INVOICES",
+        "total": 2825506.28,
+        "transactions": 97,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "COMMUNITY GATEWAY ASSOCIATION LTD",
+        "total": 2762942.8,
+        "transactions": 319,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BECK INTERIORS LTD",
+        "total": 2039757.89,
+        "transactions": 46,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE FOXTON CENTRE",
+        "total": 1927269.52,
+        "transactions": 69,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "VIVID RESOURCING LTD",
+        "total": 1545227.2,
+        "transactions": 859,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CAPITA SOFTWARE SERVICES",
+        "total": 1458226.47,
+        "transactions": 215,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "RED ROSE RECOVERY LANCASHIRE",
+        "total": 1373710.56,
+        "transactions": 26,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CRITIQOM LTD",
+        "total": 1164673.17,
+        "transactions": 1353,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BROUGHTON IN AMOUNDERNESS PARISH COUNCIL",
+        "total": 1162989.2,
+        "transactions": 13,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ARC CINEMA LIMITED - FAS PAY ONLY",
+        "total": 1120000.0,
+        "transactions": 2,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.5753,
+    "total_unique_suppliers": 2517,
+    "single_transaction_suppliers": 842
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 2379,
+      "potential_value": 6621486.02,
+      "items": [
+        {
+          "supplier": "FAUN ZOELLER (UK) LTD",
+          "amount": 225559.95,
+          "date": "2024-01-17",
+          "occurrences": 4,
+          "potential_overpayment": 676679.85
+        },
+        {
+          "supplier": "FAUN ZOELLER (UK) LTD",
+          "amount": 225559.95,
+          "date": "2023-12-20",
+          "occurrences": 3,
+          "potential_overpayment": 451119.9
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 420851.0,
+          "date": "2020-02-19",
+          "occurrences": 2,
+          "potential_overpayment": 420851.0
+        },
+        {
+          "supplier": "THE ORIGINAL BOWLING COMPANY LTD",
+          "amount": 345000.0,
+          "date": "2025-03-14",
+          "occurrences": 2,
+          "potential_overpayment": 345000.0
+        },
+        {
+          "supplier": "FAUN ZOELLER (UK) LTD",
+          "amount": 232940.05,
+          "date": "2023-12-20",
+          "occurrences": 2,
+          "potential_overpayment": 232940.05
+        },
+        {
+          "supplier": "FAUN ZOELLER (UK) LTD",
+          "amount": 225559.6,
+          "date": "2023-12-20",
+          "occurrences": 2,
+          "potential_overpayment": 225559.6
+        },
+        {
+          "supplier": "FORD RETAIL LTD T/A TRUST FORD",
+          "amount": 35957.24,
+          "date": "2023-03-03",
+          "occurrences": 4,
+          "potential_overpayment": 107871.72
+        },
+        {
+          "supplier": "WALTON SUMMIT COMMERCIAL TRUCKS",
+          "amount": 46615.0,
+          "date": "2022-08-10",
+          "occurrences": 3,
+          "potential_overpayment": 93230.0
+        },
+        {
+          "supplier": "SANDERSON WEATHERALL LLP",
+          "amount": 85403.5,
+          "date": "2025-07-16",
+          "occurrences": 2,
+          "potential_overpayment": 85403.5
+        },
+        {
+          "supplier": "PRESTON COLLEGE",
+          "amount": 83990.5,
+          "date": "2024-12-04",
+          "occurrences": 2,
+          "potential_overpayment": 83990.5
+        },
+        {
+          "supplier": "COMMUNITY GATEWAY ASSOCIATION LTD",
+          "amount": 20000.0,
+          "date": "2024-08-14",
+          "occurrences": 4,
+          "potential_overpayment": 60000.0
+        },
+        {
+          "supplier": "WALTON SUMMIT COMMERCIAL TRUCKS",
+          "amount": 56400.0,
+          "date": "2022-03-31",
+          "occurrences": 2,
+          "potential_overpayment": 56400.0
+        },
+        {
+          "supplier": "FORD RETAIL LTD T/A TRUST FORD",
+          "amount": 25512.64,
+          "date": "2021-09-29",
+          "occurrences": 3,
+          "potential_overpayment": 51025.28
+        },
+        {
+          "supplier": "SANDERSON WEATHERALL LLP",
+          "amount": 49830.0,
+          "date": "2025-03-12",
+          "occurrences": 2,
+          "potential_overpayment": 49830.0
+        },
+        {
+          "supplier": "WALTON SUMMIT COMMERCIAL TRUCKS",
+          "amount": 46615.0,
+          "date": "2022-08-03",
+          "occurrences": 2,
+          "potential_overpayment": 46615.0
+        },
+        {
+          "supplier": "CALICO ENTERPRISE LTD",
+          "amount": 44500.0,
+          "date": "2023-02-08",
+          "occurrences": 2,
+          "potential_overpayment": 44500.0
+        },
+        {
+          "supplier": "GRANT THORNTON UK LLP",
+          "amount": 42158.0,
+          "date": "2024-09-25",
+          "occurrences": 2,
+          "potential_overpayment": 42158.0
+        },
+        {
+          "supplier": "COMMUNITY GATEWAY ASSOCIATION LTD",
+          "amount": 20000.0,
+          "date": "2023-12-06",
+          "occurrences": 3,
+          "potential_overpayment": 40000.0
+        },
+        {
+          "supplier": "COMMUNITY GATEWAY ASSOCIATION LTD",
+          "amount": 39539.0,
+          "date": "2022-01-05",
+          "occurrences": 2,
+          "potential_overpayment": 39539.0
+        },
+        {
+          "supplier": "DESTIN SOLUTIONS LTD",
+          "amount": 10250.0,
+          "date": "2023-05-24",
+          "occurrences": 4,
+          "potential_overpayment": 30750.0
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 721,
+      "total_value": 10836000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 209
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "CAP DEVELOPMENT",
+      "spend": 43863600.51,
+      "count": 861
+    },
+    {
+      "department": "REV CUSTOMER SERVICES",
+      "spend": 30748866.51,
+      "count": 13210
+    },
+    {
+      "department": "REV ENVIRONMENT",
+      "spend": 28295452.9,
+      "count": 21254
+    },
+    {
+      "department": "CAP CUSTOMER SERVICES",
+      "spend": 23351510.82,
+      "count": 528
+    },
+    {
+      "department": "REV DEVELOPMENT",
+      "spend": 19640223.66,
+      "count": 3787
+    },
+    {
+      "department": "BALANCE SHEET",
+      "spend": 18287388.65,
+      "count": 811
+    },
+    {
+      "department": "CAP ENVIRONMENT",
+      "spend": 17930503.23,
+      "count": 746
+    },
+    {
+      "department": "REV CORPORATE SERVICES",
+      "spend": 8704619.62,
+      "count": 3945
+    },
+    {
+      "department": "REV MISCELLANEOUS FINANCE",
+      "spend": 5720998.66,
+      "count": 75
+    },
+    {
+      "department": "CAP CHIEF EXECUTIVE",
+      "spend": 3256837.01,
+      "count": 545
+    },
+    {
+      "department": "REV CHIEF EXECUTIVE",
+      "spend": 2577323.28,
+      "count": 532
+    },
+    {
+      "department": "COLLECTION FUND",
+      "spend": 2256083.7,
+      "count": 60
+    },
+    {
+      "department": "CAP OBSOLETE",
+      "spend": 496000.0,
+      "count": 55
+    },
+    {
+      "department": "REV OBSOLETE",
+      "spend": 173397.63,
+      "count": 82
+    },
+    {
+      "department": "GENERAL FUND",
+      "spend": 74782.16,
+      "count": 12
+    },
+    {
+      "department": "UPDATE LOOKUP",
+      "spend": 36766.89,
+      "count": 2
+    },
+    {
+      "department": "CAP DEVELOPEMENT",
+      "spend": 27887.5,
+      "count": 4
+    },
+    {
+      "department": "CAP RESOURCES",
+      "spend": 21716.0,
+      "count": 2
+    },
+    {
+      "department": "CAP COMMUNITY WELL BEING",
+      "spend": 2500.0,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2019/20": 18415861.93,
+      "2020/21": 12815244.73,
+      "2021/22": 17603728.65,
+      "2022/23": 26865167.58,
+      "2023/24": 52020784.17,
+      "2024/25": 42671196.86,
+      "2025/26": 35074474.81
+    },
+    "transactions_by_year": {
+      "2019/20": 5944,
+      "2020/21": 5250,
+      "2021/22": 6195,
+      "2022/23": 6952,
+      "2023/24": 7644,
+      "2024/25": 8175,
+      "2025/26": 6352
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 46512
+  }
+}

@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI DOGE — Lancashire Council Transparency</title>
-  <meta name="description" content="Independent public spending transparency for 9 Lancashire councils. Explore spending data, budgets, procurement and DOGE analysis.">
+  <meta name="description" content="Independent public spending transparency for all 15 Lancashire councils. Explore spending data, budgets, procurement and DOGE analysis.">
   <!-- Open Graph -->
   <meta property="og:title" content="AI DOGE — Lancashire Council Transparency">
-  <meta property="og:description" content="Independent public spending transparency for 9 Lancashire councils. £1.4 billion+ in public spending tracked.">
+  <meta property="og:description" content="Independent public spending transparency for all 15 Lancashire councils. £12 billion+ in public spending tracked.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aidoge.co.uk/lancashire/">
   <meta property="og:site_name" content="AI DOGE">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="AI DOGE — Lancashire Council Transparency">
-  <meta name="twitter:description" content="Independent public spending transparency for 9 Lancashire councils. £1.4 billion+ tracked.">
+  <meta name="twitter:description" content="Independent public spending transparency for all 15 Lancashire councils. £12 billion+ tracked.">
   <script>
     // GitHub Pages SPA 404 redirect
     // Detects if the URL belongs to a council SPA and redirects to the
@@ -23,7 +23,7 @@
     // to navigate to the correct client-side route.
     (function() {
       var path = window.location.pathname;
-      var councils = ['burnleycouncil', 'hyndburncouncil', 'pendlecouncil', 'rossendalecouncil', 'lancastercouncil', 'ribblevalleycouncil', 'chorleycouncil', 'southribblecouncil', 'lancashirecc'];
+      var councils = ['burnleycouncil', 'hyndburncouncil', 'pendlecouncil', 'rossendalecouncil', 'lancastercouncil', 'ribblevalleycouncil', 'chorleycouncil', 'southribblecouncil', 'lancashirecc', 'blackpoolcouncil', 'westlancashirecouncil', 'blackburncouncil', 'wyrecouncil', 'prestoncouncil', 'fyldecouncil'];
       for (var i = 0; i < councils.length; i++) {
         var base = '/lancashire/' + councils[i] + '/';
         if (path.indexOf(base) === 0) {
@@ -53,10 +53,6 @@
     .council-card p { color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
     .council-card .accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .tier-explainer { color: #636366; font-size: 0.8rem; margin-bottom: 2rem; max-width: 640px; margin-left: auto; margin-right: auto; line-height: 1.5; }
-    .coming-soon-label { color: #48484a; }
-    .coming-soon-grid { opacity: 0.5; }
-    .council-card.coming-soon { cursor: default; border-style: dashed; }
-    .council-card.coming-soon:hover { border-color: #2c2c2e; transform: none; }
     .disclaimer { color: #636366; font-size: 0.75rem; margin-top: 2rem; }
     @media (max-width: 768px) {
       .councils { grid-template-columns: repeat(2, 1fr); }
@@ -72,8 +68,8 @@
   <div class="hub">
     <h1>AI <span>DOGE</span></h1>
     <p class="subtitle">Independent public spending transparency across Lancashire</p>
-    <p class="stats-line">9 councils across 2 tiers &middot; 982,000+ transactions &middot; &pound;5 billion+ tracked</p>
-    <p class="tier-explainer">Lancashire has 15 councils across three tiers. District councils handle housing, planning and waste. The County Council covers education, social care and highways. Unitary authorities do both. More councils coming soon.</p>
+    <p class="stats-line">All 15 councils across 3 tiers &middot; 2,286,000+ transactions &middot; &pound;12 billion+ tracked</p>
+    <p class="tier-explainer">Lancashire has 15 councils across three tiers. District councils handle housing, planning and waste. The County Council covers education, social care and highways. Unitary authorities do both. All 15 councils are now live on the platform.</p>
 
     <p class="section-label">District Councils &mdash; East Lancashire</p>
     <div class="councils">
@@ -123,6 +119,30 @@
       </a>
     </div>
 
+    <p class="section-label">District Councils &mdash; Fylde Coast &amp; West</p>
+    <div class="councils">
+      <a href="/lancashire/prestoncouncil/" class="council-card">
+        <div class="accent-bar" style="background:#d4213d"></div>
+        <h2>Preston</h2>
+        <p>46,711 transactions<br>&pound;205M tracked</p>
+      </a>
+      <a href="/lancashire/westlancashirecouncil/" class="council-card">
+        <div class="accent-bar" style="background:#1a6b3c"></div>
+        <h2>West Lancashire</h2>
+        <p>43,063 transactions<br>&pound;333M tracked</p>
+      </a>
+      <a href="/lancashire/wyrecouncil/" class="council-card">
+        <div class="accent-bar" style="background:#0066cc"></div>
+        <h2>Wyre</h2>
+        <p>51,092 transactions<br>&pound;678M tracked</p>
+      </a>
+      <a href="/lancashire/fyldecouncil/" class="council-card">
+        <div class="accent-bar" style="background:#2e7d32"></div>
+        <h2>Fylde</h2>
+        <p>37,514 transactions<br>&pound;155M tracked</p>
+      </a>
+    </div>
+
     <p class="section-label">County Council</p>
     <div class="councils">
       <a href="/lancashire/lancashirecc/" class="council-card">
@@ -132,18 +152,18 @@
       </a>
     </div>
 
-    <p class="section-label coming-soon-label">Unitary Authorities &mdash; Coming Soon</p>
-    <div class="councils coming-soon-grid">
-      <div class="council-card coming-soon">
-        <div class="accent-bar" style="background:#555"></div>
+    <p class="section-label">Unitary Authorities</p>
+    <div class="councils">
+      <a href="/lancashire/blackpoolcouncil/" class="council-card">
+        <div class="accent-bar" style="background:#e85d1e"></div>
         <h2>Blackpool</h2>
-        <p>All council services combined</p>
-      </div>
-      <div class="council-card coming-soon">
-        <div class="accent-bar" style="background:#555"></div>
+        <p>630,914 transactions<br>&pound;4.1B tracked<br><small style="color:#636366">All council services combined</small></p>
+      </a>
+      <a href="/lancashire/blackburncouncil/" class="council-card">
+        <div class="accent-bar" style="background:#003087"></div>
         <h2>Blackburn with Darwen</h2>
-        <p>All council services combined</p>
-      </div>
+        <p>492,973 transactions<br>&pound;1.7B tracked<br><small style="color:#636366">All council services combined</small></p>
+      </a>
     </div>
 
     <p class="disclaimer">NOT an official council website. Independent public scrutiny tool. All data from publicly available council documents. Published by Tom Pickup.</p>

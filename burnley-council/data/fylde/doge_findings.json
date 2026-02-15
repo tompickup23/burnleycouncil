@@ -1,0 +1,801 @@
+{
+  "findings": [
+    {
+      "value": "\u00a3104.6K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "6 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3458.2K",
+      "label": "Likely Duplicate Payments",
+      "detail": "281 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1377 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a31.2M",
+      "label": "Possible Duplicate Payments",
+      "detail": "714 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3872.7K",
+      "label": "Suspected Split Payments",
+      "detail": "10 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a37.8M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "347 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "16.9x",
+      "label": "Year-End Spending Pattern",
+      "detail": "COMMUNITY SERVICES spent 16.9x their monthly average in March (\u00a34.2M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "11",
+      "label": "Rapid Payment Suppliers",
+      "detail": "11 suppliers receive payments every <14 days on average. Top: Masterstaff (6.4 day avg, 5249 payments, \u00a36.6M)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "2.7% dev",
+      "label": "Benford's Law Analysis",
+      "detail": "Digit distribution across 33,230 transactions shows \u03c7\u00b2=992.09 (statistically significant due to large sample size), but max digit deviation is only 2.7% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Chi-squared values on samples of 33,230+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (2.7%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "2 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Monarch Hotel \u2014 every 10.2 days (57 payments, \u00a336.1K)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "MASTERSTAFF: 5249 transactions totalling \u00a36.6M",
+      "description": "Averaging \u00a31.2K per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=MASTERSTAFF",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "15 suppliers shared with neighbouring councils \u2014 \u00a327.3M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "WAYTHROUGH: 7513% price gap between councils",
+      "description": "Fylde pays \u00a3284.1K avg vs Blackpool \u00a33.7K (both with 3+ transactions). Compared using 2 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=WAYTHROUGH",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    },
+    {
+      "icon": "shield-alert",
+      "badge": "Competition",
+      "title": "4 service categories with a single supplier",
+      "description": "Top: Masterstaff Recruitment Ltd \u2014 sole winner in 'Recruitment services' (2 contracts, \u00a35.6M). Category monopolies may indicate market failure or specification bias.",
+      "link": "/procurement",
+      "link_text": "View procurement \u2192",
+      "severity": "info",
+      "confidence": "medium"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-15T10:10:22.827503",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration",
+    "fraud_triangle"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "MASTERSTAFF",
+        "payments": 5249,
+        "avg_days": 6.4,
+        "total_spend": 6559152.04,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "WATERFRONT HOTEL",
+        "payments": 121,
+        "avg_days": 8.4,
+        "total_spend": 219126.5,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "MONARCH HOTEL",
+        "payments": 57,
+        "avg_days": 10.2,
+        "total_spend": 36073.0,
+        "regularity": "high"
+      },
+      {
+        "supplier": "HOMESAVE (UK) LTD",
+        "payments": 335,
+        "avg_days": 10.7,
+        "total_spend": 522103.22,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "GAP PERSONNEL",
+        "payments": 807,
+        "avg_days": 11.3,
+        "total_spend": 645891.22,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "JOHNSON & REEVES LIMITED T/A OAKLEIGH GUEST HOUSE",
+        "payments": 195,
+        "avg_days": 11.4,
+        "total_spend": 226105.0,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "BLACKPOOL COUNCIL",
+        "payments": 972,
+        "avg_days": 11.6,
+        "total_spend": 15851458.25,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "VENN GROUP LTD",
+        "payments": 42,
+        "avg_days": 12.3,
+        "total_spend": 60996.6,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "MACDONALD AND COMPANY",
+        "payments": 22,
+        "avg_days": 12.3,
+        "total_spend": 64455.0,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "ANRISH LTD",
+        "payments": 30,
+        "avg_days": 13.0,
+        "total_spend": 43450.0,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "MONARCH HOTEL",
+        "payments": 57,
+        "avg_days": 10.2,
+        "std_dev": 4.6,
+        "total_spend": 36073.0
+      },
+      {
+        "supplier": "OFFICE WATER COOLERS LTD",
+        "payments": 29,
+        "avg_days": 367.5,
+        "std_dev": 2.5,
+        "total_spend": 12354.71
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 5476,
+        "total": 25409145.19
+      },
+      {
+        "day": "Tuesday",
+        "count": 1834,
+        "total": 5365267.88
+      },
+      {
+        "day": "Wednesday",
+        "count": 28023,
+        "total": 115209299.09
+      },
+      {
+        "day": "Thursday",
+        "count": 893,
+        "total": 4988964.03
+      },
+      {
+        "day": "Friday",
+        "count": 812,
+        "total": 3783886.49
+      },
+      {
+        "day": "Sunday",
+        "count": 45,
+        "total": 255380.33
+      }
+    ],
+    "total_analysed": 414
+  },
+  "supplier_concentration": {
+    "total_spend": 155011943.01,
+    "unique_suppliers": 1689,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "VBA JOINT VENTURE LTD",
+          "total": 22029050.43,
+          "count": 45,
+          "pct": 14.2
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "total": 15851458.25,
+          "count": 972,
+          "pct": 10.2
+        },
+        {
+          "supplier": "MASTERSTAFF",
+          "total": 6559152.04,
+          "count": 5249,
+          "pct": 4.2
+        },
+        {
+          "supplier": "Lancashire County Council",
+          "total": 5068760.11,
+          "count": 442,
+          "pct": 3.3
+        },
+        {
+          "supplier": "DENNIS EAGLE",
+          "total": 4632402.67,
+          "count": 283,
+          "pct": 3.0
+        }
+      ],
+      "total": 54140823.5,
+      "pct": 34.9
+    },
+    "top10_pct": 43.7,
+    "top20_pct": 54.4,
+    "hhi": 383.9,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 90,
+    "awarded_contracts": 81,
+    "threshold_suspects": [
+      {
+        "title": "Promenade Gardens Path Improvements",
+        "value": 29042.8,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "William Pye Limited",
+        "pct_of_threshold": 96.8
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council HCC Lot 2 - 1 x Single Cab 4x4 Pick-up (",
+        "value": 26216.24,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Toyota (GB) PLC",
+        "pct_of_threshold": 87.4
+      },
+      {
+        "title": "Supply of Bedding and Floral Containers 2025- 2026",
+        "value": 122818.34,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Walkers Oakfield Nurseries",
+        "pct_of_threshold": 88.5
+      },
+      {
+        "title": "Playground Improvements 2024",
+        "value": 120000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "ESP Scotland Ltd",
+        "pct_of_threshold": 86.5
+      },
+      {
+        "title": "Fairhaven Lake desilting project",
+        "value": 28884.7,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "LAND &amp; WATER SERVICES LIMITED",
+        "pct_of_threshold": 96.3
+      },
+      {
+        "title": "Fylde CVFSE Feasibility and Baseline Study",
+        "value": 26285.63,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Selnet Ltd",
+        "pct_of_threshold": 87.6
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council HCC Lot 2 - 4 x LCVs (13130)",
+        "value": 122275.3,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Ford Motor Company Ltd",
+        "pct_of_threshold": 88.1
+      },
+      {
+        "title": "Fylde Housing Need Survey for 2021",
+        "value": 26776,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "JG Consulting",
+        "pct_of_threshold": 89.3
+      },
+      {
+        "title": "Network Rail Capacity Study",
+        "value": 27073,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "NETWORK RAIL INFRASTRUCTURE LIMITED",
+        "pct_of_threshold": 90.2
+      },
+      {
+        "title": "Fylde Council Beach Safety Sign Contract",
+        "value": 27499,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Brightprint",
+        "pct_of_threshold": 91.7
+      }
+    ],
+    "threshold_suspect_count": 10,
+    "repeat_winners": [
+      {
+        "supplier": "Balmers Garden Machinery",
+        "contracts": 6,
+        "total_value": 386498.03,
+        "avg_value": 64416.34
+      },
+      {
+        "supplier": "Ford Motor Company Ltd",
+        "contracts": 4,
+        "total_value": 290654.59,
+        "avg_value": 72663.65
+      },
+      {
+        "supplier": "Dennis Eagle Limited",
+        "contracts": 3,
+        "total_value": 2999984,
+        "avg_value": 999994.67
+      },
+      {
+        "supplier": "William Pye Limited",
+        "contracts": 3,
+        "total_value": 335046.8,
+        "avg_value": 111682.27
+      },
+      {
+        "supplier": "Terberg Matec UK Limited",
+        "contracts": 2,
+        "total_value": 616960,
+        "avg_value": 308480.0
+      },
+      {
+        "supplier": "Masterstaff Recruitment Ltd",
+        "contracts": 2,
+        "total_value": 5633835,
+        "avg_value": 2816917.5
+      },
+      {
+        "supplier": "Walkers Oakfield Nurseries",
+        "contracts": 2,
+        "total_value": 201818.34,
+        "avg_value": 100909.17
+      },
+      {
+        "supplier": "DTMS Group",
+        "contracts": 2,
+        "total_value": 179416,
+        "avg_value": 89708.0
+      },
+      {
+        "supplier": "BDP",
+        "contracts": 2,
+        "total_value": 430642.63,
+        "avg_value": 215321.32
+      }
+    ],
+    "repeat_winner_count": 9,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 81,
+      "pct": 0.0
+    },
+    "timing_clusters": [],
+    "timing_cluster_count": 0,
+    "late_publications": [
+      {
+        "title": "GB-Fylde: TPPL Fylde Council HCC lot 4",
+        "supplier": "Nilfisk-Advance Ltd",
+        "published_date": "2018-01-17",
+        "awarded_date": "2016-07-25",
+        "days_late": 541,
+        "awarded_value": 71850
+      },
+      {
+        "title": "GB-Fylde: NEPO Heavy Goods and Specialist Vehicles Procurement Framework 2017",
+        "supplier": "Dennis Eagle",
+        "published_date": "2018-12-18",
+        "awarded_date": "2017-12-14",
+        "days_late": 369,
+        "awarded_value": 147910
+      },
+      {
+        "title": "Covid Comms Support",
+        "supplier": "ICG Communications",
+        "published_date": "2021-09-02",
+        "awarded_date": "2021-01-18",
+        "days_late": 227,
+        "awarded_value": 163392
+      },
+      {
+        "title": "Design services for St Anne&#039;s event space project",
+        "supplier": "BDP",
+        "published_date": "2023-09-11",
+        "awarded_date": "2023-05-15",
+        "days_late": 119,
+        "awarded_value": 180000
+      },
+      {
+        "title": "Conversion of Former TSB Building",
+        "supplier": "DC&amp;MG ASSOCIATES",
+        "published_date": "2022-12-19",
+        "awarded_date": "2022-08-22",
+        "days_late": 119,
+        "awarded_value": 50400
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council NEPO HGV Lot 2 - 1 x 5.5T Single cab cha",
+        "supplier": "Terberg Matec UK Limited",
+        "published_date": "2024-05-23",
+        "awarded_date": "2024-01-26",
+        "days_late": 118,
+        "awarded_value": 107210
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council HCC lot 2 - 1 x Ford Vans 2 x Ford Range",
+        "supplier": "Ford Motor Company Ltd",
+        "published_date": "2019-11-28",
+        "awarded_date": "2019-08-12",
+        "days_late": 108,
+        "awarded_value": 60826
+      },
+      {
+        "title": "Project management for St Anne&#039;s Event Space",
+        "supplier": "Gosling Consulting",
+        "published_date": "2023-09-11",
+        "awarded_date": "2023-05-29",
+        "days_late": 105,
+        "awarded_value": 90000
+      },
+      {
+        "title": "GB-Fylde: TPPL Fylde Borough Council NEPO GM &amp; P Lot 1 - 3 x John Deere comp",
+        "supplier": "Balmer Garden Machinery",
+        "published_date": "2019-11-28",
+        "awarded_date": "2019-08-15",
+        "days_late": 105,
+        "awarded_value": 114723
+      },
+      {
+        "title": "GB-Lytham St Annes: TPPL Fylde Council BNES HGV Framework lot 2",
+        "supplier": "Faun Zoeller (UK) Limited",
+        "published_date": "2016-04-01",
+        "awarded_date": "2016-01-11",
+        "days_late": 81,
+        "awarded_value": 219430.1
+      }
+    ],
+    "late_publication_count": 63,
+    "publication_timing": {
+      "avg_delay_days": 37.5,
+      "median_delay_days": 13,
+      "total_measured": 81
+    },
+    "weak_competition": [
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council NEPO HGV Lot 2 - 6 x 26t RCVs (25165)",
+        "supplier": "Dennis Eagle Limited",
+        "awarded_value": 1581050,
+        "tender_days": -22,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Council NEPO HGV Lot 2 - 1 x Mercedes Econic 6x2RS 26000",
+        "supplier": "Dennis Eagle Limited",
+        "awarded_value": 910734,
+        "tender_days": -3,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council NEPO HGV Lot 2 - 5 x Food Waste Vehicles",
+        "supplier": "Terberg Matec UK Limited",
+        "awarded_value": 509750,
+        "tender_days": -16,
+        "eval_days": 2,
+        "flags": [
+          "Awarded 2 days after deadline"
+        ],
+        "cpv": "Vehicles for refuse and sewage"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Council NEPO HGV Lot 2 - 2 x 26t Mercedes Econic RCVs (1",
+        "supplier": "Dennis Eagle Limited",
+        "awarded_value": 508200,
+        "tender_days": -39,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Council &amp; Wylde Council HCC Lot 3 - 6 x compact road",
+        "supplier": "Johnston Sweepers Ltd",
+        "awarded_value": 450000,
+        "tender_days": -7,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Road sweepers"
+      },
+      {
+        "title": "GB-Lytham St Annes: TPPL Fylde Council BNES HGV Framework lot 2",
+        "supplier": "Faun Zoeller (UK) Limited",
+        "awarded_value": 219430.1,
+        "tender_days": -81,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Specialist vehicles"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council NEPO HGV Lot 1 - 1 x 18t Narrow RCV (162",
+        "supplier": "Dennis Eagle Ltd",
+        "awarded_value": 193279,
+        "tender_days": -6,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "Covid Comms Support",
+        "supplier": "ICG Communications",
+        "awarded_value": 163392,
+        "tender_days": -234,
+        "eval_days": 7,
+        "flags": [
+          "Awarded 7 days after deadline"
+        ],
+        "cpv": "Business services: law, marketing, consulting, rec"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council NEPO GM &amp; P Lot 1 - 3 x Toro Ride-on",
+        "supplier": "Balmers Garden Machinery",
+        "awarded_value": 157200,
+        "tender_days": -14,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Mowers"
+      },
+      {
+        "title": "GB-Fylde: NEPO Heavy Goods and Specialist Vehicles Procurement Framework 2017",
+        "supplier": "Dennis Eagle",
+        "awarded_value": 147910,
+        "tender_days": -369,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Vehicles for refuse"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council HCC Lot 2 - 4 x LCVs (13130)",
+        "supplier": "Ford Motor Company Ltd",
+        "awarded_value": 122275.3,
+        "tender_days": -7,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Vans"
+      },
+      {
+        "title": "GB-Fylde: TPPL Fylde Borough Council NEPO GM &amp; P Lot 1 - 3 x John Deere comp",
+        "supplier": "Balmer Garden Machinery",
+        "awarded_value": 114723,
+        "tender_days": -105,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tractors"
+      },
+      {
+        "title": "GB-St Annes: TPPL Fylde Borough Council NEPO HGV Lot 2 - 1 x 5.5T Single cab cha",
+        "supplier": "Terberg Matec UK Limited",
+        "awarded_value": 107210,
+        "tender_days": -118,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tipper trucks"
+      },
+      {
+        "title": "GB-Fylde: TPPL Fylde Council HCC lot 2 - 1 x 7.5t RCV with NTM Body",
+        "supplier": "Motus Group / Imperial Commercials Ltd",
+        "awarded_value": 102602.85,
+        "tender_days": -76,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Vehicles for refuse"
+      },
+      {
+        "title": "RFQ for the Provision of Mayoral Chauffeur / Attendant to the Mayor of Fylde Cou",
+        "supplier": "Thomson Executive Cars",
+        "awarded_value": 89600,
+        "tender_days": -33,
+        "eval_days": 5,
+        "flags": [
+          "Awarded 5 days after deadline"
+        ],
+        "cpv": "Transport services (excl. Waste transport)"
+      }
+    ],
+    "weak_competition_count": 34,
+    "monopoly_categories": [
+      {
+        "cpv": "Recruitment services",
+        "supplier": "Masterstaff Recruitment Ltd",
+        "contracts": 2,
+        "total_value": 5633835
+      },
+      {
+        "cpv": "Vans",
+        "supplier": "Ford Motor Company Ltd",
+        "contracts": 3,
+        "total_value": 229828.59
+      },
+      {
+        "cpv": "Mowers",
+        "supplier": "Balmers Garden Machinery",
+        "contracts": 3,
+        "total_value": 202300
+      },
+      {
+        "cpv": "Horticultural services",
+        "supplier": "DTMS Group",
+        "contracts": 2,
+        "total_value": 179416
+      }
+    ],
+    "monopoly_category_count": 4
+  },
+  "fraud_triangle": {
+    "overall_score": 64.7,
+    "risk_level": "elevated",
+    "dimensions": {
+      "opportunity": {
+        "score": 86,
+        "signals": [
+          {
+            "signal": "10 suspected split payment instances (\u00a3872.7K)",
+            "score": 40,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "34 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "4 service categories with a single supplier",
+            "score": 16,
+            "source": "procurement_compliance"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 85,
+        "signals": [
+          {
+            "signal": "Year-end spike: 17.3x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "281 likely duplicate payments (\u00a3458.2K)",
+            "score": 30,
+            "source": "duplicates"
+          },
+          {
+            "signal": "347 round-number payments over \u00a35K (\u00a37.8M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 37,
+        "signals": [
+          {
+            "signal": "6 suppliers with current CH red flags",
+            "score": 12,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "63 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 8
+  }
+}

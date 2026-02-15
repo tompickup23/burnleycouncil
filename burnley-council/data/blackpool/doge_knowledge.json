@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-15",
+  "council": "blackpool",
+  "core_knowledge": {
+    "council_type": "unitary",
+    "population": 141100,
+    "annual_budget": "£480M",
+    "political_control": "Labour majority (Leader: Cllr Lynn Williams)",
+    "key_services": ["Education", "Adult social care", "Children's services", "Housing", "Waste collection", "Planning", "Highways", "Public health", "Libraries", "Leisure"]
+  },
+  "council_profile": {
+    "name": "Blackpool Council",
+    "tier": "unitary",
+    "ons_code": "E06000009",
+    "covers": "Blackpool unitary authority area on the Fylde Coast",
+    "notable_issues": [
+      "Most deprived local authority in England (IMD 2019 rank 1 of 317)",
+      "Lowest life expectancy in England (male 74.1, female 79.5)",
+      "High child poverty rate (>30% children in poverty)",
+      "Major regeneration projects: Conference Centre, Tramway extension, Central Business District",
+      "Tourism-dependent economy — seasonal employment patterns affect spending"
+    ]
+  },
+  "data_quality": {
+    "spending_records": 630914,
+    "total_spend": "£4.1B",
+    "data_period": "April 2019 – January 2026",
+    "description_coverage": 0.15,
+    "transparency_notes": "Blackpool publishes monthly spending over £250 with both main supplier payments and purchase card transactions. Five different CSV formats used over the data period (2019 old format, 2020-2022 cost centre format, 2021 variant without Body Name, 2023-2024 CIAXLONE format, 2024+ clean 19-column format). Supplier names include REDACTED entries for personal data."
+  },
+  "verified_findings": [],
+  "key_suppliers": [],
+  "cross_council_context": {
+    "note": "Blackpool is a unitary authority providing all local government services. Not directly comparable to Lancashire district councils (which share upper-tier services with LCC). Comparable to Blackburn with Darwen as the other Lancashire unitary."
+  }
+}

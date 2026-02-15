@@ -94,7 +94,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "18 suppliers shared with neighbouring councils \u2014 \u00a38.0M total",
+      "title": "8 suppliers shared with neighbouring councils \u2014 \u00a31.2M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -104,10 +104,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "AVC WISE LTD: 8013% price gap between councils",
-      "description": "Lancaster pays \u00a31.3K avg vs Hyndburn \u00a316 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "MEDWAY HEATING (BOLTON) LTD: 8039% price gap between councils",
+      "description": "Blackburn pays \u00a331.5K avg vs Rossendale \u00a3388 (both with 3+ transactions). Compared using 2 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=AVC WISE LTD",
+      "link": "/spending?supplier=MEDWAY HEATING (BOLTON) LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -115,7 +115,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-12T02:53:45.396132",
+  "generated": "2026-02-15T10:10:22.811476",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

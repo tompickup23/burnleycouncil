@@ -38,6 +38,12 @@ COUNCILS = {
     "E07000118": {"key": "chorley",       "name": "Chorley"},
     "E07000126": {"key": "south_ribble",  "name": "South Ribble"},
     "E10000017": {"key": "lancashire_cc", "name": "Lancashire CC"},
+    "E06000009": {"key": "blackpool",     "name": "Blackpool"},
+    "E07000127": {"key": "west_lancashire", "name": "West Lancashire"},
+    "E06000008": {"key": "blackburn",    "name": "Blackburn with Darwen"},
+    "E07000128": {"key": "wyre",         "name": "Wyre"},
+    "E07000123": {"key": "preston",      "name": "Preston"},
+    "E07000119": {"key": "fylde",        "name": "Fylde"},
 }
 
 # ─── Revenue Outturn columns we care about ─────────────────────────

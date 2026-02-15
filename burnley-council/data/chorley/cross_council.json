@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-15T00:03:28",
+  "generated": "2026-02-15T10:05:58",
   "councils": [
     {
       "council_id": "burnley",
@@ -466,6 +466,292 @@
       },
       "budget_summary": {
         "council_tax_band_d": 1735.79,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "blackpool",
+      "council_name": "Blackpool",
+      "council_tier": "unitary",
+      "total_records": 630914,
+      "total_spend": 4068892915.86,
+      "unique_suppliers": 9846,
+      "date_range": {
+        "min": "2019-04-01",
+        "max": "2026-01-30"
+      },
+      "financial_years": [
+        "2019/20",
+        "2020/21",
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 7,
+      "annual_spend": 581270416.55,
+      "annual_records": 90131,
+      "population": 141100,
+      "avg_transaction": 6449.2,
+      "top10_supplier_pct": 0.3101,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 141,
+      "duplicate_value": 349700,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {
+        "year": "2024-25",
+        "housing": 5155,
+        "cultural": 8082,
+        "environmental": 21101,
+        "planning": 2510,
+        "central": -295,
+        "other": -1347,
+        "total": 291092
+      },
+      "budget_summary": {
+        "council_tax_band_d": 2025.08,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "west_lancashire",
+      "council_name": "West Lancashire",
+      "council_tier": "district",
+      "total_records": 43063,
+      "total_spend": 332873972.2,
+      "unique_suppliers": 4614,
+      "date_range": {
+        "min": "2017-01-03",
+        "max": "2025-12-24"
+      },
+      "financial_years": [
+        "2016/17",
+        "2017/18",
+        "2018/19",
+        "2019/20",
+        "2020/21",
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 10,
+      "annual_spend": 33287397.22,
+      "annual_records": 4306,
+      "population": 117935,
+      "avg_transaction": 7729.93,
+      "top10_supplier_pct": 0.4884,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 0,
+      "duplicate_value": 0,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {},
+      "budget_summary": {
+        "council_tax_band_d": 0,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "blackburn",
+      "council_name": "Blackburn with Darwen",
+      "council_tier": "unitary",
+      "total_records": 492973,
+      "total_spend": 1686636242.04,
+      "unique_suppliers": 6095,
+      "date_range": {
+        "min": "2020-04-01",
+        "max": "2025-12-31"
+      },
+      "financial_years": [
+        "2020/21",
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 6,
+      "annual_spend": 281106040.34,
+      "annual_records": 82162,
+      "population": 149696,
+      "avg_transaction": 3421.36,
+      "top10_supplier_pct": 0.4892,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 0,
+      "duplicate_value": 0,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {},
+      "budget_summary": {
+        "council_tax_band_d": 0,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "wyre",
+      "council_name": "Wyre",
+      "council_tier": "district",
+      "total_records": 51092,
+      "total_spend": 673687813.04,
+      "unique_suppliers": 1563,
+      "date_range": {
+        "min": "2017-04-01",
+        "max": "2025-12-11"
+      },
+      "financial_years": [
+        "2017/18",
+        "2019/20",
+        "2020/21",
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 8,
+      "annual_spend": 84210976.63,
+      "annual_records": 6386,
+      "population": 113900,
+      "avg_transaction": 13185.78,
+      "top10_supplier_pct": 0.925,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 0,
+      "duplicate_value": 0,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {},
+      "budget_summary": {
+        "council_tax_band_d": 0,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "preston",
+      "council_name": "Preston",
+      "council_tier": "district",
+      "total_records": 46711,
+      "total_spend": 205073987.4,
+      "unique_suppliers": 2517,
+      "date_range": {
+        "min": "2019-04-04",
+        "max": "2025-12-31"
+      },
+      "financial_years": [
+        "2019/20",
+        "2020/21",
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 7,
+      "annual_spend": 29296283.91,
+      "annual_records": 6673,
+      "population": 143135,
+      "avg_transaction": 4390.27,
+      "top10_supplier_pct": 0.5753,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 0,
+      "duplicate_value": 0,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {},
+      "budget_summary": {
+        "council_tax_band_d": 0,
+        "reserves_total": 0
+      }
+    },
+    {
+      "council_id": "fylde",
+      "council_name": "Fylde",
+      "council_tier": "district",
+      "total_records": 37514,
+      "total_spend": 152673428.41,
+      "unique_suppliers": 1689,
+      "date_range": {
+        "min": "2015-08-05",
+        "max": "2025-12-23"
+      },
+      "financial_years": [
+        "2015/16",
+        "2016/17",
+        "2017/18",
+        "2018/19",
+        "2019/20",
+        "2020/21",
+        "2021/22",
+        "2022/23",
+        "2023/24",
+        "2024/25",
+        "2025/26"
+      ],
+      "num_years": 11,
+      "annual_spend": 13879402.58,
+      "annual_records": 3410,
+      "population": 81550,
+      "avg_transaction": 4069.77,
+      "top10_supplier_pct": 0.5441,
+      "transparency": {
+        "has_dates": 100.0,
+        "has_suppliers": 100.0,
+        "has_departments": 100.0
+      },
+      "duplicate_count": 0,
+      "duplicate_value": 0,
+      "pay": {
+        "ceo_salary_band": "",
+        "ceo_midpoint": 0,
+        "ceo_to_median_ratio": 0,
+        "median_employee_salary": 0
+      },
+      "service_expenditure": {},
+      "budget_summary": {
+        "council_tax_band_d": 0,
         "reserves_total": 0
       }
     }

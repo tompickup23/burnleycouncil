@@ -1,0 +1,3862 @@
+{
+  "council_id": "blackpool",
+  "ons_code": "E06000009",
+  "financial_year": "2024-25",
+  "data_source": "MHCLG Revenue Outturn (GOV.UK)",
+  "data_licence": "Open Government Licence v3.0",
+  "units": "GBP (converted from GBP thousands)",
+  "notes": "Values are actual outturn spend, not budget estimates. Negative values indicate net income.",
+  "council_name": "Blackpool UA",
+  "council_class": "UA",
+  "certified": true,
+  "revenue_summary": {
+    "service_expenditure": {
+      "Education services": {
+        "value_thousands": 65299.0,
+        "value_pounds": 65299000,
+        "relevant_to_districts": false
+      },
+      "Highways and transport services": {
+        "value_thousands": 7706.0,
+        "value_pounds": 7706000,
+        "relevant_to_districts": true
+      },
+      "Adult Social Care": {
+        "value_thousands": 76650.0,
+        "value_pounds": 76650000,
+        "relevant_to_districts": false
+      },
+      "Public Health": {
+        "value_thousands": 20399.0,
+        "value_pounds": 20399000,
+        "relevant_to_districts": false
+      },
+      "Housing services (GFRA only)": {
+        "value_thousands": 5155.0,
+        "value_pounds": 5155000,
+        "relevant_to_districts": true
+      },
+      "Cultural and related services": {
+        "value_thousands": 8082.0,
+        "value_pounds": 8082000,
+        "relevant_to_districts": true
+      },
+      "Environmental and regulatory services": {
+        "value_thousands": 21101.0,
+        "value_pounds": 21101000,
+        "relevant_to_districts": true
+      },
+      "Planning and development services": {
+        "value_thousands": 2510.0,
+        "value_pounds": 2510000,
+        "relevant_to_districts": true
+      },
+      "Police services": {
+        "value_thousands": 0.0,
+        "value_pounds": 0,
+        "relevant_to_districts": false
+      },
+      "Fire and rescue services": {
+        "value_thousands": 0.0,
+        "value_pounds": 0,
+        "relevant_to_districts": false
+      },
+      "Central services": {
+        "value_thousands": -295.0,
+        "value_pounds": -295000,
+        "relevant_to_districts": true
+      },
+      "Other services": {
+        "value_thousands": -1347.0,
+        "value_pounds": -1347000,
+        "relevant_to_districts": true
+      },
+      "TOTAL SERVICE EXPENDITURE": {
+        "value_thousands": 291092.0,
+        "value_pounds": 291092000,
+        "relevant_to_districts": true
+      }
+    },
+    "key_financials": {
+      "NET CURRENT EXPENDITURE": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      },
+      "REVENUE EXPENDITURE": {
+        "value_thousands": 0.0,
+        "value_pounds": 0
+      },
+      "NET REVENUE EXPENDITURE": {
+        "value_thousands": 168860.0,
+        "value_pounds": 168860000
+      },
+      "COUNCIL TAX REQUIREMENT": {
+        "value_thousands": 74755.0,
+        "value_pounds": 74755000
+      }
+    },
+    "reserves": {},
+    "council_tax_support": {}
+  },
+  "detailed_services": {
+    "RSX": {
+      "form": "RSX",
+      "category": "Summary",
+      "description": "Service expenditure summary (high-level totals)",
+      "services": {
+        "Education services": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 27646.0,
+            "value_pounds": 27646000
+          },
+          "running_expenses": {
+            "value_thousands": 64758.0,
+            "value_pounds": 64758000
+          },
+          "total_expenditure": {
+            "value_thousands": 92404.0,
+            "value_pounds": 92404000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 11073.0,
+            "value_pounds": 11073000
+          },
+          "other_income": {
+            "value_thousands": 16032.0,
+            "value_pounds": 16032000
+          },
+          "total_income": {
+            "value_thousands": 27105.0,
+            "value_pounds": 27105000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 65299.0,
+            "value_pounds": 65299000
+          }
+        },
+        "Highways and transport services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 4678.0,
+            "value_pounds": 4678000
+          },
+          "running_expenses": {
+            "value_thousands": 16097.0,
+            "value_pounds": 16097000
+          },
+          "total_expenditure": {
+            "value_thousands": 20775.0,
+            "value_pounds": 20775000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 10193.0,
+            "value_pounds": 10193000
+          },
+          "other_income": {
+            "value_thousands": 2876.0,
+            "value_pounds": 2876000
+          },
+          "total_income": {
+            "value_thousands": 13069.0,
+            "value_pounds": 13069000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 7706.0,
+            "value_pounds": 7706000
+          }
+        },
+        "Children's Social Care": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Adult Social Care": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 24986.0,
+            "value_pounds": 24986000
+          },
+          "running_expenses": {
+            "value_thousands": 97992.0,
+            "value_pounds": 97992000
+          },
+          "total_expenditure": {
+            "value_thousands": 122978.0,
+            "value_pounds": 122978000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 23334.0,
+            "value_pounds": 23334000
+          },
+          "other_income": {
+            "value_thousands": 22994.0,
+            "value_pounds": 22994000
+          },
+          "total_income": {
+            "value_thousands": 46328.0,
+            "value_pounds": 46328000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 76650.0,
+            "value_pounds": 76650000
+          }
+        },
+        "Public Health": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 1744.0,
+            "value_pounds": 1744000
+          },
+          "running_expenses": {
+            "value_thousands": 23135.0,
+            "value_pounds": 23135000
+          },
+          "total_expenditure": {
+            "value_thousands": 24879.0,
+            "value_pounds": 24879000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 4480.0,
+            "value_pounds": 4480000
+          },
+          "total_income": {
+            "value_thousands": 4480.0,
+            "value_pounds": 4480000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 20399.0,
+            "value_pounds": 20399000
+          }
+        },
+        "Housing services (GFRA only)": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 1874.0,
+            "value_pounds": 1874000
+          },
+          "running_expenses": {
+            "value_thousands": 25945.0,
+            "value_pounds": 25945000
+          },
+          "total_expenditure": {
+            "value_thousands": 27819.0,
+            "value_pounds": 27819000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 486.0,
+            "value_pounds": 486000
+          },
+          "other_income": {
+            "value_thousands": 22178.0,
+            "value_pounds": 22178000
+          },
+          "total_income": {
+            "value_thousands": 22664.0,
+            "value_pounds": 22664000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 5155.0,
+            "value_pounds": 5155000
+          }
+        },
+        "Cultural and related services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 8244.0,
+            "value_pounds": 8244000
+          },
+          "running_expenses": {
+            "value_thousands": 16045.0,
+            "value_pounds": 16045000
+          },
+          "total_expenditure": {
+            "value_thousands": 24289.0,
+            "value_pounds": 24289000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 5641.0,
+            "value_pounds": 5641000
+          },
+          "other_income": {
+            "value_thousands": 10566.0,
+            "value_pounds": 10566000
+          },
+          "total_income": {
+            "value_thousands": 16207.0,
+            "value_pounds": 16207000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 8082.0,
+            "value_pounds": 8082000
+          }
+        },
+        "Environmental and regulatory services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 4030.0,
+            "value_pounds": 4030000
+          },
+          "running_expenses": {
+            "value_thousands": 28829.0,
+            "value_pounds": 28829000
+          },
+          "total_expenditure": {
+            "value_thousands": 32859.0,
+            "value_pounds": 32859000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 6340.0,
+            "value_pounds": 6340000
+          },
+          "other_income": {
+            "value_thousands": 5418.0,
+            "value_pounds": 5418000
+          },
+          "total_income": {
+            "value_thousands": 11758.0,
+            "value_pounds": 11758000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 21101.0,
+            "value_pounds": 21101000
+          }
+        },
+        "Planning and development services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 4580.0,
+            "value_pounds": 4580000
+          },
+          "running_expenses": {
+            "value_thousands": 12289.0,
+            "value_pounds": 12289000
+          },
+          "total_expenditure": {
+            "value_thousands": 16869.0,
+            "value_pounds": 16869000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 9601.0,
+            "value_pounds": 9601000
+          },
+          "other_income": {
+            "value_thousands": 4758.0,
+            "value_pounds": 4758000
+          },
+          "total_income": {
+            "value_thousands": 14359.0,
+            "value_pounds": 14359000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 2510.0,
+            "value_pounds": 2510000
+          }
+        },
+        "Police services": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Fire and rescue services": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Central services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 24715.0,
+            "value_pounds": 24715000
+          },
+          "running_expenses": {
+            "value_thousands": 22499.0,
+            "value_pounds": 22499000
+          },
+          "total_expenditure": {
+            "value_thousands": 47214.0,
+            "value_pounds": 47214000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 4490.0,
+            "value_pounds": 4490000
+          },
+          "other_income": {
+            "value_thousands": 43019.0,
+            "value_pounds": 43019000
+          },
+          "total_income": {
+            "value_thousands": 47509.0,
+            "value_pounds": 47509000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -295.0,
+            "value_pounds": -295000
+          }
+        },
+        "Other services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 203.0,
+            "value_pounds": 203000
+          },
+          "total_expenditure": {
+            "value_thousands": 203.0,
+            "value_pounds": 203000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 1550.0,
+            "value_pounds": 1550000
+          },
+          "total_income": {
+            "value_thousands": 1550.0,
+            "value_pounds": 1550000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -1347.0,
+            "value_pounds": -1347000
+          }
+        },
+        "Total Service Expenditure": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 127545.0,
+            "value_pounds": 127545000
+          },
+          "running_expenses": {
+            "value_thousands": 377358.0,
+            "value_pounds": 377358000
+          },
+          "total_expenditure": {
+            "value_thousands": 504903.0,
+            "value_pounds": 504903000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 75590.0,
+            "value_pounds": 75590000
+          },
+          "other_income": {
+            "value_thousands": 138221.0,
+            "value_pounds": 138221000
+          },
+          "total_income": {
+            "value_thousands": 213811.0,
+            "value_pounds": 213811000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 291092.0,
+            "value_pounds": 291092000
+          }
+        }
+      }
+    },
+    "RO2": {
+      "form": "RO2",
+      "category": "Highways & Transport",
+      "description": "Highways and transport services",
+      "services": {
+        "TOTAL HIGHWAYS AND TRANSPORT SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 4678.0,
+            "value_pounds": 4678000
+          },
+          "running_expenses": {
+            "value_thousands": 16097.0,
+            "value_pounds": 16097000
+          },
+          "total_expenditure": {
+            "value_thousands": 20775.0,
+            "value_pounds": 20775000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 10193.0,
+            "value_pounds": 10193000
+          },
+          "other_income": {
+            "value_thousands": 2876.0,
+            "value_pounds": 2876000
+          },
+          "total_income": {
+            "value_thousands": 13069.0,
+            "value_pounds": 13069000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 7706.0,
+            "value_pounds": 7706000
+          }
+        }
+      }
+    },
+    "RO4": {
+      "form": "RO4",
+      "category": "Housing",
+      "description": "Housing services including homelessness and housing benefits",
+      "services": {
+        "Housing strategy and advice": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Housing advances": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Administration of financial support for repairs and improvements": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 21472.0,
+            "value_pounds": 21472000
+          },
+          "total_expenditure": {
+            "value_thousands": 21472.0,
+            "value_pounds": 21472000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 21307.0,
+            "value_pounds": 21307000
+          },
+          "total_income": {
+            "value_thousands": 21307.0,
+            "value_pounds": 21307000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 165.0,
+            "value_pounds": 165000
+          }
+        },
+        "Other private sector renewal": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Nightly paid accommodation (self-contained)": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Private sector leased": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Hostels (not nightly paid, not registered care homes)": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Bed and breakfast hotels": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 739.0,
+            "value_pounds": 739000
+          },
+          "total_expenditure": {
+            "value_thousands": 739.0,
+            "value_pounds": 739000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 125.0,
+            "value_pounds": 125000
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 125.0,
+            "value_pounds": 125000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 614.0,
+            "value_pounds": 614000
+          }
+        },
+        "LA stock and housing association stock": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Other temporary accommodation": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Homelessness administration - Temporary accommodation": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Homelessness administration - Homelessness Reduction Act": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Homelessness - Non-HRA housing admin": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "TOTAL HOMELESSNESS SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 1433.0,
+            "value_pounds": 1433000
+          },
+          "running_expenses": {
+            "value_thousands": 1424.0,
+            "value_pounds": 1424000
+          },
+          "total_expenditure": {
+            "value_thousands": 2857.0,
+            "value_pounds": 2857000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 261.0,
+            "value_pounds": 261000
+          },
+          "other_income": {
+            "value_thousands": 574.0,
+            "value_pounds": 574000
+          },
+          "total_income": {
+            "value_thousands": 835.0,
+            "value_pounds": 835000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 2022.0,
+            "value_pounds": 2022000
+          }
+        },
+        "Rent allowances - discretionary payments": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 127.0,
+            "value_pounds": 127000
+          },
+          "total_expenditure": {
+            "value_thousands": 127.0,
+            "value_pounds": 127000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 127.0,
+            "value_pounds": 127000
+          }
+        },
+        "Non-HRA rent rebates - discretionary payments": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Housing Benefits Administration": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 2087.0,
+            "value_pounds": 2087000
+          },
+          "total_expenditure": {
+            "value_thousands": 2087.0,
+            "value_pounds": 2087000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 2087.0,
+            "value_pounds": 2087000
+          }
+        },
+        "Other council property (Non-HRA)": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 131.0,
+            "value_pounds": 131000
+          },
+          "total_expenditure": {
+            "value_thousands": 131.0,
+            "value_pounds": 131000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 225.0,
+            "value_pounds": 225000
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 225.0,
+            "value_pounds": 225000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -94.0,
+            "value_pounds": -94000
+          }
+        },
+        "Supporting People": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 58.0,
+            "value_pounds": 58000
+          },
+          "total_expenditure": {
+            "value_thousands": 58.0,
+            "value_pounds": 58000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 58.0,
+            "value_pounds": 58000
+          }
+        },
+        "Other welfare services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "TOTAL HOUSING SERVICES (GFRA only)": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 1874.0,
+            "value_pounds": 1874000
+          },
+          "running_expenses": {
+            "value_thousands": 25945.0,
+            "value_pounds": 25945000
+          },
+          "total_expenditure": {
+            "value_thousands": 27819.0,
+            "value_pounds": 27819000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 486.0,
+            "value_pounds": 486000
+          },
+          "other_income": {
+            "value_thousands": 22178.0,
+            "value_pounds": 22178000
+          },
+          "total_income": {
+            "value_thousands": 22664.0,
+            "value_pounds": 22664000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 5155.0,
+            "value_pounds": 5155000
+          }
+        }
+      }
+    },
+    "RO5": {
+      "form": "RO5",
+      "category": "Cultural, Environmental, Regulatory & Planning",
+      "description": "Detailed breakdown of cultural, environmental, regulatory and planning services",
+      "services": {
+        "Culture and heritage - Archives": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Culture and heritage - Arts development and support": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 43.0,
+            "value_pounds": 43000
+          },
+          "running_expenses": {
+            "value_thousands": 93.0,
+            "value_pounds": 93000
+          },
+          "total_expenditure": {
+            "value_thousands": 136.0,
+            "value_pounds": 136000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 675.0,
+            "value_pounds": 675000
+          },
+          "total_income": {
+            "value_thousands": 675.0,
+            "value_pounds": 675000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -539.0,
+            "value_pounds": -539000
+          }
+        },
+        "Culture and heritage - Heritage": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 1187.0,
+            "value_pounds": 1187000
+          },
+          "total_expenditure": {
+            "value_thousands": 1187.0,
+            "value_pounds": 1187000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 296.0,
+            "value_pounds": 296000
+          },
+          "other_income": {
+            "value_thousands": 510.0,
+            "value_pounds": 510000
+          },
+          "total_income": {
+            "value_thousands": 806.0,
+            "value_pounds": 806000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 381.0,
+            "value_pounds": 381000
+          }
+        },
+        "Culture and heritage - Museums and galleries": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 1187.0,
+            "value_pounds": 1187000
+          },
+          "total_expenditure": {
+            "value_thousands": 1187.0,
+            "value_pounds": 1187000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 296.0,
+            "value_pounds": 296000
+          },
+          "other_income": {
+            "value_thousands": 510.0,
+            "value_pounds": 510000
+          },
+          "total_income": {
+            "value_thousands": 806.0,
+            "value_pounds": 806000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 381.0,
+            "value_pounds": 381000
+          }
+        },
+        "Culture and heritage - Theatres and public entertainment": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 1187.0,
+            "value_pounds": 1187000
+          },
+          "total_expenditure": {
+            "value_thousands": 1187.0,
+            "value_pounds": 1187000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 296.0,
+            "value_pounds": 296000
+          },
+          "other_income": {
+            "value_thousands": 510.0,
+            "value_pounds": 510000
+          },
+          "total_income": {
+            "value_thousands": 806.0,
+            "value_pounds": 806000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 381.0,
+            "value_pounds": 381000
+          }
+        },
+        "Recreation and sport - Community centres and public halls": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Recreation and sport - Foreshore": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 266.0,
+            "value_pounds": 266000
+          },
+          "running_expenses": {
+            "value_thousands": 79.0,
+            "value_pounds": 79000
+          },
+          "total_expenditure": {
+            "value_thousands": 345.0,
+            "value_pounds": 345000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 47.0,
+            "value_pounds": 47000
+          },
+          "total_income": {
+            "value_thousands": 47.0,
+            "value_pounds": 47000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 298.0,
+            "value_pounds": 298000
+          }
+        },
+        "Recreation and sport - Sports development and community recreation": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 1009.0,
+            "value_pounds": 1009000
+          },
+          "running_expenses": {
+            "value_thousands": 502.0,
+            "value_pounds": 502000
+          },
+          "total_expenditure": {
+            "value_thousands": 1511.0,
+            "value_pounds": 1511000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 192.0,
+            "value_pounds": 192000
+          },
+          "other_income": {
+            "value_thousands": 575.0,
+            "value_pounds": 575000
+          },
+          "total_income": {
+            "value_thousands": 767.0,
+            "value_pounds": 767000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 744.0,
+            "value_pounds": 744000
+          }
+        },
+        "Recreation and sport - Sports and recreation facilities including golf courses": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Open spaces - Parks and open spaces": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Open spaces - Allotments": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Tourism": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 2406.0,
+            "value_pounds": 2406000
+          },
+          "running_expenses": {
+            "value_thousands": 4029.0,
+            "value_pounds": 4029000
+          },
+          "total_expenditure": {
+            "value_thousands": 6435.0,
+            "value_pounds": 6435000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 381.0,
+            "value_pounds": 381000
+          },
+          "other_income": {
+            "value_thousands": 2277.0,
+            "value_pounds": 2277000
+          },
+          "total_income": {
+            "value_thousands": 2658.0,
+            "value_pounds": 2658000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 3777.0,
+            "value_pounds": 3777000
+          }
+        },
+        "Library service - Library service": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 1228.0,
+            "value_pounds": 1228000
+          },
+          "running_expenses": {
+            "value_thousands": 1174.0,
+            "value_pounds": 1174000
+          },
+          "total_expenditure": {
+            "value_thousands": 2402.0,
+            "value_pounds": 2402000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 22.0,
+            "value_pounds": 22000
+          },
+          "other_income": {
+            "value_thousands": 2584.0,
+            "value_pounds": 2584000
+          },
+          "total_income": {
+            "value_thousands": 2606.0,
+            "value_pounds": 2606000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -204.0,
+            "value_pounds": -204000
+          }
+        },
+        "TOTAL CULTURAL AND RELATED SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 8244.0,
+            "value_pounds": 8244000
+          },
+          "running_expenses": {
+            "value_thousands": 16045.0,
+            "value_pounds": 16045000
+          },
+          "total_expenditure": {
+            "value_thousands": 24289.0,
+            "value_pounds": 24289000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 5641.0,
+            "value_pounds": 5641000
+          },
+          "other_income": {
+            "value_thousands": 10566.0,
+            "value_pounds": 10566000
+          },
+          "total_income": {
+            "value_thousands": 16207.0,
+            "value_pounds": 16207000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 8082.0,
+            "value_pounds": 8082000
+          }
+        },
+        "Cemetery, cremation and mortuary services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 562.0,
+            "value_pounds": 562000
+          },
+          "running_expenses": {
+            "value_thousands": 859.0,
+            "value_pounds": 859000
+          },
+          "total_expenditure": {
+            "value_thousands": 1421.0,
+            "value_pounds": 1421000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 2167.0,
+            "value_pounds": 2167000
+          },
+          "other_income": {
+            "value_thousands": 38.0,
+            "value_pounds": 38000
+          },
+          "total_income": {
+            "value_thousands": 2205.0,
+            "value_pounds": 2205000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -784.0,
+            "value_pounds": -784000
+          }
+        },
+        "Trading standards": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 389.0,
+            "value_pounds": 389000
+          },
+          "running_expenses": {
+            "value_thousands": 108.0,
+            "value_pounds": 108000
+          },
+          "total_expenditure": {
+            "value_thousands": 497.0,
+            "value_pounds": 497000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 21.0,
+            "value_pounds": 21000
+          },
+          "total_income": {
+            "value_thousands": 21.0,
+            "value_pounds": 21000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 476.0,
+            "value_pounds": 476000
+          }
+        },
+        "Water safety": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Food safety / hygiene": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 320.0,
+            "value_pounds": 320000
+          },
+          "running_expenses": {
+            "value_thousands": 28.0,
+            "value_pounds": 28000
+          },
+          "total_expenditure": {
+            "value_thousands": 348.0,
+            "value_pounds": 348000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 2.0,
+            "value_pounds": 2000
+          },
+          "other_income": {
+            "value_thousands": 10.0,
+            "value_pounds": 10000
+          },
+          "total_income": {
+            "value_thousands": 12.0,
+            "value_pounds": 12000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 336.0,
+            "value_pounds": 336000
+          }
+        },
+        "Environmental protection / noise and nuisance": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Housing standards and HMO licensing": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 169.0,
+            "value_pounds": 169000
+          },
+          "running_expenses": {
+            "value_thousands": 116.0,
+            "value_pounds": 116000
+          },
+          "total_expenditure": {
+            "value_thousands": 285.0,
+            "value_pounds": 285000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 503.0,
+            "value_pounds": 503000
+          },
+          "total_income": {
+            "value_thousands": 503.0,
+            "value_pounds": 503000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -218.0,
+            "value_pounds": -218000
+          }
+        },
+        "Health and safety": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Port health": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Port health - levies": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Pest control": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Public conveniences": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 810.0,
+            "value_pounds": 810000
+          },
+          "total_expenditure": {
+            "value_thousands": 810.0,
+            "value_pounds": 810000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 15.0,
+            "value_pounds": 15000
+          },
+          "total_income": {
+            "value_thousands": 15.0,
+            "value_pounds": 15000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 795.0,
+            "value_pounds": 795000
+          }
+        },
+        "Animal and public health": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 67.0,
+            "value_pounds": 67000
+          },
+          "running_expenses": {
+            "value_thousands": 200.0,
+            "value_pounds": 200000
+          },
+          "total_expenditure": {
+            "value_thousands": 267.0,
+            "value_pounds": 267000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 4.0,
+            "value_pounds": 4000
+          },
+          "total_income": {
+            "value_thousands": 4.0,
+            "value_pounds": 4000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 263.0,
+            "value_pounds": 263000
+          }
+        },
+        "Licensing": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 437.0,
+            "value_pounds": 437000
+          },
+          "running_expenses": {
+            "value_thousands": 357.0,
+            "value_pounds": 357000
+          },
+          "total_expenditure": {
+            "value_thousands": 794.0,
+            "value_pounds": 794000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 589.0,
+            "value_pounds": 589000
+          },
+          "other_income": {
+            "value_thousands": 1.0,
+            "value_pounds": 1000
+          },
+          "total_income": {
+            "value_thousands": 590.0,
+            "value_pounds": 590000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 204.0,
+            "value_pounds": 204000
+          }
+        },
+        "Crime Reduction": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 251.0,
+            "value_pounds": 251000
+          },
+          "running_expenses": {
+            "value_thousands": 167.0,
+            "value_pounds": 167000
+          },
+          "total_expenditure": {
+            "value_thousands": 418.0,
+            "value_pounds": 418000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 3.0,
+            "value_pounds": 3000
+          },
+          "other_income": {
+            "value_thousands": 242.0,
+            "value_pounds": 242000
+          },
+          "total_income": {
+            "value_thousands": 245.0,
+            "value_pounds": 245000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 173.0,
+            "value_pounds": 173000
+          }
+        },
+        "Safety Services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 386.0,
+            "value_pounds": 386000
+          },
+          "running_expenses": {
+            "value_thousands": 723.0,
+            "value_pounds": 723000
+          },
+          "total_expenditure": {
+            "value_thousands": 1109.0,
+            "value_pounds": 1109000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 1118.0,
+            "value_pounds": 1118000
+          },
+          "total_income": {
+            "value_thousands": 1118.0,
+            "value_pounds": 1118000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -9.0,
+            "value_pounds": -9000
+          }
+        },
+        "CCTV": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 474.0,
+            "value_pounds": 474000
+          },
+          "running_expenses": {
+            "value_thousands": 199.0,
+            "value_pounds": 199000
+          },
+          "total_expenditure": {
+            "value_thousands": 673.0,
+            "value_pounds": 673000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 53.0,
+            "value_pounds": 53000
+          },
+          "other_income": {
+            "value_thousands": 731.0,
+            "value_pounds": 731000
+          },
+          "total_income": {
+            "value_thousands": 784.0,
+            "value_pounds": 784000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -111.0,
+            "value_pounds": -111000
+          }
+        },
+        "Defences against flooding": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 132.0,
+            "value_pounds": 132000
+          },
+          "running_expenses": {
+            "value_thousands": 102.0,
+            "value_pounds": 102000
+          },
+          "total_expenditure": {
+            "value_thousands": 234.0,
+            "value_pounds": 234000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 234.0,
+            "value_pounds": 234000
+          }
+        },
+        "Land drainage": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 10.0,
+            "value_pounds": 10000
+          },
+          "total_expenditure": {
+            "value_thousands": 10.0,
+            "value_pounds": 10000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 10.0,
+            "value_pounds": 10000
+          }
+        },
+        "Land drainage - levies": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Coast protection": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 79.0,
+            "value_pounds": 79000
+          },
+          "running_expenses": {
+            "value_thousands": 288.0,
+            "value_pounds": 288000
+          },
+          "total_expenditure": {
+            "value_thousands": 367.0,
+            "value_pounds": 367000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 367.0,
+            "value_pounds": 367000
+          }
+        },
+        "Agricultural and fisheries services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Street cleansing (not chargeable to highways)": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 74.0,
+            "value_pounds": 74000
+          },
+          "running_expenses": {
+            "value_thousands": 7651.0,
+            "value_pounds": 7651000
+          },
+          "total_expenditure": {
+            "value_thousands": 7725.0,
+            "value_pounds": 7725000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 1786.0,
+            "value_pounds": 1786000
+          },
+          "total_income": {
+            "value_thousands": 1786.0,
+            "value_pounds": 1786000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 5939.0,
+            "value_pounds": 5939000
+          }
+        },
+        "Waste collection": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 3647.0,
+            "value_pounds": 3647000
+          },
+          "total_expenditure": {
+            "value_thousands": 3647.0,
+            "value_pounds": 3647000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 691.0,
+            "value_pounds": 691000
+          },
+          "other_income": {
+            "value_thousands": 60.0,
+            "value_pounds": 60000
+          },
+          "total_income": {
+            "value_thousands": 751.0,
+            "value_pounds": 751000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 2896.0,
+            "value_pounds": 2896000
+          }
+        },
+        "Waste disposal": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 25.0,
+            "value_pounds": 25000
+          },
+          "running_expenses": {
+            "value_thousands": 10961.0,
+            "value_pounds": 10961000
+          },
+          "total_expenditure": {
+            "value_thousands": 10986.0,
+            "value_pounds": 10986000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 612.0,
+            "value_pounds": 612000
+          },
+          "other_income": {
+            "value_thousands": 9.0,
+            "value_pounds": 9000
+          },
+          "total_income": {
+            "value_thousands": 621.0,
+            "value_pounds": 621000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 10365.0,
+            "value_pounds": 10365000
+          }
+        },
+        "Trade waste": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 25.0,
+            "value_pounds": 25000
+          },
+          "running_expenses": {
+            "value_thousands": 1767.0,
+            "value_pounds": 1767000
+          },
+          "total_expenditure": {
+            "value_thousands": 1792.0,
+            "value_pounds": 1792000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 2096.0,
+            "value_pounds": 2096000
+          },
+          "other_income": {
+            "value_thousands": 13.0,
+            "value_pounds": 13000
+          },
+          "total_income": {
+            "value_thousands": 2109.0,
+            "value_pounds": 2109000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -317.0,
+            "value_pounds": -317000
+          }
+        },
+        "Recycling": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 284.0,
+            "value_pounds": 284000
+          },
+          "total_income": {
+            "value_thousands": 284.0,
+            "value_pounds": 284000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -284.0,
+            "value_pounds": -284000
+          }
+        },
+        "Waste minimisation": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 282.0,
+            "value_pounds": 282000
+          },
+          "total_expenditure": {
+            "value_thousands": 282.0,
+            "value_pounds": 282000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 125.0,
+            "value_pounds": 125000
+          },
+          "other_income": {
+            "value_thousands": 60.0,
+            "value_pounds": 60000
+          },
+          "total_income": {
+            "value_thousands": 185.0,
+            "value_pounds": 185000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 97.0,
+            "value_pounds": 97000
+          }
+        },
+        "Climate change costs": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 248.0,
+            "value_pounds": 248000
+          },
+          "running_expenses": {
+            "value_thousands": 399.0,
+            "value_pounds": 399000
+          },
+          "total_expenditure": {
+            "value_thousands": 647.0,
+            "value_pounds": 647000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 503.0,
+            "value_pounds": 503000
+          },
+          "total_income": {
+            "value_thousands": 503.0,
+            "value_pounds": 503000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 144.0,
+            "value_pounds": 144000
+          }
+        },
+        "TOTAL ENVIRONMENTAL AND REGULATORY SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 4030.0,
+            "value_pounds": 4030000
+          },
+          "running_expenses": {
+            "value_thousands": 28829.0,
+            "value_pounds": 28829000
+          },
+          "total_expenditure": {
+            "value_thousands": 32859.0,
+            "value_pounds": 32859000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 6340.0,
+            "value_pounds": 6340000
+          },
+          "other_income": {
+            "value_thousands": 5418.0,
+            "value_pounds": 5418000
+          },
+          "total_income": {
+            "value_thousands": 11758.0,
+            "value_pounds": 11758000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 21101.0,
+            "value_pounds": 21101000
+          }
+        },
+        "Building control": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 309.0,
+            "value_pounds": 309000
+          },
+          "running_expenses": {
+            "value_thousands": 122.0,
+            "value_pounds": 122000
+          },
+          "total_expenditure": {
+            "value_thousands": 431.0,
+            "value_pounds": 431000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 282.0,
+            "value_pounds": 282000
+          },
+          "other_income": {
+            "value_thousands": 12.0,
+            "value_pounds": 12000
+          },
+          "total_income": {
+            "value_thousands": 294.0,
+            "value_pounds": 294000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 137.0,
+            "value_pounds": 137000
+          }
+        },
+        "Development control": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 773.0,
+            "value_pounds": 773000
+          },
+          "running_expenses": {
+            "value_thousands": 277.0,
+            "value_pounds": 277000
+          },
+          "total_expenditure": {
+            "value_thousands": 1050.0,
+            "value_pounds": 1050000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 415.0,
+            "value_pounds": 415000
+          },
+          "other_income": {
+            "value_thousands": 41.0,
+            "value_pounds": 41000
+          },
+          "total_income": {
+            "value_thousands": 456.0,
+            "value_pounds": 456000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 594.0,
+            "value_pounds": 594000
+          }
+        },
+        "Conservation and listed buildings": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 93.0,
+            "value_pounds": 93000
+          },
+          "total_expenditure": {
+            "value_thousands": 93.0,
+            "value_pounds": 93000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 78.0,
+            "value_pounds": 78000
+          },
+          "total_income": {
+            "value_thousands": 78.0,
+            "value_pounds": 78000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 15.0,
+            "value_pounds": 15000
+          }
+        },
+        "Other planning policy and specialist advice": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 181.0,
+            "value_pounds": 181000
+          },
+          "running_expenses": {
+            "value_thousands": 158.0,
+            "value_pounds": 158000
+          },
+          "total_expenditure": {
+            "value_thousands": 339.0,
+            "value_pounds": 339000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 35.0,
+            "value_pounds": 35000
+          },
+          "other_income": {
+            "value_thousands": 2.0,
+            "value_pounds": 2000
+          },
+          "total_income": {
+            "value_thousands": 37.0,
+            "value_pounds": 37000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 302.0,
+            "value_pounds": 302000
+          }
+        },
+        "Environmental initiatives": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 93.0,
+            "value_pounds": 93000
+          },
+          "total_expenditure": {
+            "value_thousands": 93.0,
+            "value_pounds": 93000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 79.0,
+            "value_pounds": 79000
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 79.0,
+            "value_pounds": 79000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 14.0,
+            "value_pounds": 14000
+          }
+        },
+        "Economic development": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 2410.0,
+            "value_pounds": 2410000
+          },
+          "running_expenses": {
+            "value_thousands": 5482.0,
+            "value_pounds": 5482000
+          },
+          "total_expenditure": {
+            "value_thousands": 7892.0,
+            "value_pounds": 7892000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 2709.0,
+            "value_pounds": 2709000
+          },
+          "total_income": {
+            "value_thousands": 2709.0,
+            "value_pounds": 2709000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 5183.0,
+            "value_pounds": 5183000
+          }
+        },
+        "Economic research and intelligence": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Business support and promotion": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 907.0,
+            "value_pounds": 907000
+          },
+          "running_expenses": {
+            "value_thousands": 6064.0,
+            "value_pounds": 6064000
+          },
+          "total_expenditure": {
+            "value_thousands": 6971.0,
+            "value_pounds": 6971000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 8790.0,
+            "value_pounds": 8790000
+          },
+          "other_income": {
+            "value_thousands": 1916.0,
+            "value_pounds": 1916000
+          },
+          "total_income": {
+            "value_thousands": 10706.0,
+            "value_pounds": 10706000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -3735.0,
+            "value_pounds": -3735000
+          }
+        },
+        "Community development and safety": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "TOTAL PLANNING AND DEVELOPMENT SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 4580.0,
+            "value_pounds": 4580000
+          },
+          "running_expenses": {
+            "value_thousands": 12289.0,
+            "value_pounds": 12289000
+          },
+          "total_expenditure": {
+            "value_thousands": 16869.0,
+            "value_pounds": 16869000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 9601.0,
+            "value_pounds": 9601000
+          },
+          "other_income": {
+            "value_thousands": 4758.0,
+            "value_pounds": 4758000
+          },
+          "total_income": {
+            "value_thousands": 14359.0,
+            "value_pounds": 14359000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 2510.0,
+            "value_pounds": 2510000
+          }
+        },
+        "TOTAL CULTURAL, ENVIRONMENTAL, REGULATORY AND PLANNING SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 16854.0,
+            "value_pounds": 16854000
+          },
+          "running_expenses": {
+            "value_thousands": 57163.0,
+            "value_pounds": 57163000
+          },
+          "total_expenditure": {
+            "value_thousands": 74017.0,
+            "value_pounds": 74017000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 21582.0,
+            "value_pounds": 21582000
+          },
+          "other_income": {
+            "value_thousands": 20742.0,
+            "value_pounds": 20742000
+          },
+          "total_income": {
+            "value_thousands": 42324.0,
+            "value_pounds": 42324000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 31693.0,
+            "value_pounds": 31693000
+          }
+        }
+      }
+    },
+    "RO6": {
+      "form": "RO6",
+      "category": "Central & Other",
+      "description": "Central services, protective services and other",
+      "services": {
+        "TOTAL POLICE SERVICES": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Community fire safety": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Fire fighting and rescue operations": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Fire/rescue service emergency planning and civil defence": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 7.0,
+            "value_pounds": 7000
+          },
+          "total_expenditure": {
+            "value_thousands": 7.0,
+            "value_pounds": 7000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 7.0,
+            "value_pounds": 7000
+          }
+        },
+        "TOTAL FIRE AND RESCUE SERVICES": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Corporate and Democratic Core": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 2270.0,
+            "value_pounds": 2270000
+          },
+          "running_expenses": {
+            "value_thousands": 2358.0,
+            "value_pounds": 2358000
+          },
+          "total_expenditure": {
+            "value_thousands": 4628.0,
+            "value_pounds": 4628000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 36.0,
+            "value_pounds": 36000
+          },
+          "other_income": {
+            "value_thousands": 728.0,
+            "value_pounds": 728000
+          },
+          "total_income": {
+            "value_thousands": 764.0,
+            "value_pounds": 764000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 3864.0,
+            "value_pounds": 3864000
+          }
+        },
+        "Council tax collection": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 1624.0,
+            "value_pounds": 1624000
+          },
+          "total_expenditure": {
+            "value_thousands": 1624.0,
+            "value_pounds": 1624000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 851.0,
+            "value_pounds": 851000
+          },
+          "total_income": {
+            "value_thousands": 851.0,
+            "value_pounds": 851000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 773.0,
+            "value_pounds": 773000
+          }
+        },
+        "Council tax discounts - prompt payment": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Council tax discounts - locally funded": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Council tax support - administration": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Non-domestic rates collection": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 280.0,
+            "value_pounds": 280000
+          },
+          "total_expenditure": {
+            "value_thousands": 280.0,
+            "value_pounds": 280000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 274.0,
+            "value_pounds": 274000
+          },
+          "total_income": {
+            "value_thousands": 274.0,
+            "value_pounds": 274000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 6.0,
+            "value_pounds": 6000
+          }
+        },
+        "Business Improvement District ballots": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "running_expenses": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "sales_fees_charges": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "other_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "total_income": {
+            "value_thousands": null,
+            "value_pounds": null
+          },
+          "net_current_expenditure": {
+            "value_thousands": null,
+            "value_pounds": null
+          }
+        },
+        "Registration of births, deaths and marriages": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 490.0,
+            "value_pounds": 490000
+          },
+          "running_expenses": {
+            "value_thousands": 31.0,
+            "value_pounds": 31000
+          },
+          "total_expenditure": {
+            "value_thousands": 521.0,
+            "value_pounds": 521000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 476.0,
+            "value_pounds": 476000
+          },
+          "other_income": {
+            "value_thousands": 10.0,
+            "value_pounds": 10000
+          },
+          "total_income": {
+            "value_thousands": 486.0,
+            "value_pounds": 486000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 35.0,
+            "value_pounds": 35000
+          }
+        },
+        "Registration of electors": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 113.0,
+            "value_pounds": 113000
+          },
+          "running_expenses": {
+            "value_thousands": 122.0,
+            "value_pounds": 122000
+          },
+          "total_expenditure": {
+            "value_thousands": 235.0,
+            "value_pounds": 235000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 5.0,
+            "value_pounds": 5000
+          },
+          "total_income": {
+            "value_thousands": 5.0,
+            "value_pounds": 5000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 230.0,
+            "value_pounds": 230000
+          }
+        },
+        "Conducting elections": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 281.0,
+            "value_pounds": 281000
+          },
+          "running_expenses": {
+            "value_thousands": 374.0,
+            "value_pounds": 374000
+          },
+          "total_expenditure": {
+            "value_thousands": 655.0,
+            "value_pounds": 655000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 629.0,
+            "value_pounds": 629000
+          },
+          "total_income": {
+            "value_thousands": 629.0,
+            "value_pounds": 629000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 26.0,
+            "value_pounds": 26000
+          }
+        },
+        "Emergency planning": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 7.0,
+            "value_pounds": 7000
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Local land charges": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 15.0,
+            "value_pounds": 15000
+          },
+          "running_expenses": {
+            "value_thousands": 54.0,
+            "value_pounds": 54000
+          },
+          "total_expenditure": {
+            "value_thousands": 69.0,
+            "value_pounds": 69000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 86.0,
+            "value_pounds": 86000
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 86.0,
+            "value_pounds": 86000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -17.0,
+            "value_pounds": -17000
+          }
+        },
+        "Local welfare assistance": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "General grants, bequests and donations": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Coroners' court services": {
+          "relevant_to_districts": false,
+          "employees": {
+            "value_thousands": 588.0,
+            "value_pounds": 588000
+          },
+          "running_expenses": {
+            "value_thousands": 440.0,
+            "value_pounds": 440000
+          },
+          "total_expenditure": {
+            "value_thousands": 1028.0,
+            "value_pounds": 1028000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 578.0,
+            "value_pounds": 578000
+          },
+          "total_income": {
+            "value_thousands": 578.0,
+            "value_pounds": 578000
+          },
+          "net_current_expenditure": {
+            "value_thousands": 450.0,
+            "value_pounds": 450000
+          }
+        },
+        "Other court services": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Retirement benefits": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Costs of unused shares of IT facilities and other assets": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "Revenue expenditure on surplus assets": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "total_income": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "net_current_expenditure": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          }
+        },
+        "MANAGEMENT AND SUPPORT SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 20958.0,
+            "value_pounds": 20958000
+          },
+          "running_expenses": {
+            "value_thousands": 16839.0,
+            "value_pounds": 16839000
+          },
+          "total_expenditure": {
+            "value_thousands": 37797.0,
+            "value_pounds": 37797000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 3892.0,
+            "value_pounds": 3892000
+          },
+          "other_income": {
+            "value_thousands": 39944.0,
+            "value_pounds": 39944000
+          },
+          "total_income": {
+            "value_thousands": 43836.0,
+            "value_pounds": 43836000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -6039.0,
+            "value_pounds": -6039000
+          }
+        },
+        "TOTAL CENTRAL SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 24715.0,
+            "value_pounds": 24715000
+          },
+          "running_expenses": {
+            "value_thousands": 22499.0,
+            "value_pounds": 22499000
+          },
+          "total_expenditure": {
+            "value_thousands": 47214.0,
+            "value_pounds": 47214000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 4490.0,
+            "value_pounds": 4490000
+          },
+          "other_income": {
+            "value_thousands": 43019.0,
+            "value_pounds": 43019000
+          },
+          "total_income": {
+            "value_thousands": 47509.0,
+            "value_pounds": 47509000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -295.0,
+            "value_pounds": -295000
+          }
+        },
+        "TOTAL OTHER SERVICES": {
+          "relevant_to_districts": true,
+          "employees": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "running_expenses": {
+            "value_thousands": 203.0,
+            "value_pounds": 203000
+          },
+          "total_expenditure": {
+            "value_thousands": 203.0,
+            "value_pounds": 203000
+          },
+          "sales_fees_charges": {
+            "value_thousands": 0.0,
+            "value_pounds": 0
+          },
+          "other_income": {
+            "value_thousands": 1550.0,
+            "value_pounds": 1550000
+          },
+          "total_income": {
+            "value_thousands": 1550.0,
+            "value_pounds": 1550000
+          },
+          "net_current_expenditure": {
+            "value_thousands": -1347.0,
+            "value_pounds": -1347000
+          }
+        }
+      }
+    }
+  },
+  "council_tax": {
+    "band_d_by_year": {
+      "1998/99": 579.52,
+      "1999/00": 625.38,
+      "2000/01": 662.65,
+      "2001/02": 742.58,
+      "2002/03": 877.03,
+      "2003/04": 990.41,
+      "2004/05": 1028.38,
+      "2005/06": 1079.23,
+      "2006/07": 1127.02,
+      "2007/08": 1175.89,
+      "2008/09": 1222.29,
+      "2009/10": 1268.79,
+      "2010/11": 1306.09,
+      "2011/12": 1306.09,
+      "2012/13": 1306.09,
+      "2013/14": 1306.0,
+      "2014/15": 1306.0,
+      "2015/16": 1306.0,
+      "2016/17": 1358.05,
+      "2017/18": 1425.75,
+      "2018/19": 1511.14,
+      "2019/20": 1556.31,
+      "2020/21": 1618.39,
+      "2021/22": 1699.13,
+      "2022/23": 1749.92,
+      "2023/24": 1837.23,
+      "2024/25": 1928.87,
+      "2025/26": 2025.08
+    },
+    "band_d_total_by_year": {
+      "1993/94": 649.13,
+      "1994/95": 681.75,
+      "1995/96": 651.38,
+      "1996/97": 665.93,
+      "1997/98": 729.14,
+      "1998/99": 632.93,
+      "1999/00": 683.07,
+      "2000/01": 725.25,
+      "2001/02": 810.47,
+      "2002/03": 950.89,
+      "2003/04": 1077.98,
+      "2004/05": 1178.72,
+      "2005/06": 1239.05,
+      "2006/07": 1294.82,
+      "2007/08": 1359.28,
+      "2008/09": 1418.41,
+      "2009/10": 1473.28,
+      "2010/11": 1516.01,
+      "2011/12": 1516.01,
+      "2012/13": 1519.67,
+      "2013/14": 1522.57,
+      "2014/15": 1525.61,
+      "2015/16": 1529.92,
+      "2016/17": 1585.77,
+      "2017/18": 1656.7,
+      "2018/19": 1756.05,
+      "2019/20": 1827.24,
+      "2020/21": 1900.7,
+      "2021/22": 1997.85,
+      "2022/23": 2063.64,
+      "2023/24": 2170.95,
+      "2024/25": 2277.0,
+      "2025/26": 2392.21
+    },
+    "band_d_inc_pp_by_year": {
+      "1998/99": 579.52,
+      "1999/00": 625.38,
+      "2000/01": 662.65,
+      "2001/02": 742.58,
+      "2002/03": 877.03,
+      "2003/04": 990.41,
+      "2004/05": 1028.38,
+      "2005/06": 1079.23,
+      "2006/07": 1127.02,
+      "2007/08": 1175.89,
+      "2008/09": 1222.29,
+      "2009/10": 1268.79,
+      "2010/11": 1306.09,
+      "2011/12": 1306.09,
+      "2012/13": 1306.09,
+      "2013/14": 1306.0,
+      "2014/15": 1306.0,
+      "2015/16": 1306.0,
+      "2016/17": 1358.05,
+      "2017/18": 1425.75,
+      "2018/19": 1511.14,
+      "2019/20": 1556.31,
+      "2020/21": 1618.39,
+      "2021/22": 1699.13,
+      "2022/23": 1749.92,
+      "2023/24": 1837.23,
+      "2024/25": 1928.87,
+      "2025/26": 2025.08
+    }
+  }
+}

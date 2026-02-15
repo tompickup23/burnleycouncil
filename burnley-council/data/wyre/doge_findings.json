@@ -1,0 +1,746 @@
+{
+  "findings": [
+    {
+      "value": "\u00a3430.3K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "8 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3240.9K",
+      "label": "Likely Duplicate Payments",
+      "detail": "660 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 4622 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a337.8M",
+      "label": "Possible Duplicate Payments",
+      "detail": "2938 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3443.0K",
+      "label": "Suspected Split Payments",
+      "detail": "3 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a310.8M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "342 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "6.8x",
+      "label": "Year-End Spending Pattern",
+      "detail": "Finance spent 6.8x their monthly average in March (\u00a349.3M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Heritage Cards & Souvenirs Ltd (1.0 day avg, 126 payments, \u00a32.1K)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=1019.28",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 1 deviates 7.6% from expected distribution across 27,264 transactions. Note: with 27,264 transactions, chi-squared tests are highly sensitive \u2014 the 7.6% max digit deviation is the more practical measure of anomaly.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Chi-squared values on samples of 27,264+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (7.6%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "4 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Heritage Cards & Souvenirs Ltd \u2014 every 1.0 days (126 payments, \u00a32.1K)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "WATER PLUS LTD: 4930 transactions totalling \u00a31.1M",
+      "description": "Averaging \u00a3216 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=WATER PLUS LTD",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "15 suppliers shared with neighbouring councils \u2014 \u00a3228.5M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "TREVORS WAREHOUSES LTD: 8289% price gap between councils",
+      "description": "Blackpool pays \u00a313.3K avg vs Wyre \u00a3159 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=TREVORS WAREHOUSES LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    },
+    {
+      "icon": "shield-alert",
+      "badge": "Competition",
+      "title": "1 service categories with a single supplier",
+      "description": "Top: SINGLETON CLAMP &amp; PARTNERS LIMITED \u2014 sole winner in 'Transport systems consultancy services' (2 contracts, \u00a3172.4K). Category monopolies may indicate market failure or specification bias.",
+      "link": "/procurement",
+      "link_text": "View procurement \u2192",
+      "severity": "info",
+      "confidence": "medium"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-15T10:10:22.824719",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration",
+    "fraud_triangle"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "HERITAGE CARDS & SOUVENIRS LTD",
+        "payments": 126,
+        "avg_days": 1.0,
+        "total_spend": 2108.1,
+        "regularity": "high"
+      },
+      {
+        "supplier": "LEYLAND AUTO LTD",
+        "payments": 14,
+        "avg_days": 2.0,
+        "total_spend": 530.13,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "AMAZON BUSINESS",
+        "payments": 1485,
+        "avg_days": 3.9,
+        "total_spend": 120813.46,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "CREATIVE GROUP INC LTD",
+        "payments": 11,
+        "avg_days": 5.5,
+        "total_spend": 21660.0,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "BUTLER ROSE RECUITMENT LTD",
+        "payments": 12,
+        "avg_days": 6.0,
+        "total_spend": 22991.1,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "MICHAEL PAGE INTERNATIONAL RECRUITMENT LTD",
+        "payments": 61,
+        "avg_days": 8.0,
+        "total_spend": 91391.17,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "GEORGE SANDERSON LTD",
+        "payments": 20,
+        "avg_days": 8.1,
+        "total_spend": 1985.92,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "UNKNOWN",
+        "payments": 888,
+        "avg_days": 8.2,
+        "total_spend": 81558677.35,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "JAMES ANDREWS RECRUITMENT SOLUTIONS LTD",
+        "payments": 20,
+        "avg_days": 8.4,
+        "total_spend": 24453.0,
+        "regularity": "high"
+      },
+      {
+        "supplier": "THE OYSTER PARTNERSHIP",
+        "payments": 12,
+        "avg_days": 9.6,
+        "total_spend": 21200.0,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "HERITAGE CARDS & SOUVENIRS LTD",
+        "payments": 126,
+        "avg_days": 1.0,
+        "std_dev": 0.0,
+        "total_spend": 2108.1
+      },
+      {
+        "supplier": "JAMES ANDREWS RECRUITMENT SOLUTIONS LTD",
+        "payments": 20,
+        "avg_days": 8.4,
+        "std_dev": 4.2,
+        "total_spend": 24453.0
+      },
+      {
+        "supplier": "GROUNDSMAN TOOLS & SUPPLIES LLP",
+        "payments": 27,
+        "avg_days": 10.5,
+        "std_dev": 3.5,
+        "total_spend": 5603.34
+      },
+      {
+        "supplier": "PENTAGON LCV",
+        "payments": 25,
+        "avg_days": 46.0,
+        "std_dev": 0.0,
+        "total_spend": 234148.25
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 10090,
+        "total": 121449151.2
+      },
+      {
+        "day": "Tuesday",
+        "count": 11921,
+        "total": 201321386.97
+      },
+      {
+        "day": "Wednesday",
+        "count": 12148,
+        "total": 112381055.59
+      },
+      {
+        "day": "Thursday",
+        "count": 9887,
+        "total": 101637800.87
+      },
+      {
+        "day": "Friday",
+        "count": 5523,
+        "total": 120017443.99
+      },
+      {
+        "day": "Saturday",
+        "count": 359,
+        "total": 20987028.84
+      },
+      {
+        "day": "Sunday",
+        "count": 288,
+        "total": 565022.75
+      }
+    ],
+    "total_analysed": 416
+  },
+  "supplier_concentration": {
+    "total_spend": 678358890.21,
+    "unique_suppliers": 1558,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "Lancashire County Council",
+          "total": 325921534.17,
+          "count": 665,
+          "pct": 48.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "total": 116297706.0,
+          "count": 142,
+          "pct": 17.1
+        },
+        {
+          "supplier": "UNKNOWN",
+          "total": 81558677.35,
+          "count": 888,
+          "pct": 12.0
+        },
+        {
+          "supplier": "BALFOUR BEATTY CIVIL ENGINEERING LTD",
+          "total": 39152037.3,
+          "count": 71,
+          "pct": 5.8
+        },
+        {
+          "supplier": "LANCASHIRE FIRE AUTHORITY",
+          "total": 19858502.63,
+          "count": 115,
+          "pct": 2.9
+        }
+      ],
+      "total": 582788457.45,
+      "pct": 85.9
+    },
+    "top10_pct": 90.6,
+    "top20_pct": 92.5,
+    "hhi": 2796.8,
+    "concentration_level": "high"
+  },
+  "procurement_compliance": {
+    "total_contracts": 90,
+    "awarded_contracts": 64,
+    "threshold_suspects": [
+      {
+        "title": "Garstang Young People&#039;s Place",
+        "value": 124309,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Axo Leisure",
+        "pct_of_threshold": 89.6
+      },
+      {
+        "title": "Fleetwood YMCA Insallation of Photovoltaic Systems",
+        "value": 123794,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Project Energy Ltd",
+        "pct_of_threshold": 89.2
+      },
+      {
+        "title": "Painting Railings at Mount Grounds, Fleetwood",
+        "value": 27490,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Ian Williams Limited",
+        "pct_of_threshold": 91.6
+      },
+      {
+        "title": "Re-roofing works",
+        "value": 127786,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Blackpool Industrial Roofing",
+        "pct_of_threshold": 92.1
+      },
+      {
+        "title": "Conservation Area Consultancy",
+        "value": 27250,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Growth Lancashire Limited",
+        "pct_of_threshold": 90.8
+      },
+      {
+        "title": "Sit On Mower",
+        "value": 29950,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "CHESHIRE TURF MACHINERY LTD",
+        "pct_of_threshold": 99.8
+      }
+    ],
+    "threshold_suspect_count": 6,
+    "repeat_winners": [
+      {
+        "supplier": "Motus Commercials Derby",
+        "contracts": 2,
+        "total_value": 303675.07,
+        "avg_value": 151837.54
+      },
+      {
+        "supplier": "SINGLETON CLAMP &amp; PARTNERS LIMITED",
+        "contracts": 2,
+        "total_value": 172391.5,
+        "avg_value": 86195.75
+      },
+      {
+        "supplier": "NPOWER COMMERCIAL GAS LIMITED",
+        "contracts": 2,
+        "total_value": 961911,
+        "avg_value": 480955.5
+      }
+    ],
+    "repeat_winner_count": 3,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 64,
+      "pct": 0.0
+    },
+    "timing_clusters": [
+      {
+        "supplier": "NPOWER COMMERCIAL GAS LIMITED",
+        "gap_days": 0,
+        "date1": "2023-05-30",
+        "date2": "2023-05-30"
+      }
+    ],
+    "timing_cluster_count": 1,
+    "late_publications": [
+      {
+        "title": "Regeneration and Economic Development Consultancy Services",
+        "supplier": "STANTEC UK LIMITED",
+        "published_date": "2023-10-17",
+        "awarded_date": "2022-05-31",
+        "days_late": 504,
+        "awarded_value": 290000
+      },
+      {
+        "title": "To Supply One New TORO LT-F3000\u2122 Triple Flail Mower",
+        "supplier": "Cheshire Turf Machinery",
+        "published_date": "2024-05-03",
+        "awarded_date": "2024-01-22",
+        "days_late": 102,
+        "awarded_value": 45595
+      },
+      {
+        "title": "To Supply Three New Compact Sweepers Diesel or Electric Powered",
+        "supplier": "Bucher Municipal Ltd",
+        "published_date": "2024-05-03",
+        "awarded_date": "2024-01-22",
+        "days_late": 102,
+        "awarded_value": 279302.2
+      },
+      {
+        "title": "Wintering Bird Surveys",
+        "supplier": "ARCADIS CONSULTING EUROPE LIMITED",
+        "published_date": "2025-12-10",
+        "awarded_date": "2025-09-04",
+        "days_late": 97,
+        "awarded_value": 170352.8
+      },
+      {
+        "title": "Community sports and physical activity services",
+        "supplier": "FLEETWOOD TOWN COMMUNITY TRUST",
+        "published_date": "2023-11-30",
+        "awarded_date": "2023-08-30",
+        "days_late": 92,
+        "awarded_value": 84031
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council HCC Lot 3 - 1 x Sub-Compact Sweeper (14348)",
+        "supplier": "Scarab Sweepers Limited",
+        "published_date": "2023-02-14",
+        "awarded_date": "2022-11-28",
+        "days_late": 78,
+        "awarded_value": 66028.88
+      },
+      {
+        "title": "Adult Weight Management",
+        "supplier": "Miles Bramwell Executive Services Ltd t/a Slimming World",
+        "published_date": "2024-06-03",
+        "awarded_date": "2024-03-18",
+        "days_late": 77,
+        "awarded_value": 160000
+      },
+      {
+        "title": "Water and wastewater services",
+        "supplier": "Wave Ltd",
+        "published_date": "2025-06-20",
+        "awarded_date": "2025-04-07",
+        "days_late": 74,
+        "awarded_value": 554272
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council NEPO HGV Lot 2 - 1 x 16t DAF RCV (21169)",
+        "supplier": "NTM-GB Limited",
+        "published_date": "2024-09-27",
+        "awarded_date": "2024-07-18",
+        "days_late": 71,
+        "awarded_value": 149980
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council HCC Lot 2 - 5 x 3.5t Crew Cab Tippers (21175)",
+        "supplier": "Motus Commercials Derby",
+        "published_date": "2024-09-27",
+        "awarded_date": "2024-07-18",
+        "days_late": 71,
+        "awarded_value": 232198.25
+      }
+    ],
+    "late_publication_count": 49,
+    "publication_timing": {
+      "avg_delay_days": 27.7,
+      "median_delay_days": 17,
+      "total_measured": 64
+    },
+    "weak_competition": [
+      {
+        "title": "GB-Fylde: TPPL Wyre Council NEPO HGV Lot 2 - 10 x 7.5t Food Waste Vehicles (2317",
+        "supplier": "Terberg Matec UK Limited",
+        "awarded_value": 1004800,
+        "tender_days": -35,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Specialist vehicles"
+      },
+      {
+        "title": "Electricity Supply",
+        "supplier": "NPOWER COMMERCIAL GAS LIMITED",
+        "awarded_value": 559558,
+        "tender_days": 0,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Electricity"
+      },
+      {
+        "title": "CCTV",
+        "supplier": "British Telecommunications",
+        "awarded_value": 475195.42,
+        "tender_days": -2,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Surveillance and security systems and devices"
+      },
+      {
+        "title": "Software Products",
+        "supplier": "PHOENIX SOFTWARE LIMITED",
+        "awarded_value": 474291,
+        "tender_days": -1,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Software package and information systems"
+      },
+      {
+        "title": "Gas Supply",
+        "supplier": "NPOWER COMMERCIAL GAS LIMITED",
+        "awarded_value": 402353,
+        "tender_days": 0,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Mains gas"
+      },
+      {
+        "title": "Regeneration and Economic Development Consultancy Services",
+        "supplier": "STANTEC UK LIMITED",
+        "awarded_value": 290000,
+        "tender_days": -504,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Highways consultancy services"
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council HCC Lot 2 - 5 x 3.5t Crew Cab Tippers (21175)",
+        "supplier": "Motus Commercials Derby",
+        "awarded_value": 232198.25,
+        "tender_days": -71,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tipper trucks"
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council NEPO HGV Lot 2 - 1 x 16t DAF RCV (21169)",
+        "supplier": "NTM-GB Limited",
+        "awarded_value": 149980,
+        "tender_days": -71,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "Jubilee Quay Saltmarsh Creation Project",
+        "supplier": "Land &amp; Water Services Ltd",
+        "awarded_value": 149739,
+        "tender_days": -42,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Consultative engineering and construction services"
+      },
+      {
+        "title": "Electricity Supply",
+        "supplier": "OPUS ENERGY (CORPORATE) LIMITED",
+        "awarded_value": 142081,
+        "tender_days": 0,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Electricity"
+      },
+      {
+        "title": "Re-roofing works",
+        "supplier": "Blackpool Industrial Roofing",
+        "awarded_value": 127786,
+        "tender_days": -5,
+        "eval_days": 5,
+        "flags": [
+          "Awarded 5 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council HCC Lot 2 - 2 x 3.5t Double Cab-In Vans (24355)",
+        "supplier": "Motus Commercials Derby",
+        "awarded_value": 71476.82,
+        "tender_days": -20,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Vans"
+      },
+      {
+        "title": "GB-Fylde: TPPL Wyre Council HCC Lot 3 - 1 x Sub-Compact Sweeper (14348)",
+        "supplier": "Scarab Sweepers Limited",
+        "awarded_value": 66028.88,
+        "tender_days": -78,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Road sweepers"
+      },
+      {
+        "title": "Link: IT Solutions 2 (Digital Workplace Solutions)",
+        "supplier": "EUROPEAN ELECTRONIQUE LIMITED",
+        "awarded_value": 58271.95,
+        "tender_days": 2,
+        "eval_days": -2,
+        "flags": [
+          "Only 2 days to bid"
+        ],
+        "cpv": "Information systems and servers"
+      },
+      {
+        "title": "Upgrade car parking machines",
+        "supplier": "FLOWBIRD SMART CITY UK LTD",
+        "awarded_value": 52914,
+        "tender_days": -29,
+        "eval_days": 7,
+        "flags": [
+          "Awarded 7 days after deadline"
+        ],
+        "cpv": "Parking meters"
+      }
+    ],
+    "weak_competition_count": 21,
+    "monopoly_categories": [
+      {
+        "cpv": "Transport systems consultancy services",
+        "supplier": "SINGLETON CLAMP &amp; PARTNERS LIMITED",
+        "contracts": 2,
+        "total_value": 172391.5
+      }
+    ],
+    "monopoly_category_count": 1
+  },
+  "fraud_triangle": {
+    "overall_score": 63.4,
+    "risk_level": "elevated",
+    "dimensions": {
+      "opportunity": {
+        "score": 74,
+        "signals": [
+          {
+            "signal": "3 suspected split payment instances (\u00a3443.0K)",
+            "score": 25,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "21 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "1 service categories with a single supplier",
+            "score": 4,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "Highly concentrated supplier market (HHI: 2797)",
+            "score": 15,
+            "source": "supplier_concentration"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 84,
+        "signals": [
+          {
+            "signal": "Year-end spike: 13.9x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "660 likely duplicate payments (\u00a3240.9K)",
+            "score": 29,
+            "source": "duplicates"
+          },
+          {
+            "signal": "342 round-number payments over \u00a35K (\u00a310.8M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 41,
+        "signals": [
+          {
+            "signal": "8 suppliers with current CH red flags",
+            "score": 16,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "49 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 9
+  }
+}

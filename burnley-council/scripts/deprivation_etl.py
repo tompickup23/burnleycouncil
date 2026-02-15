@@ -43,6 +43,12 @@ COUNCIL_LAD_NAMES = {
     "ribble_valley": "Ribble Valley",
     "chorley": "Chorley",
     "south_ribble": "South Ribble",
+    "blackpool": "Blackpool",
+    "west_lancashire": "West Lancashire",
+    "blackburn": "Blackburn with Darwen",
+    "wyre": "Wyre",
+    "preston": "Preston",
+    "fylde": "Fylde",
 }
 
 

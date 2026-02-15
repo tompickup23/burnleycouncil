@@ -1,0 +1,112 @@
+{
+  "council": "Fylde",
+  "council_id": "E07000119",
+  "council_type": "district",
+  "spending_threshold": 500,
+  "total_records": 37514,
+  "financial_years": [
+    "2015/16",
+    "2016/17",
+    "2017/18",
+    "2018/19",
+    "2019/20",
+    "2020/21",
+    "2021/22",
+    "2022/23",
+    "2023/24",
+    "2024/25",
+    "2025/26"
+  ],
+  "data_types": [
+    "spend"
+  ],
+  "filters": {
+    "departments": [
+      {
+        "name": "STRATEGIC DEVELOPMENT",
+        "spend": 46618729.8,
+        "count": 11952,
+        "suppliers": 528
+      },
+      {
+        "name": "COMMUNITY SERVICES",
+        "spend": 34102539.22,
+        "count": 13407,
+        "suppliers": 691
+      },
+      {
+        "name": "GOVERNANCE AND PARTNERSHIPS",
+        "spend": 30248029.38,
+        "count": 3284,
+        "suppliers": 399
+      },
+      {
+        "name": "OPERATIONAL SERVICES",
+        "spend": 25608434.96,
+        "count": 7196,
+        "suppliers": 344
+      },
+      {
+        "name": "STRATEGIC PLANNING AND DEVELOPMENT",
+        "spend": 14560880.28,
+        "count": 1230,
+        "suppliers": 185
+      },
+      {
+        "name": "CHIEF EXECUTIVE",
+        "spend": 1406395.86,
+        "count": 407,
+        "suppliers": 92
+      },
+      {
+        "name": "COMMUNITY AND CULTURAL SERVICES",
+        "spend": 103737.88,
+        "count": 31,
+        "suppliers": 17
+      },
+      {
+        "name": "DMOCRTIC SVCS AND MEMBER SUPPT",
+        "spend": 14085.13,
+        "count": 1,
+        "suppliers": 1
+      },
+      {
+        "name": "CORPORATE POLICY AND PERFORMANCE",
+        "spend": 5920.9,
+        "count": 4,
+        "suppliers": 4
+      },
+      {
+        "name": "STREETSCENE SERVICES",
+        "spend": 2500.0,
+        "count": 1,
+        "suppliers": 1
+      },
+      {
+        "name": "LEGAL SERVICES",
+        "spend": 2175.0,
+        "count": 1,
+        "suppliers": 1
+      }
+    ],
+    "department_raws": [
+      "CHIEF EXECUTIVE",
+      "COMMUNITY AND CULTURAL SERVICES",
+      "COMMUNITY SERVICES",
+      "CORPORATE POLICY AND PERFORMANCE",
+      "DMOCRTIC SVCS AND MEMBER SUPPT",
+      "GOVERNANCE AND PARTNERSHIPS",
+      "LEGAL SERVICES",
+      "OPERATIONAL SERVICES",
+      "STRATEGIC DEVELOPMENT",
+      "STRATEGIC PLANNING AND DEVELOPMENT",
+      "STREETSCENE SERVICES"
+    ]
+  },
+  "total_spend": 152673428.41,
+  "unique_suppliers": 1689,
+  "date_range": {
+    "min": "2015-08-05",
+    "max": "2025-12-23"
+  }
+}

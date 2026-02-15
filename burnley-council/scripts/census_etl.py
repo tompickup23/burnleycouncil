@@ -38,6 +38,12 @@ COUNCILS = {
     "ribble_valley": {"ons": "E07000124", "name": "Ribble Valley"},
     "chorley": {"ons": "E07000118", "name": "Chorley"},
     "south_ribble": {"ons": "E07000126", "name": "South Ribble"},
+    "blackpool": {"ons": "E06000009", "name": "Blackpool"},
+    "west_lancashire": {"ons": "E07000127", "name": "West Lancashire"},
+    "blackburn": {"ons": "E06000008", "name": "Blackburn with Darwen"},
+    "wyre": {"ons": "E07000128", "name": "Wyre"},
+    "preston": {"ons": "E07000123", "name": "Preston"},
+    "fylde": {"ons": "E07000119", "name": "Fylde"},
     "lancashire_cc": {
         "ons": "E10000017",
         "name": "Lancashire",

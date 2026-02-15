@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "burnley-council" / "data"
 PUBLIC_DATA = ROOT / "public" / "data"
 
-COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc"]
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc", "blackpool", "west_lancashire", "blackburn", "wyre", "preston", "fylde"]
 
 # Population figures (2021 Census) — updated manually when new census data available
 POPULATIONS = {
@@ -40,6 +40,12 @@ POPULATIONS = {
     "chorley": 118300,
     "south_ribble": 111600,
     "lancashire_cc": 1235356,
+    "blackpool": 141100,
+    "west_lancashire": 117935,
+    "blackburn": 149696,
+    "wyre": 113900,
+    "preston": 143135,
+    "fylde": 81550,
 }
 
 

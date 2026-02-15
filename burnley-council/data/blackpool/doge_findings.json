@@ -1,0 +1,761 @@
+{
+  "findings": [
+    {
+      "value": "\u00a35.6M",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "19 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3217.7K",
+      "label": "Likely Duplicate Payments",
+      "detail": "50 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 42198 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3132.0K",
+      "label": "Possible Duplicate Payments",
+      "detail": "91 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3198.3M",
+      "label": "Suspected Split Payments",
+      "detail": "524 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3342.5M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "5331 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "2.6x",
+      "label": "Year-End Spending Pattern",
+      "detail": "BUDOCL spent 2.6x their monthly average in March (\u00a361.9M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "info",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Redacted Personal Info (1.4 day avg, 1503 payments, \u00a31.4M)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "2.9% dev",
+      "label": "Benford's Law Analysis",
+      "detail": "Digit distribution across 630,914 transactions shows \u03c7\u00b2=5813.85 (statistically significant due to large sample size), but max digit deviation is only 2.9% \u2014 within the normal range for UK council spending patterns. No practical evidence of fabricated invoices.",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Chi-squared values on samples of 630,914+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (2.9%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "10 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Redacted Personal Info \u2014 every 1.4 days (1503 payments, \u00a31.4M)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "REDACTED: 130151 transactions totalling \u00a3145.9M",
+      "description": "Averaging \u00a31.1K per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=REDACTED",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "34 suppliers shared with neighbouring councils \u2014 \u00a3632.2M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "TREVORS WAREHOUSES LTD: 8289% price gap between councils",
+      "description": "Blackpool pays \u00a313.3K avg vs Wyre \u00a3159 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=TREVORS WAREHOUSES LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    },
+    {
+      "icon": "shield-alert",
+      "badge": "Competition",
+      "title": "1 service categories with a single supplier",
+      "description": "Top: CBRE Limited \u2014 sole winner in 'Development consultancy services' (2 contracts, \u00a3230.0K). Category monopolies may indicate market failure or specification bias.",
+      "link": "/procurement",
+      "link_text": "View procurement \u2192",
+      "severity": "info",
+      "confidence": "medium"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-15T10:10:22.818725",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration",
+    "fraud_triangle"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "REDACTED PERSONAL INFO",
+        "payments": 1503,
+        "avg_days": 1.4,
+        "total_spend": 1372515.54,
+        "regularity": "high"
+      },
+      {
+        "supplier": "REDACTED",
+        "payments": 130151,
+        "avg_days": 1.7,
+        "total_spend": 145867016.21,
+        "regularity": "high"
+      },
+      {
+        "supplier": "AON UK LTD",
+        "payments": 26,
+        "avg_days": 2.0,
+        "total_spend": 1621925.49,
+        "regularity": "high"
+      },
+      {
+        "supplier": "BAMBERS REMEDIAL CONTRACTORS LTD",
+        "payments": 2483,
+        "avg_days": 3.8,
+        "total_spend": 19904057.5,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "L BUTTERWORTH T/A 123 SUPPORTED ACCOMMODATION",
+        "payments": 1416,
+        "avg_days": 3.9,
+        "total_spend": 1799714.82,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "J A DICKENS PROPERTY DEVELOPER",
+        "payments": 34,
+        "avg_days": 4.0,
+        "total_spend": 18118.33,
+        "regularity": "high"
+      },
+      {
+        "supplier": "ENVECO BLACKPOOL WASTE SERVICES LTD",
+        "payments": 1618,
+        "avg_days": 4.1,
+        "total_spend": 71169126.83,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "STANNAH LIFT SERVICES LTD",
+        "payments": 1460,
+        "avg_days": 4.2,
+        "total_spend": 3811554.06,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "NONSTOP RECRUITMENT LTD",
+        "payments": 62,
+        "avg_days": 4.2,
+        "total_spend": 119823.93,
+        "regularity": "high"
+      },
+      {
+        "supplier": "ELLIS & YORK LTD",
+        "payments": 1633,
+        "avg_days": 4.4,
+        "total_spend": 3512118.59,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "REDACTED PERSONAL INFO",
+        "payments": 1503,
+        "avg_days": 1.4,
+        "std_dev": 0.9,
+        "total_spend": 1372515.54
+      },
+      {
+        "supplier": "REDACTED",
+        "payments": 130151,
+        "avg_days": 1.7,
+        "std_dev": 3.5,
+        "total_spend": 145867016.21
+      },
+      {
+        "supplier": "AON UK LTD",
+        "payments": 26,
+        "avg_days": 2.0,
+        "std_dev": 1.4,
+        "total_spend": 1621925.49
+      },
+      {
+        "supplier": "J A DICKENS PROPERTY DEVELOPER",
+        "payments": 34,
+        "avg_days": 4.0,
+        "std_dev": 0.0,
+        "total_spend": 18118.33
+      },
+      {
+        "supplier": "NONSTOP RECRUITMENT LTD",
+        "payments": 62,
+        "avg_days": 4.2,
+        "std_dev": 2.6,
+        "total_spend": 119823.93
+      },
+      {
+        "supplier": "PRISM MEDICAL UK",
+        "payments": 46,
+        "avg_days": 4.6,
+        "std_dev": 3.5,
+        "total_spend": 173064.24
+      },
+      {
+        "supplier": "PROSPERO GROUP LTD",
+        "payments": 144,
+        "avg_days": 4.9,
+        "std_dev": 3.6,
+        "total_spend": 292883.38
+      },
+      {
+        "supplier": "STARFISH SEARCH LTD",
+        "payments": 37,
+        "avg_days": 6.1,
+        "std_dev": 4.0,
+        "total_spend": 176367.0
+      },
+      {
+        "supplier": "RSN HEALTHCARE GROUP LTD",
+        "payments": 28,
+        "avg_days": 7.3,
+        "std_dev": 3.3,
+        "total_spend": 184423.0
+      },
+      {
+        "supplier": "NOOK RESIDENTIAL LTD",
+        "payments": 26,
+        "avg_days": 7.4,
+        "std_dev": 2.8,
+        "total_spend": 76159.66
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 69879,
+        "total": 798184758.56
+      },
+      {
+        "day": "Tuesday",
+        "count": 120809,
+        "total": 672263558.35
+      },
+      {
+        "day": "Wednesday",
+        "count": 147263,
+        "total": 838225585.08
+      },
+      {
+        "day": "Thursday",
+        "count": 149343,
+        "total": 730861651.31
+      },
+      {
+        "day": "Friday",
+        "count": 137994,
+        "total": 1017908442.36
+      },
+      {
+        "day": "Saturday",
+        "count": 5186,
+        "total": 10606151.87
+      },
+      {
+        "day": "Sunday",
+        "count": 440,
+        "total": 842768.33
+      }
+    ],
+    "total_analysed": 3167
+  },
+  "supplier_concentration": {
+    "total_spend": 4068892915.86,
+    "unique_suppliers": 9846,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "REDACTED",
+          "total": 145867016.21,
+          "count": 130151,
+          "pct": 3.6
+        },
+        {
+          "supplier": "BANK OF SCOTLAND",
+          "total": 124574385.9,
+          "count": 24,
+          "pct": 3.1
+        },
+        {
+          "supplier": "MUSE DEVELOPMENTS LTD",
+          "total": 118601800.36,
+          "count": 143,
+          "pct": 2.9
+        },
+        {
+          "supplier": "Lancashire County Council",
+          "total": 110397209.5,
+          "count": 905,
+          "pct": 2.7
+        },
+        {
+          "supplier": "EDF ENERGY",
+          "total": 85516710.39,
+          "count": 12758,
+          "pct": 2.1
+        }
+      ],
+      "total": 584957122.36,
+      "pct": 14.4
+    },
+    "top10_pct": 21.8,
+    "top20_pct": 31.0,
+    "hhi": 77.0,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 153,
+    "awarded_contracts": 117,
+    "threshold_suspects": [
+      {
+        "title": "e-OPAS Occupational Health Database",
+        "value": 26670.98,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "CIVICA UK LIMITED",
+        "pct_of_threshold": 88.9
+      },
+      {
+        "title": "Blackpool Council Automatic Traffic Counter upgrade project",
+        "value": 29886,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "Q-FREE (BRISTOL) UK LIMITED",
+        "pct_of_threshold": 99.6
+      }
+    ],
+    "threshold_suspect_count": 2,
+    "repeat_winners": [
+      {
+        "supplier": "WN Vtech T/A Mellor Coachcraft",
+        "contracts": 3,
+        "total_value": 1600549.18,
+        "avg_value": 533516.39
+      },
+      {
+        "supplier": "Blackpool Citizens Advice Bureau",
+        "contracts": 2,
+        "total_value": 250000,
+        "avg_value": 125000.0
+      },
+      {
+        "supplier": "Empowerment Charity Lancashire",
+        "contracts": 2,
+        "total_value": 3745000,
+        "avg_value": 1872500.0
+      },
+      {
+        "supplier": "Helen Ashmore Funeral Service",
+        "contracts": 2,
+        "total_value": 350000,
+        "avg_value": 175000.0
+      },
+      {
+        "supplier": "CBRE Limited",
+        "contracts": 2,
+        "total_value": 230000,
+        "avg_value": 115000.0
+      }
+    ],
+    "repeat_winner_count": 5,
+    "transparency_gap": {
+      "no_value_count": 33,
+      "total_awarded": 117,
+      "pct": 28.2
+    },
+    "timing_clusters": [],
+    "timing_cluster_count": 0,
+    "late_publications": [
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council NEPO HGV Lot 1 - 1 x Tractor Unit with Lorr",
+        "supplier": "Motus Commercials",
+        "published_date": "2023-06-23",
+        "awarded_date": "2022-08-12",
+        "days_late": 315,
+        "awarded_value": 270407.4
+      },
+      {
+        "title": "Provision of Occupational Physiotherapy Services",
+        "supplier": "Blackpool Physiotherapy Centre",
+        "published_date": "2021-12-06",
+        "awarded_date": "2021-03-23",
+        "days_late": 258,
+        "awarded_value": 60000
+      },
+      {
+        "title": "Provision for the Design &amp; Print of Blackpool Council Newspaper &#039;Your B",
+        "supplier": "Portfolio",
+        "published_date": "2019-01-22",
+        "awarded_date": "2018-06-13",
+        "days_late": 223,
+        "awarded_value": 0
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council BNES Bus Lot 4 - Up to 15 x Low Floor Buses",
+        "supplier": "Woodhall Nicholson Limited",
+        "published_date": "2020-09-29",
+        "awarded_date": "2020-04-08",
+        "days_late": 174,
+        "awarded_value": 1168920
+      },
+      {
+        "title": "Delivery of Design Coding for Blackpool",
+        "supplier": "Maccreanor Lavington",
+        "published_date": "2025-02-25",
+        "awarded_date": "2024-09-16",
+        "days_late": 162,
+        "awarded_value": 116500
+      },
+      {
+        "title": "Customer Housing Portal Software",
+        "supplier": "Civica UK Ltd",
+        "published_date": "2018-01-29",
+        "awarded_date": "2017-08-31",
+        "days_late": 151,
+        "awarded_value": 290000
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council BNES Bus Lot 3 - 3 x 16 Seat Mercedes Sprin",
+        "supplier": "Treka Bus Limited",
+        "published_date": "2025-02-07",
+        "awarded_date": "2024-09-20",
+        "days_late": 140,
+        "awarded_value": 318819
+      },
+      {
+        "title": "Hounds Hill Shopping Centre Options &amp; Strategy Report",
+        "supplier": "CBRE Limited",
+        "published_date": "2019-04-26",
+        "awarded_date": "2018-12-10",
+        "days_late": 137,
+        "awarded_value": 50000
+      },
+      {
+        "title": "Provision of Microsoft Licences for Blackpool Council",
+        "supplier": "COMPUTACENTER (UK) LIMITED",
+        "published_date": "2022-03-31",
+        "awarded_date": "2021-11-25",
+        "days_late": 126,
+        "awarded_value": 395892
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council HCC Lot 3 - 1 x 7.5t Tipper (16149)",
+        "supplier": "Isuzu Truck (UK) Ltd",
+        "published_date": "2023-09-28",
+        "awarded_date": "2023-06-05",
+        "days_late": 115,
+        "awarded_value": 51610
+      }
+    ],
+    "late_publication_count": 94,
+    "publication_timing": {
+      "avg_delay_days": 32.5,
+      "median_delay_days": 13,
+      "total_measured": 117
+    },
+    "weak_competition": [
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council BNES Bus Lot 4 - Up to 15 x Low Floor Buses",
+        "supplier": "Woodhall Nicholson Limited",
+        "awarded_value": 1168920,
+        "tender_days": -174,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Low-floor buses"
+      },
+      {
+        "title": "Professional Appointment of a Managed Service for an Assessment Unit &amp; Foste",
+        "supplier": "Innovate Therapeutic Care Limited",
+        "awarded_value": 1100000,
+        "tender_days": -2,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Welfare services for children and young people"
+      },
+      {
+        "title": "ICT Microsoft Licences",
+        "supplier": "Insight Direct (Uk) Limited",
+        "awarded_value": 1000000,
+        "tender_days": -24,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Networking software package"
+      },
+      {
+        "title": "Provision/Maintenance of Software Relating to the Capita One Educational Managem",
+        "supplier": "Capita Business Services",
+        "awarded_value": 557066,
+        "tender_days": -62,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Software package and information systems"
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council BNES Bus Lot 3 - 4 x Low Floor Accessible B",
+        "supplier": "WN Vtech T/A Mellor Coachcraft",
+        "awarded_value": 498611.48,
+        "tender_days": -70,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council BNES Bus Lot 3 - 4 x Low Floor Accessible B",
+        "supplier": "WN Vtech T/A Mellor Coachcraft",
+        "awarded_value": 472800,
+        "tender_days": -36,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Low-floor buses"
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council BNES Bus Lot 3 - 3 x 16 Seat Mercedes Sprin",
+        "supplier": "Treka Bus Limited",
+        "awarded_value": 318819,
+        "tender_days": -140,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "Customer Housing Portal Software",
+        "supplier": "Civica UK Ltd",
+        "awarded_value": 290000,
+        "tender_days": -151,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Software package and information systems"
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council NEPO HGV Lot 1 - 1 x Tractor Unit with Lorr",
+        "supplier": "Motus Commercials",
+        "awarded_value": 270407.4,
+        "tender_days": -315,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Cranes, mobile lifting frames and works trucks fit"
+      },
+      {
+        "title": "Specialist Legal Advice",
+        "supplier": "DWF LLP",
+        "awarded_value": 199999,
+        "tender_days": -63,
+        "eval_days": 6,
+        "flags": [
+          "Awarded 6 days after deadline"
+        ],
+        "cpv": "Legal advisory services"
+      },
+      {
+        "title": "Consultancy Advice for Hounds Hill Phase 2 Development &amp; Future High Street ",
+        "supplier": "CBRE Limited",
+        "awarded_value": 180000,
+        "tender_days": -91,
+        "eval_days": 6,
+        "flags": [
+          "Awarded 6 days after deadline"
+        ],
+        "cpv": "Development consultancy services"
+      },
+      {
+        "title": "Provision of Datacentre Equipment for Blackpool Council",
+        "supplier": "EUROPEAN ELECTRONIQUE LIMITED",
+        "awarded_value": 162993,
+        "tender_days": -65,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Data equipment"
+      },
+      {
+        "title": "Acquisition of ATG Surface Guard",
+        "supplier": "ATG ACCESS LTD",
+        "awarded_value": 149999,
+        "tender_days": -2,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Security, fire-fighting, police and defence equipm"
+      },
+      {
+        "title": "GB-Blackpool: TPPL Blackpool Council HCC Lot 2 - 3 x Ford Transit 17 Seat Leader",
+        "supplier": "Lookers Group",
+        "awarded_value": 140391.09,
+        "tender_days": -21,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Minibuses"
+      },
+      {
+        "title": "RM1557IX - Essential LMS with Government Catalogue &amp; Social Care Catalogue",
+        "supplier": "LEARNING POOL LIMITED",
+        "awarded_value": 111963,
+        "tender_days": -62,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Software package and information systems"
+      }
+    ],
+    "weak_competition_count": 34,
+    "monopoly_categories": [
+      {
+        "cpv": "Development consultancy services",
+        "supplier": "CBRE Limited",
+        "contracts": 2,
+        "total_value": 230000
+      }
+    ],
+    "monopoly_category_count": 1
+  },
+  "fraud_triangle": {
+    "overall_score": 68.2,
+    "risk_level": "elevated",
+    "dimensions": {
+      "opportunity": {
+        "score": 74,
+        "signals": [
+          {
+            "signal": "524 suspected split payment instances (\u00a3198.3M)",
+            "score": 40,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "34 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "1 service categories with a single supplier",
+            "score": 4,
+            "source": "procurement_compliance"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 81,
+        "signals": [
+          {
+            "signal": "Year-end spike: 11.8x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "50 likely duplicate payments (\u00a3217.7K)",
+            "score": 26,
+            "source": "duplicates"
+          },
+          {
+            "signal": "5331 round-number payments over \u00a35K (\u00a3342.5M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 53,
+        "signals": [
+          {
+            "signal": "19 suppliers with current CH red flags",
+            "score": 20,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "94 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "61% of transactions have no description",
+            "score": 8,
+            "source": "data_quality"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 9
+  }
+}

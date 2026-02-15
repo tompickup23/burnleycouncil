@@ -1,0 +1,712 @@
+{
+  "summary": {
+    "total_spend": 4068892915.86,
+    "transaction_count": 630914,
+    "unique_suppliers": 9846,
+    "avg_transaction": 6449.2,
+    "median_transaction": 1066.24,
+    "date_range": {
+      "min": "2019-04-01",
+      "max": "2026-01-30"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "REDACTED",
+        "total": 145867016.21,
+        "transactions": 130151,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BANK OF SCOTLAND",
+        "total": 124574385.9,
+        "transactions": 24,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MUSE DEVELOPMENTS LTD",
+        "total": 118601800.36,
+        "transactions": 143,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 110397209.5,
+        "transactions": 905,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EDF ENERGY",
+        "total": 85516710.39,
+        "transactions": 12758,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ENVECO BLACKPOOL WASTE SERVICES LTD",
+        "total": 71169126.83,
+        "transactions": 1618,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "RHEA PROJECTS LTD",
+        "total": 69185291.69,
+        "transactions": 2141,
+        "company_number": "11644705",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/11644705"
+      },
+      {
+        "supplier": "NHS BLACKPOOL & NHS LANCS & SOUTH CUMBRIA ICB",
+        "total": 58226517.61,
+        "transactions": 73,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WEST YORKSHIRE COMBINED AUTHORITY",
+        "total": 53369835.63,
+        "transactions": 11,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BLACKPOOL COASTAL HOUSING",
+        "total": 50854834.51,
+        "transactions": 699,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NHS BLACKPOOL CCG",
+        "total": 45183546.23,
+        "transactions": 2136,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LANCASHIRE COUNTY COUNCIL - DIRECT DEBIT ONLY - DO NOT USE",
+        "total": 43075035.5,
+        "transactions": 50,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "OXFORDSHIRE COUNTY COUNCIL",
+        "total": 39282739.71,
+        "transactions": 9,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "COMMUNITY LIGHTING PARTNERSHIP (BPOOL) LTD",
+        "total": 39030830.68,
+        "transactions": 74,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE CITY AND COUNTY OF SWANSEA COUNCIL",
+        "total": 35776852.07,
+        "transactions": 9,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BLACKPOOL TEACHING HOSPITALS NHS FT",
+        "total": 35755064.64,
+        "transactions": 859,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MIDDLESBROUGH TEESIDE PENSION FUND",
+        "total": 35416757.82,
+        "transactions": 6,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "AUTISM INITIATIVES UK",
+        "total": 34299638.73,
+        "transactions": 27197,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "RP TYSON CONSTRUCTION LTD",
+        "total": 33373255.19,
+        "transactions": 135,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HIGHFIELD PFI SPV LTD",
+        "total": 32880767.47,
+        "transactions": 163,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.3101,
+    "total_unique_suppliers": 9846,
+    "single_transaction_suppliers": 2695
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 54859,
+      "potential_value": 317587691.94,
+      "items": [
+        {
+          "supplier": "BANK OF SCOTLAND",
+          "amount": 9760000.0,
+          "date": "2023-10-31",
+          "occurrences": 2,
+          "potential_overpayment": 9760000.0
+        },
+        {
+          "supplier": "WEST YORKSHIRE COMBINED AUTHORITY",
+          "amount": 5160520.55,
+          "date": "2024-09-30",
+          "occurrences": 2,
+          "potential_overpayment": 5160520.55
+        },
+        {
+          "supplier": "NHS BLACKPOOL & NHS LANCS & SOUTH CUMBRIA ICB",
+          "amount": 855577.0,
+          "date": "2025-09-15",
+          "occurrences": 5,
+          "potential_overpayment": 3422308.0
+        },
+        {
+          "supplier": "REDACTED",
+          "amount": 4000.0,
+          "date": "2021-01-14",
+          "occurrences": 727,
+          "potential_overpayment": 2904000.0
+        },
+        {
+          "supplier": "REDACTED",
+          "amount": 2096.0,
+          "date": "2021-03-08",
+          "occurrences": 820,
+          "potential_overpayment": 1716624.0
+        },
+        {
+          "supplier": "REDACTED",
+          "amount": 8000.0,
+          "date": "2021-04-27",
+          "occurrences": 197,
+          "potential_overpayment": 1568000.0
+        },
+        {
+          "supplier": "REDACTED",
+          "amount": 2001.0,
+          "date": "2021-01-13",
+          "occurrences": 726,
+          "potential_overpayment": 1450725.0
+        },
+        {
+          "supplier": "REDACTED",
+          "amount": 8000.0,
+          "date": "2021-04-29",
+          "occurrences": 139,
+          "potential_overpayment": 1104000.0
+        },
+        {
+          "supplier": "HIGHFIELD PFI SPV LTD",
+          "amount": 455230.43,
+          "date": "2025-07-03",
+          "occurrences": 3,
+          "potential_overpayment": 910460.86
+        },
+        {
+          "supplier": "HIGHFIELD PFI SPV LTD",
+          "amount": 449962.52,
+          "date": "2025-01-07",
+          "occurrences": 3,
+          "potential_overpayment": 899925.04
+        },
+        {
+          "supplier": "HIGHFIELD PFI SPV LTD",
+          "amount": 436719.56,
+          "date": "2024-03-26",
+          "occurrences": 3,
+          "potential_overpayment": 873439.12
+        },
+        {
+          "supplier": "NHS BLACKPOOL & NHS LANCS & SOUTH CUMBRIA ICB",
+          "amount": 855577.0,
+          "date": "2024-09-20",
+          "occurrences": 2,
+          "potential_overpayment": 855577.0
+        },
+        {
+          "supplier": "NHS BLACKPOOL & NHS LANCS & SOUTH CUMBRIA ICB",
+          "amount": 855577.0,
+          "date": "2025-01-15",
+          "occurrences": 2,
+          "potential_overpayment": 855577.0
+        },
+        {
+          "supplier": "REDACTED",
+          "amount": 8000.0,
+          "date": "2021-05-13",
+          "occurrences": 93,
+          "potential_overpayment": 736000.0
+        },
+        {
+          "supplier": "ENVECO BLACKPOOL WASTE SERVICES LTD",
+          "amount": 660000.0,
+          "date": "2021-11-04",
+          "occurrences": 2,
+          "potential_overpayment": 660000.0
+        },
+        {
+          "supplier": "NHS BLACKPOOL CCG",
+          "amount": 650971.0,
+          "date": "2019-10-15",
+          "occurrences": 2,
+          "potential_overpayment": 650971.0
+        },
+        {
+          "supplier": "BLACKPOOL HOUSING COMPANY LTD",
+          "amount": 650000.0,
+          "date": "2023-04-05",
+          "occurrences": 2,
+          "potential_overpayment": 650000.0
+        },
+        {
+          "supplier": "ENVECO BLACKPOOL WASTE SERVICES LTD",
+          "amount": 323458.8,
+          "date": "2021-11-04",
+          "occurrences": 3,
+          "potential_overpayment": 646917.6
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 293087.0,
+          "date": "2022-02-15",
+          "occurrences": 3,
+          "potential_overpayment": 586174.0
+        },
+        {
+          "supplier": "DENNIS EAGLE LTD",
+          "amount": 187570.8,
+          "date": "2019-04-23",
+          "occurrences": 4,
+          "potential_overpayment": 562712.4
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 9456,
+      "total_value": 356629000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 815
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "BUDOCL",
+      "spend": 1145732733.88,
+      "count": 1393
+    },
+    {
+      "department": "Adult & Families",
+      "spend": 307876121.71,
+      "count": 178904
+    },
+    {
+      "department": "Children'S Services",
+      "spend": 287661921.64,
+      "count": 102447
+    },
+    {
+      "department": "ZBUDOCL",
+      "spend": 268509327.03,
+      "count": 117
+    },
+    {
+      "department": "CHISER",
+      "spend": 258187530.02,
+      "count": 65630
+    },
+    {
+      "department": "ADULTS",
+      "spend": 226783010.18,
+      "count": 130429
+    },
+    {
+      "department": "Community & Env Services",
+      "spend": 167491154.87,
+      "count": 17654
+    },
+    {
+      "department": "Capital - Commnctn & Regen",
+      "spend": 147689089.86,
+      "count": 2797
+    },
+    {
+      "department": "BPLSER",
+      "spend": 142926351.94,
+      "count": 8010
+    },
+    {
+      "department": "ZTRSTOT",
+      "spend": 130752287.3,
+      "count": 225
+    },
+    {
+      "department": "AMCPI",
+      "spend": 84821611.38,
+      "count": 8491
+    },
+    {
+      "department": "PUBHEL",
+      "spend": 82699873.08,
+      "count": 2735
+    },
+    {
+      "department": "ZCORP",
+      "spend": 77278269.71,
+      "count": 870
+    },
+    {
+      "department": "Resources",
+      "spend": 77277966.22,
+      "count": 21086
+    },
+    {
+      "department": "Public Health",
+      "spend": 75403253.6,
+      "count": 3218
+    },
+    {
+      "department": "Contingencies",
+      "spend": 61663275.68,
+      "count": 22525
+    },
+    {
+      "department": "TRSTOT",
+      "spend": 57867701.67,
+      "count": 11492
+    },
+    {
+      "department": "Bcf General And Control",
+      "spend": 55525166.8,
+      "count": 56
+    },
+    {
+      "department": "Capital - Chief Executive",
+      "spend": 51221097.55,
+      "count": 6254
+    },
+    {
+      "department": "Places",
+      "spend": 50957298.23,
+      "count": 10770
+    },
+    {
+      "department": "HRASEC",
+      "spend": 47450380.75,
+      "count": 2561
+    },
+    {
+      "department": "BCFGEN",
+      "spend": 40619127.0,
+      "count": 32
+    },
+    {
+      "department": "YCOLLC",
+      "spend": 29403900.49,
+      "count": 118
+    },
+    {
+      "department": "NA",
+      "spend": 26556504.16,
+      "count": 4155
+    },
+    {
+      "department": "CEXTOT",
+      "spend": 23560108.09,
+      "count": 4252
+    },
+    {
+      "department": "Budgets Outside Cash Limits",
+      "spend": 23318551.87,
+      "count": 1922
+    },
+    {
+      "department": "Capital - Resources",
+      "spend": 12145567.81,
+      "count": 621
+    },
+    {
+      "department": "ZHRA",
+      "spend": 11958162.95,
+      "count": 77
+    },
+    {
+      "department": "Capital - Adult Social Care",
+      "spend": 10891396.72,
+      "count": 1617
+    },
+    {
+      "department": "Governance & Partnerships",
+      "spend": 10569757.06,
+      "count": 5155
+    },
+    {
+      "department": "ZCHISER",
+      "spend": 9152514.48,
+      "count": 82
+    },
+    {
+      "department": "Capital - Childrens",
+      "spend": 8508749.54,
+      "count": 167
+    },
+    {
+      "department": "ZCONBS",
+      "spend": 6899121.6,
+      "count": 3752
+    },
+    {
+      "department": "Chief Executive",
+      "spend": 6849865.76,
+      "count": 2573
+    },
+    {
+      "department": "Total Reconciliations",
+      "spend": 5884769.1,
+      "count": 358
+    },
+    {
+      "department": "Better Start Projects",
+      "spend": 3862079.2,
+      "count": 493
+    },
+    {
+      "department": "Capital - Comm & Environ",
+      "spend": 3703366.38,
+      "count": 211
+    },
+    {
+      "department": "Capital Summary",
+      "spend": 3381497.59,
+      "count": 7
+    },
+    {
+      "department": "RNONGF",
+      "spend": 2912083.76,
+      "count": 610
+    },
+    {
+      "department": "Capital - Governance & Partner",
+      "spend": 2827913.47,
+      "count": 59
+    },
+    {
+      "department": "Internal Insurance",
+      "spend": 2581303.83,
+      "count": 916
+    },
+    {
+      "department": "ZAMCPI",
+      "spend": 2138777.1,
+      "count": 264
+    },
+    {
+      "department": "Place Directorate",
+      "spend": 2060612.02,
+      "count": 430
+    },
+    {
+      "department": "Blackpool Services",
+      "spend": 1794067.48,
+      "count": 1846
+    },
+    {
+      "department": "CONTIN",
+      "spend": 1781556.73,
+      "count": 550
+    },
+    {
+      "department": "DEMTOT",
+      "spend": 1457834.87,
+      "count": 734
+    },
+    {
+      "department": "Housing Revenue Account",
+      "spend": 1001240.23,
+      "count": 61
+    },
+    {
+      "department": "ZBPLSER",
+      "spend": 976432.33,
+      "count": 961
+    },
+    {
+      "department": "Net Cost Of Services",
+      "spend": 966870.48,
+      "count": 61
+    },
+    {
+      "department": "BSTPRJ",
+      "spend": 942341.72,
+      "count": 161
+    },
+    {
+      "department": "Business Improvement Districts",
+      "spend": 932272.17,
+      "count": 49
+    },
+    {
+      "department": "ZADULTS",
+      "spend": 686729.13,
+      "count": 14
+    },
+    {
+      "department": "Stat Grants - Lockdown 5 Nov",
+      "spend": 466403.0,
+      "count": 208
+    },
+    {
+      "department": "YCOLLN",
+      "spend": 372856.49,
+      "count": 16
+    },
+    {
+      "department": "Tourism Bid",
+      "spend": 351066.25,
+      "count": 12
+    },
+    {
+      "department": "Capital - Completed Schemes",
+      "spend": 350939.71,
+      "count": 44
+    },
+    {
+      "department": "Cafs",
+      "spend": 347146.05,
+      "count": 412
+    },
+    {
+      "department": "Lrsg - Topup",
+      "spend": 290000.0,
+      "count": 60
+    },
+    {
+      "department": "FLOOD",
+      "spend": 231483.51,
+      "count": 3
+    },
+    {
+      "department": "Council Funded Schemes",
+      "spend": 113485.1,
+      "count": 3
+    },
+    {
+      "department": "Non Domestic Rates",
+      "spend": 80454.32,
+      "count": 53
+    },
+    {
+      "department": "CREUNI",
+      "spend": 58675.29,
+      "count": 3
+    },
+    {
+      "department": "Tier 3 Closed",
+      "spend": 45686.0,
+      "count": 64
+    },
+    {
+      "department": "Credit Union - Bus Support",
+      "spend": 26585.76,
+      "count": 6
+    },
+    {
+      "department": "Tic Maternity Pathway",
+      "spend": 17403.96,
+      "count": 13
+    },
+    {
+      "department": "Energy Rebate Discretionary",
+      "spend": 14250.0,
+      "count": 1
+    },
+    {
+      "department": "Tier 4 - Closed",
+      "spend": 7499.94,
+      "count": 19
+    },
+    {
+      "department": "Resources Directorate",
+      "spend": 5947.91,
+      "count": 3
+    },
+    {
+      "department": "CONRES",
+      "spend": 4823.93,
+      "count": 5
+    },
+    {
+      "department": "Council Tax",
+      "spend": 3064.89,
+      "count": 8
+    },
+    {
+      "department": "Cont To/From Reserves",
+      "spend": 2819.41,
+      "count": 8
+    },
+    {
+      "department": "",
+      "spend": 1826.12,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2019/20": 259849386.63,
+      "2020/21": 341732776.37,
+      "2021/22": 371049715.55,
+      "2022/23": 413538926.74,
+      "2023/24": 575715594.66,
+      "2024/25": 1188180054.38,
+      "2025/26": 918826461.53
+    },
+    "transactions_by_year": {
+      "2019/20": 72631,
+      "2020/21": 114942,
+      "2021/22": 96324,
+      "2022/23": 99275,
+      "2023/24": 53989,
+      "2024/25": 101657,
+      "2025/26": 92096
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 630914
+  }
+}

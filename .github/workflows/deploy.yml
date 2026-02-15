@@ -46,7 +46,7 @@ jobs:
         env:
           VITE_CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
         run: |
-          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc"
+          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc blackpool:blackpoolcouncil west_lancashire:westlancashirecouncil blackburn:blackburncouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil"
           for entry in $COUNCILS; do
             COUNCIL_ID="${entry%%:*}"
             COUNCIL_SLUG="${entry##*:}"
@@ -58,7 +58,7 @@ jobs:
       # Hub pages — root 404.html is the ONLY 404 GitHub Pages reads for SPA routing
       - name: Copy hub pages and generate sitemap
         run: |
-          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc"
+          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc blackpool:blackpoolcouncil west_lancashire:westlancashirecouncil blackburn:blackburncouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil"
           cp burnley-council/hub/index.html /tmp/lancashire-deploy/index.html
           cp burnley-council/hub/404.html /tmp/lancashire-deploy/404.html
           echo 'aidoge.co.uk' > /tmp/lancashire-deploy/CNAME
@@ -85,7 +85,7 @@ jobs:
       - name: Verify deployment
         if: success()
         run: |
-          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc"
+          COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc blackpool:blackpoolcouncil west_lancashire:westlancashirecouncil blackburn:blackburncouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil"
           echo "Waiting 30s for GitHub Pages CDN propagation..."
           sleep 30
           FAIL=0

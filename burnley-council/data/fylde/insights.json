@@ -1,0 +1,415 @@
+{
+  "summary": {
+    "total_spend": 155011943.01,
+    "transaction_count": 37083,
+    "unique_suppliers": 1689,
+    "avg_transaction": 4180.13,
+    "median_transaction": 900.0,
+    "date_range": {
+      "min": "2015-08-05",
+      "max": "2025-12-23"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "VBA JOINT VENTURE LTD",
+        "total": 22029050.43,
+        "transactions": 45,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BLACKPOOL COUNCIL",
+        "total": 15851458.25,
+        "transactions": 972,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MASTERSTAFF",
+        "total": 6559152.04,
+        "transactions": 5249,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 5068760.11,
+        "transactions": 442,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DENNIS EAGLE",
+        "total": 4632402.67,
+        "transactions": 283,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ERIC WRIGHT CIVIL ENGINEERING LTD",
+        "total": 4540850.0,
+        "transactions": 23,
+        "company_number": "02565379",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/02565379"
+      },
+      {
+        "supplier": "ZURICH MUNICIPAL",
+        "total": 2391364.8,
+        "transactions": 49,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "F. PARKINSON LTD",
+        "total": 2293478.77,
+        "transactions": 66,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DANFO (UK) LTD",
+        "total": 2286186.2,
+        "transactions": 131,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "TOTAL GAS & POWER LTD",
+        "total": 2122935.02,
+        "transactions": 2583,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "GEORGE COX & SONS LTD",
+        "total": 2030215.16,
+        "transactions": 13,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "N A RAWCLIFFE & SON LTD",
+        "total": 1970310.6,
+        "transactions": 279,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BRIMAS CONSTRUCTION LTD",
+        "total": 1863727.44,
+        "transactions": 242,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FYLDE COAST Y.M.C.A.",
+        "total": 1790101.53,
+        "transactions": 269,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WILLIAM PYE LTD",
+        "total": 1757828.95,
+        "transactions": 77,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HUMANKIND CHARITY (FORMALLY DISC)",
+        "total": 1713751.6,
+        "transactions": 21,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "JOHN TURNER CONSTRUCTION GROUP LTD",
+        "total": 1475993.08,
+        "transactions": 18,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MARK BENNETT PLUMBING HEATING - MB CONTRACTS LTD",
+        "total": 1363474.83,
+        "transactions": 223,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BALMERS GARDEN MACHINERY",
+        "total": 1353123.95,
+        "transactions": 485,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CIVICA UK LTD",
+        "total": 1250937.04,
+        "transactions": 122,
+        "company_number": "01628868",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/01628868"
+      }
+    ],
+    "concentration_ratio": 0.5441,
+    "total_unique_suppliers": 1689,
+    "single_transaction_suppliers": 561
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 1659,
+      "potential_value": 5123462.2,
+      "items": [
+        {
+          "supplier": "DENNIS EAGLE",
+          "amount": 165620.0,
+          "date": "2018-04-25",
+          "occurrences": 3,
+          "potential_overpayment": 331240.0
+        },
+        {
+          "supplier": "DENNIS EAGLE",
+          "amount": 165620.0,
+          "date": "2018-06-13",
+          "occurrences": 3,
+          "potential_overpayment": 331240.0
+        },
+        {
+          "supplier": "DENNIS EAGLE",
+          "amount": 164551.0,
+          "date": "2018-04-25",
+          "occurrences": 3,
+          "potential_overpayment": 329102.0
+        },
+        {
+          "supplier": "DENNIS EAGLE",
+          "amount": 198193.0,
+          "date": "2018-06-13",
+          "occurrences": 2,
+          "potential_overpayment": 198193.0
+        },
+        {
+          "supplier": "ZOELLER WASTE SYSTEMS LTD",
+          "amount": 134598.62,
+          "date": "2016-08-31",
+          "occurrences": 2,
+          "potential_overpayment": 134598.62
+        },
+        {
+          "supplier": "JOHNSTON SWEEPERS LTD",
+          "amount": 74530.0,
+          "date": "2020-07-15",
+          "occurrences": 2,
+          "potential_overpayment": 74530.0
+        },
+        {
+          "supplier": "PHOENIX SOFTWARE LTD",
+          "amount": 9309.6,
+          "date": "2024-12-13",
+          "occurrences": 8,
+          "potential_overpayment": 65167.2
+        },
+        {
+          "supplier": "JACOBS U.K LTD",
+          "amount": 55503.04,
+          "date": "2022-08-17",
+          "occurrences": 2,
+          "potential_overpayment": 55503.04
+        },
+        {
+          "supplier": "SINGLETON AND SMART LTD",
+          "amount": 48092.02,
+          "date": "2022-08-10",
+          "occurrences": 2,
+          "potential_overpayment": 48092.02
+        },
+        {
+          "supplier": "PHOENIX SOFTWARE LTD",
+          "amount": 22378.2,
+          "date": "2025-12-11",
+          "occurrences": 3,
+          "potential_overpayment": 44756.4
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 41549.36,
+          "date": "2019-11-27",
+          "occurrences": 2,
+          "potential_overpayment": 41549.36
+        },
+        {
+          "supplier": "WILLIAM PYE LTD",
+          "amount": 40160.0,
+          "date": "2022-08-24",
+          "occurrences": 2,
+          "potential_overpayment": 40160.0
+        },
+        {
+          "supplier": "PHOENIX SOFTWARE LTD",
+          "amount": 9750.0,
+          "date": "2021-12-22",
+          "occurrences": 5,
+          "potential_overpayment": 39000.0
+        },
+        {
+          "supplier": "KPMG LLP",
+          "amount": 38809.5,
+          "date": "2025-11-19",
+          "occurrences": 2,
+          "potential_overpayment": 38809.5
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 38193.71,
+          "date": "2017-06-07",
+          "occurrences": 2,
+          "potential_overpayment": 38193.71
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 38193.71,
+          "date": "2017-11-01",
+          "occurrences": 2,
+          "potential_overpayment": 38193.71
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 36932.77,
+          "date": "2019-11-27",
+          "occurrences": 2,
+          "potential_overpayment": 36932.77
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 35186.51,
+          "date": "2015-10-07",
+          "occurrences": 2,
+          "potential_overpayment": 35186.51
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 33949.97,
+          "date": "2017-06-07",
+          "occurrences": 2,
+          "potential_overpayment": 33949.97
+        },
+        {
+          "supplier": "BLACKPOOL COUNCIL",
+          "amount": 33949.97,
+          "date": "2017-11-01",
+          "occurrences": 2,
+          "potential_overpayment": 33949.97
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 649,
+      "total_value": 8645000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 79
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "STRATEGIC DEVELOPMENT",
+      "spend": 46989239.94,
+      "count": 11739
+    },
+    {
+      "department": "COMMUNITY SERVICES",
+      "spend": 34251517.47,
+      "count": 13356
+    },
+    {
+      "department": "GOVERNANCE AND PARTNERSHIPS",
+      "spend": 31745014.2,
+      "count": 3175
+    },
+    {
+      "department": "OPERATIONAL SERVICES",
+      "spend": 25926407.35,
+      "count": 7139
+    },
+    {
+      "department": "STRATEGIC PLANNING AND DEVELOPMENT",
+      "spend": 14560880.28,
+      "count": 1230
+    },
+    {
+      "department": "CHIEF EXECUTIVE",
+      "spend": 1410464.86,
+      "count": 406
+    },
+    {
+      "department": "COMMUNITY AND CULTURAL SERVICES",
+      "spend": 103737.88,
+      "count": 31
+    },
+    {
+      "department": "DMOCRTIC SVCS AND MEMBER SUPPT",
+      "spend": 14085.13,
+      "count": 1
+    },
+    {
+      "department": "CORPORATE POLICY AND PERFORMANCE",
+      "spend": 5920.9,
+      "count": 4
+    },
+    {
+      "department": "STREETSCENE SERVICES",
+      "spend": 2500.0,
+      "count": 1
+    },
+    {
+      "department": "LEGAL SERVICES",
+      "spend": 2175.0,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2015/16": 5020982.23,
+      "2016/17": 11434122.18,
+      "2017/18": 12706075.39,
+      "2018/19": 23228383.81,
+      "2019/20": 19350619.66,
+      "2020/21": 10258957.99,
+      "2021/22": 13235747.46,
+      "2022/23": 12580146.72,
+      "2023/24": 17037364.78,
+      "2024/25": 18317819.36,
+      "2025/26": 11841723.43
+    },
+    "transactions_by_year": {
+      "2015/16": 1618,
+      "2016/17": 3316,
+      "2017/18": 3199,
+      "2018/19": 3521,
+      "2019/20": 3375,
+      "2020/21": 3120,
+      "2021/22": 3719,
+      "2022/23": 3948,
+      "2023/24": 4174,
+      "2024/25": 4068,
+      "2025/26": 3025
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 37083
+  }
+}

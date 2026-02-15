@@ -1,0 +1,764 @@
+{
+  "findings": [
+    {
+      "value": "\u00a3556.1K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "13 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3515.8K",
+      "label": "Likely Duplicate Payments",
+      "detail": "477 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1861 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3403.9K",
+      "label": "Possible Duplicate Payments",
+      "detail": "591 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a341.8K",
+      "label": "Suspected Split Payments",
+      "detail": "1 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a310.1M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "459 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "10.6x",
+      "label": "Year-End Spending Pattern",
+      "detail": "REV CUSTOMER SERVICES spent 10.6x their monthly average in March (\u00a33.4M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Redacted Personal Information (4.1 day avg, 1214 payments, \u00a31.0M)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=1846.69",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 1 deviates 6.0% from expected distribution across 43,417 transactions. Note: with 43,417 transactions, chi-squared tests are highly sensitive \u2014 the 6.0% max digit deviation is the more practical measure of anomaly.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Chi-squared values on samples of 43,417+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (6.0%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "7 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Redacted Personal Information \u2014 every 4.1 days (1214 payments, \u00a31.0M)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "MATRIX SCM LTD: 5445 transactions totalling \u00a34.6M",
+      "description": "Averaging \u00a3849 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=MATRIX SCM LTD",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "15 suppliers shared with neighbouring councils \u2014 \u00a332.3M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "BRADLEY DEMOLITION LTD: 8152% price gap between councils",
+      "description": "Blackburn pays \u00a391.5K avg vs Blackpool \u00a31.1K (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=BRADLEY DEMOLITION LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    },
+    {
+      "icon": "shield-alert",
+      "badge": "Competition",
+      "title": "1 service categories with a single supplier",
+      "description": "Top: Aebi Schmidt UK Limited \u2014 sole winner in 'Road sweepers' (3 contracts, \u00a3798.8K). Category monopolies may indicate market failure or specification bias.",
+      "link": "/procurement",
+      "link_text": "View procurement \u2192",
+      "severity": "info",
+      "confidence": "medium"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-15T10:10:22.826266",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration",
+    "fraud_triangle"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "REDACTED PERSONAL INFORMATION",
+        "payments": 1214,
+        "avg_days": 4.1,
+        "total_spend": 1011024.03,
+        "regularity": "high"
+      },
+      {
+        "supplier": "MAIL METRICS/ADARE SEC",
+        "payments": 24,
+        "avg_days": 6.3,
+        "total_spend": 19569.56,
+        "regularity": "high"
+      },
+      {
+        "supplier": "MATRIX SCM LTD",
+        "payments": 5445,
+        "avg_days": 7.5,
+        "total_spend": 4620335.57,
+        "regularity": "high"
+      },
+      {
+        "supplier": "MACDONALD & COMPANY",
+        "payments": 105,
+        "avg_days": 8.5,
+        "total_spend": 159689.43,
+        "regularity": "high"
+      },
+      {
+        "supplier": "ICONIC MEDIA GROUP LTD",
+        "payments": 14,
+        "avg_days": 8.6,
+        "total_spend": 18090.0,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "JPIMEDIA PUBLISHING LTD",
+        "payments": 84,
+        "avg_days": 9.2,
+        "total_spend": 83130.86,
+        "regularity": "high"
+      },
+      {
+        "supplier": "NATIONAL WORLD PUBLISHING LTD",
+        "payments": 203,
+        "avg_days": 9.2,
+        "total_spend": 225174.1,
+        "regularity": "high"
+      },
+      {
+        "supplier": "VENN GROUP LTD",
+        "payments": 523,
+        "avg_days": 9.6,
+        "total_spend": 672424.42,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "VIVID RESOURCING LTD",
+        "payments": 859,
+        "avg_days": 9.6,
+        "total_spend": 1545227.2,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "JPIMEDIA",
+        "payments": 78,
+        "avg_days": 9.8,
+        "total_spend": 77119.02,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "REDACTED PERSONAL INFORMATION",
+        "payments": 1214,
+        "avg_days": 4.1,
+        "std_dev": 2.1,
+        "total_spend": 1011024.03
+      },
+      {
+        "supplier": "MAIL METRICS/ADARE SEC",
+        "payments": 24,
+        "avg_days": 6.3,
+        "std_dev": 0.9,
+        "total_spend": 19569.56
+      },
+      {
+        "supplier": "MATRIX SCM LTD",
+        "payments": 5445,
+        "avg_days": 7.5,
+        "std_dev": 2.9,
+        "total_spend": 4620335.57
+      },
+      {
+        "supplier": "MACDONALD & COMPANY",
+        "payments": 105,
+        "avg_days": 8.5,
+        "std_dev": 3.7,
+        "total_spend": 159689.43
+      },
+      {
+        "supplier": "JPIMEDIA PUBLISHING LTD",
+        "payments": 84,
+        "avg_days": 9.2,
+        "std_dev": 4.5,
+        "total_spend": 83130.86
+      },
+      {
+        "supplier": "NATIONAL WORLD PUBLISHING LTD",
+        "payments": 203,
+        "avg_days": 9.2,
+        "std_dev": 4.2,
+        "total_spend": 225174.1
+      },
+      {
+        "supplier": "DUVAL FACILITIES MANAGEMENT LTD",
+        "payments": 47,
+        "avg_days": 10.2,
+        "std_dev": 4.6,
+        "total_spend": 14923.2
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 797,
+        "total": 4779562.37
+      },
+      {
+        "day": "Tuesday",
+        "count": 1581,
+        "total": 10314472.74
+      },
+      {
+        "day": "Wednesday",
+        "count": 42723,
+        "total": 178461285.56
+      },
+      {
+        "day": "Thursday",
+        "count": 562,
+        "total": 3661787.46
+      },
+      {
+        "day": "Friday",
+        "count": 642,
+        "total": 7396062.9
+      },
+      {
+        "day": "Saturday",
+        "count": 51,
+        "total": 218732.71
+      },
+      {
+        "day": "Sunday",
+        "count": 156,
+        "total": 634554.99
+      }
+    ],
+    "total_analysed": 571
+  },
+  "supplier_concentration": {
+    "total_spend": 205466458.73,
+    "unique_suppliers": 2517,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "MAPLE GROVE DEVELOPMENTS",
+          "total": 31542129.13,
+          "count": 92,
+          "pct": 15.4
+        },
+        {
+          "supplier": "Lancashire County Council",
+          "total": 27977314.61,
+          "count": 450,
+          "pct": 13.6
+        },
+        {
+          "supplier": "CONLON CONSTRUCTION LTD",
+          "total": 10644869.29,
+          "count": 110,
+          "pct": 5.2
+        },
+        {
+          "supplier": "ERIC WRIGHT CIVIL ENGINEERING LTD",
+          "total": 6678392.77,
+          "count": 129,
+          "pct": 3.3
+        },
+        {
+          "supplier": "ZURICH MUNICIPAL",
+          "total": 5293404.55,
+          "count": 119,
+          "pct": 2.6
+        }
+      ],
+      "total": 82136110.35,
+      "pct": 40.0
+    },
+    "top10_pct": 49.1,
+    "top20_pct": 57.5,
+    "hhi": 497.6,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 86,
+    "awarded_contracts": 43,
+    "threshold_suspects": [
+      {
+        "title": "GB-Preston: TPPL Preston City Council NEPO HGV Lot 1 - 1 x 18t Skip Wagon (27110",
+        "value": 118983.6,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Ford and Slater Ltd.",
+        "pct_of_threshold": 85.7
+      },
+      {
+        "title": "Harris Museum Exhibition joinery - welcome and retail for Harris Fit Out",
+        "value": 26711.91,
+        "threshold": 30000,
+        "threshold_label": "Low value (\u00a330K)",
+        "supplier": "TT Solutions &amp; Interiors Limited",
+        "pct_of_threshold": 89.0
+      },
+      {
+        "title": "Domestic Clinical Waste Collection and Disposal Service 2023-2026",
+        "value": 120000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Sharpsmart",
+        "pct_of_threshold": 86.5
+      },
+      {
+        "title": "Water Contract 2023",
+        "value": 133000,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "Smarta Water",
+        "pct_of_threshold": 95.8
+      }
+    ],
+    "threshold_suspect_count": 4,
+    "repeat_winners": [
+      {
+        "supplier": "Iveco Limited",
+        "contracts": 3,
+        "total_value": 738245,
+        "avg_value": 246081.67
+      },
+      {
+        "supplier": "Aebi Schmidt UK Limited",
+        "contracts": 3,
+        "total_value": 798813,
+        "avg_value": 266271.0
+      },
+      {
+        "supplier": "Faun Zoeller (UK) Limited",
+        "contracts": 2,
+        "total_value": 4052692.38,
+        "avg_value": 2026346.19
+      },
+      {
+        "supplier": "RM Services Ltd",
+        "contracts": 2,
+        "total_value": 153500,
+        "avg_value": 76750.0
+      },
+      {
+        "supplier": "Community Gateway Association",
+        "contracts": 2,
+        "total_value": 1200000,
+        "avg_value": 600000.0
+      },
+      {
+        "supplier": "The Foxton Centre",
+        "contracts": 2,
+        "total_value": 150000,
+        "avg_value": 75000.0
+      }
+    ],
+    "repeat_winner_count": 6,
+    "transparency_gap": {
+      "no_value_count": 0,
+      "total_awarded": 43,
+      "pct": 0.0
+    },
+    "timing_clusters": [
+      {
+        "supplier": "Iveco Limited",
+        "gap_days": 26,
+        "date1": "2021-07-29",
+        "date2": "2021-08-24"
+      }
+    ],
+    "timing_cluster_count": 1,
+    "late_publications": [
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC Lot 2 HCC 2015/129",
+        "supplier": "Iveco Ltd",
+        "published_date": "2019-01-03",
+        "awarded_date": "2017-08-23",
+        "days_late": 498,
+        "awarded_value": 35771
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council NEPO HGV lot 1 1 x 32t Hookloader",
+        "supplier": "Thomas Hardie Commercials Ltd",
+        "published_date": "2019-08-20",
+        "awarded_date": "2018-11-19",
+        "days_late": 274,
+        "awarded_value": 141212
+      },
+      {
+        "title": "Financial Ledger Software 2022-25",
+        "supplier": "Civica UK Limited",
+        "published_date": "2022-09-27",
+        "awarded_date": "2022-03-30",
+        "days_late": 181,
+        "awarded_value": 183054
+      },
+      {
+        "title": "Collections Conservation Services For Preston City Council&#039;s Harris Your Pl",
+        "supplier": "Lancashire County Council",
+        "published_date": "2024-04-30",
+        "awarded_date": "2023-11-24",
+        "days_late": 158,
+        "awarded_value": 40000
+      },
+      {
+        "title": "Pope Lane Community Tree Planting",
+        "supplier": "Ribble Rivers Trust",
+        "published_date": "2024-04-29",
+        "awarded_date": "2023-11-24",
+        "days_late": 157,
+        "awarded_value": 50000
+      },
+      {
+        "title": "Contract for the supply of hardware under CCS RM1054",
+        "supplier": "Insight Direct (UK) Ltd,XMA Ltd",
+        "published_date": "2016-09-05",
+        "awarded_date": "2016-05-19",
+        "days_late": 109,
+        "awarded_value": 99428
+      },
+      {
+        "title": "Building decarbonisation feasibility study",
+        "supplier": "Pick Everard",
+        "published_date": "2024-05-01",
+        "awarded_date": "2024-02-01",
+        "days_late": 90,
+        "awarded_value": 45000
+      },
+      {
+        "title": "MEAM Pathway Co-ordinators",
+        "supplier": "The Foxton Centre",
+        "published_date": "2018-05-18",
+        "awarded_date": "2018-02-28",
+        "days_late": 79,
+        "awarded_value": 100000
+      },
+      {
+        "title": "Provision of services for Active Preston (Ashton Park)",
+        "supplier": "Eric Wright Construction",
+        "published_date": "2023-07-17",
+        "awarded_date": "2023-05-01",
+        "days_late": 77,
+        "awarded_value": 200000
+      },
+      {
+        "title": "Services for design &amp; preliminary development work for &#039;Active Travel, ",
+        "supplier": "ERIC WRIGHT CIVIL ENGINEERING LIMITED",
+        "published_date": "2023-07-17",
+        "awarded_date": "2023-05-01",
+        "days_late": 77,
+        "awarded_value": 300000
+      }
+    ],
+    "late_publication_count": 43,
+    "publication_timing": {
+      "avg_delay_days": 62.0,
+      "median_delay_days": 34,
+      "total_measured": 43
+    },
+    "weak_competition": [
+      {
+        "title": "GB-Preston: TPPL Preston City Council NEPO HGV lot 2 - 15 x RCVs (13170)",
+        "supplier": "Faun Zoeller (UK) Limited",
+        "awarded_value": 3176057.66,
+        "tender_days": -1,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Refuse-collection vehicles"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC lot 2 - Up to 10 x 4.5t-5.2t Tippers w",
+        "supplier": "Iveco Limited",
+        "awarded_value": 466150,
+        "tender_days": -1,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tipper trucks"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC Lot 4 - 4 x 4.5t Compact Sweepers (240",
+        "supplier": "Aebi Schmidt UK Limited",
+        "awarded_value": 420684,
+        "tender_days": -7,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Road sweepers"
+      },
+      {
+        "title": "Interpretation/Interior Fit Out Design Services",
+        "supplier": "Ralph Appelbaum",
+        "awarded_value": 375995,
+        "tender_days": -14,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Architectural services for buildings"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC lot 2 - Up to 10 x 3.5t Tippers with T",
+        "supplier": "Ford Motor Company Ltd",
+        "awarded_value": 359572.4,
+        "tender_days": -3,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Tipper trucks"
+      },
+      {
+        "title": "Services for design &amp; preliminary development work for &#039;Active Travel, ",
+        "supplier": "ERIC WRIGHT CIVIL ENGINEERING LIMITED",
+        "awarded_value": 300000,
+        "tender_days": -77,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Architectural, construction, engineering and inspe"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC Lot 4 - Up to 4x 4.5t Compact Sweepers",
+        "supplier": "Aebi Schmidt UK Limited",
+        "awarded_value": 291616,
+        "tender_days": -3,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Road sweepers"
+      },
+      {
+        "title": "Collections movement and storage for the &quot;Harris Your Place&quot; Project",
+        "supplier": "Restore Harrow Green",
+        "awarded_value": 284439,
+        "tender_days": -60,
+        "eval_days": 4,
+        "flags": [
+          "Awarded 4 days after deadline"
+        ],
+        "cpv": "Arts-facility operation services"
+      },
+      {
+        "title": "Provision of services for Active Preston (Ashton Park)",
+        "supplier": "Eric Wright Construction",
+        "awarded_value": 200000,
+        "tender_days": -77,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Architectural, construction, engineering and inspe"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC Lot 3 - 2 x 5.2t Food Waste Vehicles (",
+        "supplier": "Iveco Limited",
+        "awarded_value": 196998,
+        "tender_days": -56,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Specialist vehicles"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council HCC lot 2 - Up to 10 x Small Panel Vans (5",
+        "supplier": "Vauxhall Motors Ltd",
+        "awarded_value": 183361.29,
+        "tender_days": -14,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Panel vans"
+      },
+      {
+        "title": "Financial Ledger Software 2022-25",
+        "supplier": "Civica UK Limited",
+        "awarded_value": 183054,
+        "tender_days": -182,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Financial information systems"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council NEPO HGV lot 1 1 x 32t Hookloader",
+        "supplier": "Thomas Hardie Commercials Ltd",
+        "awarded_value": 141212,
+        "tender_days": -274,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Skip loaders"
+      },
+      {
+        "title": "GB-Preston: TPPL Preston City Council NEPO HGV lot 1 1 x 32t Hookloader",
+        "supplier": "Thomas Hardie Commercials",
+        "awarded_value": 141212,
+        "tender_days": -19,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Skip loaders"
+      },
+      {
+        "title": "Water Contract 2023",
+        "supplier": "Smarta Water",
+        "awarded_value": 133000,
+        "tender_days": -74,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Water distribution and related services"
+      }
+    ],
+    "weak_competition_count": 23,
+    "monopoly_categories": [
+      {
+        "cpv": "Road sweepers",
+        "supplier": "Aebi Schmidt UK Limited",
+        "contracts": 3,
+        "total_value": 798813
+      }
+    ],
+    "monopoly_category_count": 1
+  },
+  "fraud_triangle": {
+    "overall_score": 57.2,
+    "risk_level": "moderate",
+    "dimensions": {
+      "opportunity": {
+        "score": 49,
+        "signals": [
+          {
+            "signal": "1 suspected split payment instances (\u00a341.8K)",
+            "score": 15,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "23 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          },
+          {
+            "signal": "1 service categories with a single supplier",
+            "score": 4,
+            "source": "procurement_compliance"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 85,
+        "signals": [
+          {
+            "signal": "Year-end spike: 10.6x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "477 likely duplicate payments (\u00a3515.8K)",
+            "score": 30,
+            "source": "duplicates"
+          },
+          {
+            "signal": "459 round-number payments over \u00a35K (\u00a310.1M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 45,
+        "signals": [
+          {
+            "signal": "13 suppliers with current CH red flags",
+            "score": 20,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "43 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 8
+  }
+}

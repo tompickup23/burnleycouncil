@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-02-14",
+  "last_updated": "2026-02-15",
   "council_metadata": {
     "burnley": {
       "type": "district",
@@ -65,6 +65,54 @@
       "publishes_purchase_cards": false,
       "publishes_contracts": false,
       "data_start": "2024/25"
+    },
+    "blackpool": {
+      "type": "unitary",
+      "ons_code": "E06000009",
+      "spending_threshold": 250,
+      "publishes_purchase_cards": true,
+      "publishes_contracts": false,
+      "data_start": "2019/20"
+    },
+    "west_lancashire": {
+      "type": "district",
+      "ons_code": "E07000127",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2016/17"
+    },
+    "blackburn": {
+      "type": "unitary",
+      "ons_code": "E06000008",
+      "spending_threshold": 0,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2019/20"
+    },
+    "wyre": {
+      "type": "district",
+      "ons_code": "E07000128",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2017/18"
+    },
+    "preston": {
+      "type": "district",
+      "ons_code": "E07000123",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2019/20"
+    },
+    "fylde": {
+      "type": "district",
+      "ons_code": "E07000119",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2015/16"
     }
   },
   "departments": {

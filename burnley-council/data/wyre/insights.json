@@ -1,0 +1,374 @@
+{
+  "summary": {
+    "total_spend": 678358890.21,
+    "transaction_count": 50216,
+    "unique_suppliers": 1558,
+    "avg_transaction": 13508.82,
+    "median_transaction": 133.0,
+    "date_range": {
+      "min": "2017-04-01",
+      "max": "2025-12-11"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "Lancashire County Council",
+        "total": 325921534.17,
+        "transactions": 665,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+        "total": 116297706.0,
+        "transactions": 142,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "UNKNOWN",
+        "total": 81558677.35,
+        "transactions": 888,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BALFOUR BEATTY CIVIL ENGINEERING LTD",
+        "total": 39152037.3,
+        "transactions": 71,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LANCASHIRE FIRE AUTHORITY",
+        "total": 19858502.63,
+        "transactions": 115,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "VEOLIA ES (UK) LTD",
+        "total": 16683892.76,
+        "transactions": 213,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "F PARKINSON LTD",
+        "total": 4930234.26,
+        "transactions": 56,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "POLICE AND CRIME COMMISSIONER FOR LANCASHIRE",
+        "total": 4283397.79,
+        "transactions": 21,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FYLDE COAST YMCA",
+        "total": 3100293.32,
+        "transactions": 189,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ASSOCIATED BRITISH PORTS",
+        "total": 2730629.71,
+        "transactions": 8,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "R DEVELOPMENTS LTD T/A ROSSLEE CONSTRUCTION",
+        "total": 2036065.95,
+        "transactions": 26,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "FLEETWOOD TOWN COUNCIL",
+        "total": 1649786.44,
+        "transactions": 16,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DANFO (UK) LTD",
+        "total": 1514928.42,
+        "transactions": 74,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CORONA ENERGY RETAIL 4 LTD",
+        "total": 1379006.76,
+        "transactions": 920,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HUGGG LTD",
+        "total": 1166007.5,
+        "transactions": 26,
+        "company_number": "09579886",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/09579886"
+      },
+      {
+        "supplier": "PHOENIX SOFTWARE LTD",
+        "total": 1132949.56,
+        "transactions": 173,
+        "company_number": "02548628",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/02548628"
+      },
+      {
+        "supplier": "STANDARD FUEL OILS",
+        "total": 1112104.97,
+        "transactions": 25,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WATER PLUS LTD",
+        "total": 1063909.81,
+        "transactions": 4930,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ONE51 ES PLASTICS (UK) LTD T/A MGB PLASTICS LTD",
+        "total": 1020172.28,
+        "transactions": 31,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BLACKPOOL COUNCIL",
+        "total": 892371.21,
+        "transactions": 146,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.925,
+    "total_unique_suppliers": 1558,
+    "single_transaction_suppliers": 464
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 5261,
+      "potential_value": 47459394.28,
+      "items": [
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 5754977.0,
+          "date": "2023-01-10",
+          "occurrences": 2,
+          "potential_overpayment": 5754977.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 5590631.0,
+          "date": "2023-01-31",
+          "occurrences": 2,
+          "potential_overpayment": 5590631.0
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 5250344.0,
+          "date": "2020-05-29",
+          "occurrences": 2,
+          "potential_overpayment": 5250344.0
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 4449053.0,
+          "date": "2017-04-25",
+          "occurrences": 2,
+          "potential_overpayment": 4449053.0
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 3406900.0,
+          "date": "2020-05-12",
+          "occurrences": 2,
+          "potential_overpayment": 3406900.0
+        },
+        {
+          "supplier": "VEOLIA ES (UK) LTD",
+          "amount": 2493200.58,
+          "date": "2020-05-11",
+          "occurrences": 2,
+          "potential_overpayment": 2493200.58
+        },
+        {
+          "supplier": "BALFOUR BEATTY CIVIL ENGINEERING LTD",
+          "amount": 1513021.0,
+          "date": "2017-06-19",
+          "occurrences": 2,
+          "potential_overpayment": 1513021.0
+        },
+        {
+          "supplier": "BALFOUR BEATTY CIVIL ENGINEERING LTD",
+          "amount": 1503532.56,
+          "date": "2017-04-13",
+          "occurrences": 2,
+          "potential_overpayment": 1503532.56
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 1098893.0,
+          "date": "2017-06-22",
+          "occurrences": 2,
+          "potential_overpayment": 1098893.0
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 898615.0,
+          "date": "2023-01-10",
+          "occurrences": 2,
+          "potential_overpayment": 898615.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 866409.0,
+          "date": "2023-01-23",
+          "occurrences": 2,
+          "potential_overpayment": 866409.0
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 792770.0,
+          "date": "2020-05-29",
+          "occurrences": 2,
+          "potential_overpayment": 792770.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 615376.0,
+          "date": "2020-05-04",
+          "occurrences": 2,
+          "potential_overpayment": 615376.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 615376.0,
+          "date": "2020-05-27",
+          "occurrences": 2,
+          "potential_overpayment": 615376.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 615376.0,
+          "date": "2023-02-27",
+          "occurrences": 2,
+          "potential_overpayment": 615376.0
+        },
+        {
+          "supplier": "POLICE AND CRIME COMMISSIONER FOR LANCASHIRE",
+          "amount": 602697.0,
+          "date": "2017-04-25",
+          "occurrences": 2,
+          "potential_overpayment": 602697.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 576573.0,
+          "date": "2017-06-22",
+          "occurrences": 2,
+          "potential_overpayment": 576573.0
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "amount": 547000.0,
+          "date": "2023-01-23",
+          "occurrences": 2,
+          "potential_overpayment": 547000.0
+        },
+        {
+          "supplier": "F PARKINSON LTD",
+          "amount": 399074.24,
+          "date": "2023-01-18",
+          "occurrences": 2,
+          "potential_overpayment": 399074.24
+        },
+        {
+          "supplier": "F PARKINSON LTD",
+          "amount": 373512.66,
+          "date": "2023-01-24",
+          "occurrences": 2,
+          "potential_overpayment": 373512.66
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 492,
+      "total_value": 11219000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 207
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "Finance",
+      "spend": 510394308.76,
+      "count": 1530
+    },
+    {
+      "department": "People and Places",
+      "spend": 91841123.47,
+      "count": 31558
+    },
+    {
+      "department": "Resources",
+      "spend": 76115457.98,
+      "count": 17127
+    },
+    {
+      "department": "Transformation",
+      "spend": 8000.0,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2017/18": 77613547.74,
+      "2019/20": 48500674.66,
+      "2020/21": 83542228.3,
+      "2021/22": 73551597.27,
+      "2022/23": 78793259.52,
+      "2023/24": 129974457.5,
+      "2024/25": 90320708.92,
+      "2025/26": 96062416.3
+    },
+    "transactions_by_year": {
+      "2017/18": 6397,
+      "2019/20": 3879,
+      "2020/21": 5954,
+      "2021/22": 5736,
+      "2022/23": 5856,
+      "2023/24": 8074,
+      "2024/25": 7426,
+      "2025/26": 6894
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 98.2,
+    "has_departments": 100.0,
+    "total_records": 50216
+  }
+}

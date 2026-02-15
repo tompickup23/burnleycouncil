@@ -1,0 +1,525 @@
+{
+  "summary": {
+    "total_spend": 1709637795.65,
+    "transaction_count": 483338,
+    "unique_suppliers": 6082,
+    "avg_transaction": 3537.15,
+    "median_transaction": 500.0,
+    "date_range": {
+      "min": "2020-04-01",
+      "max": "2025-12-31"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "HMRC",
+        "total": 171547091.98,
+        "transactions": 917,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "REDACTED",
+        "total": 126121672.25,
+        "transactions": 54792,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+        "total": 63442841.35,
+        "transactions": 45456,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "TEACHERS PENSIONS",
+        "total": 63280494.8,
+        "transactions": 171,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HOMECARE FOR YOU",
+        "total": 39763391.08,
+        "transactions": 16699,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "GUARDIAN HOMECARE UK LTD",
+        "total": 39371007.38,
+        "transactions": 12157,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SUEZ RECYCLING & RECOVERY UK L",
+        "total": 37667894.43,
+        "transactions": 876,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LIFEWAYS PARAGON LTD",
+        "total": 37477971.46,
+        "transactions": 7172,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 27853476.33,
+        "transactions": 1115,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NHS LANCASHIRE AND SOUTH CUMBRIA ICB",
+        "total": 26542239.38,
+        "transactions": 104,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SKY FUTURES LTD TA CHOICE CARE",
+        "total": 26356935.35,
+        "transactions": 10914,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BBN W DWEN & BOLTON(PHS1)LTD",
+        "total": 26355015.78,
+        "transactions": 237,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BN W DWEN & BOLTON (PHS2)LTD",
+        "total": 21714594.52,
+        "transactions": 229,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "I CARE GB LTD",
+        "total": 19900820.7,
+        "transactions": 7055,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ALTERNATIVE FUTURES GROUP",
+        "total": 19300648.83,
+        "transactions": 3387,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CREATIVE SUPPORT LTD",
+        "total": 18886508.53,
+        "transactions": 4047,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LANCASHIRE & SOUTH CUMBRIA NHS FOUN TRUST",
+        "total": 18803486.92,
+        "transactions": 197,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SELECT SUPPORT 4U LTD",
+        "total": 17868483.44,
+        "transactions": 2255,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "BBN W DWEN & BOLTON (PHS2)LTD",
+        "total": 17556262.37,
+        "transactions": 98,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE CALICO GROUP LTD",
+        "total": 16527726.9,
+        "transactions": 136,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.4892,
+    "total_unique_suppliers": 6082,
+    "single_transaction_suppliers": 1654
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 59612,
+      "potential_value": 365440491.08,
+      "items": [
+        {
+          "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+          "amount": 76266.97,
+          "date": "2022-02-22",
+          "occurrences": 374,
+          "potential_overpayment": 28447579.81
+        },
+        {
+          "supplier": "GUARDIAN HOMECARE UK LTD",
+          "amount": 178116.17,
+          "date": "2022-02-11",
+          "occurrences": 144,
+          "potential_overpayment": 25470612.31
+        },
+        {
+          "supplier": "HOMECARE FOR YOU",
+          "amount": 138279.43,
+          "date": "2022-02-24",
+          "occurrences": 140,
+          "potential_overpayment": 19220840.77
+        },
+        {
+          "supplier": "LIFEWAYS PARAGON LTD",
+          "amount": 198040.86,
+          "date": "2022-02-04",
+          "occurrences": 83,
+          "potential_overpayment": 16239350.52
+        },
+        {
+          "supplier": "HMRC",
+          "amount": 2154569.73,
+          "date": "2022-02-18",
+          "occurrences": 6,
+          "potential_overpayment": 10772848.65
+        },
+        {
+          "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+          "amount": 38087.01,
+          "date": "2022-02-17",
+          "occurrences": 273,
+          "potential_overpayment": 10359666.72
+        },
+        {
+          "supplier": "SKY FUTURES LTD TA CHOICE CARE",
+          "amount": 77328.29,
+          "date": "2022-02-04",
+          "occurrences": 119,
+          "potential_overpayment": 9124738.22
+        },
+        {
+          "supplier": "ALTERNATIVE FUTURES GROUP",
+          "amount": 122830.13,
+          "date": "2022-02-11",
+          "occurrences": 45,
+          "potential_overpayment": 5404525.72
+        },
+        {
+          "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+          "amount": 76028.83,
+          "date": "2022-02-15",
+          "occurrences": 71,
+          "potential_overpayment": 5322018.1
+        },
+        {
+          "supplier": "WILLOWBROOK (HYNDBURN) LTD",
+          "amount": 68280.68,
+          "date": "2022-02-04",
+          "occurrences": 75,
+          "potential_overpayment": 5052770.32
+        },
+        {
+          "supplier": "PREMIER CARE LTD",
+          "amount": 58757.08,
+          "date": "2022-02-11",
+          "occurrences": 65,
+          "potential_overpayment": 3760453.12
+        },
+        {
+          "supplier": "HOMECARE FOR YOU",
+          "amount": 56852.49,
+          "date": "2022-02-15",
+          "occurrences": 54,
+          "potential_overpayment": 3013181.97
+        },
+        {
+          "supplier": "SELECT SUPPORT 4U LTD",
+          "amount": 117379.85,
+          "date": "2022-02-04",
+          "occurrences": 24,
+          "potential_overpayment": 2699736.55
+        },
+        {
+          "supplier": "SELECT SUPPORT 4U LTD",
+          "amount": 117379.85,
+          "date": "2022-02-18",
+          "occurrences": 24,
+          "potential_overpayment": 2699736.55
+        },
+        {
+          "supplier": "CREATIVE SUPPORT LTD",
+          "amount": 103280.8,
+          "date": "2022-02-11",
+          "occurrences": 26,
+          "potential_overpayment": 2582020.0
+        },
+        {
+          "supplier": "HMRC",
+          "amount": 989763.51,
+          "date": "2023-03-17",
+          "occurrences": 3,
+          "potential_overpayment": 1979527.02
+        },
+        {
+          "supplier": "I CARE GB LTD",
+          "amount": 34684.01,
+          "date": "2022-02-04",
+          "occurrences": 56,
+          "potential_overpayment": 1907620.55
+        },
+        {
+          "supplier": "HMRC",
+          "amount": 873873.85,
+          "date": "2023-03-17",
+          "occurrences": 3,
+          "potential_overpayment": 1747747.7
+        },
+        {
+          "supplier": "TEACHERS PENSIONS",
+          "amount": 713386.8,
+          "date": "2023-03-08",
+          "occurrences": 3,
+          "potential_overpayment": 1426773.6
+        },
+        {
+          "supplier": "TEACHERS PENSIONS",
+          "amount": 708307.78,
+          "date": "2023-04-12",
+          "occurrences": 3,
+          "potential_overpayment": 1416615.56
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 3691,
+      "total_value": 64225000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 847
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "Adults and Prevention Services",
+      "spend": 406091757.0,
+      "count": 156041
+    },
+    {
+      "department": "Resources",
+      "spend": 259214970.16,
+      "count": 5759
+    },
+    {
+      "department": "Schools and Education DSG",
+      "spend": 257340154.43,
+      "count": 63324
+    },
+    {
+      "department": "Childrens",
+      "spend": 139461703.2,
+      "count": 68027
+    },
+    {
+      "department": "Growth and Development",
+      "spend": 128806984.83,
+      "count": 30917
+    },
+    {
+      "department": "Environmental Services",
+      "spend": 81575602.26,
+      "count": 30154
+    },
+    {
+      "department": "Public Health and Wellbeing",
+      "spend": 80631765.31,
+      "count": 21151
+    },
+    {
+      "department": "Schools and Education non DSG",
+      "spend": 73609301.74,
+      "count": 681
+    },
+    {
+      "department": "Finance and Governance",
+      "spend": 63931563.97,
+      "count": 37460
+    },
+    {
+      "department": "Corporate",
+      "spend": 53326532.48,
+      "count": 4793
+    },
+    {
+      "department": "Adult Services Commissioning",
+      "spend": 32034148.47,
+      "count": 17906
+    },
+    {
+      "department": "Digital and Customer Services",
+      "spend": 20719338.17,
+      "count": 4772
+    },
+    {
+      "department": "Dedicated Schools Grant",
+      "spend": 20523921.35,
+      "count": 8574
+    },
+    {
+      "department": "Social Care",
+      "spend": 14508259.36,
+      "count": 7881
+    },
+    {
+      "department": "Children Young People and Education",
+      "spend": 13112086.08,
+      "count": 1734
+    },
+    {
+      "department": "Regeneration",
+      "spend": 11191653.49,
+      "count": 4507
+    },
+    {
+      "department": "Environment",
+      "spend": 9270055.55,
+      "count": 4297
+    },
+    {
+      "department": "Adult Services  Non Commission",
+      "spend": 9142570.48,
+      "count": 2326
+    },
+    {
+      "department": "Public Health",
+      "spend": 6543688.37,
+      "count": 429
+    },
+    {
+      "department": "Neighbourhoods Housing C Svcs",
+      "spend": 5590003.39,
+      "count": 43
+    },
+    {
+      "department": "Leisure  Culture",
+      "spend": 4042006.05,
+      "count": 139
+    },
+    {
+      "department": "Financial Support Service",
+      "spend": 3472659.27,
+      "count": 335
+    },
+    {
+      "department": "Neighbourhoods and Prevention",
+      "spend": 2835729.22,
+      "count": 1656
+    },
+    {
+      "department": "Community Asset Management",
+      "spend": 2707203.2,
+      "count": 2171
+    },
+    {
+      "department": "Non DSG",
+      "spend": 2683461.49,
+      "count": 1369
+    },
+    {
+      "department": "Property",
+      "spend": 2584487.02,
+      "count": 3829
+    },
+    {
+      "department": "IT Management and Governance",
+      "spend": 1403407.86,
+      "count": 500
+    },
+    {
+      "department": "HR Legal and Democratic Services",
+      "spend": 1097954.58,
+      "count": 913
+    },
+    {
+      "department": "Adults and Prevention",
+      "spend": 874492.92,
+      "count": 1386
+    },
+    {
+      "department": "Leis Culture and Young People",
+      "spend": 675303.48,
+      "count": 56
+    },
+    {
+      "department": "Coroners Service",
+      "spend": 252352.9,
+      "count": 4
+    },
+    {
+      "department": "CRC and Ext Contributions",
+      "spend": 248743.55,
+      "count": 17
+    },
+    {
+      "department": "Chief Executives",
+      "spend": 68558.24,
+      "count": 141
+    },
+    {
+      "department": "Housing",
+      "spend": 65038.0,
+      "count": 45
+    },
+    {
+      "department": "Health and Adult Social Care",
+      "spend": 337.78,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2020/21": 193138396.7,
+      "2021/22": 403684277.47,
+      "2022/23": 300222911.14,
+      "2023/24": 259891452.29,
+      "2024/25": 290153557.06,
+      "2025/26": 262547200.99
+    },
+    "transactions_by_year": {
+      "2020/21": 54596,
+      "2021/22": 65420,
+      "2022/23": 107190,
+      "2023/24": 93523,
+      "2024/25": 92542,
+      "2025/26": 70067
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 483338
+  }
+}

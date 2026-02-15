@@ -63,6 +63,30 @@ COUNCILS = {
         'search_terms': ['"Lancashire County Council"'],
         'match_names': ['lancashire county council', 'lancashire cc', 'county of lancashire'],
     },
+    'blackpool': {
+        'search_terms': ['"Blackpool Council"', '"Blackpool Borough Council"'],
+        'match_names': ['blackpool council', 'blackpool borough council', 'blackpool bc'],
+    },
+    'west_lancashire': {
+        'search_terms': ['"West Lancashire Borough Council"'],
+        'match_names': ['west lancashire borough council', 'west lancashire bc', 'west lancashire council', 'west lancs'],
+    },
+    'blackburn': {
+        'search_terms': ['"Blackburn with Darwen Borough Council"', '"Blackburn with Darwen Council"'],
+        'match_names': ['blackburn with darwen borough council', 'blackburn with darwen council', 'blackburn with darwen bc'],
+    },
+    'wyre': {
+        'search_terms': ['"Wyre Council"', '"Wyre Borough Council"'],
+        'match_names': ['wyre council', 'wyre borough council', 'wyre bc'],
+    },
+    'preston': {
+        'search_terms': ['"Preston City Council"'],
+        'match_names': ['preston city council', 'preston council', 'preston cc'],
+    },
+    'fylde': {
+        'search_terms': ['"Fylde Borough Council"', '"Fylde Council"'],
+        'match_names': ['fylde borough council', 'fylde council', 'fylde bc'],
+    },
 }
 
 CF_SEARCH_URL = 'https://www.contractsfinder.service.gov.uk/api/rest/2/search_notices/json'

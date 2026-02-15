@@ -1,0 +1,487 @@
+{
+  "summary": {
+    "total_spend": 332873972.2,
+    "transaction_count": 43063,
+    "unique_suppliers": 4614,
+    "avg_transaction": 7729.93,
+    "median_transaction": 1476.68,
+    "date_range": {
+      "min": "2017-01-03",
+      "max": "2025-12-24"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "WATES PROPERTY SERVICES LTD",
+        "total": 29395838.39,
+        "transactions": 449,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "TAWD VALLEY DEVELOPMENTS LTD",
+        "total": 21010185.73,
+        "transactions": 125,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 16472343.43,
+        "transactions": 750,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "A CONNOLLY LTD",
+        "total": 13168431.82,
+        "transactions": 143,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PWLB",
+        "total": 9200195.08,
+        "transactions": 7,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ST MODWEN",
+        "total": 8096600.72,
+        "transactions": 13,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
+        "total": 7346524.08,
+        "transactions": 715,
+        "company_number": "03190863",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/03190863"
+      },
+      {
+        "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
+        "total": 6648381.55,
+        "transactions": 18,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HEAT 2000 LTD",
+        "total": 5247248.12,
+        "transactions": 653,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ALLIANCE LEISURE SERVICES",
+        "total": 4856356.46,
+        "transactions": 62,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SUSTAINABLE BUILDING SERVICES (UK) LTD",
+        "total": 4802202.25,
+        "transactions": 21,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "GO PLANT FLEET SERVICES",
+        "total": 4793447.35,
+        "transactions": 451,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PUBLIC WORKS LOAN BOARD",
+        "total": 4585480.29,
+        "transactions": 3,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "UNKNOWN",
+        "total": 4169150.78,
+        "transactions": 1075,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MATRIX SCM LTD",
+        "total": 4166138.56,
+        "transactions": 5648,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ZURICH MUNICIPAL INSURANCE",
+        "total": 4048989.22,
+        "transactions": 63,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DLP SERVICES NORTHERN LTD",
+        "total": 4013625.95,
+        "transactions": 829,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "DIGITAL SERVICES LANCASHIRE COUNTY COUNCIL",
+        "total": 3645857.2,
+        "transactions": 337,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CARROLL BUILD",
+        "total": 3563480.01,
+        "transactions": 16,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SAVILLS (UK) LTD",
+        "total": 3332610.46,
+        "transactions": 147,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.4884,
+    "total_unique_suppliers": 4614,
+    "single_transaction_suppliers": 2693
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 1899,
+      "potential_value": 10103203.51,
+      "items": [
+        {
+          "supplier": "BEIS",
+          "amount": 346760.0,
+          "date": "2021-11-01",
+          "occurrences": 2,
+          "potential_overpayment": 346760.0
+        },
+        {
+          "supplier": "WATES PROPERTY SERVICES LTD",
+          "amount": 176991.04,
+          "date": "2023-04-28",
+          "occurrences": 2,
+          "potential_overpayment": 176991.04
+        },
+        {
+          "supplier": "WATES PROPERTY SERVICES LTD",
+          "amount": 171763.94,
+          "date": "2020-04-27",
+          "occurrences": 2,
+          "potential_overpayment": 171763.94
+        },
+        {
+          "supplier": "WATES PROPERTY SERVICES LTD",
+          "amount": 171336.92,
+          "date": "2021-09-27",
+          "occurrences": 2,
+          "potential_overpayment": 171336.92
+        },
+        {
+          "supplier": "WATES PROPERTY SERVICES LTD",
+          "amount": 171336.92,
+          "date": "2022-06-13",
+          "occurrences": 2,
+          "potential_overpayment": 171336.92
+        },
+        {
+          "supplier": "RIVERSIDE TRUCK RENTAL LTD",
+          "amount": 134846.75,
+          "date": "2024-04-26",
+          "occurrences": 2,
+          "potential_overpayment": 134846.75
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES",
+          "amount": 122880.0,
+          "date": "2023-03-21",
+          "occurrences": 2,
+          "potential_overpayment": 122880.0
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES",
+          "amount": 114770.0,
+          "date": "2023-05-05",
+          "occurrences": 2,
+          "potential_overpayment": 114770.0
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES",
+          "amount": 108395.0,
+          "date": "2023-01-23",
+          "occurrences": 2,
+          "potential_overpayment": 108395.0
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES",
+          "amount": 101770.0,
+          "date": "2023-01-05",
+          "occurrences": 2,
+          "potential_overpayment": 101770.0
+        },
+        {
+          "supplier": "ALLIANCE LEISURE SERVICES",
+          "amount": 95914.91,
+          "date": "2023-09-21",
+          "occurrences": 2,
+          "potential_overpayment": 95914.91
+        },
+        {
+          "supplier": "WEST LANCASHIRE COMMUNITY LEISURE LTD",
+          "amount": 30278.42,
+          "date": "2017-10-13",
+          "occurrences": 4,
+          "potential_overpayment": 90835.26
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 1334.0,
+          "date": "2020-12-07",
+          "occurrences": 69,
+          "potential_overpayment": 90712.0
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 1334.0,
+          "date": "2020-12-03",
+          "occurrences": 64,
+          "potential_overpayment": 84042.0
+        },
+        {
+          "supplier": "DIGITAL SERVICES LANCASHIRE COUNTY COUNCIL",
+          "amount": 83082.89,
+          "date": "2023-10-23",
+          "occurrences": 2,
+          "potential_overpayment": 83082.89
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 83082.89,
+          "date": "2024-04-26",
+          "occurrences": 2,
+          "potential_overpayment": 83082.89
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 82907.93,
+          "date": "2017-05-22",
+          "occurrences": 2,
+          "potential_overpayment": 82907.93
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL",
+          "amount": 80407.2,
+          "date": "2020-07-06",
+          "occurrences": 2,
+          "potential_overpayment": 80407.2
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 1000.0,
+          "date": "2020-12-10",
+          "occurrences": 80,
+          "potential_overpayment": 79000.0
+        },
+        {
+          "supplier": "UNKNOWN",
+          "amount": 1000.0,
+          "date": "2020-12-18",
+          "occurrences": 80,
+          "potential_overpayment": 79000.0
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 3243,
+      "total_value": 38527000.0
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "Housing Revenue Account",
+      "spend": 109437670.09,
+      "count": 11908
+    },
+    {
+      "department": "Coronavirus business grants",
+      "spend": 21008700.0,
+      "count": 1929
+    },
+    {
+      "department": "Other Service Items",
+      "spend": 20266943.27,
+      "count": 3419
+    },
+    {
+      "department": "Environmental Services",
+      "spend": 17963732.53,
+      "count": 4532
+    },
+    {
+      "department": "",
+      "spend": 17099813.12,
+      "count": 1696
+    },
+    {
+      "department": "Housing Public Sector",
+      "spend": 16847713.62,
+      "count": 141
+    },
+    {
+      "department": "Corporate and Customer Services",
+      "spend": 15307949.42,
+      "count": 2247
+    },
+    {
+      "department": "Corporate Services",
+      "spend": 13735324.81,
+      "count": 236
+    },
+    {
+      "department": "Housing and Inclusion",
+      "spend": 12609538.63,
+      "count": 2210
+    },
+    {
+      "department": "Non Service Items",
+      "spend": 11593082.77,
+      "count": 8
+    },
+    {
+      "department": "Growth and Development",
+      "spend": 11107605.84,
+      "count": 1061
+    },
+    {
+      "department": "Wellbeing and Place",
+      "spend": 9878633.58,
+      "count": 802
+    },
+    {
+      "department": "Street Scene",
+      "spend": 9749729.22,
+      "count": 3330
+    },
+    {
+      "department": "Finance Procurement & Property Svs",
+      "spend": 8926895.91,
+      "count": 1465
+    },
+    {
+      "department": "Housing and Regulatory",
+      "spend": 8300559.33,
+      "count": 2662
+    },
+    {
+      "department": "Leisure and Wellbeing",
+      "spend": 7255892.51,
+      "count": 1620
+    },
+    {
+      "department": "Planning and Regulatory",
+      "spend": 6214491.54,
+      "count": 575
+    },
+    {
+      "department": "Wellbeing and Leisure",
+      "spend": 4084658.48,
+      "count": 762
+    },
+    {
+      "department": "Development and Regeneration",
+      "spend": 2929238.34,
+      "count": 774
+    },
+    {
+      "department": "Transformation",
+      "spend": 2831179.44,
+      "count": 275
+    },
+    {
+      "department": "Development & Regeneration",
+      "spend": 1627550.29,
+      "count": 472
+    },
+    {
+      "department": "Finance & Human Resources",
+      "spend": 1507271.59,
+      "count": 136
+    },
+    {
+      "department": "Finance and Human Resources",
+      "spend": 1118797.06,
+      "count": 206
+    },
+    {
+      "department": "Legal  and Democracy",
+      "spend": 874822.42,
+      "count": 456
+    },
+    {
+      "department": "Development and Regen",
+      "spend": 538564.89,
+      "count": 121
+    },
+    {
+      "department": "Finance & HR",
+      "spend": 52494.33,
+      "count": 18
+    },
+    {
+      "department": "Environmental Health",
+      "spend": 5119.17,
+      "count": 2
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2016/17": 8603087.52,
+      "2017/18": 28867028.93,
+      "2018/19": 38217205.82,
+      "2019/20": 23103263.69,
+      "2020/21": 61848558.53,
+      "2021/22": 30337188.31,
+      "2022/23": 32114809.28,
+      "2023/24": 45287280.34,
+      "2024/25": 32877854.32,
+      "2025/26": 31617695.46
+    },
+    "transactions_by_year": {
+      "2016/17": 1352,
+      "2017/18": 5107,
+      "2018/19": 5672,
+      "2019/20": 3849,
+      "2020/21": 9027,
+      "2021/22": 3058,
+      "2022/23": 3340,
+      "2023/24": 5912,
+      "2024/25": 3582,
+      "2025/26": 2164
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 97.5,
+    "has_departments": 96.1,
+    "total_records": 43063
+  }
+}

@@ -1,0 +1,678 @@
+{
+  "findings": [
+    {
+      "value": "\u00a389.9K",
+      "label": "Suppliers with Current Red Flags",
+      "detail": "5 current suppliers have Companies House compliance issues (historical payments were made before breaches started)",
+      "severity": "info",
+      "confidence": "medium",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a3369.7K",
+      "label": "Likely Duplicate Payments",
+      "detail": "181 high-confidence duplicate groups with same supplier, amount, date and reference (3+ copies) (after filtering 1247 CSV republication artifacts)",
+      "severity": "critical",
+      "confidence": "medium",
+      "context_note": "Quarterly CSV overlaps (same transaction appearing in 2 files) have been filtered out. Remaining duplicates show 3+ identical copies, which are more likely genuine overpayments.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a33.5M",
+      "label": "Possible Duplicate Payments",
+      "detail": "817 medium-confidence groups (same supplier/amount/date, different references)",
+      "severity": "warning",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a32.1M",
+      "label": "Suspected Split Payments",
+      "detail": "5 instances of 3+ payments just below approval thresholds in the same week",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Split payment detection has a high false-positive rate. Batch processing, staged invoices, and legitimate recurring payments can all trigger this pattern. FOI request for procurement approval chain recommended before drawing conclusions.",
+      "link": "/spending"
+    },
+    {
+      "value": "\u00a336.6M",
+      "label": "Round-Number Payments (>\u00a35K)",
+      "detail": "2575 exact round-number payments over \u00a35,000 \u2014 may indicate estimates rather than invoiced amounts",
+      "severity": "info",
+      "confidence": "low",
+      "link": "/spending"
+    },
+    {
+      "value": "12.7x",
+      "label": "Year-End Spending Pattern",
+      "detail": "Housing Revenue Account spent 12.7x their monthly average in March (\u00a313.5M above normal). Note: UK councils operate on April\u2013March fiscal years, so elevated March spending is common as departments finalise annual budgets. Spikes above 3x warrant further scrutiny.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "March spending above the monthly average is expected for UK councils on April\u2013March fiscal years. Compare against prior years' March figures for meaningful analysis.",
+      "link": "/spending"
+    },
+    {
+      "value": "15",
+      "label": "Rapid Payment Suppliers",
+      "detail": "15 suppliers receive payments every <14 days on average. Top: Lcs Vehicle Ltd (2.0 day avg, 15 payments, \u00a312.5K)",
+      "severity": "info",
+      "confidence": "high",
+      "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=9174.65",
+      "label": "Benford's Law Anomaly",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). Digit 5 deviates 8.2% from expected distribution across 43,063 transactions. Note: with 43,063 transactions, chi-squared tests are highly sensitive \u2014 the 8.2% max digit deviation is the more practical measure of anomaly.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Chi-squared values on samples of 43,063+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (8.2%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
+      "link": "/spending"
+    }
+  ],
+  "key_findings": [
+    {
+      "icon": "clock",
+      "badge": "Payment Pattern",
+      "title": "1 suppliers with clock-like payment regularity",
+      "description": "These suppliers receive payments at near-identical intervals (std dev <5 days). Top: Unknown \u2014 every 2.7 days (1075 payments, \u00a34.2M)",
+      "link": "/spending",
+      "link_text": "View patterns \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "repeat",
+      "badge": "High Volume",
+      "title": "MATRIX SCM LTD: 5648 transactions totalling \u00a34.2M",
+      "description": "Averaging \u00a3738 per transaction \u2014 the council's most frequent supplier",
+      "link": "/spending?supplier=MATRIX SCM LTD",
+      "link_text": "See all transactions \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "14 suppliers shared with neighbouring councils \u2014 \u00a318.9M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "WORLD PAY: 8440% price gap between councils",
+      "description": "West_Lancashire pays \u00a31.7K avg vs Blackburn \u00a320 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=WORLD PAY",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
+    }
+  ],
+  "cta_link": "/spending",
+  "cta_text": "Explore all spending data",
+  "generated": "2026-02-15T10:10:22.820523",
+  "analyses_run": [
+    "duplicates",
+    "cross_council_pricing",
+    "payment_patterns",
+    "ch_compliance",
+    "benfords_law",
+    "supplier_concentration",
+    "fraud_triangle"
+  ],
+  "payment_velocity": {
+    "rapid_payers": [
+      {
+        "supplier": "LCS VEHICLE LTD",
+        "payments": 15,
+        "avg_days": 2.0,
+        "total_spend": 12499.95,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "UNKNOWN",
+        "payments": 1075,
+        "avg_days": 2.7,
+        "total_spend": 4169150.78,
+        "regularity": "high"
+      },
+      {
+        "supplier": "MERCURE WIGAN",
+        "payments": 10,
+        "avg_days": 4.0,
+        "total_spend": 11354.17,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "R HANNAH & SONS LTD T/A HANNAH FOOD SERVICES",
+        "payments": 41,
+        "avg_days": 4.6,
+        "total_spend": 133116.01,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "NIYAA PEOPLE LTD",
+        "payments": 15,
+        "avg_days": 5.2,
+        "total_spend": 20869.54,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "VIVID RESOURCING (G2V RECRUITMENT GROUP LTD)",
+        "payments": 828,
+        "avg_days": 7.0,
+        "total_spend": 1734253.19,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "WESTLANCSCOMMUNI",
+        "payments": 11,
+        "avg_days": 7.0,
+        "total_spend": 72549.28,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "LANCASHIRE COUNTY COUNCIL (BTLS)",
+        "payments": 490,
+        "avg_days": 8.5,
+        "total_spend": 2759651.65,
+        "regularity": "normal"
+      },
+      {
+        "supplier": "MERCURE ATLANTIC TOWER HOTEL LIVERPOOL",
+        "payments": 92,
+        "avg_days": 8.7,
+        "total_spend": 201701.64,
+        "regularity": "medium"
+      },
+      {
+        "supplier": "PAINTAWAY LTD",
+        "payments": 14,
+        "avg_days": 8.8,
+        "total_spend": 76583.22,
+        "regularity": "medium"
+      }
+    ],
+    "regular_payers": [
+      {
+        "supplier": "UNKNOWN",
+        "payments": 1075,
+        "avg_days": 2.7,
+        "std_dev": 3.4,
+        "total_spend": 4169150.78
+      }
+    ],
+    "day_of_week": [
+      {
+        "day": "Monday",
+        "count": 10278,
+        "total": 81198942.29
+      },
+      {
+        "day": "Tuesday",
+        "count": 8477,
+        "total": 65809240.05
+      },
+      {
+        "day": "Wednesday",
+        "count": 9418,
+        "total": 70404040.14
+      },
+      {
+        "day": "Thursday",
+        "count": 8412,
+        "total": 64155424.34
+      },
+      {
+        "day": "Friday",
+        "count": 6422,
+        "total": 50378215.2
+      },
+      {
+        "day": "Saturday",
+        "count": 6,
+        "total": 8514.14
+      },
+      {
+        "day": "Sunday",
+        "count": 50,
+        "total": 919596.04
+      }
+    ],
+    "total_analysed": 448
+  },
+  "supplier_concentration": {
+    "total_spend": 332873972.2,
+    "unique_suppliers": 4614,
+    "top5": {
+      "suppliers": [
+        {
+          "supplier": "WATES PROPERTY SERVICES LTD",
+          "total": 29395838.39,
+          "count": 449,
+          "pct": 8.8
+        },
+        {
+          "supplier": "TAWD VALLEY DEVELOPMENTS LTD",
+          "total": 21010185.73,
+          "count": 125,
+          "pct": 6.3
+        },
+        {
+          "supplier": "Lancashire County Council",
+          "total": 16472343.43,
+          "count": 750,
+          "pct": 4.9
+        },
+        {
+          "supplier": "A CONNOLLY LTD",
+          "total": 13168431.82,
+          "count": 143,
+          "pct": 4.0
+        },
+        {
+          "supplier": "PWLB",
+          "total": 9200195.08,
+          "count": 7,
+          "pct": 2.8
+        }
+      ],
+      "total": 89246994.45,
+      "pct": 26.8
+    },
+    "top10_pct": 36.5,
+    "top20_pct": 48.8,
+    "hhi": 213.3,
+    "concentration_level": "low"
+  },
+  "procurement_compliance": {
+    "total_contracts": 79,
+    "awarded_contracts": 35,
+    "threshold_suspects": [
+      {
+        "title": "Weed Control Services",
+        "value": 137980,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "RM Services Ltd",
+        "pct_of_threshold": 99.4
+      },
+      {
+        "title": "Provision of a Sustainable Organisation Review and Associated Consultancy Servic",
+        "value": 119812,
+        "threshold": 138760,
+        "threshold_label": "Goods/services (\u00a3138,760)",
+        "supplier": "RedQuadrant",
+        "pct_of_threshold": 86.3
+      }
+    ],
+    "threshold_suspect_count": 2,
+    "repeat_winners": [
+      {
+        "supplier": "TA Browne Contract Services Ltd",
+        "contracts": 3,
+        "total_value": 216665,
+        "avg_value": 72221.67
+      },
+      {
+        "supplier": "MAC Construction + Groundworks Ltd",
+        "contracts": 3,
+        "total_value": 216665,
+        "avg_value": 72221.67
+      }
+    ],
+    "repeat_winner_count": 2,
+    "transparency_gap": {
+      "no_value_count": 2,
+      "total_awarded": 35,
+      "pct": 5.7
+    },
+    "timing_clusters": [
+      {
+        "supplier": "TA Browne Contract Services Ltd",
+        "gap_days": 0,
+        "date1": "2025-03-31",
+        "date2": "2025-03-31"
+      },
+      {
+        "supplier": "TA Browne Contract Services Ltd",
+        "gap_days": 0,
+        "date1": "2025-03-31",
+        "date2": "2025-03-31"
+      },
+      {
+        "supplier": "MAC Construction + Groundworks Ltd",
+        "gap_days": 0,
+        "date1": "2025-03-31",
+        "date2": "2025-03-31"
+      },
+      {
+        "supplier": "MAC Construction + Groundworks Ltd",
+        "gap_days": 0,
+        "date1": "2025-03-31",
+        "date2": "2025-03-31"
+      }
+    ],
+    "timing_cluster_count": 4,
+    "late_publications": [
+      {
+        "title": "Call Off contract from Framework DN772512",
+        "supplier": "Lanes group pls",
+        "published_date": "2025-10-06",
+        "awarded_date": "2025-03-31",
+        "days_late": 189,
+        "awarded_value": 50000
+      },
+      {
+        "title": "Call off contract from Framework DN772512",
+        "supplier": "Gables UK LTD",
+        "published_date": "2025-10-06",
+        "awarded_date": "2025-03-31",
+        "days_late": 189,
+        "awarded_value": 66666
+      },
+      {
+        "title": "Call off contract from Framework DN772512",
+        "supplier": "Draincare",
+        "published_date": "2025-10-06",
+        "awarded_date": "2025-03-31",
+        "days_late": 189,
+        "awarded_value": 50000
+      },
+      {
+        "title": "Call Off contract from Framework DN772512",
+        "supplier": "DALROD (UK) Ltd",
+        "published_date": "2025-10-06",
+        "awarded_date": "2025-03-31",
+        "days_late": 189,
+        "awarded_value": 50000
+      },
+      {
+        "title": "Provision of Responsive Repairs, Works to Voids, Gas Servicing and Maintenance",
+        "supplier": "Wates Construction Limited T/A Wates Living Space",
+        "published_date": "2020-02-14",
+        "awarded_date": "2019-10-22",
+        "days_late": 115,
+        "awarded_value": 65000000
+      },
+      {
+        "title": "CCTV Maintenance Contract",
+        "supplier": "OpenView Security Solutions Limited",
+        "published_date": "2020-02-07",
+        "awarded_date": "2019-10-17",
+        "days_late": 113,
+        "awarded_value": 150000
+      },
+      {
+        "title": "Ormskirk rail to bus stations cycle works",
+        "supplier": "Nu-phalt Group Ltd",
+        "published_date": "2020-02-11",
+        "awarded_date": "2019-10-24",
+        "days_late": 110,
+        "awarded_value": 104071
+      },
+      {
+        "title": "Security and Concierge Service",
+        "supplier": "Profile Security Service Ltd",
+        "published_date": "2017-07-11",
+        "awarded_date": "2017-03-23",
+        "days_late": 110,
+        "awarded_value": 206652
+      },
+      {
+        "title": "Inspection of Hackney Carriages and Private Hire Vehicles",
+        "supplier": "A Davies Autos Ltd,Lindons Garage",
+        "published_date": "2017-06-19",
+        "awarded_date": "2017-03-02",
+        "days_late": 109,
+        "awarded_value": 60000
+      },
+      {
+        "title": "Damp Remedial Works",
+        "supplier": "General Trade Maintenance",
+        "published_date": "2025-01-09",
+        "awarded_date": "2024-10-04",
+        "days_late": 97,
+        "awarded_value": 500000
+      }
+    ],
+    "late_publication_count": 32,
+    "publication_timing": {
+      "avg_delay_days": 76.9,
+      "median_delay_days": 67,
+      "total_measured": 35
+    },
+    "weak_competition": [
+      {
+        "title": "Framework for Specialist Trade Works",
+        "supplier": "DALROD (UK) Ltd,DASCO Construction Limited,Draincare Manchester Ltd,Gables UK LTD,Ingleford Scaffolding Ltd,Lanes Group plc,MAC Construction &amp; Groundworks Ltd,Metro Rod Ltd,Rigford Ltd,TA Browne Contract Services Ltd",
+        "awarded_value": 1474993,
+        "tender_days": -66,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work and Repair and maintenance servi"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212- Specialist Trade Works",
+        "supplier": "Drasco Costuction Ltd Company",
+        "awarded_value": 200000,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212- Specialist Trade Works",
+        "supplier": "TA Browne Contract Services Ltd",
+        "awarded_value": 83333,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212- Specialist Trade Works",
+        "supplier": "MAC Construction + Groundworks Ltd",
+        "awarded_value": 83333,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call- Off Contract from Framework DN775212",
+        "supplier": "Dasco Construction Ltd Company",
+        "awarded_value": 83333,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call off contract from Framework DN772512",
+        "supplier": "Gables UK LTD",
+        "awarded_value": 66666,
+        "tender_days": -189,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Roofing materials"
+      },
+      {
+        "title": "Call- Off Contract from Framework DN777215 - Specialist Trade Works",
+        "supplier": "TA Browne Contract Services Ltd",
+        "awarded_value": 66666,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212- Specialist Trade Works",
+        "supplier": "TA Browne Contract Services Ltd",
+        "awarded_value": 66666,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212- Specialist Trade Works",
+        "supplier": "MAC Construction + Groundworks Ltd",
+        "awarded_value": 66666,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN77525- Specialist Trade Works",
+        "supplier": "MAC Construction + Groundworks Ltd",
+        "awarded_value": 66666,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212 Specialist Trade Works",
+        "supplier": "Dracso Construction Ltd Company",
+        "awarded_value": 66666,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Building construction work"
+      },
+      {
+        "title": "Call-Off Contract from Framework DN775212 - Specialist trade Works",
+        "supplier": "Dasco Construction Lt Company",
+        "awarded_value": 66666,
+        "tender_days": -67,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Building construction work"
+      },
+      {
+        "title": "Call off contract from Framework DN772512",
+        "supplier": "Draincare",
+        "awarded_value": 50000,
+        "tender_days": -189,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Drainage construction works"
+      },
+      {
+        "title": "Call Off contract from Framework DN772512",
+        "supplier": "DALROD (UK) Ltd",
+        "awarded_value": 50000,
+        "tender_days": -189,
+        "eval_days": 0,
+        "flags": [
+          "Awarded 0 days after deadline"
+        ],
+        "cpv": "Drainage equipment"
+      },
+      {
+        "title": "Greener Tourism",
+        "supplier": "Green Business UK",
+        "awarded_value": 30000,
+        "tender_days": -23,
+        "eval_days": 1,
+        "flags": [
+          "Awarded 1 days after deadline"
+        ],
+        "cpv": "Software package and information systems and Busin"
+      }
+    ],
+    "weak_competition_count": 16,
+    "monopoly_categories": [],
+    "monopoly_category_count": 0
+  },
+  "fraud_triangle": {
+    "overall_score": 57.8,
+    "risk_level": "moderate",
+    "dimensions": {
+      "opportunity": {
+        "score": 65,
+        "signals": [
+          {
+            "signal": "5 suspected split payment instances (\u00a32.1M)",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "16 contracts with weak competition indicators",
+            "score": 30,
+            "source": "procurement_compliance"
+          }
+        ]
+      },
+      "pressure": {
+        "score": 85,
+        "signals": [
+          {
+            "signal": "Year-end spike: 26.4x monthly average in March",
+            "score": 35,
+            "source": "payment_patterns"
+          },
+          {
+            "signal": "181 likely duplicate payments (\u00a3369.7K)",
+            "score": 30,
+            "source": "duplicates"
+          },
+          {
+            "signal": "2575 round-number payments over \u00a35K (\u00a336.6M)",
+            "score": 20,
+            "source": "payment_patterns"
+          }
+        ]
+      },
+      "rationalization": {
+        "score": 35,
+        "signals": [
+          {
+            "signal": "5 suppliers with current CH red flags",
+            "score": 10,
+            "source": "ch_compliance"
+          },
+          {
+            "signal": "32 contracts published after award date",
+            "score": 25,
+            "source": "procurement_compliance"
+          }
+        ]
+      }
+    },
+    "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
+    "total_signals": 7
+  }
+}
