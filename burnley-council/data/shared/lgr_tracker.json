@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "title": "Lancashire Local Government Reorganisation Tracker",
+    "consultation_launched": "2026-02-05",
+    "consultation_closes": "2026-05-01",
+    "target_date": "2028-04-01",
+    "status": "consultation",
+    "last_updated": "2026-02-15"
+  },
+  "timeline": [
+    { "date": "2023-07-24", "event": "Levelling Up and Regeneration Act receives Royal Assent", "detail": "Gives Secretary of State powers to create unitary authorities without local consent" },
+    { "date": "2024-07-04", "event": "Labour wins general election", "detail": "English Devolution White Paper signals push for reorganisation" },
+    { "date": "2025-12-16", "event": "English Devolution Bill introduced", "detail": "Framework for Mayoral Strategic Authorities and mandatory unitarisation" },
+    { "date": "2026-02-05", "event": "Lancashire consultation launched", "detail": "Government invites proposals for new unitary structures in Lancashire" },
+    { "date": "2026-05-01", "event": "Consultation closes", "detail": "Deadline for submissions on proposed unitary boundaries", "upcoming": true },
+    { "date": "2026-09-01", "event": "Government decision expected", "detail": "Secretary of State announces chosen boundary model", "upcoming": true },
+    { "date": "2027-05-01", "event": "Shadow authority elections", "detail": "Voters elect councillors for new unitary authorities", "upcoming": true },
+    { "date": "2028-04-01", "event": "Vesting day", "detail": "New unitary authorities go live, all 15 current councils abolished", "upcoming": true }
+  ],
+  "proposed_models": [
+    {
+      "id": "two_unitary",
+      "name": "Two Unitaries",
+      "description": "Government-preferred model. North and South Lancashire, each with 500,000+ population.",
+      "source": "Government preference (English Devolution White Paper)",
+      "authorities": [
+        {
+          "name": "North Lancashire",
+          "councils": ["burnley", "hyndburn", "pendle", "rossendale", "ribble_valley", "lancaster", "wyre"],
+          "population_estimate": 497000,
+          "notes": "East Lancashire mill towns + rural Ribble Valley + coastal Wyre + historic Lancaster"
+        },
+        {
+          "name": "South Lancashire",
+          "councils": ["preston", "chorley", "south_ribble", "west_lancashire", "fylde"],
+          "population_estimate": 373000,
+          "notes": "Preston city region + commuter belt + rural West Lancashire"
+        }
+      ],
+      "notes": "Blackpool and Blackburn with Darwen already unitary — would remain separate or merge. LCC abolished."
+    },
+    {
+      "id": "three_unitary",
+      "name": "Three Unitaries",
+      "description": "Compromise model. East Lancashire, Central Lancashire, and West/Coast.",
+      "source": "Council leader proposals",
+      "authorities": [
+        {
+          "name": "East Lancashire",
+          "councils": ["burnley", "hyndburn", "pendle", "rossendale", "ribble_valley"],
+          "population_estimate": 347000,
+          "notes": "Strong economic ties, shared deprivation challenges, existing East Lancs partnerships"
+        },
+        {
+          "name": "Central Lancashire",
+          "councils": ["preston", "chorley", "south_ribble"],
+          "population_estimate": 287000,
+          "notes": "Existing City Deal partnership, strong commuter flows, Preston as admin capital"
+        },
+        {
+          "name": "West & Coastal Lancashire",
+          "councils": ["lancaster", "wyre", "fylde", "west_lancashire"],
+          "population_estimate": 363000,
+          "notes": "Diverse geography — Lancaster university city, Wyre/Fylde coast, rural West Lancs"
+        }
+      ],
+      "notes": "Most commonly discussed model among district leaders. Blackpool and Blackburn with Darwen remain separate."
+    },
+    {
+      "id": "five_unitary",
+      "name": "Five Unitaries",
+      "description": "District-preferred model. Smallest units, closest to existing partnerships.",
+      "source": "East Lancashire Leaders Board proposal",
+      "authorities": [
+        {
+          "name": "East Lancashire",
+          "councils": ["burnley", "hyndburn", "pendle", "rossendale", "ribble_valley"],
+          "population_estimate": 347000,
+          "notes": "Strongest political support. Existing joint services and shared challenges"
+        },
+        {
+          "name": "Central Lancashire",
+          "councils": ["preston", "chorley", "south_ribble"],
+          "population_estimate": 287000,
+          "notes": "Preston City Deal area"
+        },
+        {
+          "name": "Lancaster & Wyre",
+          "councils": ["lancaster", "wyre"],
+          "population_estimate": 255000,
+          "notes": "Northern coastal authorities with M6 corridor connection"
+        },
+        {
+          "name": "Fylde & West Lancashire",
+          "councils": ["fylde", "west_lancashire"],
+          "population_estimate": 148000,
+          "notes": "Smallest proposed unitary — may not meet government population threshold"
+        },
+        {
+          "name": "Blackpool & Fylde Coast",
+          "councils": ["fylde", "wyre"],
+          "population_estimate": 188000,
+          "notes": "Alternative grouping: coastal strip with shared tourism economy"
+        }
+      ],
+      "notes": "Government unlikely to accept 5+ unitaries (Devon/Somerset precedent: 2 unitaries from 10 councils). Overlapping groupings show tension in this model."
+    }
+  ],
+  "key_issues": [
+    {
+      "id": "debt_transfer",
+      "title": "LCC Debt Transfer",
+      "severity": "critical",
+      "description": "Lancashire CC holds significant borrowing including the VeLTIP bond portfolio (£519M invested, ~£169M current value). How this debt is distributed to successor authorities is the single biggest financial risk.",
+      "figure": "£519M",
+      "figure_label": "VeLTIP bond portfolio"
+    },
+    {
+      "id": "reserves",
+      "title": "Reserves Distribution",
+      "severity": "high",
+      "description": "Combined reserves across all 15 councils must be fairly divided. Some councils have strong reserves (Fylde, Chorley) while others are depleted. Earmarked reserves tied to specific obligations complicate distribution.",
+      "figure": null,
+      "figure_label": null
+    },
+    {
+      "id": "dsg_deficit",
+      "title": "Dedicated Schools Grant Deficit",
+      "severity": "critical",
+      "description": "LCC carries a DSG deficit projected to reach £419.9M by 2028/29. This statutory obligation for SEND provision will transfer to successor authorities.",
+      "figure": "£420M",
+      "figure_label": "Projected DSG deficit by 2028/29"
+    },
+    {
+      "id": "staff_tupe",
+      "title": "Staff TUPE Transfer",
+      "severity": "high",
+      "description": "Approximately 30,000+ staff across all 15 councils will need TUPE transfer to successor authorities. Different pay scales, pension schemes, and terms must be harmonised — typically the most expensive part of reorganisation.",
+      "figure": "30,000+",
+      "figure_label": "Staff requiring TUPE transfer"
+    },
+    {
+      "id": "it_systems",
+      "title": "IT System Consolidation",
+      "severity": "medium",
+      "description": "15 councils run different IT systems for revenues, planning, housing, and corporate services. LCC's Oracle Fusion implementation has been plagued with problems. System consolidation typically costs £20-50M per new authority.",
+      "figure": "£20-50M",
+      "figure_label": "Estimated IT cost per new authority"
+    },
+    {
+      "id": "transition_cost",
+      "title": "Total Transition Cost",
+      "severity": "high",
+      "description": "Based on Buckinghamshire, Dorset, and Somerset precedents, total reorganisation costs are typically £15-25M per new unitary authority over the transition period.",
+      "figure": "£30-125M",
+      "figure_label": "Estimated total transition cost (depending on model)"
+    }
+  ],
+  "precedents": [
+    {
+      "area": "Buckinghamshire",
+      "year": 2020,
+      "councils_merged": 5,
+      "new_unitaries": 1,
+      "population": 546000,
+      "transition_cost": "£18.8M",
+      "annual_savings": "£18M",
+      "payback_period": "1 year",
+      "notes": "Often cited as success story. Single unitary from 4 districts + county."
+    },
+    {
+      "area": "Dorset",
+      "year": 2019,
+      "councils_merged": 9,
+      "new_unitaries": 2,
+      "population": 773000,
+      "transition_cost": "£12M",
+      "annual_savings": "£12.5M",
+      "payback_period": "1 year",
+      "notes": "Two unitaries — Dorset Council (rural) + BCP (Bournemouth, Christchurch, Poole)."
+    },
+    {
+      "area": "Somerset",
+      "year": 2023,
+      "councils_merged": 5,
+      "new_unitaries": 1,
+      "population": 560000,
+      "transition_cost": "£16.5M",
+      "annual_savings": "£18.5M",
+      "payback_period": "Under 1 year",
+      "notes": "Most recent precedent. 4 districts + county → single unitary."
+    },
+    {
+      "area": "North Yorkshire",
+      "year": 2023,
+      "councils_merged": 8,
+      "new_unitaries": 1,
+      "population": 618000,
+      "transition_cost": "£25M",
+      "annual_savings": "£31M",
+      "payback_period": "Under 1 year",
+      "notes": "Largest geographic area. 7 districts + county → single unitary. City of York already unitary."
+    }
+  ]
+}

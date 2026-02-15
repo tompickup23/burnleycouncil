@@ -27,6 +27,7 @@ const SupplierView = lazy(() => import('./pages/SupplierView'))
 const Procurement = lazy(() => import('./pages/Procurement'))
 const Press = lazy(() => import('./pages/Press'))
 const Demographics = lazy(() => import('./pages/Demographics'))
+const LGRTracker = lazy(() => import('./pages/LGRTracker'))
 
 // Preload commonly needed data
 preloadData(['/data/config.json', '/data/insights.json'])
@@ -68,6 +69,7 @@ function App() {
           <Route path="/procurement" element={<Guarded><Procurement /></Guarded>} />
           <Route path="/press" element={<Guarded><Press /></Guarded>} />
           <Route path="/demographics" element={<Guarded><Demographics /></Guarded>} />
+          <Route path="/lgr" element={<Guarded><LGRTracker /></Guarded>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

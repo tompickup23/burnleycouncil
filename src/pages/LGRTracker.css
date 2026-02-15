@@ -1,0 +1,517 @@
+.lgr-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.lgr-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.lgr-page h1 .accent {
+  color: #0a84ff;
+}
+
+.consultation-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1c1c1e;
+  border: 1px solid #ff9f0a;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  color: #ff9f0a;
+  white-space: nowrap;
+}
+
+.countdown-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  display: block;
+}
+
+/* Context banner */
+.lgr-context-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #e5e5e7;
+}
+
+.lgr-context-banner svg {
+  color: #ff9f0a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Sections */
+.lgr-section {
+  margin-bottom: 2.5rem;
+}
+
+.lgr-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-desc {
+  color: #8e8e93;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+/* Timeline */
+.lgr-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.lgr-timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #2c2c2e;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2rem;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #0a84ff;
+  border: 2px solid #0a0a0a;
+  z-index: 1;
+  margin-left: 2px;
+}
+
+.timeline-item.past .timeline-marker {
+  background: #48484a;
+}
+
+.timeline-item.upcoming .timeline-marker {
+  background: #ff9f0a;
+  box-shadow: 0 0 8px rgba(255, 159, 10, 0.4);
+}
+
+.timeline-content {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.timeline-item.upcoming .timeline-content {
+  border-color: rgba(255, 159, 10, 0.3);
+}
+
+.timeline-date {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-content h3 {
+  font-size: 0.95rem;
+  margin: 0.15rem 0 0.25rem;
+}
+
+.timeline-content p {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  margin: 0;
+}
+
+/* Model tabs */
+.model-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.model-tab {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  color: #8e8e93;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.model-tab:hover {
+  border-color: #48484a;
+  color: #e5e5e7;
+}
+
+.model-tab.active {
+  background: #0a84ff;
+  border-color: #0a84ff;
+  color: #fff;
+}
+
+.model-detail {
+  margin-bottom: 1rem;
+}
+
+.model-desc {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.model-source {
+  font-size: 0.8rem;
+  color: #636366;
+  margin-bottom: 1.25rem;
+}
+
+.model-footnote {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+/* Authority cards */
+.authority-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.authority-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.authority-card.my-authority {
+  border-color: #0a84ff;
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.15);
+}
+
+.authority-color-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.my-badge {
+  display: inline-block;
+  background: #0a84ff;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.authority-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.35rem;
+}
+
+.authority-councils {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.highlight-council {
+  color: #0a84ff;
+  font-weight: 600;
+}
+
+.authority-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.auth-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+}
+
+.auth-stat svg {
+  color: #8e8e93;
+  flex-shrink: 0;
+}
+
+.authority-notes {
+  font-size: 0.8rem;
+  color: #636366;
+  line-height: 1.4;
+}
+
+/* Charts */
+.lgr-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.lgr-chart-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.lgr-chart-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.chart-desc {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-bottom: 0.75rem;
+}
+
+/* Issues */
+.issues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.issue-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.issue-card:hover {
+  border-color: #48484a;
+}
+
+.issue-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.issue-header h3 {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.issue-severity {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.issue-figure {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff453a;
+  white-space: nowrap;
+}
+
+.issue-header svg {
+  color: #636366;
+  flex-shrink: 0;
+}
+
+.issue-detail {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid #2c2c2e;
+  margin-top: 0;
+}
+
+.issue-detail p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e5e5e7;
+  margin-top: 0.75rem;
+}
+
+.issue-figure-label {
+  font-size: 0.8rem;
+  color: #636366;
+  font-style: italic;
+}
+
+/* Precedents */
+.precedents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.precedent-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.precedent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.precedent-header h3 {
+  font-size: 1.05rem;
+}
+
+.precedent-year {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  font-weight: 600;
+}
+
+.precedent-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.precedent-stats svg {
+  color: #636366;
+}
+
+.precedent-financials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.prec-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.prec-label {
+  color: #8e8e93;
+}
+
+.prec-value {
+  font-weight: 600;
+}
+
+.prec-value.savings {
+  color: #30d158;
+}
+
+.precedent-notes {
+  font-size: 0.8rem;
+  color: #636366;
+  line-height: 1.4;
+}
+
+/* Methodology */
+.lgr-methodology {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.lgr-methodology h2 {
+  margin-bottom: 0.75rem;
+}
+
+.lgr-methodology p {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lgr-header-row {
+    flex-direction: column;
+  }
+
+  .lgr-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .authority-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .precedents-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .issue-header {
+    flex-wrap: wrap;
+  }
+
+  .issue-figure {
+    order: -1;
+    width: 100%;
+  }
+}
