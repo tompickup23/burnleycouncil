@@ -6,6 +6,8 @@ import {
   sortRecords,
   computeAll,
   generateCSV,
+  hydrateRecord,
+  RECORD_DEFAULTS,
 } from './spending.utils'
 
 const mockRecords = [
@@ -232,5 +234,81 @@ describe('generateCSV', () => {
     const csv = generateCSV([])
     const lines = csv.split('\n')
     expect(lines).toHaveLength(1) // header only
+  })
+})
+
+describe('hydrateRecord', () => {
+  it('fills defaults for stripped fields', () => {
+    // Simulates a real stripped LCC record:
+    // - department stripped (matched department_raw)
+    // - service_area stripped (matched service_area_raw)
+    // - council, month, supplier_canonical, description, capital_revenue etc. all stripped
+    const stripped = {
+      date: '2025-01-15',
+      supplier: 'ACME Corp',
+      amount: 5000,
+      financial_year: '2024/25',
+      quarter: 4,
+      department_raw: 'Finance',
+      service_area_raw: 'Consulting',
+      service_division: 'Finance',
+      expenditure_category: 'Consulting',
+    }
+    const hydrated = hydrateRecord(stripped, 'lancashire_cc')
+    expect(hydrated.council).toBe('lancashire_cc')
+    expect(hydrated.supplier_canonical).toBe('ACME Corp')
+    expect(hydrated.department).toBe('Finance')
+    expect(hydrated.department_raw).toBe('Finance')
+    expect(hydrated.service_area).toBe('Consulting')
+    expect(hydrated.service_area_raw).toBe('Consulting')
+    expect(hydrated.description).toBe('')
+    expect(hydrated.capital_revenue).toBeNull()
+    expect(hydrated.supplier_company_number).toBeNull()
+    expect(hydrated.supplier_company_url).toBeNull()
+    expect(hydrated.month).toBe(1)
+    expect(hydrated.type).toBe('spend')
+  })
+
+  it('preserves explicit values over defaults', () => {
+    const stripped = {
+      date: '2025-03-20',
+      supplier: 'Test Ltd',
+      amount: 1000,
+      type: 'grant',
+      capital_revenue: 'Capital',
+      description: 'A real description',
+      supplier_company_number: '12345678',
+    }
+    const hydrated = hydrateRecord(stripped, 'blackpool')
+    expect(hydrated.type).toBe('grant')
+    expect(hydrated.capital_revenue).toBe('Capital')
+    expect(hydrated.description).toBe('A real description')
+    expect(hydrated.supplier_company_number).toBe('12345678')
+    expect(hydrated.council).toBe('blackpool')
+  })
+
+  it('restores SPA compatibility aliases', () => {
+    const stripped = {
+      date: '2025-06-10',
+      supplier: 'Vendor',
+      amount: 500,
+      department_raw: 'Adult Services',
+      service_area_raw: 'Domiciliary Care',
+    }
+    const hydrated = hydrateRecord(stripped, 'blackburn')
+    // service_division should be populated from department_raw
+    expect(hydrated.service_division).toBe('Adult Services')
+    // expenditure_category should be populated from service_area_raw
+    expect(hydrated.expenditure_category).toBe('Domiciliary Care')
+    // department should be populated from department_raw
+    expect(hydrated.department).toBe('Adult Services')
+    // service_area should be populated from service_area_raw
+    expect(hydrated.service_area).toBe('Domiciliary Care')
+  })
+
+  it('exports RECORD_DEFAULTS as expected', () => {
+    expect(RECORD_DEFAULTS.supplier_canonical).toBeNull()
+    expect(RECORD_DEFAULTS.description).toBe('')
+    expect(RECORD_DEFAULTS.type).toBe('spend')
   })
 })

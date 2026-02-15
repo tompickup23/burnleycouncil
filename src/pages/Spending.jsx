@@ -43,6 +43,7 @@ function Spending() {
   const {
     loading, error, filterOptions, results, totalRecords, query, exportCSV,
     yearManifest, loadedYears, yearLoading, allYearsLoaded, latestYear, chunked, loadYear, loadAllYears,
+    monthly, loadedMonths, monthLoading, latestMonth, loadMonth,
   } = useSpendingWorker()
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -143,9 +144,10 @@ function Spending() {
     }
   }, [chunked, latestYear, searchParams, setParam])
 
-  // v3 chunked: auto-load year when user selects one that isn't loaded yet
+  // v3/v4 chunked: auto-load year when user selects one that isn't loaded yet
   useEffect(() => {
     if (!chunked || !yearManifest) return
+    if (yearLoading) return  // Don't trigger new loads while a year is still loading
     const fy = filters.financial_year
     if (fy && !loadedYears.includes(fy)) {
       loadYear(fy)
@@ -154,17 +156,39 @@ function Spending() {
       // "All Years" selected — load remaining years
       loadAllYears()
     }
-  }, [filters.financial_year, chunked, yearManifest, loadedYears, allYearsLoaded, loadYear, loadAllYears])
+  }, [filters.financial_year, chunked, yearManifest, loadedYears, allYearsLoaded, yearLoading, loadYear, loadAllYears])
 
-  // Send query to worker whenever filter state changes or new year data loads
+  // v4 monthly: auto-load month chunk when user selects a specific month filter
+  useEffect(() => {
+    if (!monthly || !yearManifest) return
+    const monthFilter = filters.month  // "January 2025" format
+    if (!monthFilter) return
+
+    // Parse "January 2025" → "2025-01"
+    const parsed = new Date(Date.parse(monthFilter + ' 1'))
+    if (isNaN(parsed.getTime())) return
+    const monthKey = `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}`
+
+    if (loadedMonths.includes(monthKey)) return
+
+    // Find which financial year this month belongs to
+    for (const [fy, yearInfo] of Object.entries(yearManifest)) {
+      if (yearInfo.months && yearInfo.months[monthKey]) {
+        loadMonth(fy, monthKey)
+        return
+      }
+    }
+  }, [filters.month, monthly, yearManifest, loadedMonths, loadMonth])
+
+  // Send query to worker whenever filter state changes or new data loads
   const prevLoadedCount = useRef(0)
   useEffect(() => {
-    // Track year loading for ref bookkeeping (prevents stale closure issues)
+    // Track year/month loading for ref bookkeeping (prevents stale closure issues)
     if (loadedYears.length > prevLoadedCount.current) {
       prevLoadedCount.current = loadedYears.length
     }
     query({ filters, search, sortField, sortDir, page, pageSize })
-  }, [loadedYears, filters, search, sortField, sortDir, page, pageSize, query])
+  }, [loadedYears, loadedMonths, filters, search, sortField, sortDir, page, pageSize, query])
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
 
@@ -329,14 +353,20 @@ function Spending() {
         </div>
       )}
 
-      {/* Year loading indicator (v3 chunked mode) */}
-      {yearLoading && (
+      {/* Loading indicator (v3 year-chunked / v4 monthly-chunked) */}
+      {(yearLoading || monthLoading) && !monthLoading && (
         <div className="year-loading-banner">
           <div className="year-loading-spinner" />
           Loading {yearLoading} data...
         </div>
       )}
-      {chunked && !filters.financial_year && !allYearsLoaded && !yearLoading && loadedYears.length > 0 && (
+      {monthLoading && (
+        <div className="year-loading-banner">
+          <div className="year-loading-spinner" />
+          Loading {monthLoading} data...
+        </div>
+      )}
+      {chunked && !filters.financial_year && !allYearsLoaded && !yearLoading && !monthLoading && loadedYears.length > 0 && (
         <div className="year-loading-banner year-loading-info">
           Showing {loadedYears.length} of {yearManifest ? Object.keys(yearManifest).length : '?'} years — loading remaining data...
         </div>

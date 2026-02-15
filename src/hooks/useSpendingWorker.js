@@ -11,8 +11,9 @@ function resolveUrl(url) {
 /**
  * React hook that manages a spending data Web Worker.
  *
- * Supports v3 chunked mode (year-by-year loading) and v2/v1 monolith mode.
- * In chunked mode, only the latest year is loaded initially (~4-8MB vs 20-40MB).
+ * Supports v4 monthly chunked mode (large councils), v3 year-chunked mode,
+ * and v2/v1 monolith mode. In v4, only the latest month is loaded initially.
+ * In v3, only the latest year is loaded initially.
  *
  * @returns {{
  *   loading: boolean,
@@ -31,6 +32,11 @@ function resolveUrl(url) {
  *   chunked: boolean,
  *   loadYear: (year: string) => void,
  *   loadAllYears: () => void,
+ *   monthly: boolean,
+ *   loadedMonths: string[],
+ *   monthLoading: string|null,
+ *   latestMonth: string|null,
+ *   loadMonth: (year: string, month: string) => void,
  * }}
  */
 export function useSpendingWorker() {
@@ -46,13 +52,19 @@ export function useSpendingWorker() {
   const [results, setResults] = useState(null)
   const [totalRecords, setTotalRecords] = useState(0)
 
-  // v3 chunked state
+  // v3/v4 chunked state
   const [yearManifest, setYearManifest] = useState(null)
   const [loadedYears, setLoadedYears] = useState([])
   const [yearLoading, setYearLoading] = useState(null)
   const [allYearsLoaded, setAllYearsLoaded] = useState(false)
   const [latestYear, setLatestYear] = useState(null)
   const [chunked, setChunked] = useState(false)
+
+  // v4 monthly state
+  const [monthly, setMonthly] = useState(false)
+  const [loadedMonths, setLoadedMonths] = useState([])
+  const [monthLoading, setMonthLoading] = useState(null)
+  const [latestMonth, setLatestMonth] = useState(null)
 
   // Create worker on mount, terminate on unmount
   useEffect(() => {
@@ -88,6 +100,10 @@ export function useSpendingWorker() {
             setLatestYear(msg.latestYear || null)
             setLoadedYears(msg.loadedYears || [])
           }
+          if (msg.monthly) {
+            setMonthly(true)
+            setLatestMonth(msg.latestMonth || null)
+          }
           // Don't clear loading yet — wait for first RESULTS
           break
 
@@ -106,6 +122,17 @@ export function useSpendingWorker() {
           setTotalRecords(msg.totalInMemory)
           setAllYearsLoaded(true)
           setYearLoading(null)
+          break
+
+        case 'MONTH_LOADING':
+          setMonthLoading(msg.month)
+          break
+
+        case 'MONTH_LOADED':
+          setLoadedMonths([...(msg.loadedMonths || [])])
+          setLoadedYears([...(msg.loadedYears || [])])
+          setTotalRecords(msg.totalInMemory)
+          setMonthLoading(null)
           break
 
         case 'RESULTS': {
@@ -202,11 +229,19 @@ export function useSpendingWorker() {
   }, [])
 
   /**
-   * Load all remaining year chunks progressively (v3 only).
+   * Load all remaining year chunks progressively (v3/v4).
    */
   const loadAllYears = useCallback(() => {
     if (!workerRef.current) return
     workerRef.current.postMessage({ type: 'LOAD_ALL_YEARS' })
+  }, [])
+
+  /**
+   * Load a specific month's data chunk (v4 monthly only).
+   */
+  const loadMonth = useCallback((year, month) => {
+    if (!workerRef.current) return
+    workerRef.current.postMessage({ type: 'LOAD_MONTH', year, month })
   }, [])
 
   return {
@@ -218,7 +253,7 @@ export function useSpendingWorker() {
     totalRecords,
     query,
     exportCSV,
-    // v3 chunked
+    // v3/v4 chunked
     yearManifest,
     loadedYears,
     yearLoading,
@@ -227,5 +262,11 @@ export function useSpendingWorker() {
     chunked,
     loadYear,
     loadAllYears,
+    // v4 monthly
+    monthly,
+    loadedMonths,
+    monthLoading,
+    latestMonth,
+    loadMonth,
   }
 }

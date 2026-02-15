@@ -10,6 +10,59 @@ export function typeLabel(t) {
 }
 
 /**
+ * Default values for fields stripped by v4 ETL to save bytes.
+ * These are the most common null/empty values across all councils.
+ */
+export const RECORD_DEFAULTS = {
+  supplier_canonical: null,
+  department: null,
+  department_raw: '',
+  service_area: '',
+  service_area_raw: '',
+  service_division: '',
+  expenditure_category: '',
+  description: '',
+  reference: '',
+  capital_revenue: null,
+  supplier_company_number: null,
+  supplier_company_url: null,
+  type: 'spend',
+}
+
+/**
+ * Hydrate a stripped record by filling in default values for missing fields
+ * and restoring duplicate fields (supplier_canonical, department, etc.).
+ *
+ * v4 monthly chunks omit null/empty/duplicate fields to save ~42-45% file size.
+ * This function restores the full record shape expected by filterRecords/computeAll.
+ *
+ * @param {object} r - Stripped record from v4 chunk
+ * @param {string} councilId - Council ID to restore (stripped from records)
+ * @returns {object} Fully hydrated record matching v2/v3 shape
+ */
+export function hydrateRecord(r, councilId) {
+  const h = { ...RECORD_DEFAULTS, ...r }
+  // Restore council (stripped since it's the same for every record)
+  h.council = councilId
+  // Restore month integer from date
+  if (h.month == null && h.date) {
+    h.month = parseInt(h.date.substring(5, 7), 10)
+  }
+  // Restore duplicate fields — these were stripped when they matched their source
+  if (h.supplier_canonical == null && h.supplier) h.supplier_canonical = h.supplier
+  if (!h.department && h.department_raw) h.department = h.department_raw
+  if (!h.department && h.service_division) h.department = h.service_division
+  if (!h.service_area && h.service_area_raw) h.service_area = h.service_area_raw
+  if (!h.service_area && h.expenditure_category) h.service_area = h.expenditure_category
+  // Ensure SPA compatibility aliases are populated
+  if (!h.service_division && h.department) h.service_division = h.department
+  if (!h.service_division && h.department_raw) h.service_division = h.department_raw
+  if (!h.expenditure_category && h.service_area) h.expenditure_category = h.service_area
+  if (!h.expenditure_category && h.service_area_raw) h.expenditure_category = h.service_area_raw
+  return h
+}
+
+/**
  * Build unique filter option sets from records.
  * Scans entire dataset once — expensive on 50k records, so we do this
  * either at ETL time (v2 format) or once on INIT in the worker.

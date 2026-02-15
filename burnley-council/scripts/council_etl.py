@@ -42,6 +42,10 @@ DATA_DIR = BASE_DIR / "data"
 TAXONOMY_PATH = DATA_DIR / "taxonomy.json"
 SPA_DATA_DIR = BASE_DIR / "burnley-app" / "public" / "data"
 
+# Councils whose spending data is too large for year-level chunks.
+# These get v4 monthly chunking with field stripping in export_council().
+MONTHLY_CHUNK_COUNCILS = {'lancashire_cc', 'blackpool', 'blackburn'}
+
 # ─── Council Registry ────────────────────────────────────────────────
 COUNCIL_REGISTRY = {
     "hyndburn": {
@@ -2051,6 +2055,34 @@ def validate_records(records, council_id, sample_size=10):
     return issues
 
 
+def strip_record_for_chunks(record):
+    """Strip null/empty/duplicate fields to minimize JSON chunk size.
+
+    Saves ~42-45% of record size for large councils.  The worker hydrates
+    missing fields back to defaults on load via hydrateRecord().
+    """
+    out = {}
+    for k, v in record.items():
+        # Skip null, empty string, empty list
+        if v is None or v == '' or v == []:
+            continue
+        # Skip 'council' — already in the manifest meta
+        if k == 'council':
+            continue
+        # Skip 'month' integer — derivable from date
+        if k == 'month':
+            continue
+        # Skip duplicate fields when they match their source
+        if k == 'supplier_canonical' and v == record.get('supplier'):
+            continue
+        if k == 'department' and v == record.get('department_raw'):
+            continue
+        if k == 'service_area' and v == record.get('service_area_raw'):
+            continue
+        out[k] = v
+    return out
+
+
 def export_council(records, metadata, insights, council_id):
     """Write spending.json, metadata.json, insights.json for a council."""
     output_dir = DATA_DIR / council_id
@@ -2142,6 +2174,76 @@ def export_council(records, metadata, insights, council_id):
     print(f"  spending-index.json (v3): {len(years_manifest)} year chunks, latest={latest_year}")
     for fy, info in sorted(years_manifest.items()):
         print(f"    {info['file']}: {info['record_count']} records, £{info['total_spend']:,.0f}")
+
+    # ── Monthly-chunked files for large councils (v4 progressive loading) ──
+    if council_id in MONTHLY_CHUNK_COUNCILS:
+        by_month = {}
+        for r in clean_records:
+            d = r.get('date', '')
+            if d and len(d) >= 7:
+                by_month.setdefault(d[:7], []).append(r)
+
+        # Group months into financial years for the manifest
+        fy_months = {}
+        sorted_month_keys = sorted(by_month.keys())
+        for month_key in sorted_month_keys:
+            month_records = by_month[month_key]
+            fy = month_records[0].get('financial_year', 'unknown')
+            if fy not in fy_months:
+                fy_months[fy] = {}
+
+            stripped = [strip_record_for_chunks(r) for r in month_records]
+            filename = f"spending-{month_key}.json"
+            total_spend = sum(abs(float(r.get('amount', 0))) for r in month_records)
+
+            fy_months[fy][month_key] = {
+                "file": filename,
+                "record_count": len(month_records),
+                "total_spend": round(total_spend, 2),
+            }
+
+            with open(output_dir / filename, 'w') as f:
+                json.dump(stripped, f)
+
+        v4_latest_year = sorted(fy_months.keys())[-1] if fy_months else None
+        v4_latest_month = sorted(fy_months.get(v4_latest_year, {}).keys())[-1] if v4_latest_year else None
+
+        v4_years_manifest = {}
+        for fy, months in sorted(fy_months.items()):
+            fy_rc = sum(m['record_count'] for m in months.values())
+            fy_ts = sum(m['total_spend'] for m in months.values())
+            v4_years_manifest[fy] = {
+                "record_count": fy_rc,
+                "total_spend": round(fy_ts, 2),
+                "months": months,
+            }
+
+        v4_index = {
+            "meta": {
+                "version": 4,
+                "council_id": council_id,
+                "record_count": len(clean_records),
+                "chunked": True,
+                "monthly": True,
+                "stripped": True,
+            },
+            "filterOptions": {
+                k: sorted(v) for k, v in filter_sets.items()
+            },
+            "years": v4_years_manifest,
+            "latest_year": v4_latest_year,
+            "latest_month": v4_latest_month,
+        }
+
+        # Overwrite the v3 spending-index.json with v4
+        with open(output_dir / "spending-index.json", 'w') as f:
+            json.dump(v4_index, f)
+
+        total_chunks = sum(len(m) for m in fy_months.values())
+        print(f"  spending-index.json (v4 monthly): {total_chunks} month chunks across {len(fy_months)} years, latest={v4_latest_month}")
+        for fy, months in sorted(fy_months.items()):
+            fy_rc = sum(m['record_count'] for m in months.values())
+            print(f"    {fy}: {len(months)} months, {fy_rc} records")
 
     with open(output_dir / "metadata.json", 'w') as f:
         json.dump(metadata, f, indent=2)
