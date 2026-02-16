@@ -44,6 +44,20 @@
   margin-top: 2px;
 }
 
+.tier-toggle-btn {
+  background: none;
+  border: none;
+  color: #0a84ff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9em;
+  padding: 0;
+  margin-left: 4px;
+}
+.tier-toggle-btn:hover {
+  color: #005bb5;
+}
+
 /* Data Confidence Banner */
 .cross-data-banner {
   display: flex;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
@@ -47,9 +47,12 @@ function CrossCouncil() {
   const comparison = data
 
   const allCouncils = comparison?.councils || []
-  // Filter to same tier for fair comparison
-  const councils = allCouncils.filter(c => (c.council_tier || 'district') === councilTier)
-  const otherTierCount = allCouncils.length - councils.length
+  // For county/unitary tiers with very few peer councils, default to showing all
+  const sameTierCouncils = allCouncils.filter(c => (c.council_tier || 'district') === councilTier)
+  const hasEnoughPeers = sameTierCouncils.length >= 3
+  const [showAllTiers, setShowAllTiers] = useState(!hasEnoughPeers)
+  const councils = showAllTiers ? allCouncils : sameTierCouncils
+  const otherTierCount = allCouncils.length - sameTierCouncils.length
 
   useEffect(() => {
     document.title = `Cross-Council Comparison | ${councilName} Council Transparency`
@@ -70,7 +73,9 @@ function CrossCouncil() {
   })).sort((a, b) => b.spend - a.spend), [councils, councilName])
 
   // Service expenditure comparison — tier-aware categories
-  const serviceCategories = councilTier === 'district' ? DISTRICT_SERVICE_CATEGORIES : UPPER_TIER_SERVICE_CATEGORIES
+  // When showing all tiers, use all categories; otherwise filter to relevant tier
+  const serviceCategories = showAllTiers ? UPPER_TIER_SERVICE_CATEGORIES
+    : councilTier === 'district' ? DISTRICT_SERVICE_CATEGORIES : UPPER_TIER_SERVICE_CATEGORIES
   const serviceData = useMemo(() => serviceCategories.map(cat => {
     const row = { category: ALL_SERVICE_LABELS[cat] || cat }
     councils.forEach(c => {
@@ -183,17 +188,30 @@ function CrossCouncil() {
         </div>
       </header>
 
-      {/* Tier explanation banner */}
+      {/* Tier explanation banner with toggle */}
       <div className="cross-tier-banner">
         <Building size={16} />
         <div>
-          <strong>Comparing {TIER_LABELS[councilTier] || 'councils'} only.</strong>{' '}
-          {TIER_DESCRIPTIONS[councilTier]}{' '}
-          {otherTierCount > 0 && (
-            <span>
-              {otherTierCount} council{otherTierCount !== 1 ? 's' : ''} from other tiers are excluded because they provide different services
-              and have different budget scales.
-            </span>
+          {showAllTiers ? (
+            <>
+              <strong>Comparing all {councils.length} Lancashire councils.</strong>{' '}
+              Includes districts, county, and unitary authorities. Budget scales differ significantly across tiers.{' '}
+              {hasEnoughPeers && (
+                <button className="tier-toggle-btn" onClick={() => setShowAllTiers(false)}>
+                  Show {TIER_LABELS[councilTier]?.toLowerCase() || 'same tier'} only
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <strong>Comparing {sameTierCouncils.length} {TIER_LABELS[councilTier]?.toLowerCase() || 'councils'}.</strong>{' '}
+              {TIER_DESCRIPTIONS[councilTier]}{' '}
+              {otherTierCount > 0 && (
+                <button className="tier-toggle-btn" onClick={() => setShowAllTiers(true)}>
+                  Show all {allCouncils.length} councils
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>

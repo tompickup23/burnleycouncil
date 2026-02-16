@@ -4,6 +4,7 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { formatCurrency } from '../utils/format'
+import { SEVERITY_COLORS } from '../utils/constants'
 import './Integrity.css'
 
 const RISK_CONFIG = {
@@ -12,13 +13,6 @@ const RISK_CONFIG = {
   elevated: { label: 'Elevated', color: '#ff9f0a', icon: ShieldAlert, bg: 'rgba(255, 159, 10, 0.1)' },
   high: { label: 'High Risk', color: '#ff453a', icon: ShieldX, bg: 'rgba(255, 69, 58, 0.1)' },
   not_checked: { label: 'Pending', color: '#8e8e93', icon: Shield, bg: 'rgba(142, 142, 147, 0.1)' },
-}
-
-const SEVERITY_COLORS = {
-  critical: '#ff453a',
-  high: '#ff6b35',
-  warning: '#ffd60a',
-  info: '#0a84ff',
 }
 
 function Integrity() {

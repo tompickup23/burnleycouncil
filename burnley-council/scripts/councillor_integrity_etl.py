@@ -163,6 +163,24 @@ def search_officers(name, items_per_page=20):
     return data.get("items", []) if data else []
 
 
+def extract_officer_id(officer):
+    """Extract officer ID from CH search result links.
+    CH returns links.self as '/officers/{id}/appointments' — we need the ID part.
+    Also handles links.officer.appointments format."""
+    self_link = officer.get("links", {}).get("self", "")
+    if not self_link:
+        return ""
+    # Typical format: /officers/ABC123/appointments
+    parts = [p for p in self_link.split("/") if p]
+    if len(parts) >= 2 and parts[0] == "officers":
+        return parts[1]
+    # Fallback: just return last non-empty segment that isn't 'appointments'
+    for part in reversed(parts):
+        if part != "appointments" and part != "officers":
+            return part
+    return ""
+
+
 def get_officer_appointments(officer_id, items_per_page=50):
     """Get all company appointments for an officer."""
     data = ch_request(f"/officers/{officer_id}/appointments",
@@ -659,7 +677,7 @@ def search_family_member_companies(councillor_last_name, councillor_address, sup
             continue
 
         # Found a family member at the same address — now get their companies
-        officer_id = officer.get("links", {}).get("self", "").split("/")[-1]
+        officer_id = extract_officer_id(officer)
         if not officer_id:
             continue
 
@@ -1120,6 +1138,22 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     if not name:
         return None
 
+    # Strip title prefixes that break CH search
+    for prefix in ["County Councillor ", "Borough Councillor ", "Town Councillor ",
+                    "Councillor ", "Cllr ", "Cllr. "]:
+        if name.startswith(prefix):
+            name = name[len(prefix):]
+            break
+    # Strip honorific prefixes (Mr, Mrs, Ms, Dr, etc.)
+    for prefix in ["Mr ", "Mrs ", "Ms ", "Miss ", "Dr ", "Prof ", "Professor ",
+                    "Sir ", "Dame ", "Lord ", "Lady ", "Rev ", "Reverend "]:
+        if name.startswith(prefix):
+            name = name[len(prefix):]
+            break
+    # Strip trailing honorifics (OBE, MBE, CBE, JP, etc.)
+    name = re.sub(r'\s+(OBE|MBE|CBE|KBE|DBE|JP|QC|KC|DL|PhD|MA|BSc|BA)\s*$', '', name, flags=re.IGNORECASE)
+    name = name.strip()
+
     result = {
         "councillor_id": councillor.get("id", ""),
         "name": name,
@@ -1158,113 +1192,171 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     result["data_sources_checked"].append("companies_house")
     officers = search_officers(name)
 
+    # Get councillor address for disambiguation
+    councillor_address = (councillor.get("address", "") or "").lower()
+    councillor_postcode = ""
+    if councillor_address:
+        # Extract postcode pattern
+        pc_match = re.search(r'[a-z]{1,2}\d{1,2}\s*\d[a-z]{2}', councillor_address)
+        if pc_match:
+            councillor_postcode = pc_match.group(0).replace(" ", "")
+
     best_matches = []
     for officer in officers:
         title = officer.get("title", "")
         score = name_match_score(name, title)
         if score >= 60:
-            officer_id = officer.get("links", {}).get("self", "").split("/")[-1]
+            officer_id = extract_officer_id(officer)
+            addr_snippet = officer.get("address_snippet", "")
+            # Boost score if address matches councillor's known address
+            address_boost = 0
+            if councillor_postcode and councillor_postcode in addr_snippet.lower().replace(" ", ""):
+                address_boost = 20
+            elif councillor_address and len(councillor_address) > 10:
+                # Check town/city match
+                for town in ["burnley", "nelson", "colne", "padiham", "accrington", "haslingden",
+                             "rawtenstall", "clitheroe", "lancaster", "preston", "chorley",
+                             "leyland", "blackpool", "blackburn", "darwen", "wyre", "fylde",
+                             "ormskirk", "skelmersdale"]:
+                    if town in councillor_address and town in addr_snippet.lower():
+                        address_boost = 10
+                        break
             best_matches.append({
                 "officer_id": officer_id,
                 "title": title,
-                "match_score": score,
+                "match_score": score + address_boost,
+                "raw_name_score": score,
                 "date_of_birth": officer.get("date_of_birth", {}),
-                "address_snippet": officer.get("address_snippet", ""),
+                "address_snippet": addr_snippet,
+                "address_match": address_boost > 0,
             })
 
     best_matches.sort(key=lambda x: x["match_score"], reverse=True)
-    result["companies_house"]["officer_matches"] = best_matches[:3]
+    result["companies_house"]["officer_matches"] = best_matches[:5]
 
     # ── 2. Get Appointments + Company Profiles ──
+    # Check ALL high-scoring matches, not just the best one
+    # Different people with the same name may all be the councillor (different DOBs in CH)
+    # or may be genuinely different people — we check all and let the UI show them
+    seen_company_numbers = set()
+    companies = []
+
+    officers_to_check = []
     if best_matches:
-        best = best_matches[0]
-        officer_id = best.get("officer_id", "")
-        if officer_id:
-            appointments = get_officer_appointments(officer_id)
+        # Always check the best match
+        officers_to_check.append(best_matches[0])
+        # Also check other matches with score >= 80 or address match
+        for m in best_matches[1:5]:
+            if m["match_score"] >= 80 or m.get("address_match"):
+                officers_to_check.append(m)
 
-            companies = []
-            for appt in appointments:
-                appointed_to = appt.get("appointed_to", {})
-                company_name = appointed_to.get("company_name", "Unknown")
-                company_number = appointed_to.get("company_number", "")
-                role = appt.get("officer_role", "director")
-                appointed = appt.get("appointed_on", "")
-                resigned = appt.get("resigned_on", "")
-                status = appointed_to.get("company_status", "")
+    for match in officers_to_check:
+        officer_id = match.get("officer_id", "")
+        if not officer_id or officer_id == "appointments":
+            print(f"    [WARN] Invalid officer_id for {match.get('title', '')}: '{officer_id}'")
+            continue
 
-                company_entry = {
-                    "company_name": company_name,
-                    "company_number": company_number,
-                    "role": role,
-                    "appointed_on": appointed,
-                    "resigned_on": resigned,
-                    "company_status": status,
-                    "companies_house_url": "https://find-and-update.company-information.service.gov.uk/company/{}".format(company_number) if company_number else None,
-                    "sic_codes": [],
-                    "registered_address_snippet": "",
-                    "red_flags": [],
-                    "supplier_match": None,
-                }
+        appointments = get_officer_appointments(officer_id)
+        if not appointments:
+            continue
 
-                # Get company profile for active directorships
-                if not resigned and company_number:
-                    profile = get_company_profile(company_number)
-                    if profile:
-                        company_entry["sic_codes"] = profile.get("sic_codes", [])
-                        company_entry["registered_address_snippet"] = profile.get(
-                            "registered_office_address", {}).get("address_line_1", "")
-                        company_entry["red_flags"] = extract_red_flags(profile)
-                        company_entry["date_of_creation"] = profile.get("date_of_creation", "")
-                        company_entry["company_type"] = profile.get("type", "")
+        print(f"    Found {len(appointments)} appointments for {match.get('title', '')} (officer {officer_id})")
 
-                # Cross-reference with THIS council's suppliers
-                if supplier_data:
-                    matches = cross_reference_suppliers(company_name, supplier_data)
+        for appt in appointments:
+            appointed_to = appt.get("appointed_to", {})
+            company_name = appointed_to.get("company_name", "Unknown")
+            company_number = appointed_to.get("company_number", "")
+            role = appt.get("officer_role", "director")
+            appointed = appt.get("appointed_on", "")
+            resigned = appt.get("resigned_on", "")
+            status = appointed_to.get("company_status", "")
+
+            # Deduplicate across officer matches
+            if company_number and company_number in seen_company_numbers:
+                continue
+            if company_number:
+                seen_company_numbers.add(company_number)
+
+            company_entry = {
+                "company_name": company_name,
+                "company_number": company_number,
+                "role": role,
+                "appointed_on": appointed,
+                "resigned_on": resigned,
+                "company_status": status,
+                "officer_id_source": officer_id,
+                "companies_house_url": "https://find-and-update.company-information.service.gov.uk/company/{}".format(company_number) if company_number else None,
+                "sic_codes": [],
+                "registered_address_snippet": "",
+                "red_flags": [],
+                "supplier_match": None,
+            }
+
+            # Get company profile for ALL directorships (not just active)
+            # This is essential for detecting phoenix patterns, serial dissolutions
+            if company_number:
+                profile = get_company_profile(company_number)
+                if profile:
+                    company_entry["sic_codes"] = profile.get("sic_codes", [])
+                    ro_addr = profile.get("registered_office_address", {})
+                    company_entry["registered_address_snippet"] = ", ".join(
+                        filter(None, [ro_addr.get("address_line_1", ""),
+                                      ro_addr.get("locality", ""),
+                                      ro_addr.get("postal_code", "")]))
+                    company_entry["red_flags"] = extract_red_flags(profile)
+                    company_entry["date_of_creation"] = profile.get("date_of_creation", "")
+                    company_entry["company_type"] = profile.get("type", "")
+                    company_entry["accounts_overdue"] = profile.get("has_overdue_accounts", False)
+                    company_entry["confirmation_overdue"] = profile.get("has_overdue_confirmation_statement", False)
+
+            # Cross-reference with THIS council's suppliers
+            if supplier_data:
+                matches = cross_reference_suppliers(company_name, supplier_data)
+                if matches:
+                    company_entry["supplier_match"] = matches[0]
+                    result["supplier_conflicts"].append({
+                        "company_name": company_name,
+                        "company_number": company_number,
+                        "supplier_match": matches[0],
+                        "severity": "critical" if not resigned else "info",
+                        "council_id": councillor.get("_council_id", ""),
+                    })
+
+            # Cross-reference with OTHER councils' suppliers
+            if all_supplier_data:
+                council_id = councillor.get("_council_id", "")
+                for other_id, other_suppliers in all_supplier_data.items():
+                    if other_id == council_id:
+                        continue
+                    matches = cross_reference_suppliers(company_name, other_suppliers)
                     if matches:
-                        company_entry["supplier_match"] = matches[0]
-                        result["supplier_conflicts"].append({
+                        result["cross_council_conflicts"].append({
                             "company_name": company_name,
                             "company_number": company_number,
+                            "other_council": other_id,
                             "supplier_match": matches[0],
-                            "severity": "critical" if not resigned else "info",
-                            "council_id": councillor.get("_council_id", ""),
+                            "severity": "high" if not resigned else "info",
                         })
 
-                # Cross-reference with OTHER councils' suppliers
-                if all_supplier_data:
-                    council_id = councillor.get("_council_id", "")
-                    for other_id, other_suppliers in all_supplier_data.items():
-                        if other_id == council_id:
-                            continue
-                        matches = cross_reference_suppliers(company_name, other_suppliers)
-                        if matches:
-                            result["cross_council_conflicts"].append({
-                                "company_name": company_name,
-                                "company_number": company_number,
-                                "other_council": other_id,
-                                "supplier_match": matches[0],
-                                "severity": "high" if not resigned else "info",
-                            })
+            companies.append(company_entry)
 
-                companies.append(company_entry)
+    active = [c for c in companies if not c.get("resigned_on")]
+    resigned_cos = [c for c in companies if c.get("resigned_on")]
 
-            active = [c for c in companies if not c.get("resigned_on")]
-            resigned_cos = [c for c in companies if c.get("resigned_on")]
+    result["companies_house"]["companies"] = companies
+    result["companies_house"]["total_directorships"] = len(companies)
+    result["companies_house"]["active_directorships"] = len(active)
+    result["companies_house"]["resigned_directorships"] = len(resigned_cos)
 
-            result["companies_house"]["companies"] = companies
-            result["companies_house"]["total_directorships"] = len(companies)
-            result["companies_house"]["active_directorships"] = len(active)
-            result["companies_house"]["resigned_directorships"] = len(resigned_cos)
+    # ── 3. PSC Analysis (for active companies only) ──
+    if active:
+        psc_entries = analyse_psc(active[:5], name)  # Top 5 to limit API calls
+        result["companies_house"]["psc_entries"] = psc_entries
 
-            # ── 3. PSC Analysis (for active companies only) ──
-            if active:
-                psc_entries = analyse_psc(active[:5], name)  # Top 5 to limit API calls
-                result["companies_house"]["psc_entries"] = psc_entries
-
-            # ── 4. Co-Director Network (expensive — optional) ──
-            if not skip_network and active:
-                network = build_co_director_network(active[:3], name)  # Top 3 companies
-                result["co_director_network"] = network
+    # ── 4. Co-Director Network (expensive — optional) ──
+    if not skip_network and active:
+        network = build_co_director_network(active[:3], name)  # Top 3 companies
+        result["co_director_network"] = network
 
     # ── 5. Familial Connection Detection ──
     last_name = councillor.get("last_name", "")

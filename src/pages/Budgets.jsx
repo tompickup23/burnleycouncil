@@ -57,9 +57,19 @@ function Budgets() {
     ? ['/data/budgets.json', '/data/budget_insights.json']
     : ['/data/budgets_govuk.json', '/data/revenue_trends.json', '/data/budgets_summary.json', '/data/budget_insights.json', '/data/budget_efficiency.json']
   const { data, loading, error } = useData(budgetUrls)
-  const [budgetData, insights, budgetSummary, govukInsights, efficiencyData] = hasBudgets
-    ? [...(data || [null, null]), null, null, null]
-    : [null, null, ...(data || [null, null, null])]
+  // When hasBudgets=true: data = [budgets.json, budget_insights.json]
+  //   → budgetData, insights used for full 4-tab view
+  // When hasBudgets=false: data = [budgets_govuk.json, revenue_trends.json, budgets_summary.json, budget_insights.json, budget_efficiency.json]
+  //   → govukRaw, trendsRaw, summaryRaw, insightsRaw, efficiencyRaw used for BudgetTrendsView
+  const d = data || []
+  const budgetData = hasBudgets ? (d[0] || null) : null
+  const insights = hasBudgets ? (d[1] || null) : null
+  // For non-budget councils, these feed into BudgetTrendsView
+  const govukRaw = !hasBudgets ? (d[0] || null) : null        // budgets_govuk.json
+  const trendsRaw = !hasBudgets ? (d[1] || null) : null        // revenue_trends.json
+  const budgetSummary = !hasBudgets ? (d[2] || null) : null    // budgets_summary.json
+  const govukInsights = !hasBudgets ? (d[3] || null) : null    // budget_insights.json
+  const efficiencyData = !hasBudgets ? (d[4] || null) : null   // budget_efficiency.json
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -156,7 +166,7 @@ function Budgets() {
 
   // For councils without detailed budgets.json, render a simpler GOV.UK trends view
   if (!hasBudgets && hasBudgetTrends) {
-    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} summaryData={budgetSummary} insightsData={govukInsights} efficiencyData={efficiencyData} />
+    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={govukRaw} trendsData={trendsRaw} summaryData={budgetSummary} insightsData={govukInsights} efficiencyData={efficiencyData} />
   }
 
   if (!budgetData) {
