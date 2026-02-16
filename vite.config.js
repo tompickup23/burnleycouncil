@@ -55,14 +55,14 @@ function councilDataPlugin() {
     },
     writeBundle(options) {
       // NOTE: Per-council 404.html is NOT generated here. GitHub Pages only reads the
-      // root 404.html (at /404.html), not nested ones. SPA routing for all 4 councils
+      // root 404.html (at /404.html), not nested ones. SPA routing for all 15 councils
       // is handled by burnley-council/hub/404.html which is copied to the deploy root
       // by deploy.yml. That file detects which council the URL belongs to and redirects
       // to the council's index.html with ?p= query parameter for client-side routing.
 
       const outDir = options.dir || resolve(rootDir, 'dist', base.replace(/\//g, ''))
       // Generate sitemap.xml with council-specific base path
-      const routes = ['', 'spending', 'doge', 'budgets', 'news', 'about', 'pay', 'compare', 'suppliers', 'procurement', 'politics', 'integrity', 'meetings', 'foi', 'my-area', 'legal', 'press', 'demographics', 'lgr']
+      const routes = ['', 'spending', 'doge', 'budgets', 'news', 'about', 'pay', 'compare', 'suppliers', 'procurement', 'politics', 'integrity', 'meetings', 'foi', 'my-area', 'legal', 'press', 'demographics', 'lgr', 'lgr-calculator']
       const sitemapUrls = routes.map(r => `  <url><loc>${siteUrl}${r}</loc></url>`).join('\n')
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

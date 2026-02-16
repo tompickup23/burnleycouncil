@@ -55,7 +55,9 @@ SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR.parent / "data"
 
 CH_API_BASE = "https://api.company-information.service.gov.uk"
-CH_KEY = os.environ.get("CH_API_KEY", "07316ecc-d10e-4316-b293-f7226e343ccd")
+CH_KEY = os.environ.get("CH_API_KEY")
+if not CH_KEY:
+    print("WARNING: CH_API_KEY environment variable not set. Companies House lookups will fail.", file=sys.stderr)
 
 EC_API_BASE = "https://search.electoralcommission.org.uk/api/search"
 CHARITY_API_BASE = "https://api.charitycommission.gov.uk/register/api"

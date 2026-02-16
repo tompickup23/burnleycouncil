@@ -18,7 +18,7 @@ export const CHART_COLORS_EXTENDED = [
   '#ff375f', '#34c759', '#007aff', '#5856d6', '#af52de',
 ]
 
-/** Per-council brand colours for cross-council charts */
+/** Per-council brand colours for cross-council charts (all 15 councils) */
 export const COUNCIL_COLORS = {
   burnley: '#ff453a',
   hyndburn: '#0a84ff',
@@ -28,6 +28,13 @@ export const COUNCIL_COLORS = {
   ribble_valley: '#6A1B9A',
   chorley: '#C62828',
   south_ribble: '#E65100',
+  lancashire_cc: '#ff9f0a',
+  blackpool: '#ff6482',
+  west_lancashire: '#64d2ff',
+  blackburn: '#5856d6',
+  wyre: '#34c759',
+  preston: '#007aff',
+  fylde: '#ac8e68',
 }
 
 // ── Severity / Risk Colours ──

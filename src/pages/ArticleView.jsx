@@ -13,7 +13,9 @@ function ArticleView() {
   const councilName = config.council_name || 'Council'
   const siteName = `${councilName} Council Transparency`
   const { articleId } = useParams()
-  const { data: index, loading: indexLoading, error: indexError } = useData('/data/articles-index.json')
+  const { data: indexRaw, loading: indexLoading, error: indexError } = useData('/data/articles-index.json')
+  // Guard against both plain array and {articles: [...]} wrapper formats
+  const index = Array.isArray(indexRaw) ? indexRaw : indexRaw?.articles || indexRaw || []
   const [content, setContent] = useState(null)
   const [contentLoading, setContentLoading] = useState(true)
   const [copiedLink, setCopiedLink] = useState(false)

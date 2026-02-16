@@ -39,7 +39,7 @@ function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
-  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/budgets_summary.json'])
+  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json'])
   const [lgrData, crossCouncil] = data || [null, null]
   const [selectedModel, setSelectedModel] = useState(null)
   const [expandedIssue, setExpandedIssue] = useState(null)
