@@ -1,0 +1,137 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 15121000,
+      "departments": {
+        "Housing services (GFRA only)": 279000,
+        "Cultural and related services": 2675000,
+        "Environmental and regulatory services": 8146000,
+        "Planning and development services": 950000,
+        "Central services": 4178000,
+        "Highways and transport services": 67000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": -1939000
+      },
+      "council_tax": {
+        "west_lancashire_element": 213.39
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": -8849000,
+      "departments": {
+        "Housing services (GFRA only)": 579000,
+        "Cultural and related services": 3032000,
+        "Environmental and regulatory services": 7840000,
+        "Planning and development services": 1936000,
+        "Central services": -22625000,
+        "Highways and transport services": -71000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -1000
+      },
+      "council_tax": {
+        "west_lancashire_element": 218.39
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 15483000,
+      "departments": {
+        "Housing services (GFRA only)": -1023000,
+        "Cultural and related services": 2648000,
+        "Environmental and regulatory services": 7535000,
+        "Planning and development services": 87000,
+        "Central services": 7746000,
+        "Highways and transport services": 13000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -156000
+      },
+      "council_tax": {
+        "west_lancashire_element": 224.92
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 20010000,
+      "departments": {
+        "Housing services (GFRA only)": 1848000,
+        "Cultural and related services": 2071000,
+        "Environmental and regulatory services": 7203000,
+        "Planning and development services": 6974000,
+        "Central services": 8008000,
+        "Highways and transport services": -483000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -167000,
+        "retained_income_from_rate_retention_scheme": -8229000,
+        "collection_fund_surplus/deficits_for_council_tax": -186000
+      },
+      "council_tax": {
+        "west_lancashire_element": 231.65
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for West Lancashire Borough Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 20010000,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure grew 32.3% from \u00a315.1M (2021/22) to \u00a320.0M (2024/25)",
+      "Central services is the largest service at \u00a38.0M (40% of total expenditure)",
+      "Planning and development services grew fastest: 634% (\u00a3950K \u2192 \u00a37.0M)",
+      "Total reserves fell by \u00a31.8M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Planning and development services": {
+        "from": 950000,
+        "to": 6974000,
+        "growth_pct": 634.1
+      },
+      "Housing services (GFRA only)": {
+        "from": 279000,
+        "to": 1848000,
+        "growth_pct": 562.4
+      },
+      "Central services": {
+        "from": 4178000,
+        "to": 8008000,
+        "growth_pct": 91.7
+      },
+      "Environmental and regulatory services": {
+        "from": 8146000,
+        "to": 7203000,
+        "growth_pct": -11.6
+      },
+      "Cultural and related services": {
+        "from": 2675000,
+        "to": 2071000,
+        "growth_pct": -22.6
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 2,
+      "business_rates_pct": 0,
+      "government_grants_pct": 98
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

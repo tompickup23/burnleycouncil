@@ -1,0 +1,145 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 9333000,
+      "departments": {
+        "Housing services (GFRA only)": 359000,
+        "Cultural and related services": 1242000,
+        "Environmental and regulatory services": 2365000,
+        "Planning and development services": 1067000,
+        "Central services": 4785000,
+        "Highways and transport services": 250000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": -2180000
+      },
+      "council_tax": {
+        "rossendale_element": 285.13
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 10249000,
+      "departments": {
+        "Housing services (GFRA only)": 2634000,
+        "Cultural and related services": 1704000,
+        "Environmental and regulatory services": 2792000,
+        "Planning and development services": 624000,
+        "Central services": 3871000,
+        "Highways and transport services": 220000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": -897000,
+        "collection_fund_surplus/deficits_for_council_tax": -64000
+      },
+      "council_tax": {
+        "rossendale_element": 290.8
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 6788000,
+      "departments": {
+        "Housing services (GFRA only)": 803000,
+        "Cultural and related services": 1653000,
+        "Environmental and regulatory services": 2612000,
+        "Planning and development services": 472000,
+        "Central services": 4528000,
+        "Highways and transport services": 241000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -85000,
+        "retained_income_from_rate_retention_scheme": -1864000,
+        "collection_fund_surplus/deficits_for_council_tax": -61000
+      },
+      "council_tax": {
+        "rossendale_element": 299.49
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 7193000,
+      "departments": {
+        "Housing services (GFRA only)": 1503000,
+        "Cultural and related services": 1463000,
+        "Environmental and regulatory services": 2574000,
+        "Planning and development services": 513000,
+        "Central services": 4463000,
+        "Highways and transport services": 233000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -91000,
+        "retained_income_from_rate_retention_scheme": -2387000,
+        "collection_fund_surplus/deficits_for_council_tax": -117000
+      },
+      "council_tax": {
+        "rossendale_element": 308.44
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Rossendale Borough Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 7193000,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure fell 22.9% from \u00a39.3M (2021/22) to \u00a37.2M (2024/25)",
+      "Central services is the largest service at \u00a34.5M (62% of total expenditure)",
+      "Housing services (GFRA only) grew fastest: 319% (\u00a3359K \u2192 \u00a31.5M)",
+      "Total reserves grew by \u00a31.9M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Housing services (GFRA only)": {
+        "from": 359000,
+        "to": 1503000,
+        "growth_pct": 318.7
+      },
+      "Cultural and related services": {
+        "from": 1242000,
+        "to": 1463000,
+        "growth_pct": 17.8
+      },
+      "Environmental and regulatory services": {
+        "from": 2365000,
+        "to": 2574000,
+        "growth_pct": 8.8
+      },
+      "Central services": {
+        "from": 4785000,
+        "to": 4463000,
+        "growth_pct": -6.7
+      },
+      "Highways and transport services": {
+        "from": 250000,
+        "to": 233000,
+        "growth_pct": -6.8
+      },
+      "Planning and development services": {
+        "from": 1067000,
+        "to": 513000,
+        "growth_pct": -51.9
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 5,
+      "business_rates_pct": 0,
+      "government_grants_pct": 95
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

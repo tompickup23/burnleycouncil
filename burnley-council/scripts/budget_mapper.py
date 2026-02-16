@@ -141,6 +141,37 @@ DISTRICT_MAPPINGS = {
         "REGN - Regeneration & Housing": "Housing services (GFRA only)",
         "RESO - Resources": "Central services",
     },
+    "pendle": {
+        "Environmental Health Services": "Environmental and regulatory services",
+        "Housing & Environmental Health": "Environmental and regulatory services",
+        "I.T Services": "Central services",
+        "Information Services": "Central services",
+        "Revenues Services": "Central services",
+        "Accountancy Control": "Central services",
+        "Directorate": "Central services",
+    },
+    "rossendale": {
+        "Environmental Health": "Environmental and regulatory services",
+        "Waste Services": "Environmental and regulatory services",
+    },
+    "lancaster": {
+        "Environmental Services": "Environmental and regulatory services",
+        "Housing Services": "Housing services (GFRA only)",
+    },
+    "chorley": {
+        "Environmental Health": "Environmental and regulatory services",
+        "Streetscene": "Environmental and regulatory services",
+    },
+    "south_ribble": {
+        "Environmental Health": "Environmental and regulatory services",
+        "Neighbourhoods": "Environmental and regulatory services",
+    },
+    "fylde": {
+        "Environmental Health & Housing": "Environmental and regulatory services",
+    },
+    "wyre": {
+        "Environmental Health & Community Safety": "Environmental and regulatory services",
+    },
 }
 
 # === PATTERN-BASED RULES ===

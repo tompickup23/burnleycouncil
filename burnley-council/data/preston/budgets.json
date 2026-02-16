@@ -1,0 +1,151 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 18596000,
+      "departments": {
+        "Housing services (GFRA only)": 3435000,
+        "Cultural and related services": 3922000,
+        "Environmental and regulatory services": 6857000,
+        "Planning and development services": 10405000,
+        "Central services": 5989000,
+        "Highways and transport services": 331000,
+        "Other services": -290000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": 10050000,
+        "collection_fund_surplus/deficits_for_council_tax": 252000
+      },
+      "council_tax": {
+        "preston_element": 327.13
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 18961000,
+      "departments": {
+        "Housing services (GFRA only)": 3346000,
+        "Cultural and related services": 4188000,
+        "Environmental and regulatory services": 7875000,
+        "Planning and development services": 9624000,
+        "Central services": 6056000,
+        "Highways and transport services": 437000,
+        "Other services": 72000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -1000,
+        "retained_income_from_rate_retention_scheme": -5102000,
+        "collection_fund_surplus/deficits_for_council_tax": 12000
+      },
+      "council_tax": {
+        "preston_element": 333.63
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 18952000,
+      "departments": {
+        "Housing services (GFRA only)": 3954000,
+        "Cultural and related services": 4174000,
+        "Environmental and regulatory services": 7833000,
+        "Planning and development services": 9109000,
+        "Central services": 7193000,
+        "Highways and transport services": 385000,
+        "Other services": 71000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -212000,
+        "retained_income_from_rate_retention_scheme": -6618000,
+        "collection_fund_surplus/deficits_for_council_tax": -1000
+      },
+      "council_tax": {
+        "preston_element": 343.6
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 24396000,
+      "departments": {
+        "Housing services (GFRA only)": 4852000,
+        "Cultural and related services": 4527000,
+        "Environmental and regulatory services": 8157000,
+        "Planning and development services": 8161000,
+        "Central services": 7321000,
+        "Highways and transport services": 290000,
+        "Other services": 57000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -226000,
+        "retained_income_from_rate_retention_scheme": -6903000,
+        "collection_fund_surplus/deficits_for_council_tax": 177000
+      },
+      "council_tax": {
+        "preston_element": 353.87
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Preston City Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 24396000,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure grew 31.2% from \u00a318.6M (2021/22) to \u00a324.4M (2024/25)",
+      "Planning and development services is the largest service at \u00a38.2M (33% of total expenditure)",
+      "Housing services (GFRA only) grew fastest: 41% (\u00a33.4M \u2192 \u00a34.9M)",
+      "Total reserves fell by \u00a31.9M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Housing services (GFRA only)": {
+        "from": 3435000,
+        "to": 4852000,
+        "growth_pct": 41.3
+      },
+      "Central services": {
+        "from": 5989000,
+        "to": 7321000,
+        "growth_pct": 22.2
+      },
+      "Environmental and regulatory services": {
+        "from": 6857000,
+        "to": 8157000,
+        "growth_pct": 19.0
+      },
+      "Cultural and related services": {
+        "from": 3922000,
+        "to": 4527000,
+        "growth_pct": 15.4
+      },
+      "Highways and transport services": {
+        "from": 331000,
+        "to": 290000,
+        "growth_pct": -12.4
+      },
+      "Planning and development services": {
+        "from": 10405000,
+        "to": 8161000,
+        "growth_pct": -21.6
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 2,
+      "business_rates_pct": 0,
+      "government_grants_pct": 98
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

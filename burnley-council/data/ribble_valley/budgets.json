@@ -1,0 +1,141 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 5924000,
+      "departments": {
+        "Housing services (GFRA only)": 590000,
+        "Cultural and related services": 1551000,
+        "Environmental and regulatory services": 2615000,
+        "Planning and development services": 513000,
+        "Central services": 4184000,
+        "Highways and transport services": -117000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": -1928000,
+        "collection_fund_surplus/deficits_for_council_tax": -25000
+      },
+      "council_tax": {
+        "ribble_valley_element": 155.69
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 6702000,
+      "departments": {
+        "Housing services (GFRA only)": 304000,
+        "Cultural and related services": 1948000,
+        "Environmental and regulatory services": 3391000,
+        "Planning and development services": 812000,
+        "Central services": 2218000,
+        "Highways and transport services": -110000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": -1513000,
+        "collection_fund_surplus/deficits_for_council_tax": -115000
+      },
+      "council_tax": {
+        "ribble_valley_element": 160.69
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 7568000,
+      "departments": {
+        "Housing services (GFRA only)": 755000,
+        "Cultural and related services": 1450000,
+        "Environmental and regulatory services": 3621000,
+        "Planning and development services": 1019000,
+        "Central services": 2803000,
+        "Highways and transport services": -172000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -49000,
+        "retained_income_from_rate_retention_scheme": -3838000,
+        "collection_fund_surplus/deficits_for_council_tax": -80000
+      },
+      "council_tax": {
+        "ribble_valley_element": 165.69
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 7253930,
+      "departments": {
+        "Housing services (GFRA only)": 249110,
+        "Cultural and related services": 1805200,
+        "Environmental and regulatory services": 3923200,
+        "Planning and development services": 904600,
+        "Central services": 2571760,
+        "Highways and transport services": -215510
+      },
+      "funding_sources": {
+        "revenue_support_grant": -52000,
+        "retained_income_from_rate_retention_scheme": -4363000,
+        "collection_fund_surplus/deficits_for_council_tax": -74000
+      },
+      "council_tax": {
+        "ribble_valley_element": 170.69
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Ribble Valley Borough Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 7253930,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure grew 22.4% from \u00a35.9M (2021/22) to \u00a37.3M (2024/25)",
+      "Environmental and regulatory services is the largest service at \u00a33.9M (54% of total expenditure)",
+      "Planning and development services grew fastest: 76% (\u00a3513K \u2192 \u00a3905K)",
+      "Total reserves grew by \u00a32.2M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Planning and development services": {
+        "from": 513000,
+        "to": 904600,
+        "growth_pct": 76.3
+      },
+      "Environmental and regulatory services": {
+        "from": 2615000,
+        "to": 3923200,
+        "growth_pct": 50.0
+      },
+      "Cultural and related services": {
+        "from": 1551000,
+        "to": 1805200,
+        "growth_pct": 16.4
+      },
+      "Central services": {
+        "from": 4184000,
+        "to": 2571760,
+        "growth_pct": -38.5
+      },
+      "Housing services (GFRA only)": {
+        "from": 590000,
+        "to": 249110,
+        "growth_pct": -57.8
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 2,
+      "business_rates_pct": 0,
+      "government_grants_pct": 98
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 143461000,
+      "departments": {
+        "Public Health": 22197000,
+        "Planning and development services": 362000,
+        "Adult Social Care": 68476000,
+        "Cultural and related services": 6298000,
+        "Environmental and regulatory services": 16715000,
+        "Highways and transport services": 12378000,
+        "Children Social Care": 65298000,
+        "Education services": 61784000,
+        "Central services": 3867000,
+        "Housing services (GFRA only)": 3988000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -15113000,
+        "retained_income_from_rate_retention_scheme": -44359000,
+        "collection_fund_surplus/deficits_for_council_tax": -540000
+      },
+      "council_tax": {
+        "blackpool_element": 1699.13
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 154902000,
+      "departments": {
+        "Public Health": 20298000,
+        "Planning and development services": 487000,
+        "Adult Social Care": 68054000,
+        "Cultural and related services": 11015000,
+        "Environmental and regulatory services": 18689000,
+        "Highways and transport services": 9460000,
+        "Children Social Care": 72198000,
+        "Education services": 69045000,
+        "Central services": -1553000,
+        "Housing services (GFRA only)": 3699000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -15578000,
+        "retained_income_from_rate_retention_scheme": -43377000,
+        "collection_fund_surplus/deficits_for_council_tax": 238000
+      },
+      "council_tax": {
+        "blackpool_element": 1749.92
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 157059000,
+      "departments": {
+        "Public Health": 19967000,
+        "Planning and development services": 490000,
+        "Adult Social Care": 71158000,
+        "Cultural and related services": 10216000,
+        "Environmental and regulatory services": 20640000,
+        "Highways and transport services": 10993000,
+        "Children Social Care": 79589000,
+        "Education services": 72259000,
+        "Central services": -2730000,
+        "Housing services (GFRA only)": 5471000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -17509000,
+        "retained_income_from_rate_retention_scheme": -56804000,
+        "collection_fund_surplus/deficits_for_council_tax": -3411000
+      },
+      "council_tax": {
+        "blackpool_element": 1837.23
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 168860000,
+      "departments": {
+        "Public Health": 20399000,
+        "Other services": -1347000,
+        "Planning and development services": 2510000,
+        "Adult Social Care": 76650000,
+        "Cultural and related services": 8082000,
+        "Environmental and regulatory services": 21101000,
+        "Highways and transport services": 7706000,
+        "Children Social Care": 85832000,
+        "Education services": 65299000,
+        "Central services": -295000,
+        "Housing services (GFRA only)": 5155000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -18668000,
+        "retained_income_from_rate_retention_scheme": -66089000,
+        "collection_fund_surplus/deficits_for_council_tax": -3109000
+      },
+      "council_tax": {
+        "blackpool_element": 1928.87
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Blackpool Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 168860000,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure grew 17.7% from \u00a3143.5M (2021/22) to \u00a3168.9M (2024/25)",
+      "Children Social Care is the largest service at \u00a385.8M (51% of total expenditure)",
+      "Planning and development services grew fastest: 593% (\u00a3362K \u2192 \u00a32.5M)",
+      "Total reserves fell by \u00a34.0M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Planning and development services": {
+        "from": 362000,
+        "to": 2510000,
+        "growth_pct": 593.4
+      },
+      "Children Social Care": {
+        "from": 65298000,
+        "to": 85832000,
+        "growth_pct": 31.4
+      },
+      "Housing services (GFRA only)": {
+        "from": 3988000,
+        "to": 5155000,
+        "growth_pct": 29.3
+      },
+      "Cultural and related services": {
+        "from": 6298000,
+        "to": 8082000,
+        "growth_pct": 28.3
+      },
+      "Environmental and regulatory services": {
+        "from": 16715000,
+        "to": 21101000,
+        "growth_pct": 26.2
+      },
+      "Adult Social Care": {
+        "from": 68476000,
+        "to": 76650000,
+        "growth_pct": 11.9
+      },
+      "Education services": {
+        "from": 61784000,
+        "to": 65299000,
+        "growth_pct": 5.7
+      },
+      "Public Health": {
+        "from": 22197000,
+        "to": 20399000,
+        "growth_pct": -8.1
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 4,
+      "business_rates_pct": 0,
+      "government_grants_pct": 96
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

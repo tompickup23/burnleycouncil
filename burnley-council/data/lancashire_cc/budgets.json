@@ -1,0 +1,166 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 733051000,
+      "departments": {
+        "Education services": 1020743000,
+        "Adult Social Care": 478546000,
+        "Children Social Care": 223776000,
+        "Public Health": 79041000,
+        "Highways and transport services": 54355000,
+        "Cultural and related services": 20924000,
+        "Environmental and regulatory services": 75484000,
+        "Central services": 21724000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -33615000,
+        "retained_income_from_rate_retention_scheme": -190277000,
+        "collection_fund_surplus/deficits_for_council_tax": 2689000
+      },
+      "council_tax": {
+        "lancashire_cc_element": 1456.19
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 869906000,
+      "departments": {
+        "Education services": 1091478000,
+        "Adult Social Care": 515161000,
+        "Children Social Care": 267649000,
+        "Public Health": 80052000,
+        "Highways and transport services": 62163000,
+        "Cultural and related services": 23475000,
+        "Environmental and regulatory services": 78256000,
+        "Central services": 31617000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -34662000,
+        "retained_income_from_rate_retention_scheme": -212114000,
+        "collection_fund_surplus/deficits_for_council_tax": -6746000
+      },
+      "council_tax": {
+        "lancashire_cc_element": 1514.29
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 916425000,
+      "departments": {
+        "Education services": 1136504000,
+        "Adult Social Care": 496144000,
+        "Children Social Care": 284968000,
+        "Public Health": 86948000,
+        "Highways and transport services": 71138000,
+        "Cultural and related services": 24613000,
+        "Environmental and regulatory services": 89111000,
+        "Central services": 53963000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -38206000,
+        "retained_income_from_rate_retention_scheme": -238597000,
+        "collection_fund_surplus/deficits_for_council_tax": -3179000
+      },
+      "council_tax": {
+        "lancashire_cc_element": 1574.71
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 985926000,
+      "departments": {
+        "Education services": 1266580000,
+        "Adult Social Care": 584501000,
+        "Children Social Care": 291482000,
+        "Public Health": 97641000,
+        "Highways and transport services": 68472000,
+        "Cultural and related services": 23653000,
+        "Environmental and regulatory services": 94348000,
+        "Central services": 41881000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -40737000,
+        "retained_income_from_rate_retention_scheme": -254925000,
+        "collection_fund_surplus/deficits_for_council_tax": 2529000
+      },
+      "council_tax": {
+        "lancashire_cc_element": 1653.29
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Lancashire County Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 985926000,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure grew 34.5% from \u00a3733.1M (2021/22) to \u00a3985.9M (2024/25)",
+      "Education services is the largest service at \u00a31266.6M (128% of total expenditure)",
+      "Central services grew fastest: 93% (\u00a321.7M \u2192 \u00a341.9M)",
+      "Total reserves fell by \u00a321.9M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Central services": {
+        "from": 21724000,
+        "to": 41881000,
+        "growth_pct": 92.8
+      },
+      "Children Social Care": {
+        "from": 223776000,
+        "to": 291482000,
+        "growth_pct": 30.3
+      },
+      "Highways and transport services": {
+        "from": 54355000,
+        "to": 68472000,
+        "growth_pct": 26.0
+      },
+      "Environmental and regulatory services": {
+        "from": 75484000,
+        "to": 94348000,
+        "growth_pct": 25.0
+      },
+      "Education services": {
+        "from": 1020743000,
+        "to": 1266580000,
+        "growth_pct": 24.1
+      },
+      "Public Health": {
+        "from": 79041000,
+        "to": 97641000,
+        "growth_pct": 23.5
+      },
+      "Adult Social Care": {
+        "from": 478546000,
+        "to": 584501000,
+        "growth_pct": 22.1
+      },
+      "Cultural and related services": {
+        "from": 20924000,
+        "to": 23653000,
+        "growth_pct": 13.0
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 1,
+      "business_rates_pct": 0,
+      "government_grants_pct": 99
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

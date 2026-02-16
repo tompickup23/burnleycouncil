@@ -1,0 +1,148 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 20287000,
+      "departments": {
+        "Housing services (GFRA only)": 2058000,
+        "Cultural and related services": 3214000,
+        "Environmental and regulatory services": 5406000,
+        "Planning and development services": 9392000,
+        "Central services": 4242000,
+        "Highways and transport services": 702000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -1170000,
+        "retained_income_from_rate_retention_scheme": -5378000
+      },
+      "council_tax": {
+        "pendle_element": 276.01
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 14763000,
+      "departments": {
+        "Housing services (GFRA only)": 1939000,
+        "Cultural and related services": 1554000,
+        "Environmental and regulatory services": 3867000,
+        "Planning and development services": 3278000,
+        "Central services": 10072000,
+        "Highways and transport services": 590000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -1206000,
+        "retained_income_from_rate_retention_scheme": -6519000,
+        "collection_fund_surplus/deficits_for_council_tax": 1798000
+      },
+      "council_tax": {
+        "pendle_element": 281.5
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": null,
+      "departments": {
+        "Housing services (GFRA only)": null,
+        "Cultural and related services": null,
+        "Environmental and regulatory services": null,
+        "Planning and development services": null,
+        "Central services": null,
+        "Highways and transport services": null,
+        "Other services": null
+      },
+      "funding_sources": {
+        "revenue_support_grant": null,
+        "retained_income_from_rate_retention_scheme": null,
+        "collection_fund_surplus/deficits_for_council_tax": null
+      },
+      "council_tax": {
+        "pendle_element": 289.92
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 17715710,
+      "departments": {
+        "Housing services (GFRA only)": 880920,
+        "Cultural and related services": 2832000,
+        "Environmental and regulatory services": 4416000,
+        "Planning and development services": 2885000,
+        "Central services": 5252000,
+        "Highways and transport services": 513000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -1556000,
+        "retained_income_from_rate_retention_scheme": -7483000,
+        "collection_fund_surplus/deficits_for_council_tax": -997000
+      },
+      "council_tax": {
+        "pendle_element": 298.59
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Pendle Borough Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 17715710,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure fell 12.7% from \u00a320.3M (2021/22) to \u00a317.7M (2024/25)",
+      "Central services is the largest service at \u00a35.3M (30% of total expenditure)",
+      "Central services grew fastest: 24% (\u00a34.2M \u2192 \u00a35.3M)",
+      "Total reserves grew by \u00a32.6M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Central services": {
+        "from": 4242000,
+        "to": 5252000,
+        "growth_pct": 23.8
+      },
+      "Cultural and related services": {
+        "from": 3214000,
+        "to": 2832000,
+        "growth_pct": -11.9
+      },
+      "Environmental and regulatory services": {
+        "from": 5406000,
+        "to": 4416000,
+        "growth_pct": -18.3
+      },
+      "Highways and transport services": {
+        "from": 702000,
+        "to": 513000,
+        "growth_pct": -26.9
+      },
+      "Housing services (GFRA only)": {
+        "from": 2058000,
+        "to": 880920,
+        "growth_pct": -57.2
+      },
+      "Planning and development services": {
+        "from": 9392000,
+        "to": 2885000,
+        "growth_pct": -69.3
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 10,
+      "business_rates_pct": 0,
+      "government_grants_pct": 90
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}

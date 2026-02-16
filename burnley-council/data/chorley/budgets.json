@@ -1,0 +1,124 @@
+{
+  "revenue_budgets": [
+    {
+      "financial_year": "2021/22",
+      "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
+      "net_revenue_budget": 13320000,
+      "departments": {
+        "Housing services (GFRA only)": 1175000,
+        "Cultural and related services": 4696000,
+        "Environmental and regulatory services": 4067000,
+        "Planning and development services": -557000,
+        "Central services": 4567000,
+        "Highways and transport services": 134000
+      },
+      "funding_sources": {
+        "collection_fund_surplus/deficits_for_council_tax": -38000
+      },
+      "council_tax": {
+        "chorley_element": 194.74
+      }
+    },
+    {
+      "financial_year": "2022/23",
+      "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
+      "net_revenue_budget": 14944000,
+      "departments": {
+        "Housing services (GFRA only)": 1227000,
+        "Cultural and related services": 5929000,
+        "Environmental and regulatory services": 3846000,
+        "Planning and development services": -578000,
+        "Central services": 4265000,
+        "Highways and transport services": 163000
+      },
+      "funding_sources": {
+        "retained_income_from_rate_retention_scheme": -3056000,
+        "collection_fund_surplus/deficits_for_council_tax": 124000
+      },
+      "council_tax": {
+        "chorley_element": 199.66
+      }
+    },
+    {
+      "financial_year": "2023/24",
+      "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
+      "net_revenue_budget": 17551000,
+      "departments": {
+        "Housing services (GFRA only)": 1502000,
+        "Cultural and related services": 5939000,
+        "Environmental and regulatory services": 4980000,
+        "Planning and development services": -280000,
+        "Central services": 4819000,
+        "Highways and transport services": -539000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -119000,
+        "retained_income_from_rate_retention_scheme": -6588000,
+        "collection_fund_surplus/deficits_for_council_tax": -81000
+      },
+      "council_tax": {
+        "chorley_element": 203.63
+      }
+    },
+    {
+      "financial_year": "2024/25",
+      "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
+      "net_revenue_budget": 14069000,
+      "departments": {
+        "Housing services (GFRA only)": 972000,
+        "Cultural and related services": 4770000,
+        "Environmental and regulatory services": 5171000,
+        "Planning and development services": 563000,
+        "Central services": 4424000,
+        "Highways and transport services": -53000
+      },
+      "funding_sources": {
+        "revenue_support_grant": -127000,
+        "retained_income_from_rate_retention_scheme": -6989000
+      },
+      "council_tax": {
+        "chorley_element": 209.72
+      }
+    }
+  ],
+  "capital_programmes": [],
+  "treasury_and_investment": {
+    "overview": "Treasury data for Chorley Borough Council is sourced from GOV.UK statutory returns. For detailed borrowing, investment, and MRP information, refer to the council's annual Statement of Accounts and Treasury Management Strategy.",
+    "key_context": {},
+    "notable_investments": []
+  },
+  "insights": {
+    "revenue_vs_capital": {
+      "explanation": "Revenue budget covers day-to-day running costs funded by council tax and grants. Capital budget covers long-term investment funded by borrowing and grants.",
+      "current_revenue": 14069000,
+      "current_capital_5yr": null
+    },
+    "key_trends": [
+      "Service expenditure grew 5.6% from \u00a313.3M (2021/22) to \u00a314.1M (2024/25)",
+      "Environmental and regulatory services is the largest service at \u00a35.2M (37% of total expenditure)",
+      "Environmental and regulatory services grew fastest: 27% (\u00a34.1M \u2192 \u00a35.2M)",
+      "Total reserves grew by \u00a32.0M in 2024-25"
+    ],
+    "departmental_growth": {
+      "Environmental and regulatory services": {
+        "from": 4067000,
+        "to": 5171000,
+        "growth_pct": 27.1
+      },
+      "Housing services (GFRA only)": {
+        "from": 1175000,
+        "to": 972000,
+        "growth_pct": -17.3
+      }
+    },
+    "funding_dependency": {
+      "council_tax_pct": 0,
+      "business_rates_pct": 0,
+      "government_grants_pct": 100
+    }
+  },
+  "_generated": {
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
+    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
+  }
+}
