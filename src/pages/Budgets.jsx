@@ -859,6 +859,7 @@ function Budgets() {
 function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData }) {
   const config = useCouncilConfig()
   const councilTier = config.council_tier || 'district'
+  const isMultiYear = summaryData?.multi_year && summaryData?.years?.length > 1
 
   // Service expenditure bar chart — tier-aware: show relevant services for this council type
   // Districts see district services, county sees county services, unitaries see all services
@@ -882,8 +883,81 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
   const netRevenue = govukData?.revenue_summary?.key_financials?.['NET REVENUE EXPENDITURE']?.value_pounds || 0
   const councilTaxReq = govukData?.revenue_summary?.key_financials?.['COUNCIL TAX REQUIREMENT']?.value_pounds || 0
 
-  // Revenue trend over years
-  const trendChartData = trendsData?.years
+  // Multi-year service expenditure trend (from budgets_summary.json computed trends)
+  const multiYearTrendData = useMemo(() => {
+    if (!isMultiYear || !summaryData?.trends?.headline_trends) return []
+    const headlines = summaryData.trends.headline_trends
+    const years = summaryData.years || []
+    return years.map(year => {
+      const ys = summaryData.year_summaries?.[year] || {}
+      const svc = ys.service_breakdown || {}
+      return {
+        year: year.replace('-', '/'),
+        total: (ys.total_service_expenditure || 0) / 1_000_000,
+        net_revenue: (ys.net_revenue_expenditure || 0) / 1_000_000,
+        council_tax: (ys.council_tax_requirement || 0) / 1_000_000,
+        // Service breakdown for stacked chart
+        environmental: (svc['Environmental and regulatory services'] || 0) / 1_000_000,
+        central: (svc['Central services'] || 0) / 1_000_000,
+        cultural: (svc['Cultural and related services'] || 0) / 1_000_000,
+        housing: (svc['Housing services (GFRA only)'] || 0) / 1_000_000,
+        planning: (svc['Planning and development services'] || 0) / 1_000_000,
+        highways: (svc['Highways and transport services'] || 0) / 1_000_000,
+        education: (svc['Education services'] || 0) / 1_000_000,
+        adult_sc: (svc['Adult Social Care'] || 0) / 1_000_000,
+        children_sc: (svc['Children Social Care'] || 0) / 1_000_000,
+        public_health: (svc['Public Health'] || 0) / 1_000_000,
+      }
+    })
+  }, [isMultiYear, summaryData])
+
+  // Reserve trajectory (multi-year)
+  const reserveTrendData = useMemo(() => {
+    if (!isMultiYear || !summaryData?.trends?.reserves_trends) return []
+    return Object.entries(summaryData.trends.reserves_trends)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([year, data]) => ({
+        year: year.replace('-', '/'),
+        earmarked: (data.earmarked || 0) / 1_000_000,
+        unallocated: (data.unallocated || 0) / 1_000_000,
+        total: (data.total || 0) / 1_000_000,
+      }))
+  }, [isMultiYear, summaryData])
+
+  // Service trend keys — tier-aware
+  const serviceKeys = councilTier === 'district'
+    ? ['environmental', 'central', 'cultural', 'housing', 'planning', 'highways']
+    : councilTier === 'county'
+    ? ['education', 'adult_sc', 'children_sc', 'environmental', 'highways', 'central', 'public_health', 'cultural']
+    : ['education', 'adult_sc', 'children_sc', 'environmental', 'housing', 'highways', 'central', 'public_health', 'cultural', 'planning']
+
+  const serviceLabels = {
+    environmental: 'Environmental',
+    central: 'Central Services',
+    cultural: 'Cultural',
+    housing: 'Housing',
+    planning: 'Planning',
+    highways: 'Highways & Transport',
+    education: 'Education',
+    adult_sc: 'Adult Social Care',
+    children_sc: "Children's Social Care",
+    public_health: 'Public Health',
+  }
+  const serviceColors = {
+    environmental: '#30d158',
+    central: '#0a84ff',
+    cultural: '#ff9f0a',
+    housing: '#bf5af2',
+    planning: '#64d2ff',
+    highways: '#ff6b6b',
+    education: '#ffd93d',
+    adult_sc: '#ff4757',
+    children_sc: '#ff6348',
+    public_health: '#2ed573',
+  }
+
+  // Legacy revenue trend (from revenue_trends.json — kept as fallback)
+  const trendChartData = (!isMultiYear && trendsData?.years)
     ? trendsData?.years?.map(year => {
         const yearData = trendsData?.by_year?.[year]?.summary || {}
         return {
@@ -897,23 +971,6 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
         }
       })
     : []
-
-  // Service breakdown trend for stacked area chart
-  const serviceKeys = ['environmental', 'central', 'cultural', 'housing', 'planning']
-  const serviceLabels = {
-    environmental: 'Environmental',
-    central: 'Central Services',
-    cultural: 'Cultural',
-    housing: 'Housing',
-    planning: 'Planning',
-  }
-  const serviceColors = {
-    environmental: '#30d158',
-    central: '#0a84ff',
-    cultural: '#ff9f0a',
-    housing: '#bf5af2',
-    planning: '#64d2ff',
-  }
 
   return (
     <div className="budgets-page animate-fade-in">
@@ -1004,8 +1061,131 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
         </section>
       )}
 
-      {/* Revenue Trend Over Time */}
-      {trendChartData.length > 0 && (
+      {/* Multi-Year Service Expenditure Trend (from budgets_summary.json) */}
+      {multiYearTrendData.length > 1 && (
+        <section className="chart-section">
+          <h2>Service Expenditure Trend ({summaryData.years[0]} to {summaryData.years[summaryData.years.length - 1]})</h2>
+          <p className="section-note">Actual GOV.UK outturn by service area across {summaryData.years.length} years (£ millions)</p>
+          <div className="chart-card">
+            <ResponsiveContainer width="100%" height={350}>
+              <AreaChart data={multiYearTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
+                <YAxis
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tickFormatter={(v) => `£${v.toFixed(0)}M`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value, name) => [`£${value.toFixed(2)}M`, serviceLabels[name] || name]}
+                />
+                {serviceKeys.filter(key => multiYearTrendData.some(d => d[key] > 0)).map(key => (
+                  <Area
+                    key={key}
+                    type="monotone"
+                    dataKey={key}
+                    stackId="1"
+                    stroke={serviceColors[key]}
+                    fill={serviceColors[key]}
+                    fillOpacity={0.4}
+                  />
+                ))}
+              </AreaChart>
+            </ResponsiveContainer>
+            <div className="funding-breakdown" style={{ marginTop: 'var(--space-md)' }}>
+              {serviceKeys.filter(key => multiYearTrendData.some(d => d[key] > 0)).map(key => (
+                <div key={key} className="funding-item">
+                  <span className="funding-dot" style={{ background: serviceColors[key] }} />
+                  <span className="funding-name">{serviceLabels[key]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Total Service Expenditure + Council Tax Requirement Trend */}
+      {multiYearTrendData.length > 1 && (
+        <section className="chart-section">
+          <h2>Total Expenditure & Council Tax Requirement</h2>
+          <p className="section-note">How total service spend and council tax demand have changed over time</p>
+          <div className="chart-card">
+            <ResponsiveContainer width="100%" height={280}>
+              <LineChart data={multiYearTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <YAxis
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tickFormatter={(v) => `£${v.toFixed(0)}M`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value, name) => [
+                    `£${value.toFixed(1)}M`,
+                    name === 'total' ? 'Total Service Expenditure' :
+                    name === 'net_revenue' ? 'Net Revenue Expenditure' :
+                    'Council Tax Requirement'
+                  ]}
+                />
+                <Line type="monotone" dataKey="total" stroke="var(--accent-blue)" strokeWidth={2} dot={{ fill: 'var(--accent-blue)', r: 4 }} name="total" />
+                <Line type="monotone" dataKey="net_revenue" stroke="#ff9f0a" strokeWidth={2} dot={{ fill: '#ff9f0a', r: 4 }} name="net_revenue" />
+                <Line type="monotone" dataKey="council_tax" stroke="#ff453a" strokeWidth={2} dot={{ fill: '#ff453a', r: 4 }} name="council_tax" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Reserve Trajectory (multi-year) */}
+      {reserveTrendData.length > 1 && (
+        <section className="chart-section">
+          <h2><PiggyBank size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Reserve Trajectory</h2>
+          <p className="section-note">How the council's financial reserves have changed year-on-year</p>
+          <div className="chart-card">
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={reserveTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <YAxis
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tickFormatter={(v) => `£${v.toFixed(0)}M`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value) => [`£${value.toFixed(1)}M`]}
+                />
+                <Bar dataKey="earmarked" stackId="reserves" fill="#0a84ff" name="Earmarked Reserves" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="unallocated" stackId="reserves" fill="#30d158" name="Unallocated Reserves" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <div className="funding-breakdown" style={{ marginTop: 'var(--space-md)' }}>
+              <div className="funding-item">
+                <span className="funding-dot" style={{ background: '#0a84ff' }} />
+                <span className="funding-name">Earmarked Reserves</span>
+              </div>
+              <div className="funding-item">
+                <span className="funding-dot" style={{ background: '#30d158' }} />
+                <span className="funding-name">Unallocated Reserves</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Legacy Revenue Trend (fallback for councils without multi-year data) */}
+      {!isMultiYear && trendChartData.length > 0 && (
         <section className="chart-section">
           <h2>Revenue Trend ({trendsData?.years?.[0]} to {trendsData?.years?.[trendsData?.years?.length - 1]})</h2>
           <p className="section-note">Service expenditure breakdown over {trendsData?.year_count} years (£ millions, GOV.UK outturn)</p>
@@ -1038,49 +1218,6 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
                   />
                 ))}
               </AreaChart>
-            </ResponsiveContainer>
-            <div className="funding-breakdown" style={{ marginTop: 'var(--space-md)' }}>
-              {serviceKeys.map(key => (
-                <div key={key} className="funding-item">
-                  <span className="funding-dot" style={{ background: serviceColors[key] }} />
-                  <span className="funding-name">{serviceLabels[key]}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Total Net Expenditure Trend */}
-      {trendChartData.length > 0 && (
-        <section className="chart-section">
-          <h2>Total Net Current Expenditure Trend</h2>
-          <p className="section-note">Includes housing benefit, parish precepts, and all service areas</p>
-          <div className="chart-card">
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={trendChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
-                <YAxis
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
-                  tickFormatter={(v) => `£${v}M`}
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
-                  formatter={(value) => [`£${value.toFixed(1)}M`, 'Net Current Expenditure']}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="total"
-                  stroke="var(--accent-blue)"
-                  strokeWidth={2}
-                  dot={{ fill: 'var(--accent-blue)', r: 4 }}
-                />
-              </LineChart>
             </ResponsiveContainer>
           </div>
         </section>

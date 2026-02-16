@@ -1,0 +1,93 @@
+{
+  "council_id": "chorley",
+  "council_tier": "district",
+  "total_departments": 13,
+  "mapped_departments": 11,
+  "unmapped_departments": 2,
+  "mappings": {
+    "0": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 71397.59000000004
+    },
+    "CUST - Customer & Digital": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 21513794.82999997
+    },
+    "Chief Executive": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 350918.93999999994
+    },
+    "Commercial & Property": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 10525410.689999998
+    },
+    "Communities": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 3068888.2699999996
+    },
+    "Customer & Digital": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 3450148.469999996
+    },
+    "EARL - Communities": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 11395918.750000007
+    },
+    "GOVN - Policy & Governance": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 245125725.06000033
+    },
+    "GROW - Commercial & Property": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 19581854.87999998
+    },
+    "GROW - Commercial Services": {
+      "budget_category": "Planning and development services",
+      "confidence": "high",
+      "spend": 12060814.809999995
+    },
+    "PLAN - Planning & Development": {
+      "budget_category": "Planning and development services",
+      "confidence": "medium",
+      "spend": 5886604.290000001
+    },
+    "Policy & Governance": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 39100501.06000004
+    },
+    "System": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 65466.41
+    }
+  },
+  "category_summary": {
+    "Central services": 354113160.95000035,
+    "Planning and development services": 17947419.099999994
+  },
+  "coverage": {
+    "mapped_spend": 372060580.05000037,
+    "total_spend": 372197444.05000037,
+    "mapped_spend_pct": 100.0
+  },
+  "unmapped_top": [
+    {
+      "department": "0",
+      "spend": 71397.59000000004
+    },
+    {
+      "department": "System",
+      "spend": 65466.41
+    }
+  ]
+}

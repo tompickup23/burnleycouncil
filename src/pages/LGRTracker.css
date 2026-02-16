@@ -1708,4 +1708,307 @@
     min-width: 80px;
     font-size: 0.75rem;
   }
+
+  .discovery-comparison {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .net-savings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-principles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== Back-Office Discovery Card ========== */
+.lgr-discovery-card {
+  background: var(--bg-secondary, #1c1c1e);
+  border: 1px solid var(--border-color, #2c2c2e);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  border-left: 4px solid #30d158;
+}
+
+.lgr-discovery-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: #30d158;
+}
+
+.discovery-comparison {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.discovery-item {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.discovery-item.old {
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+}
+
+.discovery-item.new {
+  background: rgba(48, 209, 88, 0.1);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+
+.discovery-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #8e8e93);
+  margin-bottom: 0.25rem;
+}
+
+.discovery-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.discovery-item.old .discovery-value {
+  color: #ff453a;
+  text-decoration: line-through;
+}
+
+.discovery-item.new .discovery-value {
+  color: #30d158;
+}
+
+.discovery-arrow {
+  color: var(--text-secondary, #8e8e93);
+  flex-shrink: 0;
+}
+
+.discovery-note {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #8e8e93);
+  margin-top: 0.5rem;
+}
+
+.data-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(48, 209, 88, 0.1);
+  color: #30d158;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* ========== Net Savings Grid ========== */
+.lgr-net-savings {
+  background: var(--bg-secondary, #1c1c1e);
+  border: 1px solid var(--border-color, #2c2c2e);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.lgr-net-savings h3 {
+  margin-bottom: 1rem;
+}
+
+.net-savings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.net-savings-item {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--bg-tertiary, #2c2c2e);
+}
+
+.net-savings-item.positive {
+  border-left: 3px solid #30d158;
+}
+
+.net-savings-item.negative {
+  border-left: 3px solid #ff453a;
+}
+
+.net-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.net-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.net-gross { color: var(--text-secondary, #8e8e93); }
+.net-costs { color: var(--text-secondary, #8e8e93); }
+.net-total { font-weight: 700; font-size: 1rem; }
+.net-total.text-green { color: #30d158; }
+.net-total.text-red { color: #ff453a; }
+
+/* ========== Asset Division Section ========== */
+.asset-principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.asset-principle-card {
+  background: var(--bg-secondary, #1c1c1e);
+  border: 1px solid var(--border-color, #2c2c2e);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.asset-principle-card.complexity-low {
+  border-left: 3px solid #30d158;
+}
+
+.asset-principle-card.complexity-medium {
+  border-left: 3px solid #ff9f0a;
+}
+
+.asset-principle-card.complexity-high {
+  border-left: 3px solid #ff453a;
+}
+
+.asset-principle-card.complexity-very\ high {
+  border-left: 3px solid #ff453a;
+}
+
+.principle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.principle-header h4 {
+  margin: 0;
+}
+
+.complexity-badge {
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.complexity-badge.complexity-low {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+}
+
+.complexity-badge.complexity-medium {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+
+.complexity-badge.complexity-high {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+.complexity-badge.complexity-very\ high {
+  background: rgba(255, 69, 58, 0.25);
+  color: #ff453a;
+}
+
+.principle-applies {
+  font-size: 0.9rem;
+  color: var(--text-primary, #fff);
+  margin-bottom: 0.5rem;
+}
+
+.principle-method {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #8e8e93);
+  margin-bottom: 0.25rem;
+}
+
+.principle-legal {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.principle-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #ff9f0a;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color, #2c2c2e);
+}
+
+/* Critical asset issues */
+.critical-asset-issues {
+  margin-top: 1.5rem;
+}
+
+.critical-asset-issues h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ff453a;
+  margin-bottom: 1rem;
+}
+
+.asset-issue-card {
+  background: var(--bg-secondary, #1c1c1e);
+  border: 1px solid var(--border-color, #2c2c2e);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.asset-issue-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #ff9f0a;
+}
+
+.asset-options {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.asset-options li {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.asset-rec {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(48, 209, 88, 0.08);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.asset-precedent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 }

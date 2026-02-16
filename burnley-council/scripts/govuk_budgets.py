@@ -81,6 +81,8 @@ LANCASHIRE_COUNCILS = {
 
 # ODS file download URLs for each year
 # These hashes change when GOV.UK republishes, so we store known-good URLs
+# All years use MHCLG Revenue Outturn data from:
+# https://www.gov.uk/government/collections/local-authority-revenue-expenditure-and-financing
 DOWNLOAD_URLS = {
     "2024-25": {
         "RS":  "https://assets.publishing.service.gov.uk/media/692ed8ac9c1eda2cdf03440b/RS_LA_Data_2024-25_data_by_LA.ods",
@@ -90,10 +92,37 @@ DOWNLOAD_URLS = {
         "RO5": "https://assets.publishing.service.gov.uk/media/692ed91eb3b9afff34e96381/RO5_LA_Data_2024-25_data_by_LA.ods",
         "RO6": "https://assets.publishing.service.gov.uk/media/692ed92b2a37784b16ecf860/RO6_LA_Data_2024-25_data_by_LA.ods",
     },
+    "2023-24": {
+        "RS":  "https://assets.publishing.service.gov.uk/media/6759b6e7ad4694c785b0edb1/RS_2023-24_data_by_LA.ods",
+        "RSX": "https://assets.publishing.service.gov.uk/media/6759b6e89f669f2e28ce2b44/RSX_2023-24_data_by_LA.ods",
+        "RO2": "https://assets.publishing.service.gov.uk/media/6759b6e94cbda57cacd346ff/RO2_2023-24_data_by_LA.ods",
+        "RO4": "https://assets.publishing.service.gov.uk/media/6759b6e97e419d6e07ce2b46/RO4_2023-24_data_by_LA.ods",
+        "RO5": "https://assets.publishing.service.gov.uk/media/6759b6e9ad4694c785b0edb2/RO5_2023-24_data_by_LA.ods",
+        "RO6": "https://assets.publishing.service.gov.uk/media/6759b6e94cbda57cacd34701/RO6_2023-24_data_by_LA.ods",
+    },
+    "2022-23": {
+        "RS":  "https://assets.publishing.service.gov.uk/media/686be4192cfe301b5fb67819/RS_2022-23_data_by_LA.ods",
+        "RSX": "https://assets.publishing.service.gov.uk/media/686be42881dd8f70f5de3c18/RSX_2022-23_data_by_LA.ods",
+        "RO2": "https://assets.publishing.service.gov.uk/media/686be44b2557debd867cbd91/RO2_2022-23_data_by_LA.ods",
+        "RO4": "https://assets.publishing.service.gov.uk/media/686be46a81dd8f70f5de3c19/RO4_2022-23_data_by_LA.ods",
+        "RO5": "https://assets.publishing.service.gov.uk/media/686be47781dd8f70f5de3c1a/RO5_2022-23_data_by_LA.ods",
+        "RO6": "https://assets.publishing.service.gov.uk/media/686be484fe1a249e937cbda4/RO6_2022-23_data_by_LA.ods",
+    },
+    "2021-22": {
+        "RS":  "https://assets.publishing.service.gov.uk/media/6880c142f47abf78ca1d3532/RS_2021-22_data_by_LA_July_2025.ods",
+        "RSX": "https://assets.publishing.service.gov.uk/media/6825a5a1ab96d4ed0b262f78/RSX_2021-22_data_by_LA_Live.ods",
+        "RO2": "https://assets.publishing.service.gov.uk/media/6825a5c8aa3556876875ec94/RO2_2021-22_data_by_LA_ive.ods",
+        "RO4": "https://assets.publishing.service.gov.uk/media/6825a5e47293a87b6c75ec90/RO4_2021-22_data_by_LA_Live.ods",
+        "RO5": "https://assets.publishing.service.gov.uk/media/6825a5f2ab96d4ed0b262f79/RO5_2021-22_data_by_LA_Live.ods",
+        "RO6": "https://assets.publishing.service.gov.uk/media/6825a604ab96d4ed0b262f7a/RO6_2021-22_data_by_LA_Live.ods",
+    },
     "council_tax": {
         "band_d": "https://assets.publishing.service.gov.uk/media/680a3ca79b25e1a97c9d8471/Band_D_2025-26.ods",
     },
 }
+
+# Years available for multi-year processing (chronological order)
+AVAILABLE_YEARS = ["2021-22", "2022-23", "2023-24", "2024-25"]
 
 # ─── RO File Schemas ─────────────────────────────────────────────────
 # Maps each RO form to its service areas and which are relevant to districts
@@ -360,7 +389,13 @@ def find_data_sheet(sheets_dict):
 
 
 def load_ods(filepath):
-    """Load ODS file and return (headers_row, data_df) with row 6 as headers."""
+    """Load ODS file and return (headers_row, data_df).
+
+    Auto-detects header row — GOV.UK ODS files vary:
+      2024-25: headers at row 6 (0-indexed)
+      2023-24 and earlier: headers at row 12 (after hidden reference rows 7-10)
+    Header row is identified by containing 'E-code' or 'ONS Code' or 'Local authority'.
+    """
     if not HAS_PANDAS:
         print("ERROR: pandas is required. Install with: pip install pandas odfpy")
         sys.exit(1)
@@ -369,11 +404,23 @@ def load_ods(filepath):
     sheets = pd.read_excel(filepath, engine="odf", sheet_name=None, header=None)
     sheet_name, df = find_data_sheet(sheets)
 
-    # Row 6 (0-indexed) is the header row
-    headers = [str(v) if pd.notna(v) else "" for v in df.iloc[6]]
+    # Auto-detect header row by scanning for known header labels
+    header_row = 6  # Default fallback
+    for r in range(min(20, df.shape[0])):
+        row_vals = [str(v).lower().strip() for v in df.iloc[r] if pd.notna(v)]
+        # Header row contains structural column names
+        if any(label in row_vals for label in ["e-code", "ons code", "local authority"]):
+            header_row = r
+            break
+        # Also match if row contains "Education services" (a data header)
+        if any("education services" in v for v in row_vals):
+            header_row = r
+            break
 
-    # Data starts at row 7
-    data = df.iloc[7:].reset_index(drop=True)
+    headers = [str(v) if pd.notna(v) else "" for v in df.iloc[header_row]]
+
+    # Data starts at the row after headers
+    data = df.iloc[header_row + 1:].reset_index(drop=True)
     data.columns = range(len(headers))
 
     return headers, data
@@ -400,7 +447,8 @@ def download_ods_files(year="2024-25"):
     urls = DOWNLOAD_URLS.get(year, {})
     if not urls:
         print(f"ERROR: No download URLs configured for year {year}")
-        print(f"Available years: {', '.join(DOWNLOAD_URLS.keys())}")
+        available = [y for y in DOWNLOAD_URLS.keys() if y != "council_tax"]
+        print(f"Available years: {', '.join(available)}")
         sys.exit(1)
 
     for form_name, url in urls.items():
@@ -416,7 +464,7 @@ def download_ods_files(year="2024-25"):
         filepath.write_bytes(resp.content)
         print(f"  Saved ({len(resp.content) // 1024}KB)")
 
-    # Also download council tax data
+    # Also download council tax data (shared across years)
     ct_urls = DOWNLOAD_URLS.get("council_tax", {})
     for name, url in ct_urls.items():
         filename = url.split("/")[-1]
@@ -429,6 +477,13 @@ def download_ods_files(year="2024-25"):
         resp.raise_for_status()
         filepath.write_bytes(resp.content)
         print(f"  Saved ({len(resp.content) // 1024}KB)")
+
+
+def download_all_years():
+    """Download ODS files for all configured years."""
+    for year in AVAILABLE_YEARS:
+        print(f"\n--- Downloading {year} ---")
+        download_ods_files(year)
 
 
 # ─── RS Parser ───────────────────────────────────────────────────────
@@ -765,20 +820,40 @@ def parse_council_tax(filepath, ons_code):
 
 # ─── Main Output Builder ─────────────────────────────────────────────
 
+def _find_ods_file(form_name, year):
+    """Find ODS file for a given form and year, handling varied filename conventions.
+
+    GOV.UK filenames vary across years:
+      2024-25: RS_LA_Data_2024-25_data_by_LA.ods
+      2023-24: RS_2023-24_data_by_LA.ods
+      2021-22: RS_2021-22_data_by_LA_July_2025.ods / RS_2021-22_data_by_LA_Live.ods
+    """
+    # Try patterns in order of likelihood
+    patterns = [
+        f"{form_name}_LA_Data_{year}_data_by_LA.ods",   # 2024-25 format
+        f"{form_name}_{year}_data_by_LA.ods",            # 2023-24 format
+        f"{form_name}_{year}_data_by_LA_Live.ods",       # 2021-22 Live format
+        f"{form_name}_{year}_data_by_LA_ive.ods",        # 2021-22 typo (RO2)
+    ]
+
+    for pattern in patterns:
+        filepath = GOVUK_DIR / pattern
+        if filepath.exists():
+            return filepath
+
+    # Glob fallback: any file matching form_name + year
+    matches = list(GOVUK_DIR.glob(f"{form_name}*{year}*.ods"))
+    if matches:
+        return matches[0]
+
+    return None
+
+
 def build_council_budget(council_id, ons_code, year="2024-25"):
     """Build complete budget data for a council from all available ODS files."""
-    print(f"\nProcessing {council_id} ({ons_code})...")
+    print(f"\nProcessing {council_id} ({ons_code}) for {year}...")
 
-    # Determine filenames
-    year_compact = year.replace("-", "")
-    file_patterns = {
-        "RS":  f"RS_LA_Data_{year}_data_by_LA.ods",
-        "RSX": f"RSX_LA_Data_{year}_data_by_LA.ods",
-        "RO2": f"RO2_LA_Data_{year}_data_by_LA.ods",
-        "RO4": f"RO4_LA_Data_{year}_data_by_LA.ods",
-        "RO5": f"RO5_LA_Data_{year}_data_by_LA.ods",
-        "RO6": f"RO6_LA_Data_{year}_data_by_LA.ods",
-    }
+    form_names = ["RS", "RSX", "RO2", "RO4", "RO5", "RO6"]
 
     result = {
         "council_id": council_id,
@@ -791,8 +866,8 @@ def build_council_budget(council_id, ons_code, year="2024-25"):
     }
 
     # Parse RS (Revenue Summary)
-    rs_path = GOVUK_DIR / file_patterns["RS"]
-    if rs_path.exists():
+    rs_path = _find_ods_file("RS", year)
+    if rs_path:
         rs_data = parse_rs(rs_path, ons_code)
         if rs_data:
             result["council_name"] = rs_data["council_name"]
@@ -807,20 +882,20 @@ def build_council_budget(council_id, ons_code, year="2024-25"):
                 "financing": rs_data.get("financing", {}),
             }
     else:
-        print(f"  RS file not found: {rs_path}")
+        print(f"  RS file not found for {year}")
 
     # Parse each RO form
     result["detailed_services"] = {}
-    for form_name, filepath_name in file_patterns.items():
+    for form_name in form_names:
         if form_name == "RS":
             continue  # Already parsed above
-        filepath = GOVUK_DIR / filepath_name
-        if filepath.exists():
+        filepath = _find_ods_file(form_name, year)
+        if filepath:
             ro_data = parse_ro(filepath, ons_code, form_name)
             if ro_data:
                 result["detailed_services"][form_name] = ro_data
         else:
-            print(f"  {form_name} file not found: {filepath}")
+            print(f"  {form_name} file not found for {year}")
 
     # Parse council tax (if available)
     ct_files = list(GOVUK_DIR.glob("Band_D_*.ods"))
@@ -920,12 +995,157 @@ def _extract_pounds(data_dict, key):
     return None
 
 
+# ─── Multi-Year Assembly ─────────────────────────────────────────────
+
+def build_multi_year_budget(council_id, ons_code, years=None):
+    """Build multi-year budget data for a council across all available years.
+
+    Returns a combined structure with per-year data and computed trends.
+    """
+    if years is None:
+        years = AVAILABLE_YEARS
+
+    multi = {
+        "council_id": council_id,
+        "ons_code": ons_code,
+        "data_source": "MHCLG Revenue Outturn (GOV.UK)",
+        "data_licence": "Open Government Licence v3.0",
+        "units": "GBP (converted from GBP thousands)",
+        "years": [],
+        "latest_year": None,
+        "by_year": {},
+    }
+
+    for year in years:
+        # Check if ODS files exist for this year
+        rs_path = _find_ods_file("RS", year)
+        if not rs_path:
+            print(f"  Skipping {year} — no ODS files found")
+            continue
+
+        budget = build_council_budget(council_id, ons_code, year)
+        if budget and budget.get("revenue_summary"):
+            multi["years"].append(year)
+            multi["by_year"][year] = budget
+            multi["latest_year"] = year
+
+            # Carry forward council name/class from latest available year
+            if budget.get("council_name"):
+                multi["council_name"] = budget["council_name"]
+            if budget.get("council_class"):
+                multi["council_class"] = budget["council_class"]
+
+    # Add council tax data (shared across years, from Band D file)
+    ct_files = list(GOVUK_DIR.glob("Band_D_*.ods"))
+    if ct_files and multi["years"]:
+        ct_data = parse_council_tax(ct_files[0], ons_code)
+        if ct_data:
+            multi["council_tax"] = ct_data
+
+    # Backward compat: mirror latest year's data at top level
+    if multi["latest_year"] and multi["latest_year"] in multi["by_year"]:
+        latest = multi["by_year"][multi["latest_year"]]
+        multi["financial_year"] = multi["latest_year"]
+        if "revenue_summary" in latest:
+            multi["revenue_summary"] = latest["revenue_summary"]
+        if "detailed_services" in latest:
+            multi["detailed_services"] = latest["detailed_services"]
+        multi["certified"] = latest.get("certified")
+
+    return multi
+
+
+def _compute_trends(multi_year_data):
+    """Compute year-on-year trends from multi-year budget data.
+
+    Returns trend data for services, reserves, and key financials.
+    """
+    years = multi_year_data.get("years", [])
+    if len(years) < 2:
+        return {}
+
+    council_id = multi_year_data.get("council_id", "")
+    council_info = LANCASHIRE_COUNCILS.get(council_id, {})
+    council_tier = council_info.get("type", "district")
+    tier_key = f"relevant_to_{council_tier}" if council_tier != "district" else "relevant_to_districts"
+
+    trends = {
+        "years": years,
+        "service_trends": {},
+        "headline_trends": {},
+        "reserves_trends": {},
+    }
+
+    # Track service expenditure across years
+    all_services = set()
+    for year in years:
+        budget = multi_year_data["by_year"].get(year, {})
+        se = budget.get("revenue_summary", {}).get("service_expenditure", {})
+        for svc, data in se.items():
+            if data.get(tier_key, data.get("relevant_to_districts")) and svc != "TOTAL SERVICE EXPENDITURE":
+                all_services.add(svc)
+
+    for svc in sorted(all_services):
+        values = []
+        for year in years:
+            budget = multi_year_data["by_year"].get(year, {})
+            se = budget.get("revenue_summary", {}).get("service_expenditure", {})
+            val = se.get(svc, {}).get("value_pounds")
+            values.append({"year": year, "value": val})
+        trends["service_trends"][svc] = values
+
+        # Compute change between first and last available years
+        first_val = next((v["value"] for v in values if v["value"] is not None), None)
+        last_val = next((v["value"] for v in reversed(values) if v["value"] is not None), None)
+        if first_val and last_val and first_val != 0:
+            trends["service_trends"][svc + "_change_pct"] = round(
+                (last_val - first_val) / abs(first_val) * 100, 1
+            )
+
+    # Headline financials across years
+    for metric in ["TOTAL SERVICE EXPENDITURE", "NET REVENUE EXPENDITURE", "COUNCIL TAX REQUIREMENT"]:
+        values = []
+        for year in years:
+            budget = multi_year_data["by_year"].get(year, {})
+            kf = budget.get("revenue_summary", {}).get("key_financials", {})
+            se = budget.get("revenue_summary", {}).get("service_expenditure", {})
+            if metric == "TOTAL SERVICE EXPENDITURE":
+                val = _extract_pounds(se, metric)
+            else:
+                val = _extract_pounds(kf, metric)
+            values.append({"year": year, "value": val})
+        trends["headline_trends"][metric] = values
+
+    # Reserves trajectory
+    for year in years:
+        budget = multi_year_data["by_year"].get(year, {})
+        reserves_raw = budget.get("revenue_summary", {}).get("reserves", {})
+        earmarked = _extract_pounds(reserves_raw, "Estimated other earmarked financial reserves level at 31 March")
+        unallocated = _extract_pounds(reserves_raw, "Estimated unallocated financial reserves level at 31 March")
+        total = None
+        if earmarked is not None or unallocated is not None:
+            total = (earmarked or 0) + (unallocated or 0)
+        trends["reserves_trends"][year] = {
+            "earmarked": earmarked,
+            "unallocated": unallocated,
+            "total": total,
+        }
+
+    return trends
+
+
 # ─── SPA Output ──────────────────────────────────────────────────────
 
 def export_for_spa(council_id, budget_data, comparison=None):
-    """Export budget data as JSON files for the React SPA."""
+    """Export budget data as JSON files for the React SPA.
+
+    Handles both single-year and multi-year budget_data.
+    Multi-year data has 'by_year' key; single-year does not.
+    """
     council_dir = DATA_DIR / council_id
     council_dir.mkdir(parents=True, exist_ok=True)
+
+    is_multi_year = "by_year" in budget_data
 
     # Full budget data
     output_path = council_dir / "budgets_govuk.json"
@@ -934,7 +1154,10 @@ def export_for_spa(council_id, budget_data, comparison=None):
     print(f"  Written: {output_path} ({output_path.stat().st_size // 1024}KB)")
 
     # Simplified SPA-friendly version for quick loading
-    spa_data = _build_spa_budget(budget_data)
+    if is_multi_year:
+        spa_data = _build_spa_budget_multi_year(budget_data)
+    else:
+        spa_data = _build_spa_budget(budget_data)
     spa_path = council_dir / "budgets_summary.json"
     with open(spa_path, "w") as f:
         json.dump(spa_data, f, indent=2, default=str)
@@ -1047,6 +1270,100 @@ def _build_spa_budget(budget_data):
     return spa
 
 
+def _build_spa_budget_multi_year(multi_year_data):
+    """Build a lean multi-year JSON structure for the SPA's budget view.
+
+    Includes the latest year's full data plus trends across all years.
+    """
+    # Build the latest year's SPA data as the base
+    latest_year = multi_year_data.get("latest_year")
+    if not latest_year:
+        return {"error": "No budget data available"}
+
+    # Use the latest year's full budget for the base SPA output
+    latest_budget = multi_year_data["by_year"].get(latest_year, {})
+    # Ensure council_tax from multi-year data is available
+    if "council_tax" in multi_year_data:
+        latest_budget["council_tax"] = multi_year_data["council_tax"]
+
+    spa = _build_spa_budget(latest_budget)
+
+    # Enhance with multi-year data
+    spa["multi_year"] = True
+    spa["years"] = multi_year_data.get("years", [])
+    spa["latest_year"] = latest_year
+
+    # Add trends
+    trends = _compute_trends(multi_year_data)
+    spa["trends"] = trends
+
+    # Per-year headline summaries for the year selector
+    year_summaries = {}
+    for year in multi_year_data.get("years", []):
+        yr_budget = multi_year_data["by_year"].get(year, {})
+        rs = yr_budget.get("revenue_summary", {})
+        se = rs.get("service_expenditure", {})
+        kf = rs.get("key_financials", {})
+        reserves_raw = rs.get("reserves", {})
+
+        # Determine council tier
+        council_id = multi_year_data.get("council_id", "")
+        council_info = LANCASHIRE_COUNCILS.get(council_id, {})
+        council_tier = council_info.get("type", "district")
+        tier_key = f"relevant_to_{council_tier}" if council_tier != "district" else "relevant_to_districts"
+
+        # Service breakdown for this year
+        services_yr = {}
+        for svc, data in se.items():
+            if data.get(tier_key, data.get("relevant_to_districts")) and svc != "TOTAL SERVICE EXPENDITURE":
+                val = data.get("value_pounds")
+                if val is not None and val != 0:
+                    services_yr[svc] = val
+
+        # Reserves for this year
+        earmarked_end = _extract_pounds(reserves_raw, "Estimated other earmarked financial reserves level at 31 March")
+        unallocated_end = _extract_pounds(reserves_raw, "Estimated unallocated financial reserves level at 31 March")
+        total_reserves = None
+        if earmarked_end is not None or unallocated_end is not None:
+            total_reserves = (earmarked_end or 0) + (unallocated_end or 0)
+
+        year_summaries[year] = {
+            "total_service_expenditure": _extract_pounds(se, "TOTAL SERVICE EXPENDITURE"),
+            "net_revenue_expenditure": _extract_pounds(kf, "NET REVENUE EXPENDITURE"),
+            "council_tax_requirement": _extract_pounds(kf, "COUNCIL TAX REQUIREMENT"),
+            "service_breakdown": services_yr,
+            "reserves_total": total_reserves,
+        }
+
+    spa["year_summaries"] = year_summaries
+
+    # Financing data across years (RSG, rates, CT — useful for LGR analysis)
+    financing_trends = {}
+    for year in multi_year_data.get("years", []):
+        yr_budget = multi_year_data["by_year"].get(year, {})
+        financing = yr_budget.get("revenue_summary", {}).get("financing", {})
+        if financing:
+            financing_trends[year] = {
+                k: v.get("value_pounds") for k, v in financing.items()
+            }
+    if financing_trends:
+        spa["financing_trends"] = financing_trends
+
+    # Debt costs across years
+    debt_trends = {}
+    for year in multi_year_data.get("years", []):
+        yr_budget = multi_year_data["by_year"].get(year, {})
+        debt = yr_budget.get("revenue_summary", {}).get("debt_costs", {})
+        if debt:
+            debt_trends[year] = {
+                k: v.get("value_pounds") for k, v in debt.items()
+            }
+    if debt_trends:
+        spa["debt_trends"] = debt_trends
+
+    return spa
+
+
 # ─── CLI ─────────────────────────────────────────────────────────────
 
 def main():
@@ -1071,7 +1388,11 @@ def main():
     )
     parser.add_argument(
         "--year", default="2024-25",
-        help="Financial year to process (default: 2024-25)"
+        help="Financial year to process (default: 2024-25). Ignored with --multi-year."
+    )
+    parser.add_argument(
+        "--multi-year", action="store_true",
+        help="Process all available years (2021-22 to 2024-25) and generate trend data"
     )
     parser.add_argument(
         "--list-councils", action="store_true",
@@ -1094,6 +1415,7 @@ def main():
         print("-" * 72)
         for cid, info in sorted(LANCASHIRE_COUNCILS.items()):
             print(f"{cid:<20} {info['ons']:<12} {info['name']:<30} {info['type']:<10}")
+        print(f"\nAvailable years: {', '.join(AVAILABLE_YEARS)}")
         return
 
     # Determine which councils to process
@@ -1106,7 +1428,7 @@ def main():
     elif args.councils:
         council_ids = args.councils
     else:
-        print("ERROR: Specify --councils or --all-districts")
+        print("ERROR: Specify --councils, --all-districts, or --all")
         parser.print_help()
         sys.exit(1)
 
@@ -1118,8 +1440,12 @@ def main():
 
     # Download if requested
     if args.download:
-        print(f"\n=== Downloading ODS files for {args.year} ===")
-        download_ods_files(args.year)
+        if args.multi_year:
+            print(f"\n=== Downloading ODS files for all years ===")
+            download_all_years()
+        else:
+            print(f"\n=== Downloading ODS files for {args.year} ===")
+            download_ods_files(args.year)
 
     # Check ODS files exist
     if not GOVUK_DIR.exists():
@@ -1127,7 +1453,52 @@ def main():
         print("Run with --download to fetch files from GOV.UK")
         sys.exit(1)
 
-    # Process each council
+    # Multi-year processing
+    if args.multi_year:
+        print(f"\n=== Multi-year processing: {len(council_ids)} council(s) × {len(AVAILABLE_YEARS)} years ===")
+        all_budgets = []
+
+        for council_id in council_ids:
+            info = LANCASHIRE_COUNCILS[council_id]
+            print(f"\n{'='*60}")
+            print(f"  {info['name']} ({council_id}) — multi-year")
+            print(f"{'='*60}")
+            multi = build_multi_year_budget(council_id, info["ons"])
+            all_budgets.append(multi)
+            export_for_spa(council_id, multi)
+
+        # Print multi-year summary
+        print(f"\n=== Multi-Year Summary ===")
+        for b in all_budgets:
+            name = b.get("council_name", b["council_id"])
+            years = b.get("years", [])
+            print(f"\n  {name}: {len(years)} years ({', '.join(years)})")
+
+            for year in years:
+                yr = b["by_year"].get(year, {})
+                rs = yr.get("revenue_summary", {})
+                se = rs.get("service_expenditure", {})
+                total = _extract_pounds(se, "TOTAL SERVICE EXPENDITURE")
+                print(f"    {year}: £{total:,.0f}" if total else f"    {year}: N/A")
+
+        # Generate comparison from latest year data
+        if args.comparison and len(all_budgets) >= 2:
+            latest_budgets = []
+            for b in all_budgets:
+                latest = b.get("latest_year")
+                if latest and latest in b.get("by_year", {}):
+                    latest_budgets.append(b["by_year"][latest])
+            if len(latest_budgets) >= 2:
+                print(f"\n=== Generating cross-council comparison (latest year) ===")
+                comparison = build_comparison_summary(latest_budgets)
+                comp_path = DATA_DIR / "govuk_comparison.json"
+                with open(comp_path, "w") as f:
+                    json.dump(comparison, f, indent=2, default=str)
+                print(f"  Written: {comp_path}")
+
+        return
+
+    # Single-year processing (original behaviour)
     print(f"\n=== Processing {len(council_ids)} council(s) for {args.year} ===")
     all_budgets = []
 

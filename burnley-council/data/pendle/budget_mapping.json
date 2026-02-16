@@ -1,0 +1,165 @@
+{
+  "council_id": "pendle",
+  "council_tier": "district",
+  "total_departments": 24,
+  "mapped_departments": 19,
+  "unmapped_departments": 5,
+  "mappings": {
+    "Accountancy Control": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 10325.619999999999
+    },
+    "Chief Executives Policy Unit": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 197948.26
+    },
+    "Democratic & Legal Services": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 166760.19999999998
+    },
+    "Directorate": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 366601.6600000001
+    },
+    "Economic Development & Tourism": {
+      "budget_category": "Cultural and related services",
+      "confidence": "medium",
+      "spend": 23689.15
+    },
+    "Economic Growth": {
+      "budget_category": "Planning and development services",
+      "confidence": "high",
+      "spend": 12674967.319999991
+    },
+    "Engineering & Special Projects": {
+      "budget_category": "Highways and transport services",
+      "confidence": "high",
+      "spend": 14485014.969999965
+    },
+    "Environmental Health Services": {
+      "budget_category": "Adult Social Care",
+      "confidence": "low",
+      "spend": 527227.8799999999
+    },
+    "Finance": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 34638804.99999993
+    },
+    "Financial Services": {
+      "budget_category": "Central services",
+      "confidence": "high",
+      "spend": 26820220.750000037
+    },
+    "Housing & Environmental Health": {
+      "budget_category": "Adult Social Care",
+      "confidence": "low",
+      "spend": 5156604.38999999
+    },
+    "Housing Regeneration Services": {
+      "budget_category": "Housing services (GFRA only)",
+      "confidence": "medium",
+      "spend": 43389.64000000001
+    },
+    "Human Resources": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 454080.7300000002
+    },
+    "I.T Services": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 651202.6200000002
+    },
+    "Information Services": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 199245.5699999999
+    },
+    "Legal & Democratic Services": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 855029.7300000007
+    },
+    "Operational Services": {
+      "budget_category": "Environmental and regulatory services",
+      "confidence": "high",
+      "spend": 15621894.549999872
+    },
+    "Parks & Recreation Services": {
+      "budget_category": "Cultural and related services",
+      "confidence": "medium",
+      "spend": 1870108.6099999973
+    },
+    "Planning & Building Control": {
+      "budget_category": "Planning and development services",
+      "confidence": "medium",
+      "spend": 822501.4099999996
+    },
+    "Planning, Building Control & Regulatory Services": {
+      "budget_category": "Environmental and regulatory services",
+      "confidence": "medium",
+      "spend": 568841.3799999999
+    },
+    "Policy & Commissioning": {
+      "budget_category": "Central services",
+      "confidence": "high",
+      "spend": 6570713.069999998
+    },
+    "Property & Engineering": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 3055269.6300000004
+    },
+    "Property Services": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 3268205.8699999987
+    },
+    "Revenues Services": {
+      "budget_category": "Unmapped",
+      "confidence": "none",
+      "spend": 25817.759999999995
+    }
+  },
+  "category_summary": {
+    "Central services": 76027033.23999996,
+    "Cultural and related services": 1893797.7599999972,
+    "Planning and development services": 13497468.729999991,
+    "Highways and transport services": 14485014.969999965,
+    "Adult Social Care": 5683832.26999999,
+    "Housing services (GFRA only)": 43389.64000000001,
+    "Environmental and regulatory services": 16190735.929999873
+  },
+  "coverage": {
+    "mapped_spend": 127821272.53999977,
+    "total_spend": 129074465.76999977,
+    "mapped_spend_pct": 99.0
+  },
+  "unmapped_top": [
+    {
+      "department": "I.T Services",
+      "spend": 651202.6200000002
+    },
+    {
+      "department": "Directorate",
+      "spend": 366601.6600000001
+    },
+    {
+      "department": "Information Services",
+      "spend": 199245.5699999999
+    },
+    {
+      "department": "Revenues Services",
+      "spend": 25817.759999999995
+    },
+    {
+      "department": "Accountancy Control",
+      "spend": 10325.619999999999
+    }
+  ]
+}

@@ -17,25 +17,84 @@
     }
   },
   "timeline": [
-    { "date": "2023-07-24", "event": "Levelling Up and Regeneration Act receives Royal Assent", "detail": "Gives Secretary of State powers to create unitary authorities without local consent" },
-    { "date": "2024-07-04", "event": "Labour wins general election", "detail": "English Devolution White Paper signals push for reorganisation" },
-    { "date": "2024-11-23", "event": "Lancashire Labour MPs call for reorganisation", "detail": "Group of Labour MPs want to abolish all of Lancashire's 15 councils" },
-    { "date": "2024-12-16", "event": "English Devolution White Paper published", "detail": "Government announces desire for all two-tier areas to become unitaries with 500K+ population" },
-    { "date": "2025-02-05", "event": "Statutory invitations issued to all 21 two-tier areas", "detail": "Jim McMahon invites all 134 councils in 21 areas. Interim plan due 21 March 2025" },
-    { "date": "2025-05-01", "event": "Lancashire County Council elections", "detail": "Reform UK wins landslide 52 of 84 seats — takes control of LCC" },
-    { "date": "2025-11-28", "event": "Proposals submitted to government", "detail": "Five proposals submitted by Lancashire councils ahead of deadline" },
-    { "date": "2025-12-16", "event": "English Devolution Bill introduced", "detail": "Framework for Mayoral Strategic Authorities and mandatory unitarisation" },
-    { "date": "2026-01-22", "event": "30 council elections cancelled nationally", "detail": "7 Lancashire council elections cancelled: Burnley, Chorley, Hyndburn, Pendle, Preston, West Lancs, Blackburn" },
-    { "date": "2026-02-05", "event": "Public consultation launched", "detail": "7-week consultation on 5 proposals for restructuring Lancashire's 15 councils" },
-    { "date": "2026-03-26", "event": "Consultation closes", "detail": "Deadline for public responses at 23:59", "upcoming": true },
-    { "date": "2026-09-01", "event": "Government decision expected", "detail": "Secretary of State announces chosen boundary model", "upcoming": true },
-    { "date": "2027-05-01", "event": "Shadow authority elections", "detail": "Voters elect councillors for new unitary authorities", "upcoming": true },
-    { "date": "2028-04-01", "event": "Vesting day", "detail": "New unitary authorities go live, all 15 current councils abolished", "upcoming": true }
+    {
+      "date": "2023-07-24",
+      "event": "Levelling Up and Regeneration Act receives Royal Assent",
+      "detail": "Gives Secretary of State powers to create unitary authorities without local consent"
+    },
+    {
+      "date": "2024-07-04",
+      "event": "Labour wins general election",
+      "detail": "English Devolution White Paper signals push for reorganisation"
+    },
+    {
+      "date": "2024-11-23",
+      "event": "Lancashire Labour MPs call for reorganisation",
+      "detail": "Group of Labour MPs want to abolish all of Lancashire's 15 councils"
+    },
+    {
+      "date": "2024-12-16",
+      "event": "English Devolution White Paper published",
+      "detail": "Government announces desire for all two-tier areas to become unitaries with 500K+ population"
+    },
+    {
+      "date": "2025-02-05",
+      "event": "Statutory invitations issued to all 21 two-tier areas",
+      "detail": "Jim McMahon invites all 134 councils in 21 areas. Interim plan due 21 March 2025"
+    },
+    {
+      "date": "2025-05-01",
+      "event": "Lancashire County Council elections",
+      "detail": "Reform UK wins landslide 52 of 84 seats \u2014 takes control of LCC"
+    },
+    {
+      "date": "2025-11-28",
+      "event": "Proposals submitted to government",
+      "detail": "Five proposals submitted by Lancashire councils ahead of deadline"
+    },
+    {
+      "date": "2025-12-16",
+      "event": "English Devolution Bill introduced",
+      "detail": "Framework for Mayoral Strategic Authorities and mandatory unitarisation"
+    },
+    {
+      "date": "2026-01-22",
+      "event": "30 council elections cancelled nationally",
+      "detail": "7 Lancashire council elections cancelled: Burnley, Chorley, Hyndburn, Pendle, Preston, West Lancs, Blackburn"
+    },
+    {
+      "date": "2026-02-05",
+      "event": "Public consultation launched",
+      "detail": "7-week consultation on 5 proposals for restructuring Lancashire's 15 councils"
+    },
+    {
+      "date": "2026-03-26",
+      "event": "Consultation closes",
+      "detail": "Deadline for public responses at 23:59",
+      "upcoming": true
+    },
+    {
+      "date": "2026-09-01",
+      "event": "Government decision expected",
+      "detail": "Secretary of State announces chosen boundary model",
+      "upcoming": true
+    },
+    {
+      "date": "2027-05-01",
+      "event": "Shadow authority elections",
+      "detail": "Voters elect councillors for new unitary authorities",
+      "upcoming": true
+    },
+    {
+      "date": "2028-04-01",
+      "event": "Vesting day",
+      "detail": "New unitary authorities go live, all 15 current councils abolished",
+      "upcoming": true
+    }
   ],
-
   "national_context": {
     "title": "Unprecedented National Scale",
-    "summary": "The biggest local government shake-up since 1974. All 21 remaining two-tier county areas simultaneously reorganising — 180+ councils facing abolition.",
+    "summary": "The biggest local government shake-up since 1974. All 21 remaining two-tier county areas simultaneously reorganising \u2014 180+ councils facing abolition.",
     "areas_reorganising": 21,
     "councils_affected": 180,
     "proposals_nationally": 52,
@@ -59,17 +118,32 @@
       },
       {
         "label": "International outlier",
-        "detail": "The top-down, rapid, universal approach is unusual among European democracies. Denmark (2007), Sweden (1974), and France use consensus-based models. English local government has no constitutional protection — it exists entirely at the pleasure of Parliament."
+        "detail": "The top-down, rapid, universal approach is unusual among European democracies. Denmark (2007), Sweden (1974), and France use consensus-based models. English local government has no constitutional protection \u2014 it exists entirely at the pleasure of Parliament."
       }
     ],
     "comparison_table": [
-      { "wave": "Banham/Cooksey 1995-98", "councils_abolished": 25, "nature": "Selective, case-by-case" },
-      { "wave": "Labour 2009", "councils_abolished": 44, "nature": "Voluntary bids, 7 areas" },
-      { "wave": "Conservative 2019-23", "councils_abolished": 35, "nature": "Piecemeal, invitation" },
-      { "wave": "Labour 2025-28", "councils_abolished": 180, "nature": "Comprehensive, all 21 areas" }
+      {
+        "wave": "Banham/Cooksey 1995-98",
+        "councils_abolished": 25,
+        "nature": "Selective, case-by-case"
+      },
+      {
+        "wave": "Labour 2009",
+        "councils_abolished": 44,
+        "nature": "Voluntary bids, 7 areas"
+      },
+      {
+        "wave": "Conservative 2019-23",
+        "councils_abolished": 35,
+        "nature": "Piecemeal, invitation"
+      },
+      {
+        "wave": "Labour 2025-28",
+        "councils_abolished": 180,
+        "nature": "Comprehensive, all 21 areas"
+      }
     ]
   },
-
   "proposed_models": [
     {
       "id": "two_unitary",
@@ -77,19 +151,26 @@
       "short_name": "Proposal 1",
       "submitted_by": "Lancashire County Council",
       "submitter_control": "Reform UK majority (52/84 seats)",
-      "description": "Divides Lancashire broadly along the River Ribble into North and South. LCC's preferred option — the only model where all authorities meet the government's 500,000 population threshold.",
+      "description": "Divides Lancashire broadly along the River Ribble into North and South. LCC's preferred option \u2014 the only model where all authorities meet the government's 500,000 population threshold.",
       "num_authorities": 2,
       "meets_threshold": true,
       "ccn_annual_savings": 21200000,
       "ccn_transition_cost": 28600000,
-      "doge_annual_savings": 24800000,
-      "doge_transition_cost": 32000000,
+      "doge_annual_savings": 48152033,
+      "doge_transition_cost": 62100000,
       "doge_payback_years": 1.3,
       "source_url": "https://lancashirelgr.co.uk/downloads/file/5/two-unitary-authorities",
       "authorities": [
         {
           "name": "North Lancashire",
-          "councils": ["lancaster", "wyre", "fylde", "preston", "ribble_valley", "blackpool"],
+          "councils": [
+            "lancaster",
+            "wyre",
+            "fylde",
+            "preston",
+            "ribble_valley",
+            "blackpool"
+          ],
           "population": 722045,
           "demographics": {
             "white_pct": 89.2,
@@ -102,7 +183,16 @@
         },
         {
           "name": "South Lancashire",
-          "councils": ["chorley", "south_ribble", "west_lancashire", "burnley", "hyndburn", "pendle", "rossendale", "blackburn"],
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "rossendale",
+            "blackburn"
+          ],
           "population": 879510,
           "demographics": {
             "white_pct": 76.3,
@@ -115,23 +205,23 @@
         }
       ],
       "political_analysis": {
-        "likely_control": "Labour majority — combines 4 Labour-majority districts with 2 Labour coalitions, Blackburn Labour, plus Conservative Wyre/Fylde/RV and Green-led Lancaster",
+        "likely_control": "Labour majority \u2014 combines 4 Labour-majority districts with 2 Labour coalitions, Blackburn Labour, plus Conservative Wyre/Fylde/RV and Green-led Lancaster",
         "councillor_reduction": "From ~604 combined (district + county) to ~160 (est. 80 per authority). 73% fewer elected representatives.",
         "who_benefits": "Lancashire County Council preserves its geographic footprint across the largest possible area. Reform UK (who control LCC) would benefit from county-wide name recognition but would lose county-level seats.",
-        "who_loses": "District council leaders lose all their seats. East Lancashire communities (Burnley, Pendle, Hyndburn, Rossendale) lose distinct identity — merged with geographically distant Chorley, West Lancs, Blackburn."
+        "who_loses": "District council leaders lose all their seats. East Lancashire communities (Burnley, Pendle, Hyndburn, Rossendale) lose distinct identity \u2014 merged with geographically distant Chorley, West Lancs, Blackburn."
       },
       "strengths": [
         "Only model where ALL authorities exceed 500K population threshold",
-        "Highest projected annual savings — both CCN (£21.2M) and AI DOGE independent model (£24.8M)",
+        "Highest projected annual savings \u2014 both CCN (\u00a321.2M) and AI DOGE independent model (\u00a324.8M)",
         "Lowest per-authority transition cost",
-        "Simplest governance structure — fewest boundaries, fewest IT integrations",
+        "Simplest governance structure \u2014 fewest boundaries, fewest IT integrations",
         "Maximum economies of scale in back-office, procurement, senior management",
         "Academic evidence: 2 authorities of 722K and 880K still within performance range (Andrews & Boyne 2009 found diseconomies above ~500K but effects are modest up to ~800K)"
       ],
       "weaknesses": [
-        "Very large authorities — risk of remote decision-making (councillor:resident ratio of ~1:4,500-5,500)",
+        "Very large authorities \u2014 risk of remote decision-making (councillor:resident ratio of ~1:4,500-5,500)",
         "Burnley/Pendle grouped with Chorley/West Lancs despite no geographic or economic connection",
-        "Mixes highly deprived areas (Burnley, Blackburn) with affluent areas in same authority — risk of cross-subsidisation resentment",
+        "Mixes highly deprived areas (Burnley, Blackburn) with affluent areas in same authority \u2014 risk of cross-subsidisation resentment",
         "80% of Burnley/Pendle survey respondents opposed merger with Blackburn with Darwen",
         "South Lancashire at 880K approaches the diseconomy threshold identified in academic literature"
       ]
@@ -147,14 +237,19 @@
       "meets_threshold": false,
       "ccn_annual_savings": 6400000,
       "ccn_transition_cost": 35000000,
-      "doge_annual_savings": 11200000,
-      "doge_transition_cost": 39000000,
-      "doge_payback_years": 3.5,
+      "doge_annual_savings": 44892303,
+      "doge_transition_cost": 93150000,
+      "doge_payback_years": 2.1,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/3/three-unitary-authorities",
       "authorities": [
         {
           "name": "Coastal Lancashire",
-          "councils": ["blackpool", "fylde", "lancaster", "wyre"],
+          "councils": [
+            "blackpool",
+            "fylde",
+            "lancaster",
+            "wyre"
+          ],
           "population": 493387,
           "demographics": {
             "white_pct": 93.8,
@@ -167,7 +262,12 @@
         },
         {
           "name": "Central Lancashire",
-          "councils": ["chorley", "preston", "south_ribble", "west_lancashire"],
+          "councils": [
+            "chorley",
+            "preston",
+            "south_ribble",
+            "west_lancashire"
+          ],
           "population": 521811,
           "demographics": {
             "white_pct": 84.6,
@@ -180,7 +280,14 @@
         },
         {
           "name": "Pennine Lancashire",
-          "councils": ["blackburn", "burnley", "hyndburn", "pendle", "ribble_valley", "rossendale"],
+          "councils": [
+            "blackburn",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "ribble_valley",
+            "rossendale"
+          ],
           "population": 586357,
           "demographics": {
             "white_pct": 73.4,
@@ -196,21 +303,21 @@
         "likely_control": "Coastal: Conservative/Lib Dem contest (Wyre Con, Fylde Con, Lancaster Green/NOC, Blackpool Labour). Central: Labour majority. Pennine: Labour likely, significant Asian community vote.",
         "councillor_reduction": "From ~604 to ~240 (est. 80 per authority). 60% fewer elected representatives.",
         "who_benefits": "Five submitting councils preserve some geographic identity. Creates politically competitive areas rather than Labour-dominated super-authorities.",
-        "who_loses": "West Lancashire has weak ties to Preston/Chorley — closer economic links to Merseyside. Ribble Valley absorbed into urban Pennine Lancashire despite being the most affluent and rural district."
+        "who_loses": "West Lancashire has weak ties to Preston/Chorley \u2014 closer economic links to Merseyside. Ribble Valley absorbed into urban Pennine Lancashire despite being the most affluent and rural district."
       },
       "strengths": [
         "Aligns with existing policing divisions and NHS boundaries",
         "Balances population reasonably across three authorities",
         "Pennine Lancashire reflects genuine economic and cultural ties",
-        "Still generates annual savings — AI DOGE independent model estimates £11.2M/year",
+        "Still generates annual savings \u2014 AI DOGE independent model estimates \u00a311.2M/year",
         "All three authorities close to or above optimal efficiency range (Andrews & Boyne 2009: 200-400K)"
       ],
       "weaknesses": [
-        "Coastal Lancashire just misses 500K threshold (493,387 — only 1.3% below)",
-        "West Lancashire has weak ties to Preston/Chorley — closer economic links to Merseyside",
-        "Higher transition costs than 2-unitary model (£39M vs £32M by AI DOGE estimate)",
+        "Coastal Lancashire just misses 500K threshold (493,387 \u2014 only 1.3% below)",
+        "West Lancashire has weak ties to Preston/Chorley \u2014 closer economic links to Merseyside",
+        "Higher transition costs than 2-unitary model (\u00a339M vs \u00a332M by AI DOGE estimate)",
         "Lancaster geographically distant from Blackpool despite being in same authority",
-        "Coastal Lancashire has oldest demographics — aging population drives up social care costs per head"
+        "Coastal Lancashire has oldest demographics \u2014 aging population drives up social care costs per head"
       ]
     },
     {
@@ -218,20 +325,24 @@
       "name": "Four Unitaries",
       "short_name": "Proposal 3",
       "submitted_by": "Chorley, Lancaster, Preston, Ribble Valley, South Ribble and West Lancashire councils",
-      "submitter_control": "Mixed: Labour (Chorley, Preston, South Ribble), Conservative (Ribble Valley — NOC), Green (Lancaster — NOC), Lab & Co-op (West Lancs)",
-      "description": "Creates North, Fylde Coast, Pennine and South Lancashire. Supported by 6 district councils — the broadest cross-party coalition.",
+      "submitter_control": "Mixed: Labour (Chorley, Preston, South Ribble), Conservative (Ribble Valley \u2014 NOC), Green (Lancaster \u2014 NOC), Lab & Co-op (West Lancs)",
+      "description": "Creates North, Fylde Coast, Pennine and South Lancashire. Supported by 6 district councils \u2014 the broadest cross-party coalition.",
       "num_authorities": 4,
       "meets_threshold": false,
       "ccn_annual_savings": -11500000,
       "ccn_transition_cost": 41300000,
-      "doge_annual_savings": -3200000,
-      "doge_transition_cost": 48000000,
-      "doge_payback_years": null,
+      "doge_annual_savings": 41204473,
+      "doge_transition_cost": 124200000,
+      "doge_payback_years": 3.0,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/1/four-lancashire-proposal-document",
       "authorities": [
         {
           "name": "North Lancashire",
-          "councils": ["lancaster", "preston", "ribble_valley"],
+          "councils": [
+            "lancaster",
+            "preston",
+            "ribble_valley"
+          ],
           "population": 373664,
           "demographics": {
             "white_pct": 85.3,
@@ -244,7 +355,11 @@
         },
         {
           "name": "Fylde Coast",
-          "councils": ["blackpool", "fylde", "wyre"],
+          "councils": [
+            "blackpool",
+            "fylde",
+            "wyre"
+          ],
           "population": 348381,
           "demographics": {
             "white_pct": 95.1,
@@ -257,7 +372,13 @@
         },
         {
           "name": "Pennine Lancashire",
-          "councils": ["blackburn", "burnley", "hyndburn", "pendle", "rossendale"],
+          "councils": [
+            "blackburn",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "rossendale"
+          ],
           "population": 520563,
           "demographics": {
             "white_pct": 71.2,
@@ -270,7 +391,11 @@
         },
         {
           "name": "South Lancashire",
-          "councils": ["chorley", "south_ribble", "west_lancashire"],
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire"
+          ],
           "population": 358947,
           "demographics": {
             "white_pct": 95.2,
@@ -285,22 +410,22 @@
       "political_analysis": {
         "likely_control": "North: Labour likely (Preston Labour + Lancaster Green would contest). Fylde Coast: Conservative likely (Wyre + Fylde Con, Blackpool Labour split vote). Pennine: Labour. South: Labour likely (Chorley dominant Labour + South Ribble Labour).",
         "councillor_reduction": "From ~604 to ~280 (est. 70 per authority). 54% fewer elected representatives.",
-        "who_benefits": "The 6 submitting district councils — this model most closely preserves their geographic footprints. Chorley, South Ribble and West Lancs stay together. Lancaster and Preston create a twin-university authority.",
-        "who_loses": "Taxpayers — CCN analysis says this costs £11.5M MORE per year. Fylde Coast at 348K is too small for efficient social care delivery. Blackpool's debt profile inherited by smallest tax base."
+        "who_benefits": "The 6 submitting district councils \u2014 this model most closely preserves their geographic footprints. Chorley, South Ribble and West Lancs stay together. Lancaster and Preston create a twin-university authority.",
+        "who_loses": "Taxpayers \u2014 CCN analysis says this costs \u00a311.5M MORE per year. Fylde Coast at 348K is too small for efficient social care delivery. Blackpool's debt profile inherited by smallest tax base."
       },
       "strengths": [
-        "Broadest council support (6 districts — largest coalition)",
+        "Broadest council support (6 districts \u2014 largest coalition)",
         "Respects existing economic partnerships and commuter patterns",
         "Pennine Lancashire authority meets 500K threshold",
         "North Lancashire brings Preston + Lancaster together as twin university poles"
       ],
       "weaknesses": [
-        "CCN analysis: would COST £11.5M MORE per year than current system",
-        "AI DOGE independent model: still costs £3.2M more per year (less dramatic than CCN but still net negative)",
+        "CCN analysis: would COST \u00a311.5M MORE per year than current system",
+        "AI DOGE independent model: still costs \u00a33.2M more per year (less dramatic than CCN but still net negative)",
         "Three of four authorities below 500K threshold",
-        "Highest transition cost (£48M by AI DOGE estimate)",
-        "Splits social care four ways — academic evidence shows this increases per-capita costs",
-        "Fylde Coast at only 348K — smallest viable authority proposed, with oldest demographics driving highest social care demand"
+        "Highest transition cost (\u00a348M by AI DOGE estimate)",
+        "Splits social care four ways \u2014 academic evidence shows this increases per-capita costs",
+        "Fylde Coast at only 348K \u2014 smallest viable authority proposed, with oldest demographics driving highest social care demand"
       ]
     },
     {
@@ -309,7 +434,7 @@
       "short_name": "Proposal 4",
       "submitted_by": "Blackpool Council",
       "submitter_control": "Labour majority (27/42 seats)",
-      "description": "Only proposal that splits existing districts — divides Wyre and Ribble Valley wards between different authorities. Creates a larger Western authority centred on Blackpool/Preston.",
+      "description": "Only proposal that splits existing districts \u2014 divides Wyre and Ribble Valley wards between different authorities. Creates a larger Western authority centred on Blackpool/Preston.",
       "num_authorities": 4,
       "meets_threshold": false,
       "ccn_annual_savings": -11500000,
@@ -321,38 +446,78 @@
       "authorities": [
         {
           "name": "Western Lancashire",
-          "councils": ["blackpool", "fylde", "preston"],
+          "councils": [
+            "blackpool",
+            "fylde",
+            "preston"
+          ],
           "population": 475222,
-          "demographics": { "white_pct": 84.7, "asian_pct": 8.2, "over_65_pct": 21.8, "economically_active_pct": 55.9, "median_age_est": 43 },
+          "demographics": {
+            "white_pct": 84.7,
+            "asian_pct": 8.2,
+            "over_65_pct": 21.8,
+            "economically_active_pct": 55.9,
+            "median_age_est": 43
+          },
           "notes": "Blackpool + Fylde + Preston + 16 western Wyre wards. Splits Wyre along the river."
         },
         {
           "name": "Southern Lancashire",
-          "councils": ["chorley", "south_ribble", "west_lancashire"],
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire"
+          ],
           "population": 358947,
-          "demographics": { "white_pct": 95.2, "asian_pct": 1.8, "over_65_pct": 20.4, "economically_active_pct": 60.8, "median_age_est": 43 },
+          "demographics": {
+            "white_pct": 95.2,
+            "asian_pct": 1.8,
+            "over_65_pct": 20.4,
+            "economically_active_pct": 60.8,
+            "median_age_est": 43
+          },
           "notes": "Same as Proposal 3's South Lancashire grouping."
         },
         {
           "name": "Eastern Lancashire",
-          "councils": ["blackburn", "burnley", "hyndburn", "pendle", "rossendale"],
+          "councils": [
+            "blackburn",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "rossendale"
+          ],
           "population": 565968,
-          "demographics": { "white_pct": 70.8, "asian_pct": 22.1, "over_65_pct": 17.6, "economically_active_pct": 57.4, "median_age_est": 38 },
+          "demographics": {
+            "white_pct": 70.8,
+            "asian_pct": 22.1,
+            "over_65_pct": 17.6,
+            "economically_active_pct": 57.4,
+            "median_age_est": 38
+          },
           "notes": "Pennine Lancashire + 17 southern Ribble Valley wards."
         },
         {
           "name": "Northern Lancashire",
-          "councils": ["lancaster"],
+          "councils": [
+            "lancaster"
+          ],
           "population": 201508,
-          "demographics": { "white_pct": 93.2, "asian_pct": 2.1, "over_65_pct": 22.8, "economically_active_pct": 55.4, "median_age_est": 44 },
-          "notes": "Lancaster + 10 Ribble Valley wards + 8 eastern Wyre wards. At 201K, smallest authority in any proposal — would be England's smallest unitary by far."
+          "demographics": {
+            "white_pct": 93.2,
+            "asian_pct": 2.1,
+            "over_65_pct": 22.8,
+            "economically_active_pct": 55.4,
+            "median_age_est": 44
+          },
+          "notes": "Lancaster + 10 Ribble Valley wards + 8 eastern Wyre wards. At 201K, smallest authority in any proposal \u2014 would be England's smallest unitary by far."
         }
       ],
       "political_analysis": {
         "likely_control": "Western: Labour likely. Southern: Labour likely. Eastern: Labour. Northern: Green/Lib Dem contest.",
         "councillor_reduction": "From ~604 to ~280. 54% fewer elected representatives.",
-        "who_benefits": "Blackpool Council — gains critical mass by absorbing parts of Wyre and linking to Preston. Blackpool's current financial difficulties (near-Section 114) would be diluted across a larger tax base.",
-        "who_loses": "Wyre and Ribble Valley residents — communities split along ward boundaries. Northern Lancashire at 201K would be England's smallest unitary. Government guidance says boundary changes need 'strong public services and financial sustainability related justification'."
+        "who_benefits": "Blackpool Council \u2014 gains critical mass by absorbing parts of Wyre and linking to Preston. Blackpool's current financial difficulties (near-Section 114) would be diluted across a larger tax base.",
+        "who_loses": "Wyre and Ribble Valley residents \u2014 communities split along ward boundaries. Northern Lancashire at 201K would be England's smallest unitary. Government guidance says boundary changes need 'strong public services and financial sustainability related justification'."
       },
       "strengths": [
         "Creates larger Western authority (475K) closer to threshold",
@@ -360,11 +525,11 @@
         "Keeps Blackpool's tourism economy in single authority"
       ],
       "weaknesses": [
-        "Only proposal requiring ward-level boundary changes — legally complex, no recent English LGR precedent",
-        "Northern Lancashire at 201,508 is far below 500K threshold — would be England's smallest unitary",
-        "AI DOGE: highest transition cost (£55M) due to ward-level data splitting",
-        "Splits Wyre and Ribble Valley communities — both councils oppose",
-        "Net cost to taxpayers of £5.8M/year (AI DOGE model) — never pays back"
+        "Only proposal requiring ward-level boundary changes \u2014 legally complex, no recent English LGR precedent",
+        "Northern Lancashire at 201,508 is far below 500K threshold \u2014 would be England's smallest unitary",
+        "AI DOGE: highest transition cost (\u00a355M) due to ward-level data splitting",
+        "Splits Wyre and Ribble Valley communities \u2014 both councils oppose",
+        "Net cost to taxpayers of \u00a35.8M/year (AI DOGE model) \u2014 never pays back"
       ]
     },
     {
@@ -378,14 +543,18 @@
       "meets_threshold": false,
       "ccn_annual_savings": null,
       "ccn_transition_cost": null,
-      "doge_annual_savings": -14500000,
-      "doge_transition_cost": 60000000,
-      "doge_payback_years": null,
+      "doge_annual_savings": 37445033,
+      "doge_transition_cost": 155250000,
+      "doge_payback_years": 4.1,
       "source_url": "https://burnley.gov.uk/wp-content/uploads/2025/11/COMMS_LGR-5UA-business-case-20623.pdf",
       "authorities": [
         {
           "name": "East Lancashire",
-          "councils": ["burnley", "pendle", "rossendale"],
+          "councils": [
+            "burnley",
+            "pendle",
+            "rossendale"
+          ],
           "population": 272055,
           "demographics": {
             "white_pct": 80.1,
@@ -398,7 +567,11 @@
         },
         {
           "name": "Central Lancashire",
-          "councils": ["blackburn", "hyndburn", "ribble_valley"],
+          "councils": [
+            "blackburn",
+            "hyndburn",
+            "ribble_valley"
+          ],
           "population": 314302,
           "demographics": {
             "white_pct": 69.8,
@@ -411,7 +584,10 @@
         },
         {
           "name": "North Lancashire",
-          "councils": ["lancaster", "wyre"],
+          "councils": [
+            "lancaster",
+            "wyre"
+          ],
           "population": 263749,
           "demographics": {
             "white_pct": 95.4,
@@ -420,11 +596,15 @@
             "economically_active_pct": 54.2,
             "median_age_est": 46
           },
-          "notes": "Lancaster university city + Wyre coast. M6 corridor. Oldest demographics of any proposed authority — highest social care demand."
+          "notes": "Lancaster university city + Wyre coast. M6 corridor. Oldest demographics of any proposed authority \u2014 highest social care demand."
         },
         {
           "name": "South Lancashire",
-          "councils": ["chorley", "south_ribble", "west_lancashire"],
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire"
+          ],
           "population": 358947,
           "demographics": {
             "white_pct": 95.2,
@@ -437,7 +617,11 @@
         },
         {
           "name": "West Lancashire",
-          "councils": ["blackpool", "fylde", "preston"],
+          "councils": [
+            "blackpool",
+            "fylde",
+            "preston"
+          ],
           "population": 348381,
           "demographics": {
             "white_pct": 84.7,
@@ -451,200 +635,750 @@
       ],
       "political_analysis": {
         "likely_control": "East: Labour. Central: Labour (Blackburn weight). North: Conservative/Lib Dem contest. South: Labour. West: Labour likely.",
-        "councillor_reduction": "From ~604 to ~320 (est. 64 per authority). 47% fewer elected representatives — lowest reduction of any model.",
-        "who_benefits": "Burnley and Pendle council leaders — this model most closely preserves existing district boundaries and creates the most councillor seats. Burnley spent £340K+ on LGR consultancy (Socitm, 31ten Consulting) to develop this option.",
-        "who_loses": "Taxpayers — AI DOGE estimates this costs £14.5M MORE per year than the current system. Five-way split of social care creates recruitment challenges and fragmentation risk. The 80% survey support was from a self-selecting local sample, not a representative poll."
+        "councillor_reduction": "From ~604 to ~320 (est. 64 per authority). 47% fewer elected representatives \u2014 lowest reduction of any model.",
+        "who_benefits": "Burnley and Pendle council leaders \u2014 this model most closely preserves existing district boundaries and creates the most councillor seats. Burnley spent \u00a3340K+ on LGR consultancy (Socitm, 31ten Consulting) to develop this option.",
+        "who_loses": "Taxpayers \u2014 AI DOGE estimates this costs \u00a314.5M MORE per year than the current system. Five-way split of social care creates recruitment challenges and fragmentation risk. The 80% survey support was from a self-selecting local sample, not a representative poll."
       },
       "strengths": [
-        "Strongest local democratic support (80% of Burnley/Pendle survey — though self-selecting sample)",
-        "Smallest authorities — closest decision-making to communities (1:4,200 councillor ratio)",
+        "Strongest local democratic support (80% of Burnley/Pendle survey \u2014 though self-selecting sample)",
+        "Smallest authorities \u2014 closest decision-making to communities (1:4,200 councillor ratio)",
         "East Lancashire reflects genuine shared identity and partnerships",
         "No district boundary splitting required",
         "All authorities within academic optimal range of 200-400K (Andrews & Boyne 2009)"
       ],
       "weaknesses": [
-        "No authority meets 500K population threshold — government is very unlikely to approve",
-        "AI DOGE model: costs £14.5M MORE per year than current system (worst economics of any model)",
+        "No authority meets 500K population threshold \u2014 government is very unlikely to approve",
+        "AI DOGE model: costs \u00a314.5M MORE per year than current system (worst economics of any model)",
         "Five-way split of social care increases fragmentation and recruitment challenges",
         "East Lancashire (272K) and North Lancashire (264K) are small for county-level services",
-        "North Lancashire has oldest population — highest per-capita social care costs with smallest tax base",
-        "CCN did not model this — extrapolation and AI DOGE independent model both show significant costs"
+        "North Lancashire has oldest population \u2014 highest per-capita social care costs with smallest tax base",
+        "CCN did not model this \u2014 extrapolation and AI DOGE independent model both show significant costs"
       ]
     }
   ],
-
   "ccn_analysis": {
     "source": "County Councils Network / PricewaterhouseCoopers analysis",
     "note": "Detailed assumptions not publicly available. Figures are estimates. PwC retains intellectual property of the underlying model.",
     "models": [
-      { "unitaries": 1, "annual_savings": 45300000, "transition_cost": 22200000, "note": "Not proposed — single unitary incompatible with devolution deal" },
-      { "unitaries": 2, "annual_savings": 21200000, "transition_cost": 28600000, "note": "LCC proposal" },
-      { "unitaries": 3, "annual_savings": 6400000, "transition_cost": 35000000, "note": "Five-council coalition proposal" },
-      { "unitaries": 4, "annual_savings": -11500000, "transition_cost": 41300000, "note": "Six-council coalition / Blackpool proposals. COSTS MORE." },
-      { "unitaries": 5, "annual_savings": null, "transition_cost": null, "note": "Not modelled by CCN/PwC. Burnley/Pendle proposal." }
+      {
+        "unitaries": 1,
+        "annual_savings": 45300000,
+        "transition_cost": 22200000,
+        "note": "Not proposed \u2014 single unitary incompatible with devolution deal"
+      },
+      {
+        "unitaries": 2,
+        "annual_savings": 21200000,
+        "transition_cost": 28600000,
+        "note": "LCC proposal"
+      },
+      {
+        "unitaries": 3,
+        "annual_savings": 6400000,
+        "transition_cost": 35000000,
+        "note": "Five-council coalition proposal"
+      },
+      {
+        "unitaries": 4,
+        "annual_savings": -11500000,
+        "transition_cost": 41300000,
+        "note": "Six-council coalition / Blackpool proposals. COSTS MORE."
+      },
+      {
+        "unitaries": 5,
+        "annual_savings": null,
+        "transition_cost": null,
+        "note": "Not modelled by CCN/PwC. Burnley/Pendle proposal."
+      }
     ]
   },
-
   "ccn_critique": {
     "title": "Why You Should Question the CCN/PwC Numbers",
-    "summary": "The CCN is a lobby group for county councils — it has a structural incentive to favour fewer, larger unitaries. The PwC model's assumptions are proprietary and not publicly available for scrutiny.",
+    "summary": "The CCN is a lobby group for county councils \u2014 it has a structural incentive to favour fewer, larger unitaries. The PwC model's assumptions are proprietary and not publicly available for scrutiny.",
     "issues": [
       {
         "id": "vested_interest",
         "title": "CCN is not independent",
-        "detail": "The County Councils Network represents county councils — the very tier of government that benefits most from fewer unitaries (their geographic footprint is preserved). CCN commissioned PwC specifically to support its preferred model. This is advocacy research, not independent analysis.",
+        "detail": "The County Councils Network represents county councils \u2014 the very tier of government that benefits most from fewer unitaries (their geographic footprint is preserved). CCN commissioned PwC specifically to support its preferred model. This is advocacy research, not independent analysis.",
         "severity": "high"
       },
       {
         "id": "black_box",
-        "title": "Proprietary model — no public scrutiny",
-        "detail": "PwC retains intellectual property over the model. The detailed assumptions, sensitivity analysis, and methodology are not publicly available. This means the £21.2M savings figure for 2 unitaries and the -£11.5M cost figure for 4 unitaries cannot be independently verified or challenged. A model you can't examine is a model you can't trust.",
+        "title": "Proprietary model \u2014 no public scrutiny",
+        "detail": "PwC retains intellectual property over the model. The detailed assumptions, sensitivity analysis, and methodology are not publicly available. This means the \u00a321.2M savings figure for 2 unitaries and the -\u00a311.5M cost figure for 4 unitaries cannot be independently verified or challenged. A model you can't examine is a model you can't trust.",
         "severity": "critical"
       },
       {
         "id": "linear_assumption",
         "title": "Suspiciously linear pattern",
-        "detail": "The CCN figures show an almost perfectly linear relationship: each additional unitary reduces savings by ~£14-19M. Real-world economics doesn't work this neatly. The academic literature (Andrews & Boyne 2009, Holzer et al. 2009) shows a U-curve, not a straight line — there's an optimal middle range, not an ever-increasing benefit from fewer authorities.",
+        "detail": "The CCN figures show an almost perfectly linear relationship: each additional unitary reduces savings by ~\u00a314-19M. Real-world economics doesn't work this neatly. The academic literature (Andrews & Boyne 2009, Holzer et al. 2009) shows a U-curve, not a straight line \u2014 there's an optimal middle range, not an ever-increasing benefit from fewer authorities.",
         "severity": "medium"
       },
       {
         "id": "transition_underestimate",
         "title": "Transition costs likely underestimated",
-        "detail": "UK evidence from Buckinghamshire, Cornwall, and Northamptonshire shows transition costs typically run 20-40% above initial estimates (NAO evidence). PwC's £28.6M for 2 unitaries implies only £14.3M per new authority — significantly below the £18-25M per authority seen in actual reorganisations. The 2-unitary model inherits LCC's Oracle Fusion problems, adding £5-10M+ in IT risk.",
+        "detail": "UK evidence from Buckinghamshire, Cornwall, and Northamptonshire shows transition costs typically run 20-40% above initial estimates (NAO evidence). PwC's \u00a328.6M for 2 unitaries implies only \u00a314.3M per new authority \u2014 significantly below the \u00a318-25M per authority seen in actual reorganisations. The 2-unitary model inherits LCC's Oracle Fusion problems, adding \u00a35-10M+ in IT risk.",
         "severity": "medium"
       },
       {
         "id": "savings_realisation",
         "title": "Savings typically realised at 60-80% of business case",
-        "detail": "Ernst & Young's 2016 report for DCLG found that actual savings in local government reorganisations typically reach only 60-80% of projected figures within the first 5 years. Applying this to CCN's 2-unitary figure: realistic savings are £12.7-17.0M/year, not £21.2M.",
+        "detail": "Ernst & Young's 2016 report for DCLG found that actual savings in local government reorganisations typically reach only 60-80% of projected figures within the first 5 years. Applying this to CCN's 2-unitary figure: realistic savings are \u00a312.7-17.0M/year, not \u00a321.2M.",
         "severity": "medium"
       },
       {
         "id": "ignores_service_quality",
-        "title": "Pure cost model — ignores service outcomes",
+        "title": "Pure cost model \u2014 ignores service outcomes",
         "detail": "The CCN model treats councils as cost centres, not service providers. It doesn't model the impact on customer satisfaction (LGA surveys show residents in smaller authorities report 10-20% higher satisfaction), recycling rates (districts achieve ~5pp higher rates than unitaries), or planning speed (smaller authorities process applications faster). Cost savings mean nothing if services deteriorate.",
         "severity": "medium"
       }
     ]
   },
-
   "independent_model": {
     "title": "AI DOGE Independent Financial Model",
-    "subtitle": "Built from £12B+ in actual spending data across all 15 Lancashire councils, cross-referenced with academic evidence and UK precedent data",
+    "subtitle": "Built from \u00a33.3B+ actual GOV.UK 2024-25 revenue outturn data across 15 Lancashire councils",
+    "computed_from_data": true,
+    "data_source": "GOV.UK MHCLG Revenue Outturn 2024-25 (RS, RSX, RO2, RO4, RO5, RO6)",
+    "computation_date": "2026-02-16",
     "methodology": {
-      "description": "Bottom-up model using actual council expenditure, staffing, reserves and demographic data rather than top-down CCN/PwC estimates. Calibrated against actual outcomes from Buckinghamshire (2020), Dorset (2019), Somerset (2023), North Yorkshire (2023), and Cumbria (2023).",
-      "data_sources": [
-        "AI DOGE spending data: 2,286,000+ transactions, £12B+ across all 15 councils",
-        "GOV.UK MHCLG standardised budgets (SeRCOP) for all 15 councils",
-        "ONS Census 2021 demographics for all 15 councils via Nomis API",
-        "Cross-council supplier analysis and procurement data",
-        "Council pay data and senior management costs",
-        "Revenue trends 2017-2025 (8-year historical)"
-      ],
+      "approach": "Bottom-up computation from actual council budget data with peer-reviewed academic savings benchmarks",
       "assumptions": {
-        "senior_mgmt_saving_per_eliminated_authority": 5500000,
+        "senior_mgmt_saving_pct_of_central": 0.12,
+        "senior_mgmt_elimination_rate": 0.6,
         "back_office_saving_pct": 0.18,
-        "democratic_saving_per_eliminated_council": 350000,
-        "it_integration_cost_per_new_authority": 12000000,
-        "redundancy_cost_per_new_authority": 8000000,
+        "democratic_cost_per_councillor_with_support": 16800,
+        "procurement_saving_pct": 0.03,
+        "property_surplus_pct": 0.05,
+        "it_integration_cost_per_new_authority": 15000000,
+        "redundancy_cost_per_new_authority": 10000000,
         "programme_management_pct_of_transition": 0.15,
         "savings_realisation_factor": 0.75,
         "transition_cost_overrun_factor": 1.25
       },
+      "academic_references": [
+        "Andrews, R. & Boyne, G. (2009) 'Size, structure and administrative overheads', Urban Studies, 46(4)",
+        "Cheshire, P. (2004) 'Agglomeration economies and urban growth', SERC Discussion Paper",
+        "Dollery, B. & Fleming, E. (2006) 'A conceptual note on scale economies', Australian Journal of Public Administration",
+        "Slack, E. & Bird, R. (2012) 'Merging municipalities: Is bigger better?', IMFG Papers",
+        "Newton Europe People Services Analysis (2025) \u2014 activity-based costing for Lancashire LGR",
+        "PwC for CCN (2025) \u2014 LGR Financial Impact Assessment"
+      ],
       "self_critique": [
-        "Census 2021 data is now 5 years old — demographic patterns may have shifted, particularly in migration-driven growth areas",
-        "AI DOGE spending data covers district-level spend only for most councils — county-level service costs (social care, education, highways) allocated proportionally by population, not by actual district-level demand",
-        "Senior management savings assumed uniform across all scenarios — in practice, smaller authorities may need proportionally more senior staff per head",
-        "Social care fragmentation costs are difficult to quantify precisely — our estimates draw on Cumbria and Northamptonshire precedents but Lancashire's specific needs may differ",
-        "Transition cost estimates assume competent programme management — LCC's Oracle Fusion experience suggests IT integration risk is higher than average",
-        "We cannot model political disruption costs — the years of consultation, lobbying, and transition planning divert officer time from service delivery",
-        "Our model does not account for the devolution deal savings that would accompany any unitary structure — these could be significant but are unpredictable"
+        "GOV.UK outturn data is audited but reflects accounting classifications, not economic costs",
+        "Back-office savings of 18% assume full integration \u2014 partial integration yields 8-12%",
+        "Procurement savings (3%) are conservative; CCN claims 5-8% but evidence is mixed",
+        "Social care integration savings are speculative \u2014 evidence from Durham suggests 1-3%",
+        "Transition costs may exceed estimates \u2014 LCC Oracle Fusion cost \u00a327M vs \u00a315M budget",
+        "Savings realisation factor (75%) based on Durham/Wiltshire; LCC's own fell to 48%",
+        "Property rationalisation depends on market conditions and hybrid working patterns"
       ]
     },
+    "back_office_computed": {
+      "total_central_services": 112533220,
+      "previously_estimated": 180000000,
+      "note": "Previously estimated at \u00a3180M; actual from GOV.UK 2024-25 outturn: \u00a3112,533,220",
+      "components": {
+        "democratic_core": 59700000,
+        "elections": 6920500,
+        "management_support": 4552420
+      }
+    },
     "savings_breakdown": {
-      "description": "Where the money comes from and where it goes, for each model",
       "components": [
         {
           "category": "Senior management elimination",
-          "description": "15 chief executives (~£140K each), 80+ directors, 200+ senior managers reduced to staffing for 2-5 new authorities",
-          "two_ua": 17500000,
-          "three_ua": 12000000,
-          "four_ua": 6500000,
-          "five_ua": 2500000
+          "two_ua": 6855870,
+          "two_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 11/13 reduction ratio",
+          "three_ua": 5892648,
+          "three_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 8/11 reduction ratio",
+          "four_ua": 4501328,
+          "four_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 5/9 reduction ratio",
+          "five_ua": 3038396,
+          "five_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 3/8 reduction ratio",
+          "county": 7427192,
+          "county_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 11/12 reduction ratio"
         },
         {
-          "category": "Back-office consolidation",
-          "description": "IT, HR, finance, legal, procurement — 15 separate teams consolidated. 18% average saving on combined back-office costs (~£180M total)",
-          "two_ua": 24000000,
-          "three_ua": 18000000,
-          "four_ua": 12000000,
-          "five_ua": 8000000
+          "category": "Back office consolidation",
+          "two_ua": 9744276,
+          "two_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 92% consolidation ratio (13\u21922)",
+          "three_ua": 8858433,
+          "three_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 83% consolidation ratio (13\u21923)",
+          "four_ua": 7972589,
+          "four_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 75% consolidation ratio (13\u21924)",
+          "five_ua": 7086746,
+          "five_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 67% consolidation ratio (13\u21925)",
+          "county": 10630119,
+          "county_methodology": "18% of \u00a359,056,220 district central services \u00d7 100% consolidation ratio (13\u21921)"
         },
         {
-          "category": "Democratic costs",
-          "description": "Fewer councillors (604 → 160-320), fewer committee structures, fewer elections",
-          "two_ua": 4500000,
-          "three_ua": 3500000,
-          "four_ua": 2500000,
-          "five_ua": 2000000
+          "category": "Democratic representation",
+          "two_ua": 7156800,
+          "two_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "three_ua": 7156800,
+          "three_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "four_ua": 7156800,
+          "four_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "five_ua": 7156800,
+          "five_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "county": 7156800,
+          "county_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800"
+        },
+        {
+          "category": "Procurement consolidation",
+          "two_ua": 15517321,
+          "two_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 92% consolidation",
+          "three_ua": 14106656,
+          "three_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 83% consolidation",
+          "four_ua": 12695990,
+          "four_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 75% consolidation",
+          "five_ua": 11285325,
+          "five_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 67% consolidation",
+          "county": 16927987,
+          "county_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 100% consolidation"
         },
         {
           "category": "Property rationalisation",
-          "description": "15 council HQs reduced to 2-5 main buildings. Office space, depots, civic centres",
-          "two_ua": 3000000,
-          "three_ua": 2500000,
-          "four_ua": 1800000,
-          "five_ua": 1200000
+          "two_ua": 117936,
+          "two_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
+          "three_ua": 117936,
+          "three_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
+          "four_ua": 117936,
+          "four_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
+          "five_ua": 117936,
+          "five_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
+          "county": 117936,
+          "county_methodology": "5% of \u00a32,358,726 property/IT asset costs"
         },
         {
-          "category": "Procurement savings",
-          "description": "Bulk purchasing power, contract consolidation. AI DOGE cross-council pricing analysis shows 15-115K% price gaps between councils for identical suppliers",
-          "two_ua": 2800000,
-          "three_ua": 2200000,
-          "four_ua": 1500000,
-          "five_ua": 800000
-        },
-        {
-          "category": "Social care fragmentation cost",
-          "description": "Splitting LCC's £370M+ social care operation. More authorities = higher per-capita cost. Recruitment, commissioning, provider relationships all fragment.",
-          "two_ua": -3000000,
-          "three_ua": -6000000,
-          "four_ua": -12000000,
-          "five_ua": -18000000
-        },
-        {
-          "category": "Transition cost amortisation (5-year)",
-          "description": "One-off costs spread over 5 years: IT (£12M/authority), redundancy (£8M/authority), programme management (15% of total)",
-          "two_ua": -6400000,
-          "three_ua": -7800000,
-          "four_ua": -9600000,
-          "five_ua": -12000000
+          "category": "Social care integration",
+          "two_ua": 8759830,
+          "two_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
+          "three_ua": 8759830,
+          "three_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
+          "four_ua": 8759830,
+          "four_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
+          "five_ua": 8759830,
+          "five_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
+          "county": 0,
+          "county_methodology": "1% of adult + children's social care from reduced county/district coordination"
         }
       ],
       "net_annual": {
-        "two_ua": { "gross": 51800000, "costs": -27000000, "net": 24800000 },
-        "three_ua": { "gross": 38200000, "costs": -27000000, "net": 11200000 },
-        "four_ua": { "gross": 24300000, "costs": -27500000, "net": -3200000 },
-        "five_ua": { "gross": 14500000, "costs": -29000000, "net": -14500000 }
+        "two_ua": {
+          "gross": 48152033,
+          "costs": -20700000,
+          "net": 27452033
+        },
+        "three_ua": {
+          "gross": 44892303,
+          "costs": -31050000,
+          "net": 13842303
+        },
+        "four_ua": {
+          "gross": 41204473,
+          "costs": -41400000,
+          "net": -195527
+        },
+        "five_ua": {
+          "gross": 37445033,
+          "costs": -51750000,
+          "net": -14304967
+        },
+        "county": {
+          "gross": 42260034,
+          "costs": -10350000,
+          "net": 31910034
+        }
       }
     },
     "transition_costs": {
-      "two_ua": { "it": 24000000, "redundancy": 16000000, "programme": 6000000, "property": 3000000, "legal": 2000000, "total": 32000000 },
-      "three_ua": { "it": 36000000, "redundancy": 24000000, "programme": 9000000, "property": 4000000, "legal": 3000000, "total": 39000000 },
-      "four_ua": { "it": 48000000, "redundancy": 32000000, "programme": 12000000, "property": 5000000, "legal": 4000000, "total": 48000000 },
-      "five_ua": { "it": 60000000, "redundancy": 40000000, "programme": 15000000, "property": 6000000, "legal": 5000000, "total": 60000000 }
+      "two_ua": {
+        "it": 30000000,
+        "redundancy": 20000000,
+        "programme": 8100000,
+        "legal": 4000000,
+        "total": 62100000
+      },
+      "three_ua": {
+        "it": 45000000,
+        "redundancy": 30000000,
+        "programme": 12150000,
+        "legal": 6000000,
+        "total": 93150000
+      },
+      "four_ua": {
+        "it": 60000000,
+        "redundancy": 40000000,
+        "programme": 16200000,
+        "legal": 8000000,
+        "total": 124200000
+      },
+      "five_ua": {
+        "it": 75000000,
+        "redundancy": 50000000,
+        "programme": 20250000,
+        "legal": 10000000,
+        "total": 155250000
+      },
+      "county": {
+        "it": 15000000,
+        "redundancy": 10000000,
+        "programme": 4050000,
+        "legal": 2000000,
+        "total": 31050000
+      }
     },
     "payback_analysis": [
-      { "model": "two_ua", "annual_saving": 24800000, "transition_cost": 32000000, "payback_years": 1.3, "ten_year_net": 216000000 },
-      { "model": "three_ua", "annual_saving": 11200000, "transition_cost": 39000000, "payback_years": 3.5, "ten_year_net": 73000000 },
-      { "model": "four_ua", "annual_saving": -3200000, "transition_cost": 48000000, "payback_years": null, "ten_year_net": -80000000 },
-      { "model": "five_ua", "annual_saving": -14500000, "transition_cost": 60000000, "payback_years": null, "ten_year_net": -205000000 }
-    ]
+      {
+        "model": "two_unitary",
+        "label": "East & West Lancashire",
+        "annual_saving": 48152033,
+        "transition_cost": 62100000,
+        "payback_years": 1.3,
+        "ten_year_net": 419420330,
+        "realistic_ten_year_net": 314565247
+      },
+      {
+        "model": "three_unitary",
+        "label": "Three Unitaries",
+        "annual_saving": 44892303,
+        "transition_cost": 93150000,
+        "payback_years": 2.1,
+        "ten_year_net": 355773030,
+        "realistic_ten_year_net": 266829772
+      },
+      {
+        "model": "four_unitary",
+        "label": "Four Unitaries",
+        "annual_saving": 41204473,
+        "transition_cost": 124200000,
+        "payback_years": 3.0,
+        "ten_year_net": 287844730,
+        "realistic_ten_year_net": 215883547
+      },
+      {
+        "model": "five_unitary",
+        "label": "Five Unitaries",
+        "annual_saving": 37445033,
+        "transition_cost": 155250000,
+        "payback_years": 4.1,
+        "ten_year_net": 219200330,
+        "realistic_ten_year_net": 164400247
+      },
+      {
+        "model": "county_unitary",
+        "label": "Greater Lancashire (County Unitary)",
+        "annual_saving": 42260034,
+        "transition_cost": 31050000,
+        "payback_years": 0.7,
+        "ten_year_net": 391550340,
+        "realistic_ten_year_net": 293662755
+      }
+    ],
+    "presentation_comparison": {
+      "two_unitary": {
+        "newton_europe_savings": 140000000,
+        "doge_computed_savings": 48152033,
+        "variance": -91847967,
+        "variance_pct": -65.6,
+        "newton_transition": 116000000,
+        "doge_transition": 62100000,
+        "note": "Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks"
+      },
+      "three_unitary": {
+        "newton_europe_savings": 99000000,
+        "doge_computed_savings": 44892303,
+        "variance": -54107697,
+        "variance_pct": -54.7,
+        "newton_transition": 135000000,
+        "doge_transition": 93150000,
+        "note": "Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks"
+      },
+      "four_unitary": {
+        "newton_europe_savings": 47000000,
+        "doge_computed_savings": 41204473,
+        "variance": -5795527,
+        "variance_pct": -12.3,
+        "newton_transition": 153000000,
+        "doge_transition": 124200000,
+        "note": "Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks"
+      },
+      "county_unitary": {
+        "newton_europe_savings": 170000000,
+        "doge_computed_savings": 42260034,
+        "variance": -127739966,
+        "variance_pct": -75.1,
+        "newton_transition": 95000000,
+        "doge_transition": 31050000,
+        "note": "Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks"
+      },
+      "five_unitary": {
+        "newton_europe_savings": 8000000,
+        "doge_computed_savings": 37445033,
+        "variance": 29445033,
+        "variance_pct": 368.1,
+        "newton_transition": 170000000,
+        "doge_transition": 155250000,
+        "note": "Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks"
+      }
+    },
+    "asset_division": {
+      "principles": [
+        {
+          "principle": "Geographic allocation",
+          "applies_to": "Physical assets (buildings, depots, leisure centres, parks)",
+          "method": "Assets transfer to the successor authority in whose area they are located",
+          "legal_basis": "Local Government Act \u2014 structural change orders",
+          "complexity": "low",
+          "note": "Most straightforward \u2014 clear geographic boundaries"
+        },
+        {
+          "principle": "Population-based apportionment",
+          "applies_to": "County council reserves, general fund balances, investment portfolios",
+          "method": "Divided proportionally by ONS mid-year population estimates",
+          "legal_basis": "Precedent: Northamptonshire 2021 \u2014 reserves split by population",
+          "complexity": "medium"
+        },
+        {
+          "principle": "Service-follows-funding",
+          "applies_to": "Ring-fenced grants (DSG, Public Health, Better Care Fund)",
+          "method": "Funding follows the service to the new authority delivering it",
+          "legal_basis": "DfE/DHSC grant conditions",
+          "complexity": "low"
+        },
+        {
+          "principle": "Debt follows assets",
+          "applies_to": "PWLB loans, bonds, credit arrangements",
+          "method": "Borrowing transfers to the authority inheriting the financed asset",
+          "legal_basis": "CIPFA Prudential Code; Boundary Commission SCO template",
+          "complexity": "high",
+          "note": "LCC VeLTIP portfolio (\u00a3519M invested, ~\u00a3169M current value) is the critical issue"
+        },
+        {
+          "principle": "Pension liability transfer",
+          "applies_to": "LGPS pension obligations",
+          "method": "Active members' liabilities transfer to employer authority; deferred/pensioner liabilities apportioned by actuarial valuation",
+          "legal_basis": "LGPS Regulations 2013; Lancashire Pension Fund administered by LCC",
+          "complexity": "very high",
+          "note": "Lancashire Pension Fund is one of UK's largest LGPS funds (\u00a310B+). New governance needed."
+        },
+        {
+          "principle": "Contract novation",
+          "applies_to": "PFI, waste contracts, IT contracts, framework agreements",
+          "method": "Contracts novated to successor by statutory instrument; consent of counterparty not required for structural changes",
+          "legal_basis": "Local Government Act \u2014 transfer schemes",
+          "complexity": "high"
+        }
+      ],
+      "critical_issues": [
+        {
+          "issue": "VeLTIP Investment Portfolio",
+          "detail": "\u00a3519M invested in bond funds, current value ~\u00a3169M (~\u00a3350M paper loss). Cannot be divided without crystallising losses.",
+          "options": [
+            "Option A: Hold to maturity in ring-fenced vehicle managed by successor authority or pension fund",
+            "Option B: Distribute proportionally and let each authority manage \u2014 risks forced selling",
+            "Option C: Central government intervention (cf. Icelandic bank losses 2008)"
+          ],
+          "recommendation": "Option A with professional fund management. Forced liquidation would crystallise \u00a3350M loss.",
+          "precedent": "No direct precedent \u2014 unprecedented scale. Icelandic losses in 2008 (\u00a3700M local authority exposure) handled centrally."
+        },
+        {
+          "issue": "DSG Deficit",
+          "detail": "Trajectory: \u00a395.5M (2024/25) \u2192 \u00a3419.9M (2028/29). Safety Valve negotiations with DfE.",
+          "impact": "Successor authorities inherit proportional share of cumulative DSG deficit",
+          "mitigation": "Safety Valve agreement should be concluded before LGR implementation. DfE has responsibility for SEND funding adequacy.",
+          "precedent": "Northamptonshire: DSG deficit transferred to successor authorities proportionally"
+        },
+        {
+          "issue": "Lancashire Pension Fund Governance",
+          "detail": "LCC currently administers the LGPS fund (~\u00a310B). Abolishing LCC requires new administering authority.",
+          "options": [
+            "Option A: Largest successor authority becomes administering authority",
+            "Option B: Joint committee of successor authorities",
+            "Option C: Merger with Greater Manchester or Merseyside pension fund"
+          ],
+          "recommendation": "Option B with professional LGPS administrator. Maintains local accountability.",
+          "precedent": "Buckinghamshire: new UA became administering authority for Bucks Pension Fund"
+        },
+        {
+          "issue": "Opportunity Cost and Transition Distraction",
+          "detail": "3-year transition diverts senior leadership from service delivery. Risk of institutional knowledge loss.",
+          "quantification": "Estimated 15-20% productivity loss in central/corporate functions during transition (Durham 2009 review)",
+          "mitigation": "Ring-fenced transition team separate from BAU leadership. Retain key staff with retention payments.",
+          "academic_basis": "Andrews & Boyne (2009): Savings take 3-5 years to fully materialise after transition"
+        }
+      ],
+      "reserves_summary": {
+        "burnley": {
+          "earmarked": 25310000,
+          "unallocated": 1379000,
+          "total": 26689000
+        },
+        "hyndburn": {
+          "earmarked": 15682000,
+          "unallocated": 2464000,
+          "total": 18146000
+        },
+        "pendle": {
+          "earmarked": 13461390,
+          "unallocated": 0,
+          "total": 13461390
+        },
+        "rossendale": {
+          "earmarked": 11243000,
+          "unallocated": 1000000,
+          "total": 12243000
+        },
+        "lancaster": {
+          "earmarked": 18711000,
+          "unallocated": 10028000,
+          "total": 28739000
+        },
+        "ribble_valley": {
+          "earmarked": 16643720,
+          "unallocated": 4082000,
+          "total": 20725720
+        },
+        "chorley": {
+          "earmarked": 7327000,
+          "unallocated": 4311000,
+          "total": 11638000
+        },
+        "south_ribble": {
+          "earmarked": 14727000,
+          "unallocated": 5167000,
+          "total": 19894000
+        },
+        "preston": {
+          "earmarked": 26942000,
+          "unallocated": 15825000,
+          "total": 42767000
+        },
+        "west_lancashire": {
+          "earmarked": 2561000,
+          "unallocated": 960000,
+          "total": 3521000
+        },
+        "wyre": {
+          "earmarked": 36549000,
+          "unallocated": 3750000,
+          "total": 40299000
+        },
+        "fylde": {
+          "earmarked": 10820000,
+          "unallocated": 4937000,
+          "total": 15757000
+        },
+        "lancashire_cc": {
+          "earmarked": 289040000,
+          "unallocated": 56000000,
+          "total": 345040000
+        },
+        "blackpool": {
+          "earmarked": 34206000,
+          "unallocated": 509000,
+          "total": 34715000
+        },
+        "blackburn": {
+          "earmarked": 70637000,
+          "unallocated": 9000000,
+          "total": 79637000
+        }
+      },
+      "lcc_specific": {
+        "general_reserves": 23484000,
+        "transitional_reserve": 99397000,
+        "total_earmarked": 306000000,
+        "note": "LCC reserves at minimum recommended level. Limited resilience for LGR costs."
+      }
+    },
+    "balance_analysis": {
+      "two_unitary": {
+        "authorities": {
+          "east_lancashire": {
+            "name": "East Lancashire",
+            "population": 1096744,
+            "total_service_expenditure": 1198109592,
+            "per_capita_spend": 1092,
+            "total_reserves": 272682185,
+            "council_tax_requirement": 332743086
+          },
+          "west_lancashire_ua": {
+            "name": "West Lancashire",
+            "population": 1381808,
+            "total_service_expenditure": 1507643657,
+            "per_capita_spend": 1091,
+            "total_reserves": 326237924,
+            "council_tax_requirement": 419787913
+          }
+        },
+        "disparity": {
+          "population_ratio": 1.26,
+          "budget_ratio": 1.26,
+          "per_capita_spend_gap": 1,
+          "population_range": "1,096,744 - 1,381,808",
+          "budget_range": "\u00a31,198,109,592 - \u00a31,507,643,657"
+        },
+        "assessment": "Well balanced"
+      },
+      "three_unitary": {
+        "authorities": {
+          "north_east": {
+            "name": "North & East Lancashire",
+            "population": 1096744,
+            "total_service_expenditure": 1198109592,
+            "per_capita_spend": 1092,
+            "total_reserves": 272682185,
+            "council_tax_requirement": 332743086
+          },
+          "central": {
+            "name": "Central Lancashire",
+            "population": 755442,
+            "total_service_expenditure": 825127414,
+            "per_capita_spend": 1092,
+            "total_reserves": 179464317,
+            "council_tax_requirement": 229331647
+          },
+          "west_coast": {
+            "name": "West & Coastal Lancashire",
+            "population": 626366,
+            "total_service_expenditure": 682516243,
+            "per_capita_spend": 1090,
+            "total_reserves": 146773606,
+            "council_tax_requirement": 190456265
+          }
+        },
+        "disparity": {
+          "population_ratio": 1.75,
+          "budget_ratio": 1.76,
+          "per_capita_spend_gap": 2,
+          "population_range": "626,366 - 1,096,744",
+          "budget_range": "\u00a3682,516,243 - \u00a31,198,109,592"
+        },
+        "assessment": "Moderate imbalance"
+      },
+      "four_unitary": {
+        "authorities": {
+          "pennine": {
+            "name": "Pennine Lancashire",
+            "population": 687764,
+            "total_service_expenditure": 752345785,
+            "per_capita_spend": 1094,
+            "total_reserves": 166283231,
+            "council_tax_requirement": 209228863
+          },
+          "north": {
+            "name": "North Lancashire",
+            "population": 635540,
+            "total_service_expenditure": 691379701,
+            "per_capita_spend": 1088,
+            "total_reserves": 178237442,
+            "council_tax_requirement": 192078305
+          },
+          "central_4": {
+            "name": "Central Lancashire",
+            "population": 755442,
+            "total_service_expenditure": 825127414,
+            "per_capita_spend": 1092,
+            "total_reserves": 179464317,
+            "council_tax_requirement": 229331647
+          },
+          "west_south": {
+            "name": "West & South Lancashire",
+            "population": 399806,
+            "total_service_expenditure": 436900348,
+            "per_capita_spend": 1093,
+            "total_reserves": 74935118,
+            "council_tax_requirement": 121892182
+          }
+        },
+        "disparity": {
+          "population_ratio": 1.89,
+          "budget_ratio": 1.89,
+          "per_capita_spend_gap": 6,
+          "population_range": "399,806 - 755,442",
+          "budget_range": "\u00a3436,900,348 - \u00a3825,127,414"
+        },
+        "assessment": "Moderate imbalance"
+      },
+      "county_unitary": {
+        "authorities": {
+          "greater_lancashire": {
+            "name": "Greater Lancashire",
+            "population": 2478552,
+            "total_service_expenditure": 2705753250,
+            "per_capita_spend": 1092,
+            "total_reserves": 598920110,
+            "council_tax_requirement": 752531000
+          }
+        },
+        "disparity": {
+          "population_ratio": 1.0,
+          "budget_ratio": 1.0,
+          "per_capita_spend_gap": 0,
+          "population_range": "2,478,552 - 2,478,552",
+          "budget_range": "\u00a32,705,753,250 - \u00a32,705,753,250"
+        },
+        "assessment": "Well balanced"
+      },
+      "five_unitary": {
+        "authorities": {
+          "burnley_pendle": {
+            "name": "Burnley & Pendle",
+            "population": 380804,
+            "total_service_expenditure": 416207645,
+            "per_capita_spend": 1093,
+            "total_reserves": 93162234,
+            "council_tax_requirement": 117234648
+          },
+          "hyndburn_rossendale": {
+            "name": "Hyndburn & Rossendale",
+            "population": 306960,
+            "total_service_expenditure": 336138139,
+            "per_capita_spend": 1095,
+            "total_reserves": 73120997,
+            "council_tax_requirement": 91994215
+          },
+          "lancaster_rv_wyre": {
+            "name": "Lancaster, RV & Wyre",
+            "population": 635540,
+            "total_service_expenditure": 691379701,
+            "per_capita_spend": 1088,
+            "total_reserves": 178237442,
+            "council_tax_requirement": 192078305
+          },
+          "central_5": {
+            "name": "Central Lancashire",
+            "population": 755442,
+            "total_service_expenditure": 825127414,
+            "per_capita_spend": 1092,
+            "total_reserves": 179464317,
+            "council_tax_requirement": 229331647
+          },
+          "west_fylde": {
+            "name": "West Lancashire & Fylde",
+            "population": 399806,
+            "total_service_expenditure": 436900348,
+            "per_capita_spend": 1093,
+            "total_reserves": 74935118,
+            "council_tax_requirement": 121892182
+          }
+        },
+        "disparity": {
+          "population_ratio": 2.46,
+          "budget_ratio": 2.45,
+          "per_capita_spend_gap": 7,
+          "population_range": "306,960 - 755,442",
+          "budget_range": "\u00a3336,138,139 - \u00a3825,127,414"
+        },
+        "assessment": "Moderate imbalance"
+      }
+    }
   },
-
   "ai_doge_proposals": {
     "title": "AI DOGE Alternative Proposals",
-    "subtitle": "If we were drawing boundaries from scratch based purely on data, demographics, economics and geography — not politics — what would we choose?",
+    "subtitle": "If we were drawing boundaries from scratch based purely on data, demographics, economics and geography \u2014 not politics \u2014 what would we choose?",
     "proposals": [
       {
         "id": "doge_optimal",
@@ -654,22 +1388,38 @@
         "authorities": [
           {
             "name": "Western Lancashire",
-            "councils": ["blackpool", "fylde", "wyre", "lancaster", "preston", "chorley", "south_ribble", "west_lancashire"],
+            "councils": [
+              "blackpool",
+              "fylde",
+              "wyre",
+              "lancaster",
+              "preston",
+              "chorley",
+              "south_ribble",
+              "west_lancashire"
+            ],
             "population": 913629,
             "estimated_annual_savings": 26000000,
             "notes": "M6 corridor + coast. Includes Blackpool unitary. Preston as administrative capital. Strong commuter economy, university city (Lancaster), tourism (Blackpool). Largest proposed authority in any model."
           },
           {
             "name": "Eastern Lancashire",
-            "councils": ["blackburn", "burnley", "hyndburn", "pendle", "rossendale", "ribble_valley"],
+            "councils": [
+              "blackburn",
+              "burnley",
+              "hyndburn",
+              "pendle",
+              "rossendale",
+              "ribble_valley"
+            ],
             "population": 587926,
             "estimated_annual_savings": 26000000,
             "notes": "Pennine Lancashire + Blackburn unitary + Ribble Valley. Shared industrial heritage, deprivation challenges, Asian community ties. Ribble Valley provides rural balance and affluent tax base."
           }
         ],
-        "financial_case": "Same 2-authority savings as LCC proposal (~£24.8M/year) but better economic coherence. Eastern Lancashire inherits Blackburn's existing unitary experience (already running social care), reducing transition risk.",
+        "financial_case": "Same 2-authority savings as LCC proposal (~\u00a324.8M/year) but better economic coherence. Eastern Lancashire inherits Blackburn's existing unitary experience (already running social care), reducing transition risk.",
         "democratic_case": "Both authorities would have ~80 councillors (1:5,700-11,400 ratio). Parish/town councils should be empowered as a compensating mechanism for democratic proximity.",
-        "risk": "Western Lancashire at 914K is the largest authority in any proposal — risk of diseconomies. But Blackpool's existing unitary infrastructure provides a nucleus."
+        "risk": "Western Lancashire at 914K is the largest authority in any proposal \u2014 risk of diseconomies. But Blackpool's existing unitary infrastructure provides a nucleus."
       },
       {
         "id": "doge_balanced",
@@ -679,41 +1429,57 @@
         "authorities": [
           {
             "name": "Western Lancashire",
-            "councils": ["blackpool", "fylde", "wyre", "lancaster", "preston"],
+            "councils": [
+              "blackpool",
+              "fylde",
+              "wyre",
+              "lancaster",
+              "preston"
+            ],
             "population": 630172,
             "notes": "Coast + university cities. Preston administrative capital. All major tourism and education assets."
           },
           {
             "name": "Central Lancashire",
-            "councils": ["chorley", "south_ribble", "west_lancashire", "ribble_valley"],
+            "councils": [
+              "chorley",
+              "south_ribble",
+              "west_lancashire",
+              "ribble_valley"
+            ],
             "population": 420508,
             "notes": "M6 commuter belt. Most affluent proposed authority. Below 500K but economically self-sufficient."
           },
           {
             "name": "Pennine Lancashire",
-            "councils": ["blackburn", "burnley", "hyndburn", "pendle", "rossendale"],
+            "councils": [
+              "blackburn",
+              "burnley",
+              "hyndburn",
+              "pendle",
+              "rossendale"
+            ],
             "population": 520875,
             "notes": "East Lancashire industrial heartland + Blackburn. Shared deprivation, shared heritage, shared community."
           }
         ],
-        "financial_case": "Similar savings to submitted 3-unitary (~£11.2M/year) but all authorities closer to 500K. Central Lancashire below threshold but within exception range (government says 500K is a 'guiding principle' not a hard floor).",
+        "financial_case": "Similar savings to submitted 3-unitary (~\u00a311.2M/year) but all authorities closer to 500K. Central Lancashire below threshold but within exception range (government says 500K is a 'guiding principle' not a hard floor).",
         "risk": "Central Lancashire at 420K below threshold. Government may reject. Ribble Valley residents would prefer Western grouping."
       }
     ]
   },
-
   "ai_doge_analysis": {
     "title": "AI DOGE Independent Assessment",
-    "subtitle": "Based on £12B+ in spending data, Census 2021 demographics, GOV.UK budgets, academic evidence, and independent financial modelling across all 15 Lancashire councils",
+    "subtitle": "Based on \u00a312B+ in spending data, Census 2021 demographics, GOV.UK budgets, academic evidence, and independent financial modelling across all 15 Lancashire councils",
     "assessments": [
       {
         "model_id": "two_unitary",
-        "verdict": "Strongest financial case — by far",
+        "verdict": "Strongest financial case \u2014 by far",
         "score": 8,
         "financial_score": 10,
         "governance_score": 6,
         "feasibility_score": 9,
-        "reasoning": "The 2-unitary model is the only option that generates transformative annual savings (£24.8M by our independent model, £21.2M by CCN). Both authorities clear the 500K bar. Over 10 years, this saves Lancashire £216M vs the current system. However, South Lancashire at 880K pushes towards the academic diseconomy threshold, and the North/South split doesn't reflect economic geography as well as an East/West split would. The financial case is overwhelming; the governance case is adequate but not ideal."
+        "reasoning": "The 2-unitary model is the only option that generates transformative annual savings (\u00a324.8M by our independent model, \u00a321.2M by CCN). Both authorities clear the 500K bar. Over 10 years, this saves Lancashire \u00a3216M vs the current system. However, South Lancashire at 880K pushes towards the academic diseconomy threshold, and the North/South split doesn't reflect economic geography as well as an East/West split would. The financial case is overwhelming; the governance case is adequate but not ideal."
       },
       {
         "model_id": "three_unitary",
@@ -722,7 +1488,7 @@
         "financial_score": 7,
         "governance_score": 7,
         "feasibility_score": 7,
-        "reasoning": "The 3-unitary model generates meaningful savings (£11.2M/year by our model) while creating authorities in the academic sweet spot of 490-590K. Pennine Lancashire aligns with genuine economic and cultural ties. Coastal Lancashire's 493K population is technically below the 500K threshold but the government has stated exceptions are possible. The main risk is Coastal Lancashire's aging demographics driving up social care costs per head. A credible second-best option financially."
+        "reasoning": "The 3-unitary model generates meaningful savings (\u00a311.2M/year by our model) while creating authorities in the academic sweet spot of 490-590K. Pennine Lancashire aligns with genuine economic and cultural ties. Coastal Lancashire's 493K population is technically below the 500K threshold but the government has stated exceptions are possible. The main risk is Coastal Lancashire's aging demographics driving up social care costs per head. A credible second-best option financially."
       },
       {
         "model_id": "four_unitary",
@@ -731,7 +1497,7 @@
         "financial_score": 3,
         "governance_score": 7,
         "feasibility_score": 5,
-        "reasoning": "Despite the broadest council support, the economics are poor. Our independent model shows this costs £3.2M more per year (less dramatic than CCN's -£11.5M but still net negative). Over 10 years, taxpayers are £80M worse off. Fylde Coast at 348K with the oldest demographics in Lancashire creates a social care funding crisis. The 6-council coalition looks like district self-preservation dressed up as localism."
+        "reasoning": "Despite the broadest council support, the economics are poor. Our independent model shows this costs \u00a33.2M more per year (less dramatic than CCN's -\u00a311.5M but still net negative). Over 10 years, taxpayers are \u00a380M worse off. Fylde Coast at 348K with the oldest demographics in Lancashire creates a social care funding crisis. The 6-council coalition looks like district self-preservation dressed up as localism."
       },
       {
         "model_id": "four_unitary_alt",
@@ -740,7 +1506,7 @@
         "financial_score": 2,
         "governance_score": 5,
         "feasibility_score": 2,
-        "reasoning": "Splitting districts at ward level has no recent English precedent. Northern Lancashire at 201K would be England's smallest unitary by a significant margin — too small for efficient social care delivery. Our model shows the highest transition costs (£55M) due to ward-level data splitting, and a net annual cost of £5.8M. This is Blackpool's attempt to dilute its financial difficulties across a larger tax base."
+        "reasoning": "Splitting districts at ward level has no recent English precedent. Northern Lancashire at 201K would be England's smallest unitary by a significant margin \u2014 too small for efficient social care delivery. Our model shows the highest transition costs (\u00a355M) due to ward-level data splitting, and a net annual cost of \u00a35.8M. This is Blackpool's attempt to dilute its financial difficulties across a larger tax base."
       },
       {
         "model_id": "five_unitary",
@@ -749,53 +1515,72 @@
         "financial_score": 1,
         "governance_score": 9,
         "feasibility_score": 2,
-        "reasoning": "The 80% survey support is compelling, but the 1,600-respondent self-selecting survey is not a representative sample. Our independent model shows this is the worst financial option: -£14.5M/year, costing taxpayers £205M over 10 years. Five social care departments for 1.6M people is fragmentation that academic evidence warns against. However, this model scores highest for democratic proximity — all authorities within the academic optimal range (Andrews & Boyne 2009: 200-400K). The question is whether that democratic benefit is worth £14.5M per year."
+        "reasoning": "The 80% survey support is compelling, but the 1,600-respondent self-selecting survey is not a representative sample. Our independent model shows this is the worst financial option: -\u00a314.5M/year, costing taxpayers \u00a3205M over 10 years. Five social care departments for 1.6M people is fragmentation that academic evidence warns against. However, this model scores highest for democratic proximity \u2014 all authorities within the academic optimal range (Andrews & Boyne 2009: 200-400K). The question is whether that democratic benefit is worth \u00a314.5M per year."
       }
     ],
-    "recommendation": "AI DOGE's independent financial model — built from £12B+ in actual spending data, not CCN lobbying — confirms that the Two Unitary model is overwhelmingly the best financial option for Lancashire. It saves £24.8M per year, pays back transition costs in 1.3 years, and delivers £216M in net savings over 10 years. No other model comes close. The Three Unitary model is a credible alternative at £11.2M/year savings if the government requires smaller authorities. All 4+ unitary models cost taxpayers MORE than the current system. The money is taxpayers' money — £24.8M per year buys a lot of pothole repairs, social care hours, and library opening times. An AI DOGE East/West boundary revision would further improve the 2-unitary model's economic coherence without sacrificing savings.",
+    "recommendation": "AI DOGE's independent financial model \u2014 built from \u00a312B+ in actual spending data, not CCN lobbying \u2014 confirms that the Two Unitary model is overwhelmingly the best financial option for Lancashire. It saves \u00a324.8M per year, pays back transition costs in 1.3 years, and delivers \u00a3216M in net savings over 10 years. No other model comes close. The Three Unitary model is a credible alternative at \u00a311.2M/year savings if the government requires smaller authorities. All 4+ unitary models cost taxpayers MORE than the current system. The money is taxpayers' money \u2014 \u00a324.8M per year buys a lot of pothole repairs, social care hours, and library opening times. An AI DOGE East/West boundary revision would further improve the 2-unitary model's economic coherence without sacrificing savings.",
     "academic_basis": {
       "key_citations": [
-        "Andrews, R. & Boyne, G.A. (2009) 'Size, Structure and Administrative Overheads', Urban Studies, 46(4), pp. 739-759 — U-curve: optimal 150-300K, diseconomies above ~500K",
-        "Holzer, M. et al. (2009) 'Literature Review on Optimal Municipal Size', Rutgers University — international meta-analysis, optimal range 100-250K",
-        "Drew, J., Kortt, M.A. & Dollery, B. (2014) — meta-analysis: economies of scale are service-specific, not universal",
-        "Ernst & Young (2016) for DCLG — savings realisation at 60-80% of business case within 5 years",
-        "NAO (2019, 2020) Financial Sustainability of Local Authorities — no systematic relationship between authority size and financial sustainability"
+        "Andrews, R. & Boyne, G.A. (2009) 'Size, Structure and Administrative Overheads', Urban Studies, 46(4), pp. 739-759 \u2014 U-curve: optimal 150-300K, diseconomies above ~500K",
+        "Holzer, M. et al. (2009) 'Literature Review on Optimal Municipal Size', Rutgers University \u2014 international meta-analysis, optimal range 100-250K",
+        "Drew, J., Kortt, M.A. & Dollery, B. (2014) \u2014 meta-analysis: economies of scale are service-specific, not universal",
+        "Ernst & Young (2016) for DCLG \u2014 savings realisation at 60-80% of business case within 5 years",
+        "NAO (2019, 2020) Financial Sustainability of Local Authorities \u2014 no systematic relationship between authority size and financial sustainability"
       ],
       "optimal_population_range": {
         "academic_consensus": "200,000-400,000 for English authorities",
         "government_threshold": "500,000+ (policy choice, not economics-based)",
-        "ai_doge_note": "The government's 500K threshold is a POLICY choice, not an evidence-based finding. The academic literature actually suggests 200-400K is optimal. Authorities above 500K show diminishing returns. The government chose 500K to create fewer, larger authorities — that's a political decision about devolution deal compatibility, not an economics conclusion."
+        "ai_doge_note": "The government's 500K threshold is a POLICY choice, not an evidence-based finding. The academic literature actually suggests 200-400K is optimal. Authorities above 500K show diminishing returns. The government chose 500K to create fewer, larger authorities \u2014 that's a political decision about devolution deal compatibility, not an economics conclusion."
       }
     }
   },
-
   "demographic_projections": {
     "title": "Demographic Outlook",
-    "subtitle": "How Lancashire's population is changing — and what it means for each proposed authority",
+    "subtitle": "How Lancashire's population is changing \u2014 and what it means for each proposed authority",
     "lancashire_overview": {
       "total_population_2021": 1601555,
       "projected_population_2047": 1825000,
       "growth_rate": 0.14,
       "key_trends": [
-        "Deaths exceed births in most districts — migration is the primary growth driver",
+        "Deaths exceed births in most districts \u2014 migration is the primary growth driver",
         "80+ population projected to nearly double by 2047 (ONS projections)",
         "Pendle (29.6% non-white) and Preston (27.6%) are the most ethnically diverse areas",
         "Wyre (2.6% non-white) and Fylde (4.2%) are the least diverse",
-        "East Lancashire's Asian communities are younger (median age ~30 vs ~45 for White population) — will drive political change over 20 years",
-        "Rural areas (Ribble Valley, Wyre) have oldest populations — highest per-capita social care costs"
+        "East Lancashire's Asian communities are younger (median age ~30 vs ~45 for White population) \u2014 will drive political change over 20 years",
+        "Rural areas (Ribble Valley, Wyre) have oldest populations \u2014 highest per-capita social care costs"
       ]
     },
     "social_care_pressure": {
-      "description": "The number of over-65s drives adult social care costs — the single largest local government expenditure. Authorities with older populations face exponentially higher per-capita costs.",
+      "description": "The number of over-65s drives adult social care costs \u2014 the single largest local government expenditure. Authorities with older populations face exponentially higher per-capita costs.",
       "by_proposal": {
         "two_ua": [
-          { "authority": "North Lancashire", "over_65_pct": 24.8, "care_pressure": "HIGH — Blackpool deprivation + Wyre/Fylde retirement demographics" },
-          { "authority": "South Lancashire", "over_65_pct": 19.1, "care_pressure": "MODERATE — younger East Lancashire population offsets affluent South" }
+          {
+            "authority": "North Lancashire",
+            "over_65_pct": 24.8,
+            "care_pressure": "HIGH \u2014 Blackpool deprivation + Wyre/Fylde retirement demographics"
+          },
+          {
+            "authority": "South Lancashire",
+            "over_65_pct": 19.1,
+            "care_pressure": "MODERATE \u2014 younger East Lancashire population offsets affluent South"
+          }
         ],
         "three_ua": [
-          { "authority": "Coastal Lancashire", "over_65_pct": 27.5, "care_pressure": "VERY HIGH — retirement coast, oldest proposed authority" },
-          { "authority": "Central Lancashire", "over_65_pct": 19.2, "care_pressure": "MODERATE — working-age commuter belt" },
-          { "authority": "Pennine Lancashire", "over_65_pct": 18.4, "care_pressure": "MODERATE — younger Asian communities, but deprivation drives need" }
+          {
+            "authority": "Coastal Lancashire",
+            "over_65_pct": 27.5,
+            "care_pressure": "VERY HIGH \u2014 retirement coast, oldest proposed authority"
+          },
+          {
+            "authority": "Central Lancashire",
+            "over_65_pct": 19.2,
+            "care_pressure": "MODERATE \u2014 working-age commuter belt"
+          },
+          {
+            "authority": "Pennine Lancashire",
+            "over_65_pct": 18.4,
+            "care_pressure": "MODERATE \u2014 younger Asian communities, but deprivation drives need"
+          }
         ]
       }
     },
@@ -804,57 +1589,160 @@
       "key_dynamics": [
         {
           "trend": "Aging coastal population",
-          "areas": ["Wyre", "Fylde", "Lancaster"],
+          "areas": [
+            "Wyre",
+            "Fylde",
+            "Lancaster"
+          ],
           "implication": "Rising social care demand with shrinking working-age tax base. Council tax income per head will fall in real terms."
         },
         {
           "trend": "Growing ethnic minority communities",
-          "areas": ["Pendle", "Burnley", "Blackburn", "Preston", "Hyndburn"],
+          "areas": [
+            "Pendle",
+            "Burnley",
+            "Blackburn",
+            "Preston",
+            "Hyndburn"
+          ],
           "implication": "Younger population profile means lower immediate social care costs but higher demand for children's services, education, and housing. Economic integration and employment rates are key variables."
         },
         {
           "trend": "Commuter belt growth",
-          "areas": ["Chorley", "South Ribble"],
+          "areas": [
+            "Chorley",
+            "South Ribble"
+          ],
           "implication": "Population growth driven by housing development and Manchester/Liverpool commuting. Strongest Council Tax growth potential."
         }
       ]
     }
   },
-
   "political_context": {
     "title": "The Politics Behind the Proposals",
     "subtitle": "Every proposal was submitted by a council with something to gain or lose. Understanding the political motivations is essential.",
     "council_control": [
-      { "council": "Lancashire CC", "seats": 84, "ruling_party": "Reform UK", "majority": 52, "control": "Majority", "note": "Won May 2025. LGR would abolish their newly-won majority." },
-      { "council": "Blackpool", "seats": 42, "ruling_party": "Labour", "majority": 27, "control": "Majority" },
-      { "council": "Blackburn w/ Darwen", "seats": 51, "ruling_party": "Labour", "majority": 29, "control": "Majority" },
-      { "council": "Preston", "seats": 48, "ruling_party": "Labour", "majority": 26, "control": "Majority" },
-      { "council": "Chorley", "seats": 42, "ruling_party": "Labour", "majority": 36, "control": "Dominant" },
-      { "council": "South Ribble", "seats": 50, "ruling_party": "Labour", "majority": 28, "control": "Majority" },
-      { "council": "Hyndburn", "seats": 34, "ruling_party": "Labour", "majority": 21, "control": "Majority" },
-      { "council": "Rossendale", "seats": 36, "ruling_party": "Labour", "majority": 18, "control": "Majority" },
-      { "council": "West Lancashire", "seats": 45, "ruling_party": "Lab & Co-op", "majority": 16, "control": "Largest party" },
-      { "council": "Burnley", "seats": 45, "ruling_party": "Labour", "majority": 23, "control": "Coalition" },
-      { "council": "Wyre", "seats": 50, "ruling_party": "Conservative", "majority": 27, "control": "Majority" },
-      { "council": "Fylde", "seats": 37, "ruling_party": "Conservative", "majority": 21, "control": "Majority" },
-      { "council": "Ribble Valley", "seats": 40, "ruling_party": "Conservative", "majority": 17, "control": "NOC" },
-      { "council": "Pendle", "seats": 49, "ruling_party": "Conservative", "majority": 21, "control": "Largest party" },
-      { "council": "Lancaster", "seats": 61, "ruling_party": "Green", "majority": 23, "control": "NOC" }
+      {
+        "council": "Lancashire CC",
+        "seats": 84,
+        "ruling_party": "Reform UK",
+        "majority": 52,
+        "control": "Majority",
+        "note": "Won May 2025. LGR would abolish their newly-won majority."
+      },
+      {
+        "council": "Blackpool",
+        "seats": 42,
+        "ruling_party": "Labour",
+        "majority": 27,
+        "control": "Majority"
+      },
+      {
+        "council": "Blackburn w/ Darwen",
+        "seats": 51,
+        "ruling_party": "Labour",
+        "majority": 29,
+        "control": "Majority"
+      },
+      {
+        "council": "Preston",
+        "seats": 48,
+        "ruling_party": "Labour",
+        "majority": 26,
+        "control": "Majority"
+      },
+      {
+        "council": "Chorley",
+        "seats": 42,
+        "ruling_party": "Labour",
+        "majority": 36,
+        "control": "Dominant"
+      },
+      {
+        "council": "South Ribble",
+        "seats": 50,
+        "ruling_party": "Labour",
+        "majority": 28,
+        "control": "Majority"
+      },
+      {
+        "council": "Hyndburn",
+        "seats": 34,
+        "ruling_party": "Labour",
+        "majority": 21,
+        "control": "Majority"
+      },
+      {
+        "council": "Rossendale",
+        "seats": 36,
+        "ruling_party": "Labour",
+        "majority": 18,
+        "control": "Majority"
+      },
+      {
+        "council": "West Lancashire",
+        "seats": 45,
+        "ruling_party": "Lab & Co-op",
+        "majority": 16,
+        "control": "Largest party"
+      },
+      {
+        "council": "Burnley",
+        "seats": 45,
+        "ruling_party": "Labour",
+        "majority": 23,
+        "control": "Coalition"
+      },
+      {
+        "council": "Wyre",
+        "seats": 50,
+        "ruling_party": "Conservative",
+        "majority": 27,
+        "control": "Majority"
+      },
+      {
+        "council": "Fylde",
+        "seats": 37,
+        "ruling_party": "Conservative",
+        "majority": 21,
+        "control": "Majority"
+      },
+      {
+        "council": "Ribble Valley",
+        "seats": 40,
+        "ruling_party": "Conservative",
+        "majority": 17,
+        "control": "NOC"
+      },
+      {
+        "council": "Pendle",
+        "seats": 49,
+        "ruling_party": "Conservative",
+        "majority": 21,
+        "control": "Largest party"
+      },
+      {
+        "council": "Lancaster",
+        "seats": 61,
+        "ruling_party": "Green",
+        "majority": 23,
+        "control": "NOC"
+      }
     ],
     "self_interest_analysis": [
       {
         "proposal": "Two Unitaries (LCC)",
-        "submitter_motivation": "LCC submitted the model that most closely preserves its geographic footprint. Reform UK controls LCC (52/84 seats) — they have the strongest institutional incentive to create large authorities where county-level name recognition translates to voter support. However, LGR abolishes LCC regardless of model, so this is about influence over the successor, not self-preservation.",
+        "submitter_motivation": "LCC submitted the model that most closely preserves its geographic footprint. Reform UK controls LCC (52/84 seats) \u2014 they have the strongest institutional incentive to create large authorities where county-level name recognition translates to voter support. However, LGR abolishes LCC regardless of model, so this is about influence over the successor, not self-preservation.",
         "conflict_rating": "medium"
       },
       {
         "proposal": "Five Unitaries (Burnley/Pendle)",
-        "submitter_motivation": "Creates the most councillor seats (5 × ~64 = ~320 vs 2 × ~80 = ~160). Burnley spent £340K+ on LGR consultancy (Socitm, 31ten Consulting) to develop this model. The 80% survey figure comes from a self-selecting survey of Burnley/Pendle residents, not a representative sample. Both councils' leaders would have the best chance of becoming leaders of the new East Lancashire authority — it's their home turf.",
+        "submitter_motivation": "Creates the most councillor seats (5 \u00d7 ~64 = ~320 vs 2 \u00d7 ~80 = ~160). Burnley spent \u00a3340K+ on LGR consultancy (Socitm, 31ten Consulting) to develop this model. The 80% survey figure comes from a self-selecting survey of Burnley/Pendle residents, not a representative sample. Both councils' leaders would have the best chance of becoming leaders of the new East Lancashire authority \u2014 it's their home turf.",
         "conflict_rating": "high"
       },
       {
         "proposal": "Four Unitaries (6-council coalition)",
-        "submitter_motivation": "The 6 submitting councils (Chorley, Lancaster, Preston, Ribble Valley, South Ribble, West Lancs) created groupings that most closely preserve their existing boundaries. This is collective district self-preservation — the broadest coalition isn't necessarily the most public-spirited, it's the one where the most councils get to keep their geographic identity.",
+        "submitter_motivation": "The 6 submitting councils (Chorley, Lancaster, Preston, Ribble Valley, South Ribble, West Lancs) created groupings that most closely preserve their existing boundaries. This is collective district self-preservation \u2014 the broadest coalition isn't necessarily the most public-spirited, it's the one where the most councils get to keep their geographic identity.",
         "conflict_rating": "medium"
       },
       {
@@ -874,45 +1762,44 @@
       ]
     }
   },
-
   "key_issues": [
     {
       "id": "debt_transfer",
       "title": "LCC Debt Transfer",
       "severity": "critical",
-      "description": "Lancashire CC holds significant borrowing including the VeLTIP bond portfolio (£519M invested, ~£169M current value — a ~£350M paper loss). How this debt is distributed to successor authorities is the single biggest financial risk of reorganisation. GOV.UK criteria state 'no proposal for council debt to be addressed centrally or written off' — all debt stays in Lancashire.",
-      "figure": "£519M",
+      "description": "Lancashire CC holds significant borrowing including the VeLTIP bond portfolio (\u00a3519M invested, ~\u00a3169M current value \u2014 a ~\u00a3350M paper loss). How this debt is distributed to successor authorities is the single biggest financial risk of reorganisation. GOV.UK criteria state 'no proposal for council debt to be addressed centrally or written off' \u2014 all debt stays in Lancashire.",
+      "figure": "\u00a3519M",
       "figure_label": "VeLTIP bond portfolio"
     },
     {
       "id": "dsg_deficit",
       "title": "Dedicated Schools Grant Deficit",
       "severity": "critical",
-      "description": "LCC carries a DSG deficit projected to reach £419.9M by 2028/29. This statutory obligation for SEND provision will transfer to successor authorities. In a 2-unitary model, each authority inherits ~£210M of deficit. In a 5-unitary model, the smallest authority (East Lancs, 272K pop) could inherit ~£72M — potentially overwhelming.",
-      "figure": "£420M",
+      "description": "LCC carries a DSG deficit projected to reach \u00a3419.9M by 2028/29. This statutory obligation for SEND provision will transfer to successor authorities. In a 2-unitary model, each authority inherits ~\u00a3210M of deficit. In a 5-unitary model, the smallest authority (East Lancs, 272K pop) could inherit ~\u00a372M \u2014 potentially overwhelming.",
+      "figure": "\u00a3420M",
       "figure_label": "Projected DSG deficit by 2028/29"
     },
     {
       "id": "reserves",
       "title": "Reserves Depletion",
       "severity": "high",
-      "description": "Combined reserves across all 15 councils total ~£714M but are declining at £27.8M per year. LCC's reserves are falling fastest (-£21.9M/year). By vesting day (April 2028), total reserves could be ~£660M — and much of this is earmarked for specific obligations, leaving limited unallocated reserves for the transition itself.",
-      "figure": "£714M",
-      "figure_label": "Combined reserves (declining £28M/year)"
+      "description": "Combined reserves across all 15 councils total ~\u00a3714M but are declining at \u00a327.8M per year. LCC's reserves are falling fastest (-\u00a321.9M/year). By vesting day (April 2028), total reserves could be ~\u00a3660M \u2014 and much of this is earmarked for specific obligations, leaving limited unallocated reserves for the transition itself.",
+      "figure": "\u00a3714M",
+      "figure_label": "Combined reserves (declining \u00a328M/year)"
     },
     {
       "id": "social_care_split",
       "title": "Social Care Fragmentation",
       "severity": "critical",
-      "description": "LCC currently runs adult social care for 1.2M people with a budget of £370M+. CQC already rates LCC as 'Requires Improvement'. Splitting this service further risks quality deterioration. Academic evidence shows no efficiency gain from fragmenting social care into smaller units — it's driven by need, not population size. More authorities = more commissioning teams, more provider relationships, more recruitment competition.",
-      "figure": "£370M+",
+      "description": "LCC currently runs adult social care for 1.2M people with a budget of \u00a3370M+. CQC already rates LCC as 'Requires Improvement'. Splitting this service further risks quality deterioration. Academic evidence shows no efficiency gain from fragmenting social care into smaller units \u2014 it's driven by need, not population size. More authorities = more commissioning teams, more provider relationships, more recruitment competition.",
+      "figure": "\u00a3370M+",
       "figure_label": "LCC adult social care budget"
     },
     {
       "id": "staff_tupe",
       "title": "Staff TUPE Transfer",
       "severity": "high",
-      "description": "Approximately 30,000+ staff across all 15 councils will need TUPE transfer to successor authorities. Different pay scales, pension schemes, and terms must be harmonised. This is typically the most expensive part of reorganisation — Buckinghamshire spent £4.5M on redundancy alone.",
+      "description": "Approximately 30,000+ staff across all 15 councils will need TUPE transfer to successor authorities. Different pay scales, pension schemes, and terms must be harmonised. This is typically the most expensive part of reorganisation \u2014 Buckinghamshire spent \u00a34.5M on redundancy alone.",
       "figure": "30,000+",
       "figure_label": "Staff requiring TUPE transfer"
     },
@@ -920,20 +1807,19 @@
       "id": "it_systems",
       "title": "IT System Consolidation",
       "severity": "high",
-      "description": "15 councils run different IT systems for revenues, planning, housing, and corporate services. LCC's Oracle Fusion implementation has been plagued with data breaches and payment errors. System consolidation typically costs £12M per new authority (SOCITM estimates). The NAO identifies IT integration as the single largest risk factor in LGR and the most common cause of cost overruns.",
-      "figure": "£12M",
+      "description": "15 councils run different IT systems for revenues, planning, housing, and corporate services. LCC's Oracle Fusion implementation has been plagued with data breaches and payment errors. System consolidation typically costs \u00a312M per new authority (SOCITM estimates). The NAO identifies IT integration as the single largest risk factor in LGR and the most common cause of cost overruns.",
+      "figure": "\u00a312M",
       "figure_label": "Estimated IT cost per new authority"
     },
     {
       "id": "council_tax_harmonisation",
       "title": "Council Tax Harmonisation",
       "severity": "medium",
-      "description": "Band D council tax varies from ~£200 to ~£350 across district councils (before county/police/fire precepts). Harmonisation means some residents pay more, some pay less. The political impact is significant — increases are far more visible than holds. Up to 7 years legally allowed for transition but most new unitaries harmonise within 2-3 years.",
-      "figure": "£100-200",
+      "description": "Band D council tax varies from ~\u00a3200 to ~\u00a3350 across district councils (before county/police/fire precepts). Harmonisation means some residents pay more, some pay less. The political impact is significant \u2014 increases are far more visible than holds. Up to 7 years legally allowed for transition but most new unitaries harmonise within 2-3 years.",
+      "figure": "\u00a3100-200",
       "figure_label": "Potential difference per household per year"
     }
   ],
-
   "precedents": [
     {
       "area": "Buckinghamshire",
@@ -941,8 +1827,8 @@
       "councils_merged": 5,
       "new_unitaries": 1,
       "population": 546000,
-      "transition_cost": "£18.8M",
-      "annual_savings": "£18M",
+      "transition_cost": "\u00a318.8M",
+      "annual_savings": "\u00a318M",
       "payback_period": "~1 year",
       "actual_outcome": "Often cited as success story. IT integration took 3 years. Savings on track by year 3 but first 2 years consumed by transition costs.",
       "notes": "Single unitary from 4 districts + county. Most comparable to Lancashire's 2-unitary model."
@@ -953,11 +1839,11 @@
       "councils_merged": 9,
       "new_unitaries": 2,
       "population": 773000,
-      "transition_cost": "£12M",
-      "annual_savings": "£12.5M",
+      "transition_cost": "\u00a312M",
+      "annual_savings": "\u00a312.5M",
       "payback_period": "~1 year",
-      "actual_outcome": "Two unitaries — Dorset Council (rural) + BCP (urban). Christchurch residents voted 84% against merger but were overridden.",
-      "notes": "Most directly comparable to Lancashire — 2 unitaries from multi-council area."
+      "actual_outcome": "Two unitaries \u2014 Dorset Council (rural) + BCP (urban). Christchurch residents voted 84% against merger but were overridden.",
+      "notes": "Most directly comparable to Lancashire \u2014 2 unitaries from multi-council area."
     },
     {
       "area": "Northamptonshire",
@@ -965,11 +1851,11 @@
       "councils_merged": 8,
       "new_unitaries": 2,
       "population": 750000,
-      "transition_cost": "£25-30M",
+      "transition_cost": "\u00a325-30M",
       "annual_savings": "TBC",
       "payback_period": "TBC",
       "actual_outcome": "Created from bankrupt county council (Section 114 in 2018). Successor authorities inherited massive debts and depleted reserves. Cautionary tale for LCC's financial problems.",
-      "notes": "CAUTIONARY TALE — reorganisation driven by financial failure. Lancashire's LCC has similar risk factors (VeLTIP losses, DSG deficit, Oracle Fusion problems)."
+      "notes": "CAUTIONARY TALE \u2014 reorganisation driven by financial failure. Lancashire's LCC has similar risk factors (VeLTIP losses, DSG deficit, Oracle Fusion problems)."
     },
     {
       "area": "North Yorkshire",
@@ -977,8 +1863,8 @@
       "councils_merged": 8,
       "new_unitaries": 1,
       "population": 618000,
-      "transition_cost": "£25M",
-      "annual_savings": "£31M",
+      "transition_cost": "\u00a325M",
+      "annual_savings": "\u00a331M",
       "payback_period": "Under 1 year",
       "actual_outcome": "Largest geographic area of any English unitary. IT integration still ongoing. Savings claims being independently audited.",
       "notes": "Largest single unitary merger. 7 districts + county."
@@ -989,8 +1875,8 @@
       "councils_merged": 5,
       "new_unitaries": 1,
       "population": 560000,
-      "transition_cost": "£16.5M",
-      "annual_savings": "£18.5M",
+      "transition_cost": "\u00a316.5M",
+      "annual_savings": "\u00a318.5M",
       "payback_period": "Under 1 year",
       "actual_outcome": "Most recent precedent. First 2 years dominated by reorganisation, not service improvement. Redundancy and reserves pooling were the main early impacts.",
       "notes": "4 districts + county merged into single unitary."
@@ -1001,11 +1887,14 @@
       "councils_merged": 7,
       "new_unitaries": 2,
       "population": 500000,
-      "transition_cost": "£25-40M",
+      "transition_cost": "\u00a325-40M",
       "annual_savings": "TBC",
       "payback_period": "TBC",
       "actual_outcome": "Cumberland + Westmorland and Furness. Legacy contracts and IT systems created integration headaches. Transition costs estimated to have exceeded initial projections.",
       "notes": "Split county + 6 districts into 2 unitaries. Geographic similarity to Lancashire (rural + urban mix)."
     }
-  ]
+  ],
+  "financial_model_computed": true,
+  "financial_model_date": "2026-02-16",
+  "financial_model_source": "GOV.UK MHCLG Revenue Outturn 2024-25 + academic benchmarks"
 }

@@ -1,0 +1,355 @@
+{
+  "council_id": "lancashire_cc",
+  "financial_year": "2026-27",
+  "type": "proposed",
+  "source": "LCC Cabinet 5 Feb 2026 - Appendix B (s271538)",
+  "source_url": "https://council.lancashire.gov.uk/documents/s271538/Appendix%20B.pdf",
+  "status": "recommended_to_full_council",
+  "notes": "Proposed budget recommended by Cabinet to Full Council. All values in GBP.",
+  "net_revenue_budget": 1324444000,
+  "council_tax": {
+    "band_d": 1801.75,
+    "increase_pct": 3.8,
+    "general_increase_pct": 1.8,
+    "asc_precept_pct": 2.0,
+    "notes": "3.80% total = 1.80% general + 2.00% ASC precept. Lowest increase in 12 years."
+  },
+  "directorates": {
+    "Adults, Health and Wellbeing": {
+      "net_2026_27": 558501000,
+      "net_2027_28": 578736000,
+      "net_2028_29": 614086000,
+      "share_of_total_pct": 42.2,
+      "services": {
+        "Adult Operations A": {
+          "net_2026_27": 294755000,
+          "description": "Residential, nursing, home care for older people and physical disability"
+        },
+        "Adult Operations B": {
+          "net_2026_27": 266234000,
+          "description": "Learning disability, mental health, supported living"
+        },
+        "Public Health": {
+          "net_2026_27": -9058000,
+          "description": "Public health grant funded \u2014 net income to council"
+        },
+        "Strategic Commissioning": {
+          "net_2026_27": 6298000,
+          "description": "Commissioning strategy and market shaping"
+        },
+        "Health, Equity, Welfare and Partnerships": {
+          "net_2026_27": 272000,
+          "description": "Health inequalities, welfare reform, partnerships"
+        }
+      }
+    },
+    "Education and Children's Services": {
+      "net_2026_27": 265726000,
+      "net_2027_28": 266503000,
+      "net_2028_29": 270011000,
+      "share_of_total_pct": 20.1,
+      "services": {
+        "Children's Social Care": {
+          "net_2026_27": 216493000,
+          "description": "Looked after children, child protection, fostering, adoption, SEND"
+        },
+        "Education and Skills": {
+          "net_2026_27": 32518000,
+          "description": "Schools improvement, early years, youth justice, adult education"
+        },
+        "Policy, Commissioning and Performance": {
+          "net_2026_27": 16715000,
+          "description": "Children's commissioning, performance monitoring"
+        }
+      }
+    },
+    "Place": {
+      "net_2026_27": 261898000,
+      "net_2027_28": 270665000,
+      "net_2028_29": 283115000,
+      "share_of_total_pct": 19.8,
+      "services": {
+        "Highways and Transport": {
+          "net_2026_27": 122455000,
+          "description": "Road maintenance, street lighting, winter gritting, transport planning"
+        },
+        "Environment and Regulatory": {
+          "net_2026_27": 97270000,
+          "description": "Waste disposal, trading standards, countryside, registrars"
+        },
+        "Growth, Environment and Planning": {
+          "net_2026_27": 14773000,
+          "description": "Economic development, LEP, planning, minerals & waste"
+        },
+        "Libraries, Museums and Culture": {
+          "net_2026_27": 14181000,
+          "description": "County library service, museums, archives"
+        },
+        "Community Fire and Rescue": {
+          "net_2026_27": 13219000,
+          "description": "Fire authority contribution (Lancashire Fire & Rescue)"
+        }
+      }
+    },
+    "Resources": {
+      "net_2026_27": 91793000,
+      "net_2027_28": 102614000,
+      "net_2028_29": 131094000,
+      "share_of_total_pct": 6.9,
+      "services": {
+        "Financial Services": {
+          "net_2026_27": 18740000,
+          "description": "Finance, audit, procurement, insurance"
+        },
+        "Legal and Governance": {
+          "net_2026_27": 9284000,
+          "description": "Legal services, democratic services, information governance"
+        },
+        "Human Resources": {
+          "net_2026_27": 7193000,
+          "description": "HR, occupational health, learning & development"
+        },
+        "Digital and Technology": {
+          "net_2026_27": 29776000,
+          "description": "ICT, Oracle Fusion, digital transformation"
+        },
+        "Property and Facilities": {
+          "net_2026_27": 26800000,
+          "description": "Estate management, facilities, capital programme"
+        }
+      }
+    },
+    "Corporate": {
+      "net_2026_27": 145229000,
+      "net_2027_28": 165280000,
+      "net_2028_29": 174144000,
+      "share_of_total_pct": 11.0,
+      "services": {
+        "Capital Financing": {
+          "net_2026_27": 57819000,
+          "description": "Minimum Revenue Provision, interest payments, investment income"
+        },
+        "Pensions and Retirement": {
+          "net_2026_27": 22550000,
+          "description": "Past service pension costs, strain on the fund"
+        },
+        "Contingency and Risk": {
+          "net_2026_27": 17860000,
+          "description": "General contingency, risk provision, savings delivery contingency"
+        },
+        "Levies and Precepts": {
+          "net_2026_27": 47000000,
+          "description": "Environment Agency, inshore fisheries, coroners, joint services"
+        }
+      }
+    }
+  },
+  "funding": {
+    "council_tax": {
+      "amount": 719554000,
+      "pct_of_total": 54.3,
+      "notes": "Including ASC precept"
+    },
+    "revenue_support_grant": {
+      "amount": 231337000,
+      "pct_of_total": 17.5
+    },
+    "business_rates_retention": {
+      "amount": 280068000,
+      "pct_of_total": 21.1,
+      "notes": "Retained business rates under 50% retention scheme"
+    },
+    "improved_better_care_fund": {
+      "amount": 67786000,
+      "pct_of_total": 5.1,
+      "notes": "Ring-fenced for adult social care"
+    },
+    "collection_fund_surplus": {
+      "amount": 3000000,
+      "pct_of_total": 0.2
+    },
+    "other_grants": {
+      "amount": 22699000,
+      "pct_of_total": 1.7,
+      "notes": "New Homes Bonus, services grant, other un-ringfenced grants"
+    },
+    "total": 1324444000
+  },
+  "three_year_projections": {
+    "2026-27": {
+      "net_budget": 1324444000,
+      "funding_gap": 0,
+      "notes": "Balanced budget"
+    },
+    "2027-28": {
+      "net_budget": 1385095000,
+      "funding_gap": 0,
+      "notes": "Indicative balanced position (subject to spending review)"
+    },
+    "2028-29": {
+      "net_budget": 1473747000,
+      "funding_gap": 0,
+      "notes": "Indicative balanced position (significant uncertainty)"
+    }
+  },
+  "pressures": {
+    "inflation": {
+      "total_2026_27": 39493000,
+      "detail": {
+        "adults_social_care": {
+          "amount": 26213000,
+          "notes": "Care provider fee uplift (NLW increase, sleep-in ruling)"
+        },
+        "childrens_services": {
+          "amount": 4541000,
+          "notes": "Placement costs, residential care"
+        },
+        "waste_disposal": {
+          "amount": 3047000,
+          "notes": "Waste contract inflation (CPI-linked)"
+        },
+        "highways_maintenance": {
+          "amount": 1349000,
+          "notes": "Materials and contractor costs"
+        },
+        "home_to_school_transport": {
+          "amount": 2500000,
+          "notes": "SEND transport cost inflation"
+        },
+        "other": {
+          "amount": 1843000,
+          "notes": "Pay award provision, energy, general inflation"
+        }
+      }
+    },
+    "demand": {
+      "total_2026_27": 59366000,
+      "detail": {
+        "adults_social_care": {
+          "amount": 14068000,
+          "notes": "Growing elderly population, complex needs"
+        },
+        "childrens_services": {
+          "amount": 24097000,
+          "notes": "Looked after children numbers, SEND placements"
+        },
+        "home_to_school_transport": {
+          "amount": 17729000,
+          "notes": "SEND transport demand (highest growth area)"
+        },
+        "other": {
+          "amount": 3472000,
+          "notes": "Highways deterioration, waste volumes"
+        }
+      }
+    },
+    "total_pressures_2026_27": 98859000
+  },
+  "savings": {
+    "reprofiled_from_feb_2025": {
+      "amount": 40283000,
+      "notes": "Savings originally planned in prior MTFS, re-profiled to 2026/27"
+    },
+    "additional_from_nov_2025": {
+      "amount": 23256000,
+      "notes": "Additional savings identified November 2025 budget review"
+    },
+    "total": 63539000,
+    "savings_delivery_contingency": 5000000,
+    "notes": "\u00a35M contingency set aside for non-delivery risk. Historical delivery rate fell from 91.5% (2023/24) to 48% (2024/25)."
+  },
+  "reserves": {
+    "general_reserves": {
+      "opening_2026_27": 23484000,
+      "minimum_recommended": 23484000,
+      "notes": "At minimum recommended level"
+    },
+    "transitional_reserve": {
+      "balance": 99397000,
+      "notes": "To support MTFS delivery and manage timing of savings"
+    },
+    "total_earmarked": {
+      "balance": 306000000,
+      "notes": "Approximate total earmarked reserves (excluding schools)"
+    },
+    "risk_assessment": "Reserves at or near minimum. Limited resilience if savings under-deliver or demand exceeds projections."
+  },
+  "key_risks": [
+    {
+      "risk": "DSG deficit trajectory",
+      "detail": "\u00a373.08M Q3 overspend, trajectory: \u00a395.5M (2024/25) \u2192 \u00a3171.4M (2025/26) \u2192 \u00a3296.5M (2026/27) \u2192 \u00a3419.9M (2028/29)",
+      "severity": "critical",
+      "mitigation": "Safety Valve negotiations with DfE"
+    },
+    {
+      "risk": "VeLTIP portfolio losses",
+      "detail": "~\u00a3350M paper loss on \u00a3519M invested in bond funds. Market recovery uncertain.",
+      "severity": "high",
+      "mitigation": "Investment strategy review, hold-to-maturity approach"
+    },
+    {
+      "risk": "Adult social care demand",
+      "detail": "\u00a314M additional in 2026/27. Ageing population + complex needs driving accelerating growth.",
+      "severity": "high",
+      "mitigation": "Demand management, reablement, technology-enabled care"
+    },
+    {
+      "risk": "Savings delivery",
+      "detail": "Historical rate fell from 91.5% to 48%. \u00a35M contingency set aside.",
+      "severity": "high",
+      "mitigation": "\u00a35M contingency, enhanced programme management"
+    },
+    {
+      "risk": "SEND transport costs",
+      "detail": "\u00a317.7M demand growth \u2014 fastest-growing pressure area in budget",
+      "severity": "medium",
+      "mitigation": "Route optimisation, independent travel training"
+    },
+    {
+      "risk": "Local Government Reorganisation",
+      "detail": "Government consultation launched 5 Feb 2026. Transition costs not budgeted.",
+      "severity": "medium",
+      "mitigation": "Transition reserve may be needed. LGR would make 2028/29 projections moot."
+    }
+  ],
+  "budget_history": {
+    "2020-21": {
+      "net_budget": 844900000,
+      "ct_increase_pct": 3.99,
+      "admin": "Conservative"
+    },
+    "2021-22": {
+      "net_budget": 881400000,
+      "ct_increase_pct": 3.99,
+      "admin": "Conservative"
+    },
+    "2022-23": {
+      "net_budget": 948100000,
+      "ct_increase_pct": 3.99,
+      "admin": "Conservative"
+    },
+    "2023-24": {
+      "net_budget": 1039000000,
+      "ct_increase_pct": 3.99,
+      "admin": "Conservative"
+    },
+    "2024-25": {
+      "net_budget": 1039000000,
+      "ct_increase_pct": 4.99,
+      "admin": "Conservative"
+    },
+    "2025-26": {
+      "net_budget": 1243100000,
+      "ct_increase_pct": 4.99,
+      "admin": "Conservative"
+    },
+    "2026-27": {
+      "net_budget": 1324444000,
+      "ct_increase_pct": 3.8,
+      "admin": "Reform UK"
+    }
+  },
+  "generated_by": "lcc_proposed_budget.py",
+  "data_quality": "Manually structured from official Cabinet papers. Cross-verified against war-game analysis reports.",
+  "last_updated": "2026-02-16"
+}

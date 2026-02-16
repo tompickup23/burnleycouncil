@@ -118,13 +118,15 @@ function LGRTracker() {
   }, [lgrData])
 
   // AI DOGE independent model comparison data
+  const MODEL_LABELS = { two_unitary: '2 UAs', three_unitary: '3 UAs', four_unitary: '4 UAs', five_unitary: '5 UAs', county_unitary: 'County UA' }
   const dogeComparisonData = useMemo(() => {
     if (!lgrData?.independent_model?.payback_analysis) return []
     return lgrData.independent_model.payback_analysis.map(p => ({
-      name: p.model === 'two_ua' ? '2 UAs' : p.model === 'three_ua' ? '3 UAs' : p.model === 'four_ua' ? '4 UAs' : '5 UAs',
+      name: MODEL_LABELS[p.model] || p.label || p.model,
       dogeSavings: p.annual_saving / 1e6,
       transitionCost: p.transition_cost / 1e6,
       tenYearNet: p.ten_year_net / 1e6,
+      realisticTenYear: (p.realistic_ten_year_net || p.ten_year_net) / 1e6,
       payback: p.payback_years
     }))
   }, [lgrData])
@@ -154,6 +156,7 @@ function LGRTracker() {
   const sectionNav = [
     { id: 'proposals', label: 'Proposals', icon: Building },
     { id: 'independent', label: 'AI DOGE Model', icon: Brain },
+    { id: 'assets', label: 'Assets', icon: PoundSterling },
     { id: 'critique', label: 'CCN Critique', icon: BookOpen },
     { id: 'demographics', label: 'Demographics', icon: Users },
     { id: 'politics', label: 'Politics', icon: Vote },
@@ -287,6 +290,76 @@ function LGRTracker() {
           </div>
         )}
 
+        {/* Back-office cost discovery */}
+        {lgrData.independent_model?.back_office_computed && (
+          <div className="lgr-discovery-card">
+            <h3><BarChart3 size={16} /> Key Discovery: Actual Back-Office Costs</h3>
+            <div className="discovery-comparison">
+              <div className="discovery-item old">
+                <span className="discovery-label">Previously Estimated</span>
+                <span className="discovery-value">{formatCurrency(lgrData.independent_model.back_office_computed.previously_estimated, true)}</span>
+              </div>
+              <ArrowRight size={20} className="discovery-arrow" />
+              <div className="discovery-item new">
+                <span className="discovery-label">Actual (GOV.UK Outturn)</span>
+                <span className="discovery-value">{formatCurrency(lgrData.independent_model.back_office_computed.total_central_services, true)}</span>
+              </div>
+            </div>
+            <p className="discovery-note">{lgrData.independent_model.back_office_computed.note}</p>
+            <span className="data-source-badge">
+              <Check size={12} /> Computed from GOV.UK data — {lgrData.independent_model.computation_date}
+            </span>
+          </div>
+        )}
+
+        {/* Newton Europe vs DOGE comparison */}
+        {lgrData.independent_model?.presentation_comparison && (
+          <div className="lgr-chart-card" style={{ marginTop: '1rem' }}>
+            <h3>Newton Europe vs AI DOGE: Savings Comparison</h3>
+            <p className="chart-desc">Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn with conservative academic benchmarks</p>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart
+                data={Object.entries(lgrData.independent_model.presentation_comparison).map(([key, val]) => ({
+                  name: MODEL_LABELS[key] || key,
+                  newton: (val.newton_europe_savings || 0) / 1e6,
+                  doge: (val.doge_computed_savings || 0) / 1e6,
+                }))}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [`£${v?.toFixed(1)}M/yr`, name === 'newton' ? 'Newton Europe' : 'AI DOGE']} />
+                <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
+                <Bar dataKey="newton" name="Newton Europe" fill="#636366" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="doge" name="AI DOGE" fill="#0a84ff" radius={[6, 6, 0, 0]} />
+                <Legend />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+
+        {/* Net savings (gross minus ongoing costs) */}
+        {lgrData.independent_model?.savings_breakdown?.net_annual && (
+          <div className="lgr-net-savings">
+            <h3>Net Annual Impact (Gross Savings Minus Ongoing Costs)</h3>
+            <div className="net-savings-grid">
+              {Object.entries(lgrData.independent_model.savings_breakdown.net_annual).map(([key, val]) => (
+                <div key={key} className={`net-savings-item ${val.net >= 0 ? 'positive' : 'negative'}`}>
+                  <span className="net-label">{MODEL_LABELS[key] || key}</span>
+                  <div className="net-breakdown">
+                    <span className="net-gross">Gross: {formatCurrency(val.gross, true)}</span>
+                    <span className="net-costs">Costs: {formatCurrency(Math.abs(val.costs), true)}</span>
+                    <span className={`net-total ${val.net >= 0 ? 'text-green' : 'text-red'}`}>
+                      Net: {val.net >= 0 ? '+' : ''}{formatCurrency(val.net, true)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Model assumptions */}
         {lgrData.independent_model?.methodology?.assumptions && (
           <div className="lgr-assumptions">
@@ -313,6 +386,48 @@ function LGRTracker() {
           </div>
         )}
       </section>
+
+      {/* Asset Division & Transition Risks */}
+      {lgrData.independent_model?.asset_division && (
+        <section className="lgr-section" id="lgr-assets">
+          <h2><Building size={20} /> Asset Division & Transition</h2>
+          <p className="section-desc">How £600M+ of assets, reserves, and liabilities would be divided between successor authorities</p>
+
+          <div className="asset-principles-grid">
+            {lgrData.independent_model.asset_division.principles.map((p, i) => (
+              <div key={i} className={`asset-principle-card complexity-${p.complexity}`}>
+                <div className="principle-header">
+                  <h4>{p.principle}</h4>
+                  <span className={`complexity-badge complexity-${p.complexity}`}>{p.complexity}</span>
+                </div>
+                <p className="principle-applies">{p.applies_to}</p>
+                <p className="principle-method">{p.method}</p>
+                <p className="principle-legal text-secondary">{p.legal_basis}</p>
+                {p.note && <p className="principle-note"><AlertTriangle size={12} /> {p.note}</p>}
+              </div>
+            ))}
+          </div>
+
+          {lgrData.independent_model.asset_division.critical_issues && (
+            <div className="critical-asset-issues">
+              <h3><AlertTriangle size={16} /> Critical Asset Issues</h3>
+              {lgrData.independent_model.asset_division.critical_issues.map((issue, i) => (
+                <div key={i} className="asset-issue-card">
+                  <h4>{issue.issue}</h4>
+                  <p>{issue.detail}</p>
+                  {issue.options && (
+                    <ul className="asset-options">
+                      {issue.options.map((opt, j) => <li key={j}>{opt}</li>)}
+                    </ul>
+                  )}
+                  {issue.recommendation && <p className="asset-rec"><strong>Recommendation:</strong> {issue.recommendation}</p>}
+                  {issue.precedent && <p className="asset-precedent text-secondary"><Shield size={12} /> Precedent: {issue.precedent}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {/* CCN Critique */}
       {lgrData.ccn_critique && (
@@ -807,9 +922,10 @@ function LGRTracker() {
         <p>
           Proposals from <a href="https://lancashirelgr.co.uk/proposals" target="_blank" rel="noopener noreferrer">lancashirelgr.co.uk</a> and{' '}
           <a href={lgrData.meta.source_urls.consultation} target="_blank" rel="noopener noreferrer">GOV.UK</a>.
-          Population: ONS Census 2021. Financial projections: AI DOGE independent model + CCN/PwC (for comparison).
+          Population: ONS Census 2021. Financial model: computed from GOV.UK MHCLG Revenue Outturn 2024-25 (forms RS, RSX, RO2, RO4, RO5, RO6) with peer-reviewed academic savings benchmarks.
           Spending data: {formatNumber(2286000)}+ transactions, £12B+ across all 15 Lancashire councils.
-          Demographics: ONS Census 2021 via Nomis API. Academic evidence: Andrews &amp; Boyne (2009), Holzer et al. (2009), Drew et al. (2014), Ernst &amp; Young (2016), NAO (2019/2020).
+          Demographics: ONS Census 2021 via Nomis API. Newton Europe comparison data from Lancashire LGR People Services Analysis (2025).
+          Academic evidence: Andrews &amp; Boyne (2009), Cheshire (2004), Dollery &amp; Fleming (2006), Slack &amp; Bird (2012).
         </p>
         <p>
           AI DOGE assessments are independent analytical opinions based on financial data patterns, academic evidence, and demographic analysis.

@@ -1,0 +1,39 @@
+{
+  "council_id": "wyre",
+  "council_tier": "district",
+  "total_departments": 4,
+  "mapped_departments": 4,
+  "unmapped_departments": 0,
+  "mappings": {
+    "Finance": {
+      "budget_category": "Central services",
+      "confidence": "medium",
+      "spend": 510394308.7600001
+    },
+    "People and Places": {
+      "budget_category": "Children Social Care",
+      "confidence": "low",
+      "spend": 95733711.9199987
+    },
+    "Resources": {
+      "budget_category": "Central services",
+      "confidence": "high",
+      "spend": 76893946.69999968
+    },
+    "Transformation": {
+      "budget_category": "Central services",
+      "confidence": "high",
+      "spend": 8000.0
+    }
+  },
+  "category_summary": {
+    "Central services": 587296255.4599998,
+    "Children Social Care": 95733711.9199987
+  },
+  "coverage": {
+    "mapped_spend": 683029967.3799986,
+    "total_spend": 683029967.3799984,
+    "mapped_spend_pct": 100.0
+  },
+  "unmapped_top": []
+}
