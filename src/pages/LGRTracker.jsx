@@ -446,7 +446,7 @@ function LGRTracker() {
                 key={model.id}
                 className={`handover-tab ${selectedModel === model.id || (!selectedModel && idx === 0) ? 'active' : ''}`}
                 onClick={() => setSelectedModel(model.id)}
-                style={{ '--tab-color': PROPOSAL_COLORS[idx] }}
+                style={{ '--tab-color': MODEL_COLORS[idx] }}
               >
                 {model.short_name}
               </button>
@@ -566,7 +566,7 @@ function LGRTracker() {
                         data={authorities.map((a, i) => ({
                           name: a.name,
                           spendPerHead: a.population > 0 ? Math.round(a.serviceExpenditure / a.population) : 0,
-                          fill: PROPOSAL_COLORS[i % PROPOSAL_COLORS.length],
+                          fill: MODEL_COLORS[i % MODEL_COLORS.length],
                         }))}
                         layout="vertical"
                         margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
@@ -577,7 +577,7 @@ function LGRTracker() {
                         <Tooltip formatter={(v) => [formatCurrency(v), 'Spend per head']} contentStyle={TOOLTIP_STYLE} />
                         <Bar dataKey="spendPerHead" radius={[0, 6, 6, 0]}>
                           {authorities.map((_, i) => (
-                            <Cell key={i} fill={PROPOSAL_COLORS[i % PROPOSAL_COLORS.length]} />
+                            <Cell key={i} fill={MODEL_COLORS[i % MODEL_COLORS.length]} />
                           ))}
                         </Bar>
                       </BarChart>
