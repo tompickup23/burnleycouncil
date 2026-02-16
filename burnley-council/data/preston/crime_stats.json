@@ -1,0 +1,630 @@
+{
+  "borough": "preston",
+  "borough_name": "Preston",
+  "ons_code": "E07000123",
+  "date": "2025-12",
+  "total_crimes": 1745,
+  "total_stop_and_search": 117,
+  "by_category": {
+    "anti-social-behaviour": 437,
+    "burglary": 50,
+    "criminal-damage-arson": 137,
+    "drugs": 75,
+    "other-theft": 99,
+    "possession-of-weapons": 17,
+    "public-order": 86,
+    "shoplifting": 115,
+    "vehicle-crime": 58,
+    "violent-crime": 599,
+    "other-crime": 40,
+    "bicycle-theft": 16,
+    "robbery": 8,
+    "theft-from-the-person": 8
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 599
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 437
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 137
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 115
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 99
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 86
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 75
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 58
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 50
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 40
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 17
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 16
+    },
+    "robbery": {
+      "name": "Robbery",
+      "count": 8
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 8
+    }
+  },
+  "outcomes": {
+    "Under investigation": 659,
+    "Investigation complete; no suspect identified": 256,
+    "Unable to prosecute suspect": 229,
+    "Awaiting court outcome": 93,
+    "Formal action is not in the public interest": 1,
+    "Offender given a caution": 20,
+    "Local resolution": 43,
+    "Offender given penalty notice": 5,
+    "Action to be taken by another organisation": 2
+  },
+  "ward_count": 16,
+  "wards": {
+    "PR1": {
+      "ward_id": "PR1",
+      "name": "Garrison",
+      "total_crimes": 56,
+      "by_category": {
+        "anti-social-behaviour": 12,
+        "burglary": 2,
+        "criminal-damage-arson": 3,
+        "drugs": 1,
+        "other-theft": 3,
+        "possession-of-weapons": 1,
+        "public-order": 3,
+        "shoplifting": 3,
+        "vehicle-crime": 4,
+        "violent-crime": 22,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Under investigation": 23,
+        "Investigation complete; no suspect identified": 10,
+        "Unable to prosecute suspect": 9,
+        "Awaiting court outcome": 1,
+        "Formal action is not in the public interest": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "PR10": {
+      "ward_id": "PR10",
+      "name": "Greyfriars",
+      "total_crimes": 36,
+      "by_category": {
+        "anti-social-behaviour": 11,
+        "burglary": 2,
+        "criminal-damage-arson": 2,
+        "drugs": 1,
+        "other-theft": 2,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "shoplifting": 2,
+        "vehicle-crime": 3,
+        "violent-crime": 10
+      },
+      "outcomes": {
+        "Awaiting court outcome": 2,
+        "Under investigation": 13,
+        "Unable to prosecute suspect": 6,
+        "Investigation complete; no suspect identified": 4
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PR11": {
+      "ward_id": "PR11",
+      "name": "Ingol &amp; Cottam",
+      "total_crimes": 89,
+      "by_category": {
+        "anti-social-behaviour": 21,
+        "bicycle-theft": 1,
+        "burglary": 2,
+        "criminal-damage-arson": 19,
+        "drugs": 1,
+        "other-theft": 3,
+        "possession-of-weapons": 1,
+        "public-order": 3,
+        "shoplifting": 1,
+        "violent-crime": 34,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 15,
+        "Under investigation": 36,
+        "Unable to prosecute suspect": 12,
+        "Offender given a caution": 1,
+        "Awaiting court outcome": 4
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PR12": {
+      "ward_id": "PR12",
+      "name": "Lea &amp; Larches",
+      "total_crimes": 60,
+      "by_category": {
+        "anti-social-behaviour": 23,
+        "burglary": 2,
+        "criminal-damage-arson": 5,
+        "drugs": 1,
+        "other-theft": 4,
+        "possession-of-weapons": 1,
+        "public-order": 2,
+        "shoplifting": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 15,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 21,
+        "Investigation complete; no suspect identified": 4,
+        "Local resolution": 3,
+        "Unable to prosecute suspect": 6,
+        "Offender given penalty notice": 1,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "PR13": {
+      "ward_id": "PR13",
+      "name": "Preston Rural East",
+      "total_crimes": 62,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "burglary": 5,
+        "criminal-damage-arson": 2,
+        "drugs": 2,
+        "other-theft": 4,
+        "public-order": 4,
+        "shoplifting": 2,
+        "vehicle-crime": 1,
+        "violent-crime": 34,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Under investigation": 25,
+        "Investigation complete; no suspect identified": 8,
+        "Awaiting court outcome": 5,
+        "Unable to prosecute suspect": 17,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "PR14": {
+      "ward_id": "PR14",
+      "name": "Preston Rural North",
+      "total_crimes": 29,
+      "by_category": {
+        "anti-social-behaviour": 10,
+        "burglary": 2,
+        "criminal-damage-arson": 4,
+        "other-theft": 2,
+        "public-order": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 9
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 3,
+        "Under investigation": 12,
+        "Local resolution": 1,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PR15": {
+      "ward_id": "PR15",
+      "name": "Ribbleton",
+      "total_crimes": 122,
+      "by_category": {
+        "anti-social-behaviour": 21,
+        "bicycle-theft": 1,
+        "burglary": 6,
+        "criminal-damage-arson": 13,
+        "drugs": 2,
+        "other-theft": 12,
+        "possession-of-weapons": 1,
+        "public-order": 4,
+        "vehicle-crime": 2,
+        "violent-crime": 53,
+        "other-crime": 7
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 11,
+        "Under investigation": 58,
+        "Awaiting court outcome": 6,
+        "Unable to prosecute suspect": 23,
+        "Local resolution": 1,
+        "Offender given a caution": 2
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "PR16": {
+      "ward_id": "PR16",
+      "name": "St Matthew's - Preston",
+      "total_crimes": 178,
+      "by_category": {
+        "anti-social-behaviour": 48,
+        "bicycle-theft": 1,
+        "burglary": 6,
+        "criminal-damage-arson": 11,
+        "drugs": 12,
+        "other-theft": 8,
+        "possession-of-weapons": 4,
+        "public-order": 7,
+        "robbery": 2,
+        "shoplifting": 6,
+        "vehicle-crime": 10,
+        "violent-crime": 62,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 20,
+        "Awaiting court outcome": 11,
+        "Under investigation": 76,
+        "Unable to prosecute suspect": 15,
+        "Offender given penalty notice": 1,
+        "Local resolution": 4,
+        "Offender given a caution": 2,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 18
+      }
+    },
+    "PR2": {
+      "ward_id": "PR2",
+      "name": "Sharoe Green",
+      "total_crimes": 69,
+      "by_category": {
+        "anti-social-behaviour": 14,
+        "bicycle-theft": 1,
+        "burglary": 2,
+        "criminal-damage-arson": 4,
+        "drugs": 2,
+        "other-theft": 2,
+        "public-order": 1,
+        "shoplifting": 10,
+        "vehicle-crime": 1,
+        "violent-crime": 31,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Under investigation": 28,
+        "Unable to prosecute suspect": 16,
+        "Awaiting court outcome": 4
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PR3": {
+      "ward_id": "PR3",
+      "name": "Deepdale",
+      "total_crimes": 96,
+      "by_category": {
+        "anti-social-behaviour": 27,
+        "bicycle-theft": 1,
+        "burglary": 2,
+        "criminal-damage-arson": 7,
+        "drugs": 2,
+        "other-theft": 10,
+        "possession-of-weapons": 1,
+        "public-order": 9,
+        "robbery": 1,
+        "shoplifting": 6,
+        "vehicle-crime": 4,
+        "violent-crime": 26
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 17,
+        "Under investigation": 35,
+        "Awaiting court outcome": 7,
+        "Local resolution": 2,
+        "Unable to prosecute suspect": 8
+      },
+      "stop_and_search": {
+        "total": 6
+      }
+    },
+    "PR4": {
+      "ward_id": "PR4",
+      "name": "Plungington",
+      "total_crimes": 112,
+      "by_category": {
+        "anti-social-behaviour": 21,
+        "bicycle-theft": 3,
+        "burglary": 1,
+        "criminal-damage-arson": 16,
+        "drugs": 5,
+        "other-theft": 5,
+        "possession-of-weapons": 1,
+        "public-order": 13,
+        "vehicle-crime": 3,
+        "violent-crime": 43,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 27,
+        "Under investigation": 43,
+        "Unable to prosecute suspect": 15,
+        "Awaiting court outcome": 5,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 8
+      }
+    },
+    "PR5": {
+      "ward_id": "PR5",
+      "name": "Ashton - Preston",
+      "total_crimes": 95,
+      "by_category": {
+        "anti-social-behaviour": 27,
+        "bicycle-theft": 2,
+        "burglary": 6,
+        "criminal-damage-arson": 8,
+        "drugs": 1,
+        "other-theft": 5,
+        "public-order": 2,
+        "shoplifting": 10,
+        "vehicle-crime": 9,
+        "violent-crime": 22,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 23,
+        "Under investigation": 29,
+        "Awaiting court outcome": 5,
+        "Unable to prosecute suspect": 9,
+        "Local resolution": 2
+      },
+      "stop_and_search": {
+        "total": 7
+      }
+    },
+    "PR6": {
+      "ward_id": "PR6",
+      "name": "Brookfield",
+      "total_crimes": 79,
+      "by_category": {
+        "anti-social-behaviour": 19,
+        "burglary": 2,
+        "criminal-damage-arson": 10,
+        "drugs": 2,
+        "other-theft": 6,
+        "public-order": 1,
+        "robbery": 1,
+        "shoplifting": 14,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 21,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Awaiting court outcome": 4,
+        "Under investigation": 22,
+        "Investigation complete; no suspect identified": 19,
+        "Unable to prosecute suspect": 11,
+        "Offender given penalty notice": 1,
+        "Offender given a caution": 2,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PR7": {
+      "ward_id": "PR7",
+      "name": "Cadley",
+      "total_crimes": 54,
+      "by_category": {
+        "anti-social-behaviour": 9,
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "other-theft": 3,
+        "possession-of-weapons": 1,
+        "public-order": 6,
+        "theft-from-the-person": 1,
+        "violent-crime": 30,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 14,
+        "Investigation complete; no suspect identified": 3,
+        "Under investigation": 27,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "PR8": {
+      "ward_id": "PR8",
+      "name": "City Centre - Preston",
+      "total_crimes": 501,
+      "by_category": {
+        "anti-social-behaviour": 145,
+        "bicycle-theft": 5,
+        "burglary": 5,
+        "criminal-damage-arson": 24,
+        "drugs": 36,
+        "other-theft": 23,
+        "possession-of-weapons": 4,
+        "public-order": 21,
+        "robbery": 4,
+        "shoplifting": 57,
+        "theft-from-the-person": 6,
+        "vehicle-crime": 15,
+        "violent-crime": 148,
+        "other-crime": 8
+      },
+      "outcomes": {
+        "Under investigation": 167,
+        "Investigation complete; no suspect identified": 69,
+        "Unable to prosecute suspect": 52,
+        "Awaiting court outcome": 31,
+        "Offender given a caution": 12,
+        "Local resolution": 23,
+        "Offender given penalty notice": 2
+      },
+      "stop_and_search": {
+        "total": 65
+      }
+    },
+    "PR9": {
+      "ward_id": "PR9",
+      "name": "Fishwick &amp; Frenchwood",
+      "total_crimes": 107,
+      "by_category": {
+        "anti-social-behaviour": 23,
+        "bicycle-theft": 1,
+        "burglary": 4,
+        "criminal-damage-arson": 8,
+        "drugs": 7,
+        "other-theft": 7,
+        "possession-of-weapons": 1,
+        "public-order": 7,
+        "shoplifting": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 39,
+        "other-crime": 6
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 16,
+        "Under investigation": 44,
+        "Local resolution": 5,
+        "Unable to prosecute suspect": 13,
+        "Awaiting court outcome": 5,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 7
+      }
+    }
+  },
+  "generated_at": "2026-02-16T16:13:44.044051",
+  "trends": {
+    "previous_date": "2025-11",
+    "current_total": 1745,
+    "previous_total": 1704,
+    "change": 41,
+    "change_pct": 2.4,
+    "by_category": {
+      "anti-social-behaviour": {
+        "current": 437,
+        "previous": 466,
+        "change_pct": -6.2
+      },
+      "possession-of-weapons": {
+        "current": 17,
+        "previous": 25,
+        "change_pct": -32.0
+      },
+      "robbery": {
+        "current": 8,
+        "previous": 16,
+        "change_pct": -50.0
+      },
+      "shoplifting": {
+        "current": 115,
+        "previous": 96,
+        "change_pct": 19.8
+      },
+      "burglary": {
+        "current": 50,
+        "previous": 46,
+        "change_pct": 8.7
+      },
+      "violent-crime": {
+        "current": 599,
+        "previous": 577,
+        "change_pct": 3.8
+      },
+      "theft-from-the-person": {
+        "current": 8,
+        "previous": 6,
+        "change_pct": 33.3
+      },
+      "other-theft": {
+        "current": 99,
+        "previous": 92,
+        "change_pct": 7.6
+      },
+      "vehicle-crime": {
+        "current": 58,
+        "previous": 48,
+        "change_pct": 20.8
+      },
+      "drugs": {
+        "current": 75,
+        "previous": 57,
+        "change_pct": 31.6
+      },
+      "bicycle-theft": {
+        "current": 16,
+        "previous": 21,
+        "change_pct": -23.8
+      },
+      "public-order": {
+        "current": 86,
+        "previous": 88,
+        "change_pct": -2.3
+      },
+      "other-crime": {
+        "current": 40,
+        "previous": 29,
+        "change_pct": 37.9
+      },
+      "criminal-damage-arson": {
+        "current": 137,
+        "previous": 137,
+        "change_pct": 0.0
+      }
+    }
+  }
+}

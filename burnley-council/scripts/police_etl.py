@@ -77,6 +77,36 @@ BOROUGH_CONFIG = {
         "prefix": "SR",
         "ons_code": "E07000126",
     },
+    "west_lancashire": {
+        "name": "West Lancashire",
+        "prefix": "WL",
+        "ons_code": "E07000127",
+    },
+    "wyre": {
+        "name": "Wyre",
+        "prefix": "WY",
+        "ons_code": "E07000128",
+    },
+    "preston": {
+        "name": "Preston",
+        "prefix": "PR",
+        "ons_code": "E07000123",
+    },
+    "fylde": {
+        "name": "Fylde",
+        "prefix": "FY",
+        "ons_code": "E07000119",
+    },
+    "blackpool": {
+        "name": "Blackpool",
+        "prefix": "BL",
+        "ons_code": "E06000009",
+    },
+    "blackburn": {
+        "name": "Blackburn with Darwen",
+        "prefix": "BD",
+        "ons_code": "E06000008",
+    },
 }
 
 # Crime category display names

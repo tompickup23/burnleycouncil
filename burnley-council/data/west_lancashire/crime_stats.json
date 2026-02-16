@@ -1,0 +1,549 @@
+{
+  "borough": "west_lancashire",
+  "borough_name": "West Lancashire",
+  "ons_code": "E07000127",
+  "date": "2025-12",
+  "total_crimes": 613,
+  "total_stop_and_search": 21,
+  "by_category": {
+    "anti-social-behaviour": 138,
+    "bicycle-theft": 2,
+    "burglary": 13,
+    "criminal-damage-arson": 51,
+    "drugs": 14,
+    "other-theft": 34,
+    "possession-of-weapons": 9,
+    "public-order": 25,
+    "robbery": 6,
+    "theft-from-the-person": 1,
+    "vehicle-crime": 18,
+    "violent-crime": 256,
+    "other-crime": 30,
+    "shoplifting": 16
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 256
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 138
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 51
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 34
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 30
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 25
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 18
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 16
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 14
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 13
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 9
+    },
+    "robbery": {
+      "name": "Robbery",
+      "count": 6
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 2
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 1
+    }
+  },
+  "outcomes": {
+    "Investigation complete; no suspect identified": 71,
+    "Unable to prosecute suspect": 116,
+    "Under investigation": 237,
+    "Local resolution": 16,
+    "Awaiting court outcome": 20,
+    "Action to be taken by another organisation": 4,
+    "Offender given a caution": 10,
+    "Offender given penalty notice": 1
+  },
+  "ward_count": 15,
+  "wards": {
+    "WL1": {
+      "ward_id": "WL1",
+      "name": "Skelmersdale South",
+      "total_crimes": 92,
+      "by_category": {
+        "anti-social-behaviour": 16,
+        "bicycle-theft": 1,
+        "burglary": 3,
+        "criminal-damage-arson": 12,
+        "drugs": 4,
+        "other-theft": 2,
+        "possession-of-weapons": 1,
+        "public-order": 3,
+        "robbery": 1,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 3,
+        "violent-crime": 37,
+        "other-crime": 8
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 15,
+        "Unable to prosecute suspect": 14,
+        "Under investigation": 40,
+        "Local resolution": 4,
+        "Awaiting court outcome": 3
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "WL10": {
+      "ward_id": "WL10",
+      "name": "Rural South",
+      "total_crimes": 14,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "other-theft": 2,
+        "vehicle-crime": 1,
+        "violent-crime": 7
+      },
+      "outcomes": {
+        "Under investigation": 7,
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 3
+      }
+    },
+    "WL11": {
+      "ward_id": "WL11",
+      "name": "Rural West",
+      "total_crimes": 24,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "burglary": 1,
+        "other-theft": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 12,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 7,
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 5,
+        "Awaiting court outcome": 1,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WL12": {
+      "ward_id": "WL12",
+      "name": "Skelmersdale North",
+      "total_crimes": 41,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "criminal-damage-arson": 4,
+        "drugs": 2,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "vehicle-crime": 3,
+        "violent-crime": 23,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 2,
+        "Under investigation": 21,
+        "Local resolution": 2,
+        "Awaiting court outcome": 6,
+        "Unable to prosecute suspect": 5,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "WL13": {
+      "ward_id": "WL13",
+      "name": "Tanhouse &amp; Skelmersdale Town Centre",
+      "total_crimes": 96,
+      "by_category": {
+        "anti-social-behaviour": 23,
+        "bicycle-theft": 1,
+        "burglary": 2,
+        "criminal-damage-arson": 10,
+        "other-theft": 8,
+        "possession-of-weapons": 2,
+        "public-order": 6,
+        "robbery": 1,
+        "shoplifting": 5,
+        "violent-crime": 32,
+        "other-crime": 6
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 9,
+        "Under investigation": 37,
+        "Unable to prosecute suspect": 18,
+        "Awaiting court outcome": 5,
+        "Local resolution": 3,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 5
+      }
+    },
+    "WL14": {
+      "ward_id": "WL14",
+      "name": "Tarleton Village",
+      "total_crimes": 12,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "other-theft": 2,
+        "public-order": 1,
+        "violent-crime": 4,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 4,
+        "Unable to prosecute suspect": 2,
+        "Offender given a caution": 1,
+        "Local resolution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WL15": {
+      "ward_id": "WL15",
+      "name": "Up Holland",
+      "total_crimes": 20,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "robbery": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 4,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 5,
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 4,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "WL2": {
+      "ward_id": "WL2",
+      "name": "Aughton &amp; Holborn",
+      "total_crimes": 21,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "burglary": 1,
+        "drugs": 1,
+        "other-theft": 4,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "violent-crime": 8
+      },
+      "outcomes": {
+        "Under investigation": 8,
+        "Local resolution": 1,
+        "Unable to prosecute suspect": 3,
+        "Investigation complete; no suspect identified": 3,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WL3": {
+      "ward_id": "WL3",
+      "name": "Burscough Bridge &amp; Rufford",
+      "total_crimes": 28,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "burglary": 1,
+        "criminal-damage-arson": 4,
+        "other-theft": 1,
+        "public-order": 2,
+        "shoplifting": 4,
+        "vehicle-crime": 1,
+        "violent-crime": 8
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 13,
+        "Under investigation": 6,
+        "Investigation complete; no suspect identified": 2
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "WL4": {
+      "ward_id": "WL4",
+      "name": "Burscough Town",
+      "total_crimes": 53,
+      "by_category": {
+        "anti-social-behaviour": 11,
+        "criminal-damage-arson": 3,
+        "drugs": 1,
+        "other-theft": 2,
+        "public-order": 1,
+        "shoplifting": 2,
+        "violent-crime": 30,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 23,
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 12,
+        "Action to be taken by another organisation": 1,
+        "Local resolution": 1,
+        "Offender given a caution": 2,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WL5": {
+      "ward_id": "WL5",
+      "name": "North Meols &amp; Hesketh Bank",
+      "total_crimes": 13,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "violent-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 1,
+        "Under investigation": 4
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WL6": {
+      "ward_id": "WL6",
+      "name": "Old Skelmersdale",
+      "total_crimes": 58,
+      "by_category": {
+        "anti-social-behaviour": 12,
+        "burglary": 1,
+        "criminal-damage-arson": 6,
+        "drugs": 3,
+        "other-theft": 5,
+        "public-order": 2,
+        "robbery": 1,
+        "vehicle-crime": 2,
+        "violent-crime": 23,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Under investigation": 24,
+        "Offender given a caution": 1,
+        "Unable to prosecute suspect": 11,
+        "Local resolution": 1,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 2
+      }
+    },
+    "WL7": {
+      "ward_id": "WL7",
+      "name": "Ormskirk East",
+      "total_crimes": 60,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "criminal-damage-arson": 4,
+        "other-theft": 3,
+        "public-order": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 43,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 27,
+        "Local resolution": 1,
+        "Investigation complete; no suspect identified": 5,
+        "Awaiting court outcome": 1,
+        "Unable to prosecute suspect": 18,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WL8": {
+      "ward_id": "WL8",
+      "name": "Ormskirk West",
+      "total_crimes": 60,
+      "by_category": {
+        "anti-social-behaviour": 21,
+        "burglary": 1,
+        "criminal-damage-arson": 5,
+        "drugs": 2,
+        "other-theft": 2,
+        "possession-of-weapons": 2,
+        "public-order": 4,
+        "robbery": 2,
+        "shoplifting": 5,
+        "vehicle-crime": 1,
+        "violent-crime": 15
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 12,
+        "Offender given a caution": 3,
+        "Under investigation": 17,
+        "Unable to prosecute suspect": 7
+      },
+      "stop_and_search": {
+        "total": 5
+      }
+    },
+    "WL9": {
+      "ward_id": "WL9",
+      "name": "Rural North East",
+      "total_crimes": 21,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "burglary": 2,
+        "drugs": 1,
+        "public-order": 1,
+        "vehicle-crime": 3,
+        "violent-crime": 8,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 7,
+        "Investigation complete; no suspect identified": 4,
+        "Offender given penalty notice": 1,
+        "Offender given a caution": 1,
+        "Local resolution": 1,
+        "Unable to prosecute suspect": 1,
+        "Awaiting court outcome": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    }
+  },
+  "generated_at": "2026-02-16T16:07:49.220645",
+  "trends": {
+    "previous_date": "2025-11",
+    "current_total": 613,
+    "previous_total": 685,
+    "change": -72,
+    "change_pct": -10.5,
+    "by_category": {
+      "drugs": {
+        "current": 14,
+        "previous": 21,
+        "change_pct": -33.3
+      },
+      "public-order": {
+        "current": 25,
+        "previous": 24,
+        "change_pct": 4.2
+      },
+      "burglary": {
+        "current": 13,
+        "previous": 16,
+        "change_pct": -18.8
+      },
+      "robbery": {
+        "current": 6,
+        "previous": 4,
+        "change_pct": 50.0
+      },
+      "shoplifting": {
+        "current": 16,
+        "previous": 23,
+        "change_pct": -30.4
+      },
+      "violent-crime": {
+        "current": 256,
+        "previous": 268,
+        "change_pct": -4.5
+      },
+      "other-crime": {
+        "current": 30,
+        "previous": 24,
+        "change_pct": 25.0
+      },
+      "theft-from-the-person": {
+        "current": 1,
+        "previous": 1,
+        "change_pct": 0.0
+      },
+      "anti-social-behaviour": {
+        "current": 138,
+        "previous": 189,
+        "change_pct": -27.0
+      },
+      "vehicle-crime": {
+        "current": 18,
+        "previous": 21,
+        "change_pct": -14.3
+      },
+      "other-theft": {
+        "current": 34,
+        "previous": 33,
+        "change_pct": 3.0
+      },
+      "possession-of-weapons": {
+        "current": 9,
+        "previous": 10,
+        "change_pct": -10.0
+      },
+      "criminal-damage-arson": {
+        "current": 51,
+        "previous": 49,
+        "change_pct": 4.1
+      },
+      "bicycle-theft": {
+        "current": 2,
+        "previous": 2,
+        "change_pct": 0.0
+      }
+    }
+  }
+}

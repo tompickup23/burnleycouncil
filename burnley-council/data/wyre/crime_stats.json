@@ -1,0 +1,742 @@
+{
+  "borough": "wyre",
+  "borough_name": "Wyre",
+  "ons_code": "E07000128",
+  "date": "2025-12",
+  "total_crimes": 744,
+  "total_stop_and_search": 10,
+  "by_category": {
+    "anti-social-behaviour": 174,
+    "criminal-damage-arson": 51,
+    "other-theft": 43,
+    "public-order": 27,
+    "shoplifting": 60,
+    "vehicle-crime": 18,
+    "violent-crime": 281,
+    "other-crime": 20,
+    "possession-of-weapons": 9,
+    "burglary": 24,
+    "robbery": 2,
+    "drugs": 30,
+    "theft-from-the-person": 1,
+    "bicycle-theft": 4
+  },
+  "category_display": {
+    "violent-crime": {
+      "name": "Violence & sexual offences",
+      "count": 281
+    },
+    "anti-social-behaviour": {
+      "name": "Anti-social behaviour",
+      "count": 174
+    },
+    "shoplifting": {
+      "name": "Shoplifting",
+      "count": 60
+    },
+    "criminal-damage-arson": {
+      "name": "Criminal damage & arson",
+      "count": 51
+    },
+    "other-theft": {
+      "name": "Other theft",
+      "count": 43
+    },
+    "drugs": {
+      "name": "Drugs",
+      "count": 30
+    },
+    "public-order": {
+      "name": "Public order",
+      "count": 27
+    },
+    "burglary": {
+      "name": "Burglary",
+      "count": 24
+    },
+    "other-crime": {
+      "name": "Other crime",
+      "count": 20
+    },
+    "vehicle-crime": {
+      "name": "Vehicle crime",
+      "count": 18
+    },
+    "possession-of-weapons": {
+      "name": "Weapons possession",
+      "count": 9
+    },
+    "bicycle-theft": {
+      "name": "Bicycle theft",
+      "count": 4
+    },
+    "robbery": {
+      "name": "Robbery",
+      "count": 2
+    },
+    "theft-from-the-person": {
+      "name": "Theft from person",
+      "count": 1
+    }
+  },
+  "outcomes": {
+    "Under investigation": 312,
+    "Investigation complete; no suspect identified": 91,
+    "Unable to prosecute suspect": 92,
+    "Local resolution": 27,
+    "Awaiting court outcome": 34,
+    "Offender given a caution": 11,
+    "Action to be taken by another organisation": 2,
+    "Further investigation is not in the public interest": 1
+  },
+  "ward_count": 24,
+  "wards": {
+    "WY1": {
+      "ward_id": "WY1",
+      "name": "Bourne",
+      "total_crimes": 64,
+      "by_category": {
+        "anti-social-behaviour": 12,
+        "criminal-damage-arson": 7,
+        "other-theft": 3,
+        "public-order": 1,
+        "shoplifting": 5,
+        "vehicle-crime": 2,
+        "violent-crime": 29,
+        "other-crime": 5
+      },
+      "outcomes": {
+        "Under investigation": 30,
+        "Investigation complete; no suspect identified": 6,
+        "Unable to prosecute suspect": 11,
+        "Local resolution": 2,
+        "Awaiting court outcome": 2,
+        "Offender given a caution": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY10": {
+      "ward_id": "WY10",
+      "name": "Brock with Catterall",
+      "total_crimes": 22,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "criminal-damage-arson": 2,
+        "other-theft": 2,
+        "vehicle-crime": 1,
+        "violent-crime": 11
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 2,
+        "Local resolution": 1,
+        "Under investigation": 7,
+        "Unable to prosecute suspect": 6
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY11": {
+      "ward_id": "WY11",
+      "name": "Calder",
+      "total_crimes": 4,
+      "by_category": {
+        "anti-social-behaviour": 1,
+        "criminal-damage-arson": 1,
+        "violent-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 1,
+        "Under investigation": 1,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY12": {
+      "ward_id": "WY12",
+      "name": "Carleton",
+      "total_crimes": 15,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "vehicle-crime": 4,
+        "violent-crime": 5,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Offender given a caution": 1,
+        "Local resolution": 1,
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 3,
+        "Under investigation": 3
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "WY13": {
+      "ward_id": "WY13",
+      "name": "Garstang",
+      "total_crimes": 39,
+      "by_category": {
+        "anti-social-behaviour": 13,
+        "burglary": 1,
+        "criminal-damage-arson": 1,
+        "other-theft": 1,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "shoplifting": 8,
+        "violent-crime": 13
+      },
+      "outcomes": {
+        "Under investigation": 20,
+        "Investigation complete; no suspect identified": 3,
+        "Local resolution": 1,
+        "Awaiting court outcome": 1,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY14": {
+      "ward_id": "WY14",
+      "name": "Great Eccleston",
+      "total_crimes": 15,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "criminal-damage-arson": 1,
+        "other-theft": 3,
+        "robbery": 1,
+        "violent-crime": 5
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 5,
+        "Under investigation": 5
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "WY15": {
+      "ward_id": "WY15",
+      "name": "Hambleton &amp; Stalmine",
+      "total_crimes": 19,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 1,
+        "possession-of-weapons": 1,
+        "violent-crime": 10
+      },
+      "outcomes": {
+        "Under investigation": 10,
+        "Investigation complete; no suspect identified": 2,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY16": {
+      "ward_id": "WY16",
+      "name": "Hardhorn with High Cross",
+      "total_crimes": 23,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "burglary": 2,
+        "criminal-damage-arson": 4,
+        "other-theft": 1,
+        "public-order": 2,
+        "vehicle-crime": 1,
+        "violent-crime": 7,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Under investigation": 6,
+        "Unable to prosecute suspect": 5
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY17": {
+      "ward_id": "WY17",
+      "name": "Marsh Mill",
+      "total_crimes": 30,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "burglary": 1,
+        "criminal-damage-arson": 4,
+        "drugs": 1,
+        "other-theft": 4,
+        "shoplifting": 1,
+        "theft-from-the-person": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 9,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 4,
+        "Under investigation": 12,
+        "Awaiting court outcome": 3
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY18": {
+      "ward_id": "WY18",
+      "name": "Pheasants Wood",
+      "total_crimes": 14,
+      "by_category": {
+        "anti-social-behaviour": 2,
+        "burglary": 1,
+        "drugs": 1,
+        "other-theft": 1,
+        "shoplifting": 1,
+        "violent-crime": 8
+      },
+      "outcomes": {
+        "Under investigation": 9,
+        "Investigation complete; no suspect identified": 1,
+        "Awaiting court outcome": 1,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY19": {
+      "ward_id": "WY19",
+      "name": "Pilling",
+      "total_crimes": 10,
+      "by_category": {
+        "anti-social-behaviour": 3,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 2,
+        "violent-crime": 2,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 1,
+        "Under investigation": 5,
+        "Investigation complete; no suspect identified": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY2": {
+      "ward_id": "WY2",
+      "name": "Jubilee - Wyre",
+      "total_crimes": 58,
+      "by_category": {
+        "anti-social-behaviour": 18,
+        "bicycle-theft": 1,
+        "burglary": 4,
+        "criminal-damage-arson": 2,
+        "public-order": 2,
+        "shoplifting": 4,
+        "violent-crime": 25,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 9,
+        "Under investigation": 20,
+        "Unable to prosecute suspect": 7,
+        "Local resolution": 2,
+        "Awaiting court outcome": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY20": {
+      "ward_id": "WY20",
+      "name": "Preesall",
+      "total_crimes": 31,
+      "by_category": {
+        "anti-social-behaviour": 10,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "public-order": 3,
+        "shoplifting": 1,
+        "violent-crime": 14
+      },
+      "outcomes": {
+        "Under investigation": 16,
+        "Unable to prosecute suspect": 2,
+        "Investigation complete; no suspect identified": 1,
+        "Local resolution": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY21": {
+      "ward_id": "WY21",
+      "name": "Stanah",
+      "total_crimes": 15,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "burglary": 1,
+        "other-theft": 1,
+        "shoplifting": 2,
+        "violent-crime": 6,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 5,
+        "Investigation complete; no suspect identified": 4,
+        "Unable to prosecute suspect": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY22": {
+      "ward_id": "WY22",
+      "name": "Tithebarn",
+      "total_crimes": 35,
+      "by_category": {
+        "anti-social-behaviour": 6,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 2,
+        "public-order": 1,
+        "shoplifting": 11,
+        "vehicle-crime": 1,
+        "violent-crime": 11,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 15,
+        "Local resolution": 1,
+        "Investigation complete; no suspect identified": 8,
+        "Awaiting court outcome": 2,
+        "Unable to prosecute suspect": 3
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "WY23": {
+      "ward_id": "WY23",
+      "name": "Victoria &amp; Norcross",
+      "total_crimes": 43,
+      "by_category": {
+        "anti-social-behaviour": 13,
+        "burglary": 2,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "other-theft": 7,
+        "public-order": 4,
+        "shoplifting": 4,
+        "vehicle-crime": 1,
+        "violent-crime": 10
+      },
+      "outcomes": {
+        "Under investigation": 13,
+        "Unable to prosecute suspect": 5,
+        "Investigation complete; no suspect identified": 5,
+        "Local resolution": 1,
+        "Action to be taken by another organisation": 1,
+        "Awaiting court outcome": 5
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY24": {
+      "ward_id": "WY24",
+      "name": "Wyresdale",
+      "total_crimes": 13,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "other-theft": 1,
+        "violent-crime": 8
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 1,
+        "Unable to prosecute suspect": 4,
+        "Under investigation": 4
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY3": {
+      "ward_id": "WY3",
+      "name": "Cleveleys Park",
+      "total_crimes": 13,
+      "by_category": {
+        "anti-social-behaviour": 5,
+        "criminal-damage-arson": 1,
+        "drugs": 1,
+        "vehicle-crime": 2,
+        "violent-crime": 4
+      },
+      "outcomes": {
+        "Awaiting court outcome": 1,
+        "Under investigation": 4,
+        "Investigation complete; no suspect identified": 2,
+        "Unable to prosecute suspect": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY4": {
+      "ward_id": "WY4",
+      "name": "Warren",
+      "total_crimes": 21,
+      "by_category": {
+        "anti-social-behaviour": 4,
+        "criminal-damage-arson": 3,
+        "drugs": 3,
+        "robbery": 1,
+        "violent-crime": 7,
+        "other-crime": 3
+      },
+      "outcomes": {
+        "Under investigation": 11,
+        "Unable to prosecute suspect": 4,
+        "Offender given a caution": 1,
+        "Further investigation is not in the public interest": 1
+      },
+      "stop_and_search": {
+        "total": 1
+      }
+    },
+    "WY5": {
+      "ward_id": "WY5",
+      "name": "Rossall",
+      "total_crimes": 44,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "burglary": 7,
+        "criminal-damage-arson": 3,
+        "drugs": 1,
+        "other-theft": 1,
+        "possession-of-weapons": 2,
+        "shoplifting": 1,
+        "violent-crime": 21,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Under investigation": 29,
+        "Unable to prosecute suspect": 4,
+        "Awaiting court outcome": 1,
+        "Local resolution": 1,
+        "Offender given a caution": 1,
+        "Investigation complete; no suspect identified": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY6": {
+      "ward_id": "WY6",
+      "name": "Mount",
+      "total_crimes": 47,
+      "by_category": {
+        "anti-social-behaviour": 7,
+        "bicycle-theft": 1,
+        "burglary": 1,
+        "criminal-damage-arson": 6,
+        "drugs": 5,
+        "other-theft": 5,
+        "possession-of-weapons": 1,
+        "public-order": 1,
+        "shoplifting": 2,
+        "vehicle-crime": 2,
+        "violent-crime": 14,
+        "other-crime": 2
+      },
+      "outcomes": {
+        "Unable to prosecute suspect": 3,
+        "Offender given a caution": 3,
+        "Investigation complete; no suspect identified": 8,
+        "Under investigation": 22,
+        "Awaiting court outcome": 2,
+        "Local resolution": 2
+      },
+      "stop_and_search": {
+        "total": 3
+      }
+    },
+    "WY7": {
+      "ward_id": "WY7",
+      "name": "Pharos",
+      "total_crimes": 72,
+      "by_category": {
+        "anti-social-behaviour": 17,
+        "burglary": 2,
+        "criminal-damage-arson": 3,
+        "drugs": 8,
+        "other-theft": 6,
+        "possession-of-weapons": 2,
+        "public-order": 6,
+        "shoplifting": 1,
+        "vehicle-crime": 1,
+        "violent-crime": 25,
+        "other-crime": 1
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 7,
+        "Awaiting court outcome": 3,
+        "Under investigation": 23,
+        "Local resolution": 10,
+        "Unable to prosecute suspect": 10,
+        "Offender given a caution": 2
+      },
+      "stop_and_search": {
+        "total": 3
+      }
+    },
+    "WY8": {
+      "ward_id": "WY8",
+      "name": "Park - Wyre",
+      "total_crimes": 53,
+      "by_category": {
+        "anti-social-behaviour": 9,
+        "criminal-damage-arson": 5,
+        "drugs": 5,
+        "other-theft": 1,
+        "possession-of-weapons": 1,
+        "public-order": 4,
+        "shoplifting": 5,
+        "vehicle-crime": 1,
+        "violent-crime": 22
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 3,
+        "Under investigation": 26,
+        "Unable to prosecute suspect": 4,
+        "Local resolution": 3,
+        "Awaiting court outcome": 6,
+        "Offender given a caution": 2
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    },
+    "WY9": {
+      "ward_id": "WY9",
+      "name": "Breck",
+      "total_crimes": 44,
+      "by_category": {
+        "anti-social-behaviour": 8,
+        "bicycle-theft": 2,
+        "burglary": 1,
+        "criminal-damage-arson": 2,
+        "drugs": 1,
+        "other-theft": 1,
+        "public-order": 1,
+        "shoplifting": 14,
+        "vehicle-crime": 1,
+        "violent-crime": 13
+      },
+      "outcomes": {
+        "Investigation complete; no suspect identified": 11,
+        "Under investigation": 16,
+        "Unable to prosecute suspect": 5,
+        "Awaiting court outcome": 3,
+        "Action to be taken by another organisation": 1
+      },
+      "stop_and_search": {
+        "total": 0
+      }
+    }
+  },
+  "generated_at": "2026-02-16T16:12:21.331597",
+  "trends": {
+    "previous_date": "2025-11",
+    "current_total": 744,
+    "previous_total": 840,
+    "change": -96,
+    "change_pct": -11.4,
+    "by_category": {
+      "theft-from-the-person": {
+        "current": 1,
+        "previous": 2,
+        "change_pct": -50.0
+      },
+      "possession-of-weapons": {
+        "current": 9,
+        "previous": 3,
+        "change_pct": 200.0
+      },
+      "vehicle-crime": {
+        "current": 18,
+        "previous": 17,
+        "change_pct": 5.9
+      },
+      "bicycle-theft": {
+        "current": 4,
+        "previous": 4,
+        "change_pct": 0.0
+      },
+      "violent-crime": {
+        "current": 281,
+        "previous": 291,
+        "change_pct": -3.4
+      },
+      "public-order": {
+        "current": 27,
+        "previous": 55,
+        "change_pct": -50.9
+      },
+      "other-crime": {
+        "current": 20,
+        "previous": 20,
+        "change_pct": 0.0
+      },
+      "criminal-damage-arson": {
+        "current": 51,
+        "previous": 49,
+        "change_pct": 4.1
+      },
+      "other-theft": {
+        "current": 43,
+        "previous": 38,
+        "change_pct": 13.2
+      },
+      "burglary": {
+        "current": 24,
+        "previous": 21,
+        "change_pct": 14.3
+      },
+      "anti-social-behaviour": {
+        "current": 174,
+        "previous": 206,
+        "change_pct": -15.5
+      },
+      "robbery": {
+        "current": 2,
+        "previous": 3,
+        "change_pct": -33.3
+      },
+      "drugs": {
+        "current": 30,
+        "previous": 33,
+        "change_pct": -9.1
+      },
+      "shoplifting": {
+        "current": 60,
+        "previous": 98,
+        "change_pct": -38.8
+      }
+    }
+  }
+}

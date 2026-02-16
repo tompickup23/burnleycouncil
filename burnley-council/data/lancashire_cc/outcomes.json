@@ -1,10 +1,95 @@
 {
-  "outcomes": [],
+  "outcomes": [
+    {
+      "id": "outcome-1",
+      "date": "2026-02-15",
+      "finding": "Likely duplicate payments detected -- £93.6M flagged across high-confidence duplicate groups",
+      "finding_date": "2026-02-15",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "duplicates",
+      "severity": "critical",
+      "next_steps": [
+        "Submit FOI for duplicate payment reconciliation process",
+        "Request internal audit findings on payment controls"
+      ]
+    },
+    {
+      "id": "outcome-2",
+      "date": "2026-02-15",
+      "finding": "Possible duplicate payments -- £169.0M in medium-confidence groups requiring review",
+      "finding_date": "2026-02-15",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "duplicates",
+      "severity": "warning",
+      "next_steps": [
+        "Submit FOI for duplicate payment reconciliation process",
+        "Request internal audit findings on payment controls"
+      ]
+    },
+    {
+      "id": "outcome-3",
+      "date": "2026-02-15",
+      "finding": "Suspected split payments -- £433.6M potentially structured to avoid approval thresholds",
+      "finding_date": "2026-02-15",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "spending_patterns",
+      "severity": "warning",
+      "next_steps": [
+        "Monitor spending patterns across fiscal year transitions",
+        "Request explanation for identified anomalies"
+      ]
+    },
+    {
+      "id": "outcome-4",
+      "date": "2026-02-15",
+      "finding": "Year-end spending spike -- 14.7x above monthly average detected in March fiscal year-end",
+      "finding_date": "2026-02-15",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "spending_patterns",
+      "severity": "warning",
+      "next_steps": [
+        "Monitor spending patterns across fiscal year transitions",
+        "Request explanation for identified anomalies"
+      ]
+    },
+    {
+      "id": "outcome-5",
+      "date": "2026-02-15",
+      "finding": "Weak competition indicators -- 33 contracts show signs of limited competitive tendering",
+      "finding_date": "2026-02-15",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "procurement",
+      "severity": "warning",
+      "next_steps": [
+        "Request tender documentation for flagged contracts",
+        "Monitor Contracts Finder for compliance"
+      ]
+    },
+    {
+      "id": "outcome-6",
+      "date": "2026-02-15",
+      "finding": "Budget category efficiency concerns -- 3 categories flagged with multiple efficiency indicators",
+      "finding_date": "2026-02-15",
+      "status": "published",
+      "response": "Finding published on AI DOGE transparency platform. No council response received yet.",
+      "category": "spending_patterns",
+      "severity": "warning",
+      "next_steps": [
+        "Monitor spending patterns across fiscal year transitions",
+        "Request explanation for identified anomalies"
+      ]
+    }
+  ],
   "summary": {
-    "total_findings_published": 0,
+    "total_findings_published": 6,
     "council_responses_received": 0,
+    "policy_changes_tracked": 0,
     "foi_requests_submitted": 0,
-    "changes_implemented": 0,
-    "last_updated": "2026-02-15"
+    "last_updated": "2026-02-16"
   }
 }

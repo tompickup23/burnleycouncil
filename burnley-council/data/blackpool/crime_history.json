@@ -1,0 +1,4212 @@
+[
+  {
+    "borough": "blackpool",
+    "borough_name": "Blackpool",
+    "ons_code": "E06000009",
+    "date": "2025-07",
+    "total_crimes": 2767,
+    "total_stop_and_search": 239,
+    "by_category": {
+      "anti-social-behaviour": 824,
+      "bicycle-theft": 13,
+      "burglary": 64,
+      "criminal-damage-arson": 168,
+      "drugs": 65,
+      "other-theft": 128,
+      "possession-of-weapons": 36,
+      "public-order": 161,
+      "robbery": 22,
+      "shoplifting": 99,
+      "theft-from-the-person": 23,
+      "vehicle-crime": 84,
+      "violent-crime": 1010,
+      "other-crime": 70
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 1010
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 824
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 168
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 161
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 128
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 99
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 84
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 70
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 65
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 64
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 36
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 23
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 22
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 13
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 485,
+      "Awaiting court outcome": 179,
+      "Local resolution": 113,
+      "Status update unavailable": 220,
+      "Offender given a caution": 46,
+      "Unable to prosecute suspect": 842,
+      "Further investigation is not in the public interest": 10,
+      "Offender given penalty notice": 6,
+      "Action to be taken by another organisation": 29,
+      "Further action is not in the public interest": 5,
+      "Formal action is not in the public interest": 3,
+      "Suspect charged as part of another case": 5
+    },
+    "ward_count": 21,
+    "wards": {
+      "BL1": {
+        "ward_id": "BL1",
+        "name": "Waterloo",
+        "total_crimes": 182,
+        "by_category": {
+          "anti-social-behaviour": 64,
+          "bicycle-theft": 1,
+          "burglary": 5,
+          "criminal-damage-arson": 13,
+          "drugs": 4,
+          "other-theft": 12,
+          "possession-of-weapons": 2,
+          "public-order": 10,
+          "robbery": 2,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 57,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 31,
+          "Awaiting court outcome": 7,
+          "Local resolution": 9,
+          "Status update unavailable": 11,
+          "Offender given a caution": 4,
+          "Unable to prosecute suspect": 54,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 24
+        }
+      },
+      "BL10": {
+        "ward_id": "BL10",
+        "name": "Bispham",
+        "total_crimes": 55,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "burglary": 2,
+          "criminal-damage-arson": 8,
+          "public-order": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 5,
+          "violent-crime": 15,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 18,
+          "Local resolution": 2,
+          "Awaiting court outcome": 2,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL11": {
+        "ward_id": "BL11",
+        "name": "Ingthorpe",
+        "total_crimes": 90,
+        "by_category": {
+          "anti-social-behaviour": 29,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "drugs": 5,
+          "other-theft": 6,
+          "possession-of-weapons": 2,
+          "public-order": 1,
+          "robbery": 1,
+          "vehicle-crime": 6,
+          "violent-crime": 37
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Offender given penalty notice": 2,
+          "Local resolution": 3,
+          "Status update unavailable": 7,
+          "Unable to prosecute suspect": 29,
+          "Awaiting court outcome": 5,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "BL12": {
+        "ward_id": "BL12",
+        "name": "Warbreck",
+        "total_crimes": 72,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "burglary": 4,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "robbery": 1,
+          "vehicle-crime": 6,
+          "violent-crime": 26,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Status update unavailable": 6,
+          "Investigation complete; no suspect identified": 18,
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 22,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL13": {
+        "ward_id": "BL13",
+        "name": "Park",
+        "total_crimes": 118,
+        "by_category": {
+          "anti-social-behaviour": 32,
+          "burglary": 2,
+          "criminal-damage-arson": 7,
+          "other-theft": 7,
+          "public-order": 9,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 53,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Awaiting court outcome": 8,
+          "Unable to prosecute suspect": 49,
+          "Local resolution": 5,
+          "Status update unavailable": 5,
+          "Further investigation is not in the public interest": 2,
+          "Further action is not in the public interest": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL14": {
+        "ward_id": "BL14",
+        "name": "Anchorsholme",
+        "total_crimes": 45,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "criminal-damage-arson": 3,
+          "other-theft": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 2,
+          "violent-crime": 16
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 17,
+          "Investigation complete; no suspect identified": 2,
+          "Local resolution": 6,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL15": {
+        "ward_id": "BL15",
+        "name": "Bloomfield",
+        "total_crimes": 387,
+        "by_category": {
+          "anti-social-behaviour": 114,
+          "bicycle-theft": 1,
+          "burglary": 11,
+          "criminal-damage-arson": 33,
+          "drugs": 8,
+          "other-theft": 24,
+          "possession-of-weapons": 5,
+          "public-order": 30,
+          "robbery": 5,
+          "shoplifting": 16,
+          "theft-from-the-person": 3,
+          "vehicle-crime": 7,
+          "violent-crime": 124,
+          "other-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 72,
+          "Unable to prosecute suspect": 116,
+          "Status update unavailable": 29,
+          "Local resolution": 19,
+          "Awaiting court outcome": 23,
+          "Offender given a caution": 6,
+          "Offender given penalty notice": 1,
+          "Action to be taken by another organisation": 5,
+          "Further action is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 35
+        }
+      },
+      "BL16": {
+        "ward_id": "BL16",
+        "name": "Greenlands",
+        "total_crimes": 61,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 2,
+          "shoplifting": 2,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 18,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 19,
+          "Investigation complete; no suspect identified": 9,
+          "Status update unavailable": 5,
+          "Local resolution": 1,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL17": {
+        "ward_id": "BL17",
+        "name": "Highfield",
+        "total_crimes": 72,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 5,
+          "other-theft": 1,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 33,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 30,
+          "Status update unavailable": 5,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 2,
+          "Local resolution": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL18": {
+        "ward_id": "BL18",
+        "name": "Layton",
+        "total_crimes": 92,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 9,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 12,
+          "shoplifting": 3,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 3,
+          "violent-crime": 31,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 38,
+          "Investigation complete; no suspect identified": 14,
+          "Status update unavailable": 7,
+          "Offender given penalty notice": 1,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 7,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL19": {
+        "ward_id": "BL19",
+        "name": "Norbreck",
+        "total_crimes": 41,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "violent-crime": 16
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Status update unavailable": 4,
+          "Further investigation is not in the public interest": 1,
+          "Unable to prosecute suspect": 12,
+          "Local resolution": 2,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL2": {
+        "ward_id": "BL2",
+        "name": "Victoria",
+        "total_crimes": 88,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "bicycle-theft": 2,
+          "burglary": 6,
+          "criminal-damage-arson": 4,
+          "drugs": 4,
+          "other-theft": 2,
+          "possession-of-weapons": 3,
+          "public-order": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 33,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 18,
+          "Investigation complete; no suspect identified": 13,
+          "Status update unavailable": 9,
+          "Further investigation is not in the public interest": 1,
+          "Action to be taken by another organisation": 9,
+          "Awaiting court outcome": 8,
+          "Offender given a caution": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "BL20": {
+        "ward_id": "BL20",
+        "name": "Squires Gate",
+        "total_crimes": 49,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 1,
+          "criminal-damage-arson": 12,
+          "other-theft": 6,
+          "public-order": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 8,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 16,
+          "Formal action is not in the public interest": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "BL21": {
+        "ward_id": "BL21",
+        "name": "Stanley",
+        "total_crimes": 30,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 11
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL3": {
+        "ward_id": "BL3",
+        "name": "Clifton",
+        "total_crimes": 175,
+        "by_category": {
+          "anti-social-behaviour": 52,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 11,
+          "drugs": 2,
+          "other-theft": 6,
+          "public-order": 9,
+          "robbery": 1,
+          "shoplifting": 16,
+          "vehicle-crime": 6,
+          "violent-crime": 66,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 49,
+          "Investigation complete; no suspect identified": 27,
+          "Awaiting court outcome": 13,
+          "Further investigation is not in the public interest": 1,
+          "Status update unavailable": 11,
+          "Local resolution": 10,
+          "Action to be taken by another organisation": 5,
+          "Offender given a caution": 4,
+          "Suspect charged as part of another case": 3
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL4": {
+        "ward_id": "BL4",
+        "name": "Marton",
+        "total_crimes": 96,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 2,
+          "public-order": 5,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 51,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Status update unavailable": 10,
+          "Investigation complete; no suspect identified": 12,
+          "Unable to prosecute suspect": 25,
+          "Awaiting court outcome": 12,
+          "Formal action is not in the public interest": 1,
+          "Local resolution": 7,
+          "Offender given a caution": 2,
+          "Suspect charged as part of another case": 2
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL5": {
+        "ward_id": "BL5",
+        "name": "Hawes Side",
+        "total_crimes": 58,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 3,
+          "other-theft": 2,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 19,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 16,
+          "Investigation complete; no suspect identified": 11,
+          "Awaiting court outcome": 4,
+          "Status update unavailable": 6,
+          "Further investigation is not in the public interest": 1,
+          "Local resolution": 2,
+          "Formal action is not in the public interest": 1,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "BL6": {
+        "ward_id": "BL6",
+        "name": "Tyldesley",
+        "total_crimes": 87,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "burglary": 2,
+          "criminal-damage-arson": 7,
+          "other-theft": 7,
+          "possession-of-weapons": 3,
+          "public-order": 4,
+          "robbery": 1,
+          "shoplifting": 5,
+          "vehicle-crime": 5,
+          "violent-crime": 30,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 23,
+          "Offender given a caution": 2,
+          "Unable to prosecute suspect": 24,
+          "Awaiting court outcome": 5,
+          "Status update unavailable": 10,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL7": {
+        "ward_id": "BL7",
+        "name": "Talbot",
+        "total_crimes": 467,
+        "by_category": {
+          "anti-social-behaviour": 118,
+          "bicycle-theft": 4,
+          "burglary": 6,
+          "criminal-damage-arson": 19,
+          "drugs": 22,
+          "other-theft": 18,
+          "possession-of-weapons": 4,
+          "public-order": 27,
+          "robbery": 3,
+          "shoplifting": 36,
+          "theft-from-the-person": 7,
+          "vehicle-crime": 9,
+          "violent-crime": 179,
+          "other-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 93,
+          "Unable to prosecute suspect": 139,
+          "Offender given a caution": 7,
+          "Status update unavailable": 46,
+          "Awaiting court outcome": 41,
+          "Local resolution": 18,
+          "Offender given penalty notice": 2,
+          "Further investigation is not in the public interest": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 88
+        }
+      },
+      "BL8": {
+        "ward_id": "BL8",
+        "name": "Claremont",
+        "total_crimes": 369,
+        "by_category": {
+          "anti-social-behaviour": 124,
+          "burglary": 2,
+          "criminal-damage-arson": 19,
+          "drugs": 10,
+          "other-theft": 15,
+          "possession-of-weapons": 6,
+          "public-order": 29,
+          "robbery": 6,
+          "shoplifting": 4,
+          "theft-from-the-person": 6,
+          "vehicle-crime": 4,
+          "violent-crime": 136,
+          "other-crime": 8
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 48,
+          "Unable to prosecute suspect": 107,
+          "Offender given a caution": 9,
+          "Local resolution": 16,
+          "Status update unavailable": 33,
+          "Awaiting court outcome": 29,
+          "Action to be taken by another organisation": 3
+        },
+        "stop_and_search": {
+          "total": 27
+        }
+      },
+      "BL9": {
+        "ward_id": "BL9",
+        "name": "Brunswick",
+        "total_crimes": 133,
+        "by_category": {
+          "anti-social-behaviour": 44,
+          "burglary": 8,
+          "criminal-damage-arson": 5,
+          "drugs": 3,
+          "other-theft": 7,
+          "possession-of-weapons": 1,
+          "public-order": 5,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 51,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 28,
+          "Local resolution": 5,
+          "Status update unavailable": 12,
+          "Unable to prosecute suspect": 35,
+          "Awaiting court outcome": 6,
+          "Further action is not in the public interest": 1,
+          "Action to be taken by another organisation": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:15:35.027637"
+  },
+  {
+    "borough": "blackpool",
+    "borough_name": "Blackpool",
+    "ons_code": "E06000009",
+    "date": "2025-08",
+    "total_crimes": 2775,
+    "total_stop_and_search": 143,
+    "by_category": {
+      "anti-social-behaviour": 845,
+      "bicycle-theft": 15,
+      "burglary": 62,
+      "criminal-damage-arson": 160,
+      "drugs": 63,
+      "other-theft": 159,
+      "possession-of-weapons": 32,
+      "public-order": 150,
+      "robbery": 25,
+      "shoplifting": 88,
+      "theft-from-the-person": 16,
+      "vehicle-crime": 86,
+      "violent-crime": 1028,
+      "other-crime": 46
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 1028
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 845
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 160
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 159
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 150
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 88
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 86
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 63
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 62
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 46
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 32
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 25
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 16
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 15
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 538,
+      "Unable to prosecute suspect": 873,
+      "Awaiting court outcome": 130,
+      "Status update unavailable": 226,
+      "Local resolution": 93,
+      "Offender given a caution": 31,
+      "Offender given penalty notice": 4,
+      "Action to be taken by another organisation": 23,
+      "Further action is not in the public interest": 5,
+      "Further investigation is not in the public interest": 5,
+      "Formal action is not in the public interest": 2
+    },
+    "ward_count": 21,
+    "wards": {
+      "BL1": {
+        "ward_id": "BL1",
+        "name": "Waterloo",
+        "total_crimes": 180,
+        "by_category": {
+          "anti-social-behaviour": 65,
+          "bicycle-theft": 2,
+          "burglary": 6,
+          "criminal-damage-arson": 10,
+          "drugs": 2,
+          "other-theft": 8,
+          "possession-of-weapons": 3,
+          "public-order": 11,
+          "robbery": 1,
+          "shoplifting": 2,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 62,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 31,
+          "Unable to prosecute suspect": 67,
+          "Awaiting court outcome": 5,
+          "Status update unavailable": 9,
+          "Local resolution": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 11
+        }
+      },
+      "BL10": {
+        "ward_id": "BL10",
+        "name": "Bispham",
+        "total_crimes": 41,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "criminal-damage-arson": 5,
+          "public-order": 1,
+          "robbery": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 14,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Status update unavailable": 9,
+          "Unable to prosecute suspect": 8,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL11": {
+        "ward_id": "BL11",
+        "name": "Ingthorpe",
+        "total_crimes": 89,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 3,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "robbery": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 38
+        },
+        "outcomes": {
+          "Awaiting court outcome": 8,
+          "Investigation complete; no suspect identified": 12,
+          "Offender given a caution": 2,
+          "Status update unavailable": 4,
+          "Offender given penalty notice": 1,
+          "Unable to prosecute suspect": 32,
+          "Local resolution": 3
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      },
+      "BL12": {
+        "ward_id": "BL12",
+        "name": "Warbreck",
+        "total_crimes": 98,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 5,
+          "criminal-damage-arson": 11,
+          "drugs": 3,
+          "other-theft": 4,
+          "public-order": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 7,
+          "violent-crime": 34,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 20,
+          "Unable to prosecute suspect": 37,
+          "Status update unavailable": 7,
+          "Local resolution": 5,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL13": {
+        "ward_id": "BL13",
+        "name": "Park",
+        "total_crimes": 147,
+        "by_category": {
+          "anti-social-behaviour": 39,
+          "burglary": 4,
+          "criminal-damage-arson": 12,
+          "drugs": 4,
+          "other-theft": 3,
+          "possession-of-weapons": 3,
+          "public-order": 9,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 66,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 17,
+          "Status update unavailable": 13,
+          "Unable to prosecute suspect": 60,
+          "Offender given a caution": 2,
+          "Local resolution": 11,
+          "Awaiting court outcome": 5
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL14": {
+        "ward_id": "BL14",
+        "name": "Anchorsholme",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 1,
+          "Awaiting court outcome": 1,
+          "Local resolution": 3
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL15": {
+        "ward_id": "BL15",
+        "name": "Bloomfield",
+        "total_crimes": 331,
+        "by_category": {
+          "anti-social-behaviour": 113,
+          "burglary": 10,
+          "criminal-damage-arson": 19,
+          "drugs": 9,
+          "other-theft": 19,
+          "possession-of-weapons": 1,
+          "public-order": 21,
+          "robbery": 5,
+          "shoplifting": 8,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 8,
+          "violent-crime": 108,
+          "other-crime": 8
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 69,
+          "Status update unavailable": 23,
+          "Unable to prosecute suspect": 94,
+          "Awaiting court outcome": 16,
+          "Offender given a caution": 4,
+          "Local resolution": 9,
+          "Action to be taken by another organisation": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 18
+        }
+      },
+      "BL16": {
+        "ward_id": "BL16",
+        "name": "Greenlands",
+        "total_crimes": 48,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 2,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 15,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 11,
+          "Investigation complete; no suspect identified": 8,
+          "Offender given a caution": 2,
+          "Status update unavailable": 8,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL17": {
+        "ward_id": "BL17",
+        "name": "Highfield",
+        "total_crimes": 61,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 2,
+          "criminal-damage-arson": 4,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 30,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 24,
+          "Local resolution": 2,
+          "Awaiting court outcome": 4,
+          "Status update unavailable": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL18": {
+        "ward_id": "BL18",
+        "name": "Layton",
+        "total_crimes": 116,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "burglary": 2,
+          "criminal-damage-arson": 9,
+          "drugs": 1,
+          "other-theft": 7,
+          "possession-of-weapons": 3,
+          "public-order": 7,
+          "shoplifting": 8,
+          "vehicle-crime": 3,
+          "violent-crime": 51,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 24,
+          "Unable to prosecute suspect": 37,
+          "Status update unavailable": 9,
+          "Formal action is not in the public interest": 1,
+          "Local resolution": 3,
+          "Awaiting court outcome": 15,
+          "Action to be taken by another organisation": 1,
+          "Offender given penalty notice": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL19": {
+        "ward_id": "BL19",
+        "name": "Norbreck",
+        "total_crimes": 55,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "criminal-damage-arson": 4,
+          "drugs": 2,
+          "other-theft": 3,
+          "public-order": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 8,
+          "violent-crime": 16,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Status update unavailable": 4,
+          "Offender given a caution": 2,
+          "Unable to prosecute suspect": 16,
+          "Investigation complete; no suspect identified": 12,
+          "Awaiting court outcome": 1,
+          "Local resolution": 3,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL2": {
+        "ward_id": "BL2",
+        "name": "Victoria",
+        "total_crimes": 78,
+        "by_category": {
+          "anti-social-behaviour": 26,
+          "bicycle-theft": 3,
+          "burglary": 4,
+          "drugs": 4,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "shoplifting": 4,
+          "vehicle-crime": 1,
+          "violent-crime": 30
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 26,
+          "Local resolution": 8,
+          "Investigation complete; no suspect identified": 10,
+          "Status update unavailable": 5,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL20": {
+        "ward_id": "BL20",
+        "name": "Squires Gate",
+        "total_crimes": 42,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 20
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Offender given a caution": 2,
+          "Unable to prosecute suspect": 13,
+          "Status update unavailable": 5,
+          "Awaiting court outcome": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL21": {
+        "ward_id": "BL21",
+        "name": "Stanley",
+        "total_crimes": 32,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "other-theft": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Status update unavailable": 4,
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 7
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL3": {
+        "ward_id": "BL3",
+        "name": "Clifton",
+        "total_crimes": 154,
+        "by_category": {
+          "anti-social-behaviour": 40,
+          "burglary": 1,
+          "criminal-damage-arson": 12,
+          "drugs": 4,
+          "other-theft": 8,
+          "possession-of-weapons": 2,
+          "public-order": 8,
+          "robbery": 1,
+          "shoplifting": 13,
+          "vehicle-crime": 2,
+          "violent-crime": 61,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 14,
+          "Status update unavailable": 13,
+          "Investigation complete; no suspect identified": 26,
+          "Unable to prosecute suspect": 55,
+          "Local resolution": 3,
+          "Action to be taken by another organisation": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL4": {
+        "ward_id": "BL4",
+        "name": "Marton",
+        "total_crimes": 110,
+        "by_category": {
+          "anti-social-behaviour": 37,
+          "bicycle-theft": 1,
+          "burglary": 4,
+          "criminal-damage-arson": 7,
+          "drugs": 5,
+          "other-theft": 6,
+          "possession-of-weapons": 1,
+          "public-order": 10,
+          "vehicle-crime": 3,
+          "violent-crime": 35,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 18,
+          "Unable to prosecute suspect": 37,
+          "Awaiting court outcome": 5,
+          "Local resolution": 6,
+          "Further investigation is not in the public interest": 1,
+          "Status update unavailable": 3,
+          "Action to be taken by another organisation": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL5": {
+        "ward_id": "BL5",
+        "name": "Hawes Side",
+        "total_crimes": 59,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "bicycle-theft": 3,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 7,
+          "violent-crime": 24,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 18,
+          "Unable to prosecute suspect": 20,
+          "Status update unavailable": 5,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL6": {
+        "ward_id": "BL6",
+        "name": "Tyldesley",
+        "total_crimes": 98,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "criminal-damage-arson": 3,
+          "drugs": 2,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 5,
+          "robbery": 1,
+          "shoplifting": 4,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 6,
+          "violent-crime": 35,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 27,
+          "Investigation complete; no suspect identified": 18,
+          "Awaiting court outcome": 9,
+          "Status update unavailable": 9,
+          "Further investigation is not in the public interest": 1,
+          "Action to be taken by another organisation": 2,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL7": {
+        "ward_id": "BL7",
+        "name": "Talbot",
+        "total_crimes": 478,
+        "by_category": {
+          "anti-social-behaviour": 141,
+          "bicycle-theft": 3,
+          "burglary": 9,
+          "criminal-damage-arson": 18,
+          "drugs": 11,
+          "other-theft": 28,
+          "possession-of-weapons": 2,
+          "public-order": 20,
+          "robbery": 10,
+          "shoplifting": 28,
+          "theft-from-the-person": 6,
+          "vehicle-crime": 8,
+          "violent-crime": 183,
+          "other-crime": 11
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 87,
+          "Unable to prosecute suspect": 147,
+          "Awaiting court outcome": 17,
+          "Status update unavailable": 57,
+          "Offender given penalty notice": 1,
+          "Offender given a caution": 3,
+          "Local resolution": 20,
+          "Further investigation is not in the public interest": 2,
+          "Action to be taken by another organisation": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 51
+        }
+      },
+      "BL8": {
+        "ward_id": "BL8",
+        "name": "Claremont",
+        "total_crimes": 366,
+        "by_category": {
+          "anti-social-behaviour": 114,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 26,
+          "drugs": 9,
+          "other-theft": 36,
+          "possession-of-weapons": 4,
+          "public-order": 28,
+          "robbery": 4,
+          "shoplifting": 3,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 131,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 98,
+          "Unable to prosecute suspect": 98,
+          "Local resolution": 9,
+          "Offender given a caution": 5,
+          "Status update unavailable": 25,
+          "Awaiting court outcome": 13,
+          "Offender given penalty notice": 1,
+          "Formal action is not in the public interest": 1,
+          "Action to be taken by another organisation": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 33
+        }
+      },
+      "BL9": {
+        "ward_id": "BL9",
+        "name": "Brunswick",
+        "total_crimes": 156,
+        "by_category": {
+          "anti-social-behaviour": 47,
+          "burglary": 5,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 13,
+          "possession-of-weapons": 5,
+          "public-order": 12,
+          "robbery": 1,
+          "shoplifting": 6,
+          "vehicle-crime": 5,
+          "violent-crime": 56,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 31,
+          "Unable to prosecute suspect": 48,
+          "Awaiting court outcome": 9,
+          "Local resolution": 3,
+          "Status update unavailable": 9,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 7,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:15:50.981900"
+  },
+  {
+    "borough": "blackpool",
+    "borough_name": "Blackpool",
+    "ons_code": "E06000009",
+    "date": "2025-09",
+    "total_crimes": 2272,
+    "total_stop_and_search": 164,
+    "by_category": {
+      "anti-social-behaviour": 579,
+      "bicycle-theft": 14,
+      "burglary": 71,
+      "criminal-damage-arson": 150,
+      "drugs": 59,
+      "other-theft": 127,
+      "possession-of-weapons": 31,
+      "public-order": 115,
+      "robbery": 22,
+      "shoplifting": 95,
+      "theft-from-the-person": 20,
+      "vehicle-crime": 61,
+      "violent-crime": 886,
+      "other-crime": 42
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 886
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 579
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 150
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 127
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 115
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 95
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 71
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 61
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 59
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 42
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 31
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 22
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 20
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 14
+      }
+    },
+    "outcomes": {
+      "Unable to prosecute suspect": 746,
+      "Investigation complete; no suspect identified": 446,
+      "Awaiting court outcome": 166,
+      "Under investigation": 184,
+      "Offender given a caution": 29,
+      "Local resolution": 87,
+      "Further investigation is not in the public interest": 10,
+      "Formal action is not in the public interest": 2,
+      "Action to be taken by another organisation": 16,
+      "Further action is not in the public interest": 2,
+      "Offender given penalty notice": 5
+    },
+    "ward_count": 21,
+    "wards": {
+      "BL1": {
+        "ward_id": "BL1",
+        "name": "Waterloo",
+        "total_crimes": 137,
+        "by_category": {
+          "anti-social-behaviour": 32,
+          "bicycle-theft": 3,
+          "burglary": 8,
+          "criminal-damage-arson": 13,
+          "drugs": 3,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "robbery": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 6,
+          "violent-crime": 57,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 42,
+          "Investigation complete; no suspect identified": 35,
+          "Awaiting court outcome": 11,
+          "Under investigation": 11,
+          "Offender given a caution": 1,
+          "Local resolution": 4,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      },
+      "BL10": {
+        "ward_id": "BL10",
+        "name": "Bispham",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 5,
+          "other-theft": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 19
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 18,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 1,
+          "Under investigation": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 8
+        }
+      },
+      "BL11": {
+        "ward_id": "BL11",
+        "name": "Ingthorpe",
+        "total_crimes": 72,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "burglary": 5,
+          "criminal-damage-arson": 4,
+          "drugs": 3,
+          "other-theft": 4,
+          "public-order": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 24,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Unable to prosecute suspect": 23,
+          "Local resolution": 3,
+          "Awaiting court outcome": 3,
+          "Under investigation": 4
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "BL12": {
+        "ward_id": "BL12",
+        "name": "Warbreck",
+        "total_crimes": 61,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 4,
+          "other-theft": 4,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 26,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 24,
+          "Investigation complete; no suspect identified": 11,
+          "Under investigation": 2,
+          "Formal action is not in the public interest": 1,
+          "Local resolution": 3,
+          "Awaiting court outcome": 5,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL13": {
+        "ward_id": "BL13",
+        "name": "Park",
+        "total_crimes": 105,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "burglary": 2,
+          "criminal-damage-arson": 6,
+          "drugs": 2,
+          "other-theft": 8,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "shoplifting": 3,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 6,
+          "violent-crime": 41,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 5,
+          "Investigation complete; no suspect identified": 17,
+          "Unable to prosecute suspect": 47,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 2,
+          "Local resolution": 3
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL14": {
+        "ward_id": "BL14",
+        "name": "Anchorsholme",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 11,
+          "Awaiting court outcome": 2,
+          "Under investigation": 3,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL15": {
+        "ward_id": "BL15",
+        "name": "Bloomfield",
+        "total_crimes": 253,
+        "by_category": {
+          "anti-social-behaviour": 49,
+          "bicycle-theft": 1,
+          "burglary": 10,
+          "criminal-damage-arson": 11,
+          "drugs": 11,
+          "other-theft": 17,
+          "possession-of-weapons": 1,
+          "public-order": 12,
+          "robbery": 4,
+          "shoplifting": 17,
+          "theft-from-the-person": 4,
+          "vehicle-crime": 4,
+          "violent-crime": 106,
+          "other-crime": 6
+        },
+        "outcomes": {
+          "Under investigation": 21,
+          "Investigation complete; no suspect identified": 50,
+          "Unable to prosecute suspect": 94,
+          "Awaiting court outcome": 23,
+          "Local resolution": 9,
+          "Formal action is not in the public interest": 1,
+          "Offender given a caution": 4,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 44
+        }
+      },
+      "BL16": {
+        "ward_id": "BL16",
+        "name": "Greenlands",
+        "total_crimes": 50,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 3,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "violent-crime": 19,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Under investigation": 5,
+          "Local resolution": 2,
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 14,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL17": {
+        "ward_id": "BL17",
+        "name": "Highfield",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 4,
+          "public-order": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 17
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 17,
+          "Investigation complete; no suspect identified": 8,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 1,
+          "Under investigation": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL18": {
+        "ward_id": "BL18",
+        "name": "Layton",
+        "total_crimes": 91,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "burglary": 1,
+          "criminal-damage-arson": 5,
+          "drugs": 3,
+          "other-theft": 3,
+          "public-order": 6,
+          "robbery": 1,
+          "shoplifting": 7,
+          "vehicle-crime": 3,
+          "violent-crime": 34,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 20,
+          "Under investigation": 5,
+          "Unable to prosecute suspect": 29,
+          "Awaiting court outcome": 9,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL19": {
+        "ward_id": "BL19",
+        "name": "Norbreck",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "bicycle-theft": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 17
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 3,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 9,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL2": {
+        "ward_id": "BL2",
+        "name": "Victoria",
+        "total_crimes": 68,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "bicycle-theft": 2,
+          "burglary": 1,
+          "criminal-damage-arson": 8,
+          "other-theft": 3,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 28,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 23,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 3,
+          "Local resolution": 7,
+          "Under investigation": 6,
+          "Action to be taken by another organisation": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL20": {
+        "ward_id": "BL20",
+        "name": "Squires Gate",
+        "total_crimes": 58,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 2,
+          "other-theft": 4,
+          "shoplifting": 2,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 23,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Under investigation": 4,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 18,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL21": {
+        "ward_id": "BL21",
+        "name": "Stanley",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 8
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Local resolution": 1,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 5
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL3": {
+        "ward_id": "BL3",
+        "name": "Clifton",
+        "total_crimes": 154,
+        "by_category": {
+          "anti-social-behaviour": 37,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 12,
+          "drugs": 4,
+          "other-theft": 8,
+          "public-order": 14,
+          "robbery": 1,
+          "shoplifting": 5,
+          "violent-crime": 68,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 31,
+          "Awaiting court outcome": 17,
+          "Unable to prosecute suspect": 44,
+          "Under investigation": 11,
+          "Offender given penalty notice": 1,
+          "Local resolution": 11,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL4": {
+        "ward_id": "BL4",
+        "name": "Marton",
+        "total_crimes": 65,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 5,
+          "criminal-damage-arson": 4,
+          "drugs": 2,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 28,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Further investigation is not in the public interest": 2,
+          "Unable to prosecute suspect": 22,
+          "Investigation complete; no suspect identified": 9,
+          "Offender given a caution": 5,
+          "Offender given penalty notice": 1,
+          "Local resolution": 2,
+          "Under investigation": 3,
+          "Awaiting court outcome": 6,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL5": {
+        "ward_id": "BL5",
+        "name": "Hawes Side",
+        "total_crimes": 62,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 3,
+          "shoplifting": 2,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 26,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 25,
+          "Awaiting court outcome": 2,
+          "Under investigation": 6
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL6": {
+        "ward_id": "BL6",
+        "name": "Tyldesley",
+        "total_crimes": 95,
+        "by_category": {
+          "anti-social-behaviour": 26,
+          "bicycle-theft": 2,
+          "burglary": 1,
+          "criminal-damage-arson": 11,
+          "drugs": 1,
+          "other-theft": 4,
+          "public-order": 4,
+          "shoplifting": 7,
+          "theft-from-the-person": 1,
+          "violent-crime": 37,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Unable to prosecute suspect": 30,
+          "Under investigation": 11,
+          "Local resolution": 5,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 6,
+          "Action to be taken by another organisation": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL7": {
+        "ward_id": "BL7",
+        "name": "Talbot",
+        "total_crimes": 357,
+        "by_category": {
+          "anti-social-behaviour": 80,
+          "bicycle-theft": 2,
+          "burglary": 13,
+          "criminal-damage-arson": 22,
+          "drugs": 10,
+          "other-theft": 19,
+          "possession-of-weapons": 12,
+          "public-order": 21,
+          "robbery": 8,
+          "shoplifting": 34,
+          "theft-from-the-person": 6,
+          "vehicle-crime": 5,
+          "violent-crime": 123,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 73,
+          "Unable to prosecute suspect": 107,
+          "Awaiting court outcome": 33,
+          "Under investigation": 34,
+          "Local resolution": 18,
+          "Further investigation is not in the public interest": 3,
+          "Offender given penalty notice": 2,
+          "Offender given a caution": 7
+        },
+        "stop_and_search": {
+          "total": 50
+        }
+      },
+      "BL8": {
+        "ward_id": "BL8",
+        "name": "Claremont",
+        "total_crimes": 323,
+        "by_category": {
+          "anti-social-behaviour": 82,
+          "bicycle-theft": 1,
+          "burglary": 5,
+          "criminal-damage-arson": 20,
+          "drugs": 8,
+          "other-theft": 20,
+          "possession-of-weapons": 10,
+          "public-order": 19,
+          "robbery": 3,
+          "shoplifting": 4,
+          "theft-from-the-person": 4,
+          "vehicle-crime": 10,
+          "violent-crime": 134,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 104,
+          "Under investigation": 26,
+          "Investigation complete; no suspect identified": 66,
+          "Awaiting court outcome": 31,
+          "Offender given a caution": 4,
+          "Offender given penalty notice": 1,
+          "Further investigation is not in the public interest": 1,
+          "Local resolution": 6,
+          "Further action is not in the public interest": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 19
+        }
+      },
+      "BL9": {
+        "ward_id": "BL9",
+        "name": "Brunswick",
+        "total_crimes": 141,
+        "by_category": {
+          "anti-social-behaviour": 41,
+          "burglary": 8,
+          "criminal-damage-arson": 7,
+          "drugs": 3,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 13,
+          "robbery": 3,
+          "shoplifting": 8,
+          "vehicle-crime": 4,
+          "violent-crime": 39,
+          "other-crime": 8
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 30,
+          "Unable to prosecute suspect": 40,
+          "Under investigation": 18,
+          "Awaiting court outcome": 4,
+          "Local resolution": 4,
+          "Action to be taken by another organisation": 2,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:16:07.587818"
+  },
+  {
+    "borough": "blackpool",
+    "borough_name": "Blackpool",
+    "ons_code": "E06000009",
+    "date": "2025-10",
+    "total_crimes": 2347,
+    "total_stop_and_search": 200,
+    "by_category": {
+      "anti-social-behaviour": 659,
+      "bicycle-theft": 12,
+      "burglary": 40,
+      "criminal-damage-arson": 155,
+      "drugs": 55,
+      "other-theft": 141,
+      "possession-of-weapons": 19,
+      "public-order": 131,
+      "vehicle-crime": 47,
+      "violent-crime": 882,
+      "other-crime": 51,
+      "shoplifting": 122,
+      "robbery": 16,
+      "theft-from-the-person": 17
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 882
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 659
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 155
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 141
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 131
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 122
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 55
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 51
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 47
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 40
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 19
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 17
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 16
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 12
+      }
+    },
+    "outcomes": {
+      "Awaiting court outcome": 117,
+      "Investigation complete; no suspect identified": 431,
+      "Unable to prosecute suspect": 693,
+      "Under investigation": 290,
+      "Local resolution": 108,
+      "Offender given a caution": 23,
+      "Action to be taken by another organisation": 16,
+      "Further action is not in the public interest": 3,
+      "Further investigation is not in the public interest": 7
+    },
+    "ward_count": 21,
+    "wards": {
+      "BL1": {
+        "ward_id": "BL1",
+        "name": "Waterloo",
+        "total_crimes": 131,
+        "by_category": {
+          "anti-social-behaviour": 36,
+          "bicycle-theft": 2,
+          "burglary": 8,
+          "criminal-damage-arson": 7,
+          "drugs": 4,
+          "other-theft": 10,
+          "possession-of-weapons": 1,
+          "public-order": 10,
+          "vehicle-crime": 5,
+          "violent-crime": 46,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 5,
+          "Investigation complete; no suspect identified": 27,
+          "Unable to prosecute suspect": 39,
+          "Under investigation": 13,
+          "Local resolution": 11
+        },
+        "stop_and_search": {
+          "total": 12
+        }
+      },
+      "BL10": {
+        "ward_id": "BL10",
+        "name": "Bispham",
+        "total_crimes": 37,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 5,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 16,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 7,
+          "Offender given a caution": 1,
+          "Awaiting court outcome": 5,
+          "Unable to prosecute suspect": 9,
+          "Investigation complete; no suspect identified": 7
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL11": {
+        "ward_id": "BL11",
+        "name": "Ingthorpe",
+        "total_crimes": 91,
+        "by_category": {
+          "anti-social-behaviour": 32,
+          "bicycle-theft": 2,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "drugs": 2,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 5,
+          "robbery": 1,
+          "shoplifting": 3,
+          "theft-from-the-person": 3,
+          "vehicle-crime": 3,
+          "violent-crime": 25,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Local resolution": 5,
+          "Unable to prosecute suspect": 27,
+          "Under investigation": 9,
+          "Awaiting court outcome": 4,
+          "Action to be taken by another organisation": 1,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL12": {
+        "ward_id": "BL12",
+        "name": "Warbreck",
+        "total_crimes": 72,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "burglary": 1,
+          "criminal-damage-arson": 8,
+          "other-theft": 4,
+          "public-order": 10,
+          "robbery": 1,
+          "shoplifting": 1,
+          "violent-crime": 26,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Under investigation": 9,
+          "Unable to prosecute suspect": 20,
+          "Awaiting court outcome": 10,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL13": {
+        "ward_id": "BL13",
+        "name": "Park",
+        "total_crimes": 116,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 2,
+          "criminal-damage-arson": 10,
+          "drugs": 6,
+          "other-theft": 6,
+          "public-order": 6,
+          "shoplifting": 9,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 43,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Under investigation": 17,
+          "Investigation complete; no suspect identified": 19,
+          "Unable to prosecute suspect": 44,
+          "Offender given a caution": 3,
+          "Local resolution": 2,
+          "Awaiting court outcome": 4,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 9
+        }
+      },
+      "BL14": {
+        "ward_id": "BL14",
+        "name": "Anchorsholme",
+        "total_crimes": 32,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "burglary": 2,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Under investigation": 5,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL15": {
+        "ward_id": "BL15",
+        "name": "Bloomfield",
+        "total_crimes": 287,
+        "by_category": {
+          "anti-social-behaviour": 88,
+          "bicycle-theft": 2,
+          "burglary": 5,
+          "criminal-damage-arson": 22,
+          "drugs": 14,
+          "other-theft": 20,
+          "possession-of-weapons": 2,
+          "public-order": 11,
+          "robbery": 4,
+          "shoplifting": 7,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 101,
+          "other-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 52,
+          "Unable to prosecute suspect": 73,
+          "Under investigation": 31,
+          "Awaiting court outcome": 18,
+          "Local resolution": 18,
+          "Further investigation is not in the public interest": 2,
+          "Offender given a caution": 5
+        },
+        "stop_and_search": {
+          "total": 34
+        }
+      },
+      "BL16": {
+        "ward_id": "BL16",
+        "name": "Greenlands",
+        "total_crimes": 39,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 1,
+          "drugs": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 4,
+          "vehicle-crime": 2,
+          "violent-crime": 13,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 7,
+          "Awaiting court outcome": 1,
+          "Local resolution": 2,
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 9,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL17": {
+        "ward_id": "BL17",
+        "name": "Highfield",
+        "total_crimes": 63,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 3,
+          "robbery": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 25,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 6,
+          "Investigation complete; no suspect identified": 7,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 21,
+          "Further investigation is not in the public interest": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL18": {
+        "ward_id": "BL18",
+        "name": "Layton",
+        "total_crimes": 108,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 5,
+          "drugs": 4,
+          "other-theft": 4,
+          "public-order": 4,
+          "shoplifting": 17,
+          "vehicle-crime": 2,
+          "violent-crime": 45,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 30,
+          "Investigation complete; no suspect identified": 25,
+          "Awaiting court outcome": 7,
+          "Under investigation": 12,
+          "Local resolution": 9
+        },
+        "stop_and_search": {
+          "total": 6
+        }
+      },
+      "BL19": {
+        "ward_id": "BL19",
+        "name": "Norbreck",
+        "total_crimes": 45,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "public-order": 5,
+          "vehicle-crime": 4,
+          "violent-crime": 10,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Under investigation": 2,
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 13
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL2": {
+        "ward_id": "BL2",
+        "name": "Victoria",
+        "total_crimes": 91,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 4,
+          "criminal-damage-arson": 11,
+          "drugs": 2,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 2,
+          "shoplifting": 6,
+          "violent-crime": 40,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 22,
+          "Under investigation": 13,
+          "Unable to prosecute suspect": 32,
+          "Local resolution": 3,
+          "Awaiting court outcome": 5,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL20": {
+        "ward_id": "BL20",
+        "name": "Squires Gate",
+        "total_crimes": 55,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "criminal-damage-arson": 3,
+          "drugs": 2,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "shoplifting": 5,
+          "violent-crime": 21,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Under investigation": 8,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 17,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL21": {
+        "ward_id": "BL21",
+        "name": "Stanley",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 3,
+          "shoplifting": 4,
+          "violent-crime": 5,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 5,
+          "Unable to prosecute suspect": 5,
+          "Investigation complete; no suspect identified": 5,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL3": {
+        "ward_id": "BL3",
+        "name": "Clifton",
+        "total_crimes": 145,
+        "by_category": {
+          "anti-social-behaviour": 37,
+          "burglary": 2,
+          "criminal-damage-arson": 12,
+          "drugs": 3,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 10,
+          "shoplifting": 14,
+          "vehicle-crime": 2,
+          "violent-crime": 53,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 25,
+          "Unable to prosecute suspect": 48,
+          "Awaiting court outcome": 8,
+          "Action to be taken by another organisation": 5,
+          "Under investigation": 15,
+          "Local resolution": 5,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL4": {
+        "ward_id": "BL4",
+        "name": "Marton",
+        "total_crimes": 61,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "criminal-damage-arson": 3,
+          "other-theft": 4,
+          "public-order": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 26
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 17,
+          "Under investigation": 6,
+          "Local resolution": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL5": {
+        "ward_id": "BL5",
+        "name": "Hawes Side",
+        "total_crimes": 92,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "criminal-damage-arson": 11,
+          "drugs": 1,
+          "other-theft": 10,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 43,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 35,
+          "Awaiting court outcome": 4,
+          "Under investigation": 16,
+          "Investigation complete; no suspect identified": 10,
+          "Local resolution": 6,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 2,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL6": {
+        "ward_id": "BL6",
+        "name": "Tyldesley",
+        "total_crimes": 74,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "public-order": 7,
+          "robbery": 1,
+          "shoplifting": 4,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 20,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 15,
+          "Under investigation": 7,
+          "Local resolution": 7,
+          "Awaiting court outcome": 7,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL7": {
+        "ward_id": "BL7",
+        "name": "Talbot",
+        "total_crimes": 360,
+        "by_category": {
+          "anti-social-behaviour": 101,
+          "burglary": 7,
+          "criminal-damage-arson": 19,
+          "drugs": 8,
+          "other-theft": 23,
+          "possession-of-weapons": 5,
+          "public-order": 25,
+          "robbery": 6,
+          "shoplifting": 29,
+          "theft-from-the-person": 8,
+          "vehicle-crime": 4,
+          "violent-crime": 119,
+          "other-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 79,
+          "Local resolution": 18,
+          "Unable to prosecute suspect": 96,
+          "Awaiting court outcome": 16,
+          "Under investigation": 43,
+          "Offender given a caution": 5,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 62
+        }
+      },
+      "BL8": {
+        "ward_id": "BL8",
+        "name": "Claremont",
+        "total_crimes": 291,
+        "by_category": {
+          "anti-social-behaviour": 86,
+          "bicycle-theft": 2,
+          "burglary": 5,
+          "criminal-damage-arson": 10,
+          "drugs": 2,
+          "other-theft": 20,
+          "possession-of-weapons": 2,
+          "public-order": 14,
+          "shoplifting": 2,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 6,
+          "violent-crime": 135,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 54,
+          "Unable to prosecute suspect": 90,
+          "Offender given a caution": 4,
+          "Awaiting court outcome": 12,
+          "Under investigation": 37,
+          "Local resolution": 6,
+          "Action to be taken by another organisation": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 35
+        }
+      },
+      "BL9": {
+        "ward_id": "BL9",
+        "name": "Brunswick",
+        "total_crimes": 133,
+        "by_category": {
+          "anti-social-behaviour": 29,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 13,
+          "drugs": 3,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 6,
+          "robbery": 1,
+          "shoplifting": 9,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 60,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 20,
+          "Unable to prosecute suspect": 48,
+          "Offender given a caution": 1,
+          "Under investigation": 22,
+          "Awaiting court outcome": 5,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 7
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:16:24.594419"
+  },
+  {
+    "borough": "blackpool",
+    "borough_name": "Blackpool",
+    "ons_code": "E06000009",
+    "date": "2025-11",
+    "total_crimes": 2128,
+    "total_stop_and_search": 3,
+    "by_category": {
+      "anti-social-behaviour": 530,
+      "burglary": 69,
+      "criminal-damage-arson": 147,
+      "drugs": 57,
+      "other-theft": 112,
+      "possession-of-weapons": 38,
+      "public-order": 94,
+      "robbery": 16,
+      "shoplifting": 93,
+      "vehicle-crime": 53,
+      "violent-crime": 857,
+      "other-crime": 41,
+      "bicycle-theft": 10,
+      "theft-from-the-person": 11
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 857
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 530
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 147
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 112
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 94
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 93
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 69
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 57
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 53
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 41
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 38
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 16
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 11
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 10
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 373,
+      "Awaiting court outcome": 125,
+      "Unable to prosecute suspect": 573,
+      "Under investigation": 377,
+      "Local resolution": 97,
+      "Offender given a caution": 30,
+      "Further investigation is not in the public interest": 10,
+      "Action to be taken by another organisation": 12,
+      "Further action is not in the public interest": 1
+    },
+    "ward_count": 21,
+    "wards": {
+      "BL1": {
+        "ward_id": "BL1",
+        "name": "Waterloo",
+        "total_crimes": 102,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "burglary": 4,
+          "criminal-damage-arson": 7,
+          "drugs": 4,
+          "other-theft": 4,
+          "possession-of-weapons": 3,
+          "public-order": 5,
+          "robbery": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 47,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 23,
+          "Awaiting court outcome": 8,
+          "Unable to prosecute suspect": 24,
+          "Under investigation": 21,
+          "Local resolution": 6,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL10": {
+        "ward_id": "BL10",
+        "name": "Bispham",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "drugs": 3,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 14,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Under investigation": 9,
+          "Unable to prosecute suspect": 8,
+          "Local resolution": 3,
+          "Awaiting court outcome": 3,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL11": {
+        "ward_id": "BL11",
+        "name": "Ingthorpe",
+        "total_crimes": 101,
+        "by_category": {
+          "anti-social-behaviour": 33,
+          "bicycle-theft": 2,
+          "burglary": 3,
+          "criminal-damage-arson": 11,
+          "drugs": 1,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 4,
+          "vehicle-crime": 3,
+          "violent-crime": 35
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 17,
+          "Under investigation": 18,
+          "Local resolution": 5,
+          "Unable to prosecute suspect": 24,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL12": {
+        "ward_id": "BL12",
+        "name": "Warbreck",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 18
+        },
+        "outcomes": {
+          "Under investigation": 12,
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 6,
+          "Local resolution": 3,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL13": {
+        "ward_id": "BL13",
+        "name": "Park",
+        "total_crimes": 100,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "burglary": 4,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "shoplifting": 4,
+          "vehicle-crime": 3,
+          "violent-crime": 50,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 16,
+          "Investigation complete; no suspect identified": 21,
+          "Unable to prosecute suspect": 35,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 4,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL14": {
+        "ward_id": "BL14",
+        "name": "Anchorsholme",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "other-theft": 4,
+          "shoplifting": 2,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 6,
+          "Under investigation": 1,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL15": {
+        "ward_id": "BL15",
+        "name": "Bloomfield",
+        "total_crimes": 261,
+        "by_category": {
+          "anti-social-behaviour": 67,
+          "bicycle-theft": 2,
+          "burglary": 7,
+          "criminal-damage-arson": 23,
+          "drugs": 11,
+          "other-theft": 7,
+          "possession-of-weapons": 8,
+          "public-order": 15,
+          "robbery": 1,
+          "shoplifting": 8,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 98,
+          "other-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 37,
+          "Under investigation": 49,
+          "Awaiting court outcome": 14,
+          "Unable to prosecute suspect": 77,
+          "Offender given a caution": 2,
+          "Local resolution": 11,
+          "Action to be taken by another organisation": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL16": {
+        "ward_id": "BL16",
+        "name": "Greenlands",
+        "total_crimes": 39,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "other-theft": 1,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 16
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 11,
+          "Investigation complete; no suspect identified": 7,
+          "Awaiting court outcome": 2,
+          "Local resolution": 4,
+          "Offender given a caution": 1,
+          "Under investigation": 5,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL17": {
+        "ward_id": "BL17",
+        "name": "Highfield",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "criminal-damage-arson": 6,
+          "other-theft": 3,
+          "public-order": 2,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Local resolution": 1,
+          "Offender given a caution": 2,
+          "Unable to prosecute suspect": 12,
+          "Under investigation": 8,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL18": {
+        "ward_id": "BL18",
+        "name": "Layton",
+        "total_crimes": 76,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 9,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 11,
+          "vehicle-crime": 2,
+          "violent-crime": 27,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 19,
+          "Unable to prosecute suspect": 16,
+          "Under investigation": 16,
+          "Local resolution": 3,
+          "Awaiting court outcome": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL19": {
+        "ward_id": "BL19",
+        "name": "Norbreck",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "other-theft": 5,
+          "public-order": 2,
+          "violent-crime": 11,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Local resolution": 7,
+          "Under investigation": 6,
+          "Unable to prosecute suspect": 7
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL2": {
+        "ward_id": "BL2",
+        "name": "Victoria",
+        "total_crimes": 84,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "possession-of-weapons": 2,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 3,
+          "violent-crime": 38,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Under investigation": 11,
+          "Investigation complete; no suspect identified": 15,
+          "Unable to prosecute suspect": 25,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 2,
+          "Local resolution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL20": {
+        "ward_id": "BL20",
+        "name": "Squires Gate",
+        "total_crimes": 54,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 3,
+          "criminal-damage-arson": 4,
+          "other-theft": 5,
+          "public-order": 3,
+          "shoplifting": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 19,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 11,
+          "Investigation complete; no suspect identified": 11,
+          "Unable to prosecute suspect": 15,
+          "Further investigation is not in the public interest": 1,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL21": {
+        "ward_id": "BL21",
+        "name": "Stanley",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 5,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 4,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 7,
+          "Unable to prosecute suspect": 4,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL3": {
+        "ward_id": "BL3",
+        "name": "Clifton",
+        "total_crimes": 145,
+        "by_category": {
+          "anti-social-behaviour": 37,
+          "criminal-damage-arson": 5,
+          "drugs": 4,
+          "other-theft": 6,
+          "possession-of-weapons": 2,
+          "public-order": 11,
+          "robbery": 1,
+          "shoplifting": 16,
+          "vehicle-crime": 2,
+          "violent-crime": 58,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Under investigation": 23,
+          "Awaiting court outcome": 14,
+          "Investigation complete; no suspect identified": 20,
+          "Local resolution": 6,
+          "Unable to prosecute suspect": 40,
+          "Action to be taken by another organisation": 4,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL4": {
+        "ward_id": "BL4",
+        "name": "Marton",
+        "total_crimes": 70,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 4,
+          "criminal-damage-arson": 6,
+          "drugs": 2,
+          "other-theft": 4,
+          "public-order": 2,
+          "robbery": 2,
+          "shoplifting": 7,
+          "violent-crime": 29,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 23,
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 17,
+          "Offender given a caution": 2,
+          "Local resolution": 3,
+          "Awaiting court outcome": 8
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL5": {
+        "ward_id": "BL5",
+        "name": "Hawes Side",
+        "total_crimes": 78,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "burglary": 2,
+          "criminal-damage-arson": 6,
+          "drugs": 2,
+          "other-theft": 4,
+          "public-order": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 40,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Offender given a caution": 2,
+          "Local resolution": 6,
+          "Under investigation": 13,
+          "Awaiting court outcome": 5,
+          "Unable to prosecute suspect": 23,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL6": {
+        "ward_id": "BL6",
+        "name": "Tyldesley",
+        "total_crimes": 72,
+        "by_category": {
+          "anti-social-behaviour": 16,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "other-theft": 3,
+          "possession-of-weapons": 2,
+          "public-order": 4,
+          "shoplifting": 6,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 33
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 13,
+          "Unable to prosecute suspect": 22,
+          "Local resolution": 3,
+          "Under investigation": 12,
+          "Offender given a caution": 2,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL7": {
+        "ward_id": "BL7",
+        "name": "Talbot",
+        "total_crimes": 338,
+        "by_category": {
+          "anti-social-behaviour": 86,
+          "bicycle-theft": 3,
+          "burglary": 10,
+          "criminal-damage-arson": 22,
+          "drugs": 14,
+          "other-theft": 21,
+          "possession-of-weapons": 10,
+          "public-order": 18,
+          "robbery": 6,
+          "shoplifting": 15,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 9,
+          "violent-crime": 118,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 63,
+          "Unable to prosecute suspect": 75,
+          "Awaiting court outcome": 31,
+          "Under investigation": 59,
+          "Local resolution": 15,
+          "Further investigation is not in the public interest": 1,
+          "Offender given a caution": 8
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL8": {
+        "ward_id": "BL8",
+        "name": "Claremont",
+        "total_crimes": 277,
+        "by_category": {
+          "anti-social-behaviour": 67,
+          "burglary": 12,
+          "criminal-damage-arson": 17,
+          "drugs": 8,
+          "other-theft": 13,
+          "possession-of-weapons": 2,
+          "public-order": 7,
+          "robbery": 2,
+          "theft-from-the-person": 5,
+          "vehicle-crime": 6,
+          "violent-crime": 130,
+          "other-crime": 8
+        },
+        "outcomes": {
+          "Under investigation": 37,
+          "Investigation complete; no suspect identified": 54,
+          "Unable to prosecute suspect": 89,
+          "Awaiting court outcome": 15,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 11,
+          "Offender given a caution": 1,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL9": {
+        "ward_id": "BL9",
+        "name": "Brunswick",
+        "total_crimes": 127,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "bicycle-theft": 2,
+          "burglary": 6,
+          "criminal-damage-arson": 8,
+          "drugs": 5,
+          "other-theft": 6,
+          "possession-of-weapons": 2,
+          "public-order": 6,
+          "robbery": 1,
+          "shoplifting": 10,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 45
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 29,
+          "Further investigation is not in the public interest": 1,
+          "Under investigation": 20,
+          "Unable to prosecute suspect": 37,
+          "Local resolution": 4,
+          "Awaiting court outcome": 3,
+          "Offender given a caution": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:16:41.871460"
+  },
+  {
+    "borough": "blackpool",
+    "borough_name": "Blackpool",
+    "ons_code": "E06000009",
+    "date": "2025-12",
+    "total_crimes": 2134,
+    "total_stop_and_search": 89,
+    "by_category": {
+      "anti-social-behaviour": 568,
+      "burglary": 58,
+      "criminal-damage-arson": 128,
+      "drugs": 62,
+      "other-theft": 112,
+      "possession-of-weapons": 27,
+      "public-order": 91,
+      "shoplifting": 109,
+      "vehicle-crime": 57,
+      "violent-crime": 834,
+      "other-crime": 41,
+      "robbery": 25,
+      "theft-from-the-person": 12,
+      "bicycle-theft": 10
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 834
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 568
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 128
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 112
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 109
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 91
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 62
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 58
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 57
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 41
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 27
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 25
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 12
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 10
+      }
+    },
+    "outcomes": {
+      "Under investigation": 822,
+      "Investigation complete; no suspect identified": 235,
+      "Local resolution": 70,
+      "Unable to prosecute suspect": 300,
+      "Awaiting court outcome": 95,
+      "Offender given a caution": 39,
+      "Action to be taken by another organisation": 5
+    },
+    "ward_count": 21,
+    "wards": {
+      "BL1": {
+        "ward_id": "BL1",
+        "name": "Waterloo",
+        "total_crimes": 114,
+        "by_category": {
+          "anti-social-behaviour": 31,
+          "burglary": 1,
+          "criminal-damage-arson": 10,
+          "drugs": 4,
+          "other-theft": 10,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 48,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 47,
+          "Investigation complete; no suspect identified": 15,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 13,
+          "Awaiting court outcome": 5,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 7
+        }
+      },
+      "BL10": {
+        "ward_id": "BL10",
+        "name": "Bispham",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 10,
+          "Local resolution": 3,
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL11": {
+        "ward_id": "BL11",
+        "name": "Ingthorpe",
+        "total_crimes": 82,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "burglary": 3,
+          "criminal-damage-arson": 7,
+          "drugs": 3,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 34,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 42,
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL12": {
+        "ward_id": "BL12",
+        "name": "Warbreck",
+        "total_crimes": 70,
+        "by_category": {
+          "anti-social-behaviour": 19,
+          "burglary": 2,
+          "criminal-damage-arson": 9,
+          "drugs": 1,
+          "other-theft": 4,
+          "public-order": 2,
+          "robbery": 1,
+          "theft-from-the-person": 1,
+          "violent-crime": 29,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Local resolution": 4,
+          "Unable to prosecute suspect": 14,
+          "Under investigation": 21,
+          "Awaiting court outcome": 4,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "BL13": {
+        "ward_id": "BL13",
+        "name": "Park",
+        "total_crimes": 111,
+        "by_category": {
+          "anti-social-behaviour": 32,
+          "criminal-damage-arson": 7,
+          "drugs": 3,
+          "other-theft": 6,
+          "possession-of-weapons": 2,
+          "public-order": 8,
+          "robbery": 2,
+          "shoplifting": 3,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 39,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 13,
+          "Investigation complete; no suspect identified": 11,
+          "Under investigation": 47,
+          "Awaiting court outcome": 5,
+          "Local resolution": 1,
+          "Offender given a caution": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL14": {
+        "ward_id": "BL14",
+        "name": "Anchorsholme",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 1,
+          "public-order": 3,
+          "shoplifting": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 19
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 10,
+          "Under investigation": 12,
+          "Local resolution": 2,
+          "Investigation complete; no suspect identified": 3
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL15": {
+        "ward_id": "BL15",
+        "name": "Bloomfield",
+        "total_crimes": 254,
+        "by_category": {
+          "anti-social-behaviour": 72,
+          "burglary": 13,
+          "criminal-damage-arson": 11,
+          "drugs": 8,
+          "other-theft": 17,
+          "possession-of-weapons": 9,
+          "public-order": 13,
+          "robbery": 3,
+          "shoplifting": 13,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 86,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Under investigation": 89,
+          "Investigation complete; no suspect identified": 27,
+          "Unable to prosecute suspect": 48,
+          "Local resolution": 7,
+          "Offender given a caution": 4,
+          "Awaiting court outcome": 6,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 11
+        }
+      },
+      "BL16": {
+        "ward_id": "BL16",
+        "name": "Greenlands",
+        "total_crimes": 50,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 3,
+          "vehicle-crime": 4,
+          "violent-crime": 20
+        },
+        "outcomes": {
+          "Under investigation": 19,
+          "Unable to prosecute suspect": 5,
+          "Investigation complete; no suspect identified": 1,
+          "Offender given a caution": 1,
+          "Local resolution": 2,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL17": {
+        "ward_id": "BL17",
+        "name": "Highfield",
+        "total_crimes": 44,
+        "by_category": {
+          "anti-social-behaviour": 15,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "public-order": 1,
+          "violent-crime": 22,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 17,
+          "Investigation complete; no suspect identified": 4,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 3,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL18": {
+        "ward_id": "BL18",
+        "name": "Layton",
+        "total_crimes": 111,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "drugs": 5,
+          "other-theft": 4,
+          "possession-of-weapons": 2,
+          "public-order": 10,
+          "robbery": 2,
+          "shoplifting": 20,
+          "vehicle-crime": 5,
+          "violent-crime": 34,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 12,
+          "Under investigation": 43,
+          "Investigation complete; no suspect identified": 17,
+          "Local resolution": 5,
+          "Unable to prosecute suspect": 10,
+          "Offender given a caution": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "BL19": {
+        "ward_id": "BL19",
+        "name": "Norbreck",
+        "total_crimes": 26,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Under investigation": 9,
+          "Offender given a caution": 2,
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL2": {
+        "ward_id": "BL2",
+        "name": "Victoria",
+        "total_crimes": 97,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "bicycle-theft": 1,
+          "burglary": 3,
+          "criminal-damage-arson": 4,
+          "drugs": 4,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "robbery": 1,
+          "shoplifting": 5,
+          "vehicle-crime": 5,
+          "violent-crime": 34,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Under investigation": 40,
+          "Unable to prosecute suspect": 9,
+          "Investigation complete; no suspect identified": 10,
+          "Awaiting court outcome": 4,
+          "Local resolution": 3,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL20": {
+        "ward_id": "BL20",
+        "name": "Squires Gate",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "violent-crime": 10,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Under investigation": 5,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 5
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL21": {
+        "ward_id": "BL21",
+        "name": "Stanley",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "public-order": 2,
+          "shoplifting": 2,
+          "theft-from-the-person": 1,
+          "violent-crime": 13
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 11,
+          "Under investigation": 5,
+          "Investigation complete; no suspect identified": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL3": {
+        "ward_id": "BL3",
+        "name": "Clifton",
+        "total_crimes": 137,
+        "by_category": {
+          "anti-social-behaviour": 30,
+          "bicycle-theft": 2,
+          "burglary": 3,
+          "criminal-damage-arson": 13,
+          "drugs": 3,
+          "other-theft": 7,
+          "possession-of-weapons": 1,
+          "public-order": 6,
+          "shoplifting": 12,
+          "vehicle-crime": 3,
+          "violent-crime": 54,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Under investigation": 53,
+          "Investigation complete; no suspect identified": 16,
+          "Local resolution": 4,
+          "Unable to prosecute suspect": 23,
+          "Awaiting court outcome": 5,
+          "Offender given a caution": 6
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "BL4": {
+        "ward_id": "BL4",
+        "name": "Marton",
+        "total_crimes": 56,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "public-order": 4,
+          "shoplifting": 4,
+          "vehicle-crime": 4,
+          "violent-crime": 25,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Under investigation": 26,
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 4,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "BL5": {
+        "ward_id": "BL5",
+        "name": "Hawes Side",
+        "total_crimes": 75,
+        "by_category": {
+          "anti-social-behaviour": 24,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 5,
+          "drugs": 2,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 29,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 20,
+          "Offender given a caution": 6,
+          "Awaiting court outcome": 5,
+          "Unable to prosecute suspect": 15,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "BL6": {
+        "ward_id": "BL6",
+        "name": "Tyldesley",
+        "total_crimes": 83,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "criminal-damage-arson": 10,
+          "drugs": 2,
+          "other-theft": 4,
+          "public-order": 2,
+          "robbery": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 8,
+          "violent-crime": 30,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 9,
+          "Investigation complete; no suspect identified": 14,
+          "Under investigation": 31,
+          "Offender given a caution": 3,
+          "Local resolution": 2,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "BL7": {
+        "ward_id": "BL7",
+        "name": "Talbot",
+        "total_crimes": 311,
+        "by_category": {
+          "anti-social-behaviour": 70,
+          "bicycle-theft": 1,
+          "burglary": 15,
+          "criminal-damage-arson": 15,
+          "drugs": 9,
+          "other-theft": 19,
+          "possession-of-weapons": 4,
+          "public-order": 12,
+          "robbery": 7,
+          "shoplifting": 28,
+          "theft-from-the-person": 4,
+          "vehicle-crime": 6,
+          "violent-crime": 114,
+          "other-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 33,
+          "Under investigation": 129,
+          "Awaiting court outcome": 21,
+          "Unable to prosecute suspect": 43,
+          "Local resolution": 12,
+          "Offender given a caution": 3
+        },
+        "stop_and_search": {
+          "total": 26
+        }
+      },
+      "BL8": {
+        "ward_id": "BL8",
+        "name": "Claremont",
+        "total_crimes": 289,
+        "by_category": {
+          "anti-social-behaviour": 71,
+          "bicycle-theft": 2,
+          "burglary": 6,
+          "criminal-damage-arson": 13,
+          "drugs": 12,
+          "other-theft": 15,
+          "possession-of-weapons": 3,
+          "public-order": 9,
+          "robbery": 4,
+          "shoplifting": 3,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 141,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Under investigation": 118,
+          "Investigation complete; no suspect identified": 28,
+          "Unable to prosecute suspect": 43,
+          "Local resolution": 14,
+          "Awaiting court outcome": 10,
+          "Offender given a caution": 5
+        },
+        "stop_and_search": {
+          "total": 17
+        }
+      },
+      "BL9": {
+        "ward_id": "BL9",
+        "name": "Brunswick",
+        "total_crimes": 112,
+        "by_category": {
+          "anti-social-behaviour": 27,
+          "bicycle-theft": 2,
+          "burglary": 5,
+          "criminal-damage-arson": 11,
+          "drugs": 4,
+          "other-theft": 8,
+          "public-order": 5,
+          "robbery": 2,
+          "shoplifting": 6,
+          "theft-from-the-person": 2,
+          "vehicle-crime": 2,
+          "violent-crime": 37,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 21,
+          "Under investigation": 39,
+          "Awaiting court outcome": 7,
+          "Unable to prosecute suspect": 12,
+          "Local resolution": 5,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:16:56.111885"
+  }
+]

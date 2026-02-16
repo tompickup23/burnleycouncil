@@ -1,0 +1,2989 @@
+[
+  {
+    "borough": "fylde",
+    "borough_name": "Fylde",
+    "ons_code": "E07000119",
+    "date": "2025-07",
+    "total_crimes": 697,
+    "total_stop_and_search": 31,
+    "by_category": {
+      "anti-social-behaviour": 265,
+      "burglary": 13,
+      "criminal-damage-arson": 50,
+      "drugs": 16,
+      "other-theft": 24,
+      "public-order": 29,
+      "robbery": 3,
+      "theft-from-the-person": 2,
+      "vehicle-crime": 12,
+      "violent-crime": 226,
+      "other-crime": 14,
+      "bicycle-theft": 5,
+      "shoplifting": 34,
+      "possession-of-weapons": 4
+    },
+    "category_display": {
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 265
+      },
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 226
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 50
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 34
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 29
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 24
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 16
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 14
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 13
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 12
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 5
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 4
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 3
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 122,
+      "Status update unavailable": 35,
+      "Offender given a caution": 5,
+      "Local resolution": 27,
+      "Unable to prosecute suspect": 202,
+      "Awaiting court outcome": 28,
+      "Further investigation is not in the public interest": 4,
+      "Action to be taken by another organisation": 8,
+      "Suspect charged as part of another case": 1
+    },
+    "ward_count": 17,
+    "wards": {
+      "FY1": {
+        "ward_id": "FY1",
+        "name": "Kirkham",
+        "total_crimes": 64,
+        "by_category": {
+          "anti-social-behaviour": 25,
+          "burglary": 2,
+          "criminal-damage-arson": 9,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 2,
+          "robbery": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 15,
+          "other-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Status update unavailable": 3,
+          "Offender given a caution": 2,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 20,
+          "Awaiting court outcome": 3,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY10": {
+        "ward_id": "FY10",
+        "name": "Lytham East",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 3,
+          "drugs": 2,
+          "other-theft": 1,
+          "public-order": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 8,
+          "Investigation complete; no suspect identified": 4,
+          "Status update unavailable": 2,
+          "Local resolution": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY11": {
+        "ward_id": "FY11",
+        "name": "Lytham West",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 5,
+          "theft-from-the-person": 1,
+          "violent-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 9,
+          "Local resolution": 4,
+          "Status update unavailable": 3,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 5
+        }
+      },
+      "FY12": {
+        "ward_id": "FY12",
+        "name": "Medlar-with-Wesham",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "criminal-damage-arson": 4,
+          "public-order": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 13,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 13,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 2,
+          "Status update unavailable": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY13": {
+        "ward_id": "FY13",
+        "name": "Rural East Fylde",
+        "total_crimes": 37,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 17,
+          "Status update unavailable": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY14": {
+        "ward_id": "FY14",
+        "name": "Rural North Fylde",
+        "total_crimes": 26,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "violent-crime": 12,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 9,
+          "Awaiting court outcome": 2,
+          "Investigation complete; no suspect identified": 4,
+          "Status update unavailable": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY15": {
+        "ward_id": "FY15",
+        "name": "Staining",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Status update unavailable": 1,
+          "Unable to prosecute suspect": 7,
+          "Suspect charged as part of another case": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY16": {
+        "ward_id": "FY16",
+        "name": "Warton - Fylde",
+        "total_crimes": 40,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "criminal-damage-arson": 5,
+          "public-order": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 15
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 13,
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 2,
+          "Offender given a caution": 3,
+          "Status update unavailable": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY17": {
+        "ward_id": "FY17",
+        "name": "Wrea Green with Westby",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Status update unavailable": 2,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 5,
+          "Awaiting court outcome": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 8
+        }
+      },
+      "FY2": {
+        "ward_id": "FY2",
+        "name": "Heyhouses",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Status update unavailable": 3,
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 11,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY3": {
+        "ward_id": "FY3",
+        "name": "Kilnhouse",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "public-order": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Status update unavailable": 1,
+          "Further investigation is not in the public interest": 1,
+          "Unable to prosecute suspect": 9,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY4": {
+        "ward_id": "FY4",
+        "name": "Park - Fylde",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 12,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Awaiting court outcome": 1,
+          "Local resolution": 5,
+          "Unable to prosecute suspect": 4,
+          "Status update unavailable": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY5": {
+        "ward_id": "FY5",
+        "name": "Ansdell &amp; Fairhaven",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "other-theft": 2,
+          "public-order": 4,
+          "robbery": 1,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY6": {
+        "ward_id": "FY6",
+        "name": "Ashton - Fylde",
+        "total_crimes": 76,
+        "by_category": {
+          "anti-social-behaviour": 33,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "drugs": 2,
+          "other-theft": 5,
+          "possession-of-weapons": 2,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 23,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 25,
+          "Awaiting court outcome": 4,
+          "Status update unavailable": 4,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY7": {
+        "ward_id": "FY7",
+        "name": "Carnegie",
+        "total_crimes": 64,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "burglary": 2,
+          "criminal-damage-arson": 3,
+          "drugs": 2,
+          "other-theft": 1,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 8,
+          "violent-crime": 18
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 11,
+          "Local resolution": 2,
+          "Status update unavailable": 2,
+          "Unable to prosecute suspect": 17,
+          "Awaiting court outcome": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "FY8": {
+        "ward_id": "FY8",
+        "name": "Freckleton Village",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 13
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 13,
+          "Local resolution": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "FY9": {
+        "ward_id": "FY9",
+        "name": "Kilgrimol",
+        "total_crimes": 105,
+        "by_category": {
+          "anti-social-behaviour": 44,
+          "bicycle-theft": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 4,
+          "other-theft": 5,
+          "possession-of-weapons": 1,
+          "public-order": 7,
+          "shoplifting": 16,
+          "violent-crime": 22,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 27,
+          "Unable to prosecute suspect": 18,
+          "Local resolution": 3,
+          "Status update unavailable": 5,
+          "Further investigation is not in the public interest": 1,
+          "Awaiting court outcome": 6,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:14:04.216961"
+  },
+  {
+    "borough": "fylde",
+    "borough_name": "Fylde",
+    "ons_code": "E07000119",
+    "date": "2025-08",
+    "total_crimes": 716,
+    "total_stop_and_search": 11,
+    "by_category": {
+      "anti-social-behaviour": 278,
+      "burglary": 18,
+      "criminal-damage-arson": 47,
+      "other-theft": 34,
+      "theft-from-the-person": 2,
+      "violent-crime": 212,
+      "other-crime": 18,
+      "public-order": 21,
+      "vehicle-crime": 39,
+      "shoplifting": 28,
+      "drugs": 10,
+      "possession-of-weapons": 3,
+      "bicycle-theft": 2,
+      "robbery": 4
+    },
+    "category_display": {
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 278
+      },
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 212
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 47
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 39
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 34
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 28
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 21
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 18
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 18
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 10
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 4
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 3
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 2
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 146,
+      "Status update unavailable": 48,
+      "Unable to prosecute suspect": 188,
+      "Offender given a caution": 3,
+      "Further investigation is not in the public interest": 6,
+      "Local resolution": 21,
+      "Action to be taken by another organisation": 5,
+      "Awaiting court outcome": 16,
+      "Further action is not in the public interest": 3,
+      "Offender given penalty notice": 2
+    },
+    "ward_count": 17,
+    "wards": {
+      "FY1": {
+        "ward_id": "FY1",
+        "name": "Kirkham",
+        "total_crimes": 56,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 2,
+          "criminal-damage-arson": 6,
+          "other-theft": 4,
+          "theft-from-the-person": 1,
+          "violent-crime": 24,
+          "other-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Status update unavailable": 6,
+          "Unable to prosecute suspect": 23,
+          "Offender given a caution": 2,
+          "Further investigation is not in the public interest": 2,
+          "Local resolution": 1,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY10": {
+        "ward_id": "FY10",
+        "name": "Lytham East",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 6,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY11": {
+        "ward_id": "FY11",
+        "name": "Lytham West",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "shoplifting": 5,
+          "vehicle-crime": 1,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 14,
+          "Unable to prosecute suspect": 10
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY12": {
+        "ward_id": "FY12",
+        "name": "Medlar-with-Wesham",
+        "total_crimes": 38,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 4,
+          "shoplifting": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 11,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 4,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY13": {
+        "ward_id": "FY13",
+        "name": "Rural East Fylde",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 12,
+          "Status update unavailable": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY14": {
+        "ward_id": "FY14",
+        "name": "Rural North Fylde",
+        "total_crimes": 33,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 14,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Local resolution": 6,
+          "Unable to prosecute suspect": 9,
+          "Status update unavailable": 2,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY15": {
+        "ward_id": "FY15",
+        "name": "Staining",
+        "total_crimes": 22,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 7,
+          "Awaiting court outcome": 2,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY16": {
+        "ward_id": "FY16",
+        "name": "Warton - Fylde",
+        "total_crimes": 32,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "criminal-damage-arson": 3,
+          "public-order": 2,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 7,
+          "Status update unavailable": 3,
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY17": {
+        "ward_id": "FY17",
+        "name": "Wrea Green with Westby",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 11
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 8,
+          "Investigation complete; no suspect identified": 6,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY2": {
+        "ward_id": "FY2",
+        "name": "Heyhouses",
+        "total_crimes": 34,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 9,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Further action is not in the public interest": 2,
+          "Unable to prosecute suspect": 7,
+          "Local resolution": 2,
+          "Status update unavailable": 3,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY3": {
+        "ward_id": "FY3",
+        "name": "Kilnhouse",
+        "total_crimes": 48,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "burglary": 3,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "shoplifting": 2,
+          "vehicle-crime": 4,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Further action is not in the public interest": 1,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 10,
+          "Status update unavailable": 5
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY4": {
+        "ward_id": "FY4",
+        "name": "Park - Fylde",
+        "total_crimes": 20,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 3,
+          "other-theft": 1,
+          "public-order": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 6,
+          "Status update unavailable": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY5": {
+        "ward_id": "FY5",
+        "name": "Ansdell &amp; Fairhaven",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "bicycle-theft": 1,
+          "other-theft": 3,
+          "robbery": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 6,
+          "Awaiting court outcome": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY6": {
+        "ward_id": "FY6",
+        "name": "Ashton - Fylde",
+        "total_crimes": 61,
+        "by_category": {
+          "anti-social-behaviour": 21,
+          "bicycle-theft": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "other-theft": 2,
+          "public-order": 6,
+          "vehicle-crime": 3,
+          "violent-crime": 19,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 20,
+          "Investigation complete; no suspect identified": 11,
+          "Local resolution": 1,
+          "Status update unavailable": 6,
+          "Awaiting court outcome": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY7": {
+        "ward_id": "FY7",
+        "name": "Carnegie",
+        "total_crimes": 69,
+        "by_category": {
+          "anti-social-behaviour": 39,
+          "criminal-damage-arson": 7,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "robbery": 2,
+          "shoplifting": 3,
+          "vehicle-crime": 4,
+          "violent-crime": 9,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 10,
+          "Investigation complete; no suspect identified": 15,
+          "Local resolution": 2,
+          "Awaiting court outcome": 2,
+          "Status update unavailable": 1
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "FY8": {
+        "ward_id": "FY8",
+        "name": "Freckleton Village",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "drugs": 2,
+          "public-order": 1,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 6,
+          "Action to be taken by another organisation": 2,
+          "Investigation complete; no suspect identified": 2,
+          "Offender given penalty notice": 1,
+          "Local resolution": 1,
+          "Status update unavailable": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY9": {
+        "ward_id": "FY9",
+        "name": "Kilgrimol",
+        "total_crimes": 137,
+        "by_category": {
+          "anti-social-behaviour": 61,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "drugs": 2,
+          "other-theft": 7,
+          "possession-of-weapons": 2,
+          "public-order": 6,
+          "robbery": 1,
+          "shoplifting": 16,
+          "vehicle-crime": 2,
+          "violent-crime": 32,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Status update unavailable": 7,
+          "Unable to prosecute suspect": 32,
+          "Investigation complete; no suspect identified": 25,
+          "Local resolution": 6,
+          "Offender given penalty notice": 1,
+          "Awaiting court outcome": 4,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:14:17.498382"
+  },
+  {
+    "borough": "fylde",
+    "borough_name": "Fylde",
+    "ons_code": "E07000119",
+    "date": "2025-09",
+    "total_crimes": 517,
+    "total_stop_and_search": 12,
+    "by_category": {
+      "anti-social-behaviour": 169,
+      "burglary": 9,
+      "criminal-damage-arson": 35,
+      "other-theft": 23,
+      "possession-of-weapons": 6,
+      "shoplifting": 23,
+      "vehicle-crime": 25,
+      "violent-crime": 182,
+      "other-crime": 11,
+      "bicycle-theft": 3,
+      "public-order": 23,
+      "drugs": 5,
+      "theft-from-the-person": 2,
+      "robbery": 1
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 182
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 169
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 35
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 25
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 23
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 23
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 23
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 11
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 9
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 6
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 5
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 3
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 1
+      }
+    },
+    "outcomes": {
+      "Awaiting court outcome": 27,
+      "Unable to prosecute suspect": 158,
+      "Investigation complete; no suspect identified": 88,
+      "Under investigation": 45,
+      "Local resolution": 21,
+      "Action to be taken by another organisation": 2,
+      "Further investigation is not in the public interest": 2,
+      "Offender given a caution": 5
+    },
+    "ward_count": 17,
+    "wards": {
+      "FY1": {
+        "ward_id": "FY1",
+        "name": "Kirkham",
+        "total_crimes": 50,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "other-theft": 6,
+          "possession-of-weapons": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 18,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 14,
+          "Investigation complete; no suspect identified": 12,
+          "Under investigation": 6,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 1,
+          "Further investigation is not in the public interest": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY10": {
+        "ward_id": "FY10",
+        "name": "Lytham East",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "other-theft": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Under investigation": 3,
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 6
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY11": {
+        "ward_id": "FY11",
+        "name": "Lytham West",
+        "total_crimes": 19,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "other-theft": 1,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 8,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "FY12": {
+        "ward_id": "FY12",
+        "name": "Medlar-with-Wesham",
+        "total_crimes": 30,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 1,
+          "public-order": 6,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 11,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Awaiting court outcome": 8,
+          "Under investigation": 5,
+          "Unable to prosecute suspect": 8,
+          "Offender given a caution": 2,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY13": {
+        "ward_id": "FY13",
+        "name": "Rural East Fylde",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 9,
+          "Under investigation": 2,
+          "Offender given a caution": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY14": {
+        "ward_id": "FY14",
+        "name": "Rural North Fylde",
+        "total_crimes": 20,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 8,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 9,
+          "Under investigation": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY15": {
+        "ward_id": "FY15",
+        "name": "Staining",
+        "total_crimes": 11,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 3,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Unable to prosecute suspect": 2,
+          "Under investigation": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY16": {
+        "ward_id": "FY16",
+        "name": "Warton - Fylde",
+        "total_crimes": 34,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 3,
+          "public-order": 4,
+          "violent-crime": 20
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 18,
+          "Investigation complete; no suspect identified": 4,
+          "Local resolution": 2,
+          "Under investigation": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY17": {
+        "ward_id": "FY17",
+        "name": "Wrea Green with Westby",
+        "total_crimes": 18,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "other-theft": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY2": {
+        "ward_id": "FY2",
+        "name": "Heyhouses",
+        "total_crimes": 31,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 9
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 8,
+          "Unable to prosecute suspect": 8,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 1,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY3": {
+        "ward_id": "FY3",
+        "name": "Kilnhouse",
+        "total_crimes": 37,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "criminal-damage-arson": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Awaiting court outcome": 1,
+          "Unable to prosecute suspect": 11,
+          "Under investigation": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY4": {
+        "ward_id": "FY4",
+        "name": "Park - Fylde",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 17,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "theft-from-the-person": 1,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 3,
+          "Under investigation": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY5": {
+        "ward_id": "FY5",
+        "name": "Ansdell &amp; Fairhaven",
+        "total_crimes": 10,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 1,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Under investigation": 1,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY6": {
+        "ward_id": "FY6",
+        "name": "Ashton - Fylde",
+        "total_crimes": 43,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 5,
+          "drugs": 1,
+          "other-theft": 1,
+          "possession-of-weapons": 3,
+          "shoplifting": 2,
+          "vehicle-crime": 5,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Awaiting court outcome": 4,
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 21,
+          "Local resolution": 2,
+          "Under investigation": 2
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY7": {
+        "ward_id": "FY7",
+        "name": "Carnegie",
+        "total_crimes": 52,
+        "by_category": {
+          "anti-social-behaviour": 14,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 4,
+          "drugs": 3,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 4,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 4,
+          "violent-crime": 15
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 12,
+          "Unable to prosecute suspect": 11,
+          "Awaiting court outcome": 5,
+          "Local resolution": 4,
+          "Under investigation": 6
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY8": {
+        "ward_id": "FY8",
+        "name": "Freckleton Village",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "violent-crime": 9,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 8,
+          "Under investigation": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY9": {
+        "ward_id": "FY9",
+        "name": "Kilgrimol",
+        "total_crimes": 68,
+        "by_category": {
+          "anti-social-behaviour": 28,
+          "burglary": 2,
+          "criminal-damage-arson": 4,
+          "other-theft": 3,
+          "public-order": 6,
+          "shoplifting": 11,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 16,
+          "Awaiting court outcome": 1,
+          "Investigation complete; no suspect identified": 15,
+          "Under investigation": 4,
+          "Local resolution": 3,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:14:29.877004"
+  },
+  {
+    "borough": "fylde",
+    "borough_name": "Fylde",
+    "ons_code": "E07000119",
+    "date": "2025-10",
+    "total_crimes": 561,
+    "total_stop_and_search": 14,
+    "by_category": {
+      "anti-social-behaviour": 216,
+      "drugs": 7,
+      "other-theft": 32,
+      "possession-of-weapons": 5,
+      "public-order": 24,
+      "shoplifting": 18,
+      "violent-crime": 186,
+      "other-crime": 16,
+      "burglary": 8,
+      "criminal-damage-arson": 37,
+      "bicycle-theft": 1,
+      "vehicle-crime": 9,
+      "theft-from-the-person": 1,
+      "robbery": 1
+    },
+    "category_display": {
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 216
+      },
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 186
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 37
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 32
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 24
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 18
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 16
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 9
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 8
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 7
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 5
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 1
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 1
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 1
+      }
+    },
+    "outcomes": {
+      "Under investigation": 61,
+      "Further investigation is not in the public interest": 2,
+      "Unable to prosecute suspect": 163,
+      "Investigation complete; no suspect identified": 75,
+      "Local resolution": 23,
+      "Awaiting court outcome": 14,
+      "Offender given a caution": 2,
+      "Action to be taken by another organisation": 3,
+      "Further action is not in the public interest": 1,
+      "Formal action is not in the public interest": 1
+    },
+    "ward_count": 17,
+    "wards": {
+      "FY1": {
+        "ward_id": "FY1",
+        "name": "Kirkham",
+        "total_crimes": 76,
+        "by_category": {
+          "anti-social-behaviour": 37,
+          "drugs": 3,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 4,
+          "shoplifting": 5,
+          "violent-crime": 22,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 7,
+          "Further investigation is not in the public interest": 1,
+          "Unable to prosecute suspect": 15,
+          "Investigation complete; no suspect identified": 8,
+          "Local resolution": 5,
+          "Awaiting court outcome": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY10": {
+        "ward_id": "FY10",
+        "name": "Lytham East",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "other-theft": 2,
+          "violent-crime": 7
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 5,
+          "Local resolution": 2,
+          "Under investigation": 1,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY11": {
+        "ward_id": "FY11",
+        "name": "Lytham West",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "burglary": 2,
+          "criminal-damage-arson": 5,
+          "other-theft": 3,
+          "public-order": 1,
+          "shoplifting": 3,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 10,
+          "Under investigation": 3,
+          "Awaiting court outcome": 3,
+          "Unable to prosecute suspect": 6
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY12": {
+        "ward_id": "FY12",
+        "name": "Medlar-with-Wesham",
+        "total_crimes": 15,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "bicycle-theft": 1,
+          "public-order": 1,
+          "violent-crime": 3,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 1,
+          "Under investigation": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY13": {
+        "ward_id": "FY13",
+        "name": "Rural East Fylde",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 10
+        },
+        "outcomes": {
+          "Under investigation": 3,
+          "Local resolution": 3,
+          "Awaiting court outcome": 2,
+          "Investigation complete; no suspect identified": 4,
+          "Unable to prosecute suspect": 6
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY14": {
+        "ward_id": "FY14",
+        "name": "Rural North Fylde",
+        "total_crimes": 11,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "vehicle-crime": 1,
+          "violent-crime": 8
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 6,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY15": {
+        "ward_id": "FY15",
+        "name": "Staining",
+        "total_crimes": 13,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 3,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY16": {
+        "ward_id": "FY16",
+        "name": "Warton - Fylde",
+        "total_crimes": 39,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "other-theft": 1,
+          "public-order": 2,
+          "shoplifting": 2,
+          "theft-from-the-person": 1,
+          "violent-crime": 11
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Awaiting court outcome": 2,
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 9,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY17": {
+        "ward_id": "FY17",
+        "name": "Wrea Green with Westby",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "other-theft": 1,
+          "shoplifting": 1,
+          "violent-crime": 5,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 2,
+          "Local resolution": 2,
+          "Unable to prosecute suspect": 3,
+          "Further action is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY2": {
+        "ward_id": "FY2",
+        "name": "Heyhouses",
+        "total_crimes": 42,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 1,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 18,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 18,
+          "Local resolution": 2,
+          "Under investigation": 2,
+          "Awaiting court outcome": 1,
+          "Further investigation is not in the public interest": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY3": {
+        "ward_id": "FY3",
+        "name": "Kilnhouse",
+        "total_crimes": 46,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "criminal-damage-arson": 3,
+          "other-theft": 4,
+          "public-order": 5,
+          "vehicle-crime": 2,
+          "violent-crime": 10,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Unable to prosecute suspect": 13,
+          "Under investigation": 8,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY4": {
+        "ward_id": "FY4",
+        "name": "Park - Fylde",
+        "total_crimes": 10,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 4,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY5": {
+        "ward_id": "FY5",
+        "name": "Ansdell &amp; Fairhaven",
+        "total_crimes": 15,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "drugs": 1,
+          "other-theft": 2,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 6,
+          "Investigation complete; no suspect identified": 2,
+          "Under investigation": 2
+        },
+        "stop_and_search": {
+          "total": 4
+        }
+      },
+      "FY6": {
+        "ward_id": "FY6",
+        "name": "Ashton - Fylde",
+        "total_crimes": 62,
+        "by_category": {
+          "anti-social-behaviour": 23,
+          "burglary": 2,
+          "criminal-damage-arson": 4,
+          "other-theft": 2,
+          "possession-of-weapons": 2,
+          "public-order": 5,
+          "vehicle-crime": 1,
+          "violent-crime": 21,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Unable to prosecute suspect": 26,
+          "Local resolution": 1,
+          "Under investigation": 4,
+          "Action to be taken by another organisation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY7": {
+        "ward_id": "FY7",
+        "name": "Carnegie",
+        "total_crimes": 55,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "criminal-damage-arson": 7,
+          "other-theft": 4,
+          "public-order": 1,
+          "robbery": 1,
+          "shoplifting": 4,
+          "vehicle-crime": 1,
+          "violent-crime": 19
+        },
+        "outcomes": {
+          "Awaiting court outcome": 2,
+          "Unable to prosecute suspect": 18,
+          "Under investigation": 8,
+          "Local resolution": 1,
+          "Investigation complete; no suspect identified": 8
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY8": {
+        "ward_id": "FY8",
+        "name": "Freckleton Village",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "shoplifting": 1,
+          "violent-crime": 5,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 3,
+          "Under investigation": 6
+        },
+        "stop_and_search": {
+          "total": 2
+        }
+      },
+      "FY9": {
+        "ward_id": "FY9",
+        "name": "Kilgrimol",
+        "total_crimes": 64,
+        "by_category": {
+          "anti-social-behaviour": 26,
+          "burglary": 1,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "shoplifting": 2,
+          "violent-crime": 22,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 9,
+          "Unable to prosecute suspect": 21,
+          "Awaiting court outcome": 2,
+          "Under investigation": 2,
+          "Formal action is not in the public interest": 1,
+          "Local resolution": 3
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:14:43.523914"
+  },
+  {
+    "borough": "fylde",
+    "borough_name": "Fylde",
+    "ons_code": "E07000119",
+    "date": "2025-11",
+    "total_crimes": 503,
+    "total_stop_and_search": 0,
+    "by_category": {
+      "anti-social-behaviour": 145,
+      "criminal-damage-arson": 35,
+      "drugs": 15,
+      "other-theft": 34,
+      "public-order": 19,
+      "shoplifting": 22,
+      "violent-crime": 190,
+      "other-crime": 15,
+      "bicycle-theft": 2,
+      "vehicle-crime": 16,
+      "burglary": 7,
+      "robbery": 2,
+      "possession-of-weapons": 1
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 190
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 145
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 35
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 34
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 22
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 19
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 16
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 15
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 15
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 7
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 2
+      },
+      "robbery": {
+        "name": "Robbery",
+        "count": 2
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 1
+      }
+    },
+    "outcomes": {
+      "Under investigation": 89,
+      "Unable to prosecute suspect": 131,
+      "Investigation complete; no suspect identified": 83,
+      "Action to be taken by another organisation": 9,
+      "Offender given penalty notice": 2,
+      "Awaiting court outcome": 18,
+      "Local resolution": 23,
+      "Offender given a caution": 3
+    },
+    "ward_count": 17,
+    "wards": {
+      "FY1": {
+        "ward_id": "FY1",
+        "name": "Kirkham",
+        "total_crimes": 56,
+        "by_category": {
+          "anti-social-behaviour": 12,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 4,
+          "shoplifting": 3,
+          "violent-crime": 24,
+          "other-crime": 3
+        },
+        "outcomes": {
+          "Under investigation": 10,
+          "Unable to prosecute suspect": 17,
+          "Investigation complete; no suspect identified": 10,
+          "Action to be taken by another organisation": 4,
+          "Offender given penalty notice": 1,
+          "Awaiting court outcome": 1,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY10": {
+        "ward_id": "FY10",
+        "name": "Lytham East",
+        "total_crimes": 30,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "criminal-damage-arson": 1,
+          "drugs": 2,
+          "other-theft": 1,
+          "shoplifting": 1,
+          "violent-crime": 20
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 13,
+          "Under investigation": 9,
+          "Awaiting court outcome": 1,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY11": {
+        "ward_id": "FY11",
+        "name": "Lytham West",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 2,
+          "shoplifting": 1,
+          "violent-crime": 13
+        },
+        "outcomes": {
+          "Local resolution": 3,
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 7,
+          "Awaiting court outcome": 2,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY12": {
+        "ward_id": "FY12",
+        "name": "Medlar-with-Wesham",
+        "total_crimes": 17,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "bicycle-theft": 1,
+          "criminal-damage-arson": 1,
+          "public-order": 1,
+          "violent-crime": 7,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 5,
+          "Under investigation": 2,
+          "Local resolution": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY13": {
+        "ward_id": "FY13",
+        "name": "Rural East Fylde",
+        "total_crimes": 17,
+        "by_category": {
+          "anti-social-behaviour": 4,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "public-order": 1,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 4,
+          "Local resolution": 3,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY14": {
+        "ward_id": "FY14",
+        "name": "Rural North Fylde",
+        "total_crimes": 16,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "criminal-damage-arson": 2,
+          "drugs": 2,
+          "other-theft": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 4,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 3,
+          "Investigation complete; no suspect identified": 4,
+          "Local resolution": 2,
+          "Under investigation": 3,
+          "Action to be taken by another organisation": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY15": {
+        "ward_id": "FY15",
+        "name": "Staining",
+        "total_crimes": 4,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "violent-crime": 2,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Local resolution": 1,
+          "Under investigation": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY16": {
+        "ward_id": "FY16",
+        "name": "Warton - Fylde",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "robbery": 1,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 4,
+          "Action to be taken by another organisation": 1,
+          "Unable to prosecute suspect": 2,
+          "Awaiting court outcome": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY17": {
+        "ward_id": "FY17",
+        "name": "Wrea Green with Westby",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "bicycle-theft": 1,
+          "other-theft": 2,
+          "violent-crime": 12
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 4,
+          "Unable to prosecute suspect": 7
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY2": {
+        "ward_id": "FY2",
+        "name": "Heyhouses",
+        "total_crimes": 36,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "public-order": 1,
+          "vehicle-crime": 7,
+          "violent-crime": 14,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Offender given penalty notice": 1,
+          "Under investigation": 9,
+          "Local resolution": 3,
+          "Unable to prosecute suspect": 8,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY3": {
+        "ward_id": "FY3",
+        "name": "Kilnhouse",
+        "total_crimes": 37,
+        "by_category": {
+          "anti-social-behaviour": 22,
+          "burglary": 1,
+          "drugs": 1,
+          "other-theft": 3,
+          "public-order": 1,
+          "shoplifting": 1,
+          "violent-crime": 8
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 6,
+          "Under investigation": 2,
+          "Unable to prosecute suspect": 6,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY4": {
+        "ward_id": "FY4",
+        "name": "Park - Fylde",
+        "total_crimes": 12,
+        "by_category": {
+          "anti-social-behaviour": 5,
+          "other-theft": 1,
+          "violent-crime": 5,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 2,
+          "Action to be taken by another organisation": 1,
+          "Unable to prosecute suspect": 2,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY5": {
+        "ward_id": "FY5",
+        "name": "Ansdell &amp; Fairhaven",
+        "total_crimes": 17,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "criminal-damage-arson": 2,
+          "other-theft": 3,
+          "public-order": 2,
+          "violent-crime": 6,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 6,
+          "Under investigation": 4,
+          "Local resolution": 2,
+          "Investigation complete; no suspect identified": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY6": {
+        "ward_id": "FY6",
+        "name": "Ashton - Fylde",
+        "total_crimes": 59,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "criminal-damage-arson": 6,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 20,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 13,
+          "Unable to prosecute suspect": 12,
+          "Investigation complete; no suspect identified": 9,
+          "Awaiting court outcome": 2,
+          "Action to be taken by another organisation": 2,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY7": {
+        "ward_id": "FY7",
+        "name": "Carnegie",
+        "total_crimes": 52,
+        "by_category": {
+          "anti-social-behaviour": 11,
+          "burglary": 5,
+          "criminal-damage-arson": 2,
+          "drugs": 3,
+          "other-theft": 3,
+          "shoplifting": 4,
+          "vehicle-crime": 2,
+          "violent-crime": 21,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 15,
+          "Under investigation": 4,
+          "Awaiting court outcome": 5,
+          "Unable to prosecute suspect": 15,
+          "Local resolution": 1,
+          "Offender given a caution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY8": {
+        "ward_id": "FY8",
+        "name": "Freckleton Village",
+        "total_crimes": 23,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 3,
+          "vehicle-crime": 1,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Unable to prosecute suspect": 6,
+          "Investigation complete; no suspect identified": 4,
+          "Under investigation": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY9": {
+        "ward_id": "FY9",
+        "name": "Kilgrimol",
+        "total_crimes": 58,
+        "by_category": {
+          "anti-social-behaviour": 13,
+          "criminal-damage-arson": 5,
+          "other-theft": 4,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "robbery": 1,
+          "shoplifting": 11,
+          "vehicle-crime": 1,
+          "violent-crime": 18,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Local resolution": 5,
+          "Investigation complete; no suspect identified": 11,
+          "Under investigation": 10,
+          "Unable to prosecute suspect": 18,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:14:56.074880"
+  },
+  {
+    "borough": "fylde",
+    "borough_name": "Fylde",
+    "ons_code": "E07000119",
+    "date": "2025-12",
+    "total_crimes": 473,
+    "total_stop_and_search": 12,
+    "by_category": {
+      "anti-social-behaviour": 123,
+      "burglary": 14,
+      "criminal-damage-arson": 32,
+      "drugs": 7,
+      "other-theft": 36,
+      "public-order": 17,
+      "shoplifting": 20,
+      "vehicle-crime": 23,
+      "violent-crime": 175,
+      "other-crime": 19,
+      "possession-of-weapons": 3,
+      "bicycle-theft": 2,
+      "theft-from-the-person": 2
+    },
+    "category_display": {
+      "violent-crime": {
+        "name": "Violence & sexual offences",
+        "count": 175
+      },
+      "anti-social-behaviour": {
+        "name": "Anti-social behaviour",
+        "count": 123
+      },
+      "other-theft": {
+        "name": "Other theft",
+        "count": 36
+      },
+      "criminal-damage-arson": {
+        "name": "Criminal damage & arson",
+        "count": 32
+      },
+      "vehicle-crime": {
+        "name": "Vehicle crime",
+        "count": 23
+      },
+      "shoplifting": {
+        "name": "Shoplifting",
+        "count": 20
+      },
+      "other-crime": {
+        "name": "Other crime",
+        "count": 19
+      },
+      "public-order": {
+        "name": "Public order",
+        "count": 17
+      },
+      "burglary": {
+        "name": "Burglary",
+        "count": 14
+      },
+      "drugs": {
+        "name": "Drugs",
+        "count": 7
+      },
+      "possession-of-weapons": {
+        "name": "Weapons possession",
+        "count": 3
+      },
+      "bicycle-theft": {
+        "name": "Bicycle theft",
+        "count": 2
+      },
+      "theft-from-the-person": {
+        "name": "Theft from person",
+        "count": 2
+      }
+    },
+    "outcomes": {
+      "Investigation complete; no suspect identified": 58,
+      "Under investigation": 190,
+      "Local resolution": 13,
+      "Unable to prosecute suspect": 65,
+      "Awaiting court outcome": 15,
+      "Further action is not in the public interest": 4,
+      "Offender given a caution": 2,
+      "Action to be taken by another organisation": 3
+    },
+    "ward_count": 17,
+    "wards": {
+      "FY1": {
+        "ward_id": "FY1",
+        "name": "Kirkham",
+        "total_crimes": 47,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "burglary": 1,
+          "criminal-damage-arson": 7,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 17,
+          "other-crime": 4
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 7,
+          "Under investigation": 22,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 7,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY10": {
+        "ward_id": "FY10",
+        "name": "Lytham East",
+        "total_crimes": 26,
+        "by_category": {
+          "anti-social-behaviour": 8,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 1,
+          "violent-crime": 7,
+          "other-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 3,
+          "Local resolution": 1,
+          "Under investigation": 6,
+          "Further action is not in the public interest": 4,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY11": {
+        "ward_id": "FY11",
+        "name": "Lytham West",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 2,
+          "shoplifting": 4,
+          "violent-crime": 13
+        },
+        "outcomes": {
+          "Under investigation": 10,
+          "Awaiting court outcome": 3,
+          "Investigation complete; no suspect identified": 4,
+          "Unable to prosecute suspect": 4
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY12": {
+        "ward_id": "FY12",
+        "name": "Medlar-with-Wesham",
+        "total_crimes": 30,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 3,
+          "shoplifting": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 12,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 14,
+          "Investigation complete; no suspect identified": 3,
+          "Unable to prosecute suspect": 4,
+          "Local resolution": 2,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      },
+      "FY13": {
+        "ward_id": "FY13",
+        "name": "Rural East Fylde",
+        "total_crimes": 25,
+        "by_category": {
+          "anti-social-behaviour": 7,
+          "criminal-damage-arson": 2,
+          "other-theft": 5,
+          "public-order": 1,
+          "violent-crime": 9,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 12,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY14": {
+        "ward_id": "FY14",
+        "name": "Rural North Fylde",
+        "total_crimes": 10,
+        "by_category": {
+          "criminal-damage-arson": 2,
+          "drugs": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 5
+        },
+        "outcomes": {
+          "Under investigation": 4,
+          "Investigation complete; no suspect identified": 3,
+          "Local resolution": 1,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY15": {
+        "ward_id": "FY15",
+        "name": "Staining",
+        "total_crimes": 8,
+        "by_category": {
+          "anti-social-behaviour": 1,
+          "criminal-damage-arson": 1,
+          "other-theft": 2,
+          "violent-crime": 4
+        },
+        "outcomes": {
+          "Under investigation": 4,
+          "Investigation complete; no suspect identified": 2,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY16": {
+        "ward_id": "FY16",
+        "name": "Warton - Fylde",
+        "total_crimes": 20,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "burglary": 1,
+          "criminal-damage-arson": 1,
+          "vehicle-crime": 1,
+          "violent-crime": 14
+        },
+        "outcomes": {
+          "Under investigation": 12,
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 3,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY17": {
+        "ward_id": "FY17",
+        "name": "Wrea Green with Westby",
+        "total_crimes": 24,
+        "by_category": {
+          "anti-social-behaviour": 3,
+          "burglary": 3,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "other-theft": 1,
+          "public-order": 3,
+          "vehicle-crime": 2,
+          "violent-crime": 8,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Under investigation": 15,
+          "Unable to prosecute suspect": 3,
+          "Investigation complete; no suspect identified": 2,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY2": {
+        "ward_id": "FY2",
+        "name": "Heyhouses",
+        "total_crimes": 28,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "other-theft": 2,
+          "public-order": 1,
+          "shoplifting": 1,
+          "vehicle-crime": 5,
+          "violent-crime": 8,
+          "other-crime": 2
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 4,
+          "Unable to prosecute suspect": 3,
+          "Under investigation": 10,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY3": {
+        "ward_id": "FY3",
+        "name": "Kilnhouse",
+        "total_crimes": 27,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "burglary": 2,
+          "criminal-damage-arson": 1,
+          "drugs": 1,
+          "public-order": 2,
+          "shoplifting": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 10,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 5,
+          "Under investigation": 12,
+          "Unable to prosecute suspect": 3,
+          "Local resolution": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY4": {
+        "ward_id": "FY4",
+        "name": "Park - Fylde",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 6,
+          "bicycle-theft": 1,
+          "vehicle-crime": 3,
+          "violent-crime": 11
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 3,
+          "Under investigation": 7,
+          "Local resolution": 2,
+          "Action to be taken by another organisation": 2,
+          "Unable to prosecute suspect": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY5": {
+        "ward_id": "FY5",
+        "name": "Ansdell &amp; Fairhaven",
+        "total_crimes": 13,
+        "by_category": {
+          "anti-social-behaviour": 2,
+          "other-theft": 3,
+          "possession-of-weapons": 1,
+          "public-order": 1,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Under investigation": 8,
+          "Investigation complete; no suspect identified": 1,
+          "Unable to prosecute suspect": 2
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY6": {
+        "ward_id": "FY6",
+        "name": "Ashton - Fylde",
+        "total_crimes": 52,
+        "by_category": {
+          "anti-social-behaviour": 18,
+          "burglary": 3,
+          "criminal-damage-arson": 3,
+          "drugs": 1,
+          "other-theft": 5,
+          "public-order": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 17,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 16,
+          "Unable to prosecute suspect": 9,
+          "Investigation complete; no suspect identified": 6,
+          "Action to be taken by another organisation": 1,
+          "Local resolution": 1,
+          "Awaiting court outcome": 1
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY7": {
+        "ward_id": "FY7",
+        "name": "Carnegie",
+        "total_crimes": 35,
+        "by_category": {
+          "anti-social-behaviour": 10,
+          "burglary": 3,
+          "criminal-damage-arson": 2,
+          "other-theft": 4,
+          "public-order": 1,
+          "shoplifting": 1,
+          "theft-from-the-person": 1,
+          "vehicle-crime": 2,
+          "violent-crime": 10,
+          "other-crime": 1
+        },
+        "outcomes": {
+          "Under investigation": 12,
+          "Unable to prosecute suspect": 6,
+          "Investigation complete; no suspect identified": 4,
+          "Awaiting court outcome": 3
+        },
+        "stop_and_search": {
+          "total": 1
+        }
+      },
+      "FY8": {
+        "ward_id": "FY8",
+        "name": "Freckleton Village",
+        "total_crimes": 21,
+        "by_category": {
+          "anti-social-behaviour": 9,
+          "criminal-damage-arson": 3,
+          "other-theft": 2,
+          "public-order": 1,
+          "violent-crime": 6
+        },
+        "outcomes": {
+          "Investigation complete; no suspect identified": 1,
+          "Under investigation": 7,
+          "Unable to prosecute suspect": 4
+        },
+        "stop_and_search": {
+          "total": 0
+        }
+      },
+      "FY9": {
+        "ward_id": "FY9",
+        "name": "Kilgrimol",
+        "total_crimes": 59,
+        "by_category": {
+          "anti-social-behaviour": 20,
+          "bicycle-theft": 1,
+          "burglary": 1,
+          "criminal-damage-arson": 2,
+          "other-theft": 2,
+          "possession-of-weapons": 1,
+          "public-order": 2,
+          "shoplifting": 11,
+          "vehicle-crime": 1,
+          "violent-crime": 18
+        },
+        "outcomes": {
+          "Under investigation": 19,
+          "Investigation complete; no suspect identified": 6,
+          "Offender given a caution": 1,
+          "Unable to prosecute suspect": 8,
+          "Local resolution": 3,
+          "Awaiting court outcome": 2
+        },
+        "stop_and_search": {
+          "total": 3
+        }
+      }
+    },
+    "generated_at": "2026-02-16T16:15:08.536395"
+  }
+]
