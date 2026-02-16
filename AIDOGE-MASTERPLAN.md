@@ -10,7 +10,7 @@
 - **2,286,000+ transactions** — £12 billion+ tracked
 - **648 councillors** — full politics data for all 15
 - **22 pages** — lazy-loaded with ErrorBoundary + Suspense
-- **204 unit tests** + **31 E2E tests** — all passing
+- **219 unit tests** (26 files) + **31 E2E tests** — all passing
 - **Cost: £22/month** — LLM costs £0 (Gemini free tier)
 
 ### Live Council Sites
@@ -104,6 +104,7 @@ Police API   →  police_etl.py     →  crime_stats.json, crime_history.json
 IMD 2019     →  deprivation_etl.py → deprivation.json
 Census 2021  →  census_etl.py     →  demographics.json
 ModernGov    →  councillors_etl.py → councillors.json, politics_summary.json, wards.json
+Councillor+CH → councillor_integrity_etl.py → integrity.json, integrity_cross_council.json
 Article AI   →  article_pipeline.py → articles-index.json + articles/{id}.json
 Cross-council → generate_cross_council.py → cross_council.json
 Budget analysis → generate_budget_insights.py → budget_insights.json, budget_efficiency.json
@@ -119,7 +120,7 @@ Budget analysis → generate_budget_insights.py → budget_insights.json, budget
 Worker auto-detects v4→v3→v2 and loads accordingly. V4 chunks gitignored (~647MB total). CI restores from previous deploy.
 
 ### Test Coverage
-- **204 unit tests** across 22 files — all passing
+- **219 unit tests** across 26 files — all passing
 - **31 E2E tests** across 5 files (smoke, news, spending, legal, navigation)
 - **18 page components** with tests, 4 without (Demographics, LGRTracker, LGRCostCalculator, Integrity)
 
