@@ -73,8 +73,22 @@
     "data_period": "April 2017 \u2013 March 2026",
     "annual_net_revenue_budget": "\u00a312M",
     "political_control": "Conservative majority.",
-    "key_suppliers": [],
-    "doge_findings": {},
-    "notable_suppliers": []
+    "key_suppliers": [
+      { "name": "Lancashire County Council", "spend": "\u00a3325.9M", "note": "48% of all spend \u2014 extreme concentration (HHI 2,797)" },
+      { "name": "DCLG", "spend": "\u00a3116.3M", "note": "Government grant passthrough" },
+      { "name": "Balfour Beatty Civil Engineering Ltd", "spend": "\u00a339.2M", "note": "Major infrastructure construction" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a3240.9K across 660 high-confidence duplicate groups",
+      "benfords_law": "7.6% max digit deviation \u2014 above 5% warning threshold",
+      "year_end_spike": "Finance spent 6.8x monthly average in March",
+      "supplier_concentration": "HHI 2,797 (HIGH) \u2014 LCC receives 48% of all spend",
+      "weak_competition": "21 contracts with limited competition indicators"
+    },
+    "notable_suppliers": [
+      { "name": "Lancashire County Council", "spend": "\u00a3325.9M", "issue": "48% of all spend \u2014 extreme supplier concentration" },
+      { "name": "Veolia ES (UK) Ltd", "spend": "\u00a316.7M", "note": "Waste disposal services" },
+      { "name": "Water Plus Ltd", "transactions": 4930, "note": "Highest volume supplier by count" }
+    ]
   }
 }

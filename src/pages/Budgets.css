@@ -846,4 +846,88 @@
   .year-selector {
     justify-content: center;
   }
+
+  .highlights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Key Financial Highlights ── */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.highlight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.highlight-card.highlight-danger {
+  border-left: 4px solid #ff453a;
+  background: rgba(255, 69, 58, 0.05);
+}
+
+.highlight-card.highlight-warning {
+  border-left: 4px solid #ff9f0a;
+  background: rgba(255, 159, 10, 0.05);
+}
+
+.highlight-card.highlight-info {
+  border-left: 4px solid var(--accent-blue);
+  background: rgba(10, 132, 255, 0.05);
+}
+
+.highlight-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--text-secondary);
+}
+
+.highlight-danger .highlight-icon { color: #ff453a; }
+.highlight-warning .highlight-icon { color: #ff9f0a; }
+.highlight-info .highlight-icon { color: var(--accent-blue); }
+
+.highlight-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* ── Efficiency Badges ── */
+.efficiency-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-danger {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+.badge-warning {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+
+.badge-ok {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+}
+
+/* ── Stat sublabel ── */
+.stat-sublabel {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
 }

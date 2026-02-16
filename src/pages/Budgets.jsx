@@ -55,9 +55,11 @@ function Budgets() {
   // Load different data depending on what's available
   const budgetUrls = hasBudgets
     ? ['/data/budgets.json', '/data/budget_insights.json']
-    : ['/data/budgets_govuk.json', '/data/revenue_trends.json', '/data/budgets_summary.json']
+    : ['/data/budgets_govuk.json', '/data/revenue_trends.json', '/data/budgets_summary.json', '/data/budget_insights.json', '/data/budget_efficiency.json']
   const { data, loading, error } = useData(budgetUrls)
-  const [budgetData, insights, budgetSummary] = data || [null, null, null]
+  const [budgetData, insights, budgetSummary, govukInsights, efficiencyData] = hasBudgets
+    ? [...(data || [null, null]), null, null, null]
+    : [null, null, ...(data || [null, null, null])]
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -154,7 +156,7 @@ function Budgets() {
 
   // For councils without detailed budgets.json, render a simpler GOV.UK trends view
   if (!hasBudgets && hasBudgetTrends) {
-    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} summaryData={budgetSummary} />
+    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={budgetData} trendsData={insights} summaryData={budgetSummary} insightsData={govukInsights} efficiencyData={efficiencyData} />
   }
 
   if (!budgetData) {
@@ -856,7 +858,7 @@ function Budgets() {
  * (i.e. no detailed budget book PDFs available). Shows service expenditure
  * breakdown and revenue trends over time.
  */
-function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData }) {
+function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData, insightsData, efficiencyData }) {
   const config = useCouncilConfig()
   const councilTier = config.council_tier || 'district'
   const isMultiYear = summaryData?.multi_year && summaryData?.years?.length > 1
@@ -1022,11 +1024,55 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
         )}
       </section>
 
+      {/* Year-on-Year Budget Changes */}
+      {insightsData?.yoy_changes?.length > 0 && (
+        <section className="chart-section">
+          <h2><TrendingUp size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Budget Growth Over Time</h2>
+          <p className="section-note">
+            Total service expenditure grew {insightsData.efficiency_metrics?.total_budget_growth_pct?.toFixed(1)}% over {insightsData.efficiency_metrics?.years_covered} years
+            (from {formatCurrency(insightsData.efficiency_metrics?.earliest_budget, true)} to {formatCurrency(insightsData.efficiency_metrics?.latest_budget, true)})
+          </p>
+          <div className="stats-grid">
+            {insightsData.yoy_changes.map((change, i) => (
+              <div key={i} className="stat-card">
+                <div className="stat-label">{change.from_year} → {change.to_year}</div>
+                <div className="stat-value" style={{ color: change.change_percent > 5 ? '#ff453a' : change.change_percent > 0 ? '#ff9f0a' : '#30d158' }}>
+                  {change.change_percent > 0 ? '+' : ''}{change.change_percent.toFixed(1)}%
+                </div>
+                <div className="stat-sublabel">{change.change_amount > 0 ? '+' : ''}{formatCurrency(change.change_amount, true)}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Key Political & Financial Highlights */}
+      {insightsData?.political_highlights?.length > 0 && (
+        <section className="chart-section">
+          <h2><AlertTriangle size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Key Financial Findings</h2>
+          <p className="section-note">Notable trends and concerns identified from budget analysis</p>
+          <div className="highlights-grid">
+            {insightsData.political_highlights.map((highlight, i) => (
+              <div key={i} className={`highlight-card ${highlight.type === 'low_unallocated_reserves' ? 'highlight-danger' : highlight.type === 'rapid_budget_growth' || highlight.type === 'council_tax_dependency' ? 'highlight-warning' : 'highlight-info'}`}>
+                <div className="highlight-icon">
+                  {highlight.type === 'low_unallocated_reserves' ? <AlertTriangle size={18} /> :
+                   highlight.type === 'council_tax_dependency' ? <Wallet size={18} /> :
+                   highlight.type === 'largest_service' ? <Building size={18} /> :
+                   highlight.type === 'rapid_budget_growth' ? <TrendingUp size={18} /> :
+                   <BarChart3 size={18} />}
+                </div>
+                <div className="highlight-text">{highlight.description}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Service Expenditure Breakdown */}
       {serviceData.length > 0 && (
         <section className="chart-section">
           <h2>Service Expenditure ({govukData?.financial_year})</h2>
-          <p className="section-note">Actual outturn spend by service area — district-relevant services only</p>
+          <p className="section-note">Actual outturn spend by service area — {councilTier === 'county' ? 'county council services' : councilTier === 'unitary' ? 'all services' : 'district-relevant services only'}</p>
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={serviceData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
@@ -1183,6 +1229,108 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           </div>
         </section>
       )}
+
+      {/* Budget Efficiency by Service Category (from budget_efficiency.json) */}
+      {efficiencyData?.categories && Object.keys(efficiencyData.categories).length > 0 && (
+        <section className="chart-section">
+          <h2><BarChart3 size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Spending Efficiency by Service</h2>
+          <p className="section-note">
+            AI DOGE efficiency analysis: supplier concentration, duplicate rates, and value-for-money indicators across {efficiencyData.categories_analysed || Object.keys(efficiencyData.categories).length} budget categories
+          </p>
+          <div className="department-table">
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: 'left' }}>Budget Category</th>
+                  <th style={{ textAlign: 'right' }}>Transactions</th>
+                  <th style={{ textAlign: 'right' }}>Total Spend</th>
+                  <th style={{ textAlign: 'center' }}>Concentration</th>
+                  <th style={{ textAlign: 'center' }}>Duplicate Rate</th>
+                  <th style={{ textAlign: 'center' }}>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(efficiencyData.categories)
+                  .filter(([name]) => name !== 'Other services' && name !== 'Capital')
+                  .sort((a, b) => b[1].total_spend - a[1].total_spend)
+                  .map(([name, cat]) => (
+                  <tr key={name}>
+                    <td>{name}</td>
+                    <td style={{ textAlign: 'right' }}>{cat.transactions?.toLocaleString()}</td>
+                    <td style={{ textAlign: 'right' }}>{formatCurrency(cat.total_spend, true)}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className={`efficiency-badge ${cat.hhi_category === 'high' ? 'badge-danger' : cat.hhi_category === 'moderate' ? 'badge-warning' : 'badge-ok'}`}>
+                        {cat.hhi_category}
+                      </span>
+                    </td>
+                    <td style={{ textAlign: 'center' }}>{cat.duplicate_rate_pct?.toFixed(1)}%</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className={`efficiency-badge ${cat.rating === 'red' ? 'badge-danger' : cat.rating === 'amber' ? 'badge-warning' : 'badge-ok'}`}>
+                        {cat.rating === 'red' ? '⚠ Issues' : cat.rating === 'amber' ? 'Caution' : 'OK'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {efficiencyData.unmapped_spend > 0 && (
+            <p className="section-note" style={{ marginTop: '0.5rem', fontStyle: 'italic' }}>
+              Note: {formatCurrency(efficiencyData.unmapped_spend, true)} across {efficiencyData.unmapped_transactions?.toLocaleString()} transactions could not be mapped to budget categories due to non-standard department names.
+            </p>
+          )}
+        </section>
+      )}
+
+      {/* Funding Sources Breakdown (from budgets_summary financing_trends) */}
+      {summaryData?.financing_trends && (() => {
+        const latestYear = summaryData.latest_year || summaryData.financial_year
+        const financing = summaryData.financing_trends?.[latestYear]
+        if (!financing) return null
+        const fundingData = Object.entries(financing)
+          .filter(([, val]) => val !== 0)
+          .map(([name, val]) => ({ name: name.replace(/_/g, ' '), value: Math.abs(val) }))
+          .sort((a, b) => b.value - a.value)
+        if (fundingData.length === 0) return null
+        const fundingColors = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
+        return (
+          <section className="chart-section">
+            <h2><Landmark size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Funding Sources ({latestYear?.replace('-', '/')})</h2>
+            <p className="section-note">How the council's expenditure is funded beyond council tax</p>
+            <div className="chart-card">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={fundingData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                  <XAxis
+                    type="number"
+                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tickFormatter={(v) => `£${(v / 1_000_000).toFixed(0)}M`}
+                  />
+                  <YAxis
+                    dataKey="name"
+                    type="category"
+                    tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                    width={200}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '8px',
+                    }}
+                    formatter={(value) => [formatCurrency(value, true)]}
+                  />
+                  <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                    {fundingData.map((entry, index) => (
+                      <Cell key={`fund-${index}`} fill={fundingColors[index % fundingColors.length]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )
+      })()}
 
       {/* Legacy Revenue Trend (fallback for councils without multi-year data) */}
       {!isMultiYear && trendChartData.length > 0 && (

@@ -72,6 +72,21 @@
     "total_spend": "\u00a337.6M",
     "transactions": 13723,
     "suppliers": 1280,
-    "data_period": "2021/2022 - 2025/2026"
+    "data_period": "2021/2022 - 2025/2026",
+    "key_suppliers": [
+      { "name": "Lancashire County Council", "spend": "\u00a32.9M", "note": "County-level service payments" },
+      { "name": "Dept for Business Energy & Industrial Strategy", "spend": "\u00a32.0M", "note": "Government grant passthrough" },
+      { "name": "Zurich Insurance Company", "spend": "\u00a31.6M", "transactions": 621, "note": "Insurance \u2014 high transaction volume" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a3314.7K across 96 high-confidence duplicate groups",
+      "benfords_law": "11.9% max digit deviation \u2014 highest of all councils, significant anomaly",
+      "year_end_spike": "Community Capital spent 12.8x monthly average in March",
+      "ch_red_flags": "\u00a31.4M to 9 suppliers with Companies House compliance issues"
+    },
+    "notable_suppliers": [
+      { "name": "Huggg Ltd", "spend": "\u00a3788.4K", "note": "Digital gift card platform \u2014 unusual council spending across 37 transactions" },
+      { "name": "Redacted Personal Data", "transactions": 1145, "note": "Highest volume supplier \u2014 personal data redacted" }
+    ]
   }
 }

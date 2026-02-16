@@ -72,6 +72,21 @@
     "total_spend": "\u00a3365M",
     "transactions": 21421,
     "suppliers": 2170,
-    "data_period": "2021/2022 - 2025/2026"
+    "data_period": "2021/2022 - 2025/2026",
+    "key_suppliers": [
+      { "name": "Lancashire County Council", "spend": "\u00a3149.0M", "note": "County-level precept and service payments" },
+      { "name": "MHCLG", "spend": "\u00a332.4M", "note": "Government grant passthrough" },
+      { "name": "Police & Crime Commissioner", "spend": "\u00a321.8M", "note": "Policing precept collection" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a374.4K across 184 high-confidence duplicate groups",
+      "year_end_spike": "Policy & Governance spent 5.7x monthly average in March",
+      "benfords_law": "3.5% max digit deviation \u2014 within normal range"
+    },
+    "notable_suppliers": [
+      { "name": "Chorley Leisure Ltd", "spend": "\u00a33.5M", "note": "Arms-length leisure company \u2014 42 transactions" },
+      { "name": "Robertson CE Ltd", "spend": "\u00a311.2M", "note": "Major construction \u2014 22 transactions" },
+      { "name": "FCC Environment Services", "spend": "\u00a35.6M", "note": "Waste collection services" }
+    ]
   }
 }

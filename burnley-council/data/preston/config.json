@@ -73,8 +73,22 @@
     "data_period": "April 2019 \u2013 March 2026",
     "annual_net_revenue_budget": "\u00a317M",
     "political_control": "Labour majority.",
-    "key_suppliers": [],
-    "doge_findings": {},
-    "notable_suppliers": []
+    "key_suppliers": [
+      { "name": "Maple Grove Developments", "spend": "\u00a331.5M", "note": "Major housing/regeneration project" },
+      { "name": "Lancashire County Council", "spend": "\u00a328.0M", "note": "County-level service payments \u2014 450 transactions" },
+      { "name": "Conlon Construction Ltd", "spend": "\u00a310.6M", "note": "Construction \u2014 110 transactions" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a3515.8K across 477 high-confidence duplicate groups",
+      "year_end_spike": "Rev Customer Services spent 10.6x monthly average in March",
+      "benfords_law": "6.0% max digit deviation \u2014 above 5% warning threshold",
+      "ch_red_flags": "\u00a3556.1K to 13 suppliers with Companies House compliance issues",
+      "weak_competition": "23 contracts with limited competition indicators"
+    },
+    "notable_suppliers": [
+      { "name": "Matrix SCM Ltd", "transactions": 5445, "spend": "\u00a34.6M", "note": "Agency staffing \u2014 highest volume supplier" },
+      { "name": "Preston Youth Zone Ltd", "spend": "\u00a33.6M", "note": "Single large transaction" },
+      { "name": "Maple Grove Developments", "spend": "\u00a331.5M", "note": "Major housing/regeneration project \u2014 92 transactions" }
+    ]
   }
 }

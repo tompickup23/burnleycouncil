@@ -131,9 +131,17 @@ function LGRCostCalculator() {
 
     return lgrData.proposed_models.map((model, idx) => {
       // Find which authority this council would be in
-      const myAuthority = model.authorities.find(a =>
-        a.councils.includes(councilId)
-      )
+      let myAuthority
+      if (councilTier === 'county') {
+        // County councils cover ALL of Lancashire — they get abolished under LGR
+        // Pick the largest authority to show representative costs (or first one)
+        myAuthority = model.authorities.reduce((largest, a) =>
+          (a.population || 0) > (largest?.population || 0) ? a : largest, model.authorities[0])
+      } else {
+        myAuthority = model.authorities.find(a =>
+          a.councils.includes(councilId)
+        )
+      }
       if (!myAuthority) return { ...model, myAuthority: null, estimatedBandD: null, color: PROPOSAL_COLORS[idx] }
 
       // Estimate the new Band D for this unitary
@@ -377,8 +385,11 @@ function LGRCostCalculator() {
         <section className="cost-results">
           <h2><PoundSterling size={22} /> What You Pay Now</h2>
           <p className="section-desc">
-            Your current council tax for {councilName}, {currentCosts.year}.
-            {!currentCosts.isUnitary && ' Includes your share of Lancashire County Council services.'}
+            {councilTier === 'county'
+              ? `The county council precept for ${councilName}, ${currentCosts.year}. This is the portion of Band D council tax collected by Lancashire County Council for county services (education, social care, highways).`
+              : <>Your current council tax for {councilName}, {currentCosts.year}.
+                {!currentCosts.isUnitary && ' Includes your share of Lancashire County Council services.'}</>
+            }
           </p>
 
           <div className="cost-cards">
@@ -395,7 +406,7 @@ function LGRCostCalculator() {
               </div>
             </div>
 
-            {!currentCosts.isUnitary && (
+            {!currentCosts.isUnitary && councilTier !== 'county' && (
               <>
                 <div className="cost-card">
                   <div className="cost-card-label">
@@ -477,8 +488,10 @@ function LGRCostCalculator() {
         <section className="lgr-comparison">
           <h2><TrendingDown size={22} /> Under LGR: What Would You Pay?</h2>
           <p className="section-desc">
-            Estimated Band {selectedBand} council tax under each of the 5 LGR proposals,
-            based on AI DOGE's independent financial model using £12B+ actual spending data.
+            {councilTier === 'county'
+              ? `As a county council, Lancashire CC's services would be absorbed into new unitary authorities under LGR. Estimates below show the county precept portion under each proposal for the largest proposed authority.`
+              : `Estimated Band ${selectedBand} council tax under each of the 5 LGR proposals, based on AI DOGE's independent financial model using £12B+ actual spending data.`
+            }
           </p>
 
           {/* Bar chart comparison */}

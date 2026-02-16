@@ -1,0 +1,2861 @@
+{
+  "meta": {
+    "title": "Lancashire LGR Service Gap Analysis",
+    "generated": "2026-02-16",
+    "data_source": "GOV.UK MHCLG Revenue Outturn 2024-25",
+    "councils_analysed": 15,
+    "service_categories": 11,
+    "models_analysed": 5
+  },
+  "service_definitions": {
+    "Education services": {
+      "description": "Schools, early years, SEND, school transport, adult education",
+      "current_tier": "upper",
+      "integration_complexity": 9,
+      "delivery_risk": "critical",
+      "risk_detail": "LCC commissions 600+ schools. New unitaries must establish education directorates from scratch. SEND is already in crisis (DSG deficit \u00a395.5M). School transport contracts are county-wide.",
+      "precedent_note": "Northamptonshire reorganisation saw education costs rise 8% in Year 1 before stabilising"
+    },
+    "Children Social Care": {
+      "description": "Child protection, looked-after children, fostering, adoption, family support",
+      "current_tier": "upper",
+      "integration_complexity": 10,
+      "delivery_risk": "critical",
+      "risk_detail": "Statutory service \u2014 cannot fail. LCC rated \"Requires Improvement\" by Ofsted. Blackpool rated \"Good\". Splitting case management systems risks safeguarding gaps. Agency staff costs already high.",
+      "precedent_note": "Northamptonshire children's services were placed in trust after reorganisation"
+    },
+    "Adult Social Care": {
+      "description": "Elderly care, learning disability, mental health, domiciliary care, care homes",
+      "current_tier": "upper",
+      "integration_complexity": 10,
+      "delivery_risk": "critical",
+      "risk_detail": "LCC rated \"Requires Improvement\" by CQC (2.0/4). \u00a3558M budget. Provider contracts are county-wide. Care market is fragile \u2014 reorganisation uncertainty may cause providers to exit.",
+      "precedent_note": "Durham reorganisation: adult social care costs rose 3% in Year 1; took 3 years to stabilise provider relationships"
+    },
+    "Public Health": {
+      "description": "Public health programmes, health protection, health improvement, sexual health",
+      "current_tier": "upper",
+      "integration_complexity": 5,
+      "delivery_risk": "medium",
+      "risk_detail": "Ring-fenced grant. Contracts can transfer. Main risk is loss of county-wide epidemiological intelligence and economies of scale in commissioning.",
+      "precedent_note": "Public health transfers in 2013 (NHS\u2192councils) provide a model for smooth handover"
+    },
+    "Highways and transport services": {
+      "description": "Road maintenance, street lighting, traffic management, public transport, parking",
+      "current_tier": "mixed",
+      "integration_complexity": 7,
+      "delivery_risk": "high",
+      "risk_detail": "LCC manages strategic roads and major infrastructure. Districts manage car parks and some local roads. Contracts with Highways England, BAM Nuttall, Balfour Beatty are county-wide. Winter gritting and emergency response need county-scale coordination.",
+      "precedent_note": "Wiltshire reorganisation: highways maintenance backlog increased 15% during transition"
+    },
+    "Housing services (GFRA only)": {
+      "description": "Housing strategy, homelessness, housing benefits admin, HMO licensing, empty homes",
+      "current_tier": "lower",
+      "integration_complexity": 4,
+      "delivery_risk": "low",
+      "risk_detail": "District-level service. New unitaries inherit existing housing staff and policies. Main risk is loss of local knowledge about housing stock and homelessness patterns.",
+      "precedent_note": "Housing services typically transfer smoothly in reorganisations \u2014 small teams, local knowledge retained"
+    },
+    "Cultural and related services": {
+      "description": "Libraries, museums, leisure centres, parks, tourism, arts, sports",
+      "current_tier": "mixed",
+      "integration_complexity": 3,
+      "delivery_risk": "low",
+      "risk_detail": "LCC runs libraries (74 branches). Districts run leisure centres, parks, cemeteries. These are non-statutory \u2014 risk is political (closures during austerity/transition) not operational.",
+      "precedent_note": "Shropshire reorganisation: 5 district leisure centres closed within 2 years of merger"
+    },
+    "Environmental and regulatory services": {
+      "description": "Waste collection, waste disposal, recycling, trading standards, environmental health, flood defence",
+      "current_tier": "mixed",
+      "integration_complexity": 6,
+      "delivery_risk": "medium",
+      "risk_detail": "Split between tiers: LCC does waste disposal + trading standards; districts do waste collection + environmental health. Combining creates operational efficiencies but existing contracts have different end dates (2026-2032).",
+      "precedent_note": "Buckinghamshire reorganisation: waste contract harmonisation took 18 months and cost \u00a32.3M"
+    },
+    "Planning and development services": {
+      "description": "Development control, building control, local plans, conservation, economic development",
+      "current_tier": "lower",
+      "integration_complexity": 5,
+      "delivery_risk": "medium",
+      "risk_detail": "Each district has its own Local Plan at different stages of adoption. Merging planning departments requires harmonising development policies, Section 106 agreements, and CIL regimes. Lancashire has 12 different Local Plans.",
+      "precedent_note": "Dorset reorganisation: local plan harmonisation still ongoing 5 years post-merger"
+    },
+    "Central services": {
+      "description": "Corporate management, democratic core, elections, council tax collection, pensions, HR, IT, finance",
+      "current_tier": "all",
+      "integration_complexity": 8,
+      "delivery_risk": "high",
+      "risk_detail": "Where most savings come from \u2014 but also where most risk lies. LCC's Oracle Fusion failure (\u00a327M cost, data breaches) is a warning. 15 different IT systems, payroll providers, and democratic structures must merge. Council tax collection and business rates are critical revenue streams.",
+      "precedent_note": "Northamptonshire: IT integration cost \u00a332M vs \u00a318M estimate. Oracle ERP migration took 3 years vs planned 18 months."
+    },
+    "Fire and rescue services": {
+      "description": "Fire prevention, emergency response, rescue services",
+      "current_tier": "upper",
+      "integration_complexity": 2,
+      "delivery_risk": "low",
+      "risk_detail": "Lancashire Fire and Rescue Service is a combined authority \u2014 already operates across the whole county. Likely to remain as a combined service post-LGR regardless of boundary model.",
+      "precedent_note": "Fire services typically remain county-wide after reorganisation (Dorset, Buckinghamshire, Wiltshire all retained combined fire authorities)"
+    }
+  },
+  "current_state": {
+    "Education services": {
+      "total_cost": 1483365000,
+      "county_cost": 1266580000,
+      "district_cost": 0,
+      "unitary_cost": 216785000,
+      "provider_count": 3,
+      "providers": {
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 1266580000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 65299000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 151486000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Children Social Care": {
+      "total_cost": 431662000,
+      "county_cost": 291482000,
+      "district_cost": 0,
+      "unitary_cost": 140180000,
+      "provider_count": 3,
+      "providers": {
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 291482000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 85832000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 54348000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Adult Social Care": {
+      "total_cost": 733830300,
+      "county_cost": 584501000,
+      "district_cost": 0,
+      "unitary_cost": 149329300,
+      "provider_count": 3,
+      "providers": {
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 584501000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 76650000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 72679300,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Public Health": {
+      "total_cost": 136670000,
+      "county_cost": 97641000,
+      "district_cost": 0,
+      "unitary_cost": 39029000,
+      "provider_count": 3,
+      "providers": {
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 97641000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 20399000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 18630000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Highways and transport services": {
+      "total_cost": 77906490,
+      "county_cost": 68472000,
+      "district_cost": -1731510,
+      "unitary_cost": 11166000,
+      "provider_count": 15,
+      "providers": {
+        "burnley": {
+          "name": "Burnley",
+          "cost": -196000,
+          "tier": "district"
+        },
+        "hyndburn": {
+          "name": "Hyndburn",
+          "cost": 348000,
+          "tier": "district"
+        },
+        "pendle": {
+          "name": "Pendle",
+          "cost": 513000,
+          "tier": "district"
+        },
+        "rossendale": {
+          "name": "Rossendale",
+          "cost": 233000,
+          "tier": "district"
+        },
+        "lancaster": {
+          "name": "Lancaster",
+          "cost": -2348000,
+          "tier": "district"
+        },
+        "ribble_valley": {
+          "name": "Ribble Valley",
+          "cost": -215510,
+          "tier": "district"
+        },
+        "chorley": {
+          "name": "Chorley",
+          "cost": -53000,
+          "tier": "district"
+        },
+        "south_ribble": {
+          "name": "South Ribble",
+          "cost": 67000,
+          "tier": "district"
+        },
+        "preston": {
+          "name": "Preston",
+          "cost": 290000,
+          "tier": "district"
+        },
+        "west_lancashire": {
+          "name": "West Lancashire",
+          "cost": -483000,
+          "tier": "district"
+        },
+        "wyre": {
+          "name": "Wyre",
+          "cost": 445000,
+          "tier": "district"
+        },
+        "fylde": {
+          "name": "Fylde",
+          "cost": -332000,
+          "tier": "district"
+        },
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 68472000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 7706000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 3460000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Housing services (GFRA only)": {
+      "total_cost": 32558030,
+      "county_cost": 0,
+      "district_cost": 22735030,
+      "unitary_cost": 9823000,
+      "provider_count": 14,
+      "providers": {
+        "burnley": {
+          "name": "Burnley",
+          "cost": 3010000,
+          "tier": "district"
+        },
+        "hyndburn": {
+          "name": "Hyndburn",
+          "cost": 1532000,
+          "tier": "district"
+        },
+        "pendle": {
+          "name": "Pendle",
+          "cost": 880920,
+          "tier": "district"
+        },
+        "rossendale": {
+          "name": "Rossendale",
+          "cost": 1503000,
+          "tier": "district"
+        },
+        "lancaster": {
+          "name": "Lancaster",
+          "cost": 4271000,
+          "tier": "district"
+        },
+        "ribble_valley": {
+          "name": "Ribble Valley",
+          "cost": 249110,
+          "tier": "district"
+        },
+        "chorley": {
+          "name": "Chorley",
+          "cost": 972000,
+          "tier": "district"
+        },
+        "south_ribble": {
+          "name": "South Ribble",
+          "cost": 1194000,
+          "tier": "district"
+        },
+        "preston": {
+          "name": "Preston",
+          "cost": 4852000,
+          "tier": "district"
+        },
+        "west_lancashire": {
+          "name": "West Lancashire",
+          "cost": 1848000,
+          "tier": "district"
+        },
+        "wyre": {
+          "name": "Wyre",
+          "cost": 1165000,
+          "tier": "district"
+        },
+        "fylde": {
+          "name": "Fylde",
+          "cost": 1258000,
+          "tier": "district"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 5155000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 4668000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Cultural and related services": {
+      "total_cost": 86018200,
+      "county_cost": 23653000,
+      "district_cost": 43632200,
+      "unitary_cost": 18733000,
+      "provider_count": 15,
+      "providers": {
+        "burnley": {
+          "name": "Burnley",
+          "cost": 5281000,
+          "tier": "district"
+        },
+        "hyndburn": {
+          "name": "Hyndburn",
+          "cost": 3821000,
+          "tier": "district"
+        },
+        "pendle": {
+          "name": "Pendle",
+          "cost": 2832000,
+          "tier": "district"
+        },
+        "rossendale": {
+          "name": "Rossendale",
+          "cost": 1463000,
+          "tier": "district"
+        },
+        "lancaster": {
+          "name": "Lancaster",
+          "cost": 4850000,
+          "tier": "district"
+        },
+        "ribble_valley": {
+          "name": "Ribble Valley",
+          "cost": 1805200,
+          "tier": "district"
+        },
+        "chorley": {
+          "name": "Chorley",
+          "cost": 4770000,
+          "tier": "district"
+        },
+        "south_ribble": {
+          "name": "South Ribble",
+          "cost": 4363000,
+          "tier": "district"
+        },
+        "preston": {
+          "name": "Preston",
+          "cost": 4527000,
+          "tier": "district"
+        },
+        "west_lancashire": {
+          "name": "West Lancashire",
+          "cost": 2071000,
+          "tier": "district"
+        },
+        "wyre": {
+          "name": "Wyre",
+          "cost": 4697000,
+          "tier": "district"
+        },
+        "fylde": {
+          "name": "Fylde",
+          "cost": 3152000,
+          "tier": "district"
+        },
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 23653000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 8082000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 10651000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Environmental and regulatory services": {
+      "total_cost": 195644200,
+      "county_cost": 94348000,
+      "district_cost": 64651200,
+      "unitary_cost": 36645000,
+      "provider_count": 15,
+      "providers": {
+        "burnley": {
+          "name": "Burnley",
+          "cost": 4384000,
+          "tier": "district"
+        },
+        "hyndburn": {
+          "name": "Hyndburn",
+          "cost": 5462000,
+          "tier": "district"
+        },
+        "pendle": {
+          "name": "Pendle",
+          "cost": 4416000,
+          "tier": "district"
+        },
+        "rossendale": {
+          "name": "Rossendale",
+          "cost": 2574000,
+          "tier": "district"
+        },
+        "lancaster": {
+          "name": "Lancaster",
+          "cost": 7941000,
+          "tier": "district"
+        },
+        "ribble_valley": {
+          "name": "Ribble Valley",
+          "cost": 3923200,
+          "tier": "district"
+        },
+        "chorley": {
+          "name": "Chorley",
+          "cost": 5171000,
+          "tier": "district"
+        },
+        "south_ribble": {
+          "name": "South Ribble",
+          "cost": 5316000,
+          "tier": "district"
+        },
+        "preston": {
+          "name": "Preston",
+          "cost": 8157000,
+          "tier": "district"
+        },
+        "west_lancashire": {
+          "name": "West Lancashire",
+          "cost": 7203000,
+          "tier": "district"
+        },
+        "wyre": {
+          "name": "Wyre",
+          "cost": 6136000,
+          "tier": "district"
+        },
+        "fylde": {
+          "name": "Fylde",
+          "cost": 3968000,
+          "tier": "district"
+        },
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 94348000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 21101000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 15544000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Planning and development services": {
+      "total_cost": 55626600,
+      "county_cost": 7597000,
+      "district_cost": 40661600,
+      "unitary_cost": 7368000,
+      "provider_count": 15,
+      "providers": {
+        "burnley": {
+          "name": "Burnley",
+          "cost": 3365000,
+          "tier": "district"
+        },
+        "hyndburn": {
+          "name": "Hyndburn",
+          "cost": 2685000,
+          "tier": "district"
+        },
+        "pendle": {
+          "name": "Pendle",
+          "cost": 2885000,
+          "tier": "district"
+        },
+        "rossendale": {
+          "name": "Rossendale",
+          "cost": 513000,
+          "tier": "district"
+        },
+        "lancaster": {
+          "name": "Lancaster",
+          "cost": 6056000,
+          "tier": "district"
+        },
+        "ribble_valley": {
+          "name": "Ribble Valley",
+          "cost": 904600,
+          "tier": "district"
+        },
+        "chorley": {
+          "name": "Chorley",
+          "cost": 563000,
+          "tier": "district"
+        },
+        "south_ribble": {
+          "name": "South Ribble",
+          "cost": 3806000,
+          "tier": "district"
+        },
+        "preston": {
+          "name": "Preston",
+          "cost": 8161000,
+          "tier": "district"
+        },
+        "west_lancashire": {
+          "name": "West Lancashire",
+          "cost": 6974000,
+          "tier": "district"
+        },
+        "wyre": {
+          "name": "Wyre",
+          "cost": 3317000,
+          "tier": "district"
+        },
+        "fylde": {
+          "name": "Fylde",
+          "cost": 1432000,
+          "tier": "district"
+        },
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 7597000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": 2510000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 4858000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Central services": {
+      "total_cost": 112533220,
+      "county_cost": 41881000,
+      "district_cost": 59056220,
+      "unitary_cost": 11596000,
+      "provider_count": 15,
+      "providers": {
+        "burnley": {
+          "name": "Burnley",
+          "cost": 3144000,
+          "tier": "district"
+        },
+        "hyndburn": {
+          "name": "Hyndburn",
+          "cost": 4748000,
+          "tier": "district"
+        },
+        "pendle": {
+          "name": "Pendle",
+          "cost": 5252000,
+          "tier": "district"
+        },
+        "rossendale": {
+          "name": "Rossendale",
+          "cost": 4463000,
+          "tier": "district"
+        },
+        "lancaster": {
+          "name": "Lancaster",
+          "cost": 7130460,
+          "tier": "district"
+        },
+        "ribble_valley": {
+          "name": "Ribble Valley",
+          "cost": 2571760,
+          "tier": "district"
+        },
+        "chorley": {
+          "name": "Chorley",
+          "cost": 4424000,
+          "tier": "district"
+        },
+        "south_ribble": {
+          "name": "South Ribble",
+          "cost": 6147000,
+          "tier": "district"
+        },
+        "preston": {
+          "name": "Preston",
+          "cost": 7321000,
+          "tier": "district"
+        },
+        "west_lancashire": {
+          "name": "West Lancashire",
+          "cost": 8008000,
+          "tier": "district"
+        },
+        "wyre": {
+          "name": "Wyre",
+          "cost": 3465000,
+          "tier": "district"
+        },
+        "fylde": {
+          "name": "Fylde",
+          "cost": 2382000,
+          "tier": "district"
+        },
+        "lancashire_cc": {
+          "name": "Lancashire CC",
+          "cost": 41881000,
+          "tier": "county"
+        },
+        "blackpool": {
+          "name": "Blackpool",
+          "cost": -295000,
+          "tier": "unitary"
+        },
+        "blackburn": {
+          "name": "Blackburn with Darwen",
+          "cost": 11891000,
+          "tier": "unitary"
+        }
+      }
+    },
+    "Fire and rescue services": {
+      "total_cost": 0,
+      "county_cost": 0,
+      "district_cost": 0,
+      "unitary_cost": 0,
+      "provider_count": 0,
+      "providers": {}
+    }
+  },
+  "proposed_models": {
+    "two_unitary": {
+      "name": "Two Unitaries (Proposal 1)",
+      "authorities": {
+        "North Lancashire": {
+          "councils": [
+            "lancaster",
+            "wyre",
+            "fylde",
+            "preston",
+            "ribble_valley",
+            "blackpool"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 624536936,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 214531168,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 334726973,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 63510806,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 35778195,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 16950110,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 37556800,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 92884035,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 22380600,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 41067098,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1483922721,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "South Lancashire": {
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "rossendale",
+            "blackburn"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 858828063,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 217130831,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 399103326,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 73159193,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 42128294,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 15607920,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 48461399,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 102760164,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 25649000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 71466121,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1854294311,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        }
+      }
+    },
+    "three_unitary": {
+      "name": "Three Unitaries (Proposal 2)",
+      "authorities": {
+        "Coastal Lancashire": {
+          "councils": [
+            "blackpool",
+            "fylde",
+            "lancaster",
+            "wyre"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 410468157,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 165266853,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 235938570,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 47008185,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 24131031,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 11849000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 27226930,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 64857774,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 13315000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 24095895,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1024157395,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Central Lancashire": {
+          "councils": [
+            "chorley",
+            "preston",
+            "south_ribble",
+            "west_lancashire"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 506788586,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 116628835,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 233872661,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 39068471,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 27218265,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 8866000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 25195124,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 63597864,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 19504000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 42657577,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1083397383,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Pennine Lancashire": {
+          "councils": [
+            "blackburn",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "ribble_valley",
+            "rossendale"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 566108256,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 149766311,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 264019068,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 50593343,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 26557193,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 11843030,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 33596145,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 67188561,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 15210600,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 45779746,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1230662253,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        }
+      }
+    },
+    "four_unitary": {
+      "name": "Four Unitaries (Proposal 3)",
+      "authorities": {
+        "North Lancashire": {
+          "councils": [
+            "lancaster",
+            "preston",
+            "ribble_valley"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 360160380,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 82884829,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 166206716,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 27764862,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 17196955,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 9372110,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 17908086,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 46849676,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 15121600,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 28932358,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 772397572,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Fylde Coast": {
+          "councils": [
+            "blackpool",
+            "fylde",
+            "wyre"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 264376556,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 131646338,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 168520257,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 35745943,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 18581240,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 7578000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 19648713,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 46034358,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 7259000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 12134740,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 711525145,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Pennine Lancashire": {
+          "councils": [
+            "blackburn",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "rossendale"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 503189478,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 135286616,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 234983327,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 45742917,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 23371280,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 11593920,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 30615956,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 58578518,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 14306000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 41127501,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1098795513,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "South Lancashire": {
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 355638585,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 81844215,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 164119999,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 27416276,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 18757014,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 4014000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 17845443,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 44181646,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 11343000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 30338620,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 755498798,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        }
+      }
+    },
+    "four_unitary_alt": {
+      "name": "Four Unitaries Alt (Proposal 4)",
+      "authorities": {
+        "Western Lancashire": {
+          "councils": [
+            "blackpool",
+            "fylde",
+            "preston"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 299622846,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 139757676,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 184785706,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 38463089,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 20331673,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 11265000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 20136927,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 50680867,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 12103000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 17156201,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 794302985,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Southern Lancashire": {
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 355638585,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 81844215,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 164119999,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 27416276,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 18757014,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 4014000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 17845443,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 44181646,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 11343000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 30338620,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 755498798,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Eastern Lancashire": {
+          "councils": [
+            "blackburn",
+            "burnley",
+            "hyndburn",
+            "pendle",
+            "rossendale"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 503189478,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 135286616,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 234983327,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 45742917,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 23371280,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 11593920,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 30615956,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 58578518,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 14306000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 41127501,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 1098795513,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Northern Lancashire": {
+          "councils": [
+            "lancaster"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 146091600,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 33620515,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 67418312,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 11262241,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 5549790,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 4271000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 7578216,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 18823415,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 6056000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 11961155,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 312632244,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        }
+      }
+    },
+    "five_unitary": {
+      "name": "Five Unitaries (Proposal 5)",
+      "authorities": {
+        "East Lancashire": {
+          "councils": [
+            "burnley",
+            "pendle",
+            "rossendale"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 267249957,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 61503064,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 123330438,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 20602372,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 14997677,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 5393920,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 14566812,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 31281545,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 6763000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 21695943,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 567384728,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "Central Lancashire": {
+          "councils": [
+            "blackburn",
+            "hyndburn",
+            "ribble_valley"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 298858299,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 88263246,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 140688629,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 29990971,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 11559516,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 6449110,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 19029333,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 35907015,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 8447600,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 24083803,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 663277522,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "North Lancashire": {
+          "councils": [
+            "lancaster",
+            "wyre"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 261995312,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 60293797,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 120905526,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 20197290,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 12260608,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 5436000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 14439683,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 33593125,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 9373000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 19258651,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 557752992,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "South Lancashire": {
+          "councils": [
+            "chorley",
+            "south_ribble",
+            "west_lancashire"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 355638585,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 81844215,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 164119999,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 27416276,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 18757014,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 4014000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 17845443,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 44181646,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 11343000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 30338620,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 755498798,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        },
+        "West Lancashire": {
+          "councils": [
+            "blackpool",
+            "fylde",
+            "preston"
+          ],
+          "services": {
+            "Education services": {
+              "cost": 299622846,
+              "new_responsibility": true,
+              "integration_complexity": 9
+            },
+            "Children Social Care": {
+              "cost": 139757676,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Adult Social Care": {
+              "cost": 184785706,
+              "new_responsibility": true,
+              "integration_complexity": 10
+            },
+            "Public Health": {
+              "cost": 38463089,
+              "new_responsibility": true,
+              "integration_complexity": 5
+            },
+            "Highways and transport services": {
+              "cost": 20331673,
+              "new_responsibility": false,
+              "integration_complexity": 7
+            },
+            "Housing services (GFRA only)": {
+              "cost": 11265000,
+              "new_responsibility": false,
+              "integration_complexity": 4
+            },
+            "Cultural and related services": {
+              "cost": 20136927,
+              "new_responsibility": false,
+              "integration_complexity": 3
+            },
+            "Environmental and regulatory services": {
+              "cost": 50680867,
+              "new_responsibility": false,
+              "integration_complexity": 6
+            },
+            "Planning and development services": {
+              "cost": 12103000,
+              "new_responsibility": false,
+              "integration_complexity": 5
+            },
+            "Central services": {
+              "cost": 17156201,
+              "new_responsibility": false,
+              "integration_complexity": 8
+            },
+            "Fire and rescue services": {
+              "cost": 0,
+              "new_responsibility": true,
+              "integration_complexity": 2
+            }
+          },
+          "total_service_expenditure": 794302985,
+          "new_services_count": 5,
+          "inherited_services_count": 6,
+          "max_integration_complexity": 10
+        }
+      }
+    }
+  },
+  "gap_matrix": [
+    {
+      "model_id": "two_unitary",
+      "model_name": "Two Unitaries (Proposal 1)",
+      "gaps": [
+        {
+          "authority": "North Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        }
+      ],
+      "critical_gaps": 6,
+      "high_gaps": 0,
+      "total_gaps": 10
+    },
+    {
+      "model_id": "three_unitary",
+      "model_name": "Three Unitaries (Proposal 2)",
+      "gaps": [
+        {
+          "authority": "Coastal Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Coastal Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Coastal Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Coastal Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Coastal Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "Central Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "Central Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "Central Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "Central Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "Central Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        }
+      ],
+      "critical_gaps": 9,
+      "high_gaps": 0,
+      "total_gaps": 15
+    },
+    {
+      "model_id": "four_unitary",
+      "model_name": "Four Unitaries (Proposal 3)",
+      "gaps": [
+        {
+          "authority": "North Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Fylde Coast",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Fylde Coast",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Fylde Coast",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Fylde Coast",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Fylde Coast",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Pennine Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        }
+      ],
+      "critical_gaps": 12,
+      "high_gaps": 0,
+      "total_gaps": 20
+    },
+    {
+      "model_id": "four_unitary_alt",
+      "model_name": "Four Unitaries Alt (Proposal 4)",
+      "gaps": [
+        {
+          "authority": "Western Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Western Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Western Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Western Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Western Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Southern Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "Southern Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Southern Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "Southern Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Southern Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "Southern Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Southern Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "Southern Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Southern Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "Southern Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Eastern Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Eastern Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Eastern Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Eastern Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Eastern Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Northern Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "Northern Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Northern Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "Northern Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Northern Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "Northern Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Northern Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "Northern Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Northern Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "Northern Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        }
+      ],
+      "critical_gaps": 12,
+      "high_gaps": 0,
+      "total_gaps": 20
+    },
+    {
+      "model_id": "five_unitary",
+      "model_name": "Five Unitaries (Proposal 5)",
+      "gaps": [
+        {
+          "authority": "East Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "East Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "East Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "East Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "East Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "East Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "East Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "East Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "East Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "East Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "Central Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackburn has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "North Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "North Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Education services",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Education services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Children Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Adult Social Care from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Public Health",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Public Health from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "South Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "new_responsibility",
+          "detail": "South Lancashire inherits Fire and rescue services from LCC \u2014 no existing capacity in constituent district councils",
+          "complexity": 2,
+          "risk": "low"
+        },
+        {
+          "authority": "West Lancashire",
+          "service": "Education services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Education services capacity but must extend to cover additional population from district councils",
+          "complexity": 9,
+          "risk": "critical"
+        },
+        {
+          "authority": "West Lancashire",
+          "service": "Children Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Children Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "West Lancashire",
+          "service": "Adult Social Care",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Adult Social Care capacity but must extend to cover additional population from district councils",
+          "complexity": 10,
+          "risk": "critical"
+        },
+        {
+          "authority": "West Lancashire",
+          "service": "Public Health",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Public Health capacity but must extend to cover additional population from district councils",
+          "complexity": 5,
+          "risk": "medium"
+        },
+        {
+          "authority": "West Lancashire",
+          "service": "Fire and rescue services",
+          "gap_type": "partial_capacity",
+          "detail": "Blackpool has existing Fire and rescue services capacity but must extend to cover additional population from district councils",
+          "complexity": 2,
+          "risk": "low"
+        }
+      ],
+      "critical_gaps": 15,
+      "high_gaps": 0,
+      "total_gaps": 25
+    }
+  ],
+  "transition_timeline": [
+    {
+      "phase": "Phase 1: Shadow Authority",
+      "period": "May 2027 \u2013 March 2028",
+      "services": [
+        {
+          "name": "Central services",
+          "action": "New democratic structures elected. Shadow cabinet formed. IT integration planning begins."
+        },
+        {
+          "name": "Fire and rescue services",
+          "action": "Confirmation of continued combined authority \u2014 no change required."
+        }
+      ]
+    },
+    {
+      "phase": "Phase 2: Critical Handover",
+      "period": "April 2028 (Vesting Day)",
+      "services": [
+        {
+          "name": "Children Social Care",
+          "action": "TUPE transfer of all social workers. Case management systems must be live. Safeguarding handover is safety-critical \u2014 no gaps permitted."
+        },
+        {
+          "name": "Adult Social Care",
+          "action": "Provider contracts novated to new authority. Care packages must continue uninterrupted. CQC registration transferred."
+        },
+        {
+          "name": "Education services",
+          "action": "School funding agreements transferred. SEND casework continuity. School transport contracts novated."
+        },
+        {
+          "name": "Housing services (GFRA only)",
+          "action": "Homelessness duty transfers to new authority. Housing benefit admin continues."
+        },
+        {
+          "name": "Central services",
+          "action": "Council tax billing goes live under new authority name. Payroll transferred. New website live."
+        }
+      ]
+    },
+    {
+      "phase": "Phase 3: Operational Integration",
+      "period": "April 2028 \u2013 March 2029",
+      "services": [
+        {
+          "name": "Environmental and regulatory services",
+          "action": "Waste contracts harmonised. Trading standards merged. Environmental health teams consolidated."
+        },
+        {
+          "name": "Highways and transport services",
+          "action": "Highway maintenance contracts consolidated. Winter gritting routes re-planned for new boundaries."
+        },
+        {
+          "name": "Planning and development services",
+          "action": "Transitional development management arrangements. Begin new Local Plan process."
+        },
+        {
+          "name": "Public Health",
+          "action": "Ring-fenced grant apportioned. Contracts transferred or re-let."
+        }
+      ]
+    },
+    {
+      "phase": "Phase 4: Full Integration",
+      "period": "April 2029 \u2013 March 2030",
+      "services": [
+        {
+          "name": "Cultural and related services",
+          "action": "Library network rationalised. Leisure centre management reviewed. Heritage assets transferred."
+        },
+        {
+          "name": "Planning and development services",
+          "action": "New unitary Local Plan adopted (target). CIL/S106 harmonised."
+        },
+        {
+          "name": "Central services",
+          "action": "Full IT system integration. Single ERP/HR/Finance system. Surplus property disposal programme."
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_service_expenditure": 3345814040,
+    "county_only_spend": 2476155000,
+    "district_only_spend": 229004740,
+    "unitary_spend": 640654300,
+    "critical_services": [
+      "Education services",
+      "Children Social Care",
+      "Adult Social Care"
+    ],
+    "high_risk_services": [
+      "Highways and transport services",
+      "Central services"
+    ],
+    "model_risk_ranking": [
+      {
+        "model": "Two Unitaries (Proposal 1)",
+        "critical_gaps": 6,
+        "total_gaps": 10
+      },
+      {
+        "model": "Three Unitaries (Proposal 2)",
+        "critical_gaps": 9,
+        "total_gaps": 15
+      },
+      {
+        "model": "Four Unitaries (Proposal 3)",
+        "critical_gaps": 12,
+        "total_gaps": 20
+      },
+      {
+        "model": "Four Unitaries Alt (Proposal 4)",
+        "critical_gaps": 12,
+        "total_gaps": 20
+      },
+      {
+        "model": "Five Unitaries (Proposal 5)",
+        "critical_gaps": 15,
+        "total_gaps": 25
+      }
+    ]
+  }
+}

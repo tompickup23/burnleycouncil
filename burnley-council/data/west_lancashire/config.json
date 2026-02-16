@@ -73,8 +73,21 @@
     "data_period": "April 2016 \u2013 March 2026",
     "annual_net_revenue_budget": "\u00a314M",
     "political_control": "Our West Lancs majority.",
-    "key_suppliers": [],
-    "doge_findings": {},
-    "notable_suppliers": []
+    "key_suppliers": [
+      { "name": "Wates Property Services Ltd", "spend": "\u00a329.4M", "note": "Property maintenance \u2014 449 transactions" },
+      { "name": "Tawd Valley Developments Ltd", "spend": "\u00a321.0M", "note": "Local property development" },
+      { "name": "Lancashire County Council", "spend": "\u00a316.5M", "note": "County-level service payments \u2014 750 transactions" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a3369.7K across 181 high-confidence duplicate groups",
+      "benfords_law": "8.2% max digit deviation \u2014 above 5% warning threshold",
+      "year_end_spike": "Housing Revenue Account spent 12.7x monthly average in March",
+      "weak_competition": "16 contracts with limited competition indicators"
+    },
+    "notable_suppliers": [
+      { "name": "Matrix SCM Ltd", "transactions": 5648, "spend": "\u00a34.2M", "note": "Agency staffing \u2014 highest volume supplier" },
+      { "name": "Tawd Valley Developments Ltd", "spend": "\u00a321.0M", "note": "Local property development \u2014 125 transactions" },
+      { "name": "PWLB", "spend": "\u00a39.2M", "note": "Public Works Loan Board borrowing \u2014 only 7 transactions" }
+    ]
   }
 }

@@ -72,8 +72,22 @@
     "data_period": "April 2024 \u2013 December 2025",
     "annual_net_revenue_budget": "\u00a31,324M",
     "political_control": "Reform UK majority (53 of 84 seats, elected May 2025). Opposition: Progressive Lancashire 11, Conservative 8, Labour 5, Lib Dem 5, Our West Lancs 2.",
-    "key_suppliers": [],
-    "doge_findings": {},
-    "notable_suppliers": []
+    "key_suppliers": [
+      { "name": "NHS Lancashire & South Cumbria ICB", "spend": "\u00a3170.7M", "note": "Health and social care integration" },
+      { "name": "Lancashire Renewables Ltd", "spend": "\u00a371.2M", "note": "Waste disposal \u2014 arms-length company" },
+      { "name": "Suez Recycling & Recovery UK Ltd", "spend": "\u00a358.8M", "note": "Waste management \u2014 774 transactions" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a393.6M across 15,452 high-confidence duplicate groups \u2014 largest of all councils",
+      "split_payments": "\u00a3433.6M suspected across 439 instances",
+      "year_end_spike": "Corporate Accounting spent 14.7x monthly average in March",
+      "weak_competition": "33 contracts with limited competition, largest worth \u00a3110.8M",
+      "supplier_concentration": "Public Health HHI=3,615 \u2014 high concentration risk"
+    },
+    "notable_suppliers": [
+      { "name": "Lancashire Schools SPC Phase 1 Ltd", "spend": "\u00a343.7M", "note": "PFI school buildings" },
+      { "name": "Guardian Homecare", "spend": "\u00a338.0M", "note": "Adult social care \u2014 1,625 transactions" },
+      { "name": "Lancashire Schools SPC Phase 2A Ltd", "spend": "\u00a328.2M", "note": "PFI school buildings" }
+    ]
   }
 }

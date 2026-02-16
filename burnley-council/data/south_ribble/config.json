@@ -72,6 +72,22 @@
     "total_spend": "\u00a3177M",
     "transactions": 18517,
     "suppliers": 1850,
-    "data_period": "2021/2022 - 2025/2026"
+    "data_period": "2021/2022 - 2025/2026",
+    "key_suppliers": [
+      { "name": "Lancashire County Council", "spend": "\u00a323.1M", "note": "County-level service payments" },
+      { "name": "Caddick Construction (NW) Ltd", "spend": "\u00a317.6M", "note": "Major construction contractor" },
+      { "name": "Chorley Borough Council", "spend": "\u00a314.1M", "note": "Shared services arrangement \u2014 120 transactions" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a3406.0K across 105 high-confidence duplicate groups",
+      "ch_red_flags": "\u00a31.3M to 12 suppliers with Companies House compliance issues",
+      "year_end_spike": "Capital spent 4.9x monthly average in March",
+      "budget_efficiency": "3 service categories with multiple efficiency flags"
+    },
+    "notable_suppliers": [
+      { "name": "Chorley Borough Council", "spend": "\u00a314.1M", "note": "Shared services arrangement \u2014 120 transactions" },
+      { "name": "Alliance Leisure Services Ltd", "spend": "\u00a38.8M", "note": "Leisure \u2014 73 transactions" },
+      { "name": "South Ribble Leisure Ltd", "spend": "\u00a34.6M", "note": "Arms-length leisure company \u2014 82 transactions" }
+    ]
   }
 }

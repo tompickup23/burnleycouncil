@@ -73,8 +73,22 @@
     "data_period": "April 2020 \u2013 December 2025",
     "annual_net_revenue_budget": "\u00a3350M",
     "political_control": "Labour majority.",
-    "key_suppliers": [],
-    "doge_findings": {},
-    "notable_suppliers": []
+    "key_suppliers": [
+      { "name": "HMRC", "spend": "\u00a3171.5M", "note": "Tax remittances \u2014 917 transactions" },
+      { "name": "Lancashire County Council", "spend": "\u00a327.9M", "note": "County-level service payments \u2014 1,115 transactions" },
+      { "name": "NHS Lancashire and South Cumbria ICB", "spend": "\u00a326.5M", "note": "Health and social care integration" }
+    ],
+    "doge_findings": {
+      "likely_duplicates": "\u00a333.1M across 4,311 high-confidence duplicate groups",
+      "split_payments": "\u00a3147.5M suspected across 363 instances",
+      "round_numbers": "\u00a361.0M across 2,557 round-number payments",
+      "ch_red_flags": "\u00a35.1M to 15 suppliers with Companies House compliance issues",
+      "year_end_spike": "Adults and Prevention Services spent 4.6x monthly average in March"
+    },
+    "notable_suppliers": [
+      { "name": "Homecare For You", "spend": "\u00a339.8M", "note": "Domiciliary care \u2014 16,699 transactions" },
+      { "name": "Guardian Homecare UK Ltd", "spend": "\u00a339.4M", "note": "Domiciliary care \u2014 12,157 transactions" },
+      { "name": "Lifeways Paragon Ltd", "spend": "\u00a337.5M", "note": "Supported living \u2014 7,172 transactions" }
+    ]
   }
 }
