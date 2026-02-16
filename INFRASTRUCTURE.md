@@ -186,7 +186,7 @@ Gemini 2.5 Flash → Groq Llama 3.3 70B → Kimi K2.5 → DeepSeek V3
 
 | Workflow | Schedule | Purpose |
 |----------|----------|---------|
-| `deploy.yml` | On push to main | Build all 4 councils → deploy to GitHub Pages (auto) |
+| `deploy.yml` | On push to main | Build all 15 councils → deploy to GitHub Pages (auto) |
 | `daily-audit.yml` | 06:00 UTC daily | Health check, JSON validation, live site verification, JSX bug scan |
 | `update-meetings.yml` | 03:00 UTC Sundays | Scrape ModernGov/Jadu for council meeting data |
 
