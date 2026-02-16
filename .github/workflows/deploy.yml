@@ -143,6 +143,28 @@ jobs:
             --no-history \
             --user "AI DOGE Deploy <deploy@aidoge.co.uk>"
 
+      # The root domain aidoge.co.uk is served by tompickup23.github.io (user pages).
+      # The lancashire repo only serves /lancashire/* paths. Keep hub in sync.
+      - name: Sync hub to tompickup23.github.io
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          cd /tmp
+          git clone --depth 1 https://x-access-token:${DEPLOY_TOKEN}@github.com/tompickup23/tompickup23.github.io.git hub-repo
+          cp /tmp/lancashire-deploy/index.html hub-repo/index.html
+          cp /tmp/lancashire-deploy/404.html hub-repo/404.html
+          cd hub-repo
+          git config user.name "AI DOGE Deploy"
+          git config user.email "deploy@aidoge.co.uk"
+          if git diff --quiet; then
+            echo "Hub pages unchanged — skipping"
+          else
+            git add index.html 404.html
+            git commit -m "Sync hub pages from deploy"
+            git push
+            echo "✓ Hub pages synced to tompickup23.github.io"
+          fi
+
       - name: Verify deployment
         if: success()
         run: |
