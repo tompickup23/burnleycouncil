@@ -1,21 +1,137 @@
 {
   "council_id": "pendle",
-  "generated_at": "2026-02-15T22:58:43.358955Z",
+  "version": "2.0",
+  "generated_at": "2026-02-16T00:10:41.824497Z",
+  "data_sources": [
+    "Companies House (officers, PSC, charges, disqualifications)",
+    "Co-director network analysis",
+    "Cross-council supplier matching (15 councils)",
+    "Familial connection detection (surname clusters, shared addresses, family CH)",
+    "Misconduct pattern detection (7 algorithms)"
+  ],
   "total_councillors": 33,
-  "councillors_checked": 0,
-  "scan_status": "pending",
+  "councillors_checked": 33,
   "summary": {
     "total_directorships_found": 0,
     "active_directorships": 0,
     "disqualification_matches": 0,
     "supplier_conflicts": 0,
+    "cross_council_conflicts": 0,
+    "electoral_commission_findings": 0,
+    "fca_findings": 0,
+    "misconduct_patterns": 0,
     "red_flags_total": 0,
     "risk_distribution": {
-      "low": 0,
+      "low": 33,
       "medium": 0,
       "elevated": 0,
       "high": 0
+    },
+    "network_investigations_advisable": 0,
+    "network_investigation_high_priority": 0,
+    "psc_entries_found": 0,
+    "co_directors_mapped": 0,
+    "family_connections_found": 0,
+    "family_supplier_conflicts": 0
+  },
+  "surname_clusters": [
+    {
+      "surname": "Ahmed",
+      "members": [
+        {
+          "name": "Cllr Nadeem Ahmed",
+          "party": "Conservative",
+          "ward": "Barrowford and Pendleside",
+          "address": ""
+        },
+        {
+          "name": "Cllr Sajjad Ahmed",
+          "party": "Independent Group",
+          "ward": "Brierfield East and Clover Hill",
+          "address": ""
+        }
+      ],
+      "count": 2,
+      "shared_address": false,
+      "same_ward": false,
+      "same_party": false,
+      "severity": "info",
+      "note": "Councillors sharing surname 'Ahmed' \u2014 potential family connection"
+    },
+    {
+      "surname": "Cockburn-Price",
+      "members": [
+        {
+          "name": "Cllr David Cockburn-Price",
+          "party": "Conservative",
+          "ward": "Boulsworth and Foulridge",
+          "address": ""
+        },
+        {
+          "name": "Cllr Sarah Cockburn-Price",
+          "party": "Conservative",
+          "ward": "Boulsworth and Foulridge",
+          "address": ""
+        }
+      ],
+      "count": 2,
+      "shared_address": false,
+      "same_ward": true,
+      "same_party": true,
+      "severity": "warning",
+      "note": "Councillors sharing surname 'Cockburn-Price' in same ward \u2014 potential family connection"
+    },
+    {
+      "surname": "Hartley",
+      "members": [
+        {
+          "name": "Cllr Bryony Alys Hartley",
+          "party": "Liberal Democrat",
+          "ward": "Barnoldswick",
+          "address": ""
+        },
+        {
+          "name": "Cllr David Hartley",
+          "party": "Liberal Democrat",
+          "ward": "Earby and Coates",
+          "address": ""
+        }
+      ],
+      "count": 2,
+      "shared_address": false,
+      "same_ward": false,
+      "same_party": true,
+      "severity": "info",
+      "note": "Councillors sharing surname 'Hartley' \u2014 potential family connection"
+    },
+    {
+      "surname": "Whipp",
+      "members": [
+        {
+          "name": "Cllr David Whipp",
+          "party": "Liberal Democrat",
+          "ward": "Earby and Coates",
+          "address": ""
+        },
+        {
+          "name": "Cllr Lola Whipp",
+          "party": "Liberal Democrat",
+          "ward": "Barnoldswick",
+          "address": ""
+        }
+      ],
+      "count": 2,
+      "shared_address": false,
+      "same_ward": false,
+      "same_party": true,
+      "severity": "info",
+      "note": "Councillors sharing surname 'Whipp' \u2014 potential family connection"
     }
+  ],
+  "shared_address_councillors": [],
+  "cross_council_summary": {
+    "councillor_companies_in_other_councils": 0,
+    "affected_councils": []
   },
   "councillors": [
     {
@@ -23,726 +139,1650 @@
       "name": "Cllr Mohammed Adnan",
       "party": "Independent Group",
       "ward": "Marsden and Southfield",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:41.824605Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 2,
       "name": "Cllr Faraz Ahmad",
       "party": "Independent Group",
       "ward": "Whitefield and Walverden",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:43.173102Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 3,
       "name": "Cllr Nadeem Ahmed",
       "party": "Conservative",
       "ward": "Barrowford and Pendleside",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:44.449024Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 4,
       "name": "Cllr Sajjad Ahmed",
       "party": "Independent Group",
       "ward": "Brierfield East and Clover Hill",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:45.848160Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 5,
       "name": "Cllr Zafar Ali",
       "party": "Independent Group",
       "ward": "Brierfield East and Clover Hill",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:47.214212Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 6,
       "name": "Cllr Mohammad Ammer",
       "party": "Independent Group",
       "ward": "Marsden and Southfield",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:48.532141Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 7,
       "name": "Cllr Ruby Anwar",
       "party": "Independent Group",
       "ward": "Whitefield and Walverden",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:49.875720Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 8,
       "name": "Cllr Naeem Hussain Ashraf",
       "party": "Pendle's True Independents",
       "ward": "Brierfield East and Clover Hill",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:51.157052Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 9,
       "name": "Cllr Mohammad Aslam",
       "party": "Conservative",
       "ward": "Bradley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:52.506827Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 10,
       "name": "Cllr Marion Atkinson",
       "party": "Reform UK",
       "ward": "Vivary Bridge",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:53.785373Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 11,
       "name": "Cllr Andy Bell",
       "party": "Liberal Democrat",
       "ward": "Vivary Bridge",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:55.127475Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 12,
       "name": "Cllr Neil Butterworth",
       "party": "Conservative",
       "ward": "Waterside and Horsfield",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:56.417149Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 13,
       "name": "Cllr Chris Church",
       "party": "Liberal Democrat",
       "ward": "Barnoldswick",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:57.796799Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 14,
       "name": "Cllr David Cockburn-Price",
       "party": "Conservative",
       "ward": "Boulsworth and Foulridge",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:10:59.074006Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 15,
       "name": "Cllr Sarah Cockburn-Price",
       "party": "Conservative",
       "ward": "Boulsworth and Foulridge",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:00.440046Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 16,
       "name": "Cllr David Gallear",
       "party": "Conservative",
       "ward": "Barrowford and Pendleside",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:01.701462Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 17,
       "name": "Cllr Mohammad Hanif",
       "party": "Independent Group",
       "ward": "Brierfield West and Reedley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:03.065092Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 18,
       "name": "Cllr Bryony Alys Hartley",
       "party": "Liberal Democrat",
       "ward": "Barnoldswick",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:04.347929Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 19,
       "name": "Cllr David Hartley",
       "party": "Liberal Democrat",
       "ward": "Earby and Coates",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:05.675066Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 20,
       "name": "Cllr Mohammed Iqbal MBE",
       "party": "Independent Group",
       "ward": "Bradley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:06.967280Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 21,
       "name": "Cllr Yasser Iqbal",
       "party": "Pendle's True Independents",
       "ward": "Brierfield West and Reedley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:08.297891Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 22,
       "name": "Cllr Mohammad Kaleem",
       "party": "Conservative",
       "ward": "Bradley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:09.587606Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 23,
       "name": "Cllr Susan Land",
       "party": "Liberal Democrat",
       "ward": "Earby and Coates",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:10.920222Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 24,
       "name": "Cllr Dorothy Elizabeth Lord",
       "party": "Liberal Democrat",
       "ward": "Waterside and Horsfield",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:12.221845Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 25,
       "name": "Cllr Asjad Mahmood",
       "party": "Independent Group",
       "ward": "Whitefield and Walverden",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:13.593870Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 26,
       "name": "Cllr Brian Newman",
       "party": "Liberal Democrat",
       "ward": "Fence and Higham",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:14.894950Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 27,
       "name": "Cllr Richard O'Connor",
       "party": "Conservative",
       "ward": "Vivary Bridge",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:16.276679Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 28,
       "name": "Cllr Kevin Salter",
       "party": "Conservative",
       "ward": "Boulsworth and Foulridge",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:17.624018Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 29,
       "name": "Cllr Martyn Stone",
       "party": "Conservative",
       "ward": "Barrowford and Pendleside",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:18.909461Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 30,
       "name": "Cllr Ash Sutcliffe",
       "party": "Conservative",
       "ward": "Waterside and Horsfield",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:20.242363Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 31,
       "name": "Cllr Yvonne Tennant",
       "party": "Independent Group",
       "ward": "Marsden and Southfield",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:21.583777Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 32,
       "name": "Cllr David Whipp",
       "party": "Liberal Democrat",
       "ward": "Earby and Coates",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:22.956839Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": 33,
       "name": "Cllr Lola Whipp",
       "party": "Liberal Democrat",
       "ward": "Barnoldswick",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:11:24.251971Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     }
   ]
 }

@@ -1,21 +1,68 @@
 {
   "council_id": "ribble_valley",
-  "generated_at": "2026-02-15T22:58:43.362472Z",
+  "version": "2.0",
+  "generated_at": "2026-02-16T00:14:11.029489Z",
+  "data_sources": [
+    "Companies House (officers, PSC, charges, disqualifications)",
+    "Co-director network analysis",
+    "Cross-council supplier matching (15 councils)",
+    "Familial connection detection (surname clusters, shared addresses, family CH)",
+    "Misconduct pattern detection (7 algorithms)"
+  ],
   "total_councillors": 40,
-  "councillors_checked": 0,
-  "scan_status": "pending",
+  "councillors_checked": 40,
   "summary": {
     "total_directorships_found": 0,
     "active_directorships": 0,
     "disqualification_matches": 0,
     "supplier_conflicts": 0,
+    "cross_council_conflicts": 0,
+    "electoral_commission_findings": 0,
+    "fca_findings": 0,
+    "misconduct_patterns": 0,
     "red_flags_total": 0,
     "risk_distribution": {
-      "low": 0,
+      "low": 40,
       "medium": 0,
       "elevated": 0,
       "high": 0
+    },
+    "network_investigations_advisable": 0,
+    "network_investigation_high_priority": 0,
+    "psc_entries_found": 0,
+    "co_directors_mapped": 0,
+    "family_connections_found": 0,
+    "family_supplier_conflicts": 0
+  },
+  "surname_clusters": [
+    {
+      "surname": "O'Rourke",
+      "members": [
+        {
+          "name": "Simon O'Rourke",
+          "party": "Liberal Democrats",
+          "ward": "Edisford and Low Moor",
+          "address": ""
+        },
+        {
+          "name": "Donna O'Rourke",
+          "party": "Liberal Democrats",
+          "ward": "Salthill",
+          "address": ""
+        }
+      ],
+      "count": 2,
+      "shared_address": false,
+      "same_ward": false,
+      "same_party": true,
+      "severity": "info",
+      "note": "Councillors sharing surname 'O'Rourke' \u2014 potential family connection"
     }
+  ],
+  "shared_address_councillors": [],
+  "cross_council_summary": {
+    "councillor_companies_in_other_councils": 0,
+    "affected_councils": []
   },
   "councillors": [
     {
@@ -23,880 +70,2854 @@
       "name": "Derek Brocklehurst",
       "party": "Independent",
       "ward": "Alston and Hothersall",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:11.029578Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "jrogerson",
       "name": "James Rogerson",
       "party": "Independent",
       "ward": "Alston and Hothersall",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:12.382825Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "James ROGERSON",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "Clarendon House, 47 Clarendon Road, Redland, Bristol, BS6 7EY"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "James ROGERSON",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "50-54, Berry Lane, Longridge, Preston, Lancashire, United Kingdom, PR3 3JP"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "James ROGERSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1955
+            },
+            "address_snippet": "Ashwood, Green Dene, East Horsley, Leatherhead, Surrey, England, KT24 5RD"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "sfarmer",
       "name": "Steve Farmer",
       "party": "Conservative",
       "ward": "Billington and Langho",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:14.442305Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Dr Steve FARMER",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1970
+            },
+            "address_snippet": "Unit 3 , Helios 47, Helios Business Park, Isabella Road, Garforth, Leeds, England, LS25 2DY"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Steve FARMER",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1988
+            },
+            "address_snippet": "9 Limes Road, Beckenham, United Kingdom, BR3 6NS"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Steve FARMER",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1980
+            },
+            "address_snippet": "The Hall, Rugby Road, Wolston, Coventry, England, CV8 3FZ"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "taustin",
       "name": "Tony Austin",
       "party": "Conservative",
       "ward": "Billington and Langho",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:16.415796Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Tony AUSTIN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1974
+            },
+            "address_snippet": "145-157, St John Street, London, England, EC1V 4PW"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Tony AUSTIN",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "145-157, St John Street, London, England, EC1V 4PW"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Tony AUSTIN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1974
+            },
+            "address_snippet": "Unit D 17, Plumber Row, London, England, E1 1EQ"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "relms",
       "name": "Rosemary Elms",
       "party": "Conservative",
       "ward": "Bowland",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:18.318568Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Rosemary Lynne ELMS",
+            "match_score": 90,
+            "date_of_birth": {},
+            "address_snippet": "4 Oakhill Court 38 Cross Oak Road, Berkhamsted, Hertfordshire, HP4 3EH"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "satkinson",
       "name": "Stephen Atkinson",
       "party": "Reform UK",
       "ward": "Brockhall and Dinckley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:20.304785Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Stephen ATKINSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 11,
+              "year": 1971
+            },
+            "address_snippet": "20-22, Wenlock Road, London, England, N1 7GU"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Stephen ATKINSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1983
+            },
+            "address_snippet": "Winghams House, 9, Freeport Office Village, Century Drive, Braintree, England, CM77 8YG"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Stephen ATKINSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 10,
+              "year": 1965
+            },
+            "address_snippet": "27 Summer Lane, Brixham, United Kingdom, TQ5 0DL"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "gscott",
       "name": "Gary Scott",
       "party": "Conservative",
       "ward": "Chatburn",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:22.310496Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Gary SCOTT",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1981
+            },
+            "address_snippet": "1 Portland Buildings, Stoke Road, Gosport, Hampshire, England, PO12 1JH"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Gary SCOTT",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 10,
+              "year": 1959
+            },
+            "address_snippet": "26-30, Marine Place, Buckie, Scotland, AB56 1UT"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Gary SCOTT",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1961
+            },
+            "address_snippet": "25 Mortonhall Park Drive, Edinburgh, Scotland, EH17 8SS"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "shore",
       "name": "Simon Hore",
       "party": "Conservative",
       "ward": "Chipping",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:24.281350Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Simon HORE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1956
+            },
+            "address_snippet": "6 Church Raike, Chipping, Preston, PR3 2QL"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Simon John HORE",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 2,
+              "year": 1981
+            },
+            "address_snippet": "6 Drakes Meadow, Penny Lane, Swindon, Wiltshire, SN3 3LL"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Simon Paul HORE",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 2,
+              "year": 1985
+            },
+            "address_snippet": "3 Northern Buildings, Northern Road, Portsmouth, Hampshire, England, PO6 3DL"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "ledge",
       "name": "Louise Edge",
       "party": "Conservative",
       "ward": "Clayton-Le-Dale and Salesbury",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:26.238545Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Louise EDGE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 2004
+            },
+            "address_snippet": "14 Blenheim Close, Upper Cambourne, Cambridge, Cambridgeshire, United Kingdom, CB23 6AP"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Louise EDGE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1986
+            },
+            "address_snippet": "Hilltop Farm, Briestfield Road, Briestfield, Dewsbury, United Kingdom, WF12 0NR"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Louise EDGE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1965
+            },
+            "address_snippet": "Fairfield Farm, Longsight Road, Clayton Le Dale, Blackburn, Lancashire, BB2 7JA"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "kspencer",
       "name": "Kieren Spencer",
       "party": "Labour",
       "ward": "Derby and Thornley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:28.215902Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Kieren SPENCER",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1989
+            },
+            "address_snippet": "2 Airey Houses, Hothersall Lane, Hothersall, Preston, Lancashire, United Kingdom, PR3 2XB"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Kieren John Warwick SPENCER",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1974
+            },
+            "address_snippet": "4 Swan Hill, Aylesbury Road, Cuddington, Aylesbury, Buckinghamshire, HP18 0BE"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "rray",
       "name": "Rachael Ray",
       "party": "Labour",
       "ward": "Derby and Thornley",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:30.226558Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Rachael Elizabeth RAY",
+            "match_score": 90,
+            "date_of_birth": {},
+            "address_snippet": "53 Billington Gardens, Billington, Clitheroe, Lancashire, England, BB7 9LX"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Rachael Elizabeth RAY",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 8,
+              "year": 1975
+            },
+            "address_snippet": "53 Billington Gardens, Billington, Clitheroe, Lancashire, England, BB7 9LX"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Rachael Elizabeth RAY",
+            "match_score": 90,
+            "date_of_birth": {},
+            "address_snippet": "53 Billington Gardens, Billington, Clitheroe, Lancashire, England, BB7 9LX"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "ljameson",
       "name": "Lee Jameson",
       "party": "Independent",
       "ward": "Dilworth",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:32.219352Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Lee JAMESON",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "Station House, Old Station Yard, Langley Park, Durham, County Durham, United Kingdom, DH7 9TL"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Lee JAMESON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1980
+            },
+            "address_snippet": "25 Monument View, New Penshaw, Houghton Le Spring, Tyne And Wear, United Kingdom, DH4 7JN"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Lee Kenneth JAMESON",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1980
+            },
+            "address_snippet": "11 Alwin Grange, Hebburn, Tyne And Wear, United Kingdom, NE31 1HG"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "nstubbs",
       "name": "Nicholas Stubbs",
       "party": "Independent",
       "ward": "Dilworth",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:34.135646Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Nicholas STUBBS",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1988
+            },
+            "address_snippet": "20-22, Wenlock Road, London, England, N1 7GU"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Nicholas STUBBS",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1988
+            },
+            "address_snippet": "20-22, Wenlock Road, London, England, N1 7GU"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Nicholas STUBBS",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1964
+            },
+            "address_snippet": "4 Cornfield Terrace, Eastbourne, East Sussex, England, BN21 4NN"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "gmccrum",
       "name": "Gaye McCrum",
       "party": "Green Party",
       "ward": "East Whalley, Read and Simonstone",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:36.133753Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "mpeplow",
       "name": "Malcolm Peplow",
       "party": "Green Party",
       "ward": "East Whalley, Read and Simonstone",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:37.474938Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "rcorney",
       "name": "Ryan Corney",
       "party": "Progressive Liberal Group",
       "ward": "Edisford and Low Moor",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:38.761075Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "sorourke",
       "name": "Simon O'Rourke",
       "party": "Liberal Democrats",
       "ward": "Edisford and Low Moor",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:40.133588Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Simon O'ROURKE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1968
+            },
+            "address_snippet": "13 Londubh, Poolewe, Achnasheen, Scotland, IV22 2LD"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Simon O'ROURKE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1972
+            },
+            "address_snippet": "16 Sharfleet Drive, Strood, Rochester, United Kingdom, ME2 2UA"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Simon O'ROURKE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1978
+            },
+            "address_snippet": "36 Park Street, Wrexham, United Kingdom, LL11 2NN"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "cmcfall",
       "name": "Charles McFall",
       "party": "Conservative",
       "ward": "Gisburn, Rimington",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:42.107180Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Charles Edward MCFALL",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1955
+            },
+            "address_snippet": "15 Melrose Close, Gosforth, Newcastle Upon Tyne, United Kingdom, NE3 5NY"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Charles William Hamish MCFALL",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1959
+            },
+            "address_snippet": "36 North Street, Wilton, Salisbury, England, SP2 0HJ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Charles William Hamish MCFALL",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1959
+            },
+            "address_snippet": "2 London House, Aldersgate Street, London, EC1A 4HV"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "jalcock",
       "name": "Janet Elizabeth Alcock",
       "party": "Conservative",
       "ward": "Hurst Green and Whitewell",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:44.040317Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Janet Elizabeth ALCOCK",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 8,
+              "year": 1954
+            },
+            "address_snippet": "C/O Heidelberg Materials, Ribblesdale Works, Clitheroe, Lancashire, England, BB7 4QF"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Janet Elizabeth ALCOCK",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1968
+            },
+            "address_snippet": "Beck House 77a, King Street, Knutsford, Cheshire, WA16 6DX"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "ghibbert",
       "name": "Gaynor Hibbert",
       "party": "Liberal Democrats",
       "ward": "Littlemoor",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:45.988914Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "mfrench",
       "name": "Mark French",
       "party": "Progressive Liberal Group",
       "ward": "Littlemoor",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:47.247795Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Mark FRENCH",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1988
+            },
+            "address_snippet": "South Building, Upper Farm, Wootton St Lawrence, Basingstoke, England, RG23 8PE"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mark FRENCH",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 2,
+              "year": 1968
+            },
+            "address_snippet": "2 Viking Place, Dublin 7, Ireland"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mark FRENCH",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 11,
+              "year": 1964
+            },
+            "address_snippet": "C/O Track Accountancy Ltd, The Nursery, Dunn Street Road, Bredhurst, England, ME7 3ND"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "rwalsh",
       "name": "Robin Walsh",
       "party": "Conservative",
       "ward": "Mellor",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:49.303283Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Robin WALSH",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1965
+            },
+            "address_snippet": "Queen Elizabeth's Grammar School, West Park Road, Blackburn, Lancashire, BB2 6DF"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Robin PAKENHAM WALSH",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 8,
+              "year": 1973
+            },
+            "address_snippet": "Quantum House, 59-61 Guildford Street, Chertsey, Surrey, KT16 9AX"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Robin Andrew WALSH",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1946
+            },
+            "address_snippet": "Albion House, Cumeragh Lane, Whittingham, Preston, Lancashire, PR3 2AL"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "sbrunskill",
       "name": "Stella Brunskill",
       "party": "Conservative",
       "ward": "Mellor",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:51.300808Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Stella BRUNSKILL",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1946
+            },
+            "address_snippet": "Roefield Leisure Centre, Edisford Road, Clitheroe, Lancashire, BB7 3LA"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "mrobinson",
       "name": "Mary Robinson",
       "party": "Liberal Democrats",
       "ward": "Primrose",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:53.286370Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Mary ROBINSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1971
+            },
+            "address_snippet": "Office 7, 35-37 Ludgate Hill, London, England, EC4M 7JN"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mary ROBINSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1974
+            },
+            "address_snippet": "1 Whiteacres Close, Burnley, England, BB11 2JQ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mary ROBINSON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1948
+            },
+            "address_snippet": "14 Killyless Road, Cullybackey, Ballymena, Antrim, BT42 1HB"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "mgraveston",
       "name": "Michael Graveston",
       "party": "Labour",
       "ward": "Primrose",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:55.302215Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Michael GRAVESTON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1988
+            },
+            "address_snippet": "West Glendene, Glendene Park, Clayton Le Dale, Blackburn, England, BB1 9JQ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Michael St John GRAVESTON",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1989
+            },
+            "address_snippet": "The East Lancashire Hospice, Park Lee Road, Blackburn, Lancashire, United Kingdom, BB2 3NY"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "kbarnsley",
       "name": "Karl Barnsley",
       "party": "Labour & Co-operative",
       "ward": "Ribchester",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:57.312197Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Karl David BARNSLEY",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1971
+            },
+            "address_snippet": "C/O, 2, Croft Gardens, Burntwood, Staffs, United Kingdom, WS7 2EZ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Karl Peter BARNSLEY",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1988
+            },
+            "address_snippet": "Higher Mill Farm, Slaidburn Road, Waddington, Clitheroe, Lancashire, England, BB7 3JJ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Karl Timothy BARNSLEY",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1972
+            },
+            "address_snippet": "Belle View, Easton Lane, Chippenham, England, SN14 0RW"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "rnewmark",
       "name": "Richard Newmark",
       "party": "Conservative",
       "ward": "Sabden",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:14:59.218066Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "dorourke",
       "name": "Donna O'Rourke",
       "party": "Liberal Democrats",
       "ward": "Salthill",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:00.600935Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Donna O'ROURKE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1964
+            },
+            "address_snippet": "34 Three Crowns Close, Victoria Gardens, Widnes, Cheshire, England, WA8 7AA"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Donna Louise O'ROURKE",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1976
+            },
+            "address_snippet": "4 Black Lane Croft, Clitheroe, England, BB7 2EZ"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "ibrown",
       "name": "Ian Brown",
       "party": "Independent",
       "ward": "Salthill",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:02.735061Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Ian BROWN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1970
+            },
+            "address_snippet": "25 Horseshoe Drive, Liverpool, Merseyside, England, L10 4UF"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Ian BROWN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 11,
+              "year": 1946
+            },
+            "address_snippet": "49 Kingslea Road, Solihull, West Midlands, B91 1TQ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Ian BROWN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1963
+            },
+            "address_snippet": "Chapter House, Unit 7a Dean & Chapter Industrial Estate, Ferryhill, County Durham, DL17 8LH"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "jhill",
       "name": "Jonathan Hill",
       "party": "Liberal Democrats",
       "ward": "St Mary's",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:04.795922Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Jonathan HILL",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1975
+            },
+            "address_snippet": "16 Coriander Road, 16 Coriander Road Tiptree, Colchester, United Kingdom, CO5 0AU"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Jonathan HILL",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1988
+            },
+            "address_snippet": "124 City Road, London, United Kingdom, EC1V 2NX"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Jonathan HILL",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 10,
+              "year": 1981
+            },
+            "address_snippet": "2-3, New Broadway, Tarring Road,, Worthing, West Sussex, England, BN11 4HP"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "msutcliffe",
       "name": "Mark Sutcliffe",
       "party": "Liberal Democrats",
       "ward": "St Mary's",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:06.749214Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Mark SUTCLIFFE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 2,
+              "year": 1976
+            },
+            "address_snippet": "5 Wakefield Mews, Stalybridge, England, SK15 1AW"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mark SUTCLIFFE",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "31 Apple Tree Lane, Kippax, Leeds, West Yorkshire, United Kingdom, LS25 7SB"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mark SUTCLIFFE",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "10 Burleigh Street, Halifax, United Kingdom, HX1 3PR"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "scowman",
       "name": "Sophie Cowman",
       "party": "Conservative",
       "ward": "Waddington, Bashall Eaves and Mitton",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:08.705532Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "khorkin",
       "name": "Kevin Horkin MBE",
       "party": "Conservative",
       "ward": "West Bradford and Grindleton",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:10.060838Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "awilkinsodudu",
       "name": "Aaron Wilkins-Odudu",
       "party": "Labour",
       "ward": "Whalley Nethertown",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:11.352649Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
         "officer_matches": [],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "jatherton",
       "name": "John Atherton",
       "party": "Independent",
       "ward": "Whalley and Painter Wood",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:12.722230Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "John ATHERTON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 8,
+              "year": 1959
+            },
+            "address_snippet": "2 The Etchells, Boggy Lane, Church Broughton, Derby, United Kingdom, DE65 5AR"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "John ATHERTON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1955
+            },
+            "address_snippet": "Dilworth Coach House, 41 Dilworth Lane, Longridge, Preston, England, PR3 3ST"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "John ATHERTON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1954
+            },
+            "address_snippet": "2 Garnie Crescent, Erskine, Renfrewshire, United Kingdom, PA8 7BG"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "mhindle",
       "name": "Mark Hindle",
       "party": "Conservative",
       "ward": "Whalley and Painter Wood",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:14.767234Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Mark HINDLE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1972
+            },
+            "address_snippet": "5 Cecil Pashley Way, Shoreham Airport, Shoreham-By-Sea, England, BN43 5FF"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mark HINDLE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 11,
+              "year": 1981
+            },
+            "address_snippet": "132-134, Great Ancoats Street, Manchester, Greater Manchester, England, M4 6DE"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Mark HINDLE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1972
+            },
+            "address_snippet": "PO BOX 10559a Po, 221 Britannia Villas, Grand Cayman, Cayman Islands"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "shirst",
       "name": "Stuart Hirst",
       "party": "Conservative",
       "ward": "Wilpshire and Ramsgreave",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:16.817498Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Stuart HIRST",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1963
+            },
+            "address_snippet": "C/O Love Property Management Ltd, Clover House, John Wilson Business Park, Whitstable, England, CT5 3QZ"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Stuart HIRST",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 10,
+              "year": 1974
+            },
+            "address_snippet": "28 Summerfields, St. Stephens, Saltash, England, PL12 4AB"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Stuart HIRST",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 10,
+              "year": 1989
+            },
+            "address_snippet": "Suite 5, 1-2 Leonard Place, Westerham Road, Keston, England, BR2 6HQ"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "sbibby",
       "name": "Susan Bibby",
       "party": "Conservative",
       "ward": "Wilpshire and Ramsgreave",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:18.811695Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Susan BIBBY",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 11,
+              "year": 1955
+            },
+            "address_snippet": "54-56, Blackburn Road, Accrington, England, BB5 1LE"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Susan BIBBY",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1974
+            },
+            "address_snippet": "Cunliffe House, Longsight Road, Langho, Blackburn, Lancashire, United Kingdom, BB6 8AD"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Susan BIBBY",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1953
+            },
+            "address_snippet": "7 Glasgow Road, Paisley, Renfrewshire, Scotland, PA1 3QS"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "dbirtwhistle",
       "name": "David Birtwhistle",
       "party": "Independent",
       "ward": "Wiswell and Barrow",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:20.760429Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "David BIRTWHISTLE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1986
+            },
+            "address_snippet": "227 Belle Isle Road, Leeds, West Yorkshire, United Kingdom, LS10 3PH"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "David BIRTWHISTLE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1965
+            },
+            "address_snippet": "6 Ash Close, Barrow, Clitheroe, England, BB7 9FF"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "David BIRTWHISTLE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1960
+            },
+            "address_snippet": "3 Barbers Lane, Catherine De Barnes, Solihull, West Midlands, B92 0DH"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     },
     {
       "councillor_id": "lstreet",
       "name": "Lee Street",
       "party": "Conservative",
       "ward": "Wiswell and Barrow",
-      "checked_at": null,
+      "checked_at": "2026-02-16T00:15:22.827565Z",
+      "data_sources_checked": [
+        "companies_house"
+      ],
       "companies_house": {
-        "officer_matches": [],
+        "officer_matches": [
+          {
+            "officer_id": "appointments",
+            "title": "Lee STREET",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1976
+            },
+            "address_snippet": "9 Litten Close, Collier Row, Romford, United Kingdom, RM5 2LG"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Lee STREET",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1969
+            },
+            "address_snippet": "55 Ash Hill Road, Ash, Guildford, Surrey, GU12 6AA"
+          },
+          {
+            "officer_id": "appointments",
+            "title": "Lee STREET",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1984
+            },
+            "address_snippet": "49 Palace Avenue, Paignton, Devon, United Kingdom, TQ3 3EN"
+          }
+        ],
         "total_directorships": 0,
         "active_directorships": 0,
         "resigned_directorships": 0,
-        "companies": []
+        "companies": [],
+        "psc_entries": []
+      },
+      "co_director_network": {
+        "associates": [],
+        "total_unique_associates": 0
       },
       "disqualification_check": {
-        "searched": false,
+        "searched": true,
         "matches": []
       },
+      "electoral_commission": {
+        "searched": false,
+        "findings": []
+      },
+      "fca_register": {
+        "searched": false,
+        "findings": []
+      },
+      "familial_connections": {
+        "family_member_companies": [],
+        "family_psc_connections": [],
+        "has_family_supplier_conflict": false
+      },
       "supplier_conflicts": [],
+      "cross_council_conflicts": [],
+      "misconduct_patterns": [],
       "red_flags": [],
-      "integrity_score": null,
-      "risk_level": "not_checked"
+      "integrity_score": 100,
+      "risk_level": "low",
+      "network_investigation": {
+        "advisable": false,
+        "reasons": [],
+        "priority": "none"
+      }
     }
   ]
 }

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info } from 'lucide-react'
+import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -52,14 +52,22 @@ function Integrity() {
       ...c,
       // Merge in full councillor data (email, phone, roles, party_color)
       ...(fullMap.get(c.councillor_id) || {}),
-      // Keep integrity fields
+      // Keep integrity fields (v2)
       integrity_score: c.integrity_score,
       risk_level: c.risk_level,
       companies_house: c.companies_house,
+      co_director_network: c.co_director_network,
       disqualification_check: c.disqualification_check,
+      electoral_commission: c.electoral_commission,
+      fca_register: c.fca_register,
+      familial_connections: c.familial_connections,
       supplier_conflicts: c.supplier_conflicts,
+      cross_council_conflicts: c.cross_council_conflicts,
+      misconduct_patterns: c.misconduct_patterns,
+      network_investigation: c.network_investigation,
       red_flags: c.red_flags,
       checked_at: c.checked_at,
+      data_sources_checked: c.data_sources_checked,
     }))
   }, [integrity, councillorsFull])
 
@@ -132,8 +140,8 @@ function Integrity() {
           <div>
             <h1>Councillor Integrity Checker</h1>
             <p className="subtitle">
-              Cross-referencing {councillors.length} councillors against Companies House,
-              the Disqualified Directors Register, and council spending data
+              Cross-referencing {councillors.length} councillors against 8+ public data sources
+              including Companies House, Electoral Commission, FCA Register, and council spending data
             </p>
           </div>
         </div>
@@ -143,14 +151,15 @@ function Integrity() {
       <section className="methodology-banner">
         <Info size={18} />
         <div>
-          <strong>How this works:</strong> Each councillor's name is searched against the{' '}
+          <strong>Multi-source forensic investigation:</strong> Each councillor is checked against{' '}
           <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer">
-            Companies House officer register
+            Companies House
           </a>{' '}
-          to identify company directorships. These are then cross-referenced against council supplier
-          payments to flag potential conflicts of interest. The disqualified directors register is also checked.
-          Red flags include shell company indicators (SIC 82990), insolvency history, dormant filings,
-          and name matches with council suppliers.
+          (directorships, PSC register, disqualifications), co-director network mapping,
+          Electoral Commission donations, FCA prohibition orders, and cross-council supplier matching.
+          Familial connections are detected through surname clustering and shared-address analysis.
+          Seven misconduct pattern algorithms flag phoenix companies, contract steering, dormant
+          company payments, and rapid company turnover.
         </div>
       </section>
 
@@ -175,14 +184,38 @@ function Integrity() {
               <span className="dashboard-label">Red Flags</span>
             </div>
             <div className="dashboard-card accent-critical">
-              <span className="dashboard-number">{stats.supplier_conflicts}</span>
+              <span className="dashboard-number">{stats.supplier_conflicts + (stats.cross_council_conflicts || 0)}</span>
               <span className="dashboard-label">Supplier Conflicts</span>
             </div>
             <div className="dashboard-card accent-critical">
               <span className="dashboard-number">{stats.disqualification_matches}</span>
               <span className="dashboard-label">Disqualification Matches</span>
             </div>
+            <div className="dashboard-card">
+              <span className="dashboard-number">{stats.misconduct_patterns || 0}</span>
+              <span className="dashboard-label">Misconduct Patterns</span>
+            </div>
+            <div className="dashboard-card">
+              <span className="dashboard-number">{stats.co_directors_mapped || 0}</span>
+              <span className="dashboard-label">Co-Directors Mapped</span>
+            </div>
+            <div className="dashboard-card">
+              <span className="dashboard-number">{stats.family_connections_found || 0}</span>
+              <span className="dashboard-label">Family Connections</span>
+            </div>
           </div>
+
+          {/* Data Sources */}
+          {integrity.data_sources?.length > 0 && (
+            <div className="data-sources-list">
+              <h4>Data Sources Checked</h4>
+              <div className="source-tags">
+                {integrity.data_sources.map((source, i) => (
+                  <span key={i} className="source-tag">{source}</span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Risk Distribution */}
           <div className="risk-distribution">
@@ -285,6 +318,59 @@ function Integrity() {
         <p className="filter-count">{filtered.length} of {councillors.length} councillors</p>
       </section>
 
+      {/* Surname Clusters & Shared Addresses */}
+      {scanComplete && (integrity.surname_clusters?.length > 0 || integrity.shared_address_councillors?.length > 0) && (
+        <section className="familial-overview">
+          <h3><Heart size={18} /> Familial Connection Analysis</h3>
+          <p className="familial-desc">
+            Under the Localism Act 2011, family members' financial interests are Disclosable
+            Pecuniary Interests (DPIs). Failure to declare can be a criminal offence (s.34).
+          </p>
+          <div className="familial-grid">
+            {integrity.surname_clusters?.map((cluster, i) => (
+              <div key={i} className={`familial-card ${cluster.severity}`}>
+                <div className="familial-card-header">
+                  <Home size={16} />
+                  <strong>{cluster.surname}</strong>
+                  <span className="familial-count">{cluster.count} councillors</span>
+                </div>
+                <div className="familial-members">
+                  {cluster.members.map((m, j) => (
+                    <div key={j} className="familial-member">
+                      <span>{m.name}</span>
+                      <span className="familial-meta">{m.party} · {m.ward}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="familial-flags">
+                  {cluster.shared_address && <span className="familial-flag critical">Same Address</span>}
+                  {cluster.same_ward && <span className="familial-flag warning">Same Ward</span>}
+                  {cluster.same_party && <span className="familial-flag info">Same Party</span>}
+                </div>
+              </div>
+            ))}
+            {integrity.shared_address_councillors?.map((shared, i) => (
+              <div key={`addr-${i}`} className="familial-card high">
+                <div className="familial-card-header">
+                  <Home size={16} />
+                  <strong>Shared Address</strong>
+                  <span className="familial-count">{shared.count} councillors</span>
+                </div>
+                <div className="familial-members">
+                  {shared.members.map((m, j) => (
+                    <div key={j} className="familial-member">
+                      <span>{m.name}</span>
+                      <span className="familial-meta">{m.party} · {m.ward}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="familial-note">{shared.note}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Councillor Cards */}
       <section className="integrity-grid">
         {filtered.map(councillor => {
@@ -294,6 +380,9 @@ function Integrity() {
           const isExpanded = expandedId === councillor.councillor_id
           const hasFlags = (councillor.red_flags?.length || 0) > 0
           const hasConflicts = (councillor.supplier_conflicts?.length || 0) > 0
+          const hasCrossCouncil = (councillor.cross_council_conflicts?.length || 0) > 0
+          const hasMisconduct = (councillor.misconduct_patterns?.length || 0) > 0
+          const hasFamilyConflict = councillor.familial_connections?.has_family_supplier_conflict
           const needsNetworkInvestigation = councillor.network_investigation?.advisable || ch.active_directorships >= 3 || hasConflicts || councillor.risk_level === 'high' || councillor.risk_level === 'elevated'
           const networkPriority = councillor.network_investigation?.priority || (needsNetworkInvestigation ? 'medium' : 'none')
           const networkReasons = councillor.network_investigation?.reasons || []
@@ -337,6 +426,24 @@ function Integrity() {
                       <span className="badge-conflict" title="Potential supplier conflict">
                         <AlertTriangle size={12} />
                         Conflict
+                      </span>
+                    )}
+                    {hasCrossCouncil && (
+                      <span className="badge-cross-council" title="Cross-council conflict">
+                        <Globe size={12} />
+                        Cross-Council
+                      </span>
+                    )}
+                    {hasMisconduct && (
+                      <span className="badge-misconduct" title="Misconduct pattern detected">
+                        <ShieldAlert size={12} />
+                        Misconduct
+                      </span>
+                    )}
+                    {hasFamilyConflict && (
+                      <span className="badge-family" title="Family member supplier conflict">
+                        <Heart size={12} />
+                        Family
                       </span>
                     )}
                     {needsNetworkInvestigation && (
@@ -384,7 +491,9 @@ function Integrity() {
                         <span className="score-desc">
                           Based on {ch.total_directorships} directorship{ch.total_directorships !== 1 ? 's' : ''},{' '}
                           {councillor.red_flags?.length || 0} red flag{(councillor.red_flags?.length || 0) !== 1 ? 's' : ''},{' '}
-                          and {councillor.supplier_conflicts?.length || 0} supplier conflict{(councillor.supplier_conflicts?.length || 0) !== 1 ? 's' : ''}
+                          {councillor.supplier_conflicts?.length || 0} supplier conflict{(councillor.supplier_conflicts?.length || 0) !== 1 ? 's' : ''},
+                          {councillor.misconduct_patterns?.length ? ` ${councillor.misconduct_patterns.length} misconduct pattern${councillor.misconduct_patterns.length !== 1 ? 's' : ''},` : ''}
+                          {' '}checked across {councillor.data_sources_checked?.length || 1} data source{(councillor.data_sources_checked?.length || 1) !== 1 ? 's' : ''}
                         </span>
                       </div>
                     </div>
@@ -499,6 +608,126 @@ function Integrity() {
                     </div>
                   )}
 
+                  {/* Cross-Council Conflicts */}
+                  {councillor.cross_council_conflicts?.length > 0 && (
+                    <div className="conflicts-section cross-council">
+                      <h4><Globe size={16} /> Cross-Council Conflicts ({councillor.cross_council_conflicts.length})</h4>
+                      <div className="conflicts-list">
+                        {councillor.cross_council_conflicts.map((conflict, i) => (
+                          <div key={i} className="conflict-row">
+                            <span className="conflict-company">{conflict.company_name}</span>
+                            <span className="conflict-arrow">→</span>
+                            <span className="conflict-supplier">{conflict.supplier_match?.supplier}</span>
+                            <span className="conflict-council-tag">{conflict.other_council}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Co-Director Network */}
+                  {councillor.co_director_network?.associates?.length > 0 && (
+                    <div className="network-section">
+                      <h4><Network size={16} /> Co-Director Network ({councillor.co_director_network.total_unique_associates} associates)</h4>
+                      <div className="network-list">
+                        {councillor.co_director_network.associates.slice(0, 10).map((assoc, i) => (
+                          <div key={i} className="network-row">
+                            <span className="network-name">{assoc.name}</span>
+                            <span className="network-shared">
+                              {assoc.shared_company_count} shared {assoc.shared_company_count === 1 ? 'company' : 'companies'}
+                            </span>
+                            <span className="network-roles">{assoc.roles?.join(', ')}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Misconduct Patterns */}
+                  {councillor.misconduct_patterns?.length > 0 && (
+                    <div className="misconduct-section">
+                      <h4><ShieldAlert size={16} /> Misconduct Patterns ({councillor.misconduct_patterns.length})</h4>
+                      <div className="flags-list">
+                        {councillor.misconduct_patterns.map((pattern, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[pattern.severity] || '#666' }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[pattern.severity] }}>
+                              {pattern.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{pattern.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Familial Connections */}
+                  {councillor.familial_connections?.family_member_companies?.length > 0 && (
+                    <div className="familial-section">
+                      <h4><Heart size={16} /> Familial Connections</h4>
+                      {councillor.familial_connections.has_family_supplier_conflict && (
+                        <div className="family-alert">
+                          <AlertTriangle size={14} />
+                          <strong>Family member's company is a council supplier — potential undeclared DPI</strong>
+                        </div>
+                      )}
+                      <div className="family-members-list">
+                        {councillor.familial_connections.family_member_companies.map((fm, i) => (
+                          <div key={i} className={`family-member-card ${fm.has_supplier_conflict ? 'conflict' : ''}`}>
+                            <div className="family-member-header">
+                              <span className="family-name">{fm.family_member_name}</span>
+                              <span className="family-relationship">{fm.relationship}</span>
+                            </div>
+                            <span className="family-companies">
+                              {fm.active_companies} active {fm.active_companies === 1 ? 'company' : 'companies'}
+                            </span>
+                            {fm.supplier_conflicts?.length > 0 && (
+                              <div className="family-supplier-conflicts">
+                                {fm.supplier_conflicts.map((sc, j) => (
+                                  <span key={j} className="supplier-match-tag">
+                                    <Scale size={12} />
+                                    {sc.company_name} matches supplier "{sc.supplier_match?.supplier}"
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Electoral Commission */}
+                  {councillor.electoral_commission?.findings?.length > 0 && (
+                    <div className="ec-section">
+                      <h4><Landmark size={16} /> Electoral Commission Findings</h4>
+                      <div className="flags-list">
+                        {councillor.electoral_commission.findings.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: finding.type?.includes('supplier') ? SEVERITY_COLORS.high : SEVERITY_COLORS.info }}>
+                            <span className="flag-detail">{finding.detail}</span>
+                            {finding.value && <span className="ec-value">{formatCurrency(finding.value)}</span>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* FCA Register */}
+                  {councillor.fca_register?.findings?.length > 0 && (
+                    <div className="fca-section">
+                      <h4><Banknote size={16} /> FCA Register Findings</h4>
+                      <div className="flags-list">
+                        {councillor.fca_register.findings.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.info }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.info }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Disqualification Check */}
                   {councillor.disqualification_check?.matches?.length > 0 && (
                     <div className="disqualification-section">
@@ -542,11 +771,13 @@ function Integrity() {
       {/* Legal Disclaimer */}
       <section className="integrity-disclaimer">
         <p>
-          <strong>Important:</strong> This tool uses publicly available data from Companies House and council
-          spending records. Name matching is probabilistic and may produce false positives — a match does not
-          imply wrongdoing. Councillors may legitimately hold company directorships. The integrity score is
-          algorithmic and should be interpreted alongside the council's formal Register of Members' Interests.
-          This tool is provided for transparency purposes under the{' '}
+          <strong>Important:</strong> This tool uses publicly available data from Companies House, the Electoral
+          Commission, the FCA Register, and council spending records. Name matching is probabilistic and may
+          produce false positives — a match does not imply wrongdoing. Councillors may legitimately hold company
+          directorships and family members may have legitimate business interests. Surname matches across
+          councils may be coincidental. The integrity score is algorithmic and should be interpreted alongside
+          the council's formal Register of Members' Interests. This tool is provided for transparency purposes
+          under the{' '}
           <a href="https://www.legislation.gov.uk/ukpga/2011/20/contents/enacted" target="_blank" rel="noopener noreferrer">
             Localism Act 2011
           </a>{' '}
