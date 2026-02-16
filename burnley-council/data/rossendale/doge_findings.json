@@ -68,6 +68,14 @@
       "confidence": "low",
       "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
       "link": "/procurement"
+    },
+    {
+      "value": "1 categories",
+      "label": "Budget Category Efficiency Concerns",
+      "detail": "1 service categories show multiple efficiency flags. Worst: Capital (HHI=5164, 0% round-number, 7.4x year-end spike)",
+      "severity": "warning",
+      "confidence": "medium",
+      "link": "/budgets"
     }
   ],
   "key_findings": [
@@ -115,7 +123,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.631213",
+  "generated": "2026-02-16T11:03:49.194599",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -123,7 +131,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [],
@@ -396,7 +407,7 @@
     "monopoly_category_count": 0
   },
   "fraud_triangle": {
-    "overall_score": 46.3,
+    "overall_score": 48.8,
     "risk_level": "moderate",
     "dimensions": {
       "opportunity": {
@@ -435,7 +446,7 @@
         ]
       },
       "rationalization": {
-        "score": 30,
+        "score": 35,
         "signals": [
           {
             "signal": "9 suppliers with current CH red flags",
@@ -446,11 +457,375 @@
             "signal": "4 contracts published after award date",
             "score": 12,
             "source": "procurement_compliance"
+          },
+          {
+            "signal": "42% of budget in 'Central/Other' categories (low categorisation precision)",
+            "score": 5,
+            "source": "budget_variance"
           }
         ]
       }
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
-    "total_signals": 7
+    "total_signals": 8
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 125.2,
+    "total_outturn_pounds": 10749000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 233000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -233000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1503000,
+        "doge_mapped_pounds": 382602.91,
+        "doge_annualised_pounds": 76520.58,
+        "variance_annualised_pounds": -1426479.42,
+        "coverage_pct": 5.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 1463000,
+        "doge_mapped_pounds": 134903.05,
+        "doge_annualised_pounds": 26980.61,
+        "variance_annualised_pounds": -1436019.39,
+        "coverage_pct": 1.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 2574000,
+        "doge_mapped_pounds": 10003267.69,
+        "doge_annualised_pounds": 2000653.54,
+        "variance_annualised_pounds": -573346.46,
+        "coverage_pct": 77.7,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 513000,
+        "doge_mapped_pounds": 12245112.38,
+        "doge_annualised_pounds": 2449022.48,
+        "variance_annualised_pounds": 1936022.48,
+        "coverage_pct": 477.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 4463000,
+        "doge_mapped_pounds": 42468089.21,
+        "doge_annualised_pounds": 8493617.84,
+        "variance_annualised_pounds": 4030617.84,
+        "coverage_pct": 190.3,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 2052636.73,
+        "doge_annualised_pounds": 410527.35,
+        "variance_annualised_pounds": 410527.35,
+        "coverage_pct": null,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 7,
+    "categories": {
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 9653737.09,
+        "hhi": 569,
+        "hhi_category": "low",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "RAPID RECRUIT LTD",
+            "spend": 1843806.73
+          },
+          {
+            "supplier": "LANCASHIRE COUNTY COUNCIL",
+            "spend": 783014.19
+          },
+          {
+            "supplier": "DENNIS EAGLE LTD",
+            "spend": 599565.11
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 40366113.79,
+        "hhi": 449,
+        "hhi_category": "low",
+        "round_number_pct": 3.0,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "CAPITA BUSINESS SERVICES LTD",
+            "spend": 5002088.6
+          },
+          {
+            "supplier": "DEPARTMENT FOR LEVELLING UP",
+            "spend": 4086186.64
+          },
+          {
+            "supplier": "COVID BUSINESS GRANT",
+            "spend": 3751915.23
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 11481441.05,
+        "hhi": 359,
+        "hhi_category": "low",
+        "round_number_pct": 1.1,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "MOLESWORTH HOTEL LTD",
+            "spend": 1274982.0
+          },
+          {
+            "supplier": "OZON SOLICITORS",
+            "spend": 1188017.64
+          },
+          {
+            "supplier": "HILL VIEW HOTEL",
+            "spend": 634036.0
+          }
+        ]
+      },
+      "Capital": {
+        "rating": "red",
+        "total_spend": 6738.98,
+        "hhi": 5164,
+        "hhi_category": "high",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 7.4,
+        "top_suppliers": [
+          {
+            "supplier": "NAME WITHHELD",
+            "spend": 4176.72
+          },
+          {
+            "supplier": "UK DEBT MANAGEMENT OFFICE",
+            "spend": 2448.62
+          },
+          {
+            "supplier": "NATWEST PLC - A/C CHARGES",
+            "spend": 113.64
+          }
+        ]
+      },
+      "Other services": {
+        "rating": "amber",
+        "total_spend": 1922387.32,
+        "hhi": 6965,
+        "hhi_category": "high",
+        "round_number_pct": 2.8,
+        "year_end_spike_ratio": 1.8,
+        "top_suppliers": [
+          {
+            "supplier": "COVID BUSINESS GRANT",
+            "spend": 1585648.0
+          },
+          {
+            "supplier": "TTS PAYMENTS",
+            "spend": 205000.0
+          },
+          {
+            "supplier": "MARL PITS GARDEN CENTRE LTD",
+            "spend": 17265.41
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "green",
+        "total_spend": 382602.91,
+        "hhi": 1224,
+        "hhi_category": "low",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "HYLAND LEGAL LTD",
+            "spend": 95790.0
+          },
+          {
+            "supplier": "J P K PLUMBING & HEATING LTD",
+            "spend": 51657.59
+          },
+          {
+            "supplier": "KDB SERVICES LTD",
+            "spend": 41846.66
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 134523.05,
+        "hhi": 4533,
+        "hhi_category": "high",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "ROSSLEE CONSTRUCTION",
+            "spend": 88502.0
+          },
+          {
+            "supplier": "HORTICON LTD",
+            "spend": 14336.57
+          },
+          {
+            "supplier": "ERIC WRIGHT CIVIL ENGINEERING LTD",
+            "spend": 8132.32
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 90,
+    "mapped_contracts": 78,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 429756,
+        "contract_count": 68,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 3 - 1 x 12t DAF XB230 LF with NTM K-2K refuse collection body (26652)",
+            "value": 178245,
+            "supplier": "Motus Commercials"
+          },
+          {
+            "title": "GB-Rossendale: TPPL Rossendale Borough Council HCC Lot 2 - 1 x 12t RCV (8980)",
+            "value": 119827,
+            "supplier": "Motus Commercials Derby"
+          },
+          {
+            "title": "GB-Rossendale: TPPL Rossendale Borough Council NEPO HGV lot 2 12t RCV",
+            "value": 108109,
+            "supplier": "NTM-GB Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 233000,
+        "contract_value_pounds": 0,
+        "contract_count": 2,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Installation Of New Christmas Lighting Catenary At Haslingden and Rawtenstall",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Invitation to Tender Public Realm Contractor - Bacup",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1503000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 1463000,
+        "contract_value_pounds": 0,
+        "contract_count": 4,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "AIR HANDLING UNIT FOR MARL PITS LEISURE CENTRE",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Improvement Works to the Toddler Play Area at Whitaker Park, Rawtenstall",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Invitation to Tender for Pump Track at Edenfield Recreation Ground",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 2574000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 513000,
+        "contract_value_pounds": 0,
+        "contract_count": 1,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Whitaker HLF Business Plan Informal Tender",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 4463000,
+        "contract_value_pounds": 0,
+        "contract_count": 3,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Delivery of the  Healthy Weight Programme",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Invitation to tender for renewal of Pool Filter vessels at Marl Pits Pool, Rawtenstall",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Consultancy Work for a Biodiversity Net Gain Assessment Study",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      }
+    ]
   }
 }

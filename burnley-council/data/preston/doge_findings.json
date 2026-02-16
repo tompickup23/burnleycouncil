@@ -67,6 +67,15 @@
       "confidence": "medium",
       "context_note": "Chi-squared values on samples of 43,417+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (6.0%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "23",
+      "label": "Weak Competition Indicators",
+      "detail": "23 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Preston: TPPL Preston City Council NEPO HGV lot (\u00a33.2M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -120,11 +129,21 @@
       "link_text": "View procurement \u2192",
       "severity": "info",
       "confidence": "medium"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Budget Gap",
+      "title": "AI DOGE covers 58% of \u00a333.5M GOV.UK outturn",
+      "description": "Spending >\u00a3500 threshold means smaller transactions are excluded. Largest gaps: Housing services (GFRA only), Cultural and related services, Environmental and regulatory services. This is expected \u2014 not a data quality issue.",
+      "link": "/budgets",
+      "link_text": "View budgets \u2192",
+      "severity": "info",
+      "confidence": "high"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.643154",
+  "generated": "2026-02-16T11:03:49.219713",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -132,7 +151,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -760,5 +782,336 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 8
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 57.8,
+    "total_outturn_pounds": 33473000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 290000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -290000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 108000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -108000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 4852000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -4852000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4527000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -4527000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 8157000,
+        "doge_mapped_pounds": 46337835.64,
+        "doge_annualised_pounds": 6619690.81,
+        "variance_annualised_pounds": -1537309.19,
+        "coverage_pct": 81.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 8161000,
+        "doge_mapped_pounds": 19651856.38,
+        "doge_annualised_pounds": 2807408.05,
+        "variance_annualised_pounds": -5353591.95,
+        "coverage_pct": 34.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 7321000,
+        "doge_mapped_pounds": 69531526.33,
+        "doge_annualised_pounds": 9933075.19,
+        "variance_annualised_pounds": 2612075.19,
+        "coverage_pct": 135.7,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 57000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -57000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (7 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 4,
+    "categories": {
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 46225956.13,
+        "hhi": 444,
+        "hhi_category": "low",
+        "round_number_pct": 0.3,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "ERIC WRIGHT CIVIL ENGINEERING LTD",
+            "spend": 6678392.77
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 4330634.26
+          },
+          {
+            "supplier": "MATRIX SCM LTD",
+            "spend": 3672232.07
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "green",
+        "total_spend": 69298533.73,
+        "hhi": 210,
+        "hhi_category": "low",
+        "round_number_pct": 1.3,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 4958621.69
+          },
+          {
+            "supplier": "ZURICH MUNICIPAL",
+            "spend": 4736160.44
+          },
+          {
+            "supplier": "SOFTCAT LTD",
+            "spend": 3705914.83
+          }
+        ]
+      },
+      "Capital": {
+        "rating": "amber",
+        "total_spend": 67215111.33,
+        "hhi": 2693,
+        "hhi_category": "high",
+        "round_number_pct": 3.8,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "MAPLE GROVE DEVELOPMENTS",
+            "spend": 31540573.99
+          },
+          {
+            "supplier": "CONLON CONSTRUCTION LTD",
+            "spend": 10644869.29
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 9335541.46
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 19640223.66,
+        "hhi": 2316,
+        "hhi_category": "moderate",
+        "round_number_pct": 1.1,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 9316581.2
+          },
+          {
+            "supplier": "VIVID RESOURCING LTD",
+            "spend": 782804.33
+          },
+          {
+            "supplier": "CHORLEY BOROUGH COUNCIL",
+            "spend": 554200.52
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 86,
+    "mapped_contracts": 48,
+    "category_coverage": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 290000,
+        "contract_value_pounds": 0,
+        "contract_count": 6,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Parking Enforcement and / or Cash Collection, Counting, and Banking Services 2022",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Harris Your Place - Capital Works",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Parking Enforcement, Cash Collection and Counting Services",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 108000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 4852000,
+        "contract_value_pounds": 1404999,
+        "contract_count": 9,
+        "coverage_pct": 29.0,
+        "top_contracts": [
+          {
+            "title": "Making Homes from Houses - partner to deliver Reuse of Empty Homes in Preston",
+            "value": 800000,
+            "supplier": "Community Gateway Association"
+          },
+          {
+            "title": "Affordable Homes - Reuse of LongTerm Empty Homes",
+            "value": 400000,
+            "supplier": "Community Gateway Association"
+          },
+          {
+            "title": "MEAM Pathway Co-ordinators",
+            "value": 100000,
+            "supplier": "The Foxton Centre"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4527000,
+        "contract_value_pounds": 1109981.59,
+        "contract_count": 17,
+        "coverage_pct": 24.5,
+        "top_contracts": [
+          {
+            "title": "Interpretation/Interior Fit Out Design Services",
+            "value": 375995,
+            "supplier": "Ralph Appelbaum"
+          },
+          {
+            "title": "Services for design &amp; preliminary development work for &#039;Active Travel, Parks &amp; Ribble Crossing&quot; project",
+            "value": 300000,
+            "supplier": "ERIC WRIGHT CIVIL ENGINEERING LIMITED"
+          },
+          {
+            "title": "Provision of services for Active Preston (Ashton Park)",
+            "value": 200000,
+            "supplier": "Eric Wright Construction"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 8157000,
+        "contract_value_pounds": 4369690.38,
+        "contract_count": 5,
+        "coverage_pct": 53.6,
+        "top_contracts": [
+          {
+            "title": "GB-Preston: TPPL Preston City Council NEPO HGV lot 2 - 15 x RCVs (13170)",
+            "value": 3176057.66,
+            "supplier": "Faun Zoeller (UK) Limited"
+          },
+          {
+            "title": "GB-Preston: TPPL Preston City Council NEPO HGV Lot 2 - 8 x 7.5t Food Waste Vehicles (26758)",
+            "value": 876634.72,
+            "supplier": "Faun Zoeller (UK) Limited"
+          },
+          {
+            "title": "GB-Preston: TPPL Preston City Council HCC Lot 3 - 2 x 5.2t Food Waste Vehicles (24042)",
+            "value": 196998,
+            "supplier": "Iveco Limited"
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 8161000,
+        "contract_value_pounds": 0,
+        "contract_count": 1,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Business Planning Services for &quot;Re-Imagining the Harris&quot; project",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 7321000,
+        "contract_value_pounds": 684342,
+        "contract_count": 9,
+        "coverage_pct": 9.3,
+        "top_contracts": [
+          {
+            "title": "Provision of Insurance Services, incl Claims Handling Services (excl Broking Services) for Preston City Council",
+            "value": 471000,
+            "supplier": "Zurich Municipal,Arnold J Gallagher,Risk Management Partners,Maven"
+          },
+          {
+            "title": "HR Software Services 2023",
+            "value": 160000,
+            "supplier": "MHR International"
+          },
+          {
+            "title": "Merchant Acquiring Services",
+            "value": 53342,
+            "supplier": "Lloyds Bank Cardnet"
+          }
+        ]
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 57000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      }
+    ]
   }
 }

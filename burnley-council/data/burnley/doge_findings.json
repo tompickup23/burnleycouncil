@@ -67,6 +67,15 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 25,490+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (5.0%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "23",
+      "label": "Weak Competition Indicators",
+      "detail": "23 contracts show signs of limited competition (short tender periods or rapid award). Top: Waste and Cleansing Contract, Burnley Borough Coun (\u00a32.7M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -134,7 +143,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.620877",
+  "generated": "2026-02-16T11:03:49.186072",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -142,7 +151,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -785,5 +797,413 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 8
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 226.8,
+    "total_outturn_pounds": 19189000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -196000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 196000.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 5000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -5000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 3010000,
+        "doge_mapped_pounds": 17634483.04,
+        "doge_annualised_pounds": 3526896.61,
+        "variance_annualised_pounds": 516896.61,
+        "coverage_pct": 117.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 5281000,
+        "doge_mapped_pounds": 18863042.08,
+        "doge_annualised_pounds": 3772608.42,
+        "variance_annualised_pounds": -1508391.58,
+        "coverage_pct": 71.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 4384000,
+        "doge_mapped_pounds": 24791560.69,
+        "doge_annualised_pounds": 4958312.14,
+        "variance_annualised_pounds": 574312.14,
+        "coverage_pct": 113.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 3365000,
+        "doge_mapped_pounds": 67223359.11,
+        "doge_annualised_pounds": 13444671.82,
+        "variance_annualised_pounds": 10079671.82,
+        "coverage_pct": 399.5,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 3144000,
+        "doge_mapped_pounds": 66603615.98,
+        "doge_annualised_pounds": 13320723.2,
+        "variance_annualised_pounds": 10176723.2,
+        "coverage_pct": 423.7,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 22521911.52,
+        "doge_annualised_pounds": 4504382.3,
+        "variance_annualised_pounds": 4504382.3,
+        "coverage_pct": null,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 7,
+    "categories": {
+      "Housing services (GFRA only)": {
+        "rating": "green",
+        "total_spend": 17634483.04,
+        "hhi": 294,
+        "hhi_category": "low",
+        "round_number_pct": 4.8,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "N I CONSTRUCTIONS NW LTD",
+            "spend": 1610001.42
+          },
+          {
+            "supplier": "STANNAH LIFT SERVICES LTD",
+            "spend": 1078762.86
+          },
+          {
+            "supplier": "BUILDEASI NW LTD",
+            "spend": 945087.41
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 18863042.08,
+        "hhi": 1634,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.7,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "BURNLEY LEISURE",
+            "spend": 6680682.95
+          },
+          {
+            "supplier": "HISTORIC PROPERTY RESTORATION LTD",
+            "spend": 3436816.34
+          },
+          {
+            "supplier": "WATER PLUS LTD",
+            "spend": 827950.58
+          }
+        ]
+      },
+      "Other services": {
+        "rating": "amber",
+        "total_spend": 22521911.52,
+        "hhi": 8138,
+        "hhi_category": "high",
+        "round_number_pct": 6.3,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "Liberata UK Ltd",
+            "spend": 20302935.15
+          },
+          {
+            "supplier": "PADIHAM TOWN COUNCIL",
+            "spend": 478457.0
+          },
+          {
+            "supplier": "SOFTCAT LTD",
+            "spend": 375160.95
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 24791560.69,
+        "hhi": 2436,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.8,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "URBASER LTD",
+            "spend": 11390461.42
+          },
+          {
+            "supplier": "FCC ENVIRONMENT/URBASER LTD",
+            "spend": 3982346.52
+          },
+          {
+            "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+            "spend": 1292680.76
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "green",
+        "total_spend": 66603615.98,
+        "hhi": 985,
+        "hhi_category": "low",
+        "round_number_pct": 5.8,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "GELDARDS",
+            "spend": 20105442.86
+          },
+          {
+            "supplier": "EDF ENERGY",
+            "spend": 3144113.91
+          },
+          {
+            "supplier": "TOTAL GAS & POWER LTD",
+            "spend": 1991947.83
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "green",
+        "total_spend": 67223359.11,
+        "hhi": 1457,
+        "hhi_category": "low",
+        "round_number_pct": 3.2,
+        "year_end_spike_ratio": 0.6,
+        "top_suppliers": [
+          {
+            "supplier": "BARNFIELD INVESTMENT PROPERTIES LTD",
+            "spend": 17343321.67
+          },
+          {
+            "supplier": "MAPLE GROVE DEVELOPMENTS LTD",
+            "spend": 16588871.94
+          },
+          {
+            "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
+            "spend": 6868015.45
+          }
+        ]
+      },
+      "Capital": {
+        "rating": "amber",
+        "total_spend": 37627.86,
+        "hhi": 315,
+        "hhi_category": "low",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "HOLIDAY INN EXPRESS BU",
+            "spend": 2834.33
+          },
+          {
+            "supplier": "THE COAL AUTHORITY",
+            "spend": 2769.9
+          },
+          {
+            "supplier": "ASDA SUPERSTORE",
+            "spend": 2080.92
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 94,
+    "mapped_contracts": 43,
+    "category_coverage": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -196000,
+        "contract_value_pounds": 922303,
+        "contract_count": 6,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Property Refurbishment: Piccadilly Road Area, Burnley",
+            "value": 296859,
+            "supplier": "WRPS Group"
+          },
+          {
+            "title": "Car Parking System, Charter Walk Shopping Centre, Burnley",
+            "value": 260171,
+            "supplier": "Orbility Ltd"
+          },
+          {
+            "title": "Padiham Town Hall External Repairs &amp; Internal Refurbishment",
+            "value": 200043,
+            "supplier": "Novus Property Solutions"
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 29680,
+        "contract_count": 1,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Communicating Burnley - Public Relations Services",
+            "value": 29680,
+            "supplier": "Viva PR Limited"
+          }
+        ]
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 5000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 3010000,
+        "contract_value_pounds": 6166000,
+        "contract_count": 3,
+        "coverage_pct": 204.9,
+        "top_contracts": [
+          {
+            "title": "Appointment of a Housing Joint Venture Partner",
+            "value": 6000000,
+            "supplier": "Barnfield Investment Propertise Ltd"
+          },
+          {
+            "title": "Environmental, Planning, Building Control, Trading Standards, Licencing System",
+            "value": 166000,
+            "supplier": "Idox PLc"
+          },
+          {
+            "title": "Appointment of a Housing Joint Venture Partner",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 5281000,
+        "contract_value_pounds": 26232148.76,
+        "contract_count": 15,
+        "coverage_pct": 496.7,
+        "top_contracts": [
+          {
+            "title": "Curzon Street Town Centre Development, Burnley",
+            "value": 24000000,
+            "supplier": "Maple Grove Developments Ltd"
+          },
+          {
+            "title": "18 Hole Adventure Golf Course, Prairie Sports Village, Burnley",
+            "value": 495000,
+            "supplier": "Greenspan Projects Ltd"
+          },
+          {
+            "title": "The Supply of Fitness Equipment &amp; Associated Services, Burnley Leisure",
+            "value": 430194.76,
+            "supplier": "Life Fitness UK"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 4384000,
+        "contract_value_pounds": 3189902,
+        "contract_count": 8,
+        "coverage_pct": 72.8,
+        "top_contracts": [
+          {
+            "title": "Waste and Cleansing Contract, Burnley Borough Council VEAT",
+            "value": 2695815,
+            "supplier": "Urbaser Ltd"
+          },
+          {
+            "title": "Environmental Enforcement Services, Burnley (2)",
+            "value": 228000,
+            "supplier": "Kingdom LA Support Ltd"
+          },
+          {
+            "title": "Environmental Enforcement Services",
+            "value": 152000,
+            "supplier": "Kingdom Services Group Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 3365000,
+        "contract_value_pounds": 57650,
+        "contract_count": 2,
+        "coverage_pct": 1.7,
+        "top_contracts": [
+          {
+            "title": "Consultants for Development of Business Improvement District: Burnley",
+            "value": 31650,
+            "supplier": "Groundworks Cheshire &amp; Merseyside"
+          },
+          {
+            "title": "Monitoring Surveyor for Nicholas Street Restoration Project",
+            "value": 26000,
+            "supplier": "Cowburn Watson Box"
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 3144000,
+        "contract_value_pounds": 4115738,
+        "contract_count": 8,
+        "coverage_pct": 130.9,
+        "top_contracts": [
+          {
+            "title": "Towneley Hall Repair &amp; Restoration Project PAS91 PQQ",
+            "value": 3565549,
+            "supplier": "HISTORIC PROPERTY RESTORATION LIMITED"
+          },
+          {
+            "title": "Safer Streets: Back Yard Gates",
+            "value": 175600,
+            "supplier": "Remec Engineering Services"
+          },
+          {
+            "title": "Safer Streets: Home Security",
+            "value": 151000,
+            "supplier": "JH Blakey &amp; Son"
+          }
+        ]
+      }
+    ]
   }
 }

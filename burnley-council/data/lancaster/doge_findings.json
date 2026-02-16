@@ -67,6 +67,15 @@
       "confidence": "medium",
       "context_note": "Chi-squared values on samples of 32,196+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (9.2%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "5",
+      "label": "Weak Competition Indicators",
+      "detail": "5 contracts show signs of limited competition (short tender periods or rapid award). Top: Lancaster City Council Deep Clean of public realm  (\u00a383.2K)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -114,7 +123,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.632154",
+  "generated": "2026-02-16T11:03:49.198793",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -122,7 +131,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -547,5 +559,366 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 7
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 120.9,
+    "total_outturn_pounds": 30267460,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -2348000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 2348000.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 19000,
+        "doge_mapped_pounds": 19114268.4,
+        "doge_annualised_pounds": 3822853.68,
+        "variance_annualised_pounds": 3803853.68,
+        "coverage_pct": 9999,
+        "significant_gap": true
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 4271000,
+        "doge_mapped_pounds": 46327113.77,
+        "doge_annualised_pounds": 9265422.75,
+        "variance_annualised_pounds": 4994422.75,
+        "coverage_pct": 216.9,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4850000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -4850000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 7941000,
+        "doge_mapped_pounds": 33996426.11,
+        "doge_annualised_pounds": 6799285.22,
+        "variance_annualised_pounds": -1141714.78,
+        "coverage_pct": 85.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 6056000,
+        "doge_mapped_pounds": 24655923.06,
+        "doge_annualised_pounds": 4931184.61,
+        "variance_annualised_pounds": -1124815.39,
+        "coverage_pct": 81.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 7130460,
+        "doge_mapped_pounds": 58897366.1,
+        "doge_annualised_pounds": 11779473.22,
+        "variance_annualised_pounds": 4649013.22,
+        "coverage_pct": 165.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 5,
+    "categories": {
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 24642696.33,
+        "hhi": 503,
+        "hhi_category": "low",
+        "round_number_pct": 2.9,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "BRABNERS LLP",
+            "spend": 3332702.2
+          },
+          {
+            "supplier": "EDEN PROJECT MORECAMBE LTD",
+            "spend": 2736934.43
+          },
+          {
+            "supplier": "CPA BESPOKE JOINERY LTD",
+            "spend": 2110705.98
+          }
+        ]
+      },
+      "Children Social Care": {
+        "rating": "amber",
+        "total_spend": 19001188.54,
+        "hhi": 290,
+        "hhi_category": "low",
+        "round_number_pct": 0.4,
+        "year_end_spike_ratio": 1.2,
+        "top_suppliers": [
+          {
+            "supplier": "EMCOR GROUP (UK) PLC",
+            "spend": 1791804.84
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 1176687.69
+          },
+          {
+            "supplier": "RHEA PROJECTS LTD",
+            "spend": 1143207.84
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "amber",
+        "total_spend": 45856194.5,
+        "hhi": 123,
+        "hhi_category": "low",
+        "round_number_pct": 1.3,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "IVEGATE LTD",
+            "spend": 2003356.93
+          },
+          {
+            "supplier": "NPOWER COMMERCIAL GAS LTD",
+            "spend": 1432715.61
+          },
+          {
+            "supplier": "HUGH LS MCCONNELL LTD",
+            "spend": 1422810.24
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 58582413.89,
+        "hhi": 497,
+        "hhi_category": "low",
+        "round_number_pct": 1.1,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "PRESTON CITY COUNCIL",
+            "spend": 9928697.82
+          },
+          {
+            "supplier": "WEST DUNBARTONSHIRE COUNCIL",
+            "spend": 5000000.0
+          },
+          {
+            "supplier": "NPOWER COMMERCIAL GAS LTD",
+            "spend": 4136654.02
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "green",
+        "total_spend": 33867979.26,
+        "hhi": 222,
+        "hhi_category": "low",
+        "round_number_pct": 0.6,
+        "year_end_spike_ratio": 0.5,
+        "top_suppliers": [
+          {
+            "supplier": "EMCOR FACILITIES SERVICES LTD",
+            "spend": 2126195.13
+          },
+          {
+            "supplier": "WESTHOUGHTON R&P SERVICES LTD T/A WRPS",
+            "spend": 1877754.09
+          },
+          {
+            "supplier": "EVOLUTION CONSTRUCTION GROUP LTD",
+            "spend": 1500163.84
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 74,
+    "mapped_contracts": 54,
+    "category_coverage": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -2348000,
+        "contract_value_pounds": 550935,
+        "contract_count": 7,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Supply of Waste Management for Lancaster City Council",
+            "value": 300000,
+            "supplier": "ACE SKIPS LTD"
+          },
+          {
+            "title": "Procurement for ten Electric Cars for Lancaster City Council",
+            "value": 150000,
+            "supplier": "General Motors UK Limited t/a Vauxhall Motors"
+          },
+          {
+            "title": "Parking Strategy and Action Plan for Lancaster and Morecambe",
+            "value": 40000,
+            "supplier": "Steer Davies Gleave"
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 19000,
+        "contract_value_pounds": 0,
+        "contract_count": 1,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Playschemes for the 2023 Summer Holiday (Lancaster District)",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 4271000,
+        "contract_value_pounds": 1973202,
+        "contract_count": 10,
+        "coverage_pct": 46.2,
+        "top_contracts": [
+          {
+            "title": "Lancaster City Council 2019 / 20 Re-Roofing",
+            "value": 1271002,
+            "supplier": "Westhoughton Roofing and pointing services Ltd"
+          },
+          {
+            "title": "Provision of Repairs to Void Council Housing Stock in the Lancaster City Council District",
+            "value": 250000,
+            "supplier": "VMC Developments Ltd"
+          },
+          {
+            "title": "Service Provision of Cleaning Services for Council Housing communal areas of blocks of flats",
+            "value": 150000,
+            "supplier": "lancaster city and district window cleaners"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4850000,
+        "contract_value_pounds": 15062240,
+        "contract_count": 5,
+        "coverage_pct": 310.6,
+        "top_contracts": [
+          {
+            "title": "2015-072363 Procurement for Sports and Leisure Development Partner for Lancaster City Council",
+            "value": 15000000,
+            "supplier": "Alliance Liesure"
+          },
+          {
+            "title": "14 Altham Walk Conversion of House into Flats",
+            "value": 62240,
+            "supplier": "Bambers Remedial Contractors"
+          },
+          {
+            "title": "Unique Adventure Play, Selling Point for Lancaster City Council at Williamson Park Lancaster",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 7941000,
+        "contract_value_pounds": 83200,
+        "contract_count": 3,
+        "coverage_pct": 1.0,
+        "top_contracts": [
+          {
+            "title": "Lancaster City Council Deep Clean of public realm areas in Lancaster, Morecambe and Carnforth",
+            "value": 83200,
+            "supplier": "Rentokil Initial UK Ltd"
+          },
+          {
+            "title": "Environmental and Geotechnical Services - Land Drainage",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Window Cleaning for Council properties within the district of Lancaster City Council",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 6056000,
+        "contract_value_pounds": 4130004.65,
+        "contract_count": 12,
+        "coverage_pct": 68.2,
+        "top_contracts": [
+          {
+            "title": "Appointment of Strategic Development Management and Construction Delivery Partner",
+            "value": 3872463,
+            "supplier": "Place Capital Group"
+          },
+          {
+            "title": "Heat Networks Delivery Consultant for Lancaster City Council",
+            "value": 84850.64,
+            "supplier": "Anthesis"
+          },
+          {
+            "title": "Regeneration and Investment Strategy Services for Central Morecambe",
+            "value": 82691.01,
+            "supplier": "Tetra Tech Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 7130460,
+        "contract_value_pounds": 2145558.74,
+        "contract_count": 16,
+        "coverage_pct": 30.1,
+        "top_contracts": [
+          {
+            "title": "Lancaster City Council RE-Roofing 2020-2021",
+            "value": 664000,
+            "supplier": "Westhoughton Roofing &amp; Pointing Services Ltd"
+          },
+          {
+            "title": "Lancaster City Council Re-Roofing 2022 / 23",
+            "value": 639312.91,
+            "supplier": "Westhoughton Roofing &amp; Pointing Services Ltd"
+          },
+          {
+            "title": "Lancaster City Council Replacement of Smoke and Heat Detector Heads",
+            "value": 631582.83,
+            "supplier": "Clarkson Electrical Solutions Ltd"
+          }
+        ]
+      }
+    ]
   }
 }

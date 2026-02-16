@@ -67,6 +67,15 @@
       "confidence": "medium",
       "context_note": "Chi-squared values on samples of 43,063+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (8.2%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "16",
+      "label": "Weak Competition Indicators",
+      "detail": "16 contracts show signs of limited competition (short tender periods or rapid award). Top: Framework for Specialist Trade Works (\u00a31.5M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -114,7 +123,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.638824",
+  "generated": "2026-02-16T11:03:49.214470",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -122,7 +131,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -674,5 +686,353 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 7
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 115.9,
+    "total_outturn_pounds": 26104000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -483000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 483000.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1848000,
+        "doge_mapped_pounds": 147195481.67,
+        "doge_annualised_pounds": 14719548.17,
+        "variance_annualised_pounds": 12871548.17,
+        "coverage_pct": 796.5,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 2071000,
+        "doge_mapped_pounds": 11340550.99,
+        "doge_annualised_pounds": 1134055.1,
+        "variance_annualised_pounds": -936944.9,
+        "coverage_pct": 54.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 7203000,
+        "doge_mapped_pounds": 33927953.29,
+        "doge_annualised_pounds": 3392795.33,
+        "variance_annualised_pounds": -3810204.67,
+        "coverage_pct": 47.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 6974000,
+        "doge_mapped_pounds": 15664394.47,
+        "doge_annualised_pounds": 1566439.45,
+        "variance_annualised_pounds": -5407560.55,
+        "coverage_pct": 22.5,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 8008000,
+        "doge_mapped_pounds": 53116638.31,
+        "doge_annualised_pounds": 5311663.83,
+        "variance_annualised_pounds": -2696336.17,
+        "coverage_pct": 66.3,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 41275643.27,
+        "doge_annualised_pounds": 4127564.33,
+        "variance_annualised_pounds": 4127564.33,
+        "coverage_pct": null,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (10 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 7,
+    "categories": {
+      "Planning and development services": {
+        "rating": "green",
+        "total_spend": 15664394.47,
+        "hhi": 787,
+        "hhi_category": "low",
+        "round_number_pct": 1.9,
+        "year_end_spike_ratio": 0.7,
+        "top_suppliers": [
+          {
+            "supplier": "ST MODWEN",
+            "spend": 3867454.6
+          },
+          {
+            "supplier": "UNKNOWN",
+            "spend": 1166920.41
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 948315.55
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "green",
+        "total_spend": 53116638.31,
+        "hhi": 614,
+        "hhi_category": "low",
+        "round_number_pct": 1.8,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "PWLB",
+            "spend": 9200195.08
+          },
+          {
+            "supplier": "PUBLIC WORKS LOAN BOARD",
+            "spend": 4585480.29
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 3789628.94
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "green",
+        "total_spend": 147195481.67,
+        "hhi": 656,
+        "hhi_category": "low",
+        "round_number_pct": 0.9,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "WATES PROPERTY SERVICES LTD",
+            "spend": 28106899.51
+          },
+          {
+            "supplier": "TAWD VALLEY DEVELOPMENTS LTD",
+            "spend": 16445043.48
+          },
+          {
+            "supplier": "A CONNOLLY LTD",
+            "spend": 12590239.09
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "green",
+        "total_spend": 11340550.99,
+        "hhi": 429,
+        "hhi_category": "low",
+        "round_number_pct": 3.0,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "SERCO LEISURE OPERATING LTD",
+            "spend": 1406587.98
+          },
+          {
+            "supplier": "ALLIANCE LEISURE SERVICES",
+            "spend": 883982.5
+          },
+          {
+            "supplier": "SERCO WEST LANCS COMMUNITY LEISURE LTD",
+            "spend": 828758.49
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 33927953.29,
+        "hhi": 862,
+        "hhi_category": "low",
+        "round_number_pct": 0.4,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
+            "spend": 7050437.79
+          },
+          {
+            "supplier": "GO PLANT FLEET SERVICES",
+            "spend": 4547017.8
+          },
+          {
+            "supplier": "MATRIX SCM LTD",
+            "spend": 2947571.92
+          }
+        ]
+      },
+      "Other services": {
+        "rating": "amber",
+        "total_spend": 41275643.27,
+        "hhi": 181,
+        "hhi_category": "low",
+        "round_number_pct": 34.2,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
+            "spend": 3918894.29
+          },
+          {
+            "supplier": "RIBBLE VALLEY BC",
+            "spend": 2557788.0
+          },
+          {
+            "supplier": "BEIS",
+            "spend": 2343603.7
+          }
+        ]
+      },
+      "Children Social Care": {
+        "rating": "amber",
+        "total_spend": 9878633.58,
+        "hhi": 1922,
+        "hhi_category": "moderate",
+        "round_number_pct": 3.4,
+        "year_end_spike_ratio": 0.7,
+        "top_suppliers": [
+          {
+            "supplier": "ALLIANCE LEISURE SERVICES",
+            "spend": 3972373.96
+          },
+          {
+            "supplier": "MORE LEISURE COMMUNITY TRUST LTD",
+            "spend": 1257360.59
+          },
+          {
+            "supplier": "SERCO LEISURE OPERATING LTD",
+            "spend": 948304.65
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 79,
+    "mapped_contracts": 54,
+    "category_coverage": [
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1848000,
+        "contract_value_pounds": 2744879,
+        "contract_count": 22,
+        "coverage_pct": 148.5,
+        "top_contracts": [
+          {
+            "title": "Framework for Specialist Trade Works",
+            "value": 1474993,
+            "supplier": "DALROD (UK) Ltd,DASCO Construction Limited,Draincare Manchester Ltd,Gables UK LTD,Ingleford Scaffolding Ltd,Lanes Group plc,MAC Construction &amp; Groundworks Ltd,Metro Rod Ltd,Rigford Ltd,TA Browne Contract Services Ltd"
+          },
+          {
+            "title": "Call-Off Contract from Framework DN775212- Specialist Trade Works",
+            "value": 200000,
+            "supplier": "Drasco Costuction Ltd Company"
+          },
+          {
+            "title": "Provision of a Sustainable Organisation Review and Associated Consultancy Services",
+            "value": 119812,
+            "supplier": "RedQuadrant"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 2071000,
+        "contract_value_pounds": 236652,
+        "contract_count": 11,
+        "coverage_pct": 11.4,
+        "top_contracts": [
+          {
+            "title": "Security and Concierge Service",
+            "value": 206652,
+            "supplier": "Profile Security Service Ltd"
+          },
+          {
+            "title": "Greener Tourism",
+            "value": 30000,
+            "supplier": "Green Business UK"
+          },
+          {
+            "title": "Strategic Development Plan for Beacon Country Park",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 7203000,
+        "contract_value_pounds": 0,
+        "contract_count": 3,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Tree Maintenance",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Provision of Vehicles and Vehicle Maintenance Services - Soft Market Test",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Sustainable Organisation Review: Soft Market Test",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 6974000,
+        "contract_value_pounds": 0,
+        "contract_count": 1,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Development Partner: Moor Street Gateway Project",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 8008000,
+        "contract_value_pounds": 67729373,
+        "contract_count": 16,
+        "coverage_pct": 845.8,
+        "top_contracts": [
+          {
+            "title": "Provision of Responsive Repairs, Works to Voids, Gas Servicing and Maintenance",
+            "value": 65000000,
+            "supplier": "Wates Construction Limited T/A Wates Living Space"
+          },
+          {
+            "title": "West Lancashire Borough Council - Invitation to tender for the provision of insurance services",
+            "value": 1968925,
+            "supplier": "Zurich Municipal,Risk Management Partners Ltd"
+          },
+          {
+            "title": "Ecology Advisory Services",
+            "value": 232468,
+            "supplier": "MEAS"
+          }
+        ]
+      }
+    ]
   }
 }

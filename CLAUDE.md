@@ -6,10 +6,10 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 
 **All 15 Lancashire councils live:**
 - East Lancashire: Burnley (30,580 txns, £355M), Hyndburn (29,804 txns, £211M), Pendle (49,741 txns, £125M), Rossendale (42,536 txns, £64M)
-- Central/South: Lancaster (26,975 txns, £157M), Ribble Valley (13,723 txns, £38M), Chorley (21,421 txns, £365M), South Ribble (16,065 txns, £147M)
+- Central/South: Lancaster (32,574 txns, £184M), Ribble Valley (13,723 txns, £38M), Chorley (21,421 txns, £365M), South Ribble (18,517 txns, £177M)
 - Fylde Coast/West: Preston (46,711 txns, £205M), West Lancashire (43,063 txns, £333M), Wyre (51,092 txns, £678M), Fylde (37,514 txns, £155M)
-- County: Lancashire CC (753,220 txns, £3.6B — spending page disabled, data too large for static hosting)
-- Unitary: Blackpool (630,914 txns, £4.1B — spending disabled), Blackburn with Darwen (492,973 txns, £1.7B — spending disabled)
+- County: Lancashire CC (753,220 txns, £3.6B — spending via v4 monthly chunks)
+- Unitary: Blackpool (630,914 txns, £4.1B — spending via v4 monthly chunks), Blackburn with Darwen (492,973 txns, £1.7B — spending via v4 monthly chunks)
 
 **Total: 2,286,000+ transactions, £12 billion+ tracked**
 
@@ -57,7 +57,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 16 lazy-loaded routes |
+| `src/App.jsx` | Router with 17 lazy-loaded routes (incl. LGR Tracker) |
 | `src/pages/` | 32 page components + tests (Spending, Budgets, DOGE, News, Procurement, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
@@ -125,6 +125,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | File | Purpose |
 |------|---------|
 | `legal_framework.json` | 12 UK council oversight laws |
+| `lgr_tracker.json` | LGR Tracker data: proposals, financial models, demographics, political analysis |
 
 ## Critical Rules
 
@@ -265,6 +266,6 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 ### Phase History
 - **Phases 1-13** (done): See AIDOGE-MASTERPLAN.md for details
 - **Phase 14** (done, 15 Feb): All remaining 6 councils (Preston, West Lancs, Fylde, Wyre, Blackpool, Blackburn w/ Darwen)
-- **Phase 15** (next): LGR tracker, "what your area costs" calculator, financial handover dashboard
+- **Phase 15** (in progress): LGR Tracker V3 live (independent financial model, CCN critique, demographics, political analysis). Still planned: "what your area costs" calculator, financial handover dashboard
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Gemini free tier). 2x AWS free trial ends Jul 2026.

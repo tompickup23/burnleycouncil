@@ -22,6 +22,23 @@ PROJECT_DIR = SCRIPT_DIR.parent
 DATA_DIR = PROJECT_DIR / "data"
 COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc", "blackpool", "west_lancashire", "blackburn", "wyre", "preston", "fylde"]
 
+# GOV.UK SeRCOP budget categories used in budgets_govuk.json
+BUDGET_CATEGORIES = [
+    "Education services",
+    "Highways and transport services",
+    "Children Social Care",
+    "Adult Social Care",
+    "Public Health",
+    "Housing services (GFRA only)",
+    "Cultural and related services",
+    "Environmental and regulatory services",
+    "Planning and development services",
+    "Police services",
+    "Fire and rescue services",
+    "Central services",
+    "Other services",
+]
+
 
 def load_spending(council_id):
     """Load spending.json for a council."""
@@ -1139,7 +1156,447 @@ def analyse_supplier_concentration(all_spending):
 # ANALYSIS 8: Fraud Triangle Risk Scoring
 # ═══════════════════════════════════════════════════════════════════════
 
-def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance):
+def load_budget_data(council_id):
+    """Load budget_mapping.json and budgets_govuk.json for a council."""
+    mapping_path = DATA_DIR / council_id / "budget_mapping.json"
+    govuk_path = DATA_DIR / council_id / "budgets_govuk.json"
+    result = {"mapping": None, "govuk": None}
+    if mapping_path.exists():
+        with open(mapping_path) as f:
+            result["mapping"] = json.load(f)
+    if govuk_path.exists():
+        with open(govuk_path) as f:
+            result["govuk"] = json.load(f)
+    return result
+
+
+def load_procurement(council_id):
+    """Load procurement.json for a council."""
+    path = DATA_DIR / council_id / "procurement.json"
+    if not path.exists():
+        return []
+    with open(path) as f:
+        data = json.load(f)
+    return data.get("contracts", []) if isinstance(data, dict) else data
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 9: Budget Variance Analysis
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_budget_variance(all_spending, all_budgets):
+    """Compare AI DOGE mapped spending against GOV.UK outturn per budget category.
+
+    IMPORTANT CAVEATS:
+    - AI DOGE spending data is >£500 threshold only — outturn is ALL spend
+    - AI DOGE coverage varies (100% for districts, ~40-60% for county/unitaries)
+    - This analysis shows GAPS and coverage, not overspend/underspend
+    - Negative variance means DOGE tracked MORE than outturn (likely multi-year data)
+    """
+    results = {}
+
+    for council_id, records in all_spending.items():
+        budget_data = all_budgets.get(council_id, {})
+        mapping = budget_data.get("mapping")
+        govuk = budget_data.get("govuk")
+
+        if not mapping or not govuk:
+            continue
+
+        # Get latest year outturn from GOV.UK
+        latest_year = govuk.get("latest_year", "")
+        by_year = govuk.get("by_year", {})
+        latest_data = by_year.get(latest_year, {})
+        service_exp = latest_data.get("revenue_summary", {}).get("service_expenditure", {})
+        reserves = latest_data.get("reserves", {})
+        key_financials = latest_data.get("key_financials", {})
+
+        if not service_exp:
+            continue
+
+        # Get mapped spending by category from budget_mapping.json
+        category_summary = mapping.get("category_summary", {})
+        coverage = mapping.get("coverage", {})
+        council_tier = mapping.get("council_tier", "district")
+
+        # Estimate number of years of DOGE spending data to annualise
+        dates = [r.get("date", "") for r in records if r.get("date")]
+        if dates:
+            years_in_data = len(set(d[:4] for d in dates if d and len(d) >= 4))
+            # More precise: count distinct financial years (Apr-Mar)
+            fin_years = set()
+            for d in dates:
+                if not d or len(d) < 7:
+                    continue
+                yr = int(d[:4])
+                mn = int(d[5:7]) if len(d) >= 7 else 1
+                fy = yr if mn >= 4 else yr - 1  # April start
+                fin_years.add(fy)
+            num_fin_years = max(len(fin_years), 1)
+        else:
+            num_fin_years = 1
+
+        # Compare each budget category
+        category_comparison = []
+        total_outturn = 0
+        total_doge = 0
+
+        for cat in BUDGET_CATEGORIES:
+            outturn_data = service_exp.get(cat, {})
+            outturn_value = outturn_data.get("value_pounds", 0)
+
+            # Skip categories not relevant to this tier
+            tier_key = f"relevant_to_{council_tier}" if council_tier != "county" else "relevant_to_county"
+            if council_tier == "district":
+                tier_key = "relevant_to_districts"
+            if not outturn_data.get(tier_key, True) and outturn_value == 0:
+                continue
+
+            doge_value = category_summary.get(cat, 0)
+            # Annualise DOGE spend for fair comparison with single-year outturn
+            doge_annualised = doge_value / num_fin_years
+
+            # Calculate coverage ratio (annualised DOGE vs latest outturn)
+            if outturn_value > 0:
+                coverage_pct = (doge_annualised / outturn_value) * 100
+            elif doge_annualised > 0:
+                coverage_pct = float('inf')  # DOGE has data but no outturn
+            else:
+                coverage_pct = 0
+
+            variance_annualised = doge_annualised - outturn_value
+
+            category_comparison.append({
+                "category": cat,
+                "outturn_pounds": outturn_value,
+                "doge_mapped_pounds": round(doge_value, 2),
+                "doge_annualised_pounds": round(doge_annualised, 2),
+                "variance_annualised_pounds": round(variance_annualised, 2),
+                "coverage_pct": round(min(coverage_pct, 9999), 1) if coverage_pct != float('inf') else None,
+                "significant_gap": abs(variance_annualised) > 500000 and outturn_value > 0,
+            })
+
+            if outturn_value > 0:
+                total_outturn += outturn_value
+            total_doge += doge_annualised
+
+        # Reserve depletion analysis (multi-year)
+        reserve_analysis = None
+        years = govuk.get("years", [])
+        if len(years) >= 2:
+            reserves_by_year = []
+            for yr in years:
+                yr_data = by_year.get(yr, {})
+                yr_reserves = yr_data.get("reserves", {})
+                earmarked = yr_reserves.get("Estimated other earmarked financial reserves level at 31 March", {}).get("value_pounds", 0)
+                unallocated = yr_reserves.get("Estimated unallocated financial reserves level at 31 March", {}).get("value_pounds", 0)
+                if earmarked > 0 or unallocated > 0:
+                    reserves_by_year.append({
+                        "year": yr,
+                        "earmarked": earmarked,
+                        "unallocated": unallocated,
+                        "total": earmarked + unallocated,
+                    })
+
+            if len(reserves_by_year) >= 2:
+                first = reserves_by_year[0]
+                last = reserves_by_year[-1]
+                change = last["total"] - first["total"]
+                change_pct = (change / first["total"] * 100) if first["total"] > 0 else 0
+                # Calculate annualised depletion rate
+                num_years = len(reserves_by_year) - 1
+                annual_rate = change_pct / num_years if num_years > 0 else 0
+
+                reserve_analysis = {
+                    "years_analysed": len(reserves_by_year),
+                    "first_year": first,
+                    "last_year": last,
+                    "total_change": change,
+                    "total_change_pct": round(change_pct, 1),
+                    "annual_rate_pct": round(annual_rate, 1),
+                    "depleting": change < 0,
+                    "concern": change_pct < -20,  # >20% depletion is concerning
+                }
+
+        # Council tax dependency
+        ct_requirement = key_financials.get("COUNCIL TAX REQUIREMENT", {}).get("value_pounds", 0)
+        net_rev_exp = key_financials.get("NET REVENUE EXPENDITURE", {}).get("value_pounds", 0)
+        ct_dependency = (ct_requirement / net_rev_exp * 100) if net_rev_exp > 0 else 0
+
+        # Overall coverage
+        overall_coverage = (total_doge / total_outturn * 100) if total_outturn > 0 else 0
+
+        results[council_id] = {
+            "latest_year": latest_year,
+            "doge_financial_years": num_fin_years,
+            "total_outturn_pounds": total_outturn,
+            "total_doge_annualised_pounds": round(total_doge, 2),
+            "overall_coverage_pct": round(overall_coverage, 1),
+            "mapping_coverage_pct": coverage.get("mapped_spend_pct", 0),
+            "council_tier": council_tier,
+            "category_comparison": category_comparison,
+            "significant_gaps": [c for c in category_comparison if c.get("significant_gap")],
+            "reserve_analysis": reserve_analysis,
+            "ct_dependency_pct": round(ct_dependency, 1),
+            "caveat": f"AI DOGE tracks spending >£500 only ({num_fin_years} financial years annualised). GOV.UK outturn is all expenditure for {latest_year}. Coverage ratios reflect threshold differences, not missing data.",
+        }
+
+        # Print summary
+        gap_count = len(results[council_id]["significant_gaps"])
+        print(f"  {council_id}: coverage={overall_coverage:.1f}% of £{total_outturn/1e6:.1f}M outturn, "
+              f"{gap_count} significant gaps, CT dependency={ct_dependency:.0f}%")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 10: Departmental Efficiency by Budget Category
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_departmental_efficiency(all_spending, all_budgets):
+    """Per budget category, compute evidence-based efficiency metrics.
+
+    Metrics per category:
+    - Supplier concentration (HHI) within category
+    - Round-number payment prevalence
+    - Year-end spike ratio
+    - Duplicate rate within category
+    - Average transaction size
+
+    Savings are ONLY flagged when traceable to concrete evidence.
+    No theoretical/aspirational numbers.
+    """
+    results = {}
+
+    for council_id, records in all_spending.items():
+        budget_data = all_budgets.get(council_id, {})
+        mapping = budget_data.get("mapping")
+        if not mapping:
+            continue
+
+        mappings = mapping.get("mappings", {})
+
+        # Build department → budget category lookup
+        dept_to_cat = {}
+        for dept, info in mappings.items():
+            cat = info.get("budget_category", "Unmapped")
+            if cat != "Unmapped" and info.get("confidence") != "none":
+                dept_to_cat[dept] = cat
+
+        # Group records by budget category
+        cat_records = defaultdict(list)
+        unmapped_records = []
+        for r in records:
+            dept = r.get("department_raw", r.get("department", ""))
+            if dept in dept_to_cat:
+                cat_records[dept_to_cat[dept]].append(r)
+            else:
+                unmapped_records.append(r)
+
+        if not cat_records:
+            continue
+
+        # Analyse each category
+        category_efficiency = {}
+        for cat, cat_recs in cat_records.items():
+            if len(cat_recs) < 5:
+                continue
+
+            amounts = [r.get("amount", 0) for r in cat_recs if r.get("amount", 0) > 0]
+            if not amounts:
+                continue
+
+            total_spend = sum(amounts)
+            avg_tx = total_spend / len(amounts)
+
+            # Category HHI (supplier concentration within this category)
+            supplier_totals = defaultdict(float)
+            for r in cat_recs:
+                s = r.get("supplier_canonical", r.get("supplier", "UNKNOWN"))
+                supplier_totals[s] += r.get("amount", 0)
+
+            cat_hhi = 0
+            if total_spend > 0:
+                for s_total in supplier_totals.values():
+                    share = (s_total / total_spend) * 100
+                    cat_hhi += share ** 2
+            cat_hhi = round(cat_hhi)
+
+            top_suppliers = sorted(supplier_totals.items(), key=lambda x: -x[1])[:5]
+
+            # Round-number prevalence (>£5K, exact thousands)
+            round_count = sum(1 for a in amounts if a >= 5000 and a % 1000 == 0)
+            round_pct = (round_count / len(amounts)) * 100 if amounts else 0
+
+            # Year-end spike (March vs average)
+            march_spend = sum(r.get("amount", 0) for r in cat_recs
+                            if (r.get("date") or "").startswith(("2024-03", "2023-03", "2022-03", "2021-03")))
+            monthly_avg = total_spend / 12 if total_spend > 0 else 0
+            # Count how many March records we have to estimate if it's one year or multi
+            march_months = len(set((r.get("date") or "")[:7] for r in cat_recs
+                               if (r.get("date") or "").startswith(("2024-03", "2023-03", "2022-03", "2021-03"))))
+            march_avg = march_spend / max(march_months, 1)
+            spike_ratio = (march_avg / monthly_avg) if monthly_avg > 0 else 0
+
+            # Duplicate rate within category
+            dup_groups = defaultdict(list)
+            for r in cat_recs:
+                key = (r.get("supplier_canonical", ""), r.get("amount", 0), r.get("date", ""))
+                dup_groups[key].append(r)
+            dup_count = sum(1 for g in dup_groups.values() if len(g) >= 2)
+            dup_rate = (dup_count / len(cat_recs)) * 100 if cat_recs else 0
+
+            # Traffic light rating
+            issues = 0
+            if cat_hhi > 2500:
+                issues += 2
+            elif cat_hhi > 1500:
+                issues += 1
+            if round_pct > 15:
+                issues += 1
+            if spike_ratio > 3:
+                issues += 1
+            if dup_rate > 5:
+                issues += 1
+
+            if issues >= 3:
+                rating = "red"
+            elif issues >= 1:
+                rating = "amber"
+            else:
+                rating = "green"
+
+            category_efficiency[cat] = {
+                "transactions": len(cat_recs),
+                "total_spend": round(total_spend, 2),
+                "avg_transaction": round(avg_tx, 2),
+                "hhi": cat_hhi,
+                "hhi_category": "high" if cat_hhi > 2500 else "moderate" if cat_hhi > 1500 else "low",
+                "top_suppliers": [{"supplier": s, "spend": round(v, 2)} for s, v in top_suppliers],
+                "round_number_pct": round(round_pct, 1),
+                "year_end_spike_ratio": round(spike_ratio, 1),
+                "duplicate_rate_pct": round(dup_rate, 1),
+                "rating": rating,
+                "issues": issues,
+            }
+
+        results[council_id] = {
+            "categories_analysed": len(category_efficiency),
+            "categories": category_efficiency,
+            "unmapped_transactions": len(unmapped_records),
+            "unmapped_spend": round(sum(r.get("amount", 0) for r in unmapped_records), 2),
+        }
+
+        # Summary
+        red_count = sum(1 for c in category_efficiency.values() if c["rating"] == "red")
+        amber_count = sum(1 for c in category_efficiency.values() if c["rating"] == "amber")
+        green_count = sum(1 for c in category_efficiency.values() if c["rating"] == "green")
+        print(f"  {council_id}: {len(category_efficiency)} categories — "
+              f"🔴{red_count} 🟠{amber_count} 🟢{green_count}")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 11: Contract-Budget Cross-Reference
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_contract_budget_crossref(councils, all_budgets):
+    """Link contract values from procurement.json to budget categories.
+
+    Where procurement data exists, computes what % of the budget category
+    is covered by formal contracts. Low coverage may indicate off-contract spend.
+    """
+    results = {}
+
+    for council_id in councils:
+        contracts = load_procurement(council_id)
+        budget_data = all_budgets.get(council_id, {})
+        govuk = budget_data.get("govuk")
+
+        if not contracts or not govuk:
+            continue
+
+        latest_year = govuk.get("latest_year", "")
+        by_year = govuk.get("by_year", {})
+        latest_data = by_year.get(latest_year, {})
+        service_exp = latest_data.get("revenue_summary", {}).get("service_expenditure", {})
+
+        if not service_exp:
+            continue
+
+        # Simple keyword mapping from contract titles/descriptions to budget categories
+        contract_cats = defaultdict(lambda: {"contracts": [], "total_value": 0})
+        unmapped_contracts = []
+
+        CAT_KEYWORDS = {
+            "Education services": ["school", "education", "learning", "pupil", "SEND", "nursery"],
+            "Highways and transport services": ["highway", "road", "transport", "traffic", "parking", "street light"],
+            "Adult Social Care": ["adult care", "social care", "domiciliary", "residential care", "nursing home", "home care"],
+            "Children Social Care": ["children", "child", "foster", "safeguard", "youth", "looked after"],
+            "Housing services (GFRA only)": ["housing", "homeless", "temporary accommodation", "dwelling"],
+            "Cultural and related services": ["leisure", "library", "museum", "park", "sport", "recreation", "tourism"],
+            "Environmental and regulatory services": ["waste", "refuse", "recycling", "environment", "cleaning", "pest", "trading standard"],
+            "Planning and development services": ["planning", "building control", "regeneration", "economic development"],
+            "Central services": ["IT ", "ICT", "digital", "finance", "legal", "HR", "payroll", "audit", "insurance"],
+        }
+
+        for contract in contracts:
+            title = (contract.get("title", "") or "").lower()
+            desc = (contract.get("description", "") or "").lower()
+            text = f"{title} {desc}"
+            value = contract.get("awarded_value", 0) or contract.get("value", 0) or 0
+
+            matched = False
+            for cat, keywords in CAT_KEYWORDS.items():
+                if any(kw.lower() in text for kw in keywords):
+                    contract_cats[cat]["contracts"].append({
+                        "title": contract.get("title", "Unknown"),
+                        "value": value,
+                        "supplier": contract.get("awarded_supplier", contract.get("supplier", "Unknown")),
+                    })
+                    contract_cats[cat]["total_value"] += value
+                    matched = True
+                    break
+
+            if not matched:
+                unmapped_contracts.append({
+                    "title": contract.get("title", "Unknown"),
+                    "value": value,
+                })
+
+        # Compare contract coverage to budget
+        category_coverage = []
+        for cat in BUDGET_CATEGORIES:
+            outturn = service_exp.get(cat, {}).get("value_pounds", 0)
+            contract_data = contract_cats.get(cat, {"contracts": [], "total_value": 0})
+            contract_value = contract_data["total_value"]
+
+            if outturn > 0 or contract_value > 0:
+                coverage = (contract_value / outturn * 100) if outturn > 0 else None
+                category_coverage.append({
+                    "category": cat,
+                    "outturn_pounds": outturn,
+                    "contract_value_pounds": round(contract_value, 2),
+                    "contract_count": len(contract_data["contracts"]),
+                    "coverage_pct": round(coverage, 1) if coverage is not None else None,
+                    "top_contracts": sorted(contract_data["contracts"], key=lambda x: -x["value"])[:3],
+                })
+
+        results[council_id] = {
+            "total_contracts": len(contracts),
+            "mapped_contracts": len(contracts) - len(unmapped_contracts),
+            "unmapped_contracts": len(unmapped_contracts),
+            "category_coverage": category_coverage,
+        }
+
+        mapped = len(contracts) - len(unmapped_contracts)
+        print(f"  {council_id}: {len(contracts)} contracts, {mapped} mapped to budget categories")
+
+    return results
+
+
+def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, budget_variance=None):
     """Synthesise existing analysis signals into a fraud triangle risk model.
 
     The fraud triangle (Cressey 1953) identifies three conditions for fraud:
@@ -1333,6 +1790,66 @@ def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, 
         })
         scores["rationalization"] += 8
 
+    # ── BUDGET-INFORMED signals (Phase 3c) ──
+
+    if budget_variance and council_id in budget_variance:
+        bv = budget_variance[council_id]
+
+        # PRESSURE: Reserve depletion rate
+        reserve_analysis = bv.get("reserve_analysis")
+        if reserve_analysis and reserve_analysis.get("depleting"):
+            annual_rate = abs(reserve_analysis.get("annual_rate_pct", 0))
+            if annual_rate > 10:
+                pres_reserves = min(20, int(annual_rate))
+                signals["pressure"].append({
+                    "signal": f"Reserves depleting at {annual_rate:.1f}% per year ({fmt_gbp(reserve_analysis['total_change'])} over {reserve_analysis['years_analysed']} years)",
+                    "score": pres_reserves,
+                    "source": "budget_variance"
+                })
+                scores["pressure"] += pres_reserves
+
+        # PRESSURE: High council tax dependency
+        ct_dep = bv.get("ct_dependency_pct", 0)
+        if ct_dep > 70:
+            pres_ct = min(15, int((ct_dep - 60) / 2))
+            signals["pressure"].append({
+                "signal": f"Council tax funds {ct_dep:.0f}% of net revenue expenditure (high dependency)",
+                "score": pres_ct,
+                "source": "budget_variance"
+            })
+            scores["pressure"] += pres_ct
+
+        # OPPORTUNITY: Departments with spending but no clear budget line
+        sig_gaps = bv.get("significant_gaps", [])
+        unbud_cats = [g for g in sig_gaps if g.get("outturn_pounds", 0) == 0 and g.get("doge_mapped_pounds", 0) > 100000]
+        if unbud_cats:
+            opp_unbud = min(15, len(unbud_cats) * 5)
+            cat_names = ", ".join(c["category"] for c in unbud_cats[:3])
+            signals["opportunity"].append({
+                "signal": f"{len(unbud_cats)} budget categories with significant DOGE spend but no GOV.UK outturn ({cat_names})",
+                "score": opp_unbud,
+                "source": "budget_variance"
+            })
+            scores["opportunity"] += opp_unbud
+
+        # RATIONALIZATION: Low budget categorisation precision (high "Other/Central" ratio)
+        cat_comp = bv.get("category_comparison", [])
+        total_out = bv.get("total_outturn_pounds", 0)
+        if total_out > 0:
+            other_central = sum(
+                c.get("outturn_pounds", 0) for c in cat_comp
+                if c["category"] in ("Other services", "Central services")
+            )
+            opacity_pct = (other_central / total_out) * 100
+            if opacity_pct > 40:
+                rat_opacity = min(15, int((opacity_pct - 30) / 2))
+                signals["rationalization"].append({
+                    "signal": f"{opacity_pct:.0f}% of budget in 'Central/Other' categories (low categorisation precision)",
+                    "score": rat_opacity,
+                    "source": "budget_variance"
+                })
+                scores["rationalization"] += rat_opacity
+
     # Cap each dimension at 100
     for dim in scores:
         scores[dim] = min(100, scores[dim])
@@ -1378,7 +1895,7 @@ def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, 
 # OUTPUT: Generate Enhanced DOGE Findings JSON
 # ═══════════════════════════════════════════════════════════════════════
 
-def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None, fraud_triangle=None):
+def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None, fraud_triangle=None, budget_variance=None, budget_efficiency=None, contract_crossref=None):
     """Generate enhanced doge_findings.json for a council."""
 
     findings = []
@@ -1709,9 +2226,149 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "total_analysed": cadence.get("total_analysed", 0),
             }
 
+    # ── Budget variance findings (Phase 3) ──
+    bv_data = None
+    if budget_variance and council_id in budget_variance:
+        bv = budget_variance[council_id]
+
+        # Reserve depletion finding
+        reserve_analysis = bv.get("reserve_analysis")
+        if reserve_analysis and reserve_analysis.get("depleting") and reserve_analysis.get("concern"):
+            findings.append({
+                "value": f"{abs(reserve_analysis['total_change_pct']):.0f}% depleted",
+                "label": "Reserve Depletion Warning",
+                "detail": (
+                    f"Reserves fell {fmt_gbp(abs(reserve_analysis['total_change']))} over {reserve_analysis['years_analysed']} years "
+                    f"({reserve_analysis['annual_rate_pct']:.1f}% per year). "
+                    f"From {fmt_gbp(reserve_analysis['first_year']['total'])} to {fmt_gbp(reserve_analysis['last_year']['total'])}."
+                ),
+                "severity": "warning",
+                "confidence": "high",
+                "link": "/budgets",
+            })
+
+        # Coverage gap finding
+        overall_cov = bv.get("overall_coverage_pct", 0)
+        if 0 < overall_cov < 80:
+            sig_gaps = bv.get("significant_gaps", [])
+            gap_cats = [g["category"] for g in sig_gaps[:3]]
+            key_findings.append({
+                "icon": "trending-up",
+                "badge": "Budget Gap",
+                "title": f"AI DOGE covers {overall_cov:.0f}% of {fmt_gbp(bv['total_outturn_pounds'])} GOV.UK outturn",
+                "description": (
+                    f"Spending >£500 threshold means smaller transactions are excluded. "
+                    f"Largest gaps: {', '.join(gap_cats)}. "
+                    f"This is expected — not a data quality issue."
+                ),
+                "link": "/budgets",
+                "link_text": "View budgets →",
+                "severity": "info",
+                "confidence": "high",
+            })
+
+        # Prepare budget variance data for output
+        bv_data = {
+            "latest_year": bv.get("latest_year"),
+            "overall_coverage_pct": bv.get("overall_coverage_pct"),
+            "total_outturn_pounds": bv.get("total_outturn_pounds"),
+            "ct_dependency_pct": bv.get("ct_dependency_pct"),
+            "category_comparison": bv.get("category_comparison", []),
+            "reserve_analysis": bv.get("reserve_analysis"),
+            "caveat": bv.get("caveat"),
+        }
+
+    # ── Budget efficiency findings (Phase 3) ──
+    eff_data = None
+    if budget_efficiency and council_id in budget_efficiency:
+        eff = budget_efficiency[council_id]
+        cats = eff.get("categories", {})
+
+        red_cats = [(name, data) for name, data in cats.items() if data.get("rating") == "red"]
+        if red_cats:
+            worst_name, worst = red_cats[0]
+            findings.append({
+                "value": f"{len(red_cats)} categories",
+                "label": "Budget Category Efficiency Concerns",
+                "detail": (
+                    f"{len(red_cats)} service categories show multiple efficiency flags. "
+                    f"Worst: {worst_name} (HHI={worst['hhi']}, {worst['round_number_pct']:.0f}% round-number, "
+                    f"{worst['year_end_spike_ratio']:.1f}x year-end spike)"
+                ),
+                "severity": "warning",
+                "confidence": "medium",
+                "link": "/budgets",
+            })
+
+        eff_data = {
+            "categories_analysed": eff.get("categories_analysed"),
+            "categories": {
+                name: {
+                    "rating": data["rating"],
+                    "total_spend": data["total_spend"],
+                    "hhi": data["hhi"],
+                    "hhi_category": data["hhi_category"],
+                    "round_number_pct": data["round_number_pct"],
+                    "year_end_spike_ratio": data["year_end_spike_ratio"],
+                    "top_suppliers": data["top_suppliers"][:3],
+                }
+                for name, data in cats.items()
+            },
+        }
+
+    # ── Add budget_context to existing findings (Phase 3d) ──
+    if budget_variance and council_id in budget_variance:
+        bv = budget_variance[council_id]
+        cat_outturn = {c["category"]: c["outturn_pounds"] for c in bv.get("category_comparison", [])}
+
+        # Add budget context to findings that have monetary values
+        if budget_efficiency and council_id in budget_efficiency:
+            eff = budget_efficiency[council_id]
+            # For each finding, try to contextualise against budget
+            for finding in findings:
+                # Extract amount from value field for contextualisation
+                val_str = finding.get("value", "")
+                # Try to determine which budget category this relates to
+                label = finding.get("label", "").lower()
+                matched_cat = None
+                if "environmental" in label or "waste" in label:
+                    matched_cat = "Environmental and regulatory services"
+                elif "housing" in label or "homeless" in label:
+                    matched_cat = "Housing services (GFRA only)"
+                elif "cultural" in label or "leisure" in label or "library" in label:
+                    matched_cat = "Cultural and related services"
+                elif "highway" in label or "transport" in label:
+                    matched_cat = "Highways and transport services"
+                elif "planning" in label or "development" in label:
+                    matched_cat = "Planning and development services"
+                elif "education" in label or "school" in label:
+                    matched_cat = "Education services"
+                elif "social care" in label and "adult" in label:
+                    matched_cat = "Adult Social Care"
+                elif "social care" in label and "child" in label:
+                    matched_cat = "Children Social Care"
+
+                if matched_cat and matched_cat in cat_outturn:
+                    budget_val = cat_outturn[matched_cat]
+                    if budget_val > 0:
+                        finding["budget_context"] = {
+                            "category": matched_cat,
+                            "budget_pounds": budget_val,
+                        }
+
+    # ── Contract cross-reference (Phase 3e) ──
+    contract_data = None
+    if contract_crossref and council_id in contract_crossref:
+        cr = contract_crossref[council_id]
+        contract_data = {
+            "total_contracts": cr.get("total_contracts"),
+            "mapped_contracts": cr.get("mapped_contracts"),
+            "category_coverage": cr.get("category_coverage", []),
+        }
+
     result = {
-        "findings": findings[:8],  # Cap at 8
-        "key_findings": key_findings[:6],  # Cap at 6
+        "findings": findings[:10],  # Cap at 10 (was 8, increased for budget findings)
+        "key_findings": key_findings[:8],  # Cap at 8 (was 6)
         "cta_link": "/spending",
         "cta_text": "Explore all spending data",
         "generated": str(datetime.now().isoformat()),
@@ -1726,6 +2383,15 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
     if fraud_triangle:
         result["fraud_triangle"] = fraud_triangle
         result["analyses_run"].append("fraud_triangle")
+    if bv_data:
+        result["budget_variance"] = bv_data
+        result["analyses_run"].append("budget_variance")
+    if eff_data:
+        result["budget_efficiency"] = eff_data
+        result["analyses_run"].append("budget_efficiency")
+    if contract_data:
+        result["contract_crossref"] = contract_data
+        result["analyses_run"].append("contract_crossref")
     return result
 
 
@@ -2103,6 +2769,41 @@ def main():
         print("=" * 60)
         procurement_compliance = analyse_procurement_compliance(councils)
 
+    # ── Budget Data Loading ──
+    print("\nLoading budget data...")
+    all_budgets = {}
+    for c in councils:
+        bd = load_budget_data(c)
+        if bd["mapping"] or bd["govuk"]:
+            all_budgets[c] = bd
+            has_m = "mapping" if bd["mapping"] else "-"
+            has_g = "govuk" if bd["govuk"] else "-"
+            print(f"  {c}: {has_m}, {has_g}")
+
+    # ── Budget Variance Analysis ──
+    budget_variance = {}
+    if all_budgets:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 9: Budget Variance Analysis")
+        print("=" * 60)
+        budget_variance = analyse_budget_variance(all_spending, all_budgets)
+
+    # ── Departmental Efficiency Analysis ──
+    budget_efficiency = {}
+    if all_budgets:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 10: Departmental Efficiency by Budget Category")
+        print("=" * 60)
+        budget_efficiency = analyse_departmental_efficiency(all_spending, all_budgets)
+
+    # ── Contract-Budget Cross-Reference ──
+    contract_crossref = {}
+    if all_budgets:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 11: Contract-Budget Cross-Reference")
+        print("=" * 60)
+        contract_crossref = analyse_contract_budget_crossref(councils, all_budgets)
+
     # ── Fraud Triangle Risk Scoring ──
     fraud_triangles = {}
     if True:  # Always run
@@ -2110,7 +2811,7 @@ def main():
         print("ANALYSIS 8: Fraud Triangle Risk Scoring")
         print("=" * 60)
         for c in councils:
-            ft = analyse_fraud_triangle(c, all_spending, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance)
+            ft = analyse_fraud_triangle(c, all_spending, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, budget_variance)
             if ft:
                 fraud_triangles[c] = ft
 
@@ -2121,7 +2822,7 @@ def main():
         print("=" * 60)
 
         for c in councils:
-            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, fraud_triangles.get(c))
+            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, fraud_triangles.get(c), budget_variance, budget_efficiency, contract_crossref)
             output_path = DATA_DIR / c / "doge_findings.json"
             with open(output_path, "w") as f:
                 json.dump(findings, f, indent=2)
@@ -2145,6 +2846,14 @@ def main():
             for w in verification["warnings"]:
                 print(f"    ⚠ {w}")
 
+        # Also save budget efficiency per council
+        for c in councils:
+            if c in budget_efficiency:
+                eff_path = DATA_DIR / c / "budget_efficiency.json"
+                with open(eff_path, "w") as f:
+                    json.dump(budget_efficiency[c], f, indent=2, default=str)
+                print(f"  {c}: budget_efficiency.json → {eff_path}")
+
         # Also save full analysis results
         full_results = {
             "duplicates": duplicates,
@@ -2155,6 +2864,9 @@ def main():
             "supplier_concentration": concentration,
             "procurement_compliance": procurement_compliance,
             "fraud_triangles": fraud_triangles,
+            "budget_variance": budget_variance,
+            "budget_efficiency": budget_efficiency,
+            "contract_crossref": contract_crossref,
             "generated": str(datetime.now().isoformat()),
         }
         results_path = DATA_DIR / "doge_analysis_results.json"

@@ -67,6 +67,23 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 358,753+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.6%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "16",
+      "label": "Weak Competition Indicators",
+      "detail": "16 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Blackburn: TPPL Blackburn with Darwen Council N (\u00a3980.7K)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
+    },
+    {
+      "value": "1 categories",
+      "label": "Budget Category Efficiency Concerns",
+      "detail": "1 service categories show multiple efficiency flags. Worst: Housing services (GFRA only) (HHI=4106, 2% round-number, 0.0x year-end spike)",
+      "severity": "warning",
+      "confidence": "medium",
+      "link": "/budgets"
     }
   ],
   "key_findings": [
@@ -114,7 +131,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.640064",
+  "generated": "2026-02-16T11:03:49.216111",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -122,7 +139,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -736,5 +756,487 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 7
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 82.9,
+    "total_outturn_pounds": 348215300,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 151486000,
+        "doge_mapped_pounds": 356418596.74,
+        "doge_annualised_pounds": 59403099.46,
+        "variance_annualised_pounds": -92082900.54,
+        "coverage_pct": 39.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 3460000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -3460000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 54348000,
+        "doge_mapped_pounds": 154036819.5,
+        "doge_annualised_pounds": 25672803.25,
+        "variance_annualised_pounds": -28675196.75,
+        "coverage_pct": 47.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 72679300,
+        "doge_mapped_pounds": 469579070.97,
+        "doge_annualised_pounds": 78263178.5,
+        "variance_annualised_pounds": 5583878.5,
+        "coverage_pct": 107.7,
+        "significant_gap": true
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 18630000,
+        "doge_mapped_pounds": 89037984.59,
+        "doge_annualised_pounds": 14839664.1,
+        "variance_annualised_pounds": -3790335.9,
+        "coverage_pct": 79.7,
+        "significant_gap": true
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 4668000,
+        "doge_mapped_pounds": 5655041.39,
+        "doge_annualised_pounds": 942506.9,
+        "variance_annualised_pounds": -3725493.1,
+        "coverage_pct": 20.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 10651000,
+        "doge_mapped_pounds": 4136827.05,
+        "doge_annualised_pounds": 689471.17,
+        "variance_annualised_pounds": -9961528.82,
+        "coverage_pct": 6.5,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 15544000,
+        "doge_mapped_pounds": 95116875.93,
+        "doge_annualised_pounds": 15852812.66,
+        "variance_annualised_pounds": 308812.66,
+        "coverage_pct": 102.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 4858000,
+        "doge_mapped_pounds": 142527785.25,
+        "doge_annualised_pounds": 23754630.88,
+        "variance_annualised_pounds": 18896630.88,
+        "coverage_pct": 489.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Fire and rescue services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 11891000,
+        "doge_mapped_pounds": 414953610.13,
+        "doge_annualised_pounds": 69158935.02,
+        "variance_annualised_pounds": 57267935.02,
+        "coverage_pct": 581.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (6 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 9,
+    "categories": {
+      "Adult Social Care": {
+        "rating": "amber",
+        "total_spend": 462651228.23,
+        "hhi": 416,
+        "hhi_category": "low",
+        "round_number_pct": 0.1,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "HOMECARE FOR YOU",
+            "spend": 39761469.37
+          },
+          {
+            "supplier": "GUARDIAN HOMECARE UK LTD",
+            "spend": 39363447.78
+          },
+          {
+            "supplier": "LIFEWAYS PARAGON LTD",
+            "spend": 37435024.36
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 139998638.32,
+        "hhi": 263,
+        "hhi_category": "low",
+        "round_number_pct": 1.2,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 12959283.88
+          },
+          {
+            "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+            "spend": 12111838.09
+          },
+          {
+            "supplier": "P CASEY (LAND RECLAMATION) LTD",
+            "spend": 6966088.34
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 93681387.03,
+        "hhi": 1835,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.4,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "SUEZ RECYCLING & RECOVERY UK L",
+            "spend": 36387879.71
+          },
+          {
+            "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+            "spend": 16148277.35
+          },
+          {
+            "supplier": "DENNIS EAGLE LTD",
+            "spend": 2631627.58
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 408526674.95,
+        "hhi": 2063,
+        "hhi_category": "moderate",
+        "round_number_pct": 1.2,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "HMRC",
+            "spend": 168296451.3
+          },
+          {
+            "supplier": "TEACHERS PENSIONS",
+            "spend": 63184307.14
+          },
+          {
+            "supplier": "REDACTED",
+            "spend": 39774206.5
+          }
+        ]
+      },
+      "Public Health": {
+        "rating": "amber",
+        "total_spend": 87175453.68,
+        "hhi": 909,
+        "hhi_category": "low",
+        "round_number_pct": 1.1,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "LANCASHIRE & SOUTH CUMBRIA NHS FOUN TRUST",
+            "spend": 17727727.51
+          },
+          {
+            "supplier": "THE CALICO GROUP LTD",
+            "spend": 15584969.6
+          },
+          {
+            "supplier": "EAST LANCS HOSPITALS NHS TRUST",
+            "spend": 6789836.68
+          }
+        ]
+      },
+      "Children Social Care": {
+        "rating": "amber",
+        "total_spend": 152573789.28,
+        "hhi": 225,
+        "hhi_category": "low",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED",
+            "spend": 18064892.98
+          },
+          {
+            "supplier": "DD PAYMENT SUPPLIERS MAIN ACCOUNT",
+            "spend": 6827717.55
+          },
+          {
+            "supplier": "MY3 LTD",
+            "spend": 3872388.96
+          }
+        ]
+      },
+      "Education services": {
+        "rating": "amber",
+        "total_spend": 354156839.01,
+        "hhi": 265,
+        "hhi_category": "low",
+        "round_number_pct": 0.6,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED",
+            "spend": 35029485.29
+          },
+          {
+            "supplier": "BBN W DWEN & BOLTON(PHS1)LTD",
+            "spend": 26297955.37
+          },
+          {
+            "supplier": "BN W DWEN & BOLTON (PHS2)LTD",
+            "spend": 21691727.15
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "red",
+        "total_spend": 5655041.39,
+        "hhi": 4106,
+        "hhi_category": "high",
+        "round_number_pct": 2.3,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "BLACKPOOL COUNCIL",
+            "spend": 3251796.74
+          },
+          {
+            "supplier": "PRESTON CITY COUNCIL",
+            "spend": 1181650.22
+          },
+          {
+            "supplier": "LANCASTER CITY COUNCIL",
+            "spend": 1074429.63
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 4042006.05,
+        "hhi": 1550,
+        "hhi_category": "moderate",
+        "round_number_pct": 10.8,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED",
+            "spend": 974397.4
+          },
+          {
+            "supplier": "Burnley Borough Council",
+            "spend": 716322.98
+          },
+          {
+            "supplier": "ROSSENDALE BOROUGH COUNCIL",
+            "spend": 643531.0
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 69,
+    "mapped_contracts": 34,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 151486000,
+        "contract_value_pounds": 465299,
+        "contract_count": 9,
+        "coverage_pct": 0.3,
+        "top_contracts": [
+          {
+            "title": "BwD Water Hygiene Monitoring",
+            "value": 240000,
+            "supplier": "GMS Services Limited"
+          },
+          {
+            "title": "Asbestos Management Surveys with Asbestos Management Plans",
+            "value": 71499,
+            "supplier": "Environtec Limited"
+          },
+          {
+            "title": "Maths and English Tuition (For Children in our Care) quote",
+            "value": 68400,
+            "supplier": "Kip McGrath Blackburn"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 3460000,
+        "contract_value_pounds": 1458858.6,
+        "contract_count": 9,
+        "coverage_pct": 42.2,
+        "top_contracts": [
+          {
+            "title": "Growth &amp; Development",
+            "value": 831480.07,
+            "supplier": "The Casey Group Ltd"
+          },
+          {
+            "title": "Broadhead Wall - Retaining Wall",
+            "value": 198572.8,
+            "supplier": "Neom Engineering Limited"
+          },
+          {
+            "title": "GB-Blackburn: TPPL Blackburn with Darwen Borough Council NEPO HGV Lot 2 - 1 x 15t Road Sweeper (14714)",
+            "value": 170928,
+            "supplier": "Bucher Municipal Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 54348000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 72679300,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 18630000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 4668000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 10651000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 15544000,
+        "contract_value_pounds": 1038609.82,
+        "contract_count": 3,
+        "coverage_pct": 6.7,
+        "top_contracts": [
+          {
+            "title": "GB-Blackburn: TPPL Blackburn with Darwen Council NEPO HGV Lot 2 - 8 x Food Waste Vehicles (22394)",
+            "value": 980660,
+            "supplier": "Terberg Matec UK Limited"
+          },
+          {
+            "title": "Food Club Service",
+            "value": 57949.82,
+            "supplier": "Community &amp; Business Partners CIC"
+          },
+          {
+            "title": "Tier 4 Detoxification Inpatient Residential Rehabilitation",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 4858000,
+        "contract_value_pounds": 167000,
+        "contract_count": 2,
+        "coverage_pct": 3.4,
+        "top_contracts": [
+          {
+            "title": "Specialist Advice to Review Viability Appraisals Associated with Planning Applications",
+            "value": 122000,
+            "supplier": "Parkinson Property Consultants Ltd"
+          },
+          {
+            "title": "specialist Ecology Advise",
+            "value": 45000,
+            "supplier": "Greater Manchester Ecology Unit (GMEU)"
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 11891000,
+        "contract_value_pounds": 2468017.5,
+        "contract_count": 11,
+        "coverage_pct": 20.8,
+        "top_contracts": [
+          {
+            "title": "Tier 4 Detoxification: Lot 1 Inpatient Detoxification and Lot 2 Inpatient Residential Rehabilitation",
+            "value": 1832252,
+            "supplier": "Adferiad Recovery,Greater Manchester Mental Health NHS Foundation Trust,Kaleidoscope Project,Mersey Care NHs trust,Turning Point Services Ltd"
+          },
+          {
+            "title": "Provision of Landscape Works",
+            "value": 320000,
+            "supplier": "Tivoli Group Limited"
+          },
+          {
+            "title": "Commissioner: Community CVS - Provision of Business Support Consultants  for DR!VE Project (ERDF Funded)",
+            "value": 169053,
+            "supplier": "Alistair Clarke Media Ltd,L Trickett / The Support Platform Ltd,Mike Wilson"
+          }
+        ]
+      }
+    ]
   }
 }

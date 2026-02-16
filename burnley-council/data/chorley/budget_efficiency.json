@@ -1,0 +1,75 @@
+{
+  "categories_analysed": 2,
+  "categories": {
+    "Planning and development services": {
+      "transactions": 4017,
+      "total_spend": 17947419.1,
+      "avg_transaction": 4467.87,
+      "hhi": 288,
+      "hhi_category": "low",
+      "top_suppliers": [
+        {
+          "supplier": "NPOWER COMMERCIAL GAS",
+          "spend": 1659406.35
+        },
+        {
+          "supplier": "JOHN WADE GROUNDWORKS LTD",
+          "spend": 1191110.06
+        },
+        {
+          "supplier": "BLOOM PROCUREMENT SERVICES LTD",
+          "spend": 1188336.79
+        },
+        {
+          "supplier": "CORONA ENERGY RETAIL 2 LTD",
+          "spend": 933502.44
+        },
+        {
+          "supplier": "PULSE DESIGN AND BUILD LTD",
+          "spend": 844037.17
+        }
+      ],
+      "round_number_pct": 1.1,
+      "year_end_spike_ratio": 0.2,
+      "duplicate_rate_pct": 3.0,
+      "rating": "green",
+      "issues": 0
+    },
+    "Central services": {
+      "transactions": 16940,
+      "total_spend": 346735377.71,
+      "avg_transaction": 20657.45,
+      "hhi": 2012,
+      "hhi_category": "moderate",
+      "top_suppliers": [
+        {
+          "supplier": "Lancashire County Council",
+          "spend": 148913247.6
+        },
+        {
+          "supplier": "MINISTRY OF HOUSING COMMUNITIES & LOCAL GOVERNMENT",
+          "spend": 25279502.0
+        },
+        {
+          "supplier": "POLICE & CRIME COMMISSIONER",
+          "spend": 21767537.32
+        },
+        {
+          "supplier": "RIBBLE VALLEY BOROUGH COUNCIL DIRECT DEBIT ONLY",
+          "spend": 16563469.0
+        },
+        {
+          "supplier": "SOUTH RIBBLE BOROUGH COUNCIL",
+          "spend": 12201773.41
+        }
+      ],
+      "round_number_pct": 1.6,
+      "year_end_spike_ratio": 0.6,
+      "duplicate_rate_pct": 5.8,
+      "rating": "amber",
+      "issues": 2
+    }
+  },
+  "unmapped_transactions": 464,
+  "unmapped_spend": 136123.04
+}

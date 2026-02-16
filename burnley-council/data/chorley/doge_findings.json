@@ -67,6 +67,15 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 18,812+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.5%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "7",
+      "label": "Weak Competition Indicators",
+      "detail": "7 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Chorley: TPPL Chorley Council NEPO HGV Lot 2 -  (\u00a31.4M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -124,7 +133,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.634130",
+  "generated": "2026-02-16T11:03:49.203175",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -132,7 +141,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -723,5 +735,327 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 9
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 465.3,
+    "total_outturn_pounds": 15993000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -53000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 53000.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 93000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -93000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 972000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -972000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4770000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -4770000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 5171000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -5171000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 563000,
+        "doge_mapped_pounds": 17947419.1,
+        "doge_annualised_pounds": 3589483.82,
+        "variance_annualised_pounds": 3026483.82,
+        "coverage_pct": 637.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 4424000,
+        "doge_mapped_pounds": 354113160.95,
+        "doge_annualised_pounds": 70822632.19,
+        "variance_annualised_pounds": 66398632.19,
+        "coverage_pct": 1600.9,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 2,
+    "categories": {
+      "Planning and development services": {
+        "rating": "green",
+        "total_spend": 17947419.1,
+        "hhi": 288,
+        "hhi_category": "low",
+        "round_number_pct": 1.1,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "NPOWER COMMERCIAL GAS",
+            "spend": 1659406.35
+          },
+          {
+            "supplier": "JOHN WADE GROUNDWORKS LTD",
+            "spend": 1191110.06
+          },
+          {
+            "supplier": "BLOOM PROCUREMENT SERVICES LTD",
+            "spend": 1188336.79
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 346735377.71,
+        "hhi": 2012,
+        "hhi_category": "moderate",
+        "round_number_pct": 1.6,
+        "year_end_spike_ratio": 0.6,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 148913247.6
+          },
+          {
+            "supplier": "MINISTRY OF HOUSING COMMUNITIES & LOCAL GOVERNMENT",
+            "spend": 25279502.0
+          },
+          {
+            "supplier": "POLICE & CRIME COMMISSIONER",
+            "spend": 21767537.32
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 150,
+    "mapped_contracts": 92,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 87648,
+        "contract_count": 2,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Quotation for transportation services for Chorley Leisure Ltd school swimming programme.",
+            "value": 45000,
+            "supplier": "Redline Travel Ltd"
+          },
+          {
+            "title": "Shared Learning Management System Learning Pool Ltd Contract",
+            "value": 42648,
+            "supplier": "LEARNING POOL LIMITED"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -53000,
+        "contract_value_pounds": 2736421.4,
+        "contract_count": 17,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "TENDER FOR CONSTRUCTION OF A SPORTS PAVILION, CAR PARKING AND ACCESS AT WESTWAY PLAYING FIELDS, CHORLEY",
+            "value": 1116000,
+            "supplier": "Walter Carefoot &amp; Sons (Construction) Ltd"
+          },
+          {
+            "title": "Invitation to tender for the enhancement works of Jubilee Recreation Ground, Station Road, Adlington, PR7 4HQ.",
+            "value": 375000,
+            "supplier": "LANDSCAPE ENGINEERING LTD"
+          },
+          {
+            "title": "Invitation to Tender for Queens Road Car Park (Chorley) Improvement Scheme",
+            "value": 215000,
+            "supplier": "Wade Group"
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 66000,
+        "contract_count": 3,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Invitation to Quote for Children and Families Support Service",
+            "value": 44000,
+            "supplier": "Home-Start Central Lancashire"
+          },
+          {
+            "title": "Contracts award for Children and Families Support Service",
+            "value": 22000,
+            "supplier": "Homestart Central Lancashire"
+          },
+          {
+            "title": "Invitation to Quote for Children and Families Support Service",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 93000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 972000,
+        "contract_value_pounds": 394321,
+        "contract_count": 3,
+        "coverage_pct": 40.6,
+        "top_contracts": [
+          {
+            "title": "TENDER FOR THE DELIVERY OF ADVICE SERVICES",
+            "value": 225000,
+            "supplier": "Lancashire West Citizens Advice Bureaux"
+          },
+          {
+            "title": "Contract Award Notice for the Provision of a Night Caretaking and Concierge Service at Cotswold Supported Housing Temporary Accommodation Hostel.",
+            "value": 119390,
+            "supplier": "Sector Security Services Ltd"
+          },
+          {
+            "title": "Quotation for Appointment of Consultancy Support for the preparation of a Methodology and Strategic Policy Options for the distribution of Housing Need Across the CLHMA of Chorley, Preston, and South Ribble for Plan-Making Purposes",
+            "value": 49931,
+            "supplier": "DLP Planning"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4770000,
+        "contract_value_pounds": 7480866.78,
+        "contract_count": 34,
+        "coverage_pct": 156.8,
+        "top_contracts": [
+          {
+            "title": "Invitation to Tender for Principal Contractor for Chorley Digital Office Park - A European Regional Development Fund (ERDF) Project",
+            "value": 5922650,
+            "supplier": "Willmott Dixon Construction Limited"
+          },
+          {
+            "title": "Further Competition for the Provision of Office Furniture under Lot 2 of Framework RM3812",
+            "value": 254224,
+            "supplier": "Gresham Office Furniture"
+          },
+          {
+            "title": "TENDER FOR INSTALLATION OF LIGHTING AT ASTLEY PARK, CHORLEY",
+            "value": 135637.69,
+            "supplier": "Altitude Services Limited"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 5171000,
+        "contract_value_pounds": 28856704.23,
+        "contract_count": 13,
+        "coverage_pct": 558.0,
+        "top_contracts": [
+          {
+            "title": "Tender for Waste &amp; Recycling Collection Services Contract",
+            "value": 26366000,
+            "supplier": "FCC Environment (UK) Limited"
+          },
+          {
+            "title": "GB-Chorley: TPPL Chorley Council NEPO HGV Lot 2 - 12 x 12t &amp; 1 x 7.5t Food Waste Vehicles (23636)",
+            "value": 1415785,
+            "supplier": "Terberg Matec UK Limited"
+          },
+          {
+            "title": "Further Competition under ESPO Framework Agreement No. 860-14 for the supply of Refuse &amp; Recycling Products - Lot 1: Supply of plastic Wheeled Bins",
+            "value": 483400,
+            "supplier": "One51 ES Plastics (UK) Ltd T/A MGB Plastics"
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 563000,
+        "contract_value_pounds": 8980070,
+        "contract_count": 1,
+        "coverage_pct": 1595.0,
+        "top_contracts": [
+          {
+            "title": "Further competition for the design and construction of the Alker Lane development under the Rise Construction Framework OJEU ref: 511210-2017",
+            "value": 8980070,
+            "supplier": "John Turner Construction Group Limited"
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 4424000,
+        "contract_value_pounds": 3405219.95,
+        "contract_count": 19,
+        "coverage_pct": 77.0,
+        "top_contracts": [
+          {
+            "title": "Further Competition under CCS Framework RM3731 for the provision of Insurance to Chorley Borough Council",
+            "value": 1242829,
+            "supplier": "Aspen Insurance UK Ltd,Ecclesiastical c/o Risk Management Partners,A.R.S. for Axis Underwriters at Lloyds,Protector Insurance,Travelers insurance Company,AIG c/o Risk Management Partners"
+          },
+          {
+            "title": "FURTHER COMPETITION FOR MICROSOFT LICENSING CONTRACT UNDER FRAMEWORK RM6068 TECHNOLOGY PRODUCTS AND ASSOCIATED SERVICES",
+            "value": 1066968.22,
+            "supplier": "Phoenix Software Ltd"
+          },
+          {
+            "title": "Invitation to Tender for the provision of the Design, Install, Provision and Support for the Relocation and Upgrade of CCTV",
+            "value": 359700,
+            "supplier": "CCTV Services Ltd"
+          }
+        ]
+      }
+    ]
   }
 }

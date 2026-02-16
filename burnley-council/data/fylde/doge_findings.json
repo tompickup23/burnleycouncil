@@ -67,6 +67,15 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 33,230+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (2.7%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "34",
+      "label": "Weak Competition Indicators",
+      "detail": "34 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-St Annes: TPPL Fylde Borough Council NEPO HGV L (\u00a31.6M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -124,7 +133,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.643913",
+  "generated": "2026-02-16T11:03:49.221116",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -132,7 +141,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -797,5 +809,335 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 8
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 117.3,
+    "total_outturn_pounds": 12192000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -332000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 332000.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1258000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -1258000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 3152000,
+        "doge_mapped_pounds": 33241999.02,
+        "doge_annualised_pounds": 3021999.91,
+        "variance_annualised_pounds": -130000.09,
+        "coverage_pct": 95.9,
+        "significant_gap": false
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 3968000,
+        "doge_mapped_pounds": 26246879.74,
+        "doge_annualised_pounds": 2386079.98,
+        "variance_annualised_pounds": -1581920.02,
+        "coverage_pct": 60.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 1432000,
+        "doge_mapped_pounds": 61920630.36,
+        "doge_annualised_pounds": 5629148.21,
+        "variance_annualised_pounds": 4197148.21,
+        "coverage_pct": 393.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 2382000,
+        "doge_mapped_pounds": 35940948.49,
+        "doge_annualised_pounds": 3267358.95,
+        "variance_annualised_pounds": 885358.95,
+        "coverage_pct": 137.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (11 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 4,
+    "categories": {
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 25928907.35,
+        "hhi": 528,
+        "hhi_category": "low",
+        "round_number_pct": 0.4,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "DENNIS EAGLE",
+            "spend": 4429019.85
+          },
+          {
+            "supplier": "DANFO (UK) LTD",
+            "spend": 1875389.38
+          },
+          {
+            "supplier": "BLACKPOOL COUNCIL",
+            "spend": 1795112.37
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 35787901.24,
+        "hhi": 319,
+        "hhi_category": "low",
+        "round_number_pct": 0.9,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "MASTERSTAFF",
+            "spend": 4295420.36
+          },
+          {
+            "supplier": "N A RAWCLIFFE & SON LTD",
+            "spend": 1961145.6
+          },
+          {
+            "supplier": "BRIMAS CONSTRUCTION LTD",
+            "spend": 1863727.44
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 31745014.2,
+        "hhi": 1638,
+        "hhi_category": "moderate",
+        "round_number_pct": 1.8,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "BLACKPOOL COUNCIL",
+            "spend": 12315088.56
+          },
+          {
+            "supplier": "ZURICH MUNICIPAL",
+            "spend": 2390599.44
+          },
+          {
+            "supplier": "VBA JOINT VENTURE LTD",
+            "spend": 1409696.13
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "green",
+        "total_spend": 61550120.22,
+        "hhi": 1183,
+        "hhi_category": "low",
+        "round_number_pct": 1.0,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "VBA JOINT VENTURE LTD",
+            "spend": 19825415.44
+          },
+          {
+            "supplier": "ERIC WRIGHT CIVIL ENGINEERING LTD",
+            "spend": 4540850.0
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 2669892.36
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 90,
+    "mapped_contracts": 40,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 534282,
+        "contract_count": 2,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Former TSB/Girls Charity School 52-64 Poulton Street Refurbishment and Extension Works",
+            "value": 483882,
+            "supplier": "Rosslee Construction Limited"
+          },
+          {
+            "title": "Conversion of Former TSB Building",
+            "value": 50400,
+            "supplier": "DC&amp;MG ASSOCIATES"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -332000,
+        "contract_value_pounds": 1535001.1,
+        "contract_count": 8,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "GB-St Annes: TPPL Fylde Council &amp; Wylde Council HCC Lot 3 - 6 x compact road sweepers (3662)",
+            "value": 450000,
+            "supplier": "Johnston Sweepers Ltd"
+          },
+          {
+            "title": "Snowdon Road Accomodation Facilities - Main Contract Works",
+            "value": 385000,
+            "supplier": "F Parkinson Ltd"
+          },
+          {
+            "title": "GB-Lytham St Annes: TPPL Fylde Council BNES HGV Framework lot 2",
+            "value": 219430.1,
+            "supplier": "Faun Zoeller (UK) Limited"
+          }
+        ]
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1258000,
+        "contract_value_pounds": 377341,
+        "contract_count": 5,
+        "coverage_pct": 30.0,
+        "top_contracts": [
+          {
+            "title": "Environmental, Housing Waste and Customer Services ICT System Procurement",
+            "value": 191190,
+            "supplier": "IDOX Plc"
+          },
+          {
+            "title": "Kirkham Future High Street Fund Consultancy Services",
+            "value": 99375,
+            "supplier": "Bauman Lyons Architects"
+          },
+          {
+            "title": "Fylde Rough Sleeping and Ex Offenders Accommodation Project",
+            "value": 60000,
+            "supplier": "Empowerment Charity"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 3152000,
+        "contract_value_pounds": 368384,
+        "contract_count": 4,
+        "coverage_pct": 11.7,
+        "top_contracts": [
+          {
+            "title": "Town Hall Car Park Works",
+            "value": 248384,
+            "supplier": "William Pye Limited"
+          },
+          {
+            "title": "Playground Improvements 2024",
+            "value": 120000,
+            "supplier": "ESP Scotland Ltd"
+          },
+          {
+            "title": "Tender for the Provision of Sport and Leisure Services in Fylde",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 3968000,
+        "contract_value_pounds": 765030.16,
+        "contract_count": 5,
+        "coverage_pct": 19.3,
+        "top_contracts": [
+          {
+            "title": "GB-St Annes: TPPL Fylde Borough Council NEPO HGV Lot 2 - 5 x Food Waste Vehicles (27212)",
+            "value": 509750,
+            "supplier": "Terberg Matec UK Limited"
+          },
+          {
+            "title": "GB-Fylde: NEPO Heavy Goods and Specialist Vehicles Procurement Framework 2017",
+            "value": 147910,
+            "supplier": "Dennis Eagle"
+          },
+          {
+            "title": "Bulky Waste Removal Services",
+            "value": 58081.16,
+            "supplier": "Calico Group Limited"
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 1432000,
+        "contract_value_pounds": 60992.8,
+        "contract_count": 2,
+        "coverage_pct": 4.3,
+        "top_contracts": [
+          {
+            "title": "Kirkham Hillside Retaining Wall",
+            "value": 31950,
+            "supplier": "Heritage Property Repairs"
+          },
+          {
+            "title": "Promenade Gardens Path Improvements",
+            "value": 29042.8,
+            "supplier": "William Pye Limited"
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 2382000,
+        "contract_value_pounds": 7374921.65,
+        "contract_count": 14,
+        "coverage_pct": 309.6,
+        "top_contracts": [
+          {
+            "title": "ITT for the provision of agency staff services",
+            "value": 3833835,
+            "supplier": "Masterstaff Recruitment Ltd"
+          },
+          {
+            "title": "Provision of Agency Staff 2020-21",
+            "value": 1800000,
+            "supplier": "Masterstaff Recruitment Ltd"
+          },
+          {
+            "title": "Insurance Services - Fylde Council",
+            "value": 688652.22,
+            "supplier": "Zurich Municipal,Protector Insurance,Aon Underwriting Managers"
+          }
+        ]
+      }
+    ]
   }
 }

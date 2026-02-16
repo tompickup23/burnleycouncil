@@ -67,6 +67,23 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 16,718+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (4.0%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "4",
+      "label": "Weak Competition Indicators",
+      "detail": "4 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Leyland: TPPL South Ribble Borough Council NEPO (\u00a31.2M)",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
+    },
+    {
+      "value": "3 categories",
+      "label": "Budget Category Efficiency Concerns",
+      "detail": "3 service categories show multiple efficiency flags. Worst: Environmental and regulatory services (HHI=3503, 2% round-number, 0.6x year-end spike)",
+      "severity": "warning",
+      "confidence": "medium",
+      "link": "/budgets"
     }
   ],
   "key_findings": [
@@ -114,7 +131,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.635209",
+  "generated": "2026-02-16T11:03:49.205181",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -122,7 +139,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -556,5 +576,418 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 7
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 109.6,
+    "total_outturn_pounds": 21003000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 67000,
+        "doge_mapped_pounds": 359626.43,
+        "doge_annualised_pounds": 71925.29,
+        "variance_annualised_pounds": 4925.29,
+        "coverage_pct": 107.4,
+        "significant_gap": false
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 110000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -110000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1194000,
+        "doge_mapped_pounds": 2121045.36,
+        "doge_annualised_pounds": 424209.07,
+        "variance_annualised_pounds": -769790.93,
+        "coverage_pct": 35.5,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4363000,
+        "doge_mapped_pounds": 7222385.29,
+        "doge_annualised_pounds": 1444477.06,
+        "variance_annualised_pounds": -2918522.94,
+        "coverage_pct": 33.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 5316000,
+        "doge_mapped_pounds": 4741998.19,
+        "doge_annualised_pounds": 948399.64,
+        "variance_annualised_pounds": -4367600.36,
+        "coverage_pct": 17.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 3806000,
+        "doge_mapped_pounds": 23870483.26,
+        "doge_annualised_pounds": 4774096.65,
+        "variance_annualised_pounds": 968096.65,
+        "coverage_pct": 125.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 6147000,
+        "doge_mapped_pounds": 74515428.28,
+        "doge_annualised_pounds": 14903085.66,
+        "variance_annualised_pounds": 8756085.66,
+        "coverage_pct": 242.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 2228423.0,
+        "doge_annualised_pounds": 445684.6,
+        "variance_annualised_pounds": 445684.6,
+        "coverage_pct": null,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 8,
+    "categories": {
+      "Capital": {
+        "rating": "amber",
+        "total_spend": 58972785.46,
+        "hhi": 1210,
+        "hhi_category": "low",
+        "round_number_pct": 4.2,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "CADDICK CONSTRUCTION (NW) LTD",
+            "spend": 17647126.89
+          },
+          {
+            "supplier": "ALLIANCE LEISURE SERVICES LTD",
+            "spend": 8203512.84
+          },
+          {
+            "supplier": "RP TYSON CONSTRUCTION LTD",
+            "spend": 4525721.09
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "red",
+        "total_spend": 4741813.76,
+        "hhi": 3503,
+        "hhi_category": "high",
+        "round_number_pct": 2.5,
+        "year_end_spike_ratio": 0.6,
+        "top_suppliers": [
+          {
+            "supplier": "FCC ENVIRONMENT SERVICES (UK) LTD",
+            "spend": 2576355.98
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 1061800.39
+          },
+          {
+            "supplier": "PERFECT CIRCLE JV LTD",
+            "spend": 282058.6
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 7217456.03,
+        "hhi": 1687,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.4,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "SOUTH RIBBLE LEISURE LTD",
+            "spend": 2788617.05
+          },
+          {
+            "supplier": "SOUTH RIBBLE LEISURE MANAGEMENT FEES",
+            "spend": 903500.0
+          },
+          {
+            "supplier": "CORONA ENERGY RETAIL 4 LTD",
+            "spend": 233741.97
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 74251564.8,
+        "hhi": 855,
+        "hhi_category": "low",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 1.0,
+        "top_suppliers": [
+          {
+            "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+            "spend": 14833050.0
+          },
+          {
+            "supplier": "CHORLEY BOROUGH COUNCIL",
+            "spend": 12955817.8
+          },
+          {
+            "supplier": "INLAND REVENUE 0065PV00107808",
+            "spend": 4976390.44
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "amber",
+        "total_spend": 2121045.36,
+        "hhi": 693,
+        "hhi_category": "low",
+        "round_number_pct": 1.9,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "NATIONAL HOTEL ROOMS LTD T/A PURPLE ROOMZ",
+            "spend": 338053.66
+          },
+          {
+            "supplier": "PURPLEROOMZ",
+            "spend": 179607.47
+          },
+          {
+            "supplier": "REDDY & CO",
+            "spend": 165542.3
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "red",
+        "total_spend": 23870483.26,
+        "hhi": 7224,
+        "hhi_category": "high",
+        "round_number_pct": 4.0,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 20273369.9
+          },
+          {
+            "supplier": "CHORLEY BOROUGH COUNCIL",
+            "spend": 514105.19
+          },
+          {
+            "supplier": "UK MEDIA EVENTS LTD",
+            "spend": 489374.31
+          }
+        ]
+      },
+      "Highways and transport services": {
+        "rating": "amber",
+        "total_spend": 359626.43,
+        "hhi": 1870,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "NSL LTD",
+            "spend": 122507.87
+          },
+          {
+            "supplier": "MARSTON HOLDINGS",
+            "spend": 67707.42
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 57012.81
+          }
+        ]
+      },
+      "Other services": {
+        "rating": "red",
+        "total_spend": 2228423.0,
+        "hhi": 2847,
+        "hhi_category": "high",
+        "round_number_pct": 40.0,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "PENWORTHAM TOWN COUNCIL",
+            "spend": 1027755.0
+          },
+          {
+            "supplier": "FARINGTON PARISH COUNCIL",
+            "spend": 466730.0
+          },
+          {
+            "supplier": "LONGTON PARISH COUNCIL",
+            "spend": 312000.0
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 88,
+    "mapped_contracts": 50,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 219908,
+        "contract_count": 4,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Invitation to Tender for Design &amp; Build of New Toddler, Junior &amp; Teen Play Area, School Lane, Longton PR4 5ZA",
+            "value": 120000,
+            "supplier": "Playsound Services Ltd"
+          },
+          {
+            "title": "Invitation to Quote for refurbishment of Dance School into community facility including nursery provision at Greens Dance School, Moss Lane, Lostock Hall, Preston, PR5 5BP",
+            "value": 99908,
+            "supplier": "J &amp; K Construction Ltd"
+          },
+          {
+            "title": "School Swimming Transport Services",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 67000,
+        "contract_value_pounds": 1173017.0,
+        "contract_count": 11,
+        "coverage_pct": 1750.8,
+        "top_contracts": [
+          {
+            "title": "YPO Framework 0001173 Liquid Fuels and Associated Products Lot 25 on behalf of South Ribble Borough Council",
+            "value": 326287,
+            "supplier": "STANDARD FUEL OILS LIMITED"
+          },
+          {
+            "title": "INVITATION TO TENDER FOR DESIGN &amp; BUILD OF NEW TODDLER &amp; JUNIOR PLAY AREA, SEVEN STARS ROAD, LEYLAND",
+            "value": 175000,
+            "supplier": "Play and Leisure"
+          },
+          {
+            "title": "Invitation to Tender for the Design &amp; Build of Sand play improvements at Withy Grove playground, Brindle Rd, Bamber Bridge, Preston PR5 6YJ",
+            "value": 150000,
+            "supplier": "KOMPAN Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 110000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1194000,
+        "contract_value_pounds": 670000,
+        "contract_count": 6,
+        "coverage_pct": 56.1,
+        "top_contracts": [
+          {
+            "title": "Supply, Installation, Servicing and Maintenance of Stairlifts",
+            "value": 500000,
+            "supplier": "STANNAH LIFT SERVICES LIMITED"
+          },
+          {
+            "title": "Young Persons Housing Advice",
+            "value": 70000,
+            "supplier": "Key Unlocking Futures Limited"
+          },
+          {
+            "title": "Enhanced Floating Support Service",
+            "value": 70000,
+            "supplier": "Excel Housing Solutions Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 4363000,
+        "contract_value_pounds": 3066439.16,
+        "contract_count": 22,
+        "coverage_pct": 70.3,
+        "top_contracts": [
+          {
+            "title": "Leyland Leisure Centre Refurbishment Works",
+            "value": 1099434.62,
+            "supplier": "Krol Corlett Construction Limited"
+          },
+          {
+            "title": "Bamber Bridge Leisure Centre Refurbishment Works",
+            "value": 812272.6,
+            "supplier": "Krol Corlett Construction"
+          },
+          {
+            "title": "Penwortham Leisure Centre Refurbishment Works",
+            "value": 377815.63,
+            "supplier": "Krol Corlett Construction Limited"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 5316000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 3806000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 6147000,
+        "contract_value_pounds": 4857818,
+        "contract_count": 7,
+        "coverage_pct": 79.0,
+        "top_contracts": [
+          {
+            "title": "FURTHER COMPETITION TENDER UNDER DPS 00978 FOR THE PROVISION OF INSURANCE PLACEMENT",
+            "value": 2398126,
+            "supplier": "Maven Public Sector,Protector Forsikring ASA,Risk Management Partners Ltd"
+          },
+          {
+            "title": "GB-Leyland: TPPL South Ribble Borough Council NEPO HGV Lot 1 - 5 x RCVs (22638)",
+            "value": 1208603,
+            "supplier": "Dennis Eagle Limited"
+          },
+          {
+            "title": "Further Competition under CCS Framework RM3731 for the provision of Insurance to South Ribble Borough Council",
+            "value": 928189,
+            "supplier": "Aspen Insurance UK Ltd,A.R.S. for Axis Underwriters at Lloyds,Travelers Insurance Company,Zurich Municipal,"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -67,6 +67,23 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 584,710+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.1%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "33",
+      "label": "Weak Competition Indicators",
+      "detail": "33 contracts show signs of limited competition (short tender periods or rapid award). Top: Supply of HH, NHH, UMS Electricity to Lancashire C (\u00a3110.8M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
+    },
+    {
+      "value": "3 categories",
+      "label": "Budget Category Efficiency Concerns",
+      "detail": "3 service categories show multiple efficiency flags. Worst: Public Health (HHI=3615, 5% round-number, 0.0x year-end spike)",
+      "severity": "warning",
+      "confidence": "medium",
+      "link": "/budgets"
     }
   ],
   "key_findings": [
@@ -120,11 +137,21 @@
       "link_text": "View procurement \u2192",
       "severity": "info",
       "confidence": "medium"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Budget Gap",
+      "title": "AI DOGE covers 43% of \u00a32476.2M GOV.UK outturn",
+      "description": "Spending >\u00a3500 threshold means smaller transactions are excluded. Largest gaps: Education services, Highways and transport services, Children Social Care. This is expected \u2014 not a data quality issue.",
+      "link": "/budgets",
+      "link_text": "View budgets \u2192",
+      "severity": "info",
+      "confidence": "high"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.636581",
+  "generated": "2026-02-16T11:03:49.209543",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -132,7 +159,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -868,5 +898,562 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 9
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 43.0,
+    "total_outturn_pounds": 2476155000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 1266580000,
+        "doge_mapped_pounds": 268698392.65,
+        "doge_annualised_pounds": 134349196.32,
+        "variance_annualised_pounds": -1132230803.67,
+        "coverage_pct": 10.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 68472000,
+        "doge_mapped_pounds": 97778407.53,
+        "doge_annualised_pounds": 48889203.77,
+        "variance_annualised_pounds": -19582796.23,
+        "coverage_pct": 71.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 291482000,
+        "doge_mapped_pounds": 142134807.3,
+        "doge_annualised_pounds": 71067403.65,
+        "variance_annualised_pounds": -220414596.35,
+        "coverage_pct": 24.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 584501000,
+        "doge_mapped_pounds": 1152591152.72,
+        "doge_annualised_pounds": 576295576.36,
+        "variance_annualised_pounds": -8205423.64,
+        "coverage_pct": 98.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 97641000,
+        "doge_mapped_pounds": 47174338.31,
+        "doge_annualised_pounds": 23587169.15,
+        "variance_annualised_pounds": -74053830.84,
+        "coverage_pct": 24.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 23653000,
+        "doge_mapped_pounds": 60106862.59,
+        "doge_annualised_pounds": 30053431.29,
+        "variance_annualised_pounds": 6400431.29,
+        "coverage_pct": 127.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 94348000,
+        "doge_mapped_pounds": 77057603.97,
+        "doge_annualised_pounds": 38528801.98,
+        "variance_annualised_pounds": -55819198.02,
+        "coverage_pct": 40.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 7597000,
+        "doge_mapped_pounds": 1243911.09,
+        "doge_annualised_pounds": 621955.55,
+        "variance_annualised_pounds": -6975044.46,
+        "coverage_pct": 8.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Police services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Fire and rescue services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 41881000,
+        "doge_mapped_pounds": 281310349.93,
+        "doge_annualised_pounds": 140655174.97,
+        "variance_annualised_pounds": 98774174.97,
+        "coverage_pct": 335.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 9630.87,
+        "doge_annualised_pounds": 4815.43,
+        "variance_annualised_pounds": 4815.43,
+        "coverage_pct": null,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (2 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 12,
+    "categories": {
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 276327379.54,
+        "hhi": 182,
+        "hhi_category": "low",
+        "round_number_pct": 0.3,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "LOCAL PENSIONS PARTNERSHIP ADMINISTRATION LTD",
+            "spend": 21797950.61
+          },
+          {
+            "supplier": "NHS LANCASHIRE & SOUTH CUMBRIA ICB",
+            "spend": 13967099.04
+          },
+          {
+            "supplier": "SOFTCAT PLC",
+            "spend": 10404385.01
+          }
+        ]
+      },
+      "Highways and transport services": {
+        "rating": "amber",
+        "total_spend": 92779534.0,
+        "hhi": 299,
+        "hhi_category": "low",
+        "round_number_pct": 0.2,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "NPOWER COMMERCIAL GAS LTD",
+            "spend": 10643618.75
+          },
+          {
+            "supplier": "A E YATES LTD",
+            "spend": 6892786.9
+          },
+          {
+            "supplier": "ROAD MAINTENANCE SERVICES LTD",
+            "spend": 4979751.74
+          }
+        ]
+      },
+      "Adult Social Care": {
+        "rating": "amber",
+        "total_spend": 1142740828.95,
+        "hhi": 92,
+        "hhi_category": "low",
+        "round_number_pct": 0.2,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED",
+            "spend": 70930753.96
+          },
+          {
+            "supplier": "ALTERNATIVE FUTURES GROUP LTD",
+            "spend": 28093844.51
+          },
+          {
+            "supplier": "LCCG INTERNAL CARE SUPPLIER",
+            "spend": 26372642.21
+          }
+        ]
+      },
+      "Children Social Care": {
+        "rating": "amber",
+        "total_spend": 139601960.66,
+        "hhi": 104,
+        "hhi_category": "low",
+        "round_number_pct": 0.2,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED",
+            "spend": 7225614.18
+          },
+          {
+            "supplier": "ANDREW WALLBANK LTD",
+            "spend": 5587169.42
+          },
+          {
+            "supplier": "FORD RETAIL LTD T/A TRUST FORD",
+            "spend": 4797775.47
+          }
+        ]
+      },
+      "Education services": {
+        "rating": "amber",
+        "total_spend": 267861257.12,
+        "hhi": 145,
+        "hhi_category": "low",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "UNITY COLLEGE",
+            "spend": 9325420.99
+          },
+          {
+            "supplier": "SIR JOHN THURSBY COMMUNITY COLLEGE",
+            "spend": 8114547.35
+          },
+          {
+            "supplier": "SHUTTLEWORTH COLLEGE",
+            "spend": 7843417.2
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 59993456.68,
+        "hhi": 341,
+        "hhi_category": "low",
+        "round_number_pct": 0.2,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "WALTER CAREFOOT & SONS (CONSTRUCTION) LTD",
+            "spend": 4627455.58
+          },
+          {
+            "supplier": "JOHN TURNER CONSTRUCTION GROUP LTD",
+            "spend": 4321492.57
+          },
+          {
+            "supplier": "DIOCESE OF SALFORD - DFC",
+            "spend": 3638733.3
+          }
+        ]
+      },
+      "Public Health": {
+        "rating": "red",
+        "total_spend": 43267558.81,
+        "hhi": 3615,
+        "hhi_category": "high",
+        "round_number_pct": 5.4,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "HCRG CARE SERVICES LTD (FORMALLY VIRGIN CARE SERVICES)",
+            "spend": 18381413.75
+          },
+          {
+            "supplier": "HCRG CARE SERVICES LTD",
+            "spend": 18300642.25
+          },
+          {
+            "supplier": "WE ARE WITH YOU",
+            "spend": 1964945.24
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 1154395.17,
+        "hhi": 1086,
+        "hhi_category": "low",
+        "round_number_pct": 0.2,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "BT PLC",
+            "spend": 344407.06
+          },
+          {
+            "supplier": "MARSHALLS MONO LTD",
+            "spend": 88327.35
+          },
+          {
+            "supplier": "DLA PIPER UK LLP",
+            "spend": 68027.6
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "amber",
+        "total_spend": 45389319.74,
+        "hhi": 852,
+        "hhi_category": "low",
+        "round_number_pct": 0.7,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "Burnley Borough Council",
+            "spend": 6756471.0
+          },
+          {
+            "supplier": "LANCASTER CITY COUNCIL",
+            "spend": 5321403.0
+          },
+          {
+            "supplier": "WYRE BOROUGH COUNCIL",
+            "spend": 5161796.0
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "red",
+        "total_spend": 76132000.1,
+        "hhi": 4141,
+        "hhi_category": "high",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "SUEZ RECYCLING & RECOVERY UK LTD",
+            "spend": 46229397.85
+          },
+          {
+            "supplier": "LANCASHIRE WASTE RECYCLING",
+            "spend": 15159045.84
+          },
+          {
+            "supplier": "ENVIROFUEL (SRF) LTD",
+            "spend": 3499133.1
+          }
+        ]
+      },
+      "Capital": {
+        "rating": "amber",
+        "total_spend": 17787503.57,
+        "hhi": 381,
+        "hhi_category": "low",
+        "round_number_pct": 0.1,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "HOMES ENGLAND T/A HOMES & COMMUNITIES AGENCY",
+            "spend": 2421214.45
+          },
+          {
+            "supplier": "EDEN FUTURES T/A SUPPORTED HOMES LTD",
+            "spend": 1381974.6
+          },
+          {
+            "supplier": "MAKING SPACE (WARRINGTON)",
+            "spend": 831794.77
+          }
+        ]
+      },
+      "Other services": {
+        "rating": "red",
+        "total_spend": 9353.87,
+        "hhi": 3597,
+        "hhi_category": "high",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "LANCASHIRE TEACHING NHS HOSPITALS FT",
+            "spend": 4280.65
+          },
+          {
+            "supplier": "ROSSENDALE BOROUGH COUNCIL",
+            "spend": 3398.0
+          },
+          {
+            "supplier": "ACS SPECIALIST CLEANING LTD",
+            "spend": 1260.0
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 91,
+    "mapped_contracts": 52,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 1266580000,
+        "contract_value_pounds": 414256001,
+        "contract_count": 13,
+        "coverage_pct": 32.7,
+        "top_contracts": [
+          {
+            "title": "0-19 years (up to 25 years with SEND) Public Health Nursing Service",
+            "value": 204258000,
+            "supplier": "Wirral Community Health and Care NHS Foundation Trust"
+          },
+          {
+            "title": "Supply of HH, NHH, UMS Electricity to Lancashire County Council and Schools",
+            "value": 110800000,
+            "supplier": "Npower Commercial Gas Limited"
+          },
+          {
+            "title": "Supply of Natural Gas to Lancashire County Council and Schools",
+            "value": 60000000,
+            "supplier": "TotalEnergies Gas &amp; Power Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 68472000,
+        "contract_value_pounds": 79723000,
+        "contract_count": 11,
+        "coverage_pct": 116.4,
+        "top_contracts": [
+          {
+            "title": "LPS CORP - Provision of Non-Recyclable Household Waste Acceptance and Recovery Services (5 Lots) - LCC40919,2",
+            "value": 35738000,
+            "supplier": "Lot 1 - North - (&#xA3;12,407,000) - SUEZ Recycling &amp; Recove,Lot 2 - South - (&#xA3;13,045,000) - FCC Waste Services (UK) Ltd,Lot 3 - East - (&#xA3;10,286,000) - FCC Waste Services (UK) Ltd"
+          },
+          {
+            "title": "LPS CORP - The Supply of Grocery, Soft Drinks and Frozen Food Products to Lancashire County Council - RFQ 15282559",
+            "value": 19640000,
+            "supplier": "Brake Bros Ltd,Dunsters Farm Limited,Ralph Livesey Ltd"
+          },
+          {
+            "title": "LPS CORP - The Supply of Food and Drink Products to Lancashire County Council - LCC14878",
+            "value": 16296000,
+            "supplier": "Ralph Livesey Limited,Brake Bros Limited"
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 291482000,
+        "contract_value_pounds": 38491337,
+        "contract_count": 5,
+        "coverage_pct": 13.2,
+        "top_contracts": [
+          {
+            "title": "LPS CARE - Support in Safe Accommodation and Outreach Services for Victims and Survivors of Domestic Abuse) - LCC35403",
+            "value": 30040392,
+            "supplier": "SafeNet Domestic Abuse and Support Services"
+          },
+          {
+            "title": "Young People Substance Misuse Prevention and Treatment Service",
+            "value": 8450945,
+            "supplier": "We Are With You Ltd"
+          },
+          {
+            "title": "LPS CARE - Pseudo Dynamic Purchasing System for the Provision of Childrens Home Services - RFQ 15315336",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 584501000,
+        "contract_value_pounds": 0,
+        "contract_count": 1,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "LPS CARE - Lancashire Roving Night Support Service - RFQ 15331419",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 97641000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 23653000,
+        "contract_value_pounds": 140000,
+        "contract_count": 1,
+        "coverage_pct": 0.6,
+        "top_contracts": [
+          {
+            "title": "LPS CAS - Stack Emission Testing Services - Lancashire Renewables Ltd - RFQ 15315197",
+            "value": 140000,
+            "supplier": "Element Materials Technology Environmental UK Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 94348000,
+        "contract_value_pounds": 99532,
+        "contract_count": 3,
+        "coverage_pct": 0.1,
+        "top_contracts": [
+          {
+            "title": "LPS CORP - Feasibility Study on Low Carbon, Renewable Energy and Climate Resiliency",
+            "value": 99532,
+            "supplier": "Bloom Procurement Services"
+          },
+          {
+            "title": "Market Engagement - Provision of Mobile Plant and Equipment",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Market Engagement - Provision of Mobile Material Handlers",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 7597000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 41881000,
+        "contract_value_pounds": 70823640.07,
+        "contract_count": 18,
+        "coverage_pct": 169.1,
+        "top_contracts": [
+          {
+            "title": "LPS CORP - The Supply and Delivery of Food and Drink Products to Lancashire County Council - LCC43108",
+            "value": 50344000,
+            "supplier": "Dunsters Farm Ltd,Sysco GB Limited,Trevors Warehouses Ltd,Morris Quality Bakers Limited"
+          },
+          {
+            "title": "Boost (5) Programme of Services",
+            "value": 9495000,
+            "supplier": "Growth Lancashire Ltd,Selnet Ltd,The Growth Company Ltd,Freshfield PR Ltd"
+          },
+          {
+            "title": "LPS CARE - NHS Health Checks Community Outreach Service - LCC24596",
+            "value": 3283100,
+            "supplier": "FCMS (NW) Ltd"
+          }
+        ]
+      }
+    ]
   }
 }

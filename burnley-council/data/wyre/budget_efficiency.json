@@ -1,0 +1,75 @@
+{
+  "categories_analysed": 2,
+  "categories": {
+    "Children Social Care": {
+      "transactions": 32228,
+      "total_spend": 91841123.47,
+      "avg_transaction": 2910.23,
+      "hhi": 1189,
+      "hhi_category": "low",
+      "top_suppliers": [
+        {
+          "supplier": "BALFOUR BEATTY CIVIL ENGINEERING LTD",
+          "spend": 25659627.19
+        },
+        {
+          "supplier": "VEOLIA ES (UK) LTD",
+          "spend": 16646353.83
+        },
+        {
+          "supplier": "Lancashire County Council",
+          "spend": 5929672.87
+        },
+        {
+          "supplier": "F PARKINSON LTD",
+          "spend": 4132085.78
+        },
+        {
+          "supplier": "FYLDE COAST YMCA",
+          "spend": 1691368.15
+        }
+      ],
+      "round_number_pct": 0.3,
+      "year_end_spike_ratio": 0.3,
+      "duplicate_rate_pct": 9.8,
+      "rating": "amber",
+      "issues": 1
+    },
+    "Central services": {
+      "transactions": 18864,
+      "total_spend": 586517766.74,
+      "avg_transaction": 31435.19,
+      "hhi": 3571,
+      "hhi_category": "high",
+      "top_suppliers": [
+        {
+          "supplier": "Lancashire County Council",
+          "spend": 319458520.65
+        },
+        {
+          "supplier": "DEPARTMENT FOR COMMUNITIES AND LOCAL GOVERNMENT",
+          "spend": 116297706.0
+        },
+        {
+          "supplier": "UNKNOWN",
+          "spend": 81505535.89
+        },
+        {
+          "supplier": "LANCASHIRE FIRE AUTHORITY",
+          "spend": 19858502.63
+        },
+        {
+          "supplier": "BALFOUR BEATTY CIVIL ENGINEERING LTD",
+          "spend": 13492410.11
+        }
+      ],
+      "round_number_pct": 1.3,
+      "year_end_spike_ratio": 0.3,
+      "duplicate_rate_pct": 11.5,
+      "rating": "red",
+      "issues": 3
+    }
+  },
+  "unmapped_transactions": 0,
+  "unmapped_spend": 0
+}

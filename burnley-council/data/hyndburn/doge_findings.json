@@ -67,6 +67,15 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 25,507+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (3.9%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "1",
+      "label": "Weak Competition Indicators",
+      "detail": "1 contracts show signs of limited competition (short tender periods or rapid award). Top: Hyndburn District Council, C3.1&amp;3.2,Jul25 - E  (\u00a34.7K)",
+      "severity": "info",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -124,7 +133,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.628811",
+  "generated": "2026-02-16T11:03:49.190893",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -132,7 +141,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -519,5 +531,471 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 7
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 92.7,
+    "total_outturn_pounds": 18726000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 348000,
+        "doge_mapped_pounds": 374082.9,
+        "doge_annualised_pounds": 37408.29,
+        "variance_annualised_pounds": -310591.71,
+        "coverage_pct": 10.7,
+        "significant_gap": false
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 130000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -130000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1532000,
+        "doge_mapped_pounds": 16907700.97,
+        "doge_annualised_pounds": 1690770.1,
+        "variance_annualised_pounds": 158770.1,
+        "coverage_pct": 110.4,
+        "significant_gap": false
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 3821000,
+        "doge_mapped_pounds": 9488389.43,
+        "doge_annualised_pounds": 948838.94,
+        "variance_annualised_pounds": -2872161.06,
+        "coverage_pct": 24.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 5462000,
+        "doge_mapped_pounds": 24682940.29,
+        "doge_annualised_pounds": 2468294.03,
+        "variance_annualised_pounds": -2993705.97,
+        "coverage_pct": 45.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 2685000,
+        "doge_mapped_pounds": 6443344.66,
+        "doge_annualised_pounds": 644334.47,
+        "variance_annualised_pounds": -2040665.53,
+        "coverage_pct": 24.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 4748000,
+        "doge_mapped_pounds": 115532170.93,
+        "doge_annualised_pounds": 11553217.09,
+        "variance_annualised_pounds": 6805217.09,
+        "coverage_pct": 243.3,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 149370.43,
+        "doge_annualised_pounds": 14937.04,
+        "variance_annualised_pounds": 14937.04,
+        "coverage_pct": null,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (10 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 10,
+    "categories": {
+      "Cultural and related services": {
+        "rating": "green",
+        "total_spend": 9488351.05,
+        "hhi": 909,
+        "hhi_category": "low",
+        "round_number_pct": 0.8,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "HYNDBURN LEISURE",
+            "spend": 2252061.15
+          },
+          {
+            "supplier": "ROSS LEE CONSTRUCTION LTD",
+            "spend": 1281795.19
+          },
+          {
+            "supplier": "EDF ENERGY",
+            "spend": 750062.88
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 6443344.66,
+        "hhi": 752,
+        "hhi_category": "low",
+        "round_number_pct": 9.7,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 1661035.46
+          },
+          {
+            "supplier": "ONE 7 GRP LTD",
+            "spend": 296908.0
+          },
+          {
+            "supplier": "MACDONALD & COMPANY",
+            "spend": 209936.46
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "green",
+        "total_spend": 16907700.97,
+        "hhi": 447,
+        "hhi_category": "low",
+        "round_number_pct": 1.5,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "NATIONAL HIGHWAYS LTD",
+            "spend": 2192500.0
+          },
+          {
+            "supplier": "ALLIANCE LEISURE SERVICES LTD",
+            "spend": 2018459.98
+          },
+          {
+            "supplier": "EDF ENERGY - 9044031649 CONSOLIDATED INVOICE",
+            "spend": 927357.12
+          }
+        ]
+      },
+      "Capital": {
+        "rating": "amber",
+        "total_spend": 194546.7,
+        "hhi": 3643,
+        "hhi_category": "high",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.3,
+        "top_suppliers": [
+          {
+            "supplier": "HAYS",
+            "spend": 106966.38
+          },
+          {
+            "supplier": "VENN GROUP LTD",
+            "spend": 39555.25
+          },
+          {
+            "supplier": "JAC FM LTD",
+            "spend": 24965.77
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 24682940.29,
+        "hhi": 698,
+        "hhi_category": "low",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "MORGAN SINDALL CONSTRUCTION & INFRASTRUCTURE LTD",
+            "spend": 5717758.19
+          },
+          {
+            "supplier": "SPECIALIST FLEET SERVICES LTD",
+            "spend": 1869498.81
+          },
+          {
+            "supplier": "MGB PLASTICS",
+            "spend": 1136399.8
+          }
+        ]
+      },
+      "Children Social Care": {
+        "rating": "green",
+        "total_spend": 366133.0,
+        "hhi": 1125,
+        "hhi_category": "low",
+        "round_number_pct": 2.7,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "INSIGHT DIRECT (UK) LTD",
+            "spend": 68031.18
+          },
+          {
+            "supplier": "DELL COMPUTER CORPORATION LTD",
+            "spend": 55000.0
+          },
+          {
+            "supplier": "ALLIANCE LEISURE SERVICES LTD",
+            "spend": 51440.95
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 115532170.93,
+        "hhi": 3380,
+        "hhi_category": "high",
+        "round_number_pct": 0.8,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "LANCASHIRE COUNTY COUNCIL (DIRECT DEBIT PAYMENTS)",
+            "spend": 62899085.58
+          },
+          {
+            "supplier": "(DD) DEPARTMENT OF LEVELLING UP, HOUSING & COMM...",
+            "spend": 20579785.0
+          },
+          {
+            "supplier": "ALLIANCE LEISURE SERVICES LTD",
+            "spend": 7905945.03
+          }
+        ]
+      },
+      "Highways and transport services": {
+        "rating": "green",
+        "total_spend": 374082.9,
+        "hhi": 1320,
+        "hhi_category": "low",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.5,
+        "top_suppliers": [
+          {
+            "supplier": "Hyndburn Borough Council",
+            "spend": 96574.81
+          },
+          {
+            "supplier": "GEORGE PEARCE & SONS LTD",
+            "spend": 75812.63
+          },
+          {
+            "supplier": "THE ASPHALT WORKS LTD",
+            "spend": 38611.66
+          }
+        ]
+      },
+      "Other services": {
+        "rating": "amber",
+        "total_spend": 149370.43,
+        "hhi": 2598,
+        "hhi_category": "high",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "BELLIT SECURITY LTD",
+            "spend": 60157.15
+          },
+          {
+            "supplier": "FULL CIRCUIT FIRE & SECURITY LTD",
+            "spend": 42932.42
+          },
+          {
+            "supplier": "EMERGENCY SYSTEMS LTD",
+            "spend": 12002.7
+          }
+        ]
+      },
+      "Adult Social Care": {
+        "rating": "amber",
+        "total_spend": 14136.77,
+        "hhi": 1719,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 1.6,
+        "top_suppliers": [
+          {
+            "supplier": "DVLA",
+            "spend": 5285.0
+          },
+          {
+            "supplier": "WHEWELLS",
+            "spend": 1533.73
+          },
+          {
+            "supplier": "CIEH",
+            "spend": 1095.0
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 32,
+    "mapped_contracts": 24,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 68000,
+        "contract_count": 1,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Design and provision of a pump track at Milnshaw Park, Accrington for Hyndburn Borough Council",
+            "value": 68000,
+            "supplier": "ARCHITRAIL VELOSOLUTIONS UK LIMITED"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 348000,
+        "contract_value_pounds": 95862.71,
+        "contract_count": 5,
+        "coverage_pct": 27.5,
+        "top_contracts": [
+          {
+            "title": "Grass Cutting Contract",
+            "value": 41815,
+            "supplier": "Master Ground Services"
+          },
+          {
+            "title": "Mercer Hall Forecourt Improvements Great Harwood",
+            "value": 35172.71,
+            "supplier": "BDB SPECIAL PROJECTS LTD"
+          },
+          {
+            "title": "The grass cutting of gateway roads, headges and traffic management works",
+            "value": 18875,
+            "supplier": "KAYS TRAFFIC MANAGEMENT SYSTEMS LTD."
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 0,
+        "contract_value_pounds": 303357.31,
+        "contract_count": 3,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Milnshaw Park provision of a new play area, Lancs",
+            "value": 119714.37,
+            "supplier": "JOHN WADE GROUNDWORKS LIMITED"
+          },
+          {
+            "title": "Knuzden Play Area installation and new ballcourt installation for Hyndburn Borough Council",
+            "value": 108642.98,
+            "supplier": "Groundwork Landscapes Ltd"
+          },
+          {
+            "title": "Refurbishment of children&#039;s play area for Hyndburn Borough Council",
+            "value": 74999.96,
+            "supplier": "KOMPAN (UK) LTD"
+          }
+        ]
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 130000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 1532000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 3821000,
+        "contract_value_pounds": 87511.38,
+        "contract_count": 8,
+        "coverage_pct": 2.3,
+        "top_contracts": [
+          {
+            "title": "Access improvements to Peel Park LNR",
+            "value": 40214.98,
+            "supplier": "O&#039; CALLAGHAN Ltd"
+          },
+          {
+            "title": "Lowerfold Park access and tennis court improvements",
+            "value": 26812,
+            "supplier": "GROUND INC LTD"
+          },
+          {
+            "title": "Bullough Park Play Area upgrade, Accrington",
+            "value": 20484.4,
+            "supplier": "Horticon Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 5462000,
+        "contract_value_pounds": 0,
+        "contract_count": 2,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Sale of Recycling",
+            "value": 0,
+            "supplier": "Various Suppliers"
+          },
+          {
+            "title": "Procurement of Mixed Paper and Card",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 2685000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 4748000,
+        "contract_value_pounds": 4680,
+        "contract_count": 5,
+        "coverage_pct": 0.1,
+        "top_contracts": [
+          {
+            "title": "Hyndburn District Council, C3.1&amp;3.2,Jul25 - E A Foulds",
+            "value": 4680,
+            "supplier": "E A Foulds Ltd"
+          },
+          {
+            "title": "Hyndburn District Council, C3.1&amp;3.2,Jul25 - E A Foulds",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Procurement of Laptops and ICT Accessories",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      }
+    ]
   }
 }

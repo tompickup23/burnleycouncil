@@ -67,6 +67,15 @@
       "confidence": "low",
       "context_note": "Chi-squared values on samples of 630,914+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (2.9%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "34",
+      "label": "Weak Competition Indicators",
+      "detail": "34 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Blackpool: TPPL Blackpool Council BNES Bus Lot  (\u00a31.2M)",
+      "severity": "warning",
+      "confidence": "low",
+      "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
+      "link": "/procurement"
     }
   ],
   "key_findings": [
@@ -120,11 +129,21 @@
       "link_text": "View procurement \u2192",
       "severity": "info",
       "confidence": "medium"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Budget Gap",
+      "title": "AI DOGE covers 70% of \u00a3292.7M GOV.UK outturn",
+      "description": "Spending >\u00a3500 threshold means smaller transactions are excluded. Largest gaps: Education services, Highways and transport services, Children Social Care. This is expected \u2014 not a data quality issue.",
+      "link": "/budgets",
+      "link_text": "View budgets \u2192",
+      "severity": "info",
+      "confidence": "high"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.637761",
+  "generated": "2026-02-16T11:03:49.212373",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -132,7 +151,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -757,5 +779,551 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 9
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 69.6,
+    "total_outturn_pounds": 292734000,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 65299000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -65299000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 7706000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": -7706000.0,
+        "coverage_pct": 0.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 85832000,
+        "doge_mapped_pounds": 342828445.12,
+        "doge_annualised_pounds": 48975492.16,
+        "variance_annualised_pounds": -36856507.84,
+        "coverage_pct": 57.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 76650000,
+        "doge_mapped_pounds": 590184298.69,
+        "doge_annualised_pounds": 84312042.67,
+        "variance_annualised_pounds": 7662042.67,
+        "coverage_pct": 110.0,
+        "significant_gap": true
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 20399000,
+        "doge_mapped_pounds": 75403253.6,
+        "doge_annualised_pounds": 10771893.37,
+        "variance_annualised_pounds": -9627106.63,
+        "coverage_pct": 52.8,
+        "significant_gap": true
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 5155000,
+        "doge_mapped_pounds": 60409783.93,
+        "doge_annualised_pounds": 8629969.13,
+        "variance_annualised_pounds": 3474969.13,
+        "coverage_pct": 167.4,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 8082000,
+        "doge_mapped_pounds": 3178979.72,
+        "doge_annualised_pounds": 454139.96,
+        "variance_annualised_pounds": -7627860.04,
+        "coverage_pct": 5.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 21101000,
+        "doge_mapped_pounds": 171194521.25,
+        "doge_annualised_pounds": 24456360.18,
+        "variance_annualised_pounds": 3355360.18,
+        "coverage_pct": 115.9,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 2510000,
+        "doge_mapped_pounds": 2060612.02,
+        "doge_annualised_pounds": 294373.15,
+        "variance_annualised_pounds": -2215626.85,
+        "coverage_pct": 11.7,
+        "significant_gap": true
+      },
+      {
+        "category": "Fire and rescue services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": -295000,
+        "doge_mapped_pounds": 181426172.17,
+        "doge_annualised_pounds": 25918024.6,
+        "variance_annualised_pounds": 26213024.6,
+        "coverage_pct": null,
+        "significant_gap": false
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": -1347000,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 1347000.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (7 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 9,
+    "categories": {
+      "Children Social Care": {
+        "rating": "amber",
+        "total_spend": 342828445.12,
+        "hhi": 234,
+        "hhi_category": "low",
+        "round_number_pct": 0.7,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED",
+            "spend": 38969777.13
+          },
+          {
+            "supplier": "HIGHFIELD PFI SPV LTD",
+            "spend": 19577048.96
+          },
+          {
+            "supplier": "SANDCASTLE CARE LTD",
+            "spend": 14437929.1
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "green",
+        "total_spend": 171194521.25,
+        "hhi": 1100,
+        "hhi_category": "low",
+        "round_number_pct": 0.6,
+        "year_end_spike_ratio": 0.5,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 39334678.73
+          },
+          {
+            "supplier": "ENVECO BLACKPOOL WASTE SERVICES LTD",
+            "spend": 29977785.35
+          },
+          {
+            "supplier": "COMMUNITY LIGHTING PARTNERSHIP (BPOOL) LTD",
+            "spend": 23242153.96
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "green",
+        "total_spend": 181426172.17,
+        "hhi": 530,
+        "hhi_category": "low",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 0.5,
+        "top_suppliers": [
+          {
+            "supplier": "EDF ENERGY",
+            "spend": 28294750.84
+          },
+          {
+            "supplier": "RP TYSON CONSTRUCTION LTD",
+            "spend": 20688961.46
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 16104588.07
+          }
+        ]
+      },
+      "Adult Social Care": {
+        "rating": "amber",
+        "total_spend": 590184298.69,
+        "hhi": 220,
+        "hhi_category": "low",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "NHS BLACKPOOL CCG",
+            "spend": 45024796.23
+          },
+          {
+            "supplier": "REDACTED",
+            "spend": 44933171.52
+          },
+          {
+            "supplier": "AUTISM INITIATIVES UK",
+            "spend": 34026061.2
+          }
+        ]
+      },
+      "Capital": {
+        "rating": "green",
+        "total_spend": 183080726.33,
+        "hhi": 770,
+        "hhi_category": "low",
+        "round_number_pct": 1.8,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "MUSE DEVELOPMENTS LTD",
+            "spend": 33653565.87
+          },
+          {
+            "supplier": "MCLAUGHLIN & HARVEY LTD",
+            "spend": 28742490.15
+          },
+          {
+            "supplier": "CONLON CONSTRUCTION LTD",
+            "spend": 12121845.62
+          }
+        ]
+      },
+      "Public Health": {
+        "rating": "amber",
+        "total_spend": 75403253.6,
+        "hhi": 2322,
+        "hhi_category": "moderate",
+        "round_number_pct": 6.0,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "RHEA PROJECTS LTD",
+            "spend": 29362870.82
+          },
+          {
+            "supplier": "BLACKPOOL TEACHING HOSPITALS NHS FT",
+            "spend": 17458849.92
+          },
+          {
+            "supplier": "DELPHI MEDICAL CONSULTANTS LTD",
+            "spend": 10850025.0
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "amber",
+        "total_spend": 2060612.02,
+        "hhi": 1775,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "MERLIN ENTERTAINMENTS (BLACKPOOL) LTD",
+            "spend": 531449.13
+          },
+          {
+            "supplier": "PETE MARQUIS T/A PDM INDUSTRIES LTD",
+            "spend": 498636.84
+          },
+          {
+            "supplier": "BLACKPOOL PLEASURE BEACH LTD",
+            "spend": 423452.55
+          }
+        ]
+      },
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 3178979.72,
+        "hhi": 2471,
+        "hhi_category": "moderate",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "FACULTATIEVE TECHNOLOGIES LTD",
+            "spend": 1024558.15
+          },
+          {
+            "supplier": "ASKAM CIVIL ENGINEERING LTD",
+            "spend": 825938.72
+          },
+          {
+            "supplier": "F PARKINSON LTD",
+            "spend": 804955.58
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "amber",
+        "total_spend": 60409783.93,
+        "hhi": 3250,
+        "hhi_category": "high",
+        "round_number_pct": 0.4,
+        "year_end_spike_ratio": 0.1,
+        "top_suppliers": [
+          {
+            "supplier": "BLACKPOOL COASTAL HOUSING",
+            "spend": 31463186.61
+          },
+          {
+            "supplier": "RP TYSON CONSTRUCTION LTD",
+            "spend": 12684293.73
+          },
+          {
+            "supplier": "BAMBERS REMEDIAL CONTRACTORS LTD",
+            "spend": 4898504.41
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 153,
+    "mapped_contracts": 105,
+    "category_coverage": [
+      {
+        "category": "Education services",
+        "outturn_pounds": 65299000,
+        "contract_value_pounds": 4605133.64,
+        "contract_count": 14,
+        "coverage_pct": 7.1,
+        "top_contracts": [
+          {
+            "title": "The Supply and Distribution of Groceries; consisting of Dry Goods, Dairy Products and Cooked Meats to Blackpool Council&#039;s Sites and Blackpool Schools",
+            "value": 1700000,
+            "supplier": "Trevors Foodservice,Trevors Warehouses Ltd"
+          },
+          {
+            "title": "Provision of Mechanical Repair &amp; Maintenance Services - 2 lots",
+            "value": 1400000,
+            "supplier": "JG Kelley (Fleetwood) Ltd,CPL Heating and Plumbing Ltd,Dynamic FM Ltd"
+          },
+          {
+            "title": "Provision/Maintenance of Software Relating to the Capita One Educational Management System",
+            "value": 557066,
+            "supplier": "Capita Business Services"
+          }
+        ]
+      },
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": 7706000,
+        "contract_value_pounds": 5692289,
+        "contract_count": 17,
+        "coverage_pct": 73.9,
+        "top_contracts": [
+          {
+            "title": "Yeadon Way (Phase 2) Refurbishment - Highways Design &amp; Build",
+            "value": 2263000,
+            "supplier": "Eric Wright Civil Engineering Ltd"
+          },
+          {
+            "title": "Blackpool Intelligent Transport System",
+            "value": 1700000,
+            "supplier": "Swarco Traffic Ltd"
+          },
+          {
+            "title": "Princess Street Bridge Replacement",
+            "value": 1146000,
+            "supplier": "AE Yates"
+          }
+        ]
+      },
+      {
+        "category": "Children Social Care",
+        "outturn_pounds": 85832000,
+        "contract_value_pounds": 3745000,
+        "contract_count": 8,
+        "coverage_pct": 4.4,
+        "top_contracts": [
+          {
+            "title": "Blackpool Advocacy Hub 2022",
+            "value": 2525000,
+            "supplier": "Empowerment Charity Lancashire"
+          },
+          {
+            "title": "Blackpool Advocacy Hub 2017",
+            "value": 1220000,
+            "supplier": "Empowerment Charity Lancashire"
+          },
+          {
+            "title": "Speech, Language and Communication - Universal and Early Targeted Service",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 76650000,
+        "contract_value_pounds": 132413540,
+        "contract_count": 4,
+        "coverage_pct": 172.8,
+        "top_contracts": [
+          {
+            "title": "Person Centred Home Care",
+            "value": 130000000,
+            "supplier": "Routes Healthcare (North) Limited,Delta Care Ltd,ICare Solutions Ltd,Carewatch Care Services Ltd,Castlerock Recruitment Group Ltd,Premier Care Ltd,Sevacare (UK) Ltd,ICare,Napier Homecare Services Ltd,Guardian Homecare,cherishuk,1 Homecare Ltd"
+          },
+          {
+            "title": "Professional Appointment of a Managed Service for an Assessment Unit &amp; Fostering Carer Recruitment Campaign/Service",
+            "value": 1100000,
+            "supplier": "Innovate Therapeutic Care Limited"
+          },
+          {
+            "title": "Person Centred Home Care (Ancillary Provision)",
+            "value": 663540,
+            "supplier": "Briars Homecare Services Ltd,Dignity In Life LTD,SPRING FOUNTAIN (Private) LTD"
+          }
+        ]
+      },
+      {
+        "category": "Public Health",
+        "outturn_pounds": 20399000,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 5155000,
+        "contract_value_pounds": 21354500,
+        "contract_count": 13,
+        "coverage_pct": 414.2,
+        "top_contracts": [
+          {
+            "title": "Annual Gas Servicing, Maintenance and Boiler Replacement Programme",
+            "value": 16800000,
+            "supplier": "Read &amp; Errington"
+          },
+          {
+            "title": "Provision of Specialist Printing Services for Annual Council Tax Bills, Annual Business Rates Bills, Annual Housing Benefit and Annual Council Tax Reduction Scheme Letters, plus Daily Council Tax and Business Rates Documents, including Council Tax Reduction letters YPO, CCS, ESPO Framework RM6280 - (Postal services and solutions)",
+            "value": 1250000,
+            "supplier": "Critiqom Limited trading as Mail Metrics"
+          },
+          {
+            "title": "Blackpool Council Repair &amp; Maintenance Services - Work package values &lt; &#xA3;10k",
+            "value": 900000,
+            "supplier": "Ellis &amp; York Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 8082000,
+        "contract_value_pounds": 138000,
+        "contract_count": 7,
+        "coverage_pct": 1.7,
+        "top_contracts": [
+          {
+            "title": "Transfer of Historic Collections from Blackpool Central Library",
+            "value": 70000,
+            "supplier": "HARWELL TECHNICAL SERVICES LIMITED"
+          },
+          {
+            "title": "Appointment of an Agency to Work on a Cultural Tourism Campaign",
+            "value": 38000,
+            "supplier": "Vivid Ltd"
+          },
+          {
+            "title": "Retail, Commercial Leisure and Hotel Capacity Study",
+            "value": 30000,
+            "supplier": "WYG Environment, Planning &amp; Transport"
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 21101000,
+        "contract_value_pounds": 784700,
+        "contract_count": 7,
+        "coverage_pct": 3.7,
+        "top_contracts": [
+          {
+            "title": "Bulky Matters",
+            "value": 684700,
+            "supplier": "Calico Enterprise Limited"
+          },
+          {
+            "title": "Provision of Mechanical Repairs, Maintenance and Capital Works 2020",
+            "value": 100000,
+            "supplier": "JG Kelley (Fleetwood) Ltd"
+          },
+          {
+            "title": "Provision of Portable and Fixed Appliance Testing 2025",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 2510000,
+        "contract_value_pounds": 277255,
+        "contract_count": 2,
+        "coverage_pct": 11.0,
+        "top_contracts": [
+          {
+            "title": "Specialist Legal Advice",
+            "value": 199999,
+            "supplier": "DWF LLP"
+          },
+          {
+            "title": "Professional Appointment of Public and Stakeholder Consultation on the Proposals for the Lancashire County Combined Authority",
+            "value": 77256,
+            "supplier": "Ipsos (Market Research) Ltd"
+          }
+        ]
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": -295000,
+        "contract_value_pounds": 11865798.49,
+        "contract_count": 33,
+        "coverage_pct": null,
+        "top_contracts": [
+          {
+            "title": "Asset Management and Property Management Services",
+            "value": 3700000,
+            "supplier": "Ellandi Management Limited"
+          },
+          {
+            "title": "Golden Mile Centre - Development Opportunity",
+            "value": 2300000,
+            "supplier": "Merlin Attractions Operations Limited"
+          },
+          {
+            "title": "Provision of Cremators, Mercury Abatement Equipment and Associated Works at Carleton Crematorium",
+            "value": 1122000,
+            "supplier": "FACULTATIEVE TECHNOLOGIES LIMITED"
+          }
+        ]
+      }
+    ]
   }
 }

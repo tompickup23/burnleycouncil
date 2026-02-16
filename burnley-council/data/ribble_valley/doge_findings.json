@@ -114,7 +114,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-15T20:25:05.633293",
+  "generated": "2026-02-16T11:03:49.200463",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -122,7 +122,10 @@
     "ch_compliance",
     "benfords_law",
     "supplier_concentration",
-    "fraud_triangle"
+    "fraud_triangle",
+    "budget_variance",
+    "budget_efficiency",
+    "contract_crossref"
   ],
   "payment_velocity": {
     "rapid_payers": [
@@ -374,5 +377,338 @@
     },
     "methodology": "Fraud triangle (Cressey 1953): screening tool synthesising existing DOGE analysis signals. Not an accusation of fraud.",
     "total_signals": 6
+  },
+  "budget_variance": {
+    "latest_year": "2024-25",
+    "overall_coverage_pct": 81.4,
+    "total_outturn_pounds": 9475380,
+    "ct_dependency_pct": 0,
+    "category_comparison": [
+      {
+        "category": "Highways and transport services",
+        "outturn_pounds": -215510,
+        "doge_mapped_pounds": 5158315.54,
+        "doge_annualised_pounds": 1031663.11,
+        "variance_annualised_pounds": 1247173.11,
+        "coverage_pct": null,
+        "significant_gap": false
+      },
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 21510,
+        "doge_mapped_pounds": 69015.0,
+        "doge_annualised_pounds": 13803.0,
+        "variance_annualised_pounds": -7707.0,
+        "coverage_pct": 64.2,
+        "significant_gap": false
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 249110,
+        "doge_mapped_pounds": 4124438.29,
+        "doge_annualised_pounds": 824887.66,
+        "variance_annualised_pounds": 575777.66,
+        "coverage_pct": 331.1,
+        "significant_gap": true
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 1805200,
+        "doge_mapped_pounds": 8891230.83,
+        "doge_annualised_pounds": 1778246.17,
+        "variance_annualised_pounds": -26953.83,
+        "coverage_pct": 98.5,
+        "significant_gap": false
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 3923200,
+        "doge_mapped_pounds": 3573813.27,
+        "doge_annualised_pounds": 714762.65,
+        "variance_annualised_pounds": -3208437.35,
+        "coverage_pct": 18.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 904600,
+        "doge_mapped_pounds": 1293703.39,
+        "doge_annualised_pounds": 258740.68,
+        "variance_annualised_pounds": -645859.32,
+        "coverage_pct": 28.6,
+        "significant_gap": true
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 2571760,
+        "doge_mapped_pounds": 15460831.43,
+        "doge_annualised_pounds": 3092166.29,
+        "variance_annualised_pounds": 520406.29,
+        "coverage_pct": 120.2,
+        "significant_gap": true
+      },
+      {
+        "category": "Other services",
+        "outturn_pounds": 0,
+        "doge_mapped_pounds": 0,
+        "doge_annualised_pounds": 0.0,
+        "variance_annualised_pounds": 0.0,
+        "coverage_pct": 0,
+        "significant_gap": false
+      }
+    ],
+    "reserve_analysis": null,
+    "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
+  },
+  "budget_efficiency": {
+    "categories_analysed": 7,
+    "categories": {
+      "Cultural and related services": {
+        "rating": "amber",
+        "total_spend": 8432632.35,
+        "hhi": 330,
+        "hhi_category": "low",
+        "round_number_pct": 1.3,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 844307.71
+          },
+          {
+            "supplier": "ZURICH INSURANCE COMPANY",
+            "spend": 741440.28
+          },
+          {
+            "supplier": "CORONA ENERGY RETAIL 2 LTD",
+            "spend": 498047.15
+          }
+        ]
+      },
+      "Housing services (GFRA only)": {
+        "rating": "amber",
+        "total_spend": 4102395.37,
+        "hhi": 440,
+        "hhi_category": "low",
+        "round_number_pct": 1.1,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "REDACTED PERSONAL DATA",
+            "spend": 479162.21
+          },
+          {
+            "supplier": "STANNAH LIFT SERVICES LTD",
+            "spend": 370660.06
+          },
+          {
+            "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
+            "spend": 209056.1
+          }
+        ]
+      },
+      "Highways and transport services": {
+        "rating": "amber",
+        "total_spend": 5048831.05,
+        "hhi": 470,
+        "hhi_category": "low",
+        "round_number_pct": 0.1,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "ZURICH INSURANCE COMPANY",
+            "spend": 520932.55
+          },
+          {
+            "supplier": "CERTAS ENERGY UK LTD T/A TOWNSON BROS",
+            "spend": 470266.0
+          },
+          {
+            "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
+            "spend": 440393.28
+          }
+        ]
+      },
+      "Central services": {
+        "rating": "amber",
+        "total_spend": 15111918.94,
+        "hhi": 355,
+        "hhi_category": "low",
+        "round_number_pct": 3.2,
+        "year_end_spike_ratio": 0.2,
+        "top_suppliers": [
+          {
+            "supplier": "DEPARTMENT FOR BUSINESS ENERGY AND INDUSTRIAL STR",
+            "spend": 1971368.0
+          },
+          {
+            "supplier": "DENNIS EAGLE LTD",
+            "spend": 1004129.0
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 843890.87
+          }
+        ]
+      },
+      "Environmental and regulatory services": {
+        "rating": "amber",
+        "total_spend": 3547583.32,
+        "hhi": 1282,
+        "hhi_category": "low",
+        "round_number_pct": 0.5,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 995864.11
+          },
+          {
+            "supplier": "STANLEY BROTHERS TIPPERS LTD",
+            "spend": 558040.59
+          },
+          {
+            "supplier": "PROFILE SECURITY SERVICES LTD",
+            "spend": 405653.89
+          }
+        ]
+      },
+      "Planning and development services": {
+        "rating": "green",
+        "total_spend": 1277756.24,
+        "hhi": 446,
+        "hhi_category": "low",
+        "round_number_pct": 1.7,
+        "year_end_spike_ratio": 0.4,
+        "top_suppliers": [
+          {
+            "supplier": "ROBERT PINKUS PROPERTY MANAGEMENT LTD",
+            "spend": 161396.31
+          },
+          {
+            "supplier": "Lancashire County Council",
+            "spend": 110469.71
+          },
+          {
+            "supplier": "INTERNATIONAL PARKING SYSTEMS (UK) LTD, IPS GROUP",
+            "spend": 78370.0
+          }
+        ]
+      },
+      "Adult Social Care": {
+        "rating": "amber",
+        "total_spend": 69015.0,
+        "hhi": 396,
+        "hhi_category": "low",
+        "round_number_pct": 0.0,
+        "year_end_spike_ratio": 0.0,
+        "top_suppliers": [
+          {
+            "supplier": "CLITHEROE METHODIST CIRCUIT",
+            "spend": 5940.0
+          },
+          {
+            "supplier": "SLAIDBURN VILLAGE HALL",
+            "spend": 4850.0
+          },
+          {
+            "supplier": "WEST BRADFORD LUNCHEON CLUB",
+            "spend": 4200.0
+          }
+        ]
+      }
+    }
+  },
+  "contract_crossref": {
+    "total_contracts": 21,
+    "mapped_contracts": 15,
+    "category_coverage": [
+      {
+        "category": "Adult Social Care",
+        "outturn_pounds": 21510,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Housing services (GFRA only)",
+        "outturn_pounds": 249110,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Cultural and related services",
+        "outturn_pounds": 1805200,
+        "contract_value_pounds": 0,
+        "contract_count": 2,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Provision of Catering Services Bowling Green Cafe, Clitheroe",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Edisford Sports Complex - 3G Pitches and Pavilion",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Environmental and regulatory services",
+        "outturn_pounds": 3923200,
+        "contract_value_pounds": 0,
+        "contract_count": 3,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Contract for Purchase of Mixed Paper and Cardboard",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "The Right to Purchase Mixed Paper and Cardboard",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Intiviation to Tender for the Purchase of Mixed Paper and Cardboard",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      },
+      {
+        "category": "Planning and development services",
+        "outturn_pounds": 904600,
+        "contract_value_pounds": 0,
+        "contract_count": 0,
+        "coverage_pct": 0.0,
+        "top_contracts": []
+      },
+      {
+        "category": "Central services",
+        "outturn_pounds": 2571760,
+        "contract_value_pounds": 0,
+        "contract_count": 2,
+        "coverage_pct": 0.0,
+        "top_contracts": [
+          {
+            "title": "Public Space CCTV System Upgrade Ribble Valley",
+            "value": 0,
+            "supplier": null
+          },
+          {
+            "title": "Tender for the Provision of  Catering Services at The Atrium Caf&#xE9;, Clitheroe Castle and/or Bowling Green Caf&#xE9;, Clitheroe Castle",
+            "value": 0,
+            "supplier": null
+          }
+        ]
+      }
+    ]
   }
 }
