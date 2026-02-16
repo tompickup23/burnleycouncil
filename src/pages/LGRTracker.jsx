@@ -4,7 +4,7 @@ import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine } from 'recharts'
-import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3 } from 'lucide-react'
+import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin } from 'lucide-react'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
@@ -157,6 +157,7 @@ function LGRTracker() {
     { id: 'proposals', label: 'Proposals', icon: Building },
     { id: 'independent', label: 'AI DOGE Model', icon: Brain },
     { id: 'assets', label: 'Assets', icon: PoundSterling },
+    { id: 'handover', label: 'Handover', icon: ArrowRight },
     { id: 'critique', label: 'CCN Critique', icon: BookOpen },
     { id: 'demographics', label: 'Demographics', icon: Users },
     { id: 'politics', label: 'Politics', icon: Vote },
@@ -195,6 +196,7 @@ function LGRTracker() {
           ) : (
             <>Five proposals are under public consultation until 26 March 2026.</>
           )}
+          {' '}<a href="lgr-calculator" className="lgr-calc-link">See what it means for your council tax →</a>
         </span>
       </div>
 
@@ -426,6 +428,165 @@ function LGRTracker() {
               ))}
             </div>
           )}
+        </section>
+      )}
+
+      {/* Financial Handover Dashboard */}
+      {Object.keys(modelFinancials).length > 0 && (
+        <section className="lgr-section" id="lgr-handover">
+          <h2><PoundSterling size={20} /> Financial Handover Dashboard</h2>
+          <p className="section-desc">
+            What each proposed successor authority would inherit — aggregated budgets, reserves and spending
+            from constituent councils. Select a model to see the financial starting position.
+          </p>
+
+          <div className="handover-model-tabs">
+            {lgrData.proposed_models.map((model, idx) => (
+              <button
+                key={model.id}
+                className={`handover-tab ${selectedModel === model.id || (!selectedModel && idx === 0) ? 'active' : ''}`}
+                onClick={() => setSelectedModel(model.id)}
+                style={{ '--tab-color': PROPOSAL_COLORS[idx] }}
+              >
+                {model.short_name}
+              </button>
+            ))}
+          </div>
+
+          {(() => {
+            const activeModelId = selectedModel || lgrData.proposed_models[0]?.id
+            const authorities = modelFinancials[activeModelId]
+            const activeModel = lgrData.proposed_models.find(m => m.id === activeModelId)
+            if (!authorities || !activeModel) return null
+
+            const totalReserves = authorities.reduce((s, a) => s + a.reserves, 0)
+            const totalSpend = authorities.reduce((s, a) => s + a.serviceExpenditure, 0)
+            const totalPop = authorities.reduce((s, a) => s + a.population, 0)
+
+            return (
+              <div className="handover-content animate-fade-in">
+                {/* Summary row */}
+                <div className="handover-summary-row">
+                  <div className="handover-stat">
+                    <span className="hs-value">{formatCurrency(totalSpend, true)}</span>
+                    <span className="hs-label">Combined service expenditure</span>
+                  </div>
+                  <div className="handover-stat">
+                    <span className="hs-value">{formatCurrency(totalReserves, true)}</span>
+                    <span className="hs-label">Combined reserves</span>
+                  </div>
+                  <div className="handover-stat">
+                    <span className="hs-value">{formatNumber(totalPop)}</span>
+                    <span className="hs-label">Total population</span>
+                  </div>
+                  <div className="handover-stat">
+                    <span className="hs-value">{activeModel.num_authorities}</span>
+                    <span className="hs-label">New authorities</span>
+                  </div>
+                </div>
+
+                {/* Per-authority cards */}
+                <div className="handover-authority-cards">
+                  {authorities.map((auth, ai) => {
+                    const isMine = auth.councils.includes(councilId)
+                    const reservesPerHead = auth.population > 0 ? auth.reserves / auth.population : 0
+                    const spendPerHead = auth.population > 0 ? auth.serviceExpenditure / auth.population : 0
+                    const meetsThreshold = auth.population >= 500000
+
+                    return (
+                      <div key={ai} className={`handover-card ${isMine ? 'mine' : ''}`}>
+                        <div className="handover-card-header">
+                          <h4>
+                            {auth.name}
+                            {isMine && <span className="your-authority-badge"><MapPin size={12} /> Your authority</span>}
+                          </h4>
+                          <span className={`threshold-badge ${meetsThreshold ? 'meets' : 'below'}`}>
+                            {meetsThreshold ? <Check size={12} /> : <XIcon size={12} />}
+                            {meetsThreshold ? 'Above' : 'Below'} 500K
+                          </span>
+                        </div>
+
+                        <div className="handover-metrics">
+                          <div className="hm-row">
+                            <span className="hm-label">Population</span>
+                            <span className="hm-value">{formatNumber(auth.population)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">Service expenditure</span>
+                            <span className="hm-value">{formatCurrency(auth.serviceExpenditure, true)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">Spend per head</span>
+                            <span className="hm-value">{formatCurrency(spendPerHead)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">CT requirement</span>
+                            <span className="hm-value">{formatCurrency(auth.ctRequirement, true)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">Total reserves</span>
+                            <span className="hm-value">{formatCurrency(auth.reserves, true)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">Earmarked reserves</span>
+                            <span className="hm-value">{formatCurrency(auth.earmarkedReserves, true)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">Unallocated reserves</span>
+                            <span className="hm-value">{formatCurrency(auth.unallocatedReserves, true)}</span>
+                          </div>
+                          <div className="hm-row">
+                            <span className="hm-label">Reserves per head</span>
+                            <span className="hm-value">{formatCurrency(reservesPerHead)}</span>
+                          </div>
+                        </div>
+
+                        <div className="handover-councils">
+                          <span className="hm-label">Constituent councils ({auth.councils.length})</span>
+                          <div className="council-list">
+                            {auth.councilNames.map((name, ci) => (
+                              <span key={ci} className={`council-chip ${auth.councils[ci] === councilId ? 'current' : ''}`}>
+                                {auth.councils[ci] === councilId && <MapPin size={12} />}
+                                {name}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Comparison chart */}
+                {authorities.length > 1 && (
+                  <div className="handover-chart">
+                    <h3>Spend per head by proposed authority</h3>
+                    <ResponsiveContainer width="100%" height={Math.max(200, authorities.length * 60)}>
+                      <BarChart
+                        data={authorities.map((a, i) => ({
+                          name: a.name,
+                          spendPerHead: a.population > 0 ? Math.round(a.serviceExpenditure / a.population) : 0,
+                          fill: PROPOSAL_COLORS[i % PROPOSAL_COLORS.length],
+                        }))}
+                        layout="vertical"
+                        margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                        <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}`} />
+                        <YAxis type="category" dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} width={130} />
+                        <Tooltip formatter={(v) => [formatCurrency(v), 'Spend per head']} contentStyle={TOOLTIP_STYLE} />
+                        <Bar dataKey="spendPerHead" radius={[0, 6, 6, 0]}>
+                          {authorities.map((_, i) => (
+                            <Cell key={i} fill={PROPOSAL_COLORS[i % PROPOSAL_COLORS.length]} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
         </section>
       )}
 

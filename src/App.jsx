@@ -28,6 +28,7 @@ const Procurement = lazy(() => import('./pages/Procurement'))
 const Press = lazy(() => import('./pages/Press'))
 const Demographics = lazy(() => import('./pages/Demographics'))
 const LGRTracker = lazy(() => import('./pages/LGRTracker'))
+const LGRCostCalculator = lazy(() => import('./pages/LGRCostCalculator'))
 const Integrity = lazy(() => import('./pages/Integrity'))
 
 // Preload commonly needed data
@@ -71,6 +72,7 @@ function App() {
           <Route path="/press" element={<Guarded><Press /></Guarded>} />
           <Route path="/demographics" element={<Guarded><Demographics /></Guarded>} />
           <Route path="/lgr" element={<Guarded><LGRTracker /></Guarded>} />
+          <Route path="/lgr-calculator" element={<Guarded><LGRCostCalculator /></Guarded>} />
           <Route path="/integrity" element={<Guarded><Integrity /></Guarded>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
