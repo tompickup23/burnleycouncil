@@ -64,16 +64,19 @@ CHARITY_API_BASE = "https://api.charitycommission.gov.uk/register/api"
 FCA_API_BASE = "https://register.fca.org.uk/services/V0.1"
 
 # Shell company SIC codes (from Norwich investigation)
-SHELL_SIC_CODES = {"82990", "64209", "98000", "99999", "96090"}
+# Note: 96090 ("Other service activities n.e.c.") removed — too broad, catches charities
+SHELL_SIC_CODES = {"82990", "64209", "98000", "99999"}
 PROPERTY_SIC_CODES = {"68209", "68100", "68320", "68310", "68201", "68202"}
 # Formation agent / nominee SIC codes
 FORMATION_SIC_CODES = {"69201", "69209", "82110"}
 
 # Known formation agent addresses (expanded from Norwich investigation)
+# Note: removed "suite" and "floor" — too broad, catches normal office buildings
 FORMATION_AGENT_INDICATORS = [
     "20-22 wenlock road", "71-75 shelton street", "167-169 great portland",
-    "suite", "floor", "virtual office", "registered office", "c/o",
-    "kemp house", "falcon road", "imperial house", "formation"
+    "virtual office", "registered office", "c/o",
+    "kemp house", "falcon road", "imperial house", "formation",
+    "lenta business centre", "regus house", "spaces", "wework",
 ]
 
 # Request delays to avoid rate limiting
@@ -89,6 +92,31 @@ ALL_COUNCILS = [
     "lancashire_cc", "blackpool", "blackburn",
     "west_lancashire", "wyre", "preston", "fylde"
 ]
+
+# Lancashire postcode areas for proximity matching
+# Maps council_id → primary postcode prefixes (used to score geographic proximity)
+COUNCIL_POSTCODES = {
+    "burnley": ["BB10", "BB11", "BB12"],
+    "hyndburn": ["BB5", "BB1"],  # BB1 shared with Blackburn — Hyndburn is BB5 primarily
+    "pendle": ["BB8", "BB9", "BB18"],
+    "rossendale": ["BB4", "OL13"],
+    "lancaster": ["LA1", "LA2", "LA3", "LA4", "LA5", "LA6"],
+    "ribble_valley": ["BB6", "BB7", "PR3"],  # PR3 extends into RV
+    "chorley": ["PR6", "PR7", "PR25"],  # PR25 Leyland area
+    "south_ribble": ["PR5", "PR25", "PR26", "PR4"],
+    "lancashire_cc": ["BB", "PR", "LA", "FY"],  # County-wide: all Lancashire postcodes
+    "blackpool": ["FY1", "FY2", "FY3", "FY4"],
+    "blackburn": ["BB1", "BB2", "BB3"],  # BB6 is Ribble Valley primarily
+    "west_lancashire": ["L39", "L40", "WN8", "PR4", "PR9"],  # PR9 Southport border
+    "wyre": ["FY5", "FY6", "FY7", "PR3"],
+    "preston": ["PR1", "PR2", "PR3", "PR4", "PR5"],
+    "fylde": ["FY8", "PR4", "FY7"],  # FY7 shared with Wyre
+}
+# All Lancashire postcode areas (broader match, excluding Liverpool/Greater Manchester)
+# BB = Blackburn/Burnley, PR = Preston, LA = Lancaster, FY = Fylde/Blackpool
+LANCASHIRE_POSTCODE_AREAS = {"BB", "PR", "LA", "FY"}
+# Adjacent areas (lower confidence): L39/L40 = West Lancs, WN8 = Wigan border, OL13 = Rossendale
+ADJACENT_POSTCODE_AREAS = {"L39", "L40", "WN8", "OL13"}
 
 # Lancashire party name mapping for Electoral Commission searches
 LANCASHIRE_PARTIES = {
@@ -114,14 +142,16 @@ def ch_auth_header():
     return f"Basic {token}"
 
 
-def http_get_json(url, headers=None, delay=0.5, label="API"):
-    """Generic HTTP GET → JSON with retry + rate limit handling."""
+def http_get_json(url, headers=None, delay=0.5, label="API", _retries=0):
+    """Generic HTTP GET → JSON with retry + rate limit handling.
+    Retries on 429, 503, 504 with exponential backoff.
+    """
     req = urllib.request.Request(url)
     if headers:
         for k, v in headers.items():
             req.add_header(k, v)
     req.add_header("Accept", "application/json")
-    req.add_header("User-Agent", "AI-DOGE-IntegrityETL/2.0")
+    req.add_header("User-Agent", "AI-DOGE-IntegrityETL/3.0")
 
     try:
         time.sleep(delay)
@@ -132,13 +162,29 @@ def http_get_json(url, headers=None, delay=0.5, label="API"):
         if e.code == 404:
             return None
         if e.code == 429:
-            print(f"    [{label} RATE LIMITED] Waiting 60s...")
-            time.sleep(60)
-            return http_get_json(url, headers, delay, label)
+            wait = 60 * (2 ** _retries)
+            print(f"    [{label} RATE LIMITED] Waiting {wait}s...")
+            time.sleep(wait)
+            if _retries < 3:
+                return http_get_json(url, headers, delay, label, _retries + 1)
+            return None
+        if e.code in (503, 504) and _retries < 2:
+            wait = 10 * (2 ** _retries)
+            print(f"    [{label} {e.code}] Retrying in {wait}s...")
+            time.sleep(wait)
+            return http_get_json(url, headers, delay, label, _retries + 1)
         if e.code >= 500:
             print(f"    [{label} SERVER ERROR {e.code}] Skipping")
             return None
         print(f"    [{label} HTTP {e.code}] {url[:100]}")
+        return None
+    except (urllib.error.URLError, OSError) as e:
+        if _retries < 2:
+            wait = 5 * (2 ** _retries)
+            print(f"    [{label} NETWORK ERROR] {str(e)[:50]} — retrying in {wait}s...")
+            time.sleep(wait)
+            return http_get_json(url, headers, delay, label, _retries + 1)
+        print(f"    [{label} ERROR] {str(e)[:80]}")
         return None
     except Exception as e:
         print(f"    [{label} ERROR] {str(e)[:80]}")
@@ -182,10 +228,23 @@ def extract_officer_id(officer):
 
 
 def get_officer_appointments(officer_id, items_per_page=50):
-    """Get all company appointments for an officer."""
-    data = ch_request(f"/officers/{officer_id}/appointments",
-                      {"items_per_page": items_per_page})
-    return data.get("items", []) if data else []
+    """Get all company appointments for an officer, with pagination."""
+    all_items = []
+    start_index = 0
+    while True:
+        data = ch_request(f"/officers/{officer_id}/appointments",
+                          {"items_per_page": items_per_page, "start_index": start_index})
+        if not data:
+            break
+        items = data.get("items", [])
+        all_items.extend(items)
+        total = data.get("total_results", len(all_items))
+        if len(all_items) >= total or not items:
+            break
+        start_index += items_per_page
+        if start_index > 200:  # Safety cap at 200 appointments
+            break
+    return all_items
 
 
 def get_company_profile(company_number):
@@ -288,7 +347,15 @@ def search_fca_individuals(name):
 # ═══════════════════════════════════════════════════════════════════════════
 
 def name_match_score(councillor_name, officer_title):
-    """Score how well a CH officer matches a councillor name. Returns 0-100."""
+    """Score how well a CH officer matches a councillor name. Returns 0-100.
+
+    Handles:
+    - CH surname-first format: "AHMED, Shiraz Alam"
+    - Extra middle names: "AHMED, Shiraz Alam" vs "Shiraz Ahmed"
+    - Muslim naming: "Mohammed" prefix often omitted on registers
+    - Honorific prefixes: Mr, Mrs, Cllr, County Councillor, etc.
+    - Title suffixes: OBE, MBE, JP, etc.
+    """
     c_parts = councillor_name.lower().strip().split()
     o_clean = officer_title.lower().strip()
     for prefix in ["mr ", "mrs ", "ms ", "miss ", "dr ", "sir ", "dame ",
@@ -311,36 +378,318 @@ def name_match_score(councillor_name, officer_title):
     c_first = c_parts[0]
     c_last = c_parts[-1]
 
-    # CH often puts surname first: "SMITH, John"
+    # CH often puts surname first: "SMITH, John" or "AHMED, Shiraz Alam"
     if "," in officer_title:
         parts = officer_title.split(",", 1)
         o_last = parts[0].strip().lower()
         o_rest = parts[1].strip().lower().split() if len(parts) > 1 and parts[1].strip() else []
-        o_first = o_rest[0] if o_rest else ""
-        # Remove honorifics from o_last too
+        # Remove honorifics from surname part
         for prefix in ["mr", "mrs", "ms", "miss", "dr", "sir", "dame"]:
-            o_last = o_last.replace(prefix + " ", "")
+            if o_last.startswith(prefix + " "):
+                o_last = o_last[len(prefix) + 1:]
+        o_first = o_rest[0] if o_rest else ""
+        o_all_forenames = o_rest  # All non-surname parts
     else:
         o_first = o_parts[0] if o_parts else ""
         o_last = o_parts[-1] if o_parts else ""
+        o_all_forenames = o_parts[:-1] if len(o_parts) > 1 else [o_first]
 
     score = 0
+    # Surname match (50 points)
     if c_last == o_last:
         score += 50
+
+    # First name match (40 points)
     if c_first == o_first:
+        score += 40
+    elif c_first in o_all_forenames:
+        # Councillor's first name appears as a middle name on CH
+        # e.g. councillor "Shiraz Ahmed" vs CH "Mohammed Shiraz Alam AHMED"
+        score += 40
+    elif any(c_first == oname for oname in o_all_forenames):
         score += 40
     elif len(c_first) >= 3 and len(o_first) >= 3 and c_first[:3] == o_first[:3]:
         score += 20  # Partial first name match (e.g. "Tom" vs "Thomas")
+    else:
+        # Muslim naming convention: "Mohammed"/"Muhammad" commonly omitted from registers
+        # If CH has Mohammed/Muhammad + councillor's first name, still a good match
+        COMMON_PREFIXES = {"mohammed", "muhammad", "mohammad", "mohamed"}
+        if o_first in COMMON_PREFIXES and len(o_all_forenames) > 1:
+            # Try matching councillor first name against remaining forenames
+            remaining = [n for n in o_all_forenames if n not in COMMON_PREFIXES]
+            if remaining and c_first == remaining[0]:
+                score += 35  # Strong but not as certain as exact match
+            elif remaining and any(c_first == r for r in remaining):
+                score += 30
+        # Reverse: councillor has "Mohammed" but CH doesn't include it
+        if c_first in COMMON_PREFIXES and len(c_parts) > 2:
+            # Councillor "Mohammed Shiraz Ahmed" vs CH "Shiraz AHMED"
+            alt_first = c_parts[1]
+            if alt_first == o_first:
+                score += 35
+            elif alt_first in o_all_forenames:
+                score += 30
 
-    # Middle name bonus
-    if len(c_parts) > 2 and len(o_parts) > 2:
+    # Middle name bonus (max 10 points)
+    _common_prefixes = {"mohammed", "muhammad", "mohammad", "mohamed"}
+    if len(c_parts) > 2:
         for cm in c_parts[1:-1]:
-            for om in o_parts[1:-1]:
+            if cm in _common_prefixes:
+                continue  # Skip matching common prefixes as middle names
+            for om in o_all_forenames:
                 if cm == om:
                     score += 10
                     break
+    elif len(o_all_forenames) > 1 and len(c_parts) == 2:
+        # Councillor has 2 parts, officer has extra middle names — no penalty
+        pass
 
-    return score
+    return min(score, 100)
+
+
+def geographic_proximity_score(address_snippet, council_id):
+    """Score geographic proximity of a CH officer address to the council area.
+
+    Returns:
+        25 — same postcode district (e.g. BB10 for Burnley)
+        15 — same postcode area (e.g. BB* for East Lancashire)
+        10 — adjacent Lancashire postcode area
+         0 — elsewhere in UK / unknown
+    """
+    if not address_snippet or not council_id:
+        return 0
+
+    addr_upper = address_snippet.upper().replace(" ", "")
+    council_codes = COUNCIL_POSTCODES.get(council_id, [])
+
+    # Check exact postcode district match
+    for prefix in council_codes:
+        if prefix.replace(" ", "") in addr_upper:
+            return 25
+
+    # Check same postcode area (first letters)
+    for prefix in council_codes:
+        area = re.match(r'^[A-Z]+', prefix)
+        if area and area.group(0) in addr_upper[:4]:
+            return 15
+
+    # Check any core Lancashire postcode area
+    for area in LANCASHIRE_POSTCODE_AREAS:
+        if re.search(r'(?:^|[\s,])' + area + r'\d', addr_upper):
+            return 10
+
+    # Check adjacent areas (lower confidence)
+    for prefix in ADJACENT_POSTCODE_AREAS:
+        if prefix in addr_upper:
+            return 5
+
+    return 0
+
+
+def _normalize_dob(dob):
+    """Normalize a DOB to {month: int, year: int} dict.
+    Handles: dict {"month": 3, "year": 1980}, string "1980-03", string "1980-3", None.
+    Returns dict or None if unparseable."""
+    if not dob:
+        return None
+    if isinstance(dob, dict):
+        return dob
+    if isinstance(dob, str):
+        try:
+            parts = dob.split("-")
+            if len(parts) >= 2:
+                return {"year": int(parts[0]), "month": int(parts[1])}
+        except (ValueError, IndexError):
+            pass
+    return None
+
+
+def dob_matches(dob1, dob2):
+    """Check if two CH-format DOBs match.
+
+    Accepts dict {month, year} or string "YYYY-MM" format.
+    Returns True if both month and year match, False otherwise.
+    Returns None if either DOB is missing/incomplete (can't determine).
+    Handles string/int type coercion from API responses.
+    """
+    d1 = _normalize_dob(dob1)
+    d2 = _normalize_dob(dob2)
+    if not d1 or not d2:
+        return None
+    m1, y1 = d1.get("month"), d1.get("year")
+    m2, y2 = d2.get("month"), d2.get("year")
+    if m1 is None or y1 is None or m2 is None or y2 is None:
+        return None
+    # Coerce to int for comparison (CH API may return strings)
+    try:
+        return int(m1) == int(m2) and int(y1) == int(y2)
+    except (ValueError, TypeError):
+        return None
+
+
+def load_register_of_interests(council_id):
+    """Load register_of_interests.json for a council.
+
+    Returns dict mapping councillor_id → register data, or empty dict if not available.
+    """
+    path = DATA_DIR / council_id / "register_of_interests.json"
+    if not path.exists():
+        return {}
+
+    with open(path) as f:
+        data = json.load(f)
+
+    if not data.get("register_available", False):
+        return {}
+
+    return data.get("councillors", {})
+
+
+def check_register_compliance(register_data, councillors):
+    """Check register of interests compliance per Localism Act 2011.
+
+    Flags:
+    - Councillors with no register page at all
+    - Councillors with empty registers (page exists but no interests declared)
+    - Councillors with suspiciously sparse registers (e.g. only 1-2 sections filled)
+
+    Returns dict with:
+    - compliance_issues: list of issues
+    - councillors_compliant: count of councillors with adequate registers
+    - councillors_empty: count with empty registers
+    - councillors_no_register: count with no register page
+    """
+    if not register_data:
+        return {
+            "register_available": False,
+            "note": "Register of interests not available for this council",
+            "compliance_issues": [],
+        }
+
+    issues = []
+    compliant = 0
+    empty_registers = 0
+    no_register = 0
+
+    councillor_ids = {c.get("id", ""): c for c in councillors}
+
+    for c in councillors:
+        cid = c.get("id", "")
+        name = c.get("name", "")
+        reg = register_data.get(cid)
+
+        if not reg:
+            # Councillor exists but no register entry found
+            no_register += 1
+            issues.append({
+                "councillor_id": cid,
+                "councillor_name": name,
+                "type": "no_register_page",
+                "severity": "warning",
+                "detail": "No register of interests page found for {}".format(name),
+                "legal_basis": "Localism Act 2011 s30(1): Every relevant authority must adopt a code of conduct and councillors must register disclosable pecuniary interests",
+            })
+            continue
+
+        if not reg.get("has_register", False):
+            no_register += 1
+            issues.append({
+                "councillor_id": cid,
+                "councillor_name": name,
+                "type": "register_not_published",
+                "severity": "high",
+                "detail": "Register page exists but register not published for {}".format(name),
+                "legal_basis": "Localism Act 2011 s29(1): Monitoring officer must establish and maintain a register. s30(3)(a): Must be available for inspection and published on website",
+            })
+            continue
+
+        # Check for empty registers
+        all_items = reg.get("all_declared_items", [])
+        companies = reg.get("declared_companies", [])
+        employment = reg.get("declared_employment", [])
+        land = reg.get("declared_land", [])
+        securities = reg.get("declared_securities", [])
+
+        if len(all_items) == 0 and not companies and not employment and not land:
+            empty_registers += 1
+            issues.append({
+                "councillor_id": cid,
+                "councillor_name": name,
+                "type": "register_empty",
+                "severity": "warning",
+                "detail": "Register of interests appears empty for {} — no interests declared in any category".format(name),
+                "legal_basis": "Localism Act 2011 s30: Councillors must notify monitoring officer of disclosable pecuniary interests within 28 days of election. An entirely empty register may indicate non-compliance.",
+            })
+        else:
+            compliant += 1
+
+    return {
+        "register_available": True,
+        "councillors_compliant": compliant,
+        "councillors_empty_register": empty_registers,
+        "councillors_no_register": no_register,
+        "total_issues": len(issues),
+        "compliance_issues": issues,
+    }
+
+
+def search_company_by_number(company_number):
+    """Look up a specific company by number on Companies House."""
+    return get_company_profile(company_number)
+
+
+def find_councillor_as_officer(company_number, councillor_name):
+    """Find a councillor among the officers of a specific company.
+
+    Returns the officer entry with DOB if found, None otherwise.
+    """
+    officers = get_company_officers(company_number)
+    if not officers:
+        return None
+
+    best_match = None
+    best_score = 0
+
+    for officer in officers:
+        title = officer.get("name", "")
+        score = name_match_score(councillor_name, title)
+        if score >= 80 and score > best_score:
+            best_score = score
+            best_match = {
+                "officer_name": title,
+                "match_score": score,
+                "date_of_birth": officer.get("date_of_birth", {}),
+                "appointed_on": officer.get("appointed_on", ""),
+                "resigned_on": officer.get("resigned_on", ""),
+                "officer_role": officer.get("officer_role", "director"),
+                "links": officer.get("links", {}),
+            }
+
+    return best_match
+
+
+def extract_company_number_from_text(text):
+    """Try to extract a Companies House company number from register text.
+
+    Company numbers are 8 digits (padded with leading zeros) or 2 letters + 6 digits (LLPs).
+    """
+    # Pattern: 8-digit number
+    m = re.search(r'\b(\d{7,8})\b', text)
+    if m:
+        return m.group(1).zfill(8)
+
+    # Pattern: OC + 6 digits (LLP) or SC/NI/etc + 6 digits
+    m = re.search(r'\b([A-Z]{2}\d{6})\b', text, re.I)
+    if m:
+        return m.group(1).upper()
+
+    return None
+
+
+def search_company_by_name(company_name):
+    """Search Companies House for a company by name. Returns list of matches."""
+    data = ch_request("/search/companies", {"q": company_name, "items_per_page": 5})
+    return data.get("items", []) if data else []
 
 
 def extract_red_flags(company):
@@ -828,7 +1177,7 @@ def analyse_psc(companies, councillor_name):
         for psc in pscs:
             psc_name = psc.get("name", "")
             score = name_match_score(councillor_name, psc_name)
-            if score >= 60:
+            if score >= 80:  # v3: stricter PSC matching
                 natures = psc.get("natures_of_control", [])
                 psc_entries.append({
                     "company_name": company.get("company_name", ""),
@@ -1007,18 +1356,66 @@ def detect_misconduct_patterns(result, all_supplier_data):
 # Electoral Commission Cross-Reference
 # ═══════════════════════════════════════════════════════════════════════════
 
+# Module-level cache for supplier EC findings (searched once, shared across all councillors)
+_supplier_ec_cache = {}
+
+def check_supplier_ec_donations(supplier_data, council_id):
+    """Check if council suppliers have donated to local political parties.
+    This is a COUNCIL-LEVEL check — run ONCE, not per councillor.
+    Returns list of supplier donation findings."""
+    cache_key = council_id
+    if cache_key in _supplier_ec_cache:
+        return _supplier_ec_cache[cache_key]
+
+    findings = []
+    if not supplier_data:
+        _supplier_ec_cache[cache_key] = findings
+        return findings
+
+    LANCASHIRE_AREAS = [
+        "burnley", "hyndburn", "pendle", "rossendale", "lancaster",
+        "ribble valley", "chorley", "south ribble", "lancashire",
+        "blackpool", "blackburn", "west lanc", "wyre", "preston", "fylde"
+    ]
+
+    for supplier_entry in supplier_data[:20]:  # Top 20 suppliers only
+        supplier = supplier_entry if isinstance(supplier_entry, str) else supplier_entry.get("supplier", "")
+        if not supplier or len(supplier) < 4:
+            continue
+        data = search_ec_donations(supplier)
+        if data and data.get("Result"):
+            for item in data["Result"]:
+                accounting_unit = (item.get("AccountingUnitName") or "").lower()
+                if any(area in accounting_unit for area in LANCASHIRE_AREAS):
+                    findings.append({
+                        "type": "supplier_is_local_donor",
+                        "detail": "Council supplier '{}' donated {} to {}".format(
+                            supplier,
+                            "£{:,.0f}".format(item.get("Value", 0)),
+                            item.get("AccountingUnitName", "")),
+                        "supplier": supplier,
+                        "value": item.get("Value", 0),
+                        "date": item.get("AcceptedDate", ""),
+                        "party": item.get("RegulatedEntityName", ""),
+                    })
+
+    _supplier_ec_cache[cache_key] = findings
+    return findings
+
+
 def check_electoral_commission(councillor_name, party, supplier_data, skip=False):
-    """Cross-reference Electoral Commission donations with council suppliers."""
+    """Cross-reference Electoral Commission donations for the INDIVIDUAL councillor.
+    NOTE: Supplier-level EC checks are handled separately by check_supplier_ec_donations()."""
     if skip:
         return {"searched": False, "findings": []}
 
     findings = []
 
-    # 1. Check if the councillor themselves appears as a donor
+    # Check if the councillor themselves appears as a donor
     data = search_ec_donations(councillor_name)
     if data and data.get("Result"):
         for item in data["Result"]:
-            donor = item.get("DonorName", "")
+            donor = item.get("DonorName") or ""
             score = name_match_score(councillor_name, donor)
             if score >= 70:
                 findings.append({
@@ -1030,33 +1427,6 @@ def check_electoral_commission(councillor_name, party, supplier_data, skip=False
                     "date": item.get("AcceptedDate", ""),
                     "recipient": item.get("RegulatedEntityName", ""),
                 })
-
-    # 2. Check if any council supplier appears as a donor to local parties
-    if supplier_data:
-        for supplier_entry in supplier_data[:20]:  # Top 20 suppliers only
-            supplier = supplier_entry if isinstance(supplier_entry, str) else supplier_entry.get("supplier", "")
-            if not supplier or len(supplier) < 4:
-                continue
-            data = search_ec_donations(supplier)
-            if data and data.get("Result"):
-                for item in data["Result"]:
-                    # Check if donation is to a local branch
-                    accounting_unit = item.get("AccountingUnitName", "").lower()
-                    if any(area in accounting_unit for area in
-                           ["burnley", "hyndburn", "pendle", "rossendale", "lancaster",
-                            "ribble valley", "chorley", "south ribble", "lancashire",
-                            "blackpool", "blackburn", "west lanc", "wyre", "preston", "fylde"]):
-                        findings.append({
-                            "type": "supplier_is_local_donor",
-                            "detail": "Council supplier '{}' donated {} to {}".format(
-                                supplier,
-                                "£{:,.0f}".format(item.get("Value", 0)),
-                                item.get("AccountingUnitName", "")),
-                            "supplier": supplier,
-                            "value": item.get("Value", 0),
-                            "date": item.get("AcceptedDate", ""),
-                            "party": item.get("RegulatedEntityName", ""),
-                        })
 
     return {"searched": True, "findings": findings}
 
@@ -1075,10 +1445,10 @@ def check_fca_register(councillor_name, skip=False):
 
     if data and data.get("ResultList"):
         for item in data["ResultList"]:
-            ind_name = item.get("Individual_Name", "")
+            ind_name = item.get("Individual_Name") or ""
             score = name_match_score(councillor_name, ind_name)
             if score >= 70:
-                status = item.get("Status", "")
+                status = item.get("Status") or ""
                 findings.append({
                     "type": "fca_regulated_person" if status == "Active" else "fca_former_regulated",
                     "severity": "info" if status == "Active" else "info",
@@ -1125,6 +1495,84 @@ def load_all_supplier_data():
         if data:
             all_data[council_id] = data
     return all_data
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Company Entry Helpers (v3)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def _build_company_entry(company_number, company_name, officer_match, profile,
+                         verification, confidence=50, declared_on_register=False):
+    """Build a standardised company entry dict."""
+    entry = {
+        "company_name": company_name,
+        "company_number": company_number,
+        "role": officer_match.get("officer_role", "director") if officer_match else "director",
+        "appointed_on": officer_match.get("appointed_on", "") if officer_match else "",
+        "resigned_on": officer_match.get("resigned_on", "") if officer_match else "",
+        "company_status": "",
+        "officer_id_source": "",
+        "companies_house_url": "https://find-and-update.company-information.service.gov.uk/company/{}".format(
+            company_number) if company_number else None,
+        "sic_codes": [],
+        "registered_address_snippet": "",
+        "red_flags": [],
+        "supplier_match": None,
+        "verification": verification,
+        "confidence": confidence,
+        "declared_on_register": declared_on_register,
+        "officer_dob": officer_match.get("date_of_birth", {}) if officer_match else {},
+    }
+
+    if profile:
+        entry["company_status"] = profile.get("company_status", "")
+        entry["sic_codes"] = profile.get("sic_codes", [])
+        ro_addr = profile.get("registered_office_address", {})
+        entry["registered_address_snippet"] = ", ".join(
+            filter(None, [ro_addr.get("address_line_1", ""),
+                          ro_addr.get("locality", ""),
+                          ro_addr.get("postal_code", "")]))
+        entry["red_flags"] = extract_red_flags(profile)
+        entry["date_of_creation"] = profile.get("date_of_creation", "")
+        entry["company_type"] = profile.get("type", "")
+        entry["accounts_overdue"] = profile.get("has_overdue_accounts", False)
+        entry["confirmation_overdue"] = profile.get("has_overdue_confirmation_statement", False)
+
+    return entry
+
+
+def _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data, councillor):
+    """Cross-reference a company against own-council and cross-council suppliers."""
+    company_name = company_entry["company_name"]
+    company_number = company_entry["company_number"]
+    resigned = company_entry.get("resigned_on", "")
+
+    if supplier_data:
+        matches = cross_reference_suppliers(company_name, supplier_data)
+        if matches:
+            company_entry["supplier_match"] = matches[0]
+            result["supplier_conflicts"].append({
+                "company_name": company_name,
+                "company_number": company_number,
+                "supplier_match": matches[0],
+                "severity": "critical" if not resigned else "info",
+                "council_id": councillor.get("_council_id", ""),
+            })
+
+    if all_supplier_data:
+        council_id = councillor.get("_council_id", "")
+        for other_id, other_suppliers in all_supplier_data.items():
+            if other_id == council_id:
+                continue
+            matches = cross_reference_suppliers(company_name, other_suppliers)
+            if matches:
+                result["cross_council_conflicts"].append({
+                    "company_name": company_name,
+                    "company_number": company_number,
+                    "other_council": other_id,
+                    "supplier_match": matches[0],
+                    "severity": "high" if not resigned else "info",
+                })
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1188,79 +1636,203 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
 
     print("  Checking: {} ({})".format(name, councillor.get("party", "")))
 
-    # ── 1. Companies House Officer Search ──
+    # ── V3 ACCURACY OVERHAUL: Register-anchored, DOB-verified matching ──
     result["data_sources_checked"].append("companies_house")
-    officers = search_officers(name)
 
-    # Get councillor address for disambiguation
-    councillor_address = (councillor.get("address", "") or "").lower()
-    councillor_postcode = ""
-    if councillor_address:
-        # Extract postcode pattern
-        pc_match = re.search(r'[a-z]{1,2}\d{1,2}\s*\d[a-z]{2}', councillor_address)
-        if pc_match:
-            councillor_postcode = pc_match.group(0).replace(" ", "")
+    council_id = councillor.get("_council_id", "")
+    register_data = councillor.get("_register_data")  # Injected by process_council
+    councillor_id = councillor.get("id", "")
 
-    best_matches = []
+    # ── Phase 1: Register-Anchored Company Search (HIGHEST confidence) ──
+    # If the councillor has a register of interests, look up their declared companies
+    # directly on CH. This lets us confirm their DOB from a known-good match.
+    councillor_dob = None  # Will be set if we can confirm from register+CH
+    seen_company_numbers = set()
+    companies = []
+    register_confirmed_companies = set()  # Company numbers confirmed via register
+
+    declared_companies = []
+    if register_data and register_data.get("has_register"):
+        declared_companies = register_data.get("declared_companies", [])
+        all_items = register_data.get("all_declared_items", [])
+        employment = register_data.get("declared_employment", [])
+        land = register_data.get("declared_land", [])
+        securities = register_data.get("declared_securities", [])
+        register_empty = (len(all_items) == 0 and not declared_companies
+                          and not employment and not land)
+        result["register_of_interests"] = {
+            "available": True,
+            "register_empty": register_empty,
+            "declared_companies": declared_companies,
+            "declared_employment": employment,
+            "declared_securities": securities,
+            "declared_land": land,
+            "total_declared_items": len(all_items),
+        }
+        result["data_sources_checked"].append("register_of_interests")
+    else:
+        result["register_of_interests"] = {"available": False, "register_empty": None}
+
+    for declared_text in declared_companies:
+        # Try to find this company on CH by name search
+        ch_matches = search_company_by_name(declared_text)
+        if not ch_matches:
+            continue
+
+        for ch_company in ch_matches[:3]:  # Check top 3 name matches
+            company_number = ch_company.get("company_number", "")
+            if not company_number or company_number in seen_company_numbers:
+                continue
+
+            # Look for the councillor among this company's officers
+            officer_match = find_councillor_as_officer(company_number, name)
+            if not officer_match:
+                continue
+
+            # Found! This is a register-confirmed directorship
+            print("    [REGISTER+CH] {} confirmed as officer of {} ({})".format(
+                name, ch_company.get("title", ""), company_number))
+
+            # Extract DOB — this becomes the anchor for all future matching
+            if officer_match.get("date_of_birth") and not councillor_dob:
+                councillor_dob = officer_match["date_of_birth"]
+                print("    [DOB ANCHOR] Confirmed DOB: {}/{}".format(
+                    councillor_dob.get("month", "?"), councillor_dob.get("year", "?")))
+
+            seen_company_numbers.add(company_number)
+            register_confirmed_companies.add(company_number)
+
+            profile = get_company_profile(company_number)
+            company_entry = _build_company_entry(
+                company_number, ch_company.get("title", declared_text),
+                officer_match, profile, "register_confirmed",
+                confidence=95, declared_on_register=True)
+
+            # Cross-reference with suppliers
+            _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data, councillor)
+
+            companies.append(company_entry)
+
+        # Also try extracting company number from the text directly
+        extracted_num = extract_company_number_from_text(declared_text)
+        if extracted_num and extracted_num not in seen_company_numbers:
+            profile = get_company_profile(extracted_num)
+            if profile:
+                officer_match = find_councillor_as_officer(extracted_num, name)
+                if officer_match:
+                    seen_company_numbers.add(extracted_num)
+                    register_confirmed_companies.add(extracted_num)
+                    if officer_match.get("date_of_birth") and not councillor_dob:
+                        councillor_dob = officer_match["date_of_birth"]
+
+                    company_entry = _build_company_entry(
+                        extracted_num, profile.get("company_name", declared_text),
+                        officer_match, profile, "register_confirmed",
+                        confidence=95, declared_on_register=True)
+                    _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data, councillor)
+                    companies.append(company_entry)
+
+    # ── Phase 2: DOB-Filtered CH Officer Name Search ──
+    # Search CH officers by name with STRICT threshold (90%), then filter by DOB
+    # Use full name search with increased page size for better coverage of common names
+    officers = search_officers(name, items_per_page=50)
+
+    officer_matches_raw = []
     for officer in officers:
         title = officer.get("title", "")
         score = name_match_score(name, title)
-        if score >= 60:
-            officer_id = extract_officer_id(officer)
-            addr_snippet = officer.get("address_snippet", "")
-            # Boost score if address matches councillor's known address
-            address_boost = 0
-            if councillor_postcode and councillor_postcode in addr_snippet.lower().replace(" ", ""):
-                address_boost = 20
-            elif councillor_address and len(councillor_address) > 10:
-                # Check town/city match
-                for town in ["burnley", "nelson", "colne", "padiham", "accrington", "haslingden",
-                             "rawtenstall", "clitheroe", "lancaster", "preston", "chorley",
-                             "leyland", "blackpool", "blackburn", "darwen", "wyre", "fylde",
-                             "ormskirk", "skelmersdale"]:
-                    if town in councillor_address and town in addr_snippet.lower():
-                        address_boost = 10
-                        break
-            best_matches.append({
-                "officer_id": officer_id,
-                "title": title,
-                "match_score": score + address_boost,
-                "raw_name_score": score,
-                "date_of_birth": officer.get("date_of_birth", {}),
-                "address_snippet": addr_snippet,
-                "address_match": address_boost > 0,
+        if score < 90:  # v3: strict 90% threshold (was 60%)
+            continue
+
+        officer_id = extract_officer_id(officer)
+        addr_snippet = officer.get("address_snippet", "")
+        officer_dob = officer.get("date_of_birth", {})
+
+        # Geographic proximity score
+        proximity = geographic_proximity_score(addr_snippet, council_id)
+
+        # DOB filtering
+        dob_match_result = dob_matches(councillor_dob, officer_dob)
+        if councillor_dob and dob_match_result is False:
+            # HARD REJECT: we know the councillor's DOB and this officer has a DIFFERENT one
+            print("    [DOB REJECT] {} — DOB {}/{} doesn't match councillor {}/{}".format(
+                title,
+                officer_dob.get("month", "?"), officer_dob.get("year", "?"),
+                councillor_dob.get("month", "?"), councillor_dob.get("year", "?")))
+            continue
+
+        # Determine confidence level
+        if councillor_dob and dob_match_result is True:
+            confidence = 85  # DOB confirmed match
+            verification = "ch_dob_confirmed"
+        elif councillor_dob and dob_match_result is None:
+            # Officer has no DOB on file — can't confirm or reject
+            if proximity >= 15:
+                confidence = 60
+                verification = "ch_proximity_match"
+            else:
+                confidence = 40  # Too uncertain
+                verification = "name_match_only"
+        elif not councillor_dob:
+            # We don't know councillor's DOB — rely on name + proximity
+            if proximity >= 25:
+                confidence = 70
+                verification = "ch_strong_proximity"
+            elif proximity >= 15:
+                confidence = 55
+                verification = "ch_proximity_match"
+            else:
+                confidence = 35  # Name match only, no proximity — likely false positive
+                verification = "name_match_only"
+        else:
+            confidence = 35
+            verification = "name_match_only"
+
+        officer_matches_raw.append({
+            "officer_id": officer_id,
+            "title": title,
+            "match_score": score,
+            "date_of_birth": officer_dob,
+            "address_snippet": addr_snippet,
+            "proximity_score": proximity,
+            "dob_match": dob_match_result,
+            "confidence": confidence,
+            "verification": verification,
+        })
+
+    # Sort by confidence, then match_score
+    officer_matches_raw.sort(key=lambda x: (x["confidence"], x["match_score"]), reverse=True)
+    result["companies_house"]["officer_matches"] = officer_matches_raw[:5]
+
+    # ── Phase 2b: Get Appointments for HIGH/MEDIUM confidence matches only ──
+    # Only investigate officers where we have reasonable confidence they ARE the councillor
+    MIN_CONFIDENCE_FOR_INVESTIGATION = 55  # Confirmed DOB or strong proximity
+    unverified_leads = []
+
+    for match in officer_matches_raw:
+        if match["confidence"] < MIN_CONFIDENCE_FOR_INVESTIGATION:
+            # Too uncertain — skip investigation, store as unverified lead
+            unverified_leads.append({
+                "officer_name": match["title"],
+                "match_score": match["match_score"],
+                "address": match["address_snippet"],
+                "date_of_birth": match["date_of_birth"],
+                "confidence": match["confidence"],
+                "reason": "Below confidence threshold ({}) — name match only, no DOB/proximity confirmation".format(
+                    match["confidence"]),
             })
+            continue
 
-    best_matches.sort(key=lambda x: x["match_score"], reverse=True)
-    result["companies_house"]["officer_matches"] = best_matches[:5]
-
-    # ── 2. Get Appointments + Company Profiles ──
-    # Check ALL high-scoring matches, not just the best one
-    # Different people with the same name may all be the councillor (different DOBs in CH)
-    # or may be genuinely different people — we check all and let the UI show them
-    seen_company_numbers = set()
-    companies = []
-
-    officers_to_check = []
-    if best_matches:
-        # Always check the best match
-        officers_to_check.append(best_matches[0])
-        # Also check other matches with score >= 80 or address match
-        for m in best_matches[1:5]:
-            if m["match_score"] >= 80 or m.get("address_match"):
-                officers_to_check.append(m)
-
-    for match in officers_to_check:
         officer_id = match.get("officer_id", "")
         if not officer_id or officer_id == "appointments":
-            print(f"    [WARN] Invalid officer_id for {match.get('title', '')}: '{officer_id}'")
             continue
 
         appointments = get_officer_appointments(officer_id)
         if not appointments:
             continue
 
-        print(f"    Found {len(appointments)} appointments for {match.get('title', '')} (officer {officer_id})")
+        print("    [CH {}%] {} — {} appointments".format(
+            match["confidence"], match["title"], len(appointments)))
 
         for appt in appointments:
             appointed_to = appt.get("appointed_to", {})
@@ -1271,11 +1843,15 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             resigned = appt.get("resigned_on", "")
             status = appointed_to.get("company_status", "")
 
-            # Deduplicate across officer matches
             if company_number and company_number in seen_company_numbers:
                 continue
             if company_number:
                 seen_company_numbers.add(company_number)
+
+            # Check if this company is also on the register
+            on_register = company_number in register_confirmed_companies
+
+            profile = get_company_profile(company_number) if company_number else None
 
             company_entry = {
                 "company_name": company_name,
@@ -1285,59 +1861,32 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
                 "resigned_on": resigned,
                 "company_status": status,
                 "officer_id_source": officer_id,
-                "companies_house_url": "https://find-and-update.company-information.service.gov.uk/company/{}".format(company_number) if company_number else None,
+                "companies_house_url": "https://find-and-update.company-information.service.gov.uk/company/{}".format(
+                    company_number) if company_number else None,
                 "sic_codes": [],
                 "registered_address_snippet": "",
                 "red_flags": [],
                 "supplier_match": None,
+                "verification": match["verification"],
+                "confidence": match["confidence"],
+                "declared_on_register": on_register,
+                "officer_dob": match.get("date_of_birth", {}),
             }
 
-            # Get company profile for ALL directorships (not just active)
-            # This is essential for detecting phoenix patterns, serial dissolutions
-            if company_number:
-                profile = get_company_profile(company_number)
-                if profile:
-                    company_entry["sic_codes"] = profile.get("sic_codes", [])
-                    ro_addr = profile.get("registered_office_address", {})
-                    company_entry["registered_address_snippet"] = ", ".join(
-                        filter(None, [ro_addr.get("address_line_1", ""),
-                                      ro_addr.get("locality", ""),
-                                      ro_addr.get("postal_code", "")]))
-                    company_entry["red_flags"] = extract_red_flags(profile)
-                    company_entry["date_of_creation"] = profile.get("date_of_creation", "")
-                    company_entry["company_type"] = profile.get("type", "")
-                    company_entry["accounts_overdue"] = profile.get("has_overdue_accounts", False)
-                    company_entry["confirmation_overdue"] = profile.get("has_overdue_confirmation_statement", False)
+            if profile:
+                company_entry["sic_codes"] = profile.get("sic_codes", [])
+                ro_addr = profile.get("registered_office_address", {})
+                company_entry["registered_address_snippet"] = ", ".join(
+                    filter(None, [ro_addr.get("address_line_1", ""),
+                                  ro_addr.get("locality", ""),
+                                  ro_addr.get("postal_code", "")]))
+                company_entry["red_flags"] = extract_red_flags(profile)
+                company_entry["date_of_creation"] = profile.get("date_of_creation", "")
+                company_entry["company_type"] = profile.get("type", "")
+                company_entry["accounts_overdue"] = profile.get("has_overdue_accounts", False)
+                company_entry["confirmation_overdue"] = profile.get("has_overdue_confirmation_statement", False)
 
-            # Cross-reference with THIS council's suppliers
-            if supplier_data:
-                matches = cross_reference_suppliers(company_name, supplier_data)
-                if matches:
-                    company_entry["supplier_match"] = matches[0]
-                    result["supplier_conflicts"].append({
-                        "company_name": company_name,
-                        "company_number": company_number,
-                        "supplier_match": matches[0],
-                        "severity": "critical" if not resigned else "info",
-                        "council_id": councillor.get("_council_id", ""),
-                    })
-
-            # Cross-reference with OTHER councils' suppliers
-            if all_supplier_data:
-                council_id = councillor.get("_council_id", "")
-                for other_id, other_suppliers in all_supplier_data.items():
-                    if other_id == council_id:
-                        continue
-                    matches = cross_reference_suppliers(company_name, other_suppliers)
-                    if matches:
-                        result["cross_council_conflicts"].append({
-                            "company_name": company_name,
-                            "company_number": company_number,
-                            "other_council": other_id,
-                            "supplier_match": matches[0],
-                            "severity": "high" if not resigned else "info",
-                        })
-
+            _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data, councillor)
             companies.append(company_entry)
 
     active = [c for c in companies if not c.get("resigned_on")]
@@ -1347,6 +1896,17 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     result["companies_house"]["total_directorships"] = len(companies)
     result["companies_house"]["active_directorships"] = len(active)
     result["companies_house"]["resigned_directorships"] = len(resigned_cos)
+    result["companies_house"]["councillor_dob"] = councillor_dob
+    result["companies_house"]["verification_method"] = (
+        "register_and_dob" if councillor_dob and declared_companies else
+        "dob_only" if councillor_dob else
+        "proximity_and_name" if any(c.get("confidence", 0) >= 55 for c in companies) else
+        "name_only"
+    )
+    result["unverified_leads"] = unverified_leads
+    result["false_positives_eliminated"] = len([
+        m for m in officer_matches_raw if m["confidence"] < MIN_CONFIDENCE_FOR_INVESTIGATION
+    ]) + len([o for o in officers if name_match_score(name, o.get("title", "")) < 90])
 
     # ── 3. PSC Analysis (for active companies only) ──
     if active:
@@ -1394,12 +1954,35 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     for dq in disqualified:
         dq_name = dq.get("title", "")
         score = name_match_score(name, dq_name)
-        if score >= 60:
+        if score >= 90:  # v3: strict threshold
+            dq_addr = dq.get("address_snippet", "")
+            dq_proximity = geographic_proximity_score(dq_addr, council_id)
+            # DOB — dob_matches handles both dict and string "YYYY-MM" format
+            dq_dob = dq.get("date_of_birth")
+            # If we have DOB and it doesn't match, skip
+            if councillor_dob and dq_dob:
+                dob_result = dob_matches(councillor_dob, dq_dob)
+                if dob_result is False:
+                    continue  # Different DOB — different person
+            # For disqualification, require EITHER proximity OR DOB match
+            # (this is a serious allegation — must be careful about false positives)
+            is_confirmed = False
+            if councillor_dob and dq_dob and dob_matches(councillor_dob, dq_dob) is True:
+                is_confirmed = True  # DOB confirmed
+            elif dq_proximity >= 15:
+                is_confirmed = True  # Close to council area
+            elif not dq_addr:
+                is_confirmed = False  # No address, no DOB — uncertain
+
             result["disqualification_check"]["matches"].append({
                 "name": dq_name,
                 "match_score": score,
                 "snippet": dq.get("snippet", ""),
-                "address": dq.get("address_snippet", ""),
+                "address": dq_addr,
+                "proximity_score": dq_proximity,
+                "confirmed": is_confirmed,
+                "note": "Proximity confirmed" if is_confirmed else
+                        "Name match only — different location, may be different person",
             })
 
     # ── 7. Electoral Commission ──
@@ -1431,11 +2014,19 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             all_flags.append(flag)
 
     # Disqualification matches
-    if result["disqualification_check"]["matches"]:
+    dq_confirmed = [m for m in result["disqualification_check"]["matches"] if m.get("confirmed")]
+    dq_unconfirmed = [m for m in result["disqualification_check"]["matches"] if not m.get("confirmed")]
+    if dq_confirmed:
         all_flags.append({
             "type": "disqualification_match", "severity": "critical",
-            "detail": "Potential match on disqualified directors register ({} match(es))".format(
-                len(result["disqualification_check"]["matches"]))
+            "detail": "Match on disqualified directors register ({} confirmed match(es))".format(
+                len(dq_confirmed))
+        })
+    if dq_unconfirmed:
+        all_flags.append({
+            "type": "disqualification_possible", "severity": "info",
+            "detail": "Possible match on disqualified directors register ({} name match(es), different location)".format(
+                len(dq_unconfirmed))
         })
 
     # Supplier conflicts (own council)
@@ -1515,6 +2106,29 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             "type": "undeclared_family_dpi", "severity": "critical",
             "detail": "Possible undeclared Disclosable Pecuniary Interest (family member's company is council supplier)"
         })
+
+    # Register compliance flags
+    reg = result.get("register_of_interests", {})
+    if reg.get("register_empty"):
+        all_flags.append({
+            "type": "register_empty", "severity": "warning",
+            "detail": "Register of interests is completely empty — no interests declared in any category (Localism Act 2011 s30 requires declaration within 28 days)"
+        })
+    elif reg.get("available") and reg.get("total_declared_items", 0) > 0:
+        # Check for undeclared CH companies (found on CH but not on register)
+        ch_companies = result["companies_house"].get("companies", [])
+        active_ch = [c for c in ch_companies if c.get("company_status") == "active"
+                     and c.get("confidence", 0) >= 55]
+        declared = set(c.lower().strip() for c in reg.get("declared_companies", []))
+        for ch_co in active_ch:
+            co_name = ch_co.get("company_name", "").lower().strip()
+            # Check if this company is mentioned in any register declaration
+            found_on_register = any(
+                co_name in d or d in co_name
+                for d in declared
+            )
+            if not found_on_register and declared:
+                ch_co["not_on_register"] = True
 
     result["red_flags"] = all_flags
 
@@ -1610,7 +2224,7 @@ def process_council(council_id, all_supplier_data=None,
         return None
 
     print("\n" + "=" * 70)
-    print("INTEGRITY SCAN: {} (v2 — Multi-Source Forensic)".format(council_id.upper()))
+    print("INTEGRITY SCAN: {} (v3 — Register-Anchored, DOB-Verified)".format(council_id.upper()))
     print("=" * 70)
 
     with open(councillors_path) as f:
@@ -1620,6 +2234,25 @@ def process_council(council_id, all_supplier_data=None,
 
     print("  {} councillors to investigate".format(len(councillors)))
 
+    # Load register of interests data
+    register_data = load_register_of_interests(council_id)
+    if register_data:
+        print("  Register of interests loaded ({} councillors)".format(len(register_data)))
+    else:
+        print("  Register of interests: not available for this council")
+
+    # Register compliance check
+    register_compliance = check_register_compliance(register_data, councillors)
+    if register_compliance.get("total_issues"):
+        print("  Register compliance issues: {}".format(register_compliance["total_issues"]))
+        for issue in register_compliance["compliance_issues"]:
+            print("    → {} [{}]: {}".format(issue["councillor_name"], issue["type"], issue["severity"]))
+
+    # Inject register data into councillor records for process_councillor
+    for c in councillors:
+        cid = c.get("id", "")
+        c["_register_data"] = register_data.get(cid) if register_data else None
+
     # Load supplier data
     supplier_data = load_supplier_data(council_id)
     print("  {} suppliers loaded for cross-reference".format(len(supplier_data)))
@@ -1628,7 +2261,9 @@ def process_council(council_id, all_supplier_data=None,
         all_supplier_data = load_all_supplier_data()
     print("  {} councils loaded for cross-council analysis".format(len(all_supplier_data)))
 
-    sources = ["Companies House (officers, PSC, charges, disqualifications)"]
+    sources = ["Companies House (officers, PSC, charges, disqualifications — DOB-verified)"]
+    if register_data:
+        sources.append("Register of Interests (ModernGov — anchor verification)")
     if not skip_ec:
         sources.append("Electoral Commission (donations)")
     if not skip_fca:
@@ -1638,17 +2273,21 @@ def process_council(council_id, all_supplier_data=None,
     sources.append("Cross-council supplier matching ({} councils)".format(len(all_supplier_data)))
     sources.append("Familial connection detection (surname clusters, shared addresses, family CH)")
     sources.append("Misconduct pattern detection (7 algorithms)")
+    sources.append("Geographic proximity scoring (Lancashire postcode matching)")
     print("  Data sources: {}".format(", ".join(sources)))
 
     results = {
         "council_id": council_id,
-        "version": "2.0",
+        "version": "3.0",
         "generated_at": datetime.utcnow().isoformat() + "Z",
+        "methodology": "register_anchored_dob_verified",
         "data_sources": sources,
+        "register_available": bool(register_data),
         "total_councillors": len(councillors),
         "councillors_checked": 0,
         "summary": {
             "total_directorships_found": 0,
+            "verified_directorships": 0,
             "active_directorships": 0,
             "disqualification_matches": 0,
             "supplier_conflicts": 0,
@@ -1665,6 +2304,8 @@ def process_council(council_id, all_supplier_data=None,
             "family_connections_found": 0,
             "family_supplier_conflicts": 0,
         },
+        "register_compliance": register_compliance,
+        "supplier_political_donations": [],
         "surname_clusters": [],
         "shared_address_councillors": [],
         "cross_council_summary": {
@@ -1691,6 +2332,17 @@ def process_council(council_id, all_supplier_data=None,
         for sa in shared_addr:
             print("    → {} councillors at '{}'".format(sa["count"], sa["address"][:60]))
 
+    # ── Supplier EC Donations (council-level, run once) ──
+    if not skip_ec:
+        supplier_ec_findings = check_supplier_ec_donations(supplier_data, council_id)
+        results["supplier_political_donations"] = supplier_ec_findings
+        if supplier_ec_findings:
+            print("  Supplier political donations: {} findings".format(len(supplier_ec_findings)))
+            for sf in supplier_ec_findings:
+                print("    → {}".format(sf["detail"]))
+    else:
+        results["supplier_political_donations"] = []
+
     affected_councils = set()
 
     for i, councillor in enumerate(councillors):
@@ -1707,6 +2359,9 @@ def process_council(council_id, all_supplier_data=None,
                 # Update summary
                 ch = result["companies_house"]
                 results["summary"]["total_directorships_found"] += ch["total_directorships"]
+                results["summary"]["verified_directorships"] += sum(
+                    1 for c in ch.get("companies", [])
+                    if c.get("confidence", 0) >= 55)
                 results["summary"]["active_directorships"] += ch["active_directorships"]
                 results["summary"]["disqualification_matches"] += len(
                     result["disqualification_check"]["matches"])
@@ -1750,14 +2405,23 @@ def process_council(council_id, all_supplier_data=None,
                 flags_str = " [{} flags]".format(flags) if flags else ""
                 misconduct_str = " [{}⚠ misconduct]".format(
                     len(result["misconduct_patterns"])) if result["misconduct_patterns"] else ""
-                print("    [{}/{}] ✓ {} — {} active, {} resigned{}{}".format(
+                verification_str = " [{}]".format(ch.get("verification_method", "?"))
+                eliminated = result.get("false_positives_eliminated", 0)
+                elim_str = " [{}✗ eliminated]".format(eliminated) if eliminated else ""
+                print("    [{}/{}] ✓ {} — {} active, {} resigned{}{}{}{}".format(
                     i + 1, len(councillors), result["name"],
                     ch["active_directorships"], ch["resigned_directorships"],
-                    flags_str, misconduct_str))
+                    flags_str, misconduct_str, verification_str, elim_str))
 
+        except KeyboardInterrupt:
+            print("\n  ⚠ Interrupted at {}/{}. Saving partial results...".format(
+                i + 1, len(councillors)))
+            break
         except Exception as e:
+            import traceback
             print("    [{}/{}] ✗ Error: {} — {}".format(
                 i + 1, len(councillors), councillor.get("name", "?"), e))
+            traceback.print_exc()
 
     # Cross-council summary
     results["cross_council_summary"]["councillor_companies_in_other_councils"] = \

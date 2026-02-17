@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home } from 'lucide-react'
+import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home, FileText } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -145,15 +145,22 @@ function Integrity() {
       <section className="methodology-banner">
         <Info size={18} />
         <div>
-          <strong>Multi-source forensic investigation:</strong> Each councillor is checked against{' '}
+          <strong>Register-anchored, DOB-verified investigation (v3):</strong> Each councillor&apos;s{' '}
           <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer">
             Companies House
           </a>{' '}
-          (directorships, PSC register, disqualifications), co-director network mapping,
-          Electoral Commission donations, FCA prohibition orders, and cross-council supplier matching.
-          Familial connections are detected through surname clustering and shared-address analysis.
-          Seven misconduct pattern algorithms flag phoenix companies, contract steering, dormant
-          company payments, and rapid company turnover.
+          record is verified using their public register of interests as an anchor.
+          Declared companies are matched to CH records to confirm the councillor&apos;s date of birth,
+          which then eliminates false positives from same-name officers elsewhere in the country.
+          {integrity?.register_available && (
+            <> Register of interests data is available for this council. </>
+          )}
+          {!integrity?.register_available && (
+            <> Register of interests is not available for this council — verification relies on name matching with geographic proximity. </>
+          )}
+          Additional checks: co-director network mapping,
+          Electoral Commission donations, FCA prohibition orders, cross-council supplier matching,
+          and familial connection detection. Only confirmed and high-confidence results are shown.
         </div>
       </section>
 
@@ -528,6 +535,14 @@ function Integrity() {
                   {ch.companies?.length > 0 && (
                     <div className="companies-section">
                       <h4><Building2 size={16} /> Company Directorships ({ch.companies.length})</h4>
+                      {ch.verification_method && (
+                        <p className="verification-method-note" style={{ fontSize: '0.8rem', color: 'var(--color-muted)', margin: '0 0 0.5rem' }}>
+                          Verification: {ch.verification_method === 'register_and_dob' ? 'Register of interests + DOB confirmed' :
+                            ch.verification_method === 'dob_only' ? 'DOB confirmed via Companies House' :
+                            ch.verification_method === 'proximity_and_name' ? 'Name + geographic proximity' :
+                            'Name match only (limited verification)'}
+                        </p>
+                      )}
                       <div className="companies-list">
                         {ch.companies.map((company, i) => (
                           <div key={i} className={`company-row ${company.resigned_on ? 'resigned' : 'active'}`}>
@@ -537,6 +552,32 @@ function Integrity() {
                                 {company.role} · {company.resigned_on ? `Resigned ${company.resigned_on}` : 'Active'}
                                 {company.company_status ? ` · ${company.company_status}` : ''}
                               </span>
+                              {/* Verification badge */}
+                              {company.verification === 'register_confirmed' && (
+                                <span className="verification-badge verified" title="Declared on register of interests and verified via Companies House">
+                                  ✓ Register + CH Verified
+                                </span>
+                              )}
+                              {company.verification === 'ch_dob_confirmed' && (
+                                <span className="verification-badge confirmed" title="Date of birth confirmed via Companies House">
+                                  ✓ DOB Confirmed
+                                </span>
+                              )}
+                              {company.verification === 'ch_strong_proximity' && (
+                                <span className="verification-badge proximity" title="Strong name match with Lancashire proximity">
+                                  ~ Proximity Match
+                                </span>
+                              )}
+                              {company.verification === 'ch_proximity_match' && (
+                                <span className="verification-badge proximity" title="Name match with geographic proximity">
+                                  ~ Proximity Match
+                                </span>
+                              )}
+                              {company.verification === 'name_match_only' && (
+                                <span className="verification-badge unverified" title="Name match only — lower confidence">
+                                  ? Unverified
+                                </span>
+                              )}
                             </div>
                             <div className="company-actions">
                               {company.red_flags?.length > 0 && (
@@ -563,6 +604,42 @@ function Integrity() {
                         ))}
                       </div>
                     </div>
+                  )}
+
+                  {/* Register of Interests Comparison */}
+                  {councillor.register_of_interests?.available && (
+                    <div className="register-section" style={{ marginBottom: '0.75rem' }}>
+                      <h4 style={{ fontSize: '0.8125rem', marginBottom: '0.375rem', display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <FileText size={16} /> Register of Interests
+                      </h4>
+                      {councillor.register_of_interests.declared_companies?.length > 0 ? (
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                          <p style={{ margin: '0 0 4px' }}>
+                            <strong>Declared interests:</strong>{' '}
+                            {councillor.register_of_interests.declared_companies.join(', ')}
+                          </p>
+                          {ch.companies?.some(c => c.declared_on_register) && (
+                            <p style={{ margin: '0 0 4px', color: '#34c759' }}>
+                              ✓ {ch.companies.filter(c => c.declared_on_register).length} declared interest(s) verified via Companies House
+                            </p>
+                          )}
+                          {ch.companies?.some(c => !c.declared_on_register && c.confidence >= 55) && (
+                            <p style={{ margin: '0 0 4px', color: '#ff9f0a' }}>
+                              {ch.companies.filter(c => !c.declared_on_register && c.confidence >= 55).length} CH directorship(s) not found on register of interests
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: 0 }}>
+                          No company interests declared on register
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  {!councillor.register_of_interests?.available && integrity?.register_available === false && (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', margin: '0 0 0.5rem', fontStyle: 'italic' }}>
+                      Register of interests not available for this council
+                    </p>
                   )}
 
                   {/* Red Flags */}
@@ -766,11 +843,19 @@ function Integrity() {
       <section className="integrity-disclaimer">
         <p>
           <strong>Important:</strong> This tool uses publicly available data from Companies House, the Electoral
-          Commission, the FCA Register, and council spending records. Name matching is probabilistic and may
-          produce false positives — a match does not imply wrongdoing. Councillors may legitimately hold company
-          directorships and family members may have legitimate business interests. Surname matches across
-          councils may be coincidental. The integrity score is algorithmic and should be interpreted alongside
-          the council's formal Register of Members' Interests. This tool is provided for transparency purposes
+          Commission, the FCA Register, council register of interests, and council spending records.
+          {integrity?.version === '3.0' ? (
+            <> Directorships are verified using date-of-birth confirmation and geographic proximity
+            scoring to minimise false positives. Where a councillor&apos;s register of interests is available,
+            declared companies are used as anchor points for identity verification. Only confirmed and
+            high-confidence matches are displayed. </>
+          ) : (
+            <> Name matching is probabilistic and may produce false positives. </>
+          )}
+          A match does not imply wrongdoing. Councillors may legitimately hold company
+          directorships and family members may have legitimate business interests.
+          The integrity score is algorithmic and should be interpreted alongside
+          the council&apos;s formal Register of Members&apos; Interests. This tool is provided for transparency purposes
           under the{' '}
           <a href="https://www.legislation.gov.uk/ukpga/2011/20/contents/enacted" target="_blank" rel="noopener noreferrer">
             Localism Act 2011

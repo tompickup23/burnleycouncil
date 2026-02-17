@@ -1,114 +1,270 @@
 {
   "Altham": {
     "name": "Altham",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Labour"],
-    "councillors": ["Cllr Vanessa Alexander", "Cllr Stephen Button"]
+    "councillors": [
+      "Stephen Button",
+      "Vanessa Alexander"
+    ],
+    "councillor_ids": [
+      "sbutton",
+      "valexander"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
   },
   "Barnfield": {
     "name": "Barnfield",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Labour"],
-    "councillors": ["Cllr Mike Booth", "Cllr Clare McKenna"]
+    "councillors": [
+      "Clare McKenna",
+      "Mike Booth"
+    ],
+    "councillor_ids": [
+      "cmckenna",
+      "mbooth"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
   },
   "Baxenden": {
     "name": "Baxenden",
-    "seats": 2,
-    "color": "#0087DC",
-    "parties": ["Conservative"],
-    "councillors": ["Cllr David James Heap", "Cllr Kath Pratt"]
+    "councillors": [
+      "David James Heap",
+      "Kath Pratt"
+    ],
+    "councillor_ids": [
+      "dheap",
+      "kpratt"
+    ],
+    "parties": [
+      "Conservative"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
   "Central": {
     "name": "Central",
-    "seats": 2,
-    "color": "#0087DC",
-    "parties": ["Green Party", "Conservative"],
-    "councillors": ["Cllr Shabir Fazal OBE", "Cllr Mohammed Younis"]
+    "councillors": [
+      "Mohammed Younis",
+      "Shabir Fazal OBE"
+    ],
+    "councillor_ids": [
+      "myounis",
+      "sfazal"
+    ],
+    "parties": [
+      "Conservative",
+      "Green Party"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
   "Church": {
     "name": "Church",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Conservative", "Labour"],
-    "councillors": ["Cllr Loraine Cox", "Cllr Stewart Eaves"]
+    "councillors": [
+      "Loraine Cox",
+      "Stewart Eaves"
+    ],
+    "councillor_ids": [
+      "lcox",
+      "seaves"
+    ],
+    "parties": [
+      "Conservative",
+      "Labour"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
   "Clayton-le-Moors": {
     "name": "Clayton-le-Moors",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Conservative", "Labour & Co-operative"],
-    "councillors": ["Cllr Peter Edwards", "Cllr Melissa Fisher"]
+    "councillors": [
+      "Melissa Fisher",
+      "Peter Edwards"
+    ],
+    "councillor_ids": [
+      "mfisher",
+      "pedwards"
+    ],
+    "parties": [
+      "Labour & Co-operative",
+      "Conservative"
+    ],
+    "primary_party": "Labour & Co-operative",
+    "color": "#DC241F"
   },
   "Huncoat": {
     "name": "Huncoat",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Conservative", "Labour"],
-    "councillors": ["Cllr Danny Cassidy", "Cllr Dave Parkins"]
+    "councillors": [
+      "Danny Cassidy",
+      "Dave Parkins"
+    ],
+    "councillor_ids": [
+      "dcassidy",
+      "dparkins"
+    ],
+    "parties": [
+      "Conservative",
+      "Labour"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
   "Immanuel": {
     "name": "Immanuel",
-    "seats": 2,
-    "color": "#0087DC",
-    "parties": ["Conservative"],
-    "councillors": ["Cllr Judith Addison", "Cllr Josh Allen"]
+    "councillors": [
+      "Josh Allen",
+      "Judith Addison"
+    ],
+    "councillor_ids": [
+      "jallen",
+      "jaddison"
+    ],
+    "parties": [
+      "Conservative"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   },
   "Milnshaw": {
     "name": "Milnshaw",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Labour"],
-    "councillors": ["Cllr Andrew Clegg", "Cllr Paul Cox"]
+    "councillors": [
+      "Andrew Clegg",
+      "Paul Cox"
+    ],
+    "councillor_ids": [
+      "aclegg",
+      "pcox"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
   },
   "Netherton": {
     "name": "Netherton",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Labour & Co-operative"],
-    "councillors": ["Cllr Noordad Aziz", "Cllr Jodi Clements"]
+    "councillors": [
+      "Jodi Clements",
+      "Noordad Aziz"
+    ],
+    "councillor_ids": [
+      "jclements",
+      "naziz"
+    ],
+    "parties": [
+      "Labour & Co-operative"
+    ],
+    "primary_party": "Labour & Co-operative",
+    "color": "#DC241F"
   },
   "Overton": {
     "name": "Overton",
-    "seats": 3,
-    "color": "#DC241F",
-    "parties": ["Labour"],
-    "councillors": ["Cllr Heather Anderson", "Cllr Scott Brerton", "Cllr Clare Yates"]
+    "councillors": [
+      "Clare Yates",
+      "Heather Anderson",
+      "Scott Brerton"
+    ],
+    "councillor_ids": [
+      "cyates",
+      "handerson",
+      "sbrerton"
+    ],
+    "parties": [
+      "Labour"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
   },
   "Peel": {
     "name": "Peel",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Conservative", "Labour"],
-    "councillors": ["Cllr Joyce Plummer", "Cllr Clare Pritchard"]
+    "councillors": [
+      "Clare Pritchard",
+      "Joyce Plummer"
+    ],
+    "councillor_ids": [
+      "cpritchard",
+      "jplummer"
+    ],
+    "parties": [
+      "Labour",
+      "Conservative"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
   },
   "Rishton": {
     "name": "Rishton",
-    "seats": 3,
-    "color": "#DC241F",
-    "parties": ["Labour & Co-operative", "Labour"],
-    "councillors": ["Cllr Bernard Dawson MBE", "Cllr Ethan Rawcliffe", "Cllr Kate Walsh"]
+    "councillors": [
+      "Bernard Dawson MBE",
+      "Ethan Rawcliffe",
+      "Kate Walsh"
+    ],
+    "councillor_ids": [
+      "bdawson",
+      "erawcliffe",
+      "kwalsh"
+    ],
+    "parties": [
+      "Labour & Co-operative",
+      "Labour"
+    ],
+    "primary_party": "Labour & Co-operative",
+    "color": "#DC241F"
   },
   "Spring Hill": {
     "name": "Spring Hill",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Labour", "Labour & Co-operative"],
-    "councillors": ["Cllr Munsif Dad BEM JP", "Cllr Kimberley Whitehead"]
+    "councillors": [
+      "Kimberley Whitehead",
+      "Munsif Dad BEM JP"
+    ],
+    "councillor_ids": [
+      "kwhitehead",
+      "mbem"
+    ],
+    "parties": [
+      "Labour & Co-operative",
+      "Labour"
+    ],
+    "primary_party": "Labour & Co-operative",
+    "color": "#DC241F"
   },
   "St. Andrews": {
     "name": "St. Andrews",
-    "seats": 2,
-    "color": "#DC241F",
-    "parties": ["Labour", "Conservative"],
-    "councillors": ["Cllr Andy Gilbert", "Cllr Steven Smithson"]
+    "councillors": [
+      "Andy Gilbert",
+      "Steven Smithson"
+    ],
+    "councillor_ids": [
+      "agilbert",
+      "ssmithson"
+    ],
+    "parties": [
+      "Labour",
+      "Conservative"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
   },
   "St. Oswalds": {
     "name": "St. Oswalds",
-    "seats": 2,
-    "color": "#0087DC",
-    "parties": ["Conservative"],
-    "councillors": ["Cllr Zak Khan", "Cllr Tina Walker"]
+    "councillors": [
+      "Tina Walker",
+      "Zak Khan"
+    ],
+    "councillor_ids": [
+      "twalker",
+      "zkhan"
+    ],
+    "parties": [
+      "Conservative"
+    ],
+    "primary_party": "Conservative",
+    "color": "#0087DC"
   }
 }

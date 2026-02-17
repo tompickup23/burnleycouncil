@@ -25,7 +25,7 @@
       "Margaret Lishman"
     ],
     "councillor_ids": [
-      "annekelly",
+      "akelly",
       "glishman",
       "mlishman"
     ],
@@ -39,18 +39,18 @@
     "name": "Brunshaw",
     "councillors": [
       "Christine Sollis",
-      "Shaun Sproule",
-      "Mark Townsend"
+      "Mark Townsend",
+      "Shaun Sproule"
     ],
     "councillor_ids": [
       "csollis",
-      "ssproule",
-      "mtownsend"
+      "mtownsend",
+      "ssproule"
     ],
     "parties": [
       "Independent",
-      "Labour",
-      "Labour & Co-operative Party"
+      "Labour & Co-operative Party",
+      "Labour"
     ],
     "primary_party": "Independent",
     "color": "#808080"
@@ -58,13 +58,13 @@
   "Cliviger with Worsthorne": {
     "name": "Cliviger with Worsthorne",
     "councillors": [
-      "Ivor Emo",
       "Beki Hughes",
+      "Ivor Emo",
       "Jack Launer"
     ],
     "councillor_ids": [
-      "iemo",
       "bhughes",
+      "iemo",
       "jlauner"
     ],
     "parties": [
@@ -72,18 +72,18 @@
       "Conservative"
     ],
     "primary_party": "Green Party",
-    "color": "#0087DC"
+    "color": "#6AB023"
   },
   "Coalclough with Deerplay": {
     "name": "Coalclough with Deerplay",
     "councillors": [
-      "Howard Baker",
       "Gordon Birtwistle",
+      "Howard Baker",
       "Jacqueline Inckle"
     ],
     "councillor_ids": [
-      "hbaker",
       "gbirtwistle",
+      "hbaker",
       "jinckle"
     ],
     "parties": [
@@ -95,14 +95,14 @@
   "Daneshouse with Stoneyholme": {
     "name": "Daneshouse with Stoneyholme",
     "councillors": [
+      "Nussrat Kazmi",
       "Saeed Chaudhary",
-      "Shah Hussain",
-      "Nussrat Kazmi"
+      "Shah Hussain"
     ],
     "councillor_ids": [
+      "nkazmi",
       "schaudhary",
-      "smhussain",
-      "nkazmi"
+      "shussain"
     ],
     "parties": [
       "Independent"
@@ -123,24 +123,24 @@
       "nmottershead"
     ],
     "parties": [
-      "Conservative",
       "Liberal Democrats",
-      "Labour & Co-operative Party"
+      "Labour & Co-operative Party",
+      "Conservative"
     ],
-    "primary_party": "Conservative",
+    "primary_party": "Liberal Democrats",
     "color": "#FAA61A"
   },
   "Gawthorpe": {
     "name": "Gawthorpe",
     "councillors": [
+      "Alun Lewis",
       "Barbara Dole",
-      "John Harbour",
-      "Alun Lewis"
+      "John Harbour"
     ],
     "councillor_ids": [
+      "alewis",
       "bdole",
-      "jharbour",
-      "alewis"
+      "jharbour"
     ],
     "parties": [
       "Labour"
@@ -151,14 +151,14 @@
   "Hapton with Park": {
     "name": "Hapton with Park",
     "councillors": [
-      "Joanne Broughton",
       "Alan Hosker",
-      "Jamie McGowan"
+      "Jamie McGowan",
+      "Joanne Broughton"
     ],
     "councillor_ids": [
-      "jbroughton",
       "ahosker",
-      "jmcgowan"
+      "jmcgowan",
+      "jbroughton"
     ],
     "parties": [
       "Reform UK",
@@ -170,21 +170,21 @@
   "Lanehead": {
     "name": "Lanehead",
     "councillors": [
+      "Andy Waddington",
       "Shiraz Ahmed",
-      "Sue Graham",
-      "Andy Waddington"
+      "Sue Graham"
     ],
     "councillor_ids": [
-      "shahmed",
-      "sgraham",
-      "awaddington"
+      "awaddington",
+      "sahmed",
+      "sgraham"
     ],
     "parties": [
-      "Independent",
-      "Labour"
+      "Labour",
+      "Independent"
     ],
     "primary_party": "Labour",
-    "color": "#808080"
+    "color": "#DC241F"
   },
   "Queensgate": {
     "name": "Queensgate",
@@ -194,7 +194,7 @@
       "Musharaf Parvez"
     ],
     "councillor_ids": [
-      "aurangzebali",
+      "aali",
       "mishtiaq",
       "mparvez"
     ],
@@ -204,35 +204,16 @@
     "primary_party": "Independent",
     "color": "#808080"
   },
-  "Rosehill with Burnley Wood": {
-    "name": "Rosehill with Burnley Wood",
-    "councillors": [
-      "Margaret Brindle",
-      "Bill Horrocks",
-      "Jeff Sumner"
-    ],
-    "councillor_ids": [
-      "mbrindle",
-      "bhorrocks",
-      "jsumner"
-    ],
-    "parties": [
-      "Reform UK",
-      "Labour"
-    ],
-    "primary_party": "Labour",
-    "color": "#DC241F"
-  },
   "Rosegrove with Lowerhouse": {
     "name": "Rosegrove with Lowerhouse",
     "councillors": [
-      "Gail Barton",
       "Ashley Brown",
+      "Gail Barton",
       "Paul Reynolds"
     ],
     "councillor_ids": [
+      "abrown",
       "gbarton",
-      "ashley.brown",
       "preynolds"
     ],
     "parties": [
@@ -241,16 +222,35 @@
     "primary_party": "Labour",
     "color": "#DC241F"
   },
+  "Rosehill with Burnley Wood": {
+    "name": "Rosehill with Burnley Wood",
+    "councillors": [
+      "Bill Horrocks",
+      "Jeff Sumner",
+      "Margaret Brindle"
+    ],
+    "councillor_ids": [
+      "bhorrocks",
+      "jsumner",
+      "mbrindle"
+    ],
+    "parties": [
+      "Labour",
+      "Reform UK"
+    ],
+    "primary_party": "Labour",
+    "color": "#DC241F"
+  },
   "Trinity": {
     "name": "Trinity",
     "councillors": [
-      "Helen Bridges",
       "Alex Hall",
+      "Helen Bridges",
       "Martyn Hurt"
     ],
     "councillor_ids": [
-      "hbridges",
       "ahall",
+      "hbridges",
       "mhurt"
     ],
     "parties": [
@@ -262,14 +262,14 @@
   "Whittlefield with Ightenhill": {
     "name": "Whittlefield with Ightenhill",
     "councillors": [
+      "Don Whitaker",
       "Lee Ashworth",
-      "Mike Steel",
-      "Don Whitaker"
+      "Mike Steel"
     ],
     "councillor_ids": [
+      "dwhitaker",
       "lashworth",
-      "msteel",
-      "dwhitaker"
+      "msteel"
     ],
     "parties": [
       "Conservative"

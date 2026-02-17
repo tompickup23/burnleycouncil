@@ -566,6 +566,36 @@
   display: block;
 }
 
+.verification-badge {
+  display: inline-block;
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  margin-top: 2px;
+  letter-spacing: 0.01em;
+}
+
+.verification-badge.verified {
+  background: rgba(52, 199, 89, 0.15);
+  color: #34c759;
+}
+
+.verification-badge.confirmed {
+  background: rgba(0, 122, 255, 0.15);
+  color: #007aff;
+}
+
+.verification-badge.proximity {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+
+.verification-badge.unverified {
+  background: rgba(142, 142, 147, 0.15);
+  color: #8e8e93;
+}
+
 .company-actions {
   display: flex;
   align-items: center;

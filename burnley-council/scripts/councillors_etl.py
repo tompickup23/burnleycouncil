@@ -171,6 +171,30 @@ COUNCILS = {
         'total_seats': 40,
         'tier': 'district',
     },
+    'burnley': {
+        'name': 'Burnley Borough Council',
+        'moderngov_url': 'https://burnley.moderngov.co.uk',
+        'total_seats': 45,
+        'tier': 'district',
+    },
+    'hyndburn': {
+        'name': 'Hyndburn Borough Council',
+        'moderngov_url': 'https://hyndburn.moderngov.co.uk',
+        'total_seats': 35,
+        'tier': 'district',
+    },
+    'pendle': {
+        'name': 'Pendle Borough Council',
+        'moderngov_url': None,  # No ModernGov
+        'total_seats': 49,
+        'tier': 'district',
+    },
+    'rossendale': {
+        'name': 'Rossendale Borough Council',
+        'moderngov_url': None,  # No ModernGov
+        'total_seats': 36,
+        'tier': 'district',
+    },
 }
 
 
@@ -455,6 +479,7 @@ def build_councillors_json(raw_councillors, council_id, base_url=None, fetch_det
         entry = {
             'id': cid,
             'name': name,
+            'moderngov_uid': raw.get('uid', ''),
             'ward': ward,
             'party': party,
             'party_color': get_party_color(party),
