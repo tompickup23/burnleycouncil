@@ -1,7 +1,8 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import ScrollToTop from './components/ScrollToTop'
+import PasswordGate from './components/PasswordGate'
 import { ErrorBoundary, LoadingState } from './components/ui'
 import { CouncilConfigProvider } from './context/CouncilConfig'
 import { preloadData } from './hooks/useData'
@@ -46,6 +47,14 @@ function Guarded({ children }) {
 }
 
 function App() {
+  const [authenticated, setAuthenticated] = useState(
+    () => sessionStorage.getItem('aidoge_auth') === 'true'
+  )
+
+  if (!authenticated) {
+    return <PasswordGate onUnlock={() => setAuthenticated(true)} />
+  }
+
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <ScrollToTop />
