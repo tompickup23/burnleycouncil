@@ -181,6 +181,18 @@ LGR Tracker V3 (independent financial model, CCN critique, demographics, politic
 - Academic Export: Panel dataset, LGR model inputs, cross-council efficiency CSVs
 - Comprehensive Audit: All architecture issues fixed, 204 tests pass, zero critical bugs
 
+### Phase 16: Budget Enrichment & Integrity v3 ✅ (16-17 Feb)
+Budget enrichment for all 15 councils. Integrity checker v3 overhaul with register-anchored DOB-verified matching.
+
+**Key Phase 16 deliverables:**
+- Budget Enrichment: ALL 15 councils now have `budgets: true`. 13 auto-generated via `generate_budgets_from_govuk.py`, 2 hand-curated (Burnley/Hyndburn)
+- Integrity Checker v3: Register-anchored DOB-verified matching pipeline, 90% name threshold (was 60%), geographic proximity scoring, register compliance checking (Localism Act 2011 s30)
+- New register_of_interests_etl.py: ModernGov register scraper for all 15 councils
+- False positives dramatically reduced (e.g. Burnley 181→93 flags, SIC 96090/formation agent cleanup)
+- Results: 691 councillors, 2,221 directorships (1,570 active), 3,350 red flags, 9 empty registers across 3 councils
+- West Lancashire integrity report PDF (7 high-risk, 6 elevated-risk councillors, 6 empty registers)
+- 219 tests (26 files), all passing
+
 ---
 
 ## 4. KNOWN ISSUES & TECHNICAL DEBT
@@ -269,9 +281,9 @@ LGR Tracker V3 (independent financial model, CCN critique, demographics, politic
 
 ---
 
-## 7. WHAT'S NEXT — PHASE 16 OPTIONS
+## 7. WHAT'S NEXT — PHASE 17 OPTIONS
 
-The platform is feature-complete for Phase 15. These are the most impactful next steps, ranked by value:
+The platform is feature-complete for Phase 16. These are the most impactful next steps, ranked by value:
 
 ### HIGH VALUE — Can do now
 | # | Task | Impact | Effort |

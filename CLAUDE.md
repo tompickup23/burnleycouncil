@@ -85,6 +85,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/fts_etl.py` | Find a Tender Service ETL scaffold (needs CDP API key) |
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `burnley-council/scripts/councillor_integrity_etl.py` | 8-source councillor integrity: CH directorships, co-directors, EC donations, FCA, insolvency, cross-council |
+| `burnley-council/scripts/register_of_interests_etl.py` | ModernGov register of interests scraper → register_of_interests.json per council |
 | `burnley-council/scripts/generate_budgets_from_govuk.py` | Auto-generate budgets.json from GOV.UK outturn data (13 councils, skips hand-curated Burnley/Hyndburn) |
 | `burnley-council/scripts/budget_mapper.py` | Map AI DOGE spending departments → GOV.UK SeRCOP categories → budget_mapping.json |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (reads metadata.json from all 15 councils) |
@@ -130,6 +131,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `politics_summary.json` | councillors_etl.py / manual | Party seat counts, coalition info, majority threshold |
 | `wards.json` | councillors_etl.py / manual | Ward→councillors mapping with party colours |
 | `integrity.json` | councillor_integrity_etl.py | 8-source councillor integrity scoring (CH, EC, FCA, co-directors, familial) |
+| `register_of_interests.json` | register_of_interests_etl.py | ModernGov register data (companies, employment, securities, land) |
 
 ### Shared Data (`burnley-council/data/shared/`)
 | File | Purpose |
@@ -180,6 +182,7 @@ council_etl.py --council {id}    →  spending.json (v2), spending-index.json + 
 doge_analysis.py                 →  doge_findings.json, doge_verification.json (all councils)
 generate_cross_council.py        →  cross_council.json (all councils, reads metadata.json)
 councillors_etl.py --council {id} →  councillors.json, politics_summary.json, wards.json (ModernGov scraper)
+register_of_interests_etl.py --council {id} →  register_of_interests.json (per council)
 councillor_integrity_etl.py --council {id} →  integrity.json (per council) + integrity_cross_council.json (shared)
 ```
 
@@ -280,6 +283,6 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Phases 1-13** (done): See AIDOGE-MASTERPLAN.md for details
 - **Phase 14** (done, 15 Feb): All remaining 6 councils (Preston, West Lancs, Fylde, Wyre, Blackpool, Blackburn w/ Darwen)
 - **Phase 15** (done, 15-16 Feb): LGR Tracker V3, councillor integrity checker (8-source, all 15 councils), data freshness sprint
-- **Phase 16** (done, 16 Feb): Full budget enrichment — all 15 councils now have `budgets: true`. Auto-generated budgets.json for 13 councils via `generate_budgets_from_govuk.py`. Budgets.jsx enhanced with auto-generated detection, spending efficiency, AI DOGE data coverage. Budget mapper per-council overrides for 7 councils
+- **Phase 16** (done, 16-17 Feb): Budget enrichment (all 15 budgets:true) + Integrity checker v3 overhaul (register-anchored DOB-verified matching, register_of_interests_etl.py, 90% name threshold, proximity scoring, register compliance checking, false positive reduction). 691 councillors, 2,221 directorships, 3,350 red flags, 9 empty registers. 219 tests pass.
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Gemini free tier). 2x AWS free trial ends Jul 2026.
