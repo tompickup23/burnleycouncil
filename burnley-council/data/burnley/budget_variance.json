@@ -1,0 +1,143 @@
+{
+  "_generated": true,
+  "_generated_at": "2026-02-17T07:03:08Z",
+  "_generator": "budget_variance.py",
+  "_note": "Compares AI DOGE tracked spending vs GOV.UK MHCLG Revenue Outturn by SeRCOP category",
+  "council_id": "burnley",
+  "council_tier": "district",
+  "summary": {
+    "total_budget_govuk": 16639250.0,
+    "total_tracked_aidoge": 43527594.48,
+    "coverage_pct": 261.6,
+    "categories_analysed": 8,
+    "categories_with_concerns": 5,
+    "govuk_years_used": [
+      "2021-22",
+      "2022-23",
+      "2023-24",
+      "2024-25"
+    ],
+    "aidoge_years_used": [
+      "2021/22",
+      "2022/23",
+      "2023/24",
+      "2024/25",
+      "2025/26"
+    ],
+    "mapping_coverage_pct": 100.0
+  },
+  "categories": [
+    {
+      "govuk_category": "Planning and development services",
+      "govuk_annual_avg": 1990750.0,
+      "aidoge_annual_avg": 13444671.82,
+      "variance_pct": 575.4,
+      "variance_rating": "significant_overspend",
+      "mapped_departments": [
+        "Q - Hsg and Developmnt Control",
+        "R - Economy and Growth",
+        "REG - Regeneration Planning Policy"
+      ],
+      "notes": "AI DOGE tracks 575% more than GOV.UK outturn \u2014 likely includes capital/grant pass-through or multi-year project spend not reflected in revenue outturn"
+    },
+    {
+      "govuk_category": "Central services",
+      "govuk_annual_avg": 3793750.0,
+      "aidoge_annual_avg": 13320723.2,
+      "variance_pct": 251.1,
+      "variance_rating": "significant_overspend",
+      "mapped_departments": [
+        "A - Chief Executive",
+        "A - Management Team",
+        "C - Chief Operating Officer",
+        "FIN - Finance",
+        "GOV - Governance Law Prop Regn",
+        "T - Policy and Engagement",
+        "T - Treasury",
+        "T1 - Treasury",
+        "U - Finance",
+        "U - Finance and Property",
+        "V - Revenues & Benefits Client",
+        "W - Legal and Democratic Services",
+        "X - People and Development",
+        "Y - Property",
+        "Z - Corporate Income Expenditure"
+      ],
+      "notes": "AI DOGE tracks 251% more than GOV.UK outturn \u2014 likely includes capital/grant pass-through or multi-year project spend not reflected in revenue outturn"
+    },
+    {
+      "govuk_category": "Adult Social Care",
+      "govuk_annual_avg": 4750.0,
+      "aidoge_annual_avg": 0,
+      "variance_pct": -100.0,
+      "variance_rating": "significant_underspend",
+      "mapped_departments": [],
+      "notes": "Spending tracked is 100% below GOV.UK outturn \u2014 possible unmapped expenditure or different departmental boundaries"
+    },
+    {
+      "govuk_category": "Other services",
+      "govuk_annual_avg": 0.0,
+      "aidoge_annual_avg": 4504382.3,
+      "variance_pct": 100.0,
+      "variance_rating": "significant_overspend",
+      "mapped_departments": [
+        "OTH - Other",
+        "PP - Parish Precepts",
+        "SP - Strategic Partnership"
+      ],
+      "notes": "Spending tracked is 100% above GOV.UK outturn \u2014 may include grant pass-through, capital elements, or broader departmental scope in AI DOGE data"
+    },
+    {
+      "govuk_category": "Housing services (GFRA only)",
+      "govuk_annual_avg": 2151750.0,
+      "aidoge_annual_avg": 3526896.61,
+      "variance_pct": 63.9,
+      "variance_rating": "significant_overspend",
+      "mapped_departments": [
+        "HOU - Housing"
+      ],
+      "notes": "Spending tracked is 64% above GOV.UK outturn \u2014 may include grant pass-through, capital elements, or broader departmental scope in AI DOGE data"
+    },
+    {
+      "govuk_category": "Environmental and regulatory services",
+      "govuk_annual_avg": 4110500.0,
+      "aidoge_annual_avg": 4958312.14,
+      "variance_pct": 20.6,
+      "variance_rating": "minor_overspend",
+      "mapped_departments": [
+        "L - Street Scene",
+        "STR - Streetscene"
+      ],
+      "notes": "Spending tracked is 21% above GOV.UK outturn \u2014 may include grant pass-through, capital elements, or broader departmental scope in AI DOGE data"
+    },
+    {
+      "govuk_category": "Cultural and related services",
+      "govuk_annual_avg": 4625000.0,
+      "aidoge_annual_avg": 3772608.42,
+      "variance_pct": -18.4,
+      "variance_rating": "minor_underspend",
+      "mapped_departments": [
+        "F - Sport n Culture Leisure Client",
+        "G - Green Spaces and Amenities",
+        "GRE - Green Spaces"
+      ],
+      "notes": "Spending tracked is 18% below GOV.UK outturn \u2014 possible unmapped expenditure or different departmental boundaries"
+    },
+    {
+      "govuk_category": "Highways and transport services",
+      "govuk_annual_avg": -37250.0,
+      "aidoge_annual_avg": 0,
+      "variance_pct": 0.0,
+      "variance_rating": "on_track",
+      "mapped_departments": [],
+      "notes": "AI DOGE spending aligns well with GOV.UK outturn data (within 10% variance)"
+    }
+  ],
+  "insights": [
+    "AI DOGE data covers 262% of GOV.UK reported expenditure \u2014 excellent coverage",
+    "5 categories show significant variance (>25%), including: Planning and development services, Central services, Adult Social Care",
+    "1 category is on track (within 10% of GOV.UK outturn): Highways and transport services",
+    "\"Planning and development services\" shows 575% overspend \u2014 AI DOGE department mappings may be broader than the GOV.UK SeRCOP classification",
+    "\"Central services\" shows 251% overspend \u2014 AI DOGE department mappings may be broader than the GOV.UK SeRCOP classification"
+  ]
+}

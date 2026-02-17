@@ -91,11 +91,14 @@
       }
     ],
     "doge_findings": {
+      "likely_duplicates": "\u00a3510.7K across 137 high-confidence duplicate groups",
       "ch_breach_spend": "\u00a36.6K to 2 suppliers confirmed during active Companies House breaches (temporally verified)",
       "transparency_gap": "100% of transactions have no description \u2014 worst of any East Lancashire council. 13.2% missing department data.",
       "split_payments": "\u00a35.1M suspected across 11 instances (80%+ of approval thresholds)",
-      "year_end_spike": "Mild 1.4x March premium. October is actually the highest month (\u00a39.5M avg vs \u00a36M normal).",
-      "benfords_law": "Significant deviation from Benford's Law (\u03c7\u00b2=2541.29, p < 0.001). Digit 5 deviates 5.0% from expected."
+      "year_end_spike": "Multiple departments spent 5.7x monthly average in March",
+      "round_numbers": "\u00a331.8M across 1,486 round-number payments over \u00a35K",
+      "benfords_law": "5.0% max digit deviation \u2014 borderline threshold",
+      "weak_competition": "23 contracts with limited competition indicators"
     },
     "notable_suppliers": [
       {

@@ -73,6 +73,8 @@
     "transactions": 18517,
     "suppliers": 1850,
     "data_period": "2021/2022 - 2025/2026",
+    "annual_net_revenue_budget": "\u00a315.8M",
+    "political_control": "Labour majority (28 seats of 50). Conservative 16, Liberal Democrat 5, Reform 1.",
     "key_suppliers": [
       { "name": "Lancashire County Council", "spend": "\u00a323.1M", "note": "County-level service payments" },
       { "name": "Caddick Construction (NW) Ltd", "spend": "\u00a317.6M", "note": "Major construction contractor" },
@@ -81,7 +83,11 @@
     "doge_findings": {
       "likely_duplicates": "\u00a3406.0K across 105 high-confidence duplicate groups",
       "ch_red_flags": "\u00a31.3M to 12 suppliers with Companies House compliance issues",
+      "split_payments": "\u00a3368.9K suspected across 4 instances",
       "year_end_spike": "Capital spent 4.9x monthly average in March",
+      "round_numbers": "\u00a38.7M across 277 round-number payments over \u00a35K",
+      "benfords_law": "4.0% max digit deviation \u2014 within normal range",
+      "weak_competition": "4 contracts with limited competition indicators",
       "budget_efficiency": "3 service categories with multiple efficiency flags"
     },
     "notable_suppliers": [

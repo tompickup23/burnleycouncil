@@ -73,6 +73,8 @@
     "transactions": 21421,
     "suppliers": 2170,
     "data_period": "2021/2022 - 2025/2026",
+    "annual_net_revenue_budget": "\u00a314.1M",
+    "political_control": "Labour majority (36 seats of 42). Conservative 4, Reform UK 1, Independent 1.",
     "key_suppliers": [
       { "name": "Lancashire County Council", "spend": "\u00a3149.0M", "note": "County-level precept and service payments" },
       { "name": "MHCLG", "spend": "\u00a332.4M", "note": "Government grant passthrough" },
@@ -80,8 +82,12 @@
     ],
     "doge_findings": {
       "likely_duplicates": "\u00a374.4K across 184 high-confidence duplicate groups",
+      "ch_red_flags": "\u00a393.5K to 7 suppliers with Companies House compliance issues",
+      "split_payments": "\u00a396.3K suspected across 2 instances",
       "year_end_spike": "Policy & Governance spent 5.7x monthly average in March",
-      "benfords_law": "3.5% max digit deviation \u2014 within normal range"
+      "round_numbers": "\u00a39.9M across 320 round-number payments over \u00a35K",
+      "benfords_law": "3.5% max digit deviation \u2014 within normal range",
+      "weak_competition": "7 contracts with limited competition indicators"
     },
     "notable_suppliers": [
       { "name": "Chorley Leisure Ltd", "spend": "\u00a33.5M", "note": "Arms-length leisure company \u2014 42 transactions" },
