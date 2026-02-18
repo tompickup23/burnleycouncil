@@ -3,26 +3,44 @@
     {
       "from_year": "2021/22",
       "to_year": "2022/23",
-      "previous_budget": 1983086000,
-      "current_budget": 2157051000,
-      "change_amount": 173965000,
-      "change_percent": 8.77
+      "previous_budget": 733051000,
+      "current_budget": 869906000,
+      "change_amount": 136855000,
+      "change_percent": 18.67
     },
     {
       "from_year": "2022/23",
       "to_year": "2023/24",
-      "previous_budget": 2157051000,
-      "current_budget": 2249427000,
-      "change_amount": 92376000,
-      "change_percent": 4.28
+      "previous_budget": 869906000,
+      "current_budget": 916425000,
+      "change_amount": 46519000,
+      "change_percent": 5.35
     },
     {
       "from_year": "2023/24",
       "to_year": "2024/25",
-      "previous_budget": 2249427000,
-      "current_budget": 2476155000,
-      "change_amount": 226728000,
-      "change_percent": 10.08
+      "previous_budget": 916425000,
+      "current_budget": 985926000,
+      "change_amount": 69501000,
+      "change_percent": 7.58
+    },
+    {
+      "from_year": "2024/25",
+      "to_year": "2025/26",
+      "previous_budget": 985926000,
+      "current_budget": 1244620000,
+      "change_amount": 258694000,
+      "change_percent": 26.24,
+      "note": "Conservative final budget — largest single-year increase driven by social care demand pressures"
+    },
+    {
+      "from_year": "2025/26",
+      "to_year": "2026/27",
+      "previous_budget": 1244620000,
+      "current_budget": 1324444000,
+      "change_amount": 79824000,
+      "change_percent": 6.41,
+      "note": "First Reform UK budget — council tax rise held to 3.80% (below 4.99% maximum)"
     }
   ],
   "budget_trends": {
@@ -30,56 +48,66 @@
       "2021/22",
       "2022/23",
       "2023/24",
-      "2024/25"
+      "2024/25",
+      "2025/26",
+      "2026/27"
     ],
     "budgets": [
-      1983086000,
-      2157051000,
-      2249427000,
-      2476155000
+      733051000,
+      869906000,
+      916425000,
+      985926000,
+      1244620000,
+      1324444000
     ],
     "council_tax_elements": [
       1456.19,
       1514.29,
       1574.71,
-      1653.29
+      1653.29,
+      1735.79,
+      1801.75
     ]
   },
   "efficiency_metrics": {
-    "total_budget_growth_pct": 24.9,
-    "years_covered": 4,
-    "avg_annual_growth_pct": 8.3,
-    "latest_budget": 2476155000,
-    "earliest_budget": 1983086000,
+    "total_budget_growth_pct": 80.7,
+    "years_covered": 6,
+    "avg_annual_growth_pct": 16.1,
+    "latest_budget": 1324444000,
+    "earliest_budget": 733051000,
     "earliest_year": "2021/22",
-    "latest_year": "2024/25"
+    "latest_year": "2026/27"
   },
   "political_highlights": [
     {
-      "type": "low_unallocated_reserves",
-      "year": "2024/25",
-      "description": "Unallocated reserves at just 56.0M (2.3% of budget) -- below recommended 5% minimum"
-    },
-    {
-      "type": "council_tax_dependency",
-      "year": "2024/25",
-      "value": 26,
-      "description": "26% of budget funded by Council Tax -- CT income grew 18.9% over 4 years"
-    },
-    {
-      "type": "largest_service",
-      "year": "2024/25",
-      "description": "Education services is the largest spending area at 1.3B (51.2% of total budget)"
-    },
-    {
-      "type": "fastest_growing_service",
-      "year": "2024/25",
-      "description": "Central services grew 92.8% over the period -- the fastest growing service area"
+      "type": "administration_change",
+      "year": "2026/27",
+      "description": "First Reform UK budget — council tax increase held to 3.80% vs Conservative's 4.99% in 2025/26, saving £17.55 per Band D household"
     },
     {
       "type": "rapid_budget_growth",
-      "year": "2024/25",
-      "description": "Total budget grew 24.9% over 4 years (from 2.0B to 2.5B)"
+      "year": "2026/27",
+      "description": "Net revenue budget grew 81% over 6 years (from £733M to £1,324M) — driven by social care demand and inflation"
+    },
+    {
+      "type": "largest_directorate",
+      "year": "2026/27",
+      "description": "Adults, Health and Wellbeing is the largest directorate at £558.5M (42% of total budget)"
+    },
+    {
+      "type": "savings_challenge",
+      "year": "2026/27",
+      "description": "£62M savings required to balance 2026/27 budget — Conservative savings delivery collapsed from 91.5% to 48%"
+    },
+    {
+      "type": "dsg_deficit_risk",
+      "year": "2026/27",
+      "description": "DSG deficit forecast to reach £171.4M by end of 2026/27, rising to £419.9M by 2028/29 — significant off-balance-sheet risk"
+    },
+    {
+      "type": "reserves_declining",
+      "year": "2026/27",
+      "description": "Total reserves forecast to fall from £322.6M to £304.2M — sixth consecutive year of decline"
     }
   ]
 }

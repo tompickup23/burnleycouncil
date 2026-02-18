@@ -1017,3 +1017,85 @@
   color: var(--text-secondary);
   margin-top: 2px;
 }
+
+/* ── Reform Budget Spotlight ── */
+.reform-spotlight {
+  border-left: 4px solid var(--accent-blue);
+}
+
+.reform-spotlight h2 {
+  color: var(--text-primary);
+}
+
+.stat-context {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.reform-waterfall {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
+
+.reform-waterfall h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+
+.waterfall-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.waterfall-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.waterfall-item.pressure {
+  background: rgba(255, 59, 48, 0.08);
+}
+
+.waterfall-item.saving {
+  background: rgba(52, 199, 89, 0.08);
+}
+
+.waterfall-item.total {
+  background: var(--bg-primary);
+  font-weight: 600;
+  border-top: 2px solid var(--border-color);
+  margin-top: 4px;
+  padding-top: 12px;
+}
+
+.waterfall-label {
+  color: var(--text-secondary);
+}
+
+.waterfall-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.reform-outlook {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  background: rgba(255, 149, 0, 0.08);
+  border-radius: 12px;
+  border-left: 3px solid var(--accent-orange);
+}
+
+.reform-outlook h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}

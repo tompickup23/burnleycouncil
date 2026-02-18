@@ -389,6 +389,92 @@ function Budgets() {
             </div>
           </section>
 
+          {/* Reform vs Conservative Budget Spotlight */}
+          {budgetData?.insights?.reform_vs_conservative && (() => {
+            const rvc = budgetData.insights.reform_vs_conservative
+            const ctData = rvc.council_tax_increase
+            const growth = rvc.budget_growth
+            const pressures = rvc.pressures_absorbed
+            const savings = rvc.savings_delivered
+            return (
+              <section className="chart-section reform-spotlight">
+                <h2>Reform vs Conservative: Budget Comparison</h2>
+                <p className="section-note">{rvc.description}</p>
+                <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+                  <div className="stat-card">
+                    <div className="stat-value text-green">{ctData?.['2026_27_reform']}%</div>
+                    <div className="stat-label">Reform CT Rise</div>
+                    <div className="stat-context">vs {ctData?.['2025_26_conservative']}% Conservative</div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-value">£{(ctData?.saving_per_band_d || 0).toFixed(2)}</div>
+                    <div className="stat-label">Saved per Band D</div>
+                    <div className="stat-context">vs maximum 4.99% increase</div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-value">{formatCurrency(growth?.increase, true)}</div>
+                    <div className="stat-label">Budget Growth</div>
+                    <div className="stat-context">+{growth?.increase_pct}% year-on-year</div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-value">{formatCurrency(Math.abs(savings?.net_savings || 0), true)}</div>
+                    <div className="stat-label">Net Savings</div>
+                    <div className="stat-context">£{((savings?.new_reform_savings || 0) / -1e6).toFixed(1)}M newly identified</div>
+                  </div>
+                </div>
+
+                {/* Pressures vs Savings waterfall */}
+                <div className="reform-waterfall">
+                  <h3>How the Budget Gap Was Closed</h3>
+                  <div className="waterfall-items">
+                    <div className="waterfall-item">
+                      <span className="waterfall-label">2025/26 Baseline (Conservative)</span>
+                      <span className="waterfall-value">{formatCurrency(growth?.baseline_2025_26, true)}</span>
+                    </div>
+                    <div className="waterfall-item pressure">
+                      <span className="waterfall-label">+ Inflation</span>
+                      <span className="waterfall-value text-red">+{formatCurrency(pressures?.inflation, true)}</span>
+                    </div>
+                    <div className="waterfall-item pressure">
+                      <span className="waterfall-label">+ Demand growth</span>
+                      <span className="waterfall-value text-red">+{formatCurrency(pressures?.demand, true)}</span>
+                    </div>
+                    <div className="waterfall-item pressure">
+                      <span className="waterfall-label">+ Capital financing & other</span>
+                      <span className="waterfall-value text-red">+{formatCurrency((pressures?.capital_financing || 0) + (pressures?.other || 0), true)}</span>
+                    </div>
+                    <div className="waterfall-item saving">
+                      <span className="waterfall-label">- Existing savings (from Conservatives)</span>
+                      <span className="waterfall-value text-green">{formatCurrency(savings?.existing_from_conservatives, true)}</span>
+                    </div>
+                    <div className="waterfall-item saving">
+                      <span className="waterfall-label">- New Reform savings</span>
+                      <span className="waterfall-value text-green">{formatCurrency(savings?.new_reform_savings, true)}</span>
+                    </div>
+                    <div className="waterfall-item total">
+                      <span className="waterfall-label">2026/27 Budget (Reform)</span>
+                      <span className="waterfall-value">{formatCurrency(growth?.budget_2026_27, true)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {rvc.mtfp_outlook && (
+                  <div className="reform-outlook">
+                    <h3>Medium-Term Outlook</h3>
+                    <p className="text-secondary">
+                      Budget balanced through 2027/28 (expected LGR vesting day).
+                      {rvc.mtfp_outlook['2028_29_gap'] > 0 && ` £${(rvc.mtfp_outlook['2028_29_gap'] / 1e6).toFixed(1)}M gap forecast in 2028/29 if reorganisation is delayed.`}
+                    </p>
+                  </div>
+                )}
+
+                {ctData?.note && (
+                  <p className="chart-note text-secondary">{ctData.note}</p>
+                )}
+              </section>
+            )
+          })()}
+
           {/* AI DOGE Coverage — how much of the budget does our spending data capture? */}
           {isAutoGenerated && budgetMapping?.coverage && (
             <section className="chart-section">
@@ -491,7 +577,12 @@ function Budgets() {
                 </LineChart>
               </ResponsiveContainer>
               <p className="chart-note text-secondary">
-                This is the {councilFullName} element only. Total Band D council tax includes Lancashire County Council, police, and fire precepts.
+                {config.council_tier === 'county'
+                  ? `This is the ${councilFullName} precept element only. Total Band D council tax also includes district council, police, and fire precepts.`
+                  : config.council_tier === 'unitary'
+                    ? `This is the ${councilFullName} element only. Total Band D council tax also includes police and fire precepts.`
+                    : `This is the ${councilFullName} element only. Total Band D council tax includes Lancashire County Council, police, and fire precepts.`
+                }
               </p>
             </div>
           </section>
