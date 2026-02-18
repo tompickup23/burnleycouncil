@@ -3,20 +3,12 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE } from '../utils/constants'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
-import { Search, Loader2, AlertCircle, PoundSterling, Home, TrendingDown, TrendingUp, ArrowRight, Calculator, MapPin, Building, Users, ChevronDown, ChevronRight, Check, X as XIcon, HelpCircle, ExternalLink } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine } from 'recharts'
+import { Search, Loader2, AlertCircle, PoundSterling, Home, TrendingDown, TrendingUp, ArrowRight, Calculator, MapPin, Building, Users, ChevronDown, ChevronRight, Check, X as XIcon, HelpCircle, ExternalLink, Calendar, AlertTriangle, Brain, BookOpen } from 'lucide-react'
 import { LoadingState } from '../components/ui'
 import './LGRCostCalculator.css'
 
 const PROPOSAL_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
-
-// All 15 Lancashire council IDs — we need to load their budget data
-const ALL_COUNCIL_IDS = [
-  'burnley', 'hyndburn', 'pendle', 'rossendale',
-  'lancaster', 'ribble_valley', 'chorley', 'south_ribble',
-  'lancashire_cc', 'blackpool', 'west_lancashire', 'blackburn',
-  'wyre', 'preston', 'fylde'
-]
 
 // Map postcodes.io admin_district names to our council IDs
 const DISTRICT_NAME_MAP = {
@@ -48,31 +40,40 @@ const BAND_MULTIPLIERS = {
   'H': 18 / 9,
 }
 
+// Map model IDs to harmonisation keys
+const MODEL_TO_HARMONISATION_KEY = {
+  'two_unitary': 'two_unitary',
+  'three_unitary': 'three_unitary',
+  'four_unitary': 'four_unitary',
+  'four_unitary_alt': 'four_unitary_alt',
+  'five_unitary': 'five_unitary',
+}
+
 function LGRCostCalculator() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
   const councilTier = config.council_tier || 'district'
 
-  // Load LGR tracker + this council's budget summary
+  // Load LGR tracker + budget summary + budget model (has harmonised CT data)
   const { data, loading, error } = useData([
     '/data/shared/lgr_tracker.json',
     '/data/budgets_summary.json',
+    '/data/shared/lgr_budget_model.json',
   ])
-  const [lgrData, budgetsSummary] = data || [null, null]
+  const [lgrData, budgetsSummary, budgetModel] = data || [null, null, null]
 
   const [postcode, setPostcode] = useState('')
   const [postcodeLoading, setPostcodeLoading] = useState(false)
   const [postcodeError, setPostcodeError] = useState(null)
   const [postcodeResult, setPostcodeResult] = useState(null)
   const [selectedBand, setSelectedBand] = useState('D')
-  const [selectedProposal, setSelectedProposal] = useState(null)
   const [expandedProposal, setExpandedProposal] = useState(null)
   const [showMethodology, setShowMethodology] = useState(false)
   const scrollTimerRef = useRef(null)
 
   useEffect(() => {
-    document.title = `What Your Area Costs | ${councilName} Council Transparency`
+    document.title = `LGR Cost Calculator | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
@@ -91,8 +92,9 @@ function LGRCostCalculator() {
     // For unitaries, the Band D is already the total
     if (councilTier === 'unitary') {
       return {
-        districtBandD: districtBandD,
+        districtBandD,
         countyBandD: 0,
+        councilOnlyBandD: districtBandD, // same for unitaries
         totalBandD: districtBandD,
         year: latestYear,
         isUnitary: true,
@@ -103,19 +105,24 @@ function LGRCostCalculator() {
       }
     }
 
-    // For districts, we also need to show the total including county
-    // Use band_d_total_by_year if available (includes county + police + fire)
+    // For districts, total includes county + police + fire
     const totalYears = Object.keys(budgetsSummary.council_tax.band_d_total_by_year || {}).sort()
     const latestTotalYear = totalYears[totalYears.length - 1]
     const totalBandD = budgetsSummary.council_tax.band_d_total_by_year?.[latestTotalYear] || districtBandD
 
-    // Estimate county portion = total - district
+    // County portion = total - district - police - fire. We know district+county from budget model
     const countyBandD = totalBandD - districtBandD
+    // Council-only = district + LCC county (excl. police + fire) — from budget model data
+    const lccBandD = budgetModel?.council_tax_harmonisation?.two_unitary?.lcc_band_d_element || 1735.79
+    const councilOnlyBandD = districtBandD + lccBandD
 
     return {
       districtBandD,
       countyBandD,
-      totalBandD,
+      lccBandD,
+      councilOnlyBandD, // district + county only (what harmonisation compares against)
+      totalBandD,       // includes police + fire
+      policeFire: totalBandD - councilOnlyBandD, // police + fire precepts
       year: latestYear,
       isUnitary: false,
       totalSpend: budgetsSummary.headline?.total_service_expenditure || 0,
@@ -123,9 +130,9 @@ function LGRCostCalculator() {
       serviceBreakdown: budgetsSummary.service_breakdown || {},
       reserves: budgetsSummary.reserves?.total_closing || 0,
     }
-  }, [budgetsSummary, councilTier])
+  }, [budgetsSummary, councilTier, budgetModel])
 
-  // --- Calculate costs for each LGR proposal ---
+  // --- Get harmonised Band D from proper budget model data ---
   const proposalCosts = useMemo(() => {
     if (!lgrData?.proposed_models || !currentCosts) return []
 
@@ -133,61 +140,79 @@ function LGRCostCalculator() {
       // Find which authority this council would be in
       let myAuthority
       if (councilTier === 'county') {
-        // County councils cover ALL of Lancashire — they get abolished under LGR
-        // Pick the largest authority to show representative costs (or first one)
         myAuthority = model.authorities.reduce((largest, a) =>
           (a.population || 0) > (largest?.population || 0) ? a : largest, model.authorities[0])
       } else {
-        myAuthority = model.authorities.find(a =>
-          a.councils.includes(councilId)
-        )
+        myAuthority = model.authorities.find(a => a.councils.includes(councilId))
       }
-      if (!myAuthority) return { ...model, myAuthority: null, estimatedBandD: null, color: PROPOSAL_COLORS[idx] }
+      if (!myAuthority) return { ...model, myAuthority: null, harmonisedBandD: null, color: PROPOSAL_COLORS[idx] }
 
-      // Estimate the new Band D for this unitary
-      // Method: Total council tax requirement of all constituent councils / Band D equivalents
-      // Since we don't have all council budgets loaded client-side, use the AI DOGE savings model
-      // from lgr_tracker.json + population data
+      // Use PROPER harmonised Band D from lgr_budget_model.json
+      // This is the weighted-average council tax for the new unitary authority
+      const harmKey = MODEL_TO_HARMONISATION_KEY[model.id]
+      const ctData = budgetModel?.council_tax_harmonisation?.[harmKey]
+      let harmonisedBandD = null
+      let currentCombined = null
+      let delta = null
+      let isWinner = null
+      let ccnSavings = model.ccn_annual_savings
 
-      const population = myAuthority.population || 500000
-      // Approximate number of Band D equivalent properties
-      // Lancashire average ~0.41 Band D equivalents per person (derived from CT requirement / Band D / population)
-      const bandDEquivalents = population * 0.41
+      if (ctData) {
+        // Find this council's authority in the harmonisation data
+        const harmAuth = ctData.authorities.find(a =>
+          a.councils.some(c => c.council_id === councilId)
+        )
+        if (harmAuth) {
+          harmonisedBandD = harmAuth.harmonised_band_d
+          // Find this specific council's delta
+          const myCouncilCT = harmAuth.councils.find(c => c.council_id === councilId)
+          if (myCouncilCT) {
+            currentCombined = myCouncilCT.current_combined_element
+            delta = myCouncilCT.delta
+            isWinner = myCouncilCT.winner
+          }
+        }
+      }
 
-      // Current total cost across constituent councils:
-      // For districts: sum of (district CT requirement + LCC share)
-      // For unitaries: their CT requirement already includes all services
-      // We approximate using: total Band D * Band D equivalents for each constituent
+      // Fallback: if no harmonisation data, estimate using the old method (but fixed)
+      if (harmonisedBandD === null && currentCosts.councilOnlyBandD > 0) {
+        const population = myAuthority.population || 500000
+        const totalLancPopulation = 1601555
+        // Pro-rata share of savings for THIS authority based on population share
+        const authorityShare = population / totalLancPopulation
+        const authoritySavings = (model.doge_annual_savings || 0) * authorityShare
+        const bandDEquivalents = population * 0.41
+        const savingsPerHousehold = authoritySavings > 0 ? authoritySavings / bandDEquivalents : 0
+        harmonisedBandD = currentCosts.councilOnlyBandD - savingsPerHousehold
+        delta = currentCosts.councilOnlyBandD - harmonisedBandD
+        currentCombined = currentCosts.councilOnlyBandD
+        isWinner = delta < 0
+      }
 
-      // Since this is the same council's page, we know our own Band D
-      // For the whole authority, use the AI DOGE model data which already includes savings
-      const annualSavings = model.doge_annual_savings || 0
-      const savingsPerHousehold = annualSavings > 0 ? annualSavings / bandDEquivalents : 0
-
-      // Estimated new Band D ≈ current total Band D - per-household savings
-      // This is a simplified model — the real calculation would need all council budgets
-      const estimatedBandD = currentCosts.totalBandD - savingsPerHousehold
-
-      // Per-week cost
-      const weeklyNow = currentCosts.totalBandD / 52
-      const weeklyNew = estimatedBandD / 52
+      // The total bill under LGR = harmonised council rate + police + fire (unchanged)
+      const policeFire = currentCosts.policeFire || 0
+      const totalNewBandD = harmonisedBandD !== null ? harmonisedBandD + policeFire : null
 
       return {
         ...model,
         myAuthority,
-        estimatedBandD,
-        savingsPerHousehold,
-        annualSaving: currentCosts.totalBandD - estimatedBandD,
-        weeklySaving: weeklyNow - weeklyNew,
+        harmonisedBandD,      // New unitary council rate (district+county combined)
+        currentCombined,       // Current district+county combined
+        totalNewBandD,         // New total including police+fire
+        delta,                 // Change in council element (+/- from current)
+        isWinner,              // Does this council's bill go down?
+        annualSaving: delta ? -delta : 0, // Positive = saves money (delta is negative for winners)
         color: PROPOSAL_COLORS[idx],
-        populationText: formatNumber(population),
+        populationText: formatNumber(myAuthority.population || 0),
         numCouncils: myAuthority.councils.length,
+        ccnSavings,
       }
     })
-  }, [lgrData, currentCosts, councilId])
+  }, [lgrData, currentCosts, councilId, councilTier, budgetModel])
 
   // --- Apply band multiplier ---
   const adjustForBand = useCallback((bandDAmount) => {
+    if (bandDAmount == null) return null
     const multiplier = BAND_MULTIPLIERS[selectedBand] || 1
     return bandDAmount * multiplier
   }, [selectedBand])
@@ -216,7 +241,6 @@ function LGRCostCalculator() {
       const districtLower = (admin_district || '').toLowerCase()
       const matchedCouncil = DISTRICT_NAME_MAP[districtLower]
 
-      // Check if the postcode is in Lancashire
       const isLancashire = !!matchedCouncil
       const isThisCouncil = matchedCouncil === councilId
 
@@ -233,10 +257,9 @@ function LGRCostCalculator() {
         setPostcodeError(`That postcode is in ${admin_district}, not in Lancashire. This calculator covers Lancashire councils only.`)
       }
 
-      // Scroll to results
       if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
       scrollTimerRef.current = setTimeout(() => {
-        document.querySelector('.cost-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        document.querySelector('.lgr-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }, 100)
     } catch {
       setPostcodeError('Unable to look up postcode. Please try again.')
@@ -250,23 +273,21 @@ function LGRCostCalculator() {
     lookupPostcode(postcode)
   }
 
-  // --- Chart data ---
+  // --- Chart data: use total bill (council + police + fire) for like-for-like comparison ---
   const comparisonChartData = useMemo(() => {
     if (!currentCosts || !proposalCosts.length) return []
 
-    const items = [
-      {
-        name: 'Current',
-        cost: adjustForBand(currentCosts.totalBandD),
-        fill: '#636366',
-      }
-    ]
+    const items = [{
+      name: 'Now (2025/26)',
+      cost: adjustForBand(currentCosts.totalBandD),
+      fill: '#636366',
+    }]
 
     proposalCosts.forEach(p => {
-      if (p.estimatedBandD != null) {
+      if (p.totalNewBandD != null) {
         items.push({
           name: p.short_name,
-          cost: adjustForBand(p.estimatedBandD),
+          cost: adjustForBand(p.totalNewBandD),
           fill: p.color,
         })
       }
@@ -302,12 +323,22 @@ function LGRCostCalculator() {
   return (
     <div className="cost-calc-page animate-fade-in">
       <header className="page-header">
-        <h1><Calculator size={28} /> What Your Area <span className="accent">Costs</span></h1>
+        <h1><Calculator size={28} /> LGR Cost <span className="accent">Calculator</span></h1>
         <p className="subtitle">
-          See what you pay now, and what you'd pay under each LGR proposal.
-          Enter your postcode to personalise the results.
+          What you pay now vs what you&apos;d pay under each LGR proposal.
+          Compares your {currentCosts?.year || '2025/26'} council tax bill with estimated rates after reorganisation (from April 2028).
         </p>
       </header>
+
+      {/* Context banner */}
+      <div className="calc-context-banner">
+        <Calendar size={16} />
+        <span>
+          <strong>Now</strong> = your {currentCosts?.year || '2025/26'} council tax (district + county + police + fire).{' '}
+          <strong>After LGR</strong> = estimated unitary rate from April 2028, when all 15 current councils are abolished
+          and replaced by new unitary authorities. Police and fire precepts stay the same.
+        </span>
+      </div>
 
       {/* Postcode + Band selector */}
       <section className="cost-inputs">
@@ -383,20 +414,20 @@ function LGRCostCalculator() {
       {/* Current costs */}
       {currentCosts && (
         <section className="cost-results">
-          <h2><PoundSterling size={22} /> What You Pay Now</h2>
+          <h2><PoundSterling size={22} /> What You Pay Now ({currentCosts.year})</h2>
           <p className="section-desc">
-            {councilTier === 'county'
-              ? `The county council precept for ${councilName}, ${currentCosts.year}. This is the portion of Band D council tax collected by Lancashire County Council for county services (education, social care, highways).`
-              : <>Your current council tax for {councilName}, {currentCosts.year}.
-                {!currentCosts.isUnitary && ' Includes your share of Lancashire County Council services.'}</>
-            }
+            Your current annual council tax bill for {councilName}.
+            {!currentCosts.isUnitary && councilTier !== 'county' && (
+              <> This includes your district council ({councilName}), Lancashire County Council,
+              police and fire precepts.</>
+            )}
           </p>
 
           <div className="cost-cards">
             <div className="cost-card total-card">
               <div className="cost-card-label">
                 <Home size={18} />
-                Total Council Tax (Band {selectedBand})
+                Total Bill (Band {selectedBand})
               </div>
               <div className="cost-card-value">
                 {formatCurrency(adjustForBand(currentCosts.totalBandD))}
@@ -427,27 +458,29 @@ function LGRCostCalculator() {
                     Lancashire CC (County)
                   </div>
                   <div className="cost-card-value">
-                    {formatCurrency(adjustForBand(currentCosts.countyBandD))}
+                    {formatCurrency(adjustForBand(currentCosts.lccBandD || currentCosts.countyBandD))}
                   </div>
                   <div className="cost-card-sub">
-                    {((currentCosts.countyBandD / currentCosts.totalBandD) * 100).toFixed(0)}% of total
+                    {(((currentCosts.lccBandD || currentCosts.countyBandD) / currentCosts.totalBandD) * 100).toFixed(0)}% of total
                   </div>
                 </div>
+
+                {currentCosts.policeFire > 0 && (
+                  <div className="cost-card">
+                    <div className="cost-card-label">
+                      <Building size={16} />
+                      Police + Fire
+                    </div>
+                    <div className="cost-card-value">
+                      {formatCurrency(adjustForBand(currentCosts.policeFire))}
+                    </div>
+                    <div className="cost-card-sub">
+                      Unchanged under LGR
+                    </div>
+                  </div>
+                )}
               </>
             )}
-
-            <div className="cost-card">
-              <div className="cost-card-label">
-                <Users size={16} />
-                Total Council Spend
-              </div>
-              <div className="cost-card-value">
-                {formatCurrency(currentCosts.totalSpend, true)}
-              </div>
-              <div className="cost-card-sub">
-                {councilName} {currentCosts.year}
-              </div>
-            </div>
           </div>
 
           {/* Where your money goes — pie chart */}
@@ -486,17 +519,18 @@ function LGRCostCalculator() {
       {/* LGR Proposal Comparison — only shown after successful postcode lookup */}
       {proposalCosts.length > 0 && currentCosts && postcodeResult?.isLancashire && (
         <section className="lgr-comparison">
-          <h2><Calculator size={22} /> Under LGR: Estimated Council Tax</h2>
+          <h2><Calculator size={22} /> After LGR: Your Estimated Bill (from April 2028)</h2>
           <p className="section-desc">
-            {councilTier === 'county'
-              ? `As a county council, Lancashire CC's services would be absorbed into new unitary authorities under LGR. Estimates below show the county precept portion under each proposal for the largest proposed authority.`
-              : `Estimated Band ${selectedBand} council tax under each of the 5 LGR proposals, based on AI DOGE's independent financial model using £12B+ actual spending data.`
-            }
+            What your total council tax bill would be under each proposal.
+            The council element (district + county) is replaced by a single harmonised unitary rate.
+            Police and fire precepts ({formatCurrency(adjustForBand(currentCosts.policeFire || 0))}) stay the same.
           </p>
 
           {/* Bar chart comparison */}
           <div className="cost-chart-section">
-            <ResponsiveContainer width="100%" height={280}>
+            <h3>Total Annual Bill Comparison (Band {selectedBand})</h3>
+            <p className="chart-desc">Your {currentCosts.year} bill vs estimated bill under each proposal. Lower = better for you.</p>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={comparisonChartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                 <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
@@ -506,7 +540,7 @@ function LGRCostCalculator() {
                   domain={['dataMin - 100', 'dataMax + 50']}
                 />
                 <Tooltip
-                  formatter={(v) => [formatCurrency(v), 'Annual cost']}
+                  formatter={(v) => [formatCurrency(v), `Annual bill (Band ${selectedBand})`]}
                   contentStyle={TOOLTIP_STYLE}
                 />
                 <Bar dataKey="cost" radius={[6, 6, 0, 0]}>
@@ -520,11 +554,14 @@ function LGRCostCalculator() {
 
           {/* Proposal detail cards */}
           <div className="proposal-cost-cards">
-            {proposalCosts.map((proposal, idx) => {
-              if (!proposal.myAuthority) return null
+            {proposalCosts.map((proposal) => {
+              if (!proposal.myAuthority || proposal.totalNewBandD == null) return null
               const saving = proposal.annualSaving || 0
               const isSaving = saving > 0
               const isExpanded = expandedProposal === proposal.id
+              const adjustedTotalNew = adjustForBand(proposal.totalNewBandD)
+              const adjustedTotalNow = adjustForBand(currentCosts.totalBandD)
+              const adjustedSaving = adjustedTotalNow - adjustedTotalNew
 
               return (
                 <div
@@ -551,11 +588,11 @@ function LGRCostCalculator() {
                     <div className="proposal-cost-summary">
                       <div className="proposal-estimated">
                         <span className="est-label">Est. Band {selectedBand}</span>
-                        <span className="est-value">{formatCurrency(adjustForBand(proposal.estimatedBandD))}</span>
+                        <span className="est-value">{formatCurrency(adjustedTotalNew)}</span>
                       </div>
                       <div className={`proposal-saving ${isSaving ? 'positive' : 'negative'}`}>
                         {isSaving ? <TrendingDown size={16} /> : <TrendingUp size={16} />}
-                        <span>{isSaving ? 'Save' : 'Costs'} {formatCurrency(Math.abs(adjustForBand(saving)))}/yr</span>
+                        <span>{isSaving ? 'Save' : 'Costs'} {formatCurrency(Math.abs(adjustedSaving))}/yr</span>
                       </div>
                       {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                     </div>
@@ -563,6 +600,65 @@ function LGRCostCalculator() {
 
                   {isExpanded && (
                     <div className="proposal-cost-detail animate-fade-in">
+                      {/* Two-column: AI DOGE estimate and Gov figures */}
+                      <div className="estimate-comparison">
+                        <div className="estimate-box doge">
+                          <h4><Brain size={14} /> AI DOGE Estimate</h4>
+                          <div className="estimate-row">
+                            <span>New council rate (Band D)</span>
+                            <strong>{proposal.harmonisedBandD != null ? formatCurrency(proposal.harmonisedBandD) : '—'}</strong>
+                          </div>
+                          <div className="estimate-row">
+                            <span>Change from current</span>
+                            <strong className={isSaving ? 'text-green' : 'text-red'}>
+                              {proposal.delta != null ? (proposal.delta > 0 ? `+${formatCurrency(proposal.delta)}` : `−${formatCurrency(Math.abs(proposal.delta))}`) : '—'}
+                            </strong>
+                          </div>
+                          <div className="estimate-row">
+                            <span>Total savings (all Lancashire)</span>
+                            <strong>
+                              {proposal.doge_annual_savings > 0
+                                ? <>{formatCurrency(proposal.doge_annual_savings, true)}/yr</>
+                                : <span className="text-red">Net cost</span>
+                              }
+                            </strong>
+                          </div>
+                          <div className="estimate-row">
+                            <span>Transition cost</span>
+                            <strong>{formatCurrency(proposal.doge_transition_cost, true)}</strong>
+                          </div>
+                          <div className="estimate-row">
+                            <span>Payback</span>
+                            <strong>{proposal.doge_payback_years ? `${proposal.doge_payback_years} years` : 'Never'}</strong>
+                          </div>
+                          <p className="estimate-source">Based on £2.9B GOV.UK outturn data, 75% realisation rate</p>
+                        </div>
+
+                        <div className="estimate-box gov">
+                          <h4><BookOpen size={14} /> Government Figures (CCN/PwC)</h4>
+                          {proposal.ccnSavings != null ? (
+                            <>
+                              <div className="estimate-row">
+                                <span>Annual savings</span>
+                                <strong className={proposal.ccnSavings >= 0 ? 'text-green' : 'text-red'}>
+                                  {proposal.ccnSavings >= 0
+                                    ? `${formatCurrency(proposal.ccnSavings, true)}/yr`
+                                    : `Costs ${formatCurrency(Math.abs(proposal.ccnSavings), true)}/yr MORE`
+                                  }
+                                </strong>
+                              </div>
+                              <div className="estimate-row">
+                                <span>Transition cost</span>
+                                <strong>{proposal.ccn_transition_cost ? formatCurrency(proposal.ccn_transition_cost, true) : '—'}</strong>
+                              </div>
+                              <p className="estimate-source">CCN/PwC proprietary model — assumptions not published</p>
+                            </>
+                          ) : (
+                            <p className="estimate-source">Not modelled by CCN/PwC</p>
+                          )}
+                        </div>
+                      </div>
+
                       <div className="detail-grid">
                         <div className="detail-item">
                           <span className="detail-label">Your new authority</span>
@@ -579,42 +675,24 @@ function LGRCostCalculator() {
                         <div className="detail-item">
                           <span className="detail-label">Meets 500K threshold?</span>
                           <span className="detail-value">
-                            {proposal.myAuthority.population >= 500000
+                            {(proposal.myAuthority.population || 0) >= 500000
                               ? <><Check size={14} className="text-green" /> Yes</>
                               : <><XIcon size={14} className="text-red" /> No ({formatNumber(proposal.myAuthority.population)})</>
                             }
                           </span>
                         </div>
                         <div className="detail-item">
-                          <span className="detail-label">Realistic annual savings</span>
+                          <span className="detail-label">Weekly change (Band {selectedBand})</span>
                           <span className="detail-value">
-                            {proposal.doge_annual_savings > 0
-                              ? <>{formatCurrency(proposal.doge_annual_savings, true)}{proposal.doge_annual_savings_gross && <span className="text-secondary" style={{ fontSize: '0.85em' }}> (gross: {formatCurrency(proposal.doge_annual_savings_gross, true)})</span>}</>
-                              : <span className="text-red">Costs {formatCurrency(Math.abs(proposal.doge_annual_savings), true)} more</span>
+                            {adjustedSaving > 0
+                              ? <span className="text-green">Save {formatCurrency(adjustedSaving / 52)}/week</span>
+                              : <span className="text-red">Costs {formatCurrency(Math.abs(adjustedSaving) / 52)}/week more</span>
                             }
                           </span>
                         </div>
                         <div className="detail-item">
-                          <span className="detail-label">Transition cost</span>
-                          <span className="detail-value">{formatCurrency(proposal.doge_transition_cost, true)}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Payback period</span>
-                          <span className="detail-value">
-                            {proposal.doge_payback_years
-                              ? `${proposal.doge_payback_years} years`
-                              : 'Never pays back'
-                            }
-                          </span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Weekly saving (Band {selectedBand})</span>
-                          <span className="detail-value">
-                            {proposal.weeklySaving > 0
-                              ? <span className="text-green">{formatCurrency(adjustForBand(proposal.weeklySaving))}/week</span>
-                              : <span className="text-red">Costs {formatCurrency(Math.abs(adjustForBand(proposal.weeklySaving)))}/week more</span>
-                            }
-                          </span>
+                          <span className="detail-label">When</span>
+                          <span className="detail-value">From April 2028 (if this proposal chosen)</span>
                         </div>
                       </div>
 
@@ -626,7 +704,6 @@ function LGRCostCalculator() {
                               {c === councilId && <MapPin size={12} />}
                               {c.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
                                 .replace('Lancashire Cc', 'Lancashire CC')
-                                .replace('Ribble Valley', 'Ribble Valley')
                               }
                             </span>
                           ))}
@@ -642,6 +719,20 @@ function LGRCostCalculator() {
               )
             })}
           </div>
+
+          {/* Key insight box */}
+          <div className="calc-insight-box">
+            <AlertTriangle size={16} />
+            <div>
+              <strong>Why does the saving differ by proposal?</strong>
+              <p>
+                Each proposal groups different councils together. The harmonised rate is a weighted average
+                of all councils in the group — so your saving depends on which councils you&apos;re merged with
+                and their current tax rates. Fewer, larger authorities achieve greater economies of scale
+                (bigger savings), but the council tax averaging effect varies by area.
+              </p>
+            </div>
+          </div>
         </section>
       )}
 
@@ -650,8 +741,11 @@ function LGRCostCalculator() {
         <section className="cost-prompt">
           <div className="prompt-card">
             <Search size={24} />
-            <h3>Enter your postcode above to see your estimated council tax under each LGR proposal</h3>
-            <p className="text-secondary">We&apos;ll show you what you pay now and what you&apos;d pay under all five proposed models.</p>
+            <h3>Enter your postcode above to compare your council tax bill under each LGR proposal</h3>
+            <p className="text-secondary">
+              We&apos;ll show your {currentCosts.year} bill vs estimated costs after reorganisation in April 2028,
+              with both AI DOGE and Government (CCN/PwC) figures.
+            </p>
           </div>
         </section>
       )}
@@ -671,38 +765,37 @@ function LGRCostCalculator() {
           <div className="methodology-content animate-fade-in">
             <div className="method-grid">
               <div className="method-item">
-                <h4>Current costs</h4>
+                <h4>Current costs ({currentCosts?.year || '2025/26'})</h4>
                 <p>
-                  Band D council tax from MHCLG Revenue Outturn data. For district councils,
-                  the total includes Lancashire County Council's Band D precept. Other bands
-                  are calculated using the statutory multiplier (Band A = 6/9, Band H = 18/9 of Band D).
+                  Band D council tax from GOV.UK MHCLG data. For districts, the total includes
+                  the Lancashire County Council precept, plus police and fire precepts.
+                  Other bands use the statutory multiplier (Band A = 6/9, Band H = 18/9 of Band D).
                 </p>
               </div>
               <div className="method-item">
-                <h4>LGR estimates</h4>
+                <h4>After LGR (from April 2028)</h4>
                 <p>
-                  Savings estimates use AI DOGE&apos;s independent bottom-up model, built from
-                  £12B+ of actual Lancashire council spending data. Figures shown are <strong>realistic
-                  estimates</strong>: gross savings minus ongoing costs, at 75% realisation rate
-                  (because reorganisations never achieve 100% of projected savings). The per-household
-                  saving is calculated by dividing authority-wide realistic savings by estimated Band D
-                  equivalent properties.
+                  The new unitary council tax is a <strong>harmonised rate</strong> — a weighted average
+                  of all constituent councils&apos; current district + county elements, weighted by tax base size.
+                  Councils currently paying above the average see their bill fall; those below see it rise.
+                  AI DOGE additionally factors in projected savings to reduce the harmonised rate.
                 </p>
               </div>
               <div className="method-item">
-                <h4>What's not included</h4>
+                <h4>Government (CCN/PwC) figures</h4>
                 <p>
-                  Council tax figures shown are the council element only. They exclude police precept
-                  (Lancashire Police & Crime Commissioner) and fire precept (Lancashire Fire & Rescue).
-                  Parish precepts are also excluded. These would remain unchanged under LGR.
+                  The County Councils Network commissioned PwC to model savings for each option.
+                  These figures are shown for comparison, but the underlying assumptions are proprietary
+                  and not publicly available. CCN represents county councils, who benefit from fewer unitaries.
                 </p>
               </div>
               <div className="method-item">
-                <h4>Important caveats</h4>
+                <h4>What&apos;s included and excluded</h4>
                 <p>
-                  These are estimates based on current data. Actual costs under LGR would depend on
-                  government decisions about council tax harmonisation, transition funding, and service
-                  levels. New authorities may take several years to achieve full savings.
+                  <strong>Included:</strong> District council element, Lancashire County Council element,
+                  police precept, fire precept — your full council tax bill.<br />
+                  <strong>Excluded:</strong> Parish precepts (varies by parish, unchanged under LGR).
+                  Actual rates will depend on government decisions about harmonisation periods and transition funding.
                 </p>
               </div>
             </div>
@@ -716,7 +809,7 @@ function LGRCostCalculator() {
           <h3>Want the full picture?</h3>
           <p>
             See detailed financial models, political analysis, demographics and
-            AI DOGE's independent critique of all 5 proposals.
+            AI DOGE&apos;s independent critique of all 5 proposals.
           </p>
           <a href="lgr" className="cta-link">
             View LGR Tracker <ArrowRight size={16} />

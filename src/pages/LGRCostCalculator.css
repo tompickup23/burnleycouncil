@@ -592,6 +592,148 @@
   }
 }
 
+/* Context banner */
+.calc-context-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(10, 132, 255, 0.06);
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.88rem;
+  color: #aeaeb2;
+  line-height: 1.6;
+}
+
+.calc-context-banner svg {
+  flex-shrink: 0;
+  color: #0a84ff;
+  margin-top: 2px;
+}
+
+.calc-context-banner strong {
+  color: #e5e5e7;
+}
+
+/* Estimate comparison boxes */
+.estimate-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.estimate-box {
+  background: #1c1c1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.estimate-box.doge {
+  border-color: rgba(10, 132, 255, 0.3);
+  background: rgba(10, 132, 255, 0.04);
+}
+
+.estimate-box.gov {
+  border-color: rgba(99, 99, 102, 0.4);
+  background: rgba(99, 99, 102, 0.04);
+}
+
+.estimate-box h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+}
+
+.estimate-box.doge h4 {
+  color: #0a84ff;
+}
+
+.estimate-box.gov h4 {
+  color: #8e8e93;
+}
+
+.estimate-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.estimate-row:last-of-type {
+  border-bottom: none;
+}
+
+.estimate-row span {
+  color: #8e8e93;
+}
+
+.estimate-row strong {
+  color: #e5e5e7;
+  font-size: 0.9rem;
+}
+
+.estimate-source {
+  font-size: 0.75rem;
+  color: #636366;
+  margin-top: 0.5rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Insight box */
+.calc-insight-box {
+  display: flex;
+  gap: 0.75rem;
+  background: rgba(255, 159, 10, 0.06);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  font-size: 0.88rem;
+  color: #aeaeb2;
+  line-height: 1.6;
+}
+
+.calc-insight-box svg {
+  flex-shrink: 0;
+  color: #ff9f0a;
+  margin-top: 2px;
+}
+
+.calc-insight-box strong {
+  color: #e5e5e7;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.calc-insight-box p {
+  margin: 0;
+}
+
+/* Chart description */
+.chart-desc {
+  font-size: 0.82rem;
+  color: #636366;
+  margin-bottom: 0.75rem;
+}
+
+/* Responsive adjustments for estimate boxes */
+@media (max-width: 768px) {
+  .estimate-comparison {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Animations */
 .animate-fade-in {
   animation: costFadeIn 0.3s ease-out;

@@ -832,8 +832,10 @@ function LGRTracker() {
         <section className="lgr-section" id="lgr-council-tax">
           <h2><PoundSterling size={20} /> Council Tax Harmonisation</h2>
           <p className="section-desc">
-            What happens to your council tax bill when councils merge. Each new unitary must set a single Band D rate,
-            replacing both the district and county elements. Police and fire precepts are unchanged.
+            What happens to your council tax when councils merge. Each new unitary replaces the district + county
+            elements with a single harmonised Band D rate. Police and fire precepts (£340-£380) are unchanged.
+            The bars below show each council&apos;s <strong>current combined rate</strong> (district + LCC county, 2025/26)
+            vs the new harmonised rate.
           </p>
 
           <div className="handover-model-tabs">
@@ -853,9 +855,36 @@ function LGRTracker() {
             const activeModelId = selectedModel || lgrData.proposed_models[0]?.id
             const ctData = budgetModel.council_tax_harmonisation[activeModelId]
             if (!ctData) return null
+            const activeProposal = lgrData.proposed_models.find(m => m.id === activeModelId)
 
             return (
               <div className="ct-harmonisation-content animate-fade-in">
+                {/* CCN vs AI DOGE savings for this model */}
+                {activeProposal && (
+                  <div className="ct-savings-comparison">
+                    <div className="ct-savings-item doge">
+                      <span className="ct-savings-label"><Brain size={14} /> AI DOGE realistic savings</span>
+                      <span className={`ct-savings-value ${(activeProposal.doge_annual_savings || 0) >= 0 ? 'text-green' : 'text-red'}`}>
+                        {(activeProposal.doge_annual_savings || 0) >= 0
+                          ? `${formatCurrency(activeProposal.doge_annual_savings, true)}/yr`
+                          : `Costs ${formatCurrency(Math.abs(activeProposal.doge_annual_savings), true)}/yr MORE`
+                        }
+                      </span>
+                    </div>
+                    <div className="ct-savings-item gov">
+                      <span className="ct-savings-label"><BookOpen size={14} /> Government (CCN/PwC)</span>
+                      <span className={`ct-savings-value ${activeProposal.ccn_annual_savings == null ? 'text-secondary' : activeProposal.ccn_annual_savings >= 0 ? 'text-green' : 'text-red'}`}>
+                        {activeProposal.ccn_annual_savings == null
+                          ? 'Not modelled'
+                          : activeProposal.ccn_annual_savings >= 0
+                            ? `${formatCurrency(activeProposal.ccn_annual_savings, true)}/yr`
+                            : `Costs ${formatCurrency(Math.abs(activeProposal.ccn_annual_savings), true)}/yr MORE`
+                        }
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 {ctData.authorities.map((auth, ai) => {
                   const isMine = auth.councils.some(c => c.council_id === councilId)
                   return (
@@ -864,11 +893,15 @@ function LGRTracker() {
                         <h3>{auth.name}</h3>
                         <div className="ct-harmonised-rate">
                           <span className="ct-rate-value">£{auth.harmonised_band_d.toFixed(2)}</span>
-                          <span className="ct-rate-label">New harmonised Band D</span>
+                          <span className="ct-rate-label">New harmonised Band D (from 2028)</span>
                         </div>
                       </div>
 
                       <div className="ct-bar-chart">
+                        <div className="ct-bar-header">
+                          <span className="ct-bar-header-label">Council (current combined Band D)</span>
+                          <span className="ct-bar-header-label">Change</span>
+                        </div>
                         {auth.councils.map((c, ci) => {
                           const maxBandD = Math.max(...auth.councils.map(x => x.current_combined_element), auth.harmonised_band_d)
                           const currentPct = (c.current_combined_element / maxBandD) * 100
@@ -877,10 +910,13 @@ function LGRTracker() {
 
                           return (
                             <div key={ci} className={`ct-bar-row ${isCurrentCouncil ? 'current' : ''}`}>
-                              <span className="ct-bar-name">{c.name}</span>
+                              <span className="ct-bar-name" title={`Current: £${c.current_combined_element.toFixed(2)} (district + LCC county)`}>
+                                {c.name}
+                                <span className="ct-bar-amount">£{c.current_combined_element.toFixed(0)}</span>
+                              </span>
                               <div className="ct-bar-track">
                                 <div
-                                  className={`ct-bar-fill ${c.winner ? 'winner' : 'loser'}`}
+                                  className={`ct-bar-fill ${c.winner ? 'falls' : 'rises'}`}
                                   style={{ width: `${currentPct}%` }}
                                 />
                                 <div
@@ -889,7 +925,7 @@ function LGRTracker() {
                                 />
                               </div>
                               <span className={`ct-bar-delta ${Math.round(c.delta) === 0 ? 'text-secondary' : c.winner ? 'text-green' : 'text-red'}`}>
-                                {Math.round(c.delta) === 0 ? '£0' : c.delta > 0 ? `+£${Math.round(c.delta)}` : `−£${Math.abs(Math.round(c.delta))}`}
+                                {Math.round(c.delta) === 0 ? '±£0' : c.delta > 0 ? `+£${Math.round(c.delta)}/yr` : `−£${Math.abs(Math.round(c.delta))}/yr`}
                               </span>
                             </div>
                           )
@@ -897,9 +933,9 @@ function LGRTracker() {
                       </div>
 
                       <div className="ct-legend">
-                        <span className="ct-legend-item"><span className="ct-legend-dot winner" /> Lower bill (winner)</span>
-                        <span className="ct-legend-item"><span className="ct-legend-dot loser" /> Higher bill (loser)</span>
-                        <span className="ct-legend-item"><span className="ct-legend-line" /> Harmonised rate</span>
+                        <span className="ct-legend-item"><span className="ct-legend-dot falls" /> Bill falls</span>
+                        <span className="ct-legend-item"><span className="ct-legend-dot rises" /> Bill rises</span>
+                        <span className="ct-legend-item"><span className="ct-legend-line" /> New harmonised rate</span>
                       </div>
 
                       {auth.lcc_ct_share > 0 && (
@@ -915,11 +951,14 @@ function LGRTracker() {
                 <div className="ct-explainer">
                   <h4><AlertTriangle size={14} /> How harmonisation works</h4>
                   <p>
-                    Currently, district residents pay two main council tax elements: their district council (£170-£364)
-                    and Lancashire County Council (£{ctData.lcc_band_d_element?.toFixed(0) || '1,736'}).
-                    After LGR, these merge into a single unitary rate. The harmonised rate is a weighted average — councils
-                    with larger tax bases pull the average towards their rate. Winners see their combined bill fall; losers
-                    see it rise. Police and fire precepts are unchanged.
+                    Today, district council taxpayers pay two main elements: their <strong>district council</strong> (£170-£364 Band D)
+                    plus the <strong>Lancashire County Council</strong> precept (£{ctData.lcc_band_d_element?.toFixed(0) || '1,736'} Band D).
+                    Combined, these range from about £1,900 to £2,100 depending on your district.
+                    After LGR (from April 2028), these two elements merge into a single unitary rate — the <strong>harmonised rate</strong>,
+                    which is a weighted average of all constituent councils.
+                    Councils whose current combined rate is above the average see their bill fall;
+                    those below see it rise. Police and fire precepts (£340-£380) are unchanged.
+                    Use the <a href="lgr-calculator">LGR Cost Calculator</a> for your specific postcode and council tax band.
                   </p>
                 </div>
               </div>
@@ -1287,13 +1326,26 @@ function LGRTracker() {
                 <div className="model-meta-item">
                   {activeModelData.doge_annual_savings >= 0 ? (
                     <span className="savings-positive">
-                      <TrendingUp size={14} /> {formatCurrency(activeModelData.doge_annual_savings, true)}/yr realistic savings
+                      <TrendingDown size={14} /> AI DOGE: {formatCurrency(activeModelData.doge_annual_savings, true)}/yr realistic savings
                       {activeModelData.doge_annual_savings_gross && (
                         <span className="text-secondary" style={{ fontSize: '0.85em' }}> (gross: {formatCurrency(activeModelData.doge_annual_savings_gross, true)})</span>
                       )}
                     </span>
                   ) : (
-                    <span className="savings-negative"><TrendingDown size={14} /> {formatCurrency(Math.abs(activeModelData.doge_annual_savings), true)}/yr net cost</span>
+                    <span className="savings-negative"><TrendingUp size={14} /> AI DOGE: {formatCurrency(Math.abs(activeModelData.doge_annual_savings), true)}/yr net cost</span>
+                  )}
+                </div>
+              )}
+              {activeModelData.ccn_annual_savings !== undefined && activeModelData.ccn_annual_savings !== null && (
+                <div className="model-meta-item">
+                  {activeModelData.ccn_annual_savings >= 0 ? (
+                    <span className="savings-positive text-secondary">
+                      <TrendingDown size={14} /> Gov (CCN/PwC): {formatCurrency(activeModelData.ccn_annual_savings, true)}/yr
+                    </span>
+                  ) : (
+                    <span className="savings-negative text-secondary">
+                      <TrendingUp size={14} /> Gov (CCN/PwC): Costs {formatCurrency(Math.abs(activeModelData.ccn_annual_savings), true)}/yr MORE
+                    </span>
                   )}
                 </div>
               )}

@@ -49,6 +49,19 @@ const mockBudgetsSummary = {
   reserves: { total_closing: 2000000 },
 }
 
+const mockBudgetModel = {
+  council_tax_harmonisation: {
+    'gov-2u': {
+      lcc_band_d_element: 1735.79,
+      authorities: [{
+        name: 'East Lancashire',
+        harmonised_band_d: 1997.65,
+        councils: [{ council_id: 'burnley', name: 'Burnley', current_combined_element: 2080.37, harmonised_band_d: 1997.65, delta: -82.72, winner: true }]
+      }]
+    }
+  }
+}
+
 function renderComponent() {
   return render(
     <MemoryRouter>
@@ -76,8 +89,8 @@ describe('LGRCostCalculator', () => {
   })
 
   it('renders the page heading with data', () => {
-    useData.mockReturnValue({ data: [mockLgrData, mockBudgetsSummary], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockLgrData, mockBudgetsSummary, mockBudgetModel], loading: false, error: null })
     renderComponent()
-    expect(screen.getByText(/what your area/i)).toBeInTheDocument()
+    expect(screen.getByText(/LGR Cost/i)).toBeInTheDocument()
   })
 })

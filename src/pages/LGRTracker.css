@@ -2323,10 +2323,11 @@
 .ct-bar-row.current { font-weight: 600; }
 
 .ct-bar-name {
-  min-width: 110px;
+  min-width: 150px;
   font-size: 0.8rem;
   color: #d1d1d6;
   text-align: right;
+  white-space: nowrap;
 }
 
 .ct-bar-track {
@@ -2344,8 +2345,8 @@
   transition: width 0.5s ease;
 }
 
-.ct-bar-fill.winner { background: rgba(48, 209, 88, 0.6); }
-.ct-bar-fill.loser { background: rgba(255, 69, 58, 0.5); }
+.ct-bar-fill.winner, .ct-bar-fill.falls { background: rgba(48, 209, 88, 0.6); }
+.ct-bar-fill.loser, .ct-bar-fill.rises { background: rgba(255, 69, 58, 0.5); }
 
 .ct-harmonised-line {
   position: absolute;
@@ -2385,8 +2386,8 @@
   border-radius: 2px;
 }
 
-.ct-legend-dot.winner { background: rgba(48, 209, 88, 0.6); }
-.ct-legend-dot.loser { background: rgba(255, 69, 58, 0.5); }
+.ct-legend-dot.winner, .ct-legend-dot.falls { background: rgba(48, 209, 88, 0.6); }
+.ct-legend-dot.loser, .ct-legend-dot.rises { background: rgba(255, 69, 58, 0.5); }
 
 .ct-legend-line {
   width: 16px;
@@ -2421,6 +2422,77 @@
   font-size: 0.8rem;
   line-height: 1.5;
   color: #8e8e93;
+}
+
+.ct-explainer a {
+  color: #0a84ff;
+  text-decoration: none;
+}
+
+.ct-explainer a:hover {
+  text-decoration: underline;
+}
+
+/* CT Savings comparison row */
+.ct-savings-comparison {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.ct-savings-item {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.ct-savings-item.doge {
+  border-color: rgba(10, 132, 255, 0.3);
+}
+
+.ct-savings-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #8e8e93;
+}
+
+.ct-savings-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* CT bar chart header */
+.ct-bar-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0.25rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ct-bar-header-label {
+  font-size: 0.7rem;
+  color: #636366;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* CT bar amount (inline with name) */
+.ct-bar-amount {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.7rem;
+  color: #636366;
+  font-weight: 400;
 }
 
 /* ========== Budget Composition (in handover cards) ========== */
