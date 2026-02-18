@@ -69,6 +69,23 @@
       "link": "/spending"
     },
     {
+      "value": "\u03c7\u00b2=764.66",
+      "label": "Second-Digit Benford's Anomaly",
+      "detail": "Second-digit distribution across 36,767 transactions shows p < 0.001 (highly significant). Digit 0 deviates 4.16% from Nigrini's expected distribution. Second-digit tests are more discriminating than first-digit for detecting round-number bias and fabricated invoices.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Benford's second-digit analysis (Nigrini, 2012) uses chi-squared with 9 df. Critical values: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001). n=36,767.",
+      "statistics": {
+        "test": "chi_squared_goodness_of_fit",
+        "chi_squared": 764.66,
+        "df": 9,
+        "n": 36767,
+        "p_description": "p < 0.001 (highly significant)",
+        "significant": true
+      },
+      "link": "/spending"
+    },
+    {
       "value": "34",
       "label": "Weak Competition Indicators",
       "detail": "34 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-St Annes: TPPL Fylde Borough Council NEPO HGV L (\u00a31.6M)",
@@ -133,7 +150,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-16T11:03:49.221116",
+  "generated": "2026-02-18T14:01:21.270830",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

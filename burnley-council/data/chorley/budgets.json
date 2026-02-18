@@ -130,7 +130,9 @@
       },
       "council_tax": {
         "chorley_element": 199.66
-      }
+      },
+      "real_growth_rate_pct": 2.7,
+      "nominal_growth_rate_pct": 12.2
     },
     {
       "financial_year": "2023/24",
@@ -198,7 +200,9 @@
       },
       "council_tax": {
         "chorley_element": 203.63
-      }
+      },
+      "real_growth_rate_pct": 11.4,
+      "nominal_growth_rate_pct": 17.4
     },
     {
       "financial_year": "2024/25",
@@ -512,7 +516,9 @@
       },
       "council_tax": {
         "chorley_element": 209.72
-      }
+      },
+      "real_growth_rate_pct": -22.5,
+      "nominal_growth_rate_pct": -19.8
     }
   ],
   "capital_programmes": [],
@@ -667,25 +673,33 @@
       "year": "2021/22",
       "earmarked": 11776000,
       "unallocated": 4140000,
-      "total": 15916000
+      "total": 15916000,
+      "months_cover": 14.3,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2022/23",
       "earmarked": 8059000,
       "unallocated": 4271000,
-      "total": 12330000
+      "total": 12330000,
+      "months_cover": 9.9,
+      "adequacy_rating": "Adequate"
     },
     {
       "year": "2023/24",
       "earmarked": 6090000,
       "unallocated": 4092000,
-      "total": 10182000
+      "total": 10182000,
+      "months_cover": 7.0,
+      "adequacy_rating": "Adequate"
     },
     {
       "year": "2024/25",
       "earmarked": 7327000,
       "unallocated": 4311000,
-      "total": 11638000
+      "total": 11638000,
+      "months_cover": 9.9,
+      "adequacy_rating": "Adequate"
     }
   ]
 }

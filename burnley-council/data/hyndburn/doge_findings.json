@@ -69,6 +69,23 @@
       "link": "/spending"
     },
     {
+      "value": "\u03c7\u00b2=363.02",
+      "label": "Second-Digit Benford's Anomaly",
+      "detail": "Second-digit distribution across 27,381 transactions shows p < 0.001 (highly significant). Digit 0 deviates 2.51% from Nigrini's expected distribution. Second-digit tests are more discriminating than first-digit for detecting round-number bias and fabricated invoices.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Benford's second-digit analysis (Nigrini, 2012) uses chi-squared with 9 df. Critical values: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001). n=27,381.",
+      "statistics": {
+        "test": "chi_squared_goodness_of_fit",
+        "chi_squared": 363.02,
+        "df": 9,
+        "n": 27381,
+        "p_description": "p < 0.001 (highly significant)",
+        "significant": true
+      },
+      "link": "/spending"
+    },
+    {
       "value": "1",
       "label": "Weak Competition Indicators",
       "detail": "1 contracts show signs of limited competition (short tender periods or rapid award). Top: Hyndburn District Council, C3.1&amp;3.2,Jul25 - E  (\u00a34.7K)",
@@ -133,7 +150,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-16T11:03:49.190893",
+  "generated": "2026-02-18T14:01:21.244418",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

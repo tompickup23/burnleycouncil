@@ -132,7 +132,9 @@
       },
       "council_tax": {
         "west_lancashire_element": 218.39
-      }
+      },
+      "real_growth_rate_pct": -153.5,
+      "nominal_growth_rate_pct": -158.5
     },
     {
       "financial_year": "2023/24",
@@ -199,7 +201,9 @@
       },
       "council_tax": {
         "west_lancashire_element": 224.92
-      }
+      },
+      "real_growth_rate_pct": 265.9,
+      "nominal_growth_rate_pct": 275.0
     },
     {
       "financial_year": "2024/25",
@@ -530,7 +534,9 @@
       },
       "council_tax": {
         "west_lancashire_element": 231.65
-      }
+      },
+      "real_growth_rate_pct": 25.0,
+      "nominal_growth_rate_pct": 29.2
     }
   ],
   "capital_programmes": [],
@@ -700,25 +706,33 @@
       "year": "2021/22",
       "earmarked": 3217000,
       "unallocated": 960000,
-      "total": 4177000
+      "total": 4177000,
+      "months_cover": 3.3,
+      "adequacy_rating": "Low"
     },
     {
       "year": "2022/23",
       "earmarked": 0,
       "unallocated": 960000,
-      "total": 960000
+      "total": 960000,
+      "months_cover": 0,
+      "adequacy_rating": "Unknown"
     },
     {
       "year": "2023/24",
       "earmarked": 0,
       "unallocated": 960000,
-      "total": 960000
+      "total": 960000,
+      "months_cover": 0.7,
+      "adequacy_rating": "Critical"
     },
     {
       "year": "2024/25",
       "earmarked": 2561000,
       "unallocated": 960000,
-      "total": 3521000
+      "total": 3521000,
+      "months_cover": 2.1,
+      "adequacy_rating": "Critical"
     }
   ]
 }

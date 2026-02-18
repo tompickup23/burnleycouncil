@@ -69,6 +69,23 @@
       "link": "/spending"
     },
     {
+      "value": "\u03c7\u00b2=582.07",
+      "label": "Second-Digit Benford's Anomaly",
+      "detail": "Second-digit distribution across 18,216 transactions shows p < 0.001 (highly significant). Digit 0 deviates 4.92% from Nigrini's expected distribution. Second-digit tests are more discriminating than first-digit for detecting round-number bias and fabricated invoices.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Benford's second-digit analysis (Nigrini, 2012) uses chi-squared with 9 df. Critical values: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001). n=18,216.",
+      "statistics": {
+        "test": "chi_squared_goodness_of_fit",
+        "chi_squared": 582.07,
+        "df": 9,
+        "n": 18216,
+        "p_description": "p < 0.001 (highly significant)",
+        "significant": true
+      },
+      "link": "/spending"
+    },
+    {
       "value": "4",
       "label": "Weak Competition Indicators",
       "detail": "4 contracts show signs of limited competition (short tender periods or rapid award). Top: GB-Leyland: TPPL South Ribble Borough Council NEPO (\u00a31.2M)",
@@ -76,14 +93,6 @@
       "confidence": "low",
       "context_note": "Contracts Finder does not publish bid counts. These flags use proxy signals: tender periods under 14 days and awards within 7 days of deadline. Short timelines may have legitimate explanations (framework call-offs, urgency).",
       "link": "/procurement"
-    },
-    {
-      "value": "3 categories",
-      "label": "Budget Category Efficiency Concerns",
-      "detail": "3 service categories show multiple efficiency flags. Worst: Environmental and regulatory services (HHI=3503, 2% round-number, 0.6x year-end spike)",
-      "severity": "warning",
-      "confidence": "medium",
-      "link": "/budgets"
     }
   ],
   "key_findings": [
@@ -131,7 +140,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-16T11:03:49.205181",
+  "generated": "2026-02-18T14:01:21.257035",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

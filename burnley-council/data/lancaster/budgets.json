@@ -133,7 +133,9 @@
       },
       "council_tax": {
         "lancaster_element": 241.95
-      }
+      },
+      "real_growth_rate_pct": -10.4,
+      "nominal_growth_rate_pct": -2.1
     },
     {
       "financial_year": "2023/24",
@@ -202,7 +204,9 @@
       },
       "council_tax": {
         "lancaster_element": 249.18
-      }
+      },
+      "real_growth_rate_pct": 19.1,
+      "nominal_growth_rate_pct": 25.6
     },
     {
       "financial_year": "2024/25",
@@ -546,7 +550,9 @@
       },
       "council_tax": {
         "lancaster_element": 256.63
-      }
+      },
+      "real_growth_rate_pct": -4.7,
+      "nominal_growth_rate_pct": -1.4
     }
   ],
   "capital_programmes": [],
@@ -711,25 +717,33 @@
       "year": "2021/22",
       "earmarked": 22853000,
       "unallocated": 6032000,
-      "total": 28885000
+      "total": 28885000,
+      "months_cover": 16.2,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2022/23",
       "earmarked": 13077000,
       "unallocated": 11678000,
-      "total": 24755000
+      "total": 24755000,
+      "months_cover": 14.2,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2023/24",
       "earmarked": 17039000,
       "unallocated": 10327000,
-      "total": 27366000
+      "total": 27366000,
+      "months_cover": 12.5,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2024/25",
       "earmarked": 18711000,
       "unallocated": 10028000,
-      "total": 28739000
+      "total": 28739000,
+      "months_cover": 13.3,
+      "adequacy_rating": "Strong"
     }
   ]
 }

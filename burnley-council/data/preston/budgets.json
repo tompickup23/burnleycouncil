@@ -147,7 +147,9 @@
       },
       "council_tax": {
         "preston_element": 333.63
-      }
+      },
+      "real_growth_rate_pct": -6.7,
+      "nominal_growth_rate_pct": 2.0
     },
     {
       "financial_year": "2023/24",
@@ -221,7 +223,9 @@
       },
       "council_tax": {
         "preston_element": 343.6
-      }
+      },
+      "real_growth_rate_pct": -5.2,
+      "nominal_growth_rate_pct": -0.0
     },
     {
       "financial_year": "2024/25",
@@ -598,7 +602,9 @@
       },
       "council_tax": {
         "preston_element": 353.87
-      }
+      },
+      "real_growth_rate_pct": 24.5,
+      "nominal_growth_rate_pct": 28.7
     }
   ],
   "capital_programmes": [],
@@ -773,25 +779,33 @@
       "year": "2021/22",
       "earmarked": 32416000,
       "unallocated": 10964000,
-      "total": 43380000
+      "total": 43380000,
+      "months_cover": 28.0,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2022/23",
       "earmarked": 30314000,
       "unallocated": 11956000,
-      "total": 42270000
+      "total": 42270000,
+      "months_cover": 26.8,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2023/24",
       "earmarked": 33006000,
       "unallocated": 11678000,
-      "total": 44684000
+      "total": 44684000,
+      "months_cover": 28.3,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2024/25",
       "earmarked": 26942000,
       "unallocated": 15825000,
-      "total": 42767000
+      "total": 42767000,
+      "months_cover": 21.0,
+      "adequacy_rating": "Strong"
     }
   ]
 }

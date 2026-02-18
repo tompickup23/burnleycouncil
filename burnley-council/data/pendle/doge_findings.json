@@ -69,6 +69,23 @@
       "link": "/spending"
     },
     {
+      "value": "\u03c7\u00b2=2648.16",
+      "label": "Second-Digit Benford's Anomaly",
+      "detail": "Second-digit distribution across 46,830 transactions shows p < 0.001 (highly significant). Digit 0 deviates 6.07% from Nigrini's expected distribution. Second-digit tests are more discriminating than first-digit for detecting round-number bias and fabricated invoices.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Benford's second-digit analysis (Nigrini, 2012) uses chi-squared with 9 df. Critical values: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001). n=46,830.",
+      "statistics": {
+        "test": "chi_squared_goodness_of_fit",
+        "chi_squared": 2648.16,
+        "df": 9,
+        "n": 46830,
+        "p_description": "p < 0.001 (highly significant)",
+        "significant": true
+      },
+      "link": "/spending"
+    },
+    {
       "value": "1",
       "label": "Weak Competition Indicators",
       "detail": "1 contracts show signs of limited competition (short tender periods or rapid award). Top: Dynamic Purchasing System for the Provision of Var (\u00a35.0M)",
@@ -123,7 +140,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-16T11:03:49.193268",
+  "generated": "2026-02-18T14:01:21.246738",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -475,7 +492,7 @@
   },
   "budget_variance": {
     "latest_year": "2024-25",
-    "overall_coverage_pct": 145.6,
+    "overall_coverage_pct": 153.9,
     "total_outturn_pounds": 16778920,
     "ct_dependency_pct": 0,
     "category_comparison": [
@@ -509,11 +526,11 @@
       {
         "category": "Environmental and regulatory services",
         "outturn_pounds": 4416000,
-        "doge_mapped_pounds": 16190735.93,
-        "doge_annualised_pounds": 3238147.19,
-        "variance_annualised_pounds": -1177852.81,
-        "coverage_pct": 73.3,
-        "significant_gap": true
+        "doge_mapped_pounds": 21874568.2,
+        "doge_annualised_pounds": 4374913.64,
+        "variance_annualised_pounds": -41086.36,
+        "coverage_pct": 99.1,
+        "significant_gap": false
       },
       {
         "category": "Planning and development services",
@@ -527,10 +544,10 @@
       {
         "category": "Central services",
         "outturn_pounds": 5252000,
-        "doge_mapped_pounds": 76027033.24,
-        "doge_annualised_pounds": 15205406.65,
-        "variance_annualised_pounds": 9953406.65,
-        "coverage_pct": 289.5,
+        "doge_mapped_pounds": 77280226.47,
+        "doge_annualised_pounds": 15456045.29,
+        "variance_annualised_pounds": 10204045.29,
+        "coverage_pct": 294.3,
         "significant_gap": true
       },
       {
@@ -547,7 +564,7 @@
     "caveat": "AI DOGE tracks spending >\u00a3500 only (5 financial years annualised). GOV.UK outturn is all expenditure for 2024-25. Coverage ratios reflect threshold differences, not missing data."
   },
   "budget_efficiency": {
-    "categories_analysed": 7,
+    "categories_analysed": 6,
     "categories": {
       "Cultural and related services": {
         "rating": "amber",
@@ -573,8 +590,8 @@
       },
       "Environmental and regulatory services": {
         "rating": "amber",
-        "total_spend": 16101768.04,
-        "hhi": 647,
+        "total_spend": 21747858.89,
+        "hhi": 389,
         "hhi_category": "low",
         "round_number_pct": 0.2,
         "year_end_spike_ratio": 0.2,
@@ -584,12 +601,12 @@
             "spend": 2267438.93
           },
           {
-            "supplier": "NW RECRUITMENT SERVICES LTD",
-            "spend": 1966510.23
+            "supplier": "Lancashire County Council",
+            "spend": 2036363.61
           },
           {
-            "supplier": "Lancashire County Council",
-            "spend": 1934944.48
+            "supplier": "NW RECRUITMENT SERVICES LTD",
+            "spend": 1966660.03
           }
         ]
       },
@@ -617,10 +634,10 @@
       },
       "Central services": {
         "rating": "green",
-        "total_spend": 74236968.26,
-        "hhi": 642,
+        "total_spend": 75483252.37,
+        "hhi": 621,
         "hhi_category": "low",
-        "round_number_pct": 2.8,
+        "round_number_pct": 2.7,
         "year_end_spike_ratio": 0.2,
         "top_suppliers": [
           {
@@ -678,28 +695,6 @@
           {
             "supplier": "NEWGROUND TOGETHER",
             "spend": 737682.13
-          }
-        ]
-      },
-      "Adult Social Care": {
-        "rating": "green",
-        "total_spend": 5646090.85,
-        "hhi": 384,
-        "hhi_category": "low",
-        "round_number_pct": 0.5,
-        "year_end_spike_ratio": 0.1,
-        "top_suppliers": [
-          {
-            "supplier": "HILL VIEW (PRIVATE) HOTEL",
-            "spend": 542975.0
-          },
-          {
-            "supplier": "ELITE PLUMBING",
-            "spend": 531856.68
-          },
-          {
-            "supplier": "BUILDEASI NW LTD",
-            "spend": 365276.33
           }
         ]
       }

@@ -130,7 +130,9 @@
       },
       "council_tax": {
         "rossendale_element": 290.8
-      }
+      },
+      "real_growth_rate_pct": 0.5,
+      "nominal_growth_rate_pct": 9.8
     },
     {
       "financial_year": "2023/24",
@@ -197,7 +199,9 @@
       },
       "council_tax": {
         "rossendale_element": 299.49
-      }
+      },
+      "real_growth_rate_pct": -37.2,
+      "nominal_growth_rate_pct": -33.8
     },
     {
       "financial_year": "2024/25",
@@ -450,7 +454,9 @@
       },
       "council_tax": {
         "rossendale_element": 308.44
-      }
+      },
+      "real_growth_rate_pct": 2.5,
+      "nominal_growth_rate_pct": 6.0
     }
   ],
   "capital_programmes": [],
@@ -625,25 +631,33 @@
       "year": "2021/22",
       "earmarked": 8225000,
       "unallocated": 1000000,
-      "total": 9225000
+      "total": 9225000,
+      "months_cover": 11.9,
+      "adequacy_rating": "Adequate"
     },
     {
       "year": "2022/23",
       "earmarked": 5895000,
       "unallocated": 1000000,
-      "total": 6895000
+      "total": 6895000,
+      "months_cover": 8.1,
+      "adequacy_rating": "Adequate"
     },
     {
       "year": "2023/24",
       "earmarked": 9000000,
       "unallocated": 1000000,
-      "total": 10000000
+      "total": 10000000,
+      "months_cover": 17.7,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2024/25",
       "earmarked": 11243000,
       "unallocated": 1000000,
-      "total": 12243000
+      "total": 12243000,
+      "months_cover": 20.4,
+      "adequacy_rating": "Strong"
     }
   ]
 }

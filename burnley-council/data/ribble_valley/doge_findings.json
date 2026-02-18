@@ -67,6 +67,23 @@
       "confidence": "medium",
       "context_note": "Chi-squared values on samples of 13,320+ transactions are naturally inflated and will almost always show statistical significance. The max digit deviation (11.9%) is a more meaningful indicator \u2014 deviations under 5% are typical for legitimate council spending.",
       "link": "/spending"
+    },
+    {
+      "value": "\u03c7\u00b2=1259.69",
+      "label": "Second-Digit Benford's Anomaly",
+      "detail": "Second-digit distribution across 13,325 transactions shows p < 0.001 (highly significant). Digit 5 deviates 6.28% from Nigrini's expected distribution. Second-digit tests are more discriminating than first-digit for detecting round-number bias and fabricated invoices.",
+      "severity": "warning",
+      "confidence": "medium",
+      "context_note": "Benford's second-digit analysis (Nigrini, 2012) uses chi-squared with 9 df. Critical values: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001). n=13,325.",
+      "statistics": {
+        "test": "chi_squared_goodness_of_fit",
+        "chi_squared": 1259.69,
+        "df": 9,
+        "n": 13325,
+        "p_description": "p < 0.001 (highly significant)",
+        "significant": true
+      },
+      "link": "/spending"
     }
   ],
   "key_findings": [
@@ -114,7 +131,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-16T11:03:49.200463",
+  "generated": "2026-02-18T14:01:21.253623",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",

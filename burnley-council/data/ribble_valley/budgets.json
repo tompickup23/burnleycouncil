@@ -131,7 +131,9 @@
       },
       "council_tax": {
         "ribble_valley_element": 160.69
-      }
+      },
+      "real_growth_rate_pct": 3.5,
+      "nominal_growth_rate_pct": 13.1
     },
     {
       "financial_year": "2023/24",
@@ -198,7 +200,9 @@
       },
       "council_tax": {
         "ribble_valley_element": 165.69
-      }
+      },
+      "real_growth_rate_pct": 7.1,
+      "nominal_growth_rate_pct": 12.9
     },
     {
       "financial_year": "2024/25",
@@ -492,7 +496,9 @@
       },
       "council_tax": {
         "ribble_valley_element": 170.69
-      }
+      },
+      "real_growth_rate_pct": -7.3,
+      "nominal_growth_rate_pct": -4.1
     }
   ],
   "capital_programmes": [],
@@ -662,25 +668,33 @@
       "year": "2021/22",
       "earmarked": 15082000,
       "unallocated": 2961000,
-      "total": 18043000
+      "total": 18043000,
+      "months_cover": 36.5,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2022/23",
       "earmarked": 14706000,
       "unallocated": 2719000,
-      "total": 17425000
+      "total": 17425000,
+      "months_cover": 31.2,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2023/24",
       "earmarked": 15645000,
       "unallocated": 2896000,
-      "total": 18541000
+      "total": 18541000,
+      "months_cover": 29.4,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2024/25",
       "earmarked": 16643720,
       "unallocated": 4082000,
-      "total": 20725720
+      "total": 20725720,
+      "months_cover": 34.3,
+      "adequacy_rating": "Strong"
     }
   ]
 }

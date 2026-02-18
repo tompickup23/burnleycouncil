@@ -1,5 +1,25 @@
 {
-  "generated": "2026-02-16T16:23:45",
+  "generated": "2026-02-18T13:55:02",
+  "benchmarks": {
+    "district": {
+      "count": 12,
+      "median_per_capita_spend": 266.25,
+      "median_annual_spend": 31291840.56,
+      "median_reserves_months": 14.2
+    },
+    "county": {
+      "count": 1,
+      "median_per_capita_spend": 1440.12,
+      "median_annual_spend": 1779062245.18,
+      "median_reserves_months": 4.2
+    },
+    "unitary": {
+      "count": 2,
+      "median_per_capita_spend": 2998.7,
+      "median_annual_spend": 431188228.44,
+      "median_reserves_months": 4.6
+    }
+  },
   "councils": [
     {
       "council_id": "burnley",
@@ -23,6 +43,7 @@
       "annual_spend": 71043681.09,
       "annual_records": 6116,
       "population": 88600,
+      "per_capita_spend": 801.85,
       "avg_transaction": 11616.04,
       "top10_supplier_pct": 0.6054,
       "transparency": {
@@ -67,7 +88,11 @@
         "reserves_unallocated_closing": 1379000,
         "reserves_total": 26689000,
         "reserves_change": -503000
-      }
+      },
+      "reserves_months": 17.1,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "hyndburn",
@@ -96,6 +121,7 @@
       "annual_spend": 21130269.88,
       "annual_records": 2980,
       "population": 81000,
+      "per_capita_spend": 260.87,
       "avg_transaction": 7089.74,
       "top10_supplier_pct": 0.7113,
       "transparency": {
@@ -140,7 +166,11 @@
         "reserves_unallocated_closing": 2464000,
         "reserves_total": 18146000,
         "reserves_change": -3356000
-      }
+      },
+      "reserves_months": 11.2,
+      "reserves_adequacy": "Adequate",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "pendle",
@@ -164,6 +194,7 @@
       "annual_spend": 24990986.45,
       "annual_records": 9948,
       "population": 92000,
+      "per_capita_spend": 271.64,
       "avg_transaction": 2512.11,
       "top10_supplier_pct": 0.5135,
       "transparency": {
@@ -208,7 +239,11 @@
         "reserves_unallocated_closing": 0,
         "reserves_total": 13461390,
         "reserves_change": 2643370
-      }
+      },
+      "reserves_months": 9.1,
+      "reserves_adequacy": "Adequate",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "rossendale",
@@ -232,6 +267,7 @@
       "annual_spend": 12789508.84,
       "annual_records": 8507,
       "population": 73045,
+      "per_capita_spend": 175.09,
       "avg_transaction": 1503.37,
       "top10_supplier_pct": 0.572,
       "transparency": {
@@ -276,7 +312,11 @@
         "reserves_unallocated_closing": 1000000,
         "reserves_total": 12243000,
         "reserves_change": 1916000
-      }
+      },
+      "reserves_months": 20.4,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "lancaster",
@@ -300,6 +340,7 @@
       "annual_spend": 36712051.32,
       "annual_records": 6515,
       "population": 144246,
+      "per_capita_spend": 254.51,
       "avg_transaction": 5635.18,
       "top10_supplier_pct": 0.3621,
       "transparency": {
@@ -344,7 +385,11 @@
         "reserves_unallocated_closing": 10028000,
         "reserves_total": 28739000,
         "reserves_change": 1373000
-      }
+      },
+      "reserves_months": 13.3,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "ribble_valley",
@@ -368,6 +413,7 @@
       "annual_spend": 7321783.36,
       "annual_records": 2745,
       "population": 61561,
+      "per_capita_spend": 118.94,
       "avg_transaction": 2667.71,
       "top10_supplier_pct": 0.476,
       "transparency": {
@@ -412,7 +458,11 @@
         "reserves_unallocated_closing": 4082000,
         "reserves_total": 20725720,
         "reserves_change": 2184720
-      }
+      },
+      "reserves_months": 34.3,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "chorley",
@@ -436,6 +486,7 @@
       "annual_spend": 71488227.32,
       "annual_records": 4284,
       "population": 118300,
+      "per_capita_spend": 604.3,
       "avg_transaction": 16686.48,
       "top10_supplier_pct": 0.8207,
       "transparency": {
@@ -480,7 +531,11 @@
         "reserves_unallocated_closing": 4311000,
         "reserves_total": 11638000,
         "reserves_change": 2027000
-      }
+      },
+      "reserves_months": 9.9,
+      "reserves_adequacy": "Adequate",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "south_ribble",
@@ -504,6 +559,7 @@
       "annual_spend": 35486159.32,
       "annual_records": 3703,
       "population": 111600,
+      "per_capita_spend": 317.98,
       "avg_transaction": 9582.05,
       "top10_supplier_pct": 0.6768,
       "transparency": {
@@ -548,7 +604,11 @@
         "reserves_unallocated_closing": 5167000,
         "reserves_total": 19894000,
         "reserves_change": 786000
-      }
+      },
+      "reserves_months": 15.1,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "lancashire_cc",
@@ -569,6 +629,7 @@
       "annual_spend": 1779062245.18,
       "annual_records": 376610,
       "population": 1235356,
+      "per_capita_spend": 1440.12,
       "avg_transaction": 4723.88,
       "top10_supplier_pct": 0.2768,
       "transparency": {
@@ -613,7 +674,11 @@
         "reserves_unallocated_closing": 56000000,
         "reserves_total": 345040000,
         "reserves_change": -21949000
-      }
+      },
+      "reserves_months": 4.2,
+      "reserves_adequacy": "Low",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "blackpool",
@@ -639,6 +704,7 @@
       "annual_spend": 581270416.55,
       "annual_records": 90131,
       "population": 141100,
+      "per_capita_spend": 4119.56,
       "avg_transaction": 6449.2,
       "top10_supplier_pct": 0.3101,
       "transparency": {
@@ -683,7 +749,11 @@
         "reserves_unallocated_closing": 509000,
         "reserves_total": 34715000,
         "reserves_change": -4031000
-      }
+      },
+      "reserves_months": 2.5,
+      "reserves_adequacy": "Critical",
+      "per_capita_rank": 2,
+      "per_capita_percentile": 100.0
     },
     {
       "council_id": "west_lancashire",
@@ -712,6 +782,7 @@
       "annual_spend": 33287397.22,
       "annual_records": 4306,
       "population": 117935,
+      "per_capita_spend": 282.25,
       "avg_transaction": 7729.93,
       "top10_supplier_pct": 0.4884,
       "transparency": {
@@ -756,7 +827,11 @@
         "reserves_unallocated_closing": 960000,
         "reserves_total": 3521000,
         "reserves_change": -1777000
-      }
+      },
+      "reserves_months": 2.1,
+      "reserves_adequacy": "Critical",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "blackburn",
@@ -781,6 +856,7 @@
       "annual_spend": 281106040.34,
       "annual_records": 82162,
       "population": 149696,
+      "per_capita_spend": 1877.85,
       "avg_transaction": 3421.36,
       "top10_supplier_pct": 0.4892,
       "transparency": {
@@ -825,7 +901,11 @@
         "reserves_unallocated_closing": 9000000,
         "reserves_total": 79637000,
         "reserves_change": 12745000
-      }
+      },
+      "reserves_months": 6.7,
+      "reserves_adequacy": "Adequate",
+      "per_capita_rank": 1,
+      "per_capita_percentile": 50.0
     },
     {
       "council_id": "wyre",
@@ -852,6 +932,7 @@
       "annual_spend": 84210976.63,
       "annual_records": 6386,
       "population": 113900,
+      "per_capita_spend": 739.34,
       "avg_transaction": 13185.78,
       "top10_supplier_pct": 0.925,
       "transparency": {
@@ -896,7 +977,11 @@
         "reserves_unallocated_closing": 3750000,
         "reserves_total": 40299000,
         "reserves_change": 3775000
-      }
+      },
+      "reserves_months": 33.8,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "preston",
@@ -922,6 +1007,7 @@
       "annual_spend": 29296283.91,
       "annual_records": 6673,
       "population": 143135,
+      "per_capita_spend": 204.68,
       "avg_transaction": 4390.27,
       "top10_supplier_pct": 0.5753,
       "transparency": {
@@ -966,7 +1052,11 @@
         "reserves_unallocated_closing": 15825000,
         "reserves_total": 42767000,
         "reserves_change": -1917000
-      }
+      },
+      "reserves_months": 21.0,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     },
     {
       "council_id": "fylde",
@@ -996,6 +1086,7 @@
       "annual_spend": 13879402.58,
       "annual_records": 3410,
       "population": 81550,
+      "per_capita_spend": 170.2,
       "avg_transaction": 4069.77,
       "top10_supplier_pct": 0.5441,
       "transparency": {
@@ -1040,7 +1131,11 @@
         "reserves_unallocated_closing": 4937000,
         "reserves_total": 15757000,
         "reserves_change": -1337000
-      }
+      },
+      "reserves_months": 13.1,
+      "reserves_adequacy": "Strong",
+      "per_capita_rank": 0,
+      "per_capita_percentile": 0
     }
   ]
 }

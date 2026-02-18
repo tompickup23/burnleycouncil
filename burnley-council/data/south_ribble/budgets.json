@@ -142,7 +142,9 @@
       },
       "council_tax": {
         "south_ribble_element": 223.24
-      }
+      },
+      "real_growth_rate_pct": -7.1,
+      "nominal_growth_rate_pct": 1.5
     },
     {
       "financial_year": "2023/24",
@@ -210,7 +212,9 @@
       },
       "council_tax": {
         "south_ribble_element": 223.24
-      }
+      },
+      "real_growth_rate_pct": -2.4,
+      "nominal_growth_rate_pct": 3.0
     },
     {
       "financial_year": "2024/25",
@@ -529,7 +533,9 @@
       },
       "council_tax": {
         "south_ribble_element": 229.91
-      }
+      },
+      "real_growth_rate_pct": -10.6,
+      "nominal_growth_rate_pct": -7.5
     }
   ],
   "capital_programmes": [],
@@ -694,25 +700,33 @@
       "year": "2021/22",
       "earmarked": 20280000,
       "unallocated": 4141000,
-      "total": 24421000
+      "total": 24421000,
+      "months_cover": 17.9,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2022/23",
       "earmarked": 16633000,
       "unallocated": 4537000,
-      "total": 21170000
+      "total": 21170000,
+      "months_cover": 15.3,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2023/24",
       "earmarked": 13941000,
       "unallocated": 5167000,
-      "total": 19108000
+      "total": 19108000,
+      "months_cover": 13.4,
+      "adequacy_rating": "Strong"
     },
     {
       "year": "2024/25",
       "earmarked": 14727000,
       "unallocated": 5167000,
-      "total": 19894000
+      "total": 19894000,
+      "months_cover": 15.1,
+      "adequacy_rating": "Strong"
     }
   ]
 }

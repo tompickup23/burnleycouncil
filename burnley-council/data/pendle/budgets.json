@@ -132,7 +132,9 @@
       },
       "council_tax": {
         "pendle_element": 281.5
-      }
+      },
+      "real_growth_rate_pct": -33.4,
+      "nominal_growth_rate_pct": -27.2
     },
     {
       "financial_year": "2023/24",
@@ -622,19 +624,25 @@
       "year": "2021/22",
       "earmarked": 2034000,
       "unallocated": 1000000,
-      "total": 3034000
+      "total": 3034000,
+      "months_cover": 1.8,
+      "adequacy_rating": "Critical"
     },
     {
       "year": "2022/23",
       "earmarked": 449000,
       "unallocated": 1000000,
-      "total": 1449000
+      "total": 1449000,
+      "months_cover": 1.2,
+      "adequacy_rating": "Critical"
     },
     {
       "year": "2024/25",
       "earmarked": 13461390,
       "unallocated": 0,
-      "total": 13461390
+      "total": 13461390,
+      "months_cover": 9.1,
+      "adequacy_rating": "Adequate"
     }
   ]
 }
