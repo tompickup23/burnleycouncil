@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "generated": "2026-02-18",
+    "description": "Shared election reference data for AI DOGE prediction engine"
+  },
+  "national_polling": {
+    "latest_date": "2026-02-15",
+    "source": "Electoral Calculus polling average",
+    "parties": {
+      "Labour": 0.29,
+      "Conservative": 0.24,
+      "Reform UK": 0.22,
+      "Liberal Democrats": 0.12,
+      "Green Party": 0.07,
+      "Other": 0.06
+    },
+    "ge2024_result": {
+      "Labour": 0.337,
+      "Conservative": 0.237,
+      "Reform UK": 0.143,
+      "Liberal Democrats": 0.122,
+      "Green Party": 0.069,
+      "Other": 0.092
+    }
+  },
+  "election_calendar": [
+    {
+      "date": "2026-05-07",
+      "type": "borough",
+      "councils": ["burnley", "chorley", "hyndburn", "pendle", "preston", "west_lancashire", "blackburn"],
+      "note": "Borough elections (un-cancelled after LGR postponement). 7 councils confirmed."
+    },
+    {
+      "date": "2027-05-06",
+      "type": "shadow_authority",
+      "councils": [],
+      "note": "Shadow authority elections for new unitary councils (if LGR proceeds)"
+    },
+    {
+      "date": "2028-04-01",
+      "type": "vesting_day",
+      "councils": [],
+      "note": "New unitary authorities go live, all 15 current councils abolished"
+    }
+  ],
+  "party_colors": {
+    "Labour": "#DC241F",
+    "Labour & Co-operative": "#DC241F",
+    "Conservative": "#0087DC",
+    "Liberal Democrats": "#FAA61A",
+    "Green Party": "#6AB023",
+    "Reform UK": "#12B6CF",
+    "UKIP": "#70147A",
+    "Brexit Party": "#12B6CF",
+    "BNP": "#2C2863",
+    "Independent": "#808080",
+    "Our West Lancashire": "#7B2D8E",
+    "TUSC": "#EC008C",
+    "SDP": "#FF6B00",
+    "Workers Party": "#C41E3A"
+  },
+  "model_parameters": {
+    "national_to_local_dampening": 0.65,
+    "incumbency_bonus_pct": 0.05,
+    "retirement_penalty_pct": -0.02,
+    "reform_proxy_weights": {
+      "ge2024": 0.4,
+      "lcc2025": 0.6
+    },
+    "demographic_adjustments": {
+      "high_deprivation_labour_bonus": 0.02,
+      "high_deprivation_conservative_penalty": -0.02,
+      "over65_conservative_bonus": 0.015,
+      "over65_reform_bonus": 0.01,
+      "asian_heritage_independent_bonus": 0.02,
+      "rural_conservative_bonus": 0.01
+    },
+    "sources": {
+      "dampening": "Rallings & Thrasher (Elections Centre) — local elections typically see ~65% of national swing",
+      "incumbency": "Denver & Hands (1997) — personal vote advantage for sitting councillors",
+      "demographics": "Empirical correlations from Lancashire DCLEAPIL data 2006-2024"
+    }
+  },
+  "lancashire_lcc_2025": {
+    "date": "2025-05-01",
+    "note": "Reform UK won 53 of 84 seats in a historic landslide (official LCC results PDF)",
+    "total_votes": 329832,
+    "avg_turnout": 0.345,
+    "results": {
+      "Reform UK": {"seats": 53, "pct": 0.357},
+      "Conservative": {"seats": 8, "pct": 0.211},
+      "Independent": {"seats": 7, "pct": 0.055},
+      "Liberal Democrats": {"seats": 5, "pct": 0.090},
+      "Green Party": {"seats": 4, "pct": 0.084},
+      "Labour": {"seats": 4, "pct": 0.178},
+      "Our West Lancashire": {"seats": 2, "pct": 0.012},
+      "Labour & Co-operative": {"seats": 1, "pct": 0.011}
+    }
+  }
+}

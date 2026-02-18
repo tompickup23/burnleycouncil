@@ -1,0 +1,4617 @@
+{
+  "meta": {
+    "council_id": "west_lancashire",
+    "council_name": "West Lancashire",
+    "council_tier": "district",
+    "election_cycle": "thirds",
+    "seats_per_ward": 3,
+    "total_seats": 45,
+    "total_wards": 15,
+    "generated": "2026-02-18T20:26:52Z",
+    "data_sources": [
+      "DCLEAPIL v1.0 (Leman 2025, CC BY-SA 4.0)",
+      "Democracy Club (CC BY 4.0)",
+      "Andrew Teale LEAP (CC BY-SA 3.0)"
+    ],
+    "next_election": {
+      "date": "2026-05-07",
+      "type": "borough_thirds",
+      "seats_up": 5,
+      "wards_up": [
+        "Aughton & Holborn",
+        "Burscough Bridge & Rufford",
+        "Burscough Town",
+        "North Meols & Hesketh Bank",
+        "Tanhouse & Skelmersdale Town Centre"
+      ]
+    }
+  },
+  "wards": {
+    "Aughton & Holborn": {
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Gordon Paul Johnson",
+          "party": "Our West Lancashire"
+        },
+        {
+          "name": "Paul Hennessy",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Sarah E Lawton",
+          "party": "Labour & Co-operative"
+        }
+      ],
+      "history": [],
+      "gss_code": null
+    },
+    "Burscough Bridge & Rufford": {
+      "gss_code": "E05005371",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Edward Pope",
+          "party": "Conservative"
+        },
+        {
+          "name": "John Gordon",
+          "party": "Conservative"
+        },
+        {
+          "name": "Paul David Hesketh",
+          "party": "Our West Lancashire"
+        }
+      ],
+      "electorate": 1793,
+      "history": [
+        {
+          "date": "2008-05-01",
+          "year": 2008,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 618,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Joan Colling",
+              "party": "Conservative",
+              "votes": 524,
+              "pct": 0.8479,
+              "elected": true
+            },
+            {
+              "name": "Jacqueline Citarella",
+              "party": "Labour",
+              "votes": 94,
+              "pct": 0.1521,
+              "elected": false
+            }
+          ],
+          "majority": 430,
+          "majority_pct": 0.6958
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 869,
+          "turnout": 0.5145,
+          "electorate": 1689,
+          "candidates": [
+            {
+              "name": "Jane Houlgrave",
+              "party": "Conservative",
+              "votes": 372,
+              "pct": 0.4281,
+              "elected": true
+            },
+            {
+              "name": "John Gordon",
+              "party": "Independent",
+              "votes": 261,
+              "pct": 0.3003,
+              "elected": false
+            },
+            {
+              "name": "Robert Watkinson",
+              "party": "Labour",
+              "votes": 236,
+              "pct": 0.2716,
+              "elected": false
+            }
+          ],
+          "majority": 111,
+          "majority_pct": 0.1277
+        },
+        {
+          "date": "2012-05-03",
+          "year": 2012,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 737,
+          "turnout": 0.434,
+          "electorate": 1698,
+          "candidates": [
+            {
+              "name": "Jane Houlgrave",
+              "party": "Conservative",
+              "votes": 333,
+              "pct": 0.4518,
+              "elected": true
+            },
+            {
+              "name": "John Gordon",
+              "party": "Independent",
+              "votes": 293,
+              "pct": 0.3976,
+              "elected": false
+            },
+            {
+              "name": "Simon Perkins",
+              "party": "Labour",
+              "votes": 111,
+              "pct": 0.1506,
+              "elected": false
+            }
+          ],
+          "majority": 40,
+          "majority_pct": 0.0543
+        },
+        {
+          "date": "2016-05-05",
+          "year": 2016,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 660,
+          "turnout": 0.4047,
+          "electorate": 1631,
+          "candidates": [
+            {
+              "name": "John Gordon",
+              "party": "Conservative",
+              "votes": 472,
+              "pct": 0.7152,
+              "elected": true
+            },
+            {
+              "name": "Natalie June McCulloch",
+              "party": "Labour",
+              "votes": 188,
+              "pct": 0.2848,
+              "elected": false
+            }
+          ],
+          "majority": 284,
+          "majority_pct": 0.4303
+        },
+        {
+          "date": "2021-05-06",
+          "year": 2021,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 821,
+          "turnout": 0.4579,
+          "electorate": 1793,
+          "candidates": [
+            {
+              "name": "John Gordon",
+              "party": "Conservative",
+              "votes": 597,
+              "pct": 0.7272,
+              "elected": true
+            },
+            {
+              "name": "Judy Abbott",
+              "party": "Labour",
+              "votes": 224,
+              "pct": 0.2728,
+              "elected": false
+            }
+          ],
+          "majority": 373,
+          "majority_pct": 0.4543
+        }
+      ]
+    },
+    "Burscough Town": {
+      "gss_code": "E05014931",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Andy Fowler",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Judy Abbott",
+          "party": "Labour"
+        },
+        {
+          "name": "Patricia Burnside",
+          "party": "Labour & Co-operative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2297,
+          "turnout": 0.4428,
+          "electorate": 5187,
+          "candidates": [
+            {
+              "name": "Patricia Clare Burnside",
+              "party": "Labour",
+              "votes": 885,
+              "pct": 0.3853,
+              "elected": true
+            },
+            {
+              "name": "Andy Fowler",
+              "party": "Labour",
+              "votes": 823,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Paul David Hesketh",
+              "party": "Our West Lancashire",
+              "votes": 776,
+              "pct": 0.3378,
+              "elected": true
+            },
+            {
+              "name": "Damian John Owen",
+              "party": "Labour",
+              "votes": 750,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Jason Grice",
+              "party": "Conservative",
+              "votes": 421,
+              "pct": 0.1833,
+              "elected": false
+            },
+            {
+              "name": "Richard Ainsworth",
+              "party": "Conservative",
+              "votes": 323,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Neil Clifford Pollington",
+              "party": "Liberal Democrats",
+              "votes": 215,
+              "pct": 0.0936,
+              "elected": false
+            },
+            {
+              "name": "Dan Rear",
+              "party": "Conservative",
+              "votes": 208,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 62,
+          "majority_pct": 0.027
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1721,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Judy Abbott",
+              "party": "Labour",
+              "votes": 960,
+              "pct": 0.5578,
+              "elected": true
+            },
+            {
+              "name": "Adi Cotter",
+              "party": "Our West Lancashire",
+              "votes": 387,
+              "pct": 0.2249,
+              "elected": false
+            },
+            {
+              "name": "Ruth Melling",
+              "party": "Conservative",
+              "votes": 219,
+              "pct": 0.1273,
+              "elected": false
+            },
+            {
+              "name": "Neil Clifford Pollington",
+              "party": "Liberal Democrats",
+              "votes": 85,
+              "pct": 0.0494,
+              "elected": false
+            },
+            {
+              "name": "Simon Greenhalgh",
+              "party": "Green Party",
+              "votes": 70,
+              "pct": 0.0407,
+              "elected": false
+            }
+          ],
+          "majority": 573,
+          "majority_pct": 0.3329
+        }
+      ]
+    },
+    "North Meols & Hesketh Bank": {
+      "gss_code": "E05005369",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Ian Eccles",
+          "party": "Conservative"
+        },
+        {
+          "name": "John Howard",
+          "party": "Conservative"
+        },
+        {
+          "name": "Thomas de Freitas",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3621,
+      "history": [
+        {
+          "date": "2006-05-04",
+          "year": 2006,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1097,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "John Baldock",
+              "party": "Conservative",
+              "votes": 620,
+              "pct": 0.5652,
+              "elected": true
+            },
+            {
+              "name": "Joan Draper",
+              "party": "Independent",
+              "votes": 243,
+              "pct": 0.2215,
+              "elected": false
+            },
+            {
+              "name": "Sarah Keegan",
+              "party": "Labour",
+              "votes": 126,
+              "pct": 0.1149,
+              "elected": false
+            },
+            {
+              "name": "Nicholas Kemp",
+              "party": "Green Party",
+              "votes": 108,
+              "pct": 0.0985,
+              "elected": false
+            }
+          ],
+          "majority": 377,
+          "majority_pct": 0.3437
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 958,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Austin Vickers",
+              "party": "Conservative",
+              "votes": 567,
+              "pct": 0.5919,
+              "elected": true
+            },
+            {
+              "name": "Rajni Somaiya",
+              "party": "Liberal Democrats",
+              "votes": 254,
+              "pct": 0.2651,
+              "elected": false
+            },
+            {
+              "name": "Christopher Mawdsley",
+              "party": "Labour",
+              "votes": 137,
+              "pct": 0.143,
+              "elected": false
+            }
+          ],
+          "majority": 313,
+          "majority_pct": 0.3267
+        },
+        {
+          "date": "2010-05-05",
+          "year": 2010,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1830,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "John Baldock",
+              "party": "Conservative",
+              "votes": 1192,
+              "pct": 0.6514,
+              "elected": true
+            },
+            {
+              "name": "John Hodson",
+              "party": "Labour",
+              "votes": 638,
+              "pct": 0.3486,
+              "elected": false
+            }
+          ],
+          "majority": 554,
+          "majority_pct": 0.3027
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1207,
+          "turnout": 0.3745,
+          "electorate": 3223,
+          "candidates": [
+            {
+              "name": "Paul Blaine",
+              "party": "Conservative",
+              "votes": 785,
+              "pct": 0.6504,
+              "elected": true
+            },
+            {
+              "name": "Joan Draper",
+              "party": "Labour",
+              "votes": 422,
+              "pct": 0.3496,
+              "elected": false
+            }
+          ],
+          "majority": 363,
+          "majority_pct": 0.3007
+        },
+        {
+          "date": "2014-05-22",
+          "year": 2014,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1080,
+          "turnout": 0.3284,
+          "electorate": 3289,
+          "candidates": [
+            {
+              "name": "Malcolm Barron",
+              "party": "Conservative",
+              "votes": 439,
+              "pct": 0.4065,
+              "elected": true
+            },
+            {
+              "name": "Stuart Wilson",
+              "party": "UKIP",
+              "votes": 364,
+              "pct": 0.337,
+              "elected": false
+            },
+            {
+              "name": "Joan Draper",
+              "party": "Labour",
+              "votes": 277,
+              "pct": 0.2565,
+              "elected": false
+            }
+          ],
+          "majority": 75,
+          "majority_pct": 0.0694
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 2032,
+          "turnout": 0.65,
+          "electorate": 3126,
+          "candidates": [
+            {
+              "name": "Tom Blane",
+              "party": "Conservative",
+              "votes": 1026,
+              "pct": 0.5049,
+              "elected": true
+            },
+            {
+              "name": "Andrew Pritchard",
+              "party": "Labour",
+              "votes": 586,
+              "pct": 0.2884,
+              "elected": false
+            },
+            {
+              "name": "Richard Smith",
+              "party": "UKIP",
+              "votes": 420,
+              "pct": 0.2067,
+              "elected": false
+            }
+          ],
+          "majority": 440,
+          "majority_pct": 0.2165
+        },
+        {
+          "date": "2018-05-03",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1128,
+          "turnout": 0.3211,
+          "electorate": 3513,
+          "candidates": [
+            {
+              "name": "Kath Lockie",
+              "party": "Labour",
+              "votes": 625,
+              "pct": 0.5541,
+              "elected": true
+            },
+            {
+              "name": "George Rear",
+              "party": "Conservative",
+              "votes": 503,
+              "pct": 0.4459,
+              "elected": false
+            }
+          ],
+          "majority": 122,
+          "majority_pct": 0.1082
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1206,
+          "turnout": 0.343,
+          "electorate": 3516,
+          "candidates": [
+            {
+              "name": "Tom Blane",
+              "party": "Conservative",
+              "votes": 595,
+              "pct": 0.4934,
+              "elected": true
+            },
+            {
+              "name": "Nick Kemp",
+              "party": "Labour",
+              "votes": 459,
+              "pct": 0.3806,
+              "elected": false
+            },
+            {
+              "name": "Stuart John Wilson",
+              "party": "UKIP",
+              "votes": 152,
+              "pct": 0.126,
+              "elected": false
+            }
+          ],
+          "majority": 136,
+          "majority_pct": 0.1128
+        },
+        {
+          "date": "2021-11-04",
+          "year": 2021,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 977,
+          "turnout": 0.2701,
+          "electorate": 3617,
+          "candidates": [
+            {
+              "name": "John Howard",
+              "party": "Conservative",
+              "votes": 634,
+              "pct": 0.6489,
+              "elected": true
+            },
+            {
+              "name": "Liz Savage",
+              "party": "Labour",
+              "votes": 343,
+              "pct": 0.3511,
+              "elected": false
+            }
+          ],
+          "majority": 291,
+          "majority_pct": 0.2979
+        },
+        {
+          "date": "2022-05-05",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1147,
+          "turnout": 0.3168,
+          "electorate": 3621,
+          "candidates": [
+            {
+              "name": "Linda Margaret Gresty",
+              "party": "Conservative",
+              "votes": 680,
+              "pct": 0.5929,
+              "elected": true
+            },
+            {
+              "name": "Tony Lockie",
+              "party": "Labour",
+              "votes": 408,
+              "pct": 0.3557,
+              "elected": false
+            },
+            {
+              "name": "Karen Jayne Taylor",
+              "party": "Liberal Democrats",
+              "votes": 59,
+              "pct": 0.0514,
+              "elected": false
+            }
+          ],
+          "majority": 272,
+          "majority_pct": 0.2371
+        }
+      ]
+    },
+    "Old Skelmersdale": {
+      "gss_code": "E05014933",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Donna West",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Neil Furey",
+          "party": "Our West Lancashire"
+        },
+        {
+          "name": "Nicola Pryce-Roberts",
+          "party": "Labour"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1343,
+          "turnout": 0.2098,
+          "electorate": 6402,
+          "candidates": [
+            {
+              "name": "Neil Stuart Furey",
+              "party": "Labour",
+              "votes": 1167,
+              "pct": 0.869,
+              "elected": true
+            },
+            {
+              "name": "Nicola Pryce Roberts",
+              "party": "Labour",
+              "votes": 1041,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Donna West",
+              "party": "Labour",
+              "votes": 1029,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Keith Ashcroft",
+              "party": "Conservative",
+              "votes": 176,
+              "pct": 0.131,
+              "elected": false
+            },
+            {
+              "name": "Ruth Melling",
+              "party": "Conservative",
+              "votes": 166,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Juliana Gudgeon",
+              "party": "Conservative",
+              "votes": 157,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 126,
+          "majority_pct": 0.0938
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1438,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Donna West",
+              "party": "Labour",
+              "votes": 1102,
+              "pct": 0.7663,
+              "elected": true
+            },
+            {
+              "name": "Jason Chapman",
+              "party": "Conservative",
+              "votes": 177,
+              "pct": 0.1231,
+              "elected": false
+            },
+            {
+              "name": "Kath Lockie",
+              "party": "Green Party",
+              "votes": 159,
+              "pct": 0.1106,
+              "elected": false
+            }
+          ],
+          "majority": 925,
+          "majority_pct": 0.6433
+        }
+      ]
+    },
+    "Ormskirk East": {
+      "gss_code": "E05014934",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Janet Ingman",
+          "party": "Our West Lancashire"
+        },
+        {
+          "name": "Nikki Hennessy",
+          "party": "Independent"
+        },
+        {
+          "name": "Rob Molloy",
+          "party": "Labour & Co-operative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2348,
+          "turnout": 0.3619,
+          "electorate": 6488,
+          "candidates": [
+            {
+              "name": "Nikki Hennessy",
+              "party": "Labour",
+              "votes": 1211,
+              "pct": 0.5158,
+              "elected": true
+            },
+            {
+              "name": "Rob Molloy",
+              "party": "Labour",
+              "votes": 1057,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Adam Yates",
+              "party": "Labour",
+              "votes": 1022,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Janet Ingman",
+              "party": "Our West Lancashire",
+              "votes": 1011,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Gordon Paul Johnson",
+              "party": "Our West Lancashire",
+              "votes": 969,
+              "pct": 0.4127,
+              "elected": false
+            },
+            {
+              "name": "Adrian Edward Owens",
+              "party": "Our West Lancashire",
+              "votes": 954,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Linda Margaret Gresty",
+              "party": "Conservative",
+              "votes": 168,
+              "pct": 0.0716,
+              "elected": false
+            },
+            {
+              "name": "Kate Maughan",
+              "party": "Conservative",
+              "votes": 167,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Dave Meadows",
+              "party": "Conservative",
+              "votes": 163,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 154,
+          "majority_pct": 0.0656
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 2214,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Janet Ingman",
+              "party": "Our West Lancashire",
+              "votes": 957,
+              "pct": 0.4322,
+              "elected": true
+            },
+            {
+              "name": "Adam Yates",
+              "party": "Labour",
+              "votes": 922,
+              "pct": 0.4164,
+              "elected": false
+            },
+            {
+              "name": "Jason Grice",
+              "party": "Conservative",
+              "votes": 157,
+              "pct": 0.0709,
+              "elected": false
+            },
+            {
+              "name": "Simon Evans",
+              "party": "Reform UK",
+              "votes": 96,
+              "pct": 0.0434,
+              "elected": false
+            },
+            {
+              "name": "Richard Simon Taylor",
+              "party": "Green Party",
+              "votes": 82,
+              "pct": 0.037,
+              "elected": false
+            }
+          ],
+          "majority": 35,
+          "majority_pct": 0.0158
+        }
+      ]
+    },
+    "Ormskirk West": {
+      "gss_code": "E05014935",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Anne Mary Fennell",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Gareth Dowling",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Mark Anderson",
+          "party": "Labour & Co-operative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2133,
+          "turnout": 0.3423,
+          "electorate": 6232,
+          "candidates": [
+            {
+              "name": "Mark R Anderson",
+              "party": "Labour",
+              "votes": 1073,
+              "pct": 0.503,
+              "elected": true
+            },
+            {
+              "name": "Gareth Dowling",
+              "party": "Labour",
+              "votes": 1055,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Anne Fennell",
+              "party": "Labour",
+              "votes": 1053,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Jane Elizabeth Thompson",
+              "party": "Our West Lancashire",
+              "votes": 882,
+              "pct": 0.4135,
+              "elected": false
+            },
+            {
+              "name": "Kate Mitchell",
+              "party": "Our West Lancashire",
+              "votes": 874,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John Evans",
+              "party": "Our West Lancashire",
+              "votes": 771,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Laura Sampson",
+              "party": "Conservative",
+              "votes": 178,
+              "pct": 0.0835,
+              "elected": false
+            },
+            {
+              "name": "Sarah Alexandra Helen Westley",
+              "party": "Conservative",
+              "votes": 167,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Bill Witter",
+              "party": "Conservative",
+              "votes": 145,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 18,
+          "majority_pct": 0.0084
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 2070,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Anne Fennell",
+              "party": "Labour",
+              "votes": 948,
+              "pct": 0.458,
+              "elected": true
+            },
+            {
+              "name": "Jane Elizabeth Thompson",
+              "party": "Our West Lancashire",
+              "votes": 760,
+              "pct": 0.3671,
+              "elected": false
+            },
+            {
+              "name": "Juliana Gudgeon",
+              "party": "Conservative",
+              "votes": 133,
+              "pct": 0.0643,
+              "elected": false
+            },
+            {
+              "name": "Paul Thomas John French",
+              "party": "Green Party",
+              "votes": 122,
+              "pct": 0.0589,
+              "elected": false
+            },
+            {
+              "name": "John Derek Bullock",
+              "party": "Reform UK",
+              "votes": 107,
+              "pct": 0.0517,
+              "elected": false
+            }
+          ],
+          "majority": 188,
+          "majority_pct": 0.0908
+        }
+      ]
+    },
+    "Rural North East": {
+      "gss_code": "E05014936",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "David Whittington",
+          "party": "Conservative"
+        },
+        {
+          "name": "Katie Juckes",
+          "party": "Conservative"
+        },
+        {
+          "name": "Robert Bailey",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2936,
+          "turnout": 0.4716,
+          "electorate": 6225,
+          "candidates": [
+            {
+              "name": "Rob Bailey",
+              "party": "Conservative",
+              "votes": 1182,
+              "pct": 0.4026,
+              "elected": true
+            },
+            {
+              "name": "Katie Juckes",
+              "party": "Conservative",
+              "votes": 1059,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "David Whittington",
+              "party": "Conservative",
+              "votes": 1023,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Margaret Blake",
+              "party": "Labour",
+              "votes": 891,
+              "pct": 0.3035,
+              "elected": false
+            },
+            {
+              "name": "Stephen John Kirrelly",
+              "party": "Labour",
+              "votes": 766,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Michael J Paris",
+              "party": "Labour",
+              "votes": 751,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Neil Pye",
+              "party": "Our West Lancashire",
+              "votes": 480,
+              "pct": 0.1635,
+              "elected": false
+            },
+            {
+              "name": "John Richard Puddifer",
+              "party": "Liberal Democrats",
+              "votes": 383,
+              "pct": 0.1304,
+              "elected": false
+            },
+            {
+              "name": "Peter John Chandler",
+              "party": "Liberal Democrats",
+              "votes": 299,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 123,
+          "majority_pct": 0.0419
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 2201,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David Whittington",
+              "party": "Conservative",
+              "votes": 1203,
+              "pct": 0.5466,
+              "elected": true
+            },
+            {
+              "name": "Jennie Jackson",
+              "party": "Labour",
+              "votes": 781,
+              "pct": 0.3548,
+              "elected": false
+            },
+            {
+              "name": "Carole Jeanette Dundas",
+              "party": "Green Party",
+              "votes": 217,
+              "pct": 0.0986,
+              "elected": false
+            }
+          ],
+          "majority": 422,
+          "majority_pct": 0.1917
+        }
+      ]
+    },
+    "Rural South": {
+      "gss_code": "E05014937",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Adrian Owens",
+          "party": "Our West Lancashire"
+        },
+        {
+          "name": "Ian Rigby",
+          "party": "Our West Lancashire"
+        },
+        {
+          "name": "Linda Marjorie Webster",
+          "party": "Our West Lancashire"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-06-22",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1431,
+          "turnout": 0.2728,
+          "electorate": 5246,
+          "candidates": [
+            {
+              "name": "Ian Rigby",
+              "party": "Our West Lancashire",
+              "votes": 704,
+              "pct": 0.492,
+              "elected": true
+            },
+            {
+              "name": "Linda Marjorie Webster",
+              "party": "Our West Lancashire",
+              "votes": 674,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Thomas Marsh-Pritchard",
+              "party": "Our West Lancashire",
+              "votes": 664,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Julie P Gibson",
+              "party": "Labour",
+              "votes": 486,
+              "pct": 0.3396,
+              "elected": false
+            },
+            {
+              "name": "Ian M Moran",
+              "party": "Labour",
+              "votes": 485,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Paul Dickie",
+              "party": "Labour",
+              "votes": 479,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Sangeeta Naraen",
+              "party": "Conservative",
+              "votes": 241,
+              "pct": 0.1684,
+              "elected": false
+            },
+            {
+              "name": "Paul Turpin",
+              "party": "Conservative",
+              "votes": 233,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Asheem Naraen",
+              "party": "Conservative",
+              "votes": 226,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 30,
+          "majority_pct": 0.021
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1468,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Adrian Edward Owens",
+              "party": "Our West Lancashire",
+              "votes": 708,
+              "pct": 0.4823,
+              "elected": true
+            },
+            {
+              "name": "Paul Dickie",
+              "party": "Labour",
+              "votes": 462,
+              "pct": 0.3147,
+              "elected": false
+            },
+            {
+              "name": "Asheem Naraen",
+              "party": "Conservative",
+              "votes": 222,
+              "pct": 0.1512,
+              "elected": false
+            },
+            {
+              "name": "Karen Anne Field",
+              "party": "Green Party",
+              "votes": 76,
+              "pct": 0.0518,
+              "elected": false
+            }
+          ],
+          "majority": 246,
+          "majority_pct": 0.1676
+        }
+      ]
+    },
+    "Rural West": {
+      "gss_code": "E05014938",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Alexander Blundell",
+          "party": "Conservative"
+        },
+        {
+          "name": "Mrs Jane Marshall",
+          "party": "Conservative"
+        },
+        {
+          "name": "Mrs Marilyn Westley",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1989,
+          "turnout": 0.3514,
+          "electorate": 5660,
+          "candidates": [
+            {
+              "name": "Alex Blundell",
+              "party": "Conservative",
+              "votes": 765,
+              "pct": 0.3846,
+              "elected": true
+            },
+            {
+              "name": "Jane Margaret Marshall",
+              "party": "Conservative",
+              "votes": 684,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Marilyn May Westley",
+              "party": "Conservative",
+              "votes": 670,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Michael W Brooks",
+              "party": "Labour",
+              "votes": 655,
+              "pct": 0.3293,
+              "elected": false
+            },
+            {
+              "name": "Pauline M Gamester",
+              "party": "Labour",
+              "votes": 625,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John W H Watt",
+              "party": "Labour",
+              "votes": 596,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Richard Mark Brown",
+              "party": "Our West Lancashire",
+              "votes": 569,
+              "pct": 0.2861,
+              "elected": false
+            }
+          ],
+          "majority": 81,
+          "majority_pct": 0.0407
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1736,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Marilyn May Westley",
+              "party": "Conservative",
+              "votes": 589,
+              "pct": 0.3393,
+              "elected": true
+            },
+            {
+              "name": "Mark Brown",
+              "party": "Our West Lancashire",
+              "votes": 520,
+              "pct": 0.2995,
+              "elected": false
+            },
+            {
+              "name": "George Oliver",
+              "party": "Labour",
+              "votes": 501,
+              "pct": 0.2886,
+              "elected": false
+            },
+            {
+              "name": "Lisa Marie Smith",
+              "party": "Green Party",
+              "votes": 126,
+              "pct": 0.0726,
+              "elected": false
+            }
+          ],
+          "majority": 69,
+          "majority_pct": 0.0397
+        }
+      ]
+    },
+    "Skelmersdale North": {
+      "gss_code": "E05014939",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Melissa S Parlour",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Terence Devine",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Yvonne Gagen",
+          "party": "Labour & Co-operative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 866,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Richard Nolan",
+              "party": "Labour",
+              "votes": 669,
+              "pct": 0.7725,
+              "elected": true
+            },
+            {
+              "name": "Graham Jones",
+              "party": "Conservative",
+              "votes": 197,
+              "pct": 0.2275,
+              "elected": false
+            }
+          ],
+          "majority": 472,
+          "majority_pct": 0.545
+        },
+        {
+          "date": "2008-05-01",
+          "year": 2008,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 895,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Neil Furey",
+              "party": "Labour",
+              "votes": 563,
+              "pct": 0.6291,
+              "elected": true
+            },
+            {
+              "name": "Joan Morrison",
+              "party": "Independent",
+              "votes": 184,
+              "pct": 0.2056,
+              "elected": false
+            },
+            {
+              "name": "Dave Rydings",
+              "party": "Conservative",
+              "votes": 148,
+              "pct": 0.1654,
+              "elected": false
+            }
+          ],
+          "majority": 379,
+          "majority_pct": 0.4235
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1118,
+          "turnout": 0.3651,
+          "electorate": 3062,
+          "candidates": [
+            {
+              "name": "Richard Nolan",
+              "party": "Labour",
+              "votes": 950,
+              "pct": 0.8497,
+              "elected": true
+            },
+            {
+              "name": "Amanda Shaw",
+              "party": "Conservative",
+              "votes": 168,
+              "pct": 0.1503,
+              "elected": false
+            }
+          ],
+          "majority": 782,
+          "majority_pct": 0.6995
+        },
+        {
+          "date": "2012-05-03",
+          "year": 2012,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1054,
+          "turnout": 0.3405,
+          "electorate": 3095,
+          "candidates": [
+            {
+              "name": "Neil Furey",
+              "party": "Labour",
+              "votes": 945,
+              "pct": 0.8966,
+              "elected": true
+            },
+            {
+              "name": "Amanda Shaw",
+              "party": "Conservative",
+              "votes": 109,
+              "pct": 0.1034,
+              "elected": false
+            }
+          ],
+          "majority": 836,
+          "majority_pct": 0.7932
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1916,
+          "turnout": 0.6699,
+          "electorate": 2860,
+          "candidates": [
+            {
+              "name": "Jennifer Patterson",
+              "party": "Labour",
+              "votes": 1623,
+              "pct": 0.8471,
+              "elected": true
+            },
+            {
+              "name": "Susan Janvier",
+              "party": "Conservative",
+              "votes": 293,
+              "pct": 0.1529,
+              "elected": false
+            }
+          ],
+          "majority": 1330,
+          "majority_pct": 0.6942
+        },
+        {
+          "date": "2016-05-05",
+          "year": 2016,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 954,
+          "turnout": 0.3287,
+          "electorate": 2902,
+          "candidates": [
+            {
+              "name": "Neil Stuart Furey",
+              "party": "Labour",
+              "votes": 856,
+              "pct": 0.8973,
+              "elected": true
+            },
+            {
+              "name": "Sue Janvier",
+              "party": "Conservative",
+              "votes": 98,
+              "pct": 0.1027,
+              "elected": false
+            }
+          ],
+          "majority": 758,
+          "majority_pct": 0.7945
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 876,
+          "turnout": 0.3011,
+          "electorate": 2909,
+          "candidates": [
+            {
+              "name": "Jennifer Forshaw",
+              "party": "Labour",
+              "votes": 486,
+              "pct": 0.5548,
+              "elected": true
+            },
+            {
+              "name": "Maria Dumbell",
+              "party": "Independent",
+              "votes": 320,
+              "pct": 0.3653,
+              "elected": false
+            },
+            {
+              "name": "Malcolm Barron",
+              "party": "Conservative",
+              "votes": 70,
+              "pct": 0.0799,
+              "elected": false
+            }
+          ],
+          "majority": 166,
+          "majority_pct": 0.1895
+        },
+        {
+          "date": "2021-05-06",
+          "year": 2021,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 965,
+          "turnout": 0.3292,
+          "electorate": 2931,
+          "candidates": [
+            {
+              "name": "Neil Stuart Furey",
+              "party": "Labour",
+              "votes": 703,
+              "pct": 0.7285,
+              "elected": true
+            },
+            {
+              "name": "Trina Dunn",
+              "party": "Independent",
+              "votes": 135,
+              "pct": 0.1399,
+              "elected": false
+            },
+            {
+              "name": "Julie Peel",
+              "party": "Conservative",
+              "votes": 127,
+              "pct": 0.1316,
+              "elected": false
+            }
+          ],
+          "majority": 568,
+          "majority_pct": 0.5886
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1166,
+          "turnout": 0.2041,
+          "electorate": 5713,
+          "candidates": [
+            {
+              "name": "Yvonne Gagen",
+              "party": "Labour",
+              "votes": 998,
+              "pct": 0.8559,
+              "elected": true
+            },
+            {
+              "name": "Terence James Devine",
+              "party": "Labour",
+              "votes": 975,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Melissa Parlour",
+              "party": "Labour",
+              "votes": 915,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Jason Chapman",
+              "party": "Conservative",
+              "votes": 168,
+              "pct": 0.1441,
+              "elected": false
+            },
+            {
+              "name": "Sue Janvier",
+              "party": "Conservative",
+              "votes": 142,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Nigel Fielding",
+              "party": "Conservative",
+              "votes": 138,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 23,
+          "majority_pct": 0.0197
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1254,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Melissa Parlour",
+              "party": "Labour",
+              "votes": 959,
+              "pct": 0.7648,
+              "elected": true
+            },
+            {
+              "name": "Peter John Chandler",
+              "party": "Liberal Democrats",
+              "votes": 150,
+              "pct": 0.1196,
+              "elected": false
+            },
+            {
+              "name": "Sue Brake",
+              "party": "Conservative",
+              "votes": 145,
+              "pct": 0.1156,
+              "elected": false
+            }
+          ],
+          "majority": 809,
+          "majority_pct": 0.6451
+        }
+      ]
+    },
+    "Skelmersdale South": {
+      "gss_code": "E05014940",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Julian Antoni Finch",
+          "party": "Independent"
+        },
+        {
+          "name": "Terry Aldridge",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Vickie Cummins",
+          "party": "Labour & Co-operative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2006-05-04",
+          "year": 2006,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1213,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David McKay",
+              "party": "Labour",
+              "votes": 922,
+              "pct": 0.7601,
+              "elected": true
+            },
+            {
+              "name": "Susan Cropper",
+              "party": "Conservative",
+              "votes": 291,
+              "pct": 0.2399,
+              "elected": false
+            }
+          ],
+          "majority": 631,
+          "majority_pct": 0.5202
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1215,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Doreen Saxon",
+              "party": "Labour",
+              "votes": 889,
+              "pct": 0.7317,
+              "elected": true
+            },
+            {
+              "name": "Joanne Rushton",
+              "party": "Conservative",
+              "votes": 326,
+              "pct": 0.2683,
+              "elected": false
+            }
+          ],
+          "majority": 563,
+          "majority_pct": 0.4634
+        },
+        {
+          "date": "2008-05-01",
+          "year": 2008,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1167,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Sydney Jones",
+              "party": "Labour",
+              "votes": 778,
+              "pct": 0.6667,
+              "elected": true
+            },
+            {
+              "name": "Joanne Rushton",
+              "party": "Conservative",
+              "votes": 389,
+              "pct": 0.3333,
+              "elected": false
+            }
+          ],
+          "majority": 389,
+          "majority_pct": 0.3333
+        },
+        {
+          "date": "2010-05-05",
+          "year": 2010,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 3039,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Ian McKay",
+              "party": "Labour",
+              "votes": 2228,
+              "pct": 0.7331,
+              "elected": true
+            },
+            {
+              "name": "Amanda Shaw",
+              "party": "Conservative",
+              "votes": 554,
+              "pct": 0.1823,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 257,
+              "pct": 0.0846,
+              "elected": false
+            }
+          ],
+          "majority": 1674,
+          "majority_pct": 0.5508
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1666,
+          "turnout": 0.3328,
+          "electorate": 5006,
+          "candidates": [
+            {
+              "name": "Nicola Pryce-Roberts",
+              "party": "Labour",
+              "votes": 1187,
+              "pct": 0.7125,
+              "elected": true
+            },
+            {
+              "name": "Sarah Ainscough",
+              "party": "Conservative",
+              "votes": 358,
+              "pct": 0.2149,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 121,
+              "pct": 0.0726,
+              "elected": false
+            }
+          ],
+          "majority": 829,
+          "majority_pct": 0.4976
+        },
+        {
+          "date": "2012-05-03",
+          "year": 2012,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1413,
+          "turnout": 0.2788,
+          "electorate": 5069,
+          "candidates": [
+            {
+              "name": "Donna West",
+              "party": "Labour",
+              "votes": 1165,
+              "pct": 0.8245,
+              "elected": true
+            },
+            {
+              "name": "David Gallagher",
+              "party": "Conservative",
+              "votes": 134,
+              "pct": 0.0948,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 114,
+              "pct": 0.0807,
+              "elected": false
+            }
+          ],
+          "majority": 1031,
+          "majority_pct": 0.7297
+        },
+        {
+          "date": "2014-05-22",
+          "year": 2014,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1597,
+          "turnout": 0.3179,
+          "electorate": 5024,
+          "candidates": [
+            {
+              "name": "David McKay",
+              "party": "Labour",
+              "votes": 995,
+              "pct": 0.623,
+              "elected": true
+            },
+            {
+              "name": "Michael Brennan",
+              "party": "UKIP",
+              "votes": 388,
+              "pct": 0.243,
+              "elected": false
+            },
+            {
+              "name": "James Trafford",
+              "party": "Conservative",
+              "votes": 119,
+              "pct": 0.0745,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 95,
+              "pct": 0.0595,
+              "elected": false
+            }
+          ],
+          "majority": 607,
+          "majority_pct": 0.3801
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 3141,
+          "turnout": 0.6748,
+          "electorate": 4655,
+          "candidates": [
+            {
+              "name": "Nicola Pryce-Roberts",
+              "party": "Labour",
+              "votes": 2240,
+              "pct": 0.7131,
+              "elected": true
+            },
+            {
+              "name": "Jennifer Mayer",
+              "party": "Conservative",
+              "votes": 451,
+              "pct": 0.1436,
+              "elected": false
+            },
+            {
+              "name": "Gerry Latham",
+              "party": "Our West Lancashire",
+              "votes": 243,
+              "pct": 0.0774,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 207,
+              "pct": 0.0659,
+              "elected": false
+            }
+          ],
+          "majority": 1789,
+          "majority_pct": 0.5696
+        },
+        {
+          "date": "2016-05-05",
+          "year": 2016,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1352,
+          "turnout": 0.2881,
+          "electorate": 4693,
+          "candidates": [
+            {
+              "name": "Donna West",
+              "party": "Labour",
+              "votes": 1099,
+              "pct": 0.8129,
+              "elected": true
+            },
+            {
+              "name": "Jenni Mayer",
+              "party": "Conservative",
+              "votes": 138,
+              "pct": 0.1021,
+              "elected": false
+            },
+            {
+              "name": "Martin John Lowe",
+              "party": "Green Party",
+              "votes": 115,
+              "pct": 0.0851,
+              "elected": false
+            }
+          ],
+          "majority": 961,
+          "majority_pct": 0.7108
+        },
+        {
+          "date": "2018-05-03",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1386,
+          "turnout": 0.2894,
+          "electorate": 4789,
+          "candidates": [
+            {
+              "name": "Vickie Cummins",
+              "party": "Labour",
+              "votes": 1126,
+              "pct": 0.8124,
+              "elected": true
+            },
+            {
+              "name": "Valerie Marsh",
+              "party": "Conservative",
+              "votes": 260,
+              "pct": 0.1876,
+              "elected": false
+            }
+          ],
+          "majority": 866,
+          "majority_pct": 0.6248
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1281,
+          "turnout": 0.2739,
+          "electorate": 4677,
+          "candidates": [
+            {
+              "name": "Nicola Pryce Roberts",
+              "party": "Labour",
+              "votes": 719,
+              "pct": 0.5613,
+              "elected": true
+            },
+            {
+              "name": "Blair Piggin",
+              "party": "Our West Lancashire",
+              "votes": 439,
+              "pct": 0.3427,
+              "elected": false
+            },
+            {
+              "name": "Jayne Louise Rear",
+              "party": "Conservative",
+              "votes": 123,
+              "pct": 0.096,
+              "elected": false
+            }
+          ],
+          "majority": 280,
+          "majority_pct": 0.2186
+        },
+        {
+          "date": "2021-05-06",
+          "year": 2021,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1292,
+          "turnout": 0.272,
+          "electorate": 4750,
+          "candidates": [
+            {
+              "name": "Donna West",
+              "party": "Labour",
+              "votes": 828,
+              "pct": 0.6409,
+              "elected": true
+            },
+            {
+              "name": "Leonie Goldson",
+              "party": "Independent",
+              "votes": 240,
+              "pct": 0.1858,
+              "elected": false
+            },
+            {
+              "name": "Carolyn Evans",
+              "party": "Conservative",
+              "votes": 224,
+              "pct": 0.1734,
+              "elected": false
+            }
+          ],
+          "majority": 588,
+          "majority_pct": 0.4551
+        },
+        {
+          "date": "2022-05-05",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1195,
+          "turnout": 0.2557,
+          "electorate": 4673,
+          "candidates": [
+            {
+              "name": "Vickie Cummins",
+              "party": "Labour",
+              "votes": 867,
+              "pct": 0.7255,
+              "elected": true
+            },
+            {
+              "name": "Joy Balan",
+              "party": "Our West Lancashire",
+              "votes": 191,
+              "pct": 0.1598,
+              "elected": false
+            },
+            {
+              "name": "Jayne Louise Rear",
+              "party": "Conservative",
+              "votes": 137,
+              "pct": 0.1146,
+              "elected": false
+            }
+          ],
+          "majority": 676,
+          "majority_pct": 0.5657
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1313,
+          "turnout": 0.2246,
+          "electorate": 5846,
+          "candidates": [
+            {
+              "name": "Terry Aldridge",
+              "party": "Labour",
+              "votes": 974,
+              "pct": 0.7418,
+              "elected": true
+            },
+            {
+              "name": "Vickie Cummins",
+              "party": "Labour",
+              "votes": 922,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Julian Finch",
+              "party": "Labour",
+              "votes": 828,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Aaron Robert Body",
+              "party": "Independent",
+              "votes": 245,
+              "pct": 0.1866,
+              "elected": false
+            },
+            {
+              "name": "Malcolm Hayman",
+              "party": "Conservative",
+              "votes": 94,
+              "pct": 0.0716,
+              "elected": false
+            },
+            {
+              "name": "Jean Ross",
+              "party": "Conservative",
+              "votes": 92,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Ian White",
+              "party": "Conservative",
+              "votes": 87,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 52,
+          "majority_pct": 0.0396
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1213,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Julian Finch",
+              "party": "Labour",
+              "votes": 1103,
+              "pct": 0.9093,
+              "elected": true
+            },
+            {
+              "name": "Sue Janvier",
+              "party": "Conservative",
+              "votes": 110,
+              "pct": 0.0907,
+              "elected": false
+            }
+          ],
+          "majority": 993,
+          "majority_pct": 0.8186
+        }
+      ]
+    },
+    "Tanhouse & Skelmersdale Town Centre": {
+      "gss_code": "E05005376",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Carl Coughlan",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Maureen Nixon",
+          "party": "Labour & Co-operative"
+        },
+        {
+          "name": "Paul Hogan",
+          "party": "Your Party"
+        }
+      ],
+      "electorate": 3390,
+      "history": [
+        {
+          "date": "2006-05-04",
+          "year": 2006,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 749,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Robert Pendleton",
+              "party": "Labour",
+              "votes": 482,
+              "pct": 0.6435,
+              "elected": true
+            },
+            {
+              "name": "Irene O'Donnell",
+              "party": "Conservative",
+              "votes": 179,
+              "pct": 0.239,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 88,
+              "pct": 0.1175,
+              "elected": false
+            }
+          ],
+          "majority": 303,
+          "majority_pct": 0.4045
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 681,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Sarah Keegan",
+              "party": "Labour",
+              "votes": 412,
+              "pct": 0.605,
+              "elected": true
+            },
+            {
+              "name": "Irene O'Donnell",
+              "party": "Conservative",
+              "votes": 180,
+              "pct": 0.2643,
+              "elected": false
+            },
+            {
+              "name": "Martin Lowe",
+              "party": "Green Party",
+              "votes": 89,
+              "pct": 0.1307,
+              "elected": false
+            }
+          ],
+          "majority": 232,
+          "majority_pct": 0.3407
+        },
+        {
+          "date": "2008-05-01",
+          "year": 2008,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 770,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Nikki Hennessy",
+              "party": "Labour",
+              "votes": 402,
+              "pct": 0.5221,
+              "elected": true
+            },
+            {
+              "name": "Cindy Miller",
+              "party": "Conservative",
+              "votes": 368,
+              "pct": 0.4779,
+              "elected": false
+            }
+          ],
+          "majority": 34,
+          "majority_pct": 0.0442
+        },
+        {
+          "date": "2010-05-05",
+          "year": 2010,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1849,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Bob Pendleton",
+              "party": "Labour",
+              "votes": 1416,
+              "pct": 0.7658,
+              "elected": true
+            },
+            {
+              "name": "Cindy Miller",
+              "party": "Conservative",
+              "votes": 433,
+              "pct": 0.2342,
+              "elected": false
+            }
+          ],
+          "majority": 983,
+          "majority_pct": 0.5316
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 913,
+          "turnout": 0.2743,
+          "electorate": 3329,
+          "candidates": [
+            {
+              "name": "Nikki Hennessy",
+              "party": "Labour",
+              "votes": 726,
+              "pct": 0.7952,
+              "elected": true
+            },
+            {
+              "name": "Irene O'Donnell",
+              "party": "Conservative",
+              "votes": 187,
+              "pct": 0.2048,
+              "elected": false
+            }
+          ],
+          "majority": 539,
+          "majority_pct": 0.5904
+        },
+        {
+          "date": "2014-05-22",
+          "year": 2014,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 954,
+          "turnout": 0.2622,
+          "electorate": 3638,
+          "candidates": [
+            {
+              "name": "Robert Pendleton",
+              "party": "Labour",
+              "votes": 759,
+              "pct": 0.7956,
+              "elected": true
+            },
+            {
+              "name": "Denis Noone",
+              "party": "UKIP",
+              "votes": 121,
+              "pct": 0.1268,
+              "elected": false
+            },
+            {
+              "name": "William Weingart",
+              "party": "Conservative",
+              "votes": 74,
+              "pct": 0.0776,
+              "elected": false
+            }
+          ],
+          "majority": 638,
+          "majority_pct": 0.6688
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1960,
+          "turnout": 0.5825,
+          "electorate": 3365,
+          "candidates": [
+            {
+              "name": "Maureen Nixon",
+              "party": "Labour",
+              "votes": 1644,
+              "pct": 0.8388,
+              "elected": true
+            },
+            {
+              "name": "Amanda Shaw",
+              "party": "Conservative",
+              "votes": 316,
+              "pct": 0.1612,
+              "elected": false
+            }
+          ],
+          "majority": 1328,
+          "majority_pct": 0.6776
+        },
+        {
+          "date": "2018-05-03",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 839,
+          "turnout": 0.2476,
+          "electorate": 3388,
+          "candidates": [
+            {
+              "name": "Bob Pendleton",
+              "party": "Labour",
+              "votes": 714,
+              "pct": 0.851,
+              "elected": true
+            },
+            {
+              "name": "Sue Janvier",
+              "party": "Conservative",
+              "votes": 125,
+              "pct": 0.149,
+              "elected": false
+            }
+          ],
+          "majority": 589,
+          "majority_pct": 0.702
+        },
+        {
+          "date": "2018-10-11",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 642,
+          "turnout": 0.1895,
+          "electorate": 3388,
+          "candidates": [
+            {
+              "name": "Ron Cooper",
+              "party": "Labour",
+              "votes": 464,
+              "pct": 0.7227,
+              "elected": true
+            },
+            {
+              "name": "Aaron Robert Body",
+              "party": "Independent",
+              "votes": 129,
+              "pct": 0.2009,
+              "elected": false
+            },
+            {
+              "name": "Alex Blundell",
+              "party": "Conservative",
+              "votes": 49,
+              "pct": 0.0763,
+              "elected": false
+            }
+          ],
+          "majority": 335,
+          "majority_pct": 0.5218
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 842,
+          "turnout": 0.2484,
+          "electorate": 3390,
+          "candidates": [
+            {
+              "name": "Maureen Nixon",
+              "party": "Labour",
+              "votes": 468,
+              "pct": 0.5558,
+              "elected": true
+            },
+            {
+              "name": "Aaron Robert Body",
+              "party": "Independent",
+              "votes": 277,
+              "pct": 0.329,
+              "elected": false
+            },
+            {
+              "name": "Sarah Alexandra Helen Westley",
+              "party": "Conservative",
+              "votes": 50,
+              "pct": 0.0594,
+              "elected": false
+            },
+            {
+              "name": "Alan Langdon",
+              "party": "Independent",
+              "votes": 47,
+              "pct": 0.0558,
+              "elected": false
+            }
+          ],
+          "majority": 191,
+          "majority_pct": 0.2268
+        },
+        {
+          "date": "2022-05-05",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 757,
+          "turnout": 0.2233,
+          "electorate": 3390,
+          "candidates": [
+            {
+              "name": "Paul Hogan",
+              "party": "Labour",
+              "votes": 649,
+              "pct": 0.8573,
+              "elected": true
+            },
+            {
+              "name": "Sue Janvier",
+              "party": "Conservative",
+              "votes": 108,
+              "pct": 0.1427,
+              "elected": false
+            }
+          ],
+          "majority": 541,
+          "majority_pct": 0.7147
+        }
+      ]
+    },
+    "Tarleton Village": {
+      "gss_code": "E05005377",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "David Westley",
+          "party": "Conservative"
+        },
+        {
+          "name": "John Mee",
+          "party": "Conservative"
+        },
+        {
+          "name": "Mrs Joan Witter",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2006-05-04",
+          "year": 2006,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1594,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "James Kay",
+              "party": "Conservative",
+              "votes": 1371,
+              "pct": 0.8601,
+              "elected": true
+            },
+            {
+              "name": "Pauline Roughley",
+              "party": "Labour",
+              "votes": 223,
+              "pct": 0.1399,
+              "elected": false
+            }
+          ],
+          "majority": 1148,
+          "majority_pct": 0.7202
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1631,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Rosemary Evans",
+              "party": "Conservative",
+              "votes": 1133,
+              "pct": 0.6947,
+              "elected": true
+            },
+            {
+              "name": "Michael Lonsdale",
+              "party": "Liberal Democrats",
+              "votes": 347,
+              "pct": 0.2128,
+              "elected": false
+            },
+            {
+              "name": "Shan Annis",
+              "party": "Labour",
+              "votes": 151,
+              "pct": 0.0926,
+              "elected": false
+            }
+          ],
+          "majority": 786,
+          "majority_pct": 0.4819
+        },
+        {
+          "date": "2008-05-01",
+          "year": 2008,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1741,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "John Mee",
+              "party": "Conservative",
+              "votes": 1526,
+              "pct": 0.8765,
+              "elected": true
+            },
+            {
+              "name": "Stephen Hanlon",
+              "party": "Labour",
+              "votes": 215,
+              "pct": 0.1235,
+              "elected": false
+            }
+          ],
+          "majority": 1311,
+          "majority_pct": 0.753
+        },
+        {
+          "date": "2010-05-05",
+          "year": 2010,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 2944,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "James Kay",
+              "party": "Conservative",
+              "votes": 2000,
+              "pct": 0.6793,
+              "elected": true
+            },
+            {
+              "name": "Gail Hodson",
+              "party": "Labour",
+              "votes": 944,
+              "pct": 0.3207,
+              "elected": false
+            }
+          ],
+          "majority": 1056,
+          "majority_pct": 0.3587
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 2027,
+          "turnout": 0.4516,
+          "electorate": 4488,
+          "candidates": [
+            {
+              "name": "Andrew Cheetham",
+              "party": "Conservative",
+              "votes": 1393,
+              "pct": 0.6872,
+              "elected": true
+            },
+            {
+              "name": "Roy Hiscock",
+              "party": "Labour",
+              "votes": 634,
+              "pct": 0.3128,
+              "elected": false
+            }
+          ],
+          "majority": 759,
+          "majority_pct": 0.3744
+        },
+        {
+          "date": "2012-05-03",
+          "year": 2012,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1467,
+          "turnout": 0.3241,
+          "electorate": 4527,
+          "candidates": [
+            {
+              "name": "Rosie Evans",
+              "party": "Conservative",
+              "votes": 1076,
+              "pct": 0.7335,
+              "elected": true
+            },
+            {
+              "name": "Margaret Blake",
+              "party": "Labour",
+              "votes": 391,
+              "pct": 0.2665,
+              "elected": false
+            }
+          ],
+          "majority": 685,
+          "majority_pct": 0.4669
+        },
+        {
+          "date": "2014-05-22",
+          "year": 2014,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1843,
+          "turnout": 0.4041,
+          "electorate": 4561,
+          "candidates": [
+            {
+              "name": "John Mee",
+              "party": "Conservative",
+              "votes": 1054,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "James Kay",
+              "party": "Conservative",
+              "votes": 936,
+              "pct": 0.5079,
+              "elected": true
+            },
+            {
+              "name": "James Doran",
+              "party": "Independent",
+              "votes": 567,
+              "pct": 0.3077,
+              "elected": false
+            },
+            {
+              "name": "Julie Higson",
+              "party": "Labour",
+              "votes": 340,
+              "pct": 0.1845,
+              "elected": false
+            },
+            {
+              "name": "Mathew Waller",
+              "party": "Labour",
+              "votes": 234,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 118,
+          "majority_pct": 0.064
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 3186,
+          "turnout": 0.7022,
+          "electorate": 4537,
+          "candidates": [
+            {
+              "name": "James Kay",
+              "party": "Conservative",
+              "votes": 1738,
+              "pct": 0.5455,
+              "elected": true
+            },
+            {
+              "name": "Neil Pye",
+              "party": "Labour",
+              "votes": 544,
+              "pct": 0.1707,
+              "elected": false
+            },
+            {
+              "name": "Barry Gannaway-Jones",
+              "party": "UKIP",
+              "votes": 482,
+              "pct": 0.1513,
+              "elected": false
+            },
+            {
+              "name": "Jim Doran",
+              "party": "Independent",
+              "votes": 422,
+              "pct": 0.1325,
+              "elected": false
+            }
+          ],
+          "majority": 1194,
+          "majority_pct": 0.3748
+        },
+        {
+          "date": "2016-05-05",
+          "year": 2016,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1599,
+          "turnout": 0.355,
+          "electorate": 4504,
+          "candidates": [
+            {
+              "name": "John Philip Cairns",
+              "party": "Conservative",
+              "votes": 1077,
+              "pct": 0.6735,
+              "elected": true
+            },
+            {
+              "name": "Frederick Andrew Hodson",
+              "party": "Labour",
+              "votes": 522,
+              "pct": 0.3265,
+              "elected": false
+            }
+          ],
+          "majority": 555,
+          "majority_pct": 0.3471
+        },
+        {
+          "date": "2018-05-03",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1710,
+          "turnout": 0.3627,
+          "electorate": 4715,
+          "candidates": [
+            {
+              "name": "John Mee",
+              "party": "Conservative",
+              "votes": 1179,
+              "pct": 0.6895,
+              "elected": true
+            },
+            {
+              "name": "Frederick Andrew Hodson",
+              "party": "Labour",
+              "votes": 531,
+              "pct": 0.3105,
+              "elected": false
+            }
+          ],
+          "majority": 648,
+          "majority_pct": 0.3789
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1812,
+          "turnout": 0.385,
+          "electorate": 4706,
+          "candidates": [
+            {
+              "name": "Anne Sutton",
+              "party": "Conservative",
+              "votes": 1369,
+              "pct": 0.7555,
+              "elected": true
+            },
+            {
+              "name": "Peter Langley",
+              "party": "Labour",
+              "votes": 443,
+              "pct": 0.2445,
+              "elected": false
+            }
+          ],
+          "majority": 926,
+          "majority_pct": 0.511
+        },
+        {
+          "date": "2021-05-06",
+          "year": 2021,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1912,
+          "turnout": 0.3947,
+          "electorate": 4844,
+          "candidates": [
+            {
+              "name": "Darren Daniels",
+              "party": "Conservative",
+              "votes": 1385,
+              "pct": 0.7244,
+              "elected": true
+            },
+            {
+              "name": "Damian John Owen",
+              "party": "Labour",
+              "votes": 386,
+              "pct": 0.2019,
+              "elected": false
+            },
+            {
+              "name": "Tina Maria Stringfellow",
+              "party": "Liberal Democrats",
+              "votes": 141,
+              "pct": 0.0737,
+              "elected": false
+            }
+          ],
+          "majority": 999,
+          "majority_pct": 0.5225
+        },
+        {
+          "date": "2022-05-05",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1876,
+          "turnout": 0.385,
+          "electorate": 4873,
+          "candidates": [
+            {
+              "name": "John Mee",
+              "party": "Conservative",
+              "votes": 1096,
+              "pct": 0.5842,
+              "elected": true
+            },
+            {
+              "name": "Chris Houlihan",
+              "party": "Labour",
+              "votes": 584,
+              "pct": 0.3113,
+              "elected": false
+            },
+            {
+              "name": "Tina Maria Stringfellow",
+              "party": "Liberal Democrats",
+              "votes": 196,
+              "pct": 0.1045,
+              "elected": false
+            }
+          ],
+          "majority": 512,
+          "majority_pct": 0.2729
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1948,
+          "turnout": 0.3513,
+          "electorate": 5545,
+          "candidates": [
+            {
+              "name": "Joan Witter",
+              "party": "Conservative",
+              "votes": 1082,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Darren Daniels",
+              "party": "Conservative",
+              "votes": 992,
+              "pct": 0.5092,
+              "elected": true
+            },
+            {
+              "name": "David Alexander Westley",
+              "party": "Conservative",
+              "votes": 987,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Jan Monaghan",
+              "party": "Labour",
+              "votes": 578,
+              "pct": 0.2967,
+              "elected": false
+            },
+            {
+              "name": "Noel Anthony Delaney",
+              "party": "Labour",
+              "votes": 512,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Christopher C Sawyer",
+              "party": "Labour",
+              "votes": 509,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Tina Maria Stringfellow",
+              "party": "Liberal Democrats",
+              "votes": 378,
+              "pct": 0.194,
+              "elected": false
+            }
+          ],
+          "majority": 90,
+          "majority_pct": 0.0462
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2140,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "John Mee",
+              "party": "Conservative",
+              "votes": 985,
+              "pct": 0.4603,
+              "elected": true
+            },
+            {
+              "name": "David Alexander Westley",
+              "party": "Conservative",
+              "votes": 834,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Michelle Matthews",
+              "party": "Labour",
+              "votes": 614,
+              "pct": 0.2869,
+              "elected": false
+            },
+            {
+              "name": "Damian John Owen",
+              "party": "Labour",
+              "votes": 527,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Tina Maria Stringfellow",
+              "party": "Liberal Democrats",
+              "votes": 279,
+              "pct": 0.1304,
+              "elected": false
+            },
+            {
+              "name": "Edwin Gordon Black",
+              "party": "Green Party",
+              "votes": 262,
+              "pct": 0.1224,
+              "elected": false
+            }
+          ],
+          "majority": 151,
+          "majority_pct": 0.0706
+        }
+      ]
+    },
+    "Up Holland": {
+      "gss_code": "E05014943",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Gaynar Owen",
+          "party": "Labour"
+        },
+        {
+          "name": "John Fillis",
+          "party": "Labour"
+        },
+        {
+          "name": "Suresh Patel",
+          "party": "Labour"
+        }
+      ],
+      "electorate": null,
+      "history": [
+        {
+          "date": "2006-05-04",
+          "year": 2006,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1577,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David Phythian",
+              "party": "Labour",
+              "votes": 804,
+              "pct": 0.5098,
+              "elected": true
+            },
+            {
+              "name": "Ruth Pollock",
+              "party": "Conservative",
+              "votes": 773,
+              "pct": 0.4902,
+              "elected": false
+            }
+          ],
+          "majority": 31,
+          "majority_pct": 0.0197
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1720,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Anthony Rice",
+              "party": "Labour",
+              "votes": 776,
+              "pct": 0.4512,
+              "elected": true
+            },
+            {
+              "name": "Ruth Pollock",
+              "party": "Conservative",
+              "votes": 749,
+              "pct": 0.4355,
+              "elected": false
+            },
+            {
+              "name": "Alan Freeman",
+              "party": "UKIP",
+              "votes": 195,
+              "pct": 0.1134,
+              "elected": false
+            }
+          ],
+          "majority": 27,
+          "majority_pct": 0.0157
+        },
+        {
+          "date": "2008-05-01",
+          "year": 2008,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1691,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Ruth Pollock",
+              "party": "Conservative",
+              "votes": 728,
+              "pct": 0.4305,
+              "elected": true
+            },
+            {
+              "name": "Maggie Skilling",
+              "party": "Labour",
+              "votes": 725,
+              "pct": 0.4287,
+              "elected": false
+            },
+            {
+              "name": "Marie Settle",
+              "party": "UKIP",
+              "votes": 238,
+              "pct": 0.1407,
+              "elected": false
+            }
+          ],
+          "majority": 3,
+          "majority_pct": 0.0018
+        },
+        {
+          "date": "2010-05-05",
+          "year": 2010,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 3319,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Ian Moran",
+              "party": "Labour",
+              "votes": 1927,
+              "pct": 0.5806,
+              "elected": true
+            },
+            {
+              "name": "Jonathan Kirkby",
+              "party": "Conservative",
+              "votes": 1392,
+              "pct": 0.4194,
+              "elected": false
+            }
+          ],
+          "majority": 535,
+          "majority_pct": 0.1612
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1987,
+          "turnout": 0.3999,
+          "electorate": 4969,
+          "candidates": [
+            {
+              "name": "John Fillis",
+              "party": "Labour",
+              "votes": 1127,
+              "pct": 0.5672,
+              "elected": true
+            },
+            {
+              "name": "Carolyn Evans",
+              "party": "Conservative",
+              "votes": 743,
+              "pct": 0.3739,
+              "elected": false
+            },
+            {
+              "name": "Jason Hutton",
+              "party": "Liberal Democrats",
+              "votes": 117,
+              "pct": 0.0589,
+              "elected": false
+            }
+          ],
+          "majority": 384,
+          "majority_pct": 0.1933
+        },
+        {
+          "date": "2012-05-03",
+          "year": 2012,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1746,
+          "turnout": 0.3512,
+          "electorate": 4971,
+          "candidates": [
+            {
+              "name": "Gaynar Owen",
+              "party": "Labour",
+              "votes": 1124,
+              "pct": 0.6438,
+              "elected": true
+            },
+            {
+              "name": "Ruth Pollock",
+              "party": "Conservative",
+              "votes": 622,
+              "pct": 0.3562,
+              "elected": false
+            }
+          ],
+          "majority": 502,
+          "majority_pct": 0.2875
+        },
+        {
+          "date": "2014-05-22",
+          "year": 2014,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1833,
+          "turnout": 0.3629,
+          "electorate": 5051,
+          "candidates": [
+            {
+              "name": "Ian Moran",
+              "party": "Labour",
+              "votes": 968,
+              "pct": 0.5281,
+              "elected": true
+            },
+            {
+              "name": "Colin Wilkinson",
+              "party": "UKIP",
+              "votes": 453,
+              "pct": 0.2471,
+              "elected": false
+            },
+            {
+              "name": "David Gallagher",
+              "party": "Conservative",
+              "votes": 412,
+              "pct": 0.2248,
+              "elected": false
+            }
+          ],
+          "majority": 515,
+          "majority_pct": 0.281
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 3424,
+          "turnout": 0.7099,
+          "electorate": 4823,
+          "candidates": [
+            {
+              "name": "John Bullock",
+              "party": "Labour",
+              "votes": 1743,
+              "pct": 0.5091,
+              "elected": true
+            },
+            {
+              "name": "Ruth Pollock",
+              "party": "Conservative",
+              "votes": 1020,
+              "pct": 0.2979,
+              "elected": false
+            },
+            {
+              "name": "John Stewart",
+              "party": "UKIP",
+              "votes": 661,
+              "pct": 0.193,
+              "elected": false
+            }
+          ],
+          "majority": 723,
+          "majority_pct": 0.2112
+        },
+        {
+          "date": "2016-05-05",
+          "year": 2016,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1642,
+          "turnout": 0.3392,
+          "electorate": 4841,
+          "candidates": [
+            {
+              "name": "Gaynar Owen",
+              "party": "Labour",
+              "votes": 1113,
+              "pct": 0.6778,
+              "elected": true
+            },
+            {
+              "name": "Jane Houlgrave",
+              "party": "Conservative",
+              "votes": 529,
+              "pct": 0.3222,
+              "elected": false
+            }
+          ],
+          "majority": 584,
+          "majority_pct": 0.3557
+        },
+        {
+          "date": "2018-05-03",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1828,
+          "turnout": 0.366,
+          "electorate": 4994,
+          "candidates": [
+            {
+              "name": "Ian M Moran",
+              "party": "Labour",
+              "votes": 1010,
+              "pct": 0.5525,
+              "elected": true
+            },
+            {
+              "name": "David Marsh",
+              "party": "Conservative",
+              "votes": 818,
+              "pct": 0.4475,
+              "elected": false
+            }
+          ],
+          "majority": 192,
+          "majority_pct": 0.105
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1581,
+          "turnout": 0.3174,
+          "electorate": 4981,
+          "candidates": [
+            {
+              "name": "Paul Richard O'Neill",
+              "party": "Labour",
+              "votes": 919,
+              "pct": 0.5813,
+              "elected": true
+            },
+            {
+              "name": "Jack Gilmore",
+              "party": "Conservative",
+              "votes": 662,
+              "pct": 0.4187,
+              "elected": false
+            }
+          ],
+          "majority": 257,
+          "majority_pct": 0.1626
+        },
+        {
+          "date": "2021-05-06",
+          "year": 2021,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1660,
+          "turnout": 0.3311,
+          "electorate": 5014,
+          "candidates": [
+            {
+              "name": "Gaynar Owen",
+              "party": "Labour",
+              "votes": 982,
+              "pct": 0.5916,
+              "elected": true
+            },
+            {
+              "name": "George Rear",
+              "party": "Conservative",
+              "votes": 678,
+              "pct": 0.4084,
+              "elected": false
+            }
+          ],
+          "majority": 304,
+          "majority_pct": 0.1831
+        },
+        {
+          "date": "2022-05-05",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1605,
+          "turnout": 0.3224,
+          "electorate": 4979,
+          "candidates": [
+            {
+              "name": "Suresh Patel",
+              "party": "Labour",
+              "votes": 1032,
+              "pct": 0.643,
+              "elected": true
+            },
+            {
+              "name": "Alexander Holcroft",
+              "party": "Conservative",
+              "votes": 573,
+              "pct": 0.357,
+              "elected": false
+            }
+          ],
+          "majority": 459,
+          "majority_pct": 0.286
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1591,
+          "turnout": 0.2637,
+          "electorate": 6033,
+          "candidates": [
+            {
+              "name": "John Fillis",
+              "party": "Labour",
+              "votes": 1128,
+              "pct": 0.709,
+              "elected": true
+            },
+            {
+              "name": "Suresh Patel",
+              "party": "Labour",
+              "votes": 1097,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Gaynar Owen",
+              "party": "Labour",
+              "votes": 1063,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "James William Dorling",
+              "party": "Conservative",
+              "votes": 463,
+              "pct": 0.291,
+              "elected": false
+            },
+            {
+              "name": "Julie Peel",
+              "party": "Conservative",
+              "votes": 447,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John Mee",
+              "party": "Conservative",
+              "votes": 392,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 31,
+          "majority_pct": 0.0195
+        },
+        {
+          "date": "2024-05-02",
+          "year": 2024,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1694,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Gaynar Owen",
+              "party": "Labour",
+              "votes": 1056,
+              "pct": 0.6234,
+              "elected": true
+            },
+            {
+              "name": "Julie Peel",
+              "party": "Conservative",
+              "votes": 380,
+              "pct": 0.2243,
+              "elected": false
+            },
+            {
+              "name": "Charlotte Houltram",
+              "party": "Green Party",
+              "votes": 258,
+              "pct": 0.1523,
+              "elected": false
+            }
+          ],
+          "majority": 676,
+          "majority_pct": 0.3991
+        }
+      ]
+    }
+  },
+  "council_history": [
+    {
+      "year": 2006,
+      "type": "borough_thirds",
+      "seats_contested": 5,
+      "results_by_party": {
+        "Labour": {
+          "won": 3,
+          "votes": 2557,
+          "pct": 0.4104
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 3234,
+          "pct": 0.5191
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 243,
+          "pct": 0.039
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 196,
+          "pct": 0.0315
+        }
+      },
+      "turnout": null,
+      "total_votes": 6230
+    },
+    {
+      "year": 2007,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Labour": {
+          "won": 4,
+          "votes": 3034,
+          "pct": 0.4291
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 3152,
+          "pct": 0.4458
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 601,
+          "pct": 0.085
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 89,
+          "pct": 0.0126
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 195,
+          "pct": 0.0276
+        }
+      },
+      "turnout": null,
+      "total_votes": 7071
+    },
+    {
+      "year": 2008,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Conservative": {
+          "won": 3,
+          "votes": 3683,
+          "pct": 0.5352
+        },
+        "Labour": {
+          "won": 3,
+          "votes": 2777,
+          "pct": 0.4035
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 184,
+          "pct": 0.0267
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 238,
+          "pct": 0.0346
+        }
+      },
+      "turnout": null,
+      "total_votes": 6882
+    },
+    {
+      "year": 2010,
+      "type": "borough_thirds",
+      "seats_contested": 5,
+      "results_by_party": {
+        "Labour": {
+          "won": 3,
+          "votes": 7153,
+          "pct": 0.551
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 5571,
+          "pct": 0.4292
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 257,
+          "pct": 0.0198
+        }
+      },
+      "turnout": null,
+      "total_votes": 12981
+    },
+    {
+      "year": 2011,
+      "type": "borough_thirds",
+      "seats_contested": 7,
+      "results_by_party": {
+        "Labour": {
+          "won": 4,
+          "votes": 5282,
+          "pct": 0.5397
+        },
+        "Conservative": {
+          "won": 3,
+          "votes": 4006,
+          "pct": 0.4093
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 261,
+          "pct": 0.0267
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 121,
+          "pct": 0.0124
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 117,
+          "pct": 0.012
+        }
+      },
+      "turnout": 0.3875,
+      "total_votes": 9787
+    },
+    {
+      "year": 2012,
+      "type": "borough_thirds",
+      "seats_contested": 5,
+      "results_by_party": {
+        "Labour": {
+          "won": 3,
+          "votes": 3736,
+          "pct": 0.5822
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 2274,
+          "pct": 0.3544
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 293,
+          "pct": 0.0457
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 114,
+          "pct": 0.0178
+        }
+      },
+      "turnout": 0.3457,
+      "total_votes": 6417
+    },
+    {
+      "year": 2014,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Conservative": {
+          "won": 3,
+          "votes": 3034,
+          "pct": 0.353
+        },
+        "Labour": {
+          "won": 3,
+          "votes": 3573,
+          "pct": 0.4157
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 1326,
+          "pct": 0.1543
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 95,
+          "pct": 0.0111
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 567,
+          "pct": 0.066
+        }
+      },
+      "turnout": 0.3351,
+      "total_votes": 8595
+    },
+    {
+      "year": 2015,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Labour": {
+          "won": 4,
+          "votes": 8380,
+          "pct": 0.5352
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 4844,
+          "pct": 0.3093
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 1563,
+          "pct": 0.0998
+        },
+        "Our West Lancashire": {
+          "won": 0,
+          "votes": 243,
+          "pct": 0.0155
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 207,
+          "pct": 0.0132
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 422,
+          "pct": 0.0269
+        }
+      },
+      "turnout": 0.6649,
+      "total_votes": 15659
+    },
+    {
+      "year": 2016,
+      "type": "borough_thirds",
+      "seats_contested": 5,
+      "results_by_party": {
+        "Labour": {
+          "won": 3,
+          "votes": 3778,
+          "pct": 0.6087
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 2314,
+          "pct": 0.3728
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 115,
+          "pct": 0.0185
+        }
+      },
+      "turnout": 0.3431,
+      "total_votes": 6207
+    },
+    {
+      "year": 2018,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Labour": {
+          "won": 5,
+          "votes": 4470,
+          "pct": 0.5934
+        },
+        "Conservative": {
+          "won": 1,
+          "votes": 2934,
+          "pct": 0.3895
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 129,
+          "pct": 0.0171
+        }
+      },
+      "turnout": 0.296,
+      "total_votes": 7533
+    },
+    {
+      "year": 2019,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Labour": {
+          "won": 4,
+          "votes": 3494,
+          "pct": 0.4599
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 2869,
+          "pct": 0.3776
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 152,
+          "pct": 0.02
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 644,
+          "pct": 0.0848
+        },
+        "Our West Lancashire": {
+          "won": 0,
+          "votes": 439,
+          "pct": 0.0578
+        }
+      },
+      "turnout": 0.3115,
+      "total_votes": 7598
+    },
+    {
+      "year": 2021,
+      "type": "borough_thirds",
+      "seats_contested": 6,
+      "results_by_party": {
+        "Conservative": {
+          "won": 3,
+          "votes": 3645,
+          "pct": 0.4779
+        },
+        "Labour": {
+          "won": 3,
+          "votes": 3466,
+          "pct": 0.4544
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 375,
+          "pct": 0.0492
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 141,
+          "pct": 0.0185
+        }
+      },
+      "turnout": 0.3425,
+      "total_votes": 7627
+    },
+    {
+      "year": 2022,
+      "type": "borough_thirds",
+      "seats_contested": 5,
+      "results_by_party": {
+        "Labour": {
+          "won": 3,
+          "votes": 3540,
+          "pct": 0.538
+        },
+        "Conservative": {
+          "won": 2,
+          "votes": 2594,
+          "pct": 0.3942
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 255,
+          "pct": 0.0388
+        },
+        "Our West Lancashire": {
+          "won": 0,
+          "votes": 191,
+          "pct": 0.029
+        }
+      },
+      "turnout": 0.3006,
+      "total_votes": 6580
+    },
+    {
+      "year": 2023,
+      "type": "borough_all_out",
+      "seats_contested": 33,
+      "results_by_party": {
+        "Labour": {
+          "won": 20,
+          "votes": 28399,
+          "pct": 0.5373
+        },
+        "Conservative": {
+          "won": 9,
+          "votes": 13606,
+          "pct": 0.2574
+        },
+        "Our West Lancashire": {
+          "won": 4,
+          "votes": 9328,
+          "pct": 0.1765
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 1275,
+          "pct": 0.0241
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 245,
+          "pct": 0.0046
+        }
+      },
+      "turnout": 0.3178,
+      "total_votes": 52853
+    },
+    {
+      "year": 2024,
+      "type": "borough_thirds",
+      "seats_contested": 12,
+      "results_by_party": {
+        "Labour": {
+          "won": 6,
+          "votes": 9935,
+          "pct": 0.4844
+        },
+        "Conservative": {
+          "won": 4,
+          "votes": 5154,
+          "pct": 0.2513
+        },
+        "Our West Lancashire": {
+          "won": 2,
+          "votes": 3332,
+          "pct": 0.1625
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 514,
+          "pct": 0.0251
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 1372,
+          "pct": 0.0669
+        },
+        "Reform UK": {
+          "won": 0,
+          "votes": 203,
+          "pct": 0.0099
+        }
+      },
+      "turnout": null,
+      "total_votes": 20510
+    }
+  ],
+  "turnout_trends": [
+    {
+      "year": 2011,
+      "type": "borough_thirds",
+      "turnout": 0.3875,
+      "total_votes": 9787
+    },
+    {
+      "year": 2012,
+      "type": "borough_thirds",
+      "turnout": 0.3457,
+      "total_votes": 6417
+    },
+    {
+      "year": 2014,
+      "type": "borough_thirds",
+      "turnout": 0.3351,
+      "total_votes": 8595
+    },
+    {
+      "year": 2015,
+      "type": "borough_thirds",
+      "turnout": 0.6649,
+      "total_votes": 15659
+    },
+    {
+      "year": 2016,
+      "type": "borough_thirds",
+      "turnout": 0.3431,
+      "total_votes": 6207
+    },
+    {
+      "year": 2018,
+      "type": "borough_thirds",
+      "turnout": 0.296,
+      "total_votes": 7533
+    },
+    {
+      "year": 2019,
+      "type": "borough_thirds",
+      "turnout": 0.3115,
+      "total_votes": 7598
+    },
+    {
+      "year": 2021,
+      "type": "borough_thirds",
+      "turnout": 0.3425,
+      "total_votes": 7627
+    },
+    {
+      "year": 2022,
+      "type": "borough_thirds",
+      "turnout": 0.3006,
+      "total_votes": 6580
+    },
+    {
+      "year": 2023,
+      "type": "borough_all_out",
+      "turnout": 0.3178,
+      "total_votes": 52853
+    }
+  ],
+  "legacy_wards": {
+    "Ashurst": {
+      "years": [
+        "2006",
+        "2007",
+        "2008",
+        "2010",
+        "2011",
+        "2012",
+        "2014",
+        "2015",
+        "2016",
+        "2018",
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "elections": 13,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Aughton Downholland": {
+      "years": [
+        "2006",
+        "2007",
+        "2008",
+        "2010",
+        "2011",
+        "2012",
+        "2014",
+        "2015",
+        "2016",
+        "2018",
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "elections": 13,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Aughton Park": {
+      "years": [
+        "2006",
+        "2007",
+        "2010",
+        "2011",
+        "2014",
+        "2015",
+        "2018",
+        "2019",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Burscough East": {
+      "years": [
+        "2006",
+        "2008",
+        "2010",
+        "2012",
+        "2014",
+        "2016",
+        "2018",
+        "2021",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Burscough West": {
+      "years": [
+        "2006",
+        "2008",
+        "2010",
+        "2012",
+        "2014",
+        "2016",
+        "2018",
+        "2021",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Derby": {
+      "years": [
+        "2006",
+        "2007",
+        "2008",
+        "2010",
+        "2011",
+        "2012",
+        "2014",
+        "2015",
+        "2016",
+        "2018",
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "elections": 13,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Hesketh With Becconsall": {
+      "years": [
+        "2006",
+        "2008",
+        "2010",
+        "2012",
+        "2014",
+        "2016",
+        "2018",
+        "2021",
+        "2022"
+      ],
+      "elections": 10,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Knowsley": {
+      "years": [
+        "2006",
+        "2007",
+        "2008",
+        "2010",
+        "2011",
+        "2012",
+        "2014",
+        "2015",
+        "2016",
+        "2018",
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "elections": 14,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Moorside": {
+      "years": [
+        "2006",
+        "2008",
+        "2010",
+        "2012",
+        "2014",
+        "2016",
+        "2018",
+        "2021",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Newburgh": {
+      "years": [
+        "2006",
+        "2007",
+        "2010",
+        "2014",
+        "2018",
+        "2022"
+      ],
+      "elections": 6,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Parbold": {
+      "years": [
+        "2006",
+        "2007",
+        "2010",
+        "2011",
+        "2014",
+        "2015",
+        "2018",
+        "2019",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Scarisbrick": {
+      "years": [
+        "2006",
+        "2007",
+        "2010",
+        "2011",
+        "2014",
+        "2015",
+        "2018",
+        "2019",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Scott": {
+      "years": [
+        "2006",
+        "2007",
+        "2008",
+        "2010",
+        "2011",
+        "2012",
+        "2014",
+        "2015",
+        "2016",
+        "2018",
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "elections": 13,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Bickerstaffe": {
+      "years": [
+        "2007",
+        "2011",
+        "2015",
+        "2019"
+      ],
+      "elections": 4,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Birch Green": {
+      "years": [
+        "2007",
+        "2008",
+        "2011",
+        "2012",
+        "2015",
+        "2016",
+        "2019",
+        "2021"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Digmoor": {
+      "years": [
+        "2007",
+        "2008",
+        "2009",
+        "2011",
+        "2012",
+        "2013",
+        "2015",
+        "2016",
+        "2019",
+        "2021"
+      ],
+      "elections": 10,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Wrightington": {
+      "years": [
+        "2007",
+        "2008",
+        "2011",
+        "2012",
+        "2015",
+        "2016",
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "elections": 9,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Halsall": {
+      "years": [
+        "2008",
+        "2012",
+        "2016",
+        "2021"
+      ],
+      "elections": 4,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Aughton Holborn": {
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Burscough Bridge Rufford": {
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "North Meols Hesketh Bank": {
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Tanhouse Skelmersdale Town Centre": {
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    }
+  }
+}

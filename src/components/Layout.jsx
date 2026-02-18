@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { preloadData } from '../hooks/useData'
@@ -30,6 +30,7 @@ const navSections = [
       { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
       { path: '/demographics', icon: Globe, label: 'Demographics', requires: 'demographics' },
       { path: '/lgr', icon: Landmark, label: 'LGR Tracker', requires: 'lgr_tracker' },
+      { path: '/elections', icon: Vote, label: 'Elections', requires: 'elections' },
       { path: '/lgr-calculator', icon: Calculator, label: 'LGR Cost', requires: 'lgr_tracker' },
       { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
     ],

@@ -1,0 +1,5760 @@
+{
+  "meta": {
+    "council_id": "wyre",
+    "council_name": "Wyre",
+    "council_tier": "district",
+    "election_cycle": "all_out",
+    "seats_per_ward": 3,
+    "total_seats": 50,
+    "total_wards": 24,
+    "generated": "2026-02-18T20:26:54Z",
+    "data_sources": [
+      "DCLEAPIL v1.0 (Leman 2025, CC BY-SA 4.0)",
+      "Democracy Club (CC BY 4.0)",
+      "Andrew Teale LEAP (CC BY-SA 3.0)"
+    ]
+  },
+  "wards": {
+    "Bourne": {
+      "gss_code": "E05009932",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Harry Swatton",
+          "party": "Labour"
+        },
+        {
+          "name": "Kevin Higginson",
+          "party": "Labour"
+        },
+        {
+          "name": "Victoria Wells",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 4595,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1627,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Don MacNaughton",
+              "party": "Conservative",
+              "votes": 941,
+              "pct": 0.5784,
+              "elected": true
+            },
+            {
+              "name": "Julie Newsham",
+              "party": "Conservative",
+              "votes": 940,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Chris McConnachie",
+              "party": "Conservative",
+              "votes": 892,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Terry Lees",
+              "party": "Labour",
+              "votes": 686,
+              "pct": 0.4216,
+              "elected": false
+            },
+            {
+              "name": "Alan Dawkins",
+              "party": "Labour",
+              "votes": 679,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Tony Condron",
+              "party": "Labour",
+              "votes": 669,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 1,
+          "majority_pct": 0.0006
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1843,
+          "turnout": 0.3581,
+          "electorate": 5146,
+          "candidates": [
+            {
+              "name": "Terence Lees",
+              "party": "Labour",
+              "votes": 1013,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Donald MacNaughton",
+              "party": "Conservative",
+              "votes": 942,
+              "pct": 0.5111,
+              "elected": true
+            },
+            {
+              "name": "Julie Newsham",
+              "party": "Conservative",
+              "votes": 912,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Sean Hazelwood",
+              "party": "Labour",
+              "votes": 901,
+              "pct": 0.4889,
+              "elected": false
+            },
+            {
+              "name": "Christopher McConnachie",
+              "party": "Conservative",
+              "votes": 894,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Kevin Higginson",
+              "party": "Labour",
+              "votes": 876,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 71,
+          "majority_pct": 0.0385
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 3056,
+          "turnout": 0.6996,
+          "electorate": 4368,
+          "candidates": [
+            {
+              "name": "Howard Ballard",
+              "party": "Conservative",
+              "votes": 1133,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Terry Lees",
+              "party": "Labour",
+              "votes": 1017,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Natalie Reeves",
+              "party": "Labour",
+              "votes": 975,
+              "pct": 0.319,
+              "elected": true
+            },
+            {
+              "name": "Sandra Delbridge",
+              "party": "Conservative",
+              "votes": 955,
+              "pct": 0.3125,
+              "elected": false
+            },
+            {
+              "name": "Emma Sydney",
+              "party": "Conservative",
+              "votes": 884,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Wayne Martin",
+              "party": "Labour",
+              "votes": 884,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "George Leece",
+              "party": "UKIP",
+              "votes": 766,
+              "pct": 0.2507,
+              "elected": false
+            },
+            {
+              "name": "Jon Sillis",
+              "party": "Green Party",
+              "votes": 360,
+              "pct": 0.1178,
+              "elected": false
+            }
+          ],
+          "majority": 116,
+          "majority_pct": 0.038
+        },
+        {
+          "date": "2017-05-04",
+          "year": 2017,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1490,
+          "turnout": 0.319,
+          "electorate": 4671,
+          "candidates": [
+            {
+              "name": "Emma Victoria Ellison",
+              "party": "Conservative",
+              "votes": 788,
+              "pct": 0.5289,
+              "elected": true
+            },
+            {
+              "name": "Joanne Cooper",
+              "party": "Labour",
+              "votes": 621,
+              "pct": 0.4168,
+              "elected": false
+            },
+            {
+              "name": "Barbara Mead-Mason",
+              "party": "Green Party",
+              "votes": 81,
+              "pct": 0.0544,
+              "elected": false
+            }
+          ],
+          "majority": 167,
+          "majority_pct": 0.1121
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1190,
+          "turnout": 0.2467,
+          "electorate": 4824,
+          "candidates": [
+            {
+              "name": "Emma Victoria Ellison",
+              "party": "Conservative",
+              "votes": 600,
+              "pct": 0.5042,
+              "elected": true
+            },
+            {
+              "name": "Howard John Ballard",
+              "party": "Conservative",
+              "votes": 600,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Holly Swales",
+              "party": "Labour",
+              "votes": 590,
+              "pct": 0.4958,
+              "elected": true
+            },
+            {
+              "name": "Terry Lees",
+              "party": "Labour",
+              "votes": 575,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Andrew Paul Lyons-Walker",
+              "party": "Conservative",
+              "votes": 550,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Kevin Ronald Higginson",
+              "party": "Labour",
+              "votes": 531,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 0,
+          "majority_pct": 0.0
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1104,
+          "turnout": 0.2403,
+          "electorate": 4595,
+          "candidates": [
+            {
+              "name": "Victoria Wells",
+              "party": "Labour",
+              "votes": 604,
+              "pct": 0.5471,
+              "elected": true
+            },
+            {
+              "name": "Harry Swatton",
+              "party": "Labour",
+              "votes": 582,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Kevin Ronald Higginson",
+              "party": "Labour",
+              "votes": 581,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Howard John Ballard",
+              "party": "Conservative",
+              "votes": 500,
+              "pct": 0.4529,
+              "elected": false
+            },
+            {
+              "name": "Jack Anthony Eccles",
+              "party": "Conservative",
+              "votes": 461,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Thomas Robert Wyers-Roebuck",
+              "party": "Conservative",
+              "votes": 453,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 22,
+          "majority_pct": 0.0199
+        }
+      ]
+    },
+    "Breck": {
+      "gss_code": "E05009933",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Jane Preston",
+          "party": "Conservative"
+        },
+        {
+          "name": "Peter Le Marinel",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3346,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1096,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David Henderson",
+              "party": "Conservative",
+              "votes": 813,
+              "pct": 0.7418,
+              "elected": true
+            },
+            {
+              "name": "Peter Gibson",
+              "party": "Conservative",
+              "votes": 799,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Sean Hazlewood",
+              "party": "Labour",
+              "votes": 283,
+              "pct": 0.2582,
+              "elected": false
+            },
+            {
+              "name": "Bill Acton",
+              "party": "Labour",
+              "votes": 245,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 14,
+          "majority_pct": 0.0128
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1126,
+          "turnout": 0.408,
+          "electorate": 2760,
+          "candidates": [
+            {
+              "name": "Peter Gibson",
+              "party": "Conservative",
+              "votes": 761,
+              "pct": 0.6758,
+              "elected": true
+            },
+            {
+              "name": "David Henderson",
+              "party": "Conservative",
+              "votes": 758,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Brian Hobson",
+              "party": "Labour",
+              "votes": 365,
+              "pct": 0.3242,
+              "elected": false
+            }
+          ],
+          "majority": 3,
+          "majority_pct": 0.0027
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2061,
+          "turnout": 0.697,
+          "electorate": 2957,
+          "candidates": [
+            {
+              "name": "Peter Gibson",
+              "party": "Conservative",
+              "votes": 1173,
+              "pct": 0.5691,
+              "elected": true
+            },
+            {
+              "name": "David Henderson",
+              "party": "Conservative",
+              "votes": 1126,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Terence Gregson",
+              "party": "Labour",
+              "votes": 594,
+              "pct": 0.2882,
+              "elected": false
+            },
+            {
+              "name": "Terry Rogers",
+              "party": "Labour",
+              "votes": 440,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Michael Smith",
+              "party": "Green Party",
+              "votes": 294,
+              "pct": 0.1426,
+              "elected": false
+            }
+          ],
+          "majority": 47,
+          "majority_pct": 0.0228
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1124,
+          "turnout": 0.3552,
+          "electorate": 3164,
+          "candidates": [
+            {
+              "name": "David John Henderson",
+              "party": "Conservative",
+              "votes": 495,
+              "pct": 0.4404,
+              "elected": true
+            },
+            {
+              "name": "Peter Le Marinel",
+              "party": "Conservative",
+              "votes": 445,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Stephen Nicholls",
+              "party": "Independent",
+              "votes": 406,
+              "pct": 0.3612,
+              "elected": false
+            },
+            {
+              "name": "Peter James Gibson",
+              "party": "Independent",
+              "votes": 396,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Sean Hazlewood",
+              "party": "Labour",
+              "votes": 223,
+              "pct": 0.1984,
+              "elected": false
+            }
+          ],
+          "majority": 50,
+          "majority_pct": 0.0445
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1148,
+          "turnout": 0.3431,
+          "electorate": 3346,
+          "candidates": [
+            {
+              "name": "Peter Le Marinel",
+              "party": "Conservative",
+              "votes": 471,
+              "pct": 0.4103,
+              "elected": true
+            },
+            {
+              "name": "Jane Preston",
+              "party": "Conservative",
+              "votes": 463,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Tom Calver",
+              "party": "Labour",
+              "votes": 418,
+              "pct": 0.3641,
+              "elected": false
+            },
+            {
+              "name": "Sean Hazlewood",
+              "party": "Labour",
+              "votes": 404,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Peter James Gibson",
+              "party": "Independent",
+              "votes": 259,
+              "pct": 0.2256,
+              "elected": false
+            }
+          ],
+          "majority": 8,
+          "majority_pct": 0.007
+        }
+      ]
+    },
+    "Brock with Catterall": {
+      "gss_code": "E05005388",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Daniel Bolton",
+          "party": "Conservative"
+        },
+        {
+          "name": "David Swift",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3667,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 589,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Pete Murphy",
+              "party": "Conservative",
+              "votes": 480,
+              "pct": 0.8149,
+              "elected": true
+            },
+            {
+              "name": "David Thompson",
+              "party": "Liberal Democrats",
+              "votes": 109,
+              "pct": 0.1851,
+              "elected": false
+            }
+          ],
+          "majority": 371,
+          "majority_pct": 0.6299
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 823,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David Sharples",
+              "party": "Liberal Democrats",
+              "votes": 539,
+              "pct": 0.6549,
+              "elected": true
+            },
+            {
+              "name": "Val Wilson",
+              "party": "Conservative",
+              "votes": 284,
+              "pct": 0.3451,
+              "elected": false
+            }
+          ],
+          "majority": 255,
+          "majority_pct": 0.3098
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 0,
+          "turnout": null,
+          "electorate": 1947,
+          "candidates": [
+            {
+              "name": "Pete Murphy",
+              "party": "Conservative",
+              "votes": 0,
+              "pct": null,
+              "elected": true
+            }
+          ],
+          "majority": 0,
+          "majority_pct": null
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 0,
+          "turnout": null,
+          "electorate": 2045,
+          "candidates": [
+            {
+              "name": "Dave Swift",
+              "party": "Conservative",
+              "votes": 0,
+              "pct": null,
+              "elected": true
+            }
+          ],
+          "majority": 0,
+          "majority_pct": null
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2069,
+          "turnout": 0.6253,
+          "electorate": 3309,
+          "candidates": [
+            {
+              "name": "Shaun Turner",
+              "party": "Conservative",
+              "votes": 1452,
+              "pct": 0.7018,
+              "elected": true
+            },
+            {
+              "name": "Peter Murphy",
+              "party": "Conservative",
+              "votes": 1272,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Philip Mitchell",
+              "party": "Green Party",
+              "votes": 617,
+              "pct": 0.2982,
+              "elected": false
+            }
+          ],
+          "majority": 180,
+          "majority_pct": 0.087
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1076,
+          "turnout": 0.3182,
+          "electorate": 3382,
+          "candidates": [
+            {
+              "name": "Shaun Gerard Turner",
+              "party": "Conservative",
+              "votes": 808,
+              "pct": 0.7509,
+              "elected": true
+            },
+            {
+              "name": "Elizabeth Jane Webster",
+              "party": "Conservative",
+              "votes": 761,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Rachel Jane Beavers",
+              "party": "Labour",
+              "votes": 268,
+              "pct": 0.2491,
+              "elected": false
+            }
+          ],
+          "majority": 47,
+          "majority_pct": 0.0437
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1240,
+          "turnout": 0.3382,
+          "electorate": 3667,
+          "candidates": [
+            {
+              "name": "Daniel James Bolton",
+              "party": "Conservative",
+              "votes": 696,
+              "pct": 0.5613,
+              "elected": true
+            },
+            {
+              "name": "David Swift",
+              "party": "Conservative",
+              "votes": 595,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Oliver James Bonser",
+              "party": "Labour",
+              "votes": 544,
+              "pct": 0.4387,
+              "elected": false
+            }
+          ],
+          "majority": 101,
+          "majority_pct": 0.0815
+        }
+      ]
+    },
+    "Calder": {
+      "gss_code": "E05009935",
+      "seats": 1,
+      "current_holders": [
+        {
+          "name": "John Ibison",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 1992,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 653,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David Williams",
+              "party": "Conservative",
+              "votes": 433,
+              "pct": 0.6631,
+              "elected": true
+            },
+            {
+              "name": "Susan Harrison",
+              "party": "Liberal Democrats",
+              "votes": 220,
+              "pct": 0.3369,
+              "elected": false
+            }
+          ],
+          "majority": 213,
+          "majority_pct": 0.3262
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 710,
+          "turnout": 0.4214,
+          "electorate": 1685,
+          "candidates": [
+            {
+              "name": "David Williams",
+              "party": "Conservative",
+              "votes": 535,
+              "pct": 0.7535,
+              "elected": true
+            },
+            {
+              "name": "Simon Noble",
+              "party": "UKIP",
+              "votes": 175,
+              "pct": 0.2465,
+              "elected": false
+            }
+          ],
+          "majority": 360,
+          "majority_pct": 0.507
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1220,
+          "turnout": 0.7354,
+          "electorate": 1659,
+          "candidates": [
+            {
+              "name": "John Ibison",
+              "party": "Conservative",
+              "votes": 635,
+              "pct": 0.5205,
+              "elected": true
+            },
+            {
+              "name": "David Williams",
+              "party": "Independent",
+              "votes": 369,
+              "pct": 0.3025,
+              "elected": false
+            },
+            {
+              "name": "Hana Gilmour",
+              "party": "Green Party",
+              "votes": 216,
+              "pct": 0.177,
+              "elected": false
+            }
+          ],
+          "majority": 266,
+          "majority_pct": 0.218
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 605,
+          "turnout": 0.314,
+          "electorate": 1927,
+          "candidates": [
+            {
+              "name": "John Anthony Ibison",
+              "party": "Conservative",
+              "votes": 388,
+              "pct": 0.6413,
+              "elected": true
+            },
+            {
+              "name": "Philip Michael Stuchfield",
+              "party": "Labour",
+              "votes": 217,
+              "pct": 0.3587,
+              "elected": false
+            }
+          ],
+          "majority": 171,
+          "majority_pct": 0.2826
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 706,
+          "turnout": 0.3544,
+          "electorate": 1992,
+          "candidates": [
+            {
+              "name": "John Anthony Ibison",
+              "party": "Conservative",
+              "votes": 386,
+              "pct": 0.5467,
+              "elected": true
+            },
+            {
+              "name": "Michelle Heaton-Bentley",
+              "party": "Labour",
+              "votes": 320,
+              "pct": 0.4533,
+              "elected": false
+            }
+          ],
+          "majority": 66,
+          "majority_pct": 0.0935
+        }
+      ]
+    },
+    "Carleton": {
+      "gss_code": "E05009936",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Andrew Walker",
+          "party": "Labour"
+        },
+        {
+          "name": "Stuart Fielding",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 3535,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1430,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Jim Hargreaves",
+              "party": "Conservative",
+              "votes": 1015,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Frances Gandhi",
+              "party": "Conservative",
+              "votes": 982,
+              "pct": 0.6867,
+              "elected": true
+            },
+            {
+              "name": "Jane Jackson",
+              "party": "Labour",
+              "votes": 448,
+              "pct": 0.3133,
+              "elected": false
+            },
+            {
+              "name": "Andrew Walker",
+              "party": "Labour",
+              "votes": 419,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 33,
+          "majority_pct": 0.0231
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1470,
+          "turnout": 0.441,
+          "electorate": 3333,
+          "candidates": [
+            {
+              "name": "James Hargreaves",
+              "party": "Conservative",
+              "votes": 914,
+              "pct": 0.6218,
+              "elected": true
+            },
+            {
+              "name": "Frances Gandhi",
+              "party": "Conservative",
+              "votes": 905,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Andrew Walker",
+              "party": "Labour",
+              "votes": 556,
+              "pct": 0.3782,
+              "elected": false
+            },
+            {
+              "name": "Frank Turner",
+              "party": "Labour",
+              "votes": 487,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 9,
+          "majority_pct": 0.0061
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2576,
+          "turnout": 0.7196,
+          "electorate": 3580,
+          "candidates": [
+            {
+              "name": "Michael Vincent",
+              "party": "Conservative",
+              "votes": 1426,
+              "pct": 0.5536,
+              "elected": true
+            },
+            {
+              "name": "Ron Greenhough",
+              "party": "Conservative",
+              "votes": 1366,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Andrew Walker",
+              "party": "Labour",
+              "votes": 814,
+              "pct": 0.316,
+              "elected": false
+            },
+            {
+              "name": "Carole Stephenson",
+              "party": "Labour",
+              "votes": 714,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Ruth Owens",
+              "party": "Green Party",
+              "votes": 336,
+              "pct": 0.1304,
+              "elected": false
+            }
+          ],
+          "majority": 60,
+          "majority_pct": 0.0233
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1710,
+          "turnout": 0.4538,
+          "electorate": 3768,
+          "candidates": [
+            {
+              "name": "Tom Ingham",
+              "party": "Conservative",
+              "votes": 758,
+              "pct": 0.4433,
+              "elected": true
+            },
+            {
+              "name": "Michael John Vincent",
+              "party": "Conservative",
+              "votes": 602,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Andrew James Walker",
+              "party": "Labour",
+              "votes": 487,
+              "pct": 0.2848,
+              "elected": false
+            },
+            {
+              "name": "Barbara Mead-Mason",
+              "party": "Green Party",
+              "votes": 465,
+              "pct": 0.2719,
+              "elected": false
+            }
+          ],
+          "majority": 156,
+          "majority_pct": 0.0912
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1432,
+          "turnout": 0.4051,
+          "electorate": 3535,
+          "candidates": [
+            {
+              "name": "Andrew James Walker",
+              "party": "Labour",
+              "votes": 725,
+              "pct": 0.5063,
+              "elected": true
+            },
+            {
+              "name": "Stuart James Fielding",
+              "party": "Labour",
+              "votes": 696,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Christina McKenzie Townsend",
+              "party": "Conservative",
+              "votes": 608,
+              "pct": 0.4246,
+              "elected": false
+            },
+            {
+              "name": "Andrew Paul Lyons-Walker",
+              "party": "Conservative",
+              "votes": 538,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Adele Eaves",
+              "party": "Alliance for Democracy and Freedom",
+              "votes": 99,
+              "pct": 0.0691,
+              "elected": false
+            }
+          ],
+          "majority": 29,
+          "majority_pct": 0.0203
+        }
+      ]
+    },
+    "Cleveleys Park": {
+      "gss_code": "E05009937",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Ian Amos",
+          "party": "Conservative"
+        },
+        {
+          "name": "Richard Rendell",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3703,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2564,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Andrea Kay",
+              "party": "Conservative",
+              "votes": 938,
+              "pct": 0.3658,
+              "elected": true
+            },
+            {
+              "name": "Peter Walters",
+              "party": "Conservative",
+              "votes": 829,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Tony Morley",
+              "party": "Conservative",
+              "votes": 802,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Penny Martin",
+              "party": "Labour",
+              "votes": 775,
+              "pct": 0.3023,
+              "elected": false
+            },
+            {
+              "name": "Wayne Martin",
+              "party": "Labour",
+              "votes": 722,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John Traynor",
+              "party": "Labour",
+              "votes": 687,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "James Clayton",
+              "party": "BNP",
+              "votes": 502,
+              "pct": 0.1958,
+              "elected": false
+            },
+            {
+              "name": "Frances Taylor",
+              "party": "Liberal Democrats",
+              "votes": 349,
+              "pct": 0.1361,
+              "elected": false
+            }
+          ],
+          "majority": 109,
+          "majority_pct": 0.0425
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2188,
+          "turnout": 0.4551,
+          "electorate": 4808,
+          "candidates": [
+            {
+              "name": "Andrea Kay",
+              "party": "Conservative",
+              "votes": 1210,
+              "pct": 0.553,
+              "elected": true
+            },
+            {
+              "name": "Rita Amos",
+              "party": "Conservative",
+              "votes": 1102,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Penelope Martin",
+              "party": "Labour",
+              "votes": 1077,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Anthony Morley",
+              "party": "Conservative",
+              "votes": 1068,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "David Oxley",
+              "party": "Labour",
+              "votes": 978,
+              "pct": 0.447,
+              "elected": false
+            },
+            {
+              "name": "John Traynor",
+              "party": "Labour",
+              "votes": 931,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 108,
+          "majority_pct": 0.0494
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2465,
+          "turnout": 0.6729,
+          "electorate": 3663,
+          "candidates": [
+            {
+              "name": "Ian Amos",
+              "party": "Conservative",
+              "votes": 1149,
+              "pct": 0.4661,
+              "elected": true
+            },
+            {
+              "name": "Rita Amos",
+              "party": "Conservative",
+              "votes": 1117,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "John Traynor",
+              "party": "Labour",
+              "votes": 838,
+              "pct": 0.34,
+              "elected": false
+            },
+            {
+              "name": "Kevin Higginson",
+              "party": "Labour",
+              "votes": 749,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Olive Bergin",
+              "party": "UKIP",
+              "votes": 478,
+              "pct": 0.1939,
+              "elected": false
+            },
+            {
+              "name": "Robert Coupe",
+              "party": "UKIP",
+              "votes": 460,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 32,
+          "majority_pct": 0.013
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1258,
+          "turnout": 0.3247,
+          "electorate": 3874,
+          "candidates": [
+            {
+              "name": "Rita Amos",
+              "party": "Conservative",
+              "votes": 789,
+              "pct": 0.6272,
+              "elected": true
+            },
+            {
+              "name": "Ian John Amos",
+              "party": "Conservative",
+              "votes": 771,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Penny Martin",
+              "party": "Labour",
+              "votes": 469,
+              "pct": 0.3728,
+              "elected": false
+            },
+            {
+              "name": "Wayne Martin",
+              "party": "Labour",
+              "votes": 429,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 18,
+          "majority_pct": 0.0143
+        },
+        {
+          "date": "2022-06-30",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1342,
+          "turnout": 0.3601,
+          "electorate": 3727,
+          "candidates": [
+            {
+              "name": "Richard Anthony Rendell",
+              "party": "Conservative",
+              "votes": 721,
+              "pct": 0.5373,
+              "elected": true
+            },
+            {
+              "name": "Wayne Martin",
+              "party": "Labour",
+              "votes": 621,
+              "pct": 0.4627,
+              "elected": false
+            }
+          ],
+          "majority": 100,
+          "majority_pct": 0.0745
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1458,
+          "turnout": 0.3937,
+          "electorate": 3703,
+          "candidates": [
+            {
+              "name": "Ian John Amos",
+              "party": "Conservative",
+              "votes": 705,
+              "pct": 0.4835,
+              "elected": true
+            },
+            {
+              "name": "Richard Anthony Rendell",
+              "party": "Conservative",
+              "votes": 699,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Carol Anne Audley",
+              "party": "Labour",
+              "votes": 567,
+              "pct": 0.3889,
+              "elected": false
+            },
+            {
+              "name": "Margaret Rose Anderton",
+              "party": "Labour",
+              "votes": 500,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Craig Hinchcliffe",
+              "party": "Liberal Democrats",
+              "votes": 109,
+              "pct": 0.0748,
+              "elected": false
+            },
+            {
+              "name": "Cate McNeal",
+              "party": "Alliance for Democracy and Freedom",
+              "votes": 77,
+              "pct": 0.0528,
+              "elected": false
+            }
+          ],
+          "majority": 6,
+          "majority_pct": 0.0041
+        }
+      ]
+    },
+    "Garstang": {
+      "gss_code": "E05009938",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Alice Collinson",
+          "party": "Conservative"
+        },
+        {
+          "name": "Lady Dulcie Atkins",
+          "party": "Conservative"
+        },
+        {
+          "name": "Sir Robert Atkins",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 5457,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2039,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Dulcie Atkins",
+              "party": "Conservative",
+              "votes": 1330,
+              "pct": 0.6523,
+              "elected": true
+            },
+            {
+              "name": "Alice Collinson",
+              "party": "Conservative",
+              "votes": 1200,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Tom Balmain",
+              "party": "Conservative",
+              "votes": 1055,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Paul Harrison",
+              "party": "Liberal Democrats",
+              "votes": 709,
+              "pct": 0.3477,
+              "elected": false
+            },
+            {
+              "name": "Francis Purkis",
+              "party": "Liberal Democrats",
+              "votes": 591,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 130,
+          "majority_pct": 0.0638
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1904,
+          "turnout": 0.473,
+          "electorate": 4025,
+          "candidates": [
+            {
+              "name": "Dulcie Atkins",
+              "party": "Conservative",
+              "votes": 1272,
+              "pct": 0.6681,
+              "elected": true
+            },
+            {
+              "name": "Alice Collinson",
+              "party": "Conservative",
+              "votes": 1223,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Thomas Balmain",
+              "party": "Conservative",
+              "votes": 1073,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Marilyn Levey",
+              "party": "Labour",
+              "votes": 632,
+              "pct": 0.3319,
+              "elected": false
+            }
+          ],
+          "majority": 49,
+          "majority_pct": 0.0257
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 4025,
+          "turnout": 0.7547,
+          "electorate": 5333,
+          "candidates": [
+            {
+              "name": "Dulcie Atkins",
+              "party": "Conservative",
+              "votes": 1876,
+              "pct": 0.4661,
+              "elected": true
+            },
+            {
+              "name": "Alice Collinson",
+              "party": "Conservative",
+              "votes": 1674,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Tom Balmain",
+              "party": "Conservative",
+              "votes": 1545,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Sandra Perkins",
+              "party": "Independent",
+              "votes": 1411,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Alan Cornthwaite",
+              "party": "Independent",
+              "votes": 923,
+              "pct": 0.2293,
+              "elected": false
+            },
+            {
+              "name": "Peter Ryder",
+              "party": "Independent",
+              "votes": 848,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Paul Treece-Birch",
+              "party": "Labour",
+              "votes": 697,
+              "pct": 0.1732,
+              "elected": false
+            },
+            {
+              "name": "Joe Gilmour",
+              "party": "Green Party",
+              "votes": 529,
+              "pct": 0.1314,
+              "elected": false
+            }
+          ],
+          "majority": 202,
+          "majority_pct": 0.0502
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2440,
+          "turnout": 0.429,
+          "electorate": 5688,
+          "candidates": [
+            {
+              "name": "Dulcie Mary Atkins",
+              "party": "Conservative",
+              "votes": 1224,
+              "pct": 0.5016,
+              "elected": true
+            },
+            {
+              "name": "Alice Collinson",
+              "party": "Conservative",
+              "votes": 1194,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Robert James Atkins",
+              "party": "Conservative",
+              "votes": 1014,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Nicholas Adrian Danby",
+              "party": "Green Party",
+              "votes": 702,
+              "pct": 0.2877,
+              "elected": false
+            },
+            {
+              "name": "Margaret Rose Anderton",
+              "party": "Labour",
+              "votes": 514,
+              "pct": 0.2107,
+              "elected": false
+            },
+            {
+              "name": "Kevin Morrison",
+              "party": "Labour",
+              "votes": 454,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 30,
+          "majority_pct": 0.0123
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2412,
+          "turnout": 0.442,
+          "electorate": 5457,
+          "candidates": [
+            {
+              "name": "Dulcie Mary Atkins",
+              "party": "Conservative",
+              "votes": 1065,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Alice Collinson",
+              "party": "Conservative",
+              "votes": 1050,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Robert James Atkins",
+              "party": "Conservative",
+              "votes": 923,
+              "pct": 0.3827,
+              "elected": true
+            },
+            {
+              "name": "David William Gale",
+              "party": "Labour",
+              "votes": 787,
+              "pct": 0.3263,
+              "elected": false
+            },
+            {
+              "name": "John Stephen Moore",
+              "party": "Labour",
+              "votes": 732,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Luke John Meeks",
+              "party": "Green Party",
+              "votes": 702,
+              "pct": 0.291,
+              "elected": false
+            }
+          ],
+          "majority": 15,
+          "majority_pct": 0.0062
+        }
+      ]
+    },
+    "Great Eccleston": {
+      "gss_code": "E05009939",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Peter Cartridge",
+          "party": "Conservative"
+        },
+        {
+          "name": "Sue Catterall",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3495,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 0,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Alfred Coop",
+              "party": "Conservative",
+              "votes": 0,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Susan Pimbley",
+              "party": "Conservative",
+              "votes": 0,
+              "pct": null,
+              "elected": true
+            }
+          ],
+          "majority": 0,
+          "majority_pct": null
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1092,
+          "turnout": 0.3755,
+          "electorate": 2908,
+          "candidates": [
+            {
+              "name": "Susan Catterall",
+              "party": "Conservative",
+              "votes": 1089,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Susan Pimbley",
+              "party": "Conservative",
+              "votes": 824,
+              "pct": 0.7546,
+              "elected": true
+            },
+            {
+              "name": "Alfred Davies",
+              "party": "Labour",
+              "votes": 268,
+              "pct": 0.2454,
+              "elected": false
+            }
+          ],
+          "majority": 265,
+          "majority_pct": 0.2427
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2750,
+          "turnout": 0.9034,
+          "electorate": 3044,
+          "candidates": [
+            {
+              "name": "Susan Catterall",
+              "party": "Conservative",
+              "votes": 1605,
+              "pct": 0.5836,
+              "elected": true
+            },
+            {
+              "name": "Susan Pimbley",
+              "party": "Conservative",
+              "votes": 1190,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Dianne Hogarth",
+              "party": "Green Party",
+              "votes": 714,
+              "pct": 0.2596,
+              "elected": false
+            },
+            {
+              "name": "George Cardno",
+              "party": "Labour",
+              "votes": 431,
+              "pct": 0.1567,
+              "elected": false
+            }
+          ],
+          "majority": 415,
+          "majority_pct": 0.1509
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1353,
+          "turnout": 0.4099,
+          "electorate": 3301,
+          "candidates": [
+            {
+              "name": "Susan Margaret Catterall",
+              "party": "Conservative",
+              "votes": 736,
+              "pct": 0.544,
+              "elected": true
+            },
+            {
+              "name": "Peter Gordon Cartridge",
+              "party": "Conservative",
+              "votes": 598,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Dianne Jane Hogarth",
+              "party": "Green Party",
+              "votes": 403,
+              "pct": 0.2979,
+              "elected": false
+            },
+            {
+              "name": "Niall Campbell",
+              "party": "Labour",
+              "votes": 214,
+              "pct": 0.1582,
+              "elected": false
+            }
+          ],
+          "majority": 138,
+          "majority_pct": 0.102
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1491,
+          "turnout": 0.4266,
+          "electorate": 3495,
+          "candidates": [
+            {
+              "name": "Susan Margaret Catterall",
+              "party": "Conservative",
+              "votes": 758,
+              "pct": 0.5084,
+              "elected": true
+            },
+            {
+              "name": "Peter Gordon Cartridge",
+              "party": "Conservative",
+              "votes": 711,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Dianne Jane Hogarth",
+              "party": "Green Party",
+              "votes": 372,
+              "pct": 0.2495,
+              "elected": false
+            },
+            {
+              "name": "Patrick Alexander Haley",
+              "party": "Labour",
+              "votes": 361,
+              "pct": 0.2421,
+              "elected": false
+            }
+          ],
+          "majority": 47,
+          "majority_pct": 0.0315
+        }
+      ]
+    },
+    "Hambleton and Stalmine": {
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Julie Robinson",
+          "party": "Conservative"
+        },
+        {
+          "name": "Lynne Bowen",
+          "party": "Conservative"
+        }
+      ],
+      "history": [],
+      "gss_code": null
+    },
+    "Hardhorn with Highcross": {
+      "gss_code": "E05005393",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Roger Berry",
+          "party": "Conservative"
+        },
+        {
+          "name": "Simon Bridge",
+          "party": "Conservative"
+        },
+        {
+          "name": "Steve Nicholls",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 2936,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1253,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Graeme Cocker",
+              "party": "Conservative",
+              "votes": 1000,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Frank Turner",
+              "party": "Conservative",
+              "votes": 954,
+              "pct": 0.7614,
+              "elected": true
+            },
+            {
+              "name": "Chris Frost",
+              "party": "Labour",
+              "votes": 299,
+              "pct": 0.2386,
+              "elected": false
+            },
+            {
+              "name": "Richard Barnes",
+              "party": "Labour",
+              "votes": 286,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 46,
+          "majority_pct": 0.0367
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1436,
+          "turnout": 0.4891,
+          "electorate": 2936,
+          "candidates": [
+            {
+              "name": "Simon Bridge",
+              "party": "Conservative",
+              "votes": 1049,
+              "pct": 0.7305,
+              "elected": true
+            },
+            {
+              "name": "Geoffrey Cocker",
+              "party": "Conservative",
+              "votes": 1003,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Richard Anyon",
+              "party": "Labour",
+              "votes": 387,
+              "pct": 0.2695,
+              "elected": false
+            }
+          ],
+          "majority": 46,
+          "majority_pct": 0.032
+        }
+      ]
+    },
+    "Jubilee": {
+      "gss_code": "E05009942",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Rob Fail",
+          "party": "Labour"
+        },
+        {
+          "name": "Wayne Martin",
+          "party": "Independent"
+        }
+      ],
+      "electorate": 3622,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1468,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Alan Heppenstall",
+              "party": "Conservative",
+              "votes": 501,
+              "pct": 0.3413,
+              "elected": true
+            },
+            {
+              "name": "John Hodgkinson",
+              "party": "Conservative",
+              "votes": 482,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Roy Hopwood",
+              "party": "UKIP",
+              "votes": 465,
+              "pct": 0.3168,
+              "elected": false
+            },
+            {
+              "name": "Vicki Hopwood",
+              "party": "UKIP",
+              "votes": 408,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Kate Condron",
+              "party": "Labour",
+              "votes": 368,
+              "pct": 0.2507,
+              "elected": false
+            },
+            {
+              "name": "Alan Morgan",
+              "party": "Labour",
+              "votes": 290,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Philip Pitman",
+              "party": "Liberal Democrats",
+              "votes": 134,
+              "pct": 0.0913,
+              "elected": false
+            },
+            {
+              "name": "William McClymont",
+              "party": "Liberal Democrats",
+              "votes": 107,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 19,
+          "majority_pct": 0.0129
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1472,
+          "turnout": 0.456,
+          "electorate": 3228,
+          "candidates": [
+            {
+              "name": "John Hodgkinson",
+              "party": "Conservative",
+              "votes": 602,
+              "pct": 0.409,
+              "elected": true
+            },
+            {
+              "name": "David Walmsley",
+              "party": "Conservative",
+              "votes": 563,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "William Glasgow",
+              "party": "Labour",
+              "votes": 486,
+              "pct": 0.3302,
+              "elected": false
+            },
+            {
+              "name": "Alan Morgan",
+              "party": "Labour",
+              "votes": 462,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Roy Hopwood",
+              "party": "UKIP",
+              "votes": 384,
+              "pct": 0.2609,
+              "elected": false
+            },
+            {
+              "name": "Alan Southern",
+              "party": "UKIP",
+              "votes": 252,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 39,
+          "majority_pct": 0.0265
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2372,
+          "turnout": 0.6421,
+          "electorate": 3694,
+          "candidates": [
+            {
+              "name": "Rob Fail",
+              "party": "Labour",
+              "votes": 852,
+              "pct": 0.3592,
+              "elected": true
+            },
+            {
+              "name": "John Hodgkinson",
+              "party": "Conservative",
+              "votes": 840,
+              "pct": 0.3541,
+              "elected": true
+            },
+            {
+              "name": "Billy Glasgow",
+              "party": "Labour",
+              "votes": 781,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "David Walmsley",
+              "party": "Conservative",
+              "votes": 781,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Jonathan Bergin",
+              "party": "UKIP",
+              "votes": 680,
+              "pct": 0.2867,
+              "elected": false
+            },
+            {
+              "name": "Roy Hopwood",
+              "party": "UKIP",
+              "votes": 595,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 12,
+          "majority_pct": 0.0051
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1311,
+          "turnout": 0.3315,
+          "electorate": 3955,
+          "candidates": [
+            {
+              "name": "David John Walmsley",
+              "party": "Conservative",
+              "votes": 664,
+              "pct": 0.5065,
+              "elected": true
+            },
+            {
+              "name": "Rob Fail",
+              "party": "Labour",
+              "votes": 647,
+              "pct": 0.4935,
+              "elected": true
+            },
+            {
+              "name": "Barry Simmonds",
+              "party": "Conservative",
+              "votes": 583,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Steve Parr-Burman",
+              "party": "Labour",
+              "votes": 553,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 17,
+          "majority_pct": 0.013
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1135,
+          "turnout": 0.3134,
+          "electorate": 3622,
+          "candidates": [
+            {
+              "name": "Rob Fail",
+              "party": "Labour",
+              "votes": 598,
+              "pct": 0.5269,
+              "elected": true
+            },
+            {
+              "name": "Wayne Martin",
+              "party": "Labour",
+              "votes": 544,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Scott Faulkner",
+              "party": "Conservative",
+              "votes": 537,
+              "pct": 0.4731,
+              "elected": false
+            },
+            {
+              "name": "Scott David Andrew Porter",
+              "party": "Conservative",
+              "votes": 486,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 54,
+          "majority_pct": 0.0476
+        }
+      ]
+    },
+    "Marsh Mill": {
+      "gss_code": "E05009943",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "David Higgs",
+          "party": "Reform UK"
+        },
+        {
+          "name": "James Crawford",
+          "party": "Reform UK"
+        },
+        {
+          "name": "Paul Ellison",
+          "party": "Reform UK"
+        }
+      ],
+      "electorate": 4818,
+      "history": [
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 3704,
+          "turnout": 0.9451,
+          "electorate": 3919,
+          "candidates": [
+            {
+              "name": "Lynn Walmsley",
+              "party": "Conservative",
+              "votes": 1484,
+              "pct": 0.4006,
+              "elected": true
+            },
+            {
+              "name": "Tom Ingham",
+              "party": "Conservative",
+              "votes": 1474,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Ann Turner",
+              "party": "Conservative",
+              "votes": 1340,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Sean Hazlewood",
+              "party": "Labour",
+              "votes": 1000,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Ellen Miller",
+              "party": "Labour",
+              "votes": 968,
+              "pct": 0.2613,
+              "elected": false
+            },
+            {
+              "name": "Peter Smith",
+              "party": "Labour",
+              "votes": 902,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Andrew Pettigrew",
+              "party": "UKIP",
+              "votes": 839,
+              "pct": 0.2265,
+              "elected": false
+            },
+            {
+              "name": "Christopher Warren",
+              "party": "Green Party",
+              "votes": 413,
+              "pct": 0.1115,
+              "elected": false
+            }
+          ],
+          "majority": 10,
+          "majority_pct": 0.0027
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1702,
+          "turnout": 0.3338,
+          "electorate": 5099,
+          "candidates": [
+            {
+              "name": "Paul Robert Ellison",
+              "party": "Conservative",
+              "votes": 957,
+              "pct": 0.5623,
+              "elected": true
+            },
+            {
+              "name": "Lynn Walmsley",
+              "party": "Conservative",
+              "votes": 934,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Ann Margaret Turner",
+              "party": "Conservative",
+              "votes": 845,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Carole Ann Stephenson",
+              "party": "Labour",
+              "votes": 512,
+              "pct": 0.3008,
+              "elected": false
+            },
+            {
+              "name": "Peter Geoffrey Smith",
+              "party": "Labour",
+              "votes": 497,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Brian Michael Stephenson",
+              "party": "Labour",
+              "votes": 487,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Teresa Mary Wilson",
+              "party": "Liberal Democrats",
+              "votes": 233,
+              "pct": 0.1369,
+              "elected": false
+            }
+          ],
+          "majority": 23,
+          "majority_pct": 0.0135
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1561,
+          "turnout": 0.324,
+          "electorate": 4818,
+          "candidates": [
+            {
+              "name": "David James Higgs",
+              "party": "Conservative",
+              "votes": 902,
+              "pct": 0.5778,
+              "elected": true
+            },
+            {
+              "name": "Paul Robert Ellison",
+              "party": "Conservative",
+              "votes": 900,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Henry Jackson",
+              "party": "Conservative",
+              "votes": 805,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Peter Geoffrey Smith",
+              "party": "Labour",
+              "votes": 659,
+              "pct": 0.4222,
+              "elected": false
+            },
+            {
+              "name": "William Jackson",
+              "party": "Labour",
+              "votes": 616,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Jason Matthew Taylor",
+              "party": "Labour",
+              "votes": 594,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 2,
+          "majority_pct": 0.0013
+        }
+      ]
+    },
+    "Mount": {
+      "gss_code": "E05009944",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Carole Stephenson",
+          "party": "Labour"
+        },
+        {
+          "name": "Mary Belshaw",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 3830,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1029,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Ian Duffy",
+              "party": "Labour",
+              "votes": 581,
+              "pct": 0.5646,
+              "elected": true
+            },
+            {
+              "name": "Ruth Duffy",
+              "party": "Labour",
+              "votes": 561,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Margaret Bond",
+              "party": "Conservative",
+              "votes": 448,
+              "pct": 0.4354,
+              "elected": false
+            },
+            {
+              "name": "Jim Laird",
+              "party": "Conservative",
+              "votes": 436,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 20,
+          "majority_pct": 0.0194
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1111,
+          "turnout": 0.3721,
+          "electorate": 2986,
+          "candidates": [
+            {
+              "name": "Ruth Duffy",
+              "party": "Labour",
+              "votes": 617,
+              "pct": 0.5554,
+              "elected": true
+            },
+            {
+              "name": "Ian Duffy",
+              "party": "Labour",
+              "votes": 603,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "David Jones",
+              "party": "Conservative",
+              "votes": 317,
+              "pct": 0.2853,
+              "elected": false
+            },
+            {
+              "name": "Kerry Jones",
+              "party": "Conservative",
+              "votes": 259,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Robert Jones",
+              "party": "Independent",
+              "votes": 177,
+              "pct": 0.1593,
+              "elected": false
+            }
+          ],
+          "majority": 14,
+          "majority_pct": 0.0126
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1561,
+          "turnout": 0.4422,
+          "electorate": 3530,
+          "candidates": [
+            {
+              "name": "Ian Duffy",
+              "party": "Labour",
+              "votes": 688,
+              "pct": 0.4407,
+              "elected": true
+            },
+            {
+              "name": "Ruth Duffy",
+              "party": "Labour",
+              "votes": 671,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "David Shaw",
+              "party": "Conservative",
+              "votes": 522,
+              "pct": 0.3344,
+              "elected": false
+            },
+            {
+              "name": "Harry Henderson",
+              "party": "UKIP",
+              "votes": 351,
+              "pct": 0.2249,
+              "elected": false
+            },
+            {
+              "name": "Billy Whiteside",
+              "party": "Conservative",
+              "votes": 297,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 17,
+          "majority_pct": 0.0109
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 906,
+          "turnout": 0.2239,
+          "electorate": 4047,
+          "candidates": [
+            {
+              "name": "Paul Longton",
+              "party": "Labour",
+              "votes": 478,
+              "pct": 0.5276,
+              "elected": true
+            },
+            {
+              "name": "Mary Stirzaker",
+              "party": "Labour",
+              "votes": 466,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Lewie Charles Deery",
+              "party": "Conservative",
+              "votes": 428,
+              "pct": 0.4724,
+              "elected": false
+            },
+            {
+              "name": "David Charles Shaw",
+              "party": "Conservative",
+              "votes": 368,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 12,
+          "majority_pct": 0.0132
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 828,
+          "turnout": 0.2162,
+          "electorate": 3830,
+          "candidates": [
+            {
+              "name": "Carole Ann Stephenson",
+              "party": "Labour",
+              "votes": 555,
+              "pct": 0.6703,
+              "elected": true
+            },
+            {
+              "name": "Mary Stirzaker",
+              "party": "Labour",
+              "votes": 488,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Sadie Smith",
+              "party": "Conservative",
+              "votes": 273,
+              "pct": 0.3297,
+              "elected": false
+            },
+            {
+              "name": "Tim Maxwell Ashton",
+              "party": "Conservative",
+              "votes": 263,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 67,
+          "majority_pct": 0.0809
+        }
+      ]
+    },
+    "Park": {
+      "gss_code": "E05009945",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Alice Jones",
+          "party": "Reform UK"
+        },
+        {
+          "name": "Christine Smith",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 3353,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1083,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Margaret Birkett",
+              "party": "Conservative",
+              "votes": 569,
+              "pct": 0.5254,
+              "elected": true
+            },
+            {
+              "name": "Julie Grunshaw",
+              "party": "Labour",
+              "votes": 514,
+              "pct": 0.4746,
+              "elected": true
+            },
+            {
+              "name": "Lizzy Houton",
+              "party": "Conservative",
+              "votes": 495,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Jim Price",
+              "party": "Labour",
+              "votes": 460,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 55,
+          "majority_pct": 0.0508
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1197,
+          "turnout": 0.3774,
+          "electorate": 3172,
+          "candidates": [
+            {
+              "name": "Julie Grunshaw",
+              "party": "Labour",
+              "votes": 694,
+              "pct": 0.5798,
+              "elected": true
+            },
+            {
+              "name": "Christine Smith",
+              "party": "Labour",
+              "votes": 674,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Margaret Bond",
+              "party": "Conservative",
+              "votes": 503,
+              "pct": 0.4202,
+              "elected": false
+            },
+            {
+              "name": "James McConnachie",
+              "party": "Conservative",
+              "votes": 420,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 20,
+          "majority_pct": 0.0167
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1746,
+          "turnout": 0.5389,
+          "electorate": 3240,
+          "candidates": [
+            {
+              "name": "Christine Smith",
+              "party": "Labour",
+              "votes": 1017,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Brian Stephenson",
+              "party": "Labour",
+              "votes": 899,
+              "pct": 0.5149,
+              "elected": true
+            },
+            {
+              "name": "Margie Birkett",
+              "party": "Conservative",
+              "votes": 694,
+              "pct": 0.3975,
+              "elected": false
+            },
+            {
+              "name": "Catherine Sperrin",
+              "party": "Conservative",
+              "votes": 639,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Kevin Pilkington",
+              "party": "TUSC",
+              "votes": 153,
+              "pct": 0.0876,
+              "elected": false
+            }
+          ],
+          "majority": 118,
+          "majority_pct": 0.0676
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1128,
+          "turnout": 0.3128,
+          "electorate": 3606,
+          "candidates": [
+            {
+              "name": "David O'Neill",
+              "party": "UKIP",
+              "votes": 379,
+              "pct": 0.336,
+              "elected": true
+            },
+            {
+              "name": "Christine Smith",
+              "party": "Labour",
+              "votes": 365,
+              "pct": 0.3236,
+              "elected": true
+            },
+            {
+              "name": "Ron Shewan",
+              "party": "Labour",
+              "votes": 359,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Sadie Smith",
+              "party": "Conservative",
+              "votes": 211,
+              "pct": 0.1871,
+              "elected": false
+            },
+            {
+              "name": "Susan Ann Hunt",
+              "party": "Conservative",
+              "votes": 179,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John Warnock",
+              "party": "Green Party",
+              "votes": 173,
+              "pct": 0.1534,
+              "elected": false
+            }
+          ],
+          "majority": 14,
+          "majority_pct": 0.0124
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 779,
+          "turnout": 0.2323,
+          "electorate": 3353,
+          "candidates": [
+            {
+              "name": "Lorraine Beavers",
+              "party": "Labour",
+              "votes": 504,
+              "pct": 0.647,
+              "elected": true
+            },
+            {
+              "name": "Christine Smith",
+              "party": "Labour",
+              "votes": 451,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Geraldine Ann Northwood",
+              "party": "Conservative",
+              "votes": 275,
+              "pct": 0.353,
+              "elected": false
+            },
+            {
+              "name": "Susan Ann Hunt",
+              "party": "Conservative",
+              "votes": 188,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 53,
+          "majority_pct": 0.068
+        }
+      ]
+    },
+    "Pharos": {
+      "gss_code": "E05009946",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Michelle Moliner",
+          "party": "Labour"
+        },
+        {
+          "name": "Ruth Duffy",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 3387,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1487,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Lorraine Beavers",
+              "party": "Labour",
+              "votes": 771,
+              "pct": 0.5185,
+              "elected": true
+            },
+            {
+              "name": "Clive Grunshaw",
+              "party": "Labour",
+              "votes": 722,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Ronald Shewan",
+              "party": "Labour",
+              "votes": 708,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Margaret Brock",
+              "party": "Conservative",
+              "votes": 496,
+              "pct": 0.3336,
+              "elected": false
+            },
+            {
+              "name": "Stan Leadbetter",
+              "party": "Conservative",
+              "votes": 481,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Billy Whiteside",
+              "party": "Conservative",
+              "votes": 370,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Kenneth Palmerton",
+              "party": "Liberal Democrats",
+              "votes": 220,
+              "pct": 0.1479,
+              "elected": false
+            }
+          ],
+          "majority": 49,
+          "majority_pct": 0.033
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1285,
+          "turnout": 0.3264,
+          "electorate": 3937,
+          "candidates": [
+            {
+              "name": "Clive Grunshaw",
+              "party": "Labour",
+              "votes": 919,
+              "pct": 0.7152,
+              "elected": true
+            },
+            {
+              "name": "Lorraine Beavers",
+              "party": "Labour",
+              "votes": 893,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Ronald Shewan",
+              "party": "Labour",
+              "votes": 825,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "David Shaw",
+              "party": "Conservative",
+              "votes": 366,
+              "pct": 0.2848,
+              "elected": false
+            },
+            {
+              "name": "Ian Nicholson",
+              "party": "Conservative",
+              "votes": 343,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Alexander Tomlinson",
+              "party": "Conservative",
+              "votes": 269,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 26,
+          "majority_pct": 0.0202
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2094,
+          "turnout": 0.6735,
+          "electorate": 3109,
+          "candidates": [
+            {
+              "name": "Ron Shewan",
+              "party": "Labour",
+              "votes": 989,
+              "pct": 0.4723,
+              "elected": true
+            },
+            {
+              "name": "Evelyn Stephenson",
+              "party": "Labour",
+              "votes": 906,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Frank Radcliffe",
+              "party": "UKIP",
+              "votes": 513,
+              "pct": 0.245,
+              "elected": false
+            },
+            {
+              "name": "Frances Thewlis",
+              "party": "Conservative",
+              "votes": 475,
+              "pct": 0.2268,
+              "elected": false
+            },
+            {
+              "name": "Alex Tomlinson",
+              "party": "Conservative",
+              "votes": 424,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Simon Roberts",
+              "party": "TUSC",
+              "votes": 117,
+              "pct": 0.0559,
+              "elected": false
+            }
+          ],
+          "majority": 83,
+          "majority_pct": 0.0396
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1147,
+          "turnout": 0.3137,
+          "electorate": 3656,
+          "candidates": [
+            {
+              "name": "Rachel Carol George",
+              "party": "Labour",
+              "votes": 434,
+              "pct": 0.3784,
+              "elected": true
+            },
+            {
+              "name": "Colette Fairbanks",
+              "party": "UKIP",
+              "votes": 346,
+              "pct": 0.3017,
+              "elected": true
+            },
+            {
+              "name": "Evelyn Stephenson",
+              "party": "Labour",
+              "votes": 223,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "David Thomas Platt",
+              "party": "Conservative",
+              "votes": 199,
+              "pct": 0.1735,
+              "elected": false
+            },
+            {
+              "name": "Michael Pickton",
+              "party": "Green Party",
+              "votes": 168,
+              "pct": 0.1465,
+              "elected": false
+            },
+            {
+              "name": "Alexander Tomlinson",
+              "party": "Conservative",
+              "votes": 138,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 88,
+          "majority_pct": 0.0767
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 752,
+          "turnout": 0.222,
+          "electorate": 3387,
+          "candidates": [
+            {
+              "name": "Ruth Duffy",
+              "party": "Labour",
+              "votes": 444,
+              "pct": 0.5904,
+              "elected": true
+            },
+            {
+              "name": "Michelle Moliner",
+              "party": "Labour",
+              "votes": 376,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "David Charles Shaw",
+              "party": "Conservative",
+              "votes": 200,
+              "pct": 0.266,
+              "elected": false
+            },
+            {
+              "name": "Matthew William Vincent",
+              "party": "Conservative",
+              "votes": 173,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Michael Pickton",
+              "party": "Green Party",
+              "votes": 108,
+              "pct": 0.1436,
+              "elected": false
+            }
+          ],
+          "majority": 68,
+          "majority_pct": 0.0904
+        }
+      ]
+    },
+    "Pheasants Wood": {
+      "gss_code": "E05009947",
+      "seats": 1,
+      "current_holders": [
+        {
+          "name": "Andrea Kay",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 1736,
+      "history": [
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1142,
+          "turnout": 0.7368,
+          "electorate": 1550,
+          "candidates": [
+            {
+              "name": "Andrea Kay",
+              "party": "Conservative",
+              "votes": 657,
+              "pct": 0.5753,
+              "elected": true
+            },
+            {
+              "name": "Penny Martin",
+              "party": "Labour",
+              "votes": 293,
+              "pct": 0.2566,
+              "elected": false
+            },
+            {
+              "name": "Melanie Hamilton",
+              "party": "UKIP",
+              "votes": 192,
+              "pct": 0.1681,
+              "elected": false
+            }
+          ],
+          "majority": 364,
+          "majority_pct": 0.3187
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 654,
+          "turnout": 0.3778,
+          "electorate": 1731,
+          "candidates": [
+            {
+              "name": "Andrea Dawn Kay",
+              "party": "Conservative",
+              "votes": 489,
+              "pct": 0.7477,
+              "elected": true
+            },
+            {
+              "name": "Sara Hughes Wilson",
+              "party": "Labour",
+              "votes": 165,
+              "pct": 0.2523,
+              "elected": false
+            }
+          ],
+          "majority": 324,
+          "majority_pct": 0.4954
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 655,
+          "turnout": 0.3773,
+          "electorate": 1736,
+          "candidates": [
+            {
+              "name": "Andrea Dawn Kay",
+              "party": "Conservative",
+              "votes": 437,
+              "pct": 0.6672,
+              "elected": true
+            },
+            {
+              "name": "Joy Stephenson",
+              "party": "Labour",
+              "votes": 218,
+              "pct": 0.3328,
+              "elected": false
+            }
+          ],
+          "majority": 219,
+          "majority_pct": 0.3344
+        }
+      ]
+    },
+    "Pilling": {
+      "gss_code": "E05009948",
+      "seats": 1,
+      "current_holders": [
+        {
+          "name": "Adam Leigh",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 2077,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 738,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Donald Lawrenson",
+              "party": "Conservative",
+              "votes": 430,
+              "pct": 0.5827,
+              "elected": true
+            },
+            {
+              "name": "Neil Thompson",
+              "party": "Liberal Democrats",
+              "votes": 308,
+              "pct": 0.4173,
+              "elected": false
+            }
+          ],
+          "majority": 122,
+          "majority_pct": 0.1653
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 825,
+          "turnout": 0.4669,
+          "electorate": 1767,
+          "candidates": [
+            {
+              "name": "Donald Lawrenson",
+              "party": "Conservative",
+              "votes": 523,
+              "pct": 0.6339,
+              "elected": true
+            },
+            {
+              "name": "Susan White",
+              "party": "Green Party",
+              "votes": 173,
+              "pct": 0.2097,
+              "elected": false
+            },
+            {
+              "name": "Darrell Jackson",
+              "party": "Labour",
+              "votes": 129,
+              "pct": 0.1564,
+              "elected": false
+            }
+          ],
+          "majority": 350,
+          "majority_pct": 0.4242
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1350,
+          "turnout": 0.7601,
+          "electorate": 1776,
+          "candidates": [
+            {
+              "name": "Graham Holden",
+              "party": "Conservative",
+              "votes": 1045,
+              "pct": 0.7741,
+              "elected": true
+            },
+            {
+              "name": "Rachel Beavers",
+              "party": "Labour",
+              "votes": 305,
+              "pct": 0.2259,
+              "elected": false
+            }
+          ],
+          "majority": 740,
+          "majority_pct": 0.5481
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 659,
+          "turnout": 0.3187,
+          "electorate": 2068,
+          "candidates": [
+            {
+              "name": "Graham Wilfred Holden",
+              "party": "Conservative",
+              "votes": 407,
+              "pct": 0.6176,
+              "elected": true
+            },
+            {
+              "name": "Sue White",
+              "party": "Green Party",
+              "votes": 152,
+              "pct": 0.2307,
+              "elected": false
+            },
+            {
+              "name": "Peter Grant",
+              "party": "Labour",
+              "votes": 100,
+              "pct": 0.1517,
+              "elected": false
+            }
+          ],
+          "majority": 255,
+          "majority_pct": 0.3869
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 742,
+          "turnout": 0.3572,
+          "electorate": 2077,
+          "candidates": [
+            {
+              "name": "Adam Michael Leigh",
+              "party": "Conservative",
+              "votes": 318,
+              "pct": 0.4286,
+              "elected": true
+            },
+            {
+              "name": "Bob Rushforth",
+              "party": "Independent",
+              "votes": 277,
+              "pct": 0.3733,
+              "elected": false
+            },
+            {
+              "name": "Rachel Jane Beavers",
+              "party": "Labour",
+              "votes": 147,
+              "pct": 0.1981,
+              "elected": false
+            }
+          ],
+          "majority": 41,
+          "majority_pct": 0.0553
+        }
+      ]
+    },
+    "Preesall": {
+      "gss_code": "E05009949",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Ashley Sorensen",
+          "party": "Independent"
+        },
+        {
+          "name": "Claire Rimmer",
+          "party": "Wyre Independent Group"
+        },
+        {
+          "name": "Collette Rushforth",
+          "party": "Wyre Independent Group"
+        }
+      ],
+      "electorate": 4493,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1914,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Paul Moon",
+              "party": "Conservative",
+              "votes": 1418,
+              "pct": 0.7409,
+              "elected": true
+            },
+            {
+              "name": "Vivien Taylor",
+              "party": "Conservative",
+              "votes": 1386,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Gordon McCann",
+              "party": "Conservative",
+              "votes": 1380,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Darrell Jackson",
+              "party": "Labour",
+              "votes": 496,
+              "pct": 0.2591,
+              "elected": false
+            },
+            {
+              "name": "Nic Fogg",
+              "party": "Labour",
+              "votes": 428,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 32,
+          "majority_pct": 0.0167
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2485,
+          "turnout": 0.5314,
+          "electorate": 4676,
+          "candidates": [
+            {
+              "name": "Ian McCann",
+              "party": "Conservative",
+              "votes": 1299,
+              "pct": 0.5227,
+              "elected": true
+            },
+            {
+              "name": "Vivien Taylor",
+              "party": "Conservative",
+              "votes": 1226,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Paul Moon",
+              "party": "Conservative",
+              "votes": 1220,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Nicholas Fogg",
+              "party": "Labour",
+              "votes": 656,
+              "pct": 0.264,
+              "elected": false
+            },
+            {
+              "name": "Christopher Lamb",
+              "party": "UKIP",
+              "votes": 530,
+              "pct": 0.2133,
+              "elected": false
+            }
+          ],
+          "majority": 73,
+          "majority_pct": 0.0294
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2888,
+          "turnout": 0.6246,
+          "electorate": 4624,
+          "candidates": [
+            {
+              "name": "Paul Moon",
+              "party": "Conservative",
+              "votes": 2008,
+              "pct": 0.6953,
+              "elected": true
+            },
+            {
+              "name": "Vivien Taylor",
+              "party": "Conservative",
+              "votes": 1944,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Phil Orme",
+              "party": "Conservative",
+              "votes": 1818,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Nic Fogg",
+              "party": "Labour",
+              "votes": 1082,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Mary Stirzaker",
+              "party": "Labour",
+              "votes": 880,
+              "pct": 0.3047,
+              "elected": false
+            },
+            {
+              "name": "Norah Stuchfield",
+              "party": "Labour",
+              "votes": 819,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 64,
+          "majority_pct": 0.0222
+        },
+        {
+          "date": "2018-01-11",
+          "year": 2018,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1683,
+          "turnout": 0.3535,
+          "electorate": 4761,
+          "candidates": [
+            {
+              "name": "Peter Gordon Cartridge",
+              "party": "Conservative",
+              "votes": 930,
+              "pct": 0.5526,
+              "elected": true
+            },
+            {
+              "name": "Nic Fogg",
+              "party": "Labour",
+              "votes": 753,
+              "pct": 0.4474,
+              "elected": false
+            }
+          ],
+          "majority": 177,
+          "majority_pct": 0.1052
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1531,
+          "turnout": 0.3173,
+          "electorate": 4825,
+          "candidates": [
+            {
+              "name": "Andrew Cropper",
+              "party": "Conservative",
+              "votes": 960,
+              "pct": 0.627,
+              "elected": true
+            },
+            {
+              "name": "Phil Orme",
+              "party": "Conservative",
+              "votes": 957,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Paul Moon",
+              "party": "Conservative",
+              "votes": 905,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Nic Fogg",
+              "party": "Labour",
+              "votes": 571,
+              "pct": 0.373,
+              "elected": false
+            },
+            {
+              "name": "Patricia Johnson",
+              "party": "Labour",
+              "votes": 554,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Anthony Johnson",
+              "party": "Labour",
+              "votes": 551,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 3,
+          "majority_pct": 0.002
+        },
+        {
+          "date": "2022-08-18",
+          "year": 2022,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1507,
+          "turnout": 0.3391,
+          "electorate": 4444,
+          "candidates": [
+            {
+              "name": "Collette Rushforth",
+              "party": "Independent",
+              "votes": 595,
+              "pct": 0.3948,
+              "elected": true
+            },
+            {
+              "name": "Steven Cleve Taylor-Royston",
+              "party": "Conservative",
+              "votes": 495,
+              "pct": 0.3285,
+              "elected": false
+            },
+            {
+              "name": "William Jackson",
+              "party": "Labour",
+              "votes": 315,
+              "pct": 0.209,
+              "elected": false
+            },
+            {
+              "name": "Garry Paul Wright",
+              "party": "Independent",
+              "votes": 102,
+              "pct": 0.0677,
+              "elected": false
+            }
+          ],
+          "majority": 100,
+          "majority_pct": 0.0664
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1846,
+          "turnout": 0.4109,
+          "electorate": 4493,
+          "candidates": [
+            {
+              "name": "Claire Louise Rimmer",
+              "party": "Independent",
+              "votes": 1010,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Collette Rushforth",
+              "party": "Independent",
+              "votes": 938,
+              "pct": 0.5081,
+              "elected": true
+            },
+            {
+              "name": "Ashley Sorensen",
+              "party": "Independent",
+              "votes": 636,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Phil Orme",
+              "party": "Conservative",
+              "votes": 590,
+              "pct": 0.3196,
+              "elected": false
+            },
+            {
+              "name": "Steven Cleve Taylor-Royston",
+              "party": "Conservative",
+              "votes": 544,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Paul Moon",
+              "party": "Conservative",
+              "votes": 537,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Ron Shewan",
+              "party": "Labour",
+              "votes": 318,
+              "pct": 0.1723,
+              "elected": false
+            }
+          ],
+          "majority": 72,
+          "majority_pct": 0.039
+        }
+      ]
+    },
+    "Rossall": {
+      "gss_code": "E05009950",
+      "seats": 3,
+      "current_holders": [
+        {
+          "name": "Bernice Meekins",
+          "party": "Conservative"
+        },
+        {
+          "name": "Cheryl Raynor",
+          "party": "Labour"
+        },
+        {
+          "name": "Frances Thewlis",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 4284,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1852,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Keith Riley",
+              "party": "Labour",
+              "votes": 826,
+              "pct": 0.446,
+              "elected": true
+            },
+            {
+              "name": "Marlene Colby",
+              "party": "Labour",
+              "votes": 790,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Ted Taylor",
+              "party": "Labour",
+              "votes": 737,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Frances Thewlis",
+              "party": "Conservative",
+              "votes": 632,
+              "pct": 0.3413,
+              "elected": false
+            },
+            {
+              "name": "James Lawrence",
+              "party": "Conservative",
+              "votes": 631,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Jill Moon",
+              "party": "Conservative",
+              "votes": 539,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "David Gerrard",
+              "party": "UKIP",
+              "votes": 394,
+              "pct": 0.2127,
+              "elected": false
+            }
+          ],
+          "majority": 36,
+          "majority_pct": 0.0194
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2052,
+          "turnout": 0.431,
+          "electorate": 4761,
+          "candidates": [
+            {
+              "name": "Terence Rogers",
+              "party": "Labour",
+              "votes": 841,
+              "pct": 0.4098,
+              "elected": true
+            },
+            {
+              "name": "Edwin Taylor",
+              "party": "Labour",
+              "votes": 801,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Gertrude Hewitt",
+              "party": "Labour",
+              "votes": 758,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Marlene Colby",
+              "party": "Conservative",
+              "votes": 698,
+              "pct": 0.3402,
+              "elected": false
+            },
+            {
+              "name": "Michelle Riley",
+              "party": "Conservative",
+              "votes": 684,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Vincent Riley",
+              "party": "Conservative",
+              "votes": 655,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Gerard Gerrard",
+              "party": "UKIP",
+              "votes": 320,
+              "pct": 0.1559,
+              "elected": false
+            },
+            {
+              "name": "James Orange",
+              "party": "UKIP",
+              "votes": 233,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John Harrison",
+              "party": "Independent",
+              "votes": 193,
+              "pct": 0.0941,
+              "elected": false
+            }
+          ],
+          "majority": 40,
+          "majority_pct": 0.0195
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2580,
+          "turnout": 0.5985,
+          "electorate": 4311,
+          "candidates": [
+            {
+              "name": "Lorraine Beavers",
+              "party": "Labour",
+              "votes": 1075,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Michael Barrowclough",
+              "party": "Labour",
+              "votes": 1064,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Ted Taylor",
+              "party": "Labour",
+              "votes": 989,
+              "pct": 0.3833,
+              "elected": true
+            },
+            {
+              "name": "Stephen Clarke",
+              "party": "Conservative",
+              "votes": 841,
+              "pct": 0.326,
+              "elected": false
+            },
+            {
+              "name": "Margaret Bond",
+              "party": "Conservative",
+              "votes": 831,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Chloe Clarke",
+              "party": "Conservative",
+              "votes": 791,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "David Gerrard",
+              "party": "UKIP",
+              "votes": 659,
+              "pct": 0.2554,
+              "elected": false
+            },
+            {
+              "name": "Rita Hewitt",
+              "party": "Independent",
+              "votes": 218,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Jack Harrison",
+              "party": "Independent",
+              "votes": 173,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Ann Hanvey",
+              "party": "Independent",
+              "votes": 148,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Ray Smith",
+              "party": "Independent",
+              "votes": 91,
+              "pct": 0.0353,
+              "elected": false
+            }
+          ],
+          "majority": 11,
+          "majority_pct": 0.0043
+        },
+        {
+          "date": "2017-10-12",
+          "year": 2017,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1217,
+          "turnout": 0.2713,
+          "electorate": 4486,
+          "candidates": [
+            {
+              "name": "Cheryl Raynor",
+              "party": "Labour",
+              "votes": 610,
+              "pct": 0.5012,
+              "elected": true
+            },
+            {
+              "name": "Maggie Pattinson",
+              "party": "Conservative",
+              "votes": 427,
+              "pct": 0.3509,
+              "elected": false
+            },
+            {
+              "name": "Brian Crawford",
+              "party": "Independent",
+              "votes": 180,
+              "pct": 0.1479,
+              "elected": false
+            }
+          ],
+          "majority": 183,
+          "majority_pct": 0.1504
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1558,
+          "turnout": 0.3413,
+          "electorate": 4565,
+          "candidates": [
+            {
+              "name": "Lorraine Beavers",
+              "party": "Labour",
+              "votes": 569,
+              "pct": 0.3652,
+              "elected": true
+            },
+            {
+              "name": "David Gerrard",
+              "party": "UKIP",
+              "votes": 523,
+              "pct": 0.3357,
+              "elected": true
+            },
+            {
+              "name": "Cheryl Raynor",
+              "party": "Labour",
+              "votes": 504,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Chloe Natasha Clarke",
+              "party": "Conservative",
+              "votes": 466,
+              "pct": 0.2991,
+              "elected": false
+            },
+            {
+              "name": "Norah Francis Stuchfield",
+              "party": "Labour",
+              "votes": 464,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Anne Marjorie Martin",
+              "party": "Conservative",
+              "votes": 432,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Frances Lilian Thewlis",
+              "party": "Conservative",
+              "votes": 317,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 46,
+          "majority_pct": 0.0295
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1266,
+          "turnout": 0.2955,
+          "electorate": 4284,
+          "candidates": [
+            {
+              "name": "Cheryl Raynor",
+              "party": "Labour",
+              "votes": 523,
+              "pct": 0.4131,
+              "elected": true
+            },
+            {
+              "name": "Bernice Patricia Meekins",
+              "party": "Conservative",
+              "votes": 493,
+              "pct": 0.3894,
+              "elected": true
+            },
+            {
+              "name": "Frances Lilian Thewlis",
+              "party": "Conservative",
+              "votes": 481,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Evelyn Stephenson",
+              "party": "Labour",
+              "votes": 460,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Robbie Andrew Raynor",
+              "party": "Labour",
+              "votes": 455,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Huw Wiliiams",
+              "party": "Conservative",
+              "votes": 445,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "David Gerrard",
+              "party": "Independent",
+              "votes": 250,
+              "pct": 0.1975,
+              "elected": false
+            }
+          ],
+          "majority": 30,
+          "majority_pct": 0.0237
+        }
+      ]
+    },
+    "Stanah": {
+      "gss_code": "E05009951",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Kenneth Minto",
+          "party": "Conservative"
+        },
+        {
+          "name": "Steven Livesey",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3851,
+      "history": [
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2723,
+          "turnout": 0.6024,
+          "electorate": 4520,
+          "candidates": [
+            {
+              "name": "Kerry Jones",
+              "party": "Conservative",
+              "votes": 1557,
+              "pct": 0.5718,
+              "elected": true
+            },
+            {
+              "name": "Matthew Vincent",
+              "party": "Conservative",
+              "votes": 1441,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Eddie Rawlings",
+              "party": "Labour",
+              "votes": 755,
+              "pct": 0.2773,
+              "elected": false
+            },
+            {
+              "name": "Sandra Lord",
+              "party": "Labour",
+              "votes": 746,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Tina Warren",
+              "party": "Green Party",
+              "votes": 411,
+              "pct": 0.1509,
+              "elected": false
+            }
+          ],
+          "majority": 116,
+          "majority_pct": 0.0426
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1375,
+          "turnout": 0.3552,
+          "electorate": 3871,
+          "candidates": [
+            {
+              "name": "Kenneth John Minto",
+              "party": "Conservative",
+              "votes": 770,
+              "pct": 0.56,
+              "elected": true
+            },
+            {
+              "name": "Matthew William Vincent",
+              "party": "Conservative",
+              "votes": 665,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Michelle Heaton-Bentley",
+              "party": "Labour",
+              "votes": 345,
+              "pct": 0.2509,
+              "elected": false
+            },
+            {
+              "name": "Eddie Rawlings",
+              "party": "Labour",
+              "votes": 283,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "John Robert Coburn",
+              "party": "Liberal Democrats",
+              "votes": 260,
+              "pct": 0.1891,
+              "elected": false
+            }
+          ],
+          "majority": 105,
+          "majority_pct": 0.0764
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1322,
+          "turnout": 0.3433,
+          "electorate": 3851,
+          "candidates": [
+            {
+              "name": "Steven Robert Livesey",
+              "party": "Conservative",
+              "votes": 774,
+              "pct": 0.5855,
+              "elected": true
+            },
+            {
+              "name": "Kenneth John Minto",
+              "party": "Conservative",
+              "votes": 671,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Eddie Rawlings",
+              "party": "Labour",
+              "votes": 548,
+              "pct": 0.4145,
+              "elected": false
+            }
+          ],
+          "majority": 103,
+          "majority_pct": 0.0779
+        }
+      ]
+    },
+    "Tithebarn": {
+      "gss_code": "E05009952",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Colette Birch",
+          "party": "Conservative"
+        },
+        {
+          "name": "Lesley McKay",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 3308,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1329,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "David Bannister",
+              "party": "Conservative",
+              "votes": 967,
+              "pct": 0.7276,
+              "elected": true
+            },
+            {
+              "name": "Peter Hawley",
+              "party": "Conservative",
+              "votes": 903,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Kieran Morgan",
+              "party": "Labour",
+              "votes": 362,
+              "pct": 0.2724,
+              "elected": false
+            }
+          ],
+          "majority": 64,
+          "majority_pct": 0.0482
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1728,
+          "turnout": 0.5375,
+          "electorate": 3215,
+          "candidates": [
+            {
+              "name": "David Bannister",
+              "party": "Conservative",
+              "votes": 928,
+              "pct": 0.537,
+              "elected": true
+            },
+            {
+              "name": "Lesley McKay",
+              "party": "Conservative",
+              "votes": 902,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Liam Bromley",
+              "party": "Labour",
+              "votes": 488,
+              "pct": 0.2824,
+              "elected": false
+            },
+            {
+              "name": "Jake Welsh",
+              "party": "Green Party",
+              "votes": 312,
+              "pct": 0.1806,
+              "elected": false
+            }
+          ],
+          "majority": 26,
+          "majority_pct": 0.015
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2570,
+          "turnout": 0.7886,
+          "electorate": 3259,
+          "candidates": [
+            {
+              "name": "Colette Birch",
+              "party": "Conservative",
+              "votes": 1307,
+              "pct": 0.5086,
+              "elected": true
+            },
+            {
+              "name": "Lesley McKay",
+              "party": "Conservative",
+              "votes": 1261,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Philip Anyon",
+              "party": "Labour",
+              "votes": 683,
+              "pct": 0.2658,
+              "elected": false
+            },
+            {
+              "name": "Yvonne Russell",
+              "party": "Green Party",
+              "votes": 580,
+              "pct": 0.2257,
+              "elected": false
+            }
+          ],
+          "majority": 46,
+          "majority_pct": 0.0179
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1102,
+          "turnout": 0.3204,
+          "electorate": 3439,
+          "candidates": [
+            {
+              "name": "Colette Birch",
+              "party": "Conservative",
+              "votes": 743,
+              "pct": 0.6742,
+              "elected": true
+            },
+            {
+              "name": "Lesley Ann McKay",
+              "party": "Conservative",
+              "votes": 721,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Tristan Michael Stephenson",
+              "party": "Labour",
+              "votes": 359,
+              "pct": 0.3258,
+              "elected": false
+            }
+          ],
+          "majority": 22,
+          "majority_pct": 0.02
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1104,
+          "turnout": 0.3337,
+          "electorate": 3308,
+          "candidates": [
+            {
+              "name": "Colette Birch",
+              "party": "Conservative",
+              "votes": 601,
+              "pct": 0.5444,
+              "elected": true
+            },
+            {
+              "name": "Lesley Ann McKay",
+              "party": "Conservative",
+              "votes": 577,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Richard Gratrix",
+              "party": "Labour",
+              "votes": 503,
+              "pct": 0.4556,
+              "elected": false
+            }
+          ],
+          "majority": 24,
+          "majority_pct": 0.0217
+        }
+      ]
+    },
+    "Victoria and Norcross": {
+      "gss_code": "E05005405",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Callum Baxter",
+          "party": "Conservative"
+        },
+        {
+          "name": "Michael Vincent",
+          "party": "Conservative"
+        }
+      ],
+      "electorate": 4887,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1123,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Ron Greenhough",
+              "party": "Conservative",
+              "votes": 726,
+              "pct": 0.6465,
+              "elected": true
+            },
+            {
+              "name": "Ann Turner",
+              "party": "Conservative",
+              "votes": 671,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Rita Hewitt",
+              "party": "Labour",
+              "votes": 397,
+              "pct": 0.3535,
+              "elected": false
+            },
+            {
+              "name": "Peter Smith",
+              "party": "Labour",
+              "votes": 379,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 55,
+          "majority_pct": 0.049
+        },
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2178,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Keith Tebbs",
+              "party": "Conservative",
+              "votes": 1351,
+              "pct": 0.6203,
+              "elected": true
+            },
+            {
+              "name": "Michael Vincent",
+              "party": "Conservative",
+              "votes": 1165,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Alan Vincent",
+              "party": "Conservative",
+              "votes": 1150,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Brian Stephenson",
+              "party": "Labour",
+              "votes": 474,
+              "pct": 0.2176,
+              "elected": false
+            },
+            {
+              "name": "Evelyn Stephenson",
+              "party": "Labour",
+              "votes": 472,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Les Holt",
+              "party": "UKIP",
+              "votes": 353,
+              "pct": 0.1621,
+              "elected": false
+            }
+          ],
+          "majority": 186,
+          "majority_pct": 0.0854
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1232,
+          "turnout": 0.4178,
+          "electorate": 2949,
+          "candidates": [
+            {
+              "name": "Ronald Greenhough",
+              "party": "Conservative",
+              "votes": 664,
+              "pct": 0.539,
+              "elected": true
+            },
+            {
+              "name": "Ann Turner",
+              "party": "Conservative",
+              "votes": 641,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Margaret Jackson",
+              "party": "Labour",
+              "votes": 568,
+              "pct": 0.461,
+              "elected": false
+            },
+            {
+              "name": "Peter Smith",
+              "party": "Labour",
+              "votes": 536,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 23,
+          "majority_pct": 0.0187
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2092,
+          "turnout": 0.4281,
+          "electorate": 4887,
+          "candidates": [
+            {
+              "name": "Patsy Ormrod",
+              "party": "Conservative",
+              "votes": 1379,
+              "pct": 0.6592,
+              "elected": true
+            },
+            {
+              "name": "Michael Vincent",
+              "party": "Conservative",
+              "votes": 1239,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Alan Vincent",
+              "party": "Conservative",
+              "votes": 1223,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Brian Stephenson",
+              "party": "Labour",
+              "votes": 713,
+              "pct": 0.3408,
+              "elected": false
+            },
+            {
+              "name": "Evelyn Stephenson",
+              "party": "Labour",
+              "votes": 665,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 140,
+          "majority_pct": 0.0669
+        }
+      ]
+    },
+    "Warren": {
+      "gss_code": "E05009954",
+      "seats": 2,
+      "current_holders": [
+        {
+          "name": "Brian Stephenson",
+          "party": "Labour"
+        },
+        {
+          "name": "Maureen Blair",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 3291,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 1652,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Mike Sanderson",
+              "party": "Conservative",
+              "votes": 890,
+              "pct": 0.5387,
+              "elected": true
+            },
+            {
+              "name": "Mark Hamer",
+              "party": "Conservative",
+              "votes": 821,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Denise Minto",
+              "party": "Conservative",
+              "votes": 770,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Margaret Anderton",
+              "party": "Labour",
+              "votes": 762,
+              "pct": 0.4613,
+              "elected": false
+            },
+            {
+              "name": "Malcolm Ratcliffe",
+              "party": "Labour",
+              "votes": 660,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Norman Irish",
+              "party": "Labour",
+              "votes": 600,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 69,
+          "majority_pct": 0.0418
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 3,
+          "turnout_votes": 2023,
+          "turnout": 0.4388,
+          "electorate": 4610,
+          "candidates": [
+            {
+              "name": "Marge Anderton",
+              "party": "Labour",
+              "votes": 920,
+              "pct": 0.4548,
+              "elected": true
+            },
+            {
+              "name": "Paul Treece-Birch",
+              "party": "Labour",
+              "votes": 911,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Emma Anderton",
+              "party": "Labour",
+              "votes": 896,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "Stan Leadbetter",
+              "party": "Conservative",
+              "votes": 714,
+              "pct": 0.3529,
+              "elected": false
+            },
+            {
+              "name": "Mike Sanderson",
+              "party": "Conservative",
+              "votes": 607,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Bob Long",
+              "party": "Conservative",
+              "votes": 466,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Mark Hamer",
+              "party": "Independent",
+              "votes": 389,
+              "pct": 0.1923,
+              "elected": false
+            },
+            {
+              "name": "Trisha Hogg",
+              "party": "Independent",
+              "votes": 175,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Belinda Armstrong",
+              "party": "Independent",
+              "votes": 161,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 9,
+          "majority_pct": 0.0044
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 2037,
+          "turnout": 0.6079,
+          "electorate": 3351,
+          "candidates": [
+            {
+              "name": "Emma Anderton",
+              "party": "Labour",
+              "votes": 1178,
+              "pct": 0.5783,
+              "elected": true
+            },
+            {
+              "name": "Marge Anderton",
+              "party": "Labour",
+              "votes": 1120,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "David Meekins",
+              "party": "Conservative",
+              "votes": 859,
+              "pct": 0.4217,
+              "elected": false
+            },
+            {
+              "name": "Peter Cartridge",
+              "party": "Conservative",
+              "votes": 726,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 58,
+          "majority_pct": 0.0285
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 1280,
+          "turnout": 0.3644,
+          "electorate": 3513,
+          "candidates": [
+            {
+              "name": "Huw Williams",
+              "party": "UKIP",
+              "votes": 370,
+              "pct": 0.2891,
+              "elected": true
+            },
+            {
+              "name": "Craig Armstrong",
+              "party": "Labour",
+              "votes": 360,
+              "pct": 0.2812,
+              "elected": true
+            },
+            {
+              "name": "Rosemary Cunningham",
+              "party": "Labour",
+              "votes": 352,
+              "pct": null,
+              "elected": false
+            },
+            {
+              "name": "Brian Crawford",
+              "party": "Independent",
+              "votes": 314,
+              "pct": 0.2453,
+              "elected": false
+            },
+            {
+              "name": "Bernice Patricia Meekins",
+              "party": "Conservative",
+              "votes": 236,
+              "pct": 0.1844,
+              "elected": false
+            },
+            {
+              "name": "David Patrick Meekins",
+              "party": "Conservative",
+              "votes": 212,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 10,
+          "majority_pct": 0.0078
+        },
+        {
+          "date": "2023-06-22",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 2,
+          "turnout_votes": 863,
+          "turnout": 0.2622,
+          "electorate": 3291,
+          "candidates": [
+            {
+              "name": "Maureen Elizabeth Blair",
+              "party": "Labour",
+              "votes": 552,
+              "pct": 0.6396,
+              "elected": true
+            },
+            {
+              "name": "Brian Michael Stephenson",
+              "party": "Labour",
+              "votes": 503,
+              "pct": null,
+              "elected": true
+            },
+            {
+              "name": "John Joseph Fitzgerald",
+              "party": "Conservative",
+              "votes": 311,
+              "pct": 0.3604,
+              "elected": false
+            },
+            {
+              "name": "David Patrick Meekins",
+              "party": "Conservative",
+              "votes": 307,
+              "pct": null,
+              "elected": false
+            }
+          ],
+          "majority": 49,
+          "majority_pct": 0.0568
+        }
+      ]
+    },
+    "Wyresdale": {
+      "gss_code": "E05009955",
+      "seats": 1,
+      "current_holders": [
+        {
+          "name": "Charlotte Walker",
+          "party": "Labour"
+        }
+      ],
+      "electorate": 1880,
+      "history": [
+        {
+          "date": "2007-05-03",
+          "year": 2007,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 736,
+          "turnout": null,
+          "electorate": null,
+          "candidates": [
+            {
+              "name": "Anthony Hesketh",
+              "party": "Conservative",
+              "votes": 537,
+              "pct": 0.7296,
+              "elected": true
+            },
+            {
+              "name": "Hazel Ronson",
+              "party": "Liberal Democrats",
+              "votes": 199,
+              "pct": 0.2704,
+              "elected": false
+            }
+          ],
+          "majority": 338,
+          "majority_pct": 0.4592
+        },
+        {
+          "date": "2011-05-05",
+          "year": 2011,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 853,
+          "turnout": 0.5252,
+          "electorate": 1624,
+          "candidates": [
+            {
+              "name": "Val Wilson",
+              "party": "Conservative",
+              "votes": 592,
+              "pct": 0.694,
+              "elected": true
+            },
+            {
+              "name": "Ben Whittingham",
+              "party": "Labour",
+              "votes": 261,
+              "pct": 0.306,
+              "elected": false
+            }
+          ],
+          "majority": 331,
+          "majority_pct": 0.388
+        },
+        {
+          "date": "2015-05-07",
+          "year": 2015,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 1220,
+          "turnout": 0.7736,
+          "electorate": 1577,
+          "candidates": [
+            {
+              "name": "Val Wilson",
+              "party": "Conservative",
+              "votes": 909,
+              "pct": 0.7451,
+              "elected": true
+            },
+            {
+              "name": "Stella Charnley",
+              "party": "Labour",
+              "votes": 311,
+              "pct": 0.2549,
+              "elected": false
+            }
+          ],
+          "majority": 598,
+          "majority_pct": 0.4902
+        },
+        {
+          "date": "2019-05-02",
+          "year": 2019,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 654,
+          "turnout": 0.3578,
+          "electorate": 1828,
+          "candidates": [
+            {
+              "name": "Jonny Leech",
+              "party": "Conservative",
+              "votes": 482,
+              "pct": 0.737,
+              "elected": true
+            },
+            {
+              "name": "Stella Grace Charnley",
+              "party": "Labour",
+              "votes": 172,
+              "pct": 0.263,
+              "elected": false
+            }
+          ],
+          "majority": 310,
+          "majority_pct": 0.474
+        },
+        {
+          "date": "2023-05-04",
+          "year": 2023,
+          "type": "borough",
+          "seats_contested": 1,
+          "turnout_votes": 671,
+          "turnout": 0.3569,
+          "electorate": 1880,
+          "candidates": [
+            {
+              "name": "Charlotte Brieanne Walker",
+              "party": "Labour",
+              "votes": 396,
+              "pct": 0.5902,
+              "elected": true
+            },
+            {
+              "name": "Jonny Leech",
+              "party": "Conservative",
+              "votes": 275,
+              "pct": 0.4098,
+              "elected": false
+            }
+          ],
+          "majority": 121,
+          "majority_pct": 0.1803
+        }
+      ]
+    }
+  },
+  "council_history": [
+    {
+      "year": 2007,
+      "type": "borough_all_out",
+      "seats_contested": 47,
+      "results_by_party": {
+        "Conservative": {
+          "won": 37,
+          "votes": 36332,
+          "pct": 0.6006
+        },
+        "Labour": {
+          "won": 9,
+          "votes": 18556,
+          "pct": 0.3067
+        },
+        "Liberal Democrats": {
+          "won": 1,
+          "votes": 3485,
+          "pct": 0.0576
+        },
+        "BNP": {
+          "won": 0,
+          "votes": 502,
+          "pct": 0.0083
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 1620,
+          "pct": 0.0268
+        }
+      },
+      "turnout": null,
+      "total_votes": 60495
+    },
+    {
+      "year": 2011,
+      "type": "borough_all_out",
+      "seats_contested": 47,
+      "results_by_party": {
+        "Conservative": {
+          "won": 32,
+          "votes": 36836,
+          "pct": 0.5747
+        },
+        "Labour": {
+          "won": 15,
+          "votes": 23787,
+          "pct": 0.3711
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 1894,
+          "pct": 0.0295
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 1095,
+          "pct": 0.0171
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 485,
+          "pct": 0.0076
+        }
+      },
+      "turnout": 0.4365,
+      "total_votes": 64097
+    },
+    {
+      "year": 2015,
+      "type": "borough_all_out",
+      "seats_contested": 43,
+      "results_by_party": {
+        "Conservative": {
+          "won": 29,
+          "votes": 48543,
+          "pct": 0.5269
+        },
+        "Labour": {
+          "won": 14,
+          "votes": 29126,
+          "pct": 0.3162
+        },
+        "UKIP": {
+          "won": 0,
+          "votes": 5533,
+          "pct": 0.0601
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 4470,
+          "pct": 0.0485
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 4181,
+          "pct": 0.0454
+        },
+        "TUSC": {
+          "won": 0,
+          "votes": 270,
+          "pct": 0.0029
+        }
+      },
+      "turnout": 0.6925,
+      "total_votes": 92123
+    },
+    {
+      "year": 2017,
+      "type": "borough_all_out",
+      "seats_contested": 2,
+      "results_by_party": {
+        "Conservative": {
+          "won": 1,
+          "votes": 1215,
+          "pct": 0.4488
+        },
+        "Labour": {
+          "won": 1,
+          "votes": 1231,
+          "pct": 0.4547
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 81,
+          "pct": 0.0299
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 180,
+          "pct": 0.0665
+        }
+      },
+      "turnout": 0.2952,
+      "total_votes": 2707
+    },
+    {
+      "year": 2018,
+      "type": "borough_all_out",
+      "seats_contested": 1,
+      "results_by_party": {
+        "Conservative": {
+          "won": 1,
+          "votes": 930,
+          "pct": 0.5526
+        },
+        "Labour": {
+          "won": 0,
+          "votes": 753,
+          "pct": 0.4474
+        }
+      },
+      "turnout": 0.3535,
+      "total_votes": 1683
+    },
+    {
+      "year": 2019,
+      "type": "borough_all_out",
+      "seats_contested": 43,
+      "results_by_party": {
+        "Conservative": {
+          "won": 30,
+          "votes": 26601,
+          "pct": 0.5632
+        },
+        "Labour": {
+          "won": 9,
+          "votes": 15341,
+          "pct": 0.3248
+        },
+        "UKIP": {
+          "won": 4,
+          "votes": 1618,
+          "pct": 0.0343
+        },
+        "Independent": {
+          "won": 0,
+          "votes": 1116,
+          "pct": 0.0236
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 2063,
+          "pct": 0.0437
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 493,
+          "pct": 0.0104
+        }
+      },
+      "turnout": 0.3391,
+      "total_votes": 47232
+    },
+    {
+      "year": 2022,
+      "type": "borough_all_out",
+      "seats_contested": 2,
+      "results_by_party": {
+        "Conservative": {
+          "won": 1,
+          "votes": 1216,
+          "pct": 0.4268
+        },
+        "Independent": {
+          "won": 1,
+          "votes": 697,
+          "pct": 0.2446
+        },
+        "Labour": {
+          "won": 0,
+          "votes": 936,
+          "pct": 0.3285
+        }
+      },
+      "turnout": 0.3496,
+      "total_votes": 2849
+    },
+    {
+      "year": 2023,
+      "type": "borough_all_out",
+      "seats_contested": 43,
+      "results_by_party": {
+        "Conservative": {
+          "won": 23,
+          "votes": 23445,
+          "pct": 0.5036
+        },
+        "Labour": {
+          "won": 17,
+          "votes": 18273,
+          "pct": 0.3925
+        },
+        "Independent": {
+          "won": 3,
+          "votes": 3370,
+          "pct": 0.0724
+        },
+        "Alliance for Democracy and Freedom": {
+          "won": 0,
+          "votes": 176,
+          "pct": 0.0038
+        },
+        "Liberal Democrats": {
+          "won": 0,
+          "votes": 109,
+          "pct": 0.0023
+        },
+        "Green Party": {
+          "won": 0,
+          "votes": 1182,
+          "pct": 0.0254
+        }
+      },
+      "turnout": 0.3328,
+      "total_votes": 46555
+    }
+  ],
+  "turnout_trends": [
+    {
+      "year": 2011,
+      "type": "borough_all_out",
+      "turnout": 0.4365,
+      "total_votes": 64097
+    },
+    {
+      "year": 2015,
+      "type": "borough_all_out",
+      "turnout": 0.6925,
+      "total_votes": 92123
+    },
+    {
+      "year": 2017,
+      "type": "borough_all_out",
+      "turnout": 0.2952,
+      "total_votes": 2707
+    },
+    {
+      "year": 2018,
+      "type": "borough_all_out",
+      "turnout": 0.3535,
+      "total_votes": 1683
+    },
+    {
+      "year": 2019,
+      "type": "borough_all_out",
+      "turnout": 0.3391,
+      "total_votes": 47232
+    },
+    {
+      "year": 2022,
+      "type": "borough_all_out",
+      "turnout": 0.3496,
+      "total_votes": 2849
+    },
+    {
+      "year": 2023,
+      "type": "borough_all_out",
+      "turnout": 0.3328,
+      "total_votes": 46555
+    }
+  ],
+  "legacy_wards": {
+    "Cabus": {
+      "years": [
+        "2007",
+        "2011"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Hambleton Stalmine With Staynall": {
+      "years": [
+        "2007",
+        "2011"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "High Cross": {
+      "years": [
+        "2007",
+        "2011"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Staina": {
+      "years": [
+        "2007",
+        "2011"
+      ],
+      "elections": 2,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Hambleton Stalmine": {
+      "years": [
+        "2015",
+        "2019",
+        "2023"
+      ],
+      "elections": 3,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Hardhorn With High Cross": {
+      "years": [
+        "2015",
+        "2019",
+        "2023"
+      ],
+      "elections": 3,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    },
+    "Victoria Norcross": {
+      "years": [
+        "2015",
+        "2019",
+        "2023"
+      ],
+      "elections": 3,
+      "note": "Ward existed under previous boundaries. Not used for predictions."
+    }
+  }
+}

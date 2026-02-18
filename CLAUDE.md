@@ -65,10 +65,13 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/hooks/useSpendingWorker.js` | Web Worker hook for spending data (v3 chunked + v2/v1 fallback) |
 | `src/workers/spending.worker.js` | Web Worker: filter, sort, paginate, stats, charts, CSV export |
 | `src/utils/constants.js` | Shared constants: CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, SEVERITY_COLORS, COUNCIL_COLORS |
+| `src/utils/analytics.js` | Shared analytics engine: CPI-H deflation, z-scores, Gini, Benford's 2nd digit, reserves adequacy |
+| `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV calculations |
 | `src/workers/spending.utils.js` | Pure utility functions shared by worker and tests |
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation (31 tests) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 288 tests across 28 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -86,6 +89,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/charity_etl.py` | Charity Commission API cross-check for council suppliers |
 | `burnley-council/scripts/councillor_integrity_etl.py` | 8-source councillor integrity: CH directorships, co-directors, EC donations, FCA, insolvency, cross-council |
 | `burnley-council/scripts/register_of_interests_etl.py` | ModernGov register of interests scraper → register_of_interests.json per council |
+| `burnley-council/scripts/meetings_etl.py` | ModernGov meetings scraper → meetings.json per council (11 councils, 280 meetings) |
 | `burnley-council/scripts/generate_budgets_from_govuk.py` | Auto-generate budgets.json from GOV.UK outturn data (13 councils, skips hand-curated Burnley/Hyndburn) |
 | `burnley-council/scripts/budget_mapper.py` | Map AI DOGE spending departments → GOV.UK SeRCOP categories → budget_mapping.json |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (reads metadata.json from all 15 councils) |
@@ -132,6 +136,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `wards.json` | councillors_etl.py / manual | Ward→councillors mapping with party colours |
 | `integrity.json` | councillor_integrity_etl.py | 8-source councillor integrity scoring (CH, EC, FCA, co-directors, familial) |
 | `register_of_interests.json` | register_of_interests_etl.py | ModernGov register data (companies, employment, securities, land) |
+| `meetings.json` | meetings_etl.py | Council meetings (title, date, committee, venue, agenda/minutes links) |
 
 ### Shared Data (`burnley-council/data/shared/`)
 | File | Purpose |
