@@ -66,8 +66,10 @@ export const MEETING_TYPE_LABELS = {
   scrutiny: 'Scrutiny',
   planning: 'Planning',
   licensing: 'Licensing',
+  audit: 'Audit & Governance',
   notice: 'Forward Plan',
   partnership: 'Partnership',
+  other: 'Committee',
 }
 
 /** Meeting type colours */
@@ -77,8 +79,10 @@ export const MEETING_TYPE_COLORS = {
   scrutiny: '#ff9f0a',
   planning: '#30d158',
   licensing: '#bf5af2',
+  audit: '#ff6b35',
   notice: '#8e8e93',
   partnership: '#64d2ff',
+  other: '#a0a0a0',
 }
 
 // ── Recharts Tooltip Styles ──
