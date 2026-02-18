@@ -146,10 +146,12 @@ function LGRTracker() {
     return lgrData.independent_model.payback_analysis.map(p => ({
       name: MODEL_LABELS[p.model] || p.label || p.model,
       dogeSavings: p.annual_saving / 1e6,
+      dogeSavingsGross: (p.annual_saving_gross || p.annual_saving) / 1e6,
       transitionCost: p.transition_cost / 1e6,
       tenYearNet: p.ten_year_net / 1e6,
       realisticTenYear: (p.realistic_ten_year_net || p.ten_year_net) / 1e6,
-      payback: p.payback_years
+      payback: p.payback_years,
+      savingNote: p.annual_saving_note || '',
     }))
   }, [lgrData])
 
@@ -335,44 +337,62 @@ function LGRTracker() {
         <p className="section-desc">{lgrData.independent_model?.subtitle}</p>
 
         {dogeComparisonData.length > 0 && (
-          <div className="lgr-chart-grid">
-            <div className="lgr-chart-card">
-              <h3>AI DOGE: Annual Savings by Model</h3>
-              <p className="chart-desc">Built from actual spending data — not CCN estimates. Negative = costs MORE than current system.</p>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={dogeComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                  <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M/year`, v >= 0 ? 'Annual Savings' : 'Annual Cost']} />
-                  <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                  <Bar dataKey="dogeSavings" radius={[6, 6, 0, 0]}>
-                    {dogeComparisonData.map((entry, i) => (
-                      <Cell key={i} fill={entry.dogeSavings >= 0 ? '#30d158' : '#ff453a'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+          <>
+            <div className="lgr-savings-explainer">
+              <h3><AlertTriangle size={16} /> How We Calculate Savings</h3>
+              <p>
+                AI DOGE computes savings bottom-up from 192 real GOV.UK budget lines across all 15 Lancashire councils.
+                The chart below shows <strong>realistic annual savings</strong> — after deducting ongoing costs of the new
+                authorities and applying a <strong>75% realisation rate</strong> (because reorganisations never achieve
+                100% of projected savings — see E&amp;Y 2016, Durham/Wiltshire evidence).
+                Transition costs assume a <strong>1.25× overrun factor</strong> based on Buckinghamshire, Cornwall and
+                Northamptonshire evidence (NAO).
+              </p>
             </div>
-            <div className="lgr-chart-card">
-              <h3>10-Year Net Financial Impact</h3>
-              <p className="chart-desc">Total savings minus transition costs over 10 years</p>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={dogeComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                  <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(0)}M`, v >= 0 ? '10yr Saving' : '10yr Cost']} />
-                  <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                  <Bar dataKey="tenYearNet" radius={[6, 6, 0, 0]}>
-                    {dogeComparisonData.map((entry, i) => (
-                      <Cell key={i} fill={entry.tenYearNet >= 0 ? '#0a84ff' : '#ff453a'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="lgr-chart-grid">
+              <div className="lgr-chart-card">
+                <h3>Realistic Annual Savings by Model</h3>
+                <p className="chart-desc">Net of ongoing costs, at 75% realisation rate. Negative = costs MORE than current system.</p>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={dogeComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                    <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                    <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => {
+                      const label = name === 'dogeSavingsGross' ? 'Gross savings (before deductions)' : 'Realistic savings (net, 75% realised)'
+                      return [`£${v.toFixed(1)}M/year`, label]
+                    }} />
+                    <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
+                    <Bar dataKey="dogeSavingsGross" name="Gross" fill="#48484a" radius={[6, 6, 0, 0]} opacity={0.4} />
+                    <Bar dataKey="dogeSavings" name="Realistic" radius={[6, 6, 0, 0]}>
+                      {dogeComparisonData.map((entry, i) => (
+                        <Cell key={i} fill={entry.dogeSavings >= 0 ? '#30d158' : '#ff453a'} />
+                      ))}
+                    </Bar>
+                    <Legend />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="lgr-chart-card">
+                <h3>10-Year Net Financial Impact</h3>
+                <p className="chart-desc">Realistic savings minus transition costs (with 1.25× overrun) over 10 years</p>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={dogeComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                    <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                    <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(0)}M`, v >= 0 ? '10yr Net Saving' : '10yr Net Cost']} />
+                    <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
+                    <Bar dataKey="tenYearNet" radius={[6, 6, 0, 0]}>
+                      {dogeComparisonData.map((entry, i) => (
+                        <Cell key={i} fill={entry.tenYearNet >= 0 ? '#0a84ff' : '#ff453a'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Savings breakdown stacked bar */}
@@ -418,34 +438,51 @@ function LGRTracker() {
         {/* Newton Europe vs DOGE comparison */}
         {lgrData.independent_model?.presentation_comparison && (
           <div className="lgr-chart-card" style={{ marginTop: '1rem' }}>
-            <h3>Newton Europe vs AI DOGE: Savings Comparison</h3>
-            <p className="chart-desc">Newton Europe uses activity-based costing with wider scope; AI DOGE uses bottom-up GOV.UK outturn with conservative academic benchmarks</p>
+            <h3>Consultants vs AI DOGE: Gross Savings Comparison</h3>
+            <p className="chart-desc">
+              Newton Europe (commissioned by LCC) uses activity-based costing with wider scope and higher savings assumptions.
+              AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks.
+              Both figures shown are <strong>gross</strong> (before realisation adjustments).
+              Note: County UA is the hypothetical single-authority option — no council proposed this.
+            </p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
-                data={Object.entries(lgrData.independent_model.presentation_comparison).map(([key, val]) => ({
-                  name: MODEL_LABELS[key] || key,
-                  newton: (val.newton_europe_savings || 0) / 1e6,
-                  doge: (val.doge_computed_savings || 0) / 1e6,
-                }))}
+                data={Object.entries(lgrData.independent_model.presentation_comparison)
+                  .map(([key, val]) => ({
+                    name: MODEL_LABELS[key] || key,
+                    newton: (val.newton_europe_savings || 0) / 1e6,
+                    doge: (val.doge_computed_savings || 0) / 1e6,
+                  }))}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
                 <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
                 <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
-                <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [`£${v?.toFixed(1)}M/yr`, name === 'newton' ? 'Newton Europe' : 'AI DOGE']} />
+                <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [
+                  `£${v?.toFixed(1)}M/yr (gross)`,
+                  name === 'newton' ? 'Newton Europe (consultants)' : 'AI DOGE (independent)'
+                ]} />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                <Bar dataKey="newton" name="Newton Europe" fill="#636366" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="doge" name="AI DOGE" fill="#0a84ff" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="newton" name="Newton Europe (consultants)" fill="#636366" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="doge" name="AI DOGE (independent)" fill="#0a84ff" radius={[6, 6, 0, 0]} />
                 <Legend />
               </BarChart>
             </ResponsiveContainer>
+            <p className="chart-note text-secondary" style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}>
+              Newton Europe figures from Lancashire LGR People Services Analysis (2025). AI DOGE figures from GOV.UK MHCLG Revenue Outturn 2024-25.
+              The realistic AI DOGE figures (shown in the chart above) are significantly lower after applying 75% realisation and deducting ongoing costs.
+            </p>
           </div>
         )}
 
         {/* Net savings (gross minus ongoing costs) */}
         {lgrData.independent_model?.savings_breakdown?.net_annual && (
           <div className="lgr-net-savings">
-            <h3>Net Annual Impact (Gross Savings Minus Ongoing Costs)</h3>
+            <h3>Net Annual Impact Before Realisation Adjustment</h3>
+            <p className="chart-desc" style={{ marginBottom: '0.75rem' }}>
+              Gross savings from service consolidation, minus ongoing costs of running the new authority/ies.
+              The realistic figures above apply a further 75% realisation rate to these net savings.
+            </p>
             <div className="net-savings-grid">
               {Object.entries(lgrData.independent_model.savings_breakdown.net_annual).map(([key, val]) => (
                 <div key={key} className={`net-savings-item ${val.net >= 0 ? 'positive' : 'negative'}`}>
@@ -466,7 +503,7 @@ function LGRTracker() {
         {/* Model assumptions */}
         {lgrData.independent_model?.methodology?.assumptions && (
           <div className="lgr-assumptions">
-            <h3>Model Assumptions (Transparent — Unlike CCN/PwC)</h3>
+            <h3>Model Assumptions (Published for Scrutiny)</h3>
             <div className="assumptions-grid">
               {Object.entries(lgrData.independent_model.methodology.assumptions).map(([key, val]) => (
                 <div key={key} className="assumption-item">
@@ -1153,28 +1190,49 @@ function LGRTracker() {
           <h2><BookOpen size={20} /> {lgrData.ccn_critique.title}</h2>
           <p className="section-desc">{lgrData.ccn_critique.summary}</p>
 
-          {/* Side-by-side CCN vs DOGE chart */}
-          {ccnChartData.length > 0 && dogeComparisonData.length > 0 && (
-            <div className="lgr-chart-card" style={{ marginBottom: '1rem' }}>
-              <h3>CCN/PwC vs AI DOGE Independent Model</h3>
-              <p className="chart-desc">Comparing the lobby group&apos;s estimates with our independent analysis</p>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={dogeComparisonData.map((d, i) => ({
-                  ...d,
-                  ccnSavings: i < ccnChartData.length ? ccnChartData[i].savings : null
-                }))} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                  <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [`£${v?.toFixed(1)}M/yr`, name === 'ccnSavings' ? 'CCN/PwC' : 'AI DOGE']} />
-                  <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                  <Bar dataKey="ccnSavings" name="CCN/PwC" fill="#636366" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="dogeSavings" name="AI DOGE" fill="#0a84ff" radius={[6, 6, 0, 0]} />
-                  <Legend />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          )}
+          {/* Side-by-side CCN vs DOGE chart — properly aligned by model */}
+          {ccnChartData.length > 0 && dogeComparisonData.length > 0 && (() => {
+            // Build a properly aligned comparison — CCN has different model ordering
+            const ccnByModel = {}
+            const ccnModels = lgrData.ccn_analysis?.models || []
+            ccnModels.forEach(m => {
+              const key = m.unitaries === 1 ? 'County UA' : `${m.unitaries} UA${m.unitaries > 1 ? 's' : ''}`
+              ccnByModel[key] = m.annual_savings !== null ? m.annual_savings / 1e6 : null
+            })
+            const comparisonData = dogeComparisonData
+              .filter(d => d.dogeSavings !== 0 || ccnByModel[d.name] != null)
+              .map(d => ({
+                name: d.name,
+                ccnSavings: ccnByModel[d.name] ?? null,
+                dogeSavings: d.dogeSavings,
+              }))
+
+            return (
+              <div className="lgr-chart-card" style={{ marginBottom: '1rem' }}>
+                <h3>CCN/PwC vs AI DOGE: Realistic Annual Savings</h3>
+                <p className="chart-desc">
+                  Comparing the CCN (county council lobby group) estimates with AI DOGE&apos;s independent analysis.
+                  AI DOGE figures are <strong>realistic</strong> (net of ongoing costs, at 75% realisation).
+                  CCN did not model the 5-UA option.
+                </p>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                    <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                    <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [
+                      v != null ? `£${v.toFixed(1)}M/yr` : 'Not modelled',
+                      name === 'ccnSavings' ? 'CCN/PwC estimate' : 'AI DOGE realistic'
+                    ]} />
+                    <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
+                    <Bar dataKey="ccnSavings" name="CCN/PwC" fill="#636366" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="dogeSavings" name="AI DOGE (realistic)" fill="#0a84ff" radius={[6, 6, 0, 0]} />
+                    <Legend />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )
+          })()}
 
           <div className="critique-list">
             {lgrData.ccn_critique.issues.map(issue => (
@@ -1228,14 +1286,19 @@ function LGRTracker() {
               {activeModelData.doge_annual_savings !== undefined && activeModelData.doge_annual_savings !== null && (
                 <div className="model-meta-item">
                   {activeModelData.doge_annual_savings >= 0 ? (
-                    <span className="savings-positive"><TrendingUp size={14} /> {formatCurrency(activeModelData.doge_annual_savings, true)}/yr savings (AI DOGE)</span>
+                    <span className="savings-positive">
+                      <TrendingUp size={14} /> {formatCurrency(activeModelData.doge_annual_savings, true)}/yr realistic savings
+                      {activeModelData.doge_annual_savings_gross && (
+                        <span className="text-secondary" style={{ fontSize: '0.85em' }}> (gross: {formatCurrency(activeModelData.doge_annual_savings_gross, true)})</span>
+                      )}
+                    </span>
                   ) : (
-                    <span className="savings-negative"><TrendingDown size={14} /> {formatCurrency(Math.abs(activeModelData.doge_annual_savings), true)}/yr COST (AI DOGE)</span>
+                    <span className="savings-negative"><TrendingDown size={14} /> {formatCurrency(Math.abs(activeModelData.doge_annual_savings), true)}/yr net cost</span>
                   )}
                 </div>
               )}
               {activeModelData.doge_payback_years && (
-                <div className="model-meta-item"><Clock size={14} /> Payback: {activeModelData.doge_payback_years} years</div>
+                <div className="model-meta-item"><Clock size={14} /> Payback: {activeModelData.doge_payback_years} years (realistic estimate)</div>
               )}
               {activeModelData.source_url && (
                 <a href={activeModelData.source_url} target="_blank" rel="noopener noreferrer" className="model-source-link">
@@ -1647,8 +1710,11 @@ function LGRTracker() {
         </p>
         <p>
           AI DOGE assessments are independent analytical opinions based on financial data patterns, academic evidence, and demographic analysis.
-          All model assumptions are published above — unlike CCN/PwC, our methodology is fully transparent and open to scrutiny.
-          All underlying data is public and verifiable.
+          All model assumptions are published above for scrutiny. All underlying data is public and verifiable.
+          Savings figures represent <strong>realistic estimates</strong>: gross savings minus ongoing costs of new authorities,
+          at 75% realisation rate (based on E&amp;Y 2016 evidence from Durham, Wiltshire and Buckinghamshire reorganisations).
+          Transition costs include a 1.25× overrun factor based on NAO evidence.
+          These are independent estimates — not commissioned by any council, lobby group or political party.
         </p>
       </section>
     </div>

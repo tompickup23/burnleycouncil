@@ -1822,6 +1822,34 @@
   font-weight: 500;
 }
 
+/* ========== Savings Explainer ========== */
+.lgr-savings-explainer {
+  background: var(--bg-secondary, #1c1c1e);
+  border: 1px solid var(--border-color, #2c2c2e);
+  border-left: 4px solid #ff9f0a;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.lgr-savings-explainer h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #ff9f0a;
+}
+.lgr-savings-explainer p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #8e8e93);
+}
+
+.chart-note {
+  padding: 0 0.5rem;
+}
+
 /* ========== Net Savings Grid ========== */
 .lgr-net-savings {
   background: var(--bg-secondary, #1c1c1e);

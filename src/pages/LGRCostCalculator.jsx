@@ -297,7 +297,7 @@ function LGRCostCalculator() {
     </div>
   )
 
-  const hasResults = currentCosts && (postcodeResult?.isLancashire || postcodeResult === null)
+  const hasResults = currentCosts && postcodeResult?.isLancashire
 
   return (
     <div className="cost-calc-page animate-fade-in">
@@ -483,10 +483,10 @@ function LGRCostCalculator() {
         </section>
       )}
 
-      {/* LGR Proposal Comparison */}
-      {proposalCosts.length > 0 && currentCosts && (
+      {/* LGR Proposal Comparison — only shown after successful postcode lookup */}
+      {proposalCosts.length > 0 && currentCosts && postcodeResult?.isLancashire && (
         <section className="lgr-comparison">
-          <h2><TrendingDown size={22} /> Under LGR: What Would You Pay?</h2>
+          <h2><Calculator size={22} /> Under LGR: Estimated Council Tax</h2>
           <p className="section-desc">
             {councilTier === 'county'
               ? `As a county council, Lancashire CC's services would be absorbed into new unitary authorities under LGR. Estimates below show the county precept portion under each proposal for the largest proposed authority.`
@@ -586,10 +586,10 @@ function LGRCostCalculator() {
                           </span>
                         </div>
                         <div className="detail-item">
-                          <span className="detail-label">Annual savings (whole authority)</span>
+                          <span className="detail-label">Realistic annual savings</span>
                           <span className="detail-value">
                             {proposal.doge_annual_savings > 0
-                              ? formatCurrency(proposal.doge_annual_savings, true)
+                              ? <>{formatCurrency(proposal.doge_annual_savings, true)}{proposal.doge_annual_savings_gross && <span className="text-secondary" style={{ fontSize: '0.85em' }}> (gross: {formatCurrency(proposal.doge_annual_savings_gross, true)})</span>}</>
                               : <span className="text-red">Costs {formatCurrency(Math.abs(proposal.doge_annual_savings), true)} more</span>
                             }
                           </span>
@@ -645,6 +645,17 @@ function LGRCostCalculator() {
         </section>
       )}
 
+      {/* Prompt to enter postcode if not done yet */}
+      {currentCosts && !postcodeResult?.isLancashire && (
+        <section className="cost-prompt">
+          <div className="prompt-card">
+            <Search size={24} />
+            <h3>Enter your postcode above to see your estimated council tax under each LGR proposal</h3>
+            <p className="text-secondary">We&apos;ll show you what you pay now and what you&apos;d pay under all five proposed models.</p>
+          </div>
+        </section>
+      )}
+
       {/* Key caveats / methodology */}
       <section className="methodology-section">
         <button
@@ -670,10 +681,12 @@ function LGRCostCalculator() {
               <div className="method-item">
                 <h4>LGR estimates</h4>
                 <p>
-                  Savings estimates use AI DOGE's independent bottom-up model, built from
-                  £12B+ of actual Lancashire council spending data. This differs from the CCN/PwC
-                  model which uses top-down assumptions. The per-household saving is calculated by
-                  dividing authority-wide savings by estimated Band D equivalent properties.
+                  Savings estimates use AI DOGE&apos;s independent bottom-up model, built from
+                  £12B+ of actual Lancashire council spending data. Figures shown are <strong>realistic
+                  estimates</strong>: gross savings minus ongoing costs, at 75% realisation rate
+                  (because reorganisations never achieve 100% of projected savings). The per-household
+                  saving is calculated by dividing authority-wide realistic savings by estimated Band D
+                  equivalent properties.
                 </p>
               </div>
               <div className="method-item">

@@ -156,9 +156,11 @@
       "meets_threshold": true,
       "ccn_annual_savings": 21200000,
       "ccn_transition_cost": 28600000,
-      "doge_annual_savings": 126587400,
+      "doge_annual_savings_gross": 126587400,
+      "doge_annual_savings": 79416750,
+      "doge_annual_savings_note": "Net savings (gross £126.6M minus £20.7M ongoing costs) at 75% realisation rate. See methodology for full breakdown.",
       "doge_transition_cost": 62100000,
-      "doge_payback_years": 1.3,
+      "doge_payback_years": 1.0,
       "source_url": "https://lancashirelgr.co.uk/downloads/file/5/two-unitary-authorities",
       "authorities": [
         {
@@ -212,7 +214,7 @@
       },
       "strengths": [
         "Only model where ALL authorities exceed 500K population threshold",
-        "Highest projected annual savings \u2014 both CCN (\u00a321.2M) and AI DOGE independent model (\u00a324.8M)",
+        "Highest projected annual savings \u2014 CCN: \u00a321.2M, AI DOGE realistic estimate: \u00a379.4M/yr net after ongoing costs at 75% realisation",
         "Lowest per-authority transition cost",
         "Simplest governance structure \u2014 fewest boundaries, fewest IT integrations",
         "Maximum economies of scale in back-office, procurement, senior management",
@@ -237,9 +239,11 @@
       "meets_threshold": false,
       "ccn_annual_savings": 6400000,
       "ccn_transition_cost": 35000000,
-      "doge_annual_savings": 119848500,
+      "doge_annual_savings_gross": 119848500,
+      "doge_annual_savings": 66598875,
+      "doge_annual_savings_note": "Net savings (gross £119.8M minus £31.1M ongoing costs) at 75% realisation rate.",
       "doge_transition_cost": 93150000,
-      "doge_payback_years": 2.1,
+      "doge_payback_years": 1.8,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/3/three-unitary-authorities",
       "authorities": [
         {
@@ -309,13 +313,13 @@
         "Aligns with existing policing divisions and NHS boundaries",
         "Balances population reasonably across three authorities",
         "Pennine Lancashire reflects genuine economic and cultural ties",
-        "Still generates annual savings \u2014 AI DOGE independent model estimates \u00a311.2M/year",
+        "Still generates annual savings \u2014 AI DOGE realistic estimate: \u00a366.6M/yr net after ongoing costs at 75% realisation",
         "All three authorities close to or above optimal efficiency range (Andrews & Boyne 2009: 200-400K)"
       ],
       "weaknesses": [
         "Coastal Lancashire just misses 500K threshold (493,387 \u2014 only 1.3% below)",
         "West Lancashire has weak ties to Preston/Chorley \u2014 closer economic links to Merseyside",
-        "Higher transition costs than 2-unitary model (\u00a339M vs \u00a332M by AI DOGE estimate)",
+        "Higher transition costs than 2-unitary model (\u00a393M vs \u00a362M by AI DOGE estimate)",
         "Lancaster geographically distant from Blackpool despite being in same authority",
         "Coastal Lancashire has oldest demographics \u2014 aging population drives up social care costs per head"
       ]
@@ -331,9 +335,11 @@
       "meets_threshold": false,
       "ccn_annual_savings": -11500000,
       "ccn_transition_cost": 41300000,
-      "doge_annual_savings": 113109600,
+      "doge_annual_savings_gross": 113109600,
+      "doge_annual_savings": 53782200,
+      "doge_annual_savings_note": "Net savings (gross £113.1M minus £41.4M ongoing costs) at 75% realisation rate.",
       "doge_transition_cost": 124200000,
-      "doge_payback_years": 3.0,
+      "doge_payback_years": 2.9,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/1/four-lancashire-proposal-document",
       "authorities": [
         {
@@ -421,9 +427,9 @@
       ],
       "weaknesses": [
         "CCN analysis: would COST \u00a311.5M MORE per year than current system",
-        "AI DOGE independent model: still costs \u00a33.2M more per year (less dramatic than CCN but still net negative)",
+        "AI DOGE realistic estimate: \u00a353.8M/yr savings, but highest transition cost (\u00a3124M) means longest payback of viable models at 2.9 years",
         "Three of four authorities below 500K threshold",
-        "Highest transition cost (\u00a348M by AI DOGE estimate)",
+        "Second-highest transition cost (\u00a3124M by AI DOGE estimate)",
         "Splits social care four ways \u2014 academic evidence shows this increases per-capita costs",
         "Fylde Coast at only 348K \u2014 smallest viable authority proposed, with oldest demographics driving highest social care demand"
       ]
@@ -439,7 +445,9 @@
       "meets_threshold": false,
       "ccn_annual_savings": -11500000,
       "ccn_transition_cost": 41300000,
-      "doge_annual_savings": 113109600,
+      "doge_annual_savings_gross": 113109600,
+      "doge_annual_savings": 53782200,
+      "doge_annual_savings_note": "Net savings (gross £113.1M minus £41.4M ongoing costs) at 75% realisation rate. Ward-level splits add complexity.",
       "doge_transition_cost": 55000000,
       "doge_payback_years": null,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/4/alternative-four-unitary-authorities",
@@ -527,9 +535,9 @@
       "weaknesses": [
         "Only proposal requiring ward-level boundary changes \u2014 legally complex, no recent English LGR precedent",
         "Northern Lancashire at 201,508 is far below 500K threshold \u2014 would be England's smallest unitary",
-        "AI DOGE: highest transition cost (\u00a355M) due to ward-level data splitting",
+        "AI DOGE: ward-level data splitting adds transition complexity",
         "Splits Wyre and Ribble Valley communities \u2014 both councils oppose",
-        "Net cost to taxpayers of \u00a35.8M/year (AI DOGE model) \u2014 never pays back"
+        "Northern Lancashire at 201K is far too small for efficient service delivery \u2014 never approved by government"
       ]
     },
     {
@@ -543,9 +551,11 @@
       "meets_threshold": false,
       "ccn_annual_savings": null,
       "ccn_transition_cost": null,
-      "doge_annual_savings": 106370698,
+      "doge_annual_savings_gross": 113109600,
+      "doge_annual_savings": 46019700,
+      "doge_annual_savings_note": "Net savings (gross £113.1M minus £51.8M ongoing costs) at 75% realisation rate. Five-way service split reduces achievable savings.",
       "doge_transition_cost": 155250000,
-      "doge_payback_years": 4.1,
+      "doge_payback_years": 4.2,
       "source_url": "https://burnley.gov.uk/wp-content/uploads/2025/11/COMMS_LGR-5UA-business-case-20623.pdf",
       "authorities": [
         {
@@ -637,7 +647,7 @@
         "likely_control": "East: Labour. Central: Labour (Blackburn weight). North: Conservative/Lib Dem contest. South: Labour. West: Labour likely.",
         "councillor_reduction": "From ~604 to ~320 (est. 64 per authority). 47% fewer elected representatives \u2014 lowest reduction of any model.",
         "who_benefits": "Burnley and Pendle council leaders \u2014 this model most closely preserves existing district boundaries and creates the most councillor seats. Burnley spent \u00a3340K+ on LGR consultancy (Socitm, 31ten Consulting) to develop this option.",
-        "who_loses": "Taxpayers \u2014 AI DOGE estimates this costs \u00a314.5M MORE per year than the current system. Five-way split of social care creates recruitment challenges and fragmentation risk. The 80% survey support was from a self-selecting local sample, not a representative poll."
+        "who_loses": "Taxpayers face highest transition bill (\u00a3155M) and longest payback (4.2 years) of any model. Five-way split of social care creates recruitment challenges and fragmentation risk. The 80% survey support was from a self-selecting local sample, not a representative poll."
       },
       "strengths": [
         "Strongest local democratic support (80% of Burnley/Pendle survey \u2014 though self-selecting sample)",
@@ -648,7 +658,7 @@
       ],
       "weaknesses": [
         "No authority meets 500K population threshold \u2014 government is very unlikely to approve",
-        "AI DOGE model: costs \u00a314.5M MORE per year than current system (worst economics of any model)",
+        "AI DOGE realistic estimate: \u00a346.0M/yr savings, but highest transition cost (\u00a3155M) gives longest payback at 4.2 years",
         "Five-way split of social care increases fragmentation and recruitment challenges",
         "East Lancashire (272K) and North Lancashire (264K) are small for county-level services",
         "North Lancashire has oldest population \u2014 highest per-capita social care costs with smallest tax base",
@@ -736,7 +746,7 @@
   },
   "independent_model": {
     "title": "AI DOGE Independent Financial Model",
-    "subtitle": "Built from \u00a32.9B+ actual GOV.UK 2024-25 revenue outturn data across 15 Lancashire councils \u2014 now with per-service savings from 192 real budget lines",
+    "subtitle": "Bottom-up computation from \u00a32.9B+ actual GOV.UK 2024-25 revenue outturn data across 15 Lancashire councils, with per-service savings from 192 budget lines. All assumptions published. All data verifiable.",
     "computed_from_data": true,
     "data_source": "GOV.UK MHCLG Revenue Outturn 2024-25 (RS, RSX, RO2, RO4, RO5, RO6)",
     "computation_date": "2026-02-18",
@@ -946,47 +956,57 @@
       {
         "model": "two_unitary",
         "label": "East & West Lancashire",
-        "annual_saving": 126587400,
+        "annual_saving_gross": 126587400,
+        "annual_saving": 79416750,
+        "annual_saving_note": "Net of £20.7M ongoing costs, at 75% realisation",
         "transition_cost": 62100000,
-        "payback_years": 0.5,
-        "ten_year_net": 1203774000,
-        "realistic_ten_year_net": 871780500
+        "payback_years": 1.0,
+        "ten_year_net": 732067500,
+        "realistic_ten_year_net": 732067500
       },
       {
         "model": "three_unitary",
         "label": "Three Unitaries",
-        "annual_saving": 119848500,
+        "annual_saving_gross": 119848500,
+        "annual_saving": 66598875,
+        "annual_saving_note": "Net of £31.1M ongoing costs, at 75% realisation",
         "transition_cost": 93150000,
-        "payback_years": 0.8,
-        "ten_year_net": 1105335000,
-        "realistic_ten_year_net": 782426250
+        "payback_years": 1.8,
+        "ten_year_net": 572838750,
+        "realistic_ten_year_net": 572838750
       },
       {
         "model": "four_unitary",
         "label": "Four Unitaries",
-        "annual_saving": 113109600,
+        "annual_saving_gross": 113109600,
+        "annual_saving": 53782200,
+        "annual_saving_note": "Net of £41.4M ongoing costs, at 75% realisation",
         "transition_cost": 124200000,
-        "payback_years": 1.1,
-        "ten_year_net": 1006896000,
-        "realistic_ten_year_net": 693072000
+        "payback_years": 2.9,
+        "ten_year_net": 413622000,
+        "realistic_ten_year_net": 413622000
       },
       {
         "model": "five_unitary",
         "label": "Five Unitaries",
-        "annual_saving": 113109600,
+        "annual_saving_gross": 113109600,
+        "annual_saving": 46019700,
+        "annual_saving_note": "Net of £51.8M ongoing costs, at 75% realisation",
         "transition_cost": 155250000,
-        "payback_years": 1.4,
-        "ten_year_net": 975846000,
-        "realistic_ten_year_net": 654259500
+        "payback_years": 4.2,
+        "ten_year_net": 304947000,
+        "realistic_ten_year_net": 304947000
       },
       {
         "model": "county_unitary",
         "label": "Greater Lancashire (County Unitary)",
-        "annual_saving": 0,
+        "annual_saving_gross": 0,
+        "annual_saving": -7762500,
+        "annual_saving_note": "Net cost: £10.35M ongoing costs at 75% realisation. No merger savings.",
         "transition_cost": 31050000,
         "payback_years": null,
-        "ten_year_net": -31050000,
-        "realistic_ten_year_net": -38812500
+        "ten_year_net": -108675000,
+        "realistic_ten_year_net": -108675000
       }
     ],
     "presentation_comparison": {
