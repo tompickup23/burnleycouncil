@@ -5,16 +5,85 @@
       "source": "GOV.UK MHCLG Revenue Outturn (2021/22)",
       "net_revenue_budget": 143461000,
       "departments": {
-        "Public Health": 22197000,
-        "Planning and development services": 362000,
-        "Adult Social Care": 68476000,
+        "Highways and transport services": 12378000,
         "Cultural and related services": 6298000,
         "Environmental and regulatory services": 16715000,
-        "Highways and transport services": 12378000,
+        "Adult Social Care": 68476000,
+        "Planning and development services": 362000,
         "Children Social Care": 65298000,
-        "Education services": 61784000,
+        "Public Health": 22197000,
         "Central services": 3867000,
-        "Housing services (GFRA only)": 3988000
+        "Housing services (GFRA only)": 3988000,
+        "Education services": 61784000
+      },
+      "expenditure_breakdown": {
+        "Highways and transport services": {
+          "employees": 3595000,
+          "running_expenses": 19931000,
+          "total_expenditure": 23526000,
+          "total_income": 11148000
+        },
+        "Cultural and related services": {
+          "employees": 7008000,
+          "running_expenses": 15343000,
+          "total_expenditure": 22351000,
+          "total_income": 16053000
+        },
+        "Environmental and regulatory services": {
+          "employees": 4417000,
+          "running_expenses": 21802000,
+          "total_expenditure": 26219000
+        },
+        "Adult Social Care": {
+          "employees": 21438000,
+          "running_expenses": 81471000,
+          "total_expenditure": 102909000,
+          "total_income": 34433000
+        },
+        "Planning and development services": {
+          "employees": 3199000,
+          "running_expenses": 5052000,
+          "total_expenditure": 8251000,
+          "total_income": 7889000
+        },
+        "Children Social Care": {
+          "employees": 18697000,
+          "running_expenses": 53343000,
+          "total_expenditure": 72040000,
+          "total_income": 6742000
+        },
+        "Public Health": {
+          "employees": 1364000,
+          "running_expenses": 24067000,
+          "total_expenditure": 25431000,
+          "total_income": 3234000
+        },
+        "Central services": {
+          "employees": 20461000,
+          "running_expenses": 13164000,
+          "total_expenditure": 33625000,
+          "total_income": 29758000
+        },
+        "Housing services (GFRA only)": {
+          "employees": 1567000,
+          "running_expenses": 4354000,
+          "total_expenditure": 5921000,
+          "total_income": 1933000
+        },
+        "Education services": {
+          "employees": 39228000
+        }
+      },
+      "council_tax_requirement": 62618000,
+      "revenue_expenditure": 256133000,
+      "reserves": {
+        "earmarked_opening": 75448000,
+        "earmarked_closing": 73782000,
+        "unallocated_opening": 6293000,
+        "unallocated_closing": 6075000,
+        "total_opening": 81741000,
+        "total_closing": 79857000,
+        "change": -1884000
       },
       "funding_sources": {
         "revenue_support_grant": -15113000,
@@ -30,16 +99,84 @@
       "source": "GOV.UK MHCLG Revenue Outturn (2022/23)",
       "net_revenue_budget": 154902000,
       "departments": {
-        "Public Health": 20298000,
-        "Planning and development services": 487000,
-        "Adult Social Care": 68054000,
+        "Highways and transport services": 9460000,
         "Cultural and related services": 11015000,
         "Environmental and regulatory services": 18689000,
-        "Highways and transport services": 9460000,
+        "Adult Social Care": 68054000,
+        "Planning and development services": 487000,
         "Children Social Care": 72198000,
-        "Education services": 69045000,
+        "Public Health": 20298000,
         "Central services": -1553000,
-        "Housing services (GFRA only)": 3699000
+        "Housing services (GFRA only)": 3699000,
+        "Education services": 69045000
+      },
+      "expenditure_breakdown": {
+        "Highways and transport services": {
+          "employees": 3823000,
+          "running_expenses": 21248000,
+          "total_expenditure": 25071000,
+          "total_income": 15611000
+        },
+        "Cultural and related services": {
+          "employees": 7596000,
+          "running_expenses": 16773000,
+          "total_expenditure": 24369000,
+          "total_income": 13354000
+        },
+        "Environmental and regulatory services": {
+          "employees": 3257000,
+          "running_expenses": 23674000,
+          "total_expenditure": 26931000
+        },
+        "Adult Social Care": {
+          "employees": 20826000,
+          "running_expenses": 81423000,
+          "total_expenditure": 102249000,
+          "total_income": 34195000
+        },
+        "Planning and development services": {
+          "employees": 3551000,
+          "running_expenses": 5605000,
+          "total_expenditure": 9156000,
+          "total_income": 8669000
+        },
+        "Children Social Care": {
+          "employees": 19525000,
+          "running_expenses": 60645000,
+          "total_expenditure": 80170000,
+          "total_income": 7972000
+        },
+        "Public Health": {
+          "employees": 1391000,
+          "running_expenses": 20697000,
+          "total_expenditure": 22088000,
+          "total_income": 1790000
+        },
+        "Central services": {
+          "employees": 22747000,
+          "running_expenses": 21372000,
+          "total_expenditure": 44119000,
+          "total_income": 45672000
+        },
+        "Housing services (GFRA only)": {
+          "employees": 1678000,
+          "running_expenses": 5042000,
+          "total_expenditure": 6720000,
+          "total_income": 3021000
+        },
+        "Education services": {
+          "employees": 40962000
+        }
+      },
+      "council_tax_requirement": 64992000,
+      "reserves": {
+        "earmarked_opening": 73780000,
+        "earmarked_closing": 44511000,
+        "unallocated_opening": 6075000,
+        "unallocated_closing": 2459000,
+        "total_opening": 79855000,
+        "total_closing": 46970000,
+        "change": -32885000
       },
       "funding_sources": {
         "revenue_support_grant": -15578000,
@@ -55,16 +192,84 @@
       "source": "GOV.UK MHCLG Revenue Outturn (2023/24)",
       "net_revenue_budget": 157059000,
       "departments": {
-        "Public Health": 19967000,
-        "Planning and development services": 490000,
-        "Adult Social Care": 71158000,
+        "Highways and transport services": 10993000,
         "Cultural and related services": 10216000,
         "Environmental and regulatory services": 20640000,
-        "Highways and transport services": 10993000,
+        "Adult Social Care": 71158000,
+        "Planning and development services": 490000,
         "Children Social Care": 79589000,
-        "Education services": 72259000,
+        "Public Health": 19967000,
         "Central services": -2730000,
-        "Housing services (GFRA only)": 5471000
+        "Housing services (GFRA only)": 5471000,
+        "Education services": 72259000
+      },
+      "expenditure_breakdown": {
+        "Highways and transport services": {
+          "employees": 4130000,
+          "running_expenses": 17199000,
+          "total_expenditure": 21329000,
+          "total_income": 10336000
+        },
+        "Cultural and related services": {
+          "employees": 8514000,
+          "running_expenses": 16153000,
+          "total_expenditure": 24667000,
+          "total_income": 14451000
+        },
+        "Environmental and regulatory services": {
+          "employees": 3817000,
+          "running_expenses": 27032000,
+          "total_expenditure": 30849000
+        },
+        "Adult Social Care": {
+          "employees": 24396000,
+          "running_expenses": 88438000,
+          "total_expenditure": 112834000,
+          "total_income": 41676000
+        },
+        "Planning and development services": {
+          "employees": 4150000,
+          "running_expenses": 2818000,
+          "total_expenditure": 6968000,
+          "total_income": 6478000
+        },
+        "Children Social Care": {
+          "employees": 19291000,
+          "running_expenses": 66143000,
+          "total_expenditure": 85434000,
+          "total_income": 5845000
+        },
+        "Public Health": {
+          "employees": 1866000,
+          "running_expenses": 24226000,
+          "total_expenditure": 26092000,
+          "total_income": 6125000
+        },
+        "Central services": {
+          "employees": 23211000,
+          "running_expenses": 24560000,
+          "total_expenditure": 47771000,
+          "total_income": 50501000
+        },
+        "Housing services (GFRA only)": {
+          "employees": 1941000,
+          "running_expenses": 5051000,
+          "total_expenditure": 6992000,
+          "total_income": 1521000
+        },
+        "Education services": {
+          "employees": 38005000
+        }
+      },
+      "council_tax_requirement": 69502000,
+      "reserves": {
+        "earmarked_opening": 47623000,
+        "earmarked_closing": 31642000,
+        "unallocated_opening": 2459000,
+        "unallocated_closing": 7104000,
+        "total_opening": 50082000,
+        "total_closing": 38746000,
+        "change": -11336000
       },
       "funding_sources": {
         "revenue_support_grant": -17509000,
@@ -80,17 +285,437 @@
       "source": "GOV.UK MHCLG Revenue Outturn (2024/25)",
       "net_revenue_budget": 168860000,
       "departments": {
-        "Public Health": 20399000,
-        "Other services": -1347000,
-        "Planning and development services": 2510000,
-        "Adult Social Care": 76650000,
+        "Highways and transport services": 7706000,
         "Cultural and related services": 8082000,
         "Environmental and regulatory services": 21101000,
-        "Highways and transport services": 7706000,
+        "Adult Social Care": 76650000,
+        "Planning and development services": 2510000,
+        "Other services": -1347000,
         "Children Social Care": 85832000,
-        "Education services": 65299000,
+        "Public Health": 20399000,
         "Central services": -295000,
-        "Housing services (GFRA only)": 5155000
+        "Housing services (GFRA only)": 5155000,
+        "Education services": 65299000
+      },
+      "sub_services": {
+        "Cultural and related services": {
+          "Arts development": {
+            "net": -539000,
+            "employees": 43000,
+            "running_expenses": 93000,
+            "total_expenditure": 136000,
+            "total_income": 675000
+          },
+          "Heritage": {
+            "net": 381000,
+            "running_expenses": 1187000,
+            "total_expenditure": 1187000,
+            "total_income": 806000
+          },
+          "Museums & galleries": {
+            "net": 381000,
+            "running_expenses": 1187000,
+            "total_expenditure": 1187000,
+            "total_income": 806000
+          },
+          "Theatres & entertainment": {
+            "net": 381000,
+            "running_expenses": 1187000,
+            "total_expenditure": 1187000,
+            "total_income": 806000
+          },
+          "Foreshore": {
+            "net": 298000,
+            "employees": 266000,
+            "running_expenses": 79000,
+            "total_expenditure": 345000,
+            "total_income": 47000
+          },
+          "Sports & recreation": {
+            "net": 744000,
+            "employees": 1009000,
+            "running_expenses": 502000,
+            "total_expenditure": 1511000,
+            "total_income": 767000
+          },
+          "Tourism": {
+            "net": 3777000,
+            "employees": 2406000,
+            "running_expenses": 4029000,
+            "total_expenditure": 6435000,
+            "total_income": 2658000
+          },
+          "Libraries": {
+            "net": -204000,
+            "employees": 1228000,
+            "running_expenses": 1174000,
+            "total_expenditure": 2402000,
+            "total_income": 2606000
+          }
+        },
+        "Environmental and regulatory services": {
+          "Cemeteries & crematoria": {
+            "net": -784000,
+            "employees": 562000,
+            "running_expenses": 859000,
+            "total_expenditure": 1421000,
+            "total_income": 2205000
+          },
+          "Trading standards": {
+            "net": 476000,
+            "employees": 389000,
+            "running_expenses": 108000,
+            "total_expenditure": 497000,
+            "total_income": 21000
+          },
+          "Food safety / hygiene": {
+            "net": 336000,
+            "employees": 320000,
+            "running_expenses": 28000,
+            "total_expenditure": 348000,
+            "total_income": 12000
+          },
+          "Housing standards": {
+            "net": -218000,
+            "employees": 169000,
+            "running_expenses": 116000,
+            "total_expenditure": 285000,
+            "total_income": 503000
+          },
+          "Public conveniences": {
+            "net": 795000,
+            "running_expenses": 810000,
+            "total_expenditure": 810000,
+            "total_income": 15000
+          },
+          "Animal and public health": {
+            "net": 263000,
+            "employees": 67000,
+            "running_expenses": 200000,
+            "total_expenditure": 267000,
+            "total_income": 4000
+          },
+          "Licensing": {
+            "net": 204000,
+            "employees": 437000,
+            "running_expenses": 357000,
+            "total_expenditure": 794000,
+            "total_income": 590000
+          },
+          "Crime Reduction": {
+            "net": 173000,
+            "employees": 251000,
+            "running_expenses": 167000,
+            "total_expenditure": 418000,
+            "total_income": 245000
+          },
+          "Safety Services": {
+            "net": -9000,
+            "employees": 386000,
+            "running_expenses": 723000,
+            "total_expenditure": 1109000,
+            "total_income": 1118000
+          },
+          "CCTV": {
+            "net": -111000,
+            "employees": 474000,
+            "running_expenses": 199000,
+            "total_expenditure": 673000,
+            "total_income": 784000
+          },
+          "Defences against flooding": {
+            "net": 234000,
+            "employees": 132000,
+            "running_expenses": 102000,
+            "total_expenditure": 234000
+          },
+          "Land drainage": {
+            "net": 10000,
+            "running_expenses": 10000,
+            "total_expenditure": 10000
+          },
+          "Coast protection": {
+            "net": 367000,
+            "employees": 79000,
+            "running_expenses": 288000,
+            "total_expenditure": 367000
+          },
+          "Street cleansing": {
+            "net": 5939000,
+            "employees": 74000,
+            "running_expenses": 7651000,
+            "total_expenditure": 7725000,
+            "total_income": 1786000
+          },
+          "Waste collection": {
+            "net": 2896000,
+            "running_expenses": 3647000,
+            "total_expenditure": 3647000,
+            "total_income": 751000
+          },
+          "Waste disposal": {
+            "net": 10365000,
+            "employees": 25000,
+            "running_expenses": 10961000,
+            "total_expenditure": 10986000,
+            "total_income": 621000
+          },
+          "Trade waste": {
+            "net": -317000,
+            "employees": 25000,
+            "running_expenses": 1767000,
+            "total_expenditure": 1792000,
+            "total_income": 2109000
+          },
+          "Recycling": {
+            "net": -284000,
+            "total_income": 284000
+          },
+          "Waste minimisation": {
+            "net": 97000,
+            "running_expenses": 282000,
+            "total_expenditure": 282000,
+            "total_income": 185000
+          },
+          "Climate change costs": {
+            "net": 144000,
+            "employees": 248000,
+            "running_expenses": 399000,
+            "total_expenditure": 647000,
+            "total_income": 503000
+          }
+        },
+        "Planning and development services": {
+          "Building control": {
+            "net": 137000,
+            "employees": 309000,
+            "running_expenses": 122000,
+            "total_expenditure": 431000,
+            "total_income": 294000
+          },
+          "Development control": {
+            "net": 594000,
+            "employees": 773000,
+            "running_expenses": 277000,
+            "total_expenditure": 1050000,
+            "total_income": 456000
+          },
+          "Conservation and listed buildings": {
+            "net": 15000,
+            "running_expenses": 93000,
+            "total_expenditure": 93000,
+            "total_income": 78000
+          },
+          "Other planning policy and specialist advice": {
+            "net": 302000,
+            "employees": 181000,
+            "running_expenses": 158000,
+            "total_expenditure": 339000,
+            "total_income": 37000
+          },
+          "Environmental initiatives": {
+            "net": 14000,
+            "running_expenses": 93000,
+            "total_expenditure": 93000,
+            "total_income": 79000
+          },
+          "Economic development": {
+            "net": 5183000,
+            "employees": 2410000,
+            "running_expenses": 5482000,
+            "total_expenditure": 7892000,
+            "total_income": 2709000
+          },
+          "Business support and promotion": {
+            "net": -3735000,
+            "employees": 907000,
+            "running_expenses": 6064000,
+            "total_expenditure": 6971000,
+            "total_income": 10706000
+          }
+        },
+        "Central services": {
+          "Corporate and Democratic Core": {
+            "net": 3864000,
+            "employees": 2270000,
+            "running_expenses": 2358000,
+            "total_expenditure": 4628000,
+            "total_income": 764000
+          },
+          "Council tax collection": {
+            "net": 773000,
+            "running_expenses": 1624000,
+            "total_expenditure": 1624000,
+            "total_income": 851000
+          },
+          "Business rates collection": {
+            "net": 6000,
+            "running_expenses": 280000,
+            "total_expenditure": 280000,
+            "total_income": 274000
+          },
+          "Births/deaths/marriages": {
+            "net": 35000,
+            "employees": 490000,
+            "running_expenses": 31000,
+            "total_expenditure": 521000,
+            "total_income": 486000
+          },
+          "Registration of electors": {
+            "net": 230000,
+            "employees": 113000,
+            "running_expenses": 122000,
+            "total_expenditure": 235000,
+            "total_income": 5000
+          },
+          "Conducting elections": {
+            "net": 26000,
+            "employees": 281000,
+            "running_expenses": 374000,
+            "total_expenditure": 655000,
+            "total_income": 629000
+          },
+          "Local land charges": {
+            "net": -17000,
+            "employees": 15000,
+            "running_expenses": 54000,
+            "total_expenditure": 69000,
+            "total_income": 86000
+          },
+          "Coroners courts": {
+            "net": 450000,
+            "employees": 588000,
+            "running_expenses": 440000,
+            "total_expenditure": 1028000,
+            "total_income": 578000
+          },
+          "Support services": {
+            "net": -6039000,
+            "employees": 20958000,
+            "running_expenses": 16839000,
+            "total_expenditure": 37797000,
+            "total_income": 43836000
+          }
+        },
+        "Housing services (GFRA only)": {
+          "Housing repair grants": {
+            "net": 165000,
+            "running_expenses": 21472000,
+            "total_expenditure": 21472000,
+            "total_income": 21307000
+          },
+          "Bed and breakfast hotels": {
+            "net": 614000,
+            "running_expenses": 739000,
+            "total_expenditure": 739000,
+            "total_income": 125000
+          },
+          "Total homelessness": {
+            "net": 2022000,
+            "employees": 1433000,
+            "running_expenses": 1424000,
+            "total_expenditure": 2857000,
+            "total_income": 835000
+          },
+          "Rent allowances": {
+            "net": 127000,
+            "running_expenses": 127000,
+            "total_expenditure": 127000
+          },
+          "Housing benefits admin": {
+            "net": 2087000,
+            "running_expenses": 2087000,
+            "total_expenditure": 2087000
+          },
+          "Other council property": {
+            "net": -94000,
+            "running_expenses": 131000,
+            "total_expenditure": 131000,
+            "total_income": 225000
+          },
+          "Supporting People": {
+            "net": 58000,
+            "running_expenses": 58000,
+            "total_expenditure": 58000
+          }
+        }
+      },
+      "expenditure_breakdown": {
+        "Highways and transport services": {
+          "employees": 4678000,
+          "running_expenses": 16097000,
+          "total_expenditure": 20775000,
+          "total_income": 13069000
+        },
+        "Cultural and related services": {
+          "employees": 8244000,
+          "running_expenses": 16045000,
+          "total_expenditure": 24289000,
+          "total_income": 16207000
+        },
+        "Environmental and regulatory services": {
+          "employees": 4030000,
+          "running_expenses": 28829000,
+          "total_expenditure": 32859000,
+          "total_income": 11758000
+        },
+        "Adult Social Care": {
+          "employees": 24986000,
+          "running_expenses": 97992000,
+          "total_expenditure": 122978000,
+          "total_income": 46328000
+        },
+        "Planning and development services": {
+          "employees": 4580000,
+          "running_expenses": 12289000,
+          "total_expenditure": 16869000,
+          "total_income": 14359000
+        },
+        "Other services": {
+          "running_expenses": 203000,
+          "total_expenditure": 203000,
+          "total_income": 1550000
+        },
+        "Children Social Care": {
+          "employees": 25048000,
+          "running_expenses": 69566000,
+          "total_expenditure": 94614000,
+          "total_income": 8782000
+        },
+        "Public Health": {
+          "employees": 1744000,
+          "running_expenses": 23135000,
+          "total_expenditure": 24879000,
+          "total_income": 4480000
+        },
+        "Central services": {
+          "employees": 24715000,
+          "running_expenses": 22499000,
+          "total_expenditure": 47214000,
+          "total_income": 47509000
+        },
+        "Housing services (GFRA only)": {
+          "employees": 1874000,
+          "running_expenses": 25945000,
+          "total_expenditure": 27819000,
+          "total_income": 22664000
+        },
+        "Education services": {
+          "employees": 27646000,
+          "running_expenses": 64758000,
+          "total_expenditure": 92404000,
+          "total_income": 27105000
+        }
+      },
+      "council_tax_requirement": 74755000,
+      "reserves": {
+        "earmarked_opening": 31642000,
+        "earmarked_closing": 34206000,
+        "unallocated_opening": 7104000,
+        "unallocated_closing": 509000,
+        "total_opening": 38746000,
+        "total_closing": 34715000,
+        "change": -4031000
       },
       "funding_sources": {
         "revenue_support_grant": -18668000,
@@ -118,7 +743,8 @@
       "Service expenditure grew 17.7% from \u00a3143.5M (2021/22) to \u00a3168.9M (2024/25)",
       "Children Social Care is the largest service at \u00a385.8M (51% of total expenditure)",
       "Planning and development services grew fastest: 593% (\u00a3362K \u2192 \u00a32.5M)",
-      "Total reserves fell by \u00a34.0M in 2024-25"
+      "Total reserves fell by \u00a345.1M over the period",
+      "Waste disposal is the largest individual sub-service at \u00a310.4M"
     ],
     "departmental_growth": {
       "Planning and development services": {
@@ -162,14 +788,139 @@
         "growth_pct": -8.1
       }
     },
+    "sub_service_growth": {},
     "funding_dependency": {
       "council_tax_pct": 4,
-      "business_rates_pct": 0,
-      "government_grants_pct": 96
+      "business_rates_pct": 75,
+      "government_grants_pct": 21
     }
   },
   "_generated": {
-    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data",
-    "note": "For richer budget analysis, contact AI DOGE with the council budget book PDF"
-  }
+    "source": "Auto-generated from GOV.UK MHCLG Revenue Outturn data (V2 with sub-service detail)",
+    "note": "Sub-service data from RO4/RO5/RO6 statutory returns. Null sub-lines where MHCLG data is sparse.",
+    "version": 2
+  },
+  "council_tax_history": {
+    "band_d_element": {
+      "1998/99": 579.52,
+      "1999/00": 625.38,
+      "2000/01": 662.65,
+      "2001/02": 742.58,
+      "2002/03": 877.03,
+      "2003/04": 990.41,
+      "2004/05": 1028.38,
+      "2005/06": 1079.23,
+      "2006/07": 1127.02,
+      "2007/08": 1175.89,
+      "2008/09": 1222.29,
+      "2009/10": 1268.79,
+      "2010/11": 1306.09,
+      "2011/12": 1306.09,
+      "2012/13": 1306.09,
+      "2013/14": 1306.0,
+      "2014/15": 1306.0,
+      "2015/16": 1306.0,
+      "2016/17": 1358.05,
+      "2017/18": 1425.75,
+      "2018/19": 1511.14,
+      "2019/20": 1556.31,
+      "2020/21": 1618.39,
+      "2021/22": 1699.13,
+      "2022/23": 1749.92,
+      "2023/24": 1837.23,
+      "2024/25": 1928.87,
+      "2025/26": 2025.08
+    },
+    "band_d_total": {
+      "1993/94": 649.13,
+      "1994/95": 681.75,
+      "1995/96": 651.38,
+      "1996/97": 665.93,
+      "1997/98": 729.14,
+      "1998/99": 632.93,
+      "1999/00": 683.07,
+      "2000/01": 725.25,
+      "2001/02": 810.47,
+      "2002/03": 950.89,
+      "2003/04": 1077.98,
+      "2004/05": 1178.72,
+      "2005/06": 1239.05,
+      "2006/07": 1294.82,
+      "2007/08": 1359.28,
+      "2008/09": 1418.41,
+      "2009/10": 1473.28,
+      "2010/11": 1516.01,
+      "2011/12": 1516.01,
+      "2012/13": 1519.67,
+      "2013/14": 1522.57,
+      "2014/15": 1525.61,
+      "2015/16": 1529.92,
+      "2016/17": 1585.77,
+      "2017/18": 1656.7,
+      "2018/19": 1756.05,
+      "2019/20": 1827.24,
+      "2020/21": 1900.7,
+      "2021/22": 1997.85,
+      "2022/23": 2063.64,
+      "2023/24": 2170.95,
+      "2024/25": 2277.0,
+      "2025/26": 2392.21
+    },
+    "band_d_inc_precepts": {
+      "1998/99": 579.52,
+      "1999/00": 625.38,
+      "2000/01": 662.65,
+      "2001/02": 742.58,
+      "2002/03": 877.03,
+      "2003/04": 990.41,
+      "2004/05": 1028.38,
+      "2005/06": 1079.23,
+      "2006/07": 1127.02,
+      "2007/08": 1175.89,
+      "2008/09": 1222.29,
+      "2009/10": 1268.79,
+      "2010/11": 1306.09,
+      "2011/12": 1306.09,
+      "2012/13": 1306.09,
+      "2013/14": 1306.0,
+      "2014/15": 1306.0,
+      "2015/16": 1306.0,
+      "2016/17": 1358.05,
+      "2017/18": 1425.75,
+      "2018/19": 1511.14,
+      "2019/20": 1556.31,
+      "2020/21": 1618.39,
+      "2021/22": 1699.13,
+      "2022/23": 1749.92,
+      "2023/24": 1837.23,
+      "2024/25": 1928.87,
+      "2025/26": 2025.08
+    }
+  },
+  "reserves_trajectory": [
+    {
+      "year": "2021/22",
+      "earmarked": 73782000,
+      "unallocated": 6075000,
+      "total": 79857000
+    },
+    {
+      "year": "2022/23",
+      "earmarked": 44511000,
+      "unallocated": 2459000,
+      "total": 46970000
+    },
+    {
+      "year": "2023/24",
+      "earmarked": 31642000,
+      "unallocated": 7104000,
+      "total": 38746000
+    },
+    {
+      "year": "2024/25",
+      "earmarked": 34206000,
+      "unallocated": 509000,
+      "total": 34715000
+    }
+  ]
 }

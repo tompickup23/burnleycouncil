@@ -487,6 +487,87 @@
   padding: var(--space-sm) var(--space-md);
 }
 
+/* Sub-service drill-down rows */
+.budget-table tr.has-drill-down td.dept-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.budget-table .drill-icon {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.budget-table tr.has-drill-down:hover .drill-icon {
+  opacity: 1;
+}
+
+.budget-table tr.expanded {
+  background: rgba(10, 132, 255, 0.06);
+}
+
+.budget-table tr.sub-service-row {
+  background: rgba(10, 132, 255, 0.03);
+}
+
+.budget-table tr.sub-service-row:hover {
+  background: rgba(10, 132, 255, 0.06);
+}
+
+.budget-table td.sub-service-name {
+  padding-left: 2rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.budget-table td.sub-service-detail {
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.budget-table tr.sub-service-breakdown-row {
+  background: rgba(10, 132, 255, 0.04);
+}
+
+.budget-table .breakdown-cell {
+  padding: 6px 12px;
+}
+
+.expenditure-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.breakdown-tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.breakdown-tag.employees {
+  background: rgba(48, 209, 88, 0.12);
+  color: var(--accent-green);
+}
+
+.breakdown-tag.running {
+  background: rgba(255, 159, 10, 0.12);
+  color: var(--accent-orange);
+}
+
+.breakdown-tag.total-exp {
+  background: rgba(10, 132, 255, 0.12);
+  color: var(--accent-blue);
+}
+
+.breakdown-tag.income {
+  background: rgba(94, 92, 230, 0.12);
+  color: #5e5ce6;
+}
+
 .table-note {
   font-size: 0.8125rem;
   margin-top: var(--space-md);
