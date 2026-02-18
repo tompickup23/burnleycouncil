@@ -3,8 +3,9 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE } from '../utils/constants'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine } from 'recharts'
-import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
+import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
+import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP } from '../utils/lgrModel'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
@@ -32,6 +33,27 @@ function PopulationThresholdBadge({ population, threshold = 500000 }) {
       {meets ? <Check size={12} /> : <XIcon size={12} />}
       {meets ? 'Above' : 'Below'} 500K
     </span>
+  )
+}
+
+function AssumptionSlider({ label, value, min, max, step, format, onChange, description }) {
+  return (
+    <div className="assumption-slider">
+      <div className="slider-header">
+        <span className="slider-label">{label}</span>
+        <span className="slider-value">{format(value)}</span>
+      </div>
+      {description && <span className="slider-desc">{description}</span>}
+      <input
+        type="range" min={min} max={max} step={step} value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="slider-input"
+      />
+      <div className="slider-range">
+        <span>{format(min)}</span>
+        <span>{format(max)}</span>
+      </div>
+    </div>
   )
 }
 
@@ -141,6 +163,82 @@ function LGRTracker() {
     }))
   }, [lgrData])
 
+  // What-if calculator state
+  const [userAssumptions, setUserAssumptions] = useState(null)
+  const [whatIfOpen, setWhatIfOpen] = useState(false)
+
+  // Active model (computed early for use in cashflow hooks — safe when lgrData is null)
+  const activeModel = selectedModel || lgrData?.proposed_models?.[0]?.id || null
+
+  // Time-phased cashflow model
+  const cashflowData = useMemo(() => {
+    if (!budgetModel?.transition_cost_profile || !budgetModel?.savings_ramp_profile) return null
+    if (!lgrData?.independent_model?.transition_costs) return null
+
+    const modelKey = MODEL_KEY_MAP[activeModel]
+    if (!modelKey) return null
+    const transitionCosts = lgrData.independent_model.transition_costs[modelKey]
+    const annualSavings = budgetModel.per_service_savings?.[activeModel]?.total_annual_savings || 0
+
+    if (!transitionCosts || annualSavings <= 0) return null
+
+    const assumptions = userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS
+
+    return computeCashflow({
+      annualSavings,
+      transitionCosts,
+      costProfile: budgetModel.transition_cost_profile,
+      savingsRamp: budgetModel.savings_ramp_profile,
+      assumptions,
+    })
+  }, [budgetModel, lgrData, activeModel, userAssumptions])
+
+  // Sensitivity analysis (best/central/worst)
+  const sensitivityData = useMemo(() => {
+    if (!budgetModel?.transition_cost_profile || !budgetModel?.savings_ramp_profile) return null
+    if (!lgrData?.independent_model?.transition_costs) return null
+
+    const modelKey = MODEL_KEY_MAP[activeModel]
+    if (!modelKey) return null
+    const transitionCosts = lgrData.independent_model.transition_costs[modelKey]
+    const annualSavings = budgetModel.per_service_savings?.[activeModel]?.total_annual_savings || 0
+
+    if (!transitionCosts || annualSavings <= 0) return null
+
+    const assumptions = userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS
+
+    return computeSensitivity({
+      annualSavings,
+      transitionCosts,
+      costProfile: budgetModel.transition_cost_profile,
+      savingsRamp: budgetModel.savings_ramp_profile,
+      assumptions,
+    })
+  }, [budgetModel, lgrData, activeModel, userAssumptions])
+
+  // Tornado diagram data
+  const tornadoData = useMemo(() => {
+    if (!budgetModel?.transition_cost_profile || !budgetModel?.savings_ramp_profile) return null
+    if (!lgrData?.independent_model?.transition_costs) return null
+
+    const modelKey = MODEL_KEY_MAP[activeModel]
+    if (!modelKey) return null
+    const transitionCosts = lgrData.independent_model.transition_costs[modelKey]
+    const annualSavings = budgetModel.per_service_savings?.[activeModel]?.total_annual_savings || 0
+
+    if (!transitionCosts || annualSavings <= 0) return null
+
+    const assumptions = userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS
+
+    return computeTornado({
+      annualSavings,
+      transitionCosts,
+      costProfile: budgetModel.transition_cost_profile,
+      savingsRamp: budgetModel.savings_ramp_profile,
+      assumptions,
+    })
+  }, [budgetModel, lgrData, activeModel, userAssumptions])
+
   if (loading) {
     return <div className="lgr-page animate-fade-in"><div className="loading-state"><div className="spinner" /><p>Loading LGR Tracker...</p></div></div>
   }
@@ -148,7 +246,7 @@ function LGRTracker() {
     return <div className="lgr-page animate-fade-in"><header className="page-header"><h1>LGR Tracker</h1><p className="subtitle">LGR tracking data is not yet available.</p></header></div>
   }
 
-  const activeModel = selectedModel || lgrData.proposed_models[0]?.id
+  // activeModel already computed above for use in hooks
   const activeFinancials = modelFinancials[activeModel] || []
   const activeModelData = lgrData.proposed_models.find(m => m.id === activeModel)
   const dogeAssessment = lgrData.ai_doge_analysis?.assessments?.find(a => a.model_id === activeModel)
@@ -156,6 +254,8 @@ function LGRTracker() {
   const sectionNav = [
     { id: 'proposals', label: 'Proposals', icon: Building },
     { id: 'independent', label: 'AI DOGE Model', icon: Brain },
+    { id: 'cashflow', label: 'Cashflow', icon: TrendingUp },
+    { id: 'sensitivity', label: 'Sensitivity', icon: Sliders },
     { id: 'council-tax', label: 'Council Tax', icon: PoundSterling },
     { id: 'assets', label: 'Assets', icon: PoundSterling },
     { id: 'handover', label: 'Handover', icon: ArrowRight },
@@ -389,6 +489,306 @@ function LGRTracker() {
           </div>
         )}
       </section>
+
+      {/* ========== Cashflow Section ========== */}
+      {cashflowData && (
+        <section className="lgr-section" id="lgr-cashflow">
+          <h2><TrendingUp size={20} /> Year-by-Year Financial Trajectory</h2>
+          <p className="section-desc">
+            Time-phased cashflow model using HM Treasury Green Book 3.5% discount rate,
+            S-curve savings ramp, and profiled transition costs. This shows when the investment pays back.
+          </p>
+
+          {/* What-If Calculator Panel */}
+          <div className="whatif-panel">
+            <button className="whatif-toggle" onClick={() => setWhatIfOpen(!whatIfOpen)}>
+              <Sliders size={18} />
+              <span>Interactive Calculator — Adjust Assumptions</span>
+              <span className="whatif-badge">{userAssumptions ? 'Custom' : 'Defaults'}</span>
+              {whatIfOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+            </button>
+            <div className={`whatif-content ${whatIfOpen ? 'open' : ''}`}>
+              <div className="whatif-grid">
+                <AssumptionSlider
+                  label="Savings realisation rate"
+                  description="What % of projected savings are actually achieved"
+                  value={(userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS).savingsRealisationRate || 0.75}
+                  min={0.50} max={1.00} step={0.05}
+                  format={v => `${(v * 100).toFixed(0)}%`}
+                  onChange={v => setUserAssumptions(prev => ({ ...(prev || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS), savingsRealisationRate: v }))}
+                />
+                <AssumptionSlider
+                  label="Transition cost overrun"
+                  description="Multiplier on estimated transition costs"
+                  value={(userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS).transitionCostOverrun || 1.0}
+                  min={1.00} max={1.50} step={0.05}
+                  format={v => `${v.toFixed(2)}×`}
+                  onChange={v => setUserAssumptions(prev => ({ ...(prev || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS), transitionCostOverrun: v }))}
+                />
+                <AssumptionSlider
+                  label="Discount rate"
+                  description="HM Treasury Green Book rate for NPV"
+                  value={(userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS).discountRate || 0.035}
+                  min={0.01} max={0.06} step={0.005}
+                  format={v => `${(v * 100).toFixed(1)}%`}
+                  onChange={v => setUserAssumptions(prev => ({ ...(prev || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS), discountRate: v }))}
+                />
+                <AssumptionSlider
+                  label="Inflation rate"
+                  description="Annual cost inflation (CPI)"
+                  value={(userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS).inflationRate || 0.02}
+                  min={0.01} max={0.04} step={0.005}
+                  format={v => `${(v * 100).toFixed(1)}%`}
+                  onChange={v => setUserAssumptions(prev => ({ ...(prev || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS), inflationRate: v }))}
+                />
+              </div>
+              {userAssumptions && (
+                <button className="whatif-reset" onClick={() => setUserAssumptions(null)}>
+                  <RotateCcw size={14} /> Reset to defaults
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Headline stats */}
+          <div className="cashflow-headline">
+            <div className="cashflow-stat">
+              <span className={`cashflow-stat-value ${cashflowData[cashflowData.length - 1].cumulative >= 0 ? 'positive' : 'negative'}`}>
+                £{Math.abs(cashflowData[cashflowData.length - 1].cumulative / 1e6).toFixed(0)}M
+              </span>
+              <span className="cashflow-stat-label">11-Year Cumulative Net</span>
+            </div>
+            <div className="cashflow-stat">
+              <span className={`cashflow-stat-value ${cashflowData[cashflowData.length - 1].npv >= 0 ? 'positive' : 'negative'}`}>
+                £{Math.abs(cashflowData[cashflowData.length - 1].npv / 1e6).toFixed(0)}M
+              </span>
+              <span className="cashflow-stat-label">Net Present Value</span>
+            </div>
+            <div className="cashflow-stat">
+              <span className="cashflow-stat-value" style={{ color: '#0a84ff' }}>
+                {findBreakevenYear(cashflowData) || 'Never'}
+              </span>
+              <span className="cashflow-stat-label">Breakeven Year</span>
+            </div>
+          </div>
+
+          {/* Cashflow chart */}
+          <div className="lgr-chart-card">
+            <h3>Annual Costs, Savings & Cumulative Position</h3>
+            <ResponsiveContainer width="100%" height={350}>
+              <ComposedChart data={cashflowData} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
+                <Tooltip
+                  contentStyle={{ ...TOOLTIP_STYLE }}
+                  formatter={(v) => [`£${(v / 1e6).toFixed(1)}M`]}
+                />
+                <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
+                <Area dataKey="cumulative" name="Cumulative" fill="rgba(10, 132, 255, 0.08)" stroke="none" />
+                <Bar dataKey="costs" name="Costs" fill="#ff453a" radius={[2, 2, 0, 0]} barSize={20} />
+                <Bar dataKey="savings" name="Savings" fill="#30d158" radius={[2, 2, 0, 0]} barSize={20} />
+                <Line dataKey="cumulative" name="Cumulative" stroke="#0a84ff" strokeWidth={2} dot={{ fill: '#0a84ff', r: 3 }} />
+                <Line dataKey="npv" name="NPV" stroke="#bf5af2" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
+                <Legend />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Per-Authority Financial Position */}
+          {budgetModel?.per_authority_savings?.[activeModel] && budgetModel?.authority_balance_sheets?.[activeModel] && (
+            <>
+              <h3 style={{ marginTop: '1.5rem' }}><Building size={16} /> Per-Authority Financial Position</h3>
+              <div className="authority-financial-cards">
+                {Object.entries(budgetModel.per_authority_savings[activeModel]).map(([authName, authData]) => {
+                  const bs = budgetModel.authority_balance_sheets[activeModel]?.[authName] || {}
+                  const breakeven = (() => {
+                    // Rough breakeven: transition cost share / annual savings
+                    const modelKey = MODEL_KEY_MAP[activeModel]
+                    const tc = lgrData.independent_model?.transition_costs?.[modelKey]?.total || 0
+                    const popShare = (bs.population_share_pct || 0) / 100
+                    const tcShare = tc * popShare
+                    return authData.annual_savings > 0 ? Math.ceil(tcShare / (authData.annual_savings * 0.75)) : null
+                  })()
+                  const cardClass = breakeven && breakeven <= 5 ? 'positive' : breakeven && breakeven <= 10 ? 'breakeven-slow' : 'negative'
+
+                  return (
+                    <div key={authName} className={`authority-financial-card ${cardClass}`}>
+                      <h4 className="auth-fin-name">{authName}</h4>
+                      <div className="auth-fin-row">
+                        <span className="auth-fin-label">Annual savings</span>
+                        <span className="auth-fin-value" style={{ color: '#30d158' }}>£{(authData.annual_savings / 1e6).toFixed(1)}M</span>
+                      </div>
+                      <div className="auth-fin-row">
+                        <span className="auth-fin-label">Councils merging</span>
+                        <span className="auth-fin-value">{authData.num_merging_entities}</span>
+                      </div>
+                      <div className="auth-fin-row">
+                        <span className="auth-fin-label">Reserves (total)</span>
+                        <span className="auth-fin-value">£{(bs.reserves_total / 1e6).toFixed(1)}M</span>
+                      </div>
+                      <div className="auth-fin-row">
+                        <span className="auth-fin-label">LCC debt share</span>
+                        <span className="auth-fin-value" style={{ color: '#ff453a' }}>−£{(bs.lcc_debt_share / 1e6).toFixed(0)}M</span>
+                      </div>
+                      <div className="auth-fin-row">
+                        <span className="auth-fin-label">DSG deficit share</span>
+                        <span className="auth-fin-value" style={{ color: '#ff453a' }}>−£{(bs.dsg_deficit_share / 1e6).toFixed(1)}M</span>
+                      </div>
+                      <div className="auth-fin-row" style={{ borderTop: '1px solid #3a3a3c', paddingTop: '0.5rem', marginTop: '0.25rem' }}>
+                        <span className="auth-fin-label" style={{ fontWeight: 600 }}>Opening net position</span>
+                        <span className="auth-fin-value" style={{ color: bs.opening_net_position >= 0 ? '#30d158' : '#ff453a' }}>
+                          {bs.opening_net_position >= 0 ? '' : '−'}£{Math.abs(bs.opening_net_position / 1e6).toFixed(0)}M
+                        </span>
+                      </div>
+                      {breakeven && (
+                        <div className="auth-fin-row">
+                          <span className="auth-fin-label">Est. breakeven</span>
+                          <span className="auth-fin-value" style={{ color: breakeven <= 3 ? '#30d158' : breakeven <= 6 ? '#ff9f0a' : '#ff453a' }}>
+                            Year {breakeven}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {/* ========== Sensitivity Analysis ========== */}
+      {sensitivityData && (
+        <section className="lgr-section" id="lgr-sensitivity">
+          <h2><Sliders size={20} /> Sensitivity Analysis</h2>
+          <p className="section-desc">
+            Best, central, and worst case scenarios showing how different assumptions
+            affect the financial outcome. The shaded band shows the range of uncertainty.
+          </p>
+
+          {/* Scenario comparison table */}
+          <table className="sensitivity-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th className="scenario-best">Best Case</th>
+                <th className="scenario-central">Central Case</th>
+                <th className="scenario-worst">Worst Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Savings realisation</td>
+                <td style={{ color: '#30d158' }}>100%</td>
+                <td>75%</td>
+                <td style={{ color: '#ff453a' }}>50%</td>
+              </tr>
+              <tr>
+                <td>Cost overrun</td>
+                <td style={{ color: '#30d158' }}>1.0×</td>
+                <td>1.0×</td>
+                <td style={{ color: '#ff453a' }}>1.5×</td>
+              </tr>
+              <tr>
+                <td>11-Year cumulative</td>
+                <td style={{ color: '#30d158' }}>£{(sensitivityData.best[11].cumulative / 1e6).toFixed(0)}M</td>
+                <td>£{(sensitivityData.central[11].cumulative / 1e6).toFixed(0)}M</td>
+                <td style={{ color: sensitivityData.worst[11].cumulative >= 0 ? '#30d158' : '#ff453a' }}>
+                  {sensitivityData.worst[11].cumulative >= 0 ? '' : '−'}£{Math.abs(sensitivityData.worst[11].cumulative / 1e6).toFixed(0)}M
+                </td>
+              </tr>
+              <tr>
+                <td>Net Present Value</td>
+                <td style={{ color: '#30d158' }}>£{(sensitivityData.best[11].npv / 1e6).toFixed(0)}M</td>
+                <td>£{(sensitivityData.central[11].npv / 1e6).toFixed(0)}M</td>
+                <td style={{ color: sensitivityData.worst[11].npv >= 0 ? '#30d158' : '#ff453a' }}>
+                  {sensitivityData.worst[11].npv >= 0 ? '' : '−'}£{Math.abs(sensitivityData.worst[11].npv / 1e6).toFixed(0)}M
+                </td>
+              </tr>
+              <tr>
+                <td>Breakeven</td>
+                <td style={{ color: '#30d158' }}>{findBreakevenYear(sensitivityData.best) || 'Never'}</td>
+                <td>{findBreakevenYear(sensitivityData.central) || 'Never'}</td>
+                <td style={{ color: findBreakevenYear(sensitivityData.worst) ? '#ff9f0a' : '#ff453a' }}>
+                  {findBreakevenYear(sensitivityData.worst) || 'Never'}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* Confidence band chart */}
+          <div className="lgr-chart-card">
+            <h3>Cumulative Net Position — Confidence Range</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <ComposedChart data={sensitivityData.central.map((c, i) => ({
+                year: c.year,
+                central: c.cumulative,
+                best: sensitivityData.best[i].cumulative,
+                worst: sensitivityData.worst[i].cumulative,
+                bandBase: sensitivityData.worst[i].cumulative,
+                bandWidth: sensitivityData.best[i].cumulative - sensitivityData.worst[i].cumulative,
+              }))} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
+                <Tooltip
+                  contentStyle={{ ...TOOLTIP_STYLE }}
+                  formatter={(v) => [`£${(v / 1e6).toFixed(1)}M`]}
+                />
+                <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
+                <Area dataKey="bandBase" stackId="band" fill="transparent" stroke="none" />
+                <Area dataKey="bandWidth" stackId="band" fill="rgba(10, 132, 255, 0.1)" stroke="none" />
+                <Line dataKey="best" name="Best case" stroke="#30d158" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
+                <Line dataKey="central" name="Central case" stroke="#0a84ff" strokeWidth={2} dot={{ fill: '#0a84ff', r: 3 }} />
+                <Line dataKey="worst" name="Worst case" stroke="#ff453a" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
+                <Legend />
+              </ComposedChart>
+            </ResponsiveContainer>
+            <p className="confidence-band-note">
+              Shaded area shows the range between best and worst case scenarios.
+              Central case uses 75% savings realisation with no cost overrun.
+            </p>
+          </div>
+
+          {/* Tornado diagram */}
+          {tornadoData && tornadoData.length > 0 && (
+            <>
+              <h3 style={{ marginTop: '1.5rem' }}><BarChart3 size={16} /> What Drives the Result? (Tornado Diagram)</h3>
+              <p className="tornado-explanation">
+                Each bar shows how much the 10-year NPV changes when a single assumption is varied
+                from low to high, while holding all other assumptions at their central values.
+                The widest bars represent the most influential assumptions.
+              </p>
+              <div className="lgr-chart-card">
+                <ResponsiveContainer width="100%" height={Math.max(200, tornadoData.length * 50 + 60)}>
+                  <BarChart
+                    data={tornadoData.map(t => ({
+                      label: t.label,
+                      downside: (Math.min(t.lowNPV, t.highNPV) - t.baseNPV) / 1e6,
+                      upside: (Math.max(t.lowNPV, t.highNPV) - t.baseNPV) / 1e6,
+                    }))}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, bottom: 5, left: 150 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                    <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 12 }}
+                      tickFormatter={v => `${v >= 0 ? '+' : ''}£${v.toFixed(0)}M`} />
+                    <YAxis type="category" dataKey="label" width={140} tick={{ fill: '#e5e5e7', fontSize: 12 }} />
+                    <Tooltip
+                      contentStyle={{ ...TOOLTIP_STYLE }}
+                      formatter={(v) => [`${v >= 0 ? '+' : ''}£${v.toFixed(0)}M`]}
+                    />
+                    <ReferenceLine x={0} stroke="#636366" strokeDasharray="3 3" />
+                    <Bar dataKey="downside" name="Downside" fill="#ff453a" stackId="tornado" />
+                    <Bar dataKey="upside" name="Upside" fill="#30d158" stackId="tornado" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </>
+          )}
+        </section>
+      )}
 
       {/* Council Tax Harmonisation */}
       {budgetModel?.council_tax_harmonisation && (

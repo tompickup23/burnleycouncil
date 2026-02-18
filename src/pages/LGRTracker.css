@@ -2437,3 +2437,252 @@
   border-radius: 2px;
   flex-shrink: 0;
 }
+
+/* ========== Cashflow Section ========== */
+.cashflow-headline {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.cashflow-stat {
+  flex: 1;
+  min-width: 160px;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.cashflow-stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.cashflow-stat-value.positive { color: #30d158; }
+.cashflow-stat-value.negative { color: #ff453a; }
+
+.cashflow-stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-top: 0.25rem;
+}
+
+/* Per-authority financial cards */
+.authority-financial-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.authority-financial-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+}
+
+.authority-financial-card.positive { border-left: 3px solid #30d158; }
+.authority-financial-card.negative { border-left: 3px solid #ff453a; }
+.authority-financial-card.breakeven-slow { border-left: 3px solid #ff9f0a; }
+
+.auth-fin-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e5e7;
+  margin: 0 0 0.75rem 0;
+}
+
+.auth-fin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(44, 44, 46, 0.5);
+}
+
+.auth-fin-row:last-child { border-bottom: none; }
+.auth-fin-label { color: #8e8e93; }
+.auth-fin-value { font-weight: 600; color: #e5e5e7; }
+
+/* ========== Sensitivity Analysis ========== */
+.sensitivity-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sensitivity-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8e8e93;
+  background: #2c2c2e;
+  border-bottom: 1px solid #3a3a3c;
+}
+
+.sensitivity-table td {
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  border-bottom: 1px solid rgba(44, 44, 46, 0.5);
+}
+
+.sensitivity-table .scenario-best { border-top: 2px solid #30d158; }
+.sensitivity-table .scenario-central { border-top: 2px solid #0a84ff; }
+.sensitivity-table .scenario-worst { border-top: 2px solid #ff453a; }
+
+.confidence-band-note {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Tornado diagram */
+.tornado-explanation {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+/* ========== What-If Calculator ========== */
+.whatif-panel {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.06), rgba(191, 90, 242, 0.04));
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: 16px;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.whatif-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #e5e5e7;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.whatif-toggle svg { color: #0a84ff; }
+
+.whatif-badge {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
+}
+
+.whatif-content {
+  padding: 0 1.5rem 1.5rem;
+  display: none;
+}
+
+.whatif-content.open { display: block; }
+
+.whatif-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Individual slider */
+.assumption-slider {
+  background: rgba(28, 28, 30, 0.8);
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.slider-label { font-size: 0.85rem; font-weight: 500; color: #e5e5e7; }
+.slider-value { font-size: 0.9rem; font-weight: 700; color: #0a84ff; }
+
+.slider-desc {
+  display: block;
+  font-size: 0.75rem;
+  color: #636366;
+  margin-bottom: 0.5rem;
+}
+
+.slider-input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #2c2c2e;
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #0a84ff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #0a0a0a;
+}
+
+.slider-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #636366;
+  margin-top: 0.25rem;
+}
+
+/* Reset button */
+.whatif-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: #2c2c2e;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  color: #8e8e93;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.whatif-reset:hover { background: #3a3a3c; color: #e5e5e7; }
+
+/* Mobile responsive additions */
+@media (max-width: 768px) {
+  .whatif-grid { grid-template-columns: 1fr; }
+  .authority-financial-cards { grid-template-columns: 1fr; }
+  .cashflow-headline { flex-direction: column; }
+}

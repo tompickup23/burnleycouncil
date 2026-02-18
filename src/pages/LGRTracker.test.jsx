@@ -75,13 +75,13 @@ describe('LGRTracker', () => {
   })
 
   it('shows unavailable message when lgrData is null', () => {
-    useData.mockReturnValue({ data: [null, null], loading: false, error: null })
+    useData.mockReturnValue({ data: [null, null, null], loading: false, error: null })
     renderComponent()
     expect(screen.getByText(/lgr tracking data is not yet available/i)).toBeInTheDocument()
   })
 
   it('renders the page heading with data', () => {
-    useData.mockReturnValue({ data: [mockLgrData, mockCrossCouncil], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockLgrData, mockCrossCouncil, null], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Tracker')).toBeInTheDocument()
   })

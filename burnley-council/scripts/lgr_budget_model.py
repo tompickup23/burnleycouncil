@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-LGR Budget Model — Per-service savings, CT harmonisation, authority composition.
+LGR Budget Model — Per-service & per-authority savings, CT harmonisation,
+authority composition, balance sheets, and time-phasing profiles.
 
-Reads all 15 councils' budgets_govuk.json + lgr_tracker.json proposal groupings.
+Reads all 15 councils' budgets_govuk.json + lgr_tracker.json proposal groupings
++ cross_council.json for reserves data.
 Outputs: burnley-council/data/shared/lgr_budget_model.json
 
 Replaces flat-percentage savings model with real sub-service data from GOV.UK
-Revenue Outturn RO4/RO5/RO6 returns.
+Revenue Outturn RO4/RO5/RO6 returns. Provides per-authority breakdowns and
+static profiles for client-side time-phased cashflow modelling.
 """
 
 import json
@@ -125,6 +128,44 @@ CULTURAL_SAVINGS_LINES = {
         'method': 'Shared grounds maintenance contracts',
     },
 }
+
+# Model ID to key mapping (proposal id → transition cost key)
+MODEL_KEY_MAP = {
+    'two_unitary': 'two_ua',
+    'three_unitary': 'three_ua',
+    'four_unitary': 'four_ua',
+    'four_unitary_alt': 'five_ua',
+    'county_unitary': 'county',
+}
+
+# Transition cost phasing profiles (year-by-year % allocation)
+# Used by JS engine for time-phased cashflow modelling
+TRANSITION_COST_PROFILE = {
+    'it': {'year_minus_1': 0.10, 'year_1': 0.40, 'year_2': 0.35, 'year_3': 0.15},
+    'redundancy': {'year_1': 0.60, 'year_2': 0.40},
+    'programme': {'year_minus_1': 0.15, 'year_1': 0.30, 'year_2': 0.30, 'year_3': 0.20, 'year_4': 0.05},
+    'legal': {'year_minus_1': 0.20, 'year_1': 0.50, 'year_2': 0.30},
+}
+
+# Savings ramp S-curve: % of full savings achieved per year
+# Index 0 = Y-1, Index 1 = Y1, ..., Index 6+ = Y6+ (full)
+SAVINGS_RAMP = [0.0, 0.10, 0.25, 0.50, 0.75, 0.90, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+# Default model assumptions for JS engine
+MODEL_DEFAULTS = {
+    'savings_realisation_rate': 0.75,
+    'transition_cost_overrun': 1.0,  # 1.0 = no overrun (central case)
+    'back_office_saving_pct': 0.18,
+    'procurement_saving_pct': 0.03,
+    'social_care_integration_pct': 0.01,
+    'democratic_cost_per_councillor': 16800,
+    'discount_rate': 0.035,  # HM Treasury Green Book
+    'inflation_rate': 0.02,  # CPI target
+}
+
+# LCC known liabilities (from budget book analysis)
+LCC_DSG_DEFICIT = 95500000  # £95.5M DSG deficit
+LCC_ESTIMATED_DEBT = 1200000000  # £1.2B est. total borrowing
 
 # Short names for cleaner output (reuse from generate_budgets_from_govuk.py)
 SHORT_NAMES = {
@@ -749,19 +790,299 @@ def compute_authority_composition(all_councils, proposals):
     return results
 
 
+def compute_per_authority_savings(all_councils, proposals, lgr_data):
+    """Compute savings PER AUTHORITY instead of per model.
+
+    For each proposal, for each authority: sum sub-service totals from
+    constituent councils only, compute consolidation savings based on the
+    number of entities merging INTO this authority.
+    """
+    methodology = lgr_data.get('independent_model', {}).get('methodology', {}).get('assumptions', {})
+    cost_per_councillor = methodology.get('democratic_cost_per_councillor_with_support', 16800)
+
+    # Total social care across all councils (for integration savings)
+    total_social_care = 0
+    for council in all_councils.values():
+        if not council:
+            continue
+        svcs = council.get('services', {})
+        total_social_care += svcs.get('Adult Social Care', 0)
+        total_social_care += svcs.get('Childrens Social Care', 0)
+
+    results = {}
+
+    for proposal in proposals:
+        model_id = proposal['id']
+        num_authorities = proposal['num_authorities']
+        authority_results = {}
+
+        for authority in proposal.get('authorities', []):
+            auth_name = authority['name']
+            council_ids = authority.get('councils', [])
+            population = authority.get('population', 0)
+
+            # Count entities merging into this authority
+            num_merging = len(council_ids)
+            # Number of districts in this authority
+            districts_in_auth = [cid for cid in council_ids
+                                 if all_councils.get(cid, {}).get('tier') == 'district']
+            num_districts_in_auth = len(districts_in_auth)
+
+            # Aggregate sub-service totals from constituent councils only
+            auth_central = {}
+            auth_district_central = {}
+            auth_env = {}
+            auth_planning = {}
+            auth_cultural = {}
+            auth_total_expenditure = 0
+            auth_social_care = 0
+
+            for cid in council_ids:
+                c = all_councils.get(cid)
+                if not c:
+                    continue
+                auth_total_expenditure += c.get('total_service_expenditure', 0) or 0
+                svcs = c.get('services', {})
+                auth_social_care += svcs.get('Adult Social Care', 0)
+                auth_social_care += svcs.get('Childrens Social Care', 0)
+
+                for line, net in c.get('sub_services', {}).get('Central services', {}).items():
+                    auth_central[line] = auth_central.get(line, 0) + net
+                    if c['tier'] == 'district':
+                        auth_district_central[line] = auth_district_central.get(line, 0) + net
+
+                for line, net in c.get('sub_services', {}).get('Environmental and regulatory services', {}).items():
+                    auth_env[line] = auth_env.get(line, 0) + net
+
+                for line, net in c.get('sub_services', {}).get('Planning and development services', {}).items():
+                    auth_planning[line] = auth_planning.get(line, 0) + net
+
+                for line, net in c.get('sub_services', {}).get('Cultural and related services', {}).items():
+                    auth_cultural[line] = auth_cultural.get(line, 0) + net
+
+            # Compute savings for this authority
+            savings_lines = []
+
+            # Central services
+            for line_name, config in CENTRAL_SAVINGS_LINES.items():
+                total = auth_central.get(line_name, 0)
+                if total <= 0:
+                    continue
+                if 'savings_formula' in config and config['savings_formula'] == 'consolidation':
+                    district_total = auth_district_central.get(line_name, 0)
+                    if district_total > 0 and num_districts_in_auth > 1:
+                        saving = compute_consolidation_savings(district_total, num_districts_in_auth, 1)
+                    elif num_merging > 1:
+                        saving = compute_consolidation_savings(total, num_merging, 1)
+                    else:
+                        saving = 0
+                else:
+                    pct = config.get('savings_pct', 0)
+                    saving = round(total * pct)
+
+                if saving > 0:
+                    short = SHORT_NAMES.get(line_name, line_name)
+                    savings_lines.append({
+                        'category': 'Central services',
+                        'line': short,
+                        'saving': saving,
+                    })
+
+            # Environmental
+            for line_name, config in ENVIRONMENTAL_SAVINGS_LINES.items():
+                total = auth_env.get(line_name, 0)
+                if total <= 0:
+                    continue
+                saving = round(total * config.get('savings_pct', 0))
+                if saving > 0:
+                    short = SHORT_NAMES.get(line_name, line_name)
+                    savings_lines.append({
+                        'category': 'Environmental services',
+                        'line': short,
+                        'saving': saving,
+                    })
+
+            # Planning
+            for line_name, config in PLANNING_SAVINGS_LINES.items():
+                total = auth_planning.get(line_name, 0)
+                if total <= 0:
+                    continue
+                saving = round(total * config.get('savings_pct', 0))
+                if saving > 0:
+                    short = SHORT_NAMES.get(line_name, line_name)
+                    savings_lines.append({
+                        'category': 'Planning services',
+                        'line': short,
+                        'saving': saving,
+                    })
+
+            # Cultural
+            for line_name, config in CULTURAL_SAVINGS_LINES.items():
+                total = auth_cultural.get(line_name, 0)
+                if total <= 0:
+                    continue
+                saving = round(total * config.get('savings_pct', 0))
+                if saving > 0:
+                    short = SHORT_NAMES.get(line_name, line_name)
+                    savings_lines.append({
+                        'category': 'Cultural services',
+                        'line': short,
+                        'saving': saving,
+                    })
+
+            # Democratic: proportional share based on population
+            total_population = sum(
+                a.get('population', 0) for a in proposal.get('authorities', []))
+            pop_share = population / total_population if total_population > 0 else 1.0 / num_authorities
+            # Total councillors reduced from 626 to ~200, share by population
+            current_total = 626
+            target_total = 200
+            democratic_saving = round((current_total - target_total) * cost_per_councillor * pop_share)
+            savings_lines.append({
+                'category': 'Democratic representation',
+                'line': 'Councillor reduction',
+                'saving': democratic_saving,
+            })
+
+            # Procurement: proportional to expenditure
+            procurement_pct = methodology.get('procurement_saving_pct', 0.03)
+            consolidation_ratio = (15 - num_authorities) / 15
+            procurement_saving = round(auth_total_expenditure * procurement_pct * consolidation_ratio)
+            savings_lines.append({
+                'category': 'Procurement',
+                'line': 'Combined procurement',
+                'saving': procurement_saving,
+            })
+
+            # Social care integration (only for non-county models)
+            if model_id != 'county_unitary' and auth_social_care > 0:
+                sc_saving = round(auth_social_care * 0.01)
+                savings_lines.append({
+                    'category': 'Social care integration',
+                    'line': 'Adult + children\'s social care',
+                    'saving': sc_saving,
+                })
+
+            # Aggregate
+            total_saving = sum(l['saving'] for l in savings_lines)
+            by_category = {}
+            for line in savings_lines:
+                cat = line['category']
+                if cat not in by_category:
+                    by_category[cat] = {'total': 0, 'lines': []}
+                by_category[cat]['total'] += line['saving']
+                by_category[cat]['lines'].append({
+                    'name': line['line'],
+                    'saving': line['saving'],
+                })
+
+            authority_results[auth_name] = {
+                'constituent_councils': council_ids,
+                'num_merging_entities': num_merging,
+                'population': population,
+                'total_expenditure': auth_total_expenditure,
+                'annual_savings': total_saving,
+                'by_category': by_category,
+            }
+
+        results[model_id] = authority_results
+
+    return results
+
+
+def compute_authority_balance_sheets(all_councils, proposals, cross_council_data):
+    """Compute opening balance sheet per authority.
+
+    For each authority:
+    - reserves_earmarked: Sum of constituent councils' earmarked reserves
+    - reserves_unallocated: Sum of constituent councils' unallocated reserves
+    - lcc_debt_share: LCC debt apportioned pro-rata by population
+    - dsg_deficit_share: LCC DSG deficit apportioned by education spend proportion
+    - opening_net_position: reserves - debt_share - dsg_deficit_share
+    """
+    # Build reserves lookup from cross_council.json
+    reserves_by_council = {}
+    for council in cross_council_data.get('councils', []):
+        cid = council.get('council_id')
+        bs = council.get('budget_summary', {})
+        reserves_by_council[cid] = {
+            'earmarked': bs.get('reserves_earmarked_closing', 0),
+            'unallocated': bs.get('reserves_unallocated_closing', 0),
+            'total': bs.get('reserves_total', 0),
+        }
+
+    # Total population across all 15 for pro-rata sharing
+    total_pop = sum(
+        c.get('population', 0)
+        for p in proposals
+        for c in p.get('authorities', [])
+    ) / len(proposals) if proposals else 0
+    # Use actual total from first proposal (they all cover the same area)
+    if proposals:
+        total_pop = sum(a.get('population', 0) for a in proposals[0].get('authorities', []))
+
+    # Total education spend for DSG deficit apportionment
+    total_education = 0
+    for c in all_councils.values():
+        if c:
+            total_education += c.get('services', {}).get('Education services', 0)
+
+    results = {}
+
+    for proposal in proposals:
+        model_id = proposal['id']
+        authority_results = {}
+
+        for authority in proposal.get('authorities', []):
+            auth_name = authority['name']
+            council_ids = authority.get('councils', [])
+            population = authority.get('population', 0)
+
+            # Sum reserves from constituent councils
+            earmarked = 0
+            unallocated = 0
+            for cid in council_ids:
+                r = reserves_by_council.get(cid, {})
+                earmarked += r.get('earmarked', 0)
+                unallocated += r.get('unallocated', 0)
+
+            # LCC debt share — pro-rata by population
+            pop_share = population / total_pop if total_pop > 0 else 0
+            lcc_debt_share = round(LCC_ESTIMATED_DEBT * pop_share)
+
+            # DSG deficit share — pro-rata by education spend in this authority
+            auth_education = 0
+            for cid in council_ids:
+                c = all_councils.get(cid)
+                if c:
+                    auth_education += c.get('services', {}).get('Education services', 0)
+            edu_share = auth_education / total_education if total_education > 0 else pop_share
+            dsg_share = round(LCC_DSG_DEFICIT * edu_share)
+
+            opening_net = earmarked + unallocated - lcc_debt_share - dsg_share
+
+            authority_results[auth_name] = {
+                'reserves_earmarked': earmarked,
+                'reserves_unallocated': unallocated,
+                'reserves_total': earmarked + unallocated,
+                'lcc_debt_share': lcc_debt_share,
+                'dsg_deficit_share': dsg_share,
+                'opening_net_position': opening_net,
+                'population_share_pct': round(pop_share * 100, 1),
+            }
+
+        results[model_id] = authority_results
+
+    return results
+
+
 def update_lgr_tracker_savings(lgr_data, per_service_savings):
     """Update lgr_tracker.json savings_breakdown with per-service figures.
 
     Replaces the 6 flat-% components with aggregated per-service totals,
     keeping the same structure for chart compatibility.
     """
-    model_keys = {
-        'two_unitary': 'two_ua',
-        'three_unitary': 'three_ua',
-        'four_unitary': 'four_ua',
-        'four_unitary_alt': 'five_ua',  # Map alt to 5-UA slot
-        'county_unitary': 'county',
-    }
+    model_keys = MODEL_KEY_MAP  # Use module-level constant
 
     # Build new components from per-service savings
     # Aggregate by top-level category to match existing chart format
@@ -842,13 +1163,45 @@ def main():
         else:
             print(f"    -> NO DATA")
 
-    # Compute per-service savings
+    # Load cross_council.json for reserves data (any council copy will do)
+    cc_path = os.path.join(DATA_DIR, 'burnley', 'cross_council.json')
+    cross_council_data = load_json(cc_path)
+    if not cross_council_data:
+        print("  WARNING: No cross_council.json — balance sheets will be empty")
+        cross_council_data = {'councils': []}
+
+    # Compute per-service savings (system-wide)
     print("\n  Computing per-service savings...")
     per_service_savings = compute_per_service_savings(all_councils, proposals, lgr_data)
     for model_id, savings in per_service_savings.items():
         total = savings['total_annual_savings']
         lines = len(savings['savings_lines'])
         print(f"    {model_id}: £{total/1e6:.1f}M/year from {lines} service lines")
+
+    # Compute per-authority savings
+    print("\n  Computing per-authority savings...")
+    per_authority_savings = compute_per_authority_savings(all_councils, proposals, lgr_data)
+    for model_id, authorities in per_authority_savings.items():
+        for auth_name, auth_data in authorities.items():
+            auth_total = auth_data['annual_savings']
+            print(f"    {model_id}/{auth_name}: £{auth_total/1e6:.1f}M/year "
+                  f"({auth_data['num_merging_entities']} entities)")
+        # Verify: sum of authority savings ≈ system-wide total
+        auth_sum = sum(a['annual_savings'] for a in authorities.values())
+        system_total = per_service_savings.get(model_id, {}).get('total_annual_savings', 0)
+        diff_pct = abs(auth_sum - system_total) / system_total * 100 if system_total else 0
+        print(f"    -> Sum £{auth_sum/1e6:.1f}M vs system £{system_total/1e6:.1f}M "
+              f"(diff {diff_pct:.1f}%)")
+
+    # Compute authority balance sheets
+    print("\n  Computing authority balance sheets...")
+    balance_sheets = compute_authority_balance_sheets(all_councils, proposals, cross_council_data)
+    for model_id, authorities in balance_sheets.items():
+        for auth_name, bs in authorities.items():
+            print(f"    {model_id}/{auth_name}: reserves £{bs['reserves_total']/1e6:.1f}M, "
+                  f"debt share £{bs['lcc_debt_share']/1e6:.0f}M, "
+                  f"DSG share £{bs['dsg_deficit_share']/1e6:.1f}M, "
+                  f"net £{bs['opening_net_position']/1e6:.1f}M")
 
     # Compute CT harmonisation
     print("\n  Computing council tax harmonisation...")
@@ -893,8 +1246,13 @@ def main():
             for cid, c in all_councils.items() if c
         },
         'per_service_savings': per_service_savings,
+        'per_authority_savings': per_authority_savings,
+        'authority_balance_sheets': balance_sheets,
         'council_tax_harmonisation': ct_harmonisation,
         'authority_composition': authority_composition,
+        'transition_cost_profile': TRANSITION_COST_PROFILE,
+        'savings_ramp_profile': SAVINGS_RAMP,
+        'model_defaults': MODEL_DEFAULTS,
     }
 
     # Write output
@@ -918,14 +1276,11 @@ def main():
     )
 
     # Update payback analysis to match new savings
+    payback_key_map = dict(MODEL_KEY_MAP)
+    payback_key_map['five_unitary'] = 'five_ua'  # Payback uses five_unitary not four_unitary_alt
     for pa in lgr_data['independent_model'].get('payback_analysis', []):
         model_id = pa['model']
-        model_key_map = {
-            'two_unitary': 'two_ua', 'three_unitary': 'three_ua',
-            'four_unitary': 'four_ua', 'five_unitary': 'five_ua',
-            'county_unitary': 'county',
-        }
-        model_key = model_key_map.get(model_id)
+        model_key = payback_key_map.get(model_id)
         if model_key and model_key in new_net_annual:
             gross = new_net_annual[model_key]['gross']
             pa['annual_saving'] = gross
@@ -936,8 +1291,7 @@ def main():
 
     # Update presentation comparison
     for model_id in ['two_unitary', 'three_unitary', 'four_unitary']:
-        model_key_map = {'two_unitary': 'two_ua', 'three_unitary': 'three_ua', 'four_unitary': 'four_ua'}
-        model_key = model_key_map.get(model_id)
+        model_key = MODEL_KEY_MAP.get(model_id)
         if model_key in new_net_annual:
             comp = lgr_data['independent_model'].get('presentation_comparison', {}).get(model_id)
             if comp:

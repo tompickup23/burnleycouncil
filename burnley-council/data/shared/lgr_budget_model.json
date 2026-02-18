@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-02-18T04:48:03",
+    "generated": "2026-02-18T05:29:07",
     "data_year": "2024/25",
     "source": "GOV.UK MHCLG Revenue Outturn 2024-25 (RS, RSX, RO2, RO4, RO5, RO6)",
     "councils_extracted": 15,
@@ -1790,6 +1790,2124 @@
           "method": "1% efficiency from eliminating county/district coordination"
         }
       ]
+    }
+  },
+  "per_authority_savings": {
+    "two_unitary": {
+      "North Lancashire": {
+        "constituent_councils": [
+          "lancaster",
+          "wyre",
+          "fylde",
+          "preston",
+          "ribble_valley",
+          "blackpool"
+        ],
+        "num_merging_entities": 6,
+        "population": 722045,
+        "total_expenditure": 307028330,
+        "annual_savings": 23334068,
+        "by_category": {
+          "Central services": {
+            "total": 9538100,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 4744200
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 2656560
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 600480
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 1079280
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 165640
+              },
+              {
+                "name": "Local land charges",
+                "saving": 208240
+              },
+              {
+                "name": "Surplus asset costs",
+                "saving": 83700
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1627925,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 765425
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 315645
+              },
+              {
+                "name": "Recycling",
+                "saving": 71400
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 391500
+              },
+              {
+                "name": "CCTV",
+                "saving": 83955
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 191520,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 108840
+              },
+              {
+                "name": "Development control",
+                "saving": 82680
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 3226571,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 3226571
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 7982737,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 7982737
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 767215,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 767215
+              }
+            ]
+          }
+        }
+      },
+      "South Lancashire": {
+        "constituent_councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "rossendale",
+          "blackburn"
+        ],
+        "num_merging_entities": 8,
+        "population": 879510,
+        "total_expenditure": 421678220,
+        "annual_savings": 31271313,
+        "by_category": {
+          "Central services": {
+            "total": 13313657,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 6576900
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 3204857
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 276000
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 874286
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 240100
+              },
+              {
+                "name": "Local land charges",
+                "saving": 157714
+              },
+              {
+                "name": "Support services",
+                "saving": 1489800
+              },
+              {
+                "name": "Unused IT & assets",
+                "saving": 494000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1816200,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 662050
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 236280
+              },
+              {
+                "name": "Recycling",
+                "saving": 471050
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 262920
+              },
+              {
+                "name": "CCTV",
+                "saving": 183900
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 426400,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 179400
+              },
+              {
+                "name": "Development control",
+                "saving": 247000
+              }
+            ]
+          },
+          "Cultural services": {
+            "total": 94350,
+            "lines": [
+              {
+                "name": "Libraries",
+                "saving": 94350
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 3930229,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 3930229
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 10963634,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 10963634
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 726843,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 726843
+              }
+            ]
+          }
+        }
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "constituent_councils": [
+          "blackpool",
+          "fylde",
+          "lancaster",
+          "wyre"
+        ],
+        "num_merging_entities": 4,
+        "population": 493387,
+        "total_expenditure": 264295460,
+        "annual_savings": 16417671,
+        "by_category": {
+          "Central services": {
+            "total": 5726733,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 3321600
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1254000
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 334000
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 607333
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 95800
+              },
+              {
+                "name": "Local land charges",
+                "saving": 114000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1233870,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 566850
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 310950
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 310020
+              },
+              {
+                "name": "CCTV",
+                "saving": 46050
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 142200,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 73300
+              },
+              {
+                "name": "Development control",
+                "saving": 68900
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 2204777,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 2204777
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 6343091,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 6343091
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 767000,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 767000
+              }
+            ]
+          }
+        }
+      },
+      "Central Lancashire": {
+        "constituent_councils": [
+          "chorley",
+          "preston",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "num_merging_entities": 4,
+        "population": 521811,
+        "total_expenditure": 96037000,
+        "annual_savings": 13082442,
+        "by_category": {
+          "Central services": {
+            "total": 7272150,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 3630600
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1842750
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 100500
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 590250
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 117600
+              },
+              {
+                "name": "Local land charges",
+                "saving": 156750
+              },
+              {
+                "name": "Support services",
+                "saving": 750000
+              },
+              {
+                "name": "Surplus asset costs",
+                "saving": 83700
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 955660,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 413250
+              },
+              {
+                "name": "Recycling",
+                "saving": 272350
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 143760
+              },
+              {
+                "name": "CCTV",
+                "saving": 126300
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 217950,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 101200
+              },
+              {
+                "name": "Development control",
+                "saving": 116750
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 2331794,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 2331794
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 2304888,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 2304888
+              }
+            ]
+          }
+        }
+      },
+      "Pennine Lancashire": {
+        "constituent_councils": [
+          "blackburn",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "ribble_valley",
+          "rossendale"
+        ],
+        "num_merging_entities": 6,
+        "population": 586357,
+        "total_expenditure": 368374090,
+        "annual_savings": 22761373,
+        "by_category": {
+          "Central services": {
+            "total": 8952194,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 4368900
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 2177360
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 350080
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 536880
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 192340
+              },
+              {
+                "name": "Local land charges",
+                "saving": 51440
+              },
+              {
+                "name": "Support services",
+                "saving": 781194
+              },
+              {
+                "name": "Unused IT & assets",
+                "saving": 494000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1268795,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 447375
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 240975
+              },
+              {
+                "name": "Recycling",
+                "saving": 284300
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 200640
+              },
+              {
+                "name": "CCTV",
+                "saving": 95505
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 257770,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 113740
+              },
+              {
+                "name": "Development control",
+                "saving": 144030
+              }
+            ]
+          },
+          "Cultural services": {
+            "total": 94350,
+            "lines": [
+              {
+                "name": "Libraries",
+                "saving": 94350
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 2620228,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 2620228
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 8840978,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 8840978
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 727058,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 727058
+              }
+            ]
+          }
+        }
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "constituent_councils": [
+          "lancaster",
+          "preston",
+          "ribble_valley"
+        ],
+        "num_merging_entities": 3,
+        "population": 373664,
+        "total_expenditure": 70633330,
+        "annual_savings": 8853282,
+        "by_category": {
+          "Central services": {
+            "total": 4871353,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2072100
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1519800
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 388400
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 494733
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 146340
+              },
+              {
+                "name": "Local land charges",
+                "saving": 122867
+              },
+              {
+                "name": "Support services",
+                "saving": 43413
+              },
+              {
+                "name": "Surplus asset costs",
+                "saving": 83700
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 690065,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 411775
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 4695
+              },
+              {
+                "name": "Recycling",
+                "saving": 85600
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 140190
+              },
+              {
+                "name": "CCTV",
+                "saving": 47805
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 67940,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 67940
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1669776,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1669776
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 1553933,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 1553933
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 215,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 215
+              }
+            ]
+          }
+        }
+      },
+      "Fylde Coast": {
+        "constituent_councils": [
+          "blackpool",
+          "fylde",
+          "wyre"
+        ],
+        "num_merging_entities": 3,
+        "population": 348381,
+        "total_expenditure": 236395000,
+        "annual_savings": 12247745,
+        "by_category": {
+          "Central services": {
+            "total": 3637400,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2672100
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 520500
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 84000
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 303500
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 19300
+              },
+              {
+                "name": "Local land charges",
+                "saving": 38000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 952060,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 353650
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 310950
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 251310
+              },
+              {
+                "name": "CCTV",
+                "saving": 36150
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 133800,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 40900
+              },
+              {
+                "name": "Development control",
+                "saving": 92900
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1556795,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1556795
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 5200690,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 5200690
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 767000,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 767000
+              }
+            ]
+          }
+        }
+      },
+      "Pennine Lancashire": {
+        "constituent_councils": [
+          "blackburn",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "rossendale"
+        ],
+        "num_merging_entities": 5,
+        "population": 520563,
+        "total_expenditure": 359114220,
+        "annual_savings": 20197984,
+        "by_category": {
+          "Central services": {
+            "total": 7791250,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 3938100
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1658250
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 291000
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 423750
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 184700
+              },
+              {
+                "name": "Support services",
+                "saving": 801450
+              },
+              {
+                "name": "Unused IT & assets",
+                "saving": 494000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1125010,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 345050
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 236280
+              },
+              {
+                "name": "Recycling",
+                "saving": 284300
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 187530
+              },
+              {
+                "name": "CCTV",
+                "saving": 71850
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 233800,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 104800
+              },
+              {
+                "name": "Development control",
+                "saving": 129000
+              }
+            ]
+          },
+          "Cultural services": {
+            "total": 94350,
+            "lines": [
+              {
+                "name": "Libraries",
+                "saving": 94350
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 2326218,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 2326218
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 7900513,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 7900513
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 726843,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 726843
+              }
+            ]
+          }
+        }
+      },
+      "South Lancashire": {
+        "constituent_councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "num_merging_entities": 3,
+        "population": 358947,
+        "total_expenditure": 62564000,
+        "annual_savings": 8663426,
+        "by_category": {
+          "Central services": {
+            "total": 4799217,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2638800
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1018667
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 303333
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 55400
+              },
+              {
+                "name": "Local land charges",
+                "saving": 94667
+              },
+              {
+                "name": "Support services",
+                "saving": 688350
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 691190,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 317000
+              },
+              {
+                "name": "Recycling",
+                "saving": 186750
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 75390
+              },
+              {
+                "name": "CCTV",
+                "saving": 112050
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 192600,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 74600
+              },
+              {
+                "name": "Development control",
+                "saving": 118000
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1604011,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1604011
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 1376408,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 1376408
+              }
+            ]
+          }
+        }
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "constituent_councils": [
+          "blackpool",
+          "fylde",
+          "preston"
+        ],
+        "num_merging_entities": 3,
+        "population": 475222,
+        "total_expenditure": 250593000,
+        "annual_savings": 13921141,
+        "by_category": {
+          "Central services": {
+            "total": 4353600,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2981100
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 709000
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 179500
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 269000
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 78800
+              },
+              {
+                "name": "Local land charges",
+                "saving": 52500
+              },
+              {
+                "name": "Surplus asset costs",
+                "saving": 83700
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1044910,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 332050
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 310950
+              },
+              {
+                "name": "Recycling",
+                "saving": 71400
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 276810
+              },
+              {
+                "name": "CCTV",
+                "saving": 53700
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 119600,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 56800
+              },
+              {
+                "name": "Development control",
+                "saving": 62800
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 2123485,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 2123485
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 5513046,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 5513046
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 766500,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 766500
+              }
+            ]
+          }
+        }
+      },
+      "Southern Lancashire": {
+        "constituent_councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "num_merging_entities": 3,
+        "population": 358947,
+        "total_expenditure": 62564000,
+        "annual_savings": 8663336,
+        "by_category": {
+          "Central services": {
+            "total": 4799217,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2638800
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1018667
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 303333
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 55400
+              },
+              {
+                "name": "Local land charges",
+                "saving": 94667
+              },
+              {
+                "name": "Support services",
+                "saving": 688350
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 691190,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 317000
+              },
+              {
+                "name": "Recycling",
+                "saving": 186750
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 75390
+              },
+              {
+                "name": "CCTV",
+                "saving": 112050
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 192600,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 74600
+              },
+              {
+                "name": "Development control",
+                "saving": 118000
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1603921,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1603921
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 1376408,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 1376408
+              }
+            ]
+          }
+        }
+      },
+      "Eastern Lancashire": {
+        "constituent_councils": [
+          "blackburn",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "rossendale"
+        ],
+        "num_merging_entities": 5,
+        "population": 565968,
+        "total_expenditure": 359114220,
+        "annual_savings": 20400741,
+        "by_category": {
+          "Central services": {
+            "total": 7791250,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 3938100
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1658250
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 291000
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 423750
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 184700
+              },
+              {
+                "name": "Support services",
+                "saving": 801450
+              },
+              {
+                "name": "Unused IT & assets",
+                "saving": 494000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1125010,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 345050
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 236280
+              },
+              {
+                "name": "Recycling",
+                "saving": 284300
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 187530
+              },
+              {
+                "name": "CCTV",
+                "saving": 71850
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 233800,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 104800
+              },
+              {
+                "name": "Development control",
+                "saving": 129000
+              }
+            ]
+          },
+          "Cultural services": {
+            "total": 94350,
+            "lines": [
+              {
+                "name": "Libraries",
+                "saving": 94350
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 2528975,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 2528975
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 7900513,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 7900513
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 726843,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 726843
+              }
+            ]
+          }
+        }
+      },
+      "Northern Lancashire": {
+        "constituent_councils": [
+          "lancaster"
+        ],
+        "num_merging_entities": 1,
+        "population": 201508,
+        "total_expenditure": 27900460,
+        "annual_savings": 2556459,
+        "by_category": {
+          "Central services": {
+            "total": 728019,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 649500
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 76500
+              },
+              {
+                "name": "Support services",
+                "saving": 2019
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 281810,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 213200
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 58710
+              },
+              {
+                "name": "CCTV",
+                "saving": 9900
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 32400,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 32400
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 900420,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 900420
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 613810,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 613810
+              }
+            ]
+          }
+        }
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "constituent_councils": [
+          "burnley",
+          "pendle",
+          "rossendale"
+        ],
+        "num_merging_entities": 3,
+        "population": 272055,
+        "total_expenditure": 46520920,
+        "annual_savings": 6927083,
+        "by_category": {
+          "Central services": {
+            "total": 4231734,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2163600
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1112667
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 100667
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 214000
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 124800
+              },
+              {
+                "name": "Local land charges",
+                "saving": 22000
+              },
+              {
+                "name": "Unused IT & assets",
+                "saving": 494000
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 431070,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 183850
+              },
+              {
+                "name": "Recycling",
+                "saving": 152150
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 66570
+              },
+              {
+                "name": "CCTV",
+                "saving": 28500
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 83650,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 29500
+              },
+              {
+                "name": "Development control",
+                "saving": 54150
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1250161,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1250161
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 930418,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 930418
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 50,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 50
+              }
+            ]
+          }
+        }
+      },
+      "Central Lancashire": {
+        "constituent_councils": [
+          "blackburn",
+          "hyndburn",
+          "ribble_valley"
+        ],
+        "num_merging_entities": 3,
+        "population": 314302,
+        "total_expenditure": 321853170,
+        "annual_savings": 13698197,
+        "by_category": {
+          "Central services": {
+            "total": 3983634,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2205300
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 526350
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 143300
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 175050
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 67540
+              },
+              {
+                "name": "Support services",
+                "saving": 866094
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 837725,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 263525
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 240975
+              },
+              {
+                "name": "Recycling",
+                "saving": 132150
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 134070
+              },
+              {
+                "name": "CCTV",
+                "saving": 67005
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 174120,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 84240
+              },
+              {
+                "name": "Development control",
+                "saving": 89880
+              }
+            ]
+          },
+          "Cultural services": {
+            "total": 94350,
+            "lines": [
+              {
+                "name": "Libraries",
+                "saving": 94350
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1444297,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1444297
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 6437063,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 6437063
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 727008,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 727008
+              }
+            ]
+          }
+        }
+      },
+      "North Lancashire": {
+        "constituent_councils": [
+          "lancaster",
+          "wyre"
+        ],
+        "num_merging_entities": 2,
+        "population": 263749,
+        "total_expenditure": 47175460,
+        "annual_savings": 5340682,
+        "by_category": {
+          "Central services": {
+            "total": 2697500,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 1332300
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 696000
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 171000
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 352500
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 79200
+              },
+              {
+                "name": "Local land charges",
+                "saving": 66500
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 439230,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 331050
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 101580
+              },
+              {
+                "name": "CCTV",
+                "saving": 6600
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 47950,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 43100
+              },
+              {
+                "name": "Development control",
+                "saving": 4850
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1211993,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1211993
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 943509,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 943509
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 500,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 500
+              }
+            ]
+          }
+        }
+      },
+      "South Lancashire": {
+        "constituent_councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "num_merging_entities": 3,
+        "population": 358947,
+        "total_expenditure": 62564000,
+        "annual_savings": 8583739,
+        "by_category": {
+          "Central services": {
+            "total": 4799217,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2638800
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 1018667
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 303333
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 55400
+              },
+              {
+                "name": "Local land charges",
+                "saving": 94667
+              },
+              {
+                "name": "Support services",
+                "saving": 688350
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 691190,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 317000
+              },
+              {
+                "name": "Recycling",
+                "saving": 186750
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 75390
+              },
+              {
+                "name": "CCTV",
+                "saving": 112050
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 192600,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 74600
+              },
+              {
+                "name": "Development control",
+                "saving": 118000
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1649452,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1649452
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 1251280,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 1251280
+              }
+            ]
+          }
+        }
+      },
+      "West Lancashire": {
+        "constituent_councils": [
+          "blackpool",
+          "fylde",
+          "preston"
+        ],
+        "num_merging_entities": 3,
+        "population": 348381,
+        "total_expenditure": 250593000,
+        "annual_savings": 12897368,
+        "by_category": {
+          "Central services": {
+            "total": 4353600,
+            "lines": [
+              {
+                "name": "Corporate & Democratic Core",
+                "saving": 2981100
+              },
+              {
+                "name": "Council tax collection",
+                "saving": 709000
+              },
+              {
+                "name": "Business rates collection",
+                "saving": 179500
+              },
+              {
+                "name": "Electoral registration",
+                "saving": 269000
+              },
+              {
+                "name": "Conducting elections",
+                "saving": 78800
+              },
+              {
+                "name": "Local land charges",
+                "saving": 52500
+              },
+              {
+                "name": "Surplus asset costs",
+                "saving": 83700
+              }
+            ]
+          },
+          "Environmental services": {
+            "total": 1044910,
+            "lines": [
+              {
+                "name": "Waste collection",
+                "saving": 332050
+              },
+              {
+                "name": "Waste disposal",
+                "saving": 310950
+              },
+              {
+                "name": "Recycling",
+                "saving": 71400
+              },
+              {
+                "name": "Street cleansing",
+                "saving": 276810
+              },
+              {
+                "name": "CCTV",
+                "saving": 53700
+              }
+            ]
+          },
+          "Planning services": {
+            "total": 119600,
+            "lines": [
+              {
+                "name": "Building control",
+                "saving": 56800
+              },
+              {
+                "name": "Development control",
+                "saving": 62800
+              }
+            ]
+          },
+          "Democratic representation": {
+            "total": 1600898,
+            "lines": [
+              {
+                "name": "Councillor reduction",
+                "saving": 1600898
+              }
+            ]
+          },
+          "Procurement": {
+            "total": 5011860,
+            "lines": [
+              {
+                "name": "Combined procurement",
+                "saving": 5011860
+              }
+            ]
+          },
+          "Social care integration": {
+            "total": 766500,
+            "lines": [
+              {
+                "name": "Adult + children's social care",
+                "saving": 766500
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "authority_balance_sheets": {
+    "two_unitary": {
+      "North Lancashire": {
+        "reserves_earmarked": 143871720,
+        "reserves_unallocated": 39131000,
+        "reserves_total": 183002720,
+        "lcc_debt_share": 541007958,
+        "dsg_deficit_share": 4203992,
+        "opening_net_position": -362209230,
+        "population_share_pct": 45.1
+      },
+      "South Lancashire": {
+        "reserves_earmarked": 160948390,
+        "reserves_unallocated": 24281000,
+        "reserves_total": 185229390,
+        "lcc_debt_share": 658992042,
+        "dsg_deficit_share": 9752767,
+        "opening_net_position": -483515419,
+        "population_share_pct": 54.9
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "reserves_earmarked": 100286000,
+        "reserves_unallocated": 19224000,
+        "reserves_total": 119510000,
+        "lcc_debt_share": 369680966,
+        "dsg_deficit_share": 4203992,
+        "opening_net_position": -254374958,
+        "population_share_pct": 30.8
+      },
+      "Central Lancashire": {
+        "reserves_earmarked": 51557000,
+        "reserves_unallocated": 26263000,
+        "reserves_total": 77820000,
+        "lcc_debt_share": 390978268,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -313158268,
+        "population_share_pct": 32.6
+      },
+      "Pennine Lancashire": {
+        "reserves_earmarked": 152977110,
+        "reserves_unallocated": 17925000,
+        "reserves_total": 170902110,
+        "lcc_debt_share": 439340766,
+        "dsg_deficit_share": 9752767,
+        "opening_net_position": -278191423,
+        "population_share_pct": 36.6
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "reserves_earmarked": 62296720,
+        "reserves_unallocated": 29935000,
+        "reserves_total": 92231720,
+        "lcc_debt_share": 279975898,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -187744178,
+        "population_share_pct": 23.3
+      },
+      "Fylde Coast": {
+        "reserves_earmarked": 81575000,
+        "reserves_unallocated": 9196000,
+        "reserves_total": 90771000,
+        "lcc_debt_share": 261032059,
+        "dsg_deficit_share": 4203992,
+        "opening_net_position": -174465051,
+        "population_share_pct": 21.8
+      },
+      "Pennine Lancashire": {
+        "reserves_earmarked": 136333390,
+        "reserves_unallocated": 13843000,
+        "reserves_total": 150176390,
+        "lcc_debt_share": 390043177,
+        "dsg_deficit_share": 9752767,
+        "opening_net_position": -249619554,
+        "population_share_pct": 32.5
+      },
+      "South Lancashire": {
+        "reserves_earmarked": 24615000,
+        "reserves_unallocated": 10438000,
+        "reserves_total": 35053000,
+        "lcc_debt_share": 268948865,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -233895865,
+        "population_share_pct": 22.4
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "reserves_earmarked": 71968000,
+        "reserves_unallocated": 21271000,
+        "reserves_total": 93239000,
+        "lcc_debt_share": 356070444,
+        "dsg_deficit_share": 4203992,
+        "opening_net_position": -267035436,
+        "population_share_pct": 29.7
+      },
+      "Southern Lancashire": {
+        "reserves_earmarked": 24615000,
+        "reserves_unallocated": 10438000,
+        "reserves_total": 35053000,
+        "lcc_debt_share": 268948865,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -233895865,
+        "population_share_pct": 22.4
+      },
+      "Eastern Lancashire": {
+        "reserves_earmarked": 136333390,
+        "reserves_unallocated": 13843000,
+        "reserves_total": 150176390,
+        "lcc_debt_share": 424063863,
+        "dsg_deficit_share": 9752767,
+        "opening_net_position": -283640240,
+        "population_share_pct": 35.3
+      },
+      "Northern Lancashire": {
+        "reserves_earmarked": 18711000,
+        "reserves_unallocated": 10028000,
+        "reserves_total": 28739000,
+        "lcc_debt_share": 150984262,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -122245262,
+        "population_share_pct": 12.6
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "reserves_earmarked": 50014390,
+        "reserves_unallocated": 2379000,
+        "reserves_total": 52393390,
+        "lcc_debt_share": 203843140,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -151449750,
+        "population_share_pct": 17.0
+      },
+      "Central Lancashire": {
+        "reserves_earmarked": 102962720,
+        "reserves_unallocated": 15546000,
+        "reserves_total": 118508720,
+        "lcc_debt_share": 235497626,
+        "dsg_deficit_share": 9752767,
+        "opening_net_position": -126741673,
+        "population_share_pct": 19.6
+      },
+      "North Lancashire": {
+        "reserves_earmarked": 55260000,
+        "reserves_unallocated": 13778000,
+        "reserves_total": 69038000,
+        "lcc_debt_share": 197619688,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -128581688,
+        "population_share_pct": 16.5
+      },
+      "South Lancashire": {
+        "reserves_earmarked": 24615000,
+        "reserves_unallocated": 10438000,
+        "reserves_total": 35053000,
+        "lcc_debt_share": 268948865,
+        "dsg_deficit_share": 0,
+        "opening_net_position": -233895865,
+        "population_share_pct": 22.4
+      },
+      "West Lancashire": {
+        "reserves_earmarked": 71968000,
+        "reserves_unallocated": 21271000,
+        "reserves_total": 93239000,
+        "lcc_debt_share": 261032059,
+        "dsg_deficit_share": 4203992,
+        "opening_net_position": -171997051,
+        "population_share_pct": 21.8
+      }
     }
   },
   "council_tax_harmonisation": {
@@ -3885,5 +6003,53 @@
         }
       }
     ]
+  },
+  "transition_cost_profile": {
+    "it": {
+      "year_minus_1": 0.1,
+      "year_1": 0.4,
+      "year_2": 0.35,
+      "year_3": 0.15
+    },
+    "redundancy": {
+      "year_1": 0.6,
+      "year_2": 0.4
+    },
+    "programme": {
+      "year_minus_1": 0.15,
+      "year_1": 0.3,
+      "year_2": 0.3,
+      "year_3": 0.2,
+      "year_4": 0.05
+    },
+    "legal": {
+      "year_minus_1": 0.2,
+      "year_1": 0.5,
+      "year_2": 0.3
+    }
+  },
+  "savings_ramp_profile": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "model_defaults": {
+    "savings_realisation_rate": 0.75,
+    "transition_cost_overrun": 1.0,
+    "back_office_saving_pct": 0.18,
+    "procurement_saving_pct": 0.03,
+    "social_care_integration_pct": 0.01,
+    "democratic_cost_per_councillor": 16800,
+    "discount_rate": 0.035,
+    "inflation_rate": 0.02
   }
 }
