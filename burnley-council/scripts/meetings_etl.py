@@ -349,29 +349,86 @@ def clean_pdf_suffix(text):
     return re.sub(r'\s*PDF\s+[\d.,]+\s*[KMG]B\s*$', '', text, flags=re.I).strip()
 
 
+def _looks_like_report_title(text):
+    """Check if text looks like a report/agenda title rather than a venue name.
+
+    Venue names are short place names like 'Burnley Town Hall' or 'County Hall, Preston'.
+    Report titles contain words like 'Report', 'Budget', 'Monitoring', 'Review', years, etc.
+    """
+    # Common report/agenda keywords that would never appear in a venue name
+    report_keywords = [
+        r'\breport\b', r'\bbudget\b', r'\bmonitoring\b', r'\breview\b',
+        r'\bminutes\b', r'\bagenda\b', r'\bstrategy\b', r'\bpolicy\b',
+        r'\banalysis\b', r'\bperformance\b', r'\bquart(?:er|erly)\b',
+        r'\bupdate\b', r'\bannual\b', r'\bfinancial\b', r'\bstatement\b',
+        r'\bresolution\b', r'\bdecision\b', r'\bscrutiny\b', r'\bamendment\b',
+        r'\bQ[1-4]\b', r'\b20\d{2}[/-]', r'\bpressures?\b', r'\bmarket\b',
+        r'\bsupport\b', r'\bavailable\b', r'\bproposal\b', r'\bconsultation\b',
+    ]
+    lower = text.lower()
+    for pattern in report_keywords:
+        if re.search(pattern, lower):
+            return True
+    # If it contains a year reference like "2025/26" or "2025-26"
+    if re.search(r'20\d{2}[/-]\d{2,4}', text):
+        return True
+    return False
+
+
 def scrape_meeting_detail(url):
     """Scrape a meeting detail page for venue and agenda items."""
     soup = fetch_page(url)
     if not soup:
         return {'venue': None, 'agenda_items': [], 'documents': []}
 
-    # Extract venue — look for text containing "Venue:"
+    # Extract venue — look for "Venue:" in the page header area only.
+    # ModernGov puts venue as plain text near the top of the meeting detail page,
+    # NOT inside agenda items or minutes content. We restrict our search to avoid
+    # matching "Venue" text that appears inside minutes/report body text.
     venue = None
-    for el in soup.find_all(string=re.compile(r'Venue', re.I)):
-        text = el.strip() if isinstance(el, str) else el.get_text(strip=True)
-        m = re.search(r'Venue:?\s*(.+)', text, re.I)
-        if m:
-            v = m.group(1).strip().rstrip(',').strip(':').strip()
-            if v and len(v) > 2:
-                venue = v
-                break
+
+    # Strategy 1: Look for mgVenue class (some ModernGov instances)
+    venue_el = soup.find(class_=re.compile(r'mgVenue', re.I))
+    if venue_el:
+        v = venue_el.get_text(strip=True)
+        v = re.sub(r'^Venue:?\s*', '', v, flags=re.I).strip().rstrip(',').strip(':').strip()
+        if v and len(v) > 2 and len(v) < 80:
+            venue = v
+
+    # Strategy 2: Search only in the top header section (before agenda items).
+    # The agenda items live inside elements with class mgAiTitle* or mgSubTbl.
+    # We find the first agenda element and only search text BEFORE it.
     if not venue:
-        for el in soup.find_all(['span', 'div', 'p', 'td']):
+        # Find the first agenda-related element to set a boundary
+        agenda_boundary = soup.find(class_=re.compile(r'mgAi|mgSubTbl'))
+        # Build a list of text nodes to search — only those BEFORE the agenda
+        header_elements = []
+        for el in soup.find_all(['span', 'div', 'p', 'td', 'dt', 'dd']):
+            # Stop if we've hit the agenda section
+            if agenda_boundary and el.find_parent(class_=re.compile(r'mgAi|mgSubTbl')):
+                continue
+            if agenda_boundary and agenda_boundary in el.parents:
+                continue
+            # Check if this element comes before the agenda boundary in document order
+            if agenda_boundary:
+                try:
+                    # Compare source positions — element must come before agenda
+                    if el.sourceline and agenda_boundary.sourceline:
+                        if el.sourceline > agenda_boundary.sourceline:
+                            continue
+                except AttributeError:
+                    pass
+            header_elements.append(el)
+
+        for el in header_elements:
             text = el.get_text(strip=True)
             m = re.match(r'Venue:?\s+(.+)', text, re.I)
             if m:
-                venue = m.group(1).strip().rstrip(',')
-                break
+                v = m.group(1).strip().rstrip(',').strip(':').strip()
+                # Validate: real venues are short place names, not report titles
+                if v and 3 < len(v) < 80 and not _looks_like_report_title(v):
+                    venue = v
+                    break
 
     # Extract agenda items using ModernGov CSS classes
     # Agenda items use class="mgAiTitleTxt" — each item appears twice
