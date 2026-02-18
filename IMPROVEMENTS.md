@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-02-17
+> Last updated: 2026-02-18
 
-**Summary**: 5 open issues | 1 auto-resolved this run | Critical: 0 | High: 1 | Medium: 4 | Low: 0
+**Summary**: 4 open issues | 1 auto-resolved this run | Critical: 0 | High: 1 | Medium: 3 | Low: 0
 
 ---
 
@@ -17,7 +17,7 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
-| D9 | Medium | Feature flag / file existence mismatch [auto] | pendle: `budgets=false` but `budgets_summary.json` exists | rossendale: `budgets=false` but `budgets_summary.json` exists. UI hides available data. | open |
+| D9 | Medium | Feature flag / file existence mismatch [auto] | pendle: `budgets=false` but `budgets_summary.json` exists | rossendale: `budgets=false` but `budgets_summary.json` exists. UI hides available data. | fixed |
 
 ## Process Efficiency
 
@@ -29,10 +29,9 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
-| A17 | Medium | Unguarded chained property access (80 instances) [auto] | At Budgets:901, Budgets:929, Budgets:1046, Budgets:1065, Budgets:1123.... Use optional chaining or `|| {}` defaults. | open |
+| A17 | Medium | Unguarded chained property access (90 instances) [auto] | At Budgets:394, Budgets:597, Budgets:1257, Budgets:1285, Budgets:1398.... Use optional chaining or `|| {}` defaults. | open |
 | A4 | Medium | Accessibility gaps in 2 pages [auto] | Pages with no ARIA attributes: Demographics, LGRTracker. | open |
 | A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Press.jsx:55`. Add clearTimeout in useEffect cleanup. | open |
-| A2 | High | 3 pages have zero tests [auto] | Untested: Demographics (391L), Integrity (791L), LGRTracker (824L). | fixed |
 
 ---
 
@@ -46,3 +45,4 @@
 - **2026-02-15** — Auto-scan: 7 issues found
 - **2026-02-16** — Auto-scan: 6 issues found, 1 resolved
 - **2026-02-17** — Auto-scan: 5 issues found, 1 resolved
+- **2026-02-18** — Auto-scan: 4 issues found, 1 resolved
