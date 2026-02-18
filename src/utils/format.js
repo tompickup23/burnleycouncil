@@ -129,3 +129,25 @@ export function estimateReadingTime(text, wpm = 200) {
   const minutes = Math.max(1, Math.ceil(words / wpm))
   return `${minutes} min read`
 }
+
+/**
+ * Format a z-score with sigma notation
+ * @param {number} z - Z-score value
+ * @returns {string} Formatted z-score (e.g. "+2.4σ" or "-1.8σ")
+ */
+export function formatZScore(z) {
+  if (z == null || isNaN(z)) return '-'
+  const sign = z > 0 ? '+' : ''
+  return `${sign}${z.toFixed(1)}σ`
+}
+
+/**
+ * Format a Gini coefficient with concentration descriptor
+ * @param {number} g - Gini coefficient [0, 1]
+ * @returns {string} Formatted Gini (e.g. "0.65 (concentrated)")
+ */
+export function formatGini(g) {
+  if (g == null || isNaN(g)) return '-'
+  const label = g > 0.7 ? 'concentrated' : g > 0.5 ? 'moderate' : g > 0.3 ? 'mixed' : 'diverse'
+  return `${g.toFixed(2)} (${label})`
+}

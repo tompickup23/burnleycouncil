@@ -21,6 +21,13 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, '..', 'data')
 
+# ONS CPI-H annual averages (base 2015 = 100) for inflation adjustment
+CPI_H_INDEX = {
+    '2015/16': 100.6, '2016/17': 102.3, '2017/18': 105.1, '2018/19': 107.4,
+    '2019/20': 109.3, '2020/21': 110.3, '2021/22': 114.1, '2022/23': 124.7,
+    '2023/24': 131.5, '2024/25': 136.0, '2025/26': 138.7,
+}
+
 # Councils that already have hand-curated budgets.json — skip these
 SKIP_COUNCILS = {'burnley', 'hyndburn'}
 
@@ -531,6 +538,22 @@ def generate_budgets(council_id, dry_run=False):
         if council_tax:
             entry['council_tax'] = council_tax
 
+        # Real growth rate (CPI-H inflation-adjusted)
+        fy = format_year(year)
+        if len(revenue_budgets) > 0 and net_revenue_budget and revenue_budgets[-1].get('net_revenue_budget'):
+            prev = revenue_budgets[-1]
+            prev_fy = prev['financial_year']
+            prev_budget = prev['net_revenue_budget']
+            nominal_growth = ((net_revenue_budget - prev_budget) / abs(prev_budget)) * 100 if prev_budget else 0
+            # Deflate both to latest year
+            cpi_from = CPI_H_INDEX.get(prev_fy)
+            cpi_to = CPI_H_INDEX.get(fy)
+            if cpi_from and cpi_to and cpi_from > 0:
+                real_prev = prev_budget * (cpi_to / cpi_from)
+                real_growth = ((net_revenue_budget - real_prev) / abs(real_prev)) * 100 if real_prev else 0
+                entry['real_growth_rate_pct'] = round(real_growth, 1)
+            entry['nominal_growth_rate_pct'] = round(nominal_growth, 1)
+
         revenue_budgets.append(entry)
 
     if not revenue_budgets:
@@ -548,15 +571,32 @@ def generate_budgets(council_id, dry_run=False):
         if ct_data.get('band_d_inc_pp_by_year'):
             council_tax_history['band_d_inc_precepts'] = ct_data['band_d_inc_pp_by_year']
 
-    # Build reserves trajectory (all years)
+    # Build reserves trajectory (all years) with CIPFA adequacy rating
     reserves_trajectory = []
     for rb in revenue_budgets:
         if rb.get('reserves'):
+            total_closing = rb['reserves'].get('total_closing', 0) or 0
+            net_budget = rb.get('net_revenue_budget', 0) or 0
+            months_cover = round((total_closing / net_budget) * 12, 1) if net_budget > 0 and total_closing > 0 else 0
+
+            adequacy_rating = 'Unknown'
+            if months_cover > 0:
+                if months_cover < 3:
+                    adequacy_rating = 'Critical'
+                elif months_cover < 6:
+                    adequacy_rating = 'Low'
+                elif months_cover < 12:
+                    adequacy_rating = 'Adequate'
+                else:
+                    adequacy_rating = 'Strong'
+
             reserves_trajectory.append({
                 'year': rb['financial_year'],
                 'earmarked': rb['reserves'].get('earmarked_closing'),
                 'unallocated': rb['reserves'].get('unallocated_closing'),
-                'total': rb['reserves'].get('total_closing'),
+                'total': total_closing,
+                'months_cover': months_cover,
+                'adequacy_rating': adequacy_rating,
             })
 
     # Build insights

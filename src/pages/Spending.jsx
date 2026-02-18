@@ -430,6 +430,42 @@ function Spending() {
         )}
       </div>
 
+      {/* Analytics Stats Row */}
+      {stats.count > 10 && stats.stdDev > 0 && (
+        <div className="stats-grid stats-analytics">
+          <div className="stat-card stat-compact">
+            <div className="stat-card-body">
+              <span className="stat-card-value">{formatCurrency(stats.stdDev, true)}</span>
+              <span className="stat-card-label">Std Dev</span>
+              <span className="stat-card-sub">CV: {stats.avgTransaction > 0 ? ((stats.stdDev / stats.avgTransaction) * 100).toFixed(0) : 0}%</span>
+            </div>
+          </div>
+          <div className="stat-card stat-compact">
+            <div className="stat-card-body">
+              <span className="stat-card-value">{formatCurrency(stats.p90, true)}</span>
+              <span className="stat-card-label">P90</span>
+              <span className="stat-card-sub">Top 10% above this</span>
+            </div>
+          </div>
+          <div className="stat-card stat-compact">
+            <div className="stat-card-body">
+              <span className="stat-card-value">{stats.supplierGini != null ? stats.supplierGini.toFixed(2) : '-'}</span>
+              <span className="stat-card-label">Supplier Gini</span>
+              <span className="stat-card-sub" style={{ color: stats.supplierGini > 0.7 ? '#dc3545' : stats.supplierGini > 0.5 ? '#fd7e14' : '#28a745' }}>
+                {stats.supplierGini > 0.7 ? 'Concentrated' : stats.supplierGini > 0.5 ? 'Moderate' : 'Diverse'}
+              </span>
+            </div>
+          </div>
+          <div className="stat-card stat-compact">
+            <div className="stat-card-body">
+              <span className="stat-card-value">{formatCurrency((stats.p75 || 0) - (stats.p25 || 0), true)}</span>
+              <span className="stat-card-label">IQR</span>
+              <span className="stat-card-sub">P25–P75 range</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tab Navigation */}
       <div className="tab-nav" role="tablist">
         <button role="tab" aria-selected={activeTab === 'table'} className={`tab-btn ${activeTab === 'table' ? 'active' : ''}`} onClick={() => setActiveTab('table')}>
@@ -477,7 +513,14 @@ function Spending() {
                     </td>
                     <td className="service-col text-secondary">{truncate(item.service_division?.split(' - ')[1] || item.service_division, 20)}</td>
                     <td className="category-col text-secondary">{truncate(item.expenditure_category, 25)}</td>
-                    <td className="amount-col">{formatCurrency(item.amount)}</td>
+                    <td className="amount-col">
+                      {formatCurrency(item.amount)}
+                      {stats.stdDev > 0 && stats.avgTransaction > 0 && Math.abs(((item.amount || 0) - stats.avgTransaction) / stats.stdDev) > 3 && (
+                        <span className="outlier-icon" title={`Outlier: z-score ${(((item.amount || 0) - stats.avgTransaction) / stats.stdDev).toFixed(1)}σ`}>
+                          <AlertTriangle size={12} />
+                        </span>
+                      )}
+                    </td>
                     <td className="type-col">
                       <span className={`type-badge ${item.type}`}>
                         {typeLabel(item.type)}

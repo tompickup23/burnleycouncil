@@ -183,6 +183,44 @@ describe('computeAll', () => {
     expect(stats.maxTransaction).toBe(10000)
   })
 
+  it('computes standard deviation', () => {
+    const { stats } = computeAll(mockRecords)
+    expect(stats.stdDev).toBeGreaterThan(0)
+    // Known values: [2500, 5000, 10000] → sample stddev ≈ 3818.81
+    expect(stats.stdDev).toBeCloseTo(3818.81, 0)
+  })
+
+  it('computes percentiles from sorted amounts', () => {
+    const { stats } = computeAll(mockRecords)
+    // With 3 sorted values [2500, 5000, 10000]:
+    expect(stats.p10).toBeGreaterThanOrEqual(2500)
+    expect(stats.p25).toBeGreaterThanOrEqual(2500)
+    expect(stats.p75).toBeLessThanOrEqual(10000)
+    expect(stats.p90).toBeLessThanOrEqual(10000)
+    // Ordering: p10 ≤ p25 ≤ median ≤ p75 ≤ p90
+    expect(stats.p10).toBeLessThanOrEqual(stats.p25)
+    expect(stats.p25).toBeLessThanOrEqual(stats.medianAmount)
+    expect(stats.medianAmount).toBeLessThanOrEqual(stats.p75)
+    expect(stats.p75).toBeLessThanOrEqual(stats.p90)
+  })
+
+  it('computes supplier Gini coefficient', () => {
+    const { stats } = computeAll(mockRecords)
+    // 2 suppliers: ACME=15000, Widget=2500 → significant inequality
+    expect(stats.supplierGini).toBeGreaterThan(0)
+    expect(stats.supplierGini).toBeLessThan(1)
+  })
+
+  it('returns zero stats for empty input', () => {
+    const { stats } = computeAll([])
+    expect(stats.stdDev).toBe(0)
+    expect(stats.p10).toBe(0)
+    expect(stats.p25).toBe(0)
+    expect(stats.p75).toBe(0)
+    expect(stats.p90).toBe(0)
+    expect(stats.supplierGini).toBe(0)
+  })
+
   it('computes type breakdown', () => {
     const { stats } = computeAll(mockRecords)
     expect(stats.byType.spend).toBe(15000) // 5000 + 10000

@@ -336,6 +336,39 @@
   margin-top: 2px;
 }
 
+/* Analytics stats row */
+.stats-analytics {
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.stat-card.stat-compact {
+  padding: var(--space-sm) var(--space-md);
+}
+
+.stat-compact .stat-card-value {
+  font-size: 1.1rem;
+}
+
+.stat-compact .stat-card-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Z-score outlier icon */
+.outlier-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+  color: #fd7e14;
+  vertical-align: middle;
+}
+
+.outlier-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
 /* Type breakdown bar */
 .type-breakdown-card {
   flex-direction: column;

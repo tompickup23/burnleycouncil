@@ -1390,6 +1390,74 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
         )}
       </section>
 
+      {/* Real Growth & Reserves Adequacy — from pre-computed data */}
+      {(insightsData?.yoy_changes?.length > 0 || summaryData?.reserves) && (
+        <section className="metrics-grid analytics-metrics">
+          {/* Real growth from latest YoY change */}
+          {insightsData?.yoy_changes?.length > 0 && (() => {
+            const latest = insightsData.yoy_changes[insightsData.yoy_changes.length - 1]
+            const nominalPct = latest?.change_percent
+            // Approximate real growth by subtracting ~2% CPI (exact figures in Python output)
+            return nominalPct != null ? (
+              <div className="metric-card">
+                <div className="metric-icon growth"><TrendingUp size={24} /></div>
+                <div className="metric-content">
+                  <span className="metric-value" style={{ color: nominalPct > 0 ? '#ff9f0a' : '#30d158' }}>
+                    {nominalPct > 0 ? '+' : ''}{nominalPct.toFixed(1)}%
+                  </span>
+                  <span className="metric-label">Nominal Growth ({latest.from_year} → {latest.to_year})</span>
+                  <span className="metric-sub" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                    Real growth ~{(nominalPct - 2.0).toFixed(1)}% after CPI-H inflation
+                  </span>
+                </div>
+              </div>
+            ) : null
+          })()}
+
+          {/* Reserves adequacy */}
+          {(() => {
+            const reservesTrend = summaryData?.trends?.reserves_trends
+            if (!reservesTrend) return null
+            const years = Object.keys(reservesTrend).sort()
+            const latest = reservesTrend[years[years.length - 1]]
+            const total = latest?.total || 0
+            if (total <= 0 || netRevenue <= 0) return null
+            const monthsCover = (total / netRevenue) * 12
+            let rating, color
+            if (monthsCover < 3) { rating = 'Critical'; color = '#dc3545' }
+            else if (monthsCover < 6) { rating = 'Low'; color = '#fd7e14' }
+            else if (monthsCover < 12) { rating = 'Adequate'; color = '#28a745' }
+            else { rating = 'Strong'; color = '#007bff' }
+            return (
+              <div className="metric-card">
+                <div className="metric-icon" style={{ color }}><PiggyBank size={24} /></div>
+                <div className="metric-content">
+                  <span className="metric-value">{monthsCover.toFixed(1)} months</span>
+                  <span className="metric-label">Reserves Adequacy</span>
+                  <span className="metric-sub" style={{ fontSize: '0.75rem', color, fontWeight: 600 }}>
+                    {rating} — {formatCurrency(total, true)} reserves cover
+                  </span>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* Per capita spend — population from summaryData or cross_council */}
+          {totalServiceExpenditure > 0 && summaryData?.population > 0 && (
+            <div className="metric-card">
+              <div className="metric-icon"><Building size={24} /></div>
+              <div className="metric-content">
+                <span className="metric-value">£{Math.round(totalServiceExpenditure / summaryData.population).toLocaleString()}</span>
+                <span className="metric-label">Per Capita Spend</span>
+                <span className="metric-sub" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                  Population: {summaryData.population.toLocaleString()}
+                </span>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
       {/* Year-on-Year Budget Changes */}
       {insightsData?.yoy_changes?.length > 0 && (
         <section className="chart-section">

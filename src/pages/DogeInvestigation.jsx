@@ -282,6 +282,17 @@ function DogeInvestigation() {
                   {f.confidence && <ConfidenceBadge level={f.confidence} />}
                 </span>
                 <span className="doge-finding-detail">{f.detail}</span>
+                {f.statistics && (
+                  <span className="doge-finding-stats">
+                    <Activity size={12} />
+                    <span>n={f.statistics.n?.toLocaleString()}</span>
+                    {f.statistics.chi_squared && <span>χ²={f.statistics.chi_squared}</span>}
+                    {f.statistics.df && <span>df={f.statistics.df}</span>}
+                    <span className={f.statistics.significant ? 'stat-significant' : 'stat-ns'}>
+                      {f.statistics.significant ? '● Significant' : '○ Not significant'}
+                    </span>
+                  </span>
+                )}
                 {f.context_note && (
                   <span className="doge-finding-context">
                     <Info size={12} /> {f.context_note}

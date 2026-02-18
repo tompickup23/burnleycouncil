@@ -27,6 +27,13 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "burnley-council" / "data"
 PUBLIC_DATA = ROOT / "public" / "data"
 
+# ONS CPI-H annual averages (base 2015 = 100) for inflation adjustment
+CPI_H_INDEX = {
+    "2015/16": 100.6, "2016/17": 102.3, "2017/18": 105.1, "2018/19": 107.4,
+    "2019/20": 109.3, "2020/21": 110.3, "2021/22": 114.1, "2022/23": 124.7,
+    "2023/24": 131.5, "2024/25": 136.0, "2025/26": 138.7,
+}
+
 COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc", "blackpool", "west_lancashire", "blackburn", "wyre", "preston", "fylde"]
 
 # Population figures (2021 Census) — updated manually when new census data available
@@ -289,6 +296,27 @@ def build_council_entry(council_id):
 
     council_tier = config.get("council_tier", "district")
 
+    # ── Per-capita and reserves adequacy ──
+    per_capita_spend = round(annual_spend / population, 2) if population > 0 and annual_spend > 0 else 0
+
+    # Reserves adequacy (CIPFA guidance: months of expenditure cover)
+    reserves_months = 0
+    reserves_adequacy = "Unknown"
+    if reserves_total_closing > 0 and net_revenue_expenditure > 0:
+        reserves_months = round((reserves_total_closing / net_revenue_expenditure) * 12, 1)
+    elif reserves_total_closing > 0 and total_service_expenditure > 0:
+        reserves_months = round((reserves_total_closing / total_service_expenditure) * 12, 1)
+
+    if reserves_months > 0:
+        if reserves_months < 3:
+            reserves_adequacy = "Critical"
+        elif reserves_months < 6:
+            reserves_adequacy = "Low"
+        elif reserves_months < 12:
+            reserves_adequacy = "Adequate"
+        else:
+            reserves_adequacy = "Strong"
+
     return {
         "council_id": council_id,
         "council_name": council_name,
@@ -302,6 +330,7 @@ def build_council_entry(council_id):
         "annual_spend": annual_spend,
         "annual_records": annual_records,
         "population": population,
+        "per_capita_spend": per_capita_spend,
         "avg_transaction": avg_transaction,
         "top10_supplier_pct": top10_pct,
         "transparency": transparency,
@@ -310,6 +339,8 @@ def build_council_entry(council_id):
         "pay": pay_entry,
         "service_expenditure": svc,
         "budget_summary": budget_summary,
+        "reserves_months": reserves_months,
+        "reserves_adequacy": reserves_adequacy,
     }
 
 
@@ -327,8 +358,48 @@ def main():
         entry = build_council_entry(council_id)
         councils.append(entry)
 
+    # ── Compute tier-specific benchmarks ──
+    benchmarks = {}
+    for tier in ("district", "county", "unitary"):
+        tier_councils = [c for c in councils if c["council_tier"] == tier]
+        if not tier_councils:
+            continue
+
+        per_capitas = [c["per_capita_spend"] for c in tier_councils if c["per_capita_spend"] > 0]
+        annual_spends = [c["annual_spend"] for c in tier_councils if c["annual_spend"] > 0]
+        reserves_m = [c["reserves_months"] for c in tier_councils if c["reserves_months"] > 0]
+
+        def _median(vals):
+            if not vals:
+                return 0
+            s = sorted(vals)
+            mid = len(s) // 2
+            return s[mid] if len(s) % 2 else (s[mid - 1] + s[mid]) / 2
+
+        benchmarks[tier] = {
+            "count": len(tier_councils),
+            "median_per_capita_spend": round(_median(per_capitas), 2),
+            "median_annual_spend": round(_median(annual_spends), 2),
+            "median_reserves_months": round(_median(reserves_m), 1),
+        }
+
+    # ── Add peer percentile ranks ──
+    for tier in ("district", "county", "unitary"):
+        tier_per_capitas = sorted(
+            [c["per_capita_spend"] for c in councils if c["council_tier"] == tier and c["per_capita_spend"] > 0]
+        )
+        for c in councils:
+            if c["council_tier"] != tier or c["per_capita_spend"] <= 0:
+                c["per_capita_rank"] = 0
+                c["per_capita_percentile"] = 0
+                continue
+            rank = sum(1 for v in tier_per_capitas if v <= c["per_capita_spend"])
+            c["per_capita_rank"] = rank
+            c["per_capita_percentile"] = round((rank / len(tier_per_capitas)) * 100, 1) if tier_per_capitas else 0
+
     result = {
         "generated": datetime.now().isoformat(timespec="seconds"),
+        "benchmarks": benchmarks,
         "councils": councils,
     }
 

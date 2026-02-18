@@ -6,6 +6,8 @@ import {
   formatPercent,
   truncate,
   getFinancialYear,
+  formatZScore,
+  formatGini,
 } from './format'
 
 // ---------------------------------------------------------------------------
@@ -265,5 +267,56 @@ describe('getFinancialYear', () => {
   it('handles year boundary correctly at April 1', () => {
     expect(getFinancialYear('2023-04-01')).toBe('2023/24')
     expect(getFinancialYear('2023-03-31')).toBe('2022/23')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// formatZScore
+// ---------------------------------------------------------------------------
+
+describe('formatZScore', () => {
+  it('formats positive z-score with + prefix and sigma', () => {
+    expect(formatZScore(2.4)).toBe('+2.4σ')
+  })
+
+  it('formats negative z-score with - prefix and sigma', () => {
+    expect(formatZScore(-1.8)).toBe('-1.8σ')
+  })
+
+  it('formats zero z-score', () => {
+    expect(formatZScore(0)).toBe('0.0σ')
+  })
+
+  it('returns - for null/NaN', () => {
+    expect(formatZScore(null)).toBe('-')
+    expect(formatZScore(NaN)).toBe('-')
+    expect(formatZScore(undefined)).toBe('-')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// formatGini
+// ---------------------------------------------------------------------------
+
+describe('formatGini', () => {
+  it('formats concentrated Gini', () => {
+    expect(formatGini(0.75)).toBe('0.75 (concentrated)')
+  })
+
+  it('formats moderate Gini', () => {
+    expect(formatGini(0.55)).toBe('0.55 (moderate)')
+  })
+
+  it('formats mixed Gini', () => {
+    expect(formatGini(0.35)).toBe('0.35 (mixed)')
+  })
+
+  it('formats diverse Gini', () => {
+    expect(formatGini(0.20)).toBe('0.20 (diverse)')
+  })
+
+  it('returns - for null/NaN', () => {
+    expect(formatGini(null)).toBe('-')
+    expect(formatGini(NaN)).toBe('-')
   })
 })

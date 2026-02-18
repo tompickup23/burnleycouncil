@@ -1895,7 +1895,7 @@ def analyse_fraud_triangle(council_id, all_spending, duplicates, cross_council, 
 # OUTPUT: Generate Enhanced DOGE Findings JSON
 # ═══════════════════════════════════════════════════════════════════════
 
-def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None, fraud_triangle=None, budget_variance=None, budget_efficiency=None, contract_crossref=None):
+def generate_doge_findings(council_id, duplicates, cross_council, patterns, compliance, benfords=None, concentration=None, procurement=None, fraud_triangle=None, budget_variance=None, budget_efficiency=None, contract_crossref=None, benfords_2nd=None):
     """Generate enhanced doge_findings.json for a council."""
 
     findings = []
@@ -2149,6 +2149,64 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                 "severity": "info",
                 "confidence": "high",
             })
+
+    # ── Benford's Second-Digit finding ──
+    if benfords_2nd and council_id in benfords_2nd:
+        bf2 = benfords_2nd[council_id]
+        if bf2.get("status") != "insufficient_data":
+            bf2_n = bf2.get("total_amounts_tested", 0)
+            bf2_chi = bf2.get("chi_squared", 0)
+            bf2_conformity = bf2.get("conformity", "unknown")
+            bf2_max_dev = bf2.get("max_deviation_pct", 0)
+            bf2_max_digit = bf2.get("max_deviation_digit", "?")
+
+            if bf2_conformity in ("non_conforming", "marginal"):
+                findings.append({
+                    "value": f"χ²={bf2_chi}",
+                    "label": "Second-Digit Benford's Anomaly",
+                    "detail": (
+                        f"Second-digit distribution across {bf2_n:,} transactions shows {bf2['p_description']}. "
+                        f"Digit {bf2_max_digit} deviates {bf2_max_dev}% from Nigrini's expected distribution. "
+                        f"Second-digit tests are more discriminating than first-digit for detecting "
+                        f"round-number bias and fabricated invoices."
+                    ),
+                    "severity": "warning" if bf2_conformity == "non_conforming" else "info",
+                    "confidence": "medium",
+                    "context_note": (
+                        f"Benford's second-digit analysis (Nigrini, 2012) uses chi-squared with 9 df. "
+                        f"Critical values: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001). "
+                        f"n={bf2_n:,}."
+                    ),
+                    "statistics": {
+                        "test": "chi_squared_goodness_of_fit",
+                        "chi_squared": bf2_chi,
+                        "df": 9,
+                        "n": bf2_n,
+                        "p_description": bf2["p_description"],
+                        "significant": bf2_conformity in ("non_conforming", "marginal"),
+                    },
+                    "link": "/spending",
+                })
+            else:
+                key_findings.append({
+                    "icon": "check-circle",
+                    "badge": "Forensic",
+                    "title": f"Second-Digit Benford's: No anomaly (χ²={bf2_chi}, {bf2['p_description']})",
+                    "description": (
+                        f"Payment amounts conform to expected second-digit distribution across "
+                        f"{bf2_n:,} transactions (Nigrini expected). No round-number bias detected."
+                    ),
+                    "severity": "info",
+                    "confidence": "high",
+                    "statistics": {
+                        "test": "chi_squared_goodness_of_fit",
+                        "chi_squared": bf2_chi,
+                        "df": 9,
+                        "n": bf2_n,
+                        "p_description": bf2["p_description"],
+                        "significant": False,
+                    },
+                })
 
     # ── Weak competition findings (Phase 8.2) ──
     if procurement and council_id in procurement:
@@ -2502,6 +2560,106 @@ def analyse_benfords_law(all_spending):
     return results
 
 
+def analyse_benfords_second_digit(all_spending):
+    """Apply second-digit Benford's Law analysis (Nigrini, 2012).
+
+    The second-digit test is more discriminating than first-digit for detecting
+    fabricated invoices and round-number bias. Expected distribution is flatter
+    than first-digit but still predictable.
+
+    Expected second-digit frequencies (Nigrini):
+    0: 11.97%, 1: 11.39%, 2: 10.88%, 3: 10.43%, 4: 10.03%,
+    5: 9.67%, 6: 9.34%, 7: 9.04%, 8: 8.76%, 9: 8.50%
+
+    Uses chi-squared goodness-of-fit test with 9 degrees of freedom.
+    """
+    EXPECTED_PCT = [0.1197, 0.1139, 0.1088, 0.1043, 0.1003,
+                    0.0967, 0.0934, 0.0904, 0.0876, 0.0850]
+
+    results = {}
+
+    for council_id, records in all_spending.items():
+        # Use amounts > £9 (need at least 2 significant digits)
+        amounts = [r["amount"] for r in records if r.get("amount", 0) > 9]
+        if len(amounts) < 100:
+            results[council_id] = {"status": "insufficient_data", "count": len(amounts)}
+            continue
+
+        # Count second digits
+        digit_counts = [0] * 10
+        n = 0
+        for amt in amounts:
+            s = str(abs(amt)).replace('.', '').lstrip('0')
+            if len(s) < 2:
+                continue
+            d = int(s[1])
+            digit_counts[d] += 1
+            n += 1
+
+        if n < 50:
+            results[council_id] = {"status": "insufficient_data", "count": n}
+            continue
+
+        # Chi-squared goodness of fit
+        chi_squared = 0
+        digit_analysis = []
+        max_deviation = 0
+        max_deviation_digit = 0
+
+        for d in range(10):
+            observed_pct = digit_counts[d] / n
+            expected_pct = EXPECTED_PCT[d]
+            expected_count = expected_pct * n
+            chi_sq_component = ((digit_counts[d] - expected_count) ** 2) / expected_count
+            chi_squared += chi_sq_component
+
+            deviation = abs(observed_pct - expected_pct)
+            if deviation > max_deviation:
+                max_deviation = deviation
+                max_deviation_digit = d
+
+            digit_analysis.append({
+                "digit": d,
+                "observed_count": digit_counts[d],
+                "observed_pct": round(observed_pct * 100, 2),
+                "expected_pct": round(expected_pct * 100, 2),
+                "deviation_pct": round((observed_pct - expected_pct) / expected_pct * 100, 1) if expected_pct > 0 else 0,
+            })
+
+        # Chi-squared with 9 df: 16.92 (p=0.05), 21.67 (p=0.01), 27.88 (p=0.001)
+        chi_squared = round(chi_squared, 2)
+        if chi_squared > 27.88:
+            conformity = "non_conforming"
+            p_description = "p < 0.001 (highly significant)"
+        elif chi_squared > 21.67:
+            conformity = "marginal"
+            p_description = "p < 0.01 (very significant)"
+        elif chi_squared > 16.92:
+            conformity = "acceptable"
+            p_description = "p < 0.05 (significant)"
+        else:
+            conformity = "conforming"
+            p_description = "p > 0.05 (not significant)"
+
+        results[council_id] = {
+            "total_amounts_tested": n,
+            "chi_squared": chi_squared,
+            "df": 9,
+            "conformity": conformity,
+            "p_description": p_description,
+            "max_deviation_digit": max_deviation_digit,
+            "max_deviation_pct": round(max_deviation * 100, 2),
+            "digit_analysis": digit_analysis,
+        }
+
+        emoji = "✓" if conformity in ("conforming", "acceptable") else "⚠" if conformity == "marginal" else "✗"
+        print(f"\n  {council_id.upper()} (2nd digit): {emoji} χ²={chi_squared} — {p_description}")
+        print(f"    Tested {n} amounts (2nd digit)")
+        print(f"    Largest deviation: digit {max_deviation_digit} ({round(max_deviation*100,2)}% off expected)")
+
+    return results
+
+
 # ═══════════════════════════════════════════════════════════════════════
 # ANALYSIS 6: Self-Verification Engine
 # ═══════════════════════════════════════════════════════════════════════
@@ -2747,11 +2905,16 @@ def main():
         print("=" * 60)
         compliance = analyse_ch_compliance(all_spending, taxonomy)
 
+    benfords_2nd = {}
     if "benfords" in analyses:
         print("\n" + "=" * 60)
-        print("ANALYSIS 5: Benford's Law Forensic Screening")
+        print("ANALYSIS 5: Benford's Law Forensic Screening (1st digit)")
         print("=" * 60)
         benfords = analyse_benfords_law(all_spending)
+        print("\n" + "=" * 60)
+        print("ANALYSIS 5b: Benford's Law Second-Digit Analysis")
+        print("=" * 60)
+        benfords_2nd = analyse_benfords_second_digit(all_spending)
 
     # ── Supplier Concentration Analysis ──
     concentration = {}
@@ -2822,7 +2985,7 @@ def main():
         print("=" * 60)
 
         for c in councils:
-            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, fraud_triangles.get(c), budget_variance, budget_efficiency, contract_crossref)
+            findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, fraud_triangles.get(c), budget_variance, budget_efficiency, contract_crossref, benfords_2nd)
             output_path = DATA_DIR / c / "doge_findings.json"
             with open(output_path, "w") as f:
                 json.dump(findings, f, indent=2)
@@ -2861,6 +3024,7 @@ def main():
             "payment_patterns": patterns,
             "compliance": compliance,
             "benfords_law": benfords,
+            "benfords_second_digit": benfords_2nd,
             "supplier_concentration": concentration,
             "procurement_compliance": procurement_compliance,
             "fraud_triangles": fraud_triangles,

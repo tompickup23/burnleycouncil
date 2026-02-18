@@ -217,6 +217,35 @@
   color: var(--accent);
 }
 
+/* Statistical significance badges */
+.doge-finding-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  background: rgba(128, 128, 128, 0.08);
+  border-radius: 4px;
+  margin-top: 4px;
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.doge-finding-stats svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.stat-significant {
+  color: #ff453a;
+  font-weight: 600;
+}
+
+.stat-ns {
+  color: #30d158;
+  font-weight: 600;
+}
+
 .finding-link-arrow {
   position: absolute;
   top: var(--space-md);

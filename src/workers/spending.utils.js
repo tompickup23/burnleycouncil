@@ -171,6 +171,9 @@ export function computeAll(filtered) {
   const supplierSet = new Set()
   const byType = {}
 
+  // Welford's online variance accumulators (numerically stable)
+  let wN = 0, wMean = 0, wM2 = 0
+
   // Chart aggregation accumulators
   const byYear = {}, byYearCount = {}
   const byCategory = {}
@@ -188,6 +191,13 @@ export function computeAll(filtered) {
     if (amt > maxTransaction) maxTransaction = amt
     amounts.push(amt)
     if (item.supplier) supplierSet.add(item.supplier)
+
+    // Welford's online algorithm for variance
+    wN++
+    const delta = amt - wMean
+    wMean += delta / wN
+    const delta2 = amt - wMean
+    wM2 += delta * delta2
 
     const t = item.type || 'other'
     byType[t] = (byType[t] || 0) + amt
@@ -224,7 +234,7 @@ export function computeAll(filtered) {
     }
   }
 
-  // Median calculation
+  // Median + percentile calculations (amounts already collected, sort once)
   amounts.sort((a, b) => a - b)
   const mid = Math.floor(amounts.length / 2)
   const medianAmount = amounts.length === 0 ? 0
@@ -232,6 +242,37 @@ export function computeAll(filtered) {
 
   const count = filtered.length
   const avgTransaction = count > 0 ? total / count : 0
+
+  // Standard deviation from Welford's accumulators
+  const variance = wN > 1 ? wM2 / (wN - 1) : 0
+  const stdDev = Math.sqrt(variance)
+
+  // Percentiles (amounts already sorted)
+  const pctl = (p) => {
+    if (amounts.length === 0) return 0
+    const idx = (p / 100) * (amounts.length - 1)
+    const lo = Math.floor(idx)
+    const hi = Math.ceil(idx)
+    if (lo === hi) return amounts[lo]
+    return amounts[lo] + (amounts[hi] - amounts[lo]) * (idx - lo)
+  }
+  const p10 = pctl(10), p25 = pctl(25), p75 = pctl(75), p90 = pctl(90)
+
+  // Supplier Gini coefficient (concentration measure)
+  const supplierAmounts = Object.values(bySupplier)
+  let supplierGini = 0
+  if (supplierAmounts.length > 1) {
+    const sortedSup = [...supplierAmounts].filter(a => a > 0).sort((a, b) => a - b)
+    const nSup = sortedSup.length
+    const sumSup = sortedSup.reduce((s, v) => s + v, 0)
+    if (nSup > 1 && sumSup > 0) {
+      let weightedSum = 0
+      for (let i = 0; i < nSup; i++) {
+        weightedSum += (2 * (i + 1) - nSup - 1) * sortedSup[i]
+      }
+      supplierGini = weightedSum / (nSup * sumSup)
+    }
+  }
 
   // Build chart data structures
   const yearData = Object.entries(byYear).map(([year, amount]) => ({
@@ -285,7 +326,8 @@ export function computeAll(filtered) {
   })
 
   return {
-    stats: { total, count, suppliers: supplierSet.size, avgTransaction, medianAmount, maxTransaction, byType },
+    stats: { total, count, suppliers: supplierSet.size, avgTransaction, medianAmount, maxTransaction, byType,
+             stdDev, p10, p25, p75, p90, supplierGini },
     chartData: { yearData, categoryData, serviceData, supplierData, typeData, monthlyData },
   }
 }
