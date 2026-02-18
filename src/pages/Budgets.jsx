@@ -156,6 +156,33 @@ function Budgets() {
     color: DEPT_COLORS[i % DEPT_COLORS.length],
   })) : [], [latestCapital])
 
+  // Funding source data for selected year — handles both budget book and GOV.UK formats
+  const fundingData = selectedBudget?.funding_sources || {}
+  const fundingChartData = useMemo(() => {
+    const fd = fundingData
+    // Categorise funding sources by keyword matching
+    let ctTotal = 0, brTotal = 0, grantTotal = 0, otherTotal = 0
+    for (const [key, val] of Object.entries(fd)) {
+      const absVal = Math.abs(val || 0)
+      const k = key.toLowerCase()
+      if (k.includes('council_tax') || k.includes('council tax')) {
+        ctTotal += absVal
+      } else if (k.includes('business_rate') || k.includes('non-domestic') || k.includes('non_domestic') || k.includes('nndr')) {
+        brTotal += absVal
+      } else if (k.includes('grant') || k.includes('revenue_support') || k.includes('new_homes') || k.includes('recovery') || k.includes('funding_guarantee')) {
+        grantTotal += absVal
+      } else {
+        otherTotal += absVal
+      }
+    }
+    return [
+      { name: 'Council Tax', value: ctTotal / 1_000_000, color: '#0a84ff' },
+      { name: 'Business Rates', value: brTotal / 1_000_000, color: '#30d158' },
+      { name: 'Government Grants', value: grantTotal / 1_000_000, color: '#ff9f0a' },
+      { name: 'Other', value: otherTotal / 1_000_000, color: '#8e8e93' },
+    ].filter(d => d.value > 0.01)
+  }, [fundingData])
+
   // Early returns AFTER all hooks
   if (loading) {
     return <LoadingState message="Loading budget data..." />
@@ -191,33 +218,6 @@ function Budgets() {
     period: cp.budget_book_year,
     total: cp.total_all_schemes / 1_000_000,
   }))
-
-  // Funding source data for selected year — handles both budget book and GOV.UK formats
-  const fundingData = selectedBudget?.funding_sources || {}
-  const fundingChartData = useMemo(() => {
-    const fd = fundingData
-    // Categorise funding sources by keyword matching
-    let ctTotal = 0, brTotal = 0, grantTotal = 0, otherTotal = 0
-    for (const [key, val] of Object.entries(fd)) {
-      const absVal = Math.abs(val || 0)
-      const k = key.toLowerCase()
-      if (k.includes('council_tax') || k.includes('council tax')) {
-        ctTotal += absVal
-      } else if (k.includes('business_rate') || k.includes('non-domestic') || k.includes('non_domestic') || k.includes('nndr')) {
-        brTotal += absVal
-      } else if (k.includes('grant') || k.includes('revenue_support') || k.includes('new_homes') || k.includes('recovery') || k.includes('funding_guarantee')) {
-        grantTotal += absVal
-      } else {
-        otherTotal += absVal
-      }
-    }
-    return [
-      { name: 'Council Tax', value: ctTotal / 1_000_000, color: '#0a84ff' },
-      { name: 'Business Rates', value: brTotal / 1_000_000, color: '#30d158' },
-      { name: 'Government Grants', value: grantTotal / 1_000_000, color: '#ff9f0a' },
-      { name: 'Other', value: otherTotal / 1_000_000, color: '#8e8e93' },
-    ].filter(d => d.value > 0.01)
-  }, [fundingData])
 
   return (
     <div className="budgets-page animate-fade-in" aria-live="polite" aria-busy={loading}>
