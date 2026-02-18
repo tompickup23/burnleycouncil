@@ -1,0 +1,3889 @@
+{
+  "meta": {
+    "generated": "2026-02-18T04:48:03",
+    "data_year": "2024/25",
+    "source": "GOV.UK MHCLG Revenue Outturn 2024-25 (RS, RSX, RO2, RO4, RO5, RO6)",
+    "councils_extracted": 15,
+    "total_sub_service_lines": 192
+  },
+  "council_budgets": {
+    "burnley": {
+      "name": "Burnley",
+      "tier": "district",
+      "ct_band_d_element": 344.58,
+      "ct_band_d_total": 2455.83,
+      "ct_requirement": 8243000,
+      "tax_base_derived": 23922,
+      "total_service_expenditure": 18993000,
+      "services": {
+        "Adult Social Care": 5000,
+        "Highways and transport services": -196000,
+        "Housing services (GFRA only)": 3010000,
+        "Cultural and related services": 5281000,
+        "Environmental and regulatory services": 4384000,
+        "Planning and development services": 3365000,
+        "Central services": 3144000
+      }
+    },
+    "hyndburn": {
+      "name": "Hyndburn",
+      "tier": "district",
+      "ct_band_d_element": 276.46,
+      "ct_band_d_total": 2380.02,
+      "ct_requirement": 5945000,
+      "tax_base_derived": 21504,
+      "total_service_expenditure": 18726000,
+      "services": {
+        "Public Health": 130000,
+        "Highways and transport services": 348000,
+        "Housing services (GFRA only)": 1532000,
+        "Cultural and related services": 3821000,
+        "Environmental and regulatory services": 5462000,
+        "Planning and development services": 2685000,
+        "Central services": 4748000
+      }
+    },
+    "pendle": {
+      "name": "Pendle",
+      "tier": "district",
+      "ct_band_d_element": 307.52,
+      "ct_band_d_total": 2535.19,
+      "ct_requirement": 10323000,
+      "tax_base_derived": 33569,
+      "total_service_expenditure": 16778920,
+      "services": {
+        "Highways and transport services": 513000,
+        "Housing services (GFRA only)": 880920,
+        "Cultural and related services": 2832000,
+        "Environmental and regulatory services": 4416000,
+        "Planning and development services": 2885000,
+        "Central services": 5252000
+      }
+    },
+    "rossendale": {
+      "name": "Rossendale",
+      "tier": "district",
+      "ct_band_d_element": 317.66,
+      "ct_band_d_total": 2424.37,
+      "ct_requirement": 6514000,
+      "tax_base_derived": 20506,
+      "total_service_expenditure": 10749000,
+      "services": {
+        "Highways and transport services": 233000,
+        "Housing services (GFRA only)": 1503000,
+        "Cultural and related services": 1463000,
+        "Environmental and regulatory services": 2574000,
+        "Planning and development services": 513000,
+        "Central services": 4463000
+      }
+    },
+    "lancaster": {
+      "name": "Lancaster",
+      "tier": "district",
+      "ct_band_d_element": 264.3,
+      "ct_band_d_total": 2407.5,
+      "ct_requirement": 12595000,
+      "tax_base_derived": 47654,
+      "total_service_expenditure": 27900460,
+      "services": {
+        "Highways and transport services": -2348000,
+        "Housing services (GFRA only)": 4271000,
+        "Cultural and related services": 4850000,
+        "Environmental and regulatory services": 7941000,
+        "Planning and development services": 6056000,
+        "Central services": 7130460
+      }
+    },
+    "ribble_valley": {
+      "name": "Ribble Valley",
+      "tier": "district",
+      "ct_band_d_element": 170.69,
+      "ct_band_d_total": 2299.58,
+      "ct_requirement": 4950000,
+      "tax_base_derived": 29000,
+      "total_service_expenditure": 9259870,
+      "services": {
+        "Adult Social Care": 21510,
+        "Highways and transport services": -215510,
+        "Housing services (GFRA only)": 249110,
+        "Cultural and related services": 1805200,
+        "Environmental and regulatory services": 3923200,
+        "Planning and development services": 904600,
+        "Central services": 2571760
+      }
+    },
+    "chorley": {
+      "name": "Chorley",
+      "tier": "district",
+      "ct_band_d_element": 215.99,
+      "ct_band_d_total": 2342.85,
+      "ct_requirement": 8980000,
+      "tax_base_derived": 41576,
+      "total_service_expenditure": 15940000,
+      "services": {
+        "Public Health": 93000,
+        "Highways and transport services": -53000,
+        "Housing services (GFRA only)": 972000,
+        "Cultural and related services": 4770000,
+        "Environmental and regulatory services": 5171000,
+        "Planning and development services": 563000,
+        "Central services": 4424000
+      }
+    },
+    "south_ribble": {
+      "name": "South Ribble",
+      "tier": "district",
+      "ct_band_d_element": 236.78,
+      "ct_band_d_total": 2352.12,
+      "ct_requirement": 9085000,
+      "tax_base_derived": 38369,
+      "total_service_expenditure": 21003000,
+      "services": {
+        "Public Health": 110000,
+        "Highways and transport services": 67000,
+        "Housing services (GFRA only)": 1194000,
+        "Cultural and related services": 4363000,
+        "Environmental and regulatory services": 5316000,
+        "Planning and development services": 3806000,
+        "Central services": 6147000
+      }
+    },
+    "preston": {
+      "name": "Preston",
+      "tier": "district",
+      "ct_band_d_element": 364.45,
+      "ct_band_d_total": 2477.85,
+      "ct_requirement": 15527000,
+      "tax_base_derived": 42604,
+      "total_service_expenditure": 33473000,
+      "services": {
+        "Public Health": 108000,
+        "Highways and transport services": 290000,
+        "Housing services (GFRA only)": 4852000,
+        "Cultural and related services": 4527000,
+        "Environmental and regulatory services": 8157000,
+        "Planning and development services": 8161000,
+        "Central services": 7321000,
+        "Other services": 57000
+      }
+    },
+    "west_lancashire": {
+      "name": "West Lancashire",
+      "tier": "district",
+      "ct_band_d_element": 238.58,
+      "ct_band_d_total": 2362.12,
+      "ct_requirement": 9651000,
+      "tax_base_derived": 40452,
+      "total_service_expenditure": 25621000,
+      "services": {
+        "Highways and transport services": -483000,
+        "Housing services (GFRA only)": 1848000,
+        "Cultural and related services": 2071000,
+        "Environmental and regulatory services": 7203000,
+        "Planning and development services": 6974000,
+        "Central services": 8008000
+      }
+    },
+    "wyre": {
+      "name": "Wyre",
+      "tier": "district",
+      "ct_band_d_element": 233.08,
+      "ct_band_d_total": 2365.73,
+      "ct_requirement": 9861000,
+      "tax_base_derived": 42307,
+      "total_service_expenditure": 19275000,
+      "services": {
+        "Adult Social Care": 50000,
+        "Highways and transport services": 445000,
+        "Housing services (GFRA only)": 1165000,
+        "Cultural and related services": 4697000,
+        "Environmental and regulatory services": 6136000,
+        "Planning and development services": 3317000,
+        "Central services": 3465000
+      }
+    },
+    "fylde": {
+      "name": "Fylde",
+      "tier": "district",
+      "ct_band_d_element": 232.17,
+      "ct_band_d_total": 2387.78,
+      "ct_requirement": 8649000,
+      "tax_base_derived": 37253,
+      "total_service_expenditure": 11860000,
+      "services": {
+        "Highways and transport services": -332000,
+        "Housing services (GFRA only)": 1258000,
+        "Cultural and related services": 3152000,
+        "Environmental and regulatory services": 3968000,
+        "Planning and development services": 1432000,
+        "Central services": 2382000
+      }
+    },
+    "lancashire_cc": {
+      "name": "Lancashire CC",
+      "tier": "county",
+      "ct_band_d_element": 1735.79,
+      "ct_band_d_total": 0,
+      "ct_requirement": 642208000,
+      "tax_base_derived": 369980,
+      "total_service_expenditure": 2184673000,
+      "services": {
+        "Education services": 1266580000,
+        "Adult Social Care": 584501000,
+        "Public Health": 97641000,
+        "Highways and transport services": 68472000,
+        "Cultural and related services": 23653000,
+        "Environmental and regulatory services": 94348000,
+        "Planning and development services": 7597000,
+        "Central services": 41881000
+      }
+    },
+    "blackpool": {
+      "name": "Blackpool",
+      "tier": "unitary",
+      "ct_band_d_element": 2025.08,
+      "ct_band_d_total": 2392.21,
+      "ct_requirement": 74755000,
+      "tax_base_derived": 36915,
+      "total_service_expenditure": 205260000,
+      "services": {
+        "Education services": 65299000,
+        "Adult Social Care": 76650000,
+        "Public Health": 20399000,
+        "Highways and transport services": 7706000,
+        "Housing services (GFRA only)": 5155000,
+        "Cultural and related services": 8082000,
+        "Environmental and regulatory services": 21101000,
+        "Planning and development services": 2510000,
+        "Central services": -295000,
+        "Other services": -1347000
+      }
+    },
+    "blackburn": {
+      "name": "Blackburn",
+      "tier": "unitary",
+      "ct_band_d_element": 1964.93,
+      "ct_band_d_total": 2337.17,
+      "ct_requirement": 69563000,
+      "tax_base_derived": 35402,
+      "total_service_expenditure": 293867300,
+      "services": {
+        "Education services": 151486000,
+        "Adult Social Care": 72679300,
+        "Public Health": 18630000,
+        "Highways and transport services": 3460000,
+        "Housing services (GFRA only)": 4668000,
+        "Cultural and related services": 10651000,
+        "Environmental and regulatory services": 15544000,
+        "Planning and development services": 4858000,
+        "Central services": 11891000
+      }
+    }
+  },
+  "per_service_savings": {
+    "two_unitary": {
+      "total_annual_savings": 126587400,
+      "by_category": {
+        "Central services": {
+          "total": 28792119,
+          "lines": [
+            {
+              "name": "Corporate & Democratic Core",
+              "current_total": 59700000,
+              "saving": 17910000,
+              "method": "30% governance overhead reduction (academic benchmark)"
+            },
+            {
+              "name": "Council tax collection",
+              "current_total": 8573700,
+              "saving": 5883083,
+              "method": "1 billing authority replaces N district collectors"
+            },
+            {
+              "name": "Business rates collection",
+              "current_total": 1078600,
+              "saving": 893833,
+              "method": "1 billing authority replaces N rate collectors"
+            },
+            {
+              "name": "Electoral registration",
+              "current_total": 2818100,
+              "saving": 1974250,
+              "method": "Single electoral register per authority"
+            },
+            {
+              "name": "Conducting elections",
+              "current_total": 4102400,
+              "saving": 410240,
+              "method": "Minor admin consolidation (elections still needed)"
+            },
+            {
+              "name": "Local land charges",
+              "current_total": 363300,
+              "saving": 370250,
+              "method": "Single land charges register"
+            },
+            {
+              "name": "Support services",
+              "current_total": 4552420,
+              "saving": 682863,
+              "method": "Shared services economies of scale"
+            },
+            {
+              "name": "Unused IT & assets",
+              "current_total": 983000,
+              "saving": 491500,
+              "method": "IT consolidation reduces unused capacity"
+            },
+            {
+              "name": "Surplus asset costs",
+              "current_total": 587000,
+              "saving": 176100,
+              "method": "Property rationalisation reduces surplus portfolio"
+            }
+          ]
+        },
+        "Environmental services": {
+          "total": 6091025,
+          "lines": [
+            {
+              "name": "Waste collection",
+              "current_total": 28549500,
+              "saving": 1427475,
+              "method": "Combined contract negotiation (5% benchmark)"
+            },
+            {
+              "name": "Waste disposal",
+              "current_total": 106657500,
+              "saving": 3199725,
+              "method": "Contract renegotiation at scale"
+            },
+            {
+              "name": "Recycling",
+              "current_total": 10831000,
+              "saving": 541550,
+              "method": "Combined recycling contracts"
+            },
+            {
+              "name": "Street cleansing",
+              "current_total": 21814000,
+              "saving": 654420,
+              "method": "Route optimisation across merged areas"
+            },
+            {
+              "name": "CCTV",
+              "current_total": 1785700,
+              "saving": 267855,
+              "method": "Shared monitoring centre"
+            }
+          ]
+        },
+        "Planning services": {
+          "total": 555570,
+          "lines": [
+            {
+              "name": "Building control",
+              "current_total": 2882400,
+              "saving": 288240,
+              "method": "Larger shared teams reduce overhead"
+            },
+            {
+              "name": "Development control",
+              "current_total": 5346600,
+              "saving": 267330,
+              "method": "Combined planning teams"
+            }
+          ]
+        },
+        "Cultural services": {
+          "total": 904950,
+          "lines": [
+            {
+              "name": "Libraries",
+              "current_total": 18099000,
+              "saving": 904950,
+              "method": "Service rationalisation where coverage overlaps"
+            }
+          ]
+        },
+        "Democratic representation": {
+          "total": 7156800,
+          "lines": [
+            {
+              "name": "Councillor reduction",
+              "current_total": 10516800,
+              "saving": 7156800,
+              "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+            }
+          ]
+        },
+        "Procurement": {
+          "total": 75747868,
+          "lines": [
+            {
+              "name": "Combined procurement",
+              "current_total": 2913379550,
+              "saving": 75747868,
+              "method": "3% of \u00a32913M total expenditure \u00d7 87% consolidation"
+            }
+          ]
+        },
+        "Social care integration": {
+          "total": 7339068,
+          "lines": [
+            {
+              "name": "Adult + children's social care",
+              "current_total": 733906810,
+              "saving": 7339068,
+              "method": "1% efficiency from eliminating county/district coordination"
+            }
+          ]
+        }
+      },
+      "savings_lines": [
+        {
+          "category": "Central services",
+          "line": "Corporate & Democratic Core",
+          "current_total": 59700000,
+          "saving": 17910000,
+          "method": "30% governance overhead reduction (academic benchmark)"
+        },
+        {
+          "category": "Central services",
+          "line": "Council tax collection",
+          "current_total": 8573700,
+          "saving": 5883083,
+          "method": "1 billing authority replaces N district collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Business rates collection",
+          "current_total": 1078600,
+          "saving": 893833,
+          "method": "1 billing authority replaces N rate collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Electoral registration",
+          "current_total": 2818100,
+          "saving": 1974250,
+          "method": "Single electoral register per authority"
+        },
+        {
+          "category": "Central services",
+          "line": "Conducting elections",
+          "current_total": 4102400,
+          "saving": 410240,
+          "method": "Minor admin consolidation (elections still needed)"
+        },
+        {
+          "category": "Central services",
+          "line": "Local land charges",
+          "current_total": 363300,
+          "saving": 370250,
+          "method": "Single land charges register"
+        },
+        {
+          "category": "Central services",
+          "line": "Support services",
+          "current_total": 4552420,
+          "saving": 682863,
+          "method": "Shared services economies of scale"
+        },
+        {
+          "category": "Central services",
+          "line": "Unused IT & assets",
+          "current_total": 983000,
+          "saving": 491500,
+          "method": "IT consolidation reduces unused capacity"
+        },
+        {
+          "category": "Central services",
+          "line": "Surplus asset costs",
+          "current_total": 587000,
+          "saving": 176100,
+          "method": "Property rationalisation reduces surplus portfolio"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste collection",
+          "current_total": 28549500,
+          "saving": 1427475,
+          "method": "Combined contract negotiation (5% benchmark)"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste disposal",
+          "current_total": 106657500,
+          "saving": 3199725,
+          "method": "Contract renegotiation at scale"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Recycling",
+          "current_total": 10831000,
+          "saving": 541550,
+          "method": "Combined recycling contracts"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Street cleansing",
+          "current_total": 21814000,
+          "saving": 654420,
+          "method": "Route optimisation across merged areas"
+        },
+        {
+          "category": "Environmental services",
+          "line": "CCTV",
+          "current_total": 1785700,
+          "saving": 267855,
+          "method": "Shared monitoring centre"
+        },
+        {
+          "category": "Planning services",
+          "line": "Building control",
+          "current_total": 2882400,
+          "saving": 288240,
+          "method": "Larger shared teams reduce overhead"
+        },
+        {
+          "category": "Planning services",
+          "line": "Development control",
+          "current_total": 5346600,
+          "saving": 267330,
+          "method": "Combined planning teams"
+        },
+        {
+          "category": "Cultural services",
+          "line": "Libraries",
+          "current_total": 18099000,
+          "saving": 904950,
+          "method": "Service rationalisation where coverage overlaps"
+        },
+        {
+          "category": "Democratic representation",
+          "line": "Councillor reduction",
+          "current_total": 10516800,
+          "saving": 7156800,
+          "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+        },
+        {
+          "category": "Procurement",
+          "line": "Combined procurement",
+          "current_total": 2913379550,
+          "saving": 75747868,
+          "method": "3% of \u00a32913M total expenditure \u00d7 87% consolidation"
+        },
+        {
+          "category": "Social care integration",
+          "line": "Adult + children's social care",
+          "current_total": 733906810,
+          "saving": 7339068,
+          "method": "1% efficiency from eliminating county/district coordination"
+        }
+      ]
+    },
+    "three_unitary": {
+      "total_annual_savings": 119848500,
+      "by_category": {
+        "Central services": {
+          "total": 27879978,
+          "lines": [
+            {
+              "name": "Corporate & Democratic Core",
+              "current_total": 59700000,
+              "saving": 17910000,
+              "method": "30% governance overhead reduction (academic benchmark)"
+            },
+            {
+              "name": "Council tax collection",
+              "current_total": 8573700,
+              "saving": 5294775,
+              "method": "1 billing authority replaces N district collectors"
+            },
+            {
+              "name": "Business rates collection",
+              "current_total": 1078600,
+              "saving": 804450,
+              "method": "1 billing authority replaces N rate collectors"
+            },
+            {
+              "name": "Electoral registration",
+              "current_total": 2818100,
+              "saving": 1776825,
+              "method": "Single electoral register per authority"
+            },
+            {
+              "name": "Conducting elections",
+              "current_total": 4102400,
+              "saving": 410240,
+              "method": "Minor admin consolidation (elections still needed)"
+            },
+            {
+              "name": "Local land charges",
+              "current_total": 363300,
+              "saving": 333225,
+              "method": "Single land charges register"
+            },
+            {
+              "name": "Support services",
+              "current_total": 4552420,
+              "saving": 682863,
+              "method": "Shared services economies of scale"
+            },
+            {
+              "name": "Unused IT & assets",
+              "current_total": 983000,
+              "saving": 491500,
+              "method": "IT consolidation reduces unused capacity"
+            },
+            {
+              "name": "Surplus asset costs",
+              "current_total": 587000,
+              "saving": 176100,
+              "method": "Property rationalisation reduces surplus portfolio"
+            }
+          ]
+        },
+        "Environmental services": {
+          "total": 6091025,
+          "lines": [
+            {
+              "name": "Waste collection",
+              "current_total": 28549500,
+              "saving": 1427475,
+              "method": "Combined contract negotiation (5% benchmark)"
+            },
+            {
+              "name": "Waste disposal",
+              "current_total": 106657500,
+              "saving": 3199725,
+              "method": "Contract renegotiation at scale"
+            },
+            {
+              "name": "Recycling",
+              "current_total": 10831000,
+              "saving": 541550,
+              "method": "Combined recycling contracts"
+            },
+            {
+              "name": "Street cleansing",
+              "current_total": 21814000,
+              "saving": 654420,
+              "method": "Route optimisation across merged areas"
+            },
+            {
+              "name": "CCTV",
+              "current_total": 1785700,
+              "saving": 267855,
+              "method": "Shared monitoring centre"
+            }
+          ]
+        },
+        "Planning services": {
+          "total": 555570,
+          "lines": [
+            {
+              "name": "Building control",
+              "current_total": 2882400,
+              "saving": 288240,
+              "method": "Larger shared teams reduce overhead"
+            },
+            {
+              "name": "Development control",
+              "current_total": 5346600,
+              "saving": 267330,
+              "method": "Combined planning teams"
+            }
+          ]
+        },
+        "Cultural services": {
+          "total": 904950,
+          "lines": [
+            {
+              "name": "Libraries",
+              "current_total": 18099000,
+              "saving": 904950,
+              "method": "Service rationalisation where coverage overlaps"
+            }
+          ]
+        },
+        "Democratic representation": {
+          "total": 7156800,
+          "lines": [
+            {
+              "name": "Councillor reduction",
+              "current_total": 10516800,
+              "saving": 7156800,
+              "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+            }
+          ]
+        },
+        "Procurement": {
+          "total": 69921109,
+          "lines": [
+            {
+              "name": "Combined procurement",
+              "current_total": 2913379550,
+              "saving": 69921109,
+              "method": "3% of \u00a32913M total expenditure \u00d7 80% consolidation"
+            }
+          ]
+        },
+        "Social care integration": {
+          "total": 7339068,
+          "lines": [
+            {
+              "name": "Adult + children's social care",
+              "current_total": 733906810,
+              "saving": 7339068,
+              "method": "1% efficiency from eliminating county/district coordination"
+            }
+          ]
+        }
+      },
+      "savings_lines": [
+        {
+          "category": "Central services",
+          "line": "Corporate & Democratic Core",
+          "current_total": 59700000,
+          "saving": 17910000,
+          "method": "30% governance overhead reduction (academic benchmark)"
+        },
+        {
+          "category": "Central services",
+          "line": "Council tax collection",
+          "current_total": 8573700,
+          "saving": 5294775,
+          "method": "1 billing authority replaces N district collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Business rates collection",
+          "current_total": 1078600,
+          "saving": 804450,
+          "method": "1 billing authority replaces N rate collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Electoral registration",
+          "current_total": 2818100,
+          "saving": 1776825,
+          "method": "Single electoral register per authority"
+        },
+        {
+          "category": "Central services",
+          "line": "Conducting elections",
+          "current_total": 4102400,
+          "saving": 410240,
+          "method": "Minor admin consolidation (elections still needed)"
+        },
+        {
+          "category": "Central services",
+          "line": "Local land charges",
+          "current_total": 363300,
+          "saving": 333225,
+          "method": "Single land charges register"
+        },
+        {
+          "category": "Central services",
+          "line": "Support services",
+          "current_total": 4552420,
+          "saving": 682863,
+          "method": "Shared services economies of scale"
+        },
+        {
+          "category": "Central services",
+          "line": "Unused IT & assets",
+          "current_total": 983000,
+          "saving": 491500,
+          "method": "IT consolidation reduces unused capacity"
+        },
+        {
+          "category": "Central services",
+          "line": "Surplus asset costs",
+          "current_total": 587000,
+          "saving": 176100,
+          "method": "Property rationalisation reduces surplus portfolio"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste collection",
+          "current_total": 28549500,
+          "saving": 1427475,
+          "method": "Combined contract negotiation (5% benchmark)"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste disposal",
+          "current_total": 106657500,
+          "saving": 3199725,
+          "method": "Contract renegotiation at scale"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Recycling",
+          "current_total": 10831000,
+          "saving": 541550,
+          "method": "Combined recycling contracts"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Street cleansing",
+          "current_total": 21814000,
+          "saving": 654420,
+          "method": "Route optimisation across merged areas"
+        },
+        {
+          "category": "Environmental services",
+          "line": "CCTV",
+          "current_total": 1785700,
+          "saving": 267855,
+          "method": "Shared monitoring centre"
+        },
+        {
+          "category": "Planning services",
+          "line": "Building control",
+          "current_total": 2882400,
+          "saving": 288240,
+          "method": "Larger shared teams reduce overhead"
+        },
+        {
+          "category": "Planning services",
+          "line": "Development control",
+          "current_total": 5346600,
+          "saving": 267330,
+          "method": "Combined planning teams"
+        },
+        {
+          "category": "Cultural services",
+          "line": "Libraries",
+          "current_total": 18099000,
+          "saving": 904950,
+          "method": "Service rationalisation where coverage overlaps"
+        },
+        {
+          "category": "Democratic representation",
+          "line": "Councillor reduction",
+          "current_total": 10516800,
+          "saving": 7156800,
+          "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+        },
+        {
+          "category": "Procurement",
+          "line": "Combined procurement",
+          "current_total": 2913379550,
+          "saving": 69921109,
+          "method": "3% of \u00a32913M total expenditure \u00d7 80% consolidation"
+        },
+        {
+          "category": "Social care integration",
+          "line": "Adult + children's social care",
+          "current_total": 733906810,
+          "saving": 7339068,
+          "method": "1% efficiency from eliminating county/district coordination"
+        }
+      ]
+    },
+    "four_unitary": {
+      "total_annual_savings": 113109600,
+      "by_category": {
+        "Central services": {
+          "total": 26967837,
+          "lines": [
+            {
+              "name": "Corporate & Democratic Core",
+              "current_total": 59700000,
+              "saving": 17910000,
+              "method": "30% governance overhead reduction (academic benchmark)"
+            },
+            {
+              "name": "Council tax collection",
+              "current_total": 8573700,
+              "saving": 4706467,
+              "method": "1 billing authority replaces N district collectors"
+            },
+            {
+              "name": "Business rates collection",
+              "current_total": 1078600,
+              "saving": 715067,
+              "method": "1 billing authority replaces N rate collectors"
+            },
+            {
+              "name": "Electoral registration",
+              "current_total": 2818100,
+              "saving": 1579400,
+              "method": "Single electoral register per authority"
+            },
+            {
+              "name": "Conducting elections",
+              "current_total": 4102400,
+              "saving": 410240,
+              "method": "Minor admin consolidation (elections still needed)"
+            },
+            {
+              "name": "Local land charges",
+              "current_total": 363300,
+              "saving": 296200,
+              "method": "Single land charges register"
+            },
+            {
+              "name": "Support services",
+              "current_total": 4552420,
+              "saving": 682863,
+              "method": "Shared services economies of scale"
+            },
+            {
+              "name": "Unused IT & assets",
+              "current_total": 983000,
+              "saving": 491500,
+              "method": "IT consolidation reduces unused capacity"
+            },
+            {
+              "name": "Surplus asset costs",
+              "current_total": 587000,
+              "saving": 176100,
+              "method": "Property rationalisation reduces surplus portfolio"
+            }
+          ]
+        },
+        "Environmental services": {
+          "total": 6091025,
+          "lines": [
+            {
+              "name": "Waste collection",
+              "current_total": 28549500,
+              "saving": 1427475,
+              "method": "Combined contract negotiation (5% benchmark)"
+            },
+            {
+              "name": "Waste disposal",
+              "current_total": 106657500,
+              "saving": 3199725,
+              "method": "Contract renegotiation at scale"
+            },
+            {
+              "name": "Recycling",
+              "current_total": 10831000,
+              "saving": 541550,
+              "method": "Combined recycling contracts"
+            },
+            {
+              "name": "Street cleansing",
+              "current_total": 21814000,
+              "saving": 654420,
+              "method": "Route optimisation across merged areas"
+            },
+            {
+              "name": "CCTV",
+              "current_total": 1785700,
+              "saving": 267855,
+              "method": "Shared monitoring centre"
+            }
+          ]
+        },
+        "Planning services": {
+          "total": 555570,
+          "lines": [
+            {
+              "name": "Building control",
+              "current_total": 2882400,
+              "saving": 288240,
+              "method": "Larger shared teams reduce overhead"
+            },
+            {
+              "name": "Development control",
+              "current_total": 5346600,
+              "saving": 267330,
+              "method": "Combined planning teams"
+            }
+          ]
+        },
+        "Cultural services": {
+          "total": 904950,
+          "lines": [
+            {
+              "name": "Libraries",
+              "current_total": 18099000,
+              "saving": 904950,
+              "method": "Service rationalisation where coverage overlaps"
+            }
+          ]
+        },
+        "Democratic representation": {
+          "total": 7156800,
+          "lines": [
+            {
+              "name": "Councillor reduction",
+              "current_total": 10516800,
+              "saving": 7156800,
+              "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+            }
+          ]
+        },
+        "Procurement": {
+          "total": 64094350,
+          "lines": [
+            {
+              "name": "Combined procurement",
+              "current_total": 2913379550,
+              "saving": 64094350,
+              "method": "3% of \u00a32913M total expenditure \u00d7 73% consolidation"
+            }
+          ]
+        },
+        "Social care integration": {
+          "total": 7339068,
+          "lines": [
+            {
+              "name": "Adult + children's social care",
+              "current_total": 733906810,
+              "saving": 7339068,
+              "method": "1% efficiency from eliminating county/district coordination"
+            }
+          ]
+        }
+      },
+      "savings_lines": [
+        {
+          "category": "Central services",
+          "line": "Corporate & Democratic Core",
+          "current_total": 59700000,
+          "saving": 17910000,
+          "method": "30% governance overhead reduction (academic benchmark)"
+        },
+        {
+          "category": "Central services",
+          "line": "Council tax collection",
+          "current_total": 8573700,
+          "saving": 4706467,
+          "method": "1 billing authority replaces N district collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Business rates collection",
+          "current_total": 1078600,
+          "saving": 715067,
+          "method": "1 billing authority replaces N rate collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Electoral registration",
+          "current_total": 2818100,
+          "saving": 1579400,
+          "method": "Single electoral register per authority"
+        },
+        {
+          "category": "Central services",
+          "line": "Conducting elections",
+          "current_total": 4102400,
+          "saving": 410240,
+          "method": "Minor admin consolidation (elections still needed)"
+        },
+        {
+          "category": "Central services",
+          "line": "Local land charges",
+          "current_total": 363300,
+          "saving": 296200,
+          "method": "Single land charges register"
+        },
+        {
+          "category": "Central services",
+          "line": "Support services",
+          "current_total": 4552420,
+          "saving": 682863,
+          "method": "Shared services economies of scale"
+        },
+        {
+          "category": "Central services",
+          "line": "Unused IT & assets",
+          "current_total": 983000,
+          "saving": 491500,
+          "method": "IT consolidation reduces unused capacity"
+        },
+        {
+          "category": "Central services",
+          "line": "Surplus asset costs",
+          "current_total": 587000,
+          "saving": 176100,
+          "method": "Property rationalisation reduces surplus portfolio"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste collection",
+          "current_total": 28549500,
+          "saving": 1427475,
+          "method": "Combined contract negotiation (5% benchmark)"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste disposal",
+          "current_total": 106657500,
+          "saving": 3199725,
+          "method": "Contract renegotiation at scale"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Recycling",
+          "current_total": 10831000,
+          "saving": 541550,
+          "method": "Combined recycling contracts"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Street cleansing",
+          "current_total": 21814000,
+          "saving": 654420,
+          "method": "Route optimisation across merged areas"
+        },
+        {
+          "category": "Environmental services",
+          "line": "CCTV",
+          "current_total": 1785700,
+          "saving": 267855,
+          "method": "Shared monitoring centre"
+        },
+        {
+          "category": "Planning services",
+          "line": "Building control",
+          "current_total": 2882400,
+          "saving": 288240,
+          "method": "Larger shared teams reduce overhead"
+        },
+        {
+          "category": "Planning services",
+          "line": "Development control",
+          "current_total": 5346600,
+          "saving": 267330,
+          "method": "Combined planning teams"
+        },
+        {
+          "category": "Cultural services",
+          "line": "Libraries",
+          "current_total": 18099000,
+          "saving": 904950,
+          "method": "Service rationalisation where coverage overlaps"
+        },
+        {
+          "category": "Democratic representation",
+          "line": "Councillor reduction",
+          "current_total": 10516800,
+          "saving": 7156800,
+          "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+        },
+        {
+          "category": "Procurement",
+          "line": "Combined procurement",
+          "current_total": 2913379550,
+          "saving": 64094350,
+          "method": "3% of \u00a32913M total expenditure \u00d7 73% consolidation"
+        },
+        {
+          "category": "Social care integration",
+          "line": "Adult + children's social care",
+          "current_total": 733906810,
+          "saving": 7339068,
+          "method": "1% efficiency from eliminating county/district coordination"
+        }
+      ]
+    },
+    "four_unitary_alt": {
+      "total_annual_savings": 113109600,
+      "by_category": {
+        "Central services": {
+          "total": 26967837,
+          "lines": [
+            {
+              "name": "Corporate & Democratic Core",
+              "current_total": 59700000,
+              "saving": 17910000,
+              "method": "30% governance overhead reduction (academic benchmark)"
+            },
+            {
+              "name": "Council tax collection",
+              "current_total": 8573700,
+              "saving": 4706467,
+              "method": "1 billing authority replaces N district collectors"
+            },
+            {
+              "name": "Business rates collection",
+              "current_total": 1078600,
+              "saving": 715067,
+              "method": "1 billing authority replaces N rate collectors"
+            },
+            {
+              "name": "Electoral registration",
+              "current_total": 2818100,
+              "saving": 1579400,
+              "method": "Single electoral register per authority"
+            },
+            {
+              "name": "Conducting elections",
+              "current_total": 4102400,
+              "saving": 410240,
+              "method": "Minor admin consolidation (elections still needed)"
+            },
+            {
+              "name": "Local land charges",
+              "current_total": 363300,
+              "saving": 296200,
+              "method": "Single land charges register"
+            },
+            {
+              "name": "Support services",
+              "current_total": 4552420,
+              "saving": 682863,
+              "method": "Shared services economies of scale"
+            },
+            {
+              "name": "Unused IT & assets",
+              "current_total": 983000,
+              "saving": 491500,
+              "method": "IT consolidation reduces unused capacity"
+            },
+            {
+              "name": "Surplus asset costs",
+              "current_total": 587000,
+              "saving": 176100,
+              "method": "Property rationalisation reduces surplus portfolio"
+            }
+          ]
+        },
+        "Environmental services": {
+          "total": 6091025,
+          "lines": [
+            {
+              "name": "Waste collection",
+              "current_total": 28549500,
+              "saving": 1427475,
+              "method": "Combined contract negotiation (5% benchmark)"
+            },
+            {
+              "name": "Waste disposal",
+              "current_total": 106657500,
+              "saving": 3199725,
+              "method": "Contract renegotiation at scale"
+            },
+            {
+              "name": "Recycling",
+              "current_total": 10831000,
+              "saving": 541550,
+              "method": "Combined recycling contracts"
+            },
+            {
+              "name": "Street cleansing",
+              "current_total": 21814000,
+              "saving": 654420,
+              "method": "Route optimisation across merged areas"
+            },
+            {
+              "name": "CCTV",
+              "current_total": 1785700,
+              "saving": 267855,
+              "method": "Shared monitoring centre"
+            }
+          ]
+        },
+        "Planning services": {
+          "total": 555570,
+          "lines": [
+            {
+              "name": "Building control",
+              "current_total": 2882400,
+              "saving": 288240,
+              "method": "Larger shared teams reduce overhead"
+            },
+            {
+              "name": "Development control",
+              "current_total": 5346600,
+              "saving": 267330,
+              "method": "Combined planning teams"
+            }
+          ]
+        },
+        "Cultural services": {
+          "total": 904950,
+          "lines": [
+            {
+              "name": "Libraries",
+              "current_total": 18099000,
+              "saving": 904950,
+              "method": "Service rationalisation where coverage overlaps"
+            }
+          ]
+        },
+        "Democratic representation": {
+          "total": 7156800,
+          "lines": [
+            {
+              "name": "Councillor reduction",
+              "current_total": 10516800,
+              "saving": 7156800,
+              "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+            }
+          ]
+        },
+        "Procurement": {
+          "total": 64094350,
+          "lines": [
+            {
+              "name": "Combined procurement",
+              "current_total": 2913379550,
+              "saving": 64094350,
+              "method": "3% of \u00a32913M total expenditure \u00d7 73% consolidation"
+            }
+          ]
+        },
+        "Social care integration": {
+          "total": 7339068,
+          "lines": [
+            {
+              "name": "Adult + children's social care",
+              "current_total": 733906810,
+              "saving": 7339068,
+              "method": "1% efficiency from eliminating county/district coordination"
+            }
+          ]
+        }
+      },
+      "savings_lines": [
+        {
+          "category": "Central services",
+          "line": "Corporate & Democratic Core",
+          "current_total": 59700000,
+          "saving": 17910000,
+          "method": "30% governance overhead reduction (academic benchmark)"
+        },
+        {
+          "category": "Central services",
+          "line": "Council tax collection",
+          "current_total": 8573700,
+          "saving": 4706467,
+          "method": "1 billing authority replaces N district collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Business rates collection",
+          "current_total": 1078600,
+          "saving": 715067,
+          "method": "1 billing authority replaces N rate collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Electoral registration",
+          "current_total": 2818100,
+          "saving": 1579400,
+          "method": "Single electoral register per authority"
+        },
+        {
+          "category": "Central services",
+          "line": "Conducting elections",
+          "current_total": 4102400,
+          "saving": 410240,
+          "method": "Minor admin consolidation (elections still needed)"
+        },
+        {
+          "category": "Central services",
+          "line": "Local land charges",
+          "current_total": 363300,
+          "saving": 296200,
+          "method": "Single land charges register"
+        },
+        {
+          "category": "Central services",
+          "line": "Support services",
+          "current_total": 4552420,
+          "saving": 682863,
+          "method": "Shared services economies of scale"
+        },
+        {
+          "category": "Central services",
+          "line": "Unused IT & assets",
+          "current_total": 983000,
+          "saving": 491500,
+          "method": "IT consolidation reduces unused capacity"
+        },
+        {
+          "category": "Central services",
+          "line": "Surplus asset costs",
+          "current_total": 587000,
+          "saving": 176100,
+          "method": "Property rationalisation reduces surplus portfolio"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste collection",
+          "current_total": 28549500,
+          "saving": 1427475,
+          "method": "Combined contract negotiation (5% benchmark)"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste disposal",
+          "current_total": 106657500,
+          "saving": 3199725,
+          "method": "Contract renegotiation at scale"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Recycling",
+          "current_total": 10831000,
+          "saving": 541550,
+          "method": "Combined recycling contracts"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Street cleansing",
+          "current_total": 21814000,
+          "saving": 654420,
+          "method": "Route optimisation across merged areas"
+        },
+        {
+          "category": "Environmental services",
+          "line": "CCTV",
+          "current_total": 1785700,
+          "saving": 267855,
+          "method": "Shared monitoring centre"
+        },
+        {
+          "category": "Planning services",
+          "line": "Building control",
+          "current_total": 2882400,
+          "saving": 288240,
+          "method": "Larger shared teams reduce overhead"
+        },
+        {
+          "category": "Planning services",
+          "line": "Development control",
+          "current_total": 5346600,
+          "saving": 267330,
+          "method": "Combined planning teams"
+        },
+        {
+          "category": "Cultural services",
+          "line": "Libraries",
+          "current_total": 18099000,
+          "saving": 904950,
+          "method": "Service rationalisation where coverage overlaps"
+        },
+        {
+          "category": "Democratic representation",
+          "line": "Councillor reduction",
+          "current_total": 10516800,
+          "saving": 7156800,
+          "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+        },
+        {
+          "category": "Procurement",
+          "line": "Combined procurement",
+          "current_total": 2913379550,
+          "saving": 64094350,
+          "method": "3% of \u00a32913M total expenditure \u00d7 73% consolidation"
+        },
+        {
+          "category": "Social care integration",
+          "line": "Adult + children's social care",
+          "current_total": 733906810,
+          "saving": 7339068,
+          "method": "1% efficiency from eliminating county/district coordination"
+        }
+      ]
+    },
+    "five_unitary": {
+      "total_annual_savings": 106370698,
+      "by_category": {
+        "Central services": {
+          "total": 26055694,
+          "lines": [
+            {
+              "name": "Corporate & Democratic Core",
+              "current_total": 59700000,
+              "saving": 17910000,
+              "method": "30% governance overhead reduction (academic benchmark)"
+            },
+            {
+              "name": "Council tax collection",
+              "current_total": 8573700,
+              "saving": 4118158,
+              "method": "1 billing authority replaces N district collectors"
+            },
+            {
+              "name": "Business rates collection",
+              "current_total": 1078600,
+              "saving": 625683,
+              "method": "1 billing authority replaces N rate collectors"
+            },
+            {
+              "name": "Electoral registration",
+              "current_total": 2818100,
+              "saving": 1381975,
+              "method": "Single electoral register per authority"
+            },
+            {
+              "name": "Conducting elections",
+              "current_total": 4102400,
+              "saving": 410240,
+              "method": "Minor admin consolidation (elections still needed)"
+            },
+            {
+              "name": "Local land charges",
+              "current_total": 363300,
+              "saving": 259175,
+              "method": "Single land charges register"
+            },
+            {
+              "name": "Support services",
+              "current_total": 4552420,
+              "saving": 682863,
+              "method": "Shared services economies of scale"
+            },
+            {
+              "name": "Unused IT & assets",
+              "current_total": 983000,
+              "saving": 491500,
+              "method": "IT consolidation reduces unused capacity"
+            },
+            {
+              "name": "Surplus asset costs",
+              "current_total": 587000,
+              "saving": 176100,
+              "method": "Property rationalisation reduces surplus portfolio"
+            }
+          ]
+        },
+        "Environmental services": {
+          "total": 6091025,
+          "lines": [
+            {
+              "name": "Waste collection",
+              "current_total": 28549500,
+              "saving": 1427475,
+              "method": "Combined contract negotiation (5% benchmark)"
+            },
+            {
+              "name": "Waste disposal",
+              "current_total": 106657500,
+              "saving": 3199725,
+              "method": "Contract renegotiation at scale"
+            },
+            {
+              "name": "Recycling",
+              "current_total": 10831000,
+              "saving": 541550,
+              "method": "Combined recycling contracts"
+            },
+            {
+              "name": "Street cleansing",
+              "current_total": 21814000,
+              "saving": 654420,
+              "method": "Route optimisation across merged areas"
+            },
+            {
+              "name": "CCTV",
+              "current_total": 1785700,
+              "saving": 267855,
+              "method": "Shared monitoring centre"
+            }
+          ]
+        },
+        "Planning services": {
+          "total": 555570,
+          "lines": [
+            {
+              "name": "Building control",
+              "current_total": 2882400,
+              "saving": 288240,
+              "method": "Larger shared teams reduce overhead"
+            },
+            {
+              "name": "Development control",
+              "current_total": 5346600,
+              "saving": 267330,
+              "method": "Combined planning teams"
+            }
+          ]
+        },
+        "Cultural services": {
+          "total": 904950,
+          "lines": [
+            {
+              "name": "Libraries",
+              "current_total": 18099000,
+              "saving": 904950,
+              "method": "Service rationalisation where coverage overlaps"
+            }
+          ]
+        },
+        "Democratic representation": {
+          "total": 7156800,
+          "lines": [
+            {
+              "name": "Councillor reduction",
+              "current_total": 10516800,
+              "saving": 7156800,
+              "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+            }
+          ]
+        },
+        "Procurement": {
+          "total": 58267591,
+          "lines": [
+            {
+              "name": "Combined procurement",
+              "current_total": 2913379550,
+              "saving": 58267591,
+              "method": "3% of \u00a32913M total expenditure \u00d7 67% consolidation"
+            }
+          ]
+        },
+        "Social care integration": {
+          "total": 7339068,
+          "lines": [
+            {
+              "name": "Adult + children's social care",
+              "current_total": 733906810,
+              "saving": 7339068,
+              "method": "1% efficiency from eliminating county/district coordination"
+            }
+          ]
+        }
+      },
+      "savings_lines": [
+        {
+          "category": "Central services",
+          "line": "Corporate & Democratic Core",
+          "current_total": 59700000,
+          "saving": 17910000,
+          "method": "30% governance overhead reduction (academic benchmark)"
+        },
+        {
+          "category": "Central services",
+          "line": "Council tax collection",
+          "current_total": 8573700,
+          "saving": 4118158,
+          "method": "1 billing authority replaces N district collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Business rates collection",
+          "current_total": 1078600,
+          "saving": 625683,
+          "method": "1 billing authority replaces N rate collectors"
+        },
+        {
+          "category": "Central services",
+          "line": "Electoral registration",
+          "current_total": 2818100,
+          "saving": 1381975,
+          "method": "Single electoral register per authority"
+        },
+        {
+          "category": "Central services",
+          "line": "Conducting elections",
+          "current_total": 4102400,
+          "saving": 410240,
+          "method": "Minor admin consolidation (elections still needed)"
+        },
+        {
+          "category": "Central services",
+          "line": "Local land charges",
+          "current_total": 363300,
+          "saving": 259175,
+          "method": "Single land charges register"
+        },
+        {
+          "category": "Central services",
+          "line": "Support services",
+          "current_total": 4552420,
+          "saving": 682863,
+          "method": "Shared services economies of scale"
+        },
+        {
+          "category": "Central services",
+          "line": "Unused IT & assets",
+          "current_total": 983000,
+          "saving": 491500,
+          "method": "IT consolidation reduces unused capacity"
+        },
+        {
+          "category": "Central services",
+          "line": "Surplus asset costs",
+          "current_total": 587000,
+          "saving": 176100,
+          "method": "Property rationalisation reduces surplus portfolio"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste collection",
+          "current_total": 28549500,
+          "saving": 1427475,
+          "method": "Combined contract negotiation (5% benchmark)"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Waste disposal",
+          "current_total": 106657500,
+          "saving": 3199725,
+          "method": "Contract renegotiation at scale"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Recycling",
+          "current_total": 10831000,
+          "saving": 541550,
+          "method": "Combined recycling contracts"
+        },
+        {
+          "category": "Environmental services",
+          "line": "Street cleansing",
+          "current_total": 21814000,
+          "saving": 654420,
+          "method": "Route optimisation across merged areas"
+        },
+        {
+          "category": "Environmental services",
+          "line": "CCTV",
+          "current_total": 1785700,
+          "saving": 267855,
+          "method": "Shared monitoring centre"
+        },
+        {
+          "category": "Planning services",
+          "line": "Building control",
+          "current_total": 2882400,
+          "saving": 288240,
+          "method": "Larger shared teams reduce overhead"
+        },
+        {
+          "category": "Planning services",
+          "line": "Development control",
+          "current_total": 5346600,
+          "saving": 267330,
+          "method": "Combined planning teams"
+        },
+        {
+          "category": "Cultural services",
+          "line": "Libraries",
+          "current_total": 18099000,
+          "saving": 904950,
+          "method": "Service rationalisation where coverage overlaps"
+        },
+        {
+          "category": "Democratic representation",
+          "line": "Councillor reduction",
+          "current_total": 10516800,
+          "saving": 7156800,
+          "method": "426 fewer councillors (626 to 200) at 16,800/yr"
+        },
+        {
+          "category": "Procurement",
+          "line": "Combined procurement",
+          "current_total": 2913379550,
+          "saving": 58267591,
+          "method": "3% of \u00a32913M total expenditure \u00d7 67% consolidation"
+        },
+        {
+          "category": "Social care integration",
+          "line": "Adult + children's social care",
+          "current_total": 733906810,
+          "saving": 7339068,
+          "method": "1% efficiency from eliminating county/district coordination"
+        }
+      ]
+    }
+  },
+  "council_tax_harmonisation": {
+    "two_unitary": {
+      "authorities": [
+        {
+          "name": "North Lancashire",
+          "harmonised_band_d": 1999.9,
+          "total_ct_requirement": 471443520,
+          "lcc_ct_share": 345106520,
+          "total_tax_base": 235733,
+          "council_count": 6,
+          "councils": [
+            {
+              "council_id": "ribble_valley",
+              "name": "Ribble Valley",
+              "tier": "district",
+              "band_d_element": 170.69,
+              "band_d_total": 2299.58,
+              "ct_requirement": 4950000,
+              "tax_base": 29000,
+              "current_combined_element": 1906.48,
+              "harmonised_band_d": 1999.9,
+              "delta": 93.42,
+              "winner": false
+            },
+            {
+              "council_id": "fylde",
+              "name": "Fylde",
+              "tier": "district",
+              "band_d_element": 232.17,
+              "band_d_total": 2387.78,
+              "ct_requirement": 8649000,
+              "tax_base": 37253,
+              "current_combined_element": 1967.96,
+              "harmonised_band_d": 1999.9,
+              "delta": 31.94,
+              "winner": false
+            },
+            {
+              "council_id": "wyre",
+              "name": "Wyre",
+              "tier": "district",
+              "band_d_element": 233.08,
+              "band_d_total": 2365.73,
+              "ct_requirement": 9861000,
+              "tax_base": 42307,
+              "current_combined_element": 1968.87,
+              "harmonised_band_d": 1999.9,
+              "delta": 31.03,
+              "winner": false
+            },
+            {
+              "council_id": "lancaster",
+              "name": "Lancaster",
+              "tier": "district",
+              "band_d_element": 264.3,
+              "band_d_total": 2407.5,
+              "ct_requirement": 12595000,
+              "tax_base": 47654,
+              "current_combined_element": 2000.09,
+              "harmonised_band_d": 1999.9,
+              "delta": -0.19,
+              "winner": true
+            },
+            {
+              "council_id": "blackpool",
+              "name": "Blackpool",
+              "tier": "unitary",
+              "band_d_element": 2025.08,
+              "band_d_total": 2392.21,
+              "ct_requirement": 74755000,
+              "tax_base": 36915,
+              "current_combined_element": 2025.08,
+              "harmonised_band_d": 1999.9,
+              "delta": -25.18,
+              "winner": true
+            },
+            {
+              "council_id": "preston",
+              "name": "Preston",
+              "tier": "district",
+              "band_d_element": 364.45,
+              "band_d_total": 2477.85,
+              "ct_requirement": 15527000,
+              "tax_base": 42604,
+              "current_combined_element": 2100.24,
+              "harmonised_band_d": 1999.9,
+              "delta": -100.34,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1906.48,
+            "max": 2100.24
+          }
+        },
+        {
+          "name": "South Lancashire",
+          "harmonised_band_d": 1997.65,
+          "total_ct_requirement": 510000997,
+          "lcc_ct_share": 381696997,
+          "total_tax_base": 255300,
+          "council_count": 8,
+          "councils": [
+            {
+              "council_id": "chorley",
+              "name": "Chorley",
+              "tier": "district",
+              "band_d_element": 215.99,
+              "band_d_total": 2342.85,
+              "ct_requirement": 8980000,
+              "tax_base": 41576,
+              "current_combined_element": 1951.78,
+              "harmonised_band_d": 1997.65,
+              "delta": 45.87,
+              "winner": false
+            },
+            {
+              "council_id": "blackburn",
+              "name": "Blackburn",
+              "tier": "unitary",
+              "band_d_element": 1964.93,
+              "band_d_total": 2337.17,
+              "ct_requirement": 69563000,
+              "tax_base": 35402,
+              "current_combined_element": 1964.93,
+              "harmonised_band_d": 1997.65,
+              "delta": 32.72,
+              "winner": false
+            },
+            {
+              "council_id": "south_ribble",
+              "name": "South Ribble",
+              "tier": "district",
+              "band_d_element": 236.78,
+              "band_d_total": 2352.12,
+              "ct_requirement": 9085000,
+              "tax_base": 38369,
+              "current_combined_element": 1972.57,
+              "harmonised_band_d": 1997.65,
+              "delta": 25.08,
+              "winner": false
+            },
+            {
+              "council_id": "west_lancashire",
+              "name": "West Lancashire",
+              "tier": "district",
+              "band_d_element": 238.58,
+              "band_d_total": 2362.12,
+              "ct_requirement": 9651000,
+              "tax_base": 40452,
+              "current_combined_element": 1974.37,
+              "harmonised_band_d": 1997.65,
+              "delta": 23.28,
+              "winner": false
+            },
+            {
+              "council_id": "hyndburn",
+              "name": "Hyndburn",
+              "tier": "district",
+              "band_d_element": 276.46,
+              "band_d_total": 2380.02,
+              "ct_requirement": 5945000,
+              "tax_base": 21504,
+              "current_combined_element": 2012.25,
+              "harmonised_band_d": 1997.65,
+              "delta": -14.6,
+              "winner": true
+            },
+            {
+              "council_id": "pendle",
+              "name": "Pendle",
+              "tier": "district",
+              "band_d_element": 307.52,
+              "band_d_total": 2535.19,
+              "ct_requirement": 10323000,
+              "tax_base": 33569,
+              "current_combined_element": 2043.31,
+              "harmonised_band_d": 1997.65,
+              "delta": -45.66,
+              "winner": true
+            },
+            {
+              "council_id": "rossendale",
+              "name": "Rossendale",
+              "tier": "district",
+              "band_d_element": 317.66,
+              "band_d_total": 2424.37,
+              "ct_requirement": 6514000,
+              "tax_base": 20506,
+              "current_combined_element": 2053.45,
+              "harmonised_band_d": 1997.65,
+              "delta": -55.8,
+              "winner": true
+            },
+            {
+              "council_id": "burnley",
+              "name": "Burnley",
+              "tier": "district",
+              "band_d_element": 344.58,
+              "band_d_total": 2455.83,
+              "ct_requirement": 8243000,
+              "tax_base": 23922,
+              "current_combined_element": 2080.37,
+              "harmonised_band_d": 1997.65,
+              "delta": -82.72,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1951.78,
+            "max": 2080.37
+          }
+        }
+      ],
+      "note": "Band D harmonisation to new unitary rate. Police and fire precepts unchanged. Each new authority inherits a pro-rata share of LCC's \u00a3642M CT requirement. Current combined element = district + LCC county precept (\u00a31735.79).",
+      "lcc_band_d_element": 1735.79,
+      "lcc_ct_requirement": 642208000
+    },
+    "three_unitary": {
+      "authorities": [
+        {
+          "name": "Coastal Lancashire",
+          "harmonised_band_d": 1990.37,
+          "total_ct_requirement": 326676932,
+          "lcc_ct_share": 220816932,
+          "total_tax_base": 164129,
+          "council_count": 4,
+          "councils": [
+            {
+              "council_id": "fylde",
+              "name": "Fylde",
+              "tier": "district",
+              "band_d_element": 232.17,
+              "band_d_total": 2387.78,
+              "ct_requirement": 8649000,
+              "tax_base": 37253,
+              "current_combined_element": 1967.96,
+              "harmonised_band_d": 1990.37,
+              "delta": 22.41,
+              "winner": false
+            },
+            {
+              "council_id": "wyre",
+              "name": "Wyre",
+              "tier": "district",
+              "band_d_element": 233.08,
+              "band_d_total": 2365.73,
+              "ct_requirement": 9861000,
+              "tax_base": 42307,
+              "current_combined_element": 1968.87,
+              "harmonised_band_d": 1990.37,
+              "delta": 21.5,
+              "winner": false
+            },
+            {
+              "council_id": "lancaster",
+              "name": "Lancaster",
+              "tier": "district",
+              "band_d_element": 264.3,
+              "band_d_total": 2407.5,
+              "ct_requirement": 12595000,
+              "tax_base": 47654,
+              "current_combined_element": 2000.09,
+              "harmonised_band_d": 1990.37,
+              "delta": -9.72,
+              "winner": true
+            },
+            {
+              "council_id": "blackpool",
+              "name": "Blackpool",
+              "tier": "unitary",
+              "band_d_element": 2025.08,
+              "band_d_total": 2392.21,
+              "ct_requirement": 74755000,
+              "tax_base": 36915,
+              "current_combined_element": 2025.08,
+              "harmonised_band_d": 1990.37,
+              "delta": -34.71,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1967.96,
+            "max": 2025.08
+          }
+        },
+        {
+          "name": "Central Lancashire",
+          "harmonised_band_d": 2001.08,
+          "total_ct_requirement": 326178689,
+          "lcc_ct_share": 282935689,
+          "total_tax_base": 163001,
+          "council_count": 4,
+          "councils": [
+            {
+              "council_id": "chorley",
+              "name": "Chorley",
+              "tier": "district",
+              "band_d_element": 215.99,
+              "band_d_total": 2342.85,
+              "ct_requirement": 8980000,
+              "tax_base": 41576,
+              "current_combined_element": 1951.78,
+              "harmonised_band_d": 2001.08,
+              "delta": 49.3,
+              "winner": false
+            },
+            {
+              "council_id": "south_ribble",
+              "name": "South Ribble",
+              "tier": "district",
+              "band_d_element": 236.78,
+              "band_d_total": 2352.12,
+              "ct_requirement": 9085000,
+              "tax_base": 38369,
+              "current_combined_element": 1972.57,
+              "harmonised_band_d": 2001.08,
+              "delta": 28.51,
+              "winner": false
+            },
+            {
+              "council_id": "west_lancashire",
+              "name": "West Lancashire",
+              "tier": "district",
+              "band_d_element": 238.58,
+              "band_d_total": 2362.12,
+              "ct_requirement": 9651000,
+              "tax_base": 40452,
+              "current_combined_element": 1974.37,
+              "harmonised_band_d": 2001.08,
+              "delta": 26.71,
+              "winner": false
+            },
+            {
+              "council_id": "preston",
+              "name": "Preston",
+              "tier": "district",
+              "band_d_element": 364.45,
+              "band_d_total": 2477.85,
+              "ct_requirement": 15527000,
+              "tax_base": 42604,
+              "current_combined_element": 2100.24,
+              "harmonised_band_d": 2001.08,
+              "delta": -99.16,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1951.78,
+            "max": 2100.24
+          }
+        },
+        {
+          "name": "Pennine Lancashire",
+          "harmonised_band_d": 2004.78,
+          "total_ct_requirement": 328588895,
+          "lcc_ct_share": 223050895,
+          "total_tax_base": 163903,
+          "council_count": 6,
+          "councils": [
+            {
+              "council_id": "ribble_valley",
+              "name": "Ribble Valley",
+              "tier": "district",
+              "band_d_element": 170.69,
+              "band_d_total": 2299.58,
+              "ct_requirement": 4950000,
+              "tax_base": 29000,
+              "current_combined_element": 1906.48,
+              "harmonised_band_d": 2004.78,
+              "delta": 98.3,
+              "winner": false
+            },
+            {
+              "council_id": "blackburn",
+              "name": "Blackburn",
+              "tier": "unitary",
+              "band_d_element": 1964.93,
+              "band_d_total": 2337.17,
+              "ct_requirement": 69563000,
+              "tax_base": 35402,
+              "current_combined_element": 1964.93,
+              "harmonised_band_d": 2004.78,
+              "delta": 39.85,
+              "winner": false
+            },
+            {
+              "council_id": "hyndburn",
+              "name": "Hyndburn",
+              "tier": "district",
+              "band_d_element": 276.46,
+              "band_d_total": 2380.02,
+              "ct_requirement": 5945000,
+              "tax_base": 21504,
+              "current_combined_element": 2012.25,
+              "harmonised_band_d": 2004.78,
+              "delta": -7.47,
+              "winner": true
+            },
+            {
+              "council_id": "pendle",
+              "name": "Pendle",
+              "tier": "district",
+              "band_d_element": 307.52,
+              "band_d_total": 2535.19,
+              "ct_requirement": 10323000,
+              "tax_base": 33569,
+              "current_combined_element": 2043.31,
+              "harmonised_band_d": 2004.78,
+              "delta": -38.53,
+              "winner": true
+            },
+            {
+              "council_id": "rossendale",
+              "name": "Rossendale",
+              "tier": "district",
+              "band_d_element": 317.66,
+              "band_d_total": 2424.37,
+              "ct_requirement": 6514000,
+              "tax_base": 20506,
+              "current_combined_element": 2053.45,
+              "harmonised_band_d": 2004.78,
+              "delta": -48.67,
+              "winner": true
+            },
+            {
+              "council_id": "burnley",
+              "name": "Burnley",
+              "tier": "district",
+              "band_d_element": 344.58,
+              "band_d_total": 2455.83,
+              "ct_requirement": 8243000,
+              "tax_base": 23922,
+              "current_combined_element": 2080.37,
+              "harmonised_band_d": 2004.78,
+              "delta": -75.59,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1906.48,
+            "max": 2080.37
+          }
+        }
+      ],
+      "note": "Band D harmonisation to new unitary rate. Police and fire precepts unchanged. Each new authority inherits a pro-rata share of LCC's \u00a3642M CT requirement. Current combined element = district + LCC county precept (\u00a31735.79).",
+      "lcc_band_d_element": 1735.79,
+      "lcc_ct_requirement": 642208000
+    },
+    "four_unitary": {
+      "authorities": [
+        {
+          "name": "North Lancashire",
+          "harmonised_band_d": 2013.11,
+          "total_ct_requirement": 240078978,
+          "lcc_ct_share": 207006978,
+          "total_tax_base": 119258,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "ribble_valley",
+              "name": "Ribble Valley",
+              "tier": "district",
+              "band_d_element": 170.69,
+              "band_d_total": 2299.58,
+              "ct_requirement": 4950000,
+              "tax_base": 29000,
+              "current_combined_element": 1906.48,
+              "harmonised_band_d": 2013.11,
+              "delta": 106.63,
+              "winner": false
+            },
+            {
+              "council_id": "lancaster",
+              "name": "Lancaster",
+              "tier": "district",
+              "band_d_element": 264.3,
+              "band_d_total": 2407.5,
+              "ct_requirement": 12595000,
+              "tax_base": 47654,
+              "current_combined_element": 2000.09,
+              "harmonised_band_d": 2013.11,
+              "delta": 13.02,
+              "winner": false
+            },
+            {
+              "council_id": "preston",
+              "name": "Preston",
+              "tier": "district",
+              "band_d_element": 364.45,
+              "band_d_total": 2477.85,
+              "ct_requirement": 15527000,
+              "tax_base": 42604,
+              "current_combined_element": 2100.24,
+              "harmonised_band_d": 2013.11,
+              "delta": -87.13,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1906.48,
+            "max": 2100.24
+          }
+        },
+        {
+          "name": "Fylde Coast",
+          "harmonised_band_d": 1986.39,
+          "total_ct_requirement": 231364542,
+          "lcc_ct_share": 138099542,
+          "total_tax_base": 116475,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "fylde",
+              "name": "Fylde",
+              "tier": "district",
+              "band_d_element": 232.17,
+              "band_d_total": 2387.78,
+              "ct_requirement": 8649000,
+              "tax_base": 37253,
+              "current_combined_element": 1967.96,
+              "harmonised_band_d": 1986.39,
+              "delta": 18.43,
+              "winner": false
+            },
+            {
+              "council_id": "wyre",
+              "name": "Wyre",
+              "tier": "district",
+              "band_d_element": 233.08,
+              "band_d_total": 2365.73,
+              "ct_requirement": 9861000,
+              "tax_base": 42307,
+              "current_combined_element": 1968.87,
+              "harmonised_band_d": 1986.39,
+              "delta": 17.52,
+              "winner": false
+            },
+            {
+              "council_id": "blackpool",
+              "name": "Blackpool",
+              "tier": "unitary",
+              "band_d_element": 2025.08,
+              "band_d_total": 2392.21,
+              "ct_requirement": 74755000,
+              "tax_base": 36915,
+              "current_combined_element": 2025.08,
+              "harmonised_band_d": 1986.39,
+              "delta": -38.69,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1967.96,
+            "max": 2025.08
+          }
+        },
+        {
+          "name": "Pennine Lancashire",
+          "harmonised_band_d": 2025.91,
+          "total_ct_requirement": 273300953,
+          "lcc_ct_share": 172712953,
+          "total_tax_base": 134903,
+          "council_count": 5,
+          "councils": [
+            {
+              "council_id": "blackburn",
+              "name": "Blackburn",
+              "tier": "unitary",
+              "band_d_element": 1964.93,
+              "band_d_total": 2337.17,
+              "ct_requirement": 69563000,
+              "tax_base": 35402,
+              "current_combined_element": 1964.93,
+              "harmonised_band_d": 2025.91,
+              "delta": 60.98,
+              "winner": false
+            },
+            {
+              "council_id": "hyndburn",
+              "name": "Hyndburn",
+              "tier": "district",
+              "band_d_element": 276.46,
+              "band_d_total": 2380.02,
+              "ct_requirement": 5945000,
+              "tax_base": 21504,
+              "current_combined_element": 2012.25,
+              "harmonised_band_d": 2025.91,
+              "delta": 13.66,
+              "winner": false
+            },
+            {
+              "council_id": "pendle",
+              "name": "Pendle",
+              "tier": "district",
+              "band_d_element": 307.52,
+              "band_d_total": 2535.19,
+              "ct_requirement": 10323000,
+              "tax_base": 33569,
+              "current_combined_element": 2043.31,
+              "harmonised_band_d": 2025.91,
+              "delta": -17.4,
+              "winner": true
+            },
+            {
+              "council_id": "rossendale",
+              "name": "Rossendale",
+              "tier": "district",
+              "band_d_element": 317.66,
+              "band_d_total": 2424.37,
+              "ct_requirement": 6514000,
+              "tax_base": 20506,
+              "current_combined_element": 2053.45,
+              "harmonised_band_d": 2025.91,
+              "delta": -27.54,
+              "winner": true
+            },
+            {
+              "council_id": "burnley",
+              "name": "Burnley",
+              "tier": "district",
+              "band_d_element": 344.58,
+              "band_d_total": 2455.83,
+              "ct_requirement": 8243000,
+              "tax_base": 23922,
+              "current_combined_element": 2080.37,
+              "harmonised_band_d": 2025.91,
+              "delta": -54.46,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1964.93,
+            "max": 2080.37
+          }
+        },
+        {
+          "name": "South Lancashire",
+          "harmonised_band_d": 1966.0,
+          "total_ct_requirement": 236700044,
+          "lcc_ct_share": 208984044,
+          "total_tax_base": 120397,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "chorley",
+              "name": "Chorley",
+              "tier": "district",
+              "band_d_element": 215.99,
+              "band_d_total": 2342.85,
+              "ct_requirement": 8980000,
+              "tax_base": 41576,
+              "current_combined_element": 1951.78,
+              "harmonised_band_d": 1966.0,
+              "delta": 14.22,
+              "winner": false
+            },
+            {
+              "council_id": "south_ribble",
+              "name": "South Ribble",
+              "tier": "district",
+              "band_d_element": 236.78,
+              "band_d_total": 2352.12,
+              "ct_requirement": 9085000,
+              "tax_base": 38369,
+              "current_combined_element": 1972.57,
+              "harmonised_band_d": 1966.0,
+              "delta": -6.57,
+              "winner": true
+            },
+            {
+              "council_id": "west_lancashire",
+              "name": "West Lancashire",
+              "tier": "district",
+              "band_d_element": 238.58,
+              "band_d_total": 2362.12,
+              "ct_requirement": 9651000,
+              "tax_base": 40452,
+              "current_combined_element": 1974.37,
+              "harmonised_band_d": 1966.0,
+              "delta": -8.37,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1951.78,
+            "max": 1974.37
+          }
+        }
+      ],
+      "note": "Band D harmonisation to new unitary rate. Police and fire precepts unchanged. Each new authority inherits a pro-rata share of LCC's \u00a3642M CT requirement. Current combined element = district + LCC county precept (\u00a31735.79).",
+      "lcc_band_d_element": 1735.79,
+      "lcc_ct_requirement": 642208000
+    },
+    "four_unitary_alt": {
+      "authorities": [
+        {
+          "name": "Western Lancashire",
+          "harmonised_band_d": 2034.27,
+          "total_ct_requirement": 237546072,
+          "lcc_ct_share": 138615072,
+          "total_tax_base": 116772,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "fylde",
+              "name": "Fylde",
+              "tier": "district",
+              "band_d_element": 232.17,
+              "band_d_total": 2387.78,
+              "ct_requirement": 8649000,
+              "tax_base": 37253,
+              "current_combined_element": 1967.96,
+              "harmonised_band_d": 2034.27,
+              "delta": 66.31,
+              "winner": false
+            },
+            {
+              "council_id": "blackpool",
+              "name": "Blackpool",
+              "tier": "unitary",
+              "band_d_element": 2025.08,
+              "band_d_total": 2392.21,
+              "ct_requirement": 74755000,
+              "tax_base": 36915,
+              "current_combined_element": 2025.08,
+              "harmonised_band_d": 2034.27,
+              "delta": 9.19,
+              "winner": false
+            },
+            {
+              "council_id": "preston",
+              "name": "Preston",
+              "tier": "district",
+              "band_d_element": 364.45,
+              "band_d_total": 2477.85,
+              "ct_requirement": 15527000,
+              "tax_base": 42604,
+              "current_combined_element": 2100.24,
+              "harmonised_band_d": 2034.27,
+              "delta": -65.97,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1967.96,
+            "max": 2100.24
+          }
+        },
+        {
+          "name": "Southern Lancashire",
+          "harmonised_band_d": 1966.0,
+          "total_ct_requirement": 236700044,
+          "lcc_ct_share": 208984044,
+          "total_tax_base": 120397,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "chorley",
+              "name": "Chorley",
+              "tier": "district",
+              "band_d_element": 215.99,
+              "band_d_total": 2342.85,
+              "ct_requirement": 8980000,
+              "tax_base": 41576,
+              "current_combined_element": 1951.78,
+              "harmonised_band_d": 1966.0,
+              "delta": 14.22,
+              "winner": false
+            },
+            {
+              "council_id": "south_ribble",
+              "name": "South Ribble",
+              "tier": "district",
+              "band_d_element": 236.78,
+              "band_d_total": 2352.12,
+              "ct_requirement": 9085000,
+              "tax_base": 38369,
+              "current_combined_element": 1972.57,
+              "harmonised_band_d": 1966.0,
+              "delta": -6.57,
+              "winner": true
+            },
+            {
+              "council_id": "west_lancashire",
+              "name": "West Lancashire",
+              "tier": "district",
+              "band_d_element": 238.58,
+              "band_d_total": 2362.12,
+              "ct_requirement": 9651000,
+              "tax_base": 40452,
+              "current_combined_element": 1974.37,
+              "harmonised_band_d": 1966.0,
+              "delta": -8.37,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1951.78,
+            "max": 1974.37
+          }
+        },
+        {
+          "name": "Eastern Lancashire",
+          "harmonised_band_d": 2025.91,
+          "total_ct_requirement": 273300953,
+          "lcc_ct_share": 172712953,
+          "total_tax_base": 134903,
+          "council_count": 5,
+          "councils": [
+            {
+              "council_id": "blackburn",
+              "name": "Blackburn",
+              "tier": "unitary",
+              "band_d_element": 1964.93,
+              "band_d_total": 2337.17,
+              "ct_requirement": 69563000,
+              "tax_base": 35402,
+              "current_combined_element": 1964.93,
+              "harmonised_band_d": 2025.91,
+              "delta": 60.98,
+              "winner": false
+            },
+            {
+              "council_id": "hyndburn",
+              "name": "Hyndburn",
+              "tier": "district",
+              "band_d_element": 276.46,
+              "band_d_total": 2380.02,
+              "ct_requirement": 5945000,
+              "tax_base": 21504,
+              "current_combined_element": 2012.25,
+              "harmonised_band_d": 2025.91,
+              "delta": 13.66,
+              "winner": false
+            },
+            {
+              "council_id": "pendle",
+              "name": "Pendle",
+              "tier": "district",
+              "band_d_element": 307.52,
+              "band_d_total": 2535.19,
+              "ct_requirement": 10323000,
+              "tax_base": 33569,
+              "current_combined_element": 2043.31,
+              "harmonised_band_d": 2025.91,
+              "delta": -17.4,
+              "winner": true
+            },
+            {
+              "council_id": "rossendale",
+              "name": "Rossendale",
+              "tier": "district",
+              "band_d_element": 317.66,
+              "band_d_total": 2424.37,
+              "ct_requirement": 6514000,
+              "tax_base": 20506,
+              "current_combined_element": 2053.45,
+              "harmonised_band_d": 2025.91,
+              "delta": -27.54,
+              "winner": true
+            },
+            {
+              "council_id": "burnley",
+              "name": "Burnley",
+              "tier": "district",
+              "band_d_element": 344.58,
+              "band_d_total": 2455.83,
+              "ct_requirement": 8243000,
+              "tax_base": 23922,
+              "current_combined_element": 2080.37,
+              "harmonised_band_d": 2025.91,
+              "delta": -54.46,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1964.93,
+            "max": 2080.37
+          }
+        },
+        {
+          "name": "Northern Lancashire",
+          "harmonised_band_d": 2000.09,
+          "total_ct_requirement": 95312390,
+          "lcc_ct_share": 82717390,
+          "total_tax_base": 47654,
+          "council_count": 1,
+          "councils": [
+            {
+              "council_id": "lancaster",
+              "name": "Lancaster",
+              "tier": "district",
+              "band_d_element": 264.3,
+              "band_d_total": 2407.5,
+              "ct_requirement": 12595000,
+              "tax_base": 47654,
+              "current_combined_element": 2000.09,
+              "harmonised_band_d": 2000.09,
+              "delta": 0.0,
+              "winner": false
+            }
+          ],
+          "band_d_range": {
+            "min": 2000.09,
+            "max": 2000.09
+          }
+        }
+      ],
+      "note": "Band D harmonisation to new unitary rate. Police and fire precepts unchanged. Each new authority inherits a pro-rata share of LCC's \u00a3642M CT requirement. Current combined element = district + LCC county precept (\u00a31735.79).",
+      "lcc_band_d_element": 1735.79,
+      "lcc_ct_requirement": 642208000
+    },
+    "five_unitary": {
+      "authorities": [
+        {
+          "name": "East Lancashire",
+          "harmonised_band_d": 2057.34,
+          "total_ct_requirement": 160466500,
+          "lcc_ct_share": 135386500,
+          "total_tax_base": 77997,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "pendle",
+              "name": "Pendle",
+              "tier": "district",
+              "band_d_element": 307.52,
+              "band_d_total": 2535.19,
+              "ct_requirement": 10323000,
+              "tax_base": 33569,
+              "current_combined_element": 2043.31,
+              "harmonised_band_d": 2057.34,
+              "delta": 14.03,
+              "winner": false
+            },
+            {
+              "council_id": "rossendale",
+              "name": "Rossendale",
+              "tier": "district",
+              "band_d_element": 317.66,
+              "band_d_total": 2424.37,
+              "ct_requirement": 6514000,
+              "tax_base": 20506,
+              "current_combined_element": 2053.45,
+              "harmonised_band_d": 2057.34,
+              "delta": 3.89,
+              "winner": false
+            },
+            {
+              "council_id": "burnley",
+              "name": "Burnley",
+              "tier": "district",
+              "band_d_element": 344.58,
+              "band_d_total": 2455.83,
+              "ct_requirement": 8243000,
+              "tax_base": 23922,
+              "current_combined_element": 2080.37,
+              "harmonised_band_d": 2057.34,
+              "delta": -23.03,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 2043.31,
+            "max": 2080.37
+          }
+        },
+        {
+          "name": "Central Lancashire",
+          "harmonised_band_d": 1957.05,
+          "total_ct_requirement": 168122395,
+          "lcc_ct_share": 87664395,
+          "total_tax_base": 85906,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "ribble_valley",
+              "name": "Ribble Valley",
+              "tier": "district",
+              "band_d_element": 170.69,
+              "band_d_total": 2299.58,
+              "ct_requirement": 4950000,
+              "tax_base": 29000,
+              "current_combined_element": 1906.48,
+              "harmonised_band_d": 1957.05,
+              "delta": 50.57,
+              "winner": false
+            },
+            {
+              "council_id": "blackburn",
+              "name": "Blackburn",
+              "tier": "unitary",
+              "band_d_element": 1964.93,
+              "band_d_total": 2337.17,
+              "ct_requirement": 69563000,
+              "tax_base": 35402,
+              "current_combined_element": 1964.93,
+              "harmonised_band_d": 1957.05,
+              "delta": -7.88,
+              "winner": true
+            },
+            {
+              "council_id": "hyndburn",
+              "name": "Hyndburn",
+              "tier": "district",
+              "band_d_element": 276.46,
+              "band_d_total": 2380.02,
+              "ct_requirement": 5945000,
+              "tax_base": 21504,
+              "current_combined_element": 2012.25,
+              "harmonised_band_d": 1957.05,
+              "delta": -55.2,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1906.48,
+            "max": 2012.25
+          }
+        },
+        {
+          "name": "North Lancashire",
+          "harmonised_band_d": 1985.41,
+          "total_ct_requirement": 178609505,
+          "lcc_ct_share": 156153505,
+          "total_tax_base": 89961,
+          "council_count": 2,
+          "councils": [
+            {
+              "council_id": "wyre",
+              "name": "Wyre",
+              "tier": "district",
+              "band_d_element": 233.08,
+              "band_d_total": 2365.73,
+              "ct_requirement": 9861000,
+              "tax_base": 42307,
+              "current_combined_element": 1968.87,
+              "harmonised_band_d": 1985.41,
+              "delta": 16.54,
+              "winner": false
+            },
+            {
+              "council_id": "lancaster",
+              "name": "Lancaster",
+              "tier": "district",
+              "band_d_element": 264.3,
+              "band_d_total": 2407.5,
+              "ct_requirement": 12595000,
+              "tax_base": 47654,
+              "current_combined_element": 2000.09,
+              "harmonised_band_d": 1985.41,
+              "delta": -14.68,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1968.87,
+            "max": 2000.09
+          }
+        },
+        {
+          "name": "South Lancashire",
+          "harmonised_band_d": 1966.0,
+          "total_ct_requirement": 236700044,
+          "lcc_ct_share": 208984044,
+          "total_tax_base": 120397,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "chorley",
+              "name": "Chorley",
+              "tier": "district",
+              "band_d_element": 215.99,
+              "band_d_total": 2342.85,
+              "ct_requirement": 8980000,
+              "tax_base": 41576,
+              "current_combined_element": 1951.78,
+              "harmonised_band_d": 1966.0,
+              "delta": 14.22,
+              "winner": false
+            },
+            {
+              "council_id": "south_ribble",
+              "name": "South Ribble",
+              "tier": "district",
+              "band_d_element": 236.78,
+              "band_d_total": 2352.12,
+              "ct_requirement": 9085000,
+              "tax_base": 38369,
+              "current_combined_element": 1972.57,
+              "harmonised_band_d": 1966.0,
+              "delta": -6.57,
+              "winner": true
+            },
+            {
+              "council_id": "west_lancashire",
+              "name": "West Lancashire",
+              "tier": "district",
+              "band_d_element": 238.58,
+              "band_d_total": 2362.12,
+              "ct_requirement": 9651000,
+              "tax_base": 40452,
+              "current_combined_element": 1974.37,
+              "harmonised_band_d": 1966.0,
+              "delta": -8.37,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1951.78,
+            "max": 1974.37
+          }
+        },
+        {
+          "name": "West Lancashire",
+          "harmonised_band_d": 2034.27,
+          "total_ct_requirement": 237546072,
+          "lcc_ct_share": 138615072,
+          "total_tax_base": 116772,
+          "council_count": 3,
+          "councils": [
+            {
+              "council_id": "fylde",
+              "name": "Fylde",
+              "tier": "district",
+              "band_d_element": 232.17,
+              "band_d_total": 2387.78,
+              "ct_requirement": 8649000,
+              "tax_base": 37253,
+              "current_combined_element": 1967.96,
+              "harmonised_band_d": 2034.27,
+              "delta": 66.31,
+              "winner": false
+            },
+            {
+              "council_id": "blackpool",
+              "name": "Blackpool",
+              "tier": "unitary",
+              "band_d_element": 2025.08,
+              "band_d_total": 2392.21,
+              "ct_requirement": 74755000,
+              "tax_base": 36915,
+              "current_combined_element": 2025.08,
+              "harmonised_band_d": 2034.27,
+              "delta": 9.19,
+              "winner": false
+            },
+            {
+              "council_id": "preston",
+              "name": "Preston",
+              "tier": "district",
+              "band_d_element": 364.45,
+              "band_d_total": 2477.85,
+              "ct_requirement": 15527000,
+              "tax_base": 42604,
+              "current_combined_element": 2100.24,
+              "harmonised_band_d": 2034.27,
+              "delta": -65.97,
+              "winner": true
+            }
+          ],
+          "band_d_range": {
+            "min": 1967.96,
+            "max": 2100.24
+          }
+        }
+      ],
+      "note": "Band D harmonisation to new unitary rate. Police and fire precepts unchanged. Each new authority inherits a pro-rata share of LCC's \u00a3642M CT requirement. Current combined element = district + LCC county precept (\u00a31735.79).",
+      "lcc_band_d_element": 1735.79,
+      "lcc_ct_requirement": 642208000
+    }
+  },
+  "authority_composition": {
+    "two_unitary": [
+      {
+        "name": "North Lancashire",
+        "population": 722045,
+        "total_service_expenditure": 307028330,
+        "spend_per_head": 425,
+        "services": {
+          "Education services": {
+            "net": 65299000,
+            "pct": 21.3,
+            "per_head": 90
+          },
+          "Adult Social Care": {
+            "net": 76721510,
+            "pct": 25.0,
+            "per_head": 106
+          },
+          "Public Health": {
+            "net": 20507000,
+            "pct": 6.7,
+            "per_head": 28
+          },
+          "Highways and transport services": {
+            "net": 5545490,
+            "pct": 1.8,
+            "per_head": 8
+          },
+          "Housing services (GFRA only)": {
+            "net": 16950110,
+            "pct": 5.5,
+            "per_head": 23
+          },
+          "Cultural and related services": {
+            "net": 27113200,
+            "pct": 8.8,
+            "per_head": 38
+          },
+          "Environmental and regulatory services": {
+            "net": 51226200,
+            "pct": 16.7,
+            "per_head": 71
+          },
+          "Planning and development services": {
+            "net": 22380600,
+            "pct": 7.3,
+            "per_head": 31
+          },
+          "Central services": {
+            "net": 22575220,
+            "pct": 7.4,
+            "per_head": 31
+          },
+          "Other services": {
+            "net": -1290000,
+            "pct": -0.4,
+            "per_head": -2
+          }
+        }
+      },
+      {
+        "name": "South Lancashire",
+        "population": 879510,
+        "total_service_expenditure": 421678220,
+        "spend_per_head": 479,
+        "services": {
+          "Education services": {
+            "net": 151486000,
+            "pct": 35.9,
+            "per_head": 172
+          },
+          "Adult Social Care": {
+            "net": 72684300,
+            "pct": 17.2,
+            "per_head": 83
+          },
+          "Public Health": {
+            "net": 18963000,
+            "pct": 4.5,
+            "per_head": 22
+          },
+          "Highways and transport services": {
+            "net": 3889000,
+            "pct": 0.9,
+            "per_head": 4
+          },
+          "Housing services (GFRA only)": {
+            "net": 15607920,
+            "pct": 3.7,
+            "per_head": 18
+          },
+          "Cultural and related services": {
+            "net": 35252000,
+            "pct": 8.4,
+            "per_head": 40
+          },
+          "Environmental and regulatory services": {
+            "net": 50070000,
+            "pct": 11.9,
+            "per_head": 57
+          },
+          "Planning and development services": {
+            "net": 25649000,
+            "pct": 6.1,
+            "per_head": 29
+          },
+          "Central services": {
+            "net": 48077000,
+            "pct": 11.4,
+            "per_head": 55
+          }
+        }
+      }
+    ],
+    "three_unitary": [
+      {
+        "name": "Coastal Lancashire",
+        "population": 493387,
+        "total_service_expenditure": 264295460,
+        "spend_per_head": 536,
+        "services": {
+          "Education services": {
+            "net": 65299000,
+            "pct": 24.7,
+            "per_head": 132
+          },
+          "Adult Social Care": {
+            "net": 76700000,
+            "pct": 29.0,
+            "per_head": 155
+          },
+          "Public Health": {
+            "net": 20399000,
+            "pct": 7.7,
+            "per_head": 41
+          },
+          "Highways and transport services": {
+            "net": 5471000,
+            "pct": 2.1,
+            "per_head": 11
+          },
+          "Housing services (GFRA only)": {
+            "net": 11849000,
+            "pct": 4.5,
+            "per_head": 24
+          },
+          "Cultural and related services": {
+            "net": 20781000,
+            "pct": 7.9,
+            "per_head": 42
+          },
+          "Environmental and regulatory services": {
+            "net": 39146000,
+            "pct": 14.8,
+            "per_head": 79
+          },
+          "Planning and development services": {
+            "net": 13315000,
+            "pct": 5.0,
+            "per_head": 27
+          },
+          "Central services": {
+            "net": 12682460,
+            "pct": 4.8,
+            "per_head": 26
+          },
+          "Other services": {
+            "net": -1347000,
+            "pct": -0.5,
+            "per_head": -3
+          }
+        }
+      },
+      {
+        "name": "Central Lancashire",
+        "population": 521811,
+        "total_service_expenditure": 96037000,
+        "spend_per_head": 184,
+        "services": {
+          "Public Health": {
+            "net": 311000,
+            "pct": 0.3,
+            "per_head": 1
+          },
+          "Highways and transport services": {
+            "net": -179000,
+            "pct": -0.2,
+            "per_head": 0
+          },
+          "Housing services (GFRA only)": {
+            "net": 8866000,
+            "pct": 9.2,
+            "per_head": 17
+          },
+          "Cultural and related services": {
+            "net": 15731000,
+            "pct": 16.4,
+            "per_head": 30
+          },
+          "Environmental and regulatory services": {
+            "net": 25847000,
+            "pct": 26.9,
+            "per_head": 50
+          },
+          "Planning and development services": {
+            "net": 19504000,
+            "pct": 20.3,
+            "per_head": 37
+          },
+          "Central services": {
+            "net": 25900000,
+            "pct": 27.0,
+            "per_head": 50
+          },
+          "Other services": {
+            "net": 57000,
+            "pct": 0.1,
+            "per_head": 0
+          }
+        }
+      },
+      {
+        "name": "Pennine Lancashire",
+        "population": 586357,
+        "total_service_expenditure": 368374090,
+        "spend_per_head": 628,
+        "services": {
+          "Education services": {
+            "net": 151486000,
+            "pct": 41.1,
+            "per_head": 258
+          },
+          "Adult Social Care": {
+            "net": 72705810,
+            "pct": 19.7,
+            "per_head": 124
+          },
+          "Public Health": {
+            "net": 18760000,
+            "pct": 5.1,
+            "per_head": 32
+          },
+          "Highways and transport services": {
+            "net": 4142490,
+            "pct": 1.1,
+            "per_head": 7
+          },
+          "Housing services (GFRA only)": {
+            "net": 11843030,
+            "pct": 3.2,
+            "per_head": 20
+          },
+          "Cultural and related services": {
+            "net": 25853200,
+            "pct": 7.0,
+            "per_head": 44
+          },
+          "Environmental and regulatory services": {
+            "net": 36303200,
+            "pct": 9.9,
+            "per_head": 62
+          },
+          "Planning and development services": {
+            "net": 15210600,
+            "pct": 4.1,
+            "per_head": 26
+          },
+          "Central services": {
+            "net": 32069760,
+            "pct": 8.7,
+            "per_head": 55
+          }
+        }
+      }
+    ],
+    "four_unitary": [
+      {
+        "name": "North Lancashire",
+        "population": 373664,
+        "total_service_expenditure": 70633330,
+        "spend_per_head": 189,
+        "services": {
+          "Adult Social Care": {
+            "net": 21510,
+            "pct": 0.0,
+            "per_head": 0
+          },
+          "Public Health": {
+            "net": 108000,
+            "pct": 0.2,
+            "per_head": 0
+          },
+          "Highways and transport services": {
+            "net": -2273510,
+            "pct": -3.2,
+            "per_head": -6
+          },
+          "Housing services (GFRA only)": {
+            "net": 9372110,
+            "pct": 13.3,
+            "per_head": 25
+          },
+          "Cultural and related services": {
+            "net": 11182200,
+            "pct": 15.8,
+            "per_head": 30
+          },
+          "Environmental and regulatory services": {
+            "net": 20021200,
+            "pct": 28.3,
+            "per_head": 54
+          },
+          "Planning and development services": {
+            "net": 15121600,
+            "pct": 21.4,
+            "per_head": 40
+          },
+          "Central services": {
+            "net": 17023220,
+            "pct": 24.1,
+            "per_head": 46
+          },
+          "Other services": {
+            "net": 57000,
+            "pct": 0.1,
+            "per_head": 0
+          }
+        }
+      },
+      {
+        "name": "Fylde Coast",
+        "population": 348381,
+        "total_service_expenditure": 236395000,
+        "spend_per_head": 679,
+        "services": {
+          "Education services": {
+            "net": 65299000,
+            "pct": 27.6,
+            "per_head": 187
+          },
+          "Adult Social Care": {
+            "net": 76700000,
+            "pct": 32.4,
+            "per_head": 220
+          },
+          "Public Health": {
+            "net": 20399000,
+            "pct": 8.6,
+            "per_head": 59
+          },
+          "Highways and transport services": {
+            "net": 7819000,
+            "pct": 3.3,
+            "per_head": 22
+          },
+          "Housing services (GFRA only)": {
+            "net": 7578000,
+            "pct": 3.2,
+            "per_head": 22
+          },
+          "Cultural and related services": {
+            "net": 15931000,
+            "pct": 6.7,
+            "per_head": 46
+          },
+          "Environmental and regulatory services": {
+            "net": 31205000,
+            "pct": 13.2,
+            "per_head": 90
+          },
+          "Planning and development services": {
+            "net": 7259000,
+            "pct": 3.1,
+            "per_head": 21
+          },
+          "Central services": {
+            "net": 5552000,
+            "pct": 2.3,
+            "per_head": 16
+          },
+          "Other services": {
+            "net": -1347000,
+            "pct": -0.6,
+            "per_head": -4
+          }
+        }
+      },
+      {
+        "name": "Pennine Lancashire",
+        "population": 520563,
+        "total_service_expenditure": 359114220,
+        "spend_per_head": 690,
+        "services": {
+          "Education services": {
+            "net": 151486000,
+            "pct": 42.2,
+            "per_head": 291
+          },
+          "Adult Social Care": {
+            "net": 72684300,
+            "pct": 20.2,
+            "per_head": 140
+          },
+          "Public Health": {
+            "net": 18760000,
+            "pct": 5.2,
+            "per_head": 36
+          },
+          "Highways and transport services": {
+            "net": 4358000,
+            "pct": 1.2,
+            "per_head": 8
+          },
+          "Housing services (GFRA only)": {
+            "net": 11593920,
+            "pct": 3.2,
+            "per_head": 22
+          },
+          "Cultural and related services": {
+            "net": 24048000,
+            "pct": 6.7,
+            "per_head": 46
+          },
+          "Environmental and regulatory services": {
+            "net": 32380000,
+            "pct": 9.0,
+            "per_head": 62
+          },
+          "Planning and development services": {
+            "net": 14306000,
+            "pct": 4.0,
+            "per_head": 27
+          },
+          "Central services": {
+            "net": 29498000,
+            "pct": 8.2,
+            "per_head": 57
+          }
+        }
+      },
+      {
+        "name": "South Lancashire",
+        "population": 358947,
+        "total_service_expenditure": 62564000,
+        "spend_per_head": 174,
+        "services": {
+          "Public Health": {
+            "net": 203000,
+            "pct": 0.3,
+            "per_head": 1
+          },
+          "Highways and transport services": {
+            "net": -469000,
+            "pct": -0.7,
+            "per_head": -1
+          },
+          "Housing services (GFRA only)": {
+            "net": 4014000,
+            "pct": 6.4,
+            "per_head": 11
+          },
+          "Cultural and related services": {
+            "net": 11204000,
+            "pct": 17.9,
+            "per_head": 31
+          },
+          "Environmental and regulatory services": {
+            "net": 17690000,
+            "pct": 28.3,
+            "per_head": 49
+          },
+          "Planning and development services": {
+            "net": 11343000,
+            "pct": 18.1,
+            "per_head": 32
+          },
+          "Central services": {
+            "net": 18579000,
+            "pct": 29.7,
+            "per_head": 52
+          }
+        }
+      }
+    ],
+    "four_unitary_alt": [
+      {
+        "name": "Western Lancashire",
+        "population": 475222,
+        "total_service_expenditure": 250593000,
+        "spend_per_head": 527,
+        "services": {
+          "Education services": {
+            "net": 65299000,
+            "pct": 26.1,
+            "per_head": 137
+          },
+          "Adult Social Care": {
+            "net": 76650000,
+            "pct": 30.6,
+            "per_head": 161
+          },
+          "Public Health": {
+            "net": 20507000,
+            "pct": 8.2,
+            "per_head": 43
+          },
+          "Highways and transport services": {
+            "net": 7664000,
+            "pct": 3.1,
+            "per_head": 16
+          },
+          "Housing services (GFRA only)": {
+            "net": 11265000,
+            "pct": 4.5,
+            "per_head": 24
+          },
+          "Cultural and related services": {
+            "net": 15761000,
+            "pct": 6.3,
+            "per_head": 33
+          },
+          "Environmental and regulatory services": {
+            "net": 33226000,
+            "pct": 13.3,
+            "per_head": 70
+          },
+          "Planning and development services": {
+            "net": 12103000,
+            "pct": 4.8,
+            "per_head": 25
+          },
+          "Central services": {
+            "net": 9408000,
+            "pct": 3.8,
+            "per_head": 20
+          },
+          "Other services": {
+            "net": -1290000,
+            "pct": -0.5,
+            "per_head": -3
+          }
+        }
+      },
+      {
+        "name": "Southern Lancashire",
+        "population": 358947,
+        "total_service_expenditure": 62564000,
+        "spend_per_head": 174,
+        "services": {
+          "Public Health": {
+            "net": 203000,
+            "pct": 0.3,
+            "per_head": 1
+          },
+          "Highways and transport services": {
+            "net": -469000,
+            "pct": -0.7,
+            "per_head": -1
+          },
+          "Housing services (GFRA only)": {
+            "net": 4014000,
+            "pct": 6.4,
+            "per_head": 11
+          },
+          "Cultural and related services": {
+            "net": 11204000,
+            "pct": 17.9,
+            "per_head": 31
+          },
+          "Environmental and regulatory services": {
+            "net": 17690000,
+            "pct": 28.3,
+            "per_head": 49
+          },
+          "Planning and development services": {
+            "net": 11343000,
+            "pct": 18.1,
+            "per_head": 32
+          },
+          "Central services": {
+            "net": 18579000,
+            "pct": 29.7,
+            "per_head": 52
+          }
+        }
+      },
+      {
+        "name": "Eastern Lancashire",
+        "population": 565968,
+        "total_service_expenditure": 359114220,
+        "spend_per_head": 635,
+        "services": {
+          "Education services": {
+            "net": 151486000,
+            "pct": 42.2,
+            "per_head": 268
+          },
+          "Adult Social Care": {
+            "net": 72684300,
+            "pct": 20.2,
+            "per_head": 128
+          },
+          "Public Health": {
+            "net": 18760000,
+            "pct": 5.2,
+            "per_head": 33
+          },
+          "Highways and transport services": {
+            "net": 4358000,
+            "pct": 1.2,
+            "per_head": 8
+          },
+          "Housing services (GFRA only)": {
+            "net": 11593920,
+            "pct": 3.2,
+            "per_head": 20
+          },
+          "Cultural and related services": {
+            "net": 24048000,
+            "pct": 6.7,
+            "per_head": 42
+          },
+          "Environmental and regulatory services": {
+            "net": 32380000,
+            "pct": 9.0,
+            "per_head": 57
+          },
+          "Planning and development services": {
+            "net": 14306000,
+            "pct": 4.0,
+            "per_head": 25
+          },
+          "Central services": {
+            "net": 29498000,
+            "pct": 8.2,
+            "per_head": 52
+          }
+        }
+      },
+      {
+        "name": "Northern Lancashire",
+        "population": 201508,
+        "total_service_expenditure": 27900460,
+        "spend_per_head": 138,
+        "services": {
+          "Highways and transport services": {
+            "net": -2348000,
+            "pct": -8.4,
+            "per_head": -12
+          },
+          "Housing services (GFRA only)": {
+            "net": 4271000,
+            "pct": 15.3,
+            "per_head": 21
+          },
+          "Cultural and related services": {
+            "net": 4850000,
+            "pct": 17.4,
+            "per_head": 24
+          },
+          "Environmental and regulatory services": {
+            "net": 7941000,
+            "pct": 28.5,
+            "per_head": 39
+          },
+          "Planning and development services": {
+            "net": 6056000,
+            "pct": 21.7,
+            "per_head": 30
+          },
+          "Central services": {
+            "net": 7130460,
+            "pct": 25.6,
+            "per_head": 35
+          }
+        }
+      }
+    ],
+    "five_unitary": [
+      {
+        "name": "East Lancashire",
+        "population": 272055,
+        "total_service_expenditure": 46520920,
+        "spend_per_head": 171,
+        "services": {
+          "Adult Social Care": {
+            "net": 5000,
+            "pct": 0.0,
+            "per_head": 0
+          },
+          "Highways and transport services": {
+            "net": 550000,
+            "pct": 1.2,
+            "per_head": 2
+          },
+          "Housing services (GFRA only)": {
+            "net": 5393920,
+            "pct": 11.6,
+            "per_head": 20
+          },
+          "Cultural and related services": {
+            "net": 9576000,
+            "pct": 20.6,
+            "per_head": 35
+          },
+          "Environmental and regulatory services": {
+            "net": 11374000,
+            "pct": 24.4,
+            "per_head": 42
+          },
+          "Planning and development services": {
+            "net": 6763000,
+            "pct": 14.5,
+            "per_head": 25
+          },
+          "Central services": {
+            "net": 12859000,
+            "pct": 27.6,
+            "per_head": 47
+          }
+        }
+      },
+      {
+        "name": "Central Lancashire",
+        "population": 314302,
+        "total_service_expenditure": 321853170,
+        "spend_per_head": 1024,
+        "services": {
+          "Education services": {
+            "net": 151486000,
+            "pct": 47.1,
+            "per_head": 482
+          },
+          "Adult Social Care": {
+            "net": 72700810,
+            "pct": 22.6,
+            "per_head": 231
+          },
+          "Public Health": {
+            "net": 18760000,
+            "pct": 5.8,
+            "per_head": 60
+          },
+          "Highways and transport services": {
+            "net": 3592490,
+            "pct": 1.1,
+            "per_head": 11
+          },
+          "Housing services (GFRA only)": {
+            "net": 6449110,
+            "pct": 2.0,
+            "per_head": 21
+          },
+          "Cultural and related services": {
+            "net": 16277200,
+            "pct": 5.1,
+            "per_head": 52
+          },
+          "Environmental and regulatory services": {
+            "net": 24929200,
+            "pct": 7.7,
+            "per_head": 79
+          },
+          "Planning and development services": {
+            "net": 8447600,
+            "pct": 2.6,
+            "per_head": 27
+          },
+          "Central services": {
+            "net": 19210760,
+            "pct": 6.0,
+            "per_head": 61
+          }
+        }
+      },
+      {
+        "name": "North Lancashire",
+        "population": 263749,
+        "total_service_expenditure": 47175460,
+        "spend_per_head": 179,
+        "services": {
+          "Adult Social Care": {
+            "net": 50000,
+            "pct": 0.1,
+            "per_head": 0
+          },
+          "Highways and transport services": {
+            "net": -1903000,
+            "pct": -4.0,
+            "per_head": -7
+          },
+          "Housing services (GFRA only)": {
+            "net": 5436000,
+            "pct": 11.5,
+            "per_head": 21
+          },
+          "Cultural and related services": {
+            "net": 9547000,
+            "pct": 20.2,
+            "per_head": 36
+          },
+          "Environmental and regulatory services": {
+            "net": 14077000,
+            "pct": 29.8,
+            "per_head": 53
+          },
+          "Planning and development services": {
+            "net": 9373000,
+            "pct": 19.9,
+            "per_head": 36
+          },
+          "Central services": {
+            "net": 10595460,
+            "pct": 22.5,
+            "per_head": 40
+          }
+        }
+      },
+      {
+        "name": "South Lancashire",
+        "population": 358947,
+        "total_service_expenditure": 62564000,
+        "spend_per_head": 174,
+        "services": {
+          "Public Health": {
+            "net": 203000,
+            "pct": 0.3,
+            "per_head": 1
+          },
+          "Highways and transport services": {
+            "net": -469000,
+            "pct": -0.7,
+            "per_head": -1
+          },
+          "Housing services (GFRA only)": {
+            "net": 4014000,
+            "pct": 6.4,
+            "per_head": 11
+          },
+          "Cultural and related services": {
+            "net": 11204000,
+            "pct": 17.9,
+            "per_head": 31
+          },
+          "Environmental and regulatory services": {
+            "net": 17690000,
+            "pct": 28.3,
+            "per_head": 49
+          },
+          "Planning and development services": {
+            "net": 11343000,
+            "pct": 18.1,
+            "per_head": 32
+          },
+          "Central services": {
+            "net": 18579000,
+            "pct": 29.7,
+            "per_head": 52
+          }
+        }
+      },
+      {
+        "name": "West Lancashire",
+        "population": 348381,
+        "total_service_expenditure": 250593000,
+        "spend_per_head": 719,
+        "services": {
+          "Education services": {
+            "net": 65299000,
+            "pct": 26.1,
+            "per_head": 187
+          },
+          "Adult Social Care": {
+            "net": 76650000,
+            "pct": 30.6,
+            "per_head": 220
+          },
+          "Public Health": {
+            "net": 20507000,
+            "pct": 8.2,
+            "per_head": 59
+          },
+          "Highways and transport services": {
+            "net": 7664000,
+            "pct": 3.1,
+            "per_head": 22
+          },
+          "Housing services (GFRA only)": {
+            "net": 11265000,
+            "pct": 4.5,
+            "per_head": 32
+          },
+          "Cultural and related services": {
+            "net": 15761000,
+            "pct": 6.3,
+            "per_head": 45
+          },
+          "Environmental and regulatory services": {
+            "net": 33226000,
+            "pct": 13.3,
+            "per_head": 95
+          },
+          "Planning and development services": {
+            "net": 12103000,
+            "pct": 4.8,
+            "per_head": 35
+          },
+          "Central services": {
+            "net": 9408000,
+            "pct": 3.8,
+            "per_head": 27
+          },
+          "Other services": {
+            "net": -1290000,
+            "pct": -0.5,
+            "per_head": -4
+          }
+        }
+      }
+    ]
+  }
+}

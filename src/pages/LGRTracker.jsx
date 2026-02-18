@@ -39,8 +39,8 @@ function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
-  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json'])
-  const [lgrData, crossCouncil] = data || [null, null]
+  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json'])
+  const [lgrData, crossCouncil, budgetModel] = data || [null, null, null]
   const [selectedModel, setSelectedModel] = useState(null)
   const [expandedIssue, setExpandedIssue] = useState(null)
   const [expandedCritique, setExpandedCritique] = useState(null)
@@ -156,6 +156,7 @@ function LGRTracker() {
   const sectionNav = [
     { id: 'proposals', label: 'Proposals', icon: Building },
     { id: 'independent', label: 'AI DOGE Model', icon: Brain },
+    { id: 'council-tax', label: 'Council Tax', icon: PoundSterling },
     { id: 'assets', label: 'Assets', icon: PoundSterling },
     { id: 'handover', label: 'Handover', icon: ArrowRight },
     { id: 'critique', label: 'CCN Critique', icon: BookOpen },
@@ -389,6 +390,107 @@ function LGRTracker() {
         )}
       </section>
 
+      {/* Council Tax Harmonisation */}
+      {budgetModel?.council_tax_harmonisation && (
+        <section className="lgr-section" id="lgr-council-tax">
+          <h2><PoundSterling size={20} /> Council Tax Harmonisation</h2>
+          <p className="section-desc">
+            What happens to your council tax bill when councils merge. Each new unitary must set a single Band D rate,
+            replacing both the district and county elements. Police and fire precepts are unchanged.
+          </p>
+
+          <div className="handover-model-tabs">
+            {lgrData.proposed_models.map((model, idx) => (
+              <button
+                key={model.id}
+                className={`handover-tab ${(selectedModel || lgrData.proposed_models[0]?.id) === model.id ? 'active' : ''}`}
+                onClick={() => setSelectedModel(model.id)}
+                style={{ '--tab-color': MODEL_COLORS[idx] }}
+              >
+                {model.short_name}
+              </button>
+            ))}
+          </div>
+
+          {(() => {
+            const activeModelId = selectedModel || lgrData.proposed_models[0]?.id
+            const ctData = budgetModel.council_tax_harmonisation[activeModelId]
+            if (!ctData) return null
+
+            return (
+              <div className="ct-harmonisation-content animate-fade-in">
+                {ctData.authorities.map((auth, ai) => {
+                  const isMine = auth.councils.some(c => c.council_id === councilId)
+                  return (
+                    <div key={ai} className={`ct-authority-card ${isMine ? 'mine' : ''}`}>
+                      <div className="ct-authority-header">
+                        <h3>{auth.name}</h3>
+                        <div className="ct-harmonised-rate">
+                          <span className="ct-rate-value">£{auth.harmonised_band_d.toFixed(2)}</span>
+                          <span className="ct-rate-label">New harmonised Band D</span>
+                        </div>
+                      </div>
+
+                      <div className="ct-bar-chart">
+                        {auth.councils.map((c, ci) => {
+                          const maxBandD = Math.max(...auth.councils.map(x => x.current_combined_element), auth.harmonised_band_d)
+                          const currentPct = (c.current_combined_element / maxBandD) * 100
+                          const harmonisedPct = (auth.harmonised_band_d / maxBandD) * 100
+                          const isCurrentCouncil = c.council_id === councilId
+
+                          return (
+                            <div key={ci} className={`ct-bar-row ${isCurrentCouncil ? 'current' : ''}`}>
+                              <span className="ct-bar-name">{c.name}</span>
+                              <div className="ct-bar-track">
+                                <div
+                                  className={`ct-bar-fill ${c.winner ? 'winner' : 'loser'}`}
+                                  style={{ width: `${currentPct}%` }}
+                                />
+                                <div
+                                  className="ct-harmonised-line"
+                                  style={{ left: `${harmonisedPct}%` }}
+                                />
+                              </div>
+                              <span className={`ct-bar-delta ${Math.round(c.delta) === 0 ? 'text-secondary' : c.winner ? 'text-green' : 'text-red'}`}>
+                                {Math.round(c.delta) === 0 ? '£0' : c.delta > 0 ? `+£${Math.round(c.delta)}` : `−£${Math.abs(Math.round(c.delta))}`}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      <div className="ct-legend">
+                        <span className="ct-legend-item"><span className="ct-legend-dot winner" /> Lower bill (winner)</span>
+                        <span className="ct-legend-item"><span className="ct-legend-dot loser" /> Higher bill (loser)</span>
+                        <span className="ct-legend-item"><span className="ct-legend-line" /> Harmonised rate</span>
+                      </div>
+
+                      {auth.lcc_ct_share > 0 && (
+                        <p className="ct-note text-secondary">
+                          Includes £{(auth.lcc_ct_share / 1e6).toFixed(1)}M share of LCC county services
+                          (pro-rata by tax base). Total CT requirement: {formatCurrency(auth.total_ct_requirement, true)}.
+                        </p>
+                      )}
+                    </div>
+                  )
+                })}
+
+                <div className="ct-explainer">
+                  <h4><AlertTriangle size={14} /> How harmonisation works</h4>
+                  <p>
+                    Currently, district residents pay two main council tax elements: their district council (£170-£364)
+                    and Lancashire County Council (£{ctData.lcc_band_d_element?.toFixed(0) || '1,736'}).
+                    After LGR, these merge into a single unitary rate. The harmonised rate is a weighted average — councils
+                    with larger tax bases pull the average towards their rate. Winners see their combined bill fall; losers
+                    see it rise. Police and fire precepts are unchanged.
+                  </p>
+                </div>
+              </div>
+            )
+          })()}
+        </section>
+      )}
+
       {/* Asset Division & Transition Risks */}
       {lgrData.independent_model?.asset_division && (
         <section className="lgr-section" id="lgr-assets">
@@ -552,6 +654,61 @@ function LGRTracker() {
                             ))}
                           </div>
                         </div>
+
+                        {/* Budget composition from lgr_budget_model */}
+                        {(() => {
+                          const composition = budgetModel?.authority_composition?.[activeModelId]
+                          const authComp = composition?.find(a => a.name === auth.name)
+                          if (!authComp?.services || Object.keys(authComp.services).length === 0) return null
+
+                          const SERVICE_SHORT = {
+                            'Education services': 'Education',
+                            'Adult Social Care': 'Adult social care',
+                            'Childrens Social Care': "Children's social care",
+                            'Public Health': 'Public health',
+                            'Highways and transport services': 'Highways & transport',
+                            'Housing services (GFRA only)': 'Housing',
+                            'Cultural and related services': 'Culture & leisure',
+                            'Environmental and regulatory services': 'Environment',
+                            'Planning and development services': 'Planning',
+                            'Central services': 'Central services',
+                            'Other services': 'Other',
+                          }
+                          const SVC_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ffd60a', '#ff6482', '#64d2ff', '#ac8e68', '#636366']
+                          const svcEntries = Object.entries(authComp.services)
+                            .map(([name, data]) => ({ name: SERVICE_SHORT[name] || name, ...data }))
+                            .filter(s => s.net > 0)
+                            .sort((a, b) => b.net - a.net)
+
+                          const totalNet = svcEntries.reduce((s, e) => s + e.net, 0)
+
+                          return (
+                            <div className="budget-composition">
+                              <span className="hm-label">Budget composition</span>
+                              <div className="composition-bar">
+                                {svcEntries.map((s, si) => (
+                                  <div
+                                    key={si}
+                                    className="composition-segment"
+                                    style={{
+                                      width: `${(s.net / totalNet) * 100}%`,
+                                      background: SVC_COLORS[si % SVC_COLORS.length],
+                                    }}
+                                    title={`${s.name}: ${formatCurrency(s.net, true)} (${s.pct}%)`}
+                                  />
+                                ))}
+                              </div>
+                              <div className="composition-legend">
+                                {svcEntries.slice(0, 6).map((s, si) => (
+                                  <span key={si} className="comp-legend-item">
+                                    <span className="comp-dot" style={{ background: SVC_COLORS[si % SVC_COLORS.length] }} />
+                                    {s.name} ({s.pct}%)
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )
+                        })()}
                       </div>
                     )
                   })}

@@ -156,7 +156,7 @@
       "meets_threshold": true,
       "ccn_annual_savings": 21200000,
       "ccn_transition_cost": 28600000,
-      "doge_annual_savings": 48152033,
+      "doge_annual_savings": 126587400,
       "doge_transition_cost": 62100000,
       "doge_payback_years": 1.3,
       "source_url": "https://lancashirelgr.co.uk/downloads/file/5/two-unitary-authorities",
@@ -237,7 +237,7 @@
       "meets_threshold": false,
       "ccn_annual_savings": 6400000,
       "ccn_transition_cost": 35000000,
-      "doge_annual_savings": 44892303,
+      "doge_annual_savings": 119848500,
       "doge_transition_cost": 93150000,
       "doge_payback_years": 2.1,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/3/three-unitary-authorities",
@@ -331,7 +331,7 @@
       "meets_threshold": false,
       "ccn_annual_savings": -11500000,
       "ccn_transition_cost": 41300000,
-      "doge_annual_savings": 41204473,
+      "doge_annual_savings": 113109600,
       "doge_transition_cost": 124200000,
       "doge_payback_years": 3.0,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/1/four-lancashire-proposal-document",
@@ -439,7 +439,7 @@
       "meets_threshold": false,
       "ccn_annual_savings": -11500000,
       "ccn_transition_cost": 41300000,
-      "doge_annual_savings": -5800000,
+      "doge_annual_savings": 113109600,
       "doge_transition_cost": 55000000,
       "doge_payback_years": null,
       "source_url": "https://forms.chorleysouthribble.gov.uk/lancashireLGR/downloads/file/4/alternative-four-unitary-authorities",
@@ -543,7 +543,7 @@
       "meets_threshold": false,
       "ccn_annual_savings": null,
       "ccn_transition_cost": null,
-      "doge_annual_savings": 37445033,
+      "doge_annual_savings": 106370698,
       "doge_transition_cost": 155250000,
       "doge_payback_years": 4.1,
       "source_url": "https://burnley.gov.uk/wp-content/uploads/2025/11/COMMS_LGR-5UA-business-case-20623.pdf",
@@ -736,10 +736,10 @@
   },
   "independent_model": {
     "title": "AI DOGE Independent Financial Model",
-    "subtitle": "Built from \u00a33.3B+ actual GOV.UK 2024-25 revenue outturn data across 15 Lancashire councils",
+    "subtitle": "Built from \u00a32.9B+ actual GOV.UK 2024-25 revenue outturn data across 15 Lancashire councils \u2014 now with per-service savings from 192 real budget lines",
     "computed_from_data": true,
     "data_source": "GOV.UK MHCLG Revenue Outturn 2024-25 (RS, RSX, RO2, RO4, RO5, RO6)",
-    "computation_date": "2026-02-16",
+    "computation_date": "2026-02-18",
     "methodology": {
       "approach": "Bottom-up computation from actual council budget data with peer-reviewed academic savings benchmarks",
       "assumptions": {
@@ -786,109 +786,122 @@
     "savings_breakdown": {
       "components": [
         {
-          "category": "Senior management elimination",
-          "two_ua": 6855870,
-          "two_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 11/13 reduction ratio",
-          "three_ua": 5892648,
-          "three_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 8/11 reduction ratio",
-          "four_ua": 4501328,
-          "four_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 5/9 reduction ratio",
-          "five_ua": 3038396,
-          "five_ua_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 3/8 reduction ratio",
-          "county": 7427192,
-          "county_methodology": "12% of \u00a3112,533,220 central services \u00d7 60% elimination \u00d7 11/12 reduction ratio"
+          "category": "Central services",
+          "two_ua": 28792119,
+          "two_ua_methodology": "\u00a317.91M from Corporate & Democratic Core; \u00a35.88M from Council tax collection; \u00a30.89M from Business rates collection; \u00a31.97M from Electoral registration; \u00a30.41M from Conducting elections; \u00a30.37M from Local land charges; \u00a30.68M from Support services; \u00a30.49M from Unused IT & assets; \u00a30.18M from Surplus asset costs",
+          "three_ua": 27879978,
+          "three_ua_methodology": "\u00a317.91M from Corporate & Democratic Core; \u00a35.29M from Council tax collection; \u00a30.80M from Business rates collection; \u00a31.78M from Electoral registration; \u00a30.41M from Conducting elections; \u00a30.33M from Local land charges; \u00a30.68M from Support services; \u00a30.49M from Unused IT & assets; \u00a30.18M from Surplus asset costs",
+          "four_ua": 26967837,
+          "four_ua_methodology": "\u00a317.91M from Corporate & Democratic Core; \u00a34.71M from Council tax collection; \u00a30.72M from Business rates collection; \u00a31.58M from Electoral registration; \u00a30.41M from Conducting elections; \u00a30.30M from Local land charges; \u00a30.68M from Support services; \u00a30.49M from Unused IT & assets; \u00a30.18M from Surplus asset costs",
+          "five_ua": 26967837,
+          "five_ua_methodology": "\u00a317.91M from Corporate & Democratic Core; \u00a34.71M from Council tax collection; \u00a30.72M from Business rates collection; \u00a31.58M from Electoral registration; \u00a30.41M from Conducting elections; \u00a30.30M from Local land charges; \u00a30.68M from Support services; \u00a30.49M from Unused IT & assets; \u00a30.18M from Surplus asset costs",
+          "county": 0,
+          "county_methodology": "No applicable savings"
         },
         {
-          "category": "Back office consolidation",
-          "two_ua": 9744276,
-          "two_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 92% consolidation ratio (13\u21922)",
-          "three_ua": 8858433,
-          "three_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 83% consolidation ratio (13\u21923)",
-          "four_ua": 7972589,
-          "four_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 75% consolidation ratio (13\u21924)",
-          "five_ua": 7086746,
-          "five_ua_methodology": "18% of \u00a359,056,220 district central services \u00d7 67% consolidation ratio (13\u21925)",
-          "county": 10630119,
-          "county_methodology": "18% of \u00a359,056,220 district central services \u00d7 100% consolidation ratio (13\u21921)"
+          "category": "Environmental services",
+          "two_ua": 6091025,
+          "two_ua_methodology": "\u00a31.43M from Waste collection; \u00a33.20M from Waste disposal; \u00a30.54M from Recycling; \u00a30.65M from Street cleansing; \u00a30.27M from CCTV",
+          "three_ua": 6091025,
+          "three_ua_methodology": "\u00a31.43M from Waste collection; \u00a33.20M from Waste disposal; \u00a30.54M from Recycling; \u00a30.65M from Street cleansing; \u00a30.27M from CCTV",
+          "four_ua": 6091025,
+          "four_ua_methodology": "\u00a31.43M from Waste collection; \u00a33.20M from Waste disposal; \u00a30.54M from Recycling; \u00a30.65M from Street cleansing; \u00a30.27M from CCTV",
+          "five_ua": 6091025,
+          "five_ua_methodology": "\u00a31.43M from Waste collection; \u00a33.20M from Waste disposal; \u00a30.54M from Recycling; \u00a30.65M from Street cleansing; \u00a30.27M from CCTV",
+          "county": 0,
+          "county_methodology": "No applicable savings"
+        },
+        {
+          "category": "Planning services",
+          "two_ua": 555570,
+          "two_ua_methodology": "\u00a30.29M from Building control; \u00a30.27M from Development control",
+          "three_ua": 555570,
+          "three_ua_methodology": "\u00a30.29M from Building control; \u00a30.27M from Development control",
+          "four_ua": 555570,
+          "four_ua_methodology": "\u00a30.29M from Building control; \u00a30.27M from Development control",
+          "five_ua": 555570,
+          "five_ua_methodology": "\u00a30.29M from Building control; \u00a30.27M from Development control",
+          "county": 0,
+          "county_methodology": "No applicable savings"
+        },
+        {
+          "category": "Cultural services",
+          "two_ua": 904950,
+          "two_ua_methodology": "\u00a30.90M from Libraries",
+          "three_ua": 904950,
+          "three_ua_methodology": "\u00a30.90M from Libraries",
+          "four_ua": 904950,
+          "four_ua_methodology": "\u00a30.90M from Libraries",
+          "five_ua": 904950,
+          "five_ua_methodology": "\u00a30.90M from Libraries",
+          "county": 0,
+          "county_methodology": "No applicable savings"
         },
         {
           "category": "Democratic representation",
           "two_ua": 7156800,
-          "two_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "two_ua_methodology": "\u00a37.16M from Councillor reduction",
           "three_ua": 7156800,
-          "three_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "three_ua_methodology": "\u00a37.16M from Councillor reduction",
           "four_ua": 7156800,
-          "four_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
+          "four_ua_methodology": "\u00a37.16M from Councillor reduction",
           "five_ua": 7156800,
-          "five_ua_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800",
-          "county": 7156800,
-          "county_methodology": "426 fewer councillors (626 \u2192 200) \u00d7 \u00a316,800"
+          "five_ua_methodology": "\u00a37.16M from Councillor reduction",
+          "county": 0,
+          "county_methodology": "No applicable savings"
         },
         {
-          "category": "Procurement consolidation",
-          "two_ua": 15517321,
-          "two_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 92% consolidation",
-          "three_ua": 14106656,
-          "three_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 83% consolidation",
-          "four_ua": 12695990,
-          "four_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 75% consolidation",
-          "five_ua": 11285325,
-          "five_ua_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 67% consolidation",
-          "county": 16927987,
-          "county_methodology": "3% of \u00a3564,266,250 goods/services procurement \u00d7 100% consolidation"
-        },
-        {
-          "category": "Property rationalisation",
-          "two_ua": 117936,
-          "two_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
-          "three_ua": 117936,
-          "three_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
-          "four_ua": 117936,
-          "four_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
-          "five_ua": 117936,
-          "five_ua_methodology": "5% of \u00a32,358,726 property/IT asset costs",
-          "county": 117936,
-          "county_methodology": "5% of \u00a32,358,726 property/IT asset costs"
+          "category": "Procurement",
+          "two_ua": 75747868,
+          "two_ua_methodology": "\u00a375.75M from Combined procurement",
+          "three_ua": 69921109,
+          "three_ua_methodology": "\u00a369.92M from Combined procurement",
+          "four_ua": 64094350,
+          "four_ua_methodology": "\u00a364.09M from Combined procurement",
+          "five_ua": 64094350,
+          "five_ua_methodology": "\u00a364.09M from Combined procurement",
+          "county": 0,
+          "county_methodology": "No applicable savings"
         },
         {
           "category": "Social care integration",
-          "two_ua": 8759830,
-          "two_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
-          "three_ua": 8759830,
-          "three_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
-          "four_ua": 8759830,
-          "four_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
-          "five_ua": 8759830,
-          "five_ua_methodology": "1% of adult + children's social care from reduced county/district coordination",
+          "two_ua": 7339068,
+          "two_ua_methodology": "\u00a37.34M from Adult + children's social care",
+          "three_ua": 7339068,
+          "three_ua_methodology": "\u00a37.34M from Adult + children's social care",
+          "four_ua": 7339068,
+          "four_ua_methodology": "\u00a37.34M from Adult + children's social care",
+          "five_ua": 7339068,
+          "five_ua_methodology": "\u00a37.34M from Adult + children's social care",
           "county": 0,
-          "county_methodology": "1% of adult + children's social care from reduced county/district coordination"
+          "county_methodology": "No applicable savings"
         }
       ],
       "net_annual": {
         "two_ua": {
-          "gross": 48152033,
+          "gross": 126587400,
           "costs": -20700000,
-          "net": 27452033
+          "net": 105887400
         },
         "three_ua": {
-          "gross": 44892303,
+          "gross": 119848500,
           "costs": -31050000,
-          "net": 13842303
+          "net": 88798500
         },
         "four_ua": {
-          "gross": 41204473,
+          "gross": 113109600,
           "costs": -41400000,
-          "net": -195527
+          "net": 71709600
         },
         "five_ua": {
-          "gross": 37445033,
+          "gross": 113109600,
           "costs": -51750000,
-          "net": -14304967
+          "net": 61359600
         },
         "county": {
-          "gross": 42260034,
+          "gross": 0,
           "costs": -10350000,
-          "net": 31910034
+          "net": -10350000
         }
       }
     },
@@ -933,53 +946,53 @@
       {
         "model": "two_unitary",
         "label": "East & West Lancashire",
-        "annual_saving": 48152033,
+        "annual_saving": 126587400,
         "transition_cost": 62100000,
-        "payback_years": 1.3,
-        "ten_year_net": 419420330,
-        "realistic_ten_year_net": 314565247
+        "payback_years": 0.5,
+        "ten_year_net": 1203774000,
+        "realistic_ten_year_net": 871780500
       },
       {
         "model": "three_unitary",
         "label": "Three Unitaries",
-        "annual_saving": 44892303,
+        "annual_saving": 119848500,
         "transition_cost": 93150000,
-        "payback_years": 2.1,
-        "ten_year_net": 355773030,
-        "realistic_ten_year_net": 266829772
+        "payback_years": 0.8,
+        "ten_year_net": 1105335000,
+        "realistic_ten_year_net": 782426250
       },
       {
         "model": "four_unitary",
         "label": "Four Unitaries",
-        "annual_saving": 41204473,
+        "annual_saving": 113109600,
         "transition_cost": 124200000,
-        "payback_years": 3.0,
-        "ten_year_net": 287844730,
-        "realistic_ten_year_net": 215883547
+        "payback_years": 1.1,
+        "ten_year_net": 1006896000,
+        "realistic_ten_year_net": 693072000
       },
       {
         "model": "five_unitary",
         "label": "Five Unitaries",
-        "annual_saving": 37445033,
+        "annual_saving": 113109600,
         "transition_cost": 155250000,
-        "payback_years": 4.1,
-        "ten_year_net": 219200330,
-        "realistic_ten_year_net": 164400247
+        "payback_years": 1.4,
+        "ten_year_net": 975846000,
+        "realistic_ten_year_net": 654259500
       },
       {
         "model": "county_unitary",
         "label": "Greater Lancashire (County Unitary)",
-        "annual_saving": 42260034,
+        "annual_saving": 0,
         "transition_cost": 31050000,
-        "payback_years": 0.7,
-        "ten_year_net": 391550340,
-        "realistic_ten_year_net": 293662755
+        "payback_years": null,
+        "ten_year_net": -31050000,
+        "realistic_ten_year_net": -38812500
       }
     ],
     "presentation_comparison": {
       "two_unitary": {
         "newton_europe_savings": 140000000,
-        "doge_computed_savings": 48152033,
+        "doge_computed_savings": 126587400,
         "variance": -91847967,
         "variance_pct": -65.6,
         "newton_transition": 116000000,
@@ -988,7 +1001,7 @@
       },
       "three_unitary": {
         "newton_europe_savings": 99000000,
-        "doge_computed_savings": 44892303,
+        "doge_computed_savings": 119848500,
         "variance": -54107697,
         "variance_pct": -54.7,
         "newton_transition": 135000000,
@@ -997,7 +1010,7 @@
       },
       "four_unitary": {
         "newton_europe_savings": 47000000,
-        "doge_computed_savings": 41204473,
+        "doge_computed_savings": 113109600,
         "variance": -5795527,
         "variance_pct": -12.3,
         "newton_transition": 153000000,
