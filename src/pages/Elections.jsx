@@ -234,20 +234,39 @@ export default function Elections() {
   }, [selectedWard, electionsData])
 
   // Demographics/deprivation maps indexed by ward name
+  // Data may be array [{ward_name, ...}] or object {code: {name, ...}} or {name: {...}}
   const demographicsMap = useMemo(() => {
     if (!demographicsData?.wards) return {}
+    const wards = demographicsData.wards
     const map = {}
-    for (const ward of demographicsData.wards) {
-      if (ward.ward_name) map[ward.ward_name] = ward
+    if (Array.isArray(wards)) {
+      for (const ward of wards) {
+        if (ward.ward_name) map[ward.ward_name] = ward
+      }
+    } else {
+      // Object keyed by ward code or name
+      for (const [key, ward] of Object.entries(wards)) {
+        const name = ward.ward_name || ward.name || key
+        map[name] = { ...ward, ward_name: name }
+      }
     }
     return map
   }, [demographicsData])
 
   const deprivationMap = useMemo(() => {
     if (!deprivationData?.wards) return {}
+    const wards = deprivationData.wards
     const map = {}
-    for (const ward of deprivationData.wards) {
-      if (ward.ward_name) map[ward.ward_name] = ward
+    if (Array.isArray(wards)) {
+      for (const ward of wards) {
+        if (ward.ward_name) map[ward.ward_name] = ward
+      }
+    } else {
+      // Object keyed by ward name
+      for (const [key, ward] of Object.entries(wards)) {
+        const name = ward.ward_name || ward.name || key
+        map[name] = { ...ward, ward_name: name }
+      }
     }
     return map
   }, [deprivationData])
@@ -295,12 +314,11 @@ export default function Elections() {
     }))
   }, [lgrData, builderSeatTotals, councilId])
 
-  // Demographics scatter data
+  // Demographics scatter data — uses demographicsMap (already normalized from object or array)
   const demoScatterData = useMemo(() => {
-    if (!demographicsData?.wards || !electionsData?.wards) return []
+    if (!Object.keys(demographicsMap).length || !electionsData?.wards) return []
     const points = []
-    for (const dWard of demographicsData.wards) {
-      const wardName = dWard.ward_name
+    for (const [wardName, dWard] of Object.entries(demographicsMap)) {
       const eWard = electionsData.wards[wardName]
       if (!eWard?.history?.length) continue
       const latest = [...eWard.history].sort((a, b) => b.date.localeCompare(a.date))[0]
@@ -314,7 +332,7 @@ export default function Elections() {
       })
     }
     return points
-  }, [demographicsData, electionsData, deprivationMap])
+  }, [demographicsMap, electionsData, deprivationMap])
 
   // --- Callbacks ---
   const scrollToSection = useCallback((sectionId) => {
