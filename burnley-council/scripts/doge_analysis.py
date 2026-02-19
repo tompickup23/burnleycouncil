@@ -2414,6 +2414,71 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
                             "budget_pounds": budget_val,
                         }
 
+    # ── Integrity / Network Crossover findings ──
+    integrity_path = DATA_DIR / council_id / "integrity.json"
+    integrity_data = None
+    if integrity_path.exists():
+        try:
+            with open(integrity_path) as f:
+                integrity_data = json.load(f)
+        except Exception:
+            pass
+
+    if integrity_data:
+        # Count network crossover links
+        total_nc_links = 0
+        nc_findings = []
+        for cllr in integrity_data.get("councillors", []):
+            nc = cllr.get("network_crossover", {})
+            if nc.get("total_links", 0) > 0:
+                total_nc_links += nc["total_links"]
+                for link in nc.get("links", []):
+                    nc_findings.append({
+                        "councillor": cllr.get("name", "?"),
+                        "co_director": link.get("co_director", "?"),
+                        "supplier": link.get("supplier_company", "?"),
+                        "spend": link.get("supplier_spend", 0),
+                        "severity": link.get("severity", "warning"),
+                    })
+
+        if total_nc_links > 0:
+            # Add as DOGE finding
+            top_spend = sum(nc.get("spend", 0) for nc in nc_findings[:5])
+            findings.append({
+                "value": str(total_nc_links),
+                "label": "Network Crossover Links",
+                "detail": f"{total_nc_links} indirect councillor-supplier connections detected via co-director networks. Business associates of councillors are connected to companies supplying the council.",
+                "severity": "critical" if any(nc["severity"] == "critical" for nc in nc_findings) else "warning",
+                "confidence": "medium",
+                "link": "/integrity",
+            })
+
+            # Top network crossover as key finding
+            for nc in sorted(nc_findings, key=lambda x: x["spend"], reverse=True)[:2]:
+                if nc["spend"] >= 10000:
+                    key_findings.append({
+                        "icon": "network",
+                        "badge": nc["severity"].title(),
+                        "title": f"Cllr {nc['councillor']}: co-director '{nc['co_director']}' linked to supplier '{nc['supplier']}'",
+                        "description": f"Indirect link via shared company directorship. Supplier received {fmt_gbp(nc['spend'])} from council.",
+                        "link": "/integrity",
+                        "link_text": "View integrity check →",
+                        "severity": "alert" if nc["severity"] == "critical" else "warning",
+                        "confidence": "medium",
+                    })
+
+        # High-risk councillors summary
+        high_risk = [c for c in integrity_data.get("councillors", []) if c.get("risk_level") == "high"]
+        if len(high_risk) >= 2:
+            findings.append({
+                "value": str(len(high_risk)),
+                "label": "High-Risk Councillors",
+                "detail": f"{len(high_risk)} councillors scored 'high risk' in integrity assessment across {len(integrity_data.get('data_sources', ['CH']))} data sources. Most common flags: undeclared interests, supplier conflicts, and company compliance issues.",
+                "severity": "warning",
+                "confidence": "high",
+                "link": "/integrity",
+            })
+
     # ── Contract cross-reference (Phase 3e) ──
     contract_data = None
     if contract_crossref and council_id in contract_crossref:
@@ -2450,6 +2515,17 @@ def generate_doge_findings(council_id, duplicates, cross_council, patterns, comp
     if contract_data:
         result["contract_crossref"] = contract_data
         result["analyses_run"].append("contract_crossref")
+    if integrity_data:
+        summary = integrity_data.get("summary", {})
+        result["integrity_summary"] = {
+            "councillors_checked": integrity_data.get("councillors_checked", 0),
+            "high_risk": summary.get("risk_distribution", {}).get("high", 0),
+            "elevated_risk": summary.get("risk_distribution", {}).get("elevated", 0),
+            "supplier_conflicts": summary.get("supplier_conflicts", 0),
+            "network_crossover_links": summary.get("network_crossover_links", 0),
+            "red_flags_total": summary.get("red_flags_total", 0),
+        }
+        result["analyses_run"].append("integrity")
     return result
 
 

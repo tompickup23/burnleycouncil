@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2 } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
-import { formatCurrency } from '../utils/format'
+import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -76,13 +77,21 @@ function CrossCouncil() {
   // When showing all tiers, use all categories; otherwise filter to relevant tier
   const serviceCategories = showAllTiers ? UPPER_TIER_SERVICE_CATEGORIES
     : councilTier === 'district' ? DISTRICT_SERVICE_CATEGORIES : UPPER_TIER_SERVICE_CATEGORIES
-  const serviceData = useMemo(() => serviceCategories.map(cat => {
-    const row = { category: ALL_SERVICE_LABELS[cat] || cat }
-    councils.forEach(c => {
-      row[c.council_id] = Math.round((c.service_expenditure?.[cat] || 0) / (c.population || 1))
+  // Service expenditure values in cross_council.json are already in £'000s from the ETL.
+  // We divide by population to get £'000s per head, then multiply by 1000 to show £ per head.
+  const serviceData = useMemo(() => {
+    const rows = serviceCategories.map(cat => {
+      const row = { category: ALL_SERVICE_LABELS[cat] || cat }
+      councils.forEach(c => {
+        const valInThousands = c.service_expenditure?.[cat] || 0
+        const pop = c.population || 1
+        row[c.council_id] = Math.round((valInThousands * 1000) / pop)
+      })
+      return row
     })
-    return row
-  }), [councils, serviceCategories])
+    // Filter out categories where ALL councils have zero (e.g. education for district-only view)
+    return rows.filter(row => councils.some(c => (row[c.council_id] || 0) !== 0))
+  }, [councils, serviceCategories])
 
   // Council Tax Band D comparison
   const councilTaxData = useMemo(() => councils
@@ -161,6 +170,15 @@ function CrossCouncil() {
       isCurrent: c.council_name === councilName,
     }
   }).sort((a, b) => b.value - a.value), [councils, councilName])
+
+  // Shared suppliers across councils
+  const sharedSuppliers = useMemo(() => {
+    const suppliers = comparison?.supplier_index?.shared_suppliers || []
+    return suppliers
+      .filter(s => s.supplier && s.supplier !== 'UNKNOWN' && s.councils_count >= 2)
+      .sort((a, b) => b.total_spend - a.total_spend)
+      .slice(0, 15)
+  }, [comparison])
 
   if (loading) return <LoadingState message="Loading comparison data..." />
   if (error) return (
@@ -298,21 +316,23 @@ function CrossCouncil() {
       </section>
 
       {/* Service Expenditure Per Head */}
+      {serviceData.length > 0 && (
       <section className="cross-section">
-        <h2><BarChart3 size={22} /> Service Expenditure Per Head (£'000s)</h2>
+        <h2><BarChart3 size={22} /> Service Expenditure Per Head</h2>
         <p className="section-intro">
-          GOV.UK revenue outturn data (2024-25) divided by population, showing how each council allocates spending across service categories.
+          GOV.UK revenue outturn data (2024-25) divided by population, showing how each council allocates spending per resident across service categories.
+          {showAllTiers && ' District councils show zero for upper-tier services (education, social care) as these are provided by the county council.'}
         </p>
         <div className="chart-container" role="img" aria-label="Grouped bar chart comparing service expenditure per head across councils">
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={serviceData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
               <XAxis dataKey="category" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 11 }} />
-              <YAxis tickFormatter={v => `£${v}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+              <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
               <Tooltip
                 formatter={(v, name) => {
                   const label = councils.find(c => c.council_id === name)?.council_name || name
-                  return [`£${v.toLocaleString()}k per head`, label]
+                  return [`£${v.toLocaleString()} per head`, label]
                 }}
                 contentStyle={TOOLTIP_STYLE}
               />
@@ -324,6 +344,8 @@ function CrossCouncil() {
           </ResponsiveContainer>
         </div>
       </section>
+      )}
+
 
       {/* Council Tax Band D Comparison */}
       {councilTaxData.length > 0 && (
@@ -519,6 +541,52 @@ function CrossCouncil() {
           ))}
         </div>
       </section>
+
+      {/* Shared Suppliers Across Councils */}
+      {sharedSuppliers.length > 0 && (
+        <section className="cross-section">
+          <h2><Building2 size={22} /> Shared Suppliers Across Councils</h2>
+          <p className="section-intro">
+            Suppliers operating across multiple Lancashire councils. Cross-council suppliers may benefit from
+            economies of scale — or may indicate concentration risk.
+          </p>
+          <div className="shared-suppliers-table-wrapper">
+            <table className="shared-suppliers-table" role="table" aria-label="Shared suppliers across councils">
+              <thead>
+                <tr>
+                  <th scope="col">Supplier</th>
+                  <th scope="col">Councils</th>
+                  <th scope="col">Total Spend</th>
+                  <th scope="col">Top Councils</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sharedSuppliers.map((s, i) => (
+                  <tr key={i}>
+                    <td className="shared-supplier-name-cell">
+                      <Link to={`/supplier/${slugify(s.supplier)}`} className="shared-supplier-link">
+                        {s.supplier}
+                      </Link>
+                    </td>
+                    <td className="shared-supplier-count">{s.councils_count}</td>
+                    <td className="shared-supplier-spend">{formatCurrency(s.total_spend, true)}</td>
+                    <td className="shared-supplier-councils">
+                      {(s.councils || []).slice(0, 3).map((c, j) => (
+                        <span key={j} className="shared-council-tag" style={{ color: COUNCIL_COLORS[c.council_id] || '#8e8e93' }}>
+                          {c.council_name} ({formatCurrency(c.spend, true)})
+                        </span>
+                      ))}
+                      {(s.councils || []).length > 3 && (
+                        <span className="shared-council-more">+{s.councils.length - 3} more</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       {/* Methodology Note */}
       <section className="cross-section">

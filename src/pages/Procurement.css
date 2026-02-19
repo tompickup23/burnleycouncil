@@ -361,6 +361,26 @@
   font-size: 0.875rem;
 }
 
+.procurement-supplier-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent, #0a84ff);
+  transition: color 0.15s ease;
+}
+
+.procurement-supplier-link:hover {
+  color: var(--accent, #0a84ff);
+  border-bottom-style: solid;
+}
+
+.single-bid-warning {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  color: #ff9f0a;
+  vertical-align: middle;
+}
+
 .procurement-link-col {
   width: 48px;
   text-align: center;

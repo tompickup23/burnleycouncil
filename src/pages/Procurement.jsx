@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown, ChevronDown, PoundSterling, Filter, X } from 'lucide-react'
+import { useNavigate, Link } from 'react-router-dom'
+import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown, ChevronDown, PoundSterling, Filter, X, AlertTriangle } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
-import { formatCurrency, formatNumber, formatDate } from '../utils/format'
+import { formatCurrency, formatNumber, formatDate, slugify } from '../utils/format'
 import { CHART_COLORS, TOOLTIP_STYLE } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -65,7 +65,7 @@ function SortHeader({ field, label, sortField, sortDir, onSort }) {
 }
 
 function ContractDetail({ contract, onViewSpending }) {
-  const hasTimeline = contract.published_date || contract.deadline_date || contract.awarded_date
+  const hasTimeline = contract.published_date || contract.deadline_date || contract.awarded_date || contract.contract_start || contract.contract_end
   return (
     <div className="contract-detail">
       {contract.description && (
@@ -99,17 +99,36 @@ function ContractDetail({ contract, onViewSpending }) {
                 <span className="timeline-date">{formatDate(contract.awarded_date)}</span>
               </div>
             )}
+            {contract.contract_start && (
+              <div className="timeline-item">
+                <span className="timeline-dot timeline-published" />
+                <span className="timeline-label">Contract Start</span>
+                <span className="timeline-date">{formatDate(contract.contract_start)}</span>
+              </div>
+            )}
+            {contract.contract_end && (
+              <div className="timeline-item">
+                <span className="timeline-dot timeline-deadline" />
+                <span className="timeline-label">Contract End</span>
+                <span className="timeline-date">{formatDate(contract.contract_end)}</span>
+              </div>
+            )}
           </div>
         </div>
       )}
       <div className="contract-detail-meta">
         {contract.notice_type && <span className="detail-tag">Type: {contract.notice_type}</span>}
+        {contract.procedure_type && <span className="detail-tag">Procedure: {contract.procedure_type}</span>}
         {contract.cpv_description && <span className="detail-tag">CPV: {contract.cpv_description}</span>}
         {contract.awarded_to_sme !== null && contract.awarded_to_sme !== undefined && (
           <span className="detail-tag">{contract.awarded_to_sme ? 'SME' : 'Non-SME'}</span>
         )}
+        {contract.framework && <span className="detail-tag framework-tag">Framework</span>}
         {contract.region && <span className="detail-tag">{contract.region}</span>}
         {contract.value_low > 0 && <span className="detail-tag">Estimated: {formatCurrency(contract.value_low, true)}</span>}
+        {contract.bid_count != null && <span className="detail-tag">Bids: {contract.bid_count}{contract.bid_count === 1 ? ' ⚠️' : ''}</span>}
+        {contract.contract_start && <span className="detail-tag">Start: {formatDate(contract.contract_start)}</span>}
+        {contract.contract_end && <span className="detail-tag">End: {formatDate(contract.contract_end)}</span>}
       </div>
       <div className="contract-detail-actions">
         {contract.url && (
@@ -434,7 +453,7 @@ function Procurement() {
               <div key={i} className="procurement-supplier-card">
                 <span className="procurement-supplier-rank">#{i + 1}</span>
                 <div className="procurement-supplier-info">
-                  <span className="procurement-supplier-name">{decodeHtmlEntities(s.name)}</span>
+                  <Link to={`/supplier/${slugify(decodeHtmlEntities(s.name))}`} className="procurement-supplier-name procurement-supplier-link" onClick={e => e.stopPropagation()}>{decodeHtmlEntities(s.name)}</Link>
                   <span className="procurement-supplier-detail">
                     {s.contracts} contract{s.contracts !== 1 ? 's' : ''} &middot; {formatCurrency(s.total_value, true)}
                   </span>
@@ -595,7 +614,21 @@ function Procurement() {
                           : '-'}
                     </td>
                     <td className="procurement-supplier-cell">
-                      {c.awarded_supplier ? decodeHtmlEntities(c.awarded_supplier) : <span className="text-secondary">-</span>}
+                      {c.awarded_supplier && c.awarded_supplier !== 'NOT AWARDED TO SUPPLIER' ? (
+                        <Link
+                          to={`/supplier/${slugify(decodeHtmlEntities(c.awarded_supplier))}`}
+                          className="procurement-supplier-link"
+                          onClick={e => e.stopPropagation()}
+                          title="View supplier profile"
+                        >
+                          {decodeHtmlEntities(c.awarded_supplier)}
+                        </Link>
+                      ) : <span className="text-secondary">{c.awarded_supplier === 'NOT AWARDED TO SUPPLIER' ? 'Not awarded' : '-'}</span>}
+                      {c.bid_count === 1 && (
+                        <span className="single-bid-warning" title="Single bidder — no competition">
+                          <AlertTriangle size={12} />
+                        </span>
+                      )}
                     </td>
                     <td className="procurement-link-col">
                       {c.url && (

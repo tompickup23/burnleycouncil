@@ -586,6 +586,18 @@
   display: block;
 }
 
+.supplier-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent, #0a84ff);
+  transition: color 0.15s ease;
+}
+
+.supplier-link:hover {
+  color: var(--accent, #0a84ff);
+  border-bottom-style: solid;
+}
+
 .covid-badge {
   display: inline-block;
   margin-left: 6px;

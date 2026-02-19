@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Building, Shield, AlertTriangle, Users, FileText, Calendar, ExternalLink, MapPin, Briefcase, CheckCircle, XCircle } from 'lucide-react'
+import { ArrowLeft, Building, Building2, Shield, AlertTriangle, Users, FileText, Calendar, ExternalLink, MapPin, Briefcase, CheckCircle, XCircle, Scale, Handshake, PoundSterling } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { formatCurrency, formatNumber, formatDate, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { SEVERITY_COLORS, TOOLTIP_STYLE } from '../utils/constants'
+import { SEVERITY_COLORS, TOOLTIP_STYLE, COUNCIL_COLORS } from '../utils/constants'
 import './SupplierView.css'
 
 const RISK_COLORS = {
@@ -21,9 +21,53 @@ function SupplierView() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const { supplierId } = useParams()
-  const { data: profilesData, loading, error } = useData('/data/supplier_profiles.json')
+
+  // Try full profiles first, then lightweight index
+  const { data: profilesData, loading: loading1 } = useData('/data/supplier_profiles.json')
+  const { data: indexData, loading: loading2 } = useData('/data/supplier_index.json')
+  const { data: integrityData } = useData('/data/integrity.json')
+  const { data: procurementData } = useData('/data/procurement.json')
 
   const profile = profilesData?.profiles?.find(p => p.id === supplierId)
+    || indexData?.profiles?.find(p => p.id === supplierId)
+  const isLightweight = !profilesData?.profiles?.find(p => p.id === supplierId) && !!profile
+  // Show loading while either source is still loading AND we haven't found a profile yet
+  // This prevents "not found" flash when profiles 404s but index is still loading
+  const loading = !profile && (loading1 || loading2)
+
+  // Find councillors with conflicts related to this supplier
+  const councillorConflicts = useMemo(() => {
+    if (!integrityData?.councillors || !profile) return []
+    const canonical = (profile.canonical || profile.name || '').toUpperCase()
+    if (!canonical) return [] // Guard against empty string matching everything
+    const matchSupplier = (sc) => {
+      const supplierName = (sc.supplier_match?.supplier || '').toUpperCase()
+      if (!supplierName) return false
+      return supplierName.includes(canonical) || canonical.includes(supplierName)
+    }
+    return integrityData.councillors
+      .filter(c => (c.supplier_conflicts || []).some(matchSupplier))
+      .map(c => ({
+        name: c.name,
+        party: c.party,
+        ward: c.ward,
+        risk_level: c.risk_level,
+        conflicts: c.supplier_conflicts.filter(matchSupplier),
+      }))
+  }, [integrityData, profile])
+
+  // Find procurement contracts for this supplier
+  const supplierContracts = useMemo(() => {
+    if (!procurementData?.contracts || !profile) return []
+    const names = [profile.canonical, profile.name, ...(profile.aliases || [])].filter(Boolean)
+    const normalise = s => (s || '').toLowerCase().replace(/&amp;/g, '&').replace(/[^a-z0-9]/g, '')
+    const normNames = names.map(normalise)
+    return procurementData.contracts.filter(c => {
+      if (!c.awarded_supplier) return false
+      const norm = normalise(c.awarded_supplier)
+      return normNames.some(n => norm.includes(n) || n.includes(norm))
+    })
+  }, [procurementData, profile])
 
   useEffect(() => {
     if (profile) {
@@ -38,15 +82,6 @@ function SupplierView() {
 
   if (loading) {
     return <LoadingState message="Loading supplier profile..." />
-  }
-
-  if (error) {
-    return (
-      <div className="page-error">
-        <h2>Unable to load data</h2>
-        <p>Please try refreshing the page.</p>
-      </div>
-    )
   }
 
   if (!profile) {
@@ -65,8 +100,23 @@ function SupplierView() {
     )
   }
 
-  const { spending, companies_house, compliance, governance } = profile
+  // Handle both full profiles (nested objects) and lightweight index (flat fields)
+  const spending = profile.spending || null
+  const companies_house = profile.companies_house || (profile.ch_number ? {
+    company_number: profile.ch_number,
+    status: profile.ch_status,
+    url: profile.ch_url,
+    sic_codes: profile.ch_sic_codes,
+    company_type: profile.ch_type,
+    incorporated: profile.ch_incorporated,
+  } : null)
+  const compliance = profile.compliance || (profile.risk_level ? {
+    risk_level: profile.risk_level,
+  } : null)
+  const governance = profile.governance || null
   const riskColor = compliance ? RISK_COLORS[compliance.risk_level] || RISK_COLORS.low : null
+  const integrityScore = profile.integrity_score ?? null
+  const integrityFlags = profile.integrity_flags || []
 
   // Prepare chart data
   const yearChartData = spending?.by_year
@@ -81,12 +131,30 @@ function SupplierView() {
         .sort((a, b) => Number(a.quarter.replace('Q', '')) - Number(b.quarter.replace('Q', '')))
     : []
 
+  // Cross-council chart data (from lightweight profiles)
+  const councilChartData = useMemo(() => {
+    if (spending?.by_council) {
+      return spending.by_council.map(c => ({
+        council: (c.council || '').replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase()),
+        amount: c.total,
+      })).sort((a, b) => b.amount - a.amount)
+    }
+    if (profile.councils?.length > 1) {
+      // Lightweight index doesn't have per-council breakdown, just show council count
+      return null
+    }
+    return null
+  }, [spending, profile])
+
   const statusLabel = companies_house?.status
     ? companies_house.status.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
     : null
 
   const isActive = companies_house?.status === 'active'
   const isDissolved = companies_house?.dissolved != null
+  const chUrl = companies_house?.url || (companies_house?.company_number
+    ? `https://find-and-update.company-information.service.gov.uk/company/${companies_house.company_number}`
+    : null)
 
   return (
     <div className="supplier-view animate-fade-in">
@@ -129,6 +197,25 @@ function SupplierView() {
                 {(compliance.risk_level || 'unknown').charAt(0).toUpperCase() + (compliance.risk_level || 'unknown').slice(1)} Risk
               </span>
             )}
+            {integrityScore !== null && (
+              <span className={`integrity-score-badge ${integrityScore >= 80 ? 'good' : integrityScore >= 50 ? 'medium' : 'poor'}`}>
+                <Scale size={14} />
+                Integrity: {integrityScore}/100
+              </span>
+            )}
+            {chUrl && (
+              <a
+                href={chUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ch-hero-btn"
+                onClick={e => e.stopPropagation()}
+              >
+                <Building2 size={14} />
+                Companies House
+                <ExternalLink size={12} />
+              </a>
+            )}
           </div>
         </div>
         {profile.aliases && profile.aliases.length > 0 && (
@@ -144,11 +231,11 @@ function SupplierView() {
       {/* Stats Grid */}
       <section className="supplier-stats-grid">
         <div className="supplier-stat-card highlight">
-          <span className="supplier-stat-value">{formatCurrency(spending?.total_all_councils, true)}</span>
-          <span className="supplier-stat-label">Total Spend (All Councils)</span>
+          <span className="supplier-stat-value">{formatCurrency(spending?.total_all_councils || profile.total_spend, true)}</span>
+          <span className="supplier-stat-label">Total Spend{(spending?.councils_count || profile.councils_count || 0) > 1 ? ' (All Councils)' : ''}</span>
         </div>
         <div className="supplier-stat-card">
-          <span className="supplier-stat-value">{formatNumber(spending?.transaction_count)}</span>
+          <span className="supplier-stat-value">{formatNumber(spending?.transaction_count || profile.transaction_count)}</span>
           <span className="supplier-stat-label">Transactions</span>
         </div>
         <div className="supplier-stat-card">
@@ -160,17 +247,29 @@ function SupplierView() {
           <span className="supplier-stat-label">Max Payment</span>
         </div>
         <div className="supplier-stat-card">
-          <span className="supplier-stat-value">{formatNumber(spending?.councils_count)}</span>
+          <span className="supplier-stat-value">{formatNumber(spending?.councils_count || profile.councils_count)}</span>
           <span className="supplier-stat-label">Councils Supplying</span>
         </div>
-        <div className="supplier-stat-card">
-          <span className="supplier-stat-value">
-            {profile.metadata?.data_quality != null
-              ? formatPercent(profile.metadata.data_quality * 100, 0)
-              : '-'}
-          </span>
-          <span className="supplier-stat-label">Data Quality</span>
-        </div>
+        {supplierContracts.length > 0 ? (
+          <div className="supplier-stat-card">
+            <span className="supplier-stat-value">{supplierContracts.length}</span>
+            <span className="supplier-stat-label">Public Contracts</span>
+          </div>
+        ) : councillorConflicts.length > 0 ? (
+          <div className="supplier-stat-card">
+            <span className="supplier-stat-value" style={{ color: '#ff9f0a' }}>{councillorConflicts.length}</span>
+            <span className="supplier-stat-label">Councillor Links</span>
+          </div>
+        ) : (
+          <div className="supplier-stat-card">
+            <span className="supplier-stat-value">
+              {profile.metadata?.data_quality != null
+                ? formatPercent(profile.metadata.data_quality * 100, 0)
+                : '-'}
+            </span>
+            <span className="supplier-stat-label">Data Quality</span>
+          </div>
+        )}
       </section>
 
       {/* Charts Section */}
@@ -525,16 +624,177 @@ function SupplierView() {
         </section>
       )}
 
+      {/* Cross-Council Comparison Chart */}
+      {councilChartData && councilChartData.length > 1 && (
+        <section className="supplier-section">
+          <h2><Building2 size={22} /> Cross-Council Comparison</h2>
+          <div className="supplier-chart-card">
+            <ResponsiveContainer width="100%" height={Math.max(200, councilChartData.length * 45)}>
+              <BarChart data={councilChartData} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <XAxis
+                  type="number"
+                  tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }}
+                  tickFormatter={(v) => formatCurrency(v, true)}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  type="category"
+                  dataKey="council"
+                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  width={120}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip
+                  contentStyle={TOOLTIP_STYLE}
+                  formatter={(value) => [formatCurrency(value), 'Spend']}
+                />
+                <Bar dataKey="amount" fill="#bf5af2" radius={[0, 6, 6, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Integrity Flags (from lightweight index) */}
+      {integrityFlags.length > 0 && (
+        <section className="supplier-section">
+          <h2><Scale size={22} /> Supplier Integrity Assessment</h2>
+          <div className="integrity-assessment-card">
+            <div className="integrity-score-header">
+              <div className={`integrity-score-circle ${integrityScore >= 80 ? 'good' : integrityScore >= 50 ? 'medium' : 'poor'}`}>
+                <span className="score-value">{integrityScore}</span>
+                <span className="score-max">/100</span>
+              </div>
+              <div className="integrity-score-detail">
+                <h4>{integrityScore >= 80 ? 'Good Standing' : integrityScore >= 50 ? 'Some Concerns' : 'Significant Issues'}</h4>
+                <p>{integrityFlags.length} issue{integrityFlags.length !== 1 ? 's' : ''} identified from Companies House records</p>
+              </div>
+            </div>
+            <div className="integrity-flags-list">
+              {integrityFlags.map((flag, i) => {
+                const sevColor = flag.severity === 'critical' ? '#ff453a' : flag.severity === 'high' ? '#ff9f0a' : flag.severity === 'medium' ? '#ffd60a' : '#8e8e93'
+                return (
+                  <div key={i} className="integrity-flag-item">
+                    <span className="integrity-flag-badge" style={{ background: `${sevColor}18`, color: sevColor, borderColor: `${sevColor}40` }}>
+                      {flag.severity}
+                    </span>
+                    <span className="integrity-flag-type">{(flag.type || '').replace(/_/g, ' ')}</span>
+                    <span className="integrity-flag-detail">{flag.detail}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Councillor Conflicts Section */}
+      {councillorConflicts.length > 0 && (
+        <section className="supplier-section">
+          <h2><Handshake size={22} /> Councillor Connections</h2>
+          <p className="section-subtitle">Councillors whose business interests match this supplier</p>
+          <div className="councillor-conflicts-list">
+            {councillorConflicts.map((cllr, i) => (
+              <div key={i} className="councillor-conflict-card">
+                <div className="conflict-cllr-info">
+                  <Link to="/integrity" className="conflict-cllr-name">{cllr.name}</Link>
+                  <div className="conflict-cllr-meta">
+                    <span className="conflict-party">{cllr.party}</span>
+                    {cllr.ward && <span className="conflict-ward">{cllr.ward}</span>}
+                    <span className={`conflict-risk-badge risk-${cllr.risk_level}`}>{cllr.risk_level} risk</span>
+                  </div>
+                </div>
+                <div className="conflict-details">
+                  {cllr.conflicts.map((conf, j) => (
+                    <div key={j} className="conflict-detail-item">
+                      <AlertTriangle size={14} className="conflict-icon" />
+                      <span>{conf.supplier_match?.company_name || conf.type || 'Business interest match'}</span>
+                      {conf.supplier_match?.ch_url && (
+                        <a href={conf.supplier_match.ch_url} target="_blank" rel="noopener noreferrer" className="conflict-ch-link">
+                          <Building2 size={12} /> CH
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Procurement Contracts Section */}
+      {supplierContracts.length > 0 && (
+        <section className="supplier-section">
+          <h2><PoundSterling size={22} /> Public Contracts</h2>
+          <p className="section-subtitle">{supplierContracts.length} contract{supplierContracts.length !== 1 ? 's' : ''} found on Contracts Finder</p>
+          <div className="supplier-table-wrapper">
+            <table className="supplier-table" role="table" aria-label="Procurement contracts for this supplier">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">Published</th>
+                  <th scope="col">Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                {supplierContracts.map((contract, i) => (
+                  <tr key={i}>
+                    <td className="contract-title-cell">{contract.title}</td>
+                    <td>
+                      <span className={`contract-status-badge ${(contract.status || '').toLowerCase().replace(/\s/g, '-')}`}>
+                        {contract.status || 'Unknown'}
+                      </span>
+                    </td>
+                    <td className="amount-cell">{contract.value_low ? formatCurrency(contract.value_low) : '-'}</td>
+                    <td className="date-cell">{contract.published_date ? formatDate(contract.published_date) : '-'}</td>
+                    <td>
+                      {contract.link && (
+                        <a
+                          href={contract.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="contract-ext-link"
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       {/* CTA */}
       <section className="supplier-cta">
         <h3>Explore full transaction history</h3>
         <p>View every payment made to {profile.name} in the spending explorer.</p>
-        <Link
-          to={`/spending?supplier=${encodeURIComponent(profile.canonical)}`}
-          className="cta-link"
-        >
-          View Transactions <ExternalLink size={16} />
-        </Link>
+        <div className="cta-buttons">
+          <Link
+            to={`/spending?supplier=${encodeURIComponent(profile.canonical || profile.name)}`}
+            className="cta-link"
+          >
+            View Transactions <ExternalLink size={16} />
+          </Link>
+          {chUrl && (
+            <a
+              href={chUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-link cta-ch"
+            >
+              <Building2 size={16} /> Companies House <ExternalLink size={14} />
+            </a>
+          )}
+        </div>
       </section>
     </div>
   )

@@ -62,8 +62,6 @@ const mockCouncillors = [
   { id: 'c1', name: 'Test Councillor', ward: 'Test Ward', party: 'Labour', party_color: '#dc241f' },
 ]
 
-const mockInsights = { total_spend: 355000000, total_records: 30580 }
-
 function renderComponent() {
   return render(
     <MemoryRouter>
@@ -91,13 +89,13 @@ describe('Integrity', () => {
   })
 
   it('renders the page heading with data', () => {
-    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, mockInsights], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Councillor Integrity Checker')).toBeInTheDocument()
   })
 
   it('renders councillor name from data', () => {
-    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, mockInsights], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Test Councillor')).toBeInTheDocument()
   })

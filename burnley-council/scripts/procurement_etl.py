@@ -91,9 +91,11 @@ COUNCILS = {
 
 CF_SEARCH_URL = 'https://www.contractsfinder.service.gov.uk/api/rest/2/search_notices/json'
 CF_NOTICE_URL = 'https://www.contractsfinder.service.gov.uk/Published/Notice/'
+CF_OCDS_URL = 'https://www.contractsfinder.service.gov.uk/api/rest/2/ocds'
 
 # Rate limit: 1 request per second, backoff on 403
 REQUEST_DELAY = 1.0
+OCDS_DELAY = 0.5  # Lighter requests, can be faster
 MAX_RETRIES = 3
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -224,6 +226,93 @@ def parse_notice(notice):
     }
 
 
+def enrich_with_ocds(contracts):
+    """Enrich contracts with OCDS data: procedure type, bid count, contract period.
+
+    Fetches /api/rest/2/ocds/{notice_id} for each awarded contract.
+    No auth required. Returns enriched contracts list.
+    """
+    enriched = 0
+    total = len([c for c in contracts if c.get('id') and c.get('status') == 'awarded'])
+    log(f'  Enriching {total} awarded contracts with OCDS data...')
+
+    for i, contract in enumerate(contracts):
+        if not contract.get('id') or contract.get('status') != 'awarded':
+            continue
+
+        notice_id = contract['id']
+        url = f'{CF_OCDS_URL}/{notice_id}'
+
+        for attempt in range(MAX_RETRIES):
+            try:
+                resp = requests.get(url, timeout=30, headers={'Accept': 'application/json'})
+                if resp.status_code == 404:
+                    break  # No OCDS data for this notice
+                if resp.status_code == 403:
+                    wait = min(120, 30 * (attempt + 1))
+                    log(f'    OCDS rate limited, waiting {wait}s...')
+                    time.sleep(wait)
+                    continue
+                resp.raise_for_status()
+
+                ocds = resp.json()
+                releases = ocds.get('releases', [])
+                if not releases:
+                    break
+
+                release = releases[0]
+                tender = release.get('tender', {})
+                awards = release.get('awards', [])
+                award = awards[0] if awards else {}
+
+                # Procedure type
+                proc_method = tender.get('procurementMethod', '')
+                proc_detail = tender.get('procurementMethodDetails', '')
+                contract['procedure_type'] = proc_detail or proc_method or None
+
+                # Bid count from tender.numberOfTenderers or awards statistics
+                num_tenderers = tender.get('numberOfTenderers')
+                if num_tenderers:
+                    contract['bid_count'] = num_tenderers
+                elif award:
+                    # Some OCDS releases have bid statistics
+                    stats = award.get('statistics', [])
+                    for stat in stats:
+                        if stat.get('id') == 'numberOfTenderers':
+                            contract['bid_count'] = stat.get('value')
+                            break
+
+                # Contract period
+                contracts_list = release.get('contracts', [])
+                if contracts_list:
+                    period = contracts_list[0].get('period', {})
+                    contract['contract_start'] = (period.get('startDate') or '')[:10] or None
+                    contract['contract_end'] = (period.get('endDate') or '')[:10] or None
+
+                # Framework flag
+                if tender.get('procurementMethodDetails', '').lower().find('framework') >= 0:
+                    contract['framework'] = True
+
+                enriched += 1
+                break
+
+            except requests.RequestException:
+                if attempt < MAX_RETRIES - 1:
+                    time.sleep(2 * (attempt + 1))
+                break
+            except (KeyError, IndexError, ValueError):
+                break
+
+        time.sleep(OCDS_DELAY)
+
+        # Progress every 20 contracts
+        if (i + 1) % 20 == 0:
+            log(f'    Progress: {i + 1}/{total} checked, {enriched} enriched')
+
+    log(f'  OCDS enrichment complete: {enriched}/{total} contracts enriched')
+    return contracts
+
+
 def compute_stats(contracts):
     """Compute summary statistics for a set of contracts."""
     total = len(contracts)
@@ -264,6 +353,18 @@ def compute_stats(contracts):
             year = d[:4]
             year_counts[year] = year_counts.get(year, 0) + 1
 
+    # Competition analysis (from OCDS enrichment)
+    bid_counts = [c.get('bid_count') for c in awarded if c.get('bid_count') is not None]
+    single_bidder = sum(1 for b in bid_counts if b == 1)
+    avg_bids = round(sum(bid_counts) / len(bid_counts), 1) if bid_counts else None
+
+    # Procedure type breakdown
+    proc_counts = {}
+    for c in contracts:
+        pt = c.get('procedure_type')
+        if pt:
+            proc_counts[pt] = proc_counts.get(pt, 0) + 1
+
     return {
         'total_notices': total,
         'awarded_count': len(awarded),
@@ -275,10 +376,18 @@ def compute_stats(contracts):
         'top_suppliers': [{'name': s, 'contracts': c, 'total_value': round(supplier_values.get(s, 0), 2)} for s, c in top_suppliers],
         'by_type': type_counts,
         'by_year': dict(sorted(year_counts.items())),
+        'competition': {
+            'contracts_with_bid_data': len(bid_counts),
+            'average_bids': avg_bids,
+            'single_bidder_count': single_bidder,
+            'single_bidder_pct': round(single_bidder / len(bid_counts) * 100, 1) if bid_counts else None,
+        } if bid_counts else None,
+        'by_procedure_type': proc_counts if proc_counts else None,
     }
 
 
-def fetch_council_procurement(council_id, published_from='2015-01-01', published_to=None):
+def fetch_council_procurement(council_id, published_from='2015-01-01', published_to=None,
+                              enrich_ocds=False):
     """Fetch all procurement data for a single council."""
     config = COUNCILS[council_id]
     all_contracts = []
@@ -306,6 +415,11 @@ def fetch_council_procurement(council_id, published_from='2015-01-01', published
     all_contracts.sort(key=lambda c: c.get('published_date') or '', reverse=True)
 
     log(f'  Matched {len(all_contracts)} contracts for {council_id}')
+
+    # Optional OCDS enrichment
+    if enrich_ocds and all_contracts:
+        all_contracts = enrich_with_ocds(all_contracts)
+
     return all_contracts
 
 
@@ -353,18 +467,23 @@ def main():
                         help='End date for search (YYYY-MM-DD, default: today)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Preview without saving files')
+    parser.add_argument('--enrich-ocds', action='store_true',
+                        help='Enrich awarded contracts with OCDS data (procedure, bids, period)')
     args = parser.parse_args()
 
     councils = [args.council] if args.council else list(COUNCILS.keys())
 
     log(f'Procurement ETL starting — {len(councils)} council(s), from {args.since}')
     log(f'Source: Contracts Finder API (no auth required)')
+    if args.enrich_ocds:
+        log(f'OCDS enrichment: ENABLED (procedure type, bid count, contract period)')
     log('')
 
     total_contracts = 0
     for council_id in councils:
         log(f'=== {council_id.upper()} ===')
-        contracts = fetch_council_procurement(council_id, args.since, args.until)
+        contracts = fetch_council_procurement(council_id, args.since, args.until,
+                                              enrich_ocds=args.enrich_ocds)
         save_procurement(council_id, contracts, dry_run=args.dry_run)
         total_contracts += len(contracts)
         log('')

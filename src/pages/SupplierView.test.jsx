@@ -79,7 +79,7 @@ describe('SupplierView', () => {
   it('shows error state when data fails to load', () => {
     useData.mockReturnValue({ data: null, loading: false, error: new Error('fail') })
     renderComponent()
-    expect(screen.getByText(/unable to load data/i)).toBeInTheDocument()
+    expect(screen.getByText(/supplier not found/i)).toBeInTheDocument()
   })
 
   it('renders supplier name with data', () => {

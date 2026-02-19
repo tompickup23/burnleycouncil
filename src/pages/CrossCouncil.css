@@ -416,6 +416,91 @@
   color: #ff453a;
 }
 
+/* Shared Suppliers */
+.shared-suppliers-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.shared-suppliers-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: rgba(28, 28, 30, 0.7);
+}
+
+.shared-suppliers-table th {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  background: rgba(28, 28, 30, 0.95);
+}
+
+.shared-suppliers-table td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+}
+
+.shared-suppliers-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.shared-supplier-name-cell {
+  font-weight: 500;
+  max-width: 250px;
+}
+
+.shared-supplier-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent, #0a84ff);
+  transition: color 0.15s ease;
+}
+
+.shared-supplier-link:hover {
+  color: var(--accent, #0a84ff);
+  border-bottom-style: solid;
+}
+
+.shared-supplier-count {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.shared-supplier-spend {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.shared-supplier-councils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.shared-council-tag {
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.shared-council-more {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
 /* Methodology Note */
 .methodology-note {
   display: flex;

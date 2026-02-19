@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
-import { formatCurrency, formatDate, truncate } from '../utils/format'
+import { formatCurrency, formatDate, truncate, slugify } from '../utils/format'
 import { CHART_COLORS, SPENDING_TYPE_LABELS, TOOLTIP_STYLE } from '../utils/constants'
 import './Spending.css'
 
@@ -132,17 +132,18 @@ function Spending() {
     script.type = 'application/ld+json'
     script.textContent = JSON.stringify(jsonLd)
     document.head.appendChild(script)
-    return () => { document.head.removeChild(script) }
+    return () => { if (script.parentNode) script.parentNode.removeChild(script) }
   }, [councilName, config.spending_threshold])
 
   // v3 chunked: default to latest financial year for fast initial load
+  // Skip when arriving from DOGE evidence chain — show all years so evidence isn't hidden
   const hasSetDefaultYear = useRef(false)
   useEffect(() => {
-    if (chunked && latestYear && !hasSetDefaultYear.current && !searchParams.get('financial_year')) {
+    if (chunked && latestYear && !hasSetDefaultYear.current && !searchParams.get('financial_year') && !dogeRef) {
       hasSetDefaultYear.current = true
       setParam('financial_year', latestYear)
     }
-  }, [chunked, latestYear, searchParams, setParam])
+  }, [chunked, latestYear, searchParams, setParam, dogeRef])
 
   // v3/v4 chunked: auto-load year when user selects one that isn't loaded yet
   useEffect(() => {
@@ -359,7 +360,7 @@ function Spending() {
       )}
 
       {/* Loading indicator (v3 year-chunked / v4 monthly-chunked) */}
-      {(yearLoading || monthLoading) && !monthLoading && (
+      {yearLoading && !monthLoading && (
         <div className="year-loading-banner">
           <div className="year-loading-spinner" />
           Loading {yearLoading} data...
@@ -383,7 +384,7 @@ function Spending() {
           <div className="stat-card-icon"><Activity size={20} /></div>
           <div className="stat-card-body">
             <span className="stat-card-value">{formatCurrency(stats.total, true)}</span>
-            <span className="stat-card-label">Total Spend</span>
+            <span className="stat-card-label">Total Spend{filters.financial_year ? ` (${filters.financial_year})` : ''}</span>
           </div>
         </div>
         <div className="stat-card">
@@ -397,14 +398,14 @@ function Spending() {
           <div className="stat-card-icon"><Building size={20} /></div>
           <div className="stat-card-body">
             <span className="stat-card-value">{stats.suppliers.toLocaleString()}</span>
-            <span className="stat-card-label">Suppliers</span>
+            <span className="stat-card-label">Unique Suppliers</span>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-card-icon"><TrendingUp size={20} /></div>
           <div className="stat-card-body">
             <span className="stat-card-value">{formatCurrency(stats.avgTransaction, true)}</span>
-            <span className="stat-card-label">Average</span>
+            <span className="stat-card-label">Avg per Transaction</span>
             <span className="stat-card-sub">Median: {formatCurrency(stats.medianAmount, true)}</span>
           </div>
         </div>
@@ -513,7 +514,14 @@ function Spending() {
                   <tr key={`${item.transaction_number}-${i}`}>
                     <td className="date-col">{formatDate(item.date)}</td>
                     <td className="supplier-col">
-                      <span className="supplier-name">{truncate(item.supplier, 35)}</span>
+                      <Link
+                        to={`/supplier/${slugify(item.supplier_canonical || item.supplier)}`}
+                        className="supplier-name supplier-link"
+                        title={item.supplier}
+                        onClick={e => e.stopPropagation()}
+                      >
+                        {truncate(item.supplier, 35)}
+                      </Link>
                       {item.is_covid_related && <span className="covid-badge">COVID</span>}
                     </td>
                     <td className="service-col text-secondary">{truncate(item.service_division?.split(' - ')[1] || item.service_division, 20)}</td>

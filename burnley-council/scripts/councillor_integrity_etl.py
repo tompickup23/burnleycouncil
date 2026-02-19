@@ -855,10 +855,16 @@ def build_co_director_network(companies, councillor_name):
             if key not in co_directors:
                 co_directors[key] = {
                     "name": oname,
+                    "officer_id": extract_officer_id(officer),
                     "shared_companies": [],
                     "roles": set(),
                     "appointed_dates": []
                 }
+            elif not co_directors[key].get("officer_id"):
+                # Fill in officer_id if we didn't get it before
+                oid = extract_officer_id(officer)
+                if oid:
+                    co_directors[key]["officer_id"] = oid
             co_directors[key]["shared_companies"].append({
                 "company_name": company.get("company_name", ""),
                 "company_number": cn,
@@ -872,12 +878,15 @@ def build_co_director_network(companies, councillor_name):
     network = []
     for key, data in co_directors.items():
         if len(data["shared_companies"]) >= 1:
-            network.append({
+            entry = {
                 "name": data["name"],
                 "shared_company_count": len(data["shared_companies"]),
                 "shared_companies": data["shared_companies"],
                 "roles": list(data["roles"]),
-            })
+            }
+            if data.get("officer_id"):
+                entry["officer_id"] = data["officer_id"]
+            network.append(entry)
 
     # Sort by most shared companies
     network.sort(key=lambda x: x["shared_company_count"], reverse=True)
@@ -887,6 +896,151 @@ def build_co_director_network(companies, councillor_name):
         "total_unique_associates": len(co_directors),
         "formation_agent_companies": formation_agent_companies,
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Network Crossover Detection (Councillor → Company → Co-Director → Supplier)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def detect_network_crossover(associates, councillor_companies, supplier_data, councillor_name):
+    """Detect paths: Councillor → Company → Co-Director → Supplier Company.
+
+    Two detection methods:
+    1. Name match: co-director's name matches a supplier name (sole trader / eponymous company)
+    2. Company match: co-director's OTHER companies (from CH) match a council supplier
+       (the stronger method — traces actual corporate connections)
+
+    Each link tracks degrees_of_separation:
+    - 1: Councillor directly linked to supplier (handled elsewhere in supplier_match)
+    - 2: Councillor → Co-Director → Supplier (co-director IS supplier or directs supplier)
+
+    Args:
+        associates: list from co_director_network["associates"]
+        councillor_companies: list of councillor's CH companies
+        supplier_data: list of supplier dicts with {supplier, total} keys
+        councillor_name: councillor's name (to exclude self-matches)
+
+    Returns:
+        dict with total_links, links[] array
+    """
+    if not associates or not supplier_data:
+        return {"total_links": 0, "links": []}
+
+    links = []
+    councillor_company_numbers = set(
+        c.get("company_number", "") for c in councillor_companies if c.get("company_number")
+    )
+
+    # Method 1: Name match (fast, no API calls)
+    for assoc in associates:
+        assoc_name = assoc.get("name", "")
+        if not assoc_name:
+            continue
+
+        supplier_matches = cross_reference_suppliers(assoc_name, supplier_data)
+        for sm in supplier_matches:
+            if sm["confidence"] >= 60:
+                shared = assoc.get("shared_companies", [{}])
+                for sc in shared[:3]:
+                    links.append({
+                        "councillor_company": sc.get("company_name", "unknown"),
+                        "co_director": assoc_name,
+                        "supplier_company": sm["supplier"],
+                        "supplier_canonical": sm["supplier"].upper(),
+                        "supplier_spend": sm.get("total_spend", 0),
+                        "link_type": "co_director_name_matches_supplier",
+                        "degrees_of_separation": 2,
+                        "confidence": sm["confidence"],
+                        "severity": "critical" if sm.get("total_spend", 0) >= 50000 else "warning",
+                    })
+                    break
+
+    # Method 2: Company match (requires CH API calls — top 5 associates only)
+    # For each associate, look up their OTHER companies and check against suppliers
+    for assoc in associates[:5]:
+        assoc_name = assoc.get("name", "")
+        officer_id = assoc.get("officer_id", "")
+        if not assoc_name:
+            continue
+
+        # If we have the officer_id, look up their appointments
+        if officer_id:
+            appointments = get_officer_appointments(officer_id, items_per_page=50)
+        else:
+            # Try to find officer_id from the shared companies' officer lists
+            officer_id = _find_officer_id_for_name(assoc_name, assoc.get("shared_companies", []))
+            if officer_id:
+                appointments = get_officer_appointments(officer_id, items_per_page=50)
+            else:
+                appointments = []
+
+        for appt in appointments:
+            cn = appt.get("appointed_to", {}).get("company_number", "")
+            company_name = appt.get("appointed_to", {}).get("company_name", "")
+            if not cn or not company_name:
+                continue
+            # Skip the councillor's own companies
+            if cn in councillor_company_numbers:
+                continue
+            # Skip resigned appointments
+            if appt.get("resigned_on"):
+                continue
+
+            # Check if this company is a council supplier
+            supplier_matches = cross_reference_suppliers(company_name, supplier_data)
+            for sm in supplier_matches:
+                if sm["confidence"] >= 70:  # Higher threshold for company-to-company
+                    shared = assoc.get("shared_companies", [{}])
+                    for sc in shared[:3]:
+                        links.append({
+                            "councillor_company": sc.get("company_name", "unknown"),
+                            "co_director": assoc_name,
+                            "co_director_company": company_name,
+                            "co_director_company_number": cn,
+                            "supplier_company": sm["supplier"],
+                            "supplier_canonical": sm["supplier"].upper(),
+                            "supplier_spend": sm.get("total_spend", 0),
+                            "link_type": "co_director_also_directs_supplier",
+                            "degrees_of_separation": 2,
+                            "confidence": sm["confidence"],
+                            "severity": "critical" if sm.get("total_spend", 0) >= 50000 else "warning",
+                        })
+                        break
+                    break  # One match per company is enough
+
+    # Deduplicate by (co_director, supplier_canonical)
+    seen = set()
+    unique_links = []
+    for link in links:
+        key = (link["co_director"].lower(), link["supplier_canonical"])
+        if key not in seen:
+            seen.add(key)
+            unique_links.append(link)
+
+    # Sort by spend descending
+    unique_links.sort(key=lambda x: x.get("supplier_spend", 0), reverse=True)
+
+    return {
+        "total_links": len(unique_links),
+        "links": unique_links[:10],
+    }
+
+
+def _find_officer_id_for_name(name, shared_companies):
+    """Look up officer_id by searching the shared company's officers list.
+    Uses the first shared company that returns a match."""
+    for sc in shared_companies[:2]:
+        cn = sc.get("company_number", "")
+        if not cn:
+            continue
+        officers = get_company_officers(cn)
+        for officer in officers:
+            oname = officer.get("name", "")
+            if name_match_score(name, oname) >= 80:
+                oid = extract_officer_id(officer)
+                if oid:
+                    return oid
+    return ""
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1471,12 +1625,19 @@ def check_fca_register(councillor_name, skip=False):
 # Load Supplier Data (Enhanced)
 # ═══════════════════════════════════════════════════════════════════════════
 
-def load_supplier_data(council_id):
-    """Load supplier data from insights.json — returns list of {supplier, total} dicts."""
+def load_supplier_data(council_id, full=False):
+    """Load supplier data for cross-reference.
+
+    When full=True: reads ALL suppliers from spending.json (v2) or spending-index.json (v3/v4).
+    When full=False: reads top-20 from insights.json (fast, for stubs/previews).
+    """
+    if full:
+        return _load_full_supplier_data(council_id)
+
+    # Fast path: top-20 from insights.json
     insights_path = DATA_DIR / council_id / "insights.json"
     if not insights_path.exists():
         return []
-
     try:
         with open(insights_path) as f:
             insights = json.load(f)
@@ -1487,11 +1648,68 @@ def load_supplier_data(council_id):
         return []
 
 
-def load_all_supplier_data():
+def _load_full_supplier_data(council_id):
+    """Load ALL suppliers from spending data for comprehensive cross-reference.
+
+    Tries in order:
+    1. spending-index.json (v3/v4) — filterOptions.suppliers + top suppliers from insights
+    2. spending.json (v2) — full records aggregated by supplier_canonical
+    3. insights.json top-20 (fallback)
+    """
+    # Try v3/v4 spending-index.json first (small file, has supplier list)
+    index_path = DATA_DIR / council_id / "spending-index.json"
+    if index_path.exists():
+        try:
+            with open(index_path) as f:
+                index_data = json.load(f)
+            supplier_names = index_data.get("filterOptions", {}).get("suppliers", [])
+            if supplier_names:
+                # Build supplier list — names from index, totals from insights where available
+                insights_totals = {}
+                insights_path = DATA_DIR / council_id / "insights.json"
+                if insights_path.exists():
+                    try:
+                        with open(insights_path) as f:
+                            insights = json.load(f)
+                        for s in insights.get("supplier_analysis", {}).get("top_20_suppliers", []):
+                            if s.get("supplier"):
+                                insights_totals[s["supplier"].upper()] = s.get("total", 0)
+                    except Exception:
+                        pass
+                result = [{"supplier": name, "total": insights_totals.get(name.upper(), 0)}
+                          for name in supplier_names if name and len(name.strip()) >= 2]
+                return result
+        except Exception:
+            pass
+
+    # Try v2 spending.json (full records — larger file but complete)
+    spending_path = DATA_DIR / council_id / "spending.json"
+    if spending_path.exists():
+        try:
+            with open(spending_path) as f:
+                spending = json.load(f)
+            # v2 format: {meta, filterOptions, records}
+            records = spending.get("records", spending) if isinstance(spending, dict) else spending
+            if isinstance(records, list):
+                supplier_totals = defaultdict(float)
+                for r in records:
+                    key = r.get("supplier_canonical") or r.get("supplier", "")
+                    if key and len(key.strip()) >= 2:
+                        supplier_totals[key] += abs(r.get("amount", 0))
+                return [{"supplier": name, "total": round(total, 2)}
+                        for name, total in supplier_totals.items()]
+        except Exception:
+            pass
+
+    # Fallback: insights.json top-20
+    return load_supplier_data(council_id, full=False)
+
+
+def load_all_supplier_data(full=False):
     """Load supplier data from ALL 15 councils for cross-council analysis."""
     all_data = {}
     for council_id in ALL_COUNCILS:
-        data = load_supplier_data(council_id)
+        data = load_supplier_data(council_id, full=full)
         if data:
             all_data[council_id] = data
     return all_data
@@ -1628,6 +1846,7 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         },
         "supplier_conflicts": [],
         "cross_council_conflicts": [],
+        "network_crossover": {"total_links": 0, "links": []},
         "misconduct_patterns": [],
         "red_flags": [],
         "integrity_score": None,
@@ -1918,6 +2137,18 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         network = build_co_director_network(active[:3], name)  # Top 3 companies
         result["co_director_network"] = network
 
+    # ── 4b. Network Crossover: Co-Director → Supplier Company ──
+    if not skip_network and result.get("co_director_network", {}).get("associates"):
+        network_crossover = detect_network_crossover(
+            result["co_director_network"]["associates"],
+            result.get("companies_house", {}).get("companies", []),
+            supplier_data, name
+        )
+        result["network_crossover"] = network_crossover
+        if network_crossover.get("total_links", 0) > 0:
+            count = network_crossover["total_links"]
+            print("      → {} network crossover link(s) detected!".format(count))
+
     # ── 5. Familial Connection Detection ──
     last_name = councillor.get("last_name", "")
     if not last_name:
@@ -2107,6 +2338,17 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             "detail": "Possible undeclared Disclosable Pecuniary Interest (family member's company is council supplier)"
         })
 
+    # Network crossover flags (co-director → supplier links)
+    nc = result.get("network_crossover", {})
+    for link in nc.get("links", []):
+        spend_str = "£{:,.0f}".format(link.get("supplier_spend", 0)) if link.get("supplier_spend") else "unknown amount"
+        all_flags.append({
+            "type": "network_crossover_link", "severity": link.get("severity", "warning"),
+            "detail": "Co-director '{}' links councillor to supplier '{}' (spend: {}) via shared company '{}'".format(
+                link.get("co_director", "?"), link.get("supplier_company", "?"),
+                spend_str, link.get("councillor_company", "?"))
+        })
+
     # Register compliance flags
     reg = result.get("register_of_interests", {})
     if reg.get("register_empty"):
@@ -2182,6 +2424,11 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         network_reasons.append("{} dissolved/liquidated companies — phoenix risk pattern".format(
             len(dissolved)))
 
+    # Network crossover links
+    nc_links = result.get("network_crossover", {}).get("total_links", 0)
+    if nc_links > 0:
+        network_reasons.append("{} network crossover link(s) — co-director connected to council supplier".format(nc_links))
+
     # Co-director network size
     co_net = result.get("co_director_network", {})
     if co_net.get("total_unique_associates", 0) >= 10:
@@ -2216,7 +2463,8 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
 # ═══════════════════════════════════════════════════════════════════════════
 
 def process_council(council_id, all_supplier_data=None,
-                    skip_ec=False, skip_fca=False, skip_network=False):
+                    skip_ec=False, skip_fca=False, skip_network=False,
+                    full_supplier_match=True):
     """Process all councillors for a given council."""
     councillors_path = DATA_DIR / council_id / "councillors.json"
     if not councillors_path.exists():
@@ -2253,12 +2501,13 @@ def process_council(council_id, all_supplier_data=None,
         cid = c.get("id", "")
         c["_register_data"] = register_data.get(cid) if register_data else None
 
-    # Load supplier data
-    supplier_data = load_supplier_data(council_id)
-    print("  {} suppliers loaded for cross-reference".format(len(supplier_data)))
+    # Load supplier data — full=True loads ALL suppliers from spending data (not just top-20)
+    supplier_data = load_supplier_data(council_id, full=full_supplier_match)
+    print("  {} suppliers loaded for cross-reference{}".format(
+        len(supplier_data), " (full spending data)" if full_supplier_match else " (top-20 only)"))
 
     if not all_supplier_data:
-        all_supplier_data = load_all_supplier_data()
+        all_supplier_data = load_all_supplier_data(full=full_supplier_match)
     print("  {} councils loaded for cross-council analysis".format(len(all_supplier_data)))
 
     sources = ["Companies House (officers, PSC, charges, disqualifications — DOB-verified)"]
@@ -2303,6 +2552,7 @@ def process_council(council_id, all_supplier_data=None,
             "co_directors_mapped": 0,
             "family_connections_found": 0,
             "family_supplier_conflicts": 0,
+            "network_crossover_links": 0,
         },
         "register_compliance": register_compliance,
         "supplier_political_donations": [],
@@ -2386,6 +2636,10 @@ def process_council(council_id, all_supplier_data=None,
                 results["summary"]["family_supplier_conflicts"] += sum(
                     1 for fm in familial.get("family_member_companies", [])
                     if fm.get("has_supplier_conflict"))
+
+                # Network crossover
+                results["summary"]["network_crossover_links"] += result.get(
+                    "network_crossover", {}).get("total_links", 0)
 
                 risk = result.get("risk_level", "low")
                 if risk in results["summary"]["risk_distribution"]:
@@ -2628,6 +2882,7 @@ def generate_stub(council_id):
             "co_directors_mapped": 0,
             "family_connections_found": 0,
             "family_supplier_conflicts": 0,
+            "network_crossover_links": 0,
         },
         "surname_clusters": [],
         "shared_address_councillors": [],
@@ -2662,6 +2917,7 @@ def generate_stub(council_id):
                 },
                 "supplier_conflicts": [],
                 "cross_council_conflicts": [],
+                "network_crossover": {"total_links": 0, "links": []},
                 "misconduct_patterns": [],
                 "red_flags": [],
                 "integrity_score": None,
@@ -2701,6 +2957,8 @@ Examples:
     parser.add_argument("--skip-ec", action="store_true", help="Skip Electoral Commission")
     parser.add_argument("--skip-fca", action="store_true", help="Skip FCA Register")
     parser.add_argument("--skip-network", action="store_true", help="Skip co-director network")
+    parser.add_argument("--quick-supplier-match", action="store_true",
+                        help="Use top-20 supplier matching only (faster, less accurate)")
     args = parser.parse_args()
 
     if args.ch_key:
@@ -2720,15 +2978,22 @@ Examples:
         run_cross_council_analysis()
         return
 
+    # Full supplier matching loads ALL suppliers from spending data (default)
+    # --quick-supplier-match reverts to top-20 from insights.json (faster)
+    full_supplier = not args.quick_supplier_match
+
     # Pre-load all supplier data for cross-council analysis
-    all_supplier_data = load_all_supplier_data()
-    print("Loaded supplier data for {} councils".format(len(all_supplier_data)))
+    all_supplier_data = load_all_supplier_data(full=full_supplier)
+    print("Loaded supplier data for {} councils ({})".format(
+        len(all_supplier_data),
+        "full spending data" if full_supplier else "top-20 only"))
 
     if args.all:
         for council_id in ALL_COUNCILS:
             process_council(council_id, all_supplier_data,
                           skip_ec=args.skip_ec, skip_fca=args.skip_fca,
-                          skip_network=args.skip_network)
+                          skip_network=args.skip_network,
+                          full_supplier_match=full_supplier)
         # Run cross-council analysis after all councils processed
         run_cross_council_analysis()
     elif args.council:
@@ -2738,7 +3003,8 @@ Examples:
             sys.exit(1)
         process_council(args.council, all_supplier_data,
                        skip_ec=args.skip_ec, skip_fca=args.skip_fca,
-                       skip_network=args.skip_network)
+                       skip_network=args.skip_network,
+                       full_supplier_match=full_supplier)
     else:
         parser.print_help()
         sys.exit(1)

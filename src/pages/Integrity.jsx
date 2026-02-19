@@ -1,9 +1,10 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home, FileText } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home, FileText, PoundSterling } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { formatCurrency } from '../utils/format'
+import { formatCurrency, slugify } from '../utils/format'
 import { SEVERITY_COLORS } from '../utils/constants'
 import './Integrity.css'
 
@@ -21,9 +22,8 @@ function Integrity() {
   const { data, loading, error } = useData([
     '/data/integrity.json',
     '/data/councillors.json',
-    '/data/insights.json',
   ])
-  const [integrity, councillorsFull, insights] = data || [null, [], null]
+  const [integrity, councillorsFull] = data || [null, []]
   const [search, setSearch] = useState('')
   const [riskFilter, setRiskFilter] = useState('')
   const [partyFilter, setPartyFilter] = useState('')
@@ -57,6 +57,7 @@ function Integrity() {
       familial_connections: c.familial_connections,
       supplier_conflicts: c.supplier_conflicts,
       cross_council_conflicts: c.cross_council_conflicts,
+      network_crossover: c.network_crossover,
       misconduct_patterns: c.misconduct_patterns,
       network_investigation: c.network_investigation,
       red_flags: c.red_flags,
@@ -204,6 +205,12 @@ function Integrity() {
               <span className="dashboard-number">{stats.family_connections_found || 0}</span>
               <span className="dashboard-label">Family Connections</span>
             </div>
+            {(stats.network_crossover_links || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.network_crossover_links}</span>
+                <span className="dashboard-label">Network Crossover Links</span>
+              </div>
+            )}
           </div>
 
           {/* Data Sources */}
@@ -594,9 +601,10 @@ function Integrity() {
                               )}
                               {company.companies_house_url && (
                                 <a href={company.companies_house_url} target="_blank" rel="noopener noreferrer"
-                                   className="ch-link" title="View on Companies House">
-                                  <ExternalLink size={12} />
-                                  CH
+                                   className="ch-link ch-link-btn" title="View on Companies House">
+                                  <Building2 size={12} />
+                                  Companies House
+                                  <ExternalLink size={10} />
                                 </a>
                               )}
                             </div>
@@ -669,10 +677,24 @@ function Integrity() {
                           <div key={i} className="conflict-row">
                             <span className="conflict-company">{conflict.company_name}</span>
                             <span className="conflict-arrow">→</span>
-                            <span className="conflict-supplier">{conflict.supplier_match?.supplier}</span>
+                            <Link
+                              to={`/supplier/${slugify(conflict.supplier_match?.supplier || '')}`}
+                              className="conflict-supplier conflict-supplier-link"
+                              onClick={e => e.stopPropagation()}
+                            >
+                              {conflict.supplier_match?.supplier}
+                            </Link>
                             <span className="conflict-confidence">
                               {conflict.supplier_match?.confidence}% match
                             </span>
+                            <Link
+                              to={`/spending?supplier=${encodeURIComponent(conflict.supplier_match?.supplier || '')}`}
+                              className="conflict-spending-btn"
+                              onClick={e => e.stopPropagation()}
+                              title="View spending for this supplier"
+                            >
+                              <PoundSterling size={11} /> Spending
+                            </Link>
                           </div>
                         ))}
                       </div>
@@ -688,7 +710,13 @@ function Integrity() {
                           <div key={i} className="conflict-row">
                             <span className="conflict-company">{conflict.company_name}</span>
                             <span className="conflict-arrow">→</span>
-                            <span className="conflict-supplier">{conflict.supplier_match?.supplier}</span>
+                            <Link
+                              to={`/supplier/${slugify(conflict.supplier_match?.supplier || '')}`}
+                              className="conflict-supplier conflict-supplier-link"
+                              onClick={e => e.stopPropagation()}
+                            >
+                              {conflict.supplier_match?.supplier}
+                            </Link>
                             <span className="conflict-council-tag">{conflict.other_council}</span>
                           </div>
                         ))}
@@ -708,6 +736,73 @@ function Integrity() {
                               {assoc.shared_company_count} shared {assoc.shared_company_count === 1 ? 'company' : 'companies'}
                             </span>
                             <span className="network-roles">{assoc.roles?.join(', ')}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Network Crossover: Co-Director → Supplier */}
+                  {councillor.network_crossover?.total_links > 0 && (
+                    <div className="crossover-section">
+                      <h4><Network size={16} /> Network Crossover — Co-Director → Supplier ({councillor.network_crossover.total_links} link{councillor.network_crossover.total_links !== 1 ? 's' : ''})</h4>
+                      <p className="crossover-explain">These are indirect links: a co-director from the councillor's business network also appears connected to a council supplier.</p>
+                      <div className="crossover-links">
+                        {councillor.network_crossover.links.map((link, i) => (
+                          <div key={i} className={`crossover-card ${link.severity}`}>
+                            <div className="crossover-path">
+                              <span className="crossover-step">
+                                <Building2 size={12} />
+                                <span className="crossover-label">Shared Company</span>
+                                <span className="crossover-value">{link.councillor_company}</span>
+                              </span>
+                              <span className="crossover-arrow">→</span>
+                              <span className="crossover-step">
+                                <Users size={12} />
+                                <span className="crossover-label">Co-Director</span>
+                                <span className="crossover-value">{link.co_director}</span>
+                              </span>
+                              <span className="crossover-arrow">→</span>
+                              {link.co_director_company && (
+                                <>
+                                  <span className="crossover-step">
+                                    <Building2 size={12} />
+                                    <span className="crossover-label">Also Directs</span>
+                                    {link.co_director_company_number ? (
+                                      <a
+                                        href={`https://find-and-update.company-information.service.gov.uk/company/${link.co_director_company_number}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="crossover-value crossover-ch-link"
+                                        onClick={e => e.stopPropagation()}
+                                      >
+                                        {link.co_director_company}
+                                      </a>
+                                    ) : (
+                                      <span className="crossover-value">{link.co_director_company}</span>
+                                    )}
+                                  </span>
+                                  <span className="crossover-arrow">≈</span>
+                                </>
+                              )}
+                              <span className="crossover-step">
+                                <Link to={`/supplier/${slugify(link.supplier_company)}`} className="crossover-supplier-link" onClick={e => e.stopPropagation()}>
+                                  <PoundSterling size={12} />
+                                  <span className="crossover-label">Council Supplier</span>
+                                  <span className="crossover-value">{link.supplier_company}</span>
+                                </Link>
+                              </span>
+                            </div>
+                            <div className="crossover-meta">
+                              <span className={`crossover-severity ${link.severity}`}>{link.severity?.toUpperCase()}</span>
+                              {link.supplier_spend > 0 && (
+                                <span className="crossover-spend">{formatCurrency(link.supplier_spend)}</span>
+                              )}
+                              <span className="crossover-link-type">
+                                {link.link_type === 'co_director_also_directs_supplier' ? 'Company match' : 'Name match'}
+                              </span>
+                              <span className="crossover-confidence">{link.confidence}% match</span>
+                            </div>
                           </div>
                         ))}
                       </div>

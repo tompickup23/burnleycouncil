@@ -732,7 +732,390 @@
 }
 
 /* ============================================ */
+/* CH Hero Button                               */
+/* ============================================ */
+.ch-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid rgba(10, 132, 255, 0.3);
+  background: rgba(10, 132, 255, 0.12);
+  color: #0a84ff;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ch-hero-btn:hover {
+  background: rgba(10, 132, 255, 0.22);
+  border-color: rgba(10, 132, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(10, 132, 255, 0.15);
+}
+
+/* Integrity Score Badge (hero) */
+.integrity-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+.integrity-score-badge.good {
+  background: rgba(48, 209, 88, 0.12);
+  color: #30d158;
+  border-color: rgba(48, 209, 88, 0.3);
+}
+
+.integrity-score-badge.medium {
+  background: rgba(255, 214, 10, 0.12);
+  color: #ffd60a;
+  border-color: rgba(255, 214, 10, 0.3);
+}
+
+.integrity-score-badge.poor {
+  background: rgba(255, 69, 58, 0.12);
+  color: #ff453a;
+  border-color: rgba(255, 69, 58, 0.3);
+}
+
+/* ============================================ */
+/* Section Subtitle                             */
+/* ============================================ */
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-top: calc(-1 * var(--space-sm));
+  margin-bottom: var(--space-md);
+}
+
+/* ============================================ */
+/* Integrity Assessment Card                    */
+/* ============================================ */
+.integrity-assessment-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.integrity-score-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.integrity-score-circle {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  min-width: 80px;
+  justify-content: center;
+}
+
+.integrity-score-circle.good {
+  background: rgba(48, 209, 88, 0.1);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+
+.integrity-score-circle.medium {
+  background: rgba(255, 214, 10, 0.1);
+  border: 1px solid rgba(255, 214, 10, 0.3);
+}
+
+.integrity-score-circle.poor {
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+}
+
+.score-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.score-max {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+.integrity-score-detail h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.integrity-score-detail p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.integrity-flags-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.integrity-flag-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  flex-wrap: wrap;
+}
+
+.integrity-flag-badge {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border: 1px solid;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.integrity-flag-type {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: capitalize;
+  flex-shrink: 0;
+}
+
+.integrity-flag-detail {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ============================================ */
+/* Councillor Conflicts Section                 */
+/* ============================================ */
+.councillor-conflicts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.councillor-conflict-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 159, 10, 0.15);
+  border-left: 4px solid rgba(255, 159, 10, 0.4);
+  transition: all 0.2s ease;
+}
+
+.councillor-conflict-card:hover {
+  border-color: rgba(255, 159, 10, 0.3);
+  box-shadow: 0 4px 20px rgba(255, 159, 10, 0.08);
+}
+
+.conflict-cllr-info {
+  margin-bottom: var(--space-md);
+}
+
+.conflict-cllr-name {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #0a84ff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.conflict-cllr-name:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.conflict-cllr-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.conflict-party,
+.conflict-ward {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.conflict-risk-badge {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.conflict-risk-badge.risk-high,
+.conflict-risk-badge.risk-critical {
+  background: rgba(255, 69, 58, 0.12);
+  color: #ff453a;
+}
+
+.conflict-risk-badge.risk-medium {
+  background: rgba(255, 159, 10, 0.12);
+  color: #ff9f0a;
+}
+
+.conflict-risk-badge.risk-low {
+  background: rgba(10, 132, 255, 0.12);
+  color: #0a84ff;
+}
+
+.conflict-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.conflict-detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+}
+
+.conflict-icon {
+  color: #ff9f0a;
+  flex-shrink: 0;
+}
+
+.conflict-ch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0a84ff;
+  text-decoration: none;
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(10, 132, 255, 0.1);
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.conflict-ch-link:hover {
+  background: rgba(10, 132, 255, 0.2);
+}
+
+/* ============================================ */
+/* Procurement Contracts                        */
+/* ============================================ */
+.contract-title-cell {
+  font-weight: 500;
+  color: var(--text-primary);
+  max-width: 300px;
+}
+
+.contract-status-badge {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.contract-status-badge.awarded,
+.contract-status-badge.closed {
+  background: rgba(48, 209, 88, 0.12);
+  color: #30d158;
+}
+
+.contract-status-badge.open {
+  background: rgba(10, 132, 255, 0.12);
+  color: #0a84ff;
+}
+
+.contract-status-badge.cancelled,
+.contract-status-badge.withdrawn {
+  background: rgba(255, 69, 58, 0.12);
+  color: #ff453a;
+}
+
+.date-cell {
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+}
+
+.contract-ext-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: #0a84ff;
+  transition: background 0.2s ease;
+}
+
+.contract-ext-link:hover {
+  background: rgba(10, 132, 255, 0.15);
+}
+
+/* ============================================ */
 /* CTA Section                                  */
+/* ============================================ */
+
+.cta-buttons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-link.cta-ch {
+  background: rgba(191, 90, 242, 0.15);
+  border-color: rgba(191, 90, 242, 0.3);
+  color: #bf5af2;
+}
+
+.cta-link.cta-ch:hover {
+  background: rgba(191, 90, 242, 0.25);
+  border-color: rgba(191, 90, 242, 0.5);
+  box-shadow: 0 4px 16px rgba(191, 90, 242, 0.2);
+}
+
+/* ============================================ */
+/* CTA Section (original styles)                */
 /* ============================================ */
 .supplier-cta {
   text-align: center;
@@ -869,5 +1252,28 @@
   .supplier-cta .cta-link {
     width: 100%;
     justify-content: center;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .integrity-score-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .conflict-cllr-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .conflict-detail-item {
+    flex-wrap: wrap;
+  }
+
+  .integrity-flag-item {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
