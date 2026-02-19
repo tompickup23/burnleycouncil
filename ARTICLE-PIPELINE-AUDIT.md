@@ -60,7 +60,7 @@ vps-main (sequential):
 - Pendle: 19 articles
 - Rossendale: 6 articles (weakest)
 - Topic discovery: 5 fixed topic types (supplier concentration, department spending, DOGE findings, spending trends, micro-spending)
-- LLM chain: Kimi K2.5 → Cerebras → Groq → DeepSeek → Ollama local
+- LLM chain: Mistral Small (free, EU/GDPR-safe) → Groq Llama 3.3 70B → Cerebras → Ollama local (updated 18 Feb 2026 via llm_router.py)
 - Verification: basic structure checks only (word count, required sections, no h1)
 
 **Issues found:**
@@ -129,7 +129,7 @@ vps-main (sequential):
 ### Current LLM Routing (updated 10 Feb 2026)
 
 ```
-AI DOGE articles:     llm_router.py → Kimi K2.5 → Cerebras → Groq → DeepSeek → Ollama
+AI DOGE articles:     llm_router.py → Mistral Small → Cerebras → Groq → Ollama (updated 18 Feb)
 News Lancashire:      ai_rewriter.py  → Gemini 2.5 Flash → Groq* → Kimi → DeepSeek*
                       ai_analyzer.py  → Gemini 2.5 Flash → Groq* → Kimi → DeepSeek*
                       ai_digest_generator.py → Gemini 2.5 Flash → Kimi → DeepSeek*

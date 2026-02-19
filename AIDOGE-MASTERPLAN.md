@@ -1,5 +1,5 @@
-# AI DOGE MASTER PLAN v14.0
-## 16 February 2026 — Phases 1-15 Substantially Complete, All 15 Lancashire Councils Live
+# AI DOGE MASTER PLAN v15.0
+## 19 February 2026 — Phases 1-17 Complete, All 15 Lancashire Councils Live
 
 ---
 
@@ -9,9 +9,10 @@
 - **15 Lancashire councils** across 3 tiers — ALL LIVE
 - **2,286,000+ transactions** — £12 billion+ tracked
 - **648 councillors** — full politics data for all 15
-- **22 pages** — lazy-loaded with ErrorBoundary + Suspense
-- **219 unit tests** (26 files) + **31 E2E tests** — all passing
-- **Cost: £22/month** — LLM costs £0 (Gemini free tier)
+- **25 page components** across 28 routes — lazy-loaded with ErrorBoundary + Suspense
+- **446 unit tests** (32 files) + **49 E2E tests** (6 files) — all passing
+- **40 Python ETL/analysis scripts** — 35 in burnley-council/scripts/ + 5 in scripts/
+- **Cost: £22/month** — LLM costs £0 (Gemini/Mistral/Groq free tiers)
 
 ### Live Council Sites
 | Site | URL | Records | Spend | Councillors | Tier |
@@ -51,7 +52,8 @@
 | sync_repos.sh | vps-main | 05:00 | Git pull + rsync scripts to vps-news |
 
 ### LLM Stack (£0/month)
-Gemini 2.5 Flash (primary, free) → Kimi K2.5 (fallback, trial) → [Groq blocked from VPS] → [DeepSeek dead]
+- **AI DOGE articles:** Mistral Small (free, EU/GDPR-safe) → Groq Llama 3.3 70B (free) → Cerebras → Ollama local
+- **News Lancashire:** Gemini 2.5 Flash (free) → Kimi K2.5 (trial) → [Groq blocked from VPS] → [DeepSeek dead]
 
 ### Infrastructure
 | Server | Provider | RAM | Cost | Purpose |
@@ -65,7 +67,7 @@ Gemini 2.5 Flash (primary, free) → Kimi K2.5 (fallback, trial) → [Groq block
 
 ## 2. PLATFORM ARCHITECTURE
 
-### 22 Pages (all lazy-loaded with ErrorBoundary + Suspense)
+### 25 Pages across 28 Routes (all lazy-loaded with ErrorBoundary + Suspense)
 | Route | Page | What It Does |
 |-------|------|-------------|
 | `/` | Home | Dashboard: headline stats, top findings, politics, news preview |
@@ -82,9 +84,12 @@ Gemini 2.5 Flash (primary, free) → Kimi K2.5 (fallback, trial) → [Groq block
 | `/suppliers` | Suppliers | Supplier directory ranked by total spend |
 | `/supplier/:id` | SupplierView | Individual supplier profile, payment history |
 | `/demographics` | Demographics | Census 2021 ward-level age, sex, ethnicity, religion, economic activity |
+| `/elections` | Elections | Ward-level election history, May 2026 predictions, ward builder, coalitions, LGR projections |
+| `/constituencies` | Constituencies | Parliamentary constituency cards with GE2024, claimant count, MP expenses |
+| `/constituencies/:id` | ConstituencyView | Individual constituency detail: MP, voting record, expenses, activity |
 | `/lgr` | LGRTracker | LGR reorganisation proposals, AI DOGE financial model, CCN critique |
 | `/lgr-calculator` | LGRCostCalculator | "What your area costs" calculator + Financial Handover Dashboard |
-| `/integrity` | Integrity | 8-source councillor integrity scoring |
+| `/integrity` | Integrity | 8-source councillor integrity scoring with conflict classification |
 | `/meetings` | Meetings | Council meeting calendar, how to attend |
 | `/foi` | FOI | 41 FOI request templates with copy-to-clipboard |
 | `/legal` | Legal | 12 UK council oversight laws with DOGE relevance |
@@ -98,15 +103,21 @@ Council CSV  →  council_etl.py  →  spending.json (v2) + v3/v4 chunks
                   doge_analysis.py  →  doge_findings.json, doge_verification.json
 GOV.UK ODS  →  govuk_budgets.py  →  budgets_govuk.json, budgets_summary.json
              →  govuk_trends.py   →  revenue_trends.json
+             →  collection_rates_etl.py → collection_rates.json (council tax collection)
 CH API       →  council_etl.py    →  supplier enrichment
 Contracts Finder → procurement_etl.py → procurement.json
 Police API   →  police_etl.py     →  crime_stats.json, crime_history.json
 IMD 2019     →  deprivation_etl.py → deprivation.json
 Census 2021  →  census_etl.py     →  demographics.json
 ModernGov    →  councillors_etl.py → councillors.json, politics_summary.json, wards.json
-Councillor+CH → councillor_integrity_etl.py → integrity.json, integrity_cross_council.json
+Councillor+CH → councillor_integrity_etl.py → integrity.json (conflict type classification)
+TWFY/IPSA    →  constituency_etl.py → constituencies.json (MPs, expenses, votes, activity)
+             →  ipsa_etl.py       → IPSA MP expenses data
+ONS lookups  →  ward_constituency_map.py → ward_constituency_map.json
+Elections    →  elections_etl.py   → elections.json, elections_reference.json
+             →  poll_aggregator.py → polling.json (national polling aggregation)
 Article AI   →  article_pipeline.py → articles-index.json + articles/{id}.json
-Cross-council → generate_cross_council.py → cross_council.json
+Cross-council → generate_cross_council.py → cross_council.json (collection rates, dependency ratio, reserves, HHI)
 Budget analysis → generate_budget_insights.py → budget_insights.json, budget_efficiency.json
 ```
 
@@ -120,9 +131,10 @@ Budget analysis → generate_budget_insights.py → budget_insights.json, budget
 Worker auto-detects v4→v3→v2 and loads accordingly. V4 chunks gitignored (~647MB total). CI restores from previous deploy.
 
 ### Test Coverage
-- **219 unit tests** across 26 files — all passing
-- **31 E2E tests** across 5 files (smoke, news, spending, legal, navigation)
-- **18 page components** with tests, 4 without (Demographics, LGRTracker, LGRCostCalculator, Integrity)
+- **446 unit tests** across 32 files — all passing
+- **49 E2E tests** across 6 files (smoke, news, spending, legal, navigation, elections)
+- **25 page components** all have tests (every page in src/pages/ has a .test.jsx)
+- **4 utility test files**: analytics.test.js, electionModel.test.js, spending.utils.test.js, format.test.js
 
 ---
 
@@ -191,7 +203,23 @@ Budget enrichment for all 15 councils. Integrity checker v3 overhaul with regist
 - False positives dramatically reduced (e.g. Burnley 181→93 flags, SIC 96090/formation agent cleanup)
 - Results: 691 councillors, 2,221 directorships (1,570 active), 3,350 red flags, 9 empty registers across 3 councils
 - West Lancashire integrity report PDF (7 high-risk, 6 elevated-risk councillors, 6 empty registers)
-- 219 tests (26 files), all passing
+
+### Phase 17: Site Audit, Data Enrichment & Cross-System Integration ✅ (17-19 Feb)
+Comprehensive platform audit, bug fixes across all pages, and systematic data enrichment connecting all existing data sources.
+
+**Key Phase 17 deliverables:**
+- **Elections page** (18 Feb): Ward-level election history, May 2026 predictions with demographics-weighted swing model, ward builder, coalition scenarios, LGR political projections, demographics scatter. New files: Elections.jsx, Elections.css, electionModel.js (+ tests). Data: elections.json + elections_reference.json + polling.json per council
+- **Constituencies pages** (18 Feb): Parliamentary constituency cards (Constituencies.jsx) + individual constituency view (ConstituencyView.jsx) with GE2024 results, MP expenses (IPSA), voting records (TWFY), claimant count data, activity topics. New scripts: constituency_etl.py, ipsa_etl.py, ward_constituency_map.py
+- **Analytics engine** (18 Feb): New src/utils/analytics.js with 10 functions + CPI-H index (deflation, z-scores, Gini coefficient, Benford's 2nd digit, reserves adequacy, peer benchmarking). 48 unit tests
+- **Collection rates ETL** (18 Feb): collection_rates_etl.py parses GOV.UK QRC4 Table 2 ODS data for 14 billing authorities (districts + unitaries, not LCC). Feeds into cross_council.json and LGR model
+- **Ward-constituency mapping** (18 Feb): ONS ward-to-constituency lookup for all 14 councils. ward_constituency_map.json enables constituencyMap in election predictions
+- **Dependency ratio + reserves trajectory** (18 Feb): Census 2021 age pyramids → dependency ratio. Multi-year budget data → reserves trajectory + 2-year linear projection. Both in cross_council.json
+- **Per-service HHI** (18 Feb): Budget efficiency analysis with per-service supplier concentration (HHI). Heatmap in CrossCouncil.jsx
+- **Election→LGR integration** (18 Feb): `projectToLGRAuthority()` in electionModel.js computes political control per proposed LGR authority from ward-level predictions
+- **Integrity conflict classification** (19 Feb): Supplier conflicts classified as commercial, community_trustee, council_appointed, or arms_length_body. 48 commercial conflicts across 15 councils. Regenerated all 15 integrity.json files with donor name verification fix
+- **Article pipeline upgrade** (18 Feb): Switched to Mistral Small (free, EU/GDPR-safe) + Groq Llama 3.3 70B via llm_router.py. Generated 37 new articles for thin councils. Improved fact verification + structured article format
+- **LGR model accuracy overhaul** (18 Feb): Realistic savings figures (net of ongoing costs, 75% realisation rate). Payback years recalculated. Cost Calculator gated behind postcode entry
+- **Test expansion**: 219→446 unit tests (32 files), 31→49 E2E tests (6 files). All 25 page components have tests. New test suites for electionModel, analytics, Elections, Constituencies, ConstituencyView, Demographics, LGRTracker, LGRCostCalculator, Integrity
 
 ---
 
@@ -207,18 +235,18 @@ Budget enrichment for all 15 councils. Integrity checker v3 overhaul with regist
 ### Code Quality
 | Issue | Severity | Status |
 |-------|----------|--------|
-| 4 pages lack unit tests (Demographics, LGRTracker, LGRCostCalculator, Integrity) | LOW | Can add when modifying |
-| Suppliers nav not gated by config flag | LOW | Page falls back gracefully |
-| Unused lucide-react imports in LGRCostCalculator | INFO | Tree-shaken in production |
+| React hooks after early return in SupplierView.jsx:135 | MEDIUM | Rules of Hooks violation — move useMemo before return |
+| 108 unguarded chained property accesses (mostly Budgets.jsx) | LOW | Use optional chaining |
+| Accessibility gaps in Demographics, LGRTracker (no ARIA attributes) | LOW | Can add when modifying |
 
 ### Data Gaps (non-critical)
 | Gap | Councils Affected | Status |
 |-----|-------------------|--------|
 | crime_history.json | Burnley, Hyndburn, Pendle | Needs VPS (Police API, local SSL broken) |
 | doge_context empty fields | LCC, Blackpool, Blackburn, Fylde + others | key_suppliers, doge_findings, notable_suppliers not populated |
-| budget_variance.json | All 15 | Never generated — script doesn't exist |
-| meetings.json | 7 newer councils | Only 8 original councils have meetings data |
+| Thin articles | 6+ councils have only 1-5 articles | LCC, Blackpool, Blackburn, Wyre, West Lancs, Preston |
 | Stale spending data | Chorley (Dec 2024), Ribble Valley (Apr 2024-Jan 2025) | Council hasn't published newer CSVs |
+| Blackpool integrity conflict types | Blackpool council-owned companies | Classified as commercial, should be arms_length_body |
 
 ---
 
@@ -281,33 +309,33 @@ Budget enrichment for all 15 councils. Integrity checker v3 overhaul with regist
 
 ---
 
-## 7. WHAT'S NEXT — PHASE 17 OPTIONS
+## 7. WHAT'S NEXT — PHASE 18 OPTIONS
 
-The platform is feature-complete for Phase 16. These are the most impactful next steps, ranked by value:
+The platform is feature-complete through Phase 17. These are the most impactful next steps, ranked by value:
 
-### HIGH VALUE — Can do now
+### HIGH VALUE — User Engagement & Content
 | # | Task | Impact | Effort |
 |---|------|--------|--------|
-| 16.1 | **Fresh article generation** — Run article_pipeline.py for 6+ councils with only 1-2 articles | Fills obvious content gap (some councils have 46 articles, others have 1) | Medium — needs VPS |
-| 16.2 | **Populate doge_context** — Fill empty key_suppliers/doge_findings/notable_suppliers in configs for 7+ councils | Improves DOGE page quality for newer councils | Low |
-| 16.3 | **Data freshness sprint** — Re-crawl councils for latest spending CSVs | Keeps data current | Medium — needs CSV sources |
-| 16.4 | **Unit tests for 4 untested pages** — Demographics, LGRTracker, LGRCostCalculator, Integrity | Improves regression safety for 3K lines of untested code | Medium |
+| 18.1 | **Fresh article generation** — Run article_pipeline.py for 6+ councils with only 1-5 articles | Fills obvious content gap (Burnley 46 articles, others have 1-5) | Medium — needs VPS |
+| 18.2 | **Meeting & voting analysis** — Scrape LCC recorded votes, attendance records, committee participation. Build voting record page | Unique political accountability data | High |
+| 18.3 | **Geographic visualisation** — Ward-level choropleth maps (deprivation, spending, election results). Leaflet.js or similar | Makes spatial patterns visible | High |
+| 18.4 | **Newsletter/email digest** — Weekly summary per council via Amazon SES (3K/month free) | Direct audience engagement | Medium |
 
-### MEDIUM VALUE — Strategic
+### MEDIUM VALUE — Data Depth
 | # | Task | Impact | Effort |
 |---|------|--------|--------|
-| 16.5 | **Service gap analysis** — Map all services by provider, identify LGR gaps/duplications | Unique LGR insight | High |
-| 16.6 | **Historical spending archive** — Preserve pre-LGR data before councils cease spring 2028 | Archival value — data will be lost | Medium |
-| 16.7 | **Meetings data for newer councils** — Scrape ModernGov for meeting dates/agendas | Completes a feature gap | Medium |
-| 16.8 | **crime_history.json for 3 councils** — Run police_etl.py from VPS for Burnley/Hyndburn/Pendle | Minor completeness | Low — needs VPS |
+| 18.5 | **Real-time data pipeline** — Auto-detect new council CSVs, ETL, analysis, deploy without manual intervention | Autonomous operation | Medium |
+| 18.6 | **Historical spending archive** — Preserve pre-LGR data before councils cease spring 2028 | Archival value — data will be lost | Medium |
+| 18.7 | **FOI automation** — Generate, send, and track FOI requests. Build response database | Active transparency tool | High |
+| 18.8 | **Service quality correlation** — Ofsted/CQC ratings mapped to spending levels and council tier | Outcome-based analysis | High |
 
-### LOWER VALUE — Future
+### STRATEGIC — Expansion
 | # | Task | Impact | Effort |
 |---|------|--------|--------|
-| 16.9 | **National expansion** — Architecture supports other two-tier counties (Kent, Hampshire) | New markets | Very High |
-| 16.10 | **Declaration of interests** — Councillor interest register scraping | Transparency | High — data access unclear |
-| 16.11 | **Service quality correlation** — Ofsted/CQC integration | Depth | High — primarily upper-tier |
-| 16.12 | **Password protection** — ReformLancs2026! for restricted access | Access control | Low |
+| 18.9 | **National expansion** — Architecture supports other two-tier counties (Kent, Hampshire, Essex) | New markets | Very High |
+| 18.10 | **Reform councillor intelligence platform** — Dedicated briefing platform for Reform UK councillors | Political market | High (plan exists) |
+| 18.11 | **Investigation tools** — Deep-dive investigation workflows: supplier network mapping, company chain tracing, cross-reference registers | Journalism tool | High |
+| 18.12 | **API layer** — Public API for researchers, journalists, civic apps to query spending data | Platform ecosystem | Medium |
 
 ---
 
@@ -368,17 +396,17 @@ MEMORY.md            ← Auto-memory: gotchas, patterns, cross-session learnings
 
 ### For Finding Things Fast
 ```
-src/pages/{Page}.jsx          ← 22 page components (all lazy-loaded)
+src/pages/{Page}.jsx          ← 25 page components (all lazy-loaded, all tested)
 src/components/ui/            ← 11 shared UI components
 src/hooks/                    ← useData.js, useSpendingWorker.js
 src/workers/                  ← spending.worker.js + spending.utils.js
-src/utils/                    ← constants.js, format.js
+src/utils/                    ← constants.js, format.js, analytics.js, electionModel.js, lgrModel.js
 burnley-council/data/{id}/    ← Per-council data (15 councils)
 burnley-council/data/shared/  ← legal_framework.json, lgr_tracker.json
-burnley-council/scripts/      ← 20+ Python ETL/analysis scripts
-scripts/                      ← generate_cross_council.py, generate_budget_insights.py
+burnley-council/scripts/      ← 35 Python ETL/analysis scripts
+scripts/                      ← generate_cross_council.py, generate_budget_insights.py, academic_export.py, daily_audit.py, suggest_improvements.py
 .github/workflows/            ← deploy.yml (auto-deploy on push to main)
-e2e/                          ← 5 Playwright E2E test files
+e2e/                          ← 6 Playwright E2E test files (49 tests)
 ```
 
 ---
@@ -408,21 +436,23 @@ e2e/                          ← 5 Playwright E2E test files
 
 ## 13. SUCCESS METRICS
 
-| Metric | 7 Feb | 12 Feb | 16 Feb | Notes |
-|--------|-------|--------|--------|-------|
-| Councils live | 4 | 8 | **15** | All Lancashire |
-| Total transactions | 148K | 215K | **2,286K** | 15x growth |
-| Total spend tracked | £755M | £1.4B | **£12B+** | 16x growth |
-| Councillors tracked | 0 | 0 | **648** | All 15 councils |
-| Page components | 16 | 17 | **22** | +Demographics, LGR, LGRCalc, Integrity |
-| Unit tests | 103 | 204 | **204** | Stable |
-| E2E tests | 0 | 31 | **31** | Stable |
-| Articles (total) | 27 | 134 | **141+** | Seed articles for all 15 |
-| Python ETL scripts | 10 | 14 | **20+** | Budget, integrity, councillors, census added |
-| Monthly cost | £22 | £22 | **£22** | Zero increase at 15x scale |
+| Metric | 7 Feb | 12 Feb | 16 Feb | 19 Feb | Notes |
+|--------|-------|--------|--------|--------|-------|
+| Councils live | 4 | 8 | 15 | **15** | All Lancashire |
+| Total transactions | 148K | 215K | 2,286K | **2,286K** | Stable |
+| Total spend tracked | £755M | £1.4B | £12B+ | **£12B+** | Stable |
+| Councillors tracked | 0 | 0 | 648 | **648** | All 15 councils |
+| Page components | 16 | 17 | 22 | **25** | +Elections, Constituencies, ConstituencyView |
+| Routes | 16 | 17 | 22 | **28** | +elections, constituencies, constituency view |
+| Unit tests | 103 | 204 | 219 | **446** | +227 (elections, analytics, all pages) |
+| E2E tests | 0 | 31 | 31 | **49** | +18 (election flows) |
+| Test files | — | — | 26 | **32** | All 25 pages have tests |
+| Articles (total) | 27 | 134 | 141 | **178+** | +37 via Mistral/Groq |
+| Python scripts | 10 | 14 | 20 | **40** | +elections, constituencies, analytics, LGR |
+| Monthly cost | £22 | £22 | £22 | **£22** | Zero increase at 15x scale |
 
 ---
 
-*Plan v14.0 updated: 16 February 2026*
-*Phases 1-15 complete: 15 Lancashire councils live, 2,286,000+ transactions, £12B+ tracked*
-*All architecture issues fixed, 204 tests pass, zero critical bugs*
+*Plan v15.0 updated: 19 February 2026*
+*Phases 1-17 complete: 15 Lancashire councils live, 2,286,000+ transactions, £12B+ tracked*
+*446 unit tests + 49 E2E tests pass, 25 page components, 40 Python scripts, zero critical bugs*

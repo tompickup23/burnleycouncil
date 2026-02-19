@@ -77,7 +77,7 @@
 
 ## Frontend Architecture
 
-**Stack:** React 19 + Vite 7, lazy-loaded routes, config-driven per council
+**Stack:** React 19 + Vite 7, 25 page components across 28 lazy-loaded routes, config-driven per council
 
 ### Data Layer
 - `useData()` hook — module-level Map cache with 30-minute TTL, request deduplication, retry with exponential backoff (2 retries, 1s/2s), LRU eviction at 50 entries
@@ -90,7 +90,7 @@
 - ErrorBoundary has "Try again" button for recovery
 
 ### Routing
-- 22 lazy-loaded routes via React Router v7
+- 28 lazy-loaded routes via React Router v7
 - Config-driven nav visibility — `data_sources` flags in config.json control which nav items appear
 - GitHub Pages SPA routing via hub 404.html redirect with `?p=` parameter
 
@@ -120,7 +120,7 @@ The React app is council-agnostic — it reads config.json at runtime and condit
 
 GitHub Actions workflow (`.github/workflows/deploy.yml`):
 1. Triggers on push to `main` (ignores `.md` files) or manual dispatch
-2. Installs deps, runs 204 unit tests
+2. Installs deps, runs 446 unit tests
 3. **Restores v4 spending chunks** from previous deploy (self-sustaining for 3 large councils)
 4. Builds all 15 councils **sequentially** (shared `public/data/` causes race conditions)
 5. **Cleans v4 artifacts** — removes spending.json monoliths, keeps only index + monthly chunks
@@ -143,6 +143,30 @@ generate_budget_insights.py        →  budget_insights.json, budget_efficiency.
 ```
 
 Analysis checks: duplicate payments, split payment evasion, year-end spikes, round-number anomalies, Companies House compliance (temporal overlap), cross-council price gaps, Benford's Law forensic screening, payment cadence, day-of-week patterns, weak competition detection, category monopolies, supplier concentration (HHI), late contract publication, fraud triangle scoring.
+
+## Election Prediction Model
+
+```
+electionModel.js — Ward-level election prediction engine
+  calculateBaseSwing()     — LCC 2025 → May 2026 national swing
+  calculateReformEntry()   — GE2024 constituency data → ward-level Reform estimate
+  calculateDemographicAdj()— Census 2021 age/deprivation → turnout/party adjustments
+  predictWard()            — Combine base + swing + Reform + demographics → result
+  predictCouncil()         — All wards → seat totals + coalition scenarios
+  projectToLGRAuthority()  — Ward predictions → LGR authority political control
+```
+
+Data flow: `elections.json` + `elections_reference.json` + `polling.json` + `demographics.json` + `deprivation.json` + `ward_constituency_map.json` → `predictCouncil()` → ward-level predictions with confidence intervals.
+
+## Analytics Engine
+
+`src/utils/analytics.js` — 10 functions + CPI-H index, 48 unit tests:
+- CPI-H deflation (real vs nominal spend)
+- Z-score outlier detection
+- Gini coefficient (spending inequality)
+- Benford's 2nd digit forensic screening
+- Reserves adequacy assessment
+- Peer benchmarking (percentile, tier-aware)
 
 ## Procurement Pipeline
 
@@ -195,9 +219,17 @@ deploy_newsburnley.sh (10:30am)
 | `burnley-council/scripts/govuk_budgets.py` | local | GOV.UK ODS → budget JSON |
 | `burnley-council/scripts/govuk_trends.py` | local | Revenue trend analysis |
 | `burnley-council/scripts/charity_etl.py` | local/vps | Charity Commission cross-check |
-| `burnley-council/scripts/article_pipeline.py` | vps-main | Data-driven article generation |
-| `scripts/generate_cross_council.py` | local | Cross-council comparison data |
+| `burnley-council/scripts/collection_rates_etl.py` | local | GOV.UK QRC4 council tax collection rates |
+| `burnley-council/scripts/constituency_etl.py` | local | TWFY/IPSA → constituencies.json |
+| `burnley-council/scripts/elections_etl.py` | local | Election data → elections.json |
+| `burnley-council/scripts/ward_constituency_map.py` | local | ONS ward-to-constituency lookup |
+| `burnley-council/scripts/poll_aggregator.py` | local | National polling aggregation |
+| `burnley-council/scripts/llm_router.py` | local/vps | Multi-LLM router (Mistral→Groq→Cerebras→Ollama) |
+| `burnley-council/scripts/article_pipeline.py` | vps-main | Data-driven article generation (Mistral/Groq) |
+| `scripts/generate_cross_council.py` | local | Cross-council comparison data (collection rates, dependency, reserves, HHI) |
 | `scripts/generate_budget_insights.py` | local | Budget insights + efficiency scoring |
+| `scripts/academic_export.py` | local | Academic export: panel dataset, LGR model inputs |
+| `scripts/daily_audit.py` | GH Actions | Daily code quality/data validation audit |
 
 ## Companies House Integration
 

@@ -150,14 +150,16 @@
 | clawd-worker | Data processing slave | Free (Python) | Running on vps-main, healthy |
 
 ### Model Hierarchy (cheapest first)
-1. **Gemini 2.5 Flash** (free) — Primary for News Lancashire pipeline (rewriter, analyzer, digest)
-2. **Kimi K2.5** (trial credits) — Default for Octavian tasks, fallback for News Lancashire
-3. **Groq Llama 3.3 70B** (free but blocked from VPS IPs) — Only works from residential IPs
-4. **DeepSeek V3** (credits exhausted) — HTTP 402, needs top-up
-5. **qwen2.5:7b** (free, local) — Running via Ollama on vps-main
-6. **Haiku** (~$0.25/M input) — Only if free models can't handle it
-7. **Sonnet** (~$3/M input) — Only when explicitly requested
-8. **Opus** (~$15/M input) — Never use automatically, only when Tom asks
+1. **Mistral Small** (free Experiment tier) — Primary for AI DOGE article pipeline. EU/GDPR-safe. ~1B tokens/month
+2. **Gemini 2.5 Flash** (free) — Primary for News Lancashire pipeline (rewriter, analyzer, digest)
+3. **Groq Llama 3.3 70B** (free, 500K tokens/day) — AI DOGE article fallback. Blocked from VPS IPs (works locally only)
+4. **Cerebras Llama 3.3 70B** (free, 1M tokens/day) — AI DOGE article fallback
+5. **Kimi K2.5** (trial credits) — Default for Octavian tasks, fallback for News Lancashire
+6. **DeepSeek V3** (credits exhausted) — HTTP 402, needs top-up
+7. **qwen2.5:7b** (free, local) — Running via Ollama on vps-main
+8. **Haiku** (~$0.25/M input) — Only if free models can't handle it
+9. **Sonnet** (~$3/M input) — Only when explicitly requested
+10. **Opus** (~$15/M input) — Never use automatically, only when Tom asks
 
 ### News Lancashire LLM Fallback Chain (10 Feb 2026)
 ```
@@ -190,9 +192,9 @@ Gemini 2.5 Flash → Groq Llama 3.3 70B → Kimi K2.5 → DeepSeek V3
 | `daily-audit.yml` | 06:00 UTC daily | Health check, JSON validation, live site verification, JSX bug scan |
 | `update-meetings.yml` | 03:00 UTC Sundays | Scrape ModernGov/Jadu for council meeting data |
 
-**Deployment chain:** `git push main` → tests → build Burnley → build Hyndburn → build Pendle → build Rossendale → copy hub pages + CNAME → deploy to `tompickup23/lancashire` gh-pages → verify all URLs return 200.
+**Deployment chain:** `git push main` → 446 unit tests → restore v4 chunks → build all 15 councils sequentially → clean v4 artefacts → copy hub pages + CNAME → deploy to `tompickup23/lancashire` gh-pages → verify all 15 URLs return 200.
 
-**Cost:** Free (GitHub Actions free tier for public repos, or 2000 min/month for private). Each deploy uses ~10 min.
+**Cost:** Free (GitHub Actions free tier for public repos, or 2000 min/month for private). Each deploy uses ~22 min.
 
 **Auth:** `DEPLOY_TOKEN` secret (fine-grained PAT scoped to lancashire repo, Contents: Read+Write).
 
