@@ -1566,7 +1566,7 @@ def check_supplier_ec_donations(supplier_data, council_id):
                     overlap >= 0.6
                 )
                 if not is_match:
-                    log.debug("EC false positive filtered: supplier='%s' but donor='%s'", supplier, donor_name)
+                    # EC false positive filtered: donor name doesn't match supplier
                     continue
                 findings.append({
                     "type": "supplier_is_local_donor",
