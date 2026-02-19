@@ -198,6 +198,7 @@ function Integrity() {
           ward: c.ward,
           riskLevel: c.risk_level,
           type: 'direct',
+          conflictType: conflict.conflict_type || 'commercial',
           companyName: conflict.company_name,
           companyNumber: conflict.company_number,
           confidence: conflict.supplier_match?.confidence || 0,
@@ -255,6 +256,7 @@ function Integrity() {
           ward: c.ward,
           riskLevel: c.risk_level,
           type: 'cross_council',
+          conflictType: conflict.conflict_type || 'commercial',
           companyName: conflict.company_name,
           otherCouncil: conflict.other_council,
           confidence: conflict.supplier_match?.confidence || 0,
@@ -613,13 +615,18 @@ function Integrity() {
                 </div>
                 <div className="supplier-investigation-connections">
                   {item.connections.map((conn, j) => (
-                    <div key={j} className={`connection-card ${conn.type} ${conn.severity || ''}`}>
+                    <div key={j} className={`connection-card ${conn.type} ${conn.severity || ''} ${conn.conflictType ? `conflict-type-${conn.conflictType}` : ''}`}>
                       <div className="connection-header">
                         <span className="connection-type-badge">
                           {conn.type === 'direct' && <><AlertTriangle size={11} /> Direct</>}
                           {conn.type === 'network' && <><Network size={11} /> Network</>}
                           {conn.type === 'cross_council' && <><Globe size={11} /> Cross-Council</>}
                         </span>
+                        {conn.conflictType && conn.conflictType !== 'commercial' && (
+                          <span className={`conflict-type-badge conflict-type-${conn.conflictType === 'community_trustee' ? 'community' : conn.conflictType === 'council_appointed' ? 'appointed' : conn.conflictType === 'arms_length_body' ? 'armslength' : 'commercial'}`}>
+                            {conn.conflictType === 'community_trustee' ? 'Community' : conn.conflictType === 'council_appointed' ? 'Appointed' : conn.conflictType === 'arms_length_body' ? "Arm's-Length" : ''}
+                          </span>
+                        )}
                         <span className="connection-councillor">{conn.councillor}</span>
                         {conn.party && (
                           <span className="connection-party">{conn.party}</span>
