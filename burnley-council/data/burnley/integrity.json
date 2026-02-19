@@ -1,14 +1,14 @@
 {
   "council_id": "burnley",
   "version": "3.0",
-  "generated_at": "2026-02-19T19:37:19.321309Z",
+  "generated_at": "2026-02-19T21:12:10.025699Z",
   "methodology": "register_anchored_dob_verified",
   "data_sources": [
     "Companies House (officers, PSC, charges, disqualifications \u2014 DOB-verified)",
     "Electoral Commission (donations)",
     "FCA Register (regulated persons)",
     "Co-director network analysis",
-    "Cross-council supplier matching (8 councils)",
+    "Cross-council supplier matching (15 councils)",
     "Familial connection detection (surname clusters, shared addresses, family CH)",
     "Misconduct pattern detection (7 algorithms)",
     "Geographic proximity scoring (Lancashire postcode matching)"
@@ -22,18 +22,24 @@
     "active_directorships": 37,
     "disqualification_matches": 2,
     "supplier_conflicts": 6,
-    "cross_council_conflicts": 19,
+    "supplier_conflicts_by_type": {
+      "commercial": 0,
+      "community_trustee": 6,
+      "council_appointed": 0,
+      "arms_length_body": 0
+    },
+    "cross_council_conflicts": 44,
     "electoral_commission_findings": 5,
     "fca_findings": 0,
-    "misconduct_patterns": 16,
-    "red_flags_total": 122,
+    "misconduct_patterns": 20,
+    "red_flags_total": 151,
     "risk_distribution": {
       "low": 35,
       "medium": 0,
-      "elevated": 4,
-      "high": 6
+      "elevated": 5,
+      "high": 5
     },
-    "network_investigations_advisable": 12,
+    "network_investigations_advisable": 13,
     "network_investigation_high_priority": 7,
     "psc_entries_found": 17,
     "co_directors_mapped": 87,
@@ -96,13 +102,19 @@
     }
   ],
   "cross_council_summary": {
-    "councillor_companies_in_other_councils": 19,
+    "councillor_companies_in_other_councils": 44,
     "affected_councils": [
+      "blackburn",
+      "blackpool",
+      "fylde",
       "hyndburn",
+      "lancashire_cc",
       "lancaster",
       "pendle",
+      "preston",
       "ribble_valley",
-      "rossendale"
+      "rossendale",
+      "wyre"
     ]
   },
   "councillors": [
@@ -111,7 +123,7 @@
       "name": "Shiraz Ahmed",
       "party": "Independent",
       "ward": "Lanehead",
-      "checked_at": "2026-02-19T19:37:41.380489Z",
+      "checked_at": "2026-02-19T21:12:32.102188Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -134,20 +146,6 @@
             "verification": "ch_strong_proximity"
           },
           {
-            "officer_id": "grQXgVUai4BnLMI6vlX1mmIv48A",
-            "title": "Shiraz AHMED",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 12,
-              "year": 1986
-            },
-            "address_snippet": "13 Leyburne Street, Bradford, England, BD8 8NG",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "aqOVokZTH5tUMIeZ6FSvyusUOh4",
             "title": "Shiraz AHMED",
             "match_score": 100,
@@ -162,26 +160,40 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "2_qjxqnySX3Janb854VhM6Be7eA",
+            "officer_id": "grQXgVUai4BnLMI6vlX1mmIv48A",
             "title": "Shiraz AHMED",
             "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "78 Pilkington Avenue, Sutton Coldfield, England, B72 1LQ",
+            "date_of_birth": {
+              "month": 12,
+              "year": 1986
+            },
+            "address_snippet": "13 Leyburne Street, Bradford, England, BD8 8NG",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "4rgdHbAxkIUdCuwZHP5AtssO7u0",
+            "officer_id": "nxyDHiI03treXdBu5SHxmTuIMxg",
             "title": "Shiraz AHMED",
             "match_score": 100,
             "date_of_birth": {
-              "month": 8,
-              "year": 1982
+              "month": 6,
+              "year": 1994
             },
-            "address_snippet": "Suite 406 Glenfield House, Philips Road, Blackburn, Lancashire, England, BB1 5PF",
-            "proximity_score": 10,
+            "address_snippet": "63-65, Beswick Street, Beswick, United Kingdom, M4 7HR",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "2_qjxqnySX3Janb854VhM6Be7eA",
+            "title": "Shiraz AHMED",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "78 Pilkington Avenue, Sutton Coldfield, England, B72 1LQ",
+            "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
@@ -456,6 +468,17 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
+          "address": "57 Rosebery Road, Gillingham, Medway, England, ME7 1QQ",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1972
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Shiraz AHMED",
+          "match_score": 100,
           "address": "13 Leyburne Street, Bradford, England, BD8 8NG",
           "date_of_birth": {
             "month": 12,
@@ -467,10 +490,10 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "57 Rosebery Road, Gillingham, Medway, England, ME7 1QQ",
+          "address": "63-65, Beswick Street, Beswick, United Kingdom, M4 7HR",
           "date_of_birth": {
-            "month": 10,
-            "year": 1972
+            "month": 6,
+            "year": 1994
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -508,11 +531,30 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "63-65, Beswick Street, Beswick, United Kingdom, M4 7HR",
+          "address": "Trust House C/O Isaacs, St James Business Park, 5 New Augustus Street, Bradford, West Yorkshire, England, BD1 5LL",
           "date_of_birth": {
-            "month": 6,
-            "year": 1994
+            "month": 10,
+            "year": 1984
           },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Shiraz AHMED",
+          "match_score": 100,
+          "address": "7c, High Station Road, Falkirk, FK1 5LP",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1982
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Shiraz AHMED",
+          "match_score": 100,
+          "address": "359 Allison Street, Glasgow, United Kingdom, G42 8HT",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -549,21 +591,18 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "Trust House C/O Isaacs, St James Business Park, 5 New Augustus Street, Bradford, West Yorkshire, England, BD1 5LL",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1984
-          },
+          "address": "76 Westmuir Street, Glasgow, United Kingdom, G31 5BJ",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "7c, High Station Road, Falkirk, FK1 5LP",
+          "address": "4a, Bittacy Hill, London, England, NW7 1LB",
           "date_of_birth": {
             "month": 1,
-            "year": 1982
+            "year": 1976
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -571,8 +610,11 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "359 Allison Street, Glasgow, United Kingdom, G42 8HT",
-          "date_of_birth": {},
+          "address": "123, Gorsebrook Road, Gorsebrook, Wolverhampton, West Midlands, United Kingdom, WV6 0PE",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1982
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -601,41 +643,19 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "123, Gorsebrook Road, Gorsebrook, Wolverhampton, West Midlands, United Kingdom, WV6 0PE",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1982
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Shiraz AHMED",
-          "match_score": 100,
-          "address": "76 Westmuir Street, Glasgow, United Kingdom, G31 5BJ",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Shiraz AHMED",
-          "match_score": 100,
-          "address": "4a, Bittacy Hill, London, England, NW7 1LB",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1976
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Shiraz AHMED",
-          "match_score": 100,
           "address": "Galley House, Moon Lane, Barnet, EN5 5YL",
           "date_of_birth": {
             "month": 11,
             "year": 1983
           },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Shiraz AHMED",
+          "match_score": 100,
+          "address": "166 Kenelm Road, Small Heath, Birmingham, United Kingdom, B10 9AG",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -664,14 +684,6 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "166 Kenelm Road, Small Heath, Birmingham, United Kingdom, B10 9AG",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Shiraz AHMED",
-          "match_score": 100,
           "address": "296 New Bank Street, Manchester, Greater Manchester, United Kingdom, M12 4HW",
           "date_of_birth": {
             "month": 8,
@@ -683,10 +695,10 @@
         {
           "officer_name": "Shiraz AHMED",
           "match_score": 100,
-          "address": "17 Ongar Road, London, England, SW6 1RL",
+          "address": "Trust House, C/O Isaacs, 5 New Augustus Street, Bradford, United Kingdom, BD1 5LL",
           "date_of_birth": {
-            "month": 1,
-            "year": 1979
+            "month": 10,
+            "year": 1984
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -709,17 +721,6 @@
           "date_of_birth": {
             "month": 10,
             "year": 1978
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Shiraz AHMED",
-          "match_score": 100,
-          "address": "Trust House, C/O Isaacs, 5 New Augustus Street, Bradford, United Kingdom, BD1 5LL",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1984
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -772,6 +773,17 @@
           "date_of_birth": {
             "month": 9,
             "year": 1978
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Shiraz AHMED",
+          "match_score": 100,
+          "address": "17 Ongar Road, London, England, SW6 1RL",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1979
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -920,7 +932,7 @@
       "name": "Aurangzeb Ali",
       "party": "Independent",
       "ward": "Queensgate",
-      "checked_at": "2026-02-19T19:37:49.833269Z",
+      "checked_at": "2026-02-19T21:12:40.766633Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -1063,7 +1075,7 @@
       "name": "Afrasiab Anwar",
       "party": "Independent",
       "ward": "Bank Hall",
-      "checked_at": "2026-02-19T19:37:55.390826Z",
+      "checked_at": "2026-02-19T21:12:46.440459Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -1283,8 +1295,8 @@
               }
             ],
             "roles": [
-              "secretary",
-              "director"
+              "director",
+              "secretary"
             ],
             "officer_id": "oJCy2rEywcBIO33-jpUHdbtlyKY"
           },
@@ -1529,7 +1541,9 @@
             "confidence": 100,
             "total_spend": 809954.65
           },
-          "severity": "critical",
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc",
           "council_id": "burnley"
         },
         {
@@ -1541,7 +1555,9 @@
             "confidence": 100,
             "total_spend": 79950.0
           },
-          "severity": "critical",
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption",
           "council_id": "burnley"
         },
         {
@@ -1553,7 +1569,9 @@
             "confidence": 100,
             "total_spend": 87881.66
           },
-          "severity": "critical",
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption",
           "council_id": "burnley"
         }
       ],
@@ -1568,7 +1586,51 @@
             "confidence": 100,
             "total_spend": 24459.35
           },
-          "severity": "high"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CLARETS IN THE COMMUNITY LIMITED",
+          "company_number": "08615704",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "CLARETS IN THE COMMUNITY LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 48758.54
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CLARETS IN THE COMMUNITY LIMITED",
+          "company_number": "08615704",
+          "other_council": "blackburn",
+          "supplier_match": {
+            "supplier": "CLARETS IN THE COMMUNITY LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 2000.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "BURNLEY YOUTH THEATRE",
+          "company_number": "03178207",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "BURNLEY YOUTH THEATRE",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 20613.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         }
       ],
       "network_crossover": {
@@ -1576,57 +1638,6 @@
         "links": []
       },
       "misconduct_patterns": [
-        {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'CLARETS IN THE COMMUNITY LIMITED' received \u00a3809,955 in council contracts",
-          "evidence": {
-            "company_name": "CLARETS IN THE COMMUNITY LIMITED",
-            "company_number": "08615704",
-            "supplier_match": {
-              "supplier": "CLARETS IN THE COMMUNITY LTD",
-              "match_type": "exact",
-              "confidence": 100,
-              "total_spend": 809954.65
-            },
-            "severity": "critical",
-            "council_id": "burnley"
-          }
-        },
-        {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'BUILDING BRIDGES IN BURNLEY' received \u00a379,950 in council contracts",
-          "evidence": {
-            "company_name": "BUILDING BRIDGES IN BURNLEY",
-            "company_number": "05495250",
-            "supplier_match": {
-              "supplier": "BUILDING BRIDGES IN BURNLEY",
-              "match_type": "exact",
-              "confidence": 100,
-              "total_spend": 79950.0
-            },
-            "severity": "critical",
-            "council_id": "burnley"
-          }
-        },
-        {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'BURNLEY YOUTH THEATRE' received \u00a387,882 in council contracts",
-          "evidence": {
-            "company_name": "BURNLEY YOUTH THEATRE",
-            "company_number": "03178207",
-            "supplier_match": {
-              "supplier": "BURNLEY YOUTH THEATRE",
-              "match_type": "exact",
-              "confidence": 100,
-              "total_spend": 87881.66
-            },
-            "severity": "critical",
-            "council_id": "burnley"
-          }
-        },
         {
           "type": "cross_council_supplier_conflict",
           "severity": "critical",
@@ -1640,48 +1651,112 @@
               "total_spend": 24459.35
             }
           }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at lancashire_cc council",
+          "evidence": {
+            "other_council": "lancashire_cc",
+            "match": {
+              "supplier": "CLARETS IN THE COMMUNITY LTD",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 48758.54
+            }
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at blackburn council",
+          "evidence": {
+            "other_council": "blackburn",
+            "match": {
+              "supplier": "CLARETS IN THE COMMUNITY LTD",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 2000.0
+            }
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'BURNLEY YOUTH THEATRE' also matches supplier at lancashire_cc council",
+          "evidence": {
+            "other_council": "lancashire_cc",
+            "match": {
+              "supplier": "BURNLEY YOUTH THEATRE",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 20613.0
+            }
+          }
         }
       ],
       "red_flags": [
         {
           "type": "supplier_conflict",
-          "severity": "critical",
-          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' matches council supplier 'CLARETS IN THE COMMUNITY LTD'"
+          "severity": "info",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' matches council supplier 'CLARETS IN THE COMMUNITY LTD' [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "supplier_conflict",
-          "severity": "critical",
-          "detail": "Company 'BUILDING BRIDGES IN BURNLEY' matches council supplier 'BUILDING BRIDGES IN BURNLEY'"
+          "severity": "info",
+          "detail": "Company 'BUILDING BRIDGES IN BURNLEY' matches council supplier 'BUILDING BRIDGES IN BURNLEY' [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "supplier_conflict",
-          "severity": "critical",
-          "detail": "Company 'BURNLEY YOUTH THEATRE' matches council supplier 'BURNLEY YOUTH THEATRE'"
+          "severity": "info",
+          "detail": "Company 'BURNLEY YOUTH THEATRE' matches council supplier 'BURNLEY YOUTH THEATRE' [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
-          "severity": "high",
-          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' matches supplier at pendle council"
+          "severity": "info",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' matches supplier at pendle council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'CLARETS IN THE COMMUNITY LIMITED' received \u00a3809,955 in council contracts"
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'BUILDING BRIDGES IN BURNLEY' received \u00a379,950 in council contracts"
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' matches supplier at blackburn council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'BURNLEY YOUTH THEATRE' received \u00a387,882 in council contracts"
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'BURNLEY YOUTH THEATRE' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_supplier_conflict",
           "severity": "critical",
           "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at pendle council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at lancashire_cc council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at blackburn council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'BURNLEY YOUTH THEATRE' also matches supplier at lancashire_cc council"
         }
       ],
       "integrity_score": 0,
@@ -1697,7 +1772,7 @@
         "reasons": [
           "4 active directorships \u2014 complex company portfolio",
           "3 supplier conflict(s) \u2014 possible self-dealing",
-          "1 cross-council conflict(s) \u2014 multi-authority exposure",
+          "4 cross-council conflict(s) \u2014 multi-authority exposure",
           "high risk level \u2014 multiple red flags",
           "4 critical misconduct pattern(s) detected",
           "17 unique co-directors \u2014 extensive business network",
@@ -1711,7 +1786,7 @@
       "name": "Lee Ashworth",
       "party": "Conservative",
       "ward": "Whittlefield with Ightenhill",
-      "checked_at": "2026-02-19T19:38:08.954054Z",
+      "checked_at": "2026-02-19T21:13:00.573829Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -1908,10 +1983,10 @@
         {
           "officer_name": "Lee ASHWORTH",
           "match_score": 100,
-          "address": "Far Pastures Farm, Burnley Road East, Rossendale, England, BB4 9NH",
+          "address": "1 Gaskell Close, Littleborough, Lancashire, OL15 8EB",
           "date_of_birth": {
-            "month": 8,
-            "year": 1980
+            "month": 9,
+            "year": 1951
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -1919,10 +1994,10 @@
         {
           "officer_name": "Lee ASHWORTH",
           "match_score": 100,
-          "address": "1 Gaskell Close, Littleborough, Lancashire, OL15 8EB",
+          "address": "Far Pastures Farm, Burnley Road East, Rossendale, England, BB4 9NH",
           "date_of_birth": {
-            "month": 9,
-            "year": 1951
+            "month": 8,
+            "year": 1980
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2121,7 +2196,7 @@
       "name": "Howard Baker",
       "party": "Liberal Democrats",
       "ward": "Coalclough with Deerplay",
-      "checked_at": "2026-02-19T19:38:12.220265Z",
+      "checked_at": "2026-02-19T21:13:03.871160Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -2425,7 +2500,23 @@
             "confidence": 100,
             "total_spend": 5250.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "commercial",
+          "company_type": "ltd"
+        },
+        {
+          "company_name": "FALCON AND FOXGLOVE ESTATE AGENTS LTD",
+          "company_number": "04943769",
+          "other_council": "blackpool",
+          "supplier_match": {
+            "supplier": "FALCON AND FOXGLOVE ESTATE AGENTS LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 720.0
+          },
+          "severity": "info",
+          "conflict_type": "commercial",
+          "company_type": "ltd"
         }
       ],
       "network_crossover": {
@@ -2486,7 +2577,14 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'FALCON AND FOXGLOVE ESTATE AGENTS LTD' matches supplier at rossendale council"
+          "detail": "Company 'FALCON AND FOXGLOVE ESTATE AGENTS LTD' matches supplier at rossendale council",
+          "conflict_type": "commercial"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'FALCON AND FOXGLOVE ESTATE AGENTS LTD' matches supplier at blackpool council",
+          "conflict_type": "commercial"
         },
         {
           "type": "phoenix_company_pattern",
@@ -2651,29 +2749,29 @@
         {
           "officer_name": "Howard Geoffrey William BAKER",
           "match_score": 90,
-          "address": "26 Winchelsea Road, Dover, Kent, United Kingdom, CT17 9SR",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Howard Geoffrey William BAKER",
-          "match_score": 90,
-          "address": "26 Winchelsea Road, Dover, Kent, United Kingdom, CT17 9SR",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Howard Geoffrey William BAKER",
-          "match_score": 90,
           "address": "26 Winchelsea Road, Dover, England, CT17 9SR",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1965
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Howard Geoffrey William BAKER",
+          "match_score": 90,
+          "address": "26 Winchelsea Road, Dover, Kent, United Kingdom, CT17 9SR",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1965
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Howard Geoffrey William BAKER",
+          "match_score": 90,
+          "address": "26 Winchelsea Road, Dover, Kent, United Kingdom, CT17 9SR",
           "date_of_birth": {
             "month": 5,
             "year": 1965
@@ -3024,7 +3122,7 @@
       "network_investigation": {
         "advisable": true,
         "reasons": [
-          "1 cross-council conflict(s) \u2014 multi-authority exposure",
+          "2 cross-council conflict(s) \u2014 multi-authority exposure",
           "elevated risk level \u2014 multiple red flags"
         ],
         "priority": "medium"
@@ -3035,7 +3133,7 @@
       "name": "Gail Barton",
       "party": "Labour",
       "ward": "Rosegrove with Lowerhouse",
-      "checked_at": "2026-02-19T19:38:21.696776Z",
+      "checked_at": "2026-02-19T21:13:13.725219Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -3297,7 +3395,7 @@
       "name": "Gordon Birtwistle",
       "party": "Liberal Democrats",
       "ward": "Coalclough with Deerplay",
-      "checked_at": "2026-02-19T19:38:25.521994Z",
+      "checked_at": "2026-02-19T21:13:17.545639Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -3608,7 +3706,9 @@
             "confidence": 100,
             "total_spend": 103415.19
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "GROWTH LANCASHIRE LIMITED",
@@ -3620,7 +3720,9 @@
             "confidence": 100,
             "total_spend": 18250.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "GROWTH LANCASHIRE LIMITED",
@@ -3632,7 +3734,51 @@
             "confidence": 100,
             "total_spend": 8162.44
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "GROWTH LANCASHIRE LIMITED",
+          "company_number": "05310616",
+          "other_council": "wyre",
+          "supplier_match": {
+            "supplier": "GROWTH LANCASHIRE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 40717.5
+          },
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "GROWTH LANCASHIRE LIMITED",
+          "company_number": "05310616",
+          "other_council": "preston",
+          "supplier_match": {
+            "supplier": "GROWTH LANCASHIRE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 148517.76
+          },
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "GROWTH LANCASHIRE LIMITED",
+          "company_number": "05310616",
+          "other_council": "fylde",
+          "supplier_match": {
+            "supplier": "GROWTH LANCASHIRE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 23269.05
+          },
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "CALICO HOMES LIMITED",
@@ -3644,7 +3790,9 @@
             "confidence": 100,
             "total_spend": 1290.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "CALICO HOMES LIMITED",
@@ -3656,7 +3804,51 @@
             "confidence": 100,
             "total_spend": 590.92
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CALICO HOMES LIMITED",
+          "company_number": "03752751",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "CALICO HOMES LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 648734.86
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CALICO HOMES LIMITED",
+          "company_number": "03752751",
+          "other_council": "blackpool",
+          "supplier_match": {
+            "supplier": "CALICO HOMES LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 4776.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CALICO HOMES LIMITED",
+          "company_number": "03752751",
+          "other_council": "blackburn",
+          "supplier_match": {
+            "supplier": "CALICO HOMES LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 720.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
         }
       ],
       "network_crossover": {
@@ -3692,27 +3884,68 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at pendle council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at pendle council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at lancaster council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at lancaster council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at ribble_valley council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at ribble_valley council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at hyndburn council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at wyre council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at pendle council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at preston council [arm's-length body]",
+          "conflict_type": "arms_length_body"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at fylde council [arm's-length body]",
+          "conflict_type": "arms_length_body"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at hyndburn council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at pendle council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at blackpool council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at blackburn council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "councillor_is_donor",
@@ -3790,7 +4023,7 @@
       "network_investigation": {
         "advisable": true,
         "reasons": [
-          "5 cross-council conflict(s) \u2014 multi-authority exposure",
+          "11 cross-council conflict(s) \u2014 multi-authority exposure",
           "5 total directorships \u2014 extensive company history"
         ],
         "priority": "medium"
@@ -3801,7 +4034,7 @@
       "name": "Helen Bridges",
       "party": "Green Party",
       "ward": "Trinity",
-      "checked_at": "2026-02-19T19:38:34.438707Z",
+      "checked_at": "2026-02-19T21:13:26.877171Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4167,7 +4400,7 @@
       "name": "Charlie Briggs",
       "party": "Liberal Democrats",
       "ward": "Gannow",
-      "checked_at": "2026-02-19T19:38:38.292406Z",
+      "checked_at": "2026-02-19T21:13:30.740439Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4380,7 +4613,7 @@
       "name": "Margaret Brindle",
       "party": "Labour",
       "ward": "Rosehill with Burnley Wood",
-      "checked_at": "2026-02-19T19:38:42.113857Z",
+      "checked_at": "2026-02-19T21:13:34.556193Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4478,8 +4711,8 @@
               }
             ],
             "roles": [
-              "secretary",
-              "director"
+              "director",
+              "secretary"
             ],
             "officer_id": "AuTjxmil1aIIt3o_gcI1N71Bm-4"
           },
@@ -4620,7 +4853,7 @@
       "name": "Joanne Broughton",
       "party": "Conservative",
       "ward": "Hapton with Park",
-      "checked_at": "2026-02-19T19:38:51.029154Z",
+      "checked_at": "2026-02-19T21:13:43.602907Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4628,20 +4861,6 @@
       ],
       "companies_house": {
         "officer_matches": [
-          {
-            "officer_id": "Dgw8q5QXeHLIzwN_qQTB6oXnrxk",
-            "title": "Joanne BROUGHTON",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 12,
-              "year": 1969
-            },
-            "address_snippet": "9 Bell Lane, Lewes, East Sussex, United Kingdom, BN7 1JU",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
           {
             "officer_id": "yE5duDiDtylSL-VKWoB5OZ5eL_g",
             "title": "Joanne BROUGHTON",
@@ -4651,6 +4870,20 @@
               "year": 1972
             },
             "address_snippet": "Long Meadows Holiday Park, Waxholme Road, Withernsea, England, HU19 2BT",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "Dgw8q5QXeHLIzwN_qQTB6oXnrxk",
+            "title": "Joanne BROUGHTON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1969
+            },
+            "address_snippet": "9 Bell Lane, Lewes, East Sussex, United Kingdom, BN7 1JU",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -4743,10 +4976,10 @@
         {
           "officer_name": "Joanne BROUGHTON",
           "match_score": 100,
-          "address": "9 Bell Lane, Lewes, East Sussex, United Kingdom, BN7 1JU",
+          "address": "Long Meadows Holiday Park, Waxholme Road, Withernsea, England, HU19 2BT",
           "date_of_birth": {
-            "month": 12,
-            "year": 1969
+            "month": 6,
+            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4754,10 +4987,10 @@
         {
           "officer_name": "Joanne BROUGHTON",
           "match_score": 100,
-          "address": "Long Meadows Holiday Park, Waxholme Road, Withernsea, England, HU19 2BT",
+          "address": "9 Bell Lane, Lewes, East Sussex, United Kingdom, BN7 1JU",
           "date_of_birth": {
-            "month": 6,
-            "year": 1972
+            "month": 12,
+            "year": 1969
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4876,7 +5109,7 @@
       "name": "Ashley Brown",
       "party": "Labour",
       "ward": "Rosegrove with Lowerhouse",
-      "checked_at": "2026-02-19T19:38:54.316424Z",
+      "checked_at": "2026-02-19T21:13:46.946722Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4896,28 +5129,39 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "pwMZFteerWewr0kUEn6ytnVLq2A",
+            "officer_id": "AL6TBUzWLpSzqGsIuN10ePEoeaw",
             "title": "Ashley BROWN",
             "match_score": 100,
             "date_of_birth": {
-              "month": 4,
-              "year": 1988
+              "month": 8,
+              "year": 1990
             },
-            "address_snippet": "27 Old Gloucester Street, London, United Kingdom, WC1N 3AX",
+            "address_snippet": "52 New Wanstead, New Wanstead, London, England, E11 2SU",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "cK6c0HthSHDUh2aLmyRKYU8MJRk",
+            "officer_id": "eCqntBOgtG7MQeJr_FD-JuhESBA",
+            "title": "Ashley BROWN",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "Flat 6, 14 The Paragon, London, England, SE3 0PA",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "kVbanEbeN7Reb6cPZrzmnVjwNrQ",
             "title": "Ashley BROWN",
             "match_score": 100,
             "date_of_birth": {
-              "month": 1,
-              "year": 1986
+              "month": 8,
+              "year": 1995
             },
-            "address_snippet": "128 City Road, London, United Kingdom, EC1V 2NX",
+            "address_snippet": "2 Sister Mabels Way, London, United Kingdom, SE156UL",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -4932,17 +5176,6 @@
               "year": 1962
             },
             "address_snippet": "103 Frampton Street, London, England, NW8 8NB",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "eCqntBOgtG7MQeJr_FD-JuhESBA",
-            "title": "Ashley BROWN",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "Flat 6, 14 The Paragon, London, England, SE3 0PA",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -5004,10 +5237,10 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "27 Old Gloucester Street, London, United Kingdom, WC1N 3AX",
+          "address": "52 New Wanstead, New Wanstead, London, England, E11 2SU",
           "date_of_birth": {
-            "month": 4,
-            "year": 1988
+            "month": 8,
+            "year": 1990
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5015,10 +5248,18 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
+          "address": "Flat 6, 14 The Paragon, London, England, SE3 0PA",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Ashley BROWN",
+          "match_score": 100,
+          "address": "2 Sister Mabels Way, London, United Kingdom, SE156UL",
           "date_of_birth": {
-            "month": 1,
-            "year": 1986
+            "month": 8,
+            "year": 1995
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5037,18 +5278,10 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "Flat 6, 14 The Paragon, London, England, SE3 0PA",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Ashley BROWN",
-          "match_score": 100,
-          "address": "52 New Wanstead, New Wanstead, London, England, E11 2SU",
+          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
           "date_of_birth": {
-            "month": 8,
-            "year": 1990
+            "month": 1,
+            "year": 1986
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5064,10 +5297,10 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "2 Sister Mabels Way, London, United Kingdom, SE156UL",
+          "address": "27 Old Gloucester Street, London, United Kingdom, WC1N 3AX",
           "date_of_birth": {
-            "month": 8,
-            "year": 1995
+            "month": 4,
+            "year": 1988
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5215,6 +5448,17 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
+          "address": "34 Albert Road, Dartford, United Kingdom, DA2 7DL",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1964
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Ashley BROWN",
+          "match_score": 100,
           "address": "205 Breedon Street, Long Eaton, Nottingham, England, NG10 4EU",
           "date_of_birth": {
             "month": 11,
@@ -5259,28 +5503,6 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "34 Albert Road, Dartford, United Kingdom, DA2 7DL",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1964
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Ashley BROWN",
-          "match_score": 100,
-          "address": "286 College Street, Long Eaton, Nottinghamshire, England, NG10 4GW",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1987
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Ashley BROWN",
-          "match_score": 100,
           "address": "2 Sister Mabels Way, London, United Kingdom, SE15 6UL",
           "date_of_birth": {
             "month": 8,
@@ -5303,10 +5525,10 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "38 Dinsdale Gardens, London, England, SE25 6LT",
+          "address": "418 Radipole Lane, Weymouth, Dorset, England, DT4 0SN",
           "date_of_birth": {
-            "month": 10,
-            "year": 1988
+            "month": 11,
+            "year": 1990
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5336,10 +5558,10 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "418 Radipole Lane, Weymouth, Dorset, England, DT4 0SN",
+          "address": "Kings Lodge, London Road, West Kingsdown, Kent, United Kingdom, TN15 6AR",
           "date_of_birth": {
-            "month": 11,
-            "year": 1990
+            "month": 5,
+            "year": 1976
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5347,10 +5569,21 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "Kings Lodge, London Road, West Kingsdown, Kent, United Kingdom, TN15 6AR",
+          "address": "286 College Street, Long Eaton, Nottinghamshire, England, NG10 4GW",
           "date_of_birth": {
-            "month": 5,
-            "year": 1976
+            "month": 11,
+            "year": 1987
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Ashley BROWN",
+          "match_score": 100,
+          "address": "38 Dinsdale Gardens, London, England, SE25 6LT",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1988
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5369,10 +5602,32 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "106 Clyde Road, Croydon, England, CR0 6SW",
+          "address": "70a, High Road, East Finchley, London, England, N2 9PN",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1987
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Ashley BROWN",
+          "match_score": 100,
+          "address": "Unit 4, 98, Goldstone Villas, Hove, East Sussex, United Kingdom, BN3 3RU",
           "date_of_birth": {
             "month": 12,
-            "year": 1990
+            "year": 1986
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Ashley BROWN",
+          "match_score": 100,
+          "address": "Beaufront Hill Head Farm Cottage, Hillhead Cottage, Sandhoe, Hexham, Northumberland, United Kingdom, NE46 4NB",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1985
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5402,17 +5657,6 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "70a, High Road, East Finchley, London, England, N2 9PN",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1987
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Ashley BROWN",
-          "match_score": 100,
           "address": "2 Haynes Turn, Haynes, Bedford, Bedfordshire, MK45 3PA",
           "date_of_birth": {
             "month": 11,
@@ -5435,21 +5679,10 @@
         {
           "officer_name": "Ashley BROWN",
           "match_score": 100,
-          "address": "Unit 4, 98, Goldstone Villas, Hove, East Sussex, United Kingdom, BN3 3RU",
+          "address": "106 Clyde Road, Croydon, England, CR0 6SW",
           "date_of_birth": {
             "month": 12,
-            "year": 1986
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Ashley BROWN",
-          "match_score": 100,
-          "address": "Beaufront Hill Head Farm Cottage, Hillhead Cottage, Sandhoe, Hexham, Northumberland, United Kingdom, NE46 4NB",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1985
+            "year": 1990
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5541,7 +5774,7 @@
       "name": "Saeed Chaudhary",
       "party": "Independent",
       "ward": "Daneshouse with Stoneyholme",
-      "checked_at": "2026-02-19T19:38:57.585817Z",
+      "checked_at": "2026-02-19T21:13:50.213436Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -5678,13 +5911,35 @@
         "has_family_supplier_conflict": false
       },
       "supplier_conflicts": [],
-      "cross_council_conflicts": [],
+      "cross_council_conflicts": [
+        {
+          "company_name": "BURNLEY, PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE",
+          "company_number": "03328219",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "BURNLEY PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE",
+            "match_type": "fuzzy",
+            "confidence": 87,
+            "total_spend": 4000.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        }
+      ],
       "network_crossover": {
         "total_links": 0,
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
+      "red_flags": [
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'BURNLEY, PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        }
+      ],
       "integrity_score": 100,
       "risk_level": "low",
       "register_of_interests": {
@@ -5838,9 +6093,11 @@
       ],
       "false_positives_eliminated": 49,
       "network_investigation": {
-        "advisable": false,
-        "reasons": [],
-        "priority": "none"
+        "advisable": true,
+        "reasons": [
+          "1 cross-council conflict(s) \u2014 multi-authority exposure"
+        ],
+        "priority": "medium"
       }
     },
     {
@@ -5848,7 +6105,7 @@
       "name": "Barbara Dole",
       "party": "Labour",
       "ward": "Gawthorpe",
-      "checked_at": "2026-02-19T19:39:02.526082Z",
+      "checked_at": "2026-02-19T21:13:55.217174Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -5912,7 +6169,7 @@
       "name": "Ivor Emo",
       "party": "Conservative",
       "ward": "Cliviger with Worsthorne",
-      "checked_at": "2026-02-19T19:39:06.372316Z",
+      "checked_at": "2026-02-19T21:13:59.034804Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -5976,7 +6233,7 @@
       "name": "Sue Graham",
       "party": "Labour",
       "ward": "Lanehead",
-      "checked_at": "2026-02-19T19:39:10.196909Z",
+      "checked_at": "2026-02-19T21:14:02.914073Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6161,7 +6418,7 @@
       "name": "Gemma Haigh",
       "party": "Labour & Co-operative Party",
       "ward": "Gannow",
-      "checked_at": "2026-02-19T19:39:14.029264Z",
+      "checked_at": "2026-02-19T21:14:06.758562Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6357,7 +6614,7 @@
       "name": "Alex Hall",
       "party": "Green Party",
       "ward": "Trinity",
-      "checked_at": "2026-02-19T19:39:17.274272Z",
+      "checked_at": "2026-02-19T21:14:10.005419Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6549,10 +6806,10 @@
         {
           "officer_name": "Alex HALL",
           "match_score": 100,
-          "address": "7 Gossamer Lane, Bognor Regis, England, PO21 3AT",
+          "address": "Ground Floor, 25 Darling Street, Enniskillen, Co Fermanagh, United Kingdom, BT74 7DP",
           "date_of_birth": {
-            "month": 10,
-            "year": 1998
+            "month": 9,
+            "year": 1988
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6560,10 +6817,18 @@
         {
           "officer_name": "Alex HALL",
           "match_score": 100,
-          "address": "8 Ransom Avenue, Worcester, Worcestershire, United Kingdom, WR5 3AJ",
+          "address": "1 St James Gate, Newcastle Upon Tyne, NE1 4AD",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Alex HALL",
+          "match_score": 100,
+          "address": "7 Gossamer Lane, Bognor Regis, England, PO21 3AT",
           "date_of_birth": {
-            "month": 5,
-            "year": 1975
+            "month": 10,
+            "year": 1998
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6582,18 +6847,10 @@
         {
           "officer_name": "Alex HALL",
           "match_score": 100,
-          "address": "1 St James Gate, Newcastle Upon Tyne, NE1 4AD",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Alex HALL",
-          "match_score": 100,
-          "address": "Ground Floor, 25 Darling Street, Enniskillen, Co Fermanagh, United Kingdom, BT74 7DP",
+          "address": "8 Ransom Avenue, Worcester, Worcestershire, United Kingdom, WR5 3AJ",
           "date_of_birth": {
-            "month": 9,
-            "year": 1988
+            "month": 5,
+            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6924,7 +7181,7 @@
       "name": "John Harbour",
       "party": "Labour",
       "ward": "Gawthorpe",
-      "checked_at": "2026-02-19T19:39:20.573770Z",
+      "checked_at": "2026-02-19T21:14:13.302979Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7310,7 +7567,7 @@
       "name": "Bill Horrocks",
       "party": "Labour",
       "ward": "Rosehill with Burnley Wood",
-      "checked_at": "2026-02-19T19:39:24.469929Z",
+      "checked_at": "2026-02-19T21:14:17.199677Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7374,7 +7631,7 @@
       "name": "Alan Hosker",
       "party": "Reform UK",
       "ward": "Hapton with Park",
-      "checked_at": "2026-02-19T19:39:28.282233Z",
+      "checked_at": "2026-02-19T21:14:21.091332Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7465,7 +7722,7 @@
       "name": "Beki Hughes",
       "party": "Green Party",
       "ward": "Cliviger with Worsthorne",
-      "checked_at": "2026-02-19T19:39:32.119324Z",
+      "checked_at": "2026-02-19T21:14:24.923122Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7529,7 +7786,7 @@
       "name": "Martyn Hurt",
       "party": "Green Party",
       "ward": "Trinity",
-      "checked_at": "2026-02-19T19:39:35.374901Z",
+      "checked_at": "2026-02-19T21:14:28.182103Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7767,7 +8024,7 @@
       "name": "Shah Hussain",
       "party": "Independent",
       "ward": "Daneshouse with Stoneyholme",
-      "checked_at": "2026-02-19T19:39:43.734435Z",
+      "checked_at": "2026-02-19T21:14:36.649630Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -8408,7 +8665,7 @@
       "name": "Jacqueline Inckle",
       "party": "Liberal Democrats",
       "ward": "Coalclough with Deerplay",
-      "checked_at": "2026-02-19T19:39:47.013150Z",
+      "checked_at": "2026-02-19T21:14:39.923063Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -8472,7 +8729,7 @@
       "name": "Mohammed Ishtiaq",
       "party": "Independent",
       "ward": "Queensgate",
-      "checked_at": "2026-02-19T19:39:50.270845Z",
+      "checked_at": "2026-02-19T21:14:43.187957Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -8523,25 +8780,28 @@
             "verification": "ch_strong_proximity"
           },
           {
-            "officer_id": "LRJWvNiyCiTukGn7ESsb3n2qWpE",
+            "officer_id": "sch5TKYhgIfZ4eSzZGU05BasAIA",
             "title": "Mohammed ISHTIAQ",
             "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "4385, 12918366 - Companies House Default Address, Cardiff, CF14 8LH",
+            "date_of_birth": {
+              "month": 7,
+              "year": 1972
+            },
+            "address_snippet": "4385, 15637700 - Companies House Default Address, Cardiff, CF14 8LH",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "OxaU6PW4UKGT2_1WOmscDf6yLqM",
+            "officer_id": "3d28Spe6hNPBJ7JXHPH5e-bKCuI",
             "title": "Mohammed ISHTIAQ",
             "match_score": 100,
             "date_of_birth": {
-              "month": 8,
-              "year": 1975
+              "month": 3,
+              "year": 1974
             },
-            "address_snippet": "22 Primrose Lane, Birmingham, England, B28 0JJ",
+            "address_snippet": "65 Chester Road, Watford, Hertfordshire, WD18 0RG",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -8870,8 +9130,8 @@
               }
             ],
             "roles": [
-              "secretary",
-              "director"
+              "director",
+              "secretary"
             ],
             "officer_id": "xkZbV0T4FhlmeOIQr3Z_qOqGcJ4"
           },
@@ -8925,7 +9185,36 @@
         "has_family_supplier_conflict": false
       },
       "supplier_conflicts": [],
-      "cross_council_conflicts": [],
+      "cross_council_conflicts": [
+        {
+          "company_name": "CURANTIS HEALTHCARE LIMITED",
+          "company_number": "11184854",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "CURANTIS HEALTHCARE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 2399695.14
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "ltd"
+        },
+        {
+          "company_name": "CURANTIS HEALTHCARE LIMITED",
+          "company_number": "11184854",
+          "other_council": "blackburn",
+          "supplier_match": {
+            "supplier": "CURANTIS HEALTHCARE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 967182.44
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "ltd"
+        }
+      ],
       "network_crossover": {
         "total_links": 0,
         "links": []
@@ -8939,14 +9228,42 @@
             "dissolved_count": 5,
             "active_count": 7,
             "sic_overlap": [
+              "38110",
               "88990",
               "45112",
-              "93290",
               "38320",
+              "93290",
               "85600",
-              "38110",
               "96040"
             ]
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at lancashire_cc council",
+          "evidence": {
+            "other_council": "lancashire_cc",
+            "match": {
+              "supplier": "CURANTIS HEALTHCARE LTD",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 2399695.14
+            }
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at blackburn council",
+          "evidence": {
+            "other_council": "blackburn",
+            "match": {
+              "supplier": "CURANTIS HEALTHCARE LTD",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 967182.44
+            }
           }
         }
       ],
@@ -9006,9 +9323,31 @@
           "company": "AK MOTORS (EALING) LTD"
         },
         {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CURANTIS HEALTHCARE LIMITED' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CURANTIS HEALTHCARE LIMITED' matches supplier at blackburn council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
           "type": "phoenix_company_pattern",
           "severity": "high",
           "detail": "5 dissolved companies + 7 active in same/similar sectors \u2014 possible phoenix pattern"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at lancashire_cc council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at blackburn council"
         },
         {
           "type": "psc_ownership",
@@ -9016,13 +9355,46 @@
           "detail": "Person with Significant Control of ELEVANA CARE LTD (ownership stake)"
         }
       ],
-      "integrity_score": 30,
+      "integrity_score": 0,
       "risk_level": "high",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "4385, 15637700 - Companies House Default Address, Cardiff, CF14 8LH",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1972
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "65 Chester Road, Watford, Hertfordshire, WD18 0RG",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1974
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "124 Scarbrough Road, Walsall, United Kingdom, WS2 9TU",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1989
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
@@ -9056,73 +9428,10 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "65 Chester Road, Watford, Hertfordshire, WD18 0RG",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1974
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
-          "address": "124 Scarbrough Road, Walsall, United Kingdom, WS2 9TU",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1989
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
-          "address": "4385, 15637700 - Companies House Default Address, Cardiff, CF14 8LH",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1972
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
           "address": "2256 Coventry Road, Sheldon, Birmingham, England, B26 3JR",
           "date_of_birth": {
             "month": 2,
             "year": 1988
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
-          "address": "Travel & Co, 520 Cathcart Road, Glasgow, Scotland, G42 8YG",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
-          "address": "58 Bethel Road, Eastwood, Rotherham, United Kingdom, S65 1QX",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1983
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
-          "address": "18 Cape Hill, Smethwick, United Kingdom, B66 4RN",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1968
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9141,17 +9450,6 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "C/O Isaacs Accountants, New Augustus Street, Bradford, England, BD1 5LL",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
           "address": "167 City Road London, City Road, London, England, EC1V 1AW",
           "date_of_birth": {
             "month": 7,
@@ -9163,7 +9461,29 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "A H Accountancy Services, 61 Blagden Street, Sheffield, England, S2 5QS",
+          "address": "21 Headingley Road, Birmingham, England, B21 9QE",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1972
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "18 Cape Hill, Smethwick, United Kingdom, B66 4RN",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "58 Bethel Road, Eastwood, Rotherham, United Kingdom, S65 1QX",
           "date_of_birth": {
             "month": 2,
             "year": 1983
@@ -9174,10 +9494,29 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "21 Headingley Road, Birmingham, England, B21 9QE",
+          "address": "C/O Isaacs Accountants, New Augustus Street, Bradford, England, BD1 5LL",
           "date_of_birth": {
-            "month": 7,
-            "year": 1972
+            "month": 5,
+            "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "Travel & Co, 520 Cathcart Road, Glasgow, Scotland, G42 8YG",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "A H Accountancy Services, 61 Blagden Street, Sheffield, England, S2 5QS",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1983
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9253,17 +9592,6 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "98 Sheriff Street, Rochdale, United Kingdom, OL12 6JY",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ISHTIAQ",
-          "match_score": 100,
           "address": "Nantwich Post Office, 32 Pepper Street, Nantwich, United Kingdom, CW5 5FH",
           "date_of_birth": {
             "month": 7,
@@ -9286,10 +9614,18 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "225 Denby Dale Road, Wakefield, England, WF2 7AJ",
+          "address": "61 Bridge Street, Glasgow, United Kingdom, G5 9JB",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ISHTIAQ",
+          "match_score": 100,
+          "address": "1 Paxton Road, Stourbridge, England, DY9 8YD",
           "date_of_birth": {
-            "month": 7,
-            "year": 1972
+            "month": 9,
+            "year": 1966
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9297,10 +9633,10 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "47/49, Princes Mall, East Kilbride, South Lanarkshire, G74 1LB",
+          "address": "225 Denby Dale Road, Wakefield, England, WF2 7AJ",
           "date_of_birth": {
-            "month": 6,
-            "year": 1949
+            "month": 7,
+            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9319,18 +9655,21 @@
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "61 Bridge Street, Glasgow, United Kingdom, G5 9JB",
-          "date_of_birth": {},
+          "address": "47/49, Princes Mall, East Kilbride, South Lanarkshire, G74 1LB",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1949
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
           "officer_name": "Mohammed ISHTIAQ",
           "match_score": 100,
-          "address": "1 Paxton Road, Stourbridge, England, DY9 8YD",
+          "address": "98 Sheriff Street, Rochdale, United Kingdom, OL12 6JY",
           "date_of_birth": {
-            "month": 9,
-            "year": 1966
+            "month": 5,
+            "year": 1984
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9528,7 +9867,9 @@
         "advisable": true,
         "reasons": [
           "7 active directorships \u2014 complex company portfolio",
+          "2 cross-council conflict(s) \u2014 multi-authority exposure",
           "high risk level \u2014 multiple red flags",
+          "2 critical misconduct pattern(s) detected",
           "5 dissolved/liquidated companies \u2014 phoenix risk pattern",
           "8 total directorships \u2014 extensive company history"
         ],
@@ -9540,7 +9881,7 @@
       "name": "Nussrat Kazmi",
       "party": "Independent",
       "ward": "Daneshouse with Stoneyholme",
-      "checked_at": "2026-02-19T19:40:06.753894Z",
+      "checked_at": "2026-02-19T21:15:00.480836Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -9604,7 +9945,7 @@
       "name": "Anne Kelly",
       "party": "Liberal Democrats",
       "ward": "Briercliffe",
-      "checked_at": "2026-02-19T19:40:10.554733Z",
+      "checked_at": "2026-02-19T21:15:04.369707Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -9652,6 +9993,17 @@
             "verification": "name_match_only"
           },
           {
+            "officer_id": "00pBrRTcIVBk4onBMBVClOUE7Q4",
+            "title": "Anne KELLY",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "Fairview, Harewood Road, Skipton, England, BD23 1QR",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
             "officer_id": "pwT4Gs1XnxSnlFbxGQNFmtpmjo0",
             "title": "Anne KELLY",
             "match_score": 100,
@@ -9660,20 +10012,6 @@
               "year": 1966
             },
             "address_snippet": "Oaktree Cottage, Main Road, Cardross, Dumbarton, Dunbartonshire, G82 5NY",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "A8JpeybDKXXVfh-B4Oth-DtFf9g",
-            "title": "Anne KELLY",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 8,
-              "year": 1984
-            },
-            "address_snippet": "18 Beaumont Avenue, Harrow, England, HA2 7AT",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -9757,10 +10095,29 @@
         {
           "officer_name": "Anne KELLY",
           "match_score": 100,
+          "address": "Fairview, Harewood Road, Skipton, England, BD23 1QR",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Anne KELLY",
+          "match_score": 100,
           "address": "Oaktree Cottage, Main Road, Cardross, Dumbarton, Dunbartonshire, G82 5NY",
           "date_of_birth": {
             "month": 7,
             "year": 1966
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Anne KELLY",
+          "match_score": 100,
+          "address": "1 Tobarmore Park, Crossgar, Downpatrick, United Kingdom, BT30 9HE",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1937
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9779,25 +10136,6 @@
         {
           "officer_name": "Anne KELLY",
           "match_score": 100,
-          "address": "Fairview, Harewood Road, Skipton, England, BD23 1QR",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Anne KELLY",
-          "match_score": 100,
-          "address": "1 Tobarmore Park, Crossgar, Downpatrick, United Kingdom, BT30 9HE",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1937
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Anne KELLY",
-          "match_score": 100,
           "address": "120c Villiers Road, London, NW2 5PJ",
           "date_of_birth": {
             "month": 10,
@@ -9809,8 +10147,22 @@
         {
           "officer_name": "Anne KELLY",
           "match_score": 100,
-          "address": "16 The Mount, New Malden, Surrey, KT3 4HU",
-          "date_of_birth": {},
+          "address": "Fairview, Harewood Road, Skipton, England, BD23 1QR",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1956
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Anne KELLY",
+          "match_score": 100,
+          "address": "Daughters Of The Cross, Beech Park, Stillorgan, Co. Dublin, Ireland",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1948
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -9836,22 +10188,8 @@
         {
           "officer_name": "Anne KELLY",
           "match_score": 100,
-          "address": "Fairview, Harewood Road, Skipton, England, BD23 1QR",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1956
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Anne KELLY",
-          "match_score": 100,
-          "address": "Daughters Of The Cross, Beech Park, Stillorgan, Co. Dublin, Ireland",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1948
-          },
+          "address": "16 The Mount, New Malden, Surrey, KT3 4HU",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -10183,7 +10521,7 @@
         {
           "officer_name": "Anne Marie KELLY",
           "match_score": 90,
-          "address": "39 Papworth Avenue, Derry, N. Ireland, BT488PT",
+          "address": "26 Belmont Crescent, Maidenhead, Berkshire, SL6 6LW",
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10202,7 +10540,7 @@
         {
           "officer_name": "Anne Marie KELLY",
           "match_score": 90,
-          "address": "26 Belmont Crescent, Maidenhead, Berkshire, SL6 6LW",
+          "address": "39 Papworth Avenue, Derry, N. Ireland, BT488PT",
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10228,7 +10566,7 @@
       "name": "Lubna Khan",
       "party": "Independent",
       "ward": "Bank Hall",
-      "checked_at": "2026-02-19T19:40:14.387921Z",
+      "checked_at": "2026-02-19T21:15:08.205321Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10265,14 +10603,14 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "rTlPlqe7Luqk-9j-pFsG4lO391s",
+            "officer_id": "JmwUZWptHYu17_TN7AMeN4cKgr4",
             "title": "Lubna KHAN",
             "match_score": 100,
             "date_of_birth": {
-              "month": 12,
-              "year": 1978
+              "month": 1,
+              "year": 1981
             },
-            "address_snippet": "4 Boundary Close, Southall, England, UB2 4JW",
+            "address_snippet": "Cura House Unit 3, Radford Way, Billericay, England, CM12 0DX",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -10293,14 +10631,14 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "JmwUZWptHYu17_TN7AMeN4cKgr4",
+            "officer_id": "rTlPlqe7Luqk-9j-pFsG4lO391s",
             "title": "Lubna KHAN",
             "match_score": 100,
             "date_of_birth": {
-              "month": 1,
-              "year": 1981
+              "month": 12,
+              "year": 1978
             },
-            "address_snippet": "Cura House Unit 3, Radford Way, Billericay, England, CM12 0DX",
+            "address_snippet": "4 Boundary Close, Southall, England, UB2 4JW",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -10428,7 +10766,9 @@
             "confidence": 100,
             "total_spend": 103415.19
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "GROWTH LANCASHIRE LIMITED",
@@ -10440,7 +10780,9 @@
             "confidence": 100,
             "total_spend": 18250.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "GROWTH LANCASHIRE LIMITED",
@@ -10452,7 +10794,51 @@
             "confidence": 100,
             "total_spend": 8162.44
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "GROWTH LANCASHIRE LIMITED",
+          "company_number": "05310616",
+          "other_council": "wyre",
+          "supplier_match": {
+            "supplier": "GROWTH LANCASHIRE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 40717.5
+          },
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "GROWTH LANCASHIRE LIMITED",
+          "company_number": "05310616",
+          "other_council": "preston",
+          "supplier_match": {
+            "supplier": "GROWTH LANCASHIRE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 148517.76
+          },
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "GROWTH LANCASHIRE LIMITED",
+          "company_number": "05310616",
+          "other_council": "fylde",
+          "supplier_match": {
+            "supplier": "GROWTH LANCASHIRE LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 23269.05
+          },
+          "severity": "info",
+          "conflict_type": "arms_length_body",
+          "company_type": "private-limited-guarant-nsc"
         }
       ],
       "network_crossover": {
@@ -10470,17 +10856,38 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at pendle council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at pendle council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at lancaster council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at lancaster council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at ribble_valley council"
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at ribble_valley council [arm's-length body]",
+          "conflict_type": "arms_length_body"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at wyre council [arm's-length body]",
+          "conflict_type": "arms_length_body"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at preston council [arm's-length body]",
+          "conflict_type": "arms_length_body"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at fylde council [arm's-length body]",
+          "conflict_type": "arms_length_body"
         },
         {
           "type": "psc_ownership",
@@ -10509,10 +10916,10 @@
         {
           "officer_name": "Lubna KHAN",
           "match_score": 100,
-          "address": "4 Boundary Close, Southall, England, UB2 4JW",
+          "address": "Cura House Unit 3, Radford Way, Billericay, England, CM12 0DX",
           "date_of_birth": {
-            "month": 12,
-            "year": 1978
+            "month": 1,
+            "year": 1981
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10531,10 +10938,21 @@
         {
           "officer_name": "Lubna KHAN",
           "match_score": 100,
-          "address": "Cura House Unit 3, Radford Way, Billericay, England, CM12 0DX",
+          "address": "4 Boundary Close, Southall, England, UB2 4JW",
           "date_of_birth": {
-            "month": 1,
-            "year": 1981
+            "month": 12,
+            "year": 1978
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Lubna KHAN",
+          "match_score": 100,
+          "address": "74 Nathans Road, London, United Kingdom, HA0 3RX",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1962
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10553,7 +10971,7 @@
         {
           "officer_name": "Lubna KHAN",
           "match_score": 100,
-          "address": "74 Nathans Road, London, United Kingdom, HA0 3RX",
+          "address": "74 Nathans Road, Wembley, England, HA0 3RX",
           "date_of_birth": {
             "month": 4,
             "year": 1962
@@ -10575,10 +10993,10 @@
         {
           "officer_name": "Lubna KHAN",
           "match_score": 100,
-          "address": "74 Nathans Road, Wembley, England, HA0 3RX",
+          "address": "67 Ley Street, Ilford, Essex, England, IG1 4BG",
           "date_of_birth": {
-            "month": 4,
-            "year": 1962
+            "month": 11,
+            "year": 1963
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10586,11 +11004,8 @@
         {
           "officer_name": "Lubna KHAN",
           "match_score": 100,
-          "address": "67 Ley Street, Ilford, Essex, England, IG1 4BG",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1963
-          },
+          "address": "52 Redshank Court, Thatcham, England, RG19 3UE",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -10619,8 +11034,11 @@
         {
           "officer_name": "Lubna KHAN",
           "match_score": 100,
-          "address": "52 Redshank Court, Thatcham, England, RG19 3UE",
-          "date_of_birth": {},
+          "address": "20-24, Broad Street, Harleston, Norfolk, IP20 9AZ",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1977
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -10642,17 +11060,6 @@
           "date_of_birth": {
             "month": 11,
             "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Lubna KHAN",
-          "match_score": 100,
-          "address": "20-24, Broad Street, Harleston, Norfolk, IP20 9AZ",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1977
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10862,6 +11269,17 @@
         {
           "officer_name": "Tahira Lubna KHAN",
           "match_score": 90,
+          "address": "20-22, Wenlock Road, London, England, N1 7GU",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1973
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Tahira Lubna KHAN",
+          "match_score": 90,
           "address": "27 Clarksfield  St, 27 Clarksfield Street, Oldham, Oldham, England, United Kingdom, OL4 3AW",
           "date_of_birth": {
             "month": 9,
@@ -10877,24 +11295,13 @@
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Tahira Lubna KHAN",
-          "match_score": 90,
-          "address": "20-22, Wenlock Road, London, England, N1 7GU",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1973
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         }
       ],
       "false_positives_eliminated": 49,
       "network_investigation": {
         "advisable": true,
         "reasons": [
-          "3 cross-council conflict(s) \u2014 multi-authority exposure"
+          "6 cross-council conflict(s) \u2014 multi-authority exposure"
         ],
         "priority": "medium"
       }
@@ -10904,7 +11311,7 @@
       "name": "Jack Launer",
       "party": "Green Party",
       "ward": "Cliviger with Worsthorne",
-      "checked_at": "2026-02-19T19:40:20.479447Z",
+      "checked_at": "2026-02-19T21:15:14.494766Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10927,20 +11334,6 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "4jBi8z5Gty7NyomZfR7cH4GPCDw",
-            "title": "Jack Simon LAUNER",
-            "match_score": 90,
-            "date_of_birth": {
-              "month": 3,
-              "year": 1974
-            },
-            "address_snippet": "C/O Pm+M, Greenbank Technology Park, Challenge Way, Blackburn, Lancashire, England, BB1 5QB",
-            "proximity_score": 10,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "qv7oNd2u64-suGIZeCbFrPoA5rc",
             "title": "Jack Simon LAUNER",
             "match_score": 90,
@@ -10950,6 +11343,20 @@
             },
             "address_snippet": "C/O Cc Young & Co, 3rd Floor,, The Bloomsbury Building, 10 Bloomsbury Way, Holborn, London, England, WC1A 2SL",
             "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "4jBi8z5Gty7NyomZfR7cH4GPCDw",
+            "title": "Jack Simon LAUNER",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1974
+            },
+            "address_snippet": "C/O Pm+M, Greenbank Technology Park, Challenge Way, Blackburn, Lancashire, England, BB1 5QB",
+            "proximity_score": 10,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
@@ -11013,7 +11420,7 @@
         {
           "officer_name": "Jack Simon LAUNER",
           "match_score": 90,
-          "address": "C/O Pm+M, Greenbank Technology Park, Challenge Way, Blackburn, Lancashire, England, BB1 5QB",
+          "address": "C/O Cc Young & Co, 3rd Floor,, The Bloomsbury Building, 10 Bloomsbury Way, Holborn, London, England, WC1A 2SL",
           "date_of_birth": {
             "month": 3,
             "year": 1974
@@ -11024,7 +11431,7 @@
         {
           "officer_name": "Jack Simon LAUNER",
           "match_score": 90,
-          "address": "C/O Cc Young & Co, 3rd Floor,, The Bloomsbury Building, 10 Bloomsbury Way, Holborn, London, England, WC1A 2SL",
+          "address": "C/O Pm+M, Greenbank Technology Park, Challenge Way, Blackburn, Lancashire, England, BB1 5QB",
           "date_of_birth": {
             "month": 3,
             "year": 1974
@@ -11045,7 +11452,7 @@
       "name": "Alun Lewis",
       "party": "Labour",
       "ward": "Gawthorpe",
-      "checked_at": "2026-02-19T19:40:23.765401Z",
+      "checked_at": "2026-02-19T21:15:17.779747Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -11287,6 +11694,17 @@
         {
           "officer_name": "Alun LEWIS",
           "match_score": 100,
+          "address": "Sovereign Way, Trafalgar Industrial Estate, Downham Market, Norfolk, PE38 9SW",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1963
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Alun LEWIS",
+          "match_score": 100,
           "address": "31 Shorrolds Road, London, United Kingdom, SW6 7TR",
           "date_of_birth": {
             "month": 3,
@@ -11302,17 +11720,6 @@
           "date_of_birth": {
             "month": 4,
             "year": 1966
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Alun LEWIS",
-          "match_score": 100,
-          "address": "Sovereign Way, Trafalgar Industrial Estate, Downham Market, Norfolk, PE38 9SW",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1963
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -11700,7 +12107,7 @@
       "name": "Gordon Lishman",
       "party": "Liberal Democrats",
       "ward": "Briercliffe",
-      "checked_at": "2026-02-19T19:40:28.748750Z",
+      "checked_at": "2026-02-19T21:15:22.795147Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -12196,8 +12603,8 @@
               }
             ],
             "roles": [
-              "secretary",
-              "director"
+              "director",
+              "secretary"
             ],
             "officer_id": "N1QiNKOTEoEPo5TzYMZ4LAammfg"
           },
@@ -12458,7 +12865,9 @@
             "confidence": 100,
             "total_spend": 28000.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         },
         {
           "company_name": "CITIZENS ADVICE EAST LANCASHIRE",
@@ -12470,7 +12879,9 @@
             "confidence": 100,
             "total_spend": 180000.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         },
         {
           "company_name": "CITIZENS ADVICE EAST LANCASHIRE",
@@ -12482,7 +12893,9 @@
             "confidence": 100,
             "total_spend": 147500.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         },
         {
           "company_name": "CITIZENS ADVICE EAST LANCASHIRE",
@@ -12494,7 +12907,9 @@
             "confidence": 100,
             "total_spend": 30000.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         }
       ],
       "network_crossover": {
@@ -12579,22 +12994,26 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at hyndburn council"
+          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at hyndburn council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at pendle council"
+          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at pendle council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at rossendale council"
+          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at rossendale council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at ribble_valley council"
+          "detail": "Company 'CITIZENS ADVICE EAST LANCASHIRE' matches supplier at ribble_valley council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "phoenix_company_pattern",
@@ -12650,7 +13069,7 @@
       "name": "Margaret Lishman",
       "party": "Liberal Democrats",
       "ward": "Briercliffe",
-      "checked_at": "2026-02-19T19:40:45.610668Z",
+      "checked_at": "2026-02-19T21:15:40.629548Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -13167,6 +13586,8 @@
             "total_spend": 2050.0
           },
           "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption",
           "council_id": "burnley"
         }
       ],
@@ -13181,7 +13602,51 @@
             "confidence": 100,
             "total_spend": 3000.0
           },
-          "severity": "high"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "LANCASHIRE WOMEN",
+          "company_number": "04777720",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "LANCASHIRE WOMEN",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 460137.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "LANCASHIRE WOMEN",
+          "company_number": "04777720",
+          "other_council": "blackpool",
+          "supplier_match": {
+            "supplier": "LANCASHIRE WOMEN",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 176375.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "BURNLEY, PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE",
+          "company_number": "03328219",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "BURNLEY PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE",
+            "match_type": "fuzzy",
+            "confidence": 87,
+            "total_spend": 4000.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         },
         {
           "company_name": "NEWGROUND TOGETHER",
@@ -13193,7 +13658,37 @@
             "confidence": 100,
             "total_spend": 737682.13
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "NEWGROUND TOGETHER",
+          "company_number": "02501885",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "NEWGROUND TOGETHER",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 420.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "NEWGROUND TOGETHER",
+          "company_number": "02501885",
+          "other_council": "blackburn",
+          "supplier_match": {
+            "supplier": "NEWGROUND TOGETHER",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 10772.64
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         }
       ],
       "network_crossover": {
@@ -13225,6 +13720,48 @@
               "total_spend": 3000.0
             }
           }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'LANCASHIRE WOMEN' also matches supplier at lancashire_cc council",
+          "evidence": {
+            "other_council": "lancashire_cc",
+            "match": {
+              "supplier": "LANCASHIRE WOMEN",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 460137.0
+            }
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'LANCASHIRE WOMEN' also matches supplier at blackpool council",
+          "evidence": {
+            "other_council": "blackpool",
+            "match": {
+              "supplier": "LANCASHIRE WOMEN",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 176375.0
+            }
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'BURNLEY, PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE' also matches supplier at lancashire_cc council",
+          "evidence": {
+            "other_council": "lancashire_cc",
+            "match": {
+              "supplier": "BURNLEY PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE",
+              "match_type": "fuzzy",
+              "confidence": 87,
+              "total_spend": 4000.0
+            }
+          }
         }
       ],
       "red_flags": [
@@ -13249,17 +13786,50 @@
         {
           "type": "supplier_conflict",
           "severity": "info",
-          "detail": "Company 'NEWGROUND TOGETHER' matches council supplier 'NEWGROUND TOGETHER'"
-        },
-        {
-          "type": "cross_council_conflict",
-          "severity": "high",
-          "detail": "Company 'LANCASHIRE WOMEN' matches supplier at hyndburn council"
+          "detail": "Company 'NEWGROUND TOGETHER' matches council supplier 'NEWGROUND TOGETHER' [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'NEWGROUND TOGETHER' matches supplier at pendle council"
+          "detail": "Company 'LANCASHIRE WOMEN' matches supplier at hyndburn council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'LANCASHIRE WOMEN' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'LANCASHIRE WOMEN' matches supplier at blackpool council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'BURNLEY, PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'NEWGROUND TOGETHER' matches supplier at pendle council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'NEWGROUND TOGETHER' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'NEWGROUND TOGETHER' matches supplier at blackburn council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "rapid_company_turnover",
@@ -13270,9 +13840,24 @@
           "type": "cross_council_supplier_conflict",
           "severity": "critical",
           "detail": "Company 'LANCASHIRE WOMEN' also matches supplier at hyndburn council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'LANCASHIRE WOMEN' also matches supplier at lancashire_cc council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'LANCASHIRE WOMEN' also matches supplier at blackpool council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'BURNLEY, PENDLE & ROSSENDALE COUNCIL FOR VOLUNTARY SERVICE' also matches supplier at lancashire_cc council"
         }
       ],
-      "integrity_score": 30,
+      "integrity_score": 0,
       "risk_level": "high",
       "register_of_interests": {
         "available": false,
@@ -13304,9 +13889,9 @@
         "advisable": true,
         "reasons": [
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "2 cross-council conflict(s) \u2014 multi-authority exposure",
+          "7 cross-council conflict(s) \u2014 multi-authority exposure",
           "high risk level \u2014 multiple red flags",
-          "1 critical misconduct pattern(s) detected",
+          "4 critical misconduct pattern(s) detected",
           "19 unique co-directors \u2014 extensive business network",
           "5 total directorships \u2014 extensive company history"
         ],
@@ -13318,7 +13903,7 @@
       "name": "Sehrish Lone",
       "party": "Independent",
       "ward": "Bank Hall",
-      "checked_at": "2026-02-19T19:40:58.029480Z",
+      "checked_at": "2026-02-19T21:15:53.496870Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -13425,7 +14010,7 @@
       "name": "Jamie McGowan",
       "party": "Conservative",
       "ward": "Hapton with Park",
-      "checked_at": "2026-02-19T19:41:02.383714Z",
+      "checked_at": "2026-02-19T21:15:57.945891Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -13448,20 +14033,6 @@
             "verification": "ch_strong_proximity"
           },
           {
-            "officer_id": "sCOrknpx7CWhYHtAOVMBj8e0sHc",
-            "title": "Jamie MCGOWAN",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 5,
-              "year": 1975
-            },
-            "address_snippet": "13 Channel Street, Galashiels, United Kingdom, TD1 1BQ",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "OfVZlB7i8W53P0K8hyUqNYWhmOA",
             "title": "Jamie MCGOWAN",
             "match_score": 100,
@@ -13476,7 +14047,7 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "rtZfhzmf_u-JnIT5zSLicIL4fzc",
+            "officer_id": "sCOrknpx7CWhYHtAOVMBj8e0sHc",
             "title": "Jamie MCGOWAN",
             "match_score": 100,
             "date_of_birth": {
@@ -13498,6 +14069,20 @@
               "year": 2000
             },
             "address_snippet": "11 Marldon Road, Paignton, England, TQ3 3QZ",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "rtZfhzmf_u-JnIT5zSLicIL4fzc",
+            "title": "Jamie MCGOWAN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1975
+            },
+            "address_snippet": "13 Channel Street, Galashiels, United Kingdom, TD1 1BQ",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -13778,8 +14363,8 @@
             "dissolved_count": 2,
             "active_count": 4,
             "sic_overlap": [
-              "64201",
-              "93290"
+              "93290",
+              "64201"
             ]
           }
         },
@@ -13857,17 +14442,6 @@
         {
           "officer_name": "Jamie MCGOWAN",
           "match_score": 100,
-          "address": "13 Channel Street, Galashiels, United Kingdom, TD1 1BQ",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Jamie MCGOWAN",
-          "match_score": 100,
           "address": "C/O Mcgowa, Flat 5, James Short Park, Falkirk, Scotland, FK1 5EB",
           "date_of_birth": {
             "month": 12,
@@ -13894,6 +14468,17 @@
           "date_of_birth": {
             "month": 9,
             "year": 2000
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Jamie MCGOWAN",
+          "match_score": 100,
+          "address": "13 Channel Street, Galashiels, United Kingdom, TD1 1BQ",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14035,7 +14620,7 @@
       "name": "Neil Mottershead",
       "party": "Conservative",
       "ward": "Gannow",
-      "checked_at": "2026-02-19T19:41:14.075668Z",
+      "checked_at": "2026-02-19T21:16:10.218553Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -14244,7 +14829,7 @@
       "name": "Musharaf Parvez",
       "party": "Independent",
       "ward": "Queensgate",
-      "checked_at": "2026-02-19T19:41:17.935562Z",
+      "checked_at": "2026-02-19T21:16:14.080269Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -14387,7 +14972,7 @@
       "name": "Paul Reynolds",
       "party": "Labour",
       "ward": "Rosegrove with Lowerhouse",
-      "checked_at": "2026-02-19T19:41:23.410237Z",
+      "checked_at": "2026-02-19T21:16:19.682159Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -14395,17 +14980,6 @@
       ],
       "companies_house": {
         "officer_matches": [
-          {
-            "officer_id": "_k3DrIbg9ayXhO1xc7EUmxP9sUA",
-            "title": "Paul REYNOLDS",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "10 Bradley Gardens, Merthyr Tydfil, Mid Glamorgan, United Kingdom, CF47 0GA",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
           {
             "officer_id": "AtkQ5SSW6r1vYYu686TrtP3SbU0",
             "title": "Paul REYNOLDS",
@@ -14421,42 +14995,50 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "CfzoUN7jLbQptPWa_T0XKDLUnd8",
+            "officer_id": "JtnaUu2i-Huk4reM0IXd3x4U340",
             "title": "Paul REYNOLDS",
             "match_score": 100,
-            "date_of_birth": {
-              "month": 12,
-              "year": 1970
-            },
-            "address_snippet": "27 Milner Square, London, England, N1 1TW",
+            "date_of_birth": {},
+            "address_snippet": "The Gables, Abbey Foregate, Shrewsbury, Shropshire, SY2 6BL",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "E9dvUkukxeoZ5BKQ2QXv2aVElB8",
+            "officer_id": "MZHOUvAbgTdHhRPD6nRfJebCVxk",
             "title": "Paul REYNOLDS",
             "match_score": 100,
             "date_of_birth": {
-              "month": 10,
-              "year": 1975
+              "month": 8,
+              "year": 1940
             },
-            "address_snippet": "Flat 4, Carnoustie, 6 Compton Avenue, Poole, United Kingdom, BH14 8DQ",
+            "address_snippet": "The Grange Weston Bank, Weston, Stafford, Staffordshire, ST18 0BA",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "d91yKHSTEbfh0qAjSKEP4Fxe6vc",
+            "officer_id": "N0mJS882qhx2quLliufYLno-7oc",
+            "title": "Paul REYNOLDS",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "St. Aubyns, Oakshade Road, Oxshott, Leatherhead, Surrey, KT22 0LF",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "N_HGGK-jdqsXpRGXyJNh9DCH5Pw",
             "title": "Paul REYNOLDS",
             "match_score": 100,
             "date_of_birth": {
-              "month": 4,
-              "year": 1969
+              "month": 7,
+              "year": 1980
             },
-            "address_snippet": "10 Bradley Gardens, Merthyr Tydfil, Mid Glamorgan, United Kingdom, CF47 0GA",
+            "address_snippet": "18 Alamein Close, Broxbourne, England, EN10 7TF",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -14510,14 +15092,6 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "10 Bradley Gardens, Merthyr Tydfil, Mid Glamorgan, United Kingdom, CF47 0GA",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
           "address": "Paul Reynolds, Lambe Avenue, Milton, Abingdon, United Kingdom, OX14 4DT",
           "date_of_birth": {
             "month": 10,
@@ -14529,10 +15103,18 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "27 Milner Square, London, England, N1 1TW",
+          "address": "The Gables, Abbey Foregate, Shrewsbury, Shropshire, SY2 6BL",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "The Grange Weston Bank, Weston, Stafford, Staffordshire, ST18 0BA",
           "date_of_birth": {
-            "month": 12,
-            "year": 1970
+            "month": 8,
+            "year": 1940
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14540,10 +15122,18 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "Flat 4, Carnoustie, 6 Compton Avenue, Poole, United Kingdom, BH14 8DQ",
+          "address": "St. Aubyns, Oakshade Road, Oxshott, Leatherhead, Surrey, KT22 0LF",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "18 Alamein Close, Broxbourne, England, EN10 7TF",
           "date_of_birth": {
-            "month": 10,
-            "year": 1975
+            "month": 7,
+            "year": 1980
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14566,6 +15156,36 @@
           "date_of_birth": {
             "month": 6,
             "year": 1946
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "10 Bradley Gardens, Merthyr Tydfil, Mid Glamorgan, United Kingdom, CF47 0GA",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "27 Milner Square, London, England, N1 1TW",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "Flat 4, Carnoustie, 6 Compton Avenue, Poole, United Kingdom, BH14 8DQ",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14606,18 +15226,10 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "The Gables, Abbey Foregate, Shrewsbury, Shropshire, SY2 6BL",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "The Grange Weston Bank, Weston, Stafford, Staffordshire, ST18 0BA",
+          "address": "8 Fell View Close, Aspatria, Cumbria, England, CA7 3BF",
           "date_of_birth": {
-            "month": 8,
-            "year": 1940
+            "month": 11,
+            "year": 1958
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14625,8 +15237,11 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "St. Aubyns, Oakshade Road, Oxshott, Leatherhead, Surrey, KT22 0LF",
-          "date_of_birth": {},
+          "address": "7 Regent Way, Horton, Northampton, England, NN7 2DR",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1967
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -14677,43 +15292,10 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "8 Fell View Close, Aspatria, Cumbria, England, CA7 3BF",
+          "address": "5 Albert Road, Southsea, Hampshire, England, PO5 2SE",
           "date_of_birth": {
-            "month": 11,
-            "year": 1958
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "7 Regent Way, Horton, Northampton, England, NN7 2DR",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1967
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "18 Alamein Close, Broxbourne, England, EN10 7TF",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "28 Charles Berrington, Road Wavertree, Liverpool, L15 9HQ",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1978
+            "month": 1,
+            "year": 1962
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14765,39 +15347,20 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "49 Speeding Drive, Hartlepool, United Kingdom, TS24 9QE",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1955
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "Pembroke House, Ty Coch Lane, Llantarnam Park Way, Cwmbran, Wales, NP44 3AU",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1972
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "Savoy Tower, 77 Renfrew Street, Glasgow, G2 3BZ",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "Tumbledown Cottage, Cragg Lane, Thornton, Bradford, England, BD13 3SP",
+          "address": "28 Charles Berrington, Road Wavertree, Liverpool, L15 9HQ",
           "date_of_birth": {
             "month": 11,
+            "year": 1978
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "Office Ff10 Brooklands House, 58 Marlborough Road, Lancing, West Sussex, England, BN15 8AF",
+          "date_of_birth": {
+            "month": 8,
             "year": 1962
           },
           "confidence": 35,
@@ -14806,31 +15369,9 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "15 Hazelbank, Milford Haven, Dyfed, SA73 1EN",
+          "address": "First Floor Office, Westerham Garage, 190 London Road, Westerham, Kent, England, TN16 2DJ",
           "date_of_birth": {
             "month": 8,
-            "year": 1967
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "10 Coniston Close, Daventry, Northamptonshire, England, NN11 9EE",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "29 Nero House, Charrington Place, St Albans, United Kingdom, AL1 3GX",
-          "date_of_birth": {
-            "month": 1,
             "year": 1968
           },
           "confidence": 35,
@@ -14891,9 +15432,17 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "Office Ff10 Brooklands House, 58 Marlborough Road, Lancing, West Sussex, England, BN15 8AF",
+          "address": "Savoy Tower, 77 Renfrew Street, Glasgow, G2 3BZ",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "Tumbledown Cottage, Cragg Lane, Thornton, Bradford, England, BD13 3SP",
           "date_of_birth": {
-            "month": 8,
+            "month": 11,
             "year": 1962
           },
           "confidence": 35,
@@ -14902,9 +15451,31 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "First Floor Office, Westerham Garage, 190 London Road, Westerham, Kent, England, TN16 2DJ",
+          "address": "15 Hazelbank, Milford Haven, Dyfed, SA73 1EN",
           "date_of_birth": {
             "month": 8,
+            "year": 1967
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "10 Coniston Close, Daventry, Northamptonshire, England, NN11 9EE",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1975
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "29 Nero House, Charrington Place, St Albans, United Kingdom, AL1 3GX",
+          "date_of_birth": {
+            "month": 1,
             "year": 1968
           },
           "confidence": 35,
@@ -14946,10 +15517,21 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "5 Albert Road, Southsea, Hampshire, England, PO5 2SE",
+          "address": "49 Speeding Drive, Hartlepool, United Kingdom, TS24 9QE",
           "date_of_birth": {
-            "month": 1,
-            "year": 1962
+            "month": 5,
+            "year": 1955
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "Pembroke House, Ty Coch Lane, Llantarnam Park Way, Cwmbran, Wales, NP44 3AU",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14976,9 +15558,42 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "333 Toms Lane, Bedmond, Abbots Langley, England, WD5 0RA",
+          "address": "Unit 2c, Pant Industrial Estate, Dowlais, Merthyr Tydfil, Wales, CF48 2SR",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "Brunel House, 340 Firecrest Court, Centre Park, Warrington, Cheshire, United Kingdom, WA1 1RG",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1958
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "Flat 7 Montpelier House, 27a, Keymer Avenue, Peacehaven, United Kingdom, BN10 8HA",
           "date_of_birth": {
             "month": 2,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Paul REYNOLDS",
+          "match_score": 100,
+          "address": "26 Castlegowan Park, Belfast, Northern Ireland, BT5 7WG",
+          "date_of_birth": {
+            "month": 6,
             "year": 1989
           },
           "confidence": 35,
@@ -14987,10 +15602,10 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "167 Turners Hill, Cheshunt, Waltham Cross, England, EN8 9BH",
+          "address": "35 Queens Road, Tankerton, Whitstable, Kent, CT5 2JG",
           "date_of_birth": {
-            "month": 9,
-            "year": 1983
+            "month": 3,
+            "year": 1944
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -14998,43 +15613,10 @@
         {
           "officer_name": "Paul REYNOLDS",
           "match_score": 100,
-          "address": "Sydenham 232 Malpas Road, Newport, Gwent, NP9 6GP",
+          "address": "333 Toms Lane, Bedmond, Abbots Langley, England, WD5 0RA",
           "date_of_birth": {
-            "month": 6,
-            "year": 1946
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "Monomark House, 27 Old Gloucester Street, London, England, WC1N 3AX",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1968
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "7 Homefield Road, Wembley, Middlesex, England, HA0 2NL",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1985
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul REYNOLDS",
-          "match_score": 100,
-          "address": "6 Lavender Walk, Coleorton, United Kingdom, LE67 8FA",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1966
+            "month": 2,
+            "year": 1989
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -15052,7 +15634,7 @@
       "name": "Christine Sollis",
       "party": "Independent",
       "ward": "Brunshaw",
-      "checked_at": "2026-02-19T19:41:27.308815Z",
+      "checked_at": "2026-02-19T21:16:23.577077Z",
       "data_sources_checked": [
         "companies_house",
         "familial_connections",
@@ -15263,7 +15845,9 @@
             "confidence": 100,
             "total_spend": 79950.0
           },
-          "severity": "critical",
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption",
           "council_id": "burnley"
         }
       ],
@@ -15272,35 +15856,13 @@
         "total_links": 0,
         "links": []
       },
-      "misconduct_patterns": [
-        {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'BUILDING BRIDGES IN BURNLEY' received \u00a379,950 in council contracts",
-          "evidence": {
-            "company_name": "BUILDING BRIDGES IN BURNLEY",
-            "company_number": "05495250",
-            "supplier_match": {
-              "supplier": "BUILDING BRIDGES IN BURNLEY",
-              "match_type": "exact",
-              "confidence": 100,
-              "total_spend": 79950.0
-            },
-            "severity": "critical",
-            "council_id": "burnley"
-          }
-        }
-      ],
+      "misconduct_patterns": [],
       "red_flags": [
         {
           "type": "supplier_conflict",
-          "severity": "critical",
-          "detail": "Company 'BUILDING BRIDGES IN BURNLEY' matches council supplier 'BUILDING BRIDGES IN BURNLEY'"
-        },
-        {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked company 'BUILDING BRIDGES IN BURNLEY' received \u00a379,950 in council contracts"
+          "severity": "info",
+          "detail": "Company 'BUILDING BRIDGES IN BURNLEY' matches council supplier 'BUILDING BRIDGES IN BURNLEY' [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "family_supplier_conflict",
@@ -15313,8 +15875,8 @@
           "detail": "Possible undeclared Disclosable Pecuniary Interest (family member's company is council supplier)"
         }
       ],
-      "integrity_score": 0,
-      "risk_level": "high",
+      "integrity_score": 50,
+      "risk_level": "elevated",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -15337,8 +15899,7 @@
         "advisable": true,
         "reasons": [
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "high risk level \u2014 multiple red flags",
-          "1 critical misconduct pattern(s) detected",
+          "elevated risk level \u2014 multiple red flags",
           "Family member's company is council supplier \u2014 investigate DPI compliance"
         ],
         "priority": "high"
@@ -15349,7 +15910,7 @@
       "name": "Shaun Sproule",
       "party": "Labour",
       "ward": "Brunshaw",
-      "checked_at": "2026-02-19T19:41:36.178379Z",
+      "checked_at": "2026-02-19T21:16:32.599096Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -15413,7 +15974,7 @@
       "name": "Mike Steel",
       "party": "Conservative",
       "ward": "Whittlefield with Ightenhill",
-      "checked_at": "2026-02-19T19:41:39.439281Z",
+      "checked_at": "2026-02-19T21:16:35.881063Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -15847,6 +16408,8 @@
             "total_spend": 34749.64
           },
           "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption",
           "council_id": "burnley"
         }
       ],
@@ -15861,7 +16424,23 @@
             "confidence": 100,
             "total_spend": 20402.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "PENDLESIDE HOSPICE",
+          "company_number": "02280991",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "PENDLESIDE HOSPICE",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 425.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
         }
       ],
       "network_crossover": {
@@ -15942,12 +16521,20 @@
         {
           "type": "supplier_conflict",
           "severity": "info",
-          "detail": "Company 'PENDLESIDE HOSPICE' matches council supplier 'PENDLESIDE HOSPICE'"
+          "detail": "Company 'PENDLESIDE HOSPICE' matches council supplier 'PENDLESIDE HOSPICE' [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'PENDLESIDE HOSPICE' matches supplier at pendle council"
+          "detail": "Company 'PENDLESIDE HOSPICE' matches supplier at pendle council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'PENDLESIDE HOSPICE' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "phoenix_company_pattern",
@@ -16051,7 +16638,7 @@
         "reasons": [
           "5 active directorships \u2014 complex company portfolio",
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "1 cross-council conflict(s) \u2014 multi-authority exposure",
+          "2 cross-council conflict(s) \u2014 multi-authority exposure",
           "high risk level \u2014 multiple red flags",
           "4 dissolved/liquidated companies \u2014 phoenix risk pattern",
           "6 total directorships \u2014 extensive company history"
@@ -16064,7 +16651,7 @@
       "name": "Jeff Sumner",
       "party": "Reform UK",
       "ward": "Rosehill with Burnley Wood",
-      "checked_at": "2026-02-19T19:41:53.427725Z",
+      "checked_at": "2026-02-19T21:16:50.581320Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -16388,7 +16975,9 @@
             "confidence": 100,
             "total_spend": 1290.0
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
         },
         {
           "company_name": "CALICO HOMES LIMITED",
@@ -16400,7 +16989,51 @@
             "confidence": 100,
             "total_spend": 590.92
           },
-          "severity": "info"
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CALICO HOMES LIMITED",
+          "company_number": "03752751",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "CALICO HOMES LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 648734.86
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CALICO HOMES LIMITED",
+          "company_number": "03752751",
+          "other_council": "blackpool",
+          "supplier_match": {
+            "supplier": "CALICO HOMES LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 4776.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
+        },
+        {
+          "company_name": "CALICO HOMES LIMITED",
+          "company_number": "03752751",
+          "other_council": "blackburn",
+          "supplier_match": {
+            "supplier": "CALICO HOMES LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 720.0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc"
         }
       ],
       "network_crossover": {
@@ -16455,12 +17088,32 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at hyndburn council"
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at hyndburn council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "cross_council_conflict",
           "severity": "info",
-          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at pendle council"
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at pendle council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at lancashire_cc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at blackpool council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'CALICO HOMES LIMITED' matches supplier at blackburn council [community/charity]",
+          "conflict_type": "community_trustee"
         },
         {
           "type": "phoenix_company_pattern",
@@ -16479,7 +17132,7 @@
       "network_investigation": {
         "advisable": true,
         "reasons": [
-          "2 cross-council conflict(s) \u2014 multi-authority exposure",
+          "5 cross-council conflict(s) \u2014 multi-authority exposure",
           "elevated risk level \u2014 multiple red flags",
           "5 total directorships \u2014 extensive company history"
         ],
@@ -16491,7 +17144,7 @@
       "name": "Mark Townsend",
       "party": "Labour & Co-operative Party",
       "ward": "Brunshaw",
-      "checked_at": "2026-02-19T19:42:06.054845Z",
+      "checked_at": "2026-02-19T21:17:03.296748Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -16499,28 +17152,6 @@
       ],
       "companies_house": {
         "officer_matches": [
-          {
-            "officer_id": "smPG0IorR7q5u92JzNHsyjD-uM0",
-            "title": "Mark TOWNSEND",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "128 City Road, London, United Kingdom, EC1V 2NX",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "SN9ihFhTHO0pyAr4OpXWoVo34J4",
-            "title": "Mark TOWNSEND",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "128 City Road, London, United Kingdom, EC1V 2NX",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
           {
             "officer_id": "9U8PuboP-FPUa2OO77cQc6EziGk",
             "title": "Mark TOWNSEND",
@@ -16544,6 +17175,28 @@
               "year": 1977
             },
             "address_snippet": "Swan House, Saddlers Row, Petworth, England, GU28 0AN",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "SN9ihFhTHO0pyAr4OpXWoVo34J4",
+            "title": "Mark TOWNSEND",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "128 City Road, London, United Kingdom, EC1V 2NX",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "smPG0IorR7q5u92JzNHsyjD-uM0",
+            "title": "Mark TOWNSEND",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "128 City Road, London, United Kingdom, EC1V 2NX",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -16611,22 +17264,6 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
-          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
-          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
           "address": "1 Oak Manor View, Great Leighs, Chelmsford, Essex, England, CM3 1GZ",
           "date_of_birth": {
             "month": 7,
@@ -16649,32 +17286,26 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
+          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
+          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
           "address": "16 Hitchen Road, Long Eaton, Nottingham, United Kingdom, NG10 3SB",
           "date_of_birth": {
             "month": 10,
             "year": 1964
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
-          "address": "108 Dallington Road, Coundon, Coventry, United Kingdom, CV6 1GE",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1968
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
-          "address": "Jubilee House, East Beach, Lytham St. Annes, Lancashire, England, FY8 5FT",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1962
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -16704,6 +17335,28 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
+          "address": "Jubilee House, East Beach, Lytham St. Annes, Lancashire, England, FY8 5FT",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1962
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
+          "address": "108 Dallington Road, Coundon, Coventry, United Kingdom, CV6 1GE",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
           "address": "Belvedere House, Basing View, Basingstoke, England, RG21 4HG",
           "date_of_birth": {
             "month": 5,
@@ -16726,10 +17379,10 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
-          "address": "3 Carriage Close, Hale Village, Liverpool, United Kingdom, L24 4EA",
+          "address": "32 Highfield Avenue, Benfleet, Essex, SS7 1RY",
           "date_of_birth": {
-            "month": 10,
-            "year": 1974
+            "month": 1,
+            "year": 1965
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -16737,10 +17390,10 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
-          "address": "32 Highfield Avenue, Benfleet, Essex, SS7 1RY",
+          "address": "3 Carriage Close, Hale Village, Liverpool, United Kingdom, L24 4EA",
           "date_of_birth": {
-            "month": 1,
-            "year": 1965
+            "month": 10,
+            "year": 1974
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -16770,17 +17423,6 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
-          "address": "38 Kelvedon Close, Kingston Upon Thames, Surrey, KT2 5LG",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
           "address": "28a, Forest Drive East, Leytonstone, London, E11 1JY",
           "date_of_birth": {
             "month": 4,
@@ -16796,6 +17438,17 @@
           "date_of_birth": {
             "month": 2,
             "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
+          "address": "38 Kelvedon Close, Kingston Upon Thames, Surrey, KT2 5LG",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -16855,39 +17508,6 @@
         {
           "officer_name": "Mark TOWNSEND",
           "match_score": 100,
-          "address": "5th Floor, 167-169, Great Portland Street, London, England, W1W 5PF",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1964
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
-          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1966
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
-          "address": "15 Wilton Business Centre, Kingsway, Salisbury, United Kingdom, SP2 0AH",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1955
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mark TOWNSEND",
-          "match_score": 100,
           "address": "21 Rowan Court, Seacole Crescent, Swindon, Wilitshire, United Kingdom, SN1 4GQ",
           "date_of_birth": {
             "month": 2,
@@ -16914,6 +17534,39 @@
           "date_of_birth": {
             "month": 1,
             "year": 1974
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
+          "address": "5th Floor, 167-169, Great Portland Street, London, England, W1W 5PF",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1964
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
+          "address": "128 City Road, London, United Kingdom, EC1V 2NX",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1966
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark TOWNSEND",
+          "match_score": 100,
+          "address": "15 Wilton Business Centre, Kingsway, Salisbury, United Kingdom, SP2 0AH",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1955
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -16982,6 +17635,17 @@
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
+          "officer_name": "Mark Andrew TOWNSEND",
+          "match_score": 90,
+          "address": "47 Church Street, Great Baddow, Chelmsford, Essex, England, CM2 7JA",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1963
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
           "officer_name": "Dr Mark Andrew TOWNSEND",
           "match_score": 90,
           "address": "54 Charnwood Drive, London, United Kingdom, E18 1PG",
@@ -17001,22 +17665,22 @@
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
-          "officer_name": "Mark Andrew TOWNSEND",
-          "match_score": 90,
-          "address": "47 Church Street, Great Baddow, Chelmsford, Essex, England, CM2 7JA",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1963
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
           "officer_name": "Dr Mark Andrew TOWNSEND",
           "match_score": 90,
           "address": "54 Charnwood Drive, London, United Kingdom, E18 1PG",
           "date_of_birth": {
             "month": 8,
+            "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mark Andrew TOWNSEND",
+          "match_score": 90,
+          "address": "227 Ross Road, Hereford, Herefordshire, HR2 7RS",
+          "date_of_birth": {
+            "month": 2,
             "year": 1969
           },
           "confidence": 35,
@@ -17034,17 +17698,6 @@
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
-          "officer_name": "Mark Andrew TOWNSEND",
-          "match_score": 90,
-          "address": "227 Ross Road, Hereford, Herefordshire, HR2 7RS",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1969
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
           "officer_name": "Dr Mark Andrew TOWNSEND",
           "match_score": 90,
           "address": "54 Charnwood Drive, London, United Kingdom, E18 1PG",
@@ -17055,10 +17708,10 @@
         {
           "officer_name": "Mark Anthony TOWNSEND",
           "match_score": 90,
-          "address": "The Beeches, High Street Avening, Tetbury, Gloucestershire, GL8 8NF",
+          "address": "Jubilee House, East Beach, Lytham St.Annes, Lancashire, England, FY8 5FT",
           "date_of_birth": {
-            "month": 5,
-            "year": 1969
+            "month": 2,
+            "year": 1968
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -17066,10 +17719,10 @@
         {
           "officer_name": "Mark Anthony TOWNSEND",
           "match_score": 90,
-          "address": "Jubilee House, East Beach, Lytham St.Annes, Lancashire, England, FY8 5FT",
+          "address": "The Beeches, High Street Avening, Tetbury, Gloucestershire, GL8 8NF",
           "date_of_birth": {
-            "month": 2,
-            "year": 1968
+            "month": 5,
+            "year": 1969
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -17153,7 +17806,7 @@
       "name": "Andy Waddington",
       "party": "Labour",
       "ward": "Lanehead",
-      "checked_at": "2026-02-19T19:42:09.370310Z",
+      "checked_at": "2026-02-19T21:17:06.608074Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -17217,7 +17870,7 @@
       "name": "Don Whitaker",
       "party": "Conservative",
       "ward": "Whittlefield with Ightenhill",
-      "checked_at": "2026-02-19T19:42:12.608466Z",
+      "checked_at": "2026-02-19T21:17:09.854684Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",

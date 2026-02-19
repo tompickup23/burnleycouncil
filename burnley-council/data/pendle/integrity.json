@@ -1,14 +1,14 @@
 {
   "council_id": "pendle",
   "version": "3.0",
-  "generated_at": "2026-02-19T19:45:51.409461Z",
+  "generated_at": "2026-02-19T21:21:15.131983Z",
   "methodology": "register_anchored_dob_verified",
   "data_sources": [
     "Companies House (officers, PSC, charges, disqualifications \u2014 DOB-verified)",
     "Electoral Commission (donations)",
     "FCA Register (regulated persons)",
     "Co-director network analysis",
-    "Cross-council supplier matching (8 councils)",
+    "Cross-council supplier matching (15 councils)",
     "Familial connection detection (surname clusters, shared addresses, family CH)",
     "Misconduct pattern detection (7 algorithms)",
     "Geographic proximity scoring (Lancashire postcode matching)"
@@ -22,19 +22,25 @@
     "active_directorships": 25,
     "disqualification_matches": 2,
     "supplier_conflicts": 2,
-    "cross_council_conflicts": 0,
+    "supplier_conflicts_by_type": {
+      "commercial": 1,
+      "community_trustee": 1,
+      "council_appointed": 0,
+      "arms_length_body": 0
+    },
+    "cross_council_conflicts": 3,
     "electoral_commission_findings": 3,
     "fca_findings": 0,
-    "misconduct_patterns": 11,
-    "red_flags_total": 66,
+    "misconduct_patterns": 12,
+    "red_flags_total": 70,
     "risk_distribution": {
       "low": 28,
       "medium": 1,
-      "elevated": 3,
-      "high": 1
+      "elevated": 2,
+      "high": 2
     },
     "network_investigations_advisable": 7,
-    "network_investigation_high_priority": 4,
+    "network_investigation_high_priority": 5,
     "psc_entries_found": 13,
     "co_directors_mapped": 20,
     "family_connections_found": 0,
@@ -143,8 +149,10 @@
   ],
   "shared_address_councillors": [],
   "cross_council_summary": {
-    "councillor_companies_in_other_councils": 0,
-    "affected_councils": []
+    "councillor_companies_in_other_councils": 3,
+    "affected_councils": [
+      "lancashire_cc"
+    ]
   },
   "councillors": [
     {
@@ -152,7 +160,7 @@
       "name": "Mohammed Adnan",
       "party": "Independent Group",
       "ward": "Marsden and Southfield",
-      "checked_at": "2026-02-19T19:46:13.490605Z",
+      "checked_at": "2026-02-19T21:21:37.851134Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -217,14 +225,14 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "OVa3OlM1a8BqzoRN-Oq4t26YM-k",
+            "officer_id": "koLCzvjcNdkI8_1IjEzWamA1LQg",
             "title": "Mohammed ADNAN",
             "match_score": 100,
             "date_of_birth": {
-              "month": 9,
-              "year": 1987
+              "month": 4,
+              "year": 1991
             },
-            "address_snippet": "62 Mansion Crescent, Smethwick, England, B67 6QW",
+            "address_snippet": "Unit 4 Ann House 8, Ann Street, Rochdale, Lancashire, United Kingdom, OL11 1ER",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -322,10 +330,10 @@
         {
           "officer_name": "Mohammed ADNAN",
           "match_score": 100,
-          "address": "62 Mansion Crescent, Smethwick, England, B67 6QW",
+          "address": "Unit 4 Ann House 8, Ann Street, Rochdale, Lancashire, United Kingdom, OL11 1ER",
           "date_of_birth": {
-            "month": 9,
-            "year": 1987
+            "month": 4,
+            "year": 1991
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -355,9 +363,9 @@
         {
           "officer_name": "Mohammed ADNAN",
           "match_score": 100,
-          "address": "Unit 4 Ann House 8, Ann Street, Rochdale, Lancashire, United Kingdom, OL11 1ER",
+          "address": "12a, Green Lane, Stamford, United Kingdom, PE9 1HF",
           "date_of_birth": {
-            "month": 4,
+            "month": 3,
             "year": 1991
           },
           "confidence": 35,
@@ -366,10 +374,10 @@
         {
           "officer_name": "Mohammed ADNAN",
           "match_score": 100,
-          "address": "12a, Green Lane, Stamford, United Kingdom, PE9 1HF",
+          "address": "62 Mansion Crescent, Smethwick, England, B67 6QW",
           "date_of_birth": {
-            "month": 3,
-            "year": 1991
+            "month": 9,
+            "year": 1987
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -432,10 +440,10 @@
         {
           "officer_name": "Mohammed ADNAN",
           "match_score": 100,
-          "address": "43 Holly Road, Huddersfield, England, HD1 3SE",
+          "address": "71-75, Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
           "date_of_birth": {
-            "month": 2,
-            "year": 1991
+            "month": 12,
+            "year": 1989
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -447,6 +455,17 @@
           "date_of_birth": {
             "month": 12,
             "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ADNAN",
+          "match_score": 100,
+          "address": "71-75, Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
+          "date_of_birth": {
+            "month": 10,
+            "year": 2004
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -476,21 +495,10 @@
         {
           "officer_name": "Mohammed ADNAN",
           "match_score": 100,
-          "address": "71-75, Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
+          "address": "43 Holly Road, Huddersfield, England, HD1 3SE",
           "date_of_birth": {
-            "month": 10,
-            "year": 2004
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ADNAN",
-          "match_score": 100,
-          "address": "71-75, Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1989
+            "month": 2,
+            "year": 1991
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -502,6 +510,17 @@
           "date_of_birth": {
             "month": 1,
             "year": 1987
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammed ADNAN",
+          "match_score": 100,
+          "address": "63 Albert Road, Aston, Birmingham, United Kingdom, B6 5NE",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1990
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -532,17 +551,6 @@
           "date_of_birth": {
             "month": 5,
             "year": 1988
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammed ADNAN",
-          "match_score": 100,
-          "address": "63 Albert Road, Aston, Birmingham, United Kingdom, B6 5NE",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1990
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -689,7 +697,7 @@
       "name": "Faraz Ahmad",
       "party": "Independent Group",
       "ward": "Whitefield and Walverden",
-      "checked_at": "2026-02-19T19:46:16.773452Z",
+      "checked_at": "2026-02-19T21:21:41.126072Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -1113,17 +1121,17 @@
             "dissolved_count": 5,
             "active_count": 5,
             "sic_overlap": [
-              "88990",
-              "87300",
-              "88100",
-              "58142",
-              "91012",
-              "86900",
               "94120",
-              "63990",
+              "88100",
+              "94910",
               "97000",
+              "87300",
+              "63990",
+              "88990",
+              "86900",
               "73110",
-              "94910"
+              "91012",
+              "58142"
             ]
           }
         },
@@ -1687,7 +1695,7 @@
       "name": "Nadeem Ahmed",
       "party": "Conservative",
       "ward": "Barrowford and Pendleside",
-      "checked_at": "2026-02-19T19:46:30.812760Z",
+      "checked_at": "2026-02-19T21:21:55.815097Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -1710,34 +1718,6 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "8hlyqYQwYBmNF4ZXbOQvm0DEaFc",
-            "title": "Nadeem AHMED",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 1,
-              "year": 1967
-            },
-            "address_snippet": "Office 2751, 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "9FbsKH-_raVimkqgbJxI9HCkPQ0",
-            "title": "Nadeem AHMED",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 11,
-              "year": 1978
-            },
-            "address_snippet": "27 Kinloch Park, Dundee, Scotland, DD2 1EF",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "AaS9bAK0vm4n46U-bqoUUhBtIYg",
             "title": "Nadeem AHMED",
             "match_score": 100,
@@ -1752,14 +1732,39 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "cmysvTwVNziQ47ngpEBj3J6ZYKE",
-            "title": "Dr Nadeem AHMED",
+            "officer_id": "JYLnRvIzXjIxxRdAzYVT4BjzPls",
+            "title": "Nadeem AHMED",
             "match_score": 100,
             "date_of_birth": {
-              "month": 5,
-              "year": 1989
+              "month": 1,
+              "year": 1987
             },
-            "address_snippet": "26 The Green, Kings Norton, Birmingham, United Kingdom, B38 8SD",
+            "address_snippet": "1801 Orchestra House, 20 Ilford Hill, Ilford, Essex, England, IG1 2ZS",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "L72I_P0LSpKpmbyHdG43t_-rKC4",
+            "title": "Nadeem AHMED",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1991
+            },
+            "address_snippet": "38 Edinburgh Road, Dumfries, United Kingdom, DG1 1JQ",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "N1rlHAkWMNLpfgj_px6Td6B-tOU",
+            "title": "Nadeem AHMED",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "6 Pippin Close, Nottingham, Nottinghamshire, United Kingdom, NG33DH",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -1840,33 +1845,41 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
-          "address": "Office 2751, 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1967
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "27 Kinloch Park, Dundee, Scotland, DD2 1EF",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1978
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
           "address": "8 Norton Street, Birmingham, England, B18 5RH",
           "date_of_birth": {
             "month": 8,
             "year": 1987
           },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "1801 Orchestra House, 20 Ilford Hill, Ilford, Essex, England, IG1 2ZS",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1987
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "38 Edinburgh Road, Dumfries, United Kingdom, DG1 1JQ",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1991
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "6 Pippin Close, Nottingham, Nottinghamshire, United Kingdom, NG33DH",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -1947,110 +1960,6 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
-          "address": "66 Seymour Grove, Old Trafford, Manchester, Lancashire, United Kingdom, M16 0LN",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1988
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "9 Tatton Road South, Stockport, England, SK4 4LU",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1988
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "1801 Orchestra House, 20 Ilford Hill, Ilford, Essex, England, IG1 2ZS",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1987
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "38 Edinburgh Road, Dumfries, United Kingdom, DG1 1JQ",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1991
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "6 Pippin Close, Nottingham, Nottinghamshire, United Kingdom, NG33DH",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "169 Darlaston Road Plack, Walsall, United Kingdom, WS2 9SD",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1974
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "25 Clyston Road, Watford, England, WD18 6JR",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "19 High Street, Standlake, Oxfordshire, U.K, OX29 7RH",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "184 Henleaze Road, Henleaze, Bristol, United Kingdom, BS9 4NE",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1976
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "C/O Chronicle Accountants Ltd, 1 Market Street, Whaley Bridge, High Peak, Derbyshire, United Kingdom, SK23 7AA",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1968
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
           "address": "92 Abbeydale Road South, Sheffield, South Yorkshire, United Kingdom, S7 2QP",
           "date_of_birth": {
             "month": 4,
@@ -2114,6 +2023,69 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
+          "address": "66 Seymour Grove, Old Trafford, Manchester, Lancashire, United Kingdom, M16 0LN",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1988
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "9 Tatton Road South, Stockport, England, SK4 4LU",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1988
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "169 Darlaston Road Plack, Walsall, United Kingdom, WS2 9SD",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1974
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "25 Clyston Road, Watford, England, WD18 6JR",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1975
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "19 High Street, Standlake, Oxfordshire, U.K, OX29 7RH",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "184 Henleaze Road, Henleaze, Bristol, United Kingdom, BS9 4NE",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1976
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
           "address": "Middlewich House, Apartment 26, Taywood Road, Northolt, Middlesex, United Kingdom, UB5 6GF",
           "date_of_birth": {
             "month": 4,
@@ -2147,6 +2119,50 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
+          "address": "Office 2751, 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1967
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "27 Kinloch Park, Dundee, Scotland, DD2 1EF",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1978
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "C/O Chronicle Accountants Ltd, 1 Market Street, Whaley Bridge, High Peak, Derbyshire, United Kingdom, SK23 7AA",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "Lytchett House, 13 Freeland Park, Wareham Road, Poole Dorset, United Kingdom, BH16 6FA",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1981
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
           "address": "116 Aspen Drive, Wembley, United Kingdom, HA0 2PU",
           "date_of_birth": {
             "month": 6,
@@ -2169,43 +2185,10 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
-          "address": "Lytchett House, 13 Freeland Park, Wareham Road, Poole Dorset, United Kingdom, BH16 6FA",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1981
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "8 Folkestone Street, Bradford, West Yorkshire, United Kingdom, BD3 9NX",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "30a, Grosvenor Road, Ilford, IG1 1LE",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1974
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "2 Marshall Place, Perth, Scotland, PH2 8AH",
+          "address": "110 Cockshut Hill, Birmingham, West Midlands, United Kingdom, B26 2HU",
           "date_of_birth": {
             "month": 8,
-            "year": 1975
+            "year": 1995
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2213,76 +2196,32 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
-          "address": "37 Hadrian Estate, Hackney Road, London, E2 7AS",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1982
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "Unit 2, 57 Clippens Road, Linwood, Paisley, Scotland, PA3 3PU",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Dr Nadeem AHMED",
-          "match_score": 100,
-          "address": "21 Longwood Gardens, Ilford, England, IG5 0EB",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1968
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "238 Wednesbury Road, Walsall, West Midlands, England, WS2 9QN",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1971
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "124 Collier Row Road, Romford, England, RM5 2BB",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1964
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "Hentons & Co, Northgate, 118 North Street, Leeds, West Yorkshire, United Kingdom, LS2 7PN",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1967
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "60 Morris Road, Ward End, Birmingham, B8 2ED",
+          "address": "102a, Carlisle Road, Bradford, West Yorkshire, BD8 8BY",
           "date_of_birth": {
             "month": 5,
+            "year": 1983
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "184 Henleaze Road, Henleaze, Bristol, United Kingdom, BS9 4NE",
+          "date_of_birth": {
+            "month": 12,
             "year": 1976
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "30 Riverhead Close, London, England, E17 5PY",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1987
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2294,17 +2233,6 @@
           "date_of_birth": {
             "month": 1,
             "year": 1973
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Nadeem AHMED",
-          "match_score": 100,
-          "address": "Unit 17, Portland Business Centre, Manor House Lane, Datchet, United Kingdom, SL3 9EG",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1983
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2350,10 +2278,87 @@
         {
           "officer_name": "Nadeem AHMED",
           "match_score": 100,
-          "address": "42c, Church Road, Pulloxhill, Bedfordshire, England, MK45 5HE",
+          "address": "30a, Grosvenor Road, Ilford, IG1 1LE",
           "date_of_birth": {
-            "month": 6,
-            "year": 1972
+            "month": 3,
+            "year": 1974
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "2 Marshall Place, Perth, Scotland, PH2 8AH",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1975
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "27 Hockerley New Road, Whaley Bridge, Derbyshire, United Kingdom, SK23 7GA",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "Unit 4, Selinas Lane, Mirravale Trading Estate, Dagenham, Essex, United Kingdom, RM8 1YY",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1999
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "4, Wicker Close, Basf, Wicker Close, Nottingham, England, NG6 0FQ",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "30 Riverhead Close, London, England, E17 5PY",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1990
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Dr Nadeem AHMED",
+          "match_score": 100,
+          "address": "21 Longwood Gardens, Ilford, England, IG5 0EB",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Nadeem AHMED",
+          "match_score": 100,
+          "address": "238 Wednesbury Road, Walsall, West Midlands, England, WS2 9QN",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2371,7 +2376,7 @@
       "name": "Sajjad Ahmed",
       "party": "Independent Group",
       "ward": "Brierfield East and Clover Hill",
-      "checked_at": "2026-02-19T19:46:34.094693Z",
+      "checked_at": "2026-02-19T21:21:59.072448Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -2379,56 +2384,6 @@
       ],
       "companies_house": {
         "officer_matches": [
-          {
-            "officer_id": "bbKRY2aDcredhLwekeQmrjRUkuc",
-            "title": "Sajjad AHMED",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "25 Wortley Road, London, E6 1AY",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "7HZN3piw0PjAsjtE8rqn3-WAGFI",
-            "title": "Sajjad AHMED",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "8QgFo4Fe6tlCLlyDlrU_t8XmtOI",
-            "title": "Sajjad AHMED",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 9,
-              "year": 1991
-            },
-            "address_snippet": "311 House No 311, E Block, Defense Phase 2, Karachi, Pakistan, 116711",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "9e32PYzBgedIXk6fKOxmF-dOO5E",
-            "title": "Sajjad AHMED",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 2,
-              "year": 1984
-            },
-            "address_snippet": "18 Galleons Drive, Barking, Essex, England, IG11 0GU",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
           {
             "officer_id": "ACfLammrAtpd5ocivHJ3KmU05IA",
             "title": "Sajjad AHMED",
@@ -2438,6 +2393,59 @@
               "year": 1980
             },
             "address_snippet": "238 Scafell Road, Scafell Road, Slough, United Kingdom, SL2 1TZ",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "AKBptwMHSOTdQFbhuSuj8PknTGc",
+            "title": "Sajjad AHMED",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1959
+            },
+            "address_snippet": "4-14, Fishponds Road, Eastville, Bristol, United Kingdom, BS5 6SA",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "KjDOn1IANA0I9c4ZVryyicjsAh0",
+            "title": "Sajjad AHMED",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1993
+            },
+            "address_snippet": "37a/6, Thistle Street, Edinburgh, Scotland, EH2 1DY",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "dgsrCfd-cnnKeh-4wGAhuPEyFCM",
+            "title": "Sajjad AHMED",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1970
+            },
+            "address_snippet": "106 Canterbury Avenue, Bradford, United Kingdom, BD5 9LA",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "bbKRY2aDcredhLwekeQmrjRUkuc",
+            "title": "Sajjad AHMED",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "25 Wortley Road, London, E6 1AY",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -2491,8 +2499,63 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
+          "address": "238 Scafell Road, Scafell Road, Slough, United Kingdom, SL2 1TZ",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1980
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "4-14, Fishponds Road, Eastville, Bristol, United Kingdom, BS5 6SA",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1959
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "37a/6, Thistle Street, Edinburgh, Scotland, EH2 1DY",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1993
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "106 Canterbury Avenue, Bradford, United Kingdom, BD5 9LA",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
           "address": "25 Wortley Road, London, E6 1AY",
           "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "2 Chester Road, Watford, England, WD18 0RQ",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1984
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -2529,87 +2592,10 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "238 Scafell Road, Scafell Road, Slough, United Kingdom, SL2 1TZ",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "4-14, Fishponds Road, Eastville, Bristol, United Kingdom, BS5 6SA",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1959
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "106 Canterbury Avenue, Bradford, United Kingdom, BD5 9LA",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1970
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "37a/6, Thistle Street, Edinburgh, Scotland, EH2 1DY",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1993
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "2 Chester Road, Watford, England, WD18 0RQ",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "17 High Street, Holbeach, Spalding, United Kingdom, PE12 7DU",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1979
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
           "address": "115 High Street North, Eastham, London, United Kingdom, E6 1HZ",
           "date_of_birth": {
             "month": 2,
             "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "1 Sheep Street, Devizes, England, SN10 1DJ",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1982
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2628,6 +2614,28 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
+          "address": "1 Sheep Street, Devizes, England, SN10 1DJ",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1982
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "17 High Street, Holbeach, Spalding, United Kingdom, PE12 7DU",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1979
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
           "address": "83a, Friargate Walk, St Georges Shopping Centre, Preston, United Kingdom, PR1 2NQ",
           "date_of_birth": {
             "month": 3,
@@ -2639,10 +2647,10 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "17 Melland Road, Manchester, Lancashire, United Kingdom, M18 7QA",
+          "address": "C/O Accounts & Tax Advisor Ltd, 29 Egerton Gardens, Ilford, Essex, England, IG3 9HP",
           "date_of_birth": {
-            "month": 4,
-            "year": 1970
+            "month": 2,
+            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2650,21 +2658,10 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "71-75, Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
+          "address": "58 Peregrine Road, Ilford, England, IG6 3SZ",
           "date_of_birth": {
             "month": 3,
             "year": 1970
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "4385, 14783329 - Companies House Default Address, Cardiff, CF14 8LH",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1983
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2705,10 +2702,40 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "5th Commercial Street Dha Phase 4, House No 23/2, Karachi, Pakistan, Pakistan, 0000",
+          "address": "3 Clockhouse Court, Burnley, United Kingdom, BB10 2SX",
           "date_of_birth": {
-            "month": 3,
-            "year": 1977
+            "month": 6,
+            "year": 1979
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "50 Elm Row, Edinburgh, Scotland, EH7 4AH",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "Flat 28, 21 Mile End Road, London, E1 4TL",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "17 Melland Road, Manchester, Lancashire, United Kingdom, M18 7QA",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1970
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2760,39 +2787,6 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "C/O Accounts & Tax Advisor Ltd, 29 Egerton Gardens, Ilford, Essex, England, IG3 9HP",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1971
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "58 Peregrine Road, Ilford, England, IG6 3SZ",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1970
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "98 Rye Lane, Peckham, London, England, SE15 4RZ",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
           "address": "123 Fishponds Road, Eastville, Bristol, United Kingdom, BS5 6PR",
           "date_of_birth": {
             "month": 3,
@@ -2809,47 +2803,6 @@
             "month": 1,
             "year": 1984
           },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "Easton Business Centre, Felix Road, Bristol, United Kingdom, BS5 0HE",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1973
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "3 Clockhouse Court, Burnley, United Kingdom, BB10 2SX",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1979
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "50 Elm Row, Edinburgh, Scotland, EH7 4AH",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "Flat 28, 21 Mile End Road, London, E1 4TL",
-          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -2875,6 +2828,72 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
+          "address": "71-75, Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "4385, 14783329 - Companies House Default Address, Cardiff, CF14 8LH",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1983
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "5th Commercial Street Dha Phase 4, House No 23/2, Karachi, Pakistan, Pakistan, 0000",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1977
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "98 Rye Lane, Peckham, London, England, SE15 4RZ",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "Easton Business Centre, Felix Road, Bristol, United Kingdom, BS5 0HE",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1973
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "4 Morrison Court, Stevenston, Scotland, KA20 4JS",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1981
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
           "address": "60 Sandhurst Avenue, Birmingham, England, B36 8EJ",
           "date_of_birth": {
             "month": 11,
@@ -2890,6 +2909,28 @@
           "date_of_birth": {
             "month": 2,
             "year": 1976
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "144 Stanningley Road, Leeds, West Yorkshire, United Kingdom, LS12 2RF",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1989
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "263 Gurney Close, Barking, Essex, England, IG11 8LB",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1984
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -2930,50 +2971,6 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "70 Shaftesbury Road, Luton, Bedfordshire, Uk, LU4 8AN",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1976
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "20 Stirling Road, Bilston, England, WV14 8AT",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1971
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "5 Birrell Road, Forest Fields, Nottingham, England, NG7 6LN",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1976
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
-          "address": "94 Castleford Road, Sparkhill, Birmingham, England, B11 3SN",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1970
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Sajjad AHMED",
-          "match_score": 100,
           "address": "5 St. John's Lane, London, England, EC1M 4BH",
           "date_of_birth": {
             "month": 11,
@@ -3007,10 +3004,10 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "144 Stanningley Road, Leeds, West Yorkshire, United Kingdom, LS12 2RF",
+          "address": "5 Birrell Road, Forest Fields, Nottingham, England, NG7 6LN",
           "date_of_birth": {
-            "month": 1,
-            "year": 1989
+            "month": 2,
+            "year": 1976
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3018,10 +3015,21 @@
         {
           "officer_name": "Sajjad AHMED",
           "match_score": 100,
-          "address": "263 Gurney Close, Barking, Essex, England, IG11 8LB",
+          "address": "94 Castleford Road, Sparkhill, Birmingham, England, B11 3SN",
           "date_of_birth": {
-            "month": 2,
-            "year": 1984
+            "month": 9,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Sajjad AHMED",
+          "match_score": 100,
+          "address": "70 Shaftesbury Road, Luton, Bedfordshire, Uk, LU4 8AN",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1976
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3039,7 +3047,7 @@
       "name": "Zafar Ali",
       "party": "Independent Group",
       "ward": "Brierfield East and Clover Hill",
-      "checked_at": "2026-02-19T19:46:37.358441Z",
+      "checked_at": "2026-02-19T21:22:02.357515Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -3076,42 +3084,39 @@
             "verification": "ch_strong_proximity"
           },
           {
-            "officer_id": "qxVByCwPp_tC0P8rluBWgzD7JKw",
-            "title": "Zafar ALI",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 1,
-              "year": 1980
-            },
-            "address_snippet": "Unit 1, Sunningdale Trading Estate, Dixon Close, Lincoln, England, LN6 7UB",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "cLS8XLuWU51LN5vASua3wdwdvHM",
-            "title": "Zafar ALI",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 3,
-              "year": 1995
-            },
-            "address_snippet": "1 Old Galleries, Godalming, England, GU8 4UF",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "X0a8oDO49BWHewcdglRC5FwDsOk",
+            "officer_id": "Akj-IIT9SRJZRwFIkPxD8XXvE98",
             "title": "Zafar ALI",
             "match_score": 100,
             "date_of_birth": {
               "month": 4,
-              "year": 1968
+              "year": 1973
             },
-            "address_snippet": "104 Stoney Lane, Balsall Heath, Birmingham, England, B12 8AF",
+            "address_snippet": "8 Alder Avenue, Ashton-In-Makerfield, Wigan, England, WN4 0LS",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "J-bRZ1SAsDlexggsDUZqgvgDYX0",
+            "title": "Zafar ALI",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "2 Coltman Street, London, United Kingdom, E14 7BP",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "M8XBfM2NVPkvPj8melZo2clLFvc",
+            "title": "Zafar ALI",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1980
+            },
+            "address_snippet": "24 Gondal Court, Bradford, England, BD5 9JW",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -3454,8 +3459,8 @@
             "dissolved_count": 2,
             "active_count": 6,
             "sic_overlap": [
-              "70229",
-              "69109"
+              "69109",
+              "70229"
             ]
           }
         },
@@ -3567,9 +3572,28 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "Unit 1, Sunningdale Trading Estate, Dixon Close, Lincoln, England, LN6 7UB",
+          "address": "8 Alder Avenue, Ashton-In-Makerfield, Wigan, England, WN4 0LS",
           "date_of_birth": {
-            "month": 1,
+            "month": 4,
+            "year": 1973
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "2 Coltman Street, London, United Kingdom, E14 7BP",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "24 Gondal Court, Bradford, England, BD5 9JW",
+          "date_of_birth": {
+            "month": 9,
             "year": 1980
           },
           "confidence": 35,
@@ -3578,10 +3602,32 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "1 Old Galleries, Godalming, England, GU8 4UF",
+          "address": "59 Priory Avenue, High Wycombe, Buckinghamshire, United Kingdom, HP13 6SN",
           "date_of_birth": {
-            "month": 3,
-            "year": 1995
+            "month": 1,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "312 Shrobnall Street, Burton On Trent, England, DE14 2HS",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1978
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "Simon House 55-57, Blackburn Road, Church, Accrington, England, BB5 4PF",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1964
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3622,40 +3668,10 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "2 Coltman Street, London, United Kingdom, E14 7BP",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "24 Gondal Court, Bradford, England, BD5 9JW",
+          "address": "1 Old Galleries, Godalming, England, GU8 4UF",
           "date_of_birth": {
-            "month": 9,
-            "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "312 Shrobnall Street, Burton On Trent, England, DE14 2HS",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1978
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "Simon House 55-57, Blackburn Road, Church, Accrington, England, BB5 4PF",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1964
+            "month": 3,
+            "year": 1995
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3667,17 +3683,6 @@
           "date_of_birth": {
             "month": 2,
             "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "8 Alder Avenue, Ashton-In-Makerfield, Wigan, England, WN4 0LS",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1973
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3729,10 +3734,10 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "59 Priory Avenue, High Wycombe, Buckinghamshire, United Kingdom, HP13 6SN",
+          "address": "11 Tuns Lane, Slough, Berkshire, United Kingdom, SL1 2XA",
           "date_of_birth": {
-            "month": 1,
-            "year": 1970
+            "month": 9,
+            "year": 1951
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3740,10 +3745,29 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "11 Tuns Lane, Slough, Berkshire, United Kingdom, SL1 2XA",
+          "address": "Unit 1, Sunningdale Trading Estate, Dixon Close, Lincoln, England, LN6 7UB",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1980
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Dr Zafar ALI",
+          "match_score": 100,
+          "address": "1537 Stratford Road, Hall Green, Birmingham, West Midlands, England, B28 9JA",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "20-22, 20-22 Wenlock Road, London, England, N1 7GU",
           "date_of_birth": {
             "month": 9,
-            "year": 1951
+            "year": 1970
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3784,10 +3808,21 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "Building 4/6, Flat 4, Rotton Park Road, Birmingham, England, B16 0LT",
+          "address": "76 Queensway, Halifax, United Kingdom, HX1 4RN",
           "date_of_birth": {
-            "month": 1,
-            "year": 1986
+            "month": 8,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "York House Unit 11, Green Lane West, Manor Park, Preston, England, PR3 1NJ",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1995
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3828,52 +3863,22 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
+          "address": "Building 4/6, Flat 4, Rotton Park Road, Birmingham, England, B16 0LT",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1986
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
           "address": "12 Sandstone Avenue, Keresley End, Coventry, Warwickshire, United Kingdom, CV7 8QW",
           "date_of_birth": {
             "month": 5,
             "year": 1957
           },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "76 Queensway, Halifax, United Kingdom, HX1 4RN",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1970
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "York House Unit 11, Green Lane West, Manor Park, Preston, England, PR3 1NJ",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1995
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "20-22, 20-22 Wenlock Road, London, England, N1 7GU",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1970
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Dr Zafar ALI",
-          "match_score": 100,
-          "address": "1537 Stratford Road, Hall Green, Birmingham, West Midlands, England, B28 9JA",
-          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -3902,6 +3907,36 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
+          "address": "76 Queensway, Halifax, United Kingdom, HX1 4RN",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "12 Wynotham Street, Burnley, England, BB10 1UQ",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1977
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "11 Tuns Lane, Slough, Berkshire, United Kingdom, SL1 2XA",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
           "address": "11 Tuns Lane, Slough, Berkshire, England, SL12XA",
           "date_of_birth": {},
           "confidence": 35,
@@ -3914,25 +3949,6 @@
           "date_of_birth": {
             "month": 8,
             "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "69 Cromwell Avenue, Manchester, Lancashire, M16 0BG",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "509 Colne Road, Burnley, England, BB10 2LF",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1977
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3970,18 +3986,15 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "76 Queensway, Halifax, United Kingdom, HX1 4RN",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1970
-          },
+          "address": "69 Cromwell Avenue, Manchester, Lancashire, M16 0BG",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "12 Wynotham Street, Burnley, England, BB10 1UQ",
+          "address": "509 Colne Road, Burnley, England, BB10 2LF",
           "date_of_birth": {
             "month": 1,
             "year": 1977
@@ -3992,40 +4005,10 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "11 Tuns Lane, Slough, Berkshire, United Kingdom, SL1 2XA",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
           "address": "Arch 1, Pinching Street, London, United Kingdom, E1 1LX",
           "date_of_birth": {
             "month": 6,
             "year": 1977
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "24238, Sc834965 - Companies House Default Address, Edinburgh, EH7 9HR",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1995
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Zafar ALI",
-          "match_score": 100,
-          "address": "22 Dudley Road, Brierley Hill, West Midlands, England, DY5 1LH",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4052,10 +4035,32 @@
         {
           "officer_name": "Zafar ALI",
           "match_score": 100,
-          "address": "Office 15405, 182 184  High Street North East Ham, London, United Kingdom, E6 2JA",
+          "address": "30 Stamford Hill, London, United Kingdom, N16 6XZ",
           "date_of_birth": {
-            "month": 7,
-            "year": 1985
+            "month": 5,
+            "year": 1982
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "8 The Haven, Birmingham, England, B14 4EU",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Zafar ALI",
+          "match_score": 100,
+          "address": "61 Springwood Hall Gardens, Gledholt, Huddersfield, West Yorkshire, England, HD1 4HA",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1970
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4088,7 +4093,7 @@
       "name": "Mohammad Ammer",
       "party": "Independent Group",
       "ward": "Marsden and Southfield",
-      "checked_at": "2026-02-19T19:46:50.248983Z",
+      "checked_at": "2026-02-19T21:22:15.966567Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4179,7 +4184,7 @@
       "name": "Ruby Anwar",
       "party": "Independent Group",
       "ward": "Whitefield and Walverden",
-      "checked_at": "2026-02-19T19:46:53.523851Z",
+      "checked_at": "2026-02-19T21:22:19.215503Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4270,7 +4275,7 @@
       "name": "Naeem Hussain Ashraf",
       "party": "Pendle's True Independents",
       "ward": "Brierfield East and Clover Hill",
-      "checked_at": "2026-02-19T19:46:56.766869Z",
+      "checked_at": "2026-02-19T21:22:22.463141Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4307,20 +4312,6 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "svI0XpFGLqeOOaB7yysaJy1qn3A",
-            "title": "Naeem ASHRAF",
-            "match_score": 90,
-            "date_of_birth": {
-              "month": 4,
-              "year": 1975
-            },
-            "address_snippet": "28 Mosedale Way, Birmingham, England, B15 2BL",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "SYRs5ooGn7KyrFdDeEWo4oQtUgI",
             "title": "Naeem ASHRAF",
             "match_score": 90,
@@ -4335,14 +4326,28 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "zCpQffwMr37zAie-ZLEe1CeTqmA",
+            "officer_id": "svI0XpFGLqeOOaB7yysaJy1qn3A",
             "title": "Naeem ASHRAF",
             "match_score": 90,
             "date_of_birth": {
-              "month": 9,
-              "year": 1985
+              "month": 4,
+              "year": 1975
             },
-            "address_snippet": "7a, Grandale Street, Manchester, England, M14 5WS",
+            "address_snippet": "28 Mosedale Way, Birmingham, England, B15 2BL",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "RTWh9nhQzM8Pf2HMlnGs5nZ8Byg",
+            "title": "Naeem ASHRAF",
+            "match_score": 90,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1972
+            },
+            "address_snippet": "22 Glentworth Place, Slough, England, SL1 3UT",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -4418,17 +4423,6 @@
         {
           "officer_name": "Naeem ASHRAF",
           "match_score": 90,
-          "address": "28 Mosedale Way, Birmingham, England, B15 2BL",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Naeem ASHRAF",
-          "match_score": 90,
           "address": "24238, Sc808725 - Companies House Default Address, Edinburgh, EH7 9HR",
           "date_of_birth": {
             "month": 1,
@@ -4440,10 +4434,21 @@
         {
           "officer_name": "Naeem ASHRAF",
           "match_score": 90,
-          "address": "7a, Grandale Street, Manchester, England, M14 5WS",
+          "address": "28 Mosedale Way, Birmingham, England, B15 2BL",
           "date_of_birth": {
-            "month": 9,
-            "year": 1985
+            "month": 4,
+            "year": 1975
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Naeem ASHRAF",
+          "match_score": 90,
+          "address": "22 Glentworth Place, Slough, England, SL1 3UT",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4470,10 +4475,10 @@
         {
           "officer_name": "Naeem ASHRAF",
           "match_score": 90,
-          "address": "22 Glentworth Place, Slough, England, SL1 3UT",
+          "address": "7a, Grandale Street, Manchester, England, M14 5WS",
           "date_of_birth": {
-            "month": 3,
-            "year": 1972
+            "month": 9,
+            "year": 1985
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4518,7 +4523,7 @@
       "name": "Mohammad Aslam",
       "party": "Conservative",
       "ward": "Bradley",
-      "checked_at": "2026-02-19T19:47:00.015899Z",
+      "checked_at": "2026-02-19T21:22:25.711788Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -4535,6 +4540,20 @@
               "year": 1955
             },
             "address_snippet": "141 Handsworth Wood Road, Birmingham, United Kingdom, B20 2PJ",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "XjdxMqMxF9BNuEDlPOUTTlcF8Eg",
+            "title": "Mohammad ASLAM",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 6,
+              "year": 1952
+            },
+            "address_snippet": "49 Highwood Avenue, High Wycombe, England, HP12 4LS",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -4577,20 +4596,6 @@
               "year": 1952
             },
             "address_snippet": "20 Church Lane, Handsworth, Birmingham, England, B20 2EP",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "XjdxMqMxF9BNuEDlPOUTTlcF8Eg",
-            "title": "Mohammad ASLAM",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 6,
-              "year": 1952
-            },
-            "address_snippet": "49 Highwood Avenue, High Wycombe, England, HP12 4LS",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -4669,6 +4674,17 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
+          "address": "49 Highwood Avenue, High Wycombe, England, HP12 4LS",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1952
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
           "address": "47 Dryleaze Road, Bristol, England, BS16 1HL",
           "date_of_birth": {
             "month": 10,
@@ -4702,10 +4718,10 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "49 Highwood Avenue, High Wycombe, England, HP12 4LS",
+          "address": "336 Kilburn Lane, London, W9 3EF",
           "date_of_birth": {
-            "month": 6,
-            "year": 1952
+            "month": 8,
+            "year": 1959
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4713,10 +4729,43 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "450 Ballater Street, Glasgow, Scotland, G5 0QW",
+          "address": "195 Burnage Lane, Manchester, United Kingdom, M19 1FE",
           "date_of_birth": {
-            "month": 5,
-            "year": 1989
+            "month": 1,
+            "year": 1956
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "43 Kimberley Road, London, England, SW9 9DQ",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1962
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "136 A, Manse Road, Wishaw, Scotland, ML2 9BD",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1958
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "15 Moulton Avenue, Bedford, Bedfordshire, United Kingdom, MK42",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1969
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4790,21 +4839,10 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "336 Kilburn Lane, London, W9 3EF",
+          "address": "450 Ballater Street, Glasgow, Scotland, G5 0QW",
           "date_of_birth": {
-            "month": 8,
-            "year": 1959
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "195 Burnage Lane, Manchester, United Kingdom, M19 1FE",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1956
+            "month": 5,
+            "year": 1989
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4816,50 +4854,6 @@
           "date_of_birth": {
             "month": 4,
             "year": 1973
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "136 A, Manse Road, Wishaw, Scotland, ML2 9BD",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1958
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "43 Kimberley Road, London, England, SW9 9DQ",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1962
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "15 Moulton Avenue, Bedford, Bedfordshire, United Kingdom, MK42",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1969
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "4 Firrhill Neuk, Edinburgh, Scotland, EH13 9FF",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1959
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -4892,6 +4886,61 @@
           "address": "92 Mina Road, Bristol, Avon, United Kingdom, BS2 9XW",
           "date_of_birth": {
             "month": 9,
+            "year": 1953
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "6 New Street, Stonehouse, Larkhall, Scotland, ML9 3LT",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "55 Westoe Road, South Shields, Tyne And Wear, United Kingdom, NE33 4LU",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1959
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Dr Mohammad ASLAM",
+          "match_score": 100,
+          "address": "64 Harley Street, London, England, W1G 7HB",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1964
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "528a, Lea Bridge Road, London, England, E10 7DT",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "257a, Neasden Lane, London, England, NW10 1QG",
+          "date_of_birth": {
+            "month": 3,
             "year": 1953
           },
           "confidence": 35,
@@ -4955,50 +5004,6 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "528a, Lea Bridge Road, London, England, E10 7DT",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1968
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "257a, Neasden Lane, London, England, NW10 1QG",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1953
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "55 Westoe Road, South Shields, Tyne And Wear, United Kingdom, NE33 4LU",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1959
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Dr Mohammad ASLAM",
-          "match_score": 100,
-          "address": "64 Harley Street, London, England, W1G 7HB",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1964
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
           "address": "15 Moulton Avenue, Bedford, United Kingdom, MK42 0JF",
           "date_of_birth": {
             "month": 1,
@@ -5010,10 +5015,10 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "6 New Street, Stonehouse, Larkhall, Scotland, ML9 3LT",
+          "address": "4 Firrhill Neuk, Edinburgh, Scotland, EH13 9FF",
           "date_of_birth": {
-            "month": 6,
-            "year": 1968
+            "month": 1,
+            "year": 1959
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5025,17 +5030,6 @@
           "date_of_birth": {
             "month": 5,
             "year": 1979
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "18 Calder Street, Coatbridge, Lanarkshire, Scotland, ML5 4EX",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5065,8 +5059,30 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
+          "address": "Ellison Motors, Pighue Lane, Liverpool, England, L13 1DG",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1936
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
           "address": "31 De Vere Gardens, Ilford, Essex, England, IG1 3EB",
           "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "18 Calder Street, Coatbridge, Lanarkshire, Scotland, ML5 4EX",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1971
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -5117,17 +5133,6 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "Ellison Motors, Pighue Lane, Liverpool, England, L13 1DG",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1936
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
           "address": "Flat 170, 22 Rickman Drive, Birmingham, United Kingdom, B15 2AL",
           "date_of_birth": {
             "month": 10,
@@ -5139,10 +5144,10 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "4 Penman Way, Enderby, Leicester, England, LE19 1SY",
+          "address": "67 Havelock Road, Southall, UB24PB",
           "date_of_birth": {
             "month": 4,
-            "year": 1955
+            "year": 1962
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5150,44 +5155,19 @@
         {
           "officer_name": "Mohammad ASLAM",
           "match_score": 100,
-          "address": "27 Aspinall Street, Manchester, Greater Manchester, England, M14 5UD",
+          "address": "112 London Road, Leicester, United Kingdom, LE2 0QS",
           "date_of_birth": {
-            "month": 11,
-            "year": 1955
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "Liberty House, 30 Whitchurch Lane, Edgware, England, HA8 6LE",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1979
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "99 Burlington Street, Ashton-Under-Lyne, England, OL6 7HJ",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1953
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Mohammad ASLAM",
-          "match_score": 100,
-          "address": "10 Kinmal Street, Rhyl, United Kingdom, LL18 1AL",
-          "date_of_birth": {
-            "month": 1,
+            "month": 3,
             "year": 1956
           },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "99 Burlington Street, Ashton Under Lyne, OL6 7HJ",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -5198,6 +5178,28 @@
           "date_of_birth": {
             "month": 4,
             "year": 1949
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "84 Falconwood Road, Addington, Croydon, Surrey, CR0 9BD",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1942
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad ASLAM",
+          "match_score": 100,
+          "address": "142 Norfolk Street, Glasgow, United Kingdom, G5 9EQ",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1935
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5215,7 +5217,7 @@
       "name": "Marion Atkinson",
       "party": "Reform UK",
       "ward": "Vivary Bridge",
-      "checked_at": "2026-02-19T19:47:03.289267Z",
+      "checked_at": "2026-02-19T21:22:28.984399Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -5427,7 +5429,7 @@
       "name": "Andy Bell",
       "party": "Liberal Democrat",
       "ward": "Vivary Bridge",
-      "checked_at": "2026-02-19T19:47:06.527491Z",
+      "checked_at": "2026-02-19T21:22:32.233284Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -5678,7 +5680,7 @@
       "name": "Neil Butterworth",
       "party": "Conservative",
       "ward": "Waterside and Horsfield",
-      "checked_at": "2026-02-19T19:47:09.767062Z",
+      "checked_at": "2026-02-19T21:22:35.484258Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6091,7 +6093,7 @@
       "name": "Chris Church",
       "party": "Liberal Democrat",
       "ward": "Barnoldswick",
-      "checked_at": "2026-02-19T19:47:13.046691Z",
+      "checked_at": "2026-02-19T21:22:38.750760Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6257,7 +6259,7 @@
       "name": "David Cockburn-Price",
       "party": "Conservative",
       "ward": "Boulsworth and Foulridge",
-      "checked_at": "2026-02-19T19:47:16.341427Z",
+      "checked_at": "2026-02-19T21:22:42.063129Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6722,7 +6724,22 @@
         "has_family_supplier_conflict": false
       },
       "supplier_conflicts": [],
-      "cross_council_conflicts": [],
+      "cross_council_conflicts": [
+        {
+          "company_name": "BACKHOUSE INSURANCE BROKERS LIMITED",
+          "company_number": "00304106",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "BACKHOUSE INSURANCE BROKERS LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 1095.66
+          },
+          "severity": "high",
+          "conflict_type": "commercial",
+          "company_type": "ltd"
+        }
+      ],
       "network_crossover": {
         "total_links": 0,
         "links": []
@@ -6736,8 +6753,8 @@
             "dissolved_count": 4,
             "active_count": 7,
             "sic_overlap": [
-              "62012",
-              "62020"
+              "62020",
+              "62012"
             ]
           }
         },
@@ -6765,6 +6782,20 @@
               "V.P. INTEGRATED SOLUTIONS LIMITED",
               "V.P. DEFENCE LIMITED"
             ]
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'BACKHOUSE INSURANCE BROKERS LIMITED' also matches supplier at lancashire_cc council",
+          "evidence": {
+            "other_council": "lancashire_cc",
+            "match": {
+              "supplier": "BACKHOUSE INSURANCE BROKERS LTD",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 1095.66
+            }
           }
         }
       ],
@@ -6812,6 +6843,12 @@
           "company": "TOUCH AND DISCOVER SYSTEMS LTD"
         },
         {
+          "type": "cross_council_conflict",
+          "severity": "high",
+          "detail": "Company 'BACKHOUSE INSURANCE BROKERS LIMITED' matches supplier at lancashire_cc council",
+          "conflict_type": "commercial"
+        },
+        {
           "type": "phoenix_company_pattern",
           "severity": "high",
           "detail": "4 dissolved companies + 7 active in same/similar sectors \u2014 possible phoenix pattern"
@@ -6825,10 +6862,15 @@
           "type": "shared_address_cluster",
           "severity": "warning",
           "detail": "2 companies share registered address"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
+          "detail": "Company 'BACKHOUSE INSURANCE BROKERS LIMITED' also matches supplier at lancashire_cc council"
         }
       ],
-      "integrity_score": 50,
-      "risk_level": "elevated",
+      "integrity_score": 10,
+      "risk_level": "high",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -6883,7 +6925,9 @@
         "advisable": true,
         "reasons": [
           "7 active directorships \u2014 complex company portfolio",
-          "elevated risk level \u2014 multiple red flags",
+          "1 cross-council conflict(s) \u2014 multi-authority exposure",
+          "high risk level \u2014 multiple red flags",
+          "1 critical misconduct pattern(s) detected",
           "4 dissolved/liquidated companies \u2014 phoenix risk pattern",
           "9 total directorships \u2014 extensive company history"
         ],
@@ -6895,7 +6939,7 @@
       "name": "Sarah Cockburn-Price",
       "party": "Conservative",
       "ward": "Boulsworth and Foulridge",
-      "checked_at": "2026-02-19T19:47:34.881714Z",
+      "checked_at": "2026-02-19T21:23:01.709762Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -6986,7 +7030,7 @@
       "name": "David Gallear",
       "party": "Conservative",
       "ward": "Barrowford and Pendleside",
-      "checked_at": "2026-02-19T19:47:38.158497Z",
+      "checked_at": "2026-02-19T21:23:04.989831Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7077,7 +7121,7 @@
       "name": "Mohammad Hanif",
       "party": "Independent Group",
       "ward": "Brierfield West and Reedley",
-      "checked_at": "2026-02-19T19:47:41.510153Z",
+      "checked_at": "2026-02-19T21:23:08.334075Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -7128,20 +7172,6 @@
             "verification": "ch_strong_proximity"
           },
           {
-            "officer_id": "-Wig90ltxaTUBSi7bzaoXhpg7i4",
-            "title": "Mohammad HANIF",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 4,
-              "year": 1960
-            },
-            "address_snippet": "193 Ashburton Avenue, Ilford, Essex, IG3 9EN",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "Yl5i2crNR4WpbQ3NpcxHp1AxIls",
             "title": "Mohammad HANIF",
             "match_score": 100,
@@ -7150,6 +7180,20 @@
               "year": 1973
             },
             "address_snippet": "553a, High Road, Ilford, Essex, England, IG1 1TZ",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "izWfjImKsUHT6XBPUq6cq781Ik4",
+            "title": "Mohammad HANIF",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1947
+            },
+            "address_snippet": "40 Seymour Gardens, Ilford, England, IG1 3LP",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -7423,10 +7467,41 @@
             "total_spend": 34750.0
           },
           "severity": "info",
+          "conflict_type": "commercial",
+          "company_type": "ltd",
           "council_id": "pendle"
         }
       ],
-      "cross_council_conflicts": [],
+      "cross_council_conflicts": [
+        {
+          "company_name": "PEARL TOGETHER LIMITED",
+          "company_number": "11229691",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "PEARL TOGETHER LTD",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 1265877.21
+          },
+          "severity": "info",
+          "conflict_type": "commercial",
+          "company_type": "ltd"
+        },
+        {
+          "company_name": "PENDLE ENTERPRISE AND REGENERATION (BRIERFIELD MILL) LIMITED",
+          "company_number": "07951533",
+          "other_council": "lancashire_cc",
+          "supplier_match": {
+            "supplier": "PENDLE ENTERPRISE & REGENERATION (BRIERFIELD MILL) LTD",
+            "match_type": "fuzzy",
+            "confidence": 83,
+            "total_spend": 331.72
+          },
+          "severity": "info",
+          "conflict_type": "commercial",
+          "company_type": "ltd"
+        }
+      ],
       "network_crossover": {
         "total_links": 0,
         "links": []
@@ -7478,7 +7553,20 @@
         {
           "type": "supplier_conflict",
           "severity": "info",
-          "detail": "Company 'PEARL TOGETHER LIMITED' matches council supplier 'PEARL TOGETHER LTD'"
+          "detail": "Company 'PEARL TOGETHER LIMITED' matches council supplier 'PEARL TOGETHER LTD'",
+          "conflict_type": "commercial"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'PEARL TOGETHER LIMITED' matches supplier at lancashire_cc council",
+          "conflict_type": "commercial"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'PENDLE ENTERPRISE AND REGENERATION (BRIERFIELD MILL) LIMITED' matches supplier at lancashire_cc council",
+          "conflict_type": "commercial"
         },
         {
           "type": "recent_mass_resignation",
@@ -7508,17 +7596,6 @@
         "register_empty": null
       },
       "unverified_leads": [
-        {
-          "officer_name": "Mohammad HANIF",
-          "match_score": 100,
-          "address": "193 Ashburton Avenue, Ilford, Essex, IG3 9EN",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1960
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
         {
           "officer_name": "Mohammad HANIF",
           "match_score": 100,
@@ -7570,6 +7647,17 @@
           "date_of_birth": {
             "month": 6,
             "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Mohammad HANIF",
+          "match_score": 100,
+          "address": "193 Ashburton Avenue, Ilford, Essex, IG3 9EN",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1960
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8016,9 +8104,10 @@
         "advisable": true,
         "reasons": [
           "1 supplier conflict(s) \u2014 possible self-dealing",
+          "2 cross-council conflict(s) \u2014 multi-authority exposure",
           "6 total directorships \u2014 extensive company history"
         ],
-        "priority": "medium"
+        "priority": "high"
       }
     },
     {
@@ -8026,7 +8115,7 @@
       "name": "Bryony Alys Hartley",
       "party": "Liberal Democrat",
       "ward": "Barnoldswick",
-      "checked_at": "2026-02-19T19:47:51.009829Z",
+      "checked_at": "2026-02-19T21:23:18.264486Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -8136,7 +8225,7 @@
       "name": "David Hartley",
       "party": "Liberal Democrat",
       "ward": "Earby and Coates",
-      "checked_at": "2026-02-19T19:47:54.267398Z",
+      "checked_at": "2026-02-19T21:23:21.503471Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -8159,14 +8248,28 @@
             "verification": "ch_proximity_match"
           },
           {
-            "officer_id": "z8V9ydMje6LXLiwVjT3rljM8mt4",
+            "officer_id": "IFSMDz6jzyH0EBsinkNNIbFjbVI",
             "title": "David HARTLEY",
             "match_score": 100,
             "date_of_birth": {
               "month": 8,
-              "year": 1987
+              "year": 1971
             },
-            "address_snippet": "19 Cardigan Road, Bridlington, East Riding Of Yorkshire, YO15 3HG",
+            "address_snippet": "36 Bridge Road, Blundellsands, Liverpool, L23 6SG",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "KkuVCCoxNKahbMbFs_4Q8M4skdo",
+            "title": "David HARTLEY",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1958
+            },
+            "address_snippet": "36 East Street, Long Buckby, Northamptonshire, United Kingdom, NN6 7RA",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -8187,25 +8290,14 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "CPnME-5HIIsaQkXtfefmv6dq1hI",
-            "title": "David HARTLEY",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "Shoreham Technical Centre, Old Shoreham Road, Shoreham-By-Sea, United Kingdom, BN43 5FG",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "IFSMDz6jzyH0EBsinkNNIbFjbVI",
+            "officer_id": "-lSOy7YsvmOurh2Kd12MY1bqj24",
             "title": "David HARTLEY",
             "match_score": 100,
             "date_of_birth": {
-              "month": 8,
-              "year": 1971
+              "month": 6,
+              "year": 1981
             },
-            "address_snippet": "36 Bridge Road, Blundellsands, Liverpool, L23 6SG",
+            "address_snippet": "Bramley House, Meadow Loke, Bawdeswell, Norfolk, United Kingdom, NR20 4TG",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -8330,36 +8422,6 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
-          "address": "19 Cardigan Road, Bridlington, East Riding Of Yorkshire, YO15 3HG",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1987
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "111 Stephenson Grove, Rainhill, Prescot, England, L35 9AB",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1956
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Shoreham Technical Centre, Old Shoreham Road, Shoreham-By-Sea, United Kingdom, BN43 5FG",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
           "address": "36 Bridge Road, Blundellsands, Liverpool, L23 6SG",
           "date_of_birth": {
             "month": 8,
@@ -8375,6 +8437,17 @@
           "date_of_birth": {
             "month": 5,
             "year": 1958
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "111 Stephenson Grove, Rainhill, Prescot, England, L35 9AB",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1956
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8412,6 +8485,14 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
+          "address": "Shoreham Technical Centre, Old Shoreham Road, Shoreham-By-Sea, United Kingdom, BN43 5FG",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
           "address": "6 Belvidere Road, 6 Belvidere Road, Cults, Aberdeen, Scotland, AB15 9HP",
           "date_of_birth": {
             "month": 7,
@@ -8423,106 +8504,21 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
+          "address": "19 Cardigan Road, Bridlington, East Riding Of Yorkshire, YO15 3HG",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1987
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
           "address": "7 Mowbray Street, Stockport, England, SK1 3EJ",
           "date_of_birth": {
             "month": 6,
             "year": 1962
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Unit 7a, Atlas Way, Sheffield, United Kingdom, S4 7QQ",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1977
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Jupiter House, Mercury Rise, Altham Business Park, Accrington, Lancashire, United Kingdom, BB5 5YE",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1964
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Nettlebed, Stream Road, Upton Nr Didcot, Oxon, OX11 9JQ",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1945
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "33 Hanscombe End Road, Hanscombe End Road, Shillington, Hitchin, Bedfordshire, England, SG5 3NB",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1953
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "26 The Green, Kings Norton, Birmingham, United Kingdom, B38 8SD",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1968
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Northern Assurance Building, 9 - 21 Princess Street, Albert Square, Manchester, Lancs, England, M2 4DN",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "42 Wrexham Close, Callands, Warrington, England, WA5 9RL",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1955
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "1 Glydegate, Bradford, England, BD5 0BQ",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "160 Welwyn Park Avenue, Hull, North Humberside, HU6 7DN",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1963
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8552,6 +8548,69 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
+          "address": "33 Hanscombe End Road, Hanscombe End Road, Shillington, Hitchin, Bedfordshire, England, SG5 3NB",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1953
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "26 The Green, Kings Norton, Birmingham, United Kingdom, B38 8SD",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "Nettlebed, Stream Road, Upton Nr Didcot, Oxon, OX11 9JQ",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1945
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "1 Glydegate, Bradford, England, BD5 0BQ",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "160 Welwyn Park Avenue, Hull, North Humberside, HU6 7DN",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1963
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "Unit 7a, Atlas Way, Sheffield, United Kingdom, S4 7QQ",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1977
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
           "address": "69 Paxdale, Hull, England, HU7 6DA",
           "date_of_birth": {
             "month": 3,
@@ -8574,43 +8633,43 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
+          "address": "Jupiter House, Mercury Rise, Altham Business Park, Accrington, Lancashire, United Kingdom, BB5 5YE",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1964
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "Northern Assurance Building, 9 - 21 Princess Street, Albert Square, Manchester, Lancs, England, M2 4DN",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1965
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "42 Wrexham Close, Callands, Warrington, England, WA5 9RL",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1955
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
           "address": "63 Armstrong Avenue, Stafford, England, ST16 3UW",
           "date_of_birth": {
             "month": 9,
             "year": 1992
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "3rd Floor, 86-90, Paul Street, London, England, United Kingdom, EC2A 4NE",
-          "date_of_birth": {
-            "month": 12,
-            "year": 1994
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "A-One Business Park, 370 Bradford Road, Brighouse, West Yorkshire, England, HD6 4DJ",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1956
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Fourth Floor  Unit 5b, The Parklands, Bolton, BL6 4SD",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8633,6 +8692,36 @@
           "date_of_birth": {
             "month": 7,
             "year": 1970
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "306 Innovation Centre, Vienna Court Kirkleatham Business Park, Redcar, Cleveland, England, TS10 5SH",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1981
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "169 High Street, Barnet, Herts, England, EN5 5SU",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "Appletree Cottage, Plastow Green, Headley, Thatcham, Berkshire, RG19 8LP",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1957
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8673,6 +8762,33 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
+          "address": "12 Ardenfield, Haughton Green Denton, Manchester, Cheshire, M34 7LN",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "3rd Floor, 86-90, Paul Street, London, England, United Kingdom, EC2A 4NE",
+          "date_of_birth": {
+            "month": 12,
+            "year": 1994
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "The Steadings, Kildwick, Keighley, West Yorkshire, England, BD20 9AE",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
           "address": "Beamish Park Golf Club, Beamish, Stanley, England, DH9 0RH",
           "date_of_birth": {
             "month": 8,
@@ -8695,33 +8811,6 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
-          "address": "The Steadings, Kildwick, Keighley, West Yorkshire, England, BD20 9AE",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "12 Ardenfield, Haughton Green Denton, Manchester, Cheshire, M34 7LN",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
-          "address": "Appletree Cottage, Plastow Green, Headley, Thatcham, Berkshire, RG19 8LP",
-          "date_of_birth": {
-            "month": 10,
-            "year": 1957
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
           "address": "25 Magdalene Close, London, United Kingdom, SE15 3SQ",
           "date_of_birth": {
             "month": 12,
@@ -8733,10 +8822,10 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
-          "address": "306 Innovation Centre, Vienna Court Kirkleatham Business Park, Redcar, Cleveland, England, TS10 5SH",
+          "address": "A-One Business Park, 370 Bradford Road, Brighouse, West Yorkshire, England, HD6 4DJ",
           "date_of_birth": {
-            "month": 5,
-            "year": 1981
+            "month": 2,
+            "year": 1956
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8744,8 +8833,11 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
-          "address": "169 High Street, Barnet, Herts, England, EN5 5SU",
-          "date_of_birth": {},
+          "address": "Fourth Floor  Unit 5b, The Parklands, Bolton, BL6 4SD",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1971
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -8763,10 +8855,10 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
-          "address": "5 The Ridge, Saltburn By The Sea, North Yorkshire, United Kingdom, TS12 1JQ",
+          "address": "44 Reevy Avenue, Bradford, England, BD6 3EQ",
           "date_of_birth": {
-            "month": 9,
-            "year": 1970
+            "month": 4,
+            "year": 1965
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -8807,17 +8899,6 @@
         {
           "officer_name": "David HARTLEY",
           "match_score": 100,
-          "address": "44 Reevy Avenue, Bradford, England, BD6 3EQ",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HARTLEY",
-          "match_score": 100,
           "address": "Northern Assurance Building, 9-21 Princess Street, Albert Square, Manchester, England, M2 4DN",
           "date_of_birth": {
             "month": 11,
@@ -8831,6 +8912,17 @@
           "match_score": 100,
           "address": "26a, Bark Place, London, W2 4AT",
           "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HARTLEY",
+          "match_score": 100,
+          "address": "5 The Ridge, Saltburn By The Sea, North Yorkshire, United Kingdom, TS12 1JQ",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1970
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -8858,7 +8950,7 @@
       "name": "Mohammed Iqbal",
       "party": "Independent Group",
       "ward": "Bradley",
-      "checked_at": "2026-02-19T19:48:00.400594Z",
+      "checked_at": "2026-02-19T21:23:27.796325Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -9549,7 +9641,7 @@
       "name": "Yasser Iqbal",
       "party": "Pendle's True Independents",
       "ward": "Brierfield West and Reedley",
-      "checked_at": "2026-02-19T19:48:03.721625Z",
+      "checked_at": "2026-02-19T21:23:31.087563Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -9600,20 +9692,6 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "mFNQMW59Kh4-hU4C8zTR4W4xRrE",
-            "title": "Yasser IQBAL",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 12,
-              "year": 1988
-            },
-            "address_snippet": "36 Fairbank Road, Bradford, West Yorkshire, England, BD8 9JX",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "7RAgKQpEIIOqDz6gj26srY9EeAo",
             "title": "Yasser IQBAL",
             "match_score": 100,
@@ -9622,6 +9700,20 @@
               "year": 1984
             },
             "address_snippet": "6 Valley Road, Hyde, England, SK14 3PP",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "mFNQMW59Kh4-hU4C8zTR4W4xRrE",
+            "title": "Yasser IQBAL",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 12,
+              "year": 1988
+            },
+            "address_snippet": "36 Fairbank Road, Bradford, West Yorkshire, England, BD8 9JX",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -9708,10 +9800,10 @@
         {
           "officer_name": "Yasser IQBAL",
           "match_score": 100,
-          "address": "36 Fairbank Road, Bradford, West Yorkshire, England, BD8 9JX",
+          "address": "6 Valley Road, Hyde, England, SK14 3PP",
           "date_of_birth": {
-            "month": 12,
-            "year": 1988
+            "month": 9,
+            "year": 1984
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9719,10 +9811,10 @@
         {
           "officer_name": "Yasser IQBAL",
           "match_score": 100,
-          "address": "6 Valley Road, Hyde, England, SK14 3PP",
+          "address": "36 Fairbank Road, Bradford, West Yorkshire, England, BD8 9JX",
           "date_of_birth": {
-            "month": 9,
-            "year": 1984
+            "month": 12,
+            "year": 1988
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9792,7 +9884,7 @@
       "name": "Mohammad Kaleem",
       "party": "Conservative",
       "ward": "Bradley",
-      "checked_at": "2026-02-19T19:48:06.965812Z",
+      "checked_at": "2026-02-19T21:23:34.335578Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10302,7 +10394,7 @@
       "name": "Susan Land",
       "party": "Liberal Democrat",
       "ward": "Earby and Coates",
-      "checked_at": "2026-02-19T19:48:18.656055Z",
+      "checked_at": "2026-02-19T21:23:46.453470Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10528,7 +10620,7 @@
       "name": "Dorothy Elizabeth Lord",
       "party": "Liberal Democrat",
       "ward": "Waterside and Horsfield",
-      "checked_at": "2026-02-19T19:48:21.963300Z",
+      "checked_at": "2026-02-19T21:23:49.767032Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10592,7 +10684,7 @@
       "name": "Asjad Mahmood",
       "party": "Independent Group",
       "ward": "Whitefield and Walverden",
-      "checked_at": "2026-02-19T19:48:25.232791Z",
+      "checked_at": "2026-02-19T21:23:53.027704Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10817,6 +10909,17 @@
         {
           "officer_name": "Asjad MAHMOOD",
           "match_score": 100,
+          "address": "Unit 30, Caldershaw Business Centre, Ings Lane, Rochdale, United Kingdom, OL12 7LQ",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1972
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Asjad MAHMOOD",
+          "match_score": 100,
           "address": "5 Gloucester Gate, Broughton, Milton Keynes, Buckinghamshire, England, MK10 7BX",
           "date_of_birth": {
             "month": 8,
@@ -10832,17 +10935,6 @@
           "date_of_birth": {
             "month": 9,
             "year": 1971
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Asjad MAHMOOD",
-          "match_score": 100,
-          "address": "Unit 30, Caldershaw Business Centre, Ings Lane, Rochdale, United Kingdom, OL12 7LQ",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10915,7 +11007,7 @@
       "name": "Brian Newman",
       "party": "Liberal Democrat",
       "ward": "Fence and Higham",
-      "checked_at": "2026-02-19T19:48:28.506604Z",
+      "checked_at": "2026-02-19T21:23:56.265977Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -10952,6 +11044,20 @@
             "verification": "name_match_only"
           },
           {
+            "officer_id": "o04LifqMSGTmxpo3RUTNyvG_6dA",
+            "title": "Brian NEWMAN",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1952
+            },
+            "address_snippet": "4 Terminal House, Station Approach, Shepperton, Middlesex, United Kingdom, TW17 8AS",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
             "officer_id": "3C5QaRENBELf2rLf4rnp7CCK4LE",
             "title": "Brian NEWMAN",
             "match_score": 100,
@@ -10974,20 +11080,6 @@
               "year": 1960
             },
             "address_snippet": "Sigma House, Oak View Close, Edginswell Park, Torquay, Devon, United Kingdom, TQ2 7FF",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "o04LifqMSGTmxpo3RUTNyvG_6dA",
-            "title": "Brian NEWMAN",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 7,
-              "year": 1952
-            },
-            "address_snippet": "4 Terminal House, Station Approach, Shepperton, Middlesex, United Kingdom, TW17 8AS",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -11206,8 +11298,8 @@
               }
             ],
             "roles": [
-              "secretary",
-              "director"
+              "director",
+              "secretary"
             ],
             "officer_id": "ZoVktewTa9Lo1htJ4Ypo6hyrVKE"
           }
@@ -11328,6 +11420,17 @@
         {
           "officer_name": "Brian NEWMAN",
           "match_score": 100,
+          "address": "4 Terminal House, Station Approach, Shepperton, Middlesex, United Kingdom, TW17 8AS",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1952
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Brian NEWMAN",
+          "match_score": 100,
           "address": "6 Neptune Court, Hallam Way, Whitehills Business Park, Blackpool, Lancashire, United Kingdom, FY4 5LZ",
           "date_of_birth": {
             "month": 10,
@@ -11343,17 +11446,6 @@
           "date_of_birth": {
             "month": 5,
             "year": 1960
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Brian NEWMAN",
-          "match_score": 100,
-          "address": "4 Terminal House, Station Approach, Shepperton, Middlesex, United Kingdom, TW17 8AS",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1952
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -11834,7 +11926,7 @@
       "name": "Richard O'Connor",
       "party": "Conservative",
       "ward": "Vivary Bridge",
-      "checked_at": "2026-02-19T19:48:36.884241Z",
+      "checked_at": "2026-02-19T21:24:05.312524Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -11842,20 +11934,6 @@
       ],
       "companies_house": {
         "officer_matches": [
-          {
-            "officer_id": "JkPcQseOePZGnDKdbtF6rfvdkek",
-            "title": "Richard O'CONNOR",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 1,
-              "year": 1975
-            },
-            "address_snippet": "Flat B, 55 Corfton Road, London, United Kingdom, W5 2HR",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
           {
             "officer_id": "WYzOgnvtmRxNLB1PmX9OL7xzqO8",
             "title": "Richard O'CONNOR",
@@ -11865,6 +11943,20 @@
               "year": 1973
             },
             "address_snippet": "19 Birchfield Road, Liverpool, Merseyside, United Kingdom, L4 5US",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "JkPcQseOePZGnDKdbtF6rfvdkek",
+            "title": "Richard O'CONNOR",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 1,
+              "year": 1975
+            },
+            "address_snippet": "Flat B, 55 Corfton Road, London, United Kingdom, W5 2HR",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -11957,10 +12049,10 @@
         {
           "officer_name": "Richard O'CONNOR",
           "match_score": 100,
-          "address": "Flat B, 55 Corfton Road, London, United Kingdom, W5 2HR",
+          "address": "19 Birchfield Road, Liverpool, Merseyside, United Kingdom, L4 5US",
           "date_of_birth": {
-            "month": 1,
-            "year": 1975
+            "month": 12,
+            "year": 1973
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -11968,10 +12060,10 @@
         {
           "officer_name": "Richard O'CONNOR",
           "match_score": 100,
-          "address": "19 Birchfield Road, Liverpool, Merseyside, United Kingdom, L4 5US",
+          "address": "Flat B, 55 Corfton Road, London, United Kingdom, W5 2HR",
           "date_of_birth": {
-            "month": 12,
-            "year": 1973
+            "month": 1,
+            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12020,17 +12112,6 @@
         {
           "officer_name": "Richard O'CONNOR",
           "match_score": 100,
-          "address": "8 Victoria Park, Ulverston, Cumbria, United Kingdom, LA12 7TT",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1967
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Richard O'CONNOR",
-          "match_score": 100,
           "address": "The Point, Flat 6, Sea View Street, Cleethorpes, South Humberside, United Kingdom, DN35 8EU",
           "date_of_birth": {},
           "confidence": 35,
@@ -12043,6 +12124,28 @@
           "date_of_birth": {
             "month": 12,
             "year": 1987
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Richard O'CONNOR",
+          "match_score": 100,
+          "address": "8 Victoria Park, Ulverston, Cumbria, United Kingdom, LA12 7TT",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1967
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Richard O'CONNOR",
+          "match_score": 100,
+          "address": "22 Guardian Close, Hornchurch, United Kingdom, RM11 1FT",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1961
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12069,11 +12172,8 @@
         {
           "officer_name": "Richard O'CONNOR",
           "match_score": 100,
-          "address": "22 Guardian Close, Hornchurch, United Kingdom, RM11 1FT",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1961
-          },
+          "address": "6 The Point, Seaview Street, Sea View Street, 6 The Point, Seaview Street, Sea View Street, Seaview St, United Kingdom, DN35 8EU",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -12085,14 +12185,6 @@
             "month": 9,
             "year": 1982
           },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Richard O'CONNOR",
-          "match_score": 100,
-          "address": "6 The Point, Seaview Street, Sea View Street, 6 The Point, Seaview Street, Sea View Street, Seaview St, United Kingdom, DN35 8EU",
-          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -12151,10 +12243,10 @@
         {
           "officer_name": "Richard O'CONNOR",
           "match_score": 100,
-          "address": "14 Bellpit Close, Worsley, Manchester, United Kingdom, M28 7XH",
+          "address": "Cambrai Court, 1229 Stratford Road, Hall Green, Birmingham, West Midlands, B28 9AA",
           "date_of_birth": {
-            "month": 6,
-            "year": 1995
+            "month": 4,
+            "year": 1986
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12162,10 +12254,10 @@
         {
           "officer_name": "Richard O'CONNOR",
           "match_score": 100,
-          "address": "Cambrai Court, 1229 Stratford Road, Hall Green, Birmingham, West Midlands, B28 9AA",
+          "address": "14 Bellpit Close, Worsley, Manchester, United Kingdom, M28 7XH",
           "date_of_birth": {
-            "month": 4,
-            "year": 1986
+            "month": 6,
+            "year": 1995
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12276,7 +12368,7 @@
       "name": "Kevin Salter",
       "party": "Conservative",
       "ward": "Boulsworth and Foulridge",
-      "checked_at": "2026-02-19T19:48:40.194278Z",
+      "checked_at": "2026-02-19T21:24:08.637230Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -12564,7 +12656,7 @@
         {
           "officer_name": "Kevin Harold SALTER",
           "match_score": 90,
-          "address": "Christmas Cottage, Fitton End Road, Gorefield, Wisbech, England, PE13 4NQ",
+          "address": "Christmas Cottage, Fitton End Road, Gorefield, Wisbech, Cambridgeshire, England, PE13 4NQ",
           "date_of_birth": {
             "month": 4,
             "year": 1959
@@ -12575,7 +12667,7 @@
         {
           "officer_name": "Kevin Harold SALTER",
           "match_score": 90,
-          "address": "Christmas Cottage, Fitton End Road, Gorefield, Wisbech, Cambridgeshire, England, PE13 4NQ",
+          "address": "Christmas Cottage, Fitton End Road, Gorefield, Wisbech, England, PE13 4NQ",
           "date_of_birth": {
             "month": 4,
             "year": 1959
@@ -12755,7 +12847,7 @@
       "name": "Martyn Stone",
       "party": "Conservative",
       "ward": "Barrowford and Pendleside",
-      "checked_at": "2026-02-19T19:48:47.382273Z",
+      "checked_at": "2026-02-19T21:24:15.976510Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -12968,7 +13060,7 @@
       "name": "Ash Sutcliffe",
       "party": "Conservative",
       "ward": "Waterside and Horsfield",
-      "checked_at": "2026-02-19T19:48:50.636157Z",
+      "checked_at": "2026-02-19T21:24:19.225793Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -13032,7 +13124,7 @@
       "name": "Yvonne Tennant",
       "party": "Independent Group",
       "ward": "Marsden and Southfield",
-      "checked_at": "2026-02-19T19:48:53.901012Z",
+      "checked_at": "2026-02-19T21:24:22.485421Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -13277,6 +13369,8 @@
             "total_spend": 3667.0
           },
           "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption",
           "council_id": "pendle"
         }
       ],
@@ -13302,7 +13396,8 @@
         {
           "type": "supplier_conflict",
           "severity": "info",
-          "detail": "Company 'BRIERFIELD ACTION IN THE COMMUNITY' matches council supplier 'BRIERFIELD ACTION IN THE COMMUNITY'"
+          "detail": "Company 'BRIERFIELD ACTION IN THE COMMUNITY' matches council supplier 'BRIERFIELD ACTION IN THE COMMUNITY' [community/charity]",
+          "conflict_type": "community_trustee"
         }
       ],
       "integrity_score": 90,
@@ -13365,7 +13460,7 @@
       "name": "David Whipp",
       "party": "Liberal Democrat",
       "ward": "Earby and Coates",
-      "checked_at": "2026-02-19T19:49:02.270358Z",
+      "checked_at": "2026-02-19T21:24:30.949878Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
@@ -13589,7 +13684,7 @@
       "name": "Lola Whipp",
       "party": "Liberal Democrat",
       "ward": "Barnoldswick",
-      "checked_at": "2026-02-19T19:49:05.671583Z",
+      "checked_at": "2026-02-19T21:24:34.314196Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
