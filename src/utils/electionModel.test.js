@@ -17,6 +17,8 @@ import {
   applyOverrides,
   computeCoalitions,
   projectToLGRAuthority,
+  normalizePartyName,
+  buildCouncilSeatTotals,
 } from './electionModel'
 
 // ---------------------------------------------------------------------------
@@ -1021,5 +1023,196 @@ describe('predict', () => {
   it('returns null prediction for null election', () => {
     const result = predict(null, {}, mockPolling, mockModelCoeffs)
     expect(result.prediction).toBeNull()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// normalizePartyName
+// ---------------------------------------------------------------------------
+
+describe('normalizePartyName', () => {
+  it('returns Unknown for null/undefined/empty', () => {
+    expect(normalizePartyName(null)).toBe('Unknown')
+    expect(normalizePartyName(undefined)).toBe('Unknown')
+    expect(normalizePartyName('')).toBe('Unknown')
+  })
+
+  it('normalizes Labour & Co-operative variants to Labour', () => {
+    expect(normalizePartyName('Labour & Co-operative')).toBe('Labour')
+    expect(normalizePartyName('Labour & Co-operative Party')).toBe('Labour')
+    expect(normalizePartyName('Labour and Co-operative')).toBe('Labour')
+    expect(normalizePartyName('Labour & Coop')).toBe('Labour')
+    expect(normalizePartyName('Labour Group')).toBe('Labour')
+  })
+
+  it('passes through plain Labour', () => {
+    expect(normalizePartyName('Labour')).toBe('Labour')
+  })
+
+  it('normalizes Liberal Democrat variants', () => {
+    expect(normalizePartyName('Liberal Democrats')).toBe('Liberal Democrats')
+    expect(normalizePartyName('Lib Dem')).toBe('Liberal Democrats')
+    expect(normalizePartyName('Lib Dems')).toBe('Liberal Democrats')
+    expect(normalizePartyName('Liberal Democrat')).toBe('Liberal Democrats')
+  })
+
+  it('normalizes Conservative variants', () => {
+    expect(normalizePartyName('Conservative')).toBe('Conservative')
+    expect(normalizePartyName('The Conservative Party')).toBe('Conservative')
+    expect(normalizePartyName('Conservative Group')).toBe('Conservative')
+  })
+
+  it('normalizes Green variants', () => {
+    expect(normalizePartyName('Green Party')).toBe('Green Party')
+    expect(normalizePartyName('Green')).toBe('Green Party')
+    expect(normalizePartyName('Greens')).toBe('Green Party')
+  })
+
+  it('normalizes Reform variants', () => {
+    expect(normalizePartyName('Reform UK')).toBe('Reform UK')
+    expect(normalizePartyName('Reform')).toBe('Reform UK')
+  })
+
+  it('normalizes local independent groups to Independent', () => {
+    expect(normalizePartyName('Independent')).toBe('Independent')
+    expect(normalizePartyName('Our West Lancashire')).toBe('Independent')
+    expect(normalizePartyName('4 BwD')).toBe('Independent')
+    expect(normalizePartyName('Morecambe Bay Independents')).toBe('Independent')
+    expect(normalizePartyName('Wyre Independent Group')).toBe('Independent')
+    expect(normalizePartyName('Ashton Independent')).toBe('Independent')
+    expect(normalizePartyName("Pendle's True Independents")).toBe('Independent')
+  })
+
+  it('passes through unknown parties unchanged', () => {
+    expect(normalizePartyName('UKIP')).toBe('UKIP')
+    expect(normalizePartyName('Plaid Cymru')).toBe('Plaid Cymru')
+    expect(normalizePartyName('Your Party')).toBe('Your Party')
+  })
+
+  it('trims whitespace', () => {
+    expect(normalizePartyName('  Labour  ')).toBe('Labour')
+    expect(normalizePartyName(' Reform UK ')).toBe('Reform UK')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// buildCouncilSeatTotals
+// ---------------------------------------------------------------------------
+
+describe('buildCouncilSeatTotals', () => {
+  const mockSummaries = {
+    burnley: {
+      total_councillors: 45,
+      by_party: [
+        { party: 'Labour', count: 23 },
+        { party: 'Independent', count: 12 },
+        { party: 'Liberal Democrats', count: 10 },
+      ],
+    },
+    west_lancashire: {
+      total_councillors: 45,
+      by_party: [
+        { party: 'Labour & Co-operative', count: 16 },
+        { party: 'Conservative', count: 14 },
+        { party: 'Our West Lancashire', count: 7 },
+        { party: 'Labour', count: 5 },
+        { party: 'Independent', count: 2 },
+        { party: 'Your Party', count: 1 },
+      ],
+    },
+  }
+
+  it('builds seat totals per council', () => {
+    const result = buildCouncilSeatTotals(mockSummaries)
+    expect(result.burnley).toEqual({
+      Labour: 23,
+      Independent: 12,
+      'Liberal Democrats': 10,
+    })
+  })
+
+  it('normalizes party names by default', () => {
+    const result = buildCouncilSeatTotals(mockSummaries)
+    // Labour & Co-operative (16) + Labour (5) = 21 Labour
+    expect(result.west_lancashire.Labour).toBe(21)
+    // Our West Lancashire → Independent (7) + Independent (2) = 9
+    expect(result.west_lancashire.Independent).toBe(9)
+    expect(result.west_lancashire['Our West Lancashire']).toBeUndefined()
+    expect(result.west_lancashire['Labour & Co-operative']).toBeUndefined()
+  })
+
+  it('skips normalization when normalize=false', () => {
+    const result = buildCouncilSeatTotals(mockSummaries, false)
+    expect(result.west_lancashire['Labour & Co-operative']).toBe(16)
+    expect(result.west_lancashire.Labour).toBe(5)
+    expect(result.west_lancashire['Our West Lancashire']).toBe(7)
+  })
+
+  it('skips councils without by_party', () => {
+    const partial = {
+      burnley: mockSummaries.burnley,
+      unknown: { total_councillors: 10 }, // no by_party
+    }
+    const result = buildCouncilSeatTotals(partial)
+    expect(result.burnley).toBeDefined()
+    expect(result.unknown).toBeUndefined()
+  })
+
+  it('handles empty input', () => {
+    expect(buildCouncilSeatTotals({})).toEqual({})
+  })
+})
+
+// ---------------------------------------------------------------------------
+// projectToLGRAuthority with normalization
+// ---------------------------------------------------------------------------
+
+describe('projectToLGRAuthority with normalization', () => {
+  const lgrModel = {
+    authorities: [
+      { name: 'East Lancashire', councils: ['burnley', 'hyndburn', 'pendle', 'rossendale'] },
+    ],
+  }
+
+  it('normalizes party names when aggregating across councils', () => {
+    const seatTotals = {
+      burnley: { Labour: 23, Independent: 12 },
+      hyndburn: { Labour: 15, 'Labour & Co-operative': 6, Conservative: 13 },
+      pendle: { Conservative: 21, Labour: 15 },
+      rossendale: { Labour: 18, 'Green Party': 6 },
+    }
+    const result = projectToLGRAuthority(seatTotals, lgrModel)
+    const east = result['East Lancashire']
+    // Labour (23+15+15+18) + Labour & Co-op normalized (6) = 77
+    expect(east.seats.Labour).toBe(77)
+    // Labour & Co-operative should not appear separately
+    expect(east.seats['Labour & Co-operative']).toBeUndefined()
+  })
+
+  it('includes perCouncil in output', () => {
+    const seatTotals = {
+      burnley: { Labour: 23 },
+      hyndburn: { Labour: 21 },
+      pendle: { Conservative: 21 },
+      rossendale: { Labour: 18 },
+    }
+    const result = projectToLGRAuthority(seatTotals, lgrModel)
+    const east = result['East Lancashire']
+    expect(east.perCouncil).toBeDefined()
+    expect(east.perCouncil.burnley).toEqual({ Labour: 23 })
+    expect(east.perCouncil.pendle).toEqual({ Conservative: 21 })
+  })
+
+  it('handles mixed Independent groups correctly', () => {
+    const seatTotals = {
+      burnley: { Independent: 5 },
+      hyndburn: { 'Wyre Independent Group': 3 },
+      pendle: { '4 BwD': 2 },
+      rossendale: { 'Our West Lancashire': 4 },
+    }
+    const result = projectToLGRAuthority(seatTotals, lgrModel)
+    const east = result['East Lancashire']
+    // All should be merged into Independent: 5+3+2+4 = 14
+    expect(east.seats.Independent).toBe(14)
   })
 })

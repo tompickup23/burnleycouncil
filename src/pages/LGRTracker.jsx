@@ -7,6 +7,7 @@ import { TOOLTIP_STYLE } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP } from '../utils/lgrModel'
+import { projectToLGRAuthority, normalizePartyName } from '../utils/electionModel'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
@@ -135,6 +136,61 @@ function FinancialHealthScorecard({ financials }) {
   )
 }
 
+const PARTY_COLORS = {
+  'Labour': '#DC241F', 'Conservative': '#0087DC', 'Liberal Democrats': '#FAA61A',
+  'Green Party': '#6AB023', 'Reform UK': '#12B6CF', 'Independent': '#808080',
+}
+
+function PoliticalBalanceBar({ projection }) {
+  if (!projection || projection.totalSeats === 0) return null
+  const sorted = Object.entries(projection.seats).sort((a, b) => b[1] - a[1])
+  const total = projection.totalSeats
+  const controlLabel = projection.hasMajority
+    ? `${projection.largestParty} majority`
+    : `NOC — ${projection.largestParty} largest`
+
+  return (
+    <div className="political-balance">
+      <div className="balance-header">
+        <span className="balance-label"><Vote size={12} /> Projected control</span>
+        <span className={`balance-result ${projection.hasMajority ? 'has-majority' : 'no-majority'}`}>
+          {controlLabel}
+        </span>
+      </div>
+      <div className="balance-bar" title={sorted.map(([p, s]) => `${p}: ${s}`).join(', ')}>
+        {sorted.map(([party, seats]) => (
+          <div
+            key={party}
+            className="balance-segment"
+            style={{
+              width: `${(seats / total) * 100}%`,
+              background: PARTY_COLORS[party] || '#636366',
+            }}
+            title={`${party}: ${seats} seats (${Math.round(seats / total * 100)}%)`}
+          />
+        ))}
+      </div>
+      <div className="balance-detail">
+        {sorted.slice(0, 4).map(([party, seats]) => (
+          <span key={party} className="balance-party">
+            <span className="party-dot" style={{ background: PARTY_COLORS[party] || '#636366' }} />
+            {party} {seats}
+          </span>
+        ))}
+        {sorted.length > 4 && <span className="balance-party">+{sorted.length - 4} more</span>}
+      </div>
+      {!projection.hasMajority && projection.coalitions?.length > 0 && (
+        <div className="balance-coalitions">
+          <span className="coalition-label">Viable coalitions:</span>
+          {projection.coalitions.filter(c => c.parties.length <= 2).slice(0, 3).map((c, i) => (
+            <span key={i} className="coalition-option">{c.parties.join(' + ')} ({c.totalSeats})</span>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -241,6 +297,34 @@ function LGRTracker() {
           reservesMonths, reservesTrajectory, reservesDirection
         }
       })
+    })
+    return result
+  }, [lgrData, crossCouncil])
+
+  // Political projections per LGR model using current council seat data
+  const politicalProjections = useMemo(() => {
+    if (!lgrData?.proposed_models || !crossCouncil) return {}
+    const ccData = Array.isArray(crossCouncil) ? crossCouncil : crossCouncil.councils || []
+    const councilLookup = {}
+    ccData.forEach(c => { councilLookup[c.council_id] = c })
+
+    // Build normalized seat totals from cross_council party_seats
+    const seatTotals = {}
+    ccData.forEach(c => {
+      if (c.party_seats && Object.keys(c.party_seats).length > 0) {
+        const normalized = {}
+        for (const [party, seats] of Object.entries(c.party_seats)) {
+          const name = normalizePartyName(party)
+          normalized[name] = (normalized[name] || 0) + seats
+        }
+        seatTotals[c.council_id] = normalized
+      }
+    })
+
+    // Project for each model
+    const result = {}
+    lgrData.proposed_models.forEach(model => {
+      result[model.id] = projectToLGRAuthority(seatTotals, model)
     })
     return result
   }, [lgrData, crossCouncil])
@@ -1521,22 +1605,49 @@ function LGRTracker() {
                       </div>
                     )}
                     <FinancialHealthScorecard financials={fin} />
+                    <PoliticalBalanceBar projection={politicalProjections[activeModel]?.[authority.name]} />
                     <p className="authority-notes">{authority.notes}</p>
                   </div>
                 )
               })}
             </div>
 
-            {/* Political analysis */}
-            {activeModelData.political_analysis && (
+            {/* Political analysis — computed + static */}
+            {(activeModelData.political_analysis || Object.keys(politicalProjections[activeModel] || {}).length > 0) && (
               <div className="political-analysis-box">
                 <h4><Vote size={16} /> Political Analysis</h4>
-                <div className="pol-grid">
-                  <div className="pol-item"><span className="pol-label">Likely control:</span><p>{activeModelData.political_analysis.likely_control}</p></div>
-                  <div className="pol-item"><span className="pol-label">Councillor reduction:</span><p>{activeModelData.political_analysis.councillor_reduction}</p></div>
-                  <div className="pol-item"><span className="pol-label">Who benefits:</span><p>{activeModelData.political_analysis.who_benefits}</p></div>
-                  <div className="pol-item"><span className="pol-label">Who loses:</span><p>{activeModelData.political_analysis.who_loses}</p></div>
-                </div>
+                {/* Computed seat projections summary */}
+                {Object.keys(politicalProjections[activeModel] || {}).length > 0 && (
+                  <div className="computed-politics">
+                    <p className="computed-politics-intro">
+                      Based on current councillor data from all 15 Lancashire councils (normalized party names):
+                    </p>
+                    <div className="authority-politics-grid">
+                      {Object.entries(politicalProjections[activeModel]).map(([name, proj]) => (
+                        <div key={name} className="authority-politics-card">
+                          <h5>{name}</h5>
+                          <span className={`control-badge ${proj.hasMajority ? 'majority' : 'noc'}`}>
+                            {proj.hasMajority ? `${proj.largestParty} majority` : 'No overall control'}
+                          </span>
+                          <span className="seat-count">{proj.largestPartySeats}/{proj.totalSeats} seats (need {proj.majorityThreshold})</span>
+                          {!proj.hasMajority && proj.coalitions?.filter(c => c.parties.length <= 2).length > 0 && (
+                            <span className="coalition-note">
+                              Viable: {proj.coalitions.filter(c => c.parties.length <= 2).slice(0, 2).map(c => c.parties.join('+')).join(', ')}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {activeModelData.political_analysis && (
+                  <div className="pol-grid">
+                    <div className="pol-item"><span className="pol-label">Likely control:</span><p>{activeModelData.political_analysis.likely_control}</p></div>
+                    <div className="pol-item"><span className="pol-label">Councillor reduction:</span><p>{activeModelData.political_analysis.councillor_reduction}</p></div>
+                    <div className="pol-item"><span className="pol-label">Who benefits:</span><p>{activeModelData.political_analysis.who_benefits}</p></div>
+                    <div className="pol-item"><span className="pol-label">Who loses:</span><p>{activeModelData.political_analysis.who_loses}</p></div>
+                  </div>
+                )}
               </div>
             )}
 

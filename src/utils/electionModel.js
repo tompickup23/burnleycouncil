@@ -959,16 +959,65 @@ export function predict(election, data, polling, coefficients, assumptions = DEF
   }
 }
 
+/**
+ * Normalize party names for consistent aggregation across councils.
+ * Different councils use different names for the same party.
+ */
+export function normalizePartyName(party) {
+  if (!party) return 'Unknown'
+  const p = party.trim()
+  // Labour variants
+  if (/^Labour\s*(&|and)\s*Co-?op/i.test(p)) return 'Labour'
+  if (p === 'Labour Group') return 'Labour'
+  // Lib Dem variants
+  if (/^Lib(eral)?\s*Dem/i.test(p)) return 'Liberal Democrats'
+  // Conservative variants
+  if (/^(The\s+)?Conservative/i.test(p)) return 'Conservative'
+  // Green variants
+  if (/^Green/i.test(p)) return 'Green Party'
+  // Reform variants
+  if (/^Reform/i.test(p)) return 'Reform UK'
+  // Local independents — group under "Independent" umbrella for LGR modelling
+  if (/independent/i.test(p) || p === 'Our West Lancashire' || p === '4 BwD' ||
+      p === 'Morecambe Bay Independents' || p === 'Wyre Independent Group' ||
+      /^Ashton Ind/i.test(p) || /^Pendle.*True/i.test(p)) return 'Independent'
+  return p
+}
+
+/**
+ * Build council seat totals from politics_summary.json data.
+ * @param {Object} politicsSummaries - {council_id: politics_summary.json data}
+ * @param {boolean} normalize - whether to normalize party names (default true)
+ * @returns {Object} {council_id: {party: seats}}
+ */
+export function buildCouncilSeatTotals(politicsSummaries, normalize = true) {
+  const result = {}
+  for (const [councilId, summary] of Object.entries(politicsSummaries)) {
+    if (!summary?.by_party) continue
+    const seats = {}
+    for (const { party, count } of summary.by_party) {
+      const name = normalize ? normalizePartyName(party) : party
+      seats[name] = (seats[name] || 0) + count
+    }
+    result[councilId] = seats
+  }
+  return result
+}
+
 export function projectToLGRAuthority(councilSeatTotals, lgrModel) {
   if (!lgrModel?.authorities) return {};
 
   const projections = {};
   for (const authority of lgrModel.authorities) {
     const combinedSeats = {};
+    const perCouncil = {};
     for (const councilId of (authority.councils || [])) {
       const seats = councilSeatTotals[councilId] || {};
+      perCouncil[councilId] = seats;
       for (const [party, count] of Object.entries(seats)) {
-        combinedSeats[party] = (combinedSeats[party] || 0) + count;
+        // Normalize at aggregation time as well (belt-and-braces)
+        const normalized = normalizePartyName(party);
+        combinedSeats[normalized] = (combinedSeats[normalized] || 0) + count;
       }
     }
 
@@ -979,6 +1028,7 @@ export function projectToLGRAuthority(councilSeatTotals, lgrModel) {
 
     projections[authority.name] = {
       seats: combinedSeats,
+      perCouncil,
       totalSeats,
       majorityThreshold,
       largestParty: largest?.[0],

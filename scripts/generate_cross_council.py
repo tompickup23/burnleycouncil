@@ -96,6 +96,7 @@ def build_council_entry(council_id):
     doge = load_json(DATA_DIR / council_id / "doge_findings.json") or {}
     insights = load_json(DATA_DIR / council_id / "insights.json") or {}
     collection = load_json(DATA_DIR / council_id / "collection_rates.json") or {}
+    politics = load_json(DATA_DIR / council_id / "politics_summary.json") or {}
 
     council_name = config.get("council_name", council_id.title())
     total_records = meta.get("total_records", meta.get("record_count", 0))
@@ -423,6 +424,27 @@ def build_council_entry(council_id):
     if isinstance(sc, dict):
         overall_hhi = sc.get("hhi")
 
+    # ── Political data from politics_summary.json ──
+    party_seats = {}
+    total_councillors = politics.get("total_councillors", politics.get("total_seats", 0))
+    majority_threshold = politics.get("majority_threshold", 0)
+    # Handle two formats: by_party [{party, count}] (most) or parties [{name, seats}] (Rossendale)
+    by_party = politics.get("by_party", [])
+    if by_party:
+        for p in by_party:
+            party_seats[p.get("party", "Unknown")] = p.get("count", 0)
+    else:
+        for p in politics.get("parties", []):
+            party_seats[p.get("name", "Unknown")] = p.get("seats", 0)
+    ruling_party = ""
+    if politics.get("coalition", {}).get("parties"):
+        ruling_party = politics["coalition"]["parties"][0]
+    elif politics.get("control", ""):
+        ctrl = politics["control"]
+        ruling_party = ctrl.split(" majority")[0].split(" minority")[0].strip() if " " in ctrl else ctrl
+    elif party_seats:
+        ruling_party = max(party_seats, key=party_seats.get)
+
     # ── Council tax collection rates ──
     collection_rate = collection.get("latest_rate")
     collection_rate_trend = collection.get("trend")
@@ -471,6 +493,10 @@ def build_council_entry(council_id):
         "reserves_direction": reserves_direction,
         "overall_hhi": overall_hhi,
         "service_hhi": service_hhi,
+        "party_seats": party_seats,
+        "total_councillors": total_councillors,
+        "majority_threshold": majority_threshold,
+        "ruling_party": ruling_party,
     }
 
 
