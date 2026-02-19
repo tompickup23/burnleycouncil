@@ -312,6 +312,7 @@ LCC_PATTERNS = [
 
 UNITARY_MAPPINGS = {
     "blackpool": {
+        # Full department names
         "Adult & Families": "Adult Social Care",
         "Children's Services": "Children Social Care",
         "Community & Env Services": "Environmental and regulatory services",
@@ -335,6 +336,43 @@ UNITARY_MAPPINGS = {
         "Blackpool Services": "Central services",
         "Better Start Projects": "Children Social Care",
         "Cafs": "Children Social Care",
+        # Abbreviated department codes (Blackpool financial system codes)
+        "BUDOCL": "Central services",        # Budgets Outside Cash Limits
+        "ZBUDOCL": "Central services",       # Capital BUDOCL
+        "CHISER": "Children Social Care",    # Children's Services
+        "BPLSER": "Central services",        # Blackpool Services (corporate/council-wide)
+        "ZTRSTOT": "Central services",       # Capital treasury/reconciliations
+        "AMCPI": "Central services",         # Corporate/council-wide allocations
+        "ZAMCPI": "Capital",                 # Capital AMCPI
+        "BCFGEN": "Adult Social Care",       # Better Care Fund General
+        "BSTPRJ": "Children Social Care",    # Better Start Projects
+        "CEXTOT": "Central services",        # Chief Executive total
+        "CONRES": "Central services",        # Contributions to reserves
+        "CONTIN": "Central services",        # Contingencies
+        "CREUNI": "Central services",        # Creative/universal services
+        "Cont To/From Reserves": "Central services",
+        "Contingencies": "Central services",
+        "DEMTOT": "Central services",        # Democratic total
+        "Energy Rebate Discretionary": "Other services",
+        "FLOOD": "Environmental and regulatory services",  # Flood defence
+        "Lrsg - Topup": "Other services",   # COVID grant
+        "NA": "Central services",            # Not allocated
+        "Non Domestic Rates": "Central services",
+        "PUBHEL": "Public Health",           # Public Health
+        "RNONGF": "Central services",        # Revenue non-GF
+        "Resources Directorate": "Central services",
+        "Stat Grants - Lockdown 5 Nov": "Other services",
+        "TRSTOT": "Central services",        # Treasury total/reconciliations
+        "Tic Maternity Pathway": "Public Health",
+        "Tier 3 Closed": "Other services",   # COVID tier
+        "Tier 4 - Closed": "Other services", # COVID tier
+        "YCOLLC": "Central services",        # Council tax collection
+        "YCOLLN": "Central services",        # NNDR collection
+        "ZADULTS": "Adult Social Care",      # Capital adults
+        "ZCORP": "Capital",                  # Capital corporate
+        "ZCHISER": "Capital",                # Capital children's services
+        "ZCONBS": "Capital",                 # Capital contributions/balance sheet
+        "ZBPLSER": "Capital",                # Capital Blackpool services
     },
     "blackburn": {
         "Resources": "Central services",

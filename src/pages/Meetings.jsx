@@ -13,9 +13,12 @@ function formatMeetingDate(dateStr) {
 
 function formatTime(timeStr) {
   if (!timeStr) return 'TBC'
-  const [h, m] = timeStr.split(':')
-  const hour = parseInt(h, 10)
-  return `${hour > 12 ? hour - 12 : hour}:${m} ${hour >= 12 ? 'PM' : 'AM'}`
+  const parts = timeStr.split(':')
+  if (parts.length < 2) return timeStr
+  const hour = parseInt(parts[0], 10)
+  const min = parts[1] || '00'
+  if (isNaN(hour)) return timeStr
+  return `${hour > 12 ? hour - 12 : hour}:${min} ${hour >= 12 ? 'PM' : 'AM'}`
 }
 
 function daysUntil(dateStr) {

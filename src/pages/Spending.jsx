@@ -164,10 +164,15 @@ function Spending() {
     const monthFilter = filters.month  // "January 2025" format
     if (!monthFilter) return
 
-    // Parse "January 2025" → "2025-01"
-    const parsed = new Date(Date.parse(monthFilter + ' 1'))
-    if (isNaN(parsed.getTime())) return
-    const monthKey = `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}`
+    // Parse "January 2025" → "2025-01" (manual parsing avoids browser Date.parse inconsistencies)
+    const MONTHS = { january: '01', february: '02', march: '03', april: '04', may: '05', june: '06',
+      july: '07', august: '08', september: '09', october: '10', november: '11', december: '12' }
+    const parts = monthFilter.trim().split(/\s+/)
+    if (parts.length < 2) return
+    const mm = MONTHS[parts[0].toLowerCase()]
+    const yyyy = parts[1]
+    if (!mm || !yyyy || !/^\d{4}$/.test(yyyy)) return
+    const monthKey = `${yyyy}-${mm}`
 
     if (loadedMonths.includes(monthKey)) return
 

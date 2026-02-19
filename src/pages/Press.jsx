@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Newspaper, Download, Mail, ExternalLink, Copy, Check, BarChart3, Building2, PoundSterling, FileText, Scale, Quote, Globe, Users, Shield } from 'lucide-react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import './Press.css'
@@ -48,11 +48,17 @@ function Press() {
   const councilName = config.council_name || 'Council'
   const councilFullName = config.council_full_name || 'Borough Council'
   const [copiedIdx, setCopiedIdx] = useState(null)
+  const copyTimerRef = useRef(null)
+
+  useEffect(() => {
+    return () => { if (copyTimerRef.current) clearTimeout(copyTimerRef.current) }
+  }, [])
 
   const handleCopy = (text, idx) => {
     const onSuccess = () => {
       setCopiedIdx(idx)
-      setTimeout(() => setCopiedIdx(null), 2000)
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+      copyTimerRef.current = setTimeout(() => setCopiedIdx(null), 2000)
     }
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(text).then(onSuccess).catch(() => {

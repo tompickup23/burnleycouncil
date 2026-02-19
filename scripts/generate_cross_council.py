@@ -20,6 +20,7 @@ import argparse
 import json
 import re
 import sys
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -344,6 +345,259 @@ def build_council_entry(council_id):
     }
 
 
+def build_cross_council_suppliers(council_entries):
+    """Build cross-council supplier index from insights.json top-20 lists.
+
+    Identifies suppliers operating across multiple councils — critical for
+    LGR modelling (contract consolidation, procurement savings, service continuity).
+
+    Returns:
+        dict with 'shared_suppliers' (appear in 2+ councils) and 'service_mapping'
+        (budget category → suppliers across councils).
+    """
+    # Collect top suppliers from each council's insights.json
+    supplier_councils = defaultdict(list)  # canonical_name → [{council, spend, txns}]
+    council_budget_suppliers = defaultdict(lambda: defaultdict(list))  # category → council → [suppliers]
+
+    for entry in council_entries:
+        cid = entry["council_id"]
+        insights = load_json(DATA_DIR / cid / "insights.json") or {}
+        budget_eff = load_json(DATA_DIR / cid / "budget_efficiency.json") or {}
+        budget_map = load_json(DATA_DIR / cid / "budget_mapping.json") or {}
+
+        # Top suppliers from insights
+        sa = insights.get("supplier_analysis", {}) if isinstance(insights, dict) else {}
+        for s in sa.get("top_20_suppliers", []):
+            name = (s.get("supplier") or "").strip().upper()
+            if not name or name in ("NAME WITHHELD", "REDACTED", "VARIOUS"):
+                continue
+            supplier_councils[name].append({
+                "council_id": cid,
+                "council_name": entry["council_name"],
+                "spend": round(s.get("total", 0), 2),
+                "transactions": s.get("transactions", 0),
+            })
+
+        # Budget efficiency: top suppliers per category
+        if isinstance(budget_eff, dict):
+            for category, cat_data in budget_eff.get("categories", {}).items():
+                for s in cat_data.get("top_suppliers", []):
+                    sname = (s.get("supplier") or "").strip().upper()
+                    if sname and sname not in ("NAME WITHHELD", "REDACTED"):
+                        council_budget_suppliers[category][cid].append({
+                            "supplier": sname,
+                            "spend": round(s.get("spend", 0), 2),
+                        })
+
+    # Filter to suppliers appearing in 2+ councils
+    shared = []
+    for name, councils in supplier_councils.items():
+        if len(councils) < 2:
+            continue
+        total = sum(c["spend"] for c in councils)
+        shared.append({
+            "supplier": name,
+            "councils_count": len(councils),
+            "total_spend": round(total, 2),
+            "councils": sorted(councils, key=lambda x: -x["spend"]),
+        })
+
+    shared.sort(key=lambda x: -x["total_spend"])
+
+    # Build service mapping: which councils have which suppliers per budget category
+    svc_map = {}
+    for category, council_data in council_budget_suppliers.items():
+        # Find suppliers shared across councils within this category
+        all_sups = defaultdict(list)
+        for cid, suppliers in council_data.items():
+            for s in suppliers:
+                all_sups[s["supplier"]].append({"council_id": cid, "spend": s["spend"]})
+        # Only include if supplier appears in 2+ councils for same service
+        shared_in_cat = []
+        for sname, appearances in all_sups.items():
+            if len(appearances) >= 2:
+                shared_in_cat.append({
+                    "supplier": sname,
+                    "councils_count": len(appearances),
+                    "total_spend": round(sum(a["spend"] for a in appearances), 2),
+                    "appearances": sorted(appearances, key=lambda x: -x["spend"]),
+                })
+        if shared_in_cat:
+            shared_in_cat.sort(key=lambda x: -x["total_spend"])
+            svc_map[category] = {
+                "shared_suppliers": shared_in_cat[:10],
+                "councils_reporting": len(council_data),
+            }
+
+    return {
+        "shared_suppliers": shared[:50],  # Top 50 cross-council suppliers
+        "service_supplier_mapping": svc_map,
+        "total_shared_suppliers": len(shared),
+        "total_shared_spend": round(sum(s["total_spend"] for s in shared), 2),
+    }
+
+
+def build_budget_spending_reconciliation(council_entries):
+    """Compare DOGE tracked spending against GOV.UK outturn per budget category.
+
+    Enables: budget vs actual analysis, coverage assessment, LGR financial modelling.
+
+    Returns:
+        dict with per-council reconciliation by budget category.
+    """
+    reconciliation = {}
+
+    for entry in council_entries:
+        cid = entry["council_id"]
+        budgets_summary = load_json(DATA_DIR / cid / "budgets_summary.json") or {}
+        budget_map = load_json(DATA_DIR / cid / "budget_mapping.json") or {}
+
+        if not budget_map or not budgets_summary:
+            continue
+
+        svc_breakdown = budgets_summary.get("service_breakdown", {})
+        cat_summary = budget_map.get("category_summary", {})
+        coverage = budget_map.get("coverage", {})
+        num_years = entry.get("num_years", 1) or 1
+
+        if not svc_breakdown or not cat_summary:
+            continue
+
+        categories = {}
+        for govuk_cat, govuk_value in svc_breakdown.items():
+            if not isinstance(govuk_value, (int, float)):
+                continue
+            doge_total = cat_summary.get(govuk_cat, 0)
+            # Annualise DOGE spend for fair comparison (GOV.UK is single year)
+            doge_annual = round(doge_total / num_years) if num_years > 1 else round(doge_total)
+
+            ratio = round(doge_annual / govuk_value, 3) if govuk_value and govuk_value != 0 else None
+            categories[govuk_cat] = {
+                "govuk_outturn": govuk_value,
+                "doge_annual_spend": doge_annual,
+                "coverage_ratio": ratio,
+            }
+
+        if categories:
+            reconciliation[cid] = {
+                "council_name": entry["council_name"],
+                "council_tier": entry["council_tier"],
+                "govuk_year": budgets_summary.get("financial_year", ""),
+                "doge_years": entry.get("num_years", 1),
+                "mapping_coverage_pct": coverage.get("mapped_spend_pct", 0),
+                "categories": categories,
+            }
+
+    return reconciliation
+
+
+def build_council_tax_comparison(council_entries):
+    """Build comprehensive council tax comparison across all 15 councils.
+
+    Uses lgr_budget_model.json (GOV.UK MHCLG data) as primary source for:
+    - Band D element per council
+    - Band D total (all precepting authorities)
+    - Council tax requirement
+    - Tax base (Band D equivalents)
+
+    Plus budgets_summary.json for multi-year Band D history where available.
+
+    Returns:
+        dict with council tax data for all 15 councils and tier analysis.
+    """
+    lgr_model = load_json(DATA_DIR / "shared" / "lgr_budget_model.json") or {}
+    council_budgets = lgr_model.get("council_budgets", {})
+
+    ct_data = {}
+    for entry in council_entries:
+        cid = entry["council_id"]
+        lgr = council_budgets.get(cid, {})
+        budgets_summary = load_json(DATA_DIR / cid / "budgets_summary.json") or {}
+
+        ct_history = {}
+        ct = budgets_summary.get("council_tax", {})
+        if ct:
+            ct_history = ct.get("band_d_by_year", {})
+
+        band_d_element = lgr.get("ct_band_d_element", 0)
+        band_d_total = lgr.get("ct_band_d_total", 0)
+        tax_base = lgr.get("tax_base_derived", 0)
+        ct_requirement = lgr.get("ct_requirement", 0)
+        population = POPULATIONS.get(cid, 0)
+
+        # Per-capita council tax (how much CT revenue per resident)
+        ct_per_capita = round(ct_requirement / population, 2) if population > 0 and ct_requirement > 0 else 0
+
+        # CT as pct of total service expenditure
+        total_svc_exp = lgr.get("total_service_expenditure", 0)
+        ct_dependency = round(ct_requirement / total_svc_exp * 100, 1) if total_svc_exp > 0 and ct_requirement > 0 else 0
+
+        ct_data[cid] = {
+            "council_name": entry["council_name"],
+            "council_tier": entry["council_tier"],
+            "band_d_element": band_d_element,
+            "band_d_total": band_d_total,
+            "tax_base": tax_base,
+            "ct_requirement": ct_requirement,
+            "total_service_expenditure": total_svc_exp,
+            "population": population,
+            "ct_per_capita": ct_per_capita,
+            "ct_dependency_pct": ct_dependency,
+            "band_d_history": ct_history,
+            "services": lgr.get("services", {}),
+        }
+
+    # Compute LGR harmonisation impact: if councils merge, what happens to Band D?
+    # For each proposed LGR model, calculate the harmonised Band D
+    lgr_tracker = load_json(DATA_DIR / "shared" / "lgr_tracker.json") or {}
+    harmonisation = {}
+    for model in lgr_tracker.get("proposed_models", []):
+        model_name = model.get("name", "")
+        for auth in model.get("authorities", []):
+            auth_name = auth.get("name", "")
+            # lgr_tracker.json uses "councils" key with council_id values
+            member_ids = [c for c in auth.get("councils", []) if c in ct_data]
+
+            if len(member_ids) < 2:
+                continue
+
+            # Harmonised Band D = total CT requirement / total tax base
+            total_req = sum(ct_data[cid]["ct_requirement"] for cid in member_ids if cid in ct_data)
+            total_base = sum(ct_data[cid]["tax_base"] for cid in member_ids if cid in ct_data)
+            harmonised_band_d = round(total_req / total_base, 2) if total_base > 0 else 0
+
+            # Who gains/loses?
+            impacts = []
+            for cid in member_ids:
+                if cid not in ct_data:
+                    continue
+                current = ct_data[cid]["band_d_element"]
+                diff = round(harmonised_band_d - current, 2)
+                pct_change = round(diff / current * 100, 1) if current > 0 else 0
+                impacts.append({
+                    "council_id": cid,
+                    "council_name": ct_data[cid]["council_name"],
+                    "current_band_d": current,
+                    "harmonised_band_d": harmonised_band_d,
+                    "change": diff,
+                    "change_pct": pct_change,
+                })
+
+            if auth_name not in harmonisation:
+                harmonisation[auth_name] = {
+                    "model": model_name,
+                    "harmonised_band_d": harmonised_band_d,
+                    "total_ct_requirement": total_req,
+                    "total_tax_base": total_base,
+                    "impacts": sorted(impacts, key=lambda x: x["change"]),
+                }
+
+    return {
+        "councils": ct_data,
+        "lgr_harmonisation": harmonisation,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate cross_council.json from per-council data")
     parser.add_argument("--dry-run", action="store_true", help="Print output without writing files")
@@ -397,10 +651,25 @@ def main():
             c["per_capita_rank"] = rank
             c["per_capita_percentile"] = round((rank / len(tier_per_capitas)) * 100, 1) if tier_per_capitas else 0
 
+    # ── Cross-council supplier mapping ──
+    print("  Building cross-council supplier index...", file=sys.stderr)
+    supplier_index = build_cross_council_suppliers(councils)
+
+    # ── Budget-spending reconciliation ──
+    print("  Building budget-spending reconciliation...", file=sys.stderr)
+    budget_reconciliation = build_budget_spending_reconciliation(councils)
+
+    # ── Council tax comparison ──
+    print("  Building council tax comparison...", file=sys.stderr)
+    ct_comparison = build_council_tax_comparison(councils)
+
     result = {
         "generated": datetime.now().isoformat(timespec="seconds"),
         "benchmarks": benchmarks,
         "councils": councils,
+        "supplier_index": supplier_index,
+        "budget_reconciliation": budget_reconciliation,
+        "council_tax": ct_comparison,
     }
 
     output = json.dumps(result, indent=2, ensure_ascii=False)
@@ -421,6 +690,11 @@ def main():
         dest.write_text(output, encoding="utf-8")
         print(f"  Written: {dest.relative_to(ROOT)}", file=sys.stderr)
 
+    print(f"\n  Cross-council suppliers: {supplier_index['total_shared_suppliers']} shared "
+          f"(£{supplier_index['total_shared_spend']:,.0f})", file=sys.stderr)
+    print(f"  Budget reconciliation: {len(budget_reconciliation)} councils", file=sys.stderr)
+    print(f"  Council tax: {len(ct_comparison['councils'])} councils, "
+          f"{len(ct_comparison['lgr_harmonisation'])} LGR authority projections", file=sys.stderr)
     print(f"\nDone: {len(destinations)} copies synced.", file=sys.stderr)
 
 
