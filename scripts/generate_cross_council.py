@@ -95,6 +95,7 @@ def build_council_entry(council_id):
     trends = load_json(DATA_DIR / council_id / "revenue_trends.json") or {}
     doge = load_json(DATA_DIR / council_id / "doge_findings.json") or {}
     insights = load_json(DATA_DIR / council_id / "insights.json") or {}
+    collection = load_json(DATA_DIR / council_id / "collection_rates.json") or {}
 
     council_name = config.get("council_name", council_id.title())
     total_records = meta.get("total_records", meta.get("record_count", 0))
@@ -318,6 +319,120 @@ def build_council_entry(council_id):
         else:
             reserves_adequacy = "Strong"
 
+    # ── Demographics: dependency ratio from Census 2021 ──
+    demographics = load_json(DATA_DIR / council_id / "demographics.json") or {}
+    age_data = demographics.get("council_totals", {}).get("age", {})
+    total_pop = age_data.get("Total: All usual residents", 0) or 0
+
+    under_16 = (
+        (age_data.get("Aged 4 years and under", 0) or 0)
+        + (age_data.get("Aged 5 to 9 years", 0) or 0)
+        + (age_data.get("Aged 10 to 15 years", 0) or 0)
+    )
+    aged_16_64 = (
+        (age_data.get("Aged 16 to 19 years", 0) or 0)
+        + (age_data.get("Aged 20 to 24 years", 0) or 0)
+        + (age_data.get("Aged 25 to 34 years", 0) or 0)
+        + (age_data.get("Aged 35 to 49 years", 0) or 0)
+        + (age_data.get("Aged 50 to 64 years", 0) or 0)
+    )
+    over_65 = (
+        (age_data.get("Aged 65 to 74 years", 0) or 0)
+        + (age_data.get("Aged 75 to 84 years", 0) or 0)
+        + (age_data.get("Aged 85 years and over", 0) or 0)
+    )
+
+    dependency_ratio = round(((under_16 + over_65) / aged_16_64) * 100, 1) if aged_16_64 > 0 else 0
+    youth_ratio = round((under_16 / total_pop) * 100, 1) if total_pop > 0 else 0
+    elderly_ratio = round((over_65 / total_pop) * 100, 1) if total_pop > 0 else 0
+    working_age_pct = round((aged_16_64 / total_pop) * 100, 1) if total_pop > 0 else 0
+
+    # ── Reserves trajectory (multi-year from budgets_summary.json) ──
+    reserves_trends = budgets.get("trends", {}).get("reserves_trends", {})
+    budget_years = budgets.get("years", [])
+    reserves_trajectory = []
+    for yr in sorted(budget_years):
+        rt = reserves_trends.get(yr, {})
+        if rt:
+            reserves_trajectory.append({
+                "year": yr,
+                "earmarked": rt.get("earmarked", 0) or 0,
+                "unallocated": rt.get("unallocated", 0) or 0,
+                "total": rt.get("total", 0) or 0,
+            })
+
+    # 2-year linear projection of reserves
+    reserves_projected = []
+    if len(reserves_trajectory) >= 2:
+        # Linear regression on total reserves
+        totals = [r["total"] for r in reserves_trajectory]
+        n = len(totals)
+        # Simple linear fit: y = a + b*x where x = 0,1,2,...
+        x_mean = (n - 1) / 2
+        y_mean = sum(totals) / n
+        numerator = sum((i - x_mean) * (totals[i] - y_mean) for i in range(n))
+        denominator = sum((i - x_mean) ** 2 for i in range(n))
+        slope = numerator / denominator if denominator != 0 else 0
+        intercept = y_mean - slope * x_mean
+
+        # Project 1 and 2 years ahead
+        for offset in (1, 2):
+            projected_total = round(intercept + slope * (n - 1 + offset))
+            # Don't project negative reserves
+            if projected_total < 0:
+                projected_total = 0
+            last_yr = reserves_trajectory[-1]["year"]
+            # Parse year and add offset: "2024-25" → "2025-26", "2026-27"
+            try:
+                start = int(last_yr.split("-")[0]) + offset
+                proj_year = f"{start}-{str(start + 1)[-2:]}"
+            except (ValueError, IndexError):
+                proj_year = f"+{offset}yr"
+            reserves_projected.append({
+                "year": proj_year,
+                "total": projected_total,
+                "projected": True,
+            })
+
+    reserves_direction = "stable"
+    if len(reserves_trajectory) >= 2:
+        latest_total = reserves_trajectory[-1]["total"]
+        prev_total = reserves_trajectory[-2]["total"]
+        if prev_total > 0:
+            pct_change = ((latest_total - prev_total) / prev_total) * 100
+            if pct_change > 5:
+                reserves_direction = "improving"
+            elif pct_change < -5:
+                reserves_direction = "declining"
+
+    # ── Per-service HHI from budget_efficiency.json ──
+    budget_eff = load_json(DATA_DIR / council_id / "budget_efficiency.json") or {}
+    service_hhi = {}
+    overall_hhi = None
+    if isinstance(budget_eff, dict) and budget_eff.get("categories"):
+        for cat_name, cat_data in budget_eff["categories"].items():
+            if isinstance(cat_data, dict) and cat_data.get("hhi") is not None:
+                service_hhi[cat_name] = {
+                    "hhi": cat_data["hhi"],
+                    "category": cat_data.get("hhi_category", "unknown"),
+                    "transactions": cat_data.get("transactions", 0),
+                    "total_spend": round(cat_data.get("total_spend", 0)),
+                }
+    # Overall HHI from doge_findings supplier_concentration
+    sc = doge.get("supplier_concentration", {})
+    if isinstance(sc, dict):
+        overall_hhi = sc.get("hhi")
+
+    # ── Council tax collection rates ──
+    collection_rate = collection.get("latest_rate")
+    collection_rate_trend = collection.get("trend")
+    collection_rate_5yr_avg = collection.get("five_year_avg")
+    collection_performance = collection.get("performance")
+    # Latest year uncollected amount (£ thousands → £)
+    latest_yr = collection.get("latest_year")
+    latest_yr_data = collection.get("years", {}).get(latest_yr, {}) if latest_yr else {}
+    uncollected_gbp = latest_yr_data.get("uncollected_gbp", 0)
+
     return {
         "council_id": council_id,
         "council_name": council_name,
@@ -342,6 +457,20 @@ def build_council_entry(council_id):
         "budget_summary": budget_summary,
         "reserves_months": reserves_months,
         "reserves_adequacy": reserves_adequacy,
+        "collection_rate": collection_rate,
+        "collection_rate_trend": collection_rate_trend,
+        "collection_rate_5yr_avg": collection_rate_5yr_avg,
+        "collection_performance": collection_performance,
+        "uncollected_ct_gbp": uncollected_gbp,
+        "dependency_ratio": dependency_ratio,
+        "youth_ratio": youth_ratio,
+        "elderly_ratio": elderly_ratio,
+        "working_age_pct": working_age_pct,
+        "reserves_trajectory": reserves_trajectory,
+        "reserves_projected": reserves_projected,
+        "reserves_direction": reserves_direction,
+        "overall_hhi": overall_hhi,
+        "service_hhi": service_hhi,
     }
 
 
@@ -630,11 +759,16 @@ def main():
             mid = len(s) // 2
             return s[mid] if len(s) % 2 else (s[mid - 1] + s[mid]) / 2
 
+        collection_rates = [c["collection_rate"] for c in tier_councils if c.get("collection_rate")]
+        dep_ratios = [c["dependency_ratio"] for c in tier_councils if c.get("dependency_ratio", 0) > 0]
+
         benchmarks[tier] = {
             "count": len(tier_councils),
             "median_per_capita_spend": round(_median(per_capitas), 2),
             "median_annual_spend": round(_median(annual_spends), 2),
             "median_reserves_months": round(_median(reserves_m), 1),
+            "median_collection_rate": round(_median(collection_rates), 2) if collection_rates else None,
+            "median_dependency_ratio": round(_median(dep_ratios), 1) if dep_ratios else None,
         }
 
     # ── Add peer percentile ranks ──

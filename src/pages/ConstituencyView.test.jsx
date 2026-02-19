@@ -60,16 +60,28 @@ const mockConstituency = {
     majority: 6975,
     majority_pct: 0.187,
     parliament_id: 5018,
+    expenses: {
+      total_claimed: 198543,
+      salary: 91346,
+      total_cost_to_taxpayer: 289889,
+      year: '2024-25',
+      rank_of_650: 234,
+      staffing: 142000,
+      office_costs: 28450,
+      accommodation: 15200,
+      travel: 8900,
+      other: 3993,
+    },
   },
   ge2024: {
     result: 'Labour (Co-op) gain from Conservative',
     turnout: 37287,
     turnout_pct: 0.534,
     electorate: 69825,
-    candidates: [
-      { name: 'Oliver Ryan', party: 'Labour (Co-op)', votes: 16234, pct: 0.435 },
-      { name: 'John Smith', party: 'Reform UK', votes: 9259, pct: 0.248 },
-      { name: 'Jane Doe', party: 'Conservative', votes: 5431, pct: 0.146 },
+    results: [
+      { candidate: 'Oliver Ryan', party: 'Labour (Co-op)', votes: 16234, pct: 0.435, elected: true },
+      { candidate: 'John Smith', party: 'Reform UK', votes: 9259, pct: 0.248 },
+      { candidate: 'Jane Doe', party: 'Conservative', votes: 5431, pct: 0.146 },
     ],
   },
   voting_record: {
@@ -77,7 +89,7 @@ const mockConstituency = {
     total_career_divisions: 342,
     attendance_pct: 0.871,
     notable_votes: [
-      { title: 'Rwanda Bill', date: '2024-12-01', mp_vote: 'Aye' },
+      { title: 'Rwanda Bill', date: '2024-12-01', voted: 'Aye' },
     ],
   },
   parliamentary_activity: {
@@ -85,19 +97,10 @@ const mockConstituency = {
     oral_questions: 12,
     edms_sponsored: 8,
     edms_signed: 34,
-    top_question_topics: ['Housing', 'NHS'],
-  },
-  mp_expenses: {
-    total_claimed: 198543,
-    salary: 91346,
-    total_cost_to_taxpayer: 289889,
-    year: '2024-25',
-    rank_of_650: 234,
-    staffing: 142000,
-    office_costs: 28450,
-    accommodation: 15200,
-    travel: 8900,
-    other: 3993,
+    top_topics: [
+      { department: 'Housing', count: 12 },
+      { department: 'NHS', count: 8 },
+    ],
   },
   claimant_count: [
     { date: '2025-12', month: 'December 2025', claimant_count: 3180, claimant_rate_pct: 6.2 },
@@ -249,15 +252,20 @@ describe('ConstituencyView', () => {
     expect(screen.getByText('Written Questions')).toBeInTheDocument()
     expect(screen.getByText('45')).toBeInTheDocument()
     expect(screen.getByText('Oral Questions')).toBeInTheDocument()
-    expect(screen.getByText('12')).toBeInTheDocument()
+    // "12" appears in both oral questions card and Housing topic count badge
+    const twelves = screen.getAllByText('12')
+    expect(twelves.length).toBeGreaterThanOrEqual(1)
   })
 
-  // 11. Parliamentary activity: topic tags
-  it('shows top question topic tags', () => {
+  // 11. Parliamentary activity: topic tags (objects with department + count)
+  it('shows top question topic tags with counts', () => {
     mockDataLoaded()
     renderWithRouter()
     expect(screen.getByText('Housing')).toBeInTheDocument()
     expect(screen.getByText('NHS')).toBeInTheDocument()
+    // Count badges should render — "8" appears in both EDMs signed and NHS topic count
+    const eights = screen.getAllByText('8')
+    expect(eights.length).toBeGreaterThanOrEqual(2)
   })
 
   // 12. Expenses: total claimed

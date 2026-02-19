@@ -20,14 +20,7 @@ const SORT_OPTIONS = [
   { value: 'attendance', label: 'Attendance %' },
 ]
 
-const FILTER_OPTIONS = [
-  { value: 'all', label: 'All parties' },
-  { value: 'Labour', label: 'Labour' },
-  { value: 'Labour (Co-op)', label: 'Labour (Co-op)' },
-  { value: 'Conservative', label: 'Conservative' },
-  { value: 'Independent', label: 'Independent' },
-  { value: 'Speaker', label: 'Speaker' },
-]
+// Party filter built dynamically from data — see buildFilterOptions() in component
 
 function Constituencies() {
   const { data: constData, loading, error } = useData('/data/shared/constituencies.json')
@@ -35,6 +28,19 @@ function Constituencies() {
   const [sortBy, setSortBy] = useState('alpha')
   const [filterParty, setFilterParty] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
+
+  // Build filter options dynamically from actual party data
+  const filterOptions = useMemo(() => {
+    if (!constData?.constituencies) return [{ value: 'all', label: 'All parties' }]
+    const parties = new Set()
+    constData.constituencies.forEach(c => {
+      if (c.mp?.party) parties.add(c.mp.party)
+    })
+    return [
+      { value: 'all', label: 'All parties' },
+      ...[...parties].sort().map(p => ({ value: p, label: p })),
+    ]
+  }, [constData])
 
   const constituencies = useMemo(() => {
     if (!constData?.constituencies) return []
@@ -142,7 +148,7 @@ function Constituencies() {
           />
         </div>
         <select value={filterParty} onChange={e => setFilterParty(e.target.value)}>
-          {FILTER_OPTIONS.map(o => (
+          {filterOptions.map(o => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
@@ -251,11 +257,14 @@ function ConstituencyCard({ constituency: c, swingData }) {
         <div className="constituency-card-badge">Cross-border</div>
       )}
 
-      {c.claimant_count?.latest && (
-        <div className="constituency-card-claimant">
-          <span>Claimant rate: {c.claimant_count.latest.claimant_rate_pct}%</span>
-        </div>
-      )}
+      {Array.isArray(c.claimant_count) && c.claimant_count.length > 0 && (() => {
+        const latest = [...c.claimant_count].sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0]
+        return latest?.claimant_rate_pct != null ? (
+          <div className="constituency-card-claimant">
+            <span>Claimant rate: {latest.claimant_rate_pct}%</span>
+          </div>
+        ) : null
+      })()}
     </Link>
   )
 }

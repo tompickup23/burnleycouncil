@@ -446,6 +446,7 @@
 .cv-topic-tag {
   display: inline-flex;
   align-items: center;
+  gap: 0.35rem;
   padding: 0.3rem 0.75rem;
   background: rgba(10, 132, 255, 0.1);
   border: 1px solid rgba(10, 132, 255, 0.25);
@@ -453,6 +454,20 @@
   font-size: 0.8rem;
   color: #0a84ff;
   font-weight: 500;
+}
+
+.cv-topic-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 0.3rem;
+  background: rgba(10, 132, 255, 0.2);
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #0a84ff;
 }
 
 .cv-activity-hint {

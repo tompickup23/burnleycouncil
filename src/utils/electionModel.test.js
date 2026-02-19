@@ -292,6 +292,37 @@ describe('calculateReformEntry', () => {
     expect(result.methodology.step).toBe(5)
     expect(result.methodology.name).toBe('New Party Entry')
   })
+
+  it('produces higher estimate when constituency data is present vs null (bug 1B.2)', () => {
+    // Before fix: constituencyMap was null → geReform = 0, only LCC proxy used
+    const withoutConstituency = calculateReformEntry(baselineNoReform, null, lcc2025, DEFAULT_ASSUMPTIONS)
+    // After fix: constituencyMap populated → geReform = 0.248 (Burnley constituency)
+    const burnleyConstituency = { 'Reform UK': 0.248, Labour: 0.502, Conservative: 0.148 }
+    const withConstituency = calculateReformEntry(baselineNoReform, burnleyConstituency, lcc2025, DEFAULT_ASSUMPTIONS)
+
+    // Without constituency: (0 × 0.4 + 0.357 × 0.6) × 0.85 = 0.182
+    expect(withoutConstituency.reformEstimate).toBeCloseTo(0.182, 2)
+    // With constituency: (0.248 × 0.4 + 0.357 × 0.6) × 0.85 = 0.266
+    expect(withConstituency.reformEstimate).toBeCloseTo(0.266, 2)
+    // Constituency data adds ~8.4 percentage points
+    expect(withConstituency.reformEstimate - withoutConstituency.reformEstimate).toBeGreaterThan(0.08)
+  })
+
+  it('differentiates wards in different constituencies (Pendle example)', () => {
+    // Brierfield wards → Burnley constituency (Reform 24.8%)
+    const burnley = { 'Reform UK': 0.248 }
+    // Other Pendle wards → Pendle & Clitheroe (Reform 17.5%)
+    const pendleClitheroe = { 'Reform UK': 0.175 }
+
+    const brierfield = calculateReformEntry(baselineNoReform, burnley, lcc2025, DEFAULT_ASSUMPTIONS)
+    const otherPendle = calculateReformEntry(baselineNoReform, pendleClitheroe, lcc2025, DEFAULT_ASSUMPTIONS)
+
+    // Brierfield should get higher Reform estimate than other Pendle wards
+    expect(brierfield.reformEstimate).toBeGreaterThan(otherPendle.reformEstimate)
+    // Difference: (0.248 - 0.175) × 0.4 × 0.85 ≈ 2.5pp
+    const diff = brierfield.reformEstimate - otherPendle.reformEstimate
+    expect(diff).toBeCloseTo(0.0248, 2)
+  })
 })
 
 // ---------------------------------------------------------------------------

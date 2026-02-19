@@ -188,11 +188,11 @@ export default function ConstituencyView() {
 
   // Election results chart data
   const electionChartData = useMemo(() => {
-    if (!constituency?.ge2024?.candidates) return []
-    return constituency.ge2024.candidates
+    if (!constituency?.ge2024?.results) return []
+    return constituency.ge2024.results
       .sort((a, b) => b.votes - a.votes)
       .map(c => ({
-        name: c.name,
+        name: c.candidate,
         party: c.party,
         votes: c.votes,
         pct: c.pct,
@@ -202,7 +202,7 @@ export default function ConstituencyView() {
 
   // Expenses chart data
   const expensesChartData = useMemo(() => {
-    const exp = constituency?.['mp.expenses'] || constituency?.mp_expenses
+    const exp = constituency?.mp?.expenses
     if (!exp) return []
     return [
       { category: 'Staffing', amount: exp.staffing || 0 },
@@ -274,7 +274,7 @@ export default function ConstituencyView() {
   const ge2024 = constituency.ge2024 || {}
   const voting = constituency.voting_record || {}
   const activity = constituency.parliamentary_activity || {}
-  const expenses = constituency['mp.expenses'] || constituency.mp_expenses || {}
+  const expenses = constituency?.mp?.expenses || {}
   const mpPartyColor = getPartyColor(mp.party, partyColors)
 
   return (
@@ -488,7 +488,7 @@ export default function ConstituencyView() {
                       <td className="cv-vote-title">{v.title}</td>
                       <td className="cv-vote-date">{formatDate(v.date)}</td>
                       <td style={{ textAlign: 'center' }}>
-                        <VoteBadge vote={v.mp_vote} />
+                        <VoteBadge vote={v.voted} />
                       </td>
                     </tr>
                   ))}
@@ -543,12 +543,15 @@ export default function ConstituencyView() {
           </div>
         </div>
 
-        {activity.top_question_topics?.length > 0 && (
+        {activity.top_topics?.length > 0 && (
           <div className="cv-chart-card">
             <h3><Tag size={16} /> Top Question Topics</h3>
             <div className="cv-topic-tags">
-              {activity.top_question_topics.map((topic, i) => (
-                <span key={i} className="cv-topic-tag">{topic}</span>
+              {activity.top_topics.map((topic, i) => (
+                <span key={i} className="cv-topic-tag">
+                  {typeof topic === 'string' ? topic : topic.department}
+                  {topic.count != null && <span className="cv-topic-count">{topic.count}</span>}
+                </span>
               ))}
             </div>
           </div>

@@ -17,9 +17,9 @@ const navSections = [
   {
     items: [
       { path: '/spending', icon: PoundSterling, label: 'Spending', requires: 'spending' },
-      { path: '/suppliers', icon: Building, label: 'Suppliers', requires: ['supplier_profiles', 'supplier_index'] },
       { path: '/budgets', icon: PieChart, label: 'Budgets', requires: ['budgets', 'budget_trends'] },
       { path: '/procurement', icon: FileText, label: 'Contracts', requires: 'procurement' },
+      { path: '/suppliers', icon: Building, label: 'Suppliers', requires: ['supplier_profiles', 'supplier_index'] },
       { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
     ],
   },

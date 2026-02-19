@@ -54,6 +54,23 @@ function Demographics() {
       }))
   }, [summary])
 
+  // Dependency ratio — (under 16 + over 65) / working-age (16-64)
+  const dependencyStats = useMemo(() => {
+    const age = councilTotals.age || {}
+    const under16 = (age['Aged 4 years and under'] || 0) + (age['Aged 5 to 9 years'] || 0) + (age['Aged 10 to 15 years'] || 0)
+    const aged16to64 = (age['Aged 16 to 19 years'] || 0) + (age['Aged 20 to 24 years'] || 0) + (age['Aged 25 to 34 years'] || 0)
+      + (age['Aged 35 to 49 years'] || 0) + (age['Aged 50 to 64 years'] || 0)
+    const over65 = (age['Aged 65 to 74 years'] || 0) + (age['Aged 75 to 84 years'] || 0) + (age['Aged 85 years and over'] || 0)
+    const total = summary.population || 0
+    const ratio = aged16to64 > 0 ? ((under16 + over65) / aged16to64 * 100) : 0
+    return {
+      ratio: Math.round(ratio * 10) / 10,
+      youthPct: total > 0 ? Math.round(under16 / total * 1000) / 10 : 0,
+      elderlyPct: total > 0 ? Math.round(over65 / total * 1000) / 10 : 0,
+      workingPct: total > 0 ? Math.round(aged16to64 / total * 1000) / 10 : 0,
+    }
+  }, [councilTotals, summary])
+
   // Age band chart — extract just the banded totals from council_totals.age
   const ageBands = useMemo(() => {
     const age = councilTotals.age || {}
@@ -187,6 +204,18 @@ function Demographics() {
             {pct(summary.unemployment_rate_pct)} unemployment
           </div>
         </div>
+        {dependencyStats.ratio > 0 && (
+          <div className="demo-card">
+            <div className="demo-card-icon" style={{ color: dependencyStats.ratio >= 70 ? '#ff453a' : dependencyStats.ratio >= 65 ? '#ff9f0a' : '#30d158' }}>
+              <Users size={20} />
+            </div>
+            <div className="demo-card-value">{dependencyStats.ratio}%</div>
+            <div className="demo-card-label">Dependency Ratio</div>
+            <div className="demo-card-detail">
+              {dependencyStats.youthPct}% youth, {dependencyStats.elderlyPct}% elderly
+            </div>
+          </div>
+        )}
         <div className="demo-card">
           <div className="demo-card-icon"><MapPin size={20} /></div>
           <div className="demo-card-value">{wardList.length}</div>

@@ -340,11 +340,70 @@ export default function Elections() {
     return map
   }, [deprivationData])
 
+  // Build constituency map: wardName → GE2024 party shares for Reform proxy
+  const constituencyMap = useMemo(() => {
+    if (!constData?.constituencies || !electionsData?.wards) return null
+    const map = {}
+    const wardNameList = Object.keys(electionsData.wards)
+
+    // Find constituencies overlapping this council
+    const relevantConstituencies = constData.constituencies.filter(c =>
+      c.overlapping_councils?.includes(councilId)
+    )
+
+    if (relevantConstituencies.length === 0) return null
+
+    // Build party result map from GE2024 for each relevant constituency
+    const constituencyResults = relevantConstituencies.map(c => {
+      const partyShares = {}
+      for (const r of (c.ge2024?.results || [])) {
+        partyShares[r.party] = r.pct || 0
+      }
+      return { id: c.id, name: c.name, wards: c.overlapping_wards || {}, partyShares }
+    })
+
+    if (relevantConstituencies.length === 1) {
+      // Single constituency → all wards map to it
+      const result = constituencyResults[0].partyShares
+      for (const wardName of wardNameList) {
+        map[wardName] = result
+      }
+    } else {
+      // Multiple constituencies: check overlapping_wards for ward-level mapping
+      // If overlapping_wards is populated, use it; otherwise, average all constituencies
+      let anyMapped = false
+      for (const cr of constituencyResults) {
+        if (cr.wards && Object.keys(cr.wards).length > 0) {
+          for (const wardName of Object.keys(cr.wards)) {
+            map[wardName] = cr.partyShares
+            anyMapped = true
+          }
+        }
+      }
+      // Fallback: if no ward-level mapping, assign average to all wards
+      if (!anyMapped) {
+        const avgShares = {}
+        for (const cr of constituencyResults) {
+          for (const [party, share] of Object.entries(cr.partyShares)) {
+            avgShares[party] = (avgShares[party] || 0) + share / constituencyResults.length
+          }
+        }
+        for (const wardName of wardNameList) {
+          map[wardName] = avgShares
+        }
+      }
+    }
+
+    return Object.keys(map).length > 0 ? map : null
+  }, [constData, electionsData, councilId])
+
   // --- PREDICTIONS ---
   const councilPrediction = useMemo(() => {
     if (!electionsData || !wardsUp.length || !referenceData) return null
 
-    const nationalPolling = referenceData.national_polling?.parties || {}
+    // 1B.3: Use live polling data when available, fall back to stale reference data
+    // polling.json aggregate values are already proportions (e.g., 0.296 = 29.6%)
+    const nationalPolling = pollingData?.aggregate || referenceData.national_polling?.parties || {}
     const ge2024Result = referenceData.national_polling?.ge2024_result || {}
     const lcc2025 = referenceData.lancashire_lcc_2025 || null
     const modelParams = referenceData.model_parameters || null
@@ -353,10 +412,10 @@ export default function Elections() {
       electionsData, wardsUp, assumptions,
       nationalPolling, ge2024Result,
       demographicsMap, deprivationMap,
-      null, // constituencyMap — not always available
+      constituencyMap, // Now properly built from GE2024 data
       lcc2025, modelParams
     )
-  }, [electionsData, wardsUp, assumptions, referenceData, demographicsMap, deprivationMap])
+  }, [electionsData, wardsUp, assumptions, referenceData, demographicsMap, deprivationMap, constituencyMap, pollingData])
 
   // Seat totals after user overrides (for Ward Builder)
   const builderSeatTotals = useMemo(() => {
@@ -965,6 +1024,19 @@ export default function Elections() {
       <section className="elec-section" id="elec-predictions">
         <h2><Target size={20} /> {nextElection?.date ? formatElectionDate(nextElection.date) : 'Next Election'} Predictions</h2>
 
+        {/* 1B.5: Explain thirds rotation system if applicable */}
+        {nextElection && electionsData?.meta?.election_cycle === 'thirds' && (
+          <div className="elec-info-banner elec-info-thirds">
+            <Calendar size={16} />
+            <span>
+              <strong>Thirds rotation:</strong> Each of {councilName}'s {electionsData.meta.seats_per_ward || 3}-seat {wardsLabel} has one seat
+              contested per year (every {electionsData.meta.seats_per_ward || 3} years per seat).
+              {wardsUp.length > 0 && <> In {nextElection.date?.split('-')[0] || 'the next election'}, <strong>{wardsUp.length} {wardsLabel}</strong> are up.
+              The "Defending" column shows the councillor whose seat is being contested — not necessarily the first-listed councillor in the ward.</>}
+            </span>
+          </div>
+        )}
+
         {!nextElection ? (
           <div className="elec-info-banner">
             <AlertTriangle size={16} />
@@ -1047,7 +1119,7 @@ export default function Elections() {
                   <tr>
                     <th>{wardLabelCap}</th>
                     <th>Predicted Winner</th>
-                    <th>Current Holder</th>
+                    <th>Defending</th>
                     <th>Confidence</th>
                     <th>Majority</th>
                     <th>Turnout Est.</th>
@@ -1058,7 +1130,9 @@ export default function Elections() {
                   {wardsUp.map(wardName => {
                     const result = councilPrediction.wards[wardName]
                     if (!result) return null
-                    const currentHolder = electionsData.wards[wardName]?.current_holders?.[0]?.party || '-'
+                    // Use defenders data (correct for thirds rotation) with fallback to first current holder
+                    const defender = electionsData.meta?.next_election?.defenders?.[wardName]
+                    const currentHolder = defender?.party || electionsData.wards[wardName]?.current_holders?.[0]?.party || '-'
                     const isChange = result.winner && result.winner !== currentHolder && currentHolder !== '-'
 
                     return [

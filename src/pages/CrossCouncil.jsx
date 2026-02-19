@@ -131,6 +131,60 @@ function CrossCouncil() {
     }))
     .sort((a, b) => b.nrePerHead - a.nrePerHead), [councils, councilName])
 
+  // Council tax collection rate comparison (billing authorities only — excludes LCC)
+  const collectionRateData = useMemo(() => councils
+    .filter(c => c.collection_rate != null)
+    .map(c => ({
+      name: c.council_name,
+      rate: c.collection_rate,
+      avg5yr: c.collection_rate_5yr_avg || 0,
+      trend: c.collection_rate_trend || 0,
+      uncollected: Math.round((c.uncollected_ct_gbp || 0) / 1_000_000 * 10) / 10,
+      performance: c.collection_performance || 'unknown',
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.rate - a.rate), [councils, councilName])
+
+  // Dependency ratio comparison (from Census 2021 demographics)
+  const dependencyData = useMemo(() => councils
+    .filter(c => c.dependency_ratio > 0)
+    .map(c => ({
+      name: c.council_name,
+      ratio: c.dependency_ratio,
+      youth: c.youth_ratio || 0,
+      elderly: c.elderly_ratio || 0,
+      working: c.working_age_pct || 0,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.ratio - a.ratio), [councils, councilName])
+
+  // Per-service HHI heatmap data
+  const hhiHeatmapData = useMemo(() => {
+    // Collect all service categories across all councils
+    const allCategories = new Set()
+    councils.forEach(c => {
+      if (c.service_hhi) Object.keys(c.service_hhi).forEach(cat => allCategories.add(cat))
+    })
+    const categories = [...allCategories].sort()
+    // Build council rows with HHI per category
+    return {
+      categories,
+      councils: councils
+        .filter(c => c.service_hhi && Object.keys(c.service_hhi).length > 0)
+        .map(c => ({
+          name: c.council_name,
+          id: c.council_id,
+          overallHhi: c.overall_hhi || 0,
+          isCurrent: c.council_name === councilName,
+          services: categories.reduce((acc, cat) => {
+            acc[cat] = c.service_hhi[cat]?.hhi ?? null
+            return acc
+          }, {}),
+        }))
+        .sort((a, b) => b.overallHhi - a.overallHhi),
+    }
+  }, [councils, councilName])
+
   // Transparency radar data
   const radarData = useMemo(() => [
     { metric: 'Dates', fullMark: 100 },
@@ -194,6 +248,21 @@ function CrossCouncil() {
   const minYears = Math.min(...yearRange)
   const lowDataCouncils = councils.filter(c => (c.total_records || 0) < 5000)
 
+  // Councils with missing service expenditure data (silently shows 0)
+  const missingServiceData = useMemo(() => {
+    return councils.filter(c => {
+      if (!c.service_expenditure) return true
+      const cats = councilTier === 'district' ? DISTRICT_SERVICE_CATEGORIES : UPPER_TIER_SERVICE_CATEGORIES
+      const total = cats.reduce((sum, cat) => sum + (c.service_expenditure[cat] || 0), 0)
+      return total === 0
+    })
+  }, [councils, councilTier])
+
+  // Councils missing budget summary
+  const missingBudgetData = useMemo(() => {
+    return councils.filter(c => !c.budget_summary?.net_revenue_expenditure)
+  }, [councils])
+
   return (
     <div className="cross-page animate-fade-in">
       <header className="cross-hero">
@@ -249,6 +318,28 @@ function CrossCouncil() {
             {maxYears - minYears >= 3 && (
               <span>
                 Data periods range from {minYears} to {maxYears} years — all figures are annualized for fair comparison.
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Data Quality Warnings */}
+      {(missingServiceData.length > 0 || missingBudgetData.length > 0) && (
+        <div className="cross-data-banner cross-quality-warning">
+          <AlertTriangle size={16} />
+          <div>
+            <strong>Data quality:</strong>{' '}
+            {missingServiceData.length > 0 && (
+              <span>
+                {missingServiceData.map(c => c.council_name).join(', ')} {missingServiceData.length === 1 ? 'has' : 'have'} incomplete
+                service expenditure data — figures shown as £0 in breakdowns.{' '}
+              </span>
+            )}
+            {missingBudgetData.length > 0 && (
+              <span>
+                {missingBudgetData.map(c => c.council_name).join(', ')} {missingBudgetData.length === 1 ? 'is' : 'are'} missing
+                GOV.UK budget summary data.
               </span>
             )}
           </div>
@@ -379,6 +470,65 @@ function CrossCouncil() {
         </section>
       )}
 
+      {/* Council Tax Collection Rate */}
+      {collectionRateData.length > 0 && (
+        <section className="cross-section">
+          <h2><TrendingUp size={22} /> Council Tax Collection Rate</h2>
+          <p className="section-intro">
+            In-year council tax collection rate — the percentage collected within the financial year it's due.
+            Only billing authorities (districts and unitaries) collect council tax; Lancashire CC is excluded.
+            Rates below 95% indicate significant collection challenges.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing council tax collection rates">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={collectionRateData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
+                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <YAxis
+                  domain={[Math.floor(Math.min(...collectionRateData.map(d => d.rate)) - 1), 100]}
+                  tickFormatter={v => `${v}%`}
+                  tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }}
+                />
+                <Tooltip
+                  formatter={(v, name) => {
+                    if (name === 'rate') return [`${v.toFixed(1)}%`, 'Collection rate']
+                    return [v, name]
+                  }}
+                  contentStyle={TOOLTIP_STYLE}
+                  labelFormatter={(label) => {
+                    const entry = collectionRateData.find(d => d.name === label)
+                    return entry ? `${label} — 5yr avg: ${entry.avg5yr.toFixed(1)}%, uncollected: £${entry.uncollected}M` : label
+                  }}
+                />
+                <Bar dataKey="rate" name="rate" radius={[4, 4, 0, 0]}>
+                  {collectionRateData.map((entry, i) => (
+                    <Cell
+                      key={i}
+                      fill={entry.isCurrent ? '#0a84ff'
+                        : entry.rate >= 97 ? '#30d158'
+                        : entry.rate >= 95 ? '#48484a'
+                        : entry.rate >= 93 ? '#ff9f0a'
+                        : '#ff453a'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: GOV.UK QRC4 council tax collection statistics (2024-25). National district average ~96%.
+            {current?.collection_rate != null && (
+              <> {councilName}: {current.collection_rate.toFixed(1)}% ({current.collection_performance === 'excellent' ? '✓ Excellent'
+                : current.collection_performance === 'good' ? '✓ Good'
+                : current.collection_performance === 'below_average' ? '⚠ Below average'
+                : '✗ Poor'
+              }).</>
+            )}
+          </p>
+        </section>
+      )}
+
       {/* Net Revenue Expenditure Per Head */}
       {nreData.length > 0 && (
         <section className="cross-section">
@@ -451,6 +601,57 @@ function CrossCouncil() {
         </section>
       )}
 
+      {/* Dependency Ratio */}
+      {dependencyData.length > 0 && (
+        <section className="cross-section">
+          <h2><Users size={22} /> Dependency Ratio (Census 2021)</h2>
+          <p className="section-intro">
+            The dependency ratio measures dependents (under 16 + over 65) per 100 working-age residents (16-64).
+            Higher ratios mean more demand for services like social care and education relative to the tax base.
+            Councils with high elderly ratios face rising adult social care costs; high youth ratios drive education spending.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing dependency ratios">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={dependencyData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
+                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <YAxis
+                  domain={[0, Math.ceil(Math.max(...dependencyData.map(d => d.ratio)) / 10) * 10]}
+                  tickFormatter={v => `${v}%`}
+                  tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }}
+                />
+                <Tooltip
+                  formatter={(v) => [`${v.toFixed(1)}%`, 'Dependency ratio']}
+                  contentStyle={TOOLTIP_STYLE}
+                  labelFormatter={(label) => {
+                    const entry = dependencyData.find(d => d.name === label)
+                    return entry ? `${label} — Youth: ${entry.youth.toFixed(1)}%, Elderly: ${entry.elderly.toFixed(1)}%` : label
+                  }}
+                />
+                <Bar dataKey="ratio" name="Dependency ratio" radius={[4, 4, 0, 0]}>
+                  {dependencyData.map((entry, i) => (
+                    <Cell
+                      key={i}
+                      fill={entry.isCurrent ? '#0a84ff'
+                        : entry.ratio >= 70 ? '#ff453a'
+                        : entry.ratio >= 65 ? '#ff9f0a'
+                        : '#48484a'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: Census 2021 (ONS Nomis). England average ~57%.
+            {current?.dependency_ratio > 0 && (
+              <> {councilName}: {current.dependency_ratio.toFixed(1)}% ({current.elderly_ratio?.toFixed(1)}% elderly, {current.youth_ratio?.toFixed(1)}% youth).</>
+            )}
+          </p>
+        </section>
+      )}
+
       {/* Transparency Scorecard */}
       <section className="cross-section">
         <h2><Shield size={22} /> Transparency Scorecard</h2>
@@ -473,6 +674,55 @@ function CrossCouncil() {
           })}
         </div>
       </section>
+
+      {/* Per-Service Supplier Concentration (HHI) */}
+      {hhiHeatmapData.councils.length > 0 && hhiHeatmapData.categories.length > 0 && (
+        <section className="cross-section">
+          <h2><BarChart3 size={22} /> Supplier Concentration by Service</h2>
+          <p className="section-intro">
+            Herfindahl-Hirschman Index (HHI) per budget category. Measures how concentrated spending is among suppliers.
+            <strong> &lt;1,500</strong> = competitive, <strong>1,500-2,500</strong> = moderate, <strong>&gt;2,500</strong> = highly concentrated.
+          </p>
+          <div className="hhi-heatmap-wrapper">
+            <table className="hhi-heatmap" role="table" aria-label="Per-service supplier concentration HHI">
+              <thead>
+                <tr>
+                  <th scope="col" className="hhi-council-col">Council</th>
+                  <th scope="col" className="hhi-overall-col">Overall</th>
+                  {hhiHeatmapData.categories.map(cat => (
+                    <th key={cat} scope="col" className="hhi-service-col" title={cat}>
+                      {cat.replace(/ services?/gi, '').replace(/ \(GFRA only\)/i, '').replace(/and /g, '& ')}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {hhiHeatmapData.councils.map(c => (
+                  <tr key={c.id} className={c.isCurrent ? 'highlight-row' : ''}>
+                    <td className="council-name">{c.name}{c.isCurrent ? ' \u2605' : ''}</td>
+                    <td className={`hhi-cell ${c.overallHhi > 2500 ? 'hhi-high' : c.overallHhi > 1500 ? 'hhi-moderate' : 'hhi-low'}`}>
+                      {c.overallHhi > 0 ? Math.round(c.overallHhi).toLocaleString() : '—'}
+                    </td>
+                    {hhiHeatmapData.categories.map(cat => {
+                      const val = c.services[cat]
+                      const cls = val == null ? 'hhi-na' : val > 2500 ? 'hhi-high' : val > 1500 ? 'hhi-moderate' : 'hhi-low'
+                      return (
+                        <td key={cat} className={`hhi-cell ${cls}`} title={val != null ? `${cat}: HHI ${val.toLocaleString()}` : `${cat}: No data`}>
+                          {val != null ? (val > 9999 ? `${(val / 1000).toFixed(0)}K` : val.toLocaleString()) : '—'}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="source-note">
+            HHI calculated from AI DOGE spending data mapped to GOV.UK SeRCOP budget categories via budget_mapping.json.
+            Empty cells indicate no spending data mapped to that category.
+          </p>
+        </section>
+      )}
 
       {/* CEO Pay Comparison */}
       {payData.length > 0 && (

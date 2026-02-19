@@ -16,6 +16,62 @@ const RISK_CONFIG = {
   not_checked: { label: 'Pending', color: '#8e8e93', icon: Shield, bg: 'rgba(142, 142, 147, 0.1)' },
 }
 
+// Build a human-readable narrative for a direct supplier conflict
+function buildConnectionNarrative(councillor, conflict, ch) {
+  const companyName = conflict.company_name || 'a company'
+  const supplierName = conflict.supplier_match?.supplier || 'a council supplier'
+  const totalSpend = conflict.supplier_match?.total_spend
+  const confidence = conflict.supplier_match?.confidence || 0
+  const companyInfo = ch.companies?.find(c => c.company_number === conflict.company_number)
+  const isActive = companyInfo && !companyInfo.resigned_on
+  const companyStatus = companyInfo?.company_status || ''
+  const role = companyInfo?.role || 'officer'
+
+  let narrative = `Cllr ${councillor.name} (${councillor.party || 'Independent'}, ${councillor.ward || 'ward unknown'})`
+
+  if (isActive) {
+    narrative += ` is currently a ${role} of ${companyName}`
+  } else if (companyInfo?.resigned_on) {
+    narrative += ` was formerly a ${role} of ${companyName} (resigned ${companyInfo.resigned_on})`
+  } else {
+    narrative += ` is linked to ${companyName}`
+  }
+
+  if (companyStatus && companyStatus !== 'active') {
+    narrative += ` (company status: ${companyStatus})`
+  }
+
+  narrative += `. This company matches council supplier "${supplierName}"`
+  if (confidence > 0) narrative += ` (${confidence}% match)`
+  if (totalSpend) narrative += `, which has received ${formatCurrency(totalSpend)} from the council`
+  narrative += '.'
+
+  return narrative
+}
+
+// Build a human-readable narrative for an indirect network crossover
+function buildNetworkNarrative(councillor, link) {
+  const parts = [`Cllr ${councillor.name} (${councillor.party || 'Independent'})`]
+  parts.push(`shares directorship of ${link.councillor_company} with ${link.co_director}`)
+
+  if (link.co_director_company) {
+    parts.push(`. ${link.co_director} also directs ${link.co_director_company}`)
+    if (link.link_type === 'co_director_also_directs_supplier') {
+      parts.push(`, which matches council supplier "${link.supplier_company}"`)
+    } else {
+      parts.push(`, whose name matches council supplier "${link.supplier_company}"`)
+    }
+  } else {
+    parts.push(`, whose name matches council supplier "${link.supplier_company}"`)
+  }
+
+  if (link.supplier_spend > 0) {
+    parts.push(` (${formatCurrency(link.supplier_spend)} total council spend)`)
+  }
+  parts.push('.')
+  return parts.join('')
+}
+
 function Integrity() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -115,6 +171,102 @@ function Integrity() {
       networkCandidateNames: networkCandidates.map(c => c.name)
     }
   }, [integrity, councillors])
+
+  // Build reverse lookup: Supplier → Councillors
+  const supplierInvestigation = useMemo(() => {
+    if (!councillors.length) return []
+    const supplierMap = new Map()
+
+    councillors.forEach(c => {
+      const ch = c.companies_house || {}
+      // Direct supplier conflicts
+      c.supplier_conflicts?.forEach(conflict => {
+        const supplierName = conflict.supplier_match?.supplier || ''
+        if (!supplierName) return
+        if (!supplierMap.has(supplierName)) {
+          supplierMap.set(supplierName, {
+            supplier: supplierName,
+            totalSpend: conflict.supplier_match?.total_spend || 0,
+            connections: [],
+          })
+        }
+        const entry = supplierMap.get(supplierName)
+        entry.connections.push({
+          councillor: c.name,
+          councillorId: c.councillor_id,
+          party: c.party,
+          ward: c.ward,
+          riskLevel: c.risk_level,
+          type: 'direct',
+          companyName: conflict.company_name,
+          companyNumber: conflict.company_number,
+          confidence: conflict.supplier_match?.confidence || 0,
+          severity: conflict.severity,
+          // Build narrative: how is this councillor connected?
+          narrative: buildConnectionNarrative(c, conflict, ch),
+        })
+      })
+
+      // Network crossover (indirect: co-director → supplier)
+      c.network_crossover?.links?.forEach(link => {
+        const supplierName = link.supplier_company || ''
+        if (!supplierName) return
+        if (!supplierMap.has(supplierName)) {
+          supplierMap.set(supplierName, {
+            supplier: supplierName,
+            totalSpend: link.supplier_spend || 0,
+            connections: [],
+          })
+        }
+        const entry = supplierMap.get(supplierName)
+        entry.connections.push({
+          councillor: c.name,
+          councillorId: c.councillor_id,
+          party: c.party,
+          ward: c.ward,
+          riskLevel: c.risk_level,
+          type: 'network',
+          companyName: link.councillor_company,
+          coDirector: link.co_director,
+          coDirectorCompany: link.co_director_company,
+          coDirectorCompanyNumber: link.co_director_company_number,
+          confidence: link.confidence || 0,
+          severity: link.severity,
+          narrative: buildNetworkNarrative(c, link),
+        })
+      })
+
+      // Cross-council conflicts
+      c.cross_council_conflicts?.forEach(conflict => {
+        const supplierName = conflict.supplier_match?.supplier || ''
+        if (!supplierName) return
+        if (!supplierMap.has(supplierName)) {
+          supplierMap.set(supplierName, {
+            supplier: supplierName,
+            totalSpend: conflict.supplier_match?.total_spend || 0,
+            connections: [],
+          })
+        }
+        const entry = supplierMap.get(supplierName)
+        entry.connections.push({
+          councillor: c.name,
+          councillorId: c.councillor_id,
+          party: c.party,
+          ward: c.ward,
+          riskLevel: c.risk_level,
+          type: 'cross_council',
+          companyName: conflict.company_name,
+          otherCouncil: conflict.other_council,
+          confidence: conflict.supplier_match?.confidence || 0,
+          severity: conflict.severity || 'warning',
+          narrative: `Cllr ${c.name} directs ${conflict.company_name}, which matches supplier "${supplierName}" at ${conflict.other_council} council`,
+        })
+      })
+    })
+
+    // Sort by total spend descending
+    return [...supplierMap.values()].sort((a, b) => b.totalSpend - a.totalSpend)
+  }, [councillors])
 
   // Determine if scan has been run
   const scanComplete = integrity?.councillors_checked > 0
@@ -376,6 +528,144 @@ function Integrity() {
               </div>
             ))}
           </div>
+        </section>
+      )}
+
+      {/* Supplier Political Donations */}
+      {integrity?.supplier_political_donations?.length > 0 && (
+        <section className="supplier-donations-section">
+          <h3><Banknote size={18} /> Supplier Political Donations</h3>
+          <p className="section-desc">
+            Council suppliers identified as having made political donations to local party associations
+            (source: Electoral Commission). This does not imply wrongdoing but is disclosed for transparency.
+          </p>
+          <div className="supplier-donations-grid">
+            {integrity.supplier_political_donations.map((donation, i) => {
+              const dateMs = donation.date ? parseInt(donation.date.replace(/\/Date\((\d+)\)\//, '$1'), 10) : null
+              const dateStr = dateMs ? new Date(dateMs).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'
+              return (
+                <div key={i} className="supplier-donation-card">
+                  <div className="supplier-donation-header">
+                    <span className="supplier-donation-name">
+                      {donation.donor_name || donation.supplier}
+                    </span>
+                    <span className="supplier-donation-amount">{formatCurrency(donation.value)}</span>
+                  </div>
+                  <div className="supplier-donation-meta">
+                    <span className="supplier-donation-party">{donation.party}</span>
+                    <span className="supplier-donation-date">{dateStr}</span>
+                  </div>
+                  {donation.donor_name && donation.donor_name !== donation.supplier && (
+                    <p className="supplier-donation-link">
+                      Matched via council supplier: <strong>{donation.supplier}</strong>
+                    </p>
+                  )}
+                  {donation.ec_ref && (
+                    <a
+                      href={`https://search.electoralcommission.org.uk/Search/Donations?searchTerm=${encodeURIComponent(donation.donor_name || donation.supplier)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ec-link-btn"
+                    >
+                      <ExternalLink size={10} /> View on EC Register
+                    </a>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Supplier Investigation — Reverse Lookup */}
+      {supplierInvestigation.length > 0 && (
+        <section className="supplier-investigation-section">
+          <h3><Scale size={18} /> Supplier Investigation</h3>
+          <p className="section-desc">
+            Reverse lookup: starting from council suppliers, showing which councillors are connected and how.
+            Includes direct conflicts (councillor directs a matching company), network crossovers
+            (councillor&apos;s co-director linked to supplier), and cross-council conflicts.
+          </p>
+          <div className="supplier-investigation-grid">
+            {supplierInvestigation.map((item, i) => (
+              <div key={i} className="supplier-investigation-card">
+                <div className="supplier-investigation-header">
+                  <div className="supplier-investigation-name">
+                    <Scale size={16} />
+                    <Link
+                      to={`/spending?supplier=${encodeURIComponent(item.supplier)}`}
+                      className="supplier-investigation-link"
+                    >
+                      {item.supplier}
+                    </Link>
+                  </div>
+                  {item.totalSpend > 0 && (
+                    <span className="supplier-investigation-spend">
+                      {formatCurrency(item.totalSpend)} total spend
+                    </span>
+                  )}
+                </div>
+                <div className="supplier-investigation-connections">
+                  {item.connections.map((conn, j) => (
+                    <div key={j} className={`connection-card ${conn.type} ${conn.severity || ''}`}>
+                      <div className="connection-header">
+                        <span className="connection-type-badge">
+                          {conn.type === 'direct' && <><AlertTriangle size={11} /> Direct</>}
+                          {conn.type === 'network' && <><Network size={11} /> Network</>}
+                          {conn.type === 'cross_council' && <><Globe size={11} /> Cross-Council</>}
+                        </span>
+                        <span className="connection-councillor">{conn.councillor}</span>
+                        {conn.party && (
+                          <span className="connection-party">{conn.party}</span>
+                        )}
+                        {conn.confidence > 0 && (
+                          <span className="connection-confidence">{conn.confidence}%</span>
+                        )}
+                      </div>
+                      <p className="connection-narrative">{conn.narrative}</p>
+                      <div className="connection-actions">
+                        <button
+                          type="button"
+                          className="connection-view-btn"
+                          onClick={() => setExpandedId(conn.councillorId)}
+                        >
+                          <Eye size={11} /> View Councillor
+                        </button>
+                        <Link
+                          to={`/spending?supplier=${encodeURIComponent(item.supplier)}`}
+                          className="connection-spending-btn"
+                        >
+                          <PoundSterling size={11} /> View Spending
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Cross-Council Summary */}
+      {integrity?.cross_council_summary?.councillor_companies_in_other_councils > 0 && (
+        <section className="cross-council-summary-section">
+          <h3><Globe size={18} /> Cross-Council Summary</h3>
+          <p className="section-desc">
+            Councillors whose company directorships appear as suppliers in other Lancashire councils.
+          </p>
+          <div className="cross-council-summary-stats">
+            <div className="dashboard-card accent-critical">
+              <span className="dashboard-number">{integrity.cross_council_summary.councillor_companies_in_other_councils}</span>
+              <span className="dashboard-label">Companies Found in Other Councils</span>
+            </div>
+          </div>
+          {integrity.cross_council_summary.affected_councils?.length > 0 && (
+            <div className="cross-council-affected">
+              <strong>Affected councils:</strong>{' '}
+              {integrity.cross_council_summary.affected_councils.join(', ')}
+            </div>
+          )}
         </section>
       )}
 

@@ -1,23 +1,29 @@
 {
-  "generated": "2026-02-18T23:56:16",
+  "generated": "2026-02-19T17:36:13",
   "benchmarks": {
     "district": {
       "count": 12,
       "median_per_capita_spend": 266.25,
       "median_annual_spend": 31291840.56,
-      "median_reserves_months": 14.2
+      "median_reserves_months": 14.2,
+      "median_collection_rate": 95.5,
+      "median_dependency_ratio": 62.6
     },
     "county": {
       "count": 1,
       "median_per_capita_spend": 1440.12,
       "median_annual_spend": 1779062245.18,
-      "median_reserves_months": 4.2
+      "median_reserves_months": 4.2,
+      "median_collection_rate": null,
+      "median_dependency_ratio": 63.3
     },
     "unitary": {
       "count": 2,
       "median_per_capita_spend": 2998.7,
       "median_annual_spend": 431188228.44,
-      "median_reserves_months": 4.6
+      "median_reserves_months": 4.6,
+      "median_collection_rate": 92.47,
+      "median_dependency_ratio": 60.5
     }
   },
   "councils": [
@@ -91,6 +97,99 @@
       },
       "reserves_months": 17.1,
       "reserves_adequacy": "Strong",
+      "collection_rate": 94.04,
+      "collection_rate_trend": -0.65,
+      "collection_rate_5yr_avg": 93.56,
+      "collection_performance": "below_average",
+      "uncollected_ct_gbp": 3412000.0,
+      "dependency_ratio": 62.3,
+      "youth_ratio": 20.5,
+      "elderly_ratio": 17.9,
+      "working_age_pct": 61.6,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 12428000,
+          "unallocated": 1379000,
+          "total": 13807000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 24782000,
+          "unallocated": 1379000,
+          "total": 26161000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 25813000,
+          "unallocated": 1379000,
+          "total": 27192000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 25310000,
+          "unallocated": 1379000,
+          "total": 26689000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 33381500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 37349200,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "stable",
+      "overall_hhi": 373.4,
+      "service_hhi": {
+        "Housing services (GFRA only)": {
+          "hhi": 294,
+          "category": "low",
+          "transactions": 2880,
+          "total_spend": 17634483
+        },
+        "Cultural and related services": {
+          "hhi": 1634,
+          "category": "moderate",
+          "transactions": 4007,
+          "total_spend": 18863042
+        },
+        "Other services": {
+          "hhi": 8138,
+          "category": "high",
+          "transactions": 431,
+          "total_spend": 22521912
+        },
+        "Environmental and regulatory services": {
+          "hhi": 2436,
+          "category": "moderate",
+          "transactions": 2903,
+          "total_spend": 24791561
+        },
+        "Central services": {
+          "hhi": 985,
+          "category": "low",
+          "transactions": 12288,
+          "total_spend": 66603616
+        },
+        "Planning and development services": {
+          "hhi": 1457,
+          "category": "low",
+          "transactions": 3512,
+          "total_spend": 67223359
+        },
+        "Capital": {
+          "hhi": 315,
+          "category": "low",
+          "transactions": 515,
+          "total_spend": 37628
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -169,6 +268,117 @@
       },
       "reserves_months": 11.2,
       "reserves_adequacy": "Adequate",
+      "collection_rate": 94.36,
+      "collection_rate_trend": -0.53,
+      "collection_rate_5yr_avg": 94.2,
+      "collection_performance": "below_average",
+      "uncollected_ct_gbp": 2912000.0,
+      "dependency_ratio": 62.4,
+      "youth_ratio": 20.2,
+      "elderly_ratio": 18.2,
+      "working_age_pct": 61.6,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 12905000,
+          "unallocated": 3122000,
+          "total": 16027000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 14454000,
+          "unallocated": 2697000,
+          "total": 17151000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 19038000,
+          "unallocated": 1868000,
+          "total": 20906000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 15682000,
+          "unallocated": 2464000,
+          "total": 18146000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 20585500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 21596700,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "declining",
+      "overall_hhi": 1376.3,
+      "service_hhi": {
+        "Cultural and related services": {
+          "hhi": 909,
+          "category": "low",
+          "transactions": 2554,
+          "total_spend": 9488351
+        },
+        "Planning and development services": {
+          "hhi": 752,
+          "category": "low",
+          "transactions": 1584,
+          "total_spend": 6443345
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 447,
+          "category": "low",
+          "transactions": 4774,
+          "total_spend": 16907701
+        },
+        "Capital": {
+          "hhi": 3643,
+          "category": "high",
+          "transactions": 166,
+          "total_spend": 194547
+        },
+        "Environmental and regulatory services": {
+          "hhi": 698,
+          "category": "low",
+          "transactions": 5684,
+          "total_spend": 24682940
+        },
+        "Children Social Care": {
+          "hhi": 1125,
+          "category": "low",
+          "transactions": 73,
+          "total_spend": 366133
+        },
+        "Central services": {
+          "hhi": 3380,
+          "category": "high",
+          "transactions": 5780,
+          "total_spend": 115532171
+        },
+        "Highways and transport services": {
+          "hhi": 1320,
+          "category": "low",
+          "transactions": 171,
+          "total_spend": 374083
+        },
+        "Other services": {
+          "hhi": 2598,
+          "category": "high",
+          "transactions": 38,
+          "total_spend": 149370
+        },
+        "Adult Social Care": {
+          "hhi": 1719,
+          "category": "moderate",
+          "transactions": 42,
+          "total_spend": 14137
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -242,6 +452,93 @@
       },
       "reserves_months": 9.1,
       "reserves_adequacy": "Adequate",
+      "collection_rate": 95.68,
+      "collection_rate_trend": -0.65,
+      "collection_rate_5yr_avg": 95.5,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 2697000.0,
+      "dependency_ratio": 65.2,
+      "youth_ratio": 21.4,
+      "elderly_ratio": 18.0,
+      "working_age_pct": 60.5,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 2034000,
+          "unallocated": 1000000,
+          "total": 3034000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 449000,
+          "unallocated": 1000000,
+          "total": 1449000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 0,
+          "unallocated": 0,
+          "total": 0
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 13461390,
+          "unallocated": 0,
+          "total": 13461390
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 11944390,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 14927707,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "stable",
+      "overall_hhi": 288.6,
+      "service_hhi": {
+        "Cultural and related services": {
+          "hhi": 585,
+          "category": "low",
+          "transactions": 2782,
+          "total_spend": 1885262
+        },
+        "Environmental and regulatory services": {
+          "hhi": 389,
+          "category": "low",
+          "transactions": 17862,
+          "total_spend": 21747859
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 2901,
+          "category": "high",
+          "transactions": 18,
+          "total_spend": 43390
+        },
+        "Central services": {
+          "hhi": 621,
+          "category": "low",
+          "transactions": 22622,
+          "total_spend": 75483252
+        },
+        "Highways and transport services": {
+          "hhi": 346,
+          "category": "low",
+          "transactions": 4440,
+          "total_spend": 14400934
+        },
+        "Planning and development services": {
+          "hhi": 728,
+          "category": "low",
+          "transactions": 2017,
+          "total_spend": 13454003
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -315,6 +612,99 @@
       },
       "reserves_months": 20.4,
       "reserves_adequacy": "Strong",
+      "collection_rate": 95.31,
+      "collection_rate_trend": -1.01,
+      "collection_rate_5yr_avg": 95.78,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 2368000.0,
+      "dependency_ratio": 62.4,
+      "youth_ratio": 19.1,
+      "elderly_ratio": 19.3,
+      "working_age_pct": 61.6,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 8225000,
+          "unallocated": 1000000,
+          "total": 9225000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 5895000,
+          "unallocated": 1000000,
+          "total": 6895000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 9000000,
+          "unallocated": 1000000,
+          "total": 10000000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 11243000,
+          "unallocated": 1000000,
+          "total": 12243000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 12630500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 13846400,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 265.3,
+      "service_hhi": {
+        "Environmental and regulatory services": {
+          "hhi": 569,
+          "category": "low",
+          "transactions": 13725,
+          "total_spend": 9653737
+        },
+        "Central services": {
+          "hhi": 449,
+          "category": "low",
+          "transactions": 20147,
+          "total_spend": 40366114
+        },
+        "Planning and development services": {
+          "hhi": 359,
+          "category": "low",
+          "transactions": 7777,
+          "total_spend": 11481441
+        },
+        "Capital": {
+          "hhi": 5164,
+          "category": "high",
+          "transactions": 7,
+          "total_spend": 6739
+        },
+        "Other services": {
+          "hhi": 6965,
+          "category": "high",
+          "transactions": 760,
+          "total_spend": 1922387
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 1224,
+          "category": "low",
+          "transactions": 86,
+          "total_spend": 382603
+        },
+        "Cultural and related services": {
+          "hhi": 4533,
+          "category": "high",
+          "transactions": 34,
+          "total_spend": 134523
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -388,6 +778,87 @@
       },
       "reserves_months": 13.3,
       "reserves_adequacy": "Strong",
+      "collection_rate": 94.16,
+      "collection_rate_trend": -1.73,
+      "collection_rate_5yr_avg": 94.61,
+      "collection_performance": "below_average",
+      "uncollected_ct_gbp": 5836000.0,
+      "dependency_ratio": 58.3,
+      "youth_ratio": 16.3,
+      "elderly_ratio": 20.5,
+      "working_age_pct": 63.2,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 22853000,
+          "unallocated": 6032000,
+          "total": 28885000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 13077000,
+          "unallocated": 11678000,
+          "total": 24755000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 17039000,
+          "unallocated": 10327000,
+          "total": 27366000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 18711000,
+          "unallocated": 10028000,
+          "total": 28739000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 27979500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 28196800,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 105.0,
+      "service_hhi": {
+        "Planning and development services": {
+          "hhi": 503,
+          "category": "low",
+          "transactions": 2802,
+          "total_spend": 24642696
+        },
+        "Children Social Care": {
+          "hhi": 290,
+          "category": "low",
+          "transactions": 4585,
+          "total_spend": 19001189
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 123,
+          "category": "low",
+          "transactions": 10396,
+          "total_spend": 45856194
+        },
+        "Central services": {
+          "hhi": 497,
+          "category": "low",
+          "transactions": 7059,
+          "total_spend": 58582414
+        },
+        "Environmental and regulatory services": {
+          "hhi": 222,
+          "category": "low",
+          "transactions": 7523,
+          "total_spend": 33867979
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -461,6 +932,99 @@
       },
       "reserves_months": 34.3,
       "reserves_adequacy": "Strong",
+      "collection_rate": 99.19,
+      "collection_rate_trend": 0.35,
+      "collection_rate_5yr_avg": 98.8,
+      "collection_performance": "excellent",
+      "uncollected_ct_gbp": 458000.0,
+      "dependency_ratio": 68.2,
+      "youth_ratio": 16.4,
+      "elderly_ratio": 24.1,
+      "working_age_pct": 59.5,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 15082000,
+          "unallocated": 2961000,
+          "total": 18043000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 14706000,
+          "unallocated": 2719000,
+          "total": 17425000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 15645000,
+          "unallocated": 2896000,
+          "total": 18541000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 16643720,
+          "unallocated": 4082000,
+          "total": 20725720
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 20974720,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 21891136,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 184.8,
+      "service_hhi": {
+        "Cultural and related services": {
+          "hhi": 330,
+          "category": "low",
+          "transactions": 3656,
+          "total_spend": 8432632
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 440,
+          "category": "low",
+          "transactions": 1811,
+          "total_spend": 4102395
+        },
+        "Highways and transport services": {
+          "hhi": 470,
+          "category": "low",
+          "transactions": 3183,
+          "total_spend": 5048831
+        },
+        "Central services": {
+          "hhi": 355,
+          "category": "low",
+          "transactions": 2931,
+          "total_spend": 15111919
+        },
+        "Environmental and regulatory services": {
+          "hhi": 1282,
+          "category": "low",
+          "transactions": 1358,
+          "total_spend": 3547583
+        },
+        "Planning and development services": {
+          "hhi": 446,
+          "category": "low",
+          "transactions": 599,
+          "total_spend": 1277756
+        },
+        "Adult Social Care": {
+          "hhi": 396,
+          "category": "low",
+          "transactions": 185,
+          "total_spend": 69015
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -534,6 +1098,69 @@
       },
       "reserves_months": 9.9,
       "reserves_adequacy": "Adequate",
+      "collection_rate": 96.88,
+      "collection_rate_trend": -1.0,
+      "collection_rate_5yr_avg": 97.16,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 2715000.0,
+      "dependency_ratio": 62.9,
+      "youth_ratio": 18.1,
+      "elderly_ratio": 20.5,
+      "working_age_pct": 61.4,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 11776000,
+          "unallocated": 4140000,
+          "total": 15916000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 8059000,
+          "unallocated": 4271000,
+          "total": 12330000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 6090000,
+          "unallocated": 4092000,
+          "total": 10182000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 7327000,
+          "unallocated": 4311000,
+          "total": 11638000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 8771000,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 7272800,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 1852.5,
+      "service_hhi": {
+        "Planning and development services": {
+          "hhi": 288,
+          "category": "low",
+          "transactions": 4017,
+          "total_spend": 17947419
+        },
+        "Central services": {
+          "hhi": 2012,
+          "category": "moderate",
+          "transactions": 16940,
+          "total_spend": 346735378
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -607,6 +1234,105 @@
       },
       "reserves_months": 15.1,
       "reserves_adequacy": "Strong",
+      "collection_rate": 96.62,
+      "collection_rate_trend": -0.86,
+      "collection_rate_5yr_avg": 96.76,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 2932000.0,
+      "dependency_ratio": 64.6,
+      "youth_ratio": 17.6,
+      "elderly_ratio": 21.6,
+      "working_age_pct": 60.8,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 20280000,
+          "unallocated": 4141000,
+          "total": 24421000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 16633000,
+          "unallocated": 4537000,
+          "total": 21170000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 13941000,
+          "unallocated": 5167000,
+          "total": 19108000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 14727000,
+          "unallocated": 5167000,
+          "total": 19894000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 17237500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 15673200,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "stable",
+      "overall_hhi": 478.9,
+      "service_hhi": {
+        "Capital": {
+          "hhi": 1210,
+          "category": "low",
+          "transactions": 2367,
+          "total_spend": 58972785
+        },
+        "Environmental and regulatory services": {
+          "hhi": 3503,
+          "category": "high",
+          "transactions": 736,
+          "total_spend": 4741814
+        },
+        "Cultural and related services": {
+          "hhi": 1687,
+          "category": "moderate",
+          "transactions": 2413,
+          "total_spend": 7217456
+        },
+        "Central services": {
+          "hhi": 855,
+          "category": "low",
+          "transactions": 10130,
+          "total_spend": 74251565
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 693,
+          "category": "low",
+          "transactions": 721,
+          "total_spend": 2121045
+        },
+        "Planning and development services": {
+          "hhi": 7224,
+          "category": "high",
+          "transactions": 1255,
+          "total_spend": 23870483
+        },
+        "Highways and transport services": {
+          "hhi": 1870,
+          "category": "moderate",
+          "transactions": 283,
+          "total_spend": 359626
+        },
+        "Other services": {
+          "hhi": 2847,
+          "category": "high",
+          "transactions": 35,
+          "total_spend": 2228423
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -677,6 +1403,129 @@
       },
       "reserves_months": 4.2,
       "reserves_adequacy": "Low",
+      "collection_rate": null,
+      "collection_rate_trend": null,
+      "collection_rate_5yr_avg": null,
+      "collection_performance": null,
+      "uncollected_ct_gbp": 0,
+      "dependency_ratio": 63.3,
+      "youth_ratio": 18.0,
+      "elderly_ratio": 20.7,
+      "working_age_pct": 61.2,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 396351000,
+          "unallocated": 23437000,
+          "total": 419788000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 363971000,
+          "unallocated": 23437000,
+          "total": 387408000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 342738000,
+          "unallocated": 23437000,
+          "total": 366175000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 289040000,
+          "unallocated": 56000000,
+          "total": 345040000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 318233500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 293685800,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "declining",
+      "overall_hhi": 84.9,
+      "service_hhi": {
+        "Central services": {
+          "hhi": 182,
+          "category": "low",
+          "transactions": 62080,
+          "total_spend": 276327380
+        },
+        "Highways and transport services": {
+          "hhi": 299,
+          "category": "low",
+          "transactions": 38748,
+          "total_spend": 92779534
+        },
+        "Adult Social Care": {
+          "hhi": 92,
+          "category": "low",
+          "transactions": 161707,
+          "total_spend": 1142740829
+        },
+        "Children Social Care": {
+          "hhi": 104,
+          "category": "low",
+          "transactions": 55427,
+          "total_spend": 139601961
+        },
+        "Education services": {
+          "hhi": 145,
+          "category": "low",
+          "transactions": 10389,
+          "total_spend": 267861257
+        },
+        "Cultural and related services": {
+          "hhi": 341,
+          "category": "low",
+          "transactions": 22513,
+          "total_spend": 59993457
+        },
+        "Public Health": {
+          "hhi": 3615,
+          "category": "high",
+          "transactions": 113,
+          "total_spend": 43267559
+        },
+        "Planning and development services": {
+          "hhi": 1086,
+          "category": "low",
+          "transactions": 621,
+          "total_spend": 1154395
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 852,
+          "category": "low",
+          "transactions": 299,
+          "total_spend": 45389320
+        },
+        "Environmental and regulatory services": {
+          "hhi": 4141,
+          "category": "high",
+          "transactions": 3008,
+          "total_spend": 76132000
+        },
+        "Capital": {
+          "hhi": 381,
+          "category": "low",
+          "transactions": 3761,
+          "total_spend": 17787504
+        },
+        "Other services": {
+          "hhi": 3597,
+          "category": "high",
+          "transactions": 29,
+          "total_spend": 9354
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -752,6 +1601,111 @@
       },
       "reserves_months": 2.5,
       "reserves_adequacy": "Critical",
+      "collection_rate": 89.71,
+      "collection_rate_trend": -1.78,
+      "collection_rate_5yr_avg": 89.13,
+      "collection_performance": "poor",
+      "uncollected_ct_gbp": 9593000.0,
+      "dependency_ratio": 61.8,
+      "youth_ratio": 17.5,
+      "elderly_ratio": 20.7,
+      "working_age_pct": 61.8,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 73782000,
+          "unallocated": 6075000,
+          "total": 79857000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 44511000,
+          "unallocated": 2459000,
+          "total": 46970000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 31642000,
+          "unallocated": 7104000,
+          "total": 38746000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 34206000,
+          "unallocated": 509000,
+          "total": 34715000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 14159500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 0,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "declining",
+      "overall_hhi": 77.0,
+      "service_hhi": {
+        "Children Social Care": {
+          "hhi": 234,
+          "category": "low",
+          "transactions": 114122,
+          "total_spend": 342828445
+        },
+        "Environmental and regulatory services": {
+          "hhi": 1100,
+          "category": "low",
+          "transactions": 17865,
+          "total_spend": 171194521
+        },
+        "Central services": {
+          "hhi": 530,
+          "category": "low",
+          "transactions": 40234,
+          "total_spend": 181426172
+        },
+        "Adult Social Care": {
+          "hhi": 220,
+          "category": "low",
+          "transactions": 309389,
+          "total_spend": 590184299
+        },
+        "Capital": {
+          "hhi": 770,
+          "category": "low",
+          "transactions": 5256,
+          "total_spend": 183080726
+        },
+        "Public Health": {
+          "hhi": 2322,
+          "category": "moderate",
+          "transactions": 3218,
+          "total_spend": 75403254
+        },
+        "Planning and development services": {
+          "hhi": 1775,
+          "category": "moderate",
+          "transactions": 430,
+          "total_spend": 2060612
+        },
+        "Cultural and related services": {
+          "hhi": 2471,
+          "category": "moderate",
+          "transactions": 71,
+          "total_spend": 3178980
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 3250,
+          "category": "high",
+          "transactions": 2699,
+          "total_spend": 60409784
+        }
+      },
       "per_capita_rank": 2,
       "per_capita_percentile": 100.0
     },
@@ -830,6 +1784,99 @@
       },
       "reserves_months": 2.1,
       "reserves_adequacy": "Critical",
+      "collection_rate": 93.82,
+      "collection_rate_trend": -2.66,
+      "collection_rate_5yr_avg": 94.04,
+      "collection_performance": "below_average",
+      "uncollected_ct_gbp": 5413000.0,
+      "dependency_ratio": 61.7,
+      "youth_ratio": 16.3,
+      "elderly_ratio": 21.9,
+      "working_age_pct": 61.8,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 3217000,
+          "unallocated": 960000,
+          "total": 4177000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 0,
+          "unallocated": 960000,
+          "total": 960000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 0,
+          "unallocated": 960000,
+          "total": 960000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 2561000,
+          "unallocated": 960000,
+          "total": 3521000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 1912500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 1715700,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 213.3,
+      "service_hhi": {
+        "Planning and development services": {
+          "hhi": 787,
+          "category": "low",
+          "transactions": 2307,
+          "total_spend": 15664394
+        },
+        "Central services": {
+          "hhi": 614,
+          "category": "low",
+          "transactions": 4772,
+          "total_spend": 53116638
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 656,
+          "category": "low",
+          "transactions": 16921,
+          "total_spend": 147195482
+        },
+        "Cultural and related services": {
+          "hhi": 429,
+          "category": "low",
+          "transactions": 2382,
+          "total_spend": 11340551
+        },
+        "Environmental and regulatory services": {
+          "hhi": 862,
+          "category": "low",
+          "transactions": 8437,
+          "total_spend": 33927953
+        },
+        "Other services": {
+          "hhi": 181,
+          "category": "low",
+          "transactions": 5348,
+          "total_spend": 41275643
+        },
+        "Children Social Care": {
+          "hhi": 1922,
+          "category": "moderate",
+          "transactions": 802,
+          "total_spend": 9878634
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -904,6 +1951,111 @@
       },
       "reserves_months": 6.7,
       "reserves_adequacy": "Adequate",
+      "collection_rate": 95.22,
+      "collection_rate_trend": 0.32,
+      "collection_rate_5yr_avg": 95.12,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 4150000.0,
+      "dependency_ratio": 59.3,
+      "youth_ratio": 22.8,
+      "elderly_ratio": 14.5,
+      "working_age_pct": 62.8,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 55705000,
+          "unallocated": 7717000,
+          "total": 63422000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 54450000,
+          "unallocated": 6941000,
+          "total": 61391000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 59892000,
+          "unallocated": 7000000,
+          "total": 66892000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 70637000,
+          "unallocated": 9000000,
+          "total": 79637000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 81372000,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 86786600,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 231.7,
+      "service_hhi": {
+        "Adult Social Care": {
+          "hhi": 416,
+          "category": "low",
+          "transactions": 187664,
+          "total_spend": 462651228
+        },
+        "Planning and development services": {
+          "hhi": 263,
+          "category": "low",
+          "transactions": 35941,
+          "total_spend": 139998638
+        },
+        "Environmental and regulatory services": {
+          "hhi": 1835,
+          "category": "moderate",
+          "transactions": 37404,
+          "total_spend": 93681387
+        },
+        "Central services": {
+          "hhi": 2063,
+          "category": "moderate",
+          "transactions": 62132,
+          "total_spend": 408526675
+        },
+        "Public Health": {
+          "hhi": 909,
+          "category": "low",
+          "transactions": 21970,
+          "total_spend": 87175454
+        },
+        "Children Social Care": {
+          "hhi": 225,
+          "category": "low",
+          "transactions": 71513,
+          "total_spend": 152573789
+        },
+        "Education services": {
+          "hhi": 265,
+          "category": "low",
+          "transactions": 76042,
+          "total_spend": 354156839
+        },
+        "Housing services (GFRA only)": {
+          "hhi": 4106,
+          "category": "high",
+          "transactions": 88,
+          "total_spend": 5655041
+        },
+        "Cultural and related services": {
+          "hhi": 1550,
+          "category": "moderate",
+          "transactions": 141,
+          "total_spend": 4042006
+        }
+      },
       "per_capita_rank": 1,
       "per_capita_percentile": 50.0
     },
@@ -980,6 +2132,69 @@
       },
       "reserves_months": 33.8,
       "reserves_adequacy": "Strong",
+      "collection_rate": 96.48,
+      "collection_rate_trend": -0.41,
+      "collection_rate_5yr_avg": 96.51,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 3217000.0,
+      "dependency_ratio": 76.7,
+      "youth_ratio": 15.7,
+      "elderly_ratio": 27.7,
+      "working_age_pct": 56.6,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 21990000,
+          "unallocated": 13329000,
+          "total": 35319000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 18876000,
+          "unallocated": 13329000,
+          "total": 32205000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 19766000,
+          "unallocated": 16758000,
+          "total": 36524000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 36549000,
+          "unallocated": 3750000,
+          "total": 40299000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 40901500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 42827400,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "improving",
+      "overall_hhi": 2796.8,
+      "service_hhi": {
+        "Children Social Care": {
+          "hhi": 1189,
+          "category": "low",
+          "transactions": 32228,
+          "total_spend": 91841123
+        },
+        "Central services": {
+          "hhi": 3571,
+          "category": "high",
+          "transactions": 18864,
+          "total_spend": 586517767
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -1055,6 +2270,81 @@
       },
       "reserves_months": 21.0,
       "reserves_adequacy": "Strong",
+      "collection_rate": 90.18,
+      "collection_rate_trend": -2.67,
+      "collection_rate_5yr_avg": 90.74,
+      "collection_performance": "poor",
+      "uncollected_ct_gbp": 10639000.0,
+      "dependency_ratio": 52.6,
+      "youth_ratio": 19.7,
+      "elderly_ratio": 14.8,
+      "working_age_pct": 65.5,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 32416000,
+          "unallocated": 10964000,
+          "total": 43380000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 30314000,
+          "unallocated": 11956000,
+          "total": 42270000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 33006000,
+          "unallocated": 11678000,
+          "total": 44684000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 26942000,
+          "unallocated": 15825000,
+          "total": 42767000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 43419000,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 43476500,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "stable",
+      "overall_hhi": 497.6,
+      "service_hhi": {
+        "Environmental and regulatory services": {
+          "hhi": 444,
+          "category": "low",
+          "transactions": 22093,
+          "total_spend": 46225956
+        },
+        "Central services": {
+          "hhi": 210,
+          "category": "low",
+          "transactions": 19205,
+          "total_spend": 69298534
+        },
+        "Capital": {
+          "hhi": 2693,
+          "category": "high",
+          "transactions": 1394,
+          "total_spend": 67215111
+        },
+        "Planning and development services": {
+          "hhi": 2316,
+          "category": "moderate",
+          "transactions": 3800,
+          "total_spend": 19640224
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -1134,6 +2424,81 @@
       },
       "reserves_months": 13.1,
       "reserves_adequacy": "Strong",
+      "collection_rate": 96.65,
+      "collection_rate_trend": -0.12,
+      "collection_rate_5yr_avg": 96.29,
+      "collection_performance": "good",
+      "uncollected_ct_gbp": 2501000.0,
+      "dependency_ratio": 74.6,
+      "youth_ratio": 14.9,
+      "elderly_ratio": 27.8,
+      "working_age_pct": 57.3,
+      "reserves_trajectory": [
+        {
+          "year": "2021-22",
+          "earmarked": 18219000,
+          "unallocated": 5056000,
+          "total": 23275000
+        },
+        {
+          "year": "2022-23",
+          "earmarked": 12824000,
+          "unallocated": 5006000,
+          "total": 17830000
+        },
+        {
+          "year": "2023-24",
+          "earmarked": 11989000,
+          "unallocated": 5105000,
+          "total": 17094000
+        },
+        {
+          "year": "2024-25",
+          "earmarked": 10820000,
+          "unallocated": 4937000,
+          "total": 15757000
+        }
+      ],
+      "reserves_projected": [
+        {
+          "year": "2025-26",
+          "total": 12666500,
+          "projected": true
+        },
+        {
+          "year": "2026-27",
+          "total": 10337500,
+          "projected": true
+        }
+      ],
+      "reserves_direction": "declining",
+      "overall_hhi": 383.9,
+      "service_hhi": {
+        "Environmental and regulatory services": {
+          "hhi": 528,
+          "category": "low",
+          "transactions": 7197,
+          "total_spend": 25928907
+        },
+        "Central services": {
+          "hhi": 319,
+          "category": "low",
+          "transactions": 13851,
+          "total_spend": 35787901
+        },
+        "Cultural and related services": {
+          "hhi": 1638,
+          "category": "moderate",
+          "transactions": 3284,
+          "total_spend": 31745014
+        },
+        "Planning and development services": {
+          "hhi": 1183,
+          "category": "low",
+          "transactions": 13182,
+          "total_spend": 61550120
+        }
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     }

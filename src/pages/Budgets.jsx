@@ -52,12 +52,15 @@ function Budgets() {
   const councilTier = config.council_tier || 'district'
   const hasBudgets = config.data_sources?.budgets !== false
   const hasBudgetTrends = config.data_sources?.budget_trends
+  const hasCollectionRates = config.data_sources?.collection_rates
 
   // Load different data depending on what's available
   const budgetUrls = hasBudgets
     ? ['/data/budgets.json', '/data/budget_insights.json', '/data/budget_mapping.json', '/data/budget_efficiency.json']
     : ['/data/budgets_govuk.json', '/data/revenue_trends.json', '/data/budgets_summary.json', '/data/budget_insights.json', '/data/budget_efficiency.json', '/data/budget_mapping.json']
-  const { data, loading, error } = useData(budgetUrls)
+  // Collection rates loaded separately (optional)
+  const collectionUrl = hasCollectionRates ? ['/data/collection_rates.json'] : []
+  const { data, loading, error } = useData([...budgetUrls, ...collectionUrl])
   // When hasBudgets=true: data = [budgets.json, budget_insights.json]
   //   → budgetData, insights used for full 4-tab view
   // When hasBudgets=false: data = [budgets_govuk.json, revenue_trends.json, budgets_summary.json, budget_insights.json, budget_efficiency.json]
@@ -74,6 +77,8 @@ function Budgets() {
   const govukInsights = !hasBudgets ? (d[3] || null) : null    // budget_insights.json
   const efficiencyData = !hasBudgets ? (d[4] || null) : null   // budget_efficiency.json
   const mappingData = !hasBudgets ? (d[5] || null) : null      // budget_mapping.json
+  // Collection rates: always last in the array when hasCollectionRates is true
+  const collectionRates = hasCollectionRates ? (d[d.length - 1] || null) : null
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -200,7 +205,7 @@ function Budgets() {
 
   // For councils without detailed budgets.json, render a simpler GOV.UK trends view
   if (!hasBudgets && hasBudgetTrends) {
-    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={govukRaw} trendsData={trendsRaw} summaryData={budgetSummary} insightsData={govukInsights} efficiencyData={efficiencyData} mappingData={mappingData} />
+    return <BudgetTrendsView councilName={councilName} councilFullName={councilFullName} govukData={govukRaw} trendsData={trendsRaw} summaryData={budgetSummary} insightsData={govukInsights} efficiencyData={efficiencyData} mappingData={mappingData} collectionRates={collectionRates} />
   }
 
   if (!budgetData) {
@@ -624,6 +629,11 @@ function Budgets() {
                 </p>
               </div>
             </section>
+          )}
+
+          {/* Collection Performance (from collection_rates.json) */}
+          {collectionRates && (
+            <CollectionRatesSection collectionRates={collectionRates} councilName={councilName} />
           )}
 
           {/* Key Political Points */}
@@ -1175,7 +1185,206 @@ function Budgets() {
  * (i.e. no detailed budget book PDFs available). Shows service expenditure
  * breakdown and revenue trends over time.
  */
-function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData, insightsData, efficiencyData, mappingData }) {
+/**
+ * Council Tax Collection Performance section — reused in both main Budgets and BudgetTrendsView.
+ * Shows 6-year trend line, performance badge, uncollected amounts, quarterly receipts, and arrears.
+ */
+function CollectionRatesSection({ collectionRates, councilName }) {
+  if (!collectionRates?.years) return null
+
+  const years = collectionRates.years
+  const trendData = Object.entries(years)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([year, d]) => ({
+      year: year.replace('-', '/'),
+      rate: d.collection_rate_pct,
+      uncollected: (d.uncollected_thousands || 0) / 1000,
+      collectable: (d.net_collectable_thousands || 0) / 1000,
+    }))
+
+  const latestRate = collectionRates.latest_rate
+  const trend = collectionRates.trend
+  const fiveYearAvg = collectionRates.five_year_avg
+  const performance = collectionRates.performance
+  const detail = collectionRates.latest_year_detail || {}
+  const quarterly = detail.quarterly_receipts_thousands || {}
+  const latestYear = collectionRates.latest_year
+
+  // Performance badge styling
+  const perfBadge = performance === 'excellent' ? 'badge-ok'
+    : performance === 'good' ? 'badge-info'
+    : performance === 'below_average' ? 'badge-warning'
+    : 'badge-danger'
+  const perfLabel = performance === 'below_average' ? 'Below Average'
+    : performance ? performance.charAt(0).toUpperCase() + performance.slice(1) : 'N/A'
+
+  // Quarterly data for mini bar chart
+  const quarterlyData = [
+    { q: 'Q1 (Apr-Jun)', value: (quarterly.q1_apr_jun || 0) / 1000 },
+    { q: 'Q2 (Jul-Sep)', value: (quarterly.q2_jul_sep || 0) / 1000 },
+    { q: 'Q3 (Oct-Dec)', value: (quarterly.q3_oct_dec || 0) / 1000 },
+    { q: 'Q4 (Jan-Mar)', value: (quarterly.q4_jan_mar || 0) / 1000 },
+  ].filter(d => d.value > 0)
+
+  return (
+    <section className="chart-section">
+      <h2><Wallet size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Council Tax Collection Performance</h2>
+      <p className="section-note">
+        In-year collection rate measures how much council tax is collected within the financial year it's due.
+        National average for districts is ~96%. Source: GOV.UK QRC4.
+      </p>
+
+      {/* Key metrics */}
+      <div className="stats-grid" style={{ marginBottom: 'var(--space-lg)' }}>
+        <div className="stat-card">
+          <div className="stat-label">Latest Rate ({latestYear})</div>
+          <div className="stat-value" style={{ color: latestRate >= 97 ? '#30d158' : latestRate >= 95 ? '#0a84ff' : latestRate >= 93 ? '#ff9f0a' : '#ff453a' }}>
+            {latestRate?.toFixed(1)}%
+          </div>
+          <div className="stat-sublabel">
+            <span className={`efficiency-badge ${perfBadge}`}>{perfLabel}</span>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">5-Year Average</div>
+          <div className="stat-value">{fiveYearAvg?.toFixed(1)}%</div>
+          <div className="stat-sublabel">
+            Trend: <span style={{ color: trend > 0 ? '#30d158' : trend < 0 ? '#ff453a' : 'inherit' }}>
+              {trend > 0 ? '+' : ''}{trend?.toFixed(2)}pp
+            </span>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Uncollected ({latestYear})</div>
+          <div className="stat-value" style={{ color: '#ff453a' }}>
+            £{((years[collectionRates.latest_year]?.uncollected_thousands || 0) / 1000).toFixed(1)}M
+          </div>
+          <div className="stat-sublabel">
+            of £{((years[collectionRates.latest_year]?.net_collectable_thousands || 0) / 1000).toFixed(1)}M collectable
+          </div>
+        </div>
+        {detail.total_arrears_thousands > 0 && (
+          <div className="stat-card">
+            <div className="stat-label">Total Arrears</div>
+            <div className="stat-value" style={{ color: '#ff9f0a' }}>
+              £{(detail.total_arrears_thousands / 1000).toFixed(1)}M
+            </div>
+            <div className="stat-sublabel">
+              {detail.arrears_brought_forward_thousands > 0
+                ? `Brought forward: £${(detail.arrears_brought_forward_thousands / 1000).toFixed(1)}M`
+                : ''}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Collection rate trend chart */}
+      <div className="chart-card">
+        <ResponsiveContainer width="100%" height={280}>
+          <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+            <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+            <YAxis
+              domain={[Math.floor(Math.min(...trendData.map(d => d.rate)) - 1), 100]}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+              tickFormatter={(v) => `${v}%`}
+            />
+            <Tooltip
+              contentStyle={{
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '8px',
+              }}
+              formatter={(value, name) => name === 'rate'
+                ? [`${value.toFixed(2)}%`, 'Collection Rate']
+                : [`£${value.toFixed(1)}M`, 'Uncollected']
+              }
+            />
+            <Line
+              type="monotone"
+              dataKey="rate"
+              stroke="var(--accent-blue)"
+              strokeWidth={2.5}
+              dot={{ fill: 'var(--accent-blue)', r: 5 }}
+              activeDot={{ r: 7 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+        <p className="chart-note text-secondary">
+          {councilName}'s collection rate {collectionRates.trend_direction === 'declining'
+            ? `has declined ${Math.abs(trend).toFixed(1)}pp since 2019-20`
+            : collectionRates.trend_direction === 'improving'
+            ? `has improved ${Math.abs(trend).toFixed(1)}pp since 2019-20`
+            : 'has remained stable'
+          }. The COVID-19 pandemic visibly impacted 2020-21 collection rates nationally.
+        </p>
+      </div>
+
+      {/* Uncollected amounts bar chart */}
+      {trendData.some(d => d.uncollected > 0) && (
+        <div className="chart-card" style={{ marginTop: 'var(--space-lg)' }}>
+          <h3 style={{ marginBottom: 'var(--space-sm)', fontSize: '1rem' }}>Uncollected Council Tax by Year</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={trendData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+              <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+              <YAxis
+                tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                tickFormatter={(v) => `£${v.toFixed(0)}M`}
+              />
+              <Tooltip
+                contentStyle={{
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '8px',
+                }}
+                formatter={(value) => [`£${value.toFixed(2)}M`, 'Uncollected']}
+              />
+              <Bar dataKey="uncollected" radius={[4, 4, 0, 0]}>
+                {trendData.map((entry, index) => (
+                  <Cell key={`unc-${index}`} fill={entry.uncollected > 3.5 ? '#ff453a' : entry.uncollected > 3 ? '#ff9f0a' : '#30d158'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Quarterly receipts breakdown */}
+      {quarterlyData.length === 4 && (
+        <div className="chart-card" style={{ marginTop: 'var(--space-lg)' }}>
+          <h3 style={{ marginBottom: 'var(--space-sm)', fontSize: '1rem' }}>Quarterly Collection ({latestYear})</h3>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={quarterlyData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+              <XAxis dataKey="q" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
+              <YAxis
+                tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                tickFormatter={(v) => `£${v.toFixed(0)}M`}
+              />
+              <Tooltip
+                contentStyle={{
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '8px',
+                }}
+                formatter={(value) => [`£${value.toFixed(2)}M`, 'Receipts']}
+              />
+              <Bar dataKey="value" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+          <p className="chart-note text-secondary">
+            Q4 (January-March) is typically lower as most payments are collected in the first three quarters.
+            {detail.court_costs_thousands > 0 && ` Court costs recovered: £${(detail.court_costs_thousands / 1000).toFixed(1)}M.`}
+            {detail.in_year_write_offs_thousands > 0 && ` In-year write-offs: £${(detail.in_year_write_offs_thousands / 1000).toFixed(0)}K.`}
+          </p>
+        </div>
+      )}
+    </section>
+  )
+}
+
+function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData, summaryData, insightsData, efficiencyData, mappingData, collectionRates }) {
   const config = useCouncilConfig()
   const councilTier = config.council_tier || 'district'
   const isMultiYear = summaryData?.multi_year && summaryData?.years?.length > 1
@@ -1933,6 +2142,11 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           </section>
         ) : null
       })()}
+
+      {/* Collection Performance (from collection_rates.json) */}
+      {collectionRates && (
+        <CollectionRatesSection collectionRates={collectionRates} councilName={councilName} />
+      )}
 
       {/* Detailed Service Breakdown from budgets_summary.json */}
       {summaryData?.detail && (() => {

@@ -250,7 +250,11 @@ function Spending() {
     return (
       <div className="page-error">
         <h2>Unable to load spending data</h2>
-        <p>Please try refreshing the page.</p>
+        <p>{typeof error === 'string' ? error : error?.message || 'An unexpected error occurred.'}</p>
+        <p style={{ color: '#8e8e93', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+          This may be caused by spending data files not being available. Try refreshing the page,
+          or check back later if the site was recently updated.
+        </p>
       </div>
     )
   }

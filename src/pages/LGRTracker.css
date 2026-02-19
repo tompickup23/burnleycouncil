@@ -332,6 +332,118 @@
   margin-bottom: 0.75rem;
 }
 
+/* Revenue Risk Analysis */
+.lgr-risk-analysis {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.lgr-risk-analysis h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: #ff9f0a;
+}
+
+.risk-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.risk-card {
+  background: rgba(44, 44, 46, 0.5);
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-card-header {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.risk-card-header .authority-color-bar {
+  position: absolute;
+  top: -0.75rem;
+  left: -0.75rem;
+  right: -0.75rem;
+  height: 3px;
+}
+
+.risk-card-header h4 {
+  font-size: 0.9rem;
+  margin: 0;
+  padding-top: 0.15rem;
+}
+
+.risk-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.risk-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.risk-metric-label {
+  font-size: 0.7rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.risk-metric-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e5e5e7;
+}
+
+.risk-metric-value.good { color: #30d158; }
+.risk-metric-value.warning { color: #ff9f0a; }
+.risk-metric-value.danger { color: #ff453a; }
+
+.risk-flag {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.7rem;
+  color: #ff453a;
+  font-weight: 500;
+}
+
+.risk-detail {
+  font-size: 0.75rem;
+  color: #636366;
+}
+
+.demand-flag.high { color: #ff453a; font-weight: 500; }
+.demand-flag.moderate { color: #ff9f0a; font-weight: 500; }
+
+.risk-methodology {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #2c2c2e;
+}
+
+.risk-methodology p {
+  font-size: 0.7rem;
+  color: #636366;
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* Issues */
 .issues-list {
   display: flex;
@@ -1070,6 +1182,122 @@
 
 .demo-row strong {
   color: #e5e5e7;
+}
+
+/* Financial Health Scorecard */
+.financial-health-scorecard {
+  background: rgba(44, 44, 46, 0.5);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  border-left: 3px solid #636366;
+}
+
+.financial-health-scorecard.scorecard-good {
+  border-left-color: #30d158;
+}
+
+.financial-health-scorecard.scorecard-warning {
+  border-left-color: #ff9f0a;
+}
+
+.financial-health-scorecard.scorecard-danger {
+  border-left-color: #ff453a;
+}
+
+.scorecard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.scorecard-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.scorecard-overall {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.scorecard-overall.scorecard-good {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+}
+
+.scorecard-overall.scorecard-warning {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+
+.scorecard-overall.scorecard-danger {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+.scorecard-indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.health-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.health-indicator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.health-label {
+  font-size: 0.75rem;
+  color: #8e8e93;
+}
+
+.health-status {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.health-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.health-detail {
+  font-size: 0.7rem;
+  color: #636366;
+  line-height: 1.3;
+}
+
+.scorecard-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(44, 44, 46, 0.8);
+  font-size: 0.7rem;
+  color: #ff9f0a;
 }
 
 /* Political analysis box per proposal */

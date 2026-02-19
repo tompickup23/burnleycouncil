@@ -77,6 +77,44 @@ jobs:
           done
           echo "Restored spending data for ${RESTORED}/3 councils"
 
+      # v3 year-chunked spending for district councils is also gitignored.
+      # Restore from previous deploy so spending pages stay live.
+      - name: Restore v3 spending chunks from previous deploy
+        run: |
+          # All 12 district councils use v3 year chunks
+          V3_COUNCILS="burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil west_lancashire:westlancashirecouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil"
+          echo "Fetching v3 spending data from previous deploy..."
+          DEPLOY_URL="https://aidoge.co.uk/lancashire"
+          RESTORED=0
+          for entry in $V3_COUNCILS; do
+            COUNCIL_ID="${entry%%:*}"
+            SLUG="${entry##*:}"
+            DEST="burnley-council/data/${COUNCIL_ID}"
+            INDEX_URL="${DEPLOY_URL}/${SLUG}/data/spending-index.json"
+            # Download spending-index.json
+            if curl -sf "${INDEX_URL}" -o "${DEST}/spending-index.json"; then
+              # Parse year file list from v3 index (format: {years: {"2021/22": {file: "spending-2021-22.json"}, ...}})
+              CHUNKS=$(node -e "const idx=require('./${DEST}/spending-index.json'); const yrs=idx.years||{}; Object.values(yrs).forEach(y=>{if(y.file)console.log(y.file)})" 2>/dev/null || echo "")
+              COUNT=0
+              for CHUNK_FILE in $CHUNKS; do
+                CHUNK_URL="${DEPLOY_URL}/${SLUG}/data/${CHUNK_FILE}"
+                if curl -sf "${CHUNK_URL}" -o "${DEST}/${CHUNK_FILE}"; then
+                  COUNT=$((COUNT + 1))
+                fi
+              done
+              if [ $COUNT -gt 0 ]; then
+                echo "✓ ${COUNCIL_ID}: restored spending-index.json + ${COUNT} year chunks"
+                RESTORED=$((RESTORED + 1))
+              else
+                echo "⚠ ${COUNCIL_ID}: index found but no year chunks downloaded"
+                rm -f "${DEST}/spending-index.json"
+              fi
+            else
+              echo "⚠ ${COUNCIL_ID}: no spending data in previous deploy"
+            fi
+          done
+          echo "Restored v3 spending data for ${RESTORED}/12 councils"
+
       # Council registry defined in job env.COUNCILS above. To add a council, edit it there.
       # Builds run sequentially — they share public/data/ so cannot run in parallel.
       - name: Build all councils

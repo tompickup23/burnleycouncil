@@ -1403,3 +1403,308 @@
     flex-wrap: wrap;
   }
 }
+
+/* ── Supplier Political Donations ── */
+.supplier-donations-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.supplier-donations-section h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  color: #ffd60a;
+}
+
+.section-desc {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-lg);
+  line-height: 1.5;
+}
+
+.supplier-donations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
+
+.supplier-donation-card {
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 214, 10, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+}
+
+.supplier-donation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-xs);
+}
+
+.supplier-donation-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.supplier-donation-amount {
+  font-weight: 700;
+  color: #ffd60a;
+  font-size: 1rem;
+}
+
+.supplier-donation-meta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-xs);
+}
+
+.supplier-donation-party {
+  color: var(--text-secondary);
+}
+
+.supplier-donation-link {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin: var(--space-xs) 0;
+}
+
+.ec-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--accent, #0a84ff);
+  text-decoration: none;
+  margin-top: var(--space-xs);
+}
+
+.ec-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* ── Supplier Investigation (Reverse Lookup) ── */
+.supplier-investigation-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.supplier-investigation-section h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  color: #ff9f0a;
+}
+
+.supplier-investigation-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.supplier-investigation-card {
+  background: rgba(28, 28, 30, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.supplier-investigation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(255, 159, 10, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.supplier-investigation-name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.supplier-investigation-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent, #0a84ff);
+}
+
+.supplier-investigation-link:hover {
+  color: var(--accent, #0a84ff);
+}
+
+.supplier-investigation-spend {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #ff9f0a;
+}
+
+.supplier-investigation-connections {
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.connection-card {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 3px solid #ff9f0a;
+}
+
+.connection-card.direct {
+  border-left-color: #ff453a;
+}
+
+.connection-card.direct.critical {
+  background: rgba(255, 69, 58, 0.05);
+}
+
+.connection-card.network {
+  border-left-color: #ff9f0a;
+}
+
+.connection-card.cross_council {
+  border-left-color: #0a84ff;
+}
+
+.connection-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs);
+}
+
+.connection-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+}
+
+.connection-card.direct .connection-type-badge {
+  color: #ff453a;
+}
+
+.connection-card.network .connection-type-badge {
+  color: #ff9f0a;
+}
+
+.connection-card.cross_council .connection-type-badge {
+  color: #0a84ff;
+}
+
+.connection-councillor {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.connection-party {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.connection-confidence {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+.connection-narrative {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: var(--space-xs) 0;
+}
+
+.connection-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.connection-view-btn,
+.connection-spending-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.connection-view-btn:hover,
+.connection-spending-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* ── Cross-Council Summary ── */
+.cross-council-summary-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.cross-council-summary-section h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  color: #0a84ff;
+}
+
+.cross-council-summary-stats {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.cross-council-affected {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .supplier-donations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .supplier-investigation-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .connection-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .connection-confidence {
+    margin-left: 0;
+  }
+}

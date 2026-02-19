@@ -28,10 +28,11 @@
     "elections": true,
     "supplier_index": true,
     "constituencies": true,
-    "polling": true
+    "polling": true,
+    "collection_rates": true
   },
-  "spending_data_period": "April 2016 – March 2026",
-  "hero_subtitle": "Explore how West Lancashire Borough Council spends public money. With 43,000+ transactions totalling £333 million tracked since 2016, this dashboard gives residents transparency on where their council tax goes — from housing and planning to waste collection and leisure across Ormskirk, Skelmersdale, and surrounding areas.",
+  "spending_data_period": "April 2016 \u2013 March 2026",
+  "hero_subtitle": "Explore how West Lancashire Borough Council spends public money. With 43,000+ transactions totalling \u00a3333 million tracked since 2016, this dashboard gives residents transparency on where their council tax goes \u2014 from housing and planning to waste collection and leisure across Ormskirk, Skelmersdale, and surrounding areas.",
   "disclaimer_entity": "West Lancashire Borough Council",
   "publisher": "Tom Pickup",
   "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
@@ -71,54 +72,54 @@
   "foi_url": "https://www.westlancs.gov.uk/council/data-protection/freedom-of-information.aspx",
   "theme_accent": "#1a6b3c",
   "doge_context": {
-    "total_spend": "£333M",
+    "total_spend": "\u00a3333M",
     "transactions": 43063,
     "suppliers": 4614,
-    "data_period": "April 2016 – March 2026",
-    "annual_net_revenue_budget": "£14M",
+    "data_period": "April 2016 \u2013 March 2026",
+    "annual_net_revenue_budget": "\u00a314M",
     "political_control": "Our West Lancs majority.",
     "key_suppliers": [
       {
         "name": "Wates Property Services Ltd",
-        "spend": "£29.4M",
-        "note": "Property maintenance — 449 transactions"
+        "spend": "\u00a329.4M",
+        "note": "Property maintenance \u2014 449 transactions"
       },
       {
         "name": "Tawd Valley Developments Ltd",
-        "spend": "£21.0M",
+        "spend": "\u00a321.0M",
         "note": "Local property development"
       },
       {
         "name": "Lancashire County Council",
-        "spend": "£16.5M",
-        "note": "County-level service payments — 750 transactions"
+        "spend": "\u00a316.5M",
+        "note": "County-level service payments \u2014 750 transactions"
       }
     ],
     "doge_findings": {
-      "likely_duplicates": "£369.7K across 181 high-confidence duplicate groups",
-      "ch_red_flags": "£89.9K to 5 suppliers with Companies House compliance issues",
-      "split_payments": "£2.1M suspected across 5 instances",
+      "likely_duplicates": "\u00a3369.7K across 181 high-confidence duplicate groups",
+      "ch_red_flags": "\u00a389.9K to 5 suppliers with Companies House compliance issues",
+      "split_payments": "\u00a32.1M suspected across 5 instances",
       "year_end_spike": "Housing Revenue Account spent 12.7x monthly average in March",
-      "round_numbers": "£36.6M across 2,575 round-number payments over £5K",
-      "benfords_law": "8.2% max digit deviation — above 5% warning threshold",
+      "round_numbers": "\u00a336.6M across 2,575 round-number payments over \u00a35K",
+      "benfords_law": "8.2% max digit deviation \u2014 above 5% warning threshold",
       "weak_competition": "16 contracts with limited competition indicators"
     },
     "notable_suppliers": [
       {
         "name": "Matrix SCM Ltd",
         "transactions": 5648,
-        "spend": "£4.2M",
-        "note": "Agency staffing — highest volume supplier"
+        "spend": "\u00a34.2M",
+        "note": "Agency staffing \u2014 highest volume supplier"
       },
       {
         "name": "Tawd Valley Developments Ltd",
-        "spend": "£21.0M",
-        "note": "Local property development — 125 transactions"
+        "spend": "\u00a321.0M",
+        "note": "Local property development \u2014 125 transactions"
       },
       {
         "name": "PWLB",
-        "spend": "£9.2M",
-        "note": "Public Works Loan Board borrowing — only 7 transactions"
+        "spend": "\u00a39.2M",
+        "note": "Public Works Loan Board borrowing \u2014 only 7 transactions"
       }
     ]
   }

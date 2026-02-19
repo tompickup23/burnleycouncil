@@ -1540,18 +1540,44 @@ def check_supplier_ec_donations(supplier_data, council_id):
         if data and data.get("Result"):
             for item in data["Result"]:
                 accounting_unit = (item.get("AccountingUnitName") or "").lower()
-                if any(area in accounting_unit for area in LANCASHIRE_AREAS):
-                    findings.append({
-                        "type": "supplier_is_local_donor",
-                        "detail": "Council supplier '{}' donated {} to {}".format(
-                            supplier,
-                            "£{:,.0f}".format(item.get("Value", 0)),
-                            item.get("AccountingUnitName", "")),
-                        "supplier": supplier,
-                        "value": item.get("Value", 0),
-                        "date": item.get("AcceptedDate", ""),
-                        "party": item.get("RegulatedEntityName", ""),
-                    })
+                if not any(area in accounting_unit for area in LANCASHIRE_AREAS):
+                    continue
+                # Verify the actual DonorName matches the supplier — EC API
+                # does full-text search across all fields, so searching
+                # "BURNLEY LEISURE" can match "Andrew Brown Leisure Limited"
+                # at address "BURNLEY" which is a false positive
+                donor_name = (item.get("DonorName") or "").upper().strip()
+                supplier_upper = supplier.upper().strip()
+                # Check substantial overlap: donor name contains supplier or vice versa,
+                # or >60% word overlap between supplier and donor
+                supplier_words = set(supplier_upper.split()) - {"LTD", "LIMITED", "PLC", "LLP", "THE", "AND", "&", "OF"}
+                donor_words = set(donor_name.split()) - {"LTD", "LIMITED", "PLC", "LLP", "THE", "AND", "&", "OF"}
+                if supplier_words and donor_words:
+                    overlap = len(supplier_words & donor_words) / max(len(supplier_words), len(donor_words))
+                else:
+                    overlap = 0
+                is_match = (
+                    supplier_upper in donor_name or
+                    donor_name in supplier_upper or
+                    overlap >= 0.6
+                )
+                if not is_match:
+                    log.debug("EC false positive filtered: supplier='%s' but donor='%s'", supplier, donor_name)
+                    continue
+                findings.append({
+                    "type": "supplier_is_local_donor",
+                    "detail": "Council supplier '{}' (EC donor: '{}') donated {} to {}".format(
+                        supplier, item.get("DonorName", ""),
+                        "£{:,.0f}".format(item.get("Value", 0)),
+                        item.get("AccountingUnitName", "")),
+                    "supplier": supplier,
+                    "donor_name": item.get("DonorName", ""),
+                    "donor_company_number": item.get("CompanyRegistrationNumber", ""),
+                    "value": item.get("Value", 0),
+                    "date": item.get("AcceptedDate", ""),
+                    "party": item.get("RegulatedEntityName", ""),
+                    "ec_ref": item.get("ECRef", ""),
+                })
 
     _supplier_ec_cache[cache_key] = findings
     return findings

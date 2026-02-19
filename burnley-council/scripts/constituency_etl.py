@@ -42,13 +42,13 @@ CONSTITUENCIES = {
     'burnley': {
         'name': 'Burnley',
         'ons_code': 'E14001118',
-        'overlapping_councils': ['burnley'],
+        'overlapping_councils': ['burnley', 'pendle'],  # 2 Pendle wards in Burnley constituency
         'partial': False,
     },
     'hyndburn': {
         'name': 'Hyndburn',
         'ons_code': 'E14001351',
-        'overlapping_councils': ['hyndburn'],
+        'overlapping_councils': ['hyndburn', 'rossendale'],  # 4 Rossendale wards
         'partial': False,
     },
     'pendle_and_clitheroe': {
@@ -78,7 +78,7 @@ CONSTITUENCIES = {
     'ribble_valley': {
         'name': 'Ribble Valley',
         'ons_code': 'E14001512',
-        'overlapping_councils': ['ribble_valley', 'south_ribble'],
+        'overlapping_councils': ['ribble_valley', 'south_ribble', 'preston'],  # 5 Preston + 6 SR wards
         'partial': False,
     },
     'chorley': {
@@ -90,7 +90,7 @@ CONSTITUENCIES = {
     'south_ribble': {
         'name': 'South Ribble',
         'ons_code': 'E14001555',
-        'overlapping_councils': ['south_ribble'],
+        'overlapping_councils': ['south_ribble', 'chorley'],  # 2 Chorley wards in SR constituency
         'partial': False,
     },
     'preston': {
@@ -108,7 +108,7 @@ CONSTITUENCIES = {
     'fylde': {
         'name': 'Fylde',
         'ons_code': 'E14001256',
-        'overlapping_councils': ['fylde'],
+        'overlapping_councils': ['fylde', 'wyre'],  # 3 Wyre wards in Fylde constituency
         'partial': False,
     },
     'blackpool_north_and_fleetwood': {
@@ -120,7 +120,7 @@ CONSTITUENCIES = {
     'blackpool_south': {
         'name': 'Blackpool South',
         'ons_code': 'E14001087',
-        'overlapping_councils': ['blackpool', 'fylde'],
+        'overlapping_councils': ['blackpool'],  # ONS confirms: no Fylde wards in this constituency
         'partial': False,
     },
     'blackburn': {

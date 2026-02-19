@@ -28,10 +28,11 @@
     "elections": true,
     "supplier_index": true,
     "constituencies": true,
-    "polling": true
+    "polling": true,
+    "collection_rates": true
   },
-  "spending_data_period": "April 2019 – March 2026",
-  "hero_subtitle": "Explore how Preston City Council spends public money. With 46,700+ transactions totalling £205 million tracked since 2019, this dashboard gives residents transparency on spending across Preston, Fulwood, and surrounding communities — the administrative capital of Lancashire.",
+  "spending_data_period": "April 2019 \u2013 March 2026",
+  "hero_subtitle": "Explore how Preston City Council spends public money. With 46,700+ transactions totalling \u00a3205 million tracked since 2019, this dashboard gives residents transparency on spending across Preston, Fulwood, and surrounding communities \u2014 the administrative capital of Lancashire.",
   "disclaimer_entity": "Preston City Council",
   "publisher": "Tom Pickup",
   "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
@@ -71,54 +72,54 @@
   "foi_url": "https://www.preston.gov.uk/article/1113/Freedom-of-information",
   "theme_accent": "#d4213d",
   "doge_context": {
-    "total_spend": "£205M",
+    "total_spend": "\u00a3205M",
     "transactions": 46711,
     "suppliers": 2517,
-    "data_period": "April 2019 – March 2026",
-    "annual_net_revenue_budget": "£17M",
+    "data_period": "April 2019 \u2013 March 2026",
+    "annual_net_revenue_budget": "\u00a317M",
     "political_control": "Labour majority.",
     "key_suppliers": [
       {
         "name": "Maple Grove Developments",
-        "spend": "£31.5M",
+        "spend": "\u00a331.5M",
         "note": "Major housing/regeneration project"
       },
       {
         "name": "Lancashire County Council",
-        "spend": "£28.0M",
-        "note": "County-level service payments — 450 transactions"
+        "spend": "\u00a328.0M",
+        "note": "County-level service payments \u2014 450 transactions"
       },
       {
         "name": "Conlon Construction Ltd",
-        "spend": "£10.6M",
-        "note": "Construction — 110 transactions"
+        "spend": "\u00a310.6M",
+        "note": "Construction \u2014 110 transactions"
       }
     ],
     "doge_findings": {
-      "likely_duplicates": "£515.8K across 477 high-confidence duplicate groups",
-      "ch_red_flags": "£556.1K to 13 suppliers with Companies House compliance issues",
-      "split_payments": "£41.8K suspected across 1 instance",
+      "likely_duplicates": "\u00a3515.8K across 477 high-confidence duplicate groups",
+      "ch_red_flags": "\u00a3556.1K to 13 suppliers with Companies House compliance issues",
+      "split_payments": "\u00a341.8K suspected across 1 instance",
       "year_end_spike": "Rev Customer Services spent 10.6x monthly average in March",
-      "round_numbers": "£10.1M across 459 round-number payments over £5K",
-      "benfords_law": "6.0% max digit deviation — above 5% warning threshold",
+      "round_numbers": "\u00a310.1M across 459 round-number payments over \u00a35K",
+      "benfords_law": "6.0% max digit deviation \u2014 above 5% warning threshold",
       "weak_competition": "23 contracts with limited competition indicators"
     },
     "notable_suppliers": [
       {
         "name": "Matrix SCM Ltd",
         "transactions": 5445,
-        "spend": "£4.6M",
-        "note": "Agency staffing — highest volume supplier"
+        "spend": "\u00a34.6M",
+        "note": "Agency staffing \u2014 highest volume supplier"
       },
       {
         "name": "Preston Youth Zone Ltd",
-        "spend": "£3.6M",
+        "spend": "\u00a33.6M",
         "note": "Single large transaction"
       },
       {
         "name": "Maple Grove Developments",
-        "spend": "£31.5M",
-        "note": "Major housing/regeneration project — 92 transactions"
+        "spend": "\u00a331.5M",
+        "note": "Major housing/regeneration project \u2014 92 transactions"
       }
     ]
   }

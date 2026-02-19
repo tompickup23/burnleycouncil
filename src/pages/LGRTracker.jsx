@@ -58,6 +58,83 @@ function AssumptionSlider({ label, value, min, max, step, format, onChange, desc
   )
 }
 
+function HealthIndicator({ label, value, format, status, detail }) {
+  const colors = { good: '#30d158', warning: '#ff9f0a', danger: '#ff453a', neutral: '#8e8e93' }
+  const labels = { good: 'Good', warning: 'Warning', danger: 'Risk', neutral: 'N/A' }
+  return (
+    <div className="health-indicator">
+      <div className="health-indicator-header">
+        <span className="health-label">{label}</span>
+        <span className="health-status" style={{ color: colors[status] || colors.neutral }}>
+          {status === 'good' ? <Check size={12} /> : status === 'danger' ? <AlertTriangle size={12} /> : null}
+          {labels[status] || 'N/A'}
+        </span>
+      </div>
+      <div className="health-value" style={{ color: colors[status] || colors.neutral }}>{format ? format(value) : value}</div>
+      {detail && <div className="health-detail">{detail}</div>}
+    </div>
+  )
+}
+
+function FinancialHealthScorecard({ financials }) {
+  if (!financials) return null
+  const { minCollectionRate, avgCollectionRate, councilsBelowTarget, totalUncollected,
+    avgDependencyRatio, maxDependencyRatio, avgElderlyPct, avgYouthPct,
+    reservesMonths, reservesDirection, name } = financials
+
+  // Revenue risk: uncollected CT + councils below target
+  const collectionStatus = minCollectionRate == null ? 'neutral' : minCollectionRate >= 96 ? 'good' : minCollectionRate >= 94 ? 'warning' : 'danger'
+  const dependencyStatus = avgDependencyRatio == null ? 'neutral' : avgDependencyRatio < 60 ? 'good' : avgDependencyRatio < 65 ? 'warning' : 'danger'
+  const reservesStatus = reservesMonths == null ? 'neutral' : reservesMonths >= 6 ? 'good' : reservesMonths >= 3 ? 'warning' : 'danger'
+
+  // Overall score: simple traffic light
+  const statuses = [collectionStatus, dependencyStatus, reservesStatus].filter(s => s !== 'neutral')
+  const dangerCount = statuses.filter(s => s === 'danger').length
+  const warningCount = statuses.filter(s => s === 'warning').length
+  const overallStatus = dangerCount >= 2 ? 'danger' : dangerCount >= 1 || warningCount >= 2 ? 'warning' : 'good'
+  const overallLabel = overallStatus === 'good' ? 'Healthy' : overallStatus === 'warning' ? 'Some Risks' : 'Significant Risks'
+
+  return (
+    <div className={`financial-health-scorecard scorecard-${overallStatus}`}>
+      <div className="scorecard-header">
+        <div className="scorecard-title">
+          <BarChart3 size={14} />
+          <span>Financial Health</span>
+        </div>
+        <span className={`scorecard-overall scorecard-${overallStatus}`}>{overallLabel}</span>
+      </div>
+
+      <div className="scorecard-indicators">
+        <HealthIndicator
+          label="CT Collection"
+          value={avgCollectionRate != null ? `${avgCollectionRate.toFixed(1)}%` : 'N/A'}
+          status={collectionStatus}
+          detail={councilsBelowTarget?.length > 0
+            ? `${councilsBelowTarget.map(c => `${c.name} (${c.rate}%)`).join(', ')} below 94%`
+            : minCollectionRate != null ? `Min: ${minCollectionRate.toFixed(1)}%` : null}
+        />
+        <HealthIndicator
+          label="Dependency Ratio"
+          value={avgDependencyRatio != null ? `${avgDependencyRatio}%` : 'N/A'}
+          status={dependencyStatus}
+          detail={avgDependencyRatio != null ? `${avgElderlyPct}% elderly, ${avgYouthPct}% youth` : null}
+        />
+        <HealthIndicator
+          label="Reserves Buffer"
+          value={reservesMonths != null ? `${reservesMonths} months` : 'N/A'}
+          status={reservesStatus}
+          detail={reservesDirection && reservesDirection !== 'unknown' ? `Trend: ${reservesDirection}` : null}
+        />
+      </div>
+      {totalUncollected > 0 && (
+        <div className="scorecard-warning">
+          <AlertTriangle size={12} /> {formatCurrency(totalUncollected, true)} uncollected council tax across constituent councils
+        </div>
+      )}
+    </div>
+  )
+}
+
 function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -109,6 +186,47 @@ function LGRTracker() {
           }
         })
 
+        // Collection rate metrics (billing authorities only — LCC excluded)
+        const collectionCouncils = councils.filter(c => c.collection_rate != null)
+        const minCollectionRate = collectionCouncils.length > 0 ? Math.min(...collectionCouncils.map(c => c.collection_rate)) : null
+        const avgCollectionRate = collectionCouncils.length > 0 ? collectionCouncils.reduce((s, c) => s + c.collection_rate, 0) / collectionCouncils.length : null
+        const councilsBelowTarget = collectionCouncils.filter(c => c.collection_rate < 94).map(c => ({ name: c.council_name, rate: c.collection_rate }))
+        const totalUncollected = collectionCouncils.reduce((s, c) => s + (c.uncollected_ct_gbp || 0), 0)
+
+        // Dependency ratio metrics
+        const depCouncils = councils.filter(c => c.dependency_ratio > 0)
+        const avgDependencyRatio = depCouncils.length > 0 ? Math.round(depCouncils.reduce((s, c) => s + c.dependency_ratio, 0) / depCouncils.length * 10) / 10 : null
+        const maxDependencyRatio = depCouncils.length > 0 ? Math.max(...depCouncils.map(c => c.dependency_ratio)) : null
+        const avgElderlyPct = depCouncils.length > 0 ? Math.round(depCouncils.reduce((s, c) => s + (c.elderly_ratio || 0), 0) / depCouncils.length * 10) / 10 : null
+        const avgYouthPct = depCouncils.length > 0 ? Math.round(depCouncils.reduce((s, c) => s + (c.youth_ratio || 0), 0) / depCouncils.length * 10) / 10 : null
+
+        // Reserves adequacy: months of spend covered
+        const monthlySpend = serviceExpenditure > 0 ? serviceExpenditure / 12 : (netRevenue > 0 ? netRevenue / 12 : 0)
+        const reservesMonths = monthlySpend > 0 ? Math.round(totalReserves / monthlySpend * 10) / 10 : null
+
+        // Reserves trajectory: aggregate across constituent councils
+        const trajectoryYears = new Map()
+        councils.forEach(c => {
+          (c.reserves_trajectory || []).forEach(rt => {
+            const existing = trajectoryYears.get(rt.year) || { earmarked: 0, unallocated: 0, total: 0 }
+            existing.earmarked += rt.earmarked || 0
+            existing.unallocated += rt.unallocated || 0
+            existing.total += rt.total || 0
+            trajectoryYears.set(rt.year, existing)
+          })
+        })
+        const reservesTrajectory = [...trajectoryYears.entries()]
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([year, data]) => ({ year, ...data }))
+
+        // Reserves direction: compare last 2 years of trajectory
+        let reservesDirection = 'unknown'
+        if (reservesTrajectory.length >= 2) {
+          const last = reservesTrajectory[reservesTrajectory.length - 1].total
+          const prev = reservesTrajectory[reservesTrajectory.length - 2].total
+          reservesDirection = last > prev * 1.03 ? 'growing' : last < prev * 0.97 ? 'declining' : 'stable'
+        }
+
         return {
           name: authority.name, councils: authority.councils,
           councilNames: councils.map(c => c.council_name || c.council_id),
@@ -116,7 +234,11 @@ function LGRTracker() {
           spendPerHead: totalPop > 0 ? totalSpend / totalPop : 0,
           serviceExpenditure, netRevenue, ctRequirement,
           reserves: totalReserves, earmarkedReserves: totalEarmarked, unallocatedReserves: totalUnallocated,
-          notes: authority.notes
+          notes: authority.notes,
+          // New Part 5 metrics
+          minCollectionRate, avgCollectionRate, councilsBelowTarget, totalUncollected,
+          avgDependencyRatio, maxDependencyRatio, avgElderlyPct, avgYouthPct,
+          reservesMonths, reservesTrajectory, reservesDirection
         }
       })
     })
@@ -1398,6 +1520,7 @@ function LGRTracker() {
                         <div className="demo-row"><span>Econ. active:</span><strong>{authority.demographics.economically_active_pct}%</strong></div>
                       </div>
                     )}
+                    <FinancialHealthScorecard financials={fin} />
                     <p className="authority-notes">{authority.notes}</p>
                   </div>
                 )
@@ -1503,6 +1626,97 @@ function LGRTracker() {
                   <Legend />
                 </BarChart>
               </ResponsiveContainer>
+            </div>
+          )}
+
+          {/* Revenue Risk & Service Demand Analysis */}
+          {activeFinancials.some(f => f.avgCollectionRate != null || f.avgDependencyRatio != null) && (
+            <div className="lgr-risk-analysis">
+              <h3><AlertTriangle size={16} /> Revenue Risk & Service Demand</h3>
+              <p className="chart-desc">Identifies financial risks each proposed authority would inherit from constituent councils.</p>
+              <div className="risk-cards-grid">
+                {activeFinancials.map((fin, i) => {
+                  const hasCollection = fin.avgCollectionRate != null
+                  const hasDependency = fin.avgDependencyRatio != null
+                  const hasReserves = fin.reservesMonths != null
+
+                  // Revenue at risk: gap between actual and 97% target × net collectable debit (estimated)
+                  const revenueRisk = hasCollection && fin.avgCollectionRate < 97 && fin.ctRequirement > 0
+                    ? Math.round(fin.ctRequirement * (97 - fin.avgCollectionRate) / 100)
+                    : 0
+
+                  // Service demand pressure from elderly population
+                  const elderlyDemand = hasDependency && fin.avgElderlyPct > 20
+                    ? 'high' : hasDependency && fin.avgElderlyPct > 18 ? 'moderate' : 'low'
+
+                  return (
+                    <div key={i} className="risk-card">
+                      <div className="risk-card-header">
+                        <div className="authority-color-bar" style={{ background: MODEL_COLORS[i % MODEL_COLORS.length] }} />
+                        <h4>{fin.name}</h4>
+                      </div>
+                      <div className="risk-metrics">
+                        {hasCollection && (
+                          <div className="risk-metric">
+                            <span className="risk-metric-label">Collection rate</span>
+                            <span className={`risk-metric-value ${fin.avgCollectionRate >= 96 ? 'good' : fin.avgCollectionRate >= 94 ? 'warning' : 'danger'}`}>
+                              {fin.avgCollectionRate.toFixed(1)}%
+                            </span>
+                            {fin.councilsBelowTarget?.length > 0 && (
+                              <span className="risk-flag">
+                                <AlertTriangle size={10} /> {fin.councilsBelowTarget.length} council{fin.councilsBelowTarget.length > 1 ? 's' : ''} below 94%
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {revenueRisk > 0 && (
+                          <div className="risk-metric">
+                            <span className="risk-metric-label">Revenue at risk (vs 97% target)</span>
+                            <span className="risk-metric-value danger">{formatCurrency(revenueRisk, true)}/yr</span>
+                          </div>
+                        )}
+                        {fin.totalUncollected > 0 && (
+                          <div className="risk-metric">
+                            <span className="risk-metric-label">Current uncollected CT</span>
+                            <span className="risk-metric-value warning">{formatCurrency(fin.totalUncollected, true)}</span>
+                          </div>
+                        )}
+                        {hasDependency && (
+                          <div className="risk-metric">
+                            <span className="risk-metric-label">Dependency ratio</span>
+                            <span className={`risk-metric-value ${fin.avgDependencyRatio < 60 ? 'good' : fin.avgDependencyRatio < 65 ? 'warning' : 'danger'}`}>
+                              {fin.avgDependencyRatio}%
+                            </span>
+                            <span className="risk-detail">
+                              {fin.avgElderlyPct}% elderly, {fin.avgYouthPct}% youth
+                              {elderlyDemand === 'high' && <span className="demand-flag high"> — High social care demand</span>}
+                              {elderlyDemand === 'moderate' && <span className="demand-flag moderate"> — Moderate social care demand</span>}
+                            </span>
+                          </div>
+                        )}
+                        {hasReserves && (
+                          <div className="risk-metric">
+                            <span className="risk-metric-label">Reserves buffer</span>
+                            <span className={`risk-metric-value ${fin.reservesMonths >= 6 ? 'good' : fin.reservesMonths >= 3 ? 'warning' : 'danger'}`}>
+                              {fin.reservesMonths} months of spend
+                            </span>
+                            {fin.reservesDirection && fin.reservesDirection !== 'unknown' && (
+                              <span className="risk-detail">
+                                Trend: {fin.reservesDirection === 'growing' ? '📈 Growing' : fin.reservesDirection === 'declining' ? '📉 Declining' : '➡️ Stable'}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="risk-methodology">
+                <p>Revenue at risk = gap between current collection rate and 97% national target × council tax requirement.
+                  Dependency ratio measures dependents (under 16 + over 65) per 100 working-age residents.
+                  Reserves buffer shows months of service expenditure covered by total reserves.</p>
+              </div>
             </div>
           )}
         </section>

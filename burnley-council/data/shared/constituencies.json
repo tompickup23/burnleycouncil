@@ -13,7 +13,9 @@
     "expenses_year": "2024-25",
     "expenses_source": "IPSA",
     "expenses_updated": "2026-02-19T12:58:27",
-    "claimant_count_updated": "2026-02-19T12:59:11"
+    "claimant_count_updated": "2026-02-19T12:59:11",
+    "ward_mapping_updated": "2026-02-19T16:28:37",
+    "ward_mapping_source": "ONS WD24_PCON24_LAD24_UTLA24_UK_LU (July 2024)"
   },
   "constituencies": [
     {
@@ -308,9 +310,79 @@
         ]
       },
       "overlapping_councils": [
-        "burnley"
+        "burnley",
+        "pendle"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Bank Hall": {
+          "ons_code": "E05005150",
+          "council_id": "burnley"
+        },
+        "Briercliffe": {
+          "ons_code": "E05005151",
+          "council_id": "burnley"
+        },
+        "Brunshaw": {
+          "ons_code": "E05005152",
+          "council_id": "burnley"
+        },
+        "Cliviger with Worsthorne": {
+          "ons_code": "E05005153",
+          "council_id": "burnley"
+        },
+        "Coalclough with Deerplay": {
+          "ons_code": "E05005154",
+          "council_id": "burnley"
+        },
+        "Daneshouse with Stoneyholme": {
+          "ons_code": "E05005155",
+          "council_id": "burnley"
+        },
+        "Gannow": {
+          "ons_code": "E05005156",
+          "council_id": "burnley"
+        },
+        "Gawthorpe": {
+          "ons_code": "E05005157",
+          "council_id": "burnley"
+        },
+        "Hapton with Park": {
+          "ons_code": "E05005158",
+          "council_id": "burnley"
+        },
+        "Lanehead": {
+          "ons_code": "E05005159",
+          "council_id": "burnley"
+        },
+        "Queensgate": {
+          "ons_code": "E05005160",
+          "council_id": "burnley"
+        },
+        "Rosegrove with Lowerhouse": {
+          "ons_code": "E05005161",
+          "council_id": "burnley"
+        },
+        "Rosehill with Burnley Wood": {
+          "ons_code": "E05005162",
+          "council_id": "burnley"
+        },
+        "Trinity": {
+          "ons_code": "E05005163",
+          "council_id": "burnley"
+        },
+        "Whittlefield with Ightenhill": {
+          "ons_code": "E05005164",
+          "council_id": "burnley"
+        },
+        "Brierfield East and Clover Hill": {
+          "ons_code": "E05013204",
+          "council_id": "pendle"
+        },
+        "Brierfield West and Reedley": {
+          "ons_code": "E05013205",
+          "council_id": "pendle"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -662,9 +734,94 @@
         ]
       },
       "overlapping_councils": [
-        "hyndburn"
+        "hyndburn",
+        "rossendale"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Altham": {
+          "ons_code": "E05005206",
+          "council_id": "hyndburn"
+        },
+        "Barnfield": {
+          "ons_code": "E05005207",
+          "council_id": "hyndburn"
+        },
+        "Baxenden": {
+          "ons_code": "E05005208",
+          "council_id": "hyndburn"
+        },
+        "Central": {
+          "ons_code": "E05005209",
+          "council_id": "hyndburn"
+        },
+        "Church": {
+          "ons_code": "E05005210",
+          "council_id": "hyndburn"
+        },
+        "Clayton-le-Moors": {
+          "ons_code": "E05005211",
+          "council_id": "hyndburn"
+        },
+        "Huncoat": {
+          "ons_code": "E05005212",
+          "council_id": "hyndburn"
+        },
+        "Immanuel": {
+          "ons_code": "E05005213",
+          "council_id": "hyndburn"
+        },
+        "Milnshaw": {
+          "ons_code": "E05005214",
+          "council_id": "hyndburn"
+        },
+        "Netherton": {
+          "ons_code": "E05005215",
+          "council_id": "hyndburn"
+        },
+        "Overton": {
+          "ons_code": "E05005216",
+          "council_id": "hyndburn"
+        },
+        "Peel": {
+          "ons_code": "E05005217",
+          "council_id": "hyndburn"
+        },
+        "Rishton": {
+          "ons_code": "E05005218",
+          "council_id": "hyndburn"
+        },
+        "St. Andrews": {
+          "ons_code": "E05005219",
+          "council_id": "hyndburn"
+        },
+        "St. Oswalds": {
+          "ons_code": "E05005220",
+          "council_id": "hyndburn"
+        },
+        "Spring Hill": {
+          "ons_code": "E05005221",
+          "council_id": "hyndburn"
+        },
+        "Helmshore": {
+          "ons_code": "E05015823",
+          "council_id": "rossendale",
+          "split": true
+        },
+        "Longholme": {
+          "ons_code": "E05015824",
+          "council_id": "rossendale",
+          "split": true
+        },
+        "Greenfield and Eden": {
+          "ons_code": "E05015820",
+          "council_id": "rossendale",
+          "split": true
+        },
+        "Haslingden": {
+          "ons_code": "E05015822",
+          "council_id": "rossendale"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -1031,7 +1188,88 @@
         "pendle",
         "ribble_valley"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Barrowford and Pendleside": {
+          "ons_code": "E05013201",
+          "council_id": "pendle"
+        },
+        "Boulsworth and Foulridge": {
+          "ons_code": "E05013202",
+          "council_id": "pendle"
+        },
+        "Bradley": {
+          "ons_code": "E05013203",
+          "council_id": "pendle"
+        },
+        "Fence and Higham": {
+          "ons_code": "E05013207",
+          "council_id": "pendle"
+        },
+        "Marsden and Southfield": {
+          "ons_code": "E05013208",
+          "council_id": "pendle"
+        },
+        "Vivary Bridge": {
+          "ons_code": "E05013209",
+          "council_id": "pendle"
+        },
+        "Waterside and Horsfield": {
+          "ons_code": "E05013210",
+          "council_id": "pendle"
+        },
+        "Whitefield and Walverden": {
+          "ons_code": "E05013211",
+          "council_id": "pendle"
+        },
+        "Barnoldswick": {
+          "ons_code": "E05015546",
+          "council_id": "pendle"
+        },
+        "Earby and Coates": {
+          "ons_code": "E05015547",
+          "council_id": "pendle"
+        },
+        "Chatburn": {
+          "ons_code": "E05012004",
+          "council_id": "ribble_valley"
+        },
+        "East Whalley, Read and Simonstone": {
+          "ons_code": "E05012009",
+          "council_id": "ribble_valley"
+        },
+        "Edisford and Low Moor": {
+          "ons_code": "E05012010",
+          "council_id": "ribble_valley"
+        },
+        "Littlemoor": {
+          "ons_code": "E05012013",
+          "council_id": "ribble_valley"
+        },
+        "Primrose": {
+          "ons_code": "E05012015",
+          "council_id": "ribble_valley"
+        },
+        "Sabden": {
+          "ons_code": "E05012017",
+          "council_id": "ribble_valley"
+        },
+        "St Mary's": {
+          "ons_code": "E05012018",
+          "council_id": "ribble_valley"
+        },
+        "Salthill": {
+          "ons_code": "E05012019",
+          "council_id": "ribble_valley"
+        },
+        "Whalley and Painter Wood": {
+          "ons_code": "E05012022",
+          "council_id": "ribble_valley"
+        },
+        "Wiswell and Barrow": {
+          "ons_code": "E05012025",
+          "council_id": "ribble_valley"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -1400,7 +1638,67 @@
         "rossendale",
         "blackburn"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Helmshore": {
+          "ons_code": "E05015823",
+          "council_id": "rossendale",
+          "split": true
+        },
+        "Longholme": {
+          "ons_code": "E05015824",
+          "council_id": "rossendale",
+          "split": true
+        },
+        "Greenfield and Eden": {
+          "ons_code": "E05015820",
+          "council_id": "rossendale",
+          "split": true
+        },
+        "Bacup": {
+          "ons_code": "E05015817",
+          "council_id": "rossendale"
+        },
+        "Britannia and Lee Mill": {
+          "ons_code": "E05015818",
+          "council_id": "rossendale"
+        },
+        "Goodshaw and Cribden": {
+          "ons_code": "E05015819",
+          "council_id": "rossendale"
+        },
+        "Hareholme and Waterfoot": {
+          "ons_code": "E05015821",
+          "council_id": "rossendale"
+        },
+        "Whitewell and Stacksteads": {
+          "ons_code": "E05015825",
+          "council_id": "rossendale"
+        },
+        "Whitworth": {
+          "ons_code": "E05015826",
+          "council_id": "rossendale"
+        },
+        "Blackburn South and Lower Darwen": {
+          "ons_code": "E05011512",
+          "council_id": "blackburn"
+        },
+        "Darwen East": {
+          "ons_code": "E05011514",
+          "council_id": "blackburn"
+        },
+        "Darwen South": {
+          "ons_code": "E05011515",
+          "council_id": "blackburn"
+        },
+        "Darwen West": {
+          "ons_code": "E05011516",
+          "council_id": "blackburn"
+        },
+        "West Pennine": {
+          "ons_code": "E05011524",
+          "council_id": "blackburn"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -1763,7 +2061,85 @@
         "lancaster",
         "wyre"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Bowerham Ward": {
+          "ons_code": "E05014887",
+          "council_id": "lancaster"
+        },
+        "Bulk Ward": {
+          "ons_code": "E05014888",
+          "council_id": "lancaster"
+        },
+        "Castle Ward": {
+          "ons_code": "E05014890",
+          "council_id": "lancaster"
+        },
+        "Ellel Ward": {
+          "ons_code": "E05014891",
+          "council_id": "lancaster"
+        },
+        "John O'Gaunt Ward": {
+          "ons_code": "E05014896",
+          "council_id": "lancaster"
+        },
+        "Marsh Ward": {
+          "ons_code": "E05014898",
+          "council_id": "lancaster"
+        },
+        "Scale Hall Ward": {
+          "ons_code": "E05014901",
+          "council_id": "lancaster"
+        },
+        "Scotforth East Ward": {
+          "ons_code": "E05014902",
+          "council_id": "lancaster"
+        },
+        "Scotforth West Ward": {
+          "ons_code": "E05014903",
+          "council_id": "lancaster"
+        },
+        "Skerton Ward": {
+          "ons_code": "E05014905",
+          "council_id": "lancaster",
+          "split": true
+        },
+        "University Ward": {
+          "ons_code": "E05014907",
+          "council_id": "lancaster"
+        },
+        "Brock with Catterall": {
+          "ons_code": "E05009934",
+          "council_id": "wyre"
+        },
+        "Calder": {
+          "ons_code": "E05009935",
+          "council_id": "wyre"
+        },
+        "Garstang": {
+          "ons_code": "E05009938",
+          "council_id": "wyre"
+        },
+        "Great Eccleston": {
+          "ons_code": "E05009939",
+          "council_id": "wyre"
+        },
+        "Hambleton and Stalmine": {
+          "ons_code": "E05009940",
+          "council_id": "wyre"
+        },
+        "Pilling": {
+          "ons_code": "E05009948",
+          "council_id": "wyre"
+        },
+        "Preesall": {
+          "ons_code": "E05009949",
+          "council_id": "wyre"
+        },
+        "Wyresdale": {
+          "ons_code": "E05009955",
+          "council_id": "wyre"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -2125,7 +2501,77 @@
       "overlapping_councils": [
         "lancaster"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Skerton Ward": {
+          "ons_code": "E05014905",
+          "council_id": "lancaster",
+          "split": true
+        },
+        "Poulton Ward": {
+          "ons_code": "E05014900",
+          "council_id": "lancaster"
+        },
+        "Silverdale Ward": {
+          "ons_code": "E05014904",
+          "council_id": "lancaster"
+        },
+        "Torrisholme Ward": {
+          "ons_code": "E05014906",
+          "council_id": "lancaster"
+        },
+        "Upper Lune Valley Ward": {
+          "ons_code": "E05014908",
+          "council_id": "lancaster"
+        },
+        "Bare Ward": {
+          "ons_code": "E05014885",
+          "council_id": "lancaster"
+        },
+        "Bolton and Slyne": {
+          "ons_code": "E05014886",
+          "council_id": "lancaster"
+        },
+        "Carnforth and Millhead Ward": {
+          "ons_code": "E05014889",
+          "council_id": "lancaster"
+        },
+        "Halton-with-Aughton and Kellet Ward": {
+          "ons_code": "E05014892",
+          "council_id": "lancaster"
+        },
+        "Heysham Central Ward": {
+          "ons_code": "E05014893",
+          "council_id": "lancaster"
+        },
+        "Heysham North Ward": {
+          "ons_code": "E05014894",
+          "council_id": "lancaster"
+        },
+        "Heysham South Ward": {
+          "ons_code": "E05014895",
+          "council_id": "lancaster"
+        },
+        "Lower Lune Valley Ward": {
+          "ons_code": "E05014897",
+          "council_id": "lancaster"
+        },
+        "Overton Ward": {
+          "ons_code": "E05014899",
+          "council_id": "lancaster"
+        },
+        "Warton Ward": {
+          "ons_code": "E05014909",
+          "council_id": "lancaster"
+        },
+        "West End Ward": {
+          "ons_code": "E05014910",
+          "council_id": "lancaster"
+        },
+        "Westgate Ward": {
+          "ons_code": "E05014911",
+          "council_id": "lancaster"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -2492,9 +2938,119 @@
       },
       "overlapping_councils": [
         "ribble_valley",
-        "south_ribble"
+        "south_ribble",
+        "preston"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Alston and Hothersall": {
+          "ons_code": "E05012000",
+          "council_id": "ribble_valley"
+        },
+        "Billington and Langho": {
+          "ons_code": "E05012001",
+          "council_id": "ribble_valley"
+        },
+        "Bowland": {
+          "ons_code": "E05012002",
+          "council_id": "ribble_valley"
+        },
+        "Brockhall and Dinckley": {
+          "ons_code": "E05012003",
+          "council_id": "ribble_valley"
+        },
+        "Chipping": {
+          "ons_code": "E05012005",
+          "council_id": "ribble_valley"
+        },
+        "Clayton-Le-Dale and Salesbury": {
+          "ons_code": "E05012006",
+          "council_id": "ribble_valley"
+        },
+        "Derby and Thornley": {
+          "ons_code": "E05012007",
+          "council_id": "ribble_valley"
+        },
+        "Dilworth": {
+          "ons_code": "E05012008",
+          "council_id": "ribble_valley"
+        },
+        "Gisburn, Rimington": {
+          "ons_code": "E05012011",
+          "council_id": "ribble_valley"
+        },
+        "Hurst Green and Whitewell": {
+          "ons_code": "E05012012",
+          "council_id": "ribble_valley"
+        },
+        "Mellor": {
+          "ons_code": "E05012014",
+          "council_id": "ribble_valley"
+        },
+        "Ribchester": {
+          "ons_code": "E05012016",
+          "council_id": "ribble_valley"
+        },
+        "Waddington, Bashall Eaves and Mitton": {
+          "ons_code": "E05012020",
+          "council_id": "ribble_valley"
+        },
+        "West Bradford and Grindleton": {
+          "ons_code": "E05012021",
+          "council_id": "ribble_valley"
+        },
+        "Whalley Nethertown": {
+          "ons_code": "E05012023",
+          "council_id": "ribble_valley"
+        },
+        "Wilpshire and Ramsgreave": {
+          "ons_code": "E05012024",
+          "council_id": "ribble_valley"
+        },
+        "Bamber Bridge West": {
+          "ons_code": "E05010215",
+          "council_id": "south_ribble"
+        },
+        "Coupe Green and Gregson Lane": {
+          "ons_code": "E05010220",
+          "council_id": "south_ribble"
+        },
+        "Lostock Hall": {
+          "ons_code": "E05010228",
+          "council_id": "south_ribble"
+        },
+        "Samlesbury and Walton": {
+          "ons_code": "E05010233",
+          "council_id": "south_ribble"
+        },
+        "Walton-le-Dale East": {
+          "ons_code": "E05010235",
+          "council_id": "south_ribble"
+        },
+        "Walton-le-Dale West": {
+          "ons_code": "E05010236",
+          "council_id": "south_ribble"
+        },
+        "Bamber Bridge East": {
+          "ons_code": "E05010214",
+          "council_id": "south_ribble"
+        },
+        "Greyfriars": {
+          "ons_code": "E05012200",
+          "council_id": "preston"
+        },
+        "Preston Rural East": {
+          "ons_code": "E05012204",
+          "council_id": "preston"
+        },
+        "Preston Rural North": {
+          "ons_code": "E05012205",
+          "council_id": "preston"
+        },
+        "Sharoe Green": {
+          "ons_code": "E05012208",
+          "council_id": "preston"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -2646,7 +3202,56 @@
       "overlapping_councils": [
         "chorley"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Adlington and Anderton": {
+          "ons_code": "E05013064",
+          "council_id": "chorley"
+        },
+        "Buckshaw and Whittle": {
+          "ons_code": "E05013065",
+          "council_id": "chorley"
+        },
+        "Chorley East": {
+          "ons_code": "E05013066",
+          "council_id": "chorley"
+        },
+        "Chorley North East": {
+          "ons_code": "E05013067",
+          "council_id": "chorley"
+        },
+        "Chorley North West": {
+          "ons_code": "E05013068",
+          "council_id": "chorley"
+        },
+        "Chorley North and Astley": {
+          "ons_code": "E05013069",
+          "council_id": "chorley"
+        },
+        "Chorley South East and Heath Charnock": {
+          "ons_code": "E05013070",
+          "council_id": "chorley"
+        },
+        "Chorley South West": {
+          "ons_code": "E05013071",
+          "council_id": "chorley"
+        },
+        "Clayton East, Brindle and Hoghton": {
+          "ons_code": "E05013072",
+          "council_id": "chorley"
+        },
+        "Clayton West and Cuerden": {
+          "ons_code": "E05013073",
+          "council_id": "chorley"
+        },
+        "Coppull": {
+          "ons_code": "E05013074",
+          "council_id": "chorley"
+        },
+        "Euxton": {
+          "ons_code": "E05013077",
+          "council_id": "chorley"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -3006,9 +3611,83 @@
         ]
       },
       "overlapping_councils": [
-        "south_ribble"
+        "south_ribble",
+        "chorley"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Broad Oak": {
+          "ons_code": "E05010216",
+          "council_id": "south_ribble"
+        },
+        "Broadfield": {
+          "ons_code": "E05010217",
+          "council_id": "south_ribble"
+        },
+        "Buckshaw and Worden": {
+          "ons_code": "E05010218",
+          "council_id": "south_ribble"
+        },
+        "Charnock": {
+          "ons_code": "E05010219",
+          "council_id": "south_ribble"
+        },
+        "Earnshaw Bridge": {
+          "ons_code": "E05010221",
+          "council_id": "south_ribble"
+        },
+        "Farington East": {
+          "ons_code": "E05010222",
+          "council_id": "south_ribble"
+        },
+        "Farington West": {
+          "ons_code": "E05010223",
+          "council_id": "south_ribble"
+        },
+        "Hoole": {
+          "ons_code": "E05010224",
+          "council_id": "south_ribble"
+        },
+        "Howick and Priory": {
+          "ons_code": "E05010225",
+          "council_id": "south_ribble"
+        },
+        "Leyland Central": {
+          "ons_code": "E05010226",
+          "council_id": "south_ribble"
+        },
+        "Longton and Hutton West": {
+          "ons_code": "E05010227",
+          "council_id": "south_ribble"
+        },
+        "Middleforth": {
+          "ons_code": "E05010229",
+          "council_id": "south_ribble"
+        },
+        "Moss Side": {
+          "ons_code": "E05010230",
+          "council_id": "south_ribble"
+        },
+        "New Longton and Hutton East": {
+          "ons_code": "E05010231",
+          "council_id": "south_ribble"
+        },
+        "St Ambrose": {
+          "ons_code": "E05010232",
+          "council_id": "south_ribble"
+        },
+        "Seven Stars": {
+          "ons_code": "E05010234",
+          "council_id": "south_ribble"
+        },
+        "Croston, Mawdesley and Euxton South": {
+          "ons_code": "E05013075",
+          "council_id": "chorley"
+        },
+        "Eccleston, Heskin and Charnock Richard": {
+          "ons_code": "E05013076",
+          "council_id": "chorley"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -3400,7 +4079,56 @@
       "overlapping_councils": [
         "preston"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Ashton": {
+          "ons_code": "E05012193",
+          "council_id": "preston"
+        },
+        "Brookfield": {
+          "ons_code": "E05012194",
+          "council_id": "preston"
+        },
+        "Cadley": {
+          "ons_code": "E05012195",
+          "council_id": "preston"
+        },
+        "City Centre": {
+          "ons_code": "E05012196",
+          "council_id": "preston"
+        },
+        "Deepdale": {
+          "ons_code": "E05012197",
+          "council_id": "preston"
+        },
+        "Fishwick and Frenchwood": {
+          "ons_code": "E05012198",
+          "council_id": "preston"
+        },
+        "Garrison": {
+          "ons_code": "E05012199",
+          "council_id": "preston"
+        },
+        "Ingol and Cottam": {
+          "ons_code": "E05012201",
+          "council_id": "preston"
+        },
+        "Lea and Larches": {
+          "ons_code": "E05012202",
+          "council_id": "preston"
+        },
+        "Plungington": {
+          "ons_code": "E05012203",
+          "council_id": "preston"
+        },
+        "Ribbleton": {
+          "ons_code": "E05012206",
+          "council_id": "preston"
+        },
+        "St Matthew's": {
+          "ons_code": "E05012207",
+          "council_id": "preston"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -3738,7 +4466,61 @@
       "overlapping_councils": [
         "west_lancashire"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Burscough Bridge & Rufford": {
+          "ons_code": "E05014930",
+          "council_id": "west_lancashire",
+          "split": true
+        },
+        "Aughton & Holborn": {
+          "ons_code": "E05014929",
+          "council_id": "west_lancashire"
+        },
+        "Burscough Town": {
+          "ons_code": "E05014931",
+          "council_id": "west_lancashire"
+        },
+        "Old Skelmersdale": {
+          "ons_code": "E05014933",
+          "council_id": "west_lancashire"
+        },
+        "Ormskirk East": {
+          "ons_code": "E05014934",
+          "council_id": "west_lancashire"
+        },
+        "Ormskirk West": {
+          "ons_code": "E05014935",
+          "council_id": "west_lancashire"
+        },
+        "Rural North East": {
+          "ons_code": "E05014936",
+          "council_id": "west_lancashire"
+        },
+        "Rural South": {
+          "ons_code": "E05014937",
+          "council_id": "west_lancashire"
+        },
+        "Rural West": {
+          "ons_code": "E05014938",
+          "council_id": "west_lancashire"
+        },
+        "Skelmersdale North": {
+          "ons_code": "E05014939",
+          "council_id": "west_lancashire"
+        },
+        "Skelmersdale South": {
+          "ons_code": "E05014940",
+          "council_id": "west_lancashire"
+        },
+        "Tanhouse & Skelmersdale Town Centre": {
+          "ons_code": "E05014941",
+          "council_id": "west_lancashire"
+        },
+        "Up Holland": {
+          "ons_code": "E05014943",
+          "council_id": "west_lancashire"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -4110,9 +4892,91 @@
         ]
       },
       "overlapping_councils": [
-        "fylde"
+        "fylde",
+        "wyre"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Ansdell and Fairhaven": {
+          "ons_code": "E05014538",
+          "council_id": "fylde"
+        },
+        "Ashton": {
+          "ons_code": "E05014539",
+          "council_id": "fylde"
+        },
+        "Carnegie": {
+          "ons_code": "E05014540",
+          "council_id": "fylde"
+        },
+        "Freckleton Village": {
+          "ons_code": "E05014541",
+          "council_id": "fylde"
+        },
+        "Heyhouses": {
+          "ons_code": "E05014542",
+          "council_id": "fylde"
+        },
+        "Kilgrimol": {
+          "ons_code": "E05014543",
+          "council_id": "fylde"
+        },
+        "Kilnhouse": {
+          "ons_code": "E05014544",
+          "council_id": "fylde"
+        },
+        "Kirkham": {
+          "ons_code": "E05014545",
+          "council_id": "fylde"
+        },
+        "Lytham East": {
+          "ons_code": "E05014546",
+          "council_id": "fylde"
+        },
+        "Lytham West": {
+          "ons_code": "E05014547",
+          "council_id": "fylde"
+        },
+        "Medlar-with-Wesham": {
+          "ons_code": "E05014548",
+          "council_id": "fylde"
+        },
+        "Park": {
+          "ons_code": "E05014549",
+          "council_id": "fylde"
+        },
+        "Rural East Fylde": {
+          "ons_code": "E05014550",
+          "council_id": "fylde"
+        },
+        "Rural North Fylde": {
+          "ons_code": "E05014551",
+          "council_id": "fylde"
+        },
+        "Staining": {
+          "ons_code": "E05014552",
+          "council_id": "fylde"
+        },
+        "Warton": {
+          "ons_code": "E05014553",
+          "council_id": "fylde"
+        },
+        "Wrea Green with Westby": {
+          "ons_code": "E05014554",
+          "council_id": "fylde"
+        },
+        "Breck": {
+          "ons_code": "E05009933",
+          "council_id": "wyre"
+        },
+        "Hardhorn with Highcross": {
+          "ons_code": "E05009941",
+          "council_id": "wyre"
+        },
+        "Tithebarn": {
+          "ons_code": "E05009952",
+          "council_id": "wyre"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -4493,7 +5357,86 @@
         "blackpool",
         "wyre"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Anchorsholme": {
+          "ons_code": "E05015186",
+          "council_id": "blackpool"
+        },
+        "Bispham": {
+          "ons_code": "E05015187",
+          "council_id": "blackpool"
+        },
+        "Greenlands": {
+          "ons_code": "E05015192",
+          "council_id": "blackpool",
+          "split": true
+        },
+        "Ingthorpe": {
+          "ons_code": "E05015195",
+          "council_id": "blackpool"
+        },
+        "Norbreck": {
+          "ons_code": "E05015198",
+          "council_id": "blackpool"
+        },
+        "Warbreck": {
+          "ons_code": "E05015205",
+          "council_id": "blackpool",
+          "split": true
+        },
+        "Bourne": {
+          "ons_code": "E05009932",
+          "council_id": "wyre"
+        },
+        "Carleton": {
+          "ons_code": "E05009936",
+          "council_id": "wyre"
+        },
+        "Cleveleys Park": {
+          "ons_code": "E05009937",
+          "council_id": "wyre"
+        },
+        "Jubilee": {
+          "ons_code": "E05009942",
+          "council_id": "wyre"
+        },
+        "Marsh Mill": {
+          "ons_code": "E05009943",
+          "council_id": "wyre"
+        },
+        "Mount": {
+          "ons_code": "E05009944",
+          "council_id": "wyre"
+        },
+        "Park": {
+          "ons_code": "E05009945",
+          "council_id": "wyre"
+        },
+        "Pharos": {
+          "ons_code": "E05009946",
+          "council_id": "wyre"
+        },
+        "Pheasants Wood": {
+          "ons_code": "E05009947",
+          "council_id": "wyre"
+        },
+        "Rossall": {
+          "ons_code": "E05009950",
+          "council_id": "wyre"
+        },
+        "Stanah": {
+          "ons_code": "E05009951",
+          "council_id": "wyre"
+        },
+        "Victoria and Norcross": {
+          "ons_code": "E05009953",
+          "council_id": "wyre"
+        },
+        "Warren": {
+          "ons_code": "E05009954",
+          "council_id": "wyre"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -4865,10 +5808,80 @@
         ]
       },
       "overlapping_councils": [
-        "blackpool",
-        "fylde"
+        "blackpool"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Greenlands": {
+          "ons_code": "E05015192",
+          "council_id": "blackpool",
+          "split": true
+        },
+        "Warbreck": {
+          "ons_code": "E05015205",
+          "council_id": "blackpool",
+          "split": true
+        },
+        "Bloomfield": {
+          "ons_code": "E05015188",
+          "council_id": "blackpool"
+        },
+        "Brunswick": {
+          "ons_code": "E05015189",
+          "council_id": "blackpool"
+        },
+        "Claremont": {
+          "ons_code": "E05015190",
+          "council_id": "blackpool"
+        },
+        "Clifton": {
+          "ons_code": "E05015191",
+          "council_id": "blackpool"
+        },
+        "Hawes Side": {
+          "ons_code": "E05015193",
+          "council_id": "blackpool"
+        },
+        "Highfield": {
+          "ons_code": "E05015194",
+          "council_id": "blackpool"
+        },
+        "Layton": {
+          "ons_code": "E05015196",
+          "council_id": "blackpool"
+        },
+        "Marton": {
+          "ons_code": "E05015197",
+          "council_id": "blackpool"
+        },
+        "Park": {
+          "ons_code": "E05015199",
+          "council_id": "blackpool"
+        },
+        "Squires Gate": {
+          "ons_code": "E05015200",
+          "council_id": "blackpool"
+        },
+        "Stanley": {
+          "ons_code": "E05015201",
+          "council_id": "blackpool"
+        },
+        "Talbot": {
+          "ons_code": "E05015202",
+          "council_id": "blackpool"
+        },
+        "Tyldesley": {
+          "ons_code": "E05015203",
+          "council_id": "blackpool"
+        },
+        "Victoria": {
+          "ons_code": "E05015204",
+          "council_id": "blackpool"
+        },
+        "Waterloo": {
+          "ons_code": "E05015206",
+          "council_id": "blackpool"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -5226,7 +6239,56 @@
       "overlapping_councils": [
         "blackburn"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Audley & Queens Park": {
+          "ons_code": "E05011508",
+          "council_id": "blackburn"
+        },
+        "Bastwell and Daisyfield": {
+          "ons_code": "E05011509",
+          "council_id": "blackburn"
+        },
+        "Billinge and Beardwood": {
+          "ons_code": "E05011510",
+          "council_id": "blackburn"
+        },
+        "Blackburn Central": {
+          "ons_code": "E05011511",
+          "council_id": "blackburn"
+        },
+        "Blackburn South East": {
+          "ons_code": "E05011513",
+          "council_id": "blackburn"
+        },
+        "Ewood": {
+          "ons_code": "E05011517",
+          "council_id": "blackburn"
+        },
+        "Little Harwood and Whitebirk": {
+          "ons_code": "E05011518",
+          "council_id": "blackburn"
+        },
+        "Livesey with Pleasington": {
+          "ons_code": "E05011519",
+          "council_id": "blackburn"
+        },
+        "Mill Hill and Moorgate": {
+          "ons_code": "E05011520",
+          "council_id": "blackburn"
+        },
+        "Roe Lee": {
+          "ons_code": "E05011521",
+          "council_id": "blackburn"
+        },
+        "Shear Brow and Corporation Park": {
+          "ons_code": "E05011522",
+          "council_id": "blackburn"
+        },
+        "Wensley Fold": {
+          "ons_code": "E05011523",
+          "council_id": "blackburn"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
@@ -5594,7 +6656,21 @@
       "overlapping_councils": [
         "west_lancashire"
       ],
-      "overlapping_wards": {},
+      "overlapping_wards": {
+        "Burscough Bridge & Rufford": {
+          "ons_code": "E05014930",
+          "council_id": "west_lancashire",
+          "split": true
+        },
+        "North Meols & Hesketh Bank": {
+          "ons_code": "E05014932",
+          "council_id": "west_lancashire"
+        },
+        "Tarleton Village": {
+          "ons_code": "E05014942",
+          "council_id": "west_lancashire"
+        }
+      },
       "claimant_count": [
         {
           "month": "January 2026",
