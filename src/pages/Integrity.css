@@ -774,6 +774,100 @@
   background: rgba(48, 209, 88, 0.2);
 }
 
+/* Conflict Type Badges */
+.conflict-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.conflict-type-badge.conflict-type-commercial {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+.conflict-type-badge.conflict-type-community {
+  background: rgba(100, 210, 255, 0.15);
+  color: #64d2ff;
+}
+
+.conflict-type-badge.conflict-type-appointed {
+  background: rgba(175, 130, 255, 0.15);
+  color: #af82ff;
+}
+
+.conflict-type-badge.conflict-type-armslength {
+  background: rgba(255, 214, 10, 0.15);
+  color: #ffd60a;
+}
+
+/* Conflict row type variations */
+.conflict-row.conflict-type-community {
+  background: rgba(100, 210, 255, 0.05);
+  border-color: rgba(100, 210, 255, 0.15);
+}
+
+.conflict-row.conflict-type-community .conflict-supplier {
+  color: #64d2ff;
+}
+
+.conflict-row.conflict-type-community .conflict-supplier-link {
+  color: #64d2ff;
+  border-bottom-color: #64d2ff;
+}
+
+.conflict-row.conflict-type-appointed {
+  background: rgba(175, 130, 255, 0.05);
+  border-color: rgba(175, 130, 255, 0.15);
+}
+
+.conflict-row.conflict-type-appointed .conflict-supplier {
+  color: #af82ff;
+}
+
+.conflict-row.conflict-type-appointed .conflict-supplier-link {
+  color: #af82ff;
+  border-bottom-color: #af82ff;
+}
+
+.conflict-row.conflict-type-armslength {
+  background: rgba(255, 214, 10, 0.05);
+  border-color: rgba(255, 214, 10, 0.15);
+}
+
+.conflict-row.conflict-type-armslength .conflict-supplier {
+  color: #ffd60a;
+}
+
+.conflict-row.conflict-type-armslength .conflict-supplier-link {
+  color: #ffd60a;
+  border-bottom-color: #ffd60a;
+}
+
+/* Dashboard breakdown */
+.dashboard-breakdown {
+  display: flex;
+  gap: var(--space-xs);
+  font-size: 0.625rem;
+  margin-top: 2px;
+}
+
+.breakdown-commercial {
+  color: #ff453a;
+  font-weight: 600;
+}
+
+.breakdown-community {
+  color: #64d2ff;
+  font-weight: 600;
+}
+
 /* Enhanced CH link button */
 .ch-link-btn {
   gap: 4px;

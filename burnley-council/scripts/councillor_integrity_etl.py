@@ -1410,14 +1410,18 @@ def detect_misconduct_patterns(result, all_supplier_data):
 
     # ── Pattern 3: Contract Steering Indicators ──
     # Councillor's company/associates receiving disproportionate contracts
+    # Only flag COMMERCIAL companies — community/charity receiving council funds is normal
     if result.get("supplier_conflicts"):
         for conflict in result["supplier_conflicts"]:
+            ctype = conflict.get("conflict_type", "commercial")
+            if ctype != "commercial":
+                continue  # Community/charity/arm's-length receiving council payments is expected
             total = conflict.get("supplier_match", {}).get("total_spend", 0)
             if total > 50000:  # Significant value
                 patterns.append({
                     "type": "contract_steering_indicator",
                     "severity": "critical",
-                    "detail": "Councillor-linked company '{}' received {} in council contracts".format(
+                    "detail": "Councillor-linked commercial company '{}' received {} in council contracts".format(
                         conflict["company_name"],
                         "£{:,.0f}".format(total) if total else "unknown value"),
                     "evidence": conflict
@@ -1785,21 +1789,150 @@ def _build_company_entry(company_number, company_name, officer_match, profile,
     return entry
 
 
+# Known arm's-length bodies and regional development agencies
+# These are quasi-public organisations that councils routinely contract with
+ARMS_LENGTH_BODIES = {
+    "growth lancashire", "lancashire enterprise partnership",
+    "lancashire county developments", "marketing lancashire",
+    "active lancashire", "lancashire sport",
+    "lancashire skills hub", "lancashire digital skills partnership",
+    "together housing", "onward homes", "jigsaw homes",
+    "liberata", "capita", "serco",  # outsourcing firms with council contracts
+    "lancashire fire and rescue", "lancashire constabulary",
+    "lancashire care nhs foundation trust", "lancashire teaching hospitals",
+    "east lancashire hospitals", "blackpool teaching hospitals",
+    "lancashire and south cumbria nhs",
+}
+
+# Company types that indicate community/charitable purpose (from CH API)
+COMMUNITY_COMPANY_TYPES = {
+    "private-limited-guarant-nsc",  # Limited by guarantee — typical for charities/CICs
+    "private-limited-guarant-nsc-limited-exemption",
+    "community-interest-company",
+    "charitable-incorporated-organisation",
+    "registered-society-non-profit",
+    "industrial-and-provident-society",
+    "scottish-charitable-incorporated-organisation",
+    "royal-charter",
+}
+
+# SIC codes that indicate community/public-interest activity
+COMMUNITY_SIC_CODES = {
+    "85100", "85200", "85310", "85320",  # Education
+    "86100", "86210", "86220", "86230", "86900",  # Healthcare
+    "87100", "87200", "87300", "87900",  # Residential care
+    "88100", "88910", "88990",  # Social work
+    "90010", "90020", "90030", "90040",  # Arts & culture
+    "91011", "91012", "91020", "91030", "91040",  # Libraries, museums, heritage
+    "93110", "93120", "93130", "93190", "93210", "93290",  # Sports & recreation
+    "94110", "94120", "94200", "94910", "94920", "94990",  # Membership orgs
+}
+
+
+def _classify_conflict_type(company_entry):
+    """Classify a supplier conflict based on company type, SIC codes, and name patterns.
+
+    Returns (conflict_type, severity_modifier) where:
+    - conflict_type: 'commercial', 'community_trustee', 'council_appointed', 'arms_length_body'
+    - severity_modifier: adjusted severity string
+    """
+    company_name = company_entry.get("company_name", "").lower()
+    company_type = company_entry.get("company_type", "")
+    sic_codes = company_entry.get("sic_codes", [])
+    nature_of_business = company_entry.get("nature_of_business_sic", "")
+    officer_role = company_entry.get("role", "")
+
+    # Check for arm's-length bodies first (highest priority)
+    name_normalised = company_name.strip()
+    for suffix in [" limited", " ltd", " plc", " llp", " cic", " cio"]:
+        name_normalised = name_normalised.replace(suffix, "")
+    name_normalised = name_normalised.strip()
+
+    if name_normalised in ARMS_LENGTH_BODIES:
+        return "arms_length_body", "info"
+
+    # Partial match for arm's-length bodies (e.g. "Growth Lancashire Ltd" matches "growth lancashire")
+    for alb in ARMS_LENGTH_BODIES:
+        if alb in name_normalised or name_normalised in alb:
+            return "arms_length_body", "info"
+
+    # Council-appointed directorships (e.g. housing associations, trusts where council nominates directors)
+    council_appointed_keywords = [
+        "council", "borough", "civic", "municipal",
+        "housing association", "homes association",
+    ]
+    if officer_role and officer_role.lower() in (
+        "nominee-director", "corporate-nominee-director",
+        "corporate-director", "nominee-secretary",
+    ):
+        return "council_appointed", "info"
+
+    # Community/charity classification via company type
+    if company_type in COMMUNITY_COMPANY_TYPES:
+        return "community_trustee", "info"
+
+    # Community classification via SIC codes
+    if sic_codes:
+        sic_set = set(str(s).strip() for s in sic_codes if s)
+        if sic_set & COMMUNITY_SIC_CODES:
+            return "community_trustee", "info"
+
+    # Name-based heuristics for community/charitable orgs
+    community_keywords = [
+        "charity", "charitable", "foundation", "trust",
+        "community", "volunteer", "citizens advice",
+        "hospice", "rescue", "shelter", "church", "chapel",
+        "mosque", "temple", "synagogue", "parish",
+        "scout", "guide", "rotary", "lions club",
+        "sports club", "football club", "cricket club",
+        "swimming club", "leisure trust", "arts ",
+        "theatre", "museum", "heritage", "conservation",
+        "housing association", "homes group",
+        "nhs", "health trust", "care trust",
+        "university", "college", "school", "academy",
+        "cic", " c.i.c",
+    ]
+    for keyword in community_keywords:
+        if keyword in company_name:
+            return "community_trustee", "info"
+
+    # Default: commercial company — this is the genuine conflict of interest
+    return "commercial", None  # None = use default severity logic
+
+
 def _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data, councillor):
-    """Cross-reference a company against own-council and cross-council suppliers."""
+    """Cross-reference a company against own-council and cross-council suppliers.
+
+    Classifies each conflict by type (commercial, community_trustee, council_appointed,
+    arms_length_body) and adjusts severity accordingly. All conflicts are recorded
+    regardless of type — the frontend uses the type for display differentiation.
+    """
     company_name = company_entry["company_name"]
     company_number = company_entry["company_number"]
     resigned = company_entry.get("resigned_on", "")
+
+    # Classify the company
+    conflict_type, severity_override = _classify_conflict_type(company_entry)
 
     if supplier_data:
         matches = cross_reference_suppliers(company_name, supplier_data)
         if matches:
             company_entry["supplier_match"] = matches[0]
+
+            # Determine severity: commercial companies get critical/info based on resignation
+            # Community/charity/arm's-length get severity_override (always "info")
+            if severity_override:
+                severity = severity_override
+            else:
+                severity = "critical" if not resigned else "info"
+
             result["supplier_conflicts"].append({
                 "company_name": company_name,
                 "company_number": company_number,
                 "supplier_match": matches[0],
-                "severity": "critical" if not resigned else "info",
+                "severity": severity,
+                "conflict_type": conflict_type,
+                "company_type": company_entry.get("company_type", ""),
                 "council_id": councillor.get("_council_id", ""),
             })
 
@@ -1810,12 +1943,19 @@ def _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data
                 continue
             matches = cross_reference_suppliers(company_name, other_suppliers)
             if matches:
+                if severity_override:
+                    severity = severity_override
+                else:
+                    severity = "high" if not resigned else "info"
+
                 result["cross_council_conflicts"].append({
                     "company_name": company_name,
                     "company_number": company_number,
                     "other_council": other_id,
                     "supplier_match": matches[0],
-                    "severity": "high" if not resigned else "info",
+                    "severity": severity,
+                    "conflict_type": conflict_type,
+                    "company_type": company_entry.get("company_type", ""),
                 })
 
 
@@ -2288,18 +2428,34 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
 
     # Supplier conflicts (own council)
     for conflict in result["supplier_conflicts"]:
+        ctype = conflict.get("conflict_type", "commercial")
+        type_label = {
+            "commercial": "",
+            "community_trustee": " [community/charity]",
+            "council_appointed": " [council-appointed]",
+            "arms_length_body": " [arm's-length body]",
+        }.get(ctype, "")
         all_flags.append({
             "type": "supplier_conflict", "severity": conflict["severity"],
-            "detail": "Company '{}' matches council supplier '{}'".format(
-                conflict["company_name"], conflict["supplier_match"]["supplier"])
+            "detail": "Company '{}' matches council supplier '{}'{}".format(
+                conflict["company_name"], conflict["supplier_match"]["supplier"], type_label),
+            "conflict_type": ctype,
         })
 
     # Cross-council supplier conflicts
     for conflict in result["cross_council_conflicts"]:
+        ctype = conflict.get("conflict_type", "commercial")
+        type_label = {
+            "commercial": "",
+            "community_trustee": " [community/charity]",
+            "council_appointed": " [council-appointed]",
+            "arms_length_body": " [arm's-length body]",
+        }.get(ctype, "")
         all_flags.append({
             "type": "cross_council_conflict", "severity": conflict["severity"],
-            "detail": "Company '{}' matches supplier at {} council".format(
-                conflict["company_name"], conflict["other_council"])
+            "detail": "Company '{}' matches supplier at {} council{}".format(
+                conflict["company_name"], conflict["other_council"], type_label),
+            "conflict_type": ctype,
         })
 
     # Electoral Commission findings
@@ -2566,6 +2722,10 @@ def process_council(council_id, all_supplier_data=None,
             "active_directorships": 0,
             "disqualification_matches": 0,
             "supplier_conflicts": 0,
+            "supplier_conflicts_by_type": {
+                "commercial": 0, "community_trustee": 0,
+                "council_appointed": 0, "arms_length_body": 0,
+            },
             "cross_council_conflicts": 0,
             "electoral_commission_findings": 0,
             "fca_findings": 0,
@@ -2642,6 +2802,10 @@ def process_council(council_id, all_supplier_data=None,
                 results["summary"]["disqualification_matches"] += len(
                     result["disqualification_check"]["matches"])
                 results["summary"]["supplier_conflicts"] += len(result["supplier_conflicts"])
+                for sc in result["supplier_conflicts"]:
+                    ctype = sc.get("conflict_type", "commercial")
+                    if ctype in results["summary"]["supplier_conflicts_by_type"]:
+                        results["summary"]["supplier_conflicts_by_type"][ctype] += 1
                 results["summary"]["cross_council_conflicts"] += len(
                     result.get("cross_council_conflicts", []))
                 results["summary"]["electoral_commission_findings"] += len(

@@ -339,7 +339,13 @@ function Integrity() {
             </div>
             <div className="dashboard-card accent-critical">
               <span className="dashboard-number">{stats.supplier_conflicts + (stats.cross_council_conflicts || 0)}</span>
-              <span className="dashboard-label">Supplier Conflicts</span>
+              <span className="dashboard-label">Supplier Connections</span>
+              {stats.supplier_conflicts_by_type && (
+                <span className="dashboard-breakdown">
+                  {stats.supplier_conflicts_by_type.commercial > 0 && <span className="breakdown-commercial">{stats.supplier_conflicts_by_type.commercial} commercial</span>}
+                  {stats.supplier_conflicts_by_type.community_trustee > 0 && <span className="breakdown-community">{stats.supplier_conflicts_by_type.community_trustee} community</span>}
+                </span>
+              )}
             </div>
             <div className="dashboard-card accent-critical">
               <span className="dashboard-number">{stats.disqualification_matches}</span>
@@ -961,10 +967,25 @@ function Integrity() {
                   {/* Supplier Conflicts */}
                   {councillor.supplier_conflicts?.length > 0 && (
                     <div className="conflicts-section">
-                      <h4><Scale size={16} /> Potential Conflicts of Interest</h4>
+                      <h4><Scale size={16} /> Supplier Connections</h4>
                       <div className="conflicts-list">
-                        {councillor.supplier_conflicts.map((conflict, i) => (
-                          <div key={i} className="conflict-row">
+                        {councillor.supplier_conflicts.map((conflict, i) => {
+                          const ctype = conflict.conflict_type || 'commercial'
+                          const typeLabel = {
+                            commercial: 'Commercial',
+                            community_trustee: 'Community/Charity',
+                            council_appointed: 'Council Appointed',
+                            arms_length_body: "Arm's-Length Body",
+                          }[ctype] || 'Commercial'
+                          const typeClass = {
+                            commercial: 'conflict-type-commercial',
+                            community_trustee: 'conflict-type-community',
+                            council_appointed: 'conflict-type-appointed',
+                            arms_length_body: 'conflict-type-armslength',
+                          }[ctype] || 'conflict-type-commercial'
+                          return (
+                          <div key={i} className={`conflict-row ${typeClass}`}>
+                            <span className={`conflict-type-badge ${typeClass}`}>{typeLabel}</span>
                             <span className="conflict-company">{conflict.company_name}</span>
                             <span className="conflict-arrow">→</span>
                             <Link
@@ -986,18 +1007,34 @@ function Integrity() {
                               <PoundSterling size={11} /> Spending
                             </Link>
                           </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     </div>
                   )}
 
-                  {/* Cross-Council Conflicts */}
+                  {/* Cross-Council Connections */}
                   {councillor.cross_council_conflicts?.length > 0 && (
                     <div className="conflicts-section cross-council">
-                      <h4><Globe size={16} /> Cross-Council Conflicts ({councillor.cross_council_conflicts.length})</h4>
+                      <h4><Globe size={16} /> Cross-Council Connections ({councillor.cross_council_conflicts.length})</h4>
                       <div className="conflicts-list">
-                        {councillor.cross_council_conflicts.map((conflict, i) => (
-                          <div key={i} className="conflict-row">
+                        {councillor.cross_council_conflicts.map((conflict, i) => {
+                          const ctype = conflict.conflict_type || 'commercial'
+                          const typeLabel = {
+                            commercial: 'Commercial',
+                            community_trustee: 'Community/Charity',
+                            council_appointed: 'Council Appointed',
+                            arms_length_body: "Arm's-Length Body",
+                          }[ctype] || 'Commercial'
+                          const typeClass = {
+                            commercial: 'conflict-type-commercial',
+                            community_trustee: 'conflict-type-community',
+                            council_appointed: 'conflict-type-appointed',
+                            arms_length_body: 'conflict-type-armslength',
+                          }[ctype] || 'conflict-type-commercial'
+                          return (
+                          <div key={i} className={`conflict-row ${typeClass}`}>
+                            <span className={`conflict-type-badge ${typeClass}`}>{typeLabel}</span>
                             <span className="conflict-company">{conflict.company_name}</span>
                             <span className="conflict-arrow">→</span>
                             <Link
@@ -1009,7 +1046,8 @@ function Integrity() {
                             </Link>
                             <span className="conflict-council-tag">{conflict.other_council}</span>
                           </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     </div>
                   )}
