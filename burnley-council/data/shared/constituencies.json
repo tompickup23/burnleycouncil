@@ -1,0 +1,5668 @@
+{
+  "meta": {
+    "generated": "2026-02-19T12:43:34",
+    "constituencies_count": 16,
+    "boundary_revision": "2024",
+    "data_sources": [
+      "Parliament Members API",
+      "Commons Votes API",
+      "Written Questions API",
+      "Oral Questions API",
+      "Early Day Motions API"
+    ],
+    "expenses_year": "2024-25",
+    "expenses_source": "IPSA",
+    "expenses_updated": "2026-02-19T12:58:27",
+    "claimant_count_updated": "2026-02-19T12:59:11"
+  },
+  "constituencies": [
+    {
+      "id": "burnley",
+      "ons_code": "E14001118",
+      "name": "Burnley",
+      "partial": false,
+      "mp": {
+        "name": "Oliver Ryan",
+        "party": "Labour (Co-op)",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5135/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5135,
+        "gender": "M",
+        "majority": 6975,
+        "majority_pct": 0.187,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Oliver Ryan",
+          "total_claimed": 234505.08,
+          "office_costs": 29861.41,
+          "staffing": 165025.35,
+          "accommodation": 21460.19,
+          "travel": 15158.13,
+          "other": 3000.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 301690.75,
+          "rank_of_650": 299,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.534,
+        "electorate": 69872,
+        "results": [
+          {
+            "candidate": "Oliver Ryan",
+            "party": "Labour",
+            "votes": 16234,
+            "pct": 0.435,
+            "elected": true
+          },
+          {
+            "candidate": "Mark Hindle",
+            "party": "Reform UK",
+            "votes": 9259,
+            "pct": 0.248
+          },
+          {
+            "candidate": "Antony Higginbotham",
+            "party": "Conservative",
+            "votes": 5431,
+            "pct": 0.145
+          },
+          {
+            "candidate": "Janice Shersby",
+            "party": "Green Party",
+            "votes": 2675,
+            "pct": 0.072
+          },
+          {
+            "candidate": "Kate Shersby",
+            "party": "Liberal Democrats",
+            "votes": 1952,
+            "pct": 0.052
+          },
+          {
+            "candidate": "Aziz Akhtar",
+            "party": "Independent",
+            "votes": 1817,
+            "pct": 0.049
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 360,
+        "voted_in": 360,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 24,
+        "oral_questions": 0,
+        "edms_sponsored": 1,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 6
+          },
+          {
+            "department": "Department for Education",
+            "count": 4
+          },
+          {
+            "department": "Home Office",
+            "count": 4
+          },
+          {
+            "department": "Department for Transport",
+            "count": 3
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 2
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 2
+          },
+          {
+            "department": "Ministry of Defence",
+            "count": 1
+          },
+          {
+            "department": "Department for Energy Security and Net Zero",
+            "count": 1
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "burnley"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 3945,
+          "claimant_rate_pct": 5.6
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 3855,
+          "claimant_rate_pct": 5.5
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 3915,
+          "claimant_rate_pct": 5.6
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 3930,
+          "claimant_rate_pct": 5.6
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 3925,
+          "claimant_rate_pct": 5.6
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 3960,
+          "claimant_rate_pct": 5.6
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 3985,
+          "claimant_rate_pct": 5.7
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 4110,
+          "claimant_rate_pct": 5.8
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 4150,
+          "claimant_rate_pct": 5.9
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 4210,
+          "claimant_rate_pct": 6.0
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 4380,
+          "claimant_rate_pct": 6.2
+        }
+      ]
+    },
+    {
+      "id": "hyndburn",
+      "ons_code": "E14001351",
+      "name": "Hyndburn",
+      "partial": false,
+      "mp": {
+        "name": "Sarah Smith",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5117/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5117,
+        "gender": "F",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Sarah Smith",
+          "total_claimed": 195059.52,
+          "office_costs": 26123.42,
+          "staffing": 139754.84,
+          "accommodation": 11279.32,
+          "travel": 16352.04,
+          "other": 1549.9,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 262245.19,
+          "rank_of_650": 526,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.542,
+        "electorate": 67147,
+        "results": [
+          {
+            "candidate": "Sarah Smith",
+            "party": "Labour",
+            "votes": 12186,
+            "pct": 0.335,
+            "elected": true
+          },
+          {
+            "candidate": "Sara Britcliffe",
+            "party": "Conservative",
+            "votes": 10499,
+            "pct": 0.289
+          },
+          {
+            "candidate": "Richard John Oakley",
+            "party": "Reform UK",
+            "votes": 7541,
+            "pct": 0.207
+          },
+          {
+            "candidate": "Mohammed Shabir Fazal",
+            "party": "Green",
+            "votes": 4938,
+            "pct": 0.136
+          },
+          {
+            "candidate": "Beth Waller-Slack",
+            "party": "Liberal Democrats",
+            "votes": 1210,
+            "pct": 0.033
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 273,
+        "voted_in": 273,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "Aye",
+            "aye_count": 301,
+            "noe_count": 110
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 187,
+            "noe_count": 351
+          },
+          {
+            "division_id": 2233,
+            "title": "Finance (No. 2) Bill Committee: New Clause 24",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 184,
+            "noe_count": 331
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 13,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department for Science, Innovation and Technology",
+            "count": 5
+          },
+          {
+            "department": "Department for Business and Trade",
+            "count": 2
+          },
+          {
+            "department": "Department of Health and Social Care",
+            "count": 1
+          },
+          {
+            "department": "Women and Equalities",
+            "count": 1
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 1
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 1
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 1
+          },
+          {
+            "department": "Treasury",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "hyndburn"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 3240,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 3145,
+          "claimant_rate_pct": 5.2
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 3130,
+          "claimant_rate_pct": 5.1
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 3140,
+          "claimant_rate_pct": 5.2
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 3160,
+          "claimant_rate_pct": 5.2
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 3135,
+          "claimant_rate_pct": 5.1
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 3190,
+          "claimant_rate_pct": 5.2
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 3235,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 3210,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 3300,
+          "claimant_rate_pct": 5.4
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 3380,
+          "claimant_rate_pct": 5.5
+        }
+      ]
+    },
+    {
+      "id": "pendle_and_clitheroe",
+      "ons_code": "E14001476",
+      "name": "Pendle and Clitheroe",
+      "partial": false,
+      "mp": {
+        "name": "Jonathan Hinder",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5264/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5264,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Jonathan Hinder",
+          "total_claimed": 203406.59,
+          "office_costs": 28283.01,
+          "staffing": 157974.5,
+          "accommodation": 7598.44,
+          "travel": 9550.64,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 270592.26,
+          "rank_of_650": 471,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.593,
+        "electorate": 78796,
+        "results": [
+          {
+            "candidate": "Jonathan Hinder",
+            "party": "Labour",
+            "votes": 16129,
+            "pct": 0.345,
+            "elected": true
+          },
+          {
+            "candidate": "Andrew Stephenson",
+            "party": "Conservative",
+            "votes": 15227,
+            "pct": 0.326
+          },
+          {
+            "candidate": "Victoria Fletcher",
+            "party": "Reform UK",
+            "votes": 8171,
+            "pct": 0.175
+          },
+          {
+            "candidate": "Zulfikar Khan",
+            "party": "Independent",
+            "votes": 3108,
+            "pct": 0.066
+          },
+          {
+            "candidate": "Anna Corrina Fryer",
+            "party": "Liberal Democrats",
+            "votes": 2039,
+            "pct": 0.044
+          },
+          {
+            "candidate": "Lex Kristan",
+            "party": "Green",
+            "votes": 1421,
+            "pct": 0.03
+          },
+          {
+            "candidate": "Syed Muarif Hashmi",
+            "party": "Workers Party of Britain",
+            "votes": 336,
+            "pct": 0.007
+          },
+          {
+            "candidate": "Christopher Thompson",
+            "party": "Rejoin EU",
+            "votes": 190,
+            "pct": 0.004
+          },
+          {
+            "candidate": "Tony Johnson",
+            "party": "Independent",
+            "votes": 133,
+            "pct": 0.003
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 349,
+        "voted_in": 349,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "Aye",
+            "aye_count": 301,
+            "noe_count": 110
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 187,
+            "noe_count": 351
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 13,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department for Transport",
+            "count": 4
+          },
+          {
+            "department": "Home Office",
+            "count": 3
+          },
+          {
+            "department": "Department of Health and Social Care",
+            "count": 3
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 2
+          },
+          {
+            "department": "Ministry of Defence",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "pendle",
+        "ribble_valley"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 3160,
+          "claimant_rate_pct": 4.6
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 3045,
+          "claimant_rate_pct": 4.4
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 3040,
+          "claimant_rate_pct": 4.4
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 3100,
+          "claimant_rate_pct": 4.5
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 3100,
+          "claimant_rate_pct": 4.5
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 3180,
+          "claimant_rate_pct": 4.6
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 3190,
+          "claimant_rate_pct": 4.6
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 3270,
+          "claimant_rate_pct": 4.7
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 3350,
+          "claimant_rate_pct": 4.9
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 3385,
+          "claimant_rate_pct": 4.9
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 3450,
+          "claimant_rate_pct": 5.0
+        }
+      ]
+    },
+    {
+      "id": "rossendale_and_darwen",
+      "ons_code": "E14001528",
+      "name": "Rossendale and Darwen",
+      "partial": false,
+      "mp": {
+        "name": "Andy MacNae",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5134/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5134,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Andy MacNae",
+          "total_claimed": 220783.38,
+          "office_costs": 23242.94,
+          "staffing": 168450.2,
+          "accommodation": 20486.51,
+          "travel": 8603.73,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 287969.05,
+          "rank_of_650": 365,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.599,
+        "electorate": 74440,
+        "results": [
+          {
+            "candidate": "Andy MacNae",
+            "party": "Labour",
+            "votes": 18247,
+            "pct": 0.409,
+            "elected": true
+          },
+          {
+            "candidate": "Jake Berry",
+            "party": "Conservative",
+            "votes": 12619,
+            "pct": 0.283
+          },
+          {
+            "candidate": "Daniel Matchett",
+            "party": "Reform UK",
+            "votes": 9695,
+            "pct": 0.217
+          },
+          {
+            "candidate": "Bob Bauld",
+            "party": "Green",
+            "votes": 2325,
+            "pct": 0.052
+          },
+          {
+            "candidate": "Rowan Fitton",
+            "party": "Liberal Democrats",
+            "votes": 1241,
+            "pct": 0.028
+          },
+          {
+            "candidate": "Tayab Ali",
+            "party": "Workers Party of Britain",
+            "votes": 491,
+            "pct": 0.011
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 379,
+        "voted_in": 379,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 187,
+            "noe_count": 351
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 66,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 22
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 12
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 7
+          },
+          {
+            "department": "Department for Business and Trade",
+            "count": 5
+          },
+          {
+            "department": "Home Office",
+            "count": 4
+          },
+          {
+            "department": "Department for Education",
+            "count": 3
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 3
+          },
+          {
+            "department": "Department for Science, Innovation and Technology",
+            "count": 2
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 2
+          },
+          {
+            "department": "Department for Transport",
+            "count": 2
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "rossendale",
+        "blackburn"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 2225,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 2175,
+          "claimant_rate_pct": 3.3
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 2145,
+          "claimant_rate_pct": 3.3
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 2210,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 2255,
+          "claimant_rate_pct": 3.5
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 2275,
+          "claimant_rate_pct": 3.5
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 2205,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 2205,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 2205,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 2230,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 2290,
+          "claimant_rate_pct": 3.5
+        }
+      ]
+    },
+    {
+      "id": "lancaster_and_wyre",
+      "ons_code": "E14001377",
+      "name": "Lancaster and Wyre",
+      "partial": false,
+      "mp": {
+        "name": "Cat Smith",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/4436/Thumbnail",
+        "elected": "2015-05-07",
+        "parliament_id": 4436,
+        "gender": "F",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Cat Smith",
+          "total_claimed": 260697.03,
+          "office_costs": 13030.74,
+          "staffing": 206754.96,
+          "accommodation": 25644.59,
+          "travel": 15266.74,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 91346.04,
+          "additional_salary": 10812.93,
+          "total_cost_to_taxpayer": 362856.0,
+          "rank_of_650": 216,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.575,
+        "electorate": 74760,
+        "results": [
+          {
+            "candidate": "Cat Smith",
+            "party": "Labour",
+            "votes": 19315,
+            "pct": 0.449,
+            "elected": true
+          },
+          {
+            "candidate": "Peter Gordon Cartridge",
+            "party": "Conservative",
+            "votes": 10062,
+            "pct": 0.234
+          },
+          {
+            "candidate": "Nigel Alderson",
+            "party": "Reform UK",
+            "votes": 6866,
+            "pct": 0.16
+          },
+          {
+            "candidate": "Jack Lenox",
+            "party": "Green",
+            "votes": 5236,
+            "pct": 0.122
+          },
+          {
+            "candidate": "Matt Severn",
+            "party": "Liberal Democrats",
+            "votes": 1529,
+            "pct": 0.036
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 307,
+        "voted_in": 307,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2226,
+            "title": "Opposition Day: Rural communities",
+            "date": "2026-01-07",
+            "voted": "No",
+            "aye_count": 105,
+            "noe_count": 332
+          },
+          {
+            "division_id": 2224,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Second Reading",
+            "date": "2025-12-17",
+            "voted": "Aye",
+            "aye_count": 312,
+            "noe_count": 165
+          },
+          {
+            "division_id": 2223,
+            "title": "Finance (No. 2) Bill: Second Reading",
+            "date": "2025-12-16",
+            "voted": "Aye",
+            "aye_count": 341,
+            "noe_count": 195
+          },
+          {
+            "division_id": 2222,
+            "title": "Finance (No. 2) Bill: Reasoned Amendment to Second Reading (Opposition)",
+            "date": "2025-12-16",
+            "voted": "No",
+            "aye_count": 118,
+            "noe_count": 340
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 167,
+        "oral_questions": 0,
+        "edms_sponsored": 56,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 59
+          },
+          {
+            "department": "Department for Business and Trade",
+            "count": 16
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 16
+          },
+          {
+            "department": "Foreign, Commonwealth and Development Office",
+            "count": 11
+          },
+          {
+            "department": "Department for Education",
+            "count": 11
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 9
+          },
+          {
+            "department": "Home Office",
+            "count": 8
+          },
+          {
+            "department": "Department for Transport",
+            "count": 7
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 6
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 4
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "lancaster",
+        "wyre"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1490,
+          "claimant_rate_pct": 2.3
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1430,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1475,
+          "claimant_rate_pct": 2.3
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1420,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1405,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1405,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1420,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1420,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1430,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1450,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1465,
+          "claimant_rate_pct": 2.3
+        }
+      ]
+    },
+    {
+      "id": "morecambe_and_lunesdale",
+      "ons_code": "E14001431",
+      "name": "Morecambe and Lunesdale",
+      "partial": false,
+      "mp": {
+        "name": "Lizzi Collinge",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5225/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5225,
+        "gender": "F",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Lizzi Collinge",
+          "total_claimed": 211370.76,
+          "office_costs": 29854.66,
+          "staffing": 147349.24,
+          "accommodation": 13605.49,
+          "travel": 20561.37,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 278556.43,
+          "rank_of_650": 418,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.629,
+        "electorate": 76424,
+        "results": [
+          {
+            "candidate": "Lizzi Collinge",
+            "party": "Labour",
+            "votes": 19603,
+            "pct": 0.408,
+            "elected": true
+          },
+          {
+            "candidate": "David Morris",
+            "party": "Conservative",
+            "votes": 13788,
+            "pct": 0.287
+          },
+          {
+            "candidate": "Barry Parsons",
+            "party": "Reform UK",
+            "votes": 7810,
+            "pct": 0.163
+          },
+          {
+            "candidate": "Peter James Jackson",
+            "party": "Liberal Democrats",
+            "votes": 4769,
+            "pct": 0.099
+          },
+          {
+            "candidate": "Gina Dowding",
+            "party": "Green",
+            "votes": 2089,
+            "pct": 0.043
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 339,
+        "voted_in": 339,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "Aye",
+            "aye_count": 301,
+            "noe_count": 110
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 68,
+        "oral_questions": 0,
+        "edms_sponsored": 4,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 13
+          },
+          {
+            "department": "Treasury",
+            "count": 10
+          },
+          {
+            "department": "Department for Transport",
+            "count": 8
+          },
+          {
+            "department": "Home Office",
+            "count": 7
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 6
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 6
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 3
+          },
+          {
+            "department": "Department for Education",
+            "count": 3
+          },
+          {
+            "department": "Department for Energy Security and Net Zero",
+            "count": 3
+          },
+          {
+            "department": "Cabinet Office",
+            "count": 3
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "lancaster"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1625,
+          "claimant_rate_pct": 2.9
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1580,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1590,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1565,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1560,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1595,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1625,
+          "claimant_rate_pct": 2.9
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1615,
+          "claimant_rate_pct": 2.9
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1675,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1715,
+          "claimant_rate_pct": 3.1
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1785,
+          "claimant_rate_pct": 3.2
+        }
+      ]
+    },
+    {
+      "id": "ribble_valley",
+      "ons_code": "E14001512",
+      "name": "Ribble Valley",
+      "partial": false,
+      "mp": {
+        "name": "Maya Ellis",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5228/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5228,
+        "gender": "F",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Maya Ellis",
+          "total_claimed": 230920.21,
+          "office_costs": 29510.97,
+          "staffing": 161123.24,
+          "accommodation": 21918.46,
+          "travel": 17893.81,
+          "other": 473.73,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 298105.88,
+          "rank_of_650": 314,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.646,
+        "electorate": 80484,
+        "results": [
+          {
+            "candidate": "Maya Ellis",
+            "party": "Labour",
+            "votes": 18177,
+            "pct": 0.349,
+            "elected": true
+          },
+          {
+            "candidate": "Nigel Evans",
+            "party": "Conservative",
+            "votes": 17321,
+            "pct": 0.333
+          },
+          {
+            "candidate": "John Carroll",
+            "party": "Reform UK",
+            "votes": 8524,
+            "pct": 0.164
+          },
+          {
+            "candidate": "John Potter",
+            "party": "Liberal Democrats",
+            "votes": 5001,
+            "pct": 0.096
+          },
+          {
+            "candidate": "Caroline Elizabeth Montague",
+            "party": "Green",
+            "votes": 1727,
+            "pct": 0.033
+          },
+          {
+            "candidate": "Qasim Silman Ajmi",
+            "party": "Independent",
+            "votes": 1273,
+            "pct": 0.024
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 288,
+        "voted_in": 288,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 81,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 23
+          },
+          {
+            "department": "Department for Education",
+            "count": 16
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 9
+          },
+          {
+            "department": "Department for Transport",
+            "count": 5
+          },
+          {
+            "department": "Home Office",
+            "count": 5
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 5
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 5
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 3
+          },
+          {
+            "department": "Department for Business and Trade",
+            "count": 3
+          },
+          {
+            "department": "Department for Science, Innovation and Technology",
+            "count": 3
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "ribble_valley",
+        "south_ribble"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1380,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1325,
+          "claimant_rate_pct": 2.0
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1305,
+          "claimant_rate_pct": 2.0
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1270,
+          "claimant_rate_pct": 1.9
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1280,
+          "claimant_rate_pct": 2.0
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1265,
+          "claimant_rate_pct": 1.9
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1210,
+          "claimant_rate_pct": 1.8
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1220,
+          "claimant_rate_pct": 1.9
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1225,
+          "claimant_rate_pct": 1.9
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1215,
+          "claimant_rate_pct": 1.9
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1275,
+          "claimant_rate_pct": 1.9
+        }
+      ]
+    },
+    {
+      "id": "chorley",
+      "ons_code": "E14001140",
+      "name": "Chorley",
+      "partial": false,
+      "mp": {
+        "name": "Sir Lindsay Hoyle",
+        "party": "Speaker",
+        "party_abbreviation": "Spk",
+        "photo_url": "https://members-api.parliament.uk/api/Members/467/Thumbnail",
+        "elected": "1997-05-01",
+        "parliament_id": 467,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Lindsay Hoyle",
+          "total_claimed": 238142.72,
+          "office_costs": 17494.89,
+          "staffing": 212035.18,
+          "accommodation": 0.0,
+          "travel": 8612.65,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 91346.04,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 329488.76,
+          "rank_of_650": 286,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.454,
+        "electorate": 74801,
+        "results": [
+          {
+            "candidate": "Lindsay Hoyle",
+            "party": "Speaker",
+            "votes": 25238,
+            "pct": 0.743,
+            "elected": true
+          },
+          {
+            "candidate": "Mark Worsley Tebbutt",
+            "party": "Green",
+            "votes": 4663,
+            "pct": 0.137
+          },
+          {
+            "candidate": "Ben Holden-Crowther",
+            "party": "Democracy for Chorley",
+            "votes": 2424,
+            "pct": 0.071
+          },
+          {
+            "candidate": "Graham Harry Moore",
+            "party": "English Constitution Party",
+            "votes": 1007,
+            "pct": 0.03
+          },
+          {
+            "candidate": "Martin Powell-Davies",
+            "party": "TUSC",
+            "votes": 632,
+            "pct": 0.019
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": null,
+      "parliamentary_activity": {
+        "written_questions": 0,
+        "oral_questions": 0,
+        "edms_sponsored": 625,
+        "edms_signed": 0,
+        "top_topics": []
+      },
+      "overlapping_councils": [
+        "chorley"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1605,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1545,
+          "claimant_rate_pct": 2.4
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1545,
+          "claimant_rate_pct": 2.4
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1645,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1645,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1645,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1620,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1645,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1615,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1660,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1675,
+          "claimant_rate_pct": 2.6
+        }
+      ]
+    },
+    {
+      "id": "south_ribble",
+      "ons_code": "E14001555",
+      "name": "South Ribble",
+      "partial": false,
+      "mp": {
+        "name": "Mr Paul Foster",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5074/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5074,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Paul Foster",
+          "total_claimed": 194847.7,
+          "office_costs": 23647.23,
+          "staffing": 133514.25,
+          "accommodation": 22896.39,
+          "travel": 14789.83,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 262033.37,
+          "rank_of_650": 528,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.636,
+        "electorate": 73420,
+        "results": [
+          {
+            "candidate": "Paul Foster",
+            "party": "Labour",
+            "votes": 19840,
+            "pct": 0.425,
+            "elected": true
+          },
+          {
+            "candidate": "Katherine Fletcher",
+            "party": "Conservative",
+            "votes": 13339,
+            "pct": 0.286
+          },
+          {
+            "candidate": "Andy Hunter",
+            "party": "Reform UK",
+            "votes": 8995,
+            "pct": 0.193
+          },
+          {
+            "candidate": "Angela Turner",
+            "party": "Liberal Democrats",
+            "votes": 2972,
+            "pct": 0.064
+          },
+          {
+            "candidate": "Stephani Karyim Mok",
+            "party": "Green",
+            "votes": 1574,
+            "pct": 0.034
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 345,
+        "voted_in": 345,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2226,
+            "title": "Opposition Day: Rural communities",
+            "date": "2026-01-07",
+            "voted": "No",
+            "aye_count": 105,
+            "noe_count": 332
+          },
+          {
+            "division_id": 2225,
+            "title": "Opposition Day: Jury trials",
+            "date": "2026-01-07",
+            "voted": "No",
+            "aye_count": 182,
+            "noe_count": 290
+          },
+          {
+            "division_id": 2224,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Second Reading",
+            "date": "2025-12-17",
+            "voted": "Aye",
+            "aye_count": 312,
+            "noe_count": 165
+          },
+          {
+            "division_id": 2223,
+            "title": "Finance (No. 2) Bill: Second Reading",
+            "date": "2025-12-16",
+            "voted": "Aye",
+            "aye_count": 341,
+            "noe_count": 195
+          },
+          {
+            "division_id": 2222,
+            "title": "Finance (No. 2) Bill: Reasoned Amendment to Second Reading (Opposition)",
+            "date": "2025-12-16",
+            "voted": "No",
+            "aye_count": 118,
+            "noe_count": 340
+          },
+          {
+            "division_id": 2221,
+            "title": "Employment Rights Bill: Government motion to disagree with the Lords in their Amendment 120N to Commons Amendment 120G a",
+            "date": "2025-12-15",
+            "voted": "Aye",
+            "aye_count": 311,
+            "noe_count": 96
+          },
+          {
+            "division_id": 2220,
+            "title": "Opposition day: Conduct of the Chancellor of the Exchequer",
+            "date": "2025-12-10",
+            "voted": "No",
+            "aye_count": 90,
+            "noe_count": 297
+          },
+          {
+            "division_id": 2219,
+            "title": "Government Amendment to Opposition day debate on seasonal work",
+            "date": "2025-12-10",
+            "voted": "Aye",
+            "aye_count": 320,
+            "noe_count": 98
+          },
+          {
+            "division_id": 2218,
+            "title": "Opposition day: Seasonal work",
+            "date": "2025-12-10",
+            "voted": "No",
+            "aye_count": 98,
+            "noe_count": 325
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 31,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 7
+          },
+          {
+            "department": "Cabinet Office",
+            "count": 5
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 5
+          },
+          {
+            "department": "Department for Education",
+            "count": 3
+          },
+          {
+            "department": "Department for Transport",
+            "count": 3
+          },
+          {
+            "department": "Department for Science, Innovation and Technology",
+            "count": 2
+          },
+          {
+            "department": "Ministry of Defence",
+            "count": 1
+          },
+          {
+            "department": "Foreign, Commonwealth and Development Office",
+            "count": 1
+          },
+          {
+            "department": "Northern Ireland Office",
+            "count": 1
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "south_ribble"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1265,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1235,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1265,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1280,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1250,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1245,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1230,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1270,
+          "claimant_rate_pct": 2.2
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1265,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1255,
+          "claimant_rate_pct": 2.1
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1335,
+          "claimant_rate_pct": 2.3
+        }
+      ]
+    },
+    {
+      "id": "preston",
+      "ons_code": "E14001494",
+      "name": "Preston",
+      "partial": false,
+      "mp": {
+        "name": "Sir Mark Hendrick",
+        "party": "Labour (Co-op)",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/473/Thumbnail",
+        "elected": "2000-11-23",
+        "parliament_id": 473,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Mark Hendrick",
+          "total_claimed": 295955.67,
+          "office_costs": 27056.62,
+          "staffing": 210852.2,
+          "accommodation": 34804.17,
+          "travel": 23242.68,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 91346.04,
+          "additional_salary": 15257.5,
+          "total_cost_to_taxpayer": 402559.21,
+          "rank_of_650": 87,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.517,
+        "electorate": 77400,
+        "results": [
+          {
+            "candidate": "Mark Hendrick",
+            "party": "Labour (Co-op)",
+            "votes": 14006,
+            "pct": 0.35,
+            "elected": true
+          },
+          {
+            "candidate": "Michael Lavalette",
+            "party": "Independent",
+            "votes": 8715,
+            "pct": 0.218
+          },
+          {
+            "candidate": "James Elliot",
+            "party": "Reform UK",
+            "votes": 5738,
+            "pct": 0.143
+          },
+          {
+            "candidate": "Trevor Hart",
+            "party": "Conservative",
+            "votes": 5212,
+            "pct": 0.13
+          },
+          {
+            "candidate": "Neil Darby",
+            "party": "Liberal Democrats",
+            "votes": 3195,
+            "pct": 0.08
+          },
+          {
+            "candidate": "Isabella Metcalf-Riener",
+            "party": "Green",
+            "votes": 1751,
+            "pct": 0.044
+          },
+          {
+            "candidate": "Yousuf Mohamed Ibrahim Bhailok",
+            "party": "Independent",
+            "votes": 891,
+            "pct": 0.022
+          },
+          {
+            "candidate": "Joseph O'Meachair",
+            "party": "Rejoin EU",
+            "votes": 216,
+            "pct": 0.005
+          },
+          {
+            "candidate": "David Brooks",
+            "party": "Alliance for Democracy and Freedom",
+            "votes": 145,
+            "pct": 0.004
+          },
+          {
+            "candidate": "Derek Killeen",
+            "party": "UKIP",
+            "votes": 124,
+            "pct": 0.003
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 235,
+        "voted_in": 235,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2224,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Second Reading",
+            "date": "2025-12-17",
+            "voted": "Aye",
+            "aye_count": 312,
+            "noe_count": 165
+          },
+          {
+            "division_id": 2223,
+            "title": "Finance (No. 2) Bill: Second Reading",
+            "date": "2025-12-16",
+            "voted": "Aye",
+            "aye_count": 341,
+            "noe_count": 195
+          },
+          {
+            "division_id": 2222,
+            "title": "Finance (No. 2) Bill: Reasoned Amendment to Second Reading (Opposition)",
+            "date": "2025-12-16",
+            "voted": "No",
+            "aye_count": 118,
+            "noe_count": 340
+          },
+          {
+            "division_id": 2221,
+            "title": "Employment Rights Bill: Government motion to disagree with the Lords in their Amendment 120N to Commons Amendment 120G a",
+            "date": "2025-12-15",
+            "voted": "Aye",
+            "aye_count": 311,
+            "noe_count": 96
+          },
+          {
+            "division_id": 2220,
+            "title": "Opposition day: Conduct of the Chancellor of the Exchequer",
+            "date": "2025-12-10",
+            "voted": "No",
+            "aye_count": 90,
+            "noe_count": 297
+          },
+          {
+            "division_id": 2219,
+            "title": "Government Amendment to Opposition day debate on seasonal work",
+            "date": "2025-12-10",
+            "voted": "Aye",
+            "aye_count": 320,
+            "noe_count": 98
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 69,
+        "oral_questions": 0,
+        "edms_sponsored": 27,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 27
+          },
+          {
+            "department": "Home Office",
+            "count": 12
+          },
+          {
+            "department": "Department for Transport",
+            "count": 9
+          },
+          {
+            "department": "Department for Education",
+            "count": 5
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 3
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 3
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 3
+          },
+          {
+            "department": "Department for Science, Innovation and Technology",
+            "count": 2
+          },
+          {
+            "department": "Foreign, Commonwealth and Development Office",
+            "count": 1
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "preston"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 4395,
+          "claimant_rate_pct": 5.2
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 4355,
+          "claimant_rate_pct": 5.2
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 4435,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 4450,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 4440,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 4430,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 4425,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 4470,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 4490,
+          "claimant_rate_pct": 5.3
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 4520,
+          "claimant_rate_pct": 5.4
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 4570,
+          "claimant_rate_pct": 5.4
+        }
+      ]
+    },
+    {
+      "id": "west_lancashire",
+      "ons_code": "E14001616",
+      "name": "West Lancashire",
+      "partial": false,
+      "mp": {
+        "name": "Ashley Dalton",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/4981/Thumbnail",
+        "elected": "2023-02-09",
+        "parliament_id": 4981,
+        "gender": "F",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Ashley Dalton",
+          "total_claimed": 323916.7,
+          "office_costs": 31171.41,
+          "staffing": 244858.45,
+          "accommodation": 32558.68,
+          "travel": 15328.16,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 91346.04,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 415262.74,
+          "rank_of_650": 19,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.597,
+        "electorate": 74081,
+        "results": [
+          {
+            "candidate": "Ashley Dalton",
+            "party": "Labour",
+            "votes": 22305,
+            "pct": 0.505,
+            "elected": true
+          },
+          {
+            "candidate": "Mike Prendergast",
+            "party": "Conservative",
+            "votes": 8680,
+            "pct": 0.196
+          },
+          {
+            "candidate": "Simon Evans",
+            "party": "Reform UK",
+            "votes": 7909,
+            "pct": 0.179
+          },
+          {
+            "candidate": "Charlotte Marian Houltram",
+            "party": "Green",
+            "votes": 3263,
+            "pct": 0.074
+          },
+          {
+            "candidate": "Graham Michael Smith",
+            "party": "Liberal Democrats",
+            "votes": 2043,
+            "pct": 0.046
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 263,
+        "voted_in": 263,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 187,
+            "noe_count": 351
+          },
+          {
+            "division_id": 2233,
+            "title": "Finance (No. 2) Bill Committee: New Clause 24",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 184,
+            "noe_count": 331
+          },
+          {
+            "division_id": 2232,
+            "title": "Finance (No. 2) Bill Committee: Clause 63 Stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 348,
+            "noe_count": 167
+          },
+          {
+            "division_id": 2231,
+            "title": "Finance (No. 2) Bill Committee: New Clause 7",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 188,
+            "noe_count": 341
+          },
+          {
+            "division_id": 2230,
+            "title": "Finance (No. 2) Bill Committee: Amendment 3",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 185,
+            "noe_count": 344
+          },
+          {
+            "division_id": 2229,
+            "title": "Finance (No. 2) Bill Committee: Clause 62 stand part",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 181
+          },
+          {
+            "division_id": 2228,
+            "title": "Finance (No.2) Bill Committee: Clause 10 stand part",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 324,
+            "noe_count": 180
+          },
+          {
+            "division_id": 2227,
+            "title": "Finance (No. 2) Bill Committee: New Clause 12",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 167,
+            "noe_count": 350
+          },
+          {
+            "division_id": 2225,
+            "title": "Opposition Day: Jury trials",
+            "date": "2026-01-07",
+            "voted": "No",
+            "aye_count": 182,
+            "noe_count": 290
+          },
+          {
+            "division_id": 2223,
+            "title": "Finance (No. 2) Bill: Second Reading",
+            "date": "2025-12-16",
+            "voted": "Aye",
+            "aye_count": 341,
+            "noe_count": 195
+          },
+          {
+            "division_id": 2222,
+            "title": "Finance (No. 2) Bill: Reasoned Amendment to Second Reading (Opposition)",
+            "date": "2025-12-16",
+            "voted": "No",
+            "aye_count": 118,
+            "noe_count": 340
+          },
+          {
+            "division_id": 2221,
+            "title": "Employment Rights Bill: Government motion to disagree with the Lords in their Amendment 120N to Commons Amendment 120G a",
+            "date": "2025-12-15",
+            "voted": "Aye",
+            "aye_count": 311,
+            "noe_count": 96
+          },
+          {
+            "division_id": 2220,
+            "title": "Opposition day: Conduct of the Chancellor of the Exchequer",
+            "date": "2025-12-10",
+            "voted": "No",
+            "aye_count": 90,
+            "noe_count": 297
+          },
+          {
+            "division_id": 2219,
+            "title": "Government Amendment to Opposition day debate on seasonal work",
+            "date": "2025-12-10",
+            "voted": "Aye",
+            "aye_count": 320,
+            "noe_count": 98
+          },
+          {
+            "division_id": 2218,
+            "title": "Opposition day: Seasonal work",
+            "date": "2025-12-10",
+            "voted": "No",
+            "aye_count": 98,
+            "noe_count": 325
+          },
+          {
+            "division_id": 2217,
+            "title": "Railways Bill: Second Reading",
+            "date": "2025-12-09",
+            "voted": "Aye",
+            "aye_count": 329,
+            "noe_count": 173
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 7,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 3
+          },
+          {
+            "department": "Home Office",
+            "count": 2
+          },
+          {
+            "department": "Treasury",
+            "count": 1
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "west_lancashire"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1835,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1815,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1785,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1795,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1810,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1820,
+          "claimant_rate_pct": 2.8
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1850,
+          "claimant_rate_pct": 2.9
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1905,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1925,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1915,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1940,
+          "claimant_rate_pct": 3.0
+        }
+      ]
+    },
+    {
+      "id": "fylde",
+      "ons_code": "E14001256",
+      "name": "Fylde",
+      "partial": false,
+      "mp": {
+        "name": "Mr Andrew Snowden",
+        "party": "Conservative",
+        "party_abbreviation": "Con",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5072/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5072,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Andrew Snowden",
+          "total_claimed": 208014.42,
+          "office_costs": 25780.3,
+          "staffing": 145597.72,
+          "accommodation": 23804.18,
+          "travel": 12832.22,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 275200.09,
+          "rank_of_650": 444,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.622,
+        "electorate": 77100,
+        "results": [
+          {
+            "candidate": "Andrew Snowden",
+            "party": "Conservative",
+            "votes": 15917,
+            "pct": 0.332,
+            "elected": true
+          },
+          {
+            "candidate": "Tom Calver",
+            "party": "Labour",
+            "votes": 15356,
+            "pct": 0.32
+          },
+          {
+            "candidate": "Brook Wimbury",
+            "party": "Reform UK",
+            "votes": 8295,
+            "pct": 0.173
+          },
+          {
+            "candidate": "Anne Aitken",
+            "party": "Independent",
+            "votes": 4513,
+            "pct": 0.094
+          },
+          {
+            "candidate": "Mark Jewell",
+            "party": "Liberal Democrats",
+            "votes": 2120,
+            "pct": 0.044
+          },
+          {
+            "candidate": "Brenden John Wilkinson",
+            "party": "Green",
+            "votes": 1560,
+            "pct": 0.033
+          },
+          {
+            "candidate": "Cheryl Morrison",
+            "party": "Alliance for Democracy and Freedom",
+            "votes": 199,
+            "pct": 0.004
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 238,
+        "voted_in": 238,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "No",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "No",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "Aye",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "Aye",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "No",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 187,
+            "noe_count": 351
+          },
+          {
+            "division_id": 2233,
+            "title": "Finance (No. 2) Bill Committee: New Clause 24",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 184,
+            "noe_count": 331
+          },
+          {
+            "division_id": 2232,
+            "title": "Finance (No. 2) Bill Committee: Clause 63 Stand part",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 348,
+            "noe_count": 167
+          },
+          {
+            "division_id": 2231,
+            "title": "Finance (No. 2) Bill Committee: New Clause 7",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 188,
+            "noe_count": 341
+          },
+          {
+            "division_id": 2230,
+            "title": "Finance (No. 2) Bill Committee: Amendment 3",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 185,
+            "noe_count": 344
+          },
+          {
+            "division_id": 2229,
+            "title": "Finance (No. 2) Bill Committee: Clause 62 stand part",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 344,
+            "noe_count": 181
+          },
+          {
+            "division_id": 2228,
+            "title": "Finance (No.2) Bill Committee: Clause 10 stand part",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 324,
+            "noe_count": 180
+          },
+          {
+            "division_id": 2227,
+            "title": "Finance (No. 2) Bill Committee: New Clause 12",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 167,
+            "noe_count": 350
+          },
+          {
+            "division_id": 2225,
+            "title": "Opposition Day: Jury trials",
+            "date": "2026-01-07",
+            "voted": "Aye",
+            "aye_count": 182,
+            "noe_count": 290
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 600,
+        "oral_questions": 0,
+        "edms_sponsored": 1,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 104
+          },
+          {
+            "department": "Home Office",
+            "count": 69
+          },
+          {
+            "department": "Treasury",
+            "count": 64
+          },
+          {
+            "department": "Department for Education",
+            "count": 59
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 42
+          },
+          {
+            "department": "Department for Transport",
+            "count": 37
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 32
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 31
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 29
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 28
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "fylde"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1545,
+          "claimant_rate_pct": 2.7
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1460,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1435,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1385,
+          "claimant_rate_pct": 2.4
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1405,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1410,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1435,
+          "claimant_rate_pct": 2.5
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1460,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1470,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1510,
+          "claimant_rate_pct": 2.6
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1525,
+          "claimant_rate_pct": 2.7
+        }
+      ]
+    },
+    {
+      "id": "blackpool_north_and_fleetwood",
+      "ons_code": "E14001086",
+      "name": "Blackpool North and Fleetwood",
+      "partial": false,
+      "mp": {
+        "name": "Lorraine Beavers",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5232/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5232,
+        "gender": "F",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Lorraine Beavers",
+          "total_claimed": 199406.46,
+          "office_costs": 27833.83,
+          "staffing": 143068.29,
+          "accommodation": 17106.52,
+          "travel": 11397.82,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 266592.13,
+          "rank_of_650": 502,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.57,
+        "electorate": 73339,
+        "results": [
+          {
+            "candidate": "Lorraine Beavers",
+            "party": "Labour",
+            "votes": 16744,
+            "pct": 0.4,
+            "elected": true
+          },
+          {
+            "candidate": "Paul Maynard",
+            "party": "Conservative",
+            "votes": 12097,
+            "pct": 0.289
+          },
+          {
+            "candidate": "Dan Barker",
+            "party": "Reform UK",
+            "votes": 9913,
+            "pct": 0.237
+          },
+          {
+            "candidate": "Bill Greene",
+            "party": "Liberal Democrats",
+            "votes": 1318,
+            "pct": 0.032
+          },
+          {
+            "candidate": "Tina Rothery",
+            "party": "Green",
+            "votes": 1269,
+            "pct": 0.03
+          },
+          {
+            "candidate": "James Antony Lionel Michael Rust",
+            "party": "Monster Raving Loony",
+            "votes": 174,
+            "pct": 0.004
+          },
+          {
+            "candidate": "Gita Gordon",
+            "party": "Independent",
+            "votes": 148,
+            "pct": 0.004
+          },
+          {
+            "candidate": "Jan Cresswell",
+            "party": "Social Democratic Party",
+            "votes": 147,
+            "pct": 0.004
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 380,
+        "voted_in": 380,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "No",
+            "aye_count": 301,
+            "noe_count": 110
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 38,
+        "oral_questions": 0,
+        "edms_sponsored": 2,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 6
+          },
+          {
+            "department": "Department for Transport",
+            "count": 5
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 4
+          },
+          {
+            "department": "Cabinet Office",
+            "count": 4
+          },
+          {
+            "department": "Home Office",
+            "count": 4
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 3
+          },
+          {
+            "department": "Department for Education",
+            "count": 3
+          },
+          {
+            "department": "Ministry of Justice",
+            "count": 2
+          },
+          {
+            "department": "Department of Health and Social Care",
+            "count": 2
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 2
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "blackpool",
+        "wyre"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1980,
+          "claimant_rate_pct": 3.5
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1855,
+          "claimant_rate_pct": 3.3
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1820,
+          "claimant_rate_pct": 3.2
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1835,
+          "claimant_rate_pct": 3.3
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1870,
+          "claimant_rate_pct": 3.3
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1880,
+          "claimant_rate_pct": 3.3
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1915,
+          "claimant_rate_pct": 3.4
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1990,
+          "claimant_rate_pct": 3.5
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1980,
+          "claimant_rate_pct": 3.5
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 2055,
+          "claimant_rate_pct": 3.7
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 2135,
+          "claimant_rate_pct": 3.8
+        }
+      ]
+    },
+    {
+      "id": "blackpool_south",
+      "ons_code": "E14001087",
+      "name": "Blackpool South",
+      "partial": false,
+      "mp": {
+        "name": "Chris Webb",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5025/Thumbnail",
+        "elected": "2024-05-02",
+        "parliament_id": 5025,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Chris Webb",
+          "total_claimed": 308254.33,
+          "office_costs": 36085.61,
+          "staffing": 228447.86,
+          "accommodation": 23048.6,
+          "travel": 20672.26,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 83071.94,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 391326.27,
+          "rank_of_650": 50,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.454,
+        "electorate": 77460,
+        "results": [
+          {
+            "candidate": "Chris Webb",
+            "party": "Labour",
+            "votes": 16916,
+            "pct": 0.481,
+            "elected": true
+          },
+          {
+            "candidate": "Mark Anthony Butcher",
+            "party": "Reform UK",
+            "votes": 10068,
+            "pct": 0.286
+          },
+          {
+            "candidate": "Zak Farhan Khan",
+            "party": "Conservative",
+            "votes": 5504,
+            "pct": 0.156
+          },
+          {
+            "candidate": "Ben Thomas",
+            "party": "Green",
+            "votes": 1207,
+            "pct": 0.034
+          },
+          {
+            "candidate": "Andy Cregan",
+            "party": "Liberal Democrats",
+            "votes": 1041,
+            "pct": 0.03
+          },
+          {
+            "candidate": "Stephen Justin Black",
+            "party": "Independent",
+            "votes": 261,
+            "pct": 0.007
+          },
+          {
+            "candidate": "Kim Sherrie Knight",
+            "party": "Alliance for Democracy and Freedom",
+            "votes": 183,
+            "pct": 0.005
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 322,
+        "voted_in": 322,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "Aye",
+            "aye_count": 301,
+            "noe_count": 110
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 187,
+            "noe_count": 351
+          },
+          {
+            "division_id": 2233,
+            "title": "Finance (No. 2) Bill Committee: New Clause 24",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 184,
+            "noe_count": 331
+          },
+          {
+            "division_id": 2232,
+            "title": "Finance (No. 2) Bill Committee: Clause 63 Stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 348,
+            "noe_count": 167
+          },
+          {
+            "division_id": 2231,
+            "title": "Finance (No. 2) Bill Committee: New Clause 7",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 188,
+            "noe_count": 341
+          },
+          {
+            "division_id": 2230,
+            "title": "Finance (No. 2) Bill Committee: Amendment 3",
+            "date": "2026-01-12",
+            "voted": "No",
+            "aye_count": 185,
+            "noe_count": 344
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 34,
+        "oral_questions": 0,
+        "edms_sponsored": 1,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department for Education",
+            "count": 8
+          },
+          {
+            "department": "Department of Health and Social Care",
+            "count": 8
+          },
+          {
+            "department": "Department for Environment, Food and Rural Affairs",
+            "count": 4
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 3
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 3
+          },
+          {
+            "department": "Foreign, Commonwealth and Development Office",
+            "count": 3
+          },
+          {
+            "department": "Department for Transport",
+            "count": 2
+          },
+          {
+            "department": "Women and Equalities",
+            "count": 1
+          },
+          {
+            "department": "Department for Business and Trade",
+            "count": 1
+          },
+          {
+            "department": "Home Office",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "blackpool",
+        "fylde"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 4560,
+          "claimant_rate_pct": 6.5
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 4255,
+          "claimant_rate_pct": 6.0
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 4285,
+          "claimant_rate_pct": 6.1
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 4110,
+          "claimant_rate_pct": 5.8
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 4140,
+          "claimant_rate_pct": 5.9
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 4220,
+          "claimant_rate_pct": 6.0
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 4290,
+          "claimant_rate_pct": 6.1
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 4285,
+          "claimant_rate_pct": 6.1
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 4480,
+          "claimant_rate_pct": 6.4
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 4740,
+          "claimant_rate_pct": 6.7
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 4940,
+          "claimant_rate_pct": 7.0
+        }
+      ]
+    },
+    {
+      "id": "blackburn",
+      "ons_code": "E14001078",
+      "name": "Blackburn",
+      "partial": false,
+      "mp": {
+        "name": "Mr Adnan Hussain",
+        "party": "Independent",
+        "party_abbreviation": "Ind",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5231/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5231,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Adnan Hussain",
+          "total_claimed": 126790.79,
+          "office_costs": 15246.58,
+          "staffing": 92315.96,
+          "accommodation": 15015.13,
+          "travel": 4213.12,
+          "other": 0.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 193976.46,
+          "rank_of_650": 954,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.531,
+        "electorate": 73263,
+        "results": [
+          {
+            "candidate": "Adnan Hussain",
+            "party": "Independent",
+            "votes": 10518,
+            "pct": 0.27,
+            "elected": true
+          },
+          {
+            "candidate": "Kate Hollern",
+            "party": "Labour",
+            "votes": 10386,
+            "pct": 0.267
+          },
+          {
+            "candidate": "Craig Murray",
+            "party": "Workers Party of Britain",
+            "votes": 7105,
+            "pct": 0.183
+          },
+          {
+            "candidate": "Tommy Temperley",
+            "party": "Reform UK",
+            "votes": 4844,
+            "pct": 0.125
+          },
+          {
+            "candidate": "Jamie McGowan",
+            "party": "Conservative",
+            "votes": 3474,
+            "pct": 0.089
+          },
+          {
+            "candidate": "Denise Morgan",
+            "party": "Green",
+            "votes": 1416,
+            "pct": 0.036
+          },
+          {
+            "candidate": "Adam Waller-Slack",
+            "party": "Liberal Democrats",
+            "votes": 689,
+            "pct": 0.018
+          },
+          {
+            "candidate": "Tiger Patel",
+            "party": "Independent",
+            "votes": 369,
+            "pct": 0.009
+          },
+          {
+            "candidate": "Natasha Shah",
+            "party": "Independent",
+            "votes": 86,
+            "pct": 0.002
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 244,
+        "voted_in": 244,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "Aye",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "Aye",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "No",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "No",
+            "aye_count": 301,
+            "noe_count": 110
+          },
+          {
+            "division_id": 2237,
+            "title": "Finance (No. 2) Bill Committee: New Clause 26",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 172,
+            "noe_count": 334
+          },
+          {
+            "division_id": 2236,
+            "title": "Finance (No. 2) Bill Committee: New Clause 9",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 181,
+            "noe_count": 335
+          },
+          {
+            "division_id": 2235,
+            "title": "Finance (No. 2) Bill Committee: Clause 86 stand part",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 173
+          },
+          {
+            "division_id": 2234,
+            "title": "Finance (No. 2) Bill Committee: New Clause 25",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 187,
+            "noe_count": 351
+          },
+          {
+            "division_id": 2233,
+            "title": "Finance (No. 2) Bill Committee: New Clause 24",
+            "date": "2026-01-13",
+            "voted": "Aye",
+            "aye_count": 184,
+            "noe_count": 331
+          },
+          {
+            "division_id": 2232,
+            "title": "Finance (No. 2) Bill Committee: Clause 63 Stand part",
+            "date": "2026-01-13",
+            "voted": "No",
+            "aye_count": 348,
+            "noe_count": 167
+          },
+          {
+            "division_id": 2231,
+            "title": "Finance (No. 2) Bill Committee: New Clause 7",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 188,
+            "noe_count": 341
+          },
+          {
+            "division_id": 2230,
+            "title": "Finance (No. 2) Bill Committee: Amendment 3",
+            "date": "2026-01-12",
+            "voted": "Aye",
+            "aye_count": 185,
+            "noe_count": 344
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 3,
+        "oral_questions": 0,
+        "edms_sponsored": 5,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Home Office",
+            "count": 1
+          },
+          {
+            "department": "Department of Health and Social Care",
+            "count": 1
+          },
+          {
+            "department": "Cabinet Office",
+            "count": 1
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "blackburn"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 4475,
+          "claimant_rate_pct": 6.0
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 4335,
+          "claimant_rate_pct": 5.8
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 4390,
+          "claimant_rate_pct": 5.9
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 4370,
+          "claimant_rate_pct": 5.8
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 4515,
+          "claimant_rate_pct": 6.0
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 4570,
+          "claimant_rate_pct": 6.1
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 4635,
+          "claimant_rate_pct": 6.2
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 4675,
+          "claimant_rate_pct": 6.2
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 4715,
+          "claimant_rate_pct": 6.3
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 4730,
+          "claimant_rate_pct": 6.3
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 4935,
+          "claimant_rate_pct": 6.6
+        }
+      ]
+    },
+    {
+      "id": "southport",
+      "ons_code": "E14001557",
+      "name": "Southport",
+      "partial": true,
+      "mp": {
+        "name": "Patrick Hurley",
+        "party": "Labour",
+        "party_abbreviation": "Lab",
+        "photo_url": "https://members-api.parliament.uk/api/Members/5052/Thumbnail",
+        "elected": "2024-07-04",
+        "parliament_id": 5052,
+        "gender": "M",
+        "majority": null,
+        "majority_pct": null,
+        "expenses": {
+          "year": "2024-25",
+          "mp_name": "Patrick Hurley",
+          "total_claimed": 214468.43,
+          "office_costs": 29607.98,
+          "staffing": 157965.33,
+          "accommodation": 15158.54,
+          "travel": 11220.58,
+          "other": 516.0,
+          "winding_up": 0.0,
+          "salary": 67185.67,
+          "additional_salary": 0.0,
+          "total_cost_to_taxpayer": 281654.1,
+          "rank_of_650": 398,
+          "connected_party": null,
+          "connected_party_job": null
+        }
+      },
+      "ge2024": {
+        "turnout": 0.612,
+        "electorate": 73641,
+        "results": [
+          {
+            "candidate": "Patrick Hurley",
+            "party": "Labour",
+            "votes": 17252,
+            "pct": 0.383,
+            "elected": true
+          },
+          {
+            "candidate": "Damien Moore",
+            "party": "Conservative",
+            "votes": 11463,
+            "pct": 0.254
+          },
+          {
+            "candidate": "Andrew Lynn",
+            "party": "Reform UK",
+            "votes": 7395,
+            "pct": 0.164
+          },
+          {
+            "candidate": "Erin Harvey",
+            "party": "Liberal Democrats",
+            "votes": 5868,
+            "pct": 0.13
+          },
+          {
+            "candidate": "Edwin G Black",
+            "party": "Green",
+            "votes": 2159,
+            "pct": 0.048
+          },
+          {
+            "candidate": "Sean Robert Halsall",
+            "party": "Independent",
+            "votes": 922,
+            "pct": 0.02
+          }
+        ]
+      },
+      "ge_history": [],
+      "voting_record": {
+        "total_divisions": 389,
+        "voted_in": 389,
+        "attendance_pct": 1.0,
+        "rebellions": 0,
+        "rebellion_rate": 0,
+        "notable_votes_count": 20,
+        "notable_votes": [
+          {
+            "division_id": 2257,
+            "title": "Referendums Relating to Council Tax Increases (Principles) (England) Report 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 279,
+            "noe_count": 90
+          },
+          {
+            "division_id": 2256,
+            "title": "Local Government Finance Report (England) 2026-27",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 277,
+            "noe_count": 143
+          },
+          {
+            "division_id": 2255,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) (Extension to Maritime Activities) Order 2026",
+            "date": "2026-02-11",
+            "voted": "Aye",
+            "aye_count": 362,
+            "noe_count": 107
+          },
+          {
+            "division_id": 2254,
+            "title": "Draft Greenhouse Gas Emissions Trading Scheme (Amendment) Order 2026",
+            "date": "2026-02-04",
+            "voted": "Aye",
+            "aye_count": 392,
+            "noe_count": 116
+          },
+          {
+            "division_id": 2253,
+            "title": "Universal Credit (Removal of Two Child Limit) Bill: Second Reading",
+            "date": "2026-02-03",
+            "voted": "Aye",
+            "aye_count": 458,
+            "noe_count": 104
+          },
+          {
+            "division_id": 2252,
+            "title": "Opposition Day: Youth unemployment",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 287
+          },
+          {
+            "division_id": 2251,
+            "title": "Opposition Day: British Indian Ocean Territory",
+            "date": "2026-01-28",
+            "voted": "No",
+            "aye_count": 103,
+            "noe_count": 284
+          },
+          {
+            "division_id": 2250,
+            "title": "Draft Medical Devices (Fees Amendment) Regulations 2026",
+            "date": "2026-01-28",
+            "voted": "Aye",
+            "aye_count": 294,
+            "noe_count": 108
+          },
+          {
+            "division_id": 2249,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 1",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 88,
+            "noe_count": 310
+          },
+          {
+            "division_id": 2248,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 2",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 61,
+            "noe_count": 311
+          },
+          {
+            "division_id": 2247,
+            "title": "Medical Training (Prioritisation) Bill: Amendment 9",
+            "date": "2026-01-27",
+            "voted": "No",
+            "aye_count": 91,
+            "noe_count": 378
+          },
+          {
+            "division_id": 2246,
+            "title": "The Northern Ireland Troubles (Legacy and Reconciliation) Act  2023 (Remedial) Order 2025 ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 373,
+            "noe_count": 106
+          },
+          {
+            "division_id": 2245,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill: Third Reading ",
+            "date": "2026-01-21",
+            "voted": "Aye",
+            "aye_count": 316,
+            "noe_count": 194
+          },
+          {
+            "division_id": 2244,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: New Clause 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 195,
+            "noe_count": 317
+          },
+          {
+            "division_id": 2243,
+            "title": "National Insurance Contributions (Employer Pensions Contributions) Bill Committee: Amendment 5",
+            "date": "2026-01-21",
+            "voted": "No",
+            "aye_count": 191,
+            "noe_count": 326
+          },
+          {
+            "division_id": 2242,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 6",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 184
+          },
+          {
+            "division_id": 2241,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 5",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 347,
+            "noe_count": 185
+          },
+          {
+            "division_id": 2240,
+            "title": "Diego Garcia Military Base and British Indian Ocean Territory Bill: motion to disagree with Lords Amendment 1",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 344,
+            "noe_count": 182
+          },
+          {
+            "division_id": 2239,
+            "title": "Sentencing Bill: motion to disagree with Lords Amendment 7",
+            "date": "2026-01-20",
+            "voted": "Aye",
+            "aye_count": 319,
+            "noe_count": 127
+          },
+          {
+            "division_id": 2238,
+            "title": "Draft Public Order Act 2023 (Interference With Use or Operation of Key National Infrastructure) Regulations 2025",
+            "date": "2026-01-14",
+            "voted": "Aye",
+            "aye_count": 301,
+            "noe_count": 110
+          }
+        ]
+      },
+      "parliamentary_activity": {
+        "written_questions": 81,
+        "oral_questions": 0,
+        "edms_sponsored": 0,
+        "edms_signed": 0,
+        "top_topics": [
+          {
+            "department": "Department of Health and Social Care",
+            "count": 22
+          },
+          {
+            "department": "Ministry of Housing, Communities and Local Government",
+            "count": 10
+          },
+          {
+            "department": "Department for Science, Innovation and Technology",
+            "count": 9
+          },
+          {
+            "department": "Department for Business and Trade",
+            "count": 7
+          },
+          {
+            "department": "Department for Education",
+            "count": 7
+          },
+          {
+            "department": "Department for Culture, Media and Sport",
+            "count": 7
+          },
+          {
+            "department": "Treasury",
+            "count": 5
+          },
+          {
+            "department": "Department for Work and Pensions",
+            "count": 5
+          },
+          {
+            "department": "Home Office",
+            "count": 3
+          },
+          {
+            "department": "Department for Energy Security and Net Zero",
+            "count": 2
+          }
+        ]
+      },
+      "overlapping_councils": [
+        "west_lancashire"
+      ],
+      "overlapping_wards": {},
+      "claimant_count": [
+        {
+          "month": "January 2026",
+          "date": "2026-01",
+          "claimant_count": 1805,
+          "claimant_rate_pct": 3.1
+        },
+        {
+          "month": "December 2025",
+          "date": "2025-12",
+          "claimant_count": 1760,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "November 2025",
+          "date": "2025-11",
+          "claimant_count": 1755,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "October 2025",
+          "date": "2025-10",
+          "claimant_count": 1740,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "September 2025",
+          "date": "2025-09",
+          "claimant_count": 1755,
+          "claimant_rate_pct": 3.0
+        },
+        {
+          "month": "August 2025",
+          "date": "2025-08",
+          "claimant_count": 1800,
+          "claimant_rate_pct": 3.1
+        },
+        {
+          "month": "July 2025",
+          "date": "2025-07",
+          "claimant_count": 1825,
+          "claimant_rate_pct": 3.1
+        },
+        {
+          "month": "June 2025",
+          "date": "2025-06",
+          "claimant_count": 1890,
+          "claimant_rate_pct": 3.2
+        },
+        {
+          "month": "May 2025",
+          "date": "2025-05",
+          "claimant_count": 1860,
+          "claimant_rate_pct": 3.2
+        },
+        {
+          "month": "April 2025",
+          "date": "2025-04",
+          "claimant_count": 1890,
+          "claimant_rate_pct": 3.2
+        },
+        {
+          "month": "March 2025",
+          "date": "2025-03",
+          "claimant_count": 1895,
+          "claimant_rate_pct": 3.2
+        }
+      ]
+    }
+  ]
+}

@@ -28,9 +28,11 @@
     "integrity": true,
     "elections": true,
     "supplier_profiles": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2021 \u2013 present",
+  "spending_data_period": "April 2021 – present",
   "hero_subtitle": "Explore how Pendle Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Pendle Borough Council",
   "publisher": "Tom Pickup",
@@ -71,51 +73,51 @@
   "foi_url": "https://www.pendle.gov.uk/info/20063/data_protection_and_freedom_of_information",
   "theme_accent": "#F9A825",
   "doge_context": {
-    "total_spend": "\u00a3125M",
+    "total_spend": "£125M",
     "transactions": 49741,
     "suppliers": 3019,
-    "data_period": "April 2021 \u2013 present",
-    "annual_net_revenue_budget": "\u00a317.7M",
+    "data_period": "April 2021 – present",
+    "annual_net_revenue_budget": "£17.7M",
     "political_control": "No overall control. Lib Dem/Independent Group coalition (19 of 33 filled seats, 3 vacancies). Conservative largest single party (11 seats).",
-    "transaction_profile": "Highest transaction volume despite lowest total spend \u2014 many small payments.",
+    "transaction_profile": "Highest transaction volume despite lowest total spend — many small payments.",
     "key_suppliers": [
       {
         "name": "Liberata UK Ltd",
-        "spend": "\u00a316.7M",
+        "spend": "£16.7M",
         "note": "Same outsourcing company as Burnley"
       },
       {
         "name": "FUELMATE LTD",
-        "spend": "\u00a3800.2K",
+        "spend": "£800.2K",
         "transactions": 5047,
         "note": "Most frequent supplier by volume"
       }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a32.3M across 523 high-confidence duplicate groups",
-      "ch_red_flags": "\u00a3815.2K to 23 suppliers with Companies House compliance issues",
-      "ch_breach_spend": "\u00a337.8K to 4 suppliers during active Companies House breaches \u2014 lowest of 3 councils",
-      "transaction_volume": "49,741 transactions \u2014 highest of 3 councils despite lowest total spend, driven by vehicle hire and fuel micro-payments",
-      "split_payments": "\u00a3197.7K suspected across 3 instances",
-      "year_end_spike": "Financial Services spent 2.7x monthly average in March \u2014 below 3x threshold",
-      "round_numbers": "\u00a320.1M across 774 round-number payments over \u00a35K",
-      "benfords_law": "3.3% max digit deviation \u2014 within normal range",
+      "likely_duplicates": "£2.3M across 523 high-confidence duplicate groups",
+      "ch_red_flags": "£815.2K to 23 suppliers with Companies House compliance issues",
+      "ch_breach_spend": "£37.8K to 4 suppliers during active Companies House breaches — lowest of 3 councils",
+      "transaction_volume": "49,741 transactions — highest of 3 councils despite lowest total spend, driven by vehicle hire and fuel micro-payments",
+      "split_payments": "£197.7K suspected across 3 instances",
+      "year_end_spike": "Financial Services spent 2.7x monthly average in March — below 3x threshold",
+      "round_numbers": "£20.1M across 774 round-number payments over £5K",
+      "benfords_law": "3.3% max digit deviation — within normal range",
       "weak_competition": "1 contract with limited competition indicators"
     },
     "notable_suppliers": [
       {
         "name": "Brentwood Borough Council",
-        "spend": "\u00a33M",
-        "note": "Single \u00a33M payment \u2014 cross-authority transfer"
+        "spend": "£3M",
+        "note": "Single £3M payment — cross-authority transfer"
       },
       {
         "name": "Surrey County Council",
-        "spend": "\u00a33M",
-        "note": "Single \u00a33M payment \u2014 cross-authority transfer"
+        "spend": "£3M",
+        "note": "Single £3M payment — cross-authority transfer"
       },
       {
         "name": "WALTON SUMMIT TRUCK CENTRE LTD",
-        "note": "115,237% price gap vs Burnley (\u00a349 avg here vs \u00a356K at Burnley)"
+        "note": "115,237% price gap vs Burnley (£49 avg here vs £56K at Burnley)"
       }
     ]
   }

@@ -27,9 +27,11 @@
     "lgr_tracker": true,
     "integrity": true,
     "elections": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2021 \u2013 present",
+  "spending_data_period": "April 2021 – present",
   "hero_subtitle": "Explore how Ribble Valley Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Ribble Valley Borough Council",
   "publisher": "Tom Pickup",
@@ -71,28 +73,49 @@
   "theme_accent": "#6A1B9A",
   "political_control": "Conservative minority administration (no overall control since 2023). 40 councillors across 26 wards.",
   "doge_context": {
-    "total_spend": "\u00a337.6M",
+    "total_spend": "£37.6M",
     "transactions": 13723,
     "suppliers": 1280,
     "data_period": "2021/2022 - 2025/2026",
-    "annual_net_revenue_budget": "\u00a37.3M",
+    "annual_net_revenue_budget": "£7.3M",
     "political_control": "Conservative minority administration (no overall control since 2023). 40 councillors across 26 wards.",
     "key_suppliers": [
-      { "name": "Lancashire County Council", "spend": "\u00a32.9M", "note": "County-level service payments" },
-      { "name": "Dept for Business Energy & Industrial Strategy", "spend": "\u00a32.0M", "note": "Government grant passthrough" },
-      { "name": "Zurich Insurance Company", "spend": "\u00a31.6M", "transactions": 621, "note": "Insurance \u2014 high transaction volume" }
+      {
+        "name": "Lancashire County Council",
+        "spend": "£2.9M",
+        "note": "County-level service payments"
+      },
+      {
+        "name": "Dept for Business Energy & Industrial Strategy",
+        "spend": "£2.0M",
+        "note": "Government grant passthrough"
+      },
+      {
+        "name": "Zurich Insurance Company",
+        "spend": "£1.6M",
+        "transactions": 621,
+        "note": "Insurance — high transaction volume"
+      }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a3314.7K across 96 high-confidence duplicate groups",
-      "ch_red_flags": "\u00a31.4M to 9 suppliers with Companies House compliance issues",
-      "split_payments": "\u00a346.5K suspected across 1 instance",
+      "likely_duplicates": "£314.7K across 96 high-confidence duplicate groups",
+      "ch_red_flags": "£1.4M to 9 suppliers with Companies House compliance issues",
+      "split_payments": "£46.5K suspected across 1 instance",
       "year_end_spike": "Community Capital spent 12.8x monthly average in March",
-      "round_numbers": "\u00a33.7M across 175 round-number payments over \u00a35K",
-      "benfords_law": "11.9% max digit deviation \u2014 highest of all councils, significant anomaly"
+      "round_numbers": "£3.7M across 175 round-number payments over £5K",
+      "benfords_law": "11.9% max digit deviation — highest of all councils, significant anomaly"
     },
     "notable_suppliers": [
-      { "name": "Huggg Ltd", "spend": "\u00a3788.4K", "note": "Digital gift card platform \u2014 unusual council spending across 37 transactions" },
-      { "name": "Redacted Personal Data", "transactions": 1145, "note": "Highest volume supplier \u2014 personal data redacted" }
+      {
+        "name": "Huggg Ltd",
+        "spend": "£788.4K",
+        "note": "Digital gift card platform — unusual council spending across 37 transactions"
+      },
+      {
+        "name": "Redacted Personal Data",
+        "transactions": 1145,
+        "note": "Highest volume supplier — personal data redacted"
+      }
     ]
   }
 }

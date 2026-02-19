@@ -26,10 +26,12 @@
     "lgr_tracker": true,
     "integrity": true,
     "elections": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2020 \u2013 December 2025",
-  "hero_subtitle": "Explore how Blackburn with Darwen Borough Council spends public money. As a unitary authority managing all local services, Blackburn with Darwen has nearly 500,000 transactions totalling \u00a31.7 billion tracked \u2014 covering social care, education, housing, and waste for 150,000 residents. Note: spending data is too large for interactive browsing but powers the DOGE analysis.",
+  "spending_data_period": "April 2020 – December 2025",
+  "hero_subtitle": "Explore how Blackburn with Darwen Borough Council spends public money. As a unitary authority managing all local services, Blackburn with Darwen has nearly 500,000 transactions totalling £1.7 billion tracked — covering social care, education, housing, and waste for 150,000 residents. Note: spending data is too large for interactive browsing but powers the DOGE analysis.",
   "disclaimer_entity": "Blackburn with Darwen Borough Council",
   "publisher": "Tom Pickup",
   "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
@@ -69,30 +71,54 @@
   "foi_url": "https://www.blackburn.gov.uk/council-and-democracy/information-requests/freedom-of-information",
   "theme_accent": "#003087",
   "doge_context": {
-    "total_spend": "\u00a31.7B",
+    "total_spend": "£1.7B",
     "transactions": 492973,
     "suppliers": 6082,
-    "data_period": "April 2020 \u2013 December 2025",
-    "annual_net_revenue_budget": "\u00a3350M",
+    "data_period": "April 2020 – December 2025",
+    "annual_net_revenue_budget": "£350M",
     "political_control": "Labour majority.",
     "key_suppliers": [
-      { "name": "HMRC", "spend": "\u00a3171.5M", "note": "Tax remittances \u2014 917 transactions" },
-      { "name": "Lancashire County Council", "spend": "\u00a327.9M", "note": "County-level service payments \u2014 1,115 transactions" },
-      { "name": "NHS Lancashire and South Cumbria ICB", "spend": "\u00a326.5M", "note": "Health and social care integration" }
+      {
+        "name": "HMRC",
+        "spend": "£171.5M",
+        "note": "Tax remittances — 917 transactions"
+      },
+      {
+        "name": "Lancashire County Council",
+        "spend": "£27.9M",
+        "note": "County-level service payments — 1,115 transactions"
+      },
+      {
+        "name": "NHS Lancashire and South Cumbria ICB",
+        "spend": "£26.5M",
+        "note": "Health and social care integration"
+      }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a333.1M across 4,311 high-confidence duplicate groups",
-      "split_payments": "\u00a3147.5M suspected across 363 instances",
+      "likely_duplicates": "£33.1M across 4,311 high-confidence duplicate groups",
+      "split_payments": "£147.5M suspected across 363 instances",
       "year_end_spike": "Adults and Prevention Services spent 4.6x monthly average in March",
-      "round_numbers": "\u00a361.0M across 2,557 round-number payments",
-      "benfords_law": "3.6% max digit deviation \u2014 within normal range",
-      "ch_red_flags": "\u00a35.1M to 15 suppliers with Companies House compliance issues",
+      "round_numbers": "£61.0M across 2,557 round-number payments",
+      "benfords_law": "3.6% max digit deviation — within normal range",
+      "ch_red_flags": "£5.1M to 15 suppliers with Companies House compliance issues",
       "weak_competition": "16 contracts with limited competition indicators"
     },
     "notable_suppliers": [
-      { "name": "Homecare For You", "spend": "\u00a339.8M", "note": "Domiciliary care \u2014 16,699 transactions" },
-      { "name": "Guardian Homecare UK Ltd", "spend": "\u00a339.4M", "note": "Domiciliary care \u2014 12,157 transactions" },
-      { "name": "Lifeways Paragon Ltd", "spend": "\u00a337.5M", "note": "Supported living \u2014 7,172 transactions" }
+      {
+        "name": "Homecare For You",
+        "spend": "£39.8M",
+        "note": "Domiciliary care — 16,699 transactions"
+      },
+      {
+        "name": "Guardian Homecare UK Ltd",
+        "spend": "£39.4M",
+        "note": "Domiciliary care — 12,157 transactions"
+      },
+      {
+        "name": "Lifeways Paragon Ltd",
+        "spend": "£37.5M",
+        "note": "Supported living — 7,172 transactions"
+      }
     ]
   }
 }

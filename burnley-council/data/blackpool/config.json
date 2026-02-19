@@ -26,10 +26,12 @@
     "lgr_tracker": true,
     "integrity": true,
     "elections": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2019 \u2013 January 2026",
-  "hero_subtitle": "Explore how Blackpool Council spends public money. As a unitary authority with a \u00a31.2 billion annual budget, Blackpool manages all local services \u2014 from social care and education to housing and waste \u2014 serving 141,000 residents on the Fylde Coast.",
+  "spending_data_period": "April 2019 – January 2026",
+  "hero_subtitle": "Explore how Blackpool Council spends public money. As a unitary authority with a £1.2 billion annual budget, Blackpool manages all local services — from social care and education to housing and waste — serving 141,000 residents on the Fylde Coast.",
   "disclaimer_entity": "Blackpool Council",
   "publisher": "Tom Pickup",
   "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
@@ -69,30 +71,54 @@
   "foi_url": "https://www.blackpool.gov.uk/Your-Council/Transparency-and-open-data/Freedom-of-information/Freedom-of-information.aspx",
   "theme_accent": "#e85d1e",
   "doge_context": {
-    "total_spend": "\u00a34.1B",
+    "total_spend": "£4.1B",
     "transactions": 630914,
     "suppliers": 9846,
-    "data_period": "April 2019 \u2013 January 2026",
-    "annual_net_revenue_budget": "\u00a3480M",
+    "data_period": "April 2019 – January 2026",
+    "annual_net_revenue_budget": "£480M",
     "political_control": "Labour majority. Leader: Cllr Lynn Williams.",
     "key_suppliers": [
-      { "name": "Bank of Scotland", "spend": "\u00a3124.6M", "note": "Loan/debt payments \u2014 only 24 transactions, avg \u00a35.2M each" },
-      { "name": "Muse Developments Ltd", "spend": "\u00a3118.6M", "note": "Talbot Gateway regeneration project" },
-      { "name": "Lancashire County Council", "spend": "\u00a3110.4M", "note": "County-level service payments \u2014 905 transactions" }
+      {
+        "name": "Bank of Scotland",
+        "spend": "£124.6M",
+        "note": "Loan/debt payments — only 24 transactions, avg £5.2M each"
+      },
+      {
+        "name": "Muse Developments Ltd",
+        "spend": "£118.6M",
+        "note": "Talbot Gateway regeneration project"
+      },
+      {
+        "name": "Lancashire County Council",
+        "spend": "£110.4M",
+        "note": "County-level service payments — 905 transactions"
+      }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a3217.7K across 50 high-confidence duplicate groups",
-      "split_payments": "\u00a3198.3M suspected across 524 instances",
-      "year_end_spike": "2.6x monthly average in March \u2014 below 3x threshold",
-      "round_numbers": "\u00a3342.5M across 5,331 round-number payments \u2014 highest of all councils",
-      "benfords_law": "2.9% max digit deviation \u2014 within normal range",
-      "ch_red_flags": "\u00a35.6M to 19 suppliers with Companies House compliance issues",
+      "likely_duplicates": "£217.7K across 50 high-confidence duplicate groups",
+      "split_payments": "£198.3M suspected across 524 instances",
+      "year_end_spike": "2.6x monthly average in March — below 3x threshold",
+      "round_numbers": "£342.5M across 5,331 round-number payments — highest of all councils",
+      "benfords_law": "2.9% max digit deviation — within normal range",
+      "ch_red_flags": "£5.6M to 19 suppliers with Companies House compliance issues",
       "weak_competition": "34 contracts with limited competition indicators"
     },
     "notable_suppliers": [
-      { "name": "Bank of Scotland", "spend": "\u00a3124.6M", "issue": "Only 24 transactions averaging \u00a35.2M each \u2014 loan/debt servicing" },
-      { "name": "Muse Developments Ltd", "spend": "\u00a3118.6M", "note": "Talbot Gateway regeneration \u2014 major capital project" },
-      { "name": "Enveco Blackpool Waste Services Ltd", "spend": "\u00a371.2M", "note": "Waste management contract" }
+      {
+        "name": "Bank of Scotland",
+        "spend": "£124.6M",
+        "issue": "Only 24 transactions averaging £5.2M each — loan/debt servicing"
+      },
+      {
+        "name": "Muse Developments Ltd",
+        "spend": "£118.6M",
+        "note": "Talbot Gateway regeneration — major capital project"
+      },
+      {
+        "name": "Enveco Blackpool Waste Services Ltd",
+        "spend": "£71.2M",
+        "note": "Waste management contract"
+      }
     ]
   }
 }

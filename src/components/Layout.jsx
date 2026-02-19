@@ -31,6 +31,7 @@ const navSections = [
       { path: '/demographics', icon: Globe, label: 'Demographics', requires: 'demographics' },
       { path: '/lgr', icon: Landmark, label: 'LGR Tracker', requires: 'lgr_tracker' },
       { path: '/elections', icon: Vote, label: 'Elections', requires: 'elections' },
+      { path: '/constituencies', icon: Landmark, label: 'MPs', requires: 'constituencies' },
       { path: '/lgr-calculator', icon: Calculator, label: 'LGR Cost', requires: 'lgr_tracker' },
       { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
     ],

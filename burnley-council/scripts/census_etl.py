@@ -93,6 +93,15 @@ DATASETS = {
         "id": "NM_2083_1",
         "cat_col": "C2021_EASTAT_20_NAME",
     },
+    # New datasets for election model (Phase A3)
+    "qualifications": {
+        "id": "NM_2084_1",
+        "cat_col": "C2021_HIQUAL_8_NAME",
+    },
+    "tenure": {
+        "id": "NM_2072_1",
+        "cat_col": "C2021_TENURE_9_NAME",
+    },
 }
 
 
@@ -335,7 +344,202 @@ def compute_summary(totals):
         summary["employment_rate_pct"] = round(employed / econ_total * 100, 1)
         summary["unemployment_rate_pct"] = round(unemployed / econ_total * 100, 1)
 
+    # Qualifications summary (NM_2070_1)
+    # Key categories: "No qualifications", "Level 1", "Level 2", "Apprenticeship",
+    # "Level 3", "Level 4 qualifications and above", "Other qualifications"
+    quals = totals.get("qualifications", {})
+    quals_total = 0
+    no_quals = 0
+    level4_plus = 0
+    for k, v in quals.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if "total" in kl:
+            quals_total = v
+        elif "no qualifications" in kl:
+            no_quals = v
+        elif "level 4" in kl:
+            level4_plus = v
+    if quals_total:
+        summary["no_qualifications"] = no_quals
+        summary["no_qualifications_pct"] = round(no_quals / quals_total * 100, 1)
+        summary["degree_or_above"] = level4_plus
+        summary["degree_or_above_pct"] = round(level4_plus / quals_total * 100, 1)
+
+    # Housing tenure summary (NM_2072_1)
+    # Key categories: "Owned: Owns outright", "Owned: Owns with a mortgage...",
+    # "Social rented", "Private rented", "Lives rent free"
+    ten = totals.get("tenure", {})
+    ten_total = 0
+    owned = 0
+    social_rent = 0
+    private_rent = 0
+    for k, v in ten.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            ten_total = v
+        elif kl == "owned":
+            # Parent category "Owned" = sum of outright + mortgage. Use this directly
+            owned = v
+        elif "social rented" in kl and ":" not in kl:
+            # Parent "Social rented" not sub-categories
+            social_rent = v
+        elif "private rented" in kl and ":" not in kl:
+            # Parent "Private rented" not sub-categories
+            private_rent = v
+    if ten_total:
+        summary["owned"] = owned
+        summary["owned_pct"] = round(owned / ten_total * 100, 1)
+        summary["social_rented"] = social_rent
+        summary["social_rented_pct"] = round(social_rent / ten_total * 100, 1)
+        summary["private_rented"] = private_rent
+        summary["private_rented_pct"] = round(private_rent / ten_total * 100, 1)
+
     return summary
+
+
+# ---------------------------------------------------------------------------
+# Claimant Count (NM_162_1) — real-time DWP data at constituency level
+# ---------------------------------------------------------------------------
+
+# Lancashire constituency Nomis internal codes for TYPE172 (2024 boundaries)
+# ONS codes are E14001xxx, but Nomis needs the integer codes for API queries
+LANCASHIRE_CONSTITUENCIES = {
+    "burnley": {"nomis_id": "721420368", "ons": "E14001142", "name": "Burnley"},
+    "hyndburn": {"nomis_id": "721420525", "ons": "E14001299", "name": "Hyndburn"},
+    "pendle_and_clitheroe": {"nomis_id": "721420648", "ons": "E14001422", "name": "Pendle and Clitheroe"},
+    "rossendale_and_darwen": {"nomis_id": "721420676", "ons": "E14001450", "name": "Rossendale and Darwen"},
+    "lancaster_and_wyre": {"nomis_id": "721420544", "ons": "E14001318", "name": "Lancaster and Wyre"},
+    "morecambe_and_lunesdale": {"nomis_id": "721420598", "ons": "E14001372", "name": "Morecambe and Lunesdale"},
+    "ribble_valley": {"nomis_id": "721420669", "ons": "E14001443", "name": "Ribble Valley"},
+    "chorley": {"nomis_id": "721420396", "ons": "E14001170", "name": "Chorley"},
+    "south_ribble": {"nomis_id": "721420717", "ons": "E14001491", "name": "South Ribble"},
+    "preston": {"nomis_id": "721420659", "ons": "E14001433", "name": "Preston"},
+    "west_lancashire": {"nomis_id": "721420803", "ons": "E14001577", "name": "West Lancashire"},
+    "fylde": {"nomis_id": "721420468", "ons": "E14001242", "name": "Fylde"},
+    "blackpool_north_and_fleetwood": {"nomis_id": "721420330", "ons": "E14001104", "name": "Blackpool North and Fleetwood"},
+    "blackpool_south": {"nomis_id": "721420331", "ons": "E14001105", "name": "Blackpool South"},
+    "blackburn": {"nomis_id": "721420328", "ons": "E14001102", "name": "Blackburn"},
+    "southport": {"nomis_id": "721420730", "ons": "E14001504", "name": "Southport"},
+}
+
+
+def fetch_claimant_count(nomis_id, constituency_name, months=12):
+    """Fetch claimant count data for a constituency from Nomis NM_162_1.
+
+    Uses TYPE172 (Westminster Parliamentary Constituencies July 2024).
+    Nomis requires integer IDs and explicit YYYY-MM time values (not 'latestN').
+    Returns list of {month, claimant_count, claimant_rate} dicts.
+    """
+    from datetime import datetime as dt
+    from datetime import timedelta
+
+    # Build time range: last N months as YYYY-MM format
+    now = dt.now()
+    time_values = []
+    for i in range(months):
+        d = now - timedelta(days=30 * i)
+        time_values.append(d.strftime("%Y-%m"))
+    time_str = ",".join(time_values)
+
+    # Fetch count + rate (measure 1 = count, measure 2 = rate as % of 16-64)
+    params = {
+        "geography": nomis_id,
+        "gender": "0",  # Total
+        "age": "0",     # All ages (16+)
+        "measure": "1,2",  # Count + rate
+        "measures": "20100",
+        "time": time_str,
+    }
+    url = f"{NOMIS_BASE}/dataset/NM_162_1.data.csv?{urllib.parse.urlencode(params)}"
+
+    try:
+        rows = nomis_fetch_csv(url, f"claimant count for {constituency_name}")
+    except Exception as e:
+        print(f"  x Claimant count failed for {constituency_name}: {e}", file=sys.stderr)
+        return []
+
+    # Group by month — measure 1 is count, measure 2 is rate
+    month_data = {}
+    for row in rows:
+        month = row.get("DATE_NAME", "")
+        date_code = row.get("DATE_CODE", row.get("DATE", ""))
+        measure = row.get("MEASURE_NAME", "")
+        value = row.get("OBS_VALUE", "0")
+
+        if month not in month_data:
+            month_data[month] = {"month": month, "date": date_code}
+
+        try:
+            val = float(value)
+        except (ValueError, TypeError):
+            val = 0
+
+        if "count" in measure.lower():
+            month_data[month]["claimant_count"] = int(val)
+        elif "proportion" in measure.lower() or "rate" in measure.lower():
+            month_data[month]["claimant_rate_pct"] = round(val, 1)
+
+    # Sort by date descending (newest first)
+    results = sorted(month_data.values(), key=lambda x: x.get("date", ""), reverse=True)
+    return results
+
+
+def build_constituency_demographics():
+    """Build constituency-level demographics by aggregating ward data + claimant count.
+
+    Uses ward-level Census data from existing council demographics.json files,
+    plus constituency-level claimant count from NM_162_1 (TYPE460).
+
+    Returns dict of {constituency_id: demographics_data}
+    """
+    shared_dir = DATA_DIR / "shared"
+    const_path = shared_dir / "constituencies.json"
+
+    if not const_path.exists():
+        print("ERROR: constituencies.json not found — run constituency_etl.py first", file=sys.stderr)
+        return {}
+
+    const_data = json.loads(const_path.read_text(encoding="utf-8"))
+    constituencies = {c["id"]: c for c in const_data.get("constituencies", [])}
+
+    # Load all council demographics files for ward data
+    council_demos = {}
+    for cid in COUNCILS:
+        demo_path = DATA_DIR / cid / "demographics.json"
+        if demo_path.exists():
+            council_demos[cid] = json.loads(demo_path.read_text(encoding="utf-8"))
+
+    results = {}
+    for const_id, const_info in LANCASHIRE_CONSTITUENCIES.items():
+        print(f"\n  {const_info['name']}:", file=sys.stderr)
+
+        demo_data = {
+            "constituency_id": const_id,
+            "constituency_name": const_info["name"],
+            "ons_code": const_info["ons"],
+        }
+
+        # Fetch claimant count (constituency-level, real-time)
+        print(f"    Fetching claimant count...", file=sys.stderr)
+        time.sleep(0.5)
+        claimant_data = fetch_claimant_count(
+            const_info["nomis_id"], const_info["name"], months=12
+        )
+        if claimant_data:
+            demo_data["claimant_count"] = claimant_data
+            latest = claimant_data[0] if claimant_data else {}
+            print(f"    Latest: {latest.get('claimant_count', '?')} claimants ({latest.get('month', '?')})",
+                  file=sys.stderr)
+        else:
+            print(f"    No claimant data available", file=sys.stderr)
+
+        results[const_id] = demo_data
+
+    return results
 
 
 def main():
@@ -344,10 +548,54 @@ def main():
         description="Fetch Census 2021 ward-level demographics from Nomis"
     )
     parser.add_argument("--council", help="Single council ID (default: all)")
+    parser.add_argument("--constituency", action="store_true",
+                        help="Build constituency-level demographics (claimant count)")
     parser.add_argument("--stdout", action="store_true", help="Print to stdout only")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be fetched")
     args = parser.parse_args()
 
+    if args.constituency:
+        # Constituency mode: fetch claimant count data
+        print("Fetching constituency-level demographics...", file=sys.stderr)
+        results = build_constituency_demographics()
+
+        output_data = {
+            "meta": {
+                "source": "DWP Claimant Count via Nomis API (NM_162_1)",
+                "geography": "TYPE460 (2024 Westminster constituency boundaries)",
+                "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "constituencies_count": len(results),
+            },
+            "constituencies": results,
+        }
+
+        output = json.dumps(output_data, indent=2, ensure_ascii=False)
+
+        if args.stdout or args.dry_run:
+            print(output)
+        else:
+            # Merge claimant count into constituencies.json
+            shared_dir = DATA_DIR / "shared"
+            const_path = shared_dir / "constituencies.json"
+            if const_path.exists():
+                const_data = json.loads(const_path.read_text(encoding="utf-8"))
+                merged = 0
+                for const in const_data.get("constituencies", []):
+                    cid = const.get("id")
+                    if cid in results and results[cid].get("claimant_count"):
+                        const["claimant_count"] = results[cid]["claimant_count"]
+                        merged += 1
+                const_data["meta"]["claimant_count_updated"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+                const_path.write_text(json.dumps(const_data, indent=2, ensure_ascii=False), encoding="utf-8")
+                print(f"\nMerged claimant count for {merged} constituencies into {const_path}", file=sys.stderr)
+            else:
+                # Save standalone
+                out_path = shared_dir / "constituency_demographics.json"
+                out_path.write_text(output, encoding="utf-8")
+                print(f"\nWritten: {out_path}", file=sys.stderr)
+        return
+
+    # Council mode (existing behaviour)
     targets = {args.council: COUNCILS[args.council]} if args.council else COUNCILS
 
     if args.dry_run:

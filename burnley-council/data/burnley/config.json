@@ -26,9 +26,11 @@
     "integrity": true,
     "elections": true,
     "supplier_profiles": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2021 \u2013 present",
+  "spending_data_period": "April 2021 – present",
   "hero_subtitle": "Explore how Burnley Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Burnley Borough Council",
   "publisher": "Tom Pickup",
@@ -69,54 +71,54 @@
   "foi_url": "https://burnley.gov.uk/council-democracy/freedom-of-information-foi/",
   "theme_accent": "#0a84ff",
   "doge_context": {
-    "total_spend": "\u00a3355M",
+    "total_spend": "£355M",
     "transactions": 30580,
     "suppliers": 4485,
-    "data_period": "April 2021 \u2013 present",
-    "annual_net_revenue_budget": "\u00a318.7M",
+    "data_period": "April 2021 – present",
+    "annual_net_revenue_budget": "£18.7M",
     "political_control": "Independent/Lib Dem/Green coalition (23 seats, majority of 1). Labour largest opposition group (13 seats inc. Co-op).",
     "key_suppliers": [
       {
         "name": "Liberata UK Ltd",
-        "spend": "\u00a336.7M",
+        "spend": "£36.7M",
         "note": "Outsourcing contract being brought in-house"
       },
       {
         "name": "URBASER LTD",
-        "spend": "\u00a319.5M",
+        "spend": "£19.5M",
         "transactions": 959,
         "note": "Waste collection"
       },
       {
         "name": "Geldards LLP",
-        "spend": "\u00a320.3M",
+        "spend": "£20.3M",
         "note": "Pioneer Place capital development solicitors"
       }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a3510.7K across 137 high-confidence duplicate groups",
-      "ch_breach_spend": "\u00a36.6K to 2 suppliers confirmed during active Companies House breaches (temporally verified)",
-      "transparency_gap": "100% of transactions have no description \u2014 worst of any East Lancashire council. 13.2% missing department data.",
-      "split_payments": "\u00a35.1M suspected across 11 instances (80%+ of approval thresholds)",
+      "likely_duplicates": "£510.7K across 137 high-confidence duplicate groups",
+      "ch_breach_spend": "£6.6K to 2 suppliers confirmed during active Companies House breaches (temporally verified)",
+      "transparency_gap": "100% of transactions have no description — worst of any East Lancashire council. 13.2% missing department data.",
+      "split_payments": "£5.1M suspected across 11 instances (80%+ of approval thresholds)",
       "year_end_spike": "Multiple departments spent 5.7x monthly average in March",
-      "round_numbers": "\u00a331.8M across 1,486 round-number payments over \u00a35K",
-      "benfords_law": "5.0% max digit deviation \u2014 borderline threshold",
+      "round_numbers": "£31.8M across 1,486 round-number payments over £5K",
+      "benfords_law": "5.0% max digit deviation — borderline threshold",
       "weak_competition": "23 contracts with limited competition indicators"
     },
     "notable_suppliers": [
       {
         "name": "DLH Professional Services Ltd",
-        "spend": "\u00a34K",
+        "spend": "£4K",
         "issue": "Paid during active strike-off / confirmation statement breach"
       },
       {
         "name": "Home First Interiors Ltd",
-        "spend": "\u00a32.7K",
+        "spend": "£2.7K",
         "issue": "Paid during active strike-off / confirmation statement breach"
       },
       {
         "name": "JML Property Solutions Ltd",
-        "spend": "\u00a348K",
+        "spend": "£48K",
         "issue": "Facing strike-off proceedings"
       }
     ]

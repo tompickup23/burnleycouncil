@@ -10,6 +10,7 @@ import {
   applyOverrides,
   computeCoalitions,
   projectToLGRAuthority,
+  predictConstituencyGE,
 } from '../utils/electionModel'
 import { LoadingState } from '../components/ui'
 import {
@@ -20,7 +21,7 @@ import { Link } from 'react-router-dom'
 import {
   Calendar, Users, Vote, TrendingUp, ChevronDown, ChevronRight,
   MapPin, Sliders, RotateCcw, Building, ExternalLink, AlertTriangle,
-  BarChart3, Target, Handshake, Map, PieChart as PieChartIcon,
+  BarChart3, Target, Handshake, Map, PieChart as PieChartIcon, Landmark,
 } from 'lucide-react'
 import './Elections.css'
 
@@ -139,6 +140,7 @@ function getSections(isCounty) {
   const areaLabel = isCounty ? 'Division' : 'Ward'
   return [
     { id: 'overview', label: 'Overview', icon: Calendar },
+    { id: 'polling', label: 'Polling', icon: TrendingUp },
     { id: 'history', label: 'Council History', icon: BarChart3 },
     { id: 'wards', label: `${areaLabel} Explorer`, icon: MapPin },
     { id: 'predictions', label: 'Predictions', icon: Target },
@@ -146,6 +148,7 @@ function getSections(isCounty) {
     { id: 'coalitions', label: 'Coalitions', icon: Handshake },
     { id: 'lgr', label: 'LGR Projections', icon: Map },
     { id: 'demographics', label: 'Demographics', icon: Users },
+    { id: 'constituencies', label: 'MPs', icon: Landmark },
   ]
 }
 
@@ -173,6 +176,11 @@ export default function Elections() {
 
   // LGR data for projections section
   const { data: lgrData } = useData('/data/shared/lgr_tracker.json')
+
+  // Polling + Constituency data
+  const { data: pollingData } = useData('/data/shared/polling.json')
+  const { data: constData } = useData('/data/shared/constituencies.json')
+  const { data: modelCoeffs } = useData('/data/shared/model_coefficients.json')
 
   // --- State ---
   const [activeSection, setActiveSection] = useState('overview')
@@ -570,6 +578,105 @@ export default function Elections() {
             </div>
           )}
         </div>
+      </section>
+
+      {/* ================================================================ */}
+      {/* SECTION: Polling Dashboard                                       */}
+      {/* ================================================================ */}
+      <section id="elec-polling" className="elec-section">
+        <h2 className="elec-section-title">
+          <TrendingUp size={22} className="elec-section-icon" />
+          National Polling
+        </h2>
+
+        {pollingData?.aggregate ? (
+          <div className="elec-polling-dashboard">
+            <div className="elec-stat-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+              {Object.entries(pollingData.aggregate)
+                .sort((a, b) => b[1] - a[1])
+                .map(([party, share]) => {
+                  const trend = pollingData.trend_30d?.[party]
+                  return (
+                    <div key={party} className="elec-stat-card">
+                      <div className="elec-stat-label" style={{ color: partyColors[party] || '#ccc' }}>{party}</div>
+                      <div className="elec-stat-value">{(share * 100).toFixed(1)}%</div>
+                      {trend != null && (
+                        <div className={`elec-stat-trend ${trend > 0 ? 'positive' : trend < 0 ? 'negative' : ''}`}>
+                          {trend > 0 ? '\u25B2' : trend < 0 ? '\u25BC' : '\u2014'} {Math.abs(trend * 100).toFixed(1)}pp / 30d
+                        </div>
+                      )}
+                    </div>
+                  )
+                })
+              }
+            </div>
+
+            {/* Individual polls table */}
+            {pollingData.individual_polls?.length > 0 && (
+              <div className="elec-card" style={{ marginTop: '1rem' }}>
+                <h3 className="elec-card-title">Recent Polls</h3>
+                <div style={{ overflowX: 'auto' }}>
+                  <table className="elec-table">
+                    <thead>
+                      <tr>
+                        <th>Pollster</th>
+                        <th>Date</th>
+                        <th>Sample</th>
+                        {Object.keys(pollingData.aggregate).sort((a, b) => (pollingData.aggregate[b] || 0) - (pollingData.aggregate[a] || 0)).slice(0, 5).map(p => (
+                          <th key={p} style={{ color: partyColors[p] || '#ccc' }}>{p.replace('Liberal Democrats', 'Lib Dem').replace('Reform UK', 'Reform').replace('Green Party', 'Green')}</th>
+                        ))}
+                        <th>Weight</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pollingData.individual_polls.slice(0, 10).map((poll, i) => (
+                        <tr key={i}>
+                          <td>{poll.pollster}</td>
+                          <td style={{ whiteSpace: 'nowrap' }}>{poll.end_date}</td>
+                          <td>{poll.sample_size?.toLocaleString()}</td>
+                          {Object.keys(pollingData.aggregate).sort((a, b) => (pollingData.aggregate[b] || 0) - (pollingData.aggregate[a] || 0)).slice(0, 5).map(p => (
+                            <td key={p} style={{ color: partyColors[p] || '#ccc' }}>
+                              {poll.parties?.[p] ? `${(poll.parties[p] * 100).toFixed(0)}%` : '\u2014'}
+                            </td>
+                          ))}
+                          <td>{poll.weight ? (poll.weight * 100).toFixed(0) + '%' : '\u2014'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="elec-methodology-note" style={{ marginTop: '0.75rem' }}>
+                  Methodology: {pollingData.meta?.methodology?.weighting || 'Weighted average of recent polls'}.
+                  {pollingData.meta?.polls_aggregated && ` ${pollingData.meta.polls_aggregated} polls aggregated.`}
+                </p>
+              </div>
+            )}
+
+            {/* Swing from GE2024 */}
+            {pollingData.swing_from_ge2024 && (
+              <div className="elec-card" style={{ marginTop: '1rem' }}>
+                <h3 className="elec-card-title">Swing from GE2024</h3>
+                <div className="elec-stat-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))' }}>
+                  {Object.entries(pollingData.swing_from_ge2024)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([party, swing]) => (
+                      <div key={party} className="elec-stat-card">
+                        <div className="elec-stat-label" style={{ color: partyColors[party] || '#ccc' }}>{party}</div>
+                        <div className={`elec-stat-value ${swing > 0 ? 'positive' : 'negative'}`} style={{ color: swing > 0.01 ? '#30d158' : swing < -0.01 ? '#ff453a' : '#8e8e93' }}>
+                          {swing > 0 ? '+' : ''}{(swing * 100).toFixed(1)}pp
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="elec-card">
+            <p style={{ color: '#8e8e93' }}>Polling data not available. Run poll_aggregator.py to generate polling.json.</p>
+          </div>
+        )}
       </section>
 
       {/* ================================================================ */}
@@ -1427,6 +1534,86 @@ export default function Elections() {
               )
             })()}
           </>
+        )}
+      </section>
+
+      {/* ================================================================ */}
+      {/* SECTION: Constituency Predictions                                */}
+      {/* ================================================================ */}
+      <section id="elec-constituencies" className="elec-section">
+        <h2 className="elec-section-title">
+          <Landmark size={22} className="elec-section-icon" />
+          Lancashire MPs
+        </h2>
+
+        {constData?.constituencies?.length > 0 ? (
+          <div className="elec-constituency-predictions">
+            <div className="elec-stat-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+              {constData.constituencies.map(c => {
+                const mp = c.mp || {}
+                const partyColor = partyColors[mp.party] || partyColors[mp.party?.replace(' (Co-op)', '')] || '#888'
+                const pred = pollingData && modelCoeffs
+                  ? predictConstituencyGE(c, pollingData, modelCoeffs)
+                  : null
+
+                return (
+                  <Link
+                    key={c.id}
+                    to={`/constituency/${c.id}`}
+                    className="elec-card elec-constituency-card"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: partyColor }} />
+                    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      {mp.photo_url && (
+                        <img
+                          src={mp.photo_url}
+                          alt={mp.name}
+                          style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #3a3a3c' }}
+                          loading="lazy"
+                          onError={e => { e.target.style.display = 'none' }}
+                        />
+                      )}
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{c.name}</div>
+                        <div style={{ fontSize: '0.8rem', color: '#a1a1a6' }}>{mp.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: partyColor, fontWeight: 600 }}>{mp.party}</div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.78rem' }}>
+                      <div>
+                        <span style={{ color: '#636366' }}>GE2024 majority: </span>
+                        <span style={{ fontWeight: 600 }}>{mp.majority_pct ? `${(mp.majority_pct * 100).toFixed(1)}%` : '\u2014'}</span>
+                      </div>
+                      {pred?.prediction && (
+                        <>
+                          <div>
+                            <span style={{ color: '#636366' }}>Predicted winner: </span>
+                            <span style={{ fontWeight: 600, color: partyColors[pred.winner] || '#ccc' }}>{pred.winner}</span>
+                          </div>
+                          {pred.mpChange && (
+                            <div style={{ gridColumn: '1 / -1', color: '#ff9f0a', fontWeight: 600 }}>
+                              Seat change: {mp.party?.replace(' (Co-op)', '')} &rarr; {pred.winner}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+
+            <p className="elec-methodology-note" style={{ marginTop: '1rem' }}>
+              Constituency predictions based on uniform national swing from polling aggregate, with party-specific dampening.
+              {constData.meta?.generated && ` Data updated ${constData.meta.generated.split('T')[0]}.`}
+            </p>
+          </div>
+        ) : (
+          <div className="elec-card">
+            <p style={{ color: '#8e8e93' }}>Constituency data not available.</p>
+          </div>
         )}
       </section>
 

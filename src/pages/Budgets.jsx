@@ -49,6 +49,7 @@ function Budgets() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilFullName = config.council_full_name || 'Borough Council'
+  const councilTier = config.council_tier || 'district'
   const hasBudgets = config.data_sources?.budgets !== false
   const hasBudgetTrends = config.data_sources?.budget_trends
 

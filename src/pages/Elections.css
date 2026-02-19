@@ -1104,6 +1104,74 @@
   color: #636366;
 }
 
+/* ===================== Section title with icon ===================== */
+.elec-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.elec-section-icon {
+  flex-shrink: 0;
+}
+
+/* ===================== Generic card ===================== */
+.elec-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.elec-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: #e5e5e7;
+}
+
+/* ===================== Stat grid + stat cards ===================== */
+.elec-stat-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.elec-stat-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+/* ===================== Polling dashboard ===================== */
+.elec-stat-trend {
+  font-size: 0.72rem;
+  color: #8e8e93;
+  margin-top: 0.15rem;
+}
+.elec-stat-trend.positive { color: #30d158; }
+.elec-stat-trend.negative { color: #ff453a; }
+
+/* ===================== Constituency card ===================== */
+.elec-constituency-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.elec-constituency-card:hover {
+  border-color: #0a84ff;
+  transform: translateY(-2px);
+}
+
+/* ===================== Methodology note ===================== */
+.elec-methodology-note {
+  color: #636366;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
 /* ===================== Responsive ===================== */
 @media (max-width: 768px) {
   .elec-section-nav {

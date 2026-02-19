@@ -1,0 +1,777 @@
+/* ConstituencyView.css — AI DOGE Constituency MP Profile Page */
+
+/* ===================== Page Layout ===================== */
+.cv-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.cv-header {
+  margin-bottom: 1.5rem;
+}
+
+.cv-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #0a84ff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.cv-back-link:hover {
+  text-decoration: underline;
+}
+
+.cv-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.cv-subtitle {
+  color: #8e8e93;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* ===================== Error / Empty states ===================== */
+.cv-error {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #636366;
+}
+
+.cv-error svg {
+  margin-bottom: 1rem;
+  opacity: 0.4;
+  color: #ff453a;
+}
+
+.cv-error h2 {
+  color: #e5e5e7;
+  margin-bottom: 0.5rem;
+}
+
+.cv-error p {
+  margin-bottom: 1rem;
+}
+
+/* ===================== Section Navigation ===================== */
+.cv-section-nav {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 20;
+}
+
+.cv-section-nav .section-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.85rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #8e8e93;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cv-section-nav .section-nav-btn:hover {
+  background: #2c2c2e;
+  color: #e5e5e7;
+}
+
+.cv-section-nav .section-nav-btn.active {
+  background: #0a84ff;
+  color: #fff;
+  border-color: transparent;
+}
+
+.cv-section-nav .section-nav-btn svg {
+  flex-shrink: 0;
+}
+
+/* ===================== Sections ===================== */
+.cv-section {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 4rem;
+}
+
+.cv-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.cv-section-desc {
+  color: #8e8e93;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* ===================== Hero / Overview ===================== */
+.cv-hero {
+  display: flex;
+  gap: 2rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 16px;
+  padding: 2rem;
+  align-items: flex-start;
+}
+
+.cv-hero-photo-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.cv-mp-photo {
+  width: 160px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #3a3a3c;
+}
+
+.cv-mp-photo-placeholder {
+  width: 160px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2c2c2e;
+  border-radius: 12px;
+  color: #636366;
+}
+
+.cv-hero-info-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.cv-mp-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.cv-mp-constituency {
+  color: #8e8e93;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-mp-constituency strong {
+  color: #e5e5e7;
+}
+
+.cv-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-parliament-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #0a84ff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.cv-parliament-link:hover {
+  text-decoration: underline;
+}
+
+/* ===================== Stat Box ===================== */
+.cv-stat-box {
+  display: flex;
+  flex-direction: column;
+  background: #2c2c2e;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.cv-stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cv-stat-label {
+  font-size: 0.72rem;
+  color: #8e8e93;
+  margin-top: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cv-stat-sub {
+  font-size: 0.75rem;
+  color: #636366;
+  margin-top: 0.1rem;
+}
+
+/* ===================== Party Badge ===================== */
+.cv-party-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* ===================== Vote Badge ===================== */
+.cv-vote-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.cv-vote-badge.aye {
+  background: #30d158;
+}
+
+.cv-vote-badge.no {
+  background: #ff453a;
+}
+
+/* ===================== Chart Cards ===================== */
+.cv-chart-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-chart-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #e5e5e7;
+}
+
+/* ===================== Election Summary ===================== */
+.cv-election-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ===================== Candidates Table ===================== */
+.cv-candidates-table-wrap {
+  margin-top: 1.25rem;
+}
+
+.cv-table-wrap {
+  overflow-x: auto;
+}
+
+.cv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.cv-table thead th {
+  text-align: left;
+  font-size: 0.72rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #2c2c2e;
+  font-weight: 600;
+}
+
+.cv-table tbody tr {
+  border-bottom: 1px solid rgba(44, 44, 46, 0.5);
+  transition: background 0.15s;
+}
+
+.cv-table tbody tr:hover {
+  background: rgba(44, 44, 46, 0.4);
+}
+
+.cv-table td {
+  padding: 0.6rem 0.75rem;
+  color: #e5e5e7;
+  vertical-align: middle;
+}
+
+.cv-candidate-marker {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.cv-elected-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #30d158;
+  background: rgba(48, 209, 88, 0.12);
+  margin-left: 0.5rem;
+}
+
+.cv-vote-title {
+  max-width: 400px;
+  line-height: 1.4;
+}
+
+.cv-vote-date {
+  white-space: nowrap;
+  color: #8e8e93;
+  font-size: 0.82rem;
+}
+
+/* ===================== Voting Summary ===================== */
+.cv-voting-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ===================== Pending / Empty Card ===================== */
+.cv-pending-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: #636366;
+}
+
+.cv-pending-card svg {
+  opacity: 0.4;
+}
+
+.cv-pending-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ===================== Activity Grid ===================== */
+.cv-activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cv-activity-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.cv-activity-count {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a84ff;
+}
+
+.cv-activity-label {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  margin-top: 0.25rem;
+}
+
+/* ===================== Topic Tags ===================== */
+.cv-topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cv-topic-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  background: rgba(10, 132, 255, 0.1);
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #0a84ff;
+  font-weight: 500;
+}
+
+.cv-activity-hint {
+  color: #636366;
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* ===================== Expenses Summary ===================== */
+.cv-expenses-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ===================== Claimant Count ===================== */
+.cv-claimant-latest {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-claimant-latest-value {
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-claimant-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cv-claimant-month {
+  font-size: 0.82rem;
+  color: #8e8e93;
+  margin-top: 0.1rem;
+}
+
+.cv-claimant-rate-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  background: rgba(255, 159, 10, 0.12);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  color: #ff9f0a;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* ===================== Local Councils Grid ===================== */
+.cv-councils-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.cv-council-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: #e5e5e7;
+  transition: all 0.2s;
+}
+
+.cv-council-card:hover {
+  border-color: #0a84ff;
+  background: rgba(10, 132, 255, 0.05);
+}
+
+.cv-council-card svg:first-child {
+  color: #0a84ff;
+  flex-shrink: 0;
+}
+
+.cv-council-card-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.cv-council-card-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.cv-council-card-sub {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  margin-top: 0.1rem;
+}
+
+.cv-council-card-arrow {
+  color: #636366;
+  flex-shrink: 0;
+}
+
+/* ===================== Data Sources ===================== */
+.cv-sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-source-item {
+  display: flex;
+  gap: 1rem;
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  align-items: flex-start;
+}
+
+.cv-source-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cv-source-badge.parliament {
+  background: #5856d6;
+}
+
+.cv-source-badge.ipsa {
+  background: #30d158;
+}
+
+.cv-source-badge.nomis {
+  background: #ff9f0a;
+}
+
+.cv-source-badge.election {
+  background: #ff453a;
+}
+
+.cv-source-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cv-source-detail strong {
+  color: #e5e5e7;
+  font-size: 0.9rem;
+}
+
+.cv-source-detail span {
+  color: #8e8e93;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.cv-source-detail a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #0a84ff;
+  text-decoration: none;
+  font-size: 0.8rem;
+  margin-top: 0.15rem;
+}
+
+.cv-source-detail a:hover {
+  text-decoration: underline;
+}
+
+.cv-sources-note {
+  background: rgba(142, 142, 147, 0.06);
+  border: 1px solid rgba(142, 142, 147, 0.15);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 0.82rem;
+  color: #8e8e93;
+  line-height: 1.6;
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 768px) {
+  .cv-hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .cv-hero-info-col {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cv-hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cv-mp-photo {
+    width: 120px;
+    height: 150px;
+  }
+
+  .cv-mp-photo-placeholder {
+    width: 120px;
+    height: 150px;
+  }
+
+  .cv-mp-name {
+    font-size: 1.3rem;
+  }
+
+  .cv-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .cv-section-nav {
+    position: static;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .cv-section-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cv-section-nav .section-nav-btn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.75rem;
+  }
+
+  .cv-election-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cv-expenses-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cv-voting-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cv-activity-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cv-councils-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-source-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cv-claimant-latest {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .cv-vote-title {
+    max-width: 200px;
+    font-size: 0.82rem;
+  }
+
+  .cv-table {
+    font-size: 0.82rem;
+  }
+
+  .cv-table thead th {
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cv-hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-election-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-expenses-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-voting-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-activity-grid {
+    grid-template-columns: 1fr;
+  }
+}

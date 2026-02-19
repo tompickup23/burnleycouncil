@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "generated": "2026-02-19",
+    "generated_at": "2026-02-19T12:43:01",
+    "polls_aggregated": 7,
+    "polls_available": 7,
+    "window_days": 90,
+    "methodology": {
+      "weighting": "recency (14d half-life) × √(sample/1000) × pollster_quality × methodology",
+      "house_effects": "6-month rolling average deviation per pollster (≥2 polls required)",
+      "sources": [
+        "Electoral Calculus"
+      ],
+      "academic_basis": [
+        "Nate Silver / FiveThirtyEight (recency weighting, pollster ratings)",
+        "Electoral Calculus (polling average methodology)",
+        "Curtice / NatCen (BPC membership quality premium)"
+      ]
+    }
+  },
+  "aggregate": {
+    "Conservative": 0.1877,
+    "Labour": 0.191,
+    "Liberal Democrats": 0.1241,
+    "Reform UK": 0.296,
+    "Green Party": 0.133,
+    "Other": 0.0682
+  },
+  "ge2024_baseline": {
+    "Labour": 0.337,
+    "Conservative": 0.237,
+    "Reform UK": 0.143,
+    "Liberal Democrats": 0.122,
+    "Green Party": 0.069,
+    "Other": 0.092
+  },
+  "swing_from_ge2024": {
+    "Conservative": -0.0493,
+    "Labour": -0.146,
+    "Liberal Democrats": 0.0021,
+    "Reform UK": 0.153,
+    "Green Party": 0.064,
+    "Other": -0.0238
+  },
+  "trend_30d": {
+    "Conservative": -0.0005,
+    "Labour": 0.0004,
+    "Liberal Democrats": 0.0001,
+    "Reform UK": 0.0005,
+    "Green Party": -0.0003,
+    "Other": -0.0002
+  },
+  "individual_polls": [
+    {
+      "pollster": "Opinium/The Observer",
+      "start_date": "2026-01-21",
+      "end_date": "2026-01-23",
+      "sample_size": 2050,
+      "parties": {
+        "Conservative": 0.17,
+        "Labour": 0.22,
+        "Liberal Democrats": 0.13,
+        "Reform UK": 0.31,
+        "Green Party": 0.11,
+        "Other": 0.06
+      },
+      "weight": 0.2238,
+      "source": "Electoral Calculus"
+    },
+    {
+      "pollster": "Find Out Now",
+      "start_date": "2026-01-21",
+      "end_date": "2026-01-21",
+      "sample_size": 1385,
+      "parties": {
+        "Conservative": 0.18,
+        "Labour": 0.14,
+        "Liberal Democrats": 0.11,
+        "Reform UK": 0.32,
+        "Green Party": 0.17,
+        "Other": 0.08
+      },
+      "weight": 0.1904,
+      "source": "Electoral Calculus"
+    },
+    {
+      "pollster": "YouGov/The Times; Sky News",
+      "start_date": "2026-01-18",
+      "end_date": "2026-01-19",
+      "sample_size": 2335,
+      "parties": {
+        "Conservative": 0.18,
+        "Labour": 0.19,
+        "Liberal Democrats": 0.14,
+        "Reform UK": 0.24,
+        "Green Party": 0.17,
+        "Other": 0.08
+      },
+      "weight": 0.1959,
+      "source": "Electoral Calculus"
+    },
+    {
+      "pollster": "Techne",
+      "start_date": "2026-01-14",
+      "end_date": "2026-01-15",
+      "sample_size": 1636,
+      "parties": {
+        "Conservative": 0.2,
+        "Labour": 0.19,
+        "Liberal Democrats": 0.15,
+        "Reform UK": 0.28,
+        "Green Party": 0.13,
+        "Other": 0.05
+      },
+      "weight": 0.1345,
+      "source": "Electoral Calculus"
+    },
+    {
+      "pollster": "Survation",
+      "start_date": "2026-01-10",
+      "end_date": "2026-01-14",
+      "sample_size": 1616,
+      "parties": {
+        "Conservative": 0.19,
+        "Labour": 0.21,
+        "Liberal Democrats": 0.11,
+        "Reform UK": 0.29,
+        "Green Party": 0.11,
+        "Other": 0.09
+      },
+      "weight": 0.2032,
+      "source": "Electoral Calculus"
+    },
+    {
+      "pollster": "More in Common",
+      "start_date": "2026-01-10",
+      "end_date": "2026-01-13",
+      "sample_size": 2036,
+      "parties": {
+        "Conservative": 0.21,
+        "Labour": 0.19,
+        "Liberal Democrats": 0.12,
+        "Reform UK": 0.31,
+        "Green Party": 0.12,
+        "Other": 0.05
+      },
+      "weight": 0.2056,
+      "source": "Electoral Calculus"
+    },
+    {
+      "pollster": "Freshwater Strategy",
+      "start_date": "2026-01-09",
+      "end_date": "2026-01-11",
+      "sample_size": 1250,
+      "parties": {
+        "Conservative": 0.19,
+        "Labour": 0.19,
+        "Liberal Democrats": 0.11,
+        "Reform UK": 0.33,
+        "Green Party": 0.12,
+        "Other": 0.06
+      },
+      "weight": 0.1103,
+      "source": "Electoral Calculus"
+    }
+  ],
+  "pollster_house_effects": {},
+  "constituency_mrp": {}
+}

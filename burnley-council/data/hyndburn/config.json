@@ -28,10 +28,12 @@
     "integrity": true,
     "elections": true,
     "supplier_profiles": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "January 2017 \u2013 present",
-  "hero_subtitle": "Explore how Hyndburn Borough Council spends public money. Every payment over \u00a3250 from council transparency data.",
+  "spending_data_period": "January 2017 – present",
+  "hero_subtitle": "Explore how Hyndburn Borough Council spends public money. Every payment over £250 from council transparency data.",
   "disclaimer_entity": "Hyndburn Borough Council",
   "publisher": "Tom Pickup",
   "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
@@ -71,55 +73,55 @@
   "foi_url": "https://www.hyndburnbc.gov.uk/foi/",
   "theme_accent": "#12B6CF",
   "doge_context": {
-    "total_spend": "\u00a3211M",
+    "total_spend": "£211M",
     "transactions": 29804,
     "suppliers": 2395,
-    "data_period": "January 2017 \u2013 present",
+    "data_period": "January 2017 – present",
     "spending_threshold": 250,
-    "annual_net_revenue_budget": "\u00a319.4M",
+    "annual_net_revenue_budget": "£19.4M",
     "political_control": "Labour majority (21 of 34 seats). Conservative opposition (12 seats).",
     "key_suppliers": [
       {
         "name": "Lancashire County Council",
-        "spend": "\u00a372.6M",
+        "spend": "£72.6M",
         "note": "County-level service payments"
       },
       {
         "name": "Alliance Leisure Services Ltd",
-        "spend": "\u00a312.6M",
+        "spend": "£12.6M",
         "note": "Leisure facilities"
       }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a31.7M across 334 high-confidence duplicate groups",
-      "ch_breach_spend": "\u00a31.1M to 17 suppliers during active Companies House breaches \u2014 highest of 3 councils",
-      "key_ch_breaches": "B3P Services (\u00a3420K, no directors), JDS Trucks (\u00a3287K, no directors/PSC), Homewise Society (\u00a3159K, no directors/PSC)",
-      "split_payments": "\u00a3127.1K suspected across 6 instances",
+      "likely_duplicates": "£1.7M across 334 high-confidence duplicate groups",
+      "ch_breach_spend": "£1.1M to 17 suppliers during active Companies House breaches — highest of 3 councils",
+      "key_ch_breaches": "B3P Services (£420K, no directors), JDS Trucks (£287K, no directors/PSC), Homewise Society (£159K, no directors/PSC)",
+      "split_payments": "£127.1K suspected across 6 instances",
       "year_end_spike": "Regeneration & Housing spent 12.9x monthly average in March",
-      "round_numbers": "\u00a37.8M across 414 round-number payments over \u00a35K",
-      "benfords_law": "3.9% max digit deviation \u2014 within normal range",
+      "round_numbers": "£7.8M across 414 round-number payments over £5K",
+      "benfords_law": "3.9% max digit deviation — within normal range",
       "weak_competition": "1 contract with limited competition indicators"
     },
     "notable_suppliers": [
       {
         "name": "B3P Services Ltd",
-        "spend": "\u00a3420.2K",
+        "spend": "£420.2K",
         "issue": "No active directors"
       },
       {
         "name": "JDS Trucks Ltd",
-        "spend": "\u00a3287.3K",
+        "spend": "£287.3K",
         "issue": "No directors or PSC registered"
       },
       {
         "name": "Homewise Society Ltd",
-        "spend": "\u00a3158.6K",
+        "spend": "£158.6K",
         "issue": "No directors or PSC registered"
       },
       {
         "name": "HM Land Registry",
         "transactions": 2422,
-        "avg_payment": "\u00a35",
+        "avg_payment": "£5",
         "note": "Most frequent supplier by volume"
       }
     ]

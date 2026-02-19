@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "generated": "2026-02-19T13:17:28",
+    "method": "OLS regression, DCLEAPIL 2018-2024 + Census 2021 + IMD 2019",
+    "data_sources": [
+      "DCLEAPIL ward results 2018-2024 (Leman 2025, CC BY-SA 4.0)",
+      "ONS Census 2021 via Nomis API (age, ethnicity, qualifications, tenure)",
+      "English Indices of Deprivation 2019 (MHCLG)"
+    ],
+    "academic_basis": [
+      "Rallings & Thrasher (Plymouth): national-to-local dampening",
+      "Fieldhouse et al. (Manchester/BES): ecological inference",
+      "Ford & Sobolewska (Manchester): left-behind voter profiling",
+      "Curtice (Strathclyde/NatCen): census regression approach"
+    ],
+    "feature_names": [
+      "intercept",
+      "imd_norm",
+      "pct_over65",
+      "pct_young_adults",
+      "pct_asian",
+      "pct_white_british",
+      "pct_unemployed",
+      "pct_no_quals",
+      "pct_degree",
+      "pct_owned",
+      "pct_social_rented"
+    ],
+    "modelled_parties": [
+      "Labour",
+      "Conservative",
+      "Liberal Democrats",
+      "Reform UK",
+      "Green Party"
+    ]
+  },
+  "coefficients": {
+    "Labour": {
+      "intercept": 0.559416,
+      "imd_norm": 0.03983,
+      "pct_over65": -1.554481,
+      "pct_young_adults": -0.466781,
+      "pct_asian": 0.21082,
+      "pct_white_british": 0.14893,
+      "pct_unemployed": 2.92939,
+      "pct_no_quals": 0.0,
+      "pct_degree": 0.0,
+      "pct_owned": 0.0,
+      "pct_social_rented": 0.0
+    },
+    "Conservative": {
+      "intercept": -0.655941,
+      "imd_norm": -0.126988,
+      "pct_over65": 0.548536,
+      "pct_young_adults": -0.577889,
+      "pct_asian": 1.220496,
+      "pct_white_british": 1.108373,
+      "pct_unemployed": -0.077109,
+      "pct_no_quals": 0.0,
+      "pct_degree": 0.0,
+      "pct_owned": 0.0,
+      "pct_social_rented": 0.0
+    },
+    "Liberal Democrats": {
+      "intercept": 0.898922,
+      "imd_norm": -0.105555,
+      "pct_over65": 0.250059,
+      "pct_young_adults": -0.726442,
+      "pct_asian": -0.634611,
+      "pct_white_british": -0.635987,
+      "pct_unemployed": 0.258443,
+      "pct_no_quals": 0.0,
+      "pct_degree": 0.0,
+      "pct_owned": 0.0,
+      "pct_social_rented": 0.0
+    },
+    "Reform UK": {
+      "intercept": -0.291534,
+      "imd_norm": -0.017962,
+      "pct_over65": -1.499689,
+      "pct_young_adults": -1.868582,
+      "pct_asian": 0.756074,
+      "pct_white_british": 1.003788,
+      "pct_unemployed": 3.972644,
+      "pct_no_quals": 0.0,
+      "pct_degree": 0.0,
+      "pct_owned": 0.0,
+      "pct_social_rented": 0.0
+    },
+    "Green Party": {
+      "intercept": -0.097003,
+      "imd_norm": 0.349821,
+      "pct_over65": 1.168951,
+      "pct_young_adults": 2.316857,
+      "pct_asian": -0.323361,
+      "pct_white_british": -0.271365,
+      "pct_unemployed": -7.699059,
+      "pct_no_quals": 0.0,
+      "pct_degree": 0.0,
+      "pct_owned": 0.0,
+      "pct_social_rented": 0.0
+    }
+  },
+  "dampening_by_party": {
+    "Labour": 0.702,
+    "Conservative": 0.683,
+    "Liberal Democrats": 0.65,
+    "Reform UK": 0.65,
+    "Green Party": 0.622
+  },
+  "validation": {
+    "Labour": {
+      "n": 652,
+      "r_squared": 0.3152,
+      "mae": 0.1284,
+      "rmse": 0.1566
+    },
+    "Conservative": {
+      "n": 657,
+      "r_squared": 0.342,
+      "mae": 0.1195,
+      "rmse": 0.1436
+    },
+    "Liberal Democrats": {
+      "n": 255,
+      "r_squared": 0.0715,
+      "mae": 0.1322,
+      "rmse": 0.1602
+    },
+    "Reform UK": {
+      "n": 44,
+      "r_squared": 0.1979,
+      "mae": 0.0879,
+      "rmse": 0.1034
+    },
+    "Green Party": {
+      "n": 243,
+      "r_squared": 0.2295,
+      "mae": 0.1081,
+      "rmse": 0.1411
+    }
+  },
+  "ge2024_baseline": {
+    "Labour": 0.337,
+    "Conservative": 0.237,
+    "Reform UK": 0.143,
+    "Liberal Democrats": 0.122,
+    "Green Party": 0.069,
+    "Other": 0.092
+  },
+  "current_polling": {
+    "Conservative": 0.1877,
+    "Labour": 0.191,
+    "Liberal Democrats": 0.1241,
+    "Reform UK": 0.296,
+    "Green Party": 0.133,
+    "Other": 0.0682
+  }
+}

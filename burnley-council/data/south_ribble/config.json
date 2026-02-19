@@ -27,9 +27,11 @@
     "lgr_tracker": true,
     "integrity": true,
     "elections": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2021 \u2013 present",
+  "spending_data_period": "April 2021 – present",
   "hero_subtitle": "Explore how South Ribble Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "South Ribble Borough Council",
   "publisher": "Tom Pickup",
@@ -71,31 +73,55 @@
   "theme_accent": "#E65100",
   "political_control": "Labour majority (28 seats of 50). Conservative 16, Liberal Democrat 5, Reform 1.",
   "doge_context": {
-    "total_spend": "\u00a3177M",
+    "total_spend": "£177M",
     "transactions": 18517,
     "suppliers": 1850,
     "data_period": "2021/2022 - 2025/2026",
-    "annual_net_revenue_budget": "\u00a315.8M",
+    "annual_net_revenue_budget": "£15.8M",
     "political_control": "Labour majority (28 seats of 50). Conservative 16, Liberal Democrat 5, Reform 1.",
     "key_suppliers": [
-      { "name": "Lancashire County Council", "spend": "\u00a323.1M", "note": "County-level service payments" },
-      { "name": "Caddick Construction (NW) Ltd", "spend": "\u00a317.6M", "note": "Major construction contractor" },
-      { "name": "Chorley Borough Council", "spend": "\u00a314.1M", "note": "Shared services arrangement \u2014 120 transactions" }
+      {
+        "name": "Lancashire County Council",
+        "spend": "£23.1M",
+        "note": "County-level service payments"
+      },
+      {
+        "name": "Caddick Construction (NW) Ltd",
+        "spend": "£17.6M",
+        "note": "Major construction contractor"
+      },
+      {
+        "name": "Chorley Borough Council",
+        "spend": "£14.1M",
+        "note": "Shared services arrangement — 120 transactions"
+      }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a3406.0K across 105 high-confidence duplicate groups",
-      "ch_red_flags": "\u00a31.3M to 12 suppliers with Companies House compliance issues",
-      "split_payments": "\u00a3368.9K suspected across 4 instances",
+      "likely_duplicates": "£406.0K across 105 high-confidence duplicate groups",
+      "ch_red_flags": "£1.3M to 12 suppliers with Companies House compliance issues",
+      "split_payments": "£368.9K suspected across 4 instances",
       "year_end_spike": "Capital spent 4.9x monthly average in March",
-      "round_numbers": "\u00a38.7M across 277 round-number payments over \u00a35K",
-      "benfords_law": "4.0% max digit deviation \u2014 within normal range",
+      "round_numbers": "£8.7M across 277 round-number payments over £5K",
+      "benfords_law": "4.0% max digit deviation — within normal range",
       "weak_competition": "4 contracts with limited competition indicators",
       "budget_efficiency": "3 service categories with multiple efficiency flags"
     },
     "notable_suppliers": [
-      { "name": "Chorley Borough Council", "spend": "\u00a314.1M", "note": "Shared services arrangement \u2014 120 transactions" },
-      { "name": "Alliance Leisure Services Ltd", "spend": "\u00a38.8M", "note": "Leisure \u2014 73 transactions" },
-      { "name": "South Ribble Leisure Ltd", "spend": "\u00a34.6M", "note": "Arms-length leisure company \u2014 82 transactions" }
+      {
+        "name": "Chorley Borough Council",
+        "spend": "£14.1M",
+        "note": "Shared services arrangement — 120 transactions"
+      },
+      {
+        "name": "Alliance Leisure Services Ltd",
+        "spend": "£8.8M",
+        "note": "Leisure — 73 transactions"
+      },
+      {
+        "name": "South Ribble Leisure Ltd",
+        "spend": "£4.6M",
+        "note": "Arms-length leisure company — 82 transactions"
+      }
     ]
   }
 }

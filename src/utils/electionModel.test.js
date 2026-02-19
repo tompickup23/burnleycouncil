@@ -3,12 +3,17 @@ import {
   DEFAULT_ASSUMPTIONS,
   getBaseline,
   calculateNationalSwing,
+  calculateNationalSwingV2,
   calculateDemographicAdjustments,
+  calculateDemographicAdjustmentsV2,
   calculateIncumbencyAdjustment,
   calculateReformEntry,
   normaliseShares,
   predictWard,
+  predictWardV2,
   predictCouncil,
+  predictConstituencyGE,
+  predict,
   applyOverrides,
   computeCoalitions,
   projectToLGRAuthority,
@@ -553,5 +558,437 @@ describe('projectToLGRAuthority', () => {
   it('returns empty for null/missing model', () => {
     expect(projectToLGRAuthority({}, null)).toEqual({})
     expect(projectToLGRAuthority({}, {})).toEqual({})
+  })
+})
+
+// ---------------------------------------------------------------------------
+// V2: calculateDemographicAdjustmentsV2
+// ---------------------------------------------------------------------------
+
+describe('calculateDemographicAdjustmentsV2', () => {
+  const mockCoefficients = {
+    Labour: { imd_norm: 0.15, pct_over65: -0.10, pct_young_adults: 0.08, pct_asian: 0.05, pct_white_british: -0.03, pct_unemployed: 0.12 },
+    Conservative: { imd_norm: -0.12, pct_over65: 0.14, pct_young_adults: -0.06, pct_asian: -0.04, pct_white_british: 0.05, pct_unemployed: -0.10 },
+    'Reform UK': { imd_norm: 0.08, pct_over65: 0.06, pct_white_british: 0.07, pct_unemployed: 0.05 },
+  }
+
+  const mockDemographics = {
+    age: {
+      'Total: All usual residents': 10000,
+      'Aged 65 to 74 years': 800,
+      'Aged 75 to 84 years': 400,
+      'Aged 85 to 89 years': 100,
+      'Aged 90 years and over': 50,
+      'Aged 20 to 24 years': 600,
+      'Aged 25 to 34 years': 1200,
+    },
+    ethnicity: {
+      'Total: All usual residents': 10000,
+      'Asian, Asian British or Asian Welsh': 500,
+      'White: English, Welsh, Scottish, Northern Irish or British': 8500,
+    },
+    economic_activity: {
+      'Total: All usual residents aged 16 years and over': 8000,
+      'Economically active (excluding full-time students): Unemployed': 320,
+    },
+  }
+
+  const mockDeprivation = { avg_imd_score: 32.0, deprivation_level: 'moderate' }
+
+  it('returns empty adjustments when no coefficients', () => {
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, mockDeprivation, null)
+    expect(Object.keys(result.adjustments)).toHaveLength(0)
+    expect(result.methodology.step).toBe(3)
+    expect(result.methodology.name).toBe('Demographics (v2)')
+  })
+
+  it('returns empty adjustments when no demographics', () => {
+    const result = calculateDemographicAdjustmentsV2(null, mockDeprivation, mockCoefficients)
+    expect(Object.keys(result.adjustments)).toHaveLength(0)
+    expect(result.methodology.step).toBe(3)
+  })
+
+  it('returns empty adjustments when totalPop is 0', () => {
+    const emptyDemographics = { age: { 'Total: All usual residents': 0 } }
+    const result = calculateDemographicAdjustmentsV2(emptyDemographics, mockDeprivation, mockCoefficients)
+    expect(Object.keys(result.adjustments)).toHaveLength(0)
+    expect(result.methodology.description).toBe('No population data')
+  })
+
+  it('produces adjustments for each party in coefficients', () => {
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, mockDeprivation, mockCoefficients)
+    expect(result.adjustments).toHaveProperty('Labour')
+    expect(result.adjustments).toHaveProperty('Conservative')
+    expect(result.adjustments).toHaveProperty('Reform UK')
+  })
+
+  it('adjustments are scaled (Math.round(adj * 100) / 10000)', () => {
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, mockDeprivation, mockCoefficients)
+    // All adjustments should be small numbers (scaled down)
+    for (const adj of Object.values(result.adjustments)) {
+      expect(Math.abs(adj)).toBeLessThan(0.1)
+    }
+  })
+
+  it('methodology includes features object', () => {
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, mockDeprivation, mockCoefficients)
+    expect(result.methodology.features).toBeDefined()
+    expect(result.methodology.features.pct_over65).toBeCloseTo(0.135, 2) // (800+400+100+50)/10000
+    expect(result.methodology.features.pct_young_adults).toBeCloseTo(0.18, 2) // (600+1200)/10000
+    expect(result.methodology.features.pct_asian).toBeCloseTo(0.05, 2) // 500/10000
+    expect(result.methodology.features.imd_norm).toBeCloseTo(0.4, 2) // 32/80
+  })
+
+  it('uses deprivation avg_imd_score / 80 for imd_norm', () => {
+    const highDep = { avg_imd_score: 60.0 }
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, highDep, mockCoefficients)
+    expect(result.methodology.features.imd_norm).toBeCloseTo(0.75, 2)
+  })
+
+  it('defaults imd_norm to 0.5 when no deprivation score', () => {
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, null, mockCoefficients)
+    expect(result.methodology.features.imd_norm).toBeCloseTo(0.5, 2)
+  })
+
+  it('skips non-object coefficient entries', () => {
+    const coeffsWithMeta = { ...mockCoefficients, version: '1.0', note: 'test' }
+    const result = calculateDemographicAdjustmentsV2(mockDemographics, mockDeprivation, coeffsWithMeta)
+    // Should not have 'version' or 'note' as party keys
+    expect(result.adjustments).not.toHaveProperty('version')
+    expect(result.adjustments).not.toHaveProperty('note')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// V2: calculateNationalSwingV2
+// ---------------------------------------------------------------------------
+
+describe('calculateNationalSwingV2', () => {
+  const baseline = { Labour: 0.407, Conservative: 0.295, 'Green Party': 0.188, 'Liberal Democrats': 0.110 }
+  const dampeningByParty = { Labour: 0.70, Conservative: 0.60, 'Green Party': 0.50, 'Liberal Democrats': 0.55 }
+
+  it('uses per-party dampening from dampeningByParty', () => {
+    const result = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, DEFAULT_ASSUMPTIONS, dampeningByParty)
+    // Labour: (0.29 - 0.337) = -0.047, dampened × 0.70 = -0.0329
+    expect(result.adjustments.Labour).toBeCloseTo(-0.047 * 0.70, 3)
+    // Conservative: (0.24 - 0.237) = 0.003, dampened × 0.60 = 0.0018
+    expect(result.adjustments.Conservative).toBeCloseTo(0.003 * 0.60, 3)
+  })
+
+  it('falls back to default dampening when party missing from dampeningByParty', () => {
+    const partial = { Labour: 0.80 }
+    const result = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, DEFAULT_ASSUMPTIONS, partial)
+    // Labour uses 0.80 dampening
+    expect(result.adjustments.Labour).toBeCloseTo(-0.047 * 0.80, 3)
+    // Conservative falls back to 0.65 (default)
+    expect(result.adjustments.Conservative).toBeCloseTo(0.003 * 0.65, 3)
+  })
+
+  it('falls back to default dampening when dampeningByParty is null', () => {
+    const result = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, DEFAULT_ASSUMPTIONS, null)
+    // All parties use 0.65 default
+    expect(result.adjustments.Labour).toBeCloseTo(-0.047 * 0.65, 3)
+  })
+
+  it('includes dampening per party in methodology details', () => {
+    const result = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, DEFAULT_ASSUMPTIONS, dampeningByParty)
+    expect(result.methodology.details.Labour.dampening).toBe(0.70)
+    expect(result.methodology.details.Conservative.dampening).toBe(0.60)
+    expect(result.methodology.details['Green Party'].dampening).toBe(0.50)
+  })
+
+  it('methodology name is National Swing (v2)', () => {
+    const result = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, DEFAULT_ASSUMPTIONS, dampeningByParty)
+    expect(result.methodology.step).toBe(2)
+    expect(result.methodology.name).toBe('National Swing (v2)')
+  })
+
+  it('respects swing multiplier', () => {
+    const doubled = { ...DEFAULT_ASSUMPTIONS, swingMultiplier: 2.0 }
+    const normal = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, DEFAULT_ASSUMPTIONS, dampeningByParty)
+    const result = calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, doubled, dampeningByParty)
+    expect(Math.abs(result.adjustments.Labour)).toBeCloseTo(Math.abs(normal.adjustments.Labour) * 2, 3)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// V2: predictWardV2
+// ---------------------------------------------------------------------------
+
+describe('predictWardV2', () => {
+  const lcc2025 = { results: { 'Reform UK': { pct: 0.357 } } }
+
+  const mockModelCoefficients = {
+    coefficients: {
+      Labour: { imd_norm: 0.10, pct_over65: -0.05 },
+      Conservative: { imd_norm: -0.08, pct_over65: 0.06 },
+    },
+    dampening_by_party: { Labour: 0.70, Conservative: 0.60 },
+    validation: {
+      Labour: { mae: 0.08 },
+      Conservative: { mae: 0.06 },
+    },
+  }
+
+  it('falls back to V1 when modelCoefficients is null', () => {
+    const result = predictWardV2(mockWardHistory, DEFAULT_ASSUMPTIONS, nationalPolling, ge2024Result, null, null, null, lcc2025, null)
+    expect(result.prediction).not.toBeNull()
+    // V1 does not set modelVersion
+    expect(result.modelVersion).toBeUndefined()
+  })
+
+  it('falls back to V1 when coefficients key is missing', () => {
+    const noCoeffs = { dampening_by_party: { Labour: 0.70 } }
+    const result = predictWardV2(mockWardHistory, DEFAULT_ASSUMPTIONS, nationalPolling, ge2024Result, null, null, null, lcc2025, noCoeffs)
+    expect(result.modelVersion).toBeUndefined()
+  })
+
+  it('returns modelVersion v2 with valid coefficients', () => {
+    const result = predictWardV2(mockWardHistory, DEFAULT_ASSUMPTIONS, nationalPolling, ge2024Result, null, null, null, lcc2025, mockModelCoefficients)
+    expect(result.modelVersion).toBe('v2')
+  })
+
+  it('returns confidenceInterval from validation MAE', () => {
+    const result = predictWardV2(mockWardHistory, DEFAULT_ASSUMPTIONS, nationalPolling, ge2024Result, null, null, null, lcc2025, mockModelCoefficients)
+    expect(result.confidenceInterval).toBeDefined()
+    expect(typeof result.confidenceInterval).toBe('number')
+  })
+
+  it('returns none confidence for empty ward', () => {
+    const result = predictWardV2({ history: [] }, DEFAULT_ASSUMPTIONS, nationalPolling, ge2024Result, null, null, null, null, mockModelCoefficients)
+    expect(result.prediction).toBeNull()
+    expect(result.confidence).toBe('none')
+  })
+
+  it('predictions sum to approximately 100%', () => {
+    const result = predictWardV2(mockWardHistory, DEFAULT_ASSUMPTIONS, nationalPolling, ge2024Result, null, null, null, lcc2025, mockModelCoefficients)
+    const totalPct = Object.values(result.prediction).reduce((s, v) => s + v.pct, 0)
+    expect(totalPct).toBeCloseTo(1.0, 1)
+  })
+
+  it('confidence is high when majorityPct exceeds 2x MAE', () => {
+    // With large incumbency bonus and no Reform, Labour should have a wide margin
+    const bigIncumbency = { ...DEFAULT_ASSUMPTIONS, incumbencyBonusPct: 0.20, reformStandsInAllWards: false }
+    const coeffsWithLowMAE = {
+      ...mockModelCoefficients,
+      validation: { Labour: { mae: 0.02 }, Conservative: { mae: 0.02 } },
+    }
+    const result = predictWardV2(mockWardHistory, bigIncumbency, nationalPolling, ge2024Result, null, null, null, null, coeffsWithLowMAE)
+    if (result.majorityPct > 0.04) {
+      expect(result.confidence).toBe('high')
+    }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// V2: predictConstituencyGE
+// ---------------------------------------------------------------------------
+
+describe('predictConstituencyGE', () => {
+  const mockConstituency = {
+    name: 'Burnley',
+    ge2024: {
+      results: [
+        { party: 'Labour', pct: 0.40 },
+        { party: 'Reform UK', pct: 0.25 },
+        { party: 'Conservative', pct: 0.20 },
+        { party: 'Liberal Democrats', pct: 0.10 },
+        { party: 'Green Party', pct: 0.05 },
+      ],
+    },
+    mp: { name: 'Oliver Ryan', party: 'Labour' },
+  }
+
+  const mockPolling = {
+    aggregate: { Labour: 0.29, Conservative: 0.24, 'Reform UK': 0.22, 'Liberal Democrats': 0.12, 'Green Party': 0.07 },
+    ge2024_baseline: { Labour: 0.337, Conservative: 0.237, 'Reform UK': 0.143, 'Liberal Democrats': 0.122, 'Green Party': 0.069 },
+  }
+
+  const mockModelCoeffs = {
+    dampening_by_party: { Labour: 0.70, Conservative: 0.60, 'Reform UK': 0.75, 'Liberal Democrats': 0.55, 'Green Party': 0.50 },
+  }
+
+  it('returns null prediction when no constituency ge2024 results', () => {
+    const result = predictConstituencyGE({}, mockPolling, mockModelCoeffs)
+    expect(result.prediction).toBeNull()
+    expect(result.confidence).toBe('none')
+  })
+
+  it('returns null prediction when no polling aggregate', () => {
+    const result = predictConstituencyGE(mockConstituency, {}, mockModelCoeffs)
+    expect(result.prediction).toBeNull()
+  })
+
+  it('returns null prediction for null inputs', () => {
+    const result = predictConstituencyGE(null, null, null)
+    expect(result.prediction).toBeNull()
+    expect(result.confidence).toBe('none')
+  })
+
+  it('produces a winner and runnerUp', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    expect(result.winner).toBeDefined()
+    expect(result.runnerUp).toBeDefined()
+    expect(result.majorityPct).toBeGreaterThanOrEqual(0)
+  })
+
+  it('prediction party shares sum to approximately 100%', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    const total = Object.values(result.prediction).reduce((s, v) => s + v.pct, 0)
+    expect(total).toBeCloseTo(1.0, 1)
+  })
+
+  it('applies dampening * 1.2 (capped at 0.95) for GE', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    // Labour dampening: min(0.95, 0.70 * 1.2) = min(0.95, 0.84) = 0.84
+    const labourDetail = result.methodology[1].details.Labour
+    expect(labourDetail.dampening).toBeCloseTo(0.84, 2)
+    // Reform UK dampening: min(0.95, 0.75 * 1.2) = min(0.95, 0.90) = 0.90
+    const reformDetail = result.methodology[1].details['Reform UK']
+    expect(reformDetail.dampening).toBeCloseTo(0.90, 2)
+  })
+
+  it('caps dampening at 0.95', () => {
+    const highDampening = { dampening_by_party: { Labour: 0.85 } }
+    const result = predictConstituencyGE(mockConstituency, mockPolling, highDampening)
+    // Labour: min(0.95, 0.85 * 1.2) = min(0.95, 1.02) = 0.95
+    const labourDetail = result.methodology[1].details.Labour
+    expect(labourDetail.dampening).toBe(0.95)
+  })
+
+  it('includes swing vs GE2024', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    expect(result.swing).toBeDefined()
+    expect(typeof result.swing.Labour).toBe('number')
+  })
+
+  it('detects mpChange when winner differs from current MP', () => {
+    const reformWin = {
+      ...mockConstituency,
+      ge2024: {
+        results: [
+          { party: 'Reform UK', pct: 0.55 },
+          { party: 'Labour', pct: 0.25 },
+          { party: 'Conservative', pct: 0.20 },
+        ],
+      },
+      mp: { name: 'Oliver Ryan', party: 'Labour' },
+    }
+    const result = predictConstituencyGE(reformWin, mockPolling, mockModelCoeffs)
+    if (result.winner !== 'Labour') {
+      expect(result.mpChange).toBe(true)
+    }
+  })
+
+  it('mpChange is false when winner matches MP party', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    if (result.winner === 'Labour') {
+      expect(result.mpChange).toBe(false)
+    }
+  })
+
+  it('strips (Co-op) from MP party for mpChange comparison', () => {
+    const coopMP = {
+      ...mockConstituency,
+      mp: { name: 'Test MP', party: 'Labour (Co-op)' },
+    }
+    const result = predictConstituencyGE(coopMP, mockPolling, mockModelCoeffs)
+    // Labour (Co-op) stripped to Labour — should match Labour winner
+    if (result.winner === 'Labour') {
+      expect(result.mpChange).toBe(false)
+    }
+  })
+
+  it('has methodology steps 1-3', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    expect(result.methodology).toHaveLength(3)
+    expect(result.methodology.map(m => m.step)).toEqual([1, 2, 3])
+  })
+
+  it('has confidence level', () => {
+    const result = predictConstituencyGE(mockConstituency, mockPolling, mockModelCoeffs)
+    expect(['high', 'medium', 'low']).toContain(result.confidence)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// V2: predict (universal router)
+// ---------------------------------------------------------------------------
+
+describe('predict', () => {
+  const lcc2025 = { results: { 'Reform UK': { pct: 0.357 } } }
+  const mockPolling = {
+    aggregate: nationalPolling,
+    ge2024_baseline: ge2024Result,
+  }
+
+  const mockModelCoeffs = {
+    coefficients: {
+      Labour: { imd_norm: 0.10 },
+      Conservative: { imd_norm: -0.08 },
+    },
+    dampening_by_party: { Labour: 0.70, Conservative: 0.60 },
+    validation: { Labour: { mae: 0.08 } },
+  }
+
+  it('routes to predictWardV2 for scope ward', () => {
+    const result = predict(
+      { scope: 'ward' },
+      { wardData: mockWardHistory, lcc2025 },
+      mockPolling,
+      mockModelCoeffs,
+    )
+    expect(result.prediction).not.toBeNull()
+    expect(result.modelVersion).toBe('v2')
+  })
+
+  it('routes to predictCouncil for scope council', () => {
+    const mockElectionsData = {
+      wards: {
+        'Ward A': { ...mockWardHistory },
+      },
+    }
+    const result = predict(
+      { scope: 'council' },
+      { electionsData: mockElectionsData, wardsUp: ['Ward A'] },
+      mockPolling,
+      mockModelCoeffs,
+    )
+    expect(result.wards).toBeDefined()
+    expect(result.seatTotals).toBeDefined()
+  })
+
+  it('routes to predictConstituencyGE for scope constituency', () => {
+    const constituency = {
+      name: 'Burnley',
+      ge2024: {
+        results: [
+          { party: 'Labour', pct: 0.40 },
+          { party: 'Conservative', pct: 0.30 },
+          { party: 'Reform UK', pct: 0.20 },
+          { party: 'Liberal Democrats', pct: 0.10 },
+        ],
+      },
+      mp: { name: 'Oliver Ryan', party: 'Labour' },
+    }
+    const result = predict(
+      { scope: 'constituency' },
+      { constituency },
+      mockPolling,
+      mockModelCoeffs,
+    )
+    expect(result.winner).toBeDefined()
+    expect(result.swing).toBeDefined()
+  })
+
+  it('returns null prediction for unknown scope', () => {
+    const result = predict({ scope: 'galaxy' }, {}, mockPolling, mockModelCoeffs)
+    expect(result.prediction).toBeNull()
+    expect(result.confidence).toBe('none')
+  })
+
+  it('returns null prediction for null election', () => {
+    const result = predict(null, {}, mockPolling, mockModelCoeffs)
+    expect(result.prediction).toBeNull()
   })
 })

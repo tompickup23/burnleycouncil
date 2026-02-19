@@ -26,10 +26,12 @@
     "lgr_tracker": true,
     "integrity": true,
     "elections": true,
-    "supplier_index": true
+    "supplier_index": true,
+    "constituencies": true,
+    "polling": true
   },
-  "spending_data_period": "April 2017 \u2013 March 2026",
-  "hero_subtitle": "Explore how Wyre Council spends public money. With 51,000+ transactions totalling \u00a3678 million tracked since 2017, this dashboard gives residents transparency on spending across Fleetwood, Poulton-le-Fylde, Thornton-Cleveleys, Garstang, and the rural Fylde Coast.",
+  "spending_data_period": "April 2017 – March 2026",
+  "hero_subtitle": "Explore how Wyre Council spends public money. With 51,000+ transactions totalling £678 million tracked since 2017, this dashboard gives residents transparency on spending across Fleetwood, Poulton-le-Fylde, Thornton-Cleveleys, Garstang, and the rural Fylde Coast.",
   "disclaimer_entity": "Wyre Council",
   "publisher": "Tom Pickup",
   "publisher_bio": "This website was created by Tom Pickup, County Councillor for Padiham & Burnley West and Clowbridge with Dunnockshaw. Reform UK County Councillor and former Lead Member for Finance & Resources at Lancashire County Council, Tom builds transparency tools to make public spending data accessible across Lancashire.",
@@ -69,31 +71,55 @@
   "foi_url": "https://www.wyre.gov.uk/council/freedom-information",
   "theme_accent": "#0066cc",
   "doge_context": {
-    "total_spend": "\u00a3678M",
+    "total_spend": "£678M",
     "transactions": 51092,
     "suppliers": 1558,
-    "data_period": "April 2017 \u2013 March 2026",
-    "annual_net_revenue_budget": "\u00a312M",
+    "data_period": "April 2017 – March 2026",
+    "annual_net_revenue_budget": "£12M",
     "political_control": "Conservative majority.",
     "key_suppliers": [
-      { "name": "Lancashire County Council", "spend": "\u00a3325.9M", "note": "48% of all spend \u2014 extreme concentration (HHI 2,797)" },
-      { "name": "DCLG", "spend": "\u00a3116.3M", "note": "Government grant passthrough" },
-      { "name": "Balfour Beatty Civil Engineering Ltd", "spend": "\u00a339.2M", "note": "Major infrastructure construction" }
+      {
+        "name": "Lancashire County Council",
+        "spend": "£325.9M",
+        "note": "48% of all spend — extreme concentration (HHI 2,797)"
+      },
+      {
+        "name": "DCLG",
+        "spend": "£116.3M",
+        "note": "Government grant passthrough"
+      },
+      {
+        "name": "Balfour Beatty Civil Engineering Ltd",
+        "spend": "£39.2M",
+        "note": "Major infrastructure construction"
+      }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a3240.9K across 660 high-confidence duplicate groups",
-      "ch_red_flags": "\u00a3430.3K to 8 suppliers with Companies House compliance issues",
-      "split_payments": "\u00a3443.0K suspected across 3 instances",
+      "likely_duplicates": "£240.9K across 660 high-confidence duplicate groups",
+      "ch_red_flags": "£430.3K to 8 suppliers with Companies House compliance issues",
+      "split_payments": "£443.0K suspected across 3 instances",
       "year_end_spike": "Finance spent 6.8x monthly average in March",
-      "round_numbers": "\u00a310.8M across 342 round-number payments over \u00a35K",
-      "benfords_law": "7.6% max digit deviation \u2014 above 5% warning threshold",
-      "supplier_concentration": "HHI 2,797 (HIGH) \u2014 LCC receives 48% of all spend",
+      "round_numbers": "£10.8M across 342 round-number payments over £5K",
+      "benfords_law": "7.6% max digit deviation — above 5% warning threshold",
+      "supplier_concentration": "HHI 2,797 (HIGH) — LCC receives 48% of all spend",
       "weak_competition": "21 contracts with limited competition indicators"
     },
     "notable_suppliers": [
-      { "name": "Lancashire County Council", "spend": "\u00a3325.9M", "issue": "48% of all spend \u2014 extreme supplier concentration" },
-      { "name": "Veolia ES (UK) Ltd", "spend": "\u00a316.7M", "note": "Waste disposal services" },
-      { "name": "Water Plus Ltd", "transactions": 4930, "note": "Highest volume supplier by count" }
+      {
+        "name": "Lancashire County Council",
+        "spend": "£325.9M",
+        "issue": "48% of all spend — extreme supplier concentration"
+      },
+      {
+        "name": "Veolia ES (UK) Ltd",
+        "spend": "£16.7M",
+        "note": "Waste disposal services"
+      },
+      {
+        "name": "Water Plus Ltd",
+        "transactions": 4930,
+        "note": "Highest volume supplier by count"
+      }
     ]
   }
 }

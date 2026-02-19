@@ -1,0 +1,327 @@
+/* Constituencies index page — dark theme matching Elections.jsx */
+
+.constituencies-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+/* Header */
+.constituencies-header {
+  margin-bottom: 1.5rem;
+}
+
+.constituencies-header-content {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.constituencies-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.constituencies-icon {
+  color: #0a84ff;
+  flex-shrink: 0;
+}
+
+.constituencies-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e5e5e7;
+  margin: 0;
+}
+
+.constituencies-subtitle {
+  color: #8e8e93;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+}
+
+.constituencies-summary-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.party-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  background: #2c2c2e;
+  border: 1px solid;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: #e5e5e7;
+}
+
+.party-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Controls */
+.constituencies-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.constituencies-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2c2c2e;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.constituencies-search svg {
+  color: #8e8e93;
+  flex-shrink: 0;
+}
+
+.constituencies-search input {
+  background: none;
+  border: none;
+  color: #e5e5e7;
+  font-size: 0.9rem;
+  width: 100%;
+  outline: none;
+}
+
+.constituencies-search input::placeholder {
+  color: #636366;
+}
+
+.constituencies-controls select {
+  background: #2c2c2e;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  color: #e5e5e7;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-width: 140px;
+}
+
+/* Grid */
+.constituencies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Card */
+.constituency-card {
+  background: #1c1c1e;
+  border: 1px solid #2c2c2e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: #e5e5e7;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.constituency-card:hover {
+  border-color: #0a84ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(10, 132, 255, 0.1);
+}
+
+.constituency-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+/* Card header with photo */
+.constituency-card-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.constituency-card-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3a3a3c;
+  flex-shrink: 0;
+}
+
+.constituency-card-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.constituency-card-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: #e5e5e7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.constituency-card-mp {
+  font-size: 0.85rem;
+  color: #a1a1a6;
+  margin: 0.15rem 0;
+}
+
+.constituency-card-party {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* Stats row */
+.constituency-card-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #2c2c2e;
+}
+
+.constituency-card-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.constituency-card-stat .stat-label {
+  font-size: 0.68rem;
+  color: #636366;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.constituency-card-stat .stat-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e5e5e7;
+}
+
+.stat-value.swing-positive {
+  color: #30d158;
+}
+
+.stat-value.swing-negative {
+  color: #ff453a;
+}
+
+/* Badge for cross-border constituencies */
+.constituency-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #3a3a3c;
+  color: #a1a1a6;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Claimant rate footnote */
+.constituency-card-claimant {
+  font-size: 0.72rem;
+  color: #636366;
+  text-align: center;
+}
+
+/* Empty state */
+.constituencies-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #8e8e93;
+}
+
+/* Error state */
+.constituencies-error {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #8e8e93;
+}
+
+.constituencies-error svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.constituencies-error h2 {
+  color: #e5e5e7;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+.constituencies-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2c2c2e;
+  text-align: center;
+}
+
+.constituencies-footer p {
+  color: #636366;
+  font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .constituencies-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .constituencies-controls {
+    flex-direction: column;
+  }
+
+  .constituencies-controls select {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .constituencies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .constituencies-search {
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .constituency-card-name {
+    font-size: 0.95rem;
+  }
+
+  .constituency-card-photo {
+    width: 44px;
+    height: 44px;
+  }
+}

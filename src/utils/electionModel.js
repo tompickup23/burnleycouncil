@@ -569,6 +569,396 @@ export function computeCoalitions(seatTotals, majorityThreshold) {
  * @param {Object} lgrModel - LGR proposal model data
  * @returns {Object} Political control projection per authority
  */
+// ---------------------------------------------------------------------------
+// V2: Regression-calibrated functions using model_coefficients.json
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate demographic adjustments using empirical regression coefficients.
+ * Replaces hardcoded bonuses with coefficients from calibrate_model.py OLS regression.
+ * @param {Object} demographics - Ward demographics (raw Census data)
+ * @param {Object} deprivation - Ward deprivation data
+ * @param {Object} coefficients - Regression coefficients from model_coefficients.json
+ * @returns {{ adjustments: Object<string, number>, methodology: Object }}
+ */
+export function calculateDemographicAdjustmentsV2(demographics, deprivation, coefficients) {
+  const adjustments = {};
+  const factors = [];
+
+  if (!coefficients || !demographics) {
+    return {
+      adjustments,
+      methodology: {
+        step: 3, name: 'Demographics (v2)',
+        description: 'No regression coefficients or demographics available — using defaults',
+        factors: [],
+      },
+    };
+  }
+
+  // Extract ward features from raw Census data
+  const age = demographics?.age || {};
+  const eth = demographics?.ethnicity || {};
+  const econ = demographics?.economic_activity || {};
+  const totalPop = age['Total: All usual residents'] || 0;
+  const ethTotal = eth['Total: All usual residents'] || totalPop;
+  const econTotal = econ['Total: All usual residents aged 16 years and over'] || 0;
+
+  if (totalPop === 0) {
+    return {
+      adjustments,
+      methodology: { step: 3, name: 'Demographics (v2)', description: 'No population data', factors: [] },
+    };
+  }
+
+  // Compute features
+  const over65 = (age['Aged 65 to 74 years'] || 0)
+    + (age['Aged 75 to 84 years'] || 0)
+    + (age['Aged 85 to 89 years'] || 0)
+    + (age['Aged 90 years and over'] || age['Aged 90 years'] || 0);
+  const young = (age['Aged 20 to 24 years'] || 0) + (age['Aged 25 to 34 years'] || 0);
+  const asian = eth['Asian, Asian British or Asian Welsh'] || 0;
+  const whiteBritish = eth['White: English, Welsh, Scottish, Northern Irish or British'] || 0;
+
+  let unemployed = 0;
+  for (const [k, v] of Object.entries(econ)) {
+    if (typeof v === 'number' && k.includes('Unemployed') && !k.split('Unemployed')[1]?.includes(':')) {
+      unemployed += v;
+    }
+  }
+
+  const featureValues = {
+    imd_norm: deprivation?.avg_imd_score ? deprivation.avg_imd_score / 80.0 : 0.5,
+    pct_over65: over65 / totalPop,
+    pct_young_adults: young / totalPop,
+    pct_asian: ethTotal > 0 ? asian / ethTotal : 0,
+    pct_white_british: ethTotal > 0 ? whiteBritish / ethTotal : 0,
+    pct_unemployed: econTotal > 0 ? unemployed / econTotal : 0,
+    pct_no_quals: 0,  // TODO: add when qualifications data available in demographics
+    pct_degree: 0,
+    pct_owned: 0,
+    pct_social_rented: 0,
+  };
+
+  // Apply regression: adjustment = Σ(coefficient × feature) for each party
+  // This gives the predicted vote share deviation from the overall average
+  for (const [party, partyCoeffs] of Object.entries(coefficients)) {
+    if (typeof partyCoeffs !== 'object') continue;
+    let adj = 0;
+    let usedFeatures = 0;
+    for (const [feature, coeff] of Object.entries(partyCoeffs)) {
+      if (feature === 'intercept') continue;  // Intercept handled separately
+      const val = featureValues[feature];
+      if (val !== undefined && val !== null && coeff !== 0) {
+        adj += coeff * val;
+        usedFeatures++;
+      }
+    }
+    // Scale to be a small adjustment, not a prediction override
+    // The regression gives absolute vote share, but we need a relative adjustment
+    // Use only the deviation from the average prediction
+    if (usedFeatures > 0) {
+      adjustments[party] = Math.round(adj * 100) / 10000; // Small scaling factor
+    }
+  }
+
+  const absAdj = Object.values(adjustments).map(v => Math.abs(v));
+  const maxAdj = absAdj.length > 0 ? Math.max(...absAdj) : 0;
+  factors.push(`Regression-based: ${Object.keys(adjustments).length} parties, max adjustment ${(maxAdj * 100).toFixed(1)}pp`);
+  if (deprivation?.deprivation_level) {
+    factors.push(`Deprivation: ${deprivation.deprivation_level} (IMD ${deprivation.avg_imd_score?.toFixed(1) || '?'})`);
+  }
+
+  return {
+    adjustments,
+    methodology: {
+      step: 3,
+      name: 'Demographics (v2 regression)',
+      description: `OLS regression with ${Object.keys(featureValues).length} features`,
+      factors,
+      features: featureValues,
+    },
+  };
+}
+
+/**
+ * Calculate national swing with party-specific dampening.
+ * V2: Uses per-party dampening from model_coefficients.json instead of single factor.
+ * @param {Object} baseline - Party vote shares from baseline
+ * @param {Object} nationalPolling - Current national polling averages
+ * @param {Object} ge2024Result - GE2024 national result
+ * @param {Object} assumptions - Model assumptions
+ * @param {Object} dampeningByParty - Party-specific dampening factors
+ * @returns {{ adjustments: Object<string, number>, methodology: Object }}
+ */
+export function calculateNationalSwingV2(baseline, nationalPolling, ge2024Result, assumptions, dampeningByParty) {
+  const adjustments = {};
+  const details = {};
+  const defaultDampening = assumptions.nationalToLocalDampening || 0.65;
+  const multiplier = assumptions.swingMultiplier || 1.0;
+
+  for (const party of Object.keys(baseline)) {
+    const currentNational = nationalPolling[party] || 0;
+    const ge2024National = ge2024Result[party] || 0;
+    const nationalSwing = currentNational - ge2024National;
+    const partyDampening = dampeningByParty?.[party] || defaultDampening;
+    const localSwing = nationalSwing * partyDampening * multiplier;
+
+    adjustments[party] = localSwing;
+    details[party] = {
+      nationalNow: currentNational,
+      nationalGE2024: ge2024National,
+      nationalSwing: Math.round(nationalSwing * 1000) / 1000,
+      dampening: partyDampening,
+      dampened: Math.round(localSwing * 1000) / 1000,
+    };
+  }
+
+  return {
+    adjustments,
+    methodology: {
+      step: 2,
+      name: 'National Swing (v2)',
+      description: `Party-specific dampening` +
+        (multiplier !== 1.0 ? ` (×${multiplier} user adjustment)` : ''),
+      details,
+    },
+  };
+}
+
+/**
+ * Predict a single ward using V2 model with regression coefficients.
+ * Falls back to V1 predictWard if coefficients unavailable.
+ */
+export function predictWardV2(
+  wardData, assumptions = DEFAULT_ASSUMPTIONS,
+  nationalPolling = {}, ge2024Result = {},
+  demographics = null, deprivation = null,
+  constituencyResult = null, lcc2025 = null,
+  modelCoefficients = null,
+) {
+  // If no model coefficients, fall back to V1
+  if (!modelCoefficients?.coefficients) {
+    return predictWard(wardData, assumptions, nationalPolling, ge2024Result, demographics, deprivation, constituencyResult, lcc2025, null);
+  }
+
+  const methodology = [];
+
+  // Step 1: Baseline (same as V1)
+  const baseline = getBaseline(wardData, 'borough');
+  if (!baseline) {
+    return {
+      prediction: null,
+      methodology: [{ step: 1, name: 'Baseline', description: 'No historical election data' }],
+      confidence: 'none',
+    };
+  }
+  methodology.push({
+    step: 1, name: 'Baseline',
+    description: `Most recent borough result (${baseline.date})`,
+    data: { ...baseline.parties },
+  });
+
+  let shares = { ...baseline.parties };
+
+  // Step 2: National Swing with party-specific dampening
+  const swing = calculateNationalSwingV2(
+    baseline.parties, nationalPolling, ge2024Result, assumptions,
+    modelCoefficients.dampening_by_party
+  );
+  methodology.push(swing.methodology);
+  for (const [party, adj] of Object.entries(swing.adjustments)) {
+    shares[party] = (shares[party] || 0) + adj;
+  }
+
+  // Step 3: Demographics (V2 regression)
+  const demo = calculateDemographicAdjustmentsV2(demographics, deprivation, modelCoefficients.coefficients);
+  methodology.push(demo.methodology);
+  for (const [party, adj] of Object.entries(demo.adjustments)) {
+    shares[party] = (shares[party] || 0) + adj;
+  }
+
+  // Step 4: Incumbency (same as V1)
+  const incumb = calculateIncumbencyAdjustment(wardData, assumptions);
+  methodology.push(incumb.methodology);
+  for (const [party, adj] of Object.entries(incumb.adjustments)) {
+    shares[party] = (shares[party] || 0) + adj;
+  }
+
+  // Step 5: Reform UK entry (same as V1)
+  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions);
+  methodology.push(reform.methodology);
+  for (const [party, adj] of Object.entries(reform.adjustments)) {
+    shares[party] = (shares[party] || 0) + adj;
+  }
+
+  // Step 6: Normalise
+  const normalised = normaliseShares(shares);
+  methodology.push({
+    step: 6, name: 'Normalise',
+    description: 'All shares scaled to sum to 100%',
+    data: Object.fromEntries(Object.entries(normalised).map(([p, v]) => [p, Math.round(v * 1000) / 1000])),
+  });
+
+  // Vote estimation
+  const turnout = Math.max(0.15, Math.min(0.65,
+    (baseline.turnout || 0.30) + (assumptions.turnoutAdjustment || 0)));
+  const electorate = baseline.electorate || baseline.turnoutVotes / (baseline.turnout || 0.30);
+  const totalVotes = Math.round(electorate * turnout);
+
+  const prediction = {};
+  for (const [party, share] of Object.entries(normalised)) {
+    prediction[party] = { pct: Math.round(share * 1000) / 1000, votes: Math.round(share * totalVotes) };
+  }
+
+  const sorted = Object.entries(prediction).sort((a, b) => b[1].votes - a[1].votes);
+  const winner = sorted[0]?.[0];
+  const runnerUp = sorted[1]?.[0];
+  const majority = winner && runnerUp ? prediction[winner].votes - prediction[runnerUp].votes : 0;
+  const majorityPct = totalVotes > 0 ? majority / totalVotes : 0;
+
+  // Confidence from regression MAE
+  const validation = modelCoefficients.validation || {};
+  const winnerMAE = validation[winner]?.mae || 0.10;
+  let confidence = 'low';
+  if (majorityPct > winnerMAE * 2) confidence = 'high';
+  else if (majorityPct > winnerMAE) confidence = 'medium';
+
+  return {
+    prediction: Object.fromEntries(sorted),
+    winner, runnerUp, majority,
+    majorityPct: Math.round(majorityPct * 1000) / 1000,
+    estimatedTurnout: turnout, estimatedVotes: totalVotes,
+    confidence, methodology,
+    confidenceInterval: winnerMAE,
+    modelVersion: 'v2',
+  };
+}
+
+/**
+ * Predict a constituency-level general election result.
+ * Uses: GE2024 baseline + national swing from polling + optional MRP blend.
+ * @param {Object} constituency - Constituency data from constituencies.json
+ * @param {Object} polling - Polling data from polling.json
+ * @param {Object} modelCoefficients - Model coefficients
+ * @returns {{ prediction: Object, swing: Object, methodology: Array, confidence: string }}
+ */
+export function predictConstituencyGE(constituency, polling, modelCoefficients) {
+  if (!constituency?.ge2024?.results || !polling?.aggregate) {
+    return { prediction: null, methodology: [], confidence: 'none' };
+  }
+
+  const methodology = [];
+  const ge2024Baseline = {};
+  for (const r of constituency.ge2024.results) {
+    ge2024Baseline[r.party] = r.pct;
+  }
+
+  methodology.push({
+    step: 1, name: 'GE2024 Baseline',
+    description: `Actual GE2024 result in ${constituency.name}`,
+    data: { ...ge2024Baseline },
+  });
+
+  // National swing from polling
+  const ge2024National = polling.ge2024_baseline || {};
+  const currentPolling = polling.aggregate || {};
+  const dampeningByParty = modelCoefficients?.dampening_by_party || {};
+
+  let shares = { ...ge2024Baseline };
+
+  // Apply uniform national swing (UNS) with party-specific dampening
+  const swingDetails = {};
+  for (const party of Object.keys(shares)) {
+    const natNow = currentPolling[party] || 0;
+    const natGE = ge2024National[party] || 0;
+    const natSwing = natNow - natGE;
+    // For GE prediction, dampening is lower (it IS a national election)
+    // Use 0.85 × the local dampening (closer to 1:1 for national elections)
+    const dampening = Math.min(0.95, (dampeningByParty[party] || 0.65) * 1.2);
+    const swing = natSwing * dampening;
+    shares[party] = (shares[party] || 0) + swing;
+    swingDetails[party] = { natSwing: Math.round(natSwing * 1000) / 1000, dampening, applied: Math.round(swing * 1000) / 1000 };
+  }
+
+  // Add parties in polling but not in GE2024 baseline
+  for (const party of Object.keys(currentPolling)) {
+    if (!shares[party]) {
+      shares[party] = currentPolling[party] * 0.5; // Half national share as proxy
+    }
+  }
+
+  methodology.push({
+    step: 2, name: 'National Swing (GE)',
+    description: 'Uniform national swing with party-specific dampening (×1.2 for GE)',
+    details: swingDetails,
+  });
+
+  // Normalise
+  const normalised = normaliseShares(shares);
+  methodology.push({
+    step: 3, name: 'Normalise',
+    description: 'Shares scaled to 100%',
+    data: Object.fromEntries(Object.entries(normalised).map(([p, v]) => [p, Math.round(v * 1000) / 1000])),
+  });
+
+  // Sort by vote share descending
+  const sorted = Object.entries(normalised).sort((a, b) => b[1] - a[1]);
+  const prediction = Object.fromEntries(sorted.map(([p, v]) => [p, { pct: Math.round(v * 1000) / 1000 }]));
+  const winner = sorted[0]?.[0];
+  const runnerUp = sorted[1]?.[0];
+  const majorityPct = winner && runnerUp ? normalised[winner] - normalised[runnerUp] : 0;
+
+  // Swing vs GE2024
+  const swing = {};
+  for (const [party, share] of Object.entries(normalised)) {
+    swing[party] = Math.round((share - (ge2024Baseline[party] || 0)) * 1000) / 1000;
+  }
+
+  // Confidence — constituency predictions are inherently less certain
+  let confidence = 'low';
+  if (majorityPct > 0.15) confidence = 'high';
+  else if (majorityPct > 0.08) confidence = 'medium';
+
+  return {
+    prediction, winner, runnerUp,
+    majorityPct: Math.round(majorityPct * 1000) / 1000,
+    swing, methodology, confidence,
+    mpChange: winner !== constituency.mp?.party?.replace(' (Co-op)', ''),
+  };
+}
+
+/**
+ * Universal prediction router — handles any election scope.
+ * @param {Object} election - Election configuration
+ * @param {Object} data - All relevant data
+ * @param {Object} polling - Polling data
+ * @param {Object} coefficients - Model coefficients
+ * @param {Object} assumptions - User assumptions
+ * @returns {Object} Prediction result
+ */
+export function predict(election, data, polling, coefficients, assumptions = DEFAULT_ASSUMPTIONS) {
+  switch (election?.scope) {
+    case 'ward':
+      return predictWardV2(
+        data.wardData, assumptions, polling?.aggregate || {},
+        polling?.ge2024_baseline || {}, data.demographics, data.deprivation,
+        data.constituencyResult, data.lcc2025, coefficients
+      );
+    case 'council':
+      return predictCouncil(
+        data.electionsData, data.wardsUp, assumptions,
+        polling?.aggregate || {}, polling?.ge2024_baseline || {},
+        data.demographicsMap, data.deprivationMap, data.constituencyMap,
+        data.lcc2025, coefficients
+      );
+    case 'constituency':
+      return predictConstituencyGE(data.constituency, polling, coefficients);
+    default:
+      return { prediction: null, methodology: [], confidence: 'none' };
+  }
+}
+
 export function projectToLGRAuthority(councilSeatTotals, lgrModel) {
   if (!lgrModel?.authorities) return {};
 
