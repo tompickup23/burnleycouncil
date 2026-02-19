@@ -21,6 +21,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Analysis:** `doge_analysis.py` — duplicates, split payments, CH compliance, Benford's Law, cross-council pricing, weak competition, category monopolies, supplier concentration, fraud triangle
 - **Deprivation:** `deprivation_etl.py` — IMD 2019 ward-level data from MHCLG + ONS ArcGIS
 - **Demographics:** `census_etl.py` — Census 2021 ward-level age, sex, ethnicity, religion, country of birth, economic activity from ONS Nomis API (CSV format)
+- **Elections:** `elections.json` per council — ward-level history, predictions, coalition modelling. `elections_reference.json` shared national polling data.
 - **Hosting:** GitHub Pages (free), custom domain aidoge.co.uk
 - **Servers:** Thurinus (Oracle x86, 1GB RAM, free), vps-main (Hostinger, 16GB RAM, £22/mo), 2x AWS t3.micro (free trial until Jul 2026)
 
@@ -57,7 +58,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 22 lazy-loaded routes |
+| `src/App.jsx` | Router with 23 lazy-loaded routes |
 | `src/pages/` | 32 page components + tests (Spending, Budgets, DOGE, News, Procurement, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
@@ -67,11 +68,12 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/utils/constants.js` | Shared constants: CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, SEVERITY_COLORS, COUNCIL_COLORS |
 | `src/utils/analytics.js` | Shared analytics engine: CPI-H deflation, z-scores, Gini, Benford's 2nd digit, reserves adequacy |
 | `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV calculations |
+| `src/utils/electionModel.js` | Election prediction model: ward-level swing, national polling, demographics-weighted |
 | `src/workers/spending.utils.js` | Pure utility functions shared by worker and tests |
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation (31 tests) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 288 tests across 28 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 340 tests across 29 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -137,12 +139,15 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `integrity.json` | councillor_integrity_etl.py | 8-source councillor integrity scoring (CH, EC, FCA, co-directors, familial) |
 | `register_of_interests.json` | register_of_interests_etl.py | ModernGov register data (companies, employment, securities, land) |
 | `meetings.json` | meetings_etl.py | Council meetings (title, date, committee, venue, agenda/minutes links) |
+| `elections.json` | Manual / elections ETL | Ward-level election history, current holders, upcoming elections |
 
 ### Shared Data (`burnley-council/data/shared/`)
 | File | Purpose |
 |------|---------|
 | `legal_framework.json` | 12 UK council oversight laws |
 | `lgr_tracker.json` | LGR Tracker data: proposals, financial models, demographics, political analysis |
+| `lgr_budget_model.json` | Pre-computed council tax harmonisation Band D rates per LGR model |
+| `elections_reference.json` | National polling data, LCC 2025 results, model parameters for election predictions |
 | `integrity_cross_council.json` | Cross-council councillor integrity comparison |
 
 ## Critical Rules

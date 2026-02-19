@@ -16,6 +16,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend, LineChart, Line, ScatterChart, Scatter, ZAxis,
 } from 'recharts'
+import { Link } from 'react-router-dom'
 import {
   Calendar, Users, Vote, TrendingUp, ChevronDown, ChevronRight,
   MapPin, Sliders, RotateCcw, Building, ExternalLink, AlertTriangle,
@@ -33,6 +34,47 @@ const FALLBACK_PARTY_COLORS = {
 
 // --- Confidence colours ---
 const CONFIDENCE_COLORS = { high: '#30d158', medium: '#ff9f0a', low: '#ff453a', none: '#8e8e93' }
+
+// --- Helpers ---
+
+/** Format election type from snake_case to readable text */
+function formatElectionType(type) {
+  if (!type) return 'Borough'
+  const MAP = {
+    borough: 'Borough', borough_thirds: 'Borough (Thirds)', borough_halves: 'Borough (Halves)',
+    all_out: 'All-out', shadow_authority: 'Shadow Authority', vesting_day: 'Vesting Day',
+    county: 'County', constituency: 'Constituency', by_election: 'By-election',
+  }
+  return MAP[type] || type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
+/** Format date from ISO string to readable "7 May 2026" */
+function formatElectionDate(dateStr) {
+  if (!dateStr) return 'TBC'
+  const d = new Date(dateStr + 'T00:00:00')
+  if (isNaN(d.getTime())) return dateStr
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+/** Ensure party-coloured text is readable on dark backgrounds — boost luminance if needed */
+function readablePartyColor(color) {
+  if (!color) return '#ccc'
+  // Parse hex to RGB
+  const hex = color.replace('#', '')
+  if (hex.length !== 6) return color
+  const r = parseInt(hex.slice(0, 2), 16) / 255
+  const g = parseInt(hex.slice(2, 4), 16) / 255
+  const b = parseInt(hex.slice(4, 6), 16) / 255
+  // Relative luminance (WCAG formula)
+  const sRGB = [r, g, b].map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4))
+  const L = 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2]
+  // If too dark for dark backgrounds (L < 0.15), lighten it
+  if (L < 0.15) {
+    const lighten = (v) => Math.min(255, Math.round(v * 255 * 1.8 + 60))
+    return `rgb(${lighten(r)}, ${lighten(g)}, ${lighten(b)})`
+  }
+  return color
+}
 
 // --- Small reusable components ---
 
@@ -92,17 +134,20 @@ function ElectionTooltip({ active, payload, label, partyColors }) {
   )
 }
 
-// --- Section nav definition ---
-const SECTIONS = [
-  { id: 'overview', label: 'Overview', icon: Calendar },
-  { id: 'history', label: 'Council History', icon: BarChart3 },
-  { id: 'wards', label: 'Ward Explorer', icon: MapPin },
-  { id: 'predictions', label: 'May 2026', icon: Target },
-  { id: 'builder', label: 'Ward Builder', icon: Vote },
-  { id: 'coalitions', label: 'Coalitions', icon: Handshake },
-  { id: 'lgr', label: 'LGR Projections', icon: Map },
-  { id: 'demographics', label: 'Demographics', icon: Users },
-]
+// --- Section nav definition (dynamic labels set in component based on tier) ---
+function getSections(isCounty) {
+  const areaLabel = isCounty ? 'Division' : 'Ward'
+  return [
+    { id: 'overview', label: 'Overview', icon: Calendar },
+    { id: 'history', label: 'Council History', icon: BarChart3 },
+    { id: 'wards', label: `${areaLabel} Explorer`, icon: MapPin },
+    { id: 'predictions', label: 'Predictions', icon: Target },
+    { id: 'builder', label: `${areaLabel} Builder`, icon: Vote },
+    { id: 'coalitions', label: 'Coalitions', icon: Handshake },
+    { id: 'lgr', label: 'LGR Projections', icon: Map },
+    { id: 'demographics', label: 'Demographics', icon: Users },
+  ]
+}
 
 // ============================================================================
 // Main Elections Component
@@ -137,10 +182,18 @@ export default function Elections() {
   const [expandedWorkings, setExpandedWorkings] = useState({})
   const [selectedCoalition, setSelectedCoalition] = useState(null)
 
+  // --- Tier-aware labels ---
+  const isCounty = config.council_tier === 'county'
+  const wardLabel = isCounty ? 'division' : 'ward'
+  const wardLabelCap = isCounty ? 'Division' : 'Ward'
+  const wardsLabel = isCounty ? 'divisions' : 'wards'
+  const wardsLabelCap = isCounty ? 'Divisions' : 'Wards'
+  const sections = useMemo(() => getSections(isCounty), [isCounty])
+
   // --- Page title ---
   useEffect(() => {
-    document.title = `Elections | ${councilName} Council Transparency`
-    return () => { document.title = `${councilName} Council Transparency` }
+    document.title = `Elections | ${councilName} Transparency`
+    return () => { document.title = `${councilName} Transparency` }
   }, [councilName])
 
   // --- Derived data ---
@@ -192,15 +245,23 @@ export default function Elections() {
 
   // Council history chart data
   const councilHistoryData = useMemo(() => {
-    if (!electionsData?.council_history?.length) return { seats: [], voteShare: [], parties: [] }
+    if (!electionsData?.council_history?.length) return { seats: [], voteShare: [], parties: [], majorParties: [], minorParties: [] }
 
-    const allParties = new Set()
+    // Collect all parties and rank by total seats won (most important first)
+    const partySeatTotals = {}
     for (const election of electionsData.council_history) {
       if (election.results_by_party) {
-        Object.keys(election.results_by_party).forEach(p => allParties.add(p))
+        for (const [p, data] of Object.entries(election.results_by_party)) {
+          partySeatTotals[p] = (partySeatTotals[p] || 0) + (data.won || 0)
+        }
       }
     }
-    const parties = Array.from(allParties)
+    const parties = Object.keys(partySeatTotals).sort((a, b) => partySeatTotals[b] - partySeatTotals[a])
+
+    // Split into major parties (won 2+ seats ever, or top 6) and minor parties
+    // This keeps the table readable while charts show everything
+    const majorParties = parties.filter((p, i) => partySeatTotals[p] >= 2 || i < 6)
+    const minorParties = parties.filter(p => !majorParties.includes(p))
 
     const seats = electionsData.council_history
       .sort((a, b) => a.year - b.year)
@@ -224,7 +285,7 @@ export default function Elections() {
         return row
       })
 
-    return { seats, voteShare, parties }
+    return { seats, voteShare, parties, majorParties, minorParties }
   }, [electionsData])
 
   // Ward explorer data for selected ward
@@ -321,7 +382,7 @@ export default function Elections() {
     for (const [wardName, dWard] of Object.entries(demographicsMap)) {
       const eWard = electionsData.wards[wardName]
       if (!eWard?.history?.length) continue
-      const latest = [...eWard.history].sort((a, b) => b.date.localeCompare(a.date))[0]
+      const latest = [...eWard.history].sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0]
       if (!latest?.turnout) continue
       points.push({
         ward: wardName,
@@ -391,15 +452,15 @@ export default function Elections() {
       <div className="elec-header">
         <h1><Vote size={28} /> Elections</h1>
         <p className="elec-subtitle">
-          Ward-level election history, predictions and coalition modelling for {meta.council_name || councilName}.
-          {meta.total_seats ? ` ${meta.total_seats} seats across ${meta.total_wards || wardNames.length} wards.` : ''}
-          {meta.election_cycle ? ` Elections by ${meta.election_cycle}.` : ''}
+          {wardLabelCap}-level election history, predictions and coalition modelling for {meta.council_name || councilName}.
+          {meta.total_seats ? ` ${meta.total_seats} seats across ${meta.total_wards || wardNames.length} ${wardsLabel}.` : ''}
+          {meta.election_cycle ? ` Elections by ${meta.election_cycle === 'thirds' ? 'thirds (one-third of seats each year)' : meta.election_cycle === 'halves' ? 'halves (half the seats each cycle)' : meta.election_cycle}.` : ''}
         </p>
       </div>
 
       {/* Section Navigation */}
       <nav className="elec-section-nav" aria-label="Election page sections">
-        {SECTIONS.map(s => (
+        {sections.map(s => (
           <button
             key={s.id}
             className={`section-nav-btn ${activeSection === s.id ? 'active' : ''}`}
@@ -423,7 +484,7 @@ export default function Elections() {
           <div className="elec-next-election-card">
             <div className="elec-next-election-header">
               <Calendar size={18} />
-              <h3>Next Election: {nextElection.date || 'TBC'}</h3>
+              <h3>Next Election: {formatElectionDate(nextElection.date)}</h3>
             </div>
             <div className="elec-next-election-stats">
               <div className="elec-stat">
@@ -435,7 +496,7 @@ export default function Elections() {
                 <span className="elec-stat-label">Wards contested</span>
               </div>
               <div className="elec-stat">
-                <span className="elec-stat-value">{nextElection.type || 'Borough'}</span>
+                <span className="elec-stat-value">{formatElectionType(nextElection.type)}</span>
                 <span className="elec-stat-label">Election type</span>
               </div>
               <div className="elec-stat">
@@ -455,8 +516,8 @@ export default function Elections() {
                 <div key={i} className={`elec-timeline-item ${ev.council_id === councilId ? 'highlight' : ''}`}>
                   <div className="elec-timeline-marker" />
                   <div className="elec-timeline-content">
-                    <span className="elec-timeline-date">{ev.date}</span>
-                    <span className="elec-timeline-desc">{ev.description || ev.type}</span>
+                    <span className="elec-timeline-date">{formatElectionDate(ev.date)}</span>
+                    <span className="elec-timeline-desc">{ev.description || formatElectionType(ev.type)}</span>
                   </div>
                 </div>
               ))}
@@ -570,7 +631,7 @@ export default function Elections() {
               </div>
             )}
 
-            {/* Summary table */}
+            {/* Summary table — major parties as columns, minor parties grouped as "Others" */}
             <div className="elec-table-wrap">
               <table className="elec-table">
                 <thead>
@@ -579,29 +640,50 @@ export default function Elections() {
                     <th>Type</th>
                     <th>Seats</th>
                     <th>Turnout</th>
-                    {councilHistoryData.parties.slice(0, 6).map(p => (
-                      <th key={p} style={{ color: partyColors[p] || '#ccc' }}>{p}</th>
+                    {councilHistoryData.majorParties.map(p => (
+                      <th key={p} style={{ color: readablePartyColor(partyColors[p]) }}>{p}</th>
                     ))}
+                    {councilHistoryData.minorParties.length > 0 && <th>Others</th>}
                   </tr>
                 </thead>
                 <tbody>
                   {electionsData.council_history
                     .sort((a, b) => b.year - a.year)
-                    .map((e, i) => (
-                      <tr key={i}>
-                        <td><strong>{e.year}</strong></td>
-                        <td>{e.type || '-'}</td>
-                        <td>{e.seats_contested || '-'}</td>
-                        <td>{e.turnout != null ? `${(e.turnout * 100).toFixed(1)}%` : '-'}</td>
-                        {councilHistoryData.parties.slice(0, 6).map(p => (
-                          <td key={p}>
-                            {e.results_by_party?.[p]
-                              ? `${e.results_by_party[p].won} (${e.results_by_party[p].pct != null ? (e.results_by_party[p].pct * 100).toFixed(1) + '%' : '-'})`
-                              : '-'}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
+                    .map((e, i) => {
+                      // Compute "Others" column — sum of minor party seats & votes
+                      const otherSeats = councilHistoryData.minorParties.reduce(
+                        (sum, p) => sum + (e.results_by_party?.[p]?.won || 0), 0
+                      )
+                      const otherPct = councilHistoryData.minorParties.reduce(
+                        (sum, p) => sum + (e.results_by_party?.[p]?.pct || 0), 0
+                      )
+                      const otherNames = councilHistoryData.minorParties
+                        .filter(p => e.results_by_party?.[p]?.won > 0 || e.results_by_party?.[p]?.pct > 0)
+                        .map(p => `${p}: ${e.results_by_party[p].won || 0}`)
+                        .join(', ')
+                      return (
+                        <tr key={i}>
+                          <td><strong>{e.year}</strong></td>
+                          <td>{formatElectionType(e.type)}</td>
+                          <td>{e.seats_contested || '-'}</td>
+                          <td>{e.turnout != null ? `${(e.turnout * 100).toFixed(1)}%` : '-'}</td>
+                          {councilHistoryData.majorParties.map(p => (
+                            <td key={p}>
+                              {e.results_by_party?.[p]
+                                ? `${e.results_by_party[p].won} (${e.results_by_party[p].pct != null ? (e.results_by_party[p].pct * 100).toFixed(1) + '%' : '-'})`
+                                : '-'}
+                            </td>
+                          ))}
+                          {councilHistoryData.minorParties.length > 0 && (
+                            <td title={otherNames || 'No minor party results'}>
+                              {otherSeats > 0 || otherPct > 0
+                                ? `${otherSeats} (${(otherPct * 100).toFixed(1)}%)`
+                                : '-'}
+                            </td>
+                          )}
+                        </tr>
+                      )
+                    })}
                 </tbody>
               </table>
             </div>
@@ -615,17 +697,17 @@ export default function Elections() {
       {/* SECTION 3: Ward Explorer                                        */}
       {/* ================================================================ */}
       <section className="elec-section" id="elec-wards">
-        <h2><MapPin size={20} /> Ward Explorer</h2>
+        <h2><MapPin size={20} /> {wardLabelCap} Explorer</h2>
 
         <div className="elec-ward-selector">
-          <label htmlFor="ward-select">Select ward:</label>
+          <label htmlFor="ward-select">Select {wardLabel}:</label>
           <select
             id="ward-select"
             value={selectedWard}
             onChange={(e) => setSelectedWard(e.target.value)}
-            aria-label="Select a ward to explore"
+            aria-label={`Select a ${wardLabel} to explore`}
           >
-            <option value="">-- Choose a ward --</option>
+            <option value="">-- Choose a {wardLabel} --</option>
             {wardNames.map(w => (
               <option key={w} value={w}>{w}</option>
             ))}
@@ -696,11 +778,11 @@ export default function Elections() {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedWardData.history
-                      .sort((a, b) => b.date.localeCompare(a.date))
+                    {[...selectedWardData.history]
+                      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
                       .map((election, ei) =>
                         (election.candidates || [])
-                          .sort((a, b) => b.votes - a.votes)
+                          .sort((a, b) => (b.votes || 0) - (a.votes || 0))
                           .map((candidate, ci) => (
                             <tr
                               key={`${ei}-${ci}`}
@@ -708,7 +790,7 @@ export default function Elections() {
                             >
                               {ci === 0 ? (
                                 <td rowSpan={election.candidates.length}>
-                                  <strong>{election.date}</strong>
+                                  <strong>{formatElectionDate(election.date)}</strong>
                                   {election.turnout != null && (
                                     <div className="elec-cell-sub">
                                       Turnout: {(election.turnout * 100).toFixed(1)}%
@@ -718,7 +800,7 @@ export default function Elections() {
                               ) : null}
                               {ci === 0 ? (
                                 <td rowSpan={election.candidates.length}>
-                                  {election.type || '-'}
+                                  {formatElectionType(election.type)}
                                 </td>
                               ) : null}
                               <td>{candidate.name}</td>
@@ -742,7 +824,7 @@ export default function Elections() {
             {selectedWardData.history?.length > 1 && (() => {
               const majorityData = selectedWardData.history
                 .filter(e => e.majority_pct != null)
-                .sort((a, b) => a.date.localeCompare(b.date))
+                .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
                 .map(e => ({
                   year: e.year,
                   majority: Math.round(e.majority_pct * 1000) / 10,
@@ -766,7 +848,7 @@ export default function Elections() {
             })()}
           </div>
         ) : (
-          <p className="elec-no-data">Select a ward above to explore its election history.</p>
+          <p className="elec-no-data">Select a {wardLabel} above to explore its election history.</p>
         )}
       </section>
 
@@ -774,7 +856,7 @@ export default function Elections() {
       {/* SECTION 4: May 2026 Predictions                                 */}
       {/* ================================================================ */}
       <section className="elec-section" id="elec-predictions">
-        <h2><Target size={20} /> May 2026 Predictions</h2>
+        <h2><Target size={20} /> {nextElection?.date ? formatElectionDate(nextElection.date) : 'Next Election'} Predictions</h2>
 
         {!nextElection ? (
           <div className="elec-info-banner">
@@ -829,14 +911,14 @@ export default function Elections() {
                   .sort((a, b) => b[1] - a[1])
                   .map(([party, seats]) => (
                     <div key={party} className="elec-seat-bar-row">
-                      <span className="elec-seat-bar-label" style={{ color: partyColors[party] || '#ccc' }}>
+                      <span className="elec-seat-bar-label" style={{ color: readablePartyColor(partyColors[party]) }}>
                         {party}
                       </span>
                       <div className="elec-seat-bar-track">
                         <div
                           className="elec-seat-bar-fill"
                           style={{
-                            width: `${(seats / totalSeats) * 100}%`,
+                            width: `${totalSeats > 0 ? (seats / totalSeats) * 100 : 0}%`,
                             background: partyColors[party] || '#888',
                           }}
                         />
@@ -852,11 +934,11 @@ export default function Elections() {
 
             {/* Ward-by-ward predictions table */}
             <div className="elec-table-wrap">
-              <h3>Ward-by-Ward Predictions ({wardsUp.length} wards)</h3>
+              <h3>{wardLabelCap}-by-{wardLabelCap} Predictions ({wardsUp.length} {wardsLabel})</h3>
               <table className="elec-table">
                 <thead>
                   <tr>
-                    <th>Ward</th>
+                    <th>{wardLabelCap}</th>
                     <th>Predicted Winner</th>
                     <th>Current Holder</th>
                     <th>Confidence</th>
@@ -889,7 +971,7 @@ export default function Elections() {
                         <td><ConfidenceDot confidence={result.confidence} /> {result.confidence}</td>
                         <td>
                           {result.majority != null
-                            ? `${formatNumber(result.majority)} (${(result.majorityPct * 100).toFixed(1)}%)`
+                            ? `${formatNumber(result.majority)} (${result.majorityPct != null ? (result.majorityPct * 100).toFixed(1) + '%' : '-'})`
                             : '-'}
                         </td>
                         <td>{result.estimatedTurnout ? `${(result.estimatedTurnout * 100).toFixed(1)}%` : '-'}</td>
@@ -917,7 +999,7 @@ export default function Elections() {
                                   {step.data && (
                                     <div className="elec-workings-data">
                                       {Object.entries(step.data).map(([party, val]) => (
-                                        <span key={party} style={{ color: partyColors[party] || '#ccc' }}>
+                                        <span key={party} style={{ color: readablePartyColor(partyColors[party]) }}>
                                           {party}: {typeof val === 'number' ? `${(val * 100).toFixed(1)}%` : val}
                                         </span>
                                       ))}
@@ -938,7 +1020,7 @@ export default function Elections() {
                                     {Object.entries(result.prediction)
                                       .sort((a, b) => b[1].votes - a[1].votes)
                                       .map(([party, data]) => (
-                                        <span key={party} style={{ color: partyColors[party] || '#ccc' }}>
+                                        <span key={party} style={{ color: readablePartyColor(partyColors[party]) }}>
                                           {party}: {(data.pct * 100).toFixed(1)}% ({formatNumber(data.votes)} votes)
                                         </span>
                                       ))}
@@ -962,15 +1044,15 @@ export default function Elections() {
       {/* SECTION 5: Ward Builder                                         */}
       {/* ================================================================ */}
       <section className="elec-section" id="elec-builder">
-        <h2><Vote size={20} /> Ward Builder</h2>
+        <h2><Vote size={20} /> {wardLabelCap} Builder</h2>
         <p className="elec-section-desc">
-          Click a party name to override the predicted winner for each ward. Running seat totals update in real time.
+          Click a party name to override the predicted winner for each {wardLabel}. Running seat totals update in real time.
         </p>
 
         {!councilPrediction || !wardsUp.length ? (
           <div className="elec-info-banner">
             <AlertTriangle size={16} />
-            <span>Ward Builder requires prediction data. Ensure the Predictions section has valid results.</span>
+            <span>{wardLabelCap} Builder requires prediction data. Ensure the Predictions section has valid results.</span>
           </div>
         ) : (
           <>
@@ -984,12 +1066,12 @@ export default function Elections() {
                       key={party}
                       className="elec-builder-segment"
                       style={{
-                        width: `${(seats / totalSeats) * 100}%`,
+                        width: `${totalSeats > 0 ? (seats / totalSeats) * 100 : 0}%`,
                         background: partyColors[party] || '#888',
                       }}
                       title={`${party}: ${seats} seats`}
                     >
-                      {seats >= 2 && <span>{seats}</span>}
+                      {seats >= 1 && <span>{seats}</span>}
                     </div>
                   ))}
               </div>
@@ -1036,12 +1118,12 @@ export default function Elections() {
                           style={{
                             borderColor: partyColors[party] || '#888',
                             background: currentWinner === party ? (partyColors[party] || '#888') : 'transparent',
-                            color: currentWinner === party ? '#fff' : (partyColors[party] || '#ccc'),
+                            color: currentWinner === party ? '#fff' : readablePartyColor(partyColors[party]),
                           }}
                           onClick={() => setOverride(wardName, party)}
                           aria-label={`Set ${wardName} winner to ${party}`}
                         >
-                          {party.length > 12 ? party.slice(0, 10) + '..' : party}
+                          {party.length > 14 ? party.slice(0, 12) + '…' : party}
                         </button>
                       ))}
                     </div>
@@ -1109,7 +1191,7 @@ export default function Elections() {
                     </div>
                     <div className="elec-stat">
                       <span className="elec-stat-value">
-                        {((coalition.totalSeats / totalSeats) * 100).toFixed(0)}%
+                        {totalSeats > 0 ? ((coalition.totalSeats / totalSeats) * 100).toFixed(0) : 0}%
                       </span>
                       <span className="elec-stat-label">Council share</span>
                     </div>
@@ -1119,7 +1201,7 @@ export default function Elections() {
                       <h4>Seat Breakdown</h4>
                       {coalition.parties.map(party => (
                         <div key={party} className="elec-coalition-breakdown-row">
-                          <span style={{ color: partyColors[party] || '#ccc' }}>{party}</span>
+                          <span style={{ color: readablePartyColor(partyColors[party]) }}>{party}</span>
                           <span>{builderSeatTotals[party] || 0} seats</span>
                         </div>
                       ))}
@@ -1148,7 +1230,7 @@ export default function Elections() {
           How predicted election results might map onto proposed Local Government Reorganisation boundaries.
           Note: These projections use only {councilName} data.
           Full LGR analysis requires data from all constituent councils.
-          <a href="lgr" className="elec-link-inline"> View full LGR Tracker <ExternalLink size={12} /></a>
+          <Link to="/lgr" className="elec-link-inline"> View full LGR Tracker <ExternalLink size={12} /></Link>
         </p>
 
         {lgrProjections.length === 0 ? (
@@ -1188,7 +1270,7 @@ export default function Elections() {
                           .sort((a, b) => b[1] - a[1])
                           .map(([party, seats]) => (
                             <div key={party} className="elec-lgr-seat-row">
-                              <span style={{ color: partyColors[party] || '#ccc' }}>{party}</span>
+                              <span style={{ color: readablePartyColor(partyColors[party]) }}>{party}</span>
                               <span>{seats}</span>
                             </div>
                           ))}

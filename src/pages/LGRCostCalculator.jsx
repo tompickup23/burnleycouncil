@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
@@ -448,7 +449,7 @@ function LGRCostCalculator() {
                     {formatCurrency(adjustForBand(currentCosts.districtBandD))}
                   </div>
                   <div className="cost-card-sub">
-                    {((currentCosts.districtBandD / currentCosts.totalBandD) * 100).toFixed(0)}% of total
+                    {currentCosts.totalBandD > 0 ? ((currentCosts.districtBandD / currentCosts.totalBandD) * 100).toFixed(0) : '0'}% of total
                   </div>
                 </div>
 
@@ -461,7 +462,7 @@ function LGRCostCalculator() {
                     {formatCurrency(adjustForBand(currentCosts.lccBandD || currentCosts.countyBandD))}
                   </div>
                   <div className="cost-card-sub">
-                    {(((currentCosts.lccBandD || currentCosts.countyBandD) / currentCosts.totalBandD) * 100).toFixed(0)}% of total
+                    {currentCosts.totalBandD > 0 ? (((currentCosts.lccBandD || currentCosts.countyBandD) / currentCosts.totalBandD) * 100).toFixed(0) : '0'}% of total
                   </div>
                 </div>
 
@@ -811,9 +812,9 @@ function LGRCostCalculator() {
             See detailed financial models, political analysis, demographics and
             AI DOGE&apos;s independent critique of all 5 proposals.
           </p>
-          <a href="lgr" className="cta-link">
+          <Link to="/lgr" className="cta-link">
             View LGR Tracker <ArrowRight size={16} />
-          </a>
+          </Link>
         </div>
       </section>
     </div>

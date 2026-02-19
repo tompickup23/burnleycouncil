@@ -424,12 +424,44 @@ def build_elections_json(council_id, dcleapil_rows):
 
     # Add next election info for May 2026 councils
     if council_id in MAY_2026_COUNCILS:
+        # For thirds councils, identify which councillor is defending each ward
+        # The seat up in 2026 is the one won in 2022 (4-year term)
+        # Unless a by-election occurred since, in which case that winner defends
+        defenders = {}
+        if meta['cycle'] == 'thirds':
+            target_year = 2022  # Councillors elected in 2022 are up in 2026
+            for ward_name in wards_up_2026:
+                ward = wards_output.get(ward_name, {})
+                history = ward.get('history', [])
+                # Find the 2022 election, or the most recent by-election after 2022
+                defender = None
+                for e in sorted(history, key=lambda x: x.get('date', '') or '', reverse=True):
+                    yr = e.get('year', 0)
+                    if yr == target_year:
+                        # The 2022 winner
+                        for c in e.get('candidates', []):
+                            if c.get('elected'):
+                                defender = {'name': c['name'], 'party': c['party'], 'elected_year': yr}
+                                break
+                        break
+                    elif yr > target_year and 'by' in (e.get('type', '') or '').lower():
+                        # By-election after 2022 overrides
+                        for c in e.get('candidates', []):
+                            if c.get('elected'):
+                                defender = {'name': c['name'], 'party': c['party'], 'elected_year': yr, 'by_election': True}
+                                break
+                        break
+                if defender:
+                    defenders[ward_name] = defender
+
         output['meta']['next_election'] = {
             'date': '2026-05-07',
             'type': 'borough_thirds' if meta['cycle'] == 'thirds' else 'borough_all_out',
             'seats_up': len(wards_up_2026),
             'wards_up': wards_up_2026,
         }
+        if defenders:
+            output['meta']['next_election']['defenders'] = defenders
 
     return output
 
@@ -511,12 +543,22 @@ def _build_turnout_trends(council_history):
 
 
 def _compute_wards_up(wards_output, meta, target_year):
-    """For thirds councils, determine which wards are up for election.
-    The ward whose most recent election is oldest is next up."""
-    if meta['cycle'] == 'all_out':
+    """For thirds/halves councils, determine which wards are up for election.
+
+    In a 'thirds' council (e.g. Burnley): ALL wards contest 1 seat every year
+    for 3 consecutive years, then a fallow year. So all wards are up every
+    election year — 15 wards × 1 seat = 15 seats per year.
+
+    In a 'halves' council: ALL wards contest seats every year, alternating
+    between 1 and 2 seats per ward.
+
+    In an 'all_out' council: ALL wards contest all seats every 4 years.
+    """
+    if meta['cycle'] in ('all_out', 'thirds', 'halves'):
+        # All wards are up in every election year for all these cycle types
         return sorted(wards_output.keys())
 
-    # For each ward, find the most recent election year
+    # Fallback: use historical election frequency to guess
     ward_latest = {}
     for ward_name, ward in wards_output.items():
         if ward.get('history'):
@@ -525,14 +567,10 @@ def _compute_wards_up(wards_output, meta, target_year):
         else:
             ward_latest[ward_name] = 0  # No history = due for election
 
-    # Group by latest election year and pick the oldest third
     sorted_wards = sorted(ward_latest.items(), key=lambda x: x[1])
-
-    # For thirds: ~1/3 of wards up each year
     total = len(sorted_wards)
-    up_count = max(1, total // 3)
+    up_count = max(1, total)  # Default: all wards up
 
-    # Wards with the oldest most-recent-election are up next
     wards_up = [w[0] for w in sorted_wards[:up_count]]
     return sorted(wards_up)
 

@@ -7,7 +7,7 @@
     "seats_per_ward": 3,
     "total_seats": 33,
     "total_wards": 12,
-    "generated": "2026-02-18T20:26:38Z",
+    "generated": "2026-02-19T00:32:38Z",
     "data_sources": [
       "DCLEAPIL v1.0 (Leman 2025, CC BY-SA 4.0)",
       "Democracy Club (CC BY 4.0)",
@@ -16,13 +16,38 @@
     "next_election": {
       "date": "2026-05-07",
       "type": "borough_thirds",
-      "seats_up": 4,
+      "seats_up": 12,
       "wards_up": [
+        "Barnoldswick",
         "Barrowford and Pendleside",
         "Boulsworth and Foulridge",
+        "Bradley",
+        "Brierfield East and Clover Hill",
+        "Brierfield West and Reedley",
+        "Earby and Coates",
         "Fence and Higham",
+        "Marsden and Southfield",
+        "Vivary Bridge",
+        "Waterside and Horsfield",
         "Whitefield and Walverden"
-      ]
+      ],
+      "defenders": {
+        "Barnoldswick": {
+          "name": "Chris Church",
+          "party": "Liberal Democrats",
+          "elected_year": 2022
+        },
+        "Bradley": {
+          "name": "Mohammad Kaleem",
+          "party": "Conservative",
+          "elected_year": 2022
+        },
+        "Vivary Bridge": {
+          "name": "Paul William McGladdery",
+          "party": "Conservative",
+          "elected_year": 2022
+        }
+      }
     }
   },
   "wards": {

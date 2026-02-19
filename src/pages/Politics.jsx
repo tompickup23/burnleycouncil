@@ -81,7 +81,7 @@ function Politics() {
                 })}
               </div>
               <p className="coalition-note text-secondary">
-                Majority threshold: {summary.majority_threshold || Math.ceil((summary.total_councillors || 0) / 2) + 1} seats
+                Majority threshold: {summary.majority_threshold || Math.floor((summary.total_councillors || 0) / 2) + 1} seats
               </p>
             </div>
 

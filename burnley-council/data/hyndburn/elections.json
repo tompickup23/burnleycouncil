@@ -7,7 +7,7 @@
     "seats_per_ward": 3,
     "total_seats": 34,
     "total_wards": 16,
-    "generated": "2026-02-18T20:26:37Z",
+    "generated": "2026-02-19T00:32:36Z",
     "data_sources": [
       "DCLEAPIL v1.0 (Leman 2025, CC BY-SA 4.0)",
       "Democracy Club (CC BY 4.0)",
@@ -16,14 +16,67 @@
     "next_election": {
       "date": "2026-05-07",
       "type": "borough_thirds",
-      "seats_up": 5,
+      "seats_up": 16,
       "wards_up": [
+        "Altham",
+        "Barnfield",
+        "Baxenden",
+        "Central",
+        "Church",
         "Clayton-le-Moors",
         "Huncoat",
         "Immanuel",
+        "Milnshaw",
+        "Netherton",
+        "Overton",
+        "Peel",
+        "Rishton",
+        "Spring Hill",
         "St. Andrews",
         "St. Oswalds"
-      ]
+      ],
+      "defenders": {
+        "Huncoat": {
+          "name": "Danny Cassidy",
+          "party": "Conservative",
+          "elected_year": 2022
+        },
+        "Immanuel": {
+          "name": "Josh Allen",
+          "party": "Conservative",
+          "elected_year": 2022
+        },
+        "Milnshaw": {
+          "name": "Andy Clegg",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Netherton": {
+          "name": "Jodi Clements",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Overton": {
+          "name": "Colin McKenzie",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Peel": {
+          "name": "Joyce Nicholson Plummer",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Rishton": {
+          "name": "Bernard Dawson",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Spring Hill": {
+          "name": "Kimberley Whitehead",
+          "party": "Labour",
+          "elected_year": 2022
+        }
+      }
     }
   },
   "wards": {

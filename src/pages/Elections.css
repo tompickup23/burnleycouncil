@@ -73,13 +73,15 @@
   gap: 0.35rem;
   margin-bottom: 2rem;
   padding: 0.5rem;
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   flex-wrap: wrap;
   position: sticky;
-  top: 0;
-  z-index: 10;
+  top: 0.5rem;
+  z-index: 20;
 }
 
 .elec-section-nav .section-nav-btn {
@@ -299,8 +301,8 @@
 }
 
 .elec-chart-note {
-  font-size: 0.75rem;
-  color: #636366;
+  font-size: 0.8rem;
+  color: #98989d;
   margin-top: 0.5rem;
   text-align: center;
 }
@@ -502,8 +504,8 @@
 }
 
 .elec-slider-desc {
-  font-size: 0.72rem;
-  color: #636366;
+  font-size: 0.78rem;
+  color: #98989d;
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -540,8 +542,8 @@
 .elec-slider-range {
   display: flex;
   justify-content: space-between;
-  font-size: 0.7rem;
-  color: #636366;
+  font-size: 0.75rem;
+  color: #98989d;
   margin-top: 0.25rem;
 }
 
@@ -757,10 +759,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #fff;
-  min-width: 20px;
+  min-width: 16px;
+  overflow: hidden;
   transition: width 0.3s ease;
 }
 
@@ -899,8 +902,8 @@
 }
 
 .elec-ward-meta-text {
-  font-size: 0.72rem;
-  color: #636366;
+  font-size: 0.78rem;
+  color: #98989d;
 }
 
 /* ===================== Coalition Modeller ===================== */

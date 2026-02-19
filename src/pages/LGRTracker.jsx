@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
@@ -299,7 +300,7 @@ function LGRTracker() {
           ) : (
             <>Five proposals are under public consultation until 26 March 2026.</>
           )}
-          {' '}<a href="lgr-calculator" className="lgr-calc-link">See what it means for your council tax →</a>
+          {' '}<Link to="/lgr-calculator" className="lgr-calc-link">See what it means for your council tax →</Link>
         </span>
       </div>
 
@@ -590,14 +591,14 @@ function LGRTracker() {
           {/* Headline stats */}
           <div className="cashflow-headline">
             <div className="cashflow-stat">
-              <span className={`cashflow-stat-value ${cashflowData[cashflowData.length - 1].cumulative >= 0 ? 'positive' : 'negative'}`}>
-                £{Math.abs(cashflowData[cashflowData.length - 1].cumulative / 1e6).toFixed(0)}M
+              <span className={`cashflow-stat-value ${(cashflowData[cashflowData.length - 1]?.cumulative || 0) >= 0 ? 'positive' : 'negative'}`}>
+                £{Math.abs((cashflowData[cashflowData.length - 1]?.cumulative || 0) / 1e6).toFixed(0)}M
               </span>
               <span className="cashflow-stat-label">11-Year Cumulative Net</span>
             </div>
             <div className="cashflow-stat">
-              <span className={`cashflow-stat-value ${cashflowData[cashflowData.length - 1].npv >= 0 ? 'positive' : 'negative'}`}>
-                £{Math.abs(cashflowData[cashflowData.length - 1].npv / 1e6).toFixed(0)}M
+              <span className={`cashflow-stat-value ${(cashflowData[cashflowData.length - 1]?.npv || 0) >= 0 ? 'positive' : 'negative'}`}>
+                £{Math.abs((cashflowData[cashflowData.length - 1]?.npv || 0) / 1e6).toFixed(0)}M
               </span>
               <span className="cashflow-stat-label">Net Present Value</span>
             </div>
@@ -662,20 +663,20 @@ function LGRTracker() {
                       </div>
                       <div className="auth-fin-row">
                         <span className="auth-fin-label">Reserves (total)</span>
-                        <span className="auth-fin-value">£{(bs.reserves_total / 1e6).toFixed(1)}M</span>
+                        <span className="auth-fin-value">£{((bs.reserves_total || 0) / 1e6).toFixed(1)}M</span>
                       </div>
                       <div className="auth-fin-row">
                         <span className="auth-fin-label">LCC debt share</span>
-                        <span className="auth-fin-value" style={{ color: '#ff453a' }}>−£{(bs.lcc_debt_share / 1e6).toFixed(0)}M</span>
+                        <span className="auth-fin-value" style={{ color: '#ff453a' }}>−£{((bs.lcc_debt_share || 0) / 1e6).toFixed(0)}M</span>
                       </div>
                       <div className="auth-fin-row">
                         <span className="auth-fin-label">DSG deficit share</span>
-                        <span className="auth-fin-value" style={{ color: '#ff453a' }}>−£{(bs.dsg_deficit_share / 1e6).toFixed(1)}M</span>
+                        <span className="auth-fin-value" style={{ color: '#ff453a' }}>−£{((bs.dsg_deficit_share || 0) / 1e6).toFixed(1)}M</span>
                       </div>
                       <div className="auth-fin-row" style={{ borderTop: '1px solid #3a3a3c', paddingTop: '0.5rem', marginTop: '0.25rem' }}>
                         <span className="auth-fin-label" style={{ fontWeight: 600 }}>Opening net position</span>
-                        <span className="auth-fin-value" style={{ color: bs.opening_net_position >= 0 ? '#30d158' : '#ff453a' }}>
-                          {bs.opening_net_position >= 0 ? '' : '−'}£{Math.abs(bs.opening_net_position / 1e6).toFixed(0)}M
+                        <span className="auth-fin-value" style={{ color: (bs.opening_net_position || 0) >= 0 ? '#30d158' : '#ff453a' }}>
+                          {(bs.opening_net_position || 0) >= 0 ? '' : '−'}£{Math.abs((bs.opening_net_position || 0) / 1e6).toFixed(0)}M
                         </span>
                       </div>
                       {breakeven && (
@@ -729,18 +730,18 @@ function LGRTracker() {
               </tr>
               <tr>
                 <td>11-Year cumulative</td>
-                <td style={{ color: '#30d158' }}>£{(sensitivityData.best[11].cumulative / 1e6).toFixed(0)}M</td>
-                <td>£{(sensitivityData.central[11].cumulative / 1e6).toFixed(0)}M</td>
-                <td style={{ color: sensitivityData.worst[11].cumulative >= 0 ? '#30d158' : '#ff453a' }}>
-                  {sensitivityData.worst[11].cumulative >= 0 ? '' : '−'}£{Math.abs(sensitivityData.worst[11].cumulative / 1e6).toFixed(0)}M
+                <td style={{ color: '#30d158' }}>£{((sensitivityData.best[sensitivityData.best.length - 1]?.cumulative || 0) / 1e6).toFixed(0)}M</td>
+                <td>£{((sensitivityData.central[sensitivityData.central.length - 1]?.cumulative || 0) / 1e6).toFixed(0)}M</td>
+                <td style={{ color: (sensitivityData.worst[sensitivityData.worst.length - 1]?.cumulative || 0) >= 0 ? '#30d158' : '#ff453a' }}>
+                  {(sensitivityData.worst[sensitivityData.worst.length - 1]?.cumulative || 0) >= 0 ? '' : '−'}£{Math.abs((sensitivityData.worst[sensitivityData.worst.length - 1]?.cumulative || 0) / 1e6).toFixed(0)}M
                 </td>
               </tr>
               <tr>
                 <td>Net Present Value</td>
-                <td style={{ color: '#30d158' }}>£{(sensitivityData.best[11].npv / 1e6).toFixed(0)}M</td>
-                <td>£{(sensitivityData.central[11].npv / 1e6).toFixed(0)}M</td>
-                <td style={{ color: sensitivityData.worst[11].npv >= 0 ? '#30d158' : '#ff453a' }}>
-                  {sensitivityData.worst[11].npv >= 0 ? '' : '−'}£{Math.abs(sensitivityData.worst[11].npv / 1e6).toFixed(0)}M
+                <td style={{ color: '#30d158' }}>£{((sensitivityData.best[sensitivityData.best.length - 1]?.npv || 0) / 1e6).toFixed(0)}M</td>
+                <td>£{((sensitivityData.central[sensitivityData.central.length - 1]?.npv || 0) / 1e6).toFixed(0)}M</td>
+                <td style={{ color: (sensitivityData.worst[sensitivityData.worst.length - 1]?.npv || 0) >= 0 ? '#30d158' : '#ff453a' }}>
+                  {(sensitivityData.worst[sensitivityData.worst.length - 1]?.npv || 0) >= 0 ? '' : '−'}£{Math.abs((sensitivityData.worst[sensitivityData.worst.length - 1]?.npv || 0) / 1e6).toFixed(0)}M
                 </td>
               </tr>
               <tr>
@@ -958,7 +959,7 @@ function LGRTracker() {
                     which is a weighted average of all constituent councils.
                     Councils whose current combined rate is above the average see their bill fall;
                     those below see it rise. Police and fire precepts (£340-£380) are unchanged.
-                    Use the <a href="lgr-calculator">LGR Cost Calculator</a> for your specific postcode and council tax band.
+                    Use the <Link to="/lgr-calculator">LGR Cost Calculator</Link> for your specific postcode and council tax band.
                   </p>
                 </div>
               </div>

@@ -1139,10 +1139,12 @@ function Budgets() {
               <div className="context-item">
                 <h4>Key Risks</h4>
                 <p>
-                  Common pressures facing district councils include: rising MRP costs from past capital borrowing,
-                  declining government grants, constrained council tax increases (capped by referendum limits at
-                  typically 2-3% for districts), and the challenge of maintaining adequate reserve levels while
-                  delivering services with a shrinking funding base.
+                  {councilTier === 'county'
+                    ? 'Common pressures facing county councils include: growing demand for adult and children\'s social care, dedicated schools grant (DSG) deficit recovery, highways maintenance backlogs, constrained council tax increases (capped by referendum limits), and the challenge of delivering statutory services across large geographic areas with a shrinking central government funding base.'
+                    : councilTier === 'unitary'
+                    ? 'Common pressures facing unitary authorities include: rising demand for adult and children\'s social care, growing homelessness and temporary accommodation costs, constrained council tax increases (capped by referendum limits), highways maintenance backlogs, and the challenge of maintaining adequate reserve levels while delivering the full range of district and county-level services.'
+                    : 'Common pressures facing district councils include: rising MRP costs from past capital borrowing, declining government grants, constrained council tax increases (capped by referendum limits at typically 2-3% for districts), and the challenge of maintaining adequate reserve levels while delivering services with a shrinking funding base.'
+                  }
                 </p>
               </div>
               )}

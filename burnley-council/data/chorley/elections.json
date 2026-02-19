@@ -7,7 +7,7 @@
     "seats_per_ward": 3,
     "total_seats": 42,
     "total_wards": 14,
-    "generated": "2026-02-18T20:26:46Z",
+    "generated": "2026-02-19T00:32:34Z",
     "data_sources": [
       "DCLEAPIL v1.0 (Leman 2025, CC BY-SA 4.0)",
       "Democracy Club (CC BY 4.0)",
@@ -16,13 +16,55 @@
     "next_election": {
       "date": "2026-05-07",
       "type": "borough_thirds",
-      "seats_up": 4,
+      "seats_up": 14,
       "wards_up": [
         "Adlington and Anderton",
         "Buckshaw and Whittle",
+        "Chorley East",
+        "Chorley North East",
+        "Chorley North West",
         "Chorley North and Astley",
-        "Clayton East, Brindle and Hoghton"
-      ]
+        "Chorley South East and Heath Charnock",
+        "Chorley South West",
+        "Clayton East, Brindle and Hoghton",
+        "Clayton West and Cuerden",
+        "Coppull",
+        "Croston, Mawdesley and Euxton South",
+        "Eccleston, Heskin and Charnock Richard",
+        "Euxton"
+      ],
+      "defenders": {
+        "Chorley East": {
+          "name": "Zara Khan",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Chorley North East": {
+          "name": "Jenny Whiffen",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Chorley North West": {
+          "name": "Matthew John Lynch",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Chorley South West": {
+          "name": "Terry Howarth",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Coppull": {
+          "name": "Ryan Towers",
+          "party": "Labour",
+          "elected_year": 2022
+        },
+        "Euxton": {
+          "name": "Alan John Platt",
+          "party": "Conservative",
+          "elected_year": 2022
+        }
+      }
     }
   },
   "wards": {

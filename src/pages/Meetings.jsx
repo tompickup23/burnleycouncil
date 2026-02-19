@@ -32,6 +32,17 @@ function daysUntil(dateStr) {
   return `In ${diff} days`
 }
 
+// Auto-detect spending relevance from agenda items when ETL hasn't set it
+const SPENDING_KEYWORDS = /budget|revenue|capital|treasury|fee|charge|spend|financial|expenditure|procurement|contract|tender|grant|borrowing|reserves?|precept|council\s*tax|medium.term|estimates|accounts|audit|efficiency|savings|funding|levy|tariff|MRP|prudential/i
+
+function detectDogeRelevance(meeting) {
+  if (meeting.doge_relevance) return meeting.doge_relevance
+  if (!meeting.agenda_items?.length) return null
+  const matches = meeting.agenda_items.filter(item => SPENDING_KEYWORDS.test(item))
+  if (matches.length === 0) return null
+  return `This meeting has ${matches.length} agenda item${matches.length > 1 ? 's' : ''} with spending relevance: ${matches.slice(0, 4).join('; ')}${matches.length > 4 ? ` (+${matches.length - 4} more)` : ''}.`
+}
+
 function Meetings() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -67,7 +78,7 @@ function Meetings() {
 
   const dogeRelevantCount = useMemo(() => {
     if (!meetingsData?.meetings) return 0
-    return meetingsData?.meetings?.filter(m => m.doge_relevance && !m.cancelled)?.length || 0
+    return meetingsData.meetings.filter(m => !m.cancelled && detectDogeRelevance(m)).length
   }, [meetingsData])
 
   if (loading) return <LoadingState message="Loading meetings calendar..." />
@@ -242,7 +253,7 @@ function Meetings() {
                 </div>
 
                 <div className="meeting-indicators">
-                  {meeting.doge_relevance && <span className="doge-indicator" title="Spending relevance identified">£</span>}
+                  {detectDogeRelevance(meeting) && <span className="doge-indicator" title="Spending relevance identified">£</span>}
                   <ChevronRight size={18} className={`expand-icon ${isExpanded ? 'rotated' : ''}`} />
                 </div>
               </div>
@@ -270,10 +281,10 @@ function Meetings() {
                     <p>{meeting.public_relevance}</p>
                   </div>
 
-                  {meeting.doge_relevance && (
+                  {detectDogeRelevance(meeting) && (
                     <div className="meeting-detail-section doge-section">
                       <h4><AlertTriangle size={16} /> Spending & Accountability</h4>
-                      <p>{meeting.doge_relevance}</p>
+                      <p>{detectDogeRelevance(meeting)}</p>
                     </div>
                   )}
 
@@ -319,7 +330,7 @@ function Meetings() {
       {/* Data Source Note */}
       <div className="meetings-source">
         <p>
-          Meeting data sourced from the <a href={config.moderngov_url || '#'} target="_blank" rel="noopener noreferrer">{councilName} Council ModernGov portal</a>.
+          Meeting data sourced from {config.moderngov_url ? <a href={config.moderngov_url} target="_blank" rel="noopener noreferrer">{councilName} Council ModernGov portal</a> : `the ${councilName} Council ModernGov portal`}.
           Updated weekly. Agendas are typically published 5 working days before each meeting.
           {meetingsData?.last_updated && ` Last checked: ${formatMeetingDate(meetingsData.last_updated.split('T')[0])}.`}
         </p>
