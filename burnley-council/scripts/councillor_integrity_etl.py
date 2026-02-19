@@ -810,7 +810,7 @@ def cross_reference_suppliers(company_name, supplier_data):
         if len(cn_words) >= 2 and len(sn_words) >= 2:
             overlap = cn_words & sn_words
             ratio = len(overlap) / max(len(cn_words), len(sn_words))
-            if ratio >= 0.6:
+            if ratio >= 0.8:  # 80% word overlap — tightened from 0.6 to reduce false positives
                 matches.append({"supplier": supplier, "match_type": "fuzzy",
                                "confidence": int(ratio * 100), "total_spend": total})
 
@@ -939,7 +939,7 @@ def detect_network_crossover(associates, councillor_companies, supplier_data, co
 
         supplier_matches = cross_reference_suppliers(assoc_name, supplier_data)
         for sm in supplier_matches:
-            if sm["confidence"] >= 60:
+            if sm["confidence"] >= 80:  # Tightened from 60 — name-to-supplier match
                 shared = assoc.get("shared_companies", [{}])
                 for sc in shared[:3]:
                     links.append({
@@ -989,7 +989,7 @@ def detect_network_crossover(associates, councillor_companies, supplier_data, co
             # Check if this company is a council supplier
             supplier_matches = cross_reference_suppliers(company_name, supplier_data)
             for sm in supplier_matches:
-                if sm["confidence"] >= 70:  # Higher threshold for company-to-company
+                if sm["confidence"] >= 85:  # Tightened from 70 — company-to-company match
                     shared = assoc.get("shared_companies", [{}])
                     for sc in shared[:3]:
                         links.append({

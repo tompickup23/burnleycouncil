@@ -33,13 +33,20 @@ def slugify(name):
 
 
 def load_spending(council_id):
-    """Load spending.json for a council."""
+    """Load spending records for a council. Handles v1 (list), v2 ({records}), v3/v4 (index only)."""
     path = DATA_DIR / council_id / "spending.json"
     if not path.exists():
         print(f"  WARNING: {path} not found, skipping")
         return []
     with open(path) as f:
-        return json.load(f)
+        data = json.load(f)
+    # v2 format: {meta, filterOptions, records}
+    if isinstance(data, dict):
+        return data.get("records", [])
+    # v1 format: plain list
+    if isinstance(data, list):
+        return data
+    return []
 
 
 def load_taxonomy():
