@@ -24,6 +24,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Elections:** `elections.json` per council — ward-level history, predictions, coalition modelling. `elections_reference.json` shared national polling data. `electionModel.js` with demographics-weighted swing model + LGR political projections
 - **Constituencies:** `constituency_etl.py` → `constituencies.json` — GE2024 results, MP expenses (IPSA), voting records (TWFY), claimant count, activity topics. `ward_constituency_map.json` links wards to constituencies
 - **Analytics:** `src/utils/analytics.js` — CPI-H deflation, z-scores, Gini coefficient, Benford's 2nd digit, reserves adequacy, peer benchmarking (14 functions, 44 tests)
+- **Auth:** Firebase Auth (free tier, 50K MAUs) + Firestore RBAC. Dual-mode: Firebase in production (`VITE_FIREBASE_API_KEY` set), PasswordGate for local dev. 4 roles: unassigned, viewer, strategist, admin. Per-council/page/constituency permissions.
 - **Hosting:** GitHub Pages (free), custom domain aidoge.co.uk
 - **Servers:** Thurinus (Oracle x86, 1GB RAM, free), vps-main (Hostinger, 16GB RAM, £22/mo), 2x AWS t3.micro (free trial until Jul 2026)
 
@@ -64,6 +65,12 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/pages/` | 25 page components + 25 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, Integrity, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
+| `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
+| `src/firebase.js` | Firebase app init (only when VITE_FIREBASE_API_KEY set) |
+| `src/components/AuthGate.jsx` | Login/register UI (Google, Apple, Facebook, email/password) |
+| `src/components/AdminPanel.jsx` | User management: role assignment, council/page toggles |
+| `src/components/ProtectedRoute.jsx` | Route-level permission checks (council, page, role) |
+| `firestore.rules` | Firestore security rules (user reads own doc, admin reads all) |
 | `src/hooks/useData.js` | Data fetching hook (loads from /data/*.json) |
 | `src/hooks/useSpendingWorker.js` | Web Worker hook for spending data (v3 chunked + v2/v1 fallback) |
 | `src/workers/spending.worker.js` | Web Worker: filter, sort, paginate, stats, charts, CSV export |
@@ -256,7 +263,7 @@ If the `DEPLOY_TOKEN` secret expires or needs rotating:
 - **Gaius (Claude Code):** Heavy development, architecture, multi-file edits
 - **Codex (OpenAI):** CLI dev agent, trial expires 2 Mar 2026
 - **OpenCode:** CLI dev agent, free tier
-- **Octavian (Clawdbot):** WhatsApp bot on vps-main, uses Kimi K2.5 (trial credits)
+- **Octavian (Clawdbot):** WhatsApp bot on vps-main via OpenClaw gateway, uses Kimi K2.5 via Nvidia NIM API (free tier, 40 RPM). Config: `/root/.openclaw/openclaw.json`
 - **OpenAgents:** 3 agent processes on vps-main + Ollama (qwen2.5:7b)
 - **clawd-worker:** AI DOGE data processing slave on vps-main
 - **News Lancashire LLM chain:** Gemini 2.5 Flash (free primary) → Groq (blocked from VPS) → Kimi → DeepSeek (dead). Rate-limited via `llm_rate_limiter.py`.
@@ -315,5 +322,7 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Phase 15** (done, 15-16 Feb): LGR Tracker V3, councillor integrity checker (8-source, all 15 councils), data freshness sprint
 - **Phase 16** (done, 16-17 Feb): Budget enrichment (all 15 budgets:true) + Integrity checker v3 overhaul
 - **Phase 17** (done, 17-19 Feb): Elections page + ward-level predictions, Constituencies pages (MPs, GE2024, IPSA expenses, TWFY votes), analytics engine (14 functions), collection rates ETL, ward-constituency mapping, dependency ratio + reserves trajectory, per-service HHI, election→LGR projections, integrity conflict classification (48 commercial conflicts), article pipeline upgrade (Mistral/Groq), 37 new articles. 446 tests pass (32 files).
+- **Phase 18a+b** (done, 20 Feb): Firebase Auth + RBAC. Dual-mode auth (Firebase prod / PasswordGate dev). 4 social providers + email. 4 roles (unassigned/viewer/strategist/admin). Per-council/page/constituency Firestore permissions. Admin panel. 17 files, 2,695 lines.
+- **Phase 18c-e** (planned): Strategy Engine (ward classification, auto-talking-points, battleground ranking) + Strategy UI pages
 
-## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq free tiers). 2x AWS free trial ends Jul 2026.
+## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

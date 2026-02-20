@@ -309,9 +309,22 @@ Comprehensive platform audit, bug fixes across all pages, and systematic data en
 
 ---
 
-## 7. WHAT'S NEXT — PHASE 18 OPTIONS
+## 7. PHASE 18: FIREBASE AUTH + RBAC + ELECTION STRATEGY
 
-The platform is feature-complete through Phase 17. These are the most impactful next steps, ranked by value:
+### Phase 18a+b: Firebase Auth + RBAC ✅ (20 Feb)
+Dual-mode authentication system deployed. Firebase Auth in production (when `VITE_FIREBASE_API_KEY` set), old PasswordGate for local dev. Supports Google, Apple, Facebook, and email/password login. Four roles (unassigned, viewer, strategist, admin) with per-council, per-page, per-constituency permissions stored in Firestore. Admin panel at /admin for user management. 17 files, 2,695 lines. 6 GitHub secrets configured.
+
+**Key files created:** firebase.js, AuthContext.jsx, AuthGate.jsx, AdminPanel.jsx, ProtectedRoute.jsx, firestore.rules, .env.example
+**Key files modified:** App.jsx (dual-mode routing), Layout.jsx (admin nav), PasswordGate.jsx (dev badge), deploy.yml (secrets)
+
+### Phase 18c-e: Strategy Engine + UI (planned)
+Ward archetype classification (8 types), auto-talking-points from data, battleground ranking, 3-tier geographic mapping (constituency → county division → borough ward). Strategy pages per council and per constituency.
+
+---
+
+## 8. WHAT'S NEXT — FUTURE OPTIONS
+
+The platform is feature-complete through Phase 18a+b. These are the most impactful next steps, ranked by value:
 
 ### HIGH VALUE — User Engagement & Content
 | # | Task | Impact | Effort |
@@ -339,7 +352,7 @@ The platform is feature-complete through Phase 17. These are the most impactful 
 
 ---
 
-## 8. NAMING CONVENTIONS
+## 9. NAMING CONVENTIONS
 
 ### Files
 ```
@@ -368,14 +381,14 @@ URL paths:   /lancashire/{slug}council/    (or /lancashirecc/ for LCC)
 
 ---
 
-## 9. LEGAL FRAMEWORK
+## 10. LEGAL FRAMEWORK
 
 ### Currently Tracked (12 laws in shared/legal_framework.json)
 Transparency Code 2015, Best Value Duty (LGA 1999 s.3), Companies Act 2006, Procurement Rules (PCR 2015 / Procurement Act 2023), Local Audit Act 2014, Section 151 Officer (LGA 1972), Freedom of Information Act 2000, Data Protection Act 2018, GDPR, Equality Act 2010, Public Services Reform, Public Interest Disclosure Act 1998.
 
 ---
 
-## 10. DEADLINES
+## 11. DEADLINES
 
 | Deadline | What | Action | Priority |
 |----------|------|--------|----------|
