@@ -71,8 +71,9 @@ export default function AuthGate() {
     setLoading(true)
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password)
-      await ensureUserDoc(cred.user)
+      try { await ensureUserDoc(cred.user) } catch (e) { console.error('Firestore error:', e) }
     } catch (err) {
+      console.error('Email login error:', err.code, err.message)
       setError(friendlyError(err.code))
     } finally {
       setLoading(false)
@@ -93,8 +94,9 @@ export default function AuthGate() {
       if (name) {
         await updateProfile(cred.user, { displayName: name })
       }
-      await ensureUserDoc(cred.user)
+      try { await ensureUserDoc(cred.user) } catch (e) { console.error('Firestore error:', e) }
     } catch (err) {
+      console.error('Email register error:', err.code, err.message)
       setError(friendlyError(err.code))
     } finally {
       setLoading(false)
@@ -107,8 +109,14 @@ export default function AuthGate() {
     setLoading(true)
     try {
       const cred = await signInWithPopup(auth, provider)
-      await ensureUserDoc(cred.user)
+      try {
+        await ensureUserDoc(cred.user)
+      } catch (firestoreErr) {
+        console.error('Firestore ensureUserDoc error:', firestoreErr)
+        // Don't block sign-in if Firestore write fails — user is still authenticated
+      }
     } catch (err) {
+      console.error('Social sign-in error:', err.code, err.message, err)
       // Don't show error for user-cancelled popups
       if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
         setError(friendlyError(err.code))
@@ -361,5 +369,7 @@ function friendlyError(code) {
     'auth/account-exists-with-different-credential': 'An account already exists with this email using a different sign-in method',
     'auth/operation-not-allowed': 'This sign-in method is not enabled. Contact the administrator.',
   }
-  return map[code] || 'Something went wrong. Please try again.'
+  if (map[code]) return map[code]
+  console.error('Firebase auth error code:', code)
+  return `Authentication error (${code || 'unknown'}). Please try again.`
 }
