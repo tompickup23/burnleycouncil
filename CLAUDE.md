@@ -285,6 +285,7 @@ VITE_COUNCIL=burnley VITE_BASE=/ npx vite
 - **Don't run `git add .` or `git add -A`** — supplier_profiles.json files are 400K+ lines each
 - **Don't edit generated JSON** — spending.json, doge_findings.json, doge_verification.json, budgets.json (13 auto-generated councils) are all generated
 - **Don't duplicate info across docs** — CLAUDE.md = dev guide, ARCHITECTURE.md = software, INFRASTRUCTURE.md = ops
+- **Don't forget CSP when adding external scripts** — `index.html` has a Content-Security-Policy meta tag. Firebase Auth needs `apis.google.com`, `*.firebaseapp.com`, `*.googleapis.com`, `*.firebaseio.com` whitelisted. Adding new third-party services requires updating the CSP.
 
 ## Lancashire Three-Tier Architecture
 
