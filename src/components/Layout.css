@@ -141,6 +141,44 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-md);
+}
+
+.sidebar-user-name {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-signout {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sidebar-signout:hover {
+  color: var(--accent-red);
+}
+
+.nav-admin-link {
+  color: var(--accent-blue) !important;
+}
+
 .disclaimer-badge {
   display: flex;
   align-items: center;

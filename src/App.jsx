@@ -5,6 +5,8 @@ import ScrollToTop from './components/ScrollToTop'
 import PasswordGate from './components/PasswordGate'
 import { ErrorBoundary, LoadingState } from './components/ui'
 import { CouncilConfigProvider } from './context/CouncilConfig'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { isFirebaseEnabled } from './firebase'
 import { preloadData } from './hooks/useData'
 import './App.css'
 
@@ -34,6 +36,7 @@ const Integrity = lazy(() => import('./pages/Integrity'))
 const Elections = lazy(() => import('./pages/Elections'))
 const Constituencies = lazy(() => import('./pages/Constituencies'))
 const ConstituencyView = lazy(() => import('./pages/ConstituencyView'))
+const AdminPanel = lazy(() => import('./components/AdminPanel'))
 
 // Preload commonly needed data
 preloadData(['/data/config.json', '/data/insights.json'])
@@ -49,15 +52,58 @@ function Guarded({ children }) {
   )
 }
 
+/**
+ * Firebase auth gate — shown when Firebase is enabled and user is
+ * either not logged in or has unassigned role.
+ */
+function FirebaseAuthGate({ children }) {
+  const { user, role, loading } = useAuth()
+
+  // Import AuthGate lazily since it's only needed in Firebase mode
+  const AuthGate = lazy(() => import('./components/AuthGate'))
+
+  if (loading) {
+    return <LoadingState message="Authenticating..." />
+  }
+
+  // Not logged in or unassigned → show AuthGate
+  if (!user || role === 'unassigned') {
+    return (
+      <Suspense fallback={<LoadingState />}>
+        <AuthGate />
+      </Suspense>
+    )
+  }
+
+  return children
+}
+
 function App() {
   const [authenticated, setAuthenticated] = useState(
     () => sessionStorage.getItem('aidoge_auth') === 'true'
   )
 
+  // Firebase mode — use Firebase auth
+  if (isFirebaseEnabled) {
+    return (
+      <AuthProvider>
+        <FirebaseAuthGate>
+          <AppRoutes />
+        </FirebaseAuthGate>
+      </AuthProvider>
+    )
+  }
+
+  // Dev mode — use simple password gate
   if (!authenticated) {
     return <PasswordGate onUnlock={() => setAuthenticated(true)} />
   }
 
+  return <AppRoutes />
+}
+
+/** Shared route definitions used by both auth modes */
+function AppRoutes() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <ScrollToTop />
@@ -89,6 +135,7 @@ function App() {
           <Route path="/elections" element={<Guarded><Elections /></Guarded>} />
           <Route path="/constituencies" element={<Guarded><Constituencies /></Guarded>} />
           <Route path="/constituency/:constituencyId" element={<Guarded><ConstituencyView /></Guarded>} />
+          <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

@@ -1,10 +1,26 @@
+/**
+ * PasswordGate — dual-mode authentication gate.
+ *
+ * Production (VITE_FIREBASE_API_KEY set): Uses Firebase Auth via AuthGate
+ * Development (no Firebase config): Uses simple password gate
+ */
 import { useState, useRef, useEffect } from 'react'
 import { Lock, Eye, EyeOff } from 'lucide-react'
+import { isFirebaseEnabled } from '../firebase'
 import './PasswordGate.css'
 
 const GATE_PASSWORD = 'DOGEReform2026!'
 
 export default function PasswordGate({ onUnlock }) {
+  // In Firebase mode, don't render the password gate — AuthGate handles it
+  // (This component shouldn't be reached in Firebase mode, but just in case)
+  if (isFirebaseEnabled) return null
+
+  return <DevPasswordGate onUnlock={onUnlock} />
+}
+
+/** Dev-only password gate — simple shared password for local testing */
+function DevPasswordGate({ onUnlock }) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -59,6 +75,10 @@ export default function PasswordGate({ onUnlock }) {
             Unlock
           </button>
         </form>
+
+        <div className="password-dev-badge">
+          Dev Mode
+        </div>
       </div>
     </div>
   )

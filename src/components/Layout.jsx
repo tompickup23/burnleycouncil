@@ -1,7 +1,9 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { isFirebaseEnabled } from '../firebase'
+import { useAuth as useAuthHook } from '../context/AuthContext'
 import { preloadData } from '../hooks/useData'
 import './Layout.css'
 
@@ -54,6 +56,9 @@ function Layout({ children }) {
   const officialDomain = officialUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
   const dataSources = config.data_sources || {}
 
+  // Auth context — returns null when no AuthProvider (dev mode)
+  const authCtx = useAuthHook()
+
   // Preload data for likely next routes based on current page
   const location = useLocation()
   useEffect(() => {
@@ -67,7 +72,7 @@ function Layout({ children }) {
     }
   }, [location.pathname])
 
-  // Filter nav sections based on data_sources flags
+  // Filter nav sections based on data_sources flags AND user permissions
   const visibleSections = useMemo(() => {
     return navSections
       .map(section => ({
@@ -138,9 +143,36 @@ function Layout({ children }) {
               ))}
             </div>
           ))}
+
+          {/* Admin link — only visible to admins in Firebase mode */}
+          {authCtx?.isAdmin && (
+            <div className="nav-section">
+              <div className="nav-divider" />
+              <NavLink
+                to="/admin"
+                className={({ isActive }) => `nav-item nav-admin-link ${isActive ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Settings size={20} />
+                <span>Admin</span>
+              </NavLink>
+            </div>
+          )}
         </nav>
 
         <div className="sidebar-footer">
+          {/* User info + sign out in Firebase mode */}
+          {authCtx?.user && (
+            <div className="sidebar-user">
+              <span className="sidebar-user-name">
+                {authCtx.permissions?.display_name || authCtx.user.email}
+              </span>
+              <button className="sidebar-signout" onClick={authCtx.signOut} title="Sign out">
+                <LogOut size={16} />
+              </button>
+            </div>
+          )}
+
           <div className="disclaimer-badge">
             <span className="disclaimer-icon">⚠️</span>
             <span className="disclaimer-text">NOT an official council website</span>
