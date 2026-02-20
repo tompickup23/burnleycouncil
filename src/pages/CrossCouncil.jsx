@@ -234,21 +234,8 @@ function CrossCouncil() {
       .slice(0, 15)
   }, [comparison])
 
-  if (loading) return <LoadingState message="Loading comparison data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
-  )
-  if (!councils.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
-
-  const yearRange = councils.map(c => c.num_years || 1)
-  const maxYears = Math.max(...yearRange)
-  const minYears = Math.min(...yearRange)
-  const lowDataCouncils = councils.filter(c => (c.total_records || 0) < 5000)
-
   // Councils with missing service expenditure data (silently shows 0)
+  // NOTE: All hooks MUST be before early returns to satisfy Rules of Hooks
   const missingServiceData = useMemo(() => {
     return councils.filter(c => {
       if (!c.service_expenditure) return true
@@ -262,6 +249,20 @@ function CrossCouncil() {
   const missingBudgetData = useMemo(() => {
     return councils.filter(c => !c.budget_summary?.net_revenue_expenditure)
   }, [councils])
+
+  if (loading) return <LoadingState message="Loading comparison data..." />
+  if (error) return (
+    <div className="page-error">
+      <h2>Unable to load data</h2>
+      <p>Please try refreshing the page.</p>
+    </div>
+  )
+  if (!councils.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
+
+  const yearRange = councils.map(c => c.num_years || 1)
+  const maxYears = Math.max(...yearRange)
+  const minYears = Math.min(...yearRange)
+  const lowDataCouncils = councils.filter(c => (c.total_records || 0) < 5000)
 
   return (
     <div className="cross-page animate-fade-in">

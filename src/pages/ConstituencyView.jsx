@@ -375,9 +375,9 @@ export default function ConstituencyView() {
         </p>
 
         <div className="cv-election-summary">
-          <StatBox label="Result" value={ge2024.result || '-'} />
-          <StatBox label="Turnout" value={ge2024.turnout ? formatNumber(ge2024.turnout) : '-'}
-            sub={ge2024.turnout_pct ? `(${formatPercent(ge2024.turnout_pct * 100)})` : null} />
+          <StatBox label="Result" value={ge2024.result || (ge2024.results?.[0]?.elected ? `${ge2024.results[0].party} win` : '-')} />
+          <StatBox label="Turnout" value={ge2024.turnout != null ? (ge2024.turnout <= 1 ? formatPercent(ge2024.turnout * 100) : formatNumber(ge2024.turnout)) : '-'}
+            sub={ge2024.electorate ? `of ${formatNumber(ge2024.electorate)} registered` : null} />
           <StatBox label="Electorate" value={ge2024.electorate ? formatNumber(ge2024.electorate) : '-'} />
         </div>
 

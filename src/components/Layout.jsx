@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { preloadData } from '../hooks/useData'
@@ -110,6 +110,18 @@ function Layout({ children }) {
         </div>
 
         <nav className="sidebar-nav" aria-label="Site navigation">
+          {/* Hub link — back to all councils directory */}
+          <div className="nav-section">
+            <a
+              href={import.meta.env.BASE_URL?.replace(/\/lancashire\/[^/]+\/$/, '/') || '/'}
+              className="nav-item nav-hub-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <LayoutGrid size={20} />
+              <span>All Councils</span>
+            </a>
+            <div className="nav-divider" />
+          </div>
           {visibleSections.map((section, si) => (
             <div key={si} className="nav-section">
               {si > 0 && <div className="nav-divider" />}

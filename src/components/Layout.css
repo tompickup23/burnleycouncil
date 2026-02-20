@@ -124,6 +124,17 @@
   font-weight: 500;
 }
 
+.nav-hub-link {
+  color: var(--text-secondary, #8e8e93);
+  font-size: 0.85rem;
+  opacity: 0.85;
+  text-decoration: none;
+}
+.nav-hub-link:hover {
+  opacity: 1;
+  color: var(--text-primary, #fff);
+}
+
 .sidebar-footer {
   padding: var(--space-lg);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
