@@ -8,7 +8,8 @@ import { Lock, Mail, Eye, EyeOff, LogIn, UserPlus, Loader2, AlertCircle } from '
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   OAuthProvider,
   FacebookAuthProvider,
@@ -62,6 +63,24 @@ export default function AuthGate() {
     emailRef.current?.focus()
   }, [mode])
 
+  // Handle redirect result after social sign-in returns
+  useEffect(() => {
+    let cancelled = false
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (cancelled || !result?.user) return
+        try { await ensureUserDoc(result.user) } catch (e) { console.error('Firestore error:', e) }
+      })
+      .catch((err) => {
+        if (cancelled) return
+        console.error('Redirect result error:', err.code, err.message)
+        if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+          setError(friendlyError(err.code))
+        }
+      })
+    return () => { cancelled = true }
+  }, [])
+
   const clearMessages = () => { setError(''); setSuccess('') }
 
   // Email/password login
@@ -103,25 +122,16 @@ export default function AuthGate() {
     }
   }
 
-  // Social sign-in
+  // Social sign-in — uses redirect (not popup) for custom domain compatibility
   const handleSocial = async (provider) => {
     clearMessages()
     setLoading(true)
     try {
-      const cred = await signInWithPopup(auth, provider)
-      try {
-        await ensureUserDoc(cred.user)
-      } catch (firestoreErr) {
-        console.error('Firestore ensureUserDoc error:', firestoreErr)
-        // Don't block sign-in if Firestore write fails — user is still authenticated
-      }
+      await signInWithRedirect(auth, provider)
+      // Page will redirect to provider — loading state stays until redirect
     } catch (err) {
       console.error('Social sign-in error:', err.code, err.message, err)
-      // Don't show error for user-cancelled popups
-      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        setError(friendlyError(err.code))
-      }
-    } finally {
+      setError(friendlyError(err.code))
       setLoading(false)
     }
   }
