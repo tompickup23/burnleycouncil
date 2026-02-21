@@ -36,3 +36,12 @@
 .error-boundary .error-retry-btn:hover {
   opacity: 0.85;
 }
+
+.error-boundary .error-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.error-boundary .error-reload-btn {
+  background: var(--surface-3, #333);
+}

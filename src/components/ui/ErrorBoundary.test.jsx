@@ -89,4 +89,56 @@ describe('ErrorBoundary', () => {
     )
     expect(console.error).toHaveBeenCalled()
   })
+
+  it('shows reload button alongside try again', () => {
+    render(
+      <ErrorBoundary>
+        <ThrowingChild />
+      </ErrorBoundary>
+    )
+    expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /reload page/i })).toBeInTheDocument()
+  })
+
+  it('attempts reload on dynamic import failure', () => {
+    const reloadMock = vi.fn()
+    Object.defineProperty(window, 'location', {
+      value: { ...window.location, reload: reloadMock },
+      writable: true,
+    })
+    sessionStorage.removeItem('chunk_reload')
+
+    function ThrowChunkError() {
+      throw new Error('Failed to fetch dynamically imported module: /assets/AdminPanel-abc123.js')
+    }
+
+    render(
+      <ErrorBoundary>
+        <ThrowChunkError />
+      </ErrorBoundary>
+    )
+
+    // Should have attempted a reload (may be called multiple times due to React re-renders in jsdom)
+    expect(reloadMock).toHaveBeenCalled()
+    sessionStorage.removeItem('chunk_reload')
+  })
+
+  it('shows error UI for non-chunk errors without reloading', () => {
+    const reloadMock = vi.fn()
+    Object.defineProperty(window, 'location', {
+      value: { ...window.location, reload: reloadMock },
+      writable: true,
+    })
+    sessionStorage.removeItem('chunk_reload')
+
+    render(
+      <ErrorBoundary>
+        <ThrowingChild />
+      </ErrorBoundary>
+    )
+
+    // Non-chunk errors should NOT trigger auto-reload
+    expect(reloadMock).not.toHaveBeenCalled()
+    expect(screen.getByText('Something went wrong')).toBeInTheDocument()
+  })
 })
