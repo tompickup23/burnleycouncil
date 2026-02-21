@@ -1,0 +1,670 @@
+/* ========================================================================
+   Strategy Engine — Dark theme, consistent with Elections.css
+   ======================================================================== */
+
+.strategy-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+/* --- Header --- */
+
+.strategy-header {
+  margin-bottom: 24px;
+}
+
+.strategy-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.strategy-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+}
+
+.strategy-subtitle {
+  color: #999;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.strategy-party-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.strategy-party-select label {
+  color: #aaa;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.strategy-party-select select {
+  background: #1a1a2e;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.strategy-restricted-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 159, 10, 0.1);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: #ff9f0a;
+  font-size: 0.82rem;
+  margin-top: 12px;
+}
+
+/* --- Section Nav --- */
+
+.strategy-section-nav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #222;
+}
+
+.strategy-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: transparent;
+  color: #999;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.strategy-nav-btn:hover {
+  background: #1a1a2e;
+  color: #ccc;
+}
+
+.strategy-nav-btn.active {
+  background: #12B6CF22;
+  border-color: #12B6CF;
+  color: #12B6CF;
+}
+
+/* --- Section --- */
+
+.strategy-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.strategy-section h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.strategy-section-desc {
+  color: #888;
+  font-size: 0.9rem;
+  margin: 0 0 20px;
+}
+
+/* --- Stat Grid --- */
+
+.strategy-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.strategy-stat-card {
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.strategy-stat-card.accent {
+  border-color: #12B6CF;
+  background: #12B6CF11;
+}
+
+.strategy-stat-card.warn {
+  border-color: #ff453a;
+  background: #ff453a11;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.strategy-stat-card.accent .stat-number { color: #12B6CF; }
+.strategy-stat-card.warn .stat-number { color: #ff453a; }
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* --- Charts Row --- */
+
+.strategy-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.strategy-chart-card {
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.strategy-chart-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ccc;
+  margin: 0 0 12px;
+}
+
+/* --- Badges --- */
+
+.strategy-party-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.strategy-class-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* --- Table --- */
+
+.strategy-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #222;
+  background: #12121f;
+}
+
+.strategy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.strategy-table thead th {
+  background: #0d0d1a;
+  color: #888;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.strategy-table tbody tr {
+  border-bottom: 1px solid #1a1a2e;
+}
+
+.strategy-table tbody td {
+  padding: 10px 12px;
+  color: #ccc;
+  vertical-align: middle;
+}
+
+.strategy-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.strategy-row:hover {
+  background: #1a1a2e;
+}
+
+.strategy-row.expanded {
+  background: #1a1a2e;
+}
+
+.strategy-row .rank {
+  color: #666;
+  font-weight: 600;
+  width: 30px;
+}
+
+.strategy-row .ward-name {
+  font-weight: 500;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.strategy-row .our-share {
+  font-weight: 600;
+}
+
+.strategy-row .our-share.win {
+  color: #30d158;
+}
+
+.strategy-row .swing.positive {
+  color: #30d158;
+}
+
+.strategy-row .swing.negative {
+  color: #ff9f0a;
+}
+
+.win-prob {
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.win-prob.high { color: #30d158; background: #30d15822; }
+.win-prob.med { color: #ff9f0a; background: #ff9f0a22; }
+.win-prob.low { color: #ff453a; background: #ff453a22; }
+
+.strategy-row .score {
+  position: relative;
+  font-weight: 600;
+  min-width: 70px;
+}
+
+.score-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #12B6CF15;
+  border-radius: 4px;
+  z-index: 0;
+}
+
+.strategy-row.vulnerable {
+  background: #ff453a0a;
+}
+
+.strategy-row .deficit {
+  color: #ff453a;
+  font-weight: 600;
+}
+
+.confidence-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* --- Talking Points --- */
+
+.talking-points-row td {
+  padding: 0 !important;
+  background: #0d0d1a;
+}
+
+.talking-points {
+  padding: 12px 20px 16px;
+  border-left: 3px solid #12B6CF;
+  margin: 0 12px;
+}
+
+.talking-points h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+.talking-points ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.tp-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #12B6CF;
+}
+
+.tp-category {
+  font-weight: 600;
+  color: #999;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  min-width: 90px;
+}
+
+.tp-text {
+  flex: 1;
+}
+
+.tp-demographics .tp-category { color: #0a84ff; }
+.tp-economy .tp-category { color: #ff9f0a; }
+.tp-deprivation .tp-category { color: #ff453a; }
+.tp-gotv .tp-category { color: #30d158; }
+.tp-resources .tp-category { color: #5e5ce6; }
+.tp-competition .tp-category { color: #ffd60a; }
+
+/* --- Path to Control --- */
+
+.strategy-path-achieved {
+  text-align: center;
+  padding: 40px 20px;
+  color: #30d158;
+}
+
+.strategy-path-achieved h3 {
+  color: #fff;
+  margin: 12px 0 4px;
+}
+
+.strategy-path-achieved p {
+  color: #888;
+}
+
+.strategy-path-summary {
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.strategy-path-summary p {
+  color: #ccc;
+  line-height: 1.6;
+  margin: 0 0 6px;
+}
+
+.strategy-defending-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff9f0a;
+  font-size: 0.88rem;
+}
+
+.strategy-scenarios h3,
+.strategy-top-targets h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ccc;
+  margin: 20px 0 12px;
+}
+
+.scenario-cards {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.scenario-card {
+  background: #12121f;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 150px;
+  text-align: center;
+}
+
+.scenario-card.enough {
+  border-color: #30d158;
+  background: #30d15811;
+}
+
+.scenario-wards {
+  font-weight: 700;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.scenario-seats {
+  color: #ccc;
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+
+.scenario-prob {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.scenario-majority {
+  color: #30d158;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.target-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.target-card {
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.target-ward {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.target-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #999;
+}
+
+.target-details span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --- Archetypes --- */
+
+.archetype-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.archetype-card {
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 16px;
+  border-left: 4px solid #444;
+}
+
+.archetype-card.archetype-deprived_white { border-left-color: #ff453a; }
+.archetype-card.archetype-deprived_diverse { border-left-color: #ff9f0a; }
+.archetype-card.archetype-affluent_retired { border-left-color: #30d158; }
+.archetype-card.archetype-affluent_family { border-left-color: #34c759; }
+.archetype-card.archetype-retirement { border-left-color: #5e5ce6; }
+.archetype-card.archetype-struggling { border-left-color: #ff6b35; }
+.archetype-card.archetype-middle_ground { border-left-color: #0a84ff; }
+.archetype-card.archetype-mixed { border-left-color: #888; }
+
+.archetype-ward {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.archetype-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  color: #999;
+}
+
+.archetype-desc {
+  font-size: 0.82rem;
+  color: #888;
+  line-height: 1.5;
+}
+
+/* --- Empty / Error --- */
+
+.strategy-error {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+
+.strategy-error h2 {
+  color: #fff;
+  justify-content: center;
+}
+
+.strategy-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #30d158;
+}
+
+.strategy-empty p {
+  color: #888;
+  margin-top: 8px;
+}
+
+/* --- Footer --- */
+
+.strategy-footer {
+  margin-top: 30px;
+  padding-top: 16px;
+  border-top: 1px solid #222;
+}
+
+.strategy-footer p {
+  color: #666;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+/* --- Animation --- */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 768px) {
+  .strategy-header-top {
+    flex-direction: column;
+  }
+  .strategy-charts-row {
+    grid-template-columns: 1fr;
+  }
+  .strategy-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .strategy-table {
+    font-size: 0.78rem;
+  }
+  .strategy-table thead th {
+    font-size: 0.7rem;
+    padding: 8px;
+  }
+  .strategy-table tbody td {
+    padding: 8px;
+  }
+  .tp-category {
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .strategy-stat-grid {
+    grid-template-columns: 1fr;
+  }
+  .strategy-section-nav {
+    gap: 4px;
+  }
+  .strategy-nav-btn {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+}

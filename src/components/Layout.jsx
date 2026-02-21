@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -143,6 +143,21 @@ function Layout({ children }) {
               ))}
             </div>
           ))}
+
+          {/* Strategy link — visible to strategist and admin roles, requires elections data */}
+          {authCtx?.isStrategist && dataSources.elections && (
+            <div className="nav-section">
+              <div className="nav-divider" />
+              <NavLink
+                to="/strategy"
+                className={({ isActive }) => `nav-item nav-strategy-link ${isActive ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Crosshair size={20} />
+                <span>Strategy</span>
+              </NavLink>
+            </div>
+          )}
 
           {/* Admin link — only visible to admins in Firebase mode */}
           {authCtx?.isAdmin && (

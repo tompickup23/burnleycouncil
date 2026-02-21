@@ -23,8 +23,8 @@ function SupplierView() {
   const { supplierId } = useParams()
 
   // Try full profiles first, then lightweight index
-  const { data: profilesData, loading: loading1 } = useData('/data/supplier_profiles.json')
-  const { data: indexData, loading: loading2 } = useData('/data/supplier_index.json')
+  const { data: profilesData, loading: loading1, error: error1 } = useData('/data/supplier_profiles.json')
+  const { data: indexData, loading: loading2, error: error2 } = useData('/data/supplier_index.json')
   const { data: integrityData } = useData('/data/integrity.json')
   const { data: procurementData } = useData('/data/procurement.json')
 
@@ -69,6 +69,21 @@ function SupplierView() {
     })
   }, [procurementData, profile])
 
+  // Cross-council chart data (from lightweight profiles) — must be before early returns (Rules of Hooks)
+  const councilChartData = useMemo(() => {
+    const sp = profile?.spending || null
+    if (sp?.by_council) {
+      return sp.by_council.map(c => ({
+        council: (c.council || '').replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase()),
+        amount: c.total,
+      })).sort((a, b) => b.amount - a.amount)
+    }
+    if (profile?.councils?.length > 1) {
+      return null
+    }
+    return null
+  }, [profile])
+
   useEffect(() => {
     if (profile) {
       document.title = `${profile.name} | Supplier Profile | ${councilName} Council Transparency`
@@ -82,6 +97,23 @@ function SupplierView() {
 
   if (loading) {
     return <LoadingState message="Loading supplier profile..." />
+  }
+
+  // Both sources failed with network errors (not just 404)
+  if (!profile && error1 && error2) {
+    return (
+      <div className="supplier-view animate-fade-in">
+        <Link to="/suppliers" className="back-button">
+          <ArrowLeft size={18} /> Back to Suppliers
+        </Link>
+        <div className="supplier-not-found">
+          <AlertTriangle size={48} />
+          <h2>Unable to load supplier data</h2>
+          <p>There was an error loading supplier profiles. Please try again later.</p>
+          <Link to="/suppliers" className="not-found-link">View all suppliers</Link>
+        </div>
+      </div>
+    )
   }
 
   if (!profile) {
@@ -130,21 +162,6 @@ function SupplierView() {
         .map(([q, amount]) => ({ quarter: `Q${q}`, amount }))
         .sort((a, b) => Number(a.quarter.replace('Q', '')) - Number(b.quarter.replace('Q', '')))
     : []
-
-  // Cross-council chart data (from lightweight profiles)
-  const councilChartData = useMemo(() => {
-    if (spending?.by_council) {
-      return spending.by_council.map(c => ({
-        council: (c.council || '').replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase()),
-        amount: c.total,
-      })).sort((a, b) => b.amount - a.amount)
-    }
-    if (profile.councils?.length > 1) {
-      // Lightweight index doesn't have per-council breakdown, just show council count
-      return null
-    }
-    return null
-  }, [spending, profile])
 
   const statusLabel = companies_house?.status
     ? companies_house.status.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
