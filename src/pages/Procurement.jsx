@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown, ChevronDown, PoundSterling, Filter, X, AlertTriangle } from 'lucide-react'
+import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown, ChevronDown, PoundSterling, Filter, X, AlertTriangle, Download, Clock, Shield, BarChart3 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatDate, slugify } from '../utils/format'
 import { CHART_COLORS, TOOLTIP_STYLE } from '../utils/constants'
@@ -248,6 +248,80 @@ function Procurement() {
     return (stats.top_suppliers || []).filter(s => s.name !== 'NOT AWARDED TO SUPPLIER')
   }, [stats.top_suppliers])
 
+  // Competition analytics
+  const competitionStats = useMemo(() => {
+    const awarded = contracts.filter(c => c.status === 'awarded')
+    const withBids = awarded.filter(c => c.bid_count != null && c.bid_count > 0)
+    const singleBidder = withBids.filter(c => c.bid_count === 1)
+    const totalBids = withBids.reduce((s, c) => s + c.bid_count, 0)
+    const avgBids = withBids.length > 0 ? totalBids / withBids.length : 0
+
+    // Competition by year
+    const byYear = {}
+    for (const c of awarded) {
+      const year = c.awarded_date?.substring(0, 4) || c.published_date?.substring(0, 4)
+      if (!year) continue
+      if (!byYear[year]) byYear[year] = { total: 0, withBids: 0, singleBid: 0, totalBids: 0 }
+      byYear[year].total++
+      if (c.bid_count != null && c.bid_count > 0) {
+        byYear[year].withBids++
+        byYear[year].totalBids += c.bid_count
+        if (c.bid_count === 1) byYear[year].singleBid++
+      }
+    }
+    const yearTrend = Object.entries(byYear)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([year, d]) => ({
+        year,
+        avgBids: d.withBids > 0 ? +(d.totalBids / d.withBids).toFixed(1) : null,
+        singleBidPct: d.withBids > 0 ? +(d.singleBid / d.withBids * 100).toFixed(0) : null,
+        contracts: d.total,
+      }))
+
+    // Value of single-bid contracts
+    const singleBidValue = singleBidder.reduce((s, c) => s + (c.awarded_value || 0), 0)
+
+    // Repeat winners (suppliers winning 3+ contracts)
+    const supplierWins = {}
+    for (const c of awarded) {
+      if (c.awarded_supplier && c.awarded_supplier !== 'NOT AWARDED TO SUPPLIER') {
+        const name = decodeHtmlEntities(c.awarded_supplier)
+        if (!supplierWins[name]) supplierWins[name] = { count: 0, value: 0 }
+        supplierWins[name].count++
+        supplierWins[name].value += c.awarded_value || 0
+      }
+    }
+    const repeatWinners = Object.entries(supplierWins)
+      .filter(([, d]) => d.count >= 3)
+      .sort((a, b) => b[1].count - a[1].count)
+      .map(([name, d]) => ({ name, ...d }))
+
+    return {
+      awarded: awarded.length,
+      withBidData: withBids.length,
+      singleBidder: singleBidder.length,
+      singleBidPct: withBids.length > 0 ? (singleBidder.length / withBids.length * 100) : 0,
+      singleBidValue,
+      avgBids,
+      yearTrend,
+      repeatWinners,
+      hasBidData: withBids.length > 0,
+    }
+  }, [contracts])
+
+  // Expiring contracts (end date within 6 months)
+  const expiringContracts = useMemo(() => {
+    const now = new Date()
+    const sixMonths = new Date(now.getFullYear(), now.getMonth() + 6, now.getDate())
+    return contracts
+      .filter(c => {
+        if (!c.contract_end || c.status !== 'awarded') return false
+        const end = new Date(c.contract_end + 'T00:00:00')
+        return end > now && end <= sixMonths
+      })
+      .sort((a, b) => (a.contract_end || '').localeCompare(b.contract_end || ''))
+  }, [contracts])
+
   // Filter + sort + paginate
   const filtered = useMemo(() => {
     let result = contracts
@@ -314,6 +388,33 @@ function Procurement() {
 
     return result
   }, [contracts, search, statusFilter, cpvFilter, yearFilter, valueMin, valueMax, sortField, sortDir])
+
+  // CSV export
+  const handleExportCSV = useCallback(() => {
+    const headers = ['Title', 'Status', 'Published', 'Awarded Date', 'Value', 'Supplier', 'CPV', 'SME', 'Bids', 'Contract End', 'URL']
+    const rows = filtered.map(c => [
+      `"${(c.title || '').replace(/"/g, '""')}"`,
+      c.status || '',
+      c.published_date || '',
+      c.awarded_date || '',
+      c.awarded_value || c.value_low || '',
+      `"${decodeHtmlEntities(c.awarded_supplier || '').replace(/"/g, '""')}"`,
+      `"${(c.cpv_description || '').replace(/"/g, '""')}"`,
+      c.awarded_to_sme ? 'Yes' : 'No',
+      c.bid_count ?? '',
+      c.contract_end || '',
+      c.url || '',
+    ].join(','))
+
+    const csv = headers.join(',') + '\n' + rows.join('\n')
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `contracts-${config.council_id}-${new Date().toISOString().split('T')[0]}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [filtered, config.council_id])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
   const safePage = Math.min(page, totalPages)
@@ -444,6 +545,134 @@ function Procurement() {
         )}
       </div>
 
+      {/* Competition Intelligence */}
+      {competitionStats.hasBidData && (
+        <div className="procurement-competition-section">
+          <h2><Shield size={18} /> Competition Intelligence</h2>
+          <div className="procurement-stats-grid" style={{ marginBottom: 16 }}>
+            <div className="procurement-stat-card">
+              <div className="procurement-stat-icon stat-icon-orange">
+                <BarChart3 size={20} />
+              </div>
+              <div className="procurement-stat-body">
+                <span className="procurement-stat-value">{competitionStats.avgBids.toFixed(1)}</span>
+                <span className="procurement-stat-label">Avg Bids/Contract</span>
+              </div>
+            </div>
+            <div className="procurement-stat-card">
+              <div className="procurement-stat-icon" style={{ background: competitionStats.singleBidPct > 30 ? '#ff453a22' : '#30d15822', color: competitionStats.singleBidPct > 30 ? '#ff453a' : '#30d158' }}>
+                <AlertTriangle size={20} />
+              </div>
+              <div className="procurement-stat-body">
+                <span className="procurement-stat-value">{competitionStats.singleBidPct.toFixed(0)}%</span>
+                <span className="procurement-stat-label">Single Bidder Rate</span>
+              </div>
+            </div>
+            <div className="procurement-stat-card">
+              <div className="procurement-stat-icon stat-icon-blue">
+                <PoundSterling size={20} />
+              </div>
+              <div className="procurement-stat-body">
+                <span className="procurement-stat-value">{formatCurrency(competitionStats.singleBidValue, true)}</span>
+                <span className="procurement-stat-label">Single-Bid Value</span>
+              </div>
+            </div>
+            <div className="procurement-stat-card">
+              <div className="procurement-stat-icon stat-icon-purple">
+                <Users size={20} />
+              </div>
+              <div className="procurement-stat-body">
+                <span className="procurement-stat-value">{competitionStats.repeatWinners.length}</span>
+                <span className="procurement-stat-label">Repeat Winners (3+)</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Competition trend chart */}
+          {competitionStats.yearTrend.filter(y => y.avgBids !== null).length > 1 && (
+            <ChartCard
+              title="Competition Trend"
+              description="Average number of bids per contract and single-bidder rate over time"
+              dataTable={{
+                headers: ['Year', 'Avg Bids', 'Single Bid %', 'Contracts'],
+                rows: competitionStats.yearTrend.filter(y => y.avgBids !== null).map(d => [d.year, d.avgBids, d.singleBidPct !== null ? `${d.singleBidPct}%` : '-', d.contracts]),
+              }}
+            >
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart data={competitionStats.yearTrend.filter(y => y.avgBids !== null)} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
+                  <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [name === 'avgBids' ? `${v} bids` : `${v}%`, name === 'avgBids' ? 'Avg Bids' : 'Single Bid %']} />
+                  <Bar dataKey="avgBids" fill="#0a84ff" radius={[4, 4, 0, 0]} name="Avg Bids" />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartCard>
+          )}
+
+          {/* Repeat winners */}
+          {competitionStats.repeatWinners.length > 0 && (
+            <div className="procurement-repeat-winners">
+              <h3>Repeat Winners</h3>
+              <p className="competition-desc">Suppliers awarded 3 or more contracts — may indicate established relationships or limited competition.</p>
+              <div className="procurement-supplier-cards">
+                {competitionStats.repeatWinners.slice(0, 8).map((s, i) => (
+                  <div key={i} className="procurement-supplier-card">
+                    <span className="procurement-supplier-rank" style={{ background: s.count >= 5 ? '#ff453a22' : '#ff9f0a22', color: s.count >= 5 ? '#ff453a' : '#ff9f0a' }}>
+                      {s.count}×
+                    </span>
+                    <div className="procurement-supplier-info">
+                      <Link to={`/supplier/${slugify(s.name)}`} className="procurement-supplier-name procurement-supplier-link" onClick={e => e.stopPropagation()}>
+                        {s.name}
+                      </Link>
+                      <span className="procurement-supplier-detail">{formatCurrency(s.value, true)} total</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Expiring Contracts */}
+      {expiringContracts.length > 0 && (
+        <div className="procurement-expiring-section">
+          <h2><Clock size={18} /> Expiring Soon</h2>
+          <p className="competition-desc">{expiringContracts.length} contract{expiringContracts.length !== 1 ? 's' : ''} expiring within 6 months — potential upcoming procurement opportunities.</p>
+          <div className="procurement-table-container">
+            <table className="procurement-table" role="table">
+              <thead>
+                <tr>
+                  <th scope="col">Contract</th>
+                  <th scope="col">Supplier</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">Expires</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expiringContracts.slice(0, 10).map(c => {
+                  const daysLeft = Math.ceil((new Date(c.contract_end + 'T00:00:00') - new Date()) / (1000 * 60 * 60 * 24))
+                  return (
+                    <tr key={c.id} className="procurement-row">
+                      <td className="procurement-title-cell">
+                        <span className="procurement-contract-title">{c.title}</span>
+                      </td>
+                      <td>{c.awarded_supplier && c.awarded_supplier !== 'NOT AWARDED TO SUPPLIER' ? decodeHtmlEntities(c.awarded_supplier) : '-'}</td>
+                      <td className="amount-cell">{c.awarded_value ? formatCurrency(c.awarded_value, c.awarded_value >= 100000) : '-'}</td>
+                      <td>
+                        <span className={`expiry-badge ${daysLeft <= 30 ? 'expiry-imminent' : daysLeft <= 90 ? 'expiry-soon' : 'expiry-upcoming'}`}>
+                          {formatDate(c.contract_end)} ({daysLeft}d)
+                        </span>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {/* Top Suppliers */}
       {topSuppliers.length > 0 && (
         <div className="procurement-top-suppliers">
@@ -511,6 +740,9 @@ function Procurement() {
           <span className="procurement-filter-results">
             {formatNumber(filtered.length)} contract{filtered.length !== 1 ? 's' : ''}
           </span>
+          <button className="procurement-export-btn" onClick={handleExportCSV} title="Export filtered contracts as CSV">
+            <Download size={14} /> CSV
+          </button>
         </div>
         {showFilters && (
           <div className="procurement-advanced-filters">

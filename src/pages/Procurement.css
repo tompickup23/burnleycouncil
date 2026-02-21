@@ -843,3 +843,87 @@
     order: -1;
   }
 }
+
+/* --- Competition Intelligence --- */
+
+.procurement-competition-section,
+.procurement-expiring-section {
+  margin-bottom: 32px;
+}
+
+.procurement-competition-section h2,
+.procurement-expiring-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.procurement-competition-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.competition-desc {
+  color: #8e8e93;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.procurement-repeat-winners {
+  margin-top: 20px;
+}
+
+/* --- Expiring Contracts --- */
+
+.expiry-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.expiry-imminent {
+  background: #ff453a22;
+  color: #ff453a;
+}
+
+.expiry-soon {
+  background: #ff9f0a22;
+  color: #ff9f0a;
+}
+
+.expiry-upcoming {
+  background: #0a84ff22;
+  color: #0a84ff;
+}
+
+/* --- CSV Export Button --- */
+
+.procurement-export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #0a84ff;
+  background: #0a84ff22;
+  color: #0a84ff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.procurement-export-btn:hover {
+  background: #0a84ff33;
+}
