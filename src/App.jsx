@@ -37,6 +37,7 @@ const Elections = lazy(() => import('./pages/Elections'))
 const Constituencies = lazy(() => import('./pages/Constituencies'))
 const ConstituencyView = lazy(() => import('./pages/ConstituencyView'))
 const Strategy = lazy(() => import('./pages/Strategy'))
+const Intelligence = lazy(() => import('./pages/Intelligence'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
 
 // Preload commonly needed data
@@ -137,6 +138,7 @@ function AppRoutes() {
           <Route path="/constituencies" element={<Guarded><Constituencies /></Guarded>} />
           <Route path="/constituency/:constituencyId" element={<Guarded><ConstituencyView /></Guarded>} />
           <Route path="/strategy" element={<Guarded><Strategy /></Guarded>} />
+          <Route path="/intelligence" element={<Guarded><Intelligence /></Guarded>} />
           <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

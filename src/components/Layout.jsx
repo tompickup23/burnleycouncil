@@ -159,6 +159,20 @@ function Layout({ children }) {
             </div>
           )}
 
+          {/* Intelligence link — visible to strategist and admin roles, requires intelligence data */}
+          {authCtx?.isStrategist && dataSources.intelligence && (
+            <div className="nav-section">
+              <NavLink
+                to="/intelligence"
+                className={({ isActive }) => `nav-item nav-intelligence-link ${isActive ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Shield size={20} />
+                <span>Intelligence</span>
+              </NavLink>
+            </div>
+          )}
+
           {/* Admin link — only visible to admins in Firebase mode */}
           {authCtx?.isAdmin && (
             <div className="nav-section">

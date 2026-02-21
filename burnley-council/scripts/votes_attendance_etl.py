@@ -677,6 +677,177 @@ def compute_attendance_by_party(attendance_records, councillors):
     return result
 
 
+# ── Committee Membership Scraping ────────────────────────────────────
+
+COMMITTEE_TYPE_MAP = {
+    'cabinet': 'executive',
+    'executive': 'executive',
+    'scrutiny': 'scrutiny',
+    'audit': 'audit',
+    'planning': 'planning',
+    'pension': 'pension',
+    'standards': 'standards',
+    'health': 'scrutiny',
+    'education': 'scrutiny',
+    'budget': 'scrutiny',
+    'finance': 'scrutiny',
+    'children': 'scrutiny',
+    'environment': 'scrutiny',
+    'highways': 'scrutiny',
+    'corporate': 'scrutiny',
+    'overview': 'scrutiny',
+    'regulatory': 'regulatory',
+    'licensing': 'regulatory',
+    'development': 'planning',
+    'governance': 'governance',
+    'combined': 'partnership',
+    'joint': 'partnership',
+    'partnership': 'partnership',
+    'board': 'partnership',
+}
+
+
+def classify_committee_type(name):
+    """Classify committee type from its name."""
+    lower = name.lower()
+    for keyword, ctype in COMMITTEE_TYPE_MAP.items():
+        if keyword in lower:
+            return ctype
+    return 'other'
+
+
+def scrape_committees(base_url, councillors):
+    """Scrape committee memberships from ModernGov mgListCommittees.aspx.
+
+    For each committee, fetches mgCommitteeDetails.aspx?ID={cid} to get members.
+    Cross-references with councillors.json for party data.
+    """
+    url = f"{base_url}/mgListCommittees.aspx"
+    log.info(f"Fetching committee list: {url}")
+
+    soup = fetch_page(url)
+    if not soup:
+        return []
+
+    # Build councillor lookups — UID is primary key (committee pages use abbreviated names)
+    uid_to_party = {}
+    uid_to_name = {}
+    name_to_party = {}
+    for c in councillors:
+        raw_name = c.get('name', '')
+        clean = re.sub(
+            r'^(County\s+)?Councillor\s+(Mr|Mrs|Ms|Miss|Dr|Prof|Cllr|Sir|Dame|Lord|Lady|Reverend|Rev)?\s*',
+            '', raw_name, flags=re.I
+        ).strip()
+        party = c.get('party', 'Unknown')
+        uid = c.get('moderngov_uid', '')
+        if uid:
+            uid_to_party[uid] = party
+            uid_to_name[uid] = clean
+        if clean:
+            name_to_party[clean.lower()] = party
+        if raw_name:
+            name_to_party[raw_name.lower()] = party
+
+    # Find all committee links — look for mgCommitteeDetails links
+    committee_links = soup.find_all('a', href=re.compile(r'mgCommitteeDetails\.aspx\?ID=\d+'))
+    seen_cids = set()
+    committees = []
+
+    for link in committee_links:
+        cid_match = re.search(r'ID=(\d+)', link['href'])
+        if not cid_match:
+            continue
+        cid = cid_match.group(1)
+        if cid in seen_cids:
+            continue
+        seen_cids.add(cid)
+
+        committee_name = link.get_text(strip=True)
+        if not committee_name or len(committee_name) < 3:
+            continue
+
+        # Skip sub-committees and working groups to focus on main committees
+        lower_name = committee_name.lower()
+        if any(skip in lower_name for skip in ['working group', 'task group', 'panel']):
+            continue
+
+        log.info(f"  Fetching members for: {committee_name} (CId={cid})")
+
+        # Fetch the committee detail page
+        detail_url = f"{base_url}/mgCommitteeDetails.aspx?ID={cid}"
+        detail_soup = fetch_page(detail_url)
+        if not detail_soup:
+            continue
+
+        members = []
+        # Look for member links on the committee page
+        member_links = detail_soup.find_all('a', href=re.compile(r'mgUserInfo\.aspx\?UID=\d+'))
+        seen_uids = set()
+        for mlink in member_links:
+            uid_match = re.search(r'UID=(\d+)', mlink['href'])
+            if not uid_match:
+                continue
+            member_uid = uid_match.group(1)
+            if member_uid in seen_uids:
+                continue
+            seen_uids.add(member_uid)
+
+            member_name_raw = mlink.get_text(strip=True)
+            if not member_name_raw or len(member_name_raw) < 3:
+                continue
+
+            # Use UID to get full name and party from councillors.json (committee pages use abbreviated names)
+            clean_member = uid_to_name.get(member_uid, '')
+            if not clean_member:
+                # Fallback: strip councillor title from scraped name
+                clean_member = re.sub(
+                    r'^(County\s+)?Councillor\s+(CC\s+)?(Mr|Mrs|Ms|Miss|Dr|Prof|Cllr|Sir|Dame|Lord|Lady|Reverend|Rev)?\s*',
+                    '', member_name_raw, flags=re.I
+                ).strip()
+
+            party = uid_to_party.get(member_uid, name_to_party.get(clean_member.lower(), 'Unknown'))
+
+            # Determine role: check surrounding text for Chair/Deputy/etc.
+            role = 'Member'
+            parent = mlink.find_parent(['tr', 'li', 'p', 'div'])
+            if parent:
+                parent_text = parent.get_text(strip=True).lower()
+                if 'chair' in parent_text and 'deputy' not in parent_text:
+                    role = 'Chair'
+                elif 'deputy chair' in parent_text or 'vice chair' in parent_text:
+                    role = 'Deputy Chair'
+                elif 'leader' in parent_text and 'deputy' not in parent_text:
+                    role = 'Leader'
+                elif 'deputy leader' in parent_text:
+                    role = 'Deputy Leader'
+
+            members.append({
+                'name': clean_member,
+                'uid': member_uid,
+                'role': role,
+                'party': party,
+            })
+
+        committee_id = re.sub(r'[^a-z0-9]+', '-', committee_name.lower().strip())[:60].strip('-')
+        committees.append({
+            'id': committee_id,
+            'name': committee_name,
+            'type': classify_committee_type(committee_name),
+            'moderngov_cid': cid,
+            'members': members,
+        })
+
+        log.info(f"    → {len(members)} members ({sum(1 for m in members if m['party'] == 'Reform UK')} Reform)")
+
+    # Sort: executive first, then scrutiny, then others
+    type_order = {'executive': 0, 'scrutiny': 1, 'audit': 2, 'planning': 3, 'regulatory': 4, 'pension': 5, 'governance': 6, 'partnership': 7, 'other': 9}
+    committees.sort(key=lambda c: (type_order.get(c['type'], 8), c['name']))
+
+    log.info(f"Scraped {len(committees)} committees with {sum(len(c['members']) for c in committees)} total member slots")
+    return committees
+
+
 # ── Main ─────────────────────────────────────────────────────────────
 
 def run_council(council_id, args):
@@ -703,6 +874,26 @@ def run_council(council_id, args):
         log.info(f"Loaded {len(councillors)} councillors from {councillors_path}")
     else:
         log.warning(f"No councillors.json found at {councillors_path} — run councillors_etl.py first")
+
+    # ── Scrape committees (standalone mode) ──
+    if args.committees:
+        committees = scrape_committees(base_url, councillors)
+        if args.dry_run:
+            log.info(f"[DRY RUN] Would write committees.json: {len(committees)} committees")
+            return
+
+        committees_data = {
+            'last_updated': datetime.now().isoformat(),
+            'source': base_url,
+            'council_id': council_id,
+            'total_committees': len(committees),
+            'committees': committees,
+        }
+        committees_path = out_dir / 'committees.json'
+        with open(committees_path, 'w') as f:
+            json.dump(committees_data, f, indent=2, ensure_ascii=False)
+        log.info(f"Wrote {committees_path} ({len(committees)} committees)")
+        return
 
     # ── Scrape recorded votes ──
     votes = []
@@ -809,6 +1000,7 @@ def main():
     parser.add_argument('--votes-only', action='store_true', help='Only scrape recorded votes')
     parser.add_argument('--attendance-only', action='store_true', help='Only scrape attendance')
     parser.add_argument('--enrich-details', action='store_true', help='Only enrich councillor email/phone/roles')
+    parser.add_argument('--committees', action='store_true', help='Scrape committee memberships only')
     parser.add_argument('--dry-run', action='store_true', help='Show what would be generated')
     args = parser.parse_args()
 
