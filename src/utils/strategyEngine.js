@@ -605,3 +605,246 @@ export function generateStrategySummary(rankedWards, ourParty) {
     totalWards: rankedWards.length,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Historical Swing Analysis
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate party-to-party swing between two consecutive elections for a ward.
+ * Butler swing: (Party A gain + Party B loss) / 2
+ * @param {Object} election1 - Earlier election result
+ * @param {Object} election2 - Later election result
+ * @param {string} partyA - First party
+ * @param {string} partyB - Second party
+ * @returns {number} Swing in pp (positive = towards partyA)
+ */
+export function calculateSwingBetween(election1, election2, partyA, partyB) {
+  if (!election1?.candidates || !election2?.candidates) return 0;
+
+  const getPartyPct = (election, party) => {
+    const c = election.candidates.find(c => c.party === party);
+    return c?.pct || 0;
+  };
+
+  const aGain = getPartyPct(election2, partyA) - getPartyPct(election1, partyA);
+  const bLoss = getPartyPct(election1, partyB) - getPartyPct(election2, partyB);
+  return (aGain + bLoss) / 2;
+}
+
+/**
+ * Compute full swing history for a ward across all elections.
+ * Returns swing between each consecutive pair of elections,
+ * plus trend analysis (accelerating/decelerating/stable).
+ *
+ * @param {Object} wardData - Ward from elections.json
+ * @param {string} ourParty - Party to calculate swings for
+ * @returns {{ swings: Array<{ year: number, date: string, ourPct: number, winnerParty: string, winnerPct: number, margin: number, turnout: number }>, trend: string, avgSwing: number, volatility: number }}
+ */
+export function calculateSwingHistory(wardData, ourParty) {
+  if (!wardData?.history?.length) {
+    return { swings: [], trend: 'unknown', avgSwing: 0, volatility: 0 };
+  }
+
+  // Sort history oldest→newest
+  const sorted = [...wardData.history]
+    .filter(e => e.candidates?.length > 0)
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+  const swings = sorted.map(election => {
+    const ourCandidate = election.candidates.find(c => c.party === ourParty);
+    const ourPct = ourCandidate?.pct || 0;
+    const winner = election.candidates.reduce((best, c) =>
+      (c.pct || 0) > (best?.pct || 0) ? c : best, election.candidates[0]);
+
+    return {
+      year: election.year,
+      date: election.date,
+      ourPct,
+      winnerParty: winner?.party || 'Unknown',
+      winnerPct: winner?.pct || 0,
+      margin: ourPct - (winner?.party === ourParty ? (election.candidates
+        .filter(c => c.party !== ourParty)
+        .sort((a, b) => (b.pct || 0) - (a.pct || 0))[0]?.pct || 0) : (winner?.pct || 0)),
+      turnout: election.turnout || 0,
+      electorate: election.electorate || 0,
+    };
+  });
+
+  // Calculate trend from vote share changes
+  if (swings.length < 2) {
+    return { swings, trend: 'insufficient', avgSwing: 0, volatility: 0 };
+  }
+
+  const changes = [];
+  for (let i = 1; i < swings.length; i++) {
+    changes.push(swings[i].ourPct - swings[i - 1].ourPct);
+  }
+
+  const avgSwing = changes.reduce((s, v) => s + v, 0) / changes.length;
+  const variance = changes.reduce((s, v) => s + (v - avgSwing) ** 2, 0) / changes.length;
+  const volatility = Math.sqrt(variance);
+
+  // Trend: look at recent 3 changes vs overall
+  let trend = 'stable';
+  if (changes.length >= 2) {
+    const recentChanges = changes.slice(-Math.min(3, changes.length));
+    const recentAvg = recentChanges.reduce((s, v) => s + v, 0) / recentChanges.length;
+    if (recentAvg > 0.02) trend = 'improving';
+    else if (recentAvg < -0.02) trend = 'declining';
+    else if (volatility > 0.08) trend = 'volatile';
+  }
+
+  return {
+    swings,
+    trend,
+    avgSwing: Math.round(avgSwing * 1000) / 1000,
+    volatility: Math.round(volatility * 1000) / 1000,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Resource Allocation Model
+// ---------------------------------------------------------------------------
+
+/**
+ * Campaign resource allocation model.
+ * Estimates optimal distribution of campaign hours across wards based on:
+ * - Battleground score (priority)
+ * - Electorate size (effort required)
+ * - Win probability (diminishing returns)
+ * - Turnout opportunity (GOTV potential)
+ *
+ * @param {Array<Object>} rankedWards - Output from rankBattlegrounds()
+ * @param {number} totalHours - Total campaign hours available (default: 1000)
+ * @returns {Array<{ ward: string, hours: number, pctOfTotal: number, costPerVote: number, roi: string, classification: string }>}
+ */
+export function allocateResources(rankedWards, totalHours = 1000) {
+  if (!rankedWards?.length) return [];
+
+  // Step 1: Calculate raw priority weights
+  // Higher score → more resources, but write-offs get near-zero
+  const weighted = rankedWards.map(ward => {
+    const classMultiplier = {
+      safe: 0.2,         // Don't over-invest in safe seats
+      hold: 0.6,         // Moderate attention
+      marginal_hold: 1.2, // High priority — defend closely
+      battleground: 1.5,  // Top priority
+      target: 1.3,        // High priority — gain
+      stretch: 0.4,       // Low investment
+      write_off: 0.05,    // Token presence only
+    }[ward.classification] || 0.5;
+
+    // Diminishing returns: wards with very high win prob need less investment
+    const urgencyFactor = ward.winProbability > 0.7 ? 0.6 :
+                          ward.winProbability > 0.5 ? 0.8 :
+                          ward.winProbability > 0.3 ? 1.0 :
+                          ward.winProbability > 0.1 ? 0.7 : 0.3;
+
+    // Electorate scaling: larger wards need proportionally more resources
+    const sizeScale = Math.sqrt(ward.electorate / 5000);
+
+    const rawWeight = ward.score * classMultiplier * urgencyFactor * sizeScale;
+    return { ward, rawWeight };
+  });
+
+  // Step 2: Normalise and distribute hours
+  const totalWeight = weighted.reduce((s, w) => s + w.rawWeight, 0);
+  if (totalWeight === 0) return [];
+
+  return weighted.map(({ ward, rawWeight }) => {
+    const pctOfTotal = rawWeight / totalWeight;
+    const hours = Math.round(totalHours * pctOfTotal);
+
+    // Estimate cost-per-incremental-vote
+    // Assume 1 hour of campaigning = 8 voter contacts, 15% persuasion rate
+    const contactsPerHour = 8;
+    const persuasionRate = 0.15;
+    const incrementalVotes = hours * contactsPerHour * persuasionRate;
+    const electorate = ward.electorate || 5000;
+    const estimatedTurnout = ward.turnout || 0.30;
+    const totalVoters = Math.round(electorate * estimatedTurnout);
+    const costPerVote = incrementalVotes > 0 ? hours / incrementalVotes : Infinity;
+
+    // ROI classification
+    let roi = 'low';
+    if (ward.winProbability > 0.3 && ward.winProbability < 0.7 && costPerVote < 2) roi = 'high';
+    else if (ward.winProbability > 0.2 && costPerVote < 4) roi = 'medium';
+
+    return {
+      ward: ward.ward,
+      classification: ward.classification,
+      classLabel: ward.classLabel,
+      score: ward.score,
+      hours,
+      pctOfTotal: Math.round(pctOfTotal * 1000) / 10,
+      electorate: ward.electorate,
+      winProbability: ward.winProbability,
+      incrementalVotes: Math.round(incrementalVotes),
+      costPerVote: Math.round(costPerVote * 10) / 10,
+      roi,
+    };
+  }).sort((a, b) => b.hours - a.hours);
+}
+
+// ---------------------------------------------------------------------------
+// CSV Export
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate CSV content from strategy data for campaign teams.
+ * Includes: ward rankings, classifications, predictions, talking points, resource allocation.
+ *
+ * @param {Array<Object>} rankedWards - Output from rankBattlegrounds()
+ * @param {Array<Object>|null} resourceAllocation - Output from allocateResources()
+ * @param {string} ourParty - Selected party
+ * @param {string} councilName - Council name for header
+ * @returns {string} CSV content
+ */
+export function generateStrategyCSV(rankedWards, resourceAllocation, ourParty, councilName) {
+  if (!rankedWards?.length) return '';
+
+  const resourceMap = {};
+  if (resourceAllocation) {
+    for (const r of resourceAllocation) resourceMap[r.ward] = r;
+  }
+
+  const headers = [
+    'Rank', 'Ward', 'Classification', 'Predicted Winner', 'Our Vote Share (%)',
+    'Swing Required (pp)', 'Win Probability (%)', 'Turnout (%)', 'Electorate',
+    'Priority Score', 'Defender', 'Confidence',
+    'Allocated Hours', 'ROI', 'Top Talking Points',
+  ];
+
+  const rows = rankedWards.map((ward, i) => {
+    const res = resourceMap[ward.ward];
+    const tps = ward.talkingPoints.slice(0, 3).map(tp => `${tp.category}: ${tp.text}`).join(' | ');
+
+    return [
+      i + 1,
+      `"${ward.ward}"`,
+      ward.classLabel,
+      ward.winner,
+      (ward.ourPct * 100).toFixed(1),
+      (ward.swingRequired * 100).toFixed(1),
+      Math.round(ward.winProbability * 100),
+      Math.round(ward.turnout * 100),
+      ward.electorate,
+      ward.score,
+      ward.defender || 'N/A',
+      ward.confidence,
+      res?.hours || 0,
+      res?.roi || 'N/A',
+      `"${tps}"`,
+    ].join(',');
+  });
+
+  const meta = [
+    `# ${councilName} — Strategy Export for ${ourParty}`,
+    `# Generated: ${new Date().toISOString().split('T')[0]}`,
+    `# Wards: ${rankedWards.length}`,
+    '',
+  ];
+
+  return meta.join('\n') + headers.join(',') + '\n' + rows.join('\n');
+}

@@ -622,6 +622,170 @@
   line-height: 1.5;
 }
 
+/* --- Swing History --- */
+
+.swing-history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.swing-card {
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 16px;
+  border-left: 4px solid #444;
+}
+
+.swing-card.trend-improving { border-left-color: #30d158; }
+.swing-card.trend-declining { border-left-color: #ff453a; }
+.swing-card.trend-stable { border-left-color: #0a84ff; }
+.swing-card.trend-volatile { border-left-color: #ff9f0a; }
+
+.swing-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.swing-ward {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.swing-trend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+.swing-card-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.swing-sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 60px;
+  padding: 4px 0;
+}
+
+.spark-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.spark-bar {
+  width: 100%;
+  max-width: 20px;
+  min-width: 4px;
+  border-radius: 2px 2px 0 0;
+  transition: height 0.3s;
+}
+
+.spark-year {
+  font-size: 0.6rem;
+  color: #666;
+  margin-top: 3px;
+}
+
+.swing-no-data {
+  color: #666;
+  font-size: 0.82rem;
+  padding: 16px 0;
+}
+
+.swing-card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #999;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #1a1a2e;
+}
+
+/* --- Resource Allocation --- */
+
+.resource-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #12121f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.resource-controls label {
+  color: #aaa;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.resource-controls input[type="range"] {
+  flex: 1;
+  min-width: 120px;
+  accent-color: #12B6CF;
+}
+
+.resource-hours-value {
+  color: #12B6CF;
+  font-weight: 700;
+  font-size: 0.95rem;
+  min-width: 70px;
+}
+
+.strategy-export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #12B6CF;
+  background: #12B6CF22;
+  color: #12B6CF;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.strategy-export-btn:hover {
+  background: #12B6CF33;
+}
+
+.resource-hours {
+  font-weight: 700;
+  color: #12B6CF;
+}
+
+.roi-badge {
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
 /* --- Animation --- */
 
 @keyframes fadeIn {

@@ -12,6 +12,9 @@ import {
   calculatePathToControl,
   classifyWardArchetype,
   generateStrategySummary,
+  calculateSwingHistory,
+  allocateResources,
+  generateStrategyCSV,
   WARD_CLASSES,
 } from '../utils/strategyEngine'
 import { LoadingState } from '../components/ui'
@@ -22,7 +25,8 @@ import {
 import {
   Target, Users, Shield, AlertTriangle, ChevronDown, ChevronRight,
   Crosshair, TrendingUp, TrendingDown, MapPin, Briefcase, Globe,
-  CheckCircle, Swords, GraduationCap, Lock,
+  CheckCircle, Swords, GraduationCap, Lock, Clock, BarChart3,
+  Download,
 } from 'lucide-react'
 import './Strategy.css'
 
@@ -47,8 +51,22 @@ const SECTIONS = [
   { id: 'battlegrounds', label: 'Battlegrounds', icon: Crosshair },
   { id: 'path', label: 'Path to Control', icon: TrendingUp },
   { id: 'vulnerable', label: 'Vulnerable Seats', icon: Shield },
+  { id: 'swingHistory', label: 'Swing History', icon: Clock },
+  { id: 'resources', label: 'Resources', icon: BarChart3 },
   { id: 'archetypes', label: 'Ward Archetypes', icon: Users },
 ]
+
+// Trend labels and colors
+const TREND_CONFIG = {
+  improving: { label: 'Improving', color: '#30d158', icon: TrendingUp },
+  declining: { label: 'Declining', color: '#ff453a', icon: TrendingDown },
+  stable: { label: 'Stable', color: '#0a84ff', icon: Target },
+  volatile: { label: 'Volatile', color: '#ff9f0a', icon: AlertTriangle },
+  insufficient: { label: 'Insufficient Data', color: '#8e8e93', icon: AlertTriangle },
+  unknown: { label: 'No Data', color: '#8e8e93', icon: AlertTriangle },
+}
+
+const ROI_COLORS = { high: '#30d158', medium: '#ff9f0a', low: '#ff453a' }
 
 function SectionNav({ activeSection, onSelect }) {
   return (
@@ -114,6 +132,7 @@ export default function Strategy() {
   const [activeSection, setActiveSection] = useState('dashboard')
   const [ourParty, setOurParty] = useState('Reform UK')
   const [expandedWards, setExpandedWards] = useState({})
+  const [totalHours, setTotalHours] = useState(1000)
 
   // --- Page title ---
   useEffect(() => {
@@ -201,9 +220,42 @@ export default function Strategy() {
     })
   }, [wardsUp, demoByName, depByName])
 
+  // --- Derived: swing histories ---
+  const swingHistories = useMemo(() => {
+    if (!wardsUp.length || !electionsData?.wards) return []
+    return wardsUp.map(wardName => {
+      const wardData = electionsData.wards[wardName]
+      const history = calculateSwingHistory(wardData, ourParty)
+      const ranked = rankedWards.find(w => w.ward === wardName)
+      return { ward: wardName, ...history, classification: ranked?.classLabel || 'Unknown', score: ranked?.score || 0 }
+    }).sort((a, b) => {
+      // Sort: improving first, then by volatility (most volatile = most interesting)
+      const trendOrder = { improving: 0, volatile: 1, declining: 2, stable: 3, insufficient: 4, unknown: 5 }
+      return (trendOrder[a.trend] ?? 5) - (trendOrder[b.trend] ?? 5) || b.volatility - a.volatility
+    })
+  }, [wardsUp, electionsData, ourParty, rankedWards])
+
+  // --- Derived: resource allocation ---
+  const resourceAllocation = useMemo(() => {
+    if (!rankedWards.length) return []
+    return allocateResources(rankedWards, totalHours)
+  }, [rankedWards, totalHours])
+
   // --- Handlers ---
   const toggleWard = (wardName) => {
     setExpandedWards(prev => ({ ...prev, [wardName]: !prev[wardName] }))
+  }
+
+  const handleExportCSV = () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, ourParty, councilName)
+    if (!csv) return
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `strategy-${config.council_id}-${ourParty.toLowerCase().replace(/\s+/g, '-')}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   // --- Loading/error ---
@@ -497,6 +549,179 @@ export default function Strategy() {
                 </tbody>
               </table>
             </div>
+          )}
+        </section>
+      )}
+
+      {/* ================================================================ */}
+      {/* SWING HISTORY */}
+      {/* ================================================================ */}
+      {activeSection === 'swingHistory' && (
+        <section className="strategy-section">
+          <h2><Clock size={20} /> Historical Swing Analysis</h2>
+          <p className="strategy-section-desc">
+            {ourParty} vote share trends across past elections for each contested {wardLabel.toLowerCase()}.
+            Identifies momentum, volatility, and wards where support is growing or declining.
+          </p>
+
+          {swingHistories.length === 0 ? (
+            <div className="strategy-empty">
+              <AlertTriangle size={32} />
+              <p>No historical election data available for swing analysis.</p>
+            </div>
+          ) : (
+            <div className="swing-history-grid">
+              {swingHistories.map(sh => {
+                const tc = TREND_CONFIG[sh.trend] || TREND_CONFIG.unknown
+                const TrendIcon = tc.icon
+                return (
+                  <div key={sh.ward} className={`swing-card trend-${sh.trend}`}>
+                    <div className="swing-card-header">
+                      <div className="swing-ward">{sh.ward}</div>
+                      <span className="swing-trend-badge" style={{ background: tc.color + '22', color: tc.color, borderColor: tc.color }}>
+                        <TrendIcon size={12} /> {tc.label}
+                      </span>
+                    </div>
+                    <div className="swing-card-meta">
+                      <span>Class: {sh.classification}</span>
+                      <span>Score: {sh.score}</span>
+                      <span>Volatility: {(sh.volatility * 100).toFixed(1)}pp</span>
+                    </div>
+                    {sh.swings.length > 0 ? (
+                      <div className="swing-sparkline">
+                        {sh.swings.map((s, i) => {
+                          const pct = s.ourPct * 100
+                          const barHeight = Math.max(3, pct * 2)
+                          return (
+                            <div key={i} className="spark-col" title={`${s.year}: ${pct.toFixed(1)}% (${s.winnerParty} won)`}>
+                              <div className="spark-bar" style={{
+                                height: `${barHeight}px`,
+                                background: s.winnerParty === ourParty ? '#30d158' : tc.color,
+                              }} />
+                              <div className="spark-year">{String(s.year).slice(-2)}</div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    ) : (
+                      <div className="swing-no-data">No election history</div>
+                    )}
+                    {sh.swings.length > 0 && (
+                      <div className="swing-card-footer">
+                        <span>Latest: {(sh.swings[sh.swings.length - 1]?.ourPct * 100).toFixed(1)}%</span>
+                        <span>Avg swing: {sh.avgSwing > 0 ? '+' : ''}{(sh.avgSwing * 100).toFixed(1)}pp/election</span>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* ================================================================ */}
+      {/* RESOURCE ALLOCATION */}
+      {/* ================================================================ */}
+      {activeSection === 'resources' && (
+        <section className="strategy-section">
+          <h2><BarChart3 size={20} /> Resource Allocation</h2>
+          <p className="strategy-section-desc">
+            Optimised campaign hour distribution across {wardsUp.length} contested {wardLabel.toLowerCase()}s.
+            Balances win probability, electorate size, and strategic priority.
+          </p>
+
+          <div className="resource-controls">
+            <label htmlFor="total-hours">Total campaign hours:</label>
+            <input
+              id="total-hours"
+              type="range"
+              min={200}
+              max={5000}
+              step={100}
+              value={totalHours}
+              onChange={e => setTotalHours(Number(e.target.value))}
+            />
+            <span className="resource-hours-value">{formatNumber(totalHours)} hrs</span>
+            <button className="strategy-export-btn" onClick={handleExportCSV} title="Export strategy data as CSV">
+              <Download size={14} /> Export CSV
+            </button>
+          </div>
+
+          {resourceAllocation.length > 0 && (
+            <>
+              {/* Resource stat cards */}
+              <div className="strategy-stat-grid" style={{ marginBottom: 20 }}>
+                <div className="strategy-stat-card">
+                  <div className="stat-number">{resourceAllocation.filter(r => r.roi === 'high').length}</div>
+                  <div className="stat-label">High ROI {wardLabel}s</div>
+                </div>
+                <div className="strategy-stat-card accent">
+                  <div className="stat-number">{formatNumber(totalHours)}</div>
+                  <div className="stat-label">Total Hours</div>
+                </div>
+                <div className="strategy-stat-card">
+                  <div className="stat-number">
+                    {formatNumber(resourceAllocation.reduce((s, r) => s + r.incrementalVotes, 0))}
+                  </div>
+                  <div className="stat-label">Est. Incremental Votes</div>
+                </div>
+              </div>
+
+              {/* Allocation bar chart */}
+              <div className="strategy-chart-card" style={{ marginBottom: 20 }}>
+                <h3>Hours per {wardLabel}</h3>
+                <ResponsiveContainer width="100%" height={Math.max(250, resourceAllocation.length * 28)}>
+                  <BarChart data={resourceAllocation.slice(0, 20)} layout="vertical" margin={{ left: 110 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis type="number" tick={{ fill: '#aaa', fontSize: 12 }} />
+                    <YAxis type="category" dataKey="ward" tick={{ fill: '#ccc', fontSize: 11 }} width={105} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [name === 'hours' ? `${v} hrs` : v, name]} />
+                    <Bar dataKey="hours" fill="#12B6CF" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Detailed table */}
+              <div className="strategy-table-wrap">
+                <table className="strategy-table">
+                  <thead>
+                    <tr>
+                      <th>{wardLabel}</th>
+                      <th>Class</th>
+                      <th>Win Prob</th>
+                      <th>Hours</th>
+                      <th>% of Total</th>
+                      <th>Est. Votes</th>
+                      <th>Cost/Vote</th>
+                      <th>ROI</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {resourceAllocation.map(r => (
+                      <tr key={r.ward} className="strategy-row">
+                        <td className="ward-name">{r.ward}</td>
+                        <td><ClassBadge label={r.classLabel} /></td>
+                        <td>
+                          <span className={`win-prob ${r.winProbability > 0.5 ? 'high' : r.winProbability > 0.3 ? 'med' : 'low'}`}>
+                            {Math.round(r.winProbability * 100)}%
+                          </span>
+                        </td>
+                        <td className="resource-hours">{r.hours}</td>
+                        <td>{r.pctOfTotal}%</td>
+                        <td>{r.incrementalVotes}</td>
+                        <td>{r.costPerVote === Infinity ? '—' : `${r.costPerVote}h`}</td>
+                        <td>
+                          <span className="roi-badge" style={{ color: ROI_COLORS[r.roi] || '#888' }}>
+                            {r.roi.toUpperCase()}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </section>
       )}

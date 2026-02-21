@@ -7,6 +7,10 @@ import {
   calculatePathToControl,
   classifyWardArchetype,
   generateStrategySummary,
+  calculateSwingBetween,
+  calculateSwingHistory,
+  allocateResources,
+  generateStrategyCSV,
   WARD_CLASSES,
 } from './strategyEngine'
 
@@ -565,5 +569,355 @@ describe('WARD_CLASSES', () => {
       expect(cls).toHaveProperty('color')
       expect(cls).toHaveProperty('priority')
     }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// calculateSwingBetween
+// ---------------------------------------------------------------------------
+
+describe('calculateSwingBetween', () => {
+  const election2020 = {
+    date: '2020-05-07',
+    candidates: [
+      { name: 'A', party: 'Labour', votes: 500, pct: 0.40 },
+      { name: 'B', party: 'Conservative', votes: 400, pct: 0.32 },
+      { name: 'C', party: 'Reform UK', votes: 350, pct: 0.28 },
+    ],
+  }
+
+  const election2024 = {
+    date: '2024-05-02',
+    candidates: [
+      { name: 'A', party: 'Labour', votes: 380, pct: 0.34 },
+      { name: 'B', party: 'Conservative', votes: 330, pct: 0.30 },
+      { name: 'C', party: 'Reform UK', votes: 400, pct: 0.36 },
+    ],
+  }
+
+  it('returns 0 for null elections', () => {
+    expect(calculateSwingBetween(null, null, 'Labour', 'Conservative')).toBe(0)
+    expect(calculateSwingBetween(election2020, null, 'Labour', 'Conservative')).toBe(0)
+  })
+
+  it('calculates Butler swing correctly (Labour→Reform)', () => {
+    // Reform gained 0.36 - 0.28 = +0.08
+    // Labour lost 0.40 - 0.34 = 0.06
+    // Butler swing = (0.08 + 0.06) / 2 = 0.07 towards Reform
+    const swing = calculateSwingBetween(election2020, election2024, 'Reform UK', 'Labour')
+    expect(swing).toBeCloseTo(0.07, 2)
+  })
+
+  it('returns negative swing towards loser', () => {
+    // From Labour perspective vs Reform: Labour lost ground
+    const swing = calculateSwingBetween(election2020, election2024, 'Labour', 'Reform UK')
+    expect(swing).toBeLessThan(0)
+  })
+
+  it('handles party not present in one election', () => {
+    const electionNoReform = {
+      candidates: [
+        { name: 'A', party: 'Labour', votes: 600, pct: 0.55 },
+        { name: 'B', party: 'Conservative', votes: 490, pct: 0.45 },
+      ],
+    }
+    const swing = calculateSwingBetween(electionNoReform, election2024, 'Reform UK', 'Labour')
+    expect(typeof swing).toBe('number')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// calculateSwingHistory
+// ---------------------------------------------------------------------------
+
+describe('calculateSwingHistory', () => {
+  it('returns empty result for null ward data', () => {
+    const result = calculateSwingHistory(null, 'Reform UK')
+    expect(result.swings).toEqual([])
+    expect(result.trend).toBe('unknown')
+  })
+
+  it('returns empty result for empty history', () => {
+    const result = calculateSwingHistory({ history: [] }, 'Reform UK')
+    expect(result.swings).toEqual([])
+    expect(result.trend).toBe('unknown')
+  })
+
+  it('returns insufficient trend for single election', () => {
+    const result = calculateSwingHistory(mockWardElection, 'Reform UK')
+    expect(result.swings).toHaveLength(1)
+    expect(result.trend).toBe('insufficient')
+  })
+
+  it('calculates swing history for multiple elections', () => {
+    const wardData = {
+      history: [
+        {
+          date: '2024-05-02', year: 2024,
+          candidates: [
+            { party: 'Labour', pct: 0.35, votes: 350 },
+            { party: 'Reform UK', pct: 0.30, votes: 300 },
+            { party: 'Conservative', pct: 0.20, votes: 200 },
+          ],
+          turnout: 0.30, electorate: 5000,
+        },
+        {
+          date: '2022-05-05', year: 2022,
+          candidates: [
+            { party: 'Labour', pct: 0.40, votes: 400 },
+            { party: 'Conservative', pct: 0.35, votes: 350 },
+            { party: 'Reform UK', pct: 0.15, votes: 150 },
+          ],
+          turnout: 0.28, electorate: 5000,
+        },
+        {
+          date: '2020-05-07', year: 2020,
+          candidates: [
+            { party: 'Labour', pct: 0.45, votes: 450 },
+            { party: 'Conservative', pct: 0.40, votes: 400 },
+          ],
+          turnout: 0.25, electorate: 5000,
+        },
+      ],
+    }
+    const result = calculateSwingHistory(wardData, 'Reform UK')
+    expect(result.swings).toHaveLength(3)
+    // Sorted oldest→newest: 2020, 2022, 2024
+    expect(result.swings[0].year).toBe(2020)
+    expect(result.swings[2].year).toBe(2024)
+    // Reform went from 0 → 0.15 → 0.30 = improving
+    expect(result.trend).toBe('improving')
+    expect(result.avgSwing).toBeGreaterThan(0)
+  })
+
+  it('detects declining trend', () => {
+    const wardData = {
+      history: [
+        {
+          date: '2024-05-02', year: 2024,
+          candidates: [
+            { party: 'Labour', pct: 0.50, votes: 500 },
+            { party: 'Reform UK', pct: 0.10, votes: 100 },
+          ],
+          turnout: 0.30,
+        },
+        {
+          date: '2022-05-05', year: 2022,
+          candidates: [
+            { party: 'Labour', pct: 0.45, votes: 450 },
+            { party: 'Reform UK', pct: 0.20, votes: 200 },
+          ],
+          turnout: 0.28,
+        },
+        {
+          date: '2020-05-07', year: 2020,
+          candidates: [
+            { party: 'Labour', pct: 0.40, votes: 400 },
+            { party: 'Reform UK', pct: 0.30, votes: 300 },
+          ],
+          turnout: 0.25,
+        },
+      ],
+    }
+    const result = calculateSwingHistory(wardData, 'Reform UK')
+    expect(result.trend).toBe('declining')
+    expect(result.avgSwing).toBeLessThan(0)
+  })
+
+  it('calculates volatility', () => {
+    const wardData = {
+      history: [
+        { date: '2024-01-01', year: 2024, candidates: [{ party: 'Reform UK', pct: 0.40, votes: 400 }, { party: 'Labour', pct: 0.60, votes: 600 }], turnout: 0.30 },
+        { date: '2022-01-01', year: 2022, candidates: [{ party: 'Reform UK', pct: 0.20, votes: 200 }, { party: 'Labour', pct: 0.80, votes: 800 }], turnout: 0.30 },
+        { date: '2020-01-01', year: 2020, candidates: [{ party: 'Reform UK', pct: 0.35, votes: 350 }, { party: 'Labour', pct: 0.65, votes: 650 }], turnout: 0.30 },
+      ],
+    }
+    const result = calculateSwingHistory(wardData, 'Reform UK')
+    expect(result.volatility).toBeGreaterThan(0)
+  })
+
+  it('includes margin in swing entries', () => {
+    const result = calculateSwingHistory(mockWardElection, 'Labour')
+    expect(result.swings[0]).toHaveProperty('margin')
+    expect(result.swings[0]).toHaveProperty('ourPct')
+    expect(result.swings[0]).toHaveProperty('winnerParty')
+    expect(result.swings[0]).toHaveProperty('turnout')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// allocateResources
+// ---------------------------------------------------------------------------
+
+describe('allocateResources', () => {
+  const rankedWards = [
+    { ward: 'W1', classification: 'battleground', classLabel: 'Battleground', score: 80, electorate: 5000, turnout: 0.30, winProbability: 0.50 },
+    { ward: 'W2', classification: 'target', classLabel: 'Target', score: 60, electorate: 7000, turnout: 0.25, winProbability: 0.40 },
+    { ward: 'W3', classification: 'safe', classLabel: 'Safe', score: 90, electorate: 4000, turnout: 0.40, winProbability: 0.85 },
+    { ward: 'W4', classification: 'write_off', classLabel: 'Write-off', score: 10, electorate: 6000, turnout: 0.20, winProbability: 0.05 },
+    { ward: 'W5', classification: 'marginal_hold', classLabel: 'Marginal Hold', score: 70, electorate: 5500, turnout: 0.32, winProbability: 0.55 },
+  ]
+
+  it('returns empty array for empty input', () => {
+    expect(allocateResources([])).toEqual([])
+    expect(allocateResources(null)).toEqual([])
+  })
+
+  it('allocates hours to all wards', () => {
+    const result = allocateResources(rankedWards, 1000)
+    expect(result).toHaveLength(5)
+    for (const r of result) {
+      expect(r.hours).toBeGreaterThanOrEqual(0)
+      expect(r).toHaveProperty('ward')
+      expect(r).toHaveProperty('pctOfTotal')
+      expect(r).toHaveProperty('roi')
+    }
+  })
+
+  it('total hours approximately equals requested total', () => {
+    const result = allocateResources(rankedWards, 1000)
+    const total = result.reduce((s, r) => s + r.hours, 0)
+    // Rounding means it won't be exact
+    expect(total).toBeGreaterThan(900)
+    expect(total).toBeLessThan(1100)
+  })
+
+  it('battleground gets more hours than write-off', () => {
+    const result = allocateResources(rankedWards, 1000)
+    const bg = result.find(r => r.ward === 'W1')
+    const wo = result.find(r => r.ward === 'W4')
+    expect(bg.hours).toBeGreaterThan(wo.hours)
+  })
+
+  it('sorts by hours descending', () => {
+    const result = allocateResources(rankedWards, 1000)
+    for (let i = 1; i < result.length; i++) {
+      expect(result[i].hours).toBeLessThanOrEqual(result[i - 1].hours)
+    }
+  })
+
+  it('includes ROI classification', () => {
+    const result = allocateResources(rankedWards, 1000)
+    for (const r of result) {
+      expect(['high', 'medium', 'low']).toContain(r.roi)
+    }
+  })
+
+  it('includes incremental votes estimate', () => {
+    const result = allocateResources(rankedWards, 1000)
+    for (const r of result) {
+      expect(r.incrementalVotes).toBeGreaterThanOrEqual(0)
+      expect(typeof r.incrementalVotes).toBe('number')
+    }
+  })
+
+  it('includes cost per vote', () => {
+    const result = allocateResources(rankedWards, 1000)
+    const bg = result.find(r => r.ward === 'W1')
+    expect(bg.costPerVote).toBeGreaterThan(0)
+    expect(bg.costPerVote).toBeLessThan(100)
+  })
+
+  it('scales with total hours', () => {
+    const result1000 = allocateResources(rankedWards, 1000)
+    const result2000 = allocateResources(rankedWards, 2000)
+    const bg1000 = result1000.find(r => r.ward === 'W1')
+    const bg2000 = result2000.find(r => r.ward === 'W1')
+    // Doubling total hours should roughly double each ward's allocation
+    expect(bg2000.hours).toBeGreaterThan(bg1000.hours * 1.5)
+  })
+
+  it('respects classification multipliers', () => {
+    const result = allocateResources(rankedWards, 5000)
+    const safe = result.find(r => r.classification === 'safe')
+    const battleground = result.find(r => r.classification === 'battleground')
+    // Battleground (1.5× multiplier) should get more than safe (0.2×), even if safe has higher score
+    expect(battleground.pctOfTotal).toBeGreaterThan(safe.pctOfTotal)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// generateStrategyCSV
+// ---------------------------------------------------------------------------
+
+describe('generateStrategyCSV', () => {
+  const rankedWards = [
+    {
+      ward: 'Bank Hall', classification: 'battleground', classLabel: 'Battleground',
+      winner: 'Labour', ourPct: 0.35, swingRequired: 0.025, winProbability: 0.48,
+      turnout: 0.28, electorate: 6234, score: 75, defender: 'Labour',
+      confidence: 'low', talkingPoints: [
+        { category: 'GOTV', text: 'Low turnout — push postal votes' },
+        { category: 'Demographics', text: '23% over-65' },
+      ],
+    },
+    {
+      ward: 'Briercliffe', classification: 'target', classLabel: 'Target',
+      winner: 'Reform UK', ourPct: 0.42, swingRequired: -0.03, winProbability: 0.65,
+      turnout: 0.35, electorate: 5000, score: 60, defender: 'Conservative',
+      confidence: 'medium', talkingPoints: [],
+    },
+  ]
+
+  const resourceAllocation = [
+    { ward: 'Bank Hall', hours: 400, roi: 'high' },
+    { ward: 'Briercliffe', hours: 300, roi: 'medium' },
+  ]
+
+  it('returns empty string for empty input', () => {
+    expect(generateStrategyCSV([], null, 'Reform UK', 'Burnley')).toBe('')
+    expect(generateStrategyCSV(null, null, 'Reform UK', 'Burnley')).toBe('')
+  })
+
+  it('generates valid CSV with headers', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    expect(csv).toContain('Rank,Ward,Classification')
+    expect(csv).toContain('Predicted Winner')
+    expect(csv).toContain('Priority Score')
+    expect(csv).toContain('Allocated Hours')
+  })
+
+  it('includes council name and party in metadata', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    expect(csv).toContain('# Burnley')
+    expect(csv).toContain('Reform UK')
+  })
+
+  it('includes ward data rows', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    expect(csv).toContain('"Bank Hall"')
+    expect(csv).toContain('"Briercliffe"')
+    expect(csv).toContain('Battleground')
+    expect(csv).toContain('Target')
+  })
+
+  it('includes talking points in CSV', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    expect(csv).toContain('Low turnout')
+    expect(csv).toContain('postal votes')
+  })
+
+  it('includes resource allocation data', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    expect(csv).toContain('400')
+    expect(csv).toContain('high')
+  })
+
+  it('works without resource allocation', () => {
+    const csv = generateStrategyCSV(rankedWards, null, 'Reform UK', 'Burnley')
+    expect(csv).toContain('"Bank Hall"')
+    expect(csv).toContain('0') // No hours allocated
+  })
+
+  it('generates correct number of data rows', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    const lines = csv.split('\n').filter(l => l && !l.startsWith('#') && !l.startsWith('Rank'))
+    expect(lines).toHaveLength(2)
+  })
+
+  it('includes date in metadata', () => {
+    const csv = generateStrategyCSV(rankedWards, resourceAllocation, 'Reform UK', 'Burnley')
+    const today = new Date().toISOString().split('T')[0]
+    expect(csv).toContain(today)
   })
 })
