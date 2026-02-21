@@ -98,7 +98,8 @@ describe('DEFAULT_ASSUMPTIONS', () => {
     expect(DEFAULT_ASSUMPTIONS).toHaveProperty('incumbencyBonusPct', 0.05)
     expect(DEFAULT_ASSUMPTIONS).toHaveProperty('retirementPenaltyPct', -0.02)
     expect(DEFAULT_ASSUMPTIONS).toHaveProperty('reformProxyWeights')
-    expect(DEFAULT_ASSUMPTIONS.reformProxyWeights).toEqual({ ge: 0.4, lcc: 0.6 })
+    expect(DEFAULT_ASSUMPTIONS.reformProxyWeights).toEqual({ ge: 0.25, lcc: 0.75 })
+    expect(DEFAULT_ASSUMPTIONS).toHaveProperty('reformBoroughDampening', 0.95)
   })
 })
 
@@ -207,7 +208,7 @@ describe('calculateDemographicAdjustments', () => {
     const demographics = { age_65_plus_pct: 0.30 }
     const result = calculateDemographicAdjustments(demographics, null, null)
     expect(result.adjustments.Conservative).toBe(0.015)
-    expect(result.adjustments['Reform UK']).toBe(0.01)
+    expect(result.adjustments['Reform UK']).toBe(0.02)
   })
 
   it('applies Asian heritage independent bonus', () => {
@@ -265,9 +266,9 @@ describe('calculateReformEntry', () => {
 
   it('estimates Reform from proxy when not in baseline', () => {
     const result = calculateReformEntry(baselineNoReform, constituency, lcc2025, DEFAULT_ASSUMPTIONS)
-    // (0.20 × 0.4 + 0.357 × 0.6) × 0.85 = (0.08 + 0.2142) × 0.85 = 0.2502
-    expect(result.reformEstimate).toBeCloseTo(0.2502, 2)
-    expect(result.adjustments['Reform UK']).toBeCloseTo(0.2502, 2)
+    // (0.20 × 0.25 + 0.357 × 0.75) × 0.95 = (0.05 + 0.26775) × 0.95 ≈ 0.302
+    expect(result.reformEstimate).toBeCloseTo(0.302, 2)
+    expect(result.adjustments['Reform UK']).toBeCloseTo(0.302, 2)
   })
 
   it('takes from other parties proportionally', () => {
@@ -302,12 +303,12 @@ describe('calculateReformEntry', () => {
     const burnleyConstituency = { 'Reform UK': 0.248, Labour: 0.502, Conservative: 0.148 }
     const withConstituency = calculateReformEntry(baselineNoReform, burnleyConstituency, lcc2025, DEFAULT_ASSUMPTIONS)
 
-    // Without constituency: (0 × 0.4 + 0.357 × 0.6) × 0.85 = 0.182
-    expect(withoutConstituency.reformEstimate).toBeCloseTo(0.182, 2)
-    // With constituency: (0.248 × 0.4 + 0.357 × 0.6) × 0.85 = 0.266
-    expect(withConstituency.reformEstimate).toBeCloseTo(0.266, 2)
-    // Constituency data adds ~8.4 percentage points
-    expect(withConstituency.reformEstimate - withoutConstituency.reformEstimate).toBeGreaterThan(0.08)
+    // Without constituency: (0 × 0.25 + 0.357 × 0.75) × 0.95 = 0.254
+    expect(withoutConstituency.reformEstimate).toBeCloseTo(0.254, 2)
+    // With constituency: (0.248 × 0.25 + 0.357 × 0.75) × 0.95 = 0.313
+    expect(withConstituency.reformEstimate).toBeCloseTo(0.313, 2)
+    // Constituency data adds ~5.9 percentage points
+    expect(withConstituency.reformEstimate - withoutConstituency.reformEstimate).toBeGreaterThan(0.05)
   })
 
   it('differentiates wards in different constituencies (Pendle example)', () => {
@@ -321,9 +322,9 @@ describe('calculateReformEntry', () => {
 
     // Brierfield should get higher Reform estimate than other Pendle wards
     expect(brierfield.reformEstimate).toBeGreaterThan(otherPendle.reformEstimate)
-    // Difference: (0.248 - 0.175) × 0.4 × 0.85 ≈ 2.5pp
+    // Difference: (0.248 - 0.175) × 0.25 × 0.95 ≈ 1.7pp
     const diff = brierfield.reformEstimate - otherPendle.reformEstimate
-    expect(diff).toBeCloseTo(0.0248, 2)
+    expect(diff).toBeCloseTo(0.0173, 2)
   })
 })
 

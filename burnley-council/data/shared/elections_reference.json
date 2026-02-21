@@ -64,15 +64,19 @@
     "incumbency_bonus_pct": 0.05,
     "retirement_penalty_pct": -0.02,
     "reform_proxy_weights": {
-      "ge2024": 0.4,
-      "lcc2025": 0.6
+      "ge2024": 0.25,
+      "lcc2025": 0.75
     },
+    "reform_borough_dampening": 0.95,
     "demographic_adjustments": {
       "high_deprivation_labour_bonus": 0.02,
       "high_deprivation_conservative_penalty": -0.02,
+      "high_deprivation_reform_bonus": 0.03,
       "over65_conservative_bonus": 0.015,
-      "over65_reform_bonus": 0.01,
+      "over65_reform_bonus": 0.02,
       "asian_heritage_independent_bonus": 0.02,
+      "asian_heritage_reform_penalty": -0.08,
+      "high_white_british_reform_bonus": 0.04,
       "rural_conservative_bonus": 0.01
     },
     "sources": {

@@ -21,7 +21,8 @@ export const DEFAULT_ASSUMPTIONS = {
   nationalToLocalDampening: 0.65,
   incumbencyBonusPct: 0.05,
   retirementPenaltyPct: -0.02,
-  reformProxyWeights: { ge: 0.4, lcc: 0.6 },
+  reformProxyWeights: { ge: 0.25, lcc: 0.75 },
+  reformBoroughDampening: 0.95,  // LCC 2025 was already local — minimal further dampening
   turnoutAdjustment: 0,        // user can adjust ±5pp
   swingMultiplier: 1.0,         // user can scale swing 0.5× to 1.5×
   reformStandsInAllWards: true, // toggle: Reform stands everywhere
@@ -122,9 +123,12 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
   const demoParams = params.demographicAdjustments || {
     high_deprivation_labour_bonus: 0.02,
     high_deprivation_conservative_penalty: -0.02,
+    high_deprivation_reform_bonus: 0.03,
     over65_conservative_bonus: 0.015,
-    over65_reform_bonus: 0.01,
+    over65_reform_bonus: 0.02,
     asian_heritage_independent_bonus: 0.02,
+    asian_heritage_reform_penalty: -0.08,
+    high_white_british_reform_bonus: 0.04,
     rural_conservative_bonus: 0.01,
   };
 
@@ -132,7 +136,8 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
   if (deprivation?.avg_imd_decile && deprivation.avg_imd_decile <= 2) {
     adjustments['Labour'] = (adjustments['Labour'] || 0) + demoParams.high_deprivation_labour_bonus;
     adjustments['Conservative'] = (adjustments['Conservative'] || 0) + demoParams.high_deprivation_conservative_penalty;
-    factors.push(`High deprivation (decile ${deprivation.avg_imd_decile}): Labour +${(demoParams.high_deprivation_labour_bonus * 100).toFixed(0)}pp, Conservative ${(demoParams.high_deprivation_conservative_penalty * 100).toFixed(0)}pp`);
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + demoParams.high_deprivation_reform_bonus;
+    factors.push(`High deprivation (decile ${deprivation.avg_imd_decile}): Labour +${(demoParams.high_deprivation_labour_bonus * 100).toFixed(0)}pp, Conservative ${(demoParams.high_deprivation_conservative_penalty * 100).toFixed(0)}pp, Reform +${(demoParams.high_deprivation_reform_bonus * 100).toFixed(0)}pp`);
   }
 
   // Over-65 proportion
@@ -142,10 +147,17 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
     factors.push(`High over-65 (${(demographics.age_65_plus_pct * 100).toFixed(0)}%): Conservative +${(demoParams.over65_conservative_bonus * 100).toFixed(1)}pp, Reform +${(demoParams.over65_reform_bonus * 100).toFixed(0)}pp`);
   }
 
-  // Asian heritage > 20% (East Lancashire specific)
+  // High white British > 85% — strong Reform territory (LCC 2025 evidence)
+  if (demographics?.white_british_pct && demographics.white_british_pct > 0.85) {
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + demoParams.high_white_british_reform_bonus;
+    factors.push(`High white British (${(demographics.white_british_pct * 100).toFixed(0)}%): Reform +${(demoParams.high_white_british_reform_bonus * 100).toFixed(0)}pp`);
+  }
+
+  // Asian heritage > 20% (East Lancashire specific) — Reform penalty + Independent bonus
   if (demographics?.asian_pct && demographics.asian_pct > 0.20) {
     adjustments['Independent'] = (adjustments['Independent'] || 0) + demoParams.asian_heritage_independent_bonus;
-    factors.push(`High Asian heritage (${(demographics.asian_pct * 100).toFixed(0)}%): Independent +${(demoParams.asian_heritage_independent_bonus * 100).toFixed(0)}pp`);
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + demoParams.asian_heritage_reform_penalty;
+    factors.push(`High Asian heritage (${(demographics.asian_pct * 100).toFixed(0)}%): Independent +${(demoParams.asian_heritage_independent_bonus * 100).toFixed(0)}pp, Reform ${(demoParams.asian_heritage_reform_penalty * 100).toFixed(0)}pp`);
   }
 
   return {
@@ -213,7 +225,7 @@ export function calculateIncumbencyAdjustment(wardData, assumptions) {
  * @param {Object} assumptions
  * @returns {{ adjustments: Object<string, number>, reformEstimate: number, methodology: Object }}
  */
-export function calculateReformEntry(baseline, constituencyResult, lcc2025, assumptions) {
+export function calculateReformEntry(baseline, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result) {
   const adjustments = {};
   let reformEstimate = 0;
   const factors = [];
@@ -243,15 +255,26 @@ export function calculateReformEntry(baseline, constituencyResult, lcc2025, assu
     };
   }
 
-  const weights = assumptions.reformProxyWeights || { ge: 0.4, lcc: 0.6 };
+  const weights = assumptions.reformProxyWeights || { ge: 0.25, lcc: 0.75 };
+  const boroughDampening = assumptions.reformBoroughDampening ?? 0.95;
 
   // GE2024 Reform result for this constituency
   const geReform = constituencyResult?.['Reform UK'] || 0;
   // LCC 2025 overall Reform result
   const lccReform = lcc2025?.results?.['Reform UK']?.pct || 0;
 
-  reformEstimate = (geReform * weights.ge + lccReform * weights.lcc) * 0.85;
-  // 0.85 factor: borough elections typically see lower Reform vote than national/county
+  // Base proxy from weighted GE2024 + LCC 2025
+  const proxyBase = (geReform * weights.ge + lccReform * weights.lcc) * boroughDampening;
+
+  // Apply national swing to the proxy (Reform has grown since GE2024/LCC2025)
+  const currentNational = nationalPolling?.['Reform UK'] || 0;
+  const ge2024National = ge2024Result?.['Reform UK'] || 0;
+  const nationalSwing = currentNational - ge2024National;
+  const dampening = assumptions.nationalToLocalDampening || 0.65;
+  const multiplier = assumptions.swingMultiplier || 1.0;
+  const localSwing = nationalSwing * dampening * multiplier;
+
+  reformEstimate = proxyBase + localSwing;
 
   if (reformEstimate > 0.01) {
     adjustments['Reform UK'] = reformEstimate;
@@ -264,8 +287,13 @@ export function calculateReformEntry(baseline, constituencyResult, lcc2025, assu
       }
     }
     factors.push(
-      `Reform proxy: GE2024 ${(geReform * 100).toFixed(1)}% × ${weights.ge} + LCC2025 ${(lccReform * 100).toFixed(1)}% × ${weights.lcc} = ${(reformEstimate * 100).toFixed(1)}%`
+      `Reform proxy: GE2024 ${(geReform * 100).toFixed(1)}% × ${weights.ge} + LCC2025 ${(lccReform * 100).toFixed(1)}% × ${weights.lcc} × ${boroughDampening} = ${(proxyBase * 100).toFixed(1)}%`
     );
+    if (localSwing !== 0) {
+      factors.push(
+        `National swing: ${(nationalSwing * 100).toFixed(1)}pp × ${dampening} dampening = ${(localSwing * 100).toFixed(1)}pp → final ${(reformEstimate * 100).toFixed(1)}%`
+      );
+    }
   }
 
   return {
@@ -275,7 +303,7 @@ export function calculateReformEntry(baseline, constituencyResult, lcc2025, assu
       step: 5,
       name: 'New Party Entry',
       description: factors.length > 0
-        ? `Reform UK estimated at ${(reformEstimate * 100).toFixed(1)}% from GE/LCC proxy`
+        ? `Reform UK estimated at ${(reformEstimate * 100).toFixed(1)}% from GE/LCC proxy + swing`
         : 'No new party entry adjustment',
       factors,
     },
@@ -365,7 +393,7 @@ export function predictWard(
   }
 
   // Step 5: Reform UK entry
-  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions);
+  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result);
   methodology.push(reform.methodology);
   for (const [party, adj] of Object.entries(reform.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
@@ -786,7 +814,7 @@ export function predictWardV2(
   }
 
   // Step 5: Reform UK entry (same as V1)
-  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions);
+  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result);
   methodology.push(reform.methodology);
   for (const [party, adj] of Object.entries(reform.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
