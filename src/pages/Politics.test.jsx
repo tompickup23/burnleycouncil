@@ -113,6 +113,15 @@ const mockVotingData = {
       type: 'budget',
       is_amendment: false,
       amendment_by: null,
+      description: 'The Conservative administration\'s main revenue and capital budget for 2024/25, including a 4.99% council tax increase.',
+      policy_area: ['budget_finance', 'council_tax'],
+      significance: 'high',
+      council_tax_change: '4.99% increase (2.99% core + 2% ASC precept). Band D set at £1,653.29',
+      proposer: 'Cllr Phillippa Williamson (Conservative, Leader)',
+      seconder: 'Cllr Alan Vincent (Conservative, Deputy Leader)',
+      key_facts: ['4.99% total council tax increase — the maximum without a referendum', 'Transitional Reserve stood at £165.198m'],
+      quotes: [],
+      minutes_url: 'https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=138&MId=16413',
       outcome: 'carried',
       for_count: 40,
       against_count: 29,
@@ -135,6 +144,15 @@ const mockVotingData = {
       type: 'budget',
       is_amendment: true,
       amendment_by: 'Labour',
+      description: 'Labour amendment proposing £35 million in capital spending for children\'s care and highway repairs.',
+      policy_area: ['budget_finance', 'social_care', 'transport_highways'],
+      significance: 'high',
+      council_tax_change: null,
+      proposer: 'Cllr Matthew Tomlinson (Labour)',
+      seconder: 'Cllr Noordad Aziz (Labour)',
+      key_facts: ['S151 officer warned this would create a 2025/26 deficit of £10.885m'],
+      quotes: [],
+      minutes_url: null,
       outcome: 'rejected',
       for_count: 29,
       against_count: 40,
@@ -151,6 +169,15 @@ const mockVotingData = {
       type: 'motion',
       is_amendment: false,
       amendment_by: null,
+      description: 'Motion on water company accountability prompted by sewage discharges on the Fylde Coast.',
+      policy_area: ['environment_climate'],
+      significance: 'medium',
+      council_tax_change: null,
+      proposer: 'Cllr Lorraine Beavers (Labour)',
+      seconder: 'Cllr Julie Gibson (Labour)',
+      key_facts: ['Conservative amendment softened the original Labour motion'],
+      quotes: [],
+      minutes_url: 'https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=138&MId=16303',
       outcome: 'carried',
       for_count: 44,
       against_count: 28,
@@ -805,5 +832,108 @@ describe('Politics', () => {
     const cards = screen.getAllByRole('button').filter(b => b.classList.contains('councillor-card'))
     fireEvent.click(cards[1]) // Bob Jones — has 1 virtual
     expect(screen.getByText(/1 virtual/)).toBeInTheDocument()
+  })
+})
+
+describe('Vote enrichment display', () => {
+  const renderAndExpandVote = (voteTitle) => {
+    setupMocks({}, mockConfigWithVoting, mockVotingData)
+    renderComponent()
+    const header = screen.getByText(voteTitle).closest('button')
+    fireEvent.click(header)
+  }
+
+  it('renders vote description when expanded', () => {
+    renderAndExpandVote('Budget 2024/25')
+    expect(screen.getByText(/Conservative administration's main revenue/)).toBeInTheDocument()
+  })
+
+  it('renders policy area tags', () => {
+    renderAndExpandVote('Budget 2024/25')
+    expect(screen.getByText('budget finance')).toBeInTheDocument()
+    expect(screen.getByText('council tax')).toBeInTheDocument()
+  })
+
+  it('renders council tax change when present', () => {
+    renderAndExpandVote('Budget 2024/25')
+    expect(screen.getByText(/4\.99% increase/)).toBeInTheDocument()
+  })
+
+  it('does not render council tax change when null', () => {
+    renderAndExpandVote('Budget 2024/25 - Labour Amendment')
+    expect(screen.queryByText(/Council Tax:/)).not.toBeInTheDocument()
+  })
+
+  it('renders proposer and seconder', () => {
+    renderAndExpandVote('Budget 2024/25')
+    expect(screen.getByText(/Cllr Phillippa Williamson/)).toBeInTheDocument()
+    expect(screen.getByText(/Cllr Alan Vincent/)).toBeInTheDocument()
+  })
+
+  it('renders key facts as bullet list', () => {
+    renderAndExpandVote('Budget 2024/25')
+    expect(screen.getByText(/4\.99% total council tax increase/)).toBeInTheDocument()
+    expect(screen.getByText(/Transitional Reserve stood at/)).toBeInTheDocument()
+  })
+
+  it('renders significance badge for high-significance votes', () => {
+    setupMocks({}, mockConfigWithVoting, mockVotingData)
+    renderComponent()
+    const keyVoteBadges = screen.getAllByText('Key Vote')
+    expect(keyVoteBadges.length).toBeGreaterThanOrEqual(2) // budget + amendment both high
+  })
+
+  it('does not render significance badge for medium votes', () => {
+    setupMocks({}, mockConfigWithVoting, mockVotingData)
+    renderComponent()
+    // Water companies is medium significance - its card should not have Key Vote badge
+    const waterCard = screen.getByText('Notice of Motion 4 - Water Companies').closest('.vote-card')
+    expect(within(waterCard).queryByText('Key Vote')).not.toBeInTheDocument()
+  })
+
+  it('renders minutes link when url present', () => {
+    renderAndExpandVote('Budget 2024/25')
+    const link = screen.getByText('View meeting minutes')
+    expect(link).toBeInTheDocument()
+    expect(link.closest('a')).toHaveAttribute('href', 'https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=138&MId=16413')
+  })
+
+  it('does not render minutes link when url is null', () => {
+    renderAndExpandVote('Budget 2024/25 - Labour Amendment')
+    expect(screen.queryByText('View meeting minutes')).not.toBeInTheDocument()
+  })
+
+  it('renders multiple policy area tags for multi-area votes', () => {
+    renderAndExpandVote('Budget 2024/25 - Labour Amendment')
+    expect(screen.getByText('budget finance')).toBeInTheDocument()
+    expect(screen.getByText('social care')).toBeInTheDocument()
+    expect(screen.getByText('transport highways')).toBeInTheDocument()
+  })
+
+  it('does not render enrichment sections when fields are absent', () => {
+    const bareVotingData = {
+      ...mockVotingData,
+      votes: [{
+        id: 'bare-vote',
+        meeting: 'Meeting',
+        meeting_date: '2024-01-01',
+        title: 'A Bare Vote',
+        type: 'motion',
+        is_amendment: false,
+        amendment_by: null,
+        outcome: 'carried',
+        for_count: 10,
+        against_count: 5,
+        abstain_count: 0,
+        absent_count: 0,
+        votes_by_councillor: [],
+        votes_by_party: {},
+      }],
+    }
+    setupMocks({}, mockConfigWithVoting, bareVotingData)
+    renderComponent()
+    fireEvent.click(screen.getByText('A Bare Vote').closest('button'))
+    expect(screen.queryByText('Key Facts')).not.toBeInTheDocument()
+    expect(screen.queryByText('View meeting minutes')).not.toBeInTheDocument()
   })
 })

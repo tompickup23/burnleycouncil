@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Search, User, Mail, Phone, MapPin, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react'
+import { Search, User, Mail, Phone, MapPin, ChevronDown, ChevronUp, ExternalLink, FileText } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -412,6 +412,7 @@ function Politics() {
                     <div className="vote-meta">
                       {vote.type === 'budget' && <span className="budget-badge">Budget</span>}
                       {vote.is_amendment && <span className="amendment-badge">Amendment{vote.amendment_by ? ` (${vote.amendment_by})` : ''}</span>}
+                      {vote.significance === 'high' && <span className="significance-badge significance-high">Key Vote</span>}
                       <span className="vote-date">{vote.meeting_date}</span>
                     </div>
                     <h3 className="vote-title">{vote.title}</h3>
@@ -431,6 +432,45 @@ function Politics() {
                   {isExpanded && (
                     <div className="vote-detail">
                       <p className="vote-meeting">{vote.meeting}</p>
+
+                      {/* Description */}
+                      {vote.description && (
+                        <p className="vote-description">{vote.description}</p>
+                      )}
+
+                      {/* Policy tags + council tax + proposer */}
+                      <div className="vote-enrichment">
+                        {vote.policy_area?.length > 0 && (
+                          <div className="policy-tags">
+                            {vote.policy_area.map(tag => (
+                              <span key={tag} className="policy-tag">{tag.replace(/_/g, ' ')}</span>
+                            ))}
+                          </div>
+                        )}
+                        {vote.council_tax_change && (
+                          <div className="council-tax-change">
+                            <strong>Council Tax:</strong> {vote.council_tax_change}
+                          </div>
+                        )}
+                        {(vote.proposer || vote.seconder) && (
+                          <div className="vote-proposers">
+                            {vote.proposer && <span><strong>Proposed by:</strong> {vote.proposer}</span>}
+                            {vote.seconder && <span><strong>Seconded by:</strong> {vote.seconder}</span>}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Key facts */}
+                      {vote.key_facts?.length > 0 && (
+                        <div className="vote-key-facts">
+                          <h4>Key Facts</h4>
+                          <ul>
+                            {vote.key_facts.map((fact, i) => (
+                              <li key={i}>{fact}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
                       {/* Party breakdown */}
                       {Object.keys(vote.votes_by_party || {}).length > 0 && (
@@ -475,6 +515,13 @@ function Politics() {
                             ))}
                           </div>
                         </details>
+                      )}
+
+                      {/* Minutes link */}
+                      {vote.minutes_url && (
+                        <a href={vote.minutes_url} target="_blank" rel="noopener noreferrer" className="vote-minutes-link">
+                          <FileText size={14} /> View meeting minutes
+                        </a>
                       )}
                     </div>
                   )}
