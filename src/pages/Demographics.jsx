@@ -179,7 +179,7 @@ function Demographics() {
       </section>
 
       {/* Summary Cards */}
-      <div className="demo-summary-grid">
+      <div className="demo-summary-grid" role="region" aria-label="Population summary statistics">
         <div className="demo-card">
           <div className="demo-card-icon"><Users size={20} /></div>
           <div className="demo-card-value">{fmt(summary.population)}</div>
@@ -227,12 +227,12 @@ function Demographics() {
       </div>
 
       {/* Ethnicity Section */}
-      <section className="demo-section">
-        <h2><Globe size={22} /> Ethnicity</h2>
+      <section className="demo-section" aria-labelledby="demo-ethnicity-heading">
+        <h2 id="demo-ethnicity-heading"><Globe size={22} /> Ethnicity</h2>
         <p className="section-intro">
           Broad ethnic group breakdown across {councilName} from the 2021 Census.
         </p>
-        <div className="demo-chart-container">
+        <div className="demo-chart-container" role="img" aria-label={`Ethnicity breakdown bar chart for ${councilName}`}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={ethnicityChart} layout="vertical" margin={{ left: 60, right: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
@@ -253,10 +253,10 @@ function Demographics() {
       </section>
 
       {/* Religion Section */}
-      <section className="demo-section">
-        <h2><Church size={22} /> Religion</h2>
+      <section className="demo-section" aria-labelledby="demo-religion-heading">
+        <h2 id="demo-religion-heading"><Church size={22} /> Religion</h2>
         <div className="demo-chart-row">
-          <div className="demo-chart-container demo-chart-half">
+          <div className="demo-chart-container demo-chart-half" role="img" aria-label={`Religion pie chart for ${councilName}`}>
             <ResponsiveContainer width="100%" height={280}>
               <PieChart>
                 <Pie
@@ -280,7 +280,7 @@ function Demographics() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="demo-chart-container demo-chart-half">
+          <div className="demo-chart-container demo-chart-half" role="list" aria-label="Religion breakdown">
             <div className="religion-list">
               {religionChart.map((r, i) => (
                 <div key={r.fullName} className="religion-row">
@@ -296,9 +296,9 @@ function Demographics() {
       </section>
 
       {/* Age Distribution */}
-      <section className="demo-section">
-        <h2><Users size={22} /> Age Distribution</h2>
-        <div className="demo-chart-container">
+      <section className="demo-section" aria-labelledby="demo-age-heading">
+        <h2 id="demo-age-heading"><Users size={22} /> Age Distribution</h2>
+        <div className="demo-chart-container" role="img" aria-label={`Age distribution bar chart for ${councilName}`}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={ageBands} margin={{ left: 10, right: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
@@ -315,8 +315,8 @@ function Demographics() {
       </section>
 
       {/* Ward Comparison Table */}
-      <section className="demo-section">
-        <h2><MapPin size={22} /> Ward Comparison</h2>
+      <section className="demo-section" aria-labelledby="demo-ward-heading">
+        <h2 id="demo-ward-heading"><MapPin size={22} /> Ward Comparison</h2>
         <p className="section-intro">
           Population and ethnic diversity by ward. Select a ward for detailed breakdown.
         </p>
@@ -336,6 +336,11 @@ function Demographics() {
                   key={w.code}
                   className={selectedWard === w.code ? 'selected' : ''}
                   onClick={() => setSelectedWard(selectedWard === w.code ? '' : w.code)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedWard(selectedWard === w.code ? '' : w.code) } }}
+                  tabIndex={0}
+                  role="button"
+                  aria-pressed={selectedWard === w.code}
+                  aria-label={`Select ${w.name} ward — population ${w.population?.toLocaleString('en-GB') || 'unknown'}`}
                   style={{ cursor: 'pointer' }}
                 >
                   <td className="ward-name">{w.name}</td>
@@ -359,8 +364,8 @@ function Demographics() {
 
       {/* Ward Detail Panel */}
       {wardDetail && (
-        <section className="demo-section demo-ward-detail">
-          <h2><MapPin size={22} /> {wardDetail.name}</h2>
+        <section className="demo-section demo-ward-detail" aria-labelledby="demo-ward-detail-heading" aria-live="polite">
+          <h2 id="demo-ward-detail-heading"><MapPin size={22} /> {wardDetail.name}</h2>
           <p className="section-intro">
             Population {fmt(wardDetail.population)} &middot; {wardDetail.bornUkPct}% born in UK
           </p>

@@ -20,7 +20,7 @@ function ScoreBar({ score, max = 10, label }) {
   return (
     <div className="score-bar-container">
       {label && <span className="score-bar-cat">{label}</span>}
-      <div className="score-bar-track">
+      <div className="score-bar-track" role="meter" aria-valuenow={score} aria-valuemin={0} aria-valuemax={max} aria-label={label ? `${label}: ${score} out of ${max}` : `Score: ${score} out of ${max}`}>
         <div className="score-bar-fill" style={{ width: `${pct}%`, background: color }} />
       </div>
       <span className="score-bar-label" style={{ color }}>{score}/10</span>
@@ -42,14 +42,20 @@ function AssumptionSlider({ label, value, min, max, step, format, onChange, desc
   return (
     <div className="assumption-slider">
       <div className="slider-header">
-        <span className="slider-label">{label}</span>
+        <span className="slider-label" id={`slider-label-${label.replace(/\s+/g, '-').toLowerCase()}`}>{label}</span>
         <span className="slider-value">{format(value)}</span>
       </div>
-      {description && <span className="slider-desc">{description}</span>}
+      {description && <span className="slider-desc" id={`slider-desc-${label.replace(/\s+/g, '-').toLowerCase()}`}>{description}</span>}
       <input
         type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="slider-input"
+        aria-label={label}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        aria-valuetext={format(value)}
+        aria-describedby={description ? `slider-desc-${label.replace(/\s+/g, '-').toLowerCase()}` : undefined}
       />
       <div className="slider-range">
         <span>{format(min)}</span>
@@ -157,7 +163,7 @@ function PoliticalBalanceBar({ projection }) {
           {controlLabel}
         </span>
       </div>
-      <div className="balance-bar" title={sorted.map(([p, s]) => `${p}: ${s}`).join(', ')}>
+      <div className="balance-bar" role="img" aria-label={`Political balance: ${sorted.map(([p, s]) => `${p} ${s} seats`).join(', ')}`} title={sorted.map(([p, s]) => `${p}: ${s}`).join(', ')}>
         {sorted.map(([party, seats]) => (
           <div
             key={party}
@@ -511,10 +517,11 @@ function LGRTracker() {
       </div>
 
       {/* Section Navigation */}
-      <nav className="lgr-section-nav">
+      <nav className="lgr-section-nav" aria-label="LGR Tracker sections">
         {sectionNav.map(s => (
           <button key={s.id} className={`section-nav-btn ${activeSection === s.id ? 'active' : ''}`}
-            onClick={() => { setActiveSection(s.id); document.getElementById(`lgr-${s.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
+            onClick={() => { setActiveSection(s.id); document.getElementById(`lgr-${s.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+            aria-current={activeSection === s.id ? 'true' : undefined}>
             <s.icon size={14} />
             <span>{s.label}</span>
           </button>
@@ -745,13 +752,13 @@ function LGRTracker() {
 
           {/* What-If Calculator Panel */}
           <div className="whatif-panel">
-            <button className="whatif-toggle" onClick={() => setWhatIfOpen(!whatIfOpen)}>
+            <button className="whatif-toggle" onClick={() => setWhatIfOpen(!whatIfOpen)} aria-expanded={whatIfOpen} aria-controls="whatif-content-panel">
               <Sliders size={18} />
               <span>Interactive Calculator — Adjust Assumptions</span>
               <span className="whatif-badge">{userAssumptions ? 'Custom' : 'Defaults'}</span>
               {whatIfOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
             </button>
-            <div className={`whatif-content ${whatIfOpen ? 'open' : ''}`}>
+            <div id="whatif-content-panel" className={`whatif-content ${whatIfOpen ? 'open' : ''}`} role="region" aria-label="Assumption sliders">
               <div className="whatif-grid">
                 <AssumptionSlider
                   label="Savings realisation rate"
@@ -1045,10 +1052,12 @@ function LGRTracker() {
             vs the new harmonised rate.
           </p>
 
-          <div className="handover-model-tabs">
+          <div className="handover-model-tabs" role="tablist" aria-label="Council tax harmonisation model selector">
             {lgrData.proposed_models.map((model, idx) => (
               <button
                 key={model.id}
+                role="tab"
+                aria-selected={(selectedModel || lgrData.proposed_models[0]?.id) === model.id}
                 className={`handover-tab ${(selectedModel || lgrData.proposed_models[0]?.id) === model.id ? 'active' : ''}`}
                 onClick={() => setSelectedModel(model.id)}
                 style={{ '--tab-color': MODEL_COLORS[idx] }}
@@ -1225,10 +1234,12 @@ function LGRTracker() {
             from constituent councils. Select a model to see the financial starting position.
           </p>
 
-          <div className="handover-model-tabs">
+          <div className="handover-model-tabs" role="tablist" aria-label="Handover model selector">
             {lgrData.proposed_models.map((model, idx) => (
               <button
                 key={model.id}
+                role="tab"
+                aria-selected={selectedModel === model.id || (!selectedModel && idx === 0)}
                 className={`handover-tab ${selectedModel === model.id || (!selectedModel && idx === 0) ? 'active' : ''}`}
                 onClick={() => setSelectedModel(model.id)}
                 style={{ '--tab-color': MODEL_COLORS[idx] }}
@@ -1483,7 +1494,11 @@ function LGRTracker() {
           <div className="critique-list">
             {lgrData.ccn_critique.issues.map(issue => (
               <div key={issue.id} className={`critique-card ${expandedCritique === issue.id ? 'expanded' : ''}`}
-                onClick={() => setExpandedCritique(expandedCritique === issue.id ? null : issue.id)}>
+                onClick={() => setExpandedCritique(expandedCritique === issue.id ? null : issue.id)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedCritique(expandedCritique === issue.id ? null : issue.id) } }}
+                tabIndex={0}
+                role="button"
+                aria-expanded={expandedCritique === issue.id}>
                 <div className="critique-header">
                   <div className="issue-severity" style={{ background: SEVERITY_COLORS[issue.severity] }}>{issue.severity}</div>
                   <h3>{issue.title}</h3>
@@ -1503,9 +1518,11 @@ function LGRTracker() {
         <h2><Building size={20} /> The Five Proposals</h2>
         <p className="section-desc">Five proposals submitted in November 2025. Each was submitted by a council with something to gain or lose. Select a proposal to explore.</p>
 
-        <div className="model-tabs">
+        <div className="model-tabs" role="tablist" aria-label="LGR proposal models">
           {lgrData.proposed_models.map((model, i) => (
             <button key={model.id}
+              role="tab"
+              aria-selected={activeModel === model.id}
               className={`model-tab ${activeModel === model.id ? 'active' : ''}`}
               onClick={() => setSelectedModel(model.id)}
               style={activeModel === model.id ? { background: MODEL_COLORS[i] } : {}}>
@@ -2032,7 +2049,11 @@ function LGRTracker() {
         <div className="issues-list">
           {lgrData.key_issues.map(issue => (
             <div key={issue.id} className={`issue-card ${expandedIssue === issue.id ? 'expanded' : ''}`}
-              onClick={() => setExpandedIssue(expandedIssue === issue.id ? null : issue.id)}>
+              onClick={() => setExpandedIssue(expandedIssue === issue.id ? null : issue.id)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedIssue(expandedIssue === issue.id ? null : issue.id) } }}
+              tabIndex={0}
+              role="button"
+              aria-expanded={expandedIssue === issue.id}>
               <div className="issue-header">
                 <div className="issue-severity" style={{ background: SEVERITY_COLORS[issue.severity] }}>{issue.severity}</div>
                 <h3>{issue.title}</h3>
