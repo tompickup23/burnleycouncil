@@ -54,13 +54,19 @@ const mockDeprivation = {
   },
 }
 
-function setupMocks(overrides = {}) {
+function setupMocks(overrides = {}, deprivation = mockDeprivation) {
   useCouncilConfig.mockReturnValue(mockConfig)
-  useData.mockReturnValue({
-    data: [mockWards, mockCouncillors, mockDeprivation],
-    loading: false,
-    error: null,
-    ...overrides,
+  useData.mockImplementation((urls) => {
+    if (Array.isArray(urls)) {
+      // Primary data: wards + councillors
+      return {
+        data: overrides.data !== undefined ? overrides.data : [mockWards, mockCouncillors],
+        loading: overrides.loading || false,
+        error: overrides.error || null,
+      }
+    }
+    // Optional deprivation data
+    return { data: deprivation, loading: false, error: deprivation ? null : new Error('Not found') }
   })
 }
 
@@ -83,14 +89,20 @@ describe('MyArea', () => {
   // === Loading / Error / Basic ===
   it('shows loading state while data loads', () => {
     useCouncilConfig.mockReturnValue(mockConfig)
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) return { data: null, loading: true, error: null }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/loading ward data/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {
     useCouncilConfig.mockReturnValue(mockConfig)
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('fail') })
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) return { data: null, loading: false, error: new Error('fail') }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/unable to load data/i)).toBeInTheDocument()
   })
@@ -389,12 +401,7 @@ describe('MyArea', () => {
 
   // === Empty wards ===
   it('renders without crashing when wards is empty', () => {
-    useCouncilConfig.mockReturnValue(mockConfig)
-    useData.mockReturnValue({
-      data: [{}, [], null],
-      loading: false,
-      error: null,
-    })
+    setupMocks({ data: [{}, []] }, null)
     renderComponent()
     expect(screen.getByText('My Area')).toBeInTheDocument()
     expect(screen.getByText('All Wards')).toBeInTheDocument()

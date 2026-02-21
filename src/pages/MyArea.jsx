@@ -24,9 +24,10 @@ function MyArea() {
   const { data, loading, error } = useData([
     '/data/wards.json',
     '/data/councillors.json',
-    '/data/deprivation.json',
   ])
-  const [wards, councillors, deprivationRaw] = data || [{}, [], null]
+  const [wards, councillors] = data || [{}, []]
+  // Deprivation is optional — LCC and other county councils don't have it
+  const { data: deprivationRaw } = useData('/data/deprivation.json')
   const deprivation = deprivationRaw?.wards || {}
   const [selectedWard, setSelectedWard] = useState(null)
   const [postcode, setPostcode] = useState('')
