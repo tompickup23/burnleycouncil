@@ -43,7 +43,7 @@ const mockConfig = {
   council_full_name: 'Burnley Borough Council',
   official_website: 'https://burnley.gov.uk',
   spending_threshold: 500,
-  data_sources: { foi: true, meetings: true },
+  data_sources: { spending: true, foi: true, meetings: true },
   doge_context: { population: 90000 },
 }
 

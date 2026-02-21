@@ -85,6 +85,8 @@ function DogeInvestigation() {
   const councilName = config.council_name || 'Council'
   const councilFullName = config.council_full_name || 'Borough Council'
   const dataSources = config.data_sources || {}
+  const hasSpending = !!dataSources.spending
+  const spendingLink = hasSpending ? '/spending' : null
   const dogeContext = config.doge_context || {}
 
   const dataUrls = [
@@ -269,7 +271,7 @@ function DogeInvestigation() {
         <div className="doge-findings-overview">
           {findings.map((f, i) => {
             // Build evidence-aware link: append ref=doge for evidence trail
-            const baseLink = f.link || '/spending'
+            const baseLink = f.link || (hasSpending ? '/spending' : '/doge')
             const evidenceLink = baseLink.includes('?')
               ? `${baseLink}&ref=doge`
               : `${baseLink}?ref=doge`
@@ -333,20 +335,26 @@ function DogeInvestigation() {
                     <div className="cases-table">
                       {verifiedFindings.ch_breach_spend.top_cases.map((c, i) => (
                         <div key={i} className="case-row">
-                          <Link
-                            to={`/spending?supplier=${encodeURIComponent((c.supplier || c.name || '').toUpperCase())}&ref=doge`}
-                            className="case-name case-name-link"
-                          >
-                            {c.supplier || c.name}
-                          </Link>
+                          {hasSpending ? (
+                            <Link
+                              to={`/spending?supplier=${encodeURIComponent((c.supplier || c.name || '').toUpperCase())}&ref=doge`}
+                              className="case-name case-name-link"
+                            >
+                              {c.supplier || c.name}
+                            </Link>
+                          ) : (
+                            <span className="case-name">{c.supplier || c.name}</span>
+                          )}
                           <span className="case-amount">{c.spend || c.amount}</span>
                           <span className="case-issue">{c.issue || c.note}</span>
-                          <Link
-                            to={`/spending?supplier=${encodeURIComponent((c.supplier || c.name || '').toUpperCase())}&ref=doge`}
-                            className="case-evidence-link"
-                          >
-                            View transactions →
-                          </Link>
+                          {hasSpending && (
+                            <Link
+                              to={`/spending?supplier=${encodeURIComponent((c.supplier || c.name || '').toUpperCase())}&ref=doge`}
+                              className="case-evidence-link"
+                            >
+                              View transactions →
+                            </Link>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -533,9 +541,13 @@ function DogeInvestigation() {
                           {dogeFindings.payment_velocity.rapid_payers.map((p, i) => (
                             <tr key={i}>
                               <td>
-                                <Link to={`/spending?supplier=${encodeURIComponent(p.supplier)}&ref=doge`}>
-                                  {p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}
-                                </Link>
+                                {hasSpending ? (
+                                  <Link to={`/spending?supplier=${encodeURIComponent(p.supplier)}&ref=doge`}>
+                                    {p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}
+                                  </Link>
+                                ) : (
+                                  <span>{p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}</span>
+                                )}
                               </td>
                               <td>{formatNumber(p.payments)}</td>
                               <td>{p.avg_days}</td>
@@ -566,9 +578,13 @@ function DogeInvestigation() {
                           {dogeFindings.payment_velocity.regular_payers.map((p, i) => (
                             <tr key={i}>
                               <td>
-                                <Link to={`/spending?supplier=${encodeURIComponent(p.supplier)}&ref=doge`}>
-                                  {p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}
-                                </Link>
+                                {hasSpending ? (
+                                  <Link to={`/spending?supplier=${encodeURIComponent(p.supplier)}&ref=doge`}>
+                                    {p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}
+                                  </Link>
+                                ) : (
+                                  <span>{p.supplier.length > 30 ? p.supplier.substring(0, 30) + '...' : p.supplier}</span>
+                                )}
                               </td>
                               <td>{formatNumber(p.payments)}</td>
                               <td>{p.avg_days}</td>
@@ -652,9 +668,13 @@ function DogeInvestigation() {
                           {dogeFindings.supplier_concentration.top5.suppliers.map((s, i) => (
                             <tr key={i}>
                               <td>
-                                <Link to={`/spending?supplier=${encodeURIComponent(s.supplier)}&ref=doge`}>
-                                  {s.supplier.length > 30 ? s.supplier.substring(0, 30) + '...' : s.supplier}
-                                </Link>
+                                {hasSpending ? (
+                                  <Link to={`/spending?supplier=${encodeURIComponent(s.supplier)}&ref=doge`}>
+                                    {s.supplier.length > 30 ? s.supplier.substring(0, 30) + '...' : s.supplier}
+                                  </Link>
+                                ) : (
+                                  <span>{s.supplier.length > 30 ? s.supplier.substring(0, 30) + '...' : s.supplier}</span>
+                                )}
                               </td>
                               <td>{formatNumber(s.count)}</td>
                               <td>{formatCurrency(s.total, true)}</td>
@@ -777,9 +797,13 @@ function DogeInvestigation() {
                           {dogeFindings.procurement_compliance.repeat_winners.map((w, i) => (
                             <tr key={i}>
                               <td>
-                                <Link to={`/spending?supplier=${encodeURIComponent(w.supplier)}&ref=doge`}>
-                                  {w.supplier.length > 30 ? w.supplier.substring(0, 30) + '...' : w.supplier}
-                                </Link>
+                                {hasSpending ? (
+                                  <Link to={`/spending?supplier=${encodeURIComponent(w.supplier)}&ref=doge`}>
+                                    {w.supplier.length > 30 ? w.supplier.substring(0, 30) + '...' : w.supplier}
+                                  </Link>
+                                ) : (
+                                  <span>{w.supplier.length > 30 ? w.supplier.substring(0, 30) + '...' : w.supplier}</span>
+                                )}
                               </td>
                               <td>{w.contracts}</td>
                               <td>{formatCurrency(w.total_value, true)}</td>
@@ -893,9 +917,13 @@ function DogeInvestigation() {
                             <tr key={i}>
                               <td title={mc.cpv}>{mc.cpv.length > 30 ? mc.cpv.substring(0, 30) + '...' : mc.cpv}</td>
                               <td>
-                                <Link to={`/spending?supplier=${encodeURIComponent(mc.supplier)}&ref=doge`}>
-                                  {mc.supplier.length > 25 ? mc.supplier.substring(0, 25) + '...' : mc.supplier}
-                                </Link>
+                                {hasSpending ? (
+                                  <Link to={`/spending?supplier=${encodeURIComponent(mc.supplier)}&ref=doge`}>
+                                    {mc.supplier.length > 25 ? mc.supplier.substring(0, 25) + '...' : mc.supplier}
+                                  </Link>
+                                ) : (
+                                  <span>{mc.supplier.length > 25 ? mc.supplier.substring(0, 25) + '...' : mc.supplier}</span>
+                                )}
                               </td>
                               <td>{mc.contracts}</td>
                               <td>{formatCurrency(mc.total_value, true)}</td>
@@ -1086,7 +1114,7 @@ function DogeInvestigation() {
 
           <div className="key-findings-grid">
             {keyFindings.map((f, i) => {
-              const baseLink = f.link || '/spending'
+              const baseLink = f.link || (hasSpending ? '/spending' : '/doge')
               const evidenceLink = baseLink.includes('?')
                 ? `${baseLink}&ref=doge`
                 : `${baseLink}?ref=doge`
@@ -1295,11 +1323,13 @@ function DogeInvestigation() {
         </p>
 
         <div className="action-grid">
-          <Link to="/spending?ref=doge" className="action-card">
-            <Search size={24} />
-            <h4>Search the Data</h4>
-            <p>Explore every transaction yourself. Filter by supplier, department, or date.</p>
-          </Link>
+          {hasSpending && (
+            <Link to="/spending?ref=doge" className="action-card">
+              <Search size={24} />
+              <h4>Search the Data</h4>
+              <p>Explore every transaction yourself. Filter by supplier, department, or date.</p>
+            </Link>
+          )}
           {dataSources.foi && (
             <Link to="/foi" className="action-card">
               <FileText size={24} />

@@ -38,6 +38,7 @@ function Spending() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
+  const hasSpending = !!(config.data_sources || {}).spending
 
   // Web Worker handles all heavy computation off the main thread
   const {
@@ -241,6 +242,22 @@ function Spending() {
       filename: `${councilId}-spending-export-${new Date().toISOString().split('T')[0]}.csv`,
     })
   }, [exportCSV, filters, search, sortField, sortDir, councilId])
+
+  if (!hasSpending) {
+    return (
+      <div className="page-error">
+        <h2>Spending Data Not Available</h2>
+        <p>
+          Detailed spending data for {councilName} is not currently available on this site.
+          The spending data files are very large and may not be included in this deployment.
+        </p>
+        <p style={{ color: '#8e8e93', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+          You can still explore DOGE analysis findings, budget data, and other transparency tools
+          from the navigation menu.
+        </p>
+      </div>
+    )
+  }
 
   if (loading && !results) {
     return <LoadingState message="Loading spending data..." />

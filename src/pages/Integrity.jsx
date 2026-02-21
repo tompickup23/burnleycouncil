@@ -75,6 +75,7 @@ function buildNetworkNarrative(councillor, link) {
 function Integrity() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
+  const hasSpending = !!(config.data_sources || {}).spending
   const { data, loading, error } = useData([
     '/data/integrity.json',
     '/data/councillors.json',
@@ -600,12 +601,16 @@ function Integrity() {
                 <div className="supplier-investigation-header">
                   <div className="supplier-investigation-name">
                     <Scale size={16} />
-                    <Link
-                      to={`/spending?supplier=${encodeURIComponent(item.supplier)}`}
-                      className="supplier-investigation-link"
-                    >
-                      {item.supplier}
-                    </Link>
+                    {hasSpending ? (
+                      <Link
+                        to={`/spending?supplier=${encodeURIComponent(item.supplier)}`}
+                        className="supplier-investigation-link"
+                      >
+                        {item.supplier}
+                      </Link>
+                    ) : (
+                      <span className="supplier-investigation-link">{item.supplier}</span>
+                    )}
                   </div>
                   {item.totalSpend > 0 && (
                     <span className="supplier-investigation-spend">
@@ -644,12 +649,14 @@ function Integrity() {
                         >
                           <Eye size={11} /> View Councillor
                         </button>
-                        <Link
-                          to={`/spending?supplier=${encodeURIComponent(item.supplier)}`}
-                          className="connection-spending-btn"
-                        >
-                          <PoundSterling size={11} /> View Spending
-                        </Link>
+                        {hasSpending && (
+                          <Link
+                            to={`/spending?supplier=${encodeURIComponent(item.supplier)}`}
+                            className="connection-spending-btn"
+                          >
+                            <PoundSterling size={11} /> View Spending
+                          </Link>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -1005,14 +1012,16 @@ function Integrity() {
                             <span className="conflict-confidence">
                               {conflict.supplier_match?.confidence}% match
                             </span>
-                            <Link
-                              to={`/spending?supplier=${encodeURIComponent(conflict.supplier_match?.supplier || '')}`}
-                              className="conflict-spending-btn"
-                              onClick={e => e.stopPropagation()}
-                              title="View spending for this supplier"
-                            >
-                              <PoundSterling size={11} /> Spending
-                            </Link>
+                            {hasSpending && (
+                              <Link
+                                to={`/spending?supplier=${encodeURIComponent(conflict.supplier_match?.supplier || '')}`}
+                                className="conflict-spending-btn"
+                                onClick={e => e.stopPropagation()}
+                                title="View spending for this supplier"
+                              >
+                                <PoundSterling size={11} /> Spending
+                              </Link>
+                            )}
                           </div>
                           )
                         })}

@@ -49,6 +49,8 @@ function Home() {
   const councilFullName = config.council_full_name || 'Borough Council'
   const officialUrl = config.official_website || '#'
   const dataSources = config.data_sources || {}
+  const hasSpending = !!dataSources.spending
+  const spendingLink = hasSpending ? '/spending' : '/doge'
   const spendingThreshold = config.spending_threshold || 500
   const spendingPeriod = config.spending_data_period || 'Recent years'
 
@@ -219,7 +221,7 @@ function Home() {
         </div>
 
         <div className="hero-actions">
-          <Link to="/spending" className="btn-primary">
+          <Link to={spendingLink} className="btn-primary">
             <Search size={18} />
             Search Every Payment
           </Link>
@@ -306,7 +308,7 @@ function Home() {
 
           <div className="doge-findings-grid">
             {findings.slice(0, 4).map((f, i) => (
-              <Link key={i} to={f.link || '/spending'} className={`doge-card ${f.severity || 'info'}`}>
+              <Link key={i} to={f.link || spendingLink} className={`doge-card ${f.severity || 'info'}`}>
                 <div className="doge-card-header">
                   <span className={`doge-severity ${f.severity || 'info'}`}>{f.severity || 'info'}</span>
                   {f.confidence && <span className="doge-confidence">{f.confidence} confidence</span>}
@@ -321,7 +323,7 @@ function Home() {
           {findings.length > 4 && (
             <div className="doge-more-findings">
               {findings.slice(4).map((f, i) => (
-                <Link key={i} to={f.link || '/spending'} className={`doge-mini-card ${f.severity || 'info'}`}>
+                <Link key={i} to={f.link || spendingLink} className={`doge-mini-card ${f.severity || 'info'}`}>
                   <span className="doge-mini-value">{f.value}</span>
                   <span className="doge-mini-label">{f.label}</span>
                 </Link>
@@ -347,7 +349,7 @@ function Home() {
             {keyFindings.slice(0, 4).map((f, i) => {
               const IconComponent = iconMap[f.icon] || AlertTriangle
               return (
-                <Link key={i} to={f.link || '/spending'} className={`finding-card ${f.severity || 'info'}`}>
+                <Link key={i} to={f.link || spendingLink} className={`finding-card ${f.severity || 'info'}`}>
                   <div className="finding-header">
                     <IconComponent size={24} className="finding-icon" />
                     <span className="finding-badge">{f.badge}</span>
@@ -404,7 +406,7 @@ function Home() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <Link to="/spending" className="chart-link">Search all supplier payments &rarr;</Link>
+            <Link to={spendingLink} className="chart-link">Search all supplier payments &rarr;</Link>
           </div>
 
           {/* Spending by Year */}
@@ -474,7 +476,7 @@ function Home() {
           </div>
         </div>
 
-        <Link to="/spending" className="doge-cta" style={{ marginTop: 'var(--space-md)' }}>
+        <Link to={spendingLink} className="doge-cta" style={{ marginTop: 'var(--space-md)' }}>
           Explore all supplier payments <ChevronRight size={16} />
         </Link>
       </section>
@@ -669,7 +671,7 @@ function Home() {
             This is your data. Search it, share it, use it to ask better questions.
           </p>
           <div className="cta-actions">
-            <Link to="/spending" className="btn-primary">
+            <Link to={spendingLink} className="btn-primary">
               <Search size={18} />
               Search Spending
             </Link>

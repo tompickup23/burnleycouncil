@@ -55,6 +55,7 @@ const mockConfig = {
   official_website: 'https://burnley.gov.uk',
   spending_threshold: 500,
   spending_data_period: 'April 2021 – present',
+  data_sources: { spending: true },
 }
 
 const mockResults = {
@@ -811,5 +812,27 @@ describe('Spending', () => {
     renderComponent()
     const overlay = document.querySelector('.table-loading-overlay')
     expect(overlay).toBeFalsy()
+  })
+
+  // === Spending Not Available ===
+  it('shows "not available" message when spending data source is disabled', () => {
+    useCouncilConfig.mockReturnValue({
+      ...mockConfig,
+      data_sources: { spending: false },
+    })
+    useSpendingWorker.mockReturnValue(workerMock())
+    renderComponent()
+    expect(screen.getByText(/spending data not available/i)).toBeInTheDocument()
+    expect(screen.queryByText('Spending Explorer')).not.toBeInTheDocument()
+  })
+
+  it('shows "not available" message when data_sources is missing spending key', () => {
+    useCouncilConfig.mockReturnValue({
+      ...mockConfig,
+      data_sources: {},
+    })
+    useSpendingWorker.mockReturnValue(workerMock())
+    renderComponent()
+    expect(screen.getByText(/spending data not available/i)).toBeInTheDocument()
   })
 })
