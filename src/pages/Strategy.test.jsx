@@ -143,6 +143,51 @@ const mockDeprivation = {
 // Helpers
 // ---------------------------------------------------------------------------
 
+const mockCouncillorsData = [
+  { id: 'c1', name: 'John Smith', party: 'Labour', ward: 'Bank Hall', roles: [] },
+  { id: 'c2', name: 'Jane Doe', party: 'Conservative', ward: 'Briercliffe', roles: [{ role: 'Executive Member' }] },
+]
+
+const mockIntegrityData = {
+  councillors: [
+    { councillor_id: 'c1', name: 'John Smith', integrity_score: 80, risk_level: 'low', red_flags: [], total_directorships: 1 },
+    { councillor_id: 'c2', name: 'Jane Doe', integrity_score: 60, risk_level: 'elevated', red_flags: [{ description: 'Late filing' }], total_directorships: 3 },
+  ],
+}
+
+const mockInterestsData = {
+  councillors: {
+    c1: { name: 'John Smith', declared_companies: ['Smith Ltd'], declared_employment: [], declared_securities: [] },
+  },
+}
+
+const mockDogeFindings = {
+  fraud_triangle: { overall_score: 71, risk_level: 'elevated' },
+  findings: [{ label: 'Likely Duplicate Payments', value: '£510K', severity: 'critical' }],
+}
+
+const mockBudgetSummary = {
+  reserves: { total_opening: 27000000, total_closing: 26500000 },
+  council_tax: { band_d_by_year: { '2023-24': 250, '2024-25': 268 } },
+}
+
+const mockCollectionRates = { latest_rate: 94.04, trend_direction: 'declining', five_year_avg: 93.56 }
+
+const mockConstituenciesData = {
+  constituencies: [{
+    name: 'Burnley',
+    mp: { name: 'Oliver Ryan', party: 'Labour', expenses: { total_claimed: 235000, rank_of_650: 299 } },
+    ge2024: { results: [{ party: 'Reform UK', pct: 0.248, votes: 9259 }, { party: 'Labour', pct: 0.435, votes: 16243 }] },
+    voting_record: { rebellions: 0, total_divisions: 100 },
+    claimant_count: [{ claimant_rate_pct: 5.6, claimant_count: 3945 }],
+  }],
+}
+
+const mockWardConstituencyMap = {
+  'Bank Hall': { constituency_name: 'Burnley' },
+  'Briercliffe': { constituency_name: 'Burnley' },
+}
+
 function setupMocks(opts = {}) {
   const {
     elections = mockElectionsData,
@@ -151,6 +196,14 @@ function setupMocks(opts = {}) {
     demographics = mockDemographics,
     deprivation = mockDeprivation,
     config = mockConfig,
+    councillors = mockCouncillorsData,
+    integrity = mockIntegrityData,
+    interests = mockInterestsData,
+    dogeFindings = mockDogeFindings,
+    budgetSummary = mockBudgetSummary,
+    collectionRates = mockCollectionRates,
+    constituencies = mockConstituenciesData,
+    wardMap = mockWardConstituencyMap,
   } = opts
 
   useCouncilConfig.mockReturnValue(config)
@@ -159,6 +212,9 @@ function setupMocks(opts = {}) {
   useData.mockImplementation((urls) => {
     if (Array.isArray(urls) && urls[0] === '/data/elections.json') {
       return { data: [elections, reference, politics], loading: false, error: null }
+    }
+    if (Array.isArray(urls) && urls[0] === '/data/councillors.json') {
+      return { data: [councillors, integrity, interests, dogeFindings, budgetSummary, collectionRates, constituencies, wardMap], loading: false, error: null }
     }
     return { data: [demographics, deprivation], loading: false, error: null }
   })
@@ -261,13 +317,14 @@ describe('Strategy', () => {
       expect(screen.getByText(/strategist access only/i)).toBeInTheDocument()
     })
 
-    it('renders all 7 section nav buttons', () => {
+    it('renders all 8 section nav buttons', () => {
       setupMocks()
       renderComponent()
       const nav = document.querySelector('.strategy-section-nav')
       const navScope = within(nav)
       expect(navScope.getByText('Dashboard')).toBeInTheDocument()
       expect(navScope.getByText('Battlegrounds')).toBeInTheDocument()
+      expect(navScope.getByText('Ward Dossiers')).toBeInTheDocument()
       expect(navScope.getByText('Path to Control')).toBeInTheDocument()
       expect(navScope.getByText('Vulnerable Seats')).toBeInTheDocument()
       expect(navScope.getByText('Swing History')).toBeInTheDocument()
@@ -785,6 +842,234 @@ describe('Strategy', () => {
       renderComponent()
       expect(document.title).toContain('Strategy')
       expect(document.title).toContain('Burnley')
+    })
+  })
+
+  // =========================================================================
+  // Ward Dossiers section (Phase 18e)
+  // =========================================================================
+
+  describe('ward dossiers section', () => {
+    it('renders ward dossiers section on nav click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      expect(screen.getByRole('heading', { level: 2, name: /Ward Dossiers/ })).toBeInTheDocument()
+    })
+
+    it('shows ward selection grid', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const cards = document.querySelectorAll('.dossier-ward-card')
+      expect(cards.length).toBe(2) // Bank Hall + Briercliffe
+    })
+
+    it('shows ward names in selection grid', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      expect(screen.getByText('Bank Hall')).toBeInTheDocument()
+      expect(screen.getByText('Briercliffe')).toBeInTheDocument()
+    })
+
+    it('opens dossier view when ward card clicked', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      // Should show dossier header with ward name
+      expect(screen.getByRole('heading', { level: 2, name: 'Bank Hall' })).toBeInTheDocument()
+    })
+
+    it('shows back button in dossier view', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      expect(screen.getByText(/All Wards/)).toBeInTheDocument()
+    })
+
+    it('returns to grid when back button clicked', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      // Click back
+      fireEvent.click(screen.getByText(/All Wards/))
+      // Should show grid again
+      expect(document.querySelectorAll('.dossier-ward-card').length).toBe(2)
+    })
+
+    it('shows dossier tabs', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      expect(tabBar).toBeTruthy()
+      expect(within(tabBar).getByText('Profile')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Election')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Councillors')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Council')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Constituency')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Talking Points')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Cheat Sheet')).toBeInTheDocument()
+    })
+
+    it('shows profile tab by default with ward stats', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      expect(screen.getByText('Ward Profile')).toBeInTheDocument()
+      expect(screen.getByText('Population')).toBeInTheDocument()
+      expect(screen.getByText('Electorate')).toBeInTheDocument()
+    })
+
+    it('switches to election tab', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Election'))
+      expect(screen.getByText('Election Intelligence')).toBeInTheDocument()
+    })
+
+    it('shows councillor attack lines in councillors tab', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Councillors'))
+      expect(screen.getByText('Councillor Dossiers')).toBeInTheDocument()
+      // Should show attack lines
+      const attackLines = document.querySelectorAll('.attack-line')
+      expect(attackLines.length).toBeGreaterThan(0)
+    })
+
+    it('shows council performance tab with fraud triangle', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Council'))
+      expect(screen.getByText('Council Performance')).toBeInTheDocument()
+      expect(screen.getByText('Fraud Triangle')).toBeInTheDocument()
+    })
+
+    it('shows constituency tab with MP data', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Constituency'))
+      expect(screen.getByText(/Burnley Constituency/)).toBeInTheDocument()
+      expect(screen.getByText(/Oliver Ryan/)).toBeInTheDocument()
+    })
+
+    it('shows talking points tab with categories', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Talking Points'))
+      // The panel heading says "Talking Points" — use getByRole to disambiguate from tab
+      const panel = document.querySelector('.dossier-panel')
+      expect(within(panel).getByText('Talking Points')).toBeInTheDocument()
+    })
+
+    it('shows cheat sheet tab with print button', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Cheat Sheet'))
+      expect(screen.getByText('Campaign Cheat Sheet')).toBeInTheDocument()
+      expect(screen.getByText('Print')).toBeInTheDocument()
+    })
+
+    it('cheat sheet shows key stats', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Cheat Sheet'))
+      const cheatStats = document.querySelectorAll('.cheat-stat')
+      expect(cheatStats.length).toBeGreaterThan(0)
+    })
+
+    it('cheat sheet shows top 5 talking points', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Cheat Sheet'))
+      expect(screen.getByText('Top 5 Talking Points')).toBeInTheDocument()
+    })
+
+    it('shows score badge in dossier header', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const scoreBadge = document.querySelector('.dossier-score-badge')
+      expect(scoreBadge).toBeTruthy()
+      expect(scoreBadge.textContent).toContain('Score:')
+    })
+
+    it('shows target line in dossier header', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const targetLine = document.querySelector('.dossier-target-line')
+      expect(targetLine).toBeTruthy()
+      expect(targetLine.textContent).toContain('Target:')
+    })
+
+    it('dossier button in battlegrounds table opens dossier', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Battlegrounds'))
+      const dossierBtns = document.querySelectorAll('.dossier-btn-inline')
+      expect(dossierBtns.length).toBeGreaterThan(0)
+      fireEvent.click(dossierBtns[0])
+      // Should switch to dossiers section
+      expect(document.querySelector('.ward-dossier')).toBeTruthy()
+    })
+
+    it('handles missing dossier data gracefully', () => {
+      setupMocks({ councillors: null, integrity: null, interests: null, dogeFindings: null, budgetSummary: null, collectionRates: null, constituencies: null, wardMap: null })
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      // Should still render without crashing
+      expect(screen.getByRole('heading', { level: 2, name: 'Bank Hall' })).toBeInTheDocument()
     })
   })
 })

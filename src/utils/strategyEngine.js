@@ -848,3 +848,747 @@ export function generateStrategyCSV(rankedWards, resourceAllocation, ourParty, c
 
   return meta.join('\n') + headers.join(',') + '\n' + rows.join('\n');
 }
+
+// ---------------------------------------------------------------------------
+// Ward Dossier System
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate attack lines for an incumbent councillor.
+ * @param {Object} councillor - From councillors.json
+ * @param {Object|null} integrity - From integrity.json
+ * @param {Object|null} interests - From register_of_interests.json
+ * @returns {Array<{ severity: string, text: string }>}
+ */
+export function generateAttackLines(councillor, integrity, interests) {
+  const lines = [];
+  if (!councillor) return lines;
+
+  // No executive roles — invisible councillor
+  const roles = councillor.roles || [];
+  const execRoles = roles.filter(r =>
+    /exec|cabinet|chair|lead|portfolio/i.test(typeof r === 'string' ? r : r.role || '')
+  );
+  if (execRoles.length === 0) {
+    lines.push({
+      severity: 'medium',
+      text: `${councillor.name} holds no executive or committee chair roles — what have they achieved for this ward?`,
+    });
+  }
+
+  // Integrity red flags
+  if (integrity) {
+    const redFlags = integrity.red_flags || [];
+    if (redFlags.length > 0) {
+      lines.push({
+        severity: 'high',
+        text: `${redFlags.length} integrity red flag${redFlags.length > 1 ? 's' : ''} identified: ${redFlags.slice(0, 2).map(f => f.description || f.flag || f).join('; ')}`,
+      });
+    }
+    if ((integrity.total_directorships || 0) > 2) {
+      lines.push({
+        severity: 'medium',
+        text: `${integrity.total_directorships} company directorships found — potential conflicts of interest with council decisions.`,
+      });
+    }
+    if (integrity.risk_level === 'high' || integrity.risk_level === 'elevated') {
+      lines.push({
+        severity: 'high',
+        text: `Integrity risk level: ${integrity.risk_level}. Score: ${integrity.integrity_score}/100.`,
+      });
+    }
+  }
+
+  // Register of interests — declared companies
+  if (interests) {
+    const companies = interests.declared_companies || [];
+    if (companies.length > 0) {
+      lines.push({
+        severity: 'medium',
+        text: `${companies.length} declared business interest${companies.length > 1 ? 's' : ''}: ${companies.slice(0, 3).join(', ')}. Do these conflict with council decisions?`,
+      });
+    }
+    const employment = interests.declared_employment || [];
+    if (employment.length > 2) {
+      lines.push({
+        severity: 'low',
+        text: `${employment.length} declared employment interests — is this a part-time councillor?`,
+      });
+    }
+    const securities = (interests.declared_securities || []).filter(s =>
+      s && s.toLowerCase() !== 'no' && s.toLowerCase() !== 'none'
+    );
+    if (securities.length > 0) {
+      lines.push({
+        severity: 'medium',
+        text: `Declared financial securities: ${securities.slice(0, 2).join('; ')}.`,
+      });
+    }
+  }
+
+  // Party-specific criticism
+  const party = (councillor.party || '').toLowerCase();
+  if (party.includes('green')) {
+    lines.push({ severity: 'low', text: 'Green Party councillor — focus on virtue-signalling policies vs practical local delivery.' });
+  } else if (party.includes('labour')) {
+    lines.push({ severity: 'low', text: 'Labour councillor — link to Starmer government failures, national insurance hikes, broken promises.' });
+  } else if (party.includes('conservative')) {
+    lines.push({ severity: 'low', text: 'Conservative councillor — link to 14 years of failure, broken levelling up promises, channel crossings.' });
+  } else if (party.includes('lib') || party.includes('democrat')) {
+    lines.push({ severity: 'low', text: 'Lib Dem councillor — flip-flopping positions, tuition fee betrayal legacy, unclear local priorities.' });
+  } else if (party.includes('independent')) {
+    lines.push({ severity: 'low', text: 'Independent councillor — no party machine or national support, limited influence on council policy.' });
+  }
+
+  return lines;
+}
+
+/**
+ * Generate council-level attack lines from spending/performance data.
+ * @param {Object|null} dogeFindings - From doge_findings.json
+ * @param {Object|null} budgetSummary - From budgets_summary.json
+ * @param {Object|null} collectionRates - From collection_rates.json
+ * @param {Object|null} politicsSummary - From politics_summary.json
+ * @returns {Array<{ severity: string, category: string, text: string }>}
+ */
+export function generateCouncilAttackLines(dogeFindings, budgetSummary, collectionRates, politicsSummary) {
+  const lines = [];
+
+  if (dogeFindings) {
+    // Duplicate payments
+    const findings = dogeFindings.findings || [];
+    const duplicates = findings.find(f => /duplicate/i.test(f.label || ''));
+    if (duplicates) {
+      lines.push({
+        severity: duplicates.severity === 'critical' ? 'high' : 'medium',
+        category: 'Spending',
+        text: `${duplicates.value} in ${duplicates.label?.toLowerCase() || 'duplicate payments'} — taxpayer money wasted through incompetence.`,
+      });
+    }
+
+    // Split payments
+    const splits = findings.find(f => /split/i.test(f.label || ''));
+    if (splits) {
+      lines.push({
+        severity: 'medium',
+        category: 'Spending',
+        text: `${splits.value} in ${splits.label?.toLowerCase() || 'suspected split payments'} — possible evasion of spending controls.`,
+      });
+    }
+
+    // Round numbers
+    const rounds = findings.find(f => /round/i.test(f.label || ''));
+    if (rounds) {
+      lines.push({
+        severity: 'low',
+        category: 'Spending',
+        text: `${rounds.value} in round-number payments — estimates instead of proper invoices?`,
+      });
+    }
+
+    // Fraud triangle
+    const ft = dogeFindings.fraud_triangle;
+    if (ft?.overall_score > 60) {
+      lines.push({
+        severity: ft.overall_score > 70 ? 'high' : 'medium',
+        category: 'Governance',
+        text: `Fraud triangle score: ${ft.overall_score}/100 (${ft.risk_level || 'elevated'}). Systemic weaknesses in financial controls.`,
+      });
+    }
+
+    // Supplier concentration
+    const sc = dogeFindings.supplier_concentration;
+    if (sc?.top5?.suppliers?.[0]) {
+      const topPct = sc.top5.suppliers[0].pct;
+      if (topPct > 8) {
+        lines.push({
+          severity: 'medium',
+          category: 'Procurement',
+          text: `Top supplier (${sc.top5.suppliers[0].supplier}) takes ${topPct}% of all spending — is this value for money?`,
+        });
+      }
+    }
+  }
+
+  // Collection rates
+  if (collectionRates) {
+    const rate = collectionRates.latest_rate;
+    if (rate && rate < 96) {
+      lines.push({
+        severity: rate < 94 ? 'high' : 'medium',
+        category: 'Council Tax',
+        text: `Council tax collection rate just ${rate}% vs national ~97%. ${collectionRates.trend_direction === 'declining' ? 'And it\'s declining.' : ''}`,
+      });
+    }
+  }
+
+  // Budget/reserves
+  if (budgetSummary) {
+    const reserves = budgetSummary.reserves;
+    if (reserves) {
+      const change = (reserves.total_closing || 0) - (reserves.total_opening || 0);
+      if (change < 0) {
+        const changeMil = (Math.abs(change) / 1000000).toFixed(1);
+        lines.push({
+          severity: Math.abs(change) > 2000000 ? 'high' : 'medium',
+          category: 'Finances',
+          text: `Council reserves fell by £${changeMil}M — are they spending beyond their means?`,
+        });
+      }
+    }
+    const ctBandD = budgetSummary.council_tax?.band_d_by_year;
+    if (ctBandD) {
+      const years = Object.keys(ctBandD).sort();
+      const latest = ctBandD[years[years.length - 1]];
+      const prev = ctBandD[years[years.length - 2]];
+      if (latest && prev && latest > prev) {
+        const increase = ((latest - prev) / prev * 100).toFixed(1);
+        lines.push({
+          severity: 'medium',
+          category: 'Council Tax',
+          text: `Council tax Band D up ${increase}% to £${latest.toFixed(2)} — are residents getting value for money?`,
+        });
+      }
+    }
+  }
+
+  // Political control
+  if (politicsSummary) {
+    const coalition = politicsSummary.coalition;
+    if (coalition && !coalition.majority) {
+      lines.push({
+        severity: 'low',
+        category: 'Governance',
+        text: `No overall control — ${coalition.type || 'NOC'}. Council paralysed by political horse-trading.`,
+      });
+    }
+  }
+
+  return lines;
+}
+
+/**
+ * Generate national Reform UK talking points tailored to ward demographics.
+ * @param {Object|null} constituencyData - From constituencies.json
+ * @param {Object|null} demographics - Census ward data
+ * @param {Object|null} deprivation - IMD ward data
+ * @param {string} ourParty - Party name
+ * @returns {Array<{ priority: number, category: string, icon: string, text: string }>}
+ */
+export function generateNationalLines(constituencyData, demographics, deprivation, ourParty = 'Reform UK') {
+  const points = [];
+  const isReform = /reform/i.test(ourParty);
+
+  // Demographic-tailored national lines
+  const totalPop = demographics?.age?.['Total: All usual residents'] || 0;
+  const whiteBritishPct = totalPop > 0
+    ? (demographics?.ethnicity?.['White: English, Welsh, Scottish, Northern Irish or British'] || 0) / totalPop
+    : 0;
+
+  const over65 = totalPop > 0
+    ? ((demographics?.age?.['Aged 65 to 74 years'] || 0) +
+       (demographics?.age?.['Aged 75 to 84 years'] || 0) +
+       (demographics?.age?.['Aged 85 years and over'] || 0)) / totalPop
+    : 0;
+
+  const decile = deprivation?.avg_imd_decile ?? 5;
+  const homeOwnerPct = demographics?.tenure
+    ? (demographics.tenure['Owned'] || 0) / (demographics.tenure['Total: All households'] || 1)
+    : 0;
+
+  // Immigration / borders — strongest in high White British areas
+  if (isReform && whiteBritishPct > 0.90) {
+    points.push({
+      priority: 1,
+      category: 'National',
+      icon: 'Globe',
+      text: 'Stop the boats. Control immigration. Protect British culture and community cohesion.',
+    });
+  }
+
+  // NHS / social care — strongest in older areas
+  if (over65 > 0.20) {
+    points.push({
+      priority: 1,
+      category: 'National',
+      icon: 'Users',
+      text: 'NHS waiting lists at record levels. Social care crisis. Protect the pension triple lock.',
+    });
+  }
+
+  // Cost of living — strongest in deprived areas
+  if (decile <= 4) {
+    points.push({
+      priority: 1,
+      category: 'National',
+      icon: 'TrendingDown',
+      text: 'Cost of living crisis: energy bills, food prices, mortgage rates. Labour promised change — nothing changed.',
+    });
+  }
+
+  // Housing — key for renters / young areas
+  if (homeOwnerPct < 0.60) {
+    points.push({
+      priority: 2,
+      category: 'National',
+      icon: 'MapPin',
+      text: 'Housing crisis: unaffordable rents, social housing waiting lists, developers profiteering.',
+    });
+  }
+
+  // Council tax value
+  points.push({
+    priority: 3,
+    category: 'National',
+    icon: 'Briefcase',
+    text: 'Council tax rises every year but services get worse. Reform will demand value for every penny.',
+  });
+
+  // Anti-establishment
+  if (isReform) {
+    points.push({
+      priority: 2,
+      category: 'National',
+      icon: 'Swords',
+      text: 'Labour, Tories, Lib Dems — they\'ve all had their turn. None of them delivered. Time for Reform.',
+    });
+  }
+
+  // Constituency-specific GE2024 result
+  if (constituencyData?.ge2024) {
+    const reformResult = constituencyData.ge2024.results?.find(r =>
+      /reform/i.test(r.party || '')
+    );
+    if (reformResult) {
+      const pct = (reformResult.pct * 100).toFixed(1);
+      points.push({
+        priority: 1,
+        category: 'Constituency',
+        icon: 'TrendingUp',
+        text: `Reform got ${pct}% (${reformResult.votes.toLocaleString()} votes) at the 2024 General Election here — 2nd place and growing.`,
+      });
+    }
+  }
+
+  // MP criticism
+  if (constituencyData?.mp) {
+    const mp = constituencyData.mp;
+    const vr = constituencyData.voting_record;
+    if (vr && vr.rebellions === 0) {
+      points.push({
+        priority: 2,
+        category: 'Constituency',
+        icon: 'Target',
+        text: `Your MP ${mp.name} (${mp.party}): zero rebellions in ${vr.total_divisions} votes — a Westminster lobby fodder.`,
+      });
+    }
+    if (mp.expenses?.total_claimed > 200000) {
+      points.push({
+        priority: 3,
+        category: 'Constituency',
+        icon: 'Briefcase',
+        text: `MP ${mp.name} claimed £${Math.round(mp.expenses.total_claimed / 1000)}K in expenses. Are they working for you or themselves?`,
+      });
+    }
+  }
+
+  // Claimant count
+  if (constituencyData?.claimant_count?.length > 0) {
+    const latest = constituencyData.claimant_count[0];
+    if (latest.claimant_rate_pct > 4) {
+      points.push({
+        priority: 2,
+        category: 'Constituency',
+        icon: 'Briefcase',
+        text: `${latest.claimant_rate_pct}% claimant rate locally (${latest.claimant_count.toLocaleString()} people). Get people into good jobs.`,
+      });
+    }
+  }
+
+  return points.sort((a, b) => a.priority - b.priority);
+}
+
+/**
+ * Build a ward profile from demographics and deprivation data.
+ * @param {Object|null} demographics - Census 2021 ward data
+ * @param {Object|null} deprivation - IMD 2019 ward data
+ * @param {Object|null} wardElection - Election data for ward
+ * @param {string|null} constituencyName - Name of constituency this ward is in
+ * @returns {Object} Ward profile summary
+ */
+export function buildWardProfile(demographics, deprivation, wardElection, constituencyName) {
+  const totalPop = demographics?.age?.['Total: All usual residents'] || 0;
+  const over65 = (demographics?.age?.['Aged 65 to 74 years'] || 0) +
+                 (demographics?.age?.['Aged 75 to 84 years'] || 0) +
+                 (demographics?.age?.['Aged 85 years and over'] || 0);
+  const under18 = (demographics?.age?.['Aged 4 years and under'] || 0) +
+                  (demographics?.age?.['Aged 5 to 9 years'] || 0) +
+                  (demographics?.age?.['Aged 10 to 15 years'] || 0) +
+                  (demographics?.age?.['Aged 16 to 19 years'] || 0) * 0.5; // rough 16-17
+
+  const whiteBritish = demographics?.ethnicity?.['White: English, Welsh, Scottish, Northern Irish or British'] || 0;
+  const totalHouseholds = demographics?.tenure?.['Total: All households'] || 0;
+  const owned = demographics?.tenure?.['Owned'] || 0;
+  const socialRented = demographics?.tenure?.['Social rented'] || 0;
+
+  const econTotal = demographics?.economic_activity?.['Total: All usual residents aged 16 years and over'] || 0;
+  const unemployed = demographics?.economic_activity?.['Economically active (excluding full-time students): Unemployed'] ||
+                     demographics?.economic_activity?.['Unemployed'] || 0;
+  const retired = demographics?.economic_activity?.['Economically inactive: Retired'] || 0;
+
+  return {
+    population: totalPop,
+    electorate: wardElection?.history?.[0]?.electorate || null,
+    over65Pct: totalPop > 0 ? over65 / totalPop : 0,
+    under18Pct: totalPop > 0 ? under18 / totalPop : 0,
+    whiteBritishPct: totalPop > 0 ? whiteBritish / totalPop : 0,
+    homeOwnershipPct: totalHouseholds > 0 ? owned / totalHouseholds : 0,
+    socialRentedPct: totalHouseholds > 0 ? socialRented / totalHouseholds : 0,
+    unemploymentPct: econTotal > 0 ? unemployed / econTotal : 0,
+    retiredPct: econTotal > 0 ? retired / econTotal : 0,
+    deprivation: deprivation ? {
+      decile: deprivation.avg_imd_decile,
+      level: deprivation.deprivation_level,
+      rank: deprivation.avg_imd_rank,
+      score: deprivation.avg_imd_score,
+    } : null,
+    archetype: classifyWardArchetype(demographics, deprivation),
+    constituency: constituencyName || null,
+  };
+}
+
+/**
+ * Enhanced ward priority scoring with 7 weighted factors.
+ * @param {Object} params - All scoring inputs
+ * @returns {{ total: number, factors: Object }}
+ */
+export function scoreWardPriority({
+  swingRequired = Infinity,
+  winProbability = 0,
+  swingHistory = null,
+  constituencyReformPct = 0,
+  electorate = 5000,
+  turnout = 0.30,
+  integrityScore = 100,
+  redFlagCount = 0,
+  hasExecRoles = false,
+  whiteBritishPct = 0.5,
+  over65Pct = 0.15,
+  deprivationDecile = 5,
+  fraudTriangleScore = 0,
+  collectionRate = 97,
+  dogeHighSeverityCount = 0,
+}) {
+  // Factor 1: Win probability (25%) — sigmoid of swing
+  const winFactor = winProbability;
+
+  // Factor 2: Reform momentum (20%) — swing trend + GE2024 %
+  const trendBonus = swingHistory?.trend === 'improving' ? 0.3 :
+                     swingHistory?.trend === 'stable' ? 0.1 : 0;
+  const ge2024Bonus = Math.min(1, constituencyReformPct / 0.30); // normalised to 30% = max
+  const momentumFactor = Math.min(1, trendBonus + ge2024Bonus * 0.7);
+
+  // Factor 3: Electorate efficiency (10%) — smaller is easier
+  const efficiencyFactor = Math.max(0, 1 - (electorate / 15000));
+
+  // Factor 4: Turnout opportunity (10%) — low turnout = GOTV upside
+  const turnoutFactor = Math.max(0, 1 - turnout);
+
+  // Factor 5: Incumbent vulnerability (15%)
+  const integrityVuln = (100 - integrityScore) / 100;
+  const flagVuln = Math.min(1, redFlagCount / 5);
+  const roleVuln = hasExecRoles ? 0 : 0.5;
+  const vulnerabilityFactor = Math.min(1, integrityVuln * 0.4 + flagVuln * 0.3 + roleVuln * 0.3);
+
+  // Factor 6: Demographic alignment (10%) — Reform base match
+  const wbBonus = whiteBritishPct > 0.90 ? 1 : whiteBritishPct > 0.70 ? 0.5 : 0.2;
+  const ageBonus = over65Pct > 0.25 ? 0.8 : over65Pct > 0.18 ? 0.5 : 0.3;
+  const depBonus = deprivationDecile <= 3 ? 0.8 : deprivationDecile <= 6 ? 0.5 : 0.3;
+  const demographicFactor = (wbBonus + ageBonus + depBonus) / 3;
+
+  // Factor 7: Council dissatisfaction (10%)
+  const fraudBonus = Math.min(1, fraudTriangleScore / 80);
+  const collectionBonus = collectionRate < 95 ? 0.8 : collectionRate < 97 ? 0.4 : 0;
+  const dogeBonus = Math.min(1, dogeHighSeverityCount / 3);
+  const dissatisfactionFactor = Math.min(1, (fraudBonus + collectionBonus + dogeBonus) / 3);
+
+  const factors = {
+    winProbability: { weight: 25, value: winFactor, weighted: Math.round(winFactor * 25) },
+    reformMomentum: { weight: 20, value: momentumFactor, weighted: Math.round(momentumFactor * 20) },
+    efficiency: { weight: 10, value: efficiencyFactor, weighted: Math.round(efficiencyFactor * 10) },
+    turnoutOpportunity: { weight: 10, value: turnoutFactor, weighted: Math.round(turnoutFactor * 10) },
+    incumbentVulnerability: { weight: 15, value: vulnerabilityFactor, weighted: Math.round(vulnerabilityFactor * 15) },
+    demographicAlignment: { weight: 10, value: demographicFactor, weighted: Math.round(demographicFactor * 10) },
+    councilDissatisfaction: { weight: 10, value: dissatisfactionFactor, weighted: Math.round(dissatisfactionFactor * 10) },
+  };
+
+  const total = Object.values(factors).reduce((s, f) => s + f.weighted, 0);
+
+  return { total: Math.min(100, total), factors };
+}
+
+/**
+ * Generate the printable cheat sheet for a ward.
+ * @param {Object} dossier - Full ward dossier
+ * @returns {Object} Cheat sheet data
+ */
+export function generateCheatSheet(dossier) {
+  if (!dossier) return null;
+
+  // Collect all talking points
+  const allPoints = [
+    ...(dossier.talkingPoints?.local || []).map(p => ({ ...p, source: 'local' })),
+    ...(dossier.talkingPoints?.council || []).map(p => ({ ...p, source: 'council' })),
+    ...(dossier.talkingPoints?.national || []).map(p => ({ ...p, source: 'national' })),
+    ...(dossier.talkingPoints?.constituency || []).map(p => ({ ...p, source: 'constituency' })),
+  ];
+
+  // Sort by priority, take top 5
+  const top5 = allPoints.sort((a, b) => a.priority - b.priority).slice(0, 5);
+
+  // Build key stats
+  const p = dossier.profile || {};
+  const keyStats = [];
+  if (p.population) keyStats.push(`${p.population.toLocaleString()} residents`);
+  if (p.over65Pct) keyStats.push(`${Math.round(p.over65Pct * 100)}% over 65`);
+  if (p.whiteBritishPct) keyStats.push(`${Math.round(p.whiteBritishPct * 100)}% White British`);
+  if (p.deprivation?.decile != null) keyStats.push(`IMD decile ${p.deprivation.decile}`);
+  if (p.homeOwnershipPct) keyStats.push(`${Math.round(p.homeOwnershipPct * 100)}% homeowners`);
+  if (p.unemploymentPct) keyStats.push(`${(p.unemploymentPct * 100).toFixed(1)}% unemployment`);
+
+  // Do-not-say warnings
+  const doNotSay = [];
+  if (p.whiteBritishPct < 0.70) {
+    doNotSay.push('Diverse ward — avoid strong immigration language. Focus on community cohesion.');
+  }
+  if (p.deprivation?.decile >= 8) {
+    doNotSay.push('Affluent ward — avoid poverty/deprivation framing. Focus on value for money.');
+  }
+  if (p.over65Pct > 0.30) {
+    doNotSay.push('Heavily retired ward — avoid tech-first messaging. Focus on personal contact.');
+  }
+
+  // Target line
+  const defenderParty = dossier.election?.defender?.party || 'Unknown';
+  const target = `${defenderParty} → ${dossier.ourParty || 'Reform UK'}`;
+
+  return {
+    wardName: dossier.ward,
+    electionDate: dossier.electionDate || 'TBC',
+    target,
+    swingNeeded: dossier.election?.prediction?.swingRequired != null
+      ? `${dossier.election.prediction.swingRequired > 0 ? '+' : ''}${(dossier.election.prediction.swingRequired * 100).toFixed(1)}pp`
+      : 'N/A',
+    classification: dossier.election?.classification || {},
+    overallScore: dossier.overallScore || 0,
+    keyStats,
+    top5TalkingPoints: top5,
+    doNotSay,
+    defenderName: dossier.election?.defender?.name || 'Unknown',
+    defenderParty,
+    councillorCount: dossier.councillors?.length || 0,
+  };
+}
+
+/**
+ * Master function: generate a complete ward dossier from all available data.
+ * @param {string} wardName - Ward name
+ * @param {Object} allData - All loaded data sources
+ * @param {string} ourParty - Party we're strategising for
+ * @returns {Object} Complete ward dossier
+ */
+export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
+  const {
+    electionsData, referenceData, politicsSummary,
+    demographicsData, deprivationData,
+    councillorsData, integrityData, interestsData,
+    dogeFindings, budgetSummary, collectionRates,
+    constituenciesData, wardConstituencyMap,
+    councilPrediction, rankedWard, meetingsData,
+  } = allData;
+
+  const wardElection = electionsData?.wards?.[wardName] || null;
+  const defenders = electionsData?.meta?.next_election?.defenders || electionsData?.next_election?.defenders || {};
+  const defender = defenders[wardName] || null;
+
+  // Demographics lookup
+  const demoByName = {};
+  if (demographicsData?.wards) {
+    for (const [, val] of Object.entries(demographicsData.wards)) {
+      if (val?.name) demoByName[val.name] = val;
+    }
+  }
+  const demo = demoByName[wardName] || null;
+  const deprivation = deprivationData?.wards?.[wardName] || null;
+
+  // Constituency lookup
+  const wardMapping = wardConstituencyMap?.[wardName];
+  const constituencyName = wardMapping?.constituency_name || wardMapping?.PCON24NM || null;
+  const constituencies = constituenciesData?.constituencies || [];
+  const constituency = constituencyName
+    ? constituencies.find(c => c.name === constituencyName)
+    : (constituencies.length === 1 ? constituencies[0] : null);
+
+  // Build profile
+  const profile = buildWardProfile(demo, deprivation, wardElection, constituencyName || constituency?.name);
+
+  // Election intel
+  const pred = councilPrediction?.wards?.[wardName] || null;
+  const classification = pred ? classifyWard(pred, ourParty, defender?.party) : null;
+  const swingReq = pred ? calculateSwingRequired(pred, ourParty) : Infinity;
+  const winProb = pred ? 1 / (1 + Math.exp(swingReq * 15)) : 0;
+  const swingHist = calculateSwingHistory(wardElection, ourParty);
+
+  const election = {
+    defender,
+    allHolders: wardElection?.current_holders || [],
+    prediction: pred ? {
+      winner: pred.winner,
+      ourPct: pred.prediction?.[ourParty]?.pct || 0,
+      swingRequired: swingReq,
+      winProbability: winProb,
+      confidence: pred.confidence,
+      fullPrediction: pred.prediction,
+    } : null,
+    classification,
+    history: swingHist.swings,
+    trend: swingHist.trend,
+    avgSwing: swingHist.avgSwing,
+    volatility: swingHist.volatility,
+  };
+
+  // Councillor dossiers
+  const allCouncillors = councillorsData || [];
+  const cList = Array.isArray(allCouncillors) ? allCouncillors : allCouncillors.councillors || [];
+  const wardCouncillors = cList.filter(c => c.ward === wardName);
+  const integrityList = integrityData?.councillors || [];
+  const interestsList = interestsData?.councillors || {};
+
+  const councillors = wardCouncillors.map(c => {
+    const integ = integrityList.find(i => i.councillor_id === c.id || i.name === c.name);
+    const interests = typeof interestsList === 'object' && !Array.isArray(interestsList)
+      ? interestsList[c.id] || Object.values(interestsList).find(i => i.name === c.name)
+      : null;
+    return {
+      name: c.name,
+      party: c.party,
+      isDefender: defender?.name === c.name,
+      roles: c.roles || [],
+      integrity: integ ? {
+        score: integ.integrity_score,
+        riskLevel: integ.risk_level,
+        redFlags: integ.red_flags || [],
+        directorships: integ.total_directorships || 0,
+      } : null,
+      interests: interests ? {
+        companies: interests.declared_companies || [],
+        employment: interests.declared_employment || [],
+        land: interests.declared_land || [],
+        securities: (interests.declared_securities || []).filter(s => s && s.toLowerCase() !== 'no'),
+      } : null,
+      attackLines: generateAttackLines(c, integ, interests),
+    };
+  });
+
+  // Council performance
+  const councilPerformance = {
+    politicalControl: politicsSummary?.coalition
+      ? `${politicsSummary.coalition.majority ? politicsSummary.coalition.parties?.join('/') + ' majority' : politicsSummary.coalition.type || 'NOC'}`
+      : 'Unknown',
+    fraudTriangleScore: dogeFindings?.fraud_triangle?.overall_score || null,
+    topFindings: (dogeFindings?.findings || []).filter(f => f.severity === 'critical' || f.severity === 'warning').slice(0, 5),
+    collectionRate: collectionRates ? {
+      latest: collectionRates.latest_rate,
+      trend: collectionRates.trend_direction,
+      fiveYearAvg: collectionRates.five_year_avg,
+    } : null,
+    reserves: budgetSummary?.reserves ? {
+      totalClosing: budgetSummary.reserves.total_closing,
+      change: (budgetSummary.reserves.total_closing || 0) - (budgetSummary.reserves.total_opening || 0),
+    } : null,
+    councilTaxBandD: (() => {
+      const bdy = budgetSummary?.council_tax?.band_d_by_year;
+      if (!bdy) return null;
+      const years = Object.keys(bdy).sort();
+      return bdy[years[years.length - 1]] || null;
+    })(),
+    attackLines: generateCouncilAttackLines(dogeFindings, budgetSummary, collectionRates, politicsSummary),
+  };
+
+  // Constituency context
+  const constituencyContext = constituency ? {
+    name: constituency.name,
+    mp: constituency.mp ? { name: constituency.mp.name, party: constituency.mp.party } : null,
+    ge2024: constituency.ge2024 || null,
+    mpExpenses: constituency.mp?.expenses ? {
+      total: constituency.mp.expenses.total_claimed,
+      rank: constituency.mp.expenses.rank_of_650,
+    } : null,
+    votingRecord: constituency.voting_record || null,
+    claimantCount: constituency.claimant_count || null,
+  } : null;
+
+  // Talking points — categorised
+  const localPoints = generateTalkingPoints(wardElection, demo, deprivation, pred);
+  const councilAttack = councilPerformance.attackLines.map(a => ({
+    priority: a.severity === 'high' ? 1 : a.severity === 'medium' ? 2 : 3,
+    category: a.category || 'Council',
+    icon: 'AlertTriangle',
+    text: a.text,
+  }));
+  const nationalPoints = generateNationalLines(constituency, demo, deprivation, ourParty);
+  const constituencyPoints = nationalPoints.filter(p => p.category === 'Constituency');
+  const pureNational = nationalPoints.filter(p => p.category === 'National');
+
+  const talkingPoints = {
+    local: localPoints,
+    council: councilAttack,
+    national: pureNational,
+    constituency: constituencyPoints,
+  };
+
+  // Reform GE2024 constituency %
+  const reformGE = constituency?.ge2024?.results?.find(r => /reform/i.test(r.party || ''));
+  const constituencyReformPct = reformGE?.pct || 0;
+
+  // Scoring
+  const defenderCouncillor = councillors.find(c => c.isDefender);
+  const scoring = scoreWardPriority({
+    swingRequired: swingReq,
+    winProbability: winProb,
+    swingHistory: swingHist,
+    constituencyReformPct,
+    electorate: wardElection?.history?.[0]?.electorate || profile.population || 5000,
+    turnout: wardElection?.history?.[0]?.turnout || 0.30,
+    integrityScore: defenderCouncillor?.integrity?.score ?? 100,
+    redFlagCount: defenderCouncillor?.integrity?.redFlags?.length || 0,
+    hasExecRoles: defenderCouncillor?.roles?.length > 0,
+    whiteBritishPct: profile.whiteBritishPct,
+    over65Pct: profile.over65Pct,
+    deprivationDecile: profile.deprivation?.decile || 5,
+    fraudTriangleScore: councilPerformance.fraudTriangleScore || 0,
+    collectionRate: councilPerformance.collectionRate?.latest || 97,
+    dogeHighSeverityCount: (dogeFindings?.findings || []).filter(f => f.severity === 'critical').length,
+  });
+
+  const electionDate = electionsData?.meta?.next_election?.date || null;
+
+  const dossier = {
+    ward: wardName,
+    ourParty,
+    overallScore: scoring.total,
+    scoringFactors: scoring.factors,
+    electionDate,
+    profile,
+    election,
+    councillors,
+    councilPerformance,
+    constituency: constituencyContext,
+    talkingPoints,
+  };
+
+  // Add cheat sheet
+  dossier.cheatSheet = generateCheatSheet(dossier);
+
+  return dossier;
+}

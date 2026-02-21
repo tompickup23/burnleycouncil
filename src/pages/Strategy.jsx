@@ -15,6 +15,7 @@ import {
   calculateSwingHistory,
   allocateResources,
   generateStrategyCSV,
+  generateWardDossier,
   WARD_CLASSES,
 } from '../utils/strategyEngine'
 import { LoadingState } from '../components/ui'
@@ -26,7 +27,7 @@ import {
   Target, Users, Shield, AlertTriangle, ChevronDown, ChevronRight,
   Crosshair, TrendingUp, TrendingDown, MapPin, Briefcase, Globe,
   CheckCircle, Swords, GraduationCap, Lock, Clock, BarChart3,
-  Download,
+  Download, FileText, ArrowLeft, Printer, Eye,
 } from 'lucide-react'
 import './Strategy.css'
 
@@ -45,10 +46,14 @@ const ICON_MAP = {
   Target, CheckCircle, MapPin, Swords,
 }
 
+// Severity colors for attack lines
+const SEVERITY_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#8e8e93' }
+
 // Section definitions
 const SECTIONS = [
   { id: 'dashboard', label: 'Dashboard', icon: Target },
   { id: 'battlegrounds', label: 'Battlegrounds', icon: Crosshair },
+  { id: 'dossiers', label: 'Ward Dossiers', icon: FileText },
   { id: 'path', label: 'Path to Control', icon: TrendingUp },
   { id: 'vulnerable', label: 'Vulnerable Seats', icon: Shield },
   { id: 'swingHistory', label: 'Swing History', icon: Clock },
@@ -128,11 +133,30 @@ export default function Strategy() {
   const { data: optData } = useData(['/data/demographics.json', '/data/deprivation.json'])
   const [demographicsData, deprivationData] = optData || [null, null]
 
+  // Dossier data sources (loaded separately to avoid blocking main render)
+  const { data: dossierData } = useData([
+    '/data/councillors.json',
+    '/data/integrity.json',
+    '/data/register_of_interests.json',
+    '/data/doge_findings.json',
+    '/data/budgets_summary.json',
+    '/data/collection_rates.json',
+    '/data/shared/constituencies.json',
+    '/data/ward_constituency_map.json',
+  ])
+  const [
+    councillorsData, integrityData, interestsData,
+    dogeFindings, budgetSummary, collectionRates,
+    constituenciesData, wardConstituencyMap,
+  ] = dossierData || [null, null, null, null, null, null, null, null]
+
   // --- State ---
   const [activeSection, setActiveSection] = useState('dashboard')
   const [ourParty, setOurParty] = useState('Reform UK')
   const [expandedWards, setExpandedWards] = useState({})
   const [totalHours, setTotalHours] = useState(1000)
+  const [selectedDossierWard, setSelectedDossierWard] = useState(null)
+  const [dossierTab, setDossierTab] = useState('profile')
 
   // --- Page title ---
   useEffect(() => {
@@ -241,9 +265,32 @@ export default function Strategy() {
     return allocateResources(rankedWards, totalHours)
   }, [rankedWards, totalHours])
 
+  // --- Derived: active ward dossier ---
+  const activeDossier = useMemo(() => {
+    if (!selectedDossierWard) return null
+    return generateWardDossier(selectedDossierWard, {
+      electionsData, referenceData, politicsSummary,
+      demographicsData, deprivationData,
+      councillorsData, integrityData, interestsData,
+      dogeFindings, budgetSummary, collectionRates,
+      constituenciesData, wardConstituencyMap,
+      councilPrediction, rankedWard: rankedWards.find(w => w.ward === selectedDossierWard),
+      meetingsData: null,
+    }, ourParty)
+  }, [selectedDossierWard, electionsData, referenceData, politicsSummary,
+      demographicsData, deprivationData, councillorsData, integrityData,
+      interestsData, dogeFindings, budgetSummary, collectionRates,
+      constituenciesData, wardConstituencyMap, councilPrediction, rankedWards, ourParty])
+
   // --- Handlers ---
   const toggleWard = (wardName) => {
     setExpandedWards(prev => ({ ...prev, [wardName]: !prev[wardName] }))
+  }
+
+  const openDossier = (wardName) => {
+    setSelectedDossierWard(wardName)
+    setDossierTab('profile')
+    setActiveSection('dossiers')
   }
 
   const handleExportCSV = () => {
@@ -416,6 +463,7 @@ export default function Strategy() {
                   <th>Win Prob</th>
                   <th>Turnout</th>
                   <th>Score</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -427,11 +475,62 @@ export default function Strategy() {
                     ourParty={ourParty}
                     expanded={!!expandedWards[ward.ward]}
                     onToggle={() => toggleWard(ward.ward)}
+                    onDossier={() => openDossier(ward.ward)}
                   />
                 ))}
               </tbody>
             </table>
           </div>
+        </section>
+      )}
+
+      {/* ================================================================ */}
+      {/* WARD DOSSIERS */}
+      {/* ================================================================ */}
+      {activeSection === 'dossiers' && (
+        <section className="strategy-section">
+          {selectedDossierWard && activeDossier ? (
+            <WardDossierView
+              dossier={activeDossier}
+              ourParty={ourParty}
+              wardLabel={wardLabel}
+              activeTab={dossierTab}
+              onTabChange={setDossierTab}
+              onBack={() => setSelectedDossierWard(null)}
+            />
+          ) : (
+            <>
+              <h2><FileText size={20} /> {wardLabel} Dossiers</h2>
+              <p className="strategy-section-desc">
+                Select a {wardLabel.toLowerCase()} to generate a full campaign dossier with councillor intel,
+                council criticism, constituency data, and a printable cheat sheet.
+              </p>
+              <div className="dossier-ward-grid">
+                {rankedWards.map(w => {
+                  const cls = WARD_CLASSES[w.classification] || {}
+                  return (
+                    <button
+                      key={w.ward}
+                      className="dossier-ward-card"
+                      onClick={() => openDossier(w.ward)}
+                    >
+                      <div className="dossier-ward-header">
+                        <span className="dossier-ward-name">{w.ward}</span>
+                        <ClassBadge classification={w.classification} label={w.classLabel} color={cls.color} />
+                      </div>
+                      <div className="dossier-ward-meta">
+                        <span>Defender: {w.defender || '—'}</span>
+                        <span>Score: {w.score}/100</span>
+                      </div>
+                      <div className="dossier-ward-bar">
+                        <div className="dossier-score-fill" style={{ width: `${w.score}%` }} />
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </>
+          )}
         </section>
       )}
 
@@ -761,7 +860,7 @@ export default function Strategy() {
 
 // --- Ward row sub-component (expandable with talking points) ---
 
-function WardRow({ rank, ward, ourParty, expanded, onToggle }) {
+function WardRow({ rank, ward, ourParty, expanded, onToggle, onDossier }) {
   const swingReqPct = (ward.swingRequired * 100).toFixed(1)
   const weWin = ward.winner === ourParty
 
@@ -798,10 +897,19 @@ function WardRow({ rank, ward, ourParty, expanded, onToggle }) {
           <div className="score-bar" style={{ width: `${ward.score}%` }} />
           {ward.score}
         </td>
+        <td>
+          <button
+            className="dossier-btn-inline"
+            onClick={e => { e.stopPropagation(); onDossier && onDossier() }}
+            title={`Full dossier for ${ward.ward}`}
+          >
+            <FileText size={14} />
+          </button>
+        </td>
       </tr>
       {expanded && ward.talkingPoints.length > 0 && (
         <tr className="talking-points-row">
-          <td colSpan={9}>
+          <td colSpan={10}>
             <div className="talking-points">
               <h4>Talking Points for {ward.ward}</h4>
               <ul>
@@ -818,6 +926,391 @@ function WardRow({ rank, ward, ourParty, expanded, onToggle }) {
         </tr>
       )}
     </>
+  )
+}
+
+// --- Ward Dossier View Sub-Component ---
+
+const DOSSIER_TABS = [
+  { id: 'profile', label: 'Profile', icon: Users },
+  { id: 'election', label: 'Election', icon: Target },
+  { id: 'councillors', label: 'Councillors', icon: Eye },
+  { id: 'council', label: 'Council', icon: AlertTriangle },
+  { id: 'constituency', label: 'Constituency', icon: MapPin },
+  { id: 'talkingPoints', label: 'Talking Points', icon: Briefcase },
+  { id: 'cheatSheet', label: 'Cheat Sheet', icon: Printer },
+]
+
+function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange, onBack }) {
+  if (!dossier) return null
+  const cls = dossier.election?.classification || {}
+
+  return (
+    <div className="ward-dossier">
+      {/* Header */}
+      <div className="dossier-header">
+        <button className="dossier-back-btn" onClick={onBack}>
+          <ArrowLeft size={16} /> All {wardLabel}s
+        </button>
+        <div className="dossier-header-main">
+          <h2>{dossier.ward}</h2>
+          <div className="dossier-header-badges">
+            {cls.label && <ClassBadge classification={cls.classification} label={cls.label} color={cls.color || WARD_CLASSES[cls.classification]?.color} />}
+            <span className="dossier-score-badge">Score: {dossier.overallScore}/100</span>
+          </div>
+        </div>
+        {dossier.cheatSheet?.target && (
+          <p className="dossier-target-line">
+            Target: <strong>{dossier.cheatSheet.target}</strong>
+            {dossier.cheatSheet.swingNeeded && <> | Swing: <strong>{dossier.cheatSheet.swingNeeded}</strong></>}
+            {dossier.electionDate && <> | Election: <strong>{formatElectionDate(dossier.electionDate)}</strong></>}
+          </p>
+        )}
+      </div>
+
+      {/* Tab bar */}
+      <nav className="dossier-tab-bar" aria-label="Dossier sections">
+        {DOSSIER_TABS.map(t => (
+          <button
+            key={t.id}
+            className={`dossier-tab-btn ${activeTab === t.id ? 'active' : ''}`}
+            onClick={() => onTabChange(t.id)}
+          >
+            <t.icon size={14} /> {t.label}
+          </button>
+        ))}
+      </nav>
+
+      {/* Tab content */}
+      <div className="dossier-content">
+        {activeTab === 'profile' && <DossierProfile profile={dossier.profile} />}
+        {activeTab === 'election' && <DossierElection election={dossier.election} ourParty={ourParty} />}
+        {activeTab === 'councillors' && <DossierCouncillors councillors={dossier.councillors} />}
+        {activeTab === 'council' && <DossierCouncilPerf perf={dossier.councilPerformance} />}
+        {activeTab === 'constituency' && <DossierConstituency constituency={dossier.constituency} />}
+        {activeTab === 'talkingPoints' && <DossierTalkingPoints talkingPoints={dossier.talkingPoints} />}
+        {activeTab === 'cheatSheet' && <DossierCheatSheet cheatSheet={dossier.cheatSheet} />}
+      </div>
+    </div>
+  )
+}
+
+function DossierProfile({ profile }) {
+  if (!profile) return <p className="dossier-empty">No profile data available.</p>
+  const stats = [
+    { label: 'Population', value: profile.population?.toLocaleString() || '—' },
+    { label: 'Electorate', value: profile.electorate?.toLocaleString() || '—' },
+    { label: 'Over 65', value: profile.over65Pct ? `${Math.round(profile.over65Pct * 100)}%` : '—' },
+    { label: 'Under 18', value: profile.under18Pct ? `${Math.round(profile.under18Pct * 100)}%` : '—' },
+    { label: 'White British', value: profile.whiteBritishPct ? `${Math.round(profile.whiteBritishPct * 100)}%` : '—' },
+    { label: 'Home Ownership', value: profile.homeOwnershipPct ? `${Math.round(profile.homeOwnershipPct * 100)}%` : '—' },
+    { label: 'Social Rented', value: profile.socialRentedPct ? `${Math.round(profile.socialRentedPct * 100)}%` : '—' },
+    { label: 'Unemployment', value: profile.unemploymentPct ? `${(profile.unemploymentPct * 100).toFixed(1)}%` : '—' },
+    { label: 'Retired', value: profile.retiredPct ? `${Math.round(profile.retiredPct * 100)}%` : '—' },
+  ]
+  return (
+    <div className="dossier-panel">
+      <h3>Ward Profile</h3>
+      <div className="dossier-stat-grid">
+        {stats.map(s => (
+          <div key={s.label} className="dossier-stat-item">
+            <div className="dossier-stat-value">{s.value}</div>
+            <div className="dossier-stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+      {profile.deprivation && (
+        <div className="dossier-subsection">
+          <h4>Deprivation (IMD 2019)</h4>
+          <div className="dossier-stat-grid small">
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{profile.deprivation.decile}</div><div className="dossier-stat-label">IMD Decile</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{profile.deprivation.level}</div><div className="dossier-stat-label">Level</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{profile.deprivation.rank?.toLocaleString()}</div><div className="dossier-stat-label">Rank</div></div>
+          </div>
+        </div>
+      )}
+      {profile.archetype?.label && (
+        <div className="dossier-subsection">
+          <h4>Archetype</h4>
+          <div className={`archetype-card archetype-${profile.archetype.archetype}`} style={{ margin: 0 }}>
+            <div className="archetype-label">{profile.archetype.label}</div>
+            <div className="archetype-desc">{profile.archetype.description}</div>
+          </div>
+        </div>
+      )}
+      {profile.constituency && (
+        <p className="dossier-meta">Constituency: <strong>{profile.constituency}</strong></p>
+      )}
+    </div>
+  )
+}
+
+function DossierElection({ election, ourParty }) {
+  if (!election) return <p className="dossier-empty">No election data available.</p>
+  return (
+    <div className="dossier-panel">
+      <h3>Election Intelligence</h3>
+      {election.defender && (
+        <div className="dossier-defender-card">
+          <h4>Defending Councillor</h4>
+          <p><strong>{election.defender.name || 'Unknown'}</strong> — <PartyBadge party={election.defender.party} /></p>
+        </div>
+      )}
+      {election.prediction && (
+        <div className="dossier-subsection">
+          <h4>Prediction</h4>
+          <div className="dossier-stat-grid small">
+            <div className="dossier-stat-item"><div className="dossier-stat-value"><PartyBadge party={election.prediction.winner} /></div><div className="dossier-stat-label">Predicted Winner</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{(election.prediction.ourPct * 100).toFixed(1)}%</div><div className="dossier-stat-label">Our Share</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{Math.round(election.prediction.winProbability * 100)}%</div><div className="dossier-stat-label">Win Probability</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{election.prediction.swingRequired > 0 ? '+' : ''}{(election.prediction.swingRequired * 100).toFixed(1)}pp</div><div className="dossier-stat-label">Swing Needed</div></div>
+          </div>
+        </div>
+      )}
+      {election.history?.length > 0 && (
+        <div className="dossier-subsection">
+          <h4>Election History ({ourParty})</h4>
+          <div className="dossier-history-list">
+            {election.history.map((h, i) => (
+              <div key={i} className="dossier-history-item">
+                <span className="dossier-history-year">{h.year}</span>
+                <span className="dossier-history-pct">{(h.ourPct * 100).toFixed(1)}%</span>
+                <span className="dossier-history-winner">{h.winnerParty} won</span>
+                <span className="dossier-history-turnout">T/O: {Math.round(h.turnout * 100)}%</span>
+              </div>
+            ))}
+          </div>
+          {election.trend && (
+            <p className="dossier-meta">
+              Trend: <span style={{ color: TREND_CONFIG[election.trend]?.color || '#888' }}>{TREND_CONFIG[election.trend]?.label || election.trend}</span>
+              {election.avgSwing != null && <> | Avg swing: {election.avgSwing > 0 ? '+' : ''}{(election.avgSwing * 100).toFixed(1)}pp/election</>}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DossierCouncillors({ councillors }) {
+  if (!councillors?.length) return <p className="dossier-empty">No councillor data available.</p>
+  return (
+    <div className="dossier-panel">
+      <h3>Councillor Dossiers</h3>
+      {councillors.map((c, i) => (
+        <div key={i} className={`councillor-card ${c.isDefender ? 'defender' : ''}`}>
+          <div className="councillor-card-header">
+            <span className="councillor-name">{c.name}</span>
+            <PartyBadge party={c.party} />
+            {c.isDefender && <span className="defender-badge">DEFENDER</span>}
+          </div>
+          {c.roles?.length > 0 && (
+            <p className="councillor-roles">Roles: {c.roles.map(r => typeof r === 'string' ? r : r.role).join(', ')}</p>
+          )}
+          {c.integrity && (
+            <div className="councillor-integrity">
+              <span>Integrity: <strong>{c.integrity.score}/100</strong></span>
+              <span className={`risk-badge risk-${c.integrity.riskLevel}`}>{c.integrity.riskLevel}</span>
+              {c.integrity.directorships > 0 && <span>{c.integrity.directorships} directorships</span>}
+              {c.integrity.redFlags?.length > 0 && <span className="red-flag-count">{c.integrity.redFlags.length} red flags</span>}
+            </div>
+          )}
+          {c.interests && (c.interests.companies?.length > 0 || c.interests.employment?.length > 0 || c.interests.securities?.length > 0) && (
+            <div className="councillor-interests">
+              <h5>Declared Interests</h5>
+              {c.interests.companies?.length > 0 && <p>Companies: {c.interests.companies.join(', ')}</p>}
+              {c.interests.employment?.length > 0 && <p>Employment: {c.interests.employment.join(', ')}</p>}
+              {c.interests.securities?.length > 0 && <p>Securities: {c.interests.securities.join(', ')}</p>}
+            </div>
+          )}
+          {c.attackLines?.length > 0 && (
+            <div className="councillor-attack-lines">
+              <h5>Attack Lines</h5>
+              {c.attackLines.map((a, j) => (
+                <div key={j} className="attack-line" style={{ borderLeftColor: SEVERITY_COLORS[a.severity] || '#888' }}>
+                  {a.text}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function DossierCouncilPerf({ perf }) {
+  if (!perf) return <p className="dossier-empty">No council performance data available.</p>
+  return (
+    <div className="dossier-panel">
+      <h3>Council Performance</h3>
+      <div className="dossier-stat-grid small">
+        <div className="dossier-stat-item"><div className="dossier-stat-value">{perf.politicalControl}</div><div className="dossier-stat-label">Political Control</div></div>
+        {perf.fraudTriangleScore != null && <div className="dossier-stat-item"><div className="dossier-stat-value" style={{ color: perf.fraudTriangleScore > 70 ? '#ff453a' : perf.fraudTriangleScore > 60 ? '#ff9f0a' : '#30d158' }}>{perf.fraudTriangleScore}</div><div className="dossier-stat-label">Fraud Triangle</div></div>}
+        {perf.collectionRate && <div className="dossier-stat-item"><div className="dossier-stat-value">{perf.collectionRate.latest}%</div><div className="dossier-stat-label">Collection Rate</div></div>}
+        {perf.councilTaxBandD != null && <div className="dossier-stat-item"><div className="dossier-stat-value">£{perf.councilTaxBandD.toFixed(2)}</div><div className="dossier-stat-label">Band D</div></div>}
+      </div>
+
+      {perf.topFindings?.length > 0 && (
+        <div className="dossier-subsection">
+          <h4>Key DOGE Findings</h4>
+          {perf.topFindings.map((f, i) => (
+            <div key={i} className={`doge-finding severity-${f.severity}`}>
+              <span className="finding-label">{f.label}</span>
+              <span className="finding-value">{f.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {perf.attackLines?.length > 0 && (
+        <div className="dossier-subsection">
+          <h4>Council Attack Lines</h4>
+          {perf.attackLines.map((a, i) => (
+            <div key={i} className="attack-line" style={{ borderLeftColor: SEVERITY_COLORS[a.severity] || '#888' }}>
+              <span className="attack-category">{a.category}</span>
+              {a.text}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DossierConstituency({ constituency }) {
+  if (!constituency) return <p className="dossier-empty">No constituency data available.</p>
+  return (
+    <div className="dossier-panel">
+      <h3>{constituency.name} Constituency</h3>
+      {constituency.mp && (
+        <div className="dossier-mp-card">
+          <h4>MP: {constituency.mp.name}</h4>
+          <PartyBadge party={constituency.mp.party} />
+          {constituency.mpExpenses && (
+            <p className="dossier-meta">Expenses: £{Math.round(constituency.mpExpenses.total / 1000)}K claimed (rank {constituency.mpExpenses.rank}/650)</p>
+          )}
+          {constituency.votingRecord && (
+            <p className="dossier-meta">
+              Voting: {constituency.votingRecord.rebellions || 0} rebellions in {constituency.votingRecord.total_divisions || '—'} divisions
+              {constituency.votingRecord.rebellions === 0 && <span style={{ color: '#ff9f0a' }}> — lobby fodder</span>}
+            </p>
+          )}
+        </div>
+      )}
+      {constituency.ge2024?.results && (
+        <div className="dossier-subsection">
+          <h4>GE2024 Results</h4>
+          <div className="ge2024-results">
+            {constituency.ge2024.results
+              .sort((a, b) => (b.pct || 0) - (a.pct || 0))
+              .slice(0, 5)
+              .map((r, i) => (
+                <div key={i} className="ge2024-result-row">
+                  <PartyBadge party={r.party} />
+                  <div className="ge2024-bar-wrap">
+                    <div className="ge2024-bar" style={{ width: `${(r.pct || 0) * 100}%`, background: PARTY_COLORS[r.party] || '#888' }} />
+                  </div>
+                  <span className="ge2024-pct">{((r.pct || 0) * 100).toFixed(1)}%</span>
+                  <span className="ge2024-votes">{r.votes?.toLocaleString()}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+      {constituency.claimantCount?.length > 0 && (
+        <p className="dossier-meta">
+          Claimant count: {constituency.claimantCount[0].claimant_rate_pct}% ({constituency.claimantCount[0].claimant_count?.toLocaleString()} people)
+        </p>
+      )}
+    </div>
+  )
+}
+
+function DossierTalkingPoints({ talkingPoints }) {
+  if (!talkingPoints) return <p className="dossier-empty">No talking points available.</p>
+  const categories = [
+    { key: 'local', label: 'Local (Ward-Specific)', icon: MapPin },
+    { key: 'council', label: 'Council Criticism', icon: AlertTriangle },
+    { key: 'national', label: 'National Reform Lines', icon: Globe },
+    { key: 'constituency', label: 'Constituency', icon: Briefcase },
+  ]
+  return (
+    <div className="dossier-panel">
+      <h3>Talking Points</h3>
+      {categories.map(cat => {
+        const points = talkingPoints[cat.key] || []
+        if (points.length === 0) return null
+        const CatIcon = cat.icon
+        return (
+          <div key={cat.key} className="dossier-subsection">
+            <h4><CatIcon size={16} /> {cat.label} ({points.length})</h4>
+            <ul className="dossier-tp-list">
+              {points.map((p, i) => (
+                <li key={i} className="dossier-tp-item">
+                  <TalkingPointIcon iconName={p.icon} />
+                  <span>{p.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function DossierCheatSheet({ cheatSheet }) {
+  if (!cheatSheet) return <p className="dossier-empty">No cheat sheet data available.</p>
+
+  const handlePrint = () => window.print()
+
+  return (
+    <div className="dossier-panel cheat-sheet-panel">
+      <div className="cheat-sheet-header">
+        <h3>Campaign Cheat Sheet</h3>
+        <button className="dossier-print-btn" onClick={handlePrint}>
+          <Printer size={14} /> Print
+        </button>
+      </div>
+
+      <div className="cheat-sheet" id="cheat-sheet-print">
+        <div className="cheat-sheet-title">
+          <h2>{cheatSheet.wardName}</h2>
+          <p className="cheat-target">{cheatSheet.target} | Swing: {cheatSheet.swingNeeded} | Score: {cheatSheet.overallScore}/100</p>
+          <p className="cheat-date">Election: {formatElectionDate(cheatSheet.electionDate)}</p>
+        </div>
+
+        <div className="cheat-section">
+          <h4>Key Stats</h4>
+          <div className="cheat-stats">
+            {cheatSheet.keyStats.map((s, i) => <span key={i} className="cheat-stat">{s}</span>)}
+          </div>
+        </div>
+
+        <div className="cheat-section">
+          <h4>Defender: {cheatSheet.defenderName} ({cheatSheet.defenderParty})</h4>
+        </div>
+
+        <div className="cheat-section">
+          <h4>Top 5 Talking Points</h4>
+          <ol className="cheat-tp-list">
+            {cheatSheet.top5TalkingPoints.map((tp, i) => (
+              <li key={i}>{tp.text}</li>
+            ))}
+          </ol>
+        </div>
+
+        {cheatSheet.doNotSay?.length > 0 && (
+          <div className="cheat-section cheat-dontsay">
+            <h4>⚠ Do Not Say</h4>
+            <ul>
+              {cheatSheet.doNotSay.map((d, i) => <li key={i}>{d}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
