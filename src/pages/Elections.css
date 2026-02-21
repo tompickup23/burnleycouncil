@@ -219,6 +219,72 @@
   gap: 1rem;
 }
 
+/* ===================== No Upcoming Election Banner ===================== */
+.elec-no-election-banner {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: rgba(142, 142, 147, 0.08);
+  border: 1px solid rgba(142, 142, 147, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.elec-no-election-banner > svg {
+  color: #8e8e93;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.elec-no-election-banner strong {
+  color: #e5e5e7;
+}
+
+.elec-no-election-banner p {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.9rem;
+  color: #aeaeb2;
+}
+
+.elec-cross-council-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.elec-council-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #2c2c2e;
+  border: 1px solid #3a3a3c;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  color: #aeaeb2;
+}
+
+.elec-council-chip.current {
+  background: rgba(10, 132, 255, 0.12);
+  border-color: rgba(10, 132, 255, 0.3);
+  color: #0a84ff;
+  font-weight: 600;
+}
+
+.elec-council-link {
+  color: #0a84ff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.elec-council-link:hover {
+  background: rgba(10, 132, 255, 0.12);
+  border-color: rgba(10, 132, 255, 0.4);
+  text-decoration: none;
+}
+
 /* ===================== Calendar / Timeline ===================== */
 .elec-calendar h3 {
   font-size: 1rem;
@@ -280,6 +346,18 @@
 .elec-timeline-desc {
   font-size: 0.8rem;
   color: #8e8e93;
+}
+
+.elec-timeline-councils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+}
+
+.elec-timeline-councils .elec-council-chip {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.45rem;
 }
 
 /* ===================== Overview Grid (side-by-side charts) ===================== */

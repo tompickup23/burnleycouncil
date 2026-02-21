@@ -25,6 +25,22 @@ import {
 } from 'lucide-react'
 import './Elections.css'
 
+// --- Council ID to slug mapping (for cross-council links) ---
+const COUNCIL_SLUG_MAP = {
+  burnley: 'burnleycouncil', hyndburn: 'hyndburncouncil', pendle: 'pendlecouncil',
+  rossendale: 'rossendalecouncil', lancaster: 'lancastercouncil', ribble_valley: 'ribblevalleycouncil',
+  chorley: 'chorleycouncil', south_ribble: 'southribblecouncil', lancashire_cc: 'lancashirecc',
+  blackpool: 'blackpoolcouncil', west_lancashire: 'westlancashirecouncil', blackburn: 'blackburncouncil',
+  wyre: 'wyrecouncil', preston: 'prestoncouncil', fylde: 'fyldecouncil',
+}
+const COUNCIL_NAME_MAP = {
+  burnley: 'Burnley', hyndburn: 'Hyndburn', pendle: 'Pendle', rossendale: 'Rossendale',
+  lancaster: 'Lancaster', ribble_valley: 'Ribble Valley', chorley: 'Chorley',
+  south_ribble: 'South Ribble', lancashire_cc: 'Lancashire CC', blackpool: 'Blackpool',
+  west_lancashire: 'West Lancashire', blackburn: 'Blackburn with Darwen', wyre: 'Wyre',
+  preston: 'Preston', fylde: 'Fylde',
+}
+
 // --- Fallback party colours ---
 const FALLBACK_PARTY_COLORS = {
   Labour: '#DC241F', Conservative: '#0087DC', 'Liberal Democrats': '#FAA61A',
@@ -546,6 +562,45 @@ export default function Elections() {
       <section className="elec-section" id="elec-overview">
         <h2><Calendar size={20} /> Overview</h2>
 
+        {/* No upcoming election — link to other councils */}
+        {!nextElection && referenceData?.election_calendar?.length > 0 && (() => {
+          const nextCal = referenceData.election_calendar.find(
+            ev => ev.councils?.length > 0 && new Date(ev.date) > new Date()
+          )
+          if (!nextCal) return null
+          const otherCouncils = nextCal.councils.filter(c => c !== councilId)
+          if (!otherCouncils.length) return null
+          return (
+            <div className="elec-no-election-banner">
+              <Calendar size={18} />
+              <div>
+                <strong>No upcoming election for {meta.council_name || councilName}.</strong>
+                <p>
+                  The next elections in Lancashire are on <strong>{formatElectionDate(nextCal.date)}</strong>{' '}
+                  ({formatElectionType(nextCal.type)}) in {otherCouncils.length} council{otherCouncils.length !== 1 ? 's' : ''}:
+                </p>
+                <div className="elec-cross-council-links">
+                  {otherCouncils.map(cId => {
+                    const slug = COUNCIL_SLUG_MAP[cId]
+                    const name = COUNCIL_NAME_MAP[cId] || cId.replace(/_/g, ' ')
+                    if (!slug) return <span key={cId} className="elec-council-chip">{name}</span>
+                    return (
+                      <a
+                        key={cId}
+                        href={`/lancashire/${slug}/elections`}
+                        className="elec-council-chip elec-council-link"
+                      >
+                        <Vote size={12} />
+                        {name}
+                      </a>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )
+        })()}
+
         {/* Next election info card */}
         {nextElection && (
           <div className="elec-next-election-card">
@@ -579,15 +634,41 @@ export default function Elections() {
           <div className="elec-calendar">
             <h3>Upcoming Elections</h3>
             <div className="elec-timeline">
-              {referenceData.election_calendar.slice(0, 6).map((ev, i) => (
-                <div key={i} className={`elec-timeline-item ${ev.council_id === councilId ? 'highlight' : ''}`}>
-                  <div className="elec-timeline-marker" />
-                  <div className="elec-timeline-content">
-                    <span className="elec-timeline-date">{formatElectionDate(ev.date)}</span>
-                    <span className="elec-timeline-desc">{ev.description || formatElectionType(ev.type)}</span>
+              {referenceData.election_calendar.slice(0, 6).map((ev, i) => {
+                const isThisCouncil = ev.councils?.includes(councilId)
+                return (
+                  <div key={i} className={`elec-timeline-item ${isThisCouncil ? 'highlight' : ''}`}>
+                    <div className="elec-timeline-marker" />
+                    <div className="elec-timeline-content">
+                      <span className="elec-timeline-date">{formatElectionDate(ev.date)}</span>
+                      <span className="elec-timeline-desc">
+                        {ev.note || ev.description || formatElectionType(ev.type)}
+                      </span>
+                      {ev.councils?.length > 0 && (
+                        <div className="elec-timeline-councils">
+                          {ev.councils.map(cId => {
+                            const slug = COUNCIL_SLUG_MAP[cId]
+                            const name = COUNCIL_NAME_MAP[cId] || cId.replace(/_/g, ' ')
+                            if (cId === councilId) {
+                              return <span key={cId} className="elec-council-chip current">{name}</span>
+                            }
+                            if (!slug) return <span key={cId} className="elec-council-chip">{name}</span>
+                            return (
+                              <a
+                                key={cId}
+                                href={`/lancashire/${slug}/elections`}
+                                className="elec-council-chip elec-council-link"
+                              >
+                                {name}
+                              </a>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         )}
@@ -1040,7 +1121,18 @@ export default function Elections() {
         {!nextElection ? (
           <div className="elec-info-banner">
             <AlertTriangle size={16} />
-            <span>No upcoming election date found in data. Predictions require a next_election in elections.json.</span>
+            <span>
+              No upcoming election for {meta.council_name || councilName}.
+              {(() => {
+                const nextCal = referenceData?.election_calendar?.find(
+                  ev => ev.councils?.length > 0 && new Date(ev.date) > new Date()
+                )
+                if (!nextCal) return ' Predictions will appear when a next election is scheduled.'
+                const others = nextCal.councils.filter(c => c !== councilId)
+                if (!others.length) return ' Predictions will appear when a next election is scheduled.'
+                return ` See predictions for the ${formatElectionDate(nextCal.date)} elections above.`
+              })()}
+            </span>
           </div>
         ) : !councilPrediction ? (
           <div className="elec-info-banner">

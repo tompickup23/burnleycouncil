@@ -161,8 +161,8 @@ const mockReferenceData = {
   lancashire_lcc_2025: { results: { 'Reform UK': { pct: 0.357 } } },
   model_parameters: { swingMultiplier: 1.0 },
   election_calendar: [
-    { date: '2026-05-07', type: 'borough', council_id: 'burnley', description: 'Burnley Borough Elections' },
-    { date: '2026-05-07', type: 'borough', council_id: 'hyndburn', description: 'Hyndburn Borough Elections' },
+    { date: '2026-05-07', type: 'borough', councils: ['burnley', 'hyndburn', 'chorley', 'pendle'], note: 'Borough elections (un-cancelled after LGR postponement)' },
+    { date: '2027-05-06', type: 'shadow_authority', councils: [], note: 'Shadow authority elections for new unitary councils' },
   ],
 }
 
@@ -387,7 +387,34 @@ describe('Elections', () => {
       setupMocks({ electionsData: mockElectionsData, referenceData: mockReferenceData })
       renderComponent()
       expect(screen.getByText('Upcoming Elections')).toBeInTheDocument()
-      expect(screen.getByText(/Burnley Borough Elections/i)).toBeInTheDocument()
+      expect(screen.getByText(/Borough elections/i)).toBeInTheDocument()
+    })
+
+    it('renders council links in election calendar timeline', () => {
+      setupMocks({ electionsData: mockElectionsData, referenceData: mockReferenceData })
+      renderComponent()
+      // Burnley is the current council (from mockConfig), should show as chip
+      const burnleyChips = screen.getAllByText('Burnley')
+      expect(burnleyChips.length).toBeGreaterThanOrEqual(1)
+      // Other councils should be linked
+      const hyndburnLinks = screen.getAllByText('Hyndburn')
+      expect(hyndburnLinks.length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('shows no-election banner with cross-council links when no next election', () => {
+      const noNextElection = {
+        ...mockElectionsData,
+        meta: { ...mockElectionsData.meta, next_election: null },
+      }
+      setupMocks({ electionsData: noNextElection, referenceData: mockReferenceData })
+      renderComponent()
+      // Should show the no-election banner
+      const banner = document.querySelector('.elec-no-election-banner')
+      expect(banner).toBeTruthy()
+      expect(banner.textContent).toContain('No upcoming election')
+      // Should link to councils with upcoming elections (excluding burnley which is this council)
+      const crossLinks = document.querySelectorAll('.elec-no-election-banner .elec-council-link')
+      expect(crossLinks.length).toBeGreaterThan(0)
     })
 
     it('renders current composition when politics summary available', () => {
@@ -409,8 +436,8 @@ describe('Elections', () => {
       }
       setupMocks({ electionsData: noNextElection })
       renderComponent()
-      // Should show a "no upcoming election date found" info banner
-      expect(screen.getByText(/no upcoming election date found/i)).toBeInTheDocument()
+      // Should show "no upcoming election" message (in overview banner and/or predictions section)
+      expect(screen.getAllByText(/no upcoming election for/i).length).toBeGreaterThanOrEqual(1)
     })
   })
 
@@ -576,7 +603,12 @@ describe('Elections', () => {
       }
       setupMocks({ electionsData: noNext })
       renderComponent()
-      expect(screen.getByText(/no upcoming election date found/i)).toBeInTheDocument()
+      // "No upcoming election" appears in both overview banner and predictions info banner
+      const elements = screen.getAllByText(/no upcoming election for/i)
+      expect(elements.length).toBeGreaterThanOrEqual(1)
+      // Predictions section info banner should exist
+      const infoBanners = document.querySelectorAll('.elec-info-banner')
+      expect(infoBanners.length).toBeGreaterThanOrEqual(1)
     })
   })
 
