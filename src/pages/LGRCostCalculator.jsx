@@ -11,6 +11,11 @@ import './LGRCostCalculator.css'
 
 const PROPOSAL_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
 
+// Council tax annual increase assumptions — based on recent Lancashire trends
+// Most districts+LCC have been raising 4-5% p.a. (max district 3% + LCC ~5%)
+const CT_ANNUAL_INCREASE = 0.045 // 4.5% p.a. blended assumption
+const YEARS_TO_LGR = 2 // From 2025/26 to 2027/28 (LGR April 2028 = Year 3 rates)
+
 // Map postcodes.io admin_district names to our council IDs
 const DISTRICT_NAME_MAP = {
   'burnley': 'burnley',
@@ -190,23 +195,47 @@ function LGRCostCalculator() {
         isWinner = delta < 0
       }
 
-      // The total bill under LGR = harmonised council rate + police + fire (unchanged)
+      // Project forward: council tax will rise ~4.5% p.a. between now and LGR
+      // The harmonised rate is based on current (2024-25) outturn data, so we must
+      // project it forward to 2027/28 rates for a fair comparison
+      const projectionFactor = Math.pow(1 + CT_ANNUAL_INCREASE, YEARS_TO_LGR)
+      const projectedHarmonisedBandD = harmonisedBandD !== null
+        ? harmonisedBandD * projectionFactor
+        : null
+      const projectedCurrentCombined = currentCombined !== null
+        ? currentCombined * projectionFactor
+        : null
+
+      // The delta should compare like-for-like: projected current vs projected harmonised
+      const projectedDelta = projectedCurrentCombined !== null && projectedHarmonisedBandD !== null
+        ? projectedHarmonisedBandD - projectedCurrentCombined
+        : delta // fallback to original delta if no projection possible
+
+      // The total bill under LGR = projected harmonised council rate + projected police/fire
       const policeFire = currentCosts.policeFire || 0
-      const totalNewBandD = harmonisedBandD !== null ? harmonisedBandD + policeFire : null
+      const projectedPoliceFire = policeFire * projectionFactor
+      const totalNewBandD = projectedHarmonisedBandD !== null
+        ? projectedHarmonisedBandD + projectedPoliceFire
+        : null
+
+      // Also compute projected "without LGR" total for comparison
+      const projectedTotalWithout = currentCosts.totalBandD * projectionFactor
 
       return {
         ...model,
         myAuthority,
-        harmonisedBandD,      // New unitary council rate (district+county combined)
-        currentCombined,       // Current district+county combined
-        totalNewBandD,         // New total including police+fire
-        delta,                 // Change in council element (+/- from current)
-        isWinner,              // Does this council's bill go down?
-        annualSaving: delta ? -delta : 0, // Positive = saves money (delta is negative for winners)
+        harmonisedBandD: projectedHarmonisedBandD,  // Projected unitary rate at LGR
+        currentCombined: projectedCurrentCombined,   // Projected current council element at LGR
+        totalNewBandD,                                // Projected total including police+fire
+        delta: projectedDelta,                        // Change in council element at LGR
+        isWinner: projectedDelta !== null ? projectedDelta < 0 : isWinner,
+        annualSaving: projectedDelta ? -projectedDelta : 0,
         color: PROPOSAL_COLORS[idx],
         populationText: formatNumber(myAuthority.population || 0),
         numCouncils: myAuthority.councils.length,
         ccnSavings,
+        projectedTotalWithout,                        // What you'd pay in 2027/28 WITHOUT LGR
+        projectionFactor,
       }
     })
   }, [lgrData, currentCosts, councilId, councilTier, budgetModel])
@@ -274,15 +303,24 @@ function LGRCostCalculator() {
     lookupPostcode(postcode)
   }
 
-  // --- Chart data: use total bill (council + police + fire) for like-for-like comparison ---
+  // --- Chart data: compare projected 2027/28 costs WITH and WITHOUT LGR ---
   const comparisonChartData = useMemo(() => {
     if (!currentCosts || !proposalCosts.length) return []
 
-    const items = [{
-      name: 'Now (2025/26)',
-      cost: adjustForBand(currentCosts.totalBandD),
-      fill: '#636366',
-    }]
+    const projectedWithout = currentCosts.totalBandD * Math.pow(1 + CT_ANNUAL_INCREASE, YEARS_TO_LGR)
+
+    const items = [
+      {
+        name: 'Now (2025/26)',
+        cost: adjustForBand(currentCosts.totalBandD),
+        fill: '#48484a',
+      },
+      {
+        name: 'No LGR (2028)',
+        cost: adjustForBand(projectedWithout),
+        fill: '#636366',
+      },
+    ]
 
     proposalCosts.forEach(p => {
       if (p.totalNewBandD != null) {
@@ -326,8 +364,8 @@ function LGRCostCalculator() {
       <header className="page-header">
         <h1><Calculator size={28} /> LGR Cost <span className="accent">Calculator</span></h1>
         <p className="subtitle">
-          What you pay now vs what you&apos;d pay under each LGR proposal.
-          Compares your {currentCosts?.year || '2025/26'} council tax bill with estimated rates after reorganisation (from April 2028).
+          Compare your current council tax bill with estimated rates under each LGR proposal.
+          Based on your {currentCosts?.year || '2025/26'} rates, adjusted to 2027/28 levels for a fair comparison.
         </p>
       </header>
 
@@ -335,9 +373,10 @@ function LGRCostCalculator() {
       <div className="calc-context-banner">
         <Calendar size={16} />
         <span>
-          <strong>Now</strong> = your {currentCosts?.year || '2025/26'} council tax (district + county + police + fire).{' '}
-          <strong>After LGR</strong> = estimated unitary rate from April 2028, when all 15 current councils are abolished
-          and replaced by new unitary authorities. Police and fire precepts stay the same.
+          <strong>Now</strong> = your {currentCosts?.year || '2025/26'} council tax.{' '}
+          <strong>After LGR</strong> = estimated unitary rate from April 2028. All figures are
+          <strong> projected forward</strong> at {(CT_ANNUAL_INCREASE * 100).toFixed(1)}% p.a. (typical recent Lancashire increase)
+          to give a like-for-like comparison. Without LGR, your bill would still rise.
         </span>
       </div>
 
@@ -476,7 +515,7 @@ function LGRCostCalculator() {
                       {formatCurrency(adjustForBand(currentCosts.policeFire))}
                     </div>
                     <div className="cost-card-sub">
-                      Unchanged under LGR
+                      Set independently (not affected by LGR)
                     </div>
                   </div>
                 )}
@@ -520,17 +559,18 @@ function LGRCostCalculator() {
       {/* LGR Proposal Comparison — only shown after successful postcode lookup */}
       {proposalCosts.length > 0 && currentCosts && postcodeResult?.isLancashire && (
         <section className="lgr-comparison">
-          <h2><Calculator size={22} /> After LGR: Your Estimated Bill (from April 2028)</h2>
+          <h2><Calculator size={22} /> After LGR: Your Estimated Bill (2027/28)</h2>
           <p className="section-desc">
-            What your total council tax bill would be under each proposal.
+            What your total council tax bill would be under each proposal in 2027/28.
             The council element (district + county) is replaced by a single harmonised unitary rate.
-            Police and fire precepts ({formatCurrency(adjustForBand(currentCosts.policeFire || 0))}) stay the same.
+            All figures are projected forward at {(CT_ANNUAL_INCREASE * 100).toFixed(1)}% p.a. to account for annual rises.
+            Without LGR, your bill would rise to ~{formatCurrency(adjustForBand(currentCosts.totalBandD * Math.pow(1 + CT_ANNUAL_INCREASE, YEARS_TO_LGR)))}.
           </p>
 
           {/* Bar chart comparison */}
           <div className="cost-chart-section">
             <h3>Total Annual Bill Comparison (Band {selectedBand})</h3>
-            <p className="chart-desc">Your {currentCosts.year} bill vs estimated bill under each proposal. Lower = better for you.</p>
+            <p className="chart-desc">Your {currentCosts.year} bill, projected 2027/28 bill without LGR, and estimated bill under each proposal. Lower = better for you.</p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={comparisonChartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
@@ -561,8 +601,8 @@ function LGRCostCalculator() {
               const isSaving = saving > 0
               const isExpanded = expandedProposal === proposal.id
               const adjustedTotalNew = adjustForBand(proposal.totalNewBandD)
-              const adjustedTotalNow = adjustForBand(currentCosts.totalBandD)
-              const adjustedSaving = adjustedTotalNow - adjustedTotalNew
+              const adjustedProjectedWithout = adjustForBand(proposal.projectedTotalWithout)
+              const adjustedSaving = adjustedProjectedWithout - adjustedTotalNew
 
               return (
                 <div
@@ -632,7 +672,7 @@ function LGRCostCalculator() {
                             <span>Payback</span>
                             <strong>{proposal.doge_payback_years ? `${proposal.doge_payback_years} years` : 'Never'}</strong>
                           </div>
-                          <p className="estimate-source">Based on £2.9B GOV.UK outturn data, 75% realisation rate</p>
+                          <p className="estimate-source">Based on £2.9B GOV.UK outturn data, 75% realisation rate, projected to 2027/28</p>
                         </div>
 
                         <div className="estimate-box gov">
@@ -744,8 +784,8 @@ function LGRCostCalculator() {
             <Search size={24} />
             <h3>Enter your postcode above to compare your council tax bill under each LGR proposal</h3>
             <p className="text-secondary">
-              We&apos;ll show your {currentCosts.year} bill vs estimated costs after reorganisation in April 2028,
-              with both AI DOGE and Government (CCN/PwC) figures.
+              We&apos;ll show your {currentCosts.year} bill, your projected 2027/28 bill without LGR,
+              and estimated costs after reorganisation — with both AI DOGE and Government (CCN/PwC) figures.
             </p>
           </div>
         </section>
@@ -774,12 +814,14 @@ function LGRCostCalculator() {
                 </p>
               </div>
               <div className="method-item">
-                <h4>After LGR (from April 2028)</h4>
+                <h4>After LGR (2027/28 projected)</h4>
                 <p>
                   The new unitary council tax is a <strong>harmonised rate</strong> — a weighted average
                   of all constituent councils&apos; current district + county elements, weighted by tax base size.
-                  Councils currently paying above the average see their bill fall; those below see it rise.
-                  AI DOGE additionally factors in projected savings to reduce the harmonised rate.
+                  Since LGR is expected from April 2028, we project all rates forward at {(CT_ANNUAL_INCREASE * 100).toFixed(1)}% p.a.
+                  ({YEARS_TO_LGR} years) to give a fair like-for-like comparison.
+                  Without this adjustment, the calculator would misleadingly show an immediate saving that is
+                  partly just the passage of time.
                 </p>
               </div>
               <div className="method-item">
@@ -794,9 +836,10 @@ function LGRCostCalculator() {
                 <h4>What&apos;s included and excluded</h4>
                 <p>
                   <strong>Included:</strong> District council element, Lancashire County Council element,
-                  police precept, fire precept — your full council tax bill.<br />
+                  police precept, fire precept — your full council tax bill. All projected forward at {(CT_ANNUAL_INCREASE * 100).toFixed(1)}% p.a.<br />
                   <strong>Excluded:</strong> Parish precepts (varies by parish, unchanged under LGR).
-                  Actual rates will depend on government decisions about harmonisation periods and transition funding.
+                  Actual rates will depend on government decisions about harmonisation periods, transition funding,
+                  and actual annual council tax increases (which may differ from our {(CT_ANNUAL_INCREASE * 100).toFixed(1)}% assumption).
                 </p>
               </div>
             </div>

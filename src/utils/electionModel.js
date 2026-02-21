@@ -36,7 +36,7 @@ export const DEFAULT_ASSUMPTIONS = {
  * Get the baseline vote shares from the most recent election in this ward.
  * @param {Object} wardData - Ward object from elections.json
  * @param {string} electionType - 'borough' or 'county'
- * @returns {{ parties: Object<string, number>, date: string, year: number } | null}
+ * @returns {{ parties: Object<string, number>, date: string, year: number, staleness: number } | null}
  */
 export function getBaseline(wardData, electionType = 'borough') {
   if (!wardData?.history?.length) return null;
@@ -57,6 +57,11 @@ export function getBaseline(wardData, electionType = 'borough') {
     }
   }
 
+  // Calculate staleness — how many years since this baseline election
+  const baselineYear = election.year || parseInt(election.date?.substring(0, 4)) || 2020;
+  const currentYear = new Date().getFullYear();
+  const staleness = currentYear - baselineYear;
+
   return {
     parties,
     date: election.date,
@@ -64,6 +69,7 @@ export function getBaseline(wardData, electionType = 'borough') {
     turnout: election.turnout,
     turnoutVotes: election.turnout_votes,
     electorate: election.electorate,
+    staleness,
   };
 }
 
@@ -224,9 +230,17 @@ export function calculateIncumbencyAdjustment(wardData, assumptions) {
   // Incumbent re-standing = bonus
   const incumbentParty = holders[0]?.party;
   if (incumbentParty) {
-    const bonus = assumptions.incumbencyBonusPct || 0.05;
+    let bonus = assumptions.incumbencyBonusPct || 0.05;
+    // Reduce incumbency bonus for long-serving holders in stale-baseline wards
+    // The "brand loyalty" factor decays over time as political landscape shifts
+    const baselineAge = wardData._baselineStaleness || 0;
+    if (baselineAge > 10) {
+      bonus = bonus * 0.5; // Halve the bonus for very stale wards
+      factors.push(`Incumbent party (${incumbentParty}): +${(bonus * 100).toFixed(1)}pp (reduced — baseline ${baselineAge}yr old)`);
+    } else {
+      factors.push(`Incumbent party (${incumbentParty}): +${(bonus * 100).toFixed(0)}pp incumbency bonus`);
+    }
     adjustments[incumbentParty] = bonus;
-    factors.push(`Incumbent party (${incumbentParty}): +${(bonus * 100).toFixed(0)}pp incumbency bonus`);
   }
 
   return {
@@ -243,13 +257,25 @@ export function calculateIncumbencyAdjustment(wardData, assumptions) {
 /**
  * Handle Reform UK entry into wards where they haven't stood before.
  * Uses GE2024 and LCC 2025 results as proxy.
+ *
+ * V2: Accounts for baseline staleness. When baselines are >8 years old,
+ * Reform's proxy replaces the Step 2 swing-only estimate. The proxy is
+ * treated as Reform's EFFECTIVE vote share, and the corresponding amount
+ * is deducted proportionally from other parties' adjusted shares (not
+ * their original baselines), giving Reform a realistic share in areas
+ * where they've demonstrably won at county level (LCC 2025).
+ *
  * @param {Object} baseline - Current party baselines
  * @param {Object} constituencyResult - GE2024 constituency results
  * @param {Object} lcc2025 - LCC 2025 reference data
  * @param {Object} assumptions
+ * @param {Object} nationalPolling - Current national polling
+ * @param {Object} ge2024Result - GE2024 national results
+ * @param {Object} currentShares - Current running shares (post Step 2-4), used for proportional deduction
+ * @param {number} staleness - Years since baseline election
  * @returns {{ adjustments: Object<string, number>, reformEstimate: number, methodology: Object }}
  */
-export function calculateReformEntry(baseline, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result) {
+export function calculateReformEntry(baseline, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result, currentShares, staleness) {
   const adjustments = {};
   let reformEstimate = 0;
   const factors = [];
@@ -301,22 +327,42 @@ export function calculateReformEntry(baseline, constituencyResult, lcc2025, assu
   reformEstimate = proxyBase + localSwing;
 
   if (reformEstimate > 0.01) {
-    adjustments['Reform UK'] = reformEstimate;
-    // Other parties lose proportionally
-    const totalOther = Object.values(baseline).reduce((s, v) => s + v, 0);
+    // The Reform estimate is the TOTAL share Reform should have.
+    // Step 2 already added swing to Reform (from 0%), so we need to add
+    // only the DIFFERENCE between our proxy and what's already been assigned.
+    const alreadyAssignedReform = (currentShares?.['Reform UK'] || 0) - (baseline['Reform UK'] || 0);
+    const additionalReform = Math.max(0, reformEstimate - Math.max(0, alreadyAssignedReform));
+
+    adjustments['Reform UK'] = additionalReform;
+
+    // Deduct from other parties proportionally based on their CURRENT shares (post-swing),
+    // not original baselines — this properly reduces dominant parties
+    const sharesForDeduction = currentShares || baseline;
+    const totalOther = Object.entries(sharesForDeduction)
+      .filter(([p]) => p !== 'Reform UK')
+      .reduce((s, [, v]) => s + Math.max(0, v), 0);
+
     if (totalOther > 0) {
-      for (const party of Object.keys(baseline)) {
-        const share = baseline[party] / totalOther;
-        adjustments[party] = (adjustments[party] || 0) - (reformEstimate * share);
+      for (const party of Object.keys(sharesForDeduction)) {
+        if (party === 'Reform UK') continue;
+        const share = Math.max(0, sharesForDeduction[party]) / totalOther;
+        adjustments[party] = (adjustments[party] || 0) - (additionalReform * share);
       }
     }
+
     factors.push(
       `Reform proxy: GE2024 ${(geReform * 100).toFixed(1)}% × ${weights.ge} + LCC2025 ${(lccReform * 100).toFixed(1)}% × ${weights.lcc} × ${boroughDampening} = ${(proxyBase * 100).toFixed(1)}%`
     );
     if (localSwing !== 0) {
       factors.push(
-        `National swing: ${(nationalSwing * 100).toFixed(1)}pp × ${dampening} dampening = ${(localSwing * 100).toFixed(1)}pp → final ${(reformEstimate * 100).toFixed(1)}%`
+        `National swing: ${(nationalSwing * 100).toFixed(1)}pp × ${dampening} dampening = ${(localSwing * 100).toFixed(1)}pp → total ${(reformEstimate * 100).toFixed(1)}%`
       );
+    }
+    if (alreadyAssignedReform > 0.001) {
+      factors.push(`Already assigned from Step 2 swing: ${(alreadyAssignedReform * 100).toFixed(1)}pp, additional: +${(additionalReform * 100).toFixed(1)}pp`);
+    }
+    if (staleness && staleness > 8) {
+      factors.push(`Stale baseline (${staleness} years old): proxy weighted more heavily vs historical data`);
     }
   }
 
@@ -388,12 +434,41 @@ export function predictWard(
   methodology.push({
     step: 1,
     name: 'Baseline',
-    description: `Most recent borough result (${baseline.date})`,
+    description: `Most recent borough result (${baseline.date})` +
+      (baseline.staleness > 8 ? ` — ${baseline.staleness} years old, applying stale baseline decay` : ''),
     data: { ...baseline.parties },
   });
 
-  // Start with baseline shares
+  // Tag wardData with staleness for incumbency calculation
+  const wardDataWithStaleness = { ...wardData, _baselineStaleness: baseline.staleness };
+
+  // Start with baseline shares — apply staleness decay if baseline is very old
   let shares = { ...baseline.parties };
+
+  // Stale baseline adjustment: when data is >8 years old, blend historical
+  // baseline with current evidence (national polling + GE2024 constituency)
+  // This prevents 2007 baselines from dominating predictions in 2026
+  if (baseline.staleness > 8 && constituencyResult) {
+    const decayFactor = Math.max(0.3, 1.0 - (baseline.staleness - 8) * 0.05); // 0.05 per year beyond 8
+    const freshWeight = 1.0 - decayFactor;
+
+    // Build a "fresh estimate" from constituency GE2024 result (most recent actual votes)
+    const freshShares = { ...constituencyResult };
+
+    // Blend: shares = decayFactor × historical + freshWeight × constituency
+    for (const party of new Set([...Object.keys(shares), ...Object.keys(freshShares)])) {
+      const historical = shares[party] || 0;
+      const fresh = freshShares[party] || 0;
+      shares[party] = historical * decayFactor + fresh * freshWeight;
+    }
+
+    methodology.push({
+      step: 1.5,
+      name: 'Stale Baseline Decay',
+      description: `Baseline is ${baseline.staleness} years old — blending ${(decayFactor * 100).toFixed(0)}% historical + ${(freshWeight * 100).toFixed(0)}% GE2024 constituency data`,
+      data: { decayFactor, freshWeight, stalenessYears: baseline.staleness },
+    });
+  }
 
   // Step 2: National Swing
   const swing = calculateNationalSwing(baseline.parties, nationalPolling, ge2024Result, assumptions);
@@ -409,15 +484,15 @@ export function predictWard(
     shares[party] = (shares[party] || 0) + adj;
   }
 
-  // Step 4: Incumbency
-  const incumb = calculateIncumbencyAdjustment(wardData, assumptions);
+  // Step 4: Incumbency (with staleness awareness)
+  const incumb = calculateIncumbencyAdjustment(wardDataWithStaleness, assumptions);
   methodology.push(incumb.methodology);
   for (const [party, adj] of Object.entries(incumb.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
   }
 
-  // Step 5: Reform UK entry
-  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result);
+  // Step 5: Reform UK entry — pass current shares for proper proportional deduction
+  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result, { ...shares }, baseline.staleness);
   methodology.push(reform.methodology);
   for (const [party, adj] of Object.entries(reform.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
@@ -459,11 +534,16 @@ export function predictWard(
     ? prediction[winner].votes - prediction[runnerUp].votes
     : 0;
 
-  // Confidence based on majority size
+  // Confidence based on majority size — reduce for stale baselines
   const majorityPct = totalVotes > 0 ? majority / totalVotes : 0;
   let confidence = 'low';
-  if (majorityPct > 0.15) confidence = 'high';
-  else if (majorityPct > 0.05) confidence = 'medium';
+  if (baseline.staleness > 10) {
+    // Very stale baselines = low confidence regardless
+    confidence = majorityPct > 0.20 ? 'medium' : 'low';
+  } else {
+    if (majorityPct > 0.15) confidence = 'high';
+    else if (majorityPct > 0.05) confidence = 'medium';
+  }
 
   return {
     prediction: Object.fromEntries(sorted),
@@ -807,11 +887,37 @@ export function predictWardV2(
   }
   methodology.push({
     step: 1, name: 'Baseline',
-    description: `Most recent borough result (${baseline.date})`,
+    description: `Most recent borough result (${baseline.date})` +
+      (baseline.staleness > 8 ? ` — ${baseline.staleness} years old, applying stale baseline decay` : ''),
     data: { ...baseline.parties },
   });
 
+  // Tag wardData with staleness for incumbency calculation
+  const wardDataWithStaleness = { ...wardData, _baselineStaleness: baseline.staleness };
+
   let shares = { ...baseline.parties };
+
+  // Stale baseline adjustment (same as V1)
+  if (baseline.staleness > 8) {
+    const ge2024Constituency = {};
+    if (constituencyResult) {
+      Object.assign(ge2024Constituency, constituencyResult);
+    }
+    if (Object.keys(ge2024Constituency).length > 0) {
+      const decayFactor = Math.max(0.3, 1.0 - (baseline.staleness - 8) * 0.05);
+      const freshWeight = 1.0 - decayFactor;
+      for (const party of new Set([...Object.keys(shares), ...Object.keys(ge2024Constituency)])) {
+        const historical = shares[party] || 0;
+        const fresh = ge2024Constituency[party] || 0;
+        shares[party] = historical * decayFactor + fresh * freshWeight;
+      }
+      methodology.push({
+        step: 1.5, name: 'Stale Baseline Decay',
+        description: `Baseline is ${baseline.staleness} years old — blending ${(decayFactor * 100).toFixed(0)}% historical + ${(freshWeight * 100).toFixed(0)}% GE2024 constituency`,
+        data: { decayFactor, freshWeight, stalenessYears: baseline.staleness },
+      });
+    }
+  }
 
   // Step 2: National Swing with party-specific dampening
   const swing = calculateNationalSwingV2(
@@ -830,15 +936,15 @@ export function predictWardV2(
     shares[party] = (shares[party] || 0) + adj;
   }
 
-  // Step 4: Incumbency (same as V1)
-  const incumb = calculateIncumbencyAdjustment(wardData, assumptions);
+  // Step 4: Incumbency (with staleness awareness)
+  const incumb = calculateIncumbencyAdjustment(wardDataWithStaleness, assumptions);
   methodology.push(incumb.methodology);
   for (const [party, adj] of Object.entries(incumb.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
   }
 
-  // Step 5: Reform UK entry (same as V1)
-  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result);
+  // Step 5: Reform UK entry — pass current shares for proper proportional deduction
+  const reform = calculateReformEntry(baseline.parties, constituencyResult, lcc2025, assumptions, nationalPolling, ge2024Result, { ...shares }, baseline.staleness);
   methodology.push(reform.methodology);
   for (const [party, adj] of Object.entries(reform.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
@@ -869,12 +975,17 @@ export function predictWardV2(
   const majority = winner && runnerUp ? prediction[winner].votes - prediction[runnerUp].votes : 0;
   const majorityPct = totalVotes > 0 ? majority / totalVotes : 0;
 
-  // Confidence from regression MAE
+  // Confidence from regression MAE — reduce for stale baselines
   const validation = modelCoefficients.validation || {};
   const winnerMAE = validation[winner]?.mae || 0.10;
   let confidence = 'low';
-  if (majorityPct > winnerMAE * 2) confidence = 'high';
-  else if (majorityPct > winnerMAE) confidence = 'medium';
+  if (baseline.staleness > 10) {
+    // Very stale baselines = cap at medium confidence
+    confidence = majorityPct > winnerMAE * 3 ? 'medium' : 'low';
+  } else {
+    if (majorityPct > winnerMAE * 2) confidence = 'high';
+    else if (majorityPct > winnerMAE) confidence = 'medium';
+  }
 
   return {
     prediction: Object.fromEntries(sorted),
