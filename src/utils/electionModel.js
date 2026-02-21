@@ -132,6 +132,30 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
     rural_conservative_bonus: 0.01,
   };
 
+  // Derive percentage fields from raw Census data if not pre-computed
+  if (demographics && !demographics.white_british_pct) {
+    const age = demographics.age || {};
+    const eth = demographics.ethnicity || {};
+    const totalPop = age['Total: All usual residents'] || 0;
+    const ethTotal = eth['Total: All usual residents'] || totalPop;
+    if (totalPop > 0) {
+      const over65 = (age['Aged 65 to 74 years'] || 0)
+        + (age['Aged 75 to 84 years'] || 0)
+        + (age['Aged 85 to 89 years'] || 0)
+        + (age['Aged 90 years and over'] || age['Aged 90 years'] || 0);
+      demographics = {
+        ...demographics,
+        age_65_plus_pct: over65 / totalPop,
+        white_british_pct: ethTotal > 0
+          ? (eth['White: English, Welsh, Scottish, Northern Irish or British'] || 0) / ethTotal
+          : 0,
+        asian_pct: ethTotal > 0
+          ? (eth['Asian, Asian British or Asian Welsh'] || 0) / ethTotal
+          : 0,
+      };
+    }
+  }
+
   // Deprivation: IMD decile 1-2 = very deprived
   if (deprivation?.avg_imd_decile && deprivation.avg_imd_decile <= 2) {
     adjustments['Labour'] = (adjustments['Labour'] || 0) + demoParams.high_deprivation_labour_bonus;

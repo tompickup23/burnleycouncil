@@ -230,6 +230,62 @@ describe('calculateDemographicAdjustments', () => {
     expect(result.methodology.factors).toHaveLength(1)
     expect(result.methodology.factors[0]).toContain('deprivation')
   })
+
+  // Raw Census data derivation tests
+  it('derives white_british_pct from raw Census ethnicity data', () => {
+    const rawDemographics = {
+      age: { 'Total: All usual residents': 6000, 'Aged 65 to 74 years': 300, 'Aged 75 to 84 years': 150, 'Aged 85 to 89 years': 40, 'Aged 90 years and over': 10 },
+      ethnicity: { 'Total: All usual residents': 6000, 'White: English, Welsh, Scottish, Northern Irish or British': 5500, 'Asian, Asian British or Asian Welsh': 100 },
+    }
+    const result = calculateDemographicAdjustments(rawDemographics, null, null)
+    // white_british = 5500/6000 = 0.917 > 0.85 → Reform +4pp
+    expect(result.adjustments['Reform UK']).toBe(0.04)
+    expect(result.methodology.factors.length).toBeGreaterThan(0)
+    expect(result.methodology.factors[0]).toContain('white British')
+  })
+
+  it('derives asian_pct from raw Census ethnicity data and applies penalty', () => {
+    const rawDemographics = {
+      age: { 'Total: All usual residents': 8000, 'Aged 65 to 74 years': 200, 'Aged 75 to 84 years': 100, 'Aged 85 to 89 years': 30, 'Aged 90 years and over': 10 },
+      ethnicity: { 'Total: All usual residents': 8000, 'White: English, Welsh, Scottish, Northern Irish or British': 1000, 'Asian, Asian British or Asian Welsh': 6000 },
+    }
+    const result = calculateDemographicAdjustments(rawDemographics, null, null)
+    // asian = 6000/8000 = 0.75 > 0.20 → Reform -8pp, Independent +2pp
+    expect(result.adjustments['Reform UK']).toBe(-0.08)
+    expect(result.adjustments['Independent']).toBe(0.02)
+  })
+
+  it('derives age_65_plus_pct from raw Census age data', () => {
+    const rawDemographics = {
+      age: { 'Total: All usual residents': 5000, 'Aged 65 to 74 years': 800, 'Aged 75 to 84 years': 500, 'Aged 85 to 89 years': 100, 'Aged 90 years and over': 50 },
+      ethnicity: { 'Total: All usual residents': 5000, 'White: English, Welsh, Scottish, Northern Irish or British': 3000, 'Asian, Asian British or Asian Welsh': 100 },
+    }
+    const result = calculateDemographicAdjustments(rawDemographics, null, null)
+    // over65 = 1450/5000 = 0.29 > 0.25 → Conservative +1.5pp, Reform +2pp
+    expect(result.adjustments['Conservative']).toBe(0.015)
+    expect(result.adjustments['Reform UK']).toBe(0.02)
+  })
+
+  it('combines raw Census derivation with deprivation adjustments', () => {
+    const rawDemographics = {
+      age: { 'Total: All usual residents': 6000, 'Aged 65 to 74 years': 200, 'Aged 75 to 84 years': 100, 'Aged 85 to 89 years': 20, 'Aged 90 years and over': 5 },
+      ethnicity: { 'Total: All usual residents': 6000, 'White: English, Welsh, Scottish, Northern Irish or British': 5700, 'Asian, Asian British or Asian Welsh': 50 },
+    }
+    const deprivation = { avg_imd_decile: 1 }
+    const result = calculateDemographicAdjustments(rawDemographics, deprivation, null)
+    // Deprivation: Reform +3pp; White British 95%: Reform +4pp → total Reform +7pp
+    expect(result.adjustments['Reform UK']).toBe(0.07)
+    expect(result.adjustments['Labour']).toBe(0.02)
+    expect(result.adjustments['Conservative']).toBe(-0.02)
+  })
+
+  it('skips raw Census derivation when pre-computed fields exist', () => {
+    // If white_british_pct already exists, don't re-derive
+    const preComputed = { white_british_pct: 0.90, asian_pct: 0.05, age_65_plus_pct: 0.15 }
+    const result = calculateDemographicAdjustments(preComputed, null, null)
+    // white_british > 0.85 → Reform +4pp
+    expect(result.adjustments['Reform UK']).toBe(0.04)
+  })
 })
 
 // ---------------------------------------------------------------------------
