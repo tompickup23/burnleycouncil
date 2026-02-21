@@ -1,0 +1,61 @@
+# Automated Polling Update — runs weekly (Monday 07:00 UTC)
+# Scrapes Electoral Calculus, computes weighted average, updates elections_reference.json
+# Zero cost: GitHub Actions free tier (2,000 mins/month) + no API keys needed
+#
+# Also triggerable manually from Actions tab.
+
+name: Update Polls
+
+on:
+  schedule:
+    - cron: '0 7 * * 1'  # Monday 07:00 UTC (weekly)
+  workflow_dispatch:       # Manual trigger
+
+jobs:
+  update-polls:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # Needed to commit updated polling data
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run poll aggregator
+        id: polls
+        run: |
+          python3 burnley-council/scripts/poll_aggregator.py 2>&1 | tee /tmp/poll_output.txt
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+
+          # Extract latest aggregate for commit message
+          if [ -f burnley-council/data/shared/polling.json ]; then
+            REFORM=$(python3 -c "import json; d=json.load(open('burnley-council/data/shared/polling.json')); print(f'{d[\"aggregate\"].get(\"Reform UK\", 0)*100:.0f}')" 2>/dev/null || echo "?")
+            LABOUR=$(python3 -c "import json; d=json.load(open('burnley-council/data/shared/polling.json')); print(f'{d[\"aggregate\"].get(\"Labour\", 0)*100:.0f}')" 2>/dev/null || echo "?")
+            CON=$(python3 -c "import json; d=json.load(open('burnley-council/data/shared/polling.json')); print(f'{d[\"aggregate\"].get(\"Conservative\", 0)*100:.0f}')" 2>/dev/null || echo "?")
+            echo "summary=Ref ${REFORM}% Lab ${LABOUR}% Con ${CON}%" >> "$GITHUB_OUTPUT"
+          fi
+        continue-on-error: true
+
+      - name: Sync polls to elections_reference.json
+        if: steps.polls.outputs.exit_code == '0' || steps.polls.outputs.exit_code == ''
+        run: python3 scripts/sync_polls_to_reference.py 2>&1
+        continue-on-error: true
+
+      - name: Commit updates
+        env:
+          POLL_SUMMARY: ${{ steps.polls.outputs.summary }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add burnley-council/data/shared/polling.json burnley-council/data/shared/elections_reference.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m "polls: $(date +%Y-%m-%d) — ${POLL_SUMMARY:-updated}"
+            git push origin HEAD
+          else
+            echo "No polling changes detected"
+          fi
