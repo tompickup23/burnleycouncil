@@ -53,8 +53,98 @@
     "majority": true
   },
   "opposition_seats": 32,
-  "council_leader": "",
+  "council_leader": "Stephen Atkinson",
   "mayor": "",
   "data_source": "https://council.lancashire.gov.uk/mgMemberIndex.aspx?FN=WARD&VW=LIST&PIC=0",
-  "scraped_date": "2026-02-17"
+  "scraped_date": "2026-02-17",
+  "opposition_groups": [
+    {
+      "name": "Progressive Lancashire",
+      "formal_opposition": true,
+      "seats": 11,
+      "composition": [
+        {
+          "party": "Independent",
+          "count": 7
+        },
+        {
+          "party": "Green Party",
+          "count": 4
+        }
+      ],
+      "leader": "Azhar Ali OBE",
+      "leader_ward": "Nelson East",
+      "deputy_leader": "Gina Dowding",
+      "deputy_leader_ward": "Lancaster Central",
+      "color": "#6AB023"
+    },
+    {
+      "name": "Conservative",
+      "formal_opposition": false,
+      "seats": 8,
+      "composition": [
+        {
+          "party": "Conservative",
+          "count": 8
+        }
+      ],
+      "leader": "Aidy Riggott",
+      "leader_ward": "Euxton, Buckshaw & Astley",
+      "deputy_leader": "Peter Buckley",
+      "deputy_leader_ward": "St Annes North",
+      "color": "#0087DC"
+    },
+    {
+      "name": "Liberal Democrats",
+      "formal_opposition": false,
+      "seats": 5,
+      "composition": [
+        {
+          "party": "Liberal Democrats",
+          "count": 5
+        }
+      ],
+      "leader": "John Potter",
+      "leader_ward": "Preston West",
+      "deputy_leader": null,
+      "deputy_leader_ward": null,
+      "color": "#FAA61A"
+    },
+    {
+      "name": "Labour",
+      "formal_opposition": false,
+      "seats": 5,
+      "composition": [
+        {
+          "party": "Labour",
+          "count": 3
+        },
+        {
+          "party": "Labour & Co-operative",
+          "count": 2
+        }
+      ],
+      "leader": "Mark Clifford",
+      "leader_ward": "Clayton with Whittle",
+      "deputy_leader": null,
+      "deputy_leader_ward": null,
+      "color": "#DC241F"
+    },
+    {
+      "name": "Our West Lancashire",
+      "formal_opposition": false,
+      "seats": 2,
+      "composition": [
+        {
+          "party": "Our West Lancashire",
+          "count": 2
+        }
+      ],
+      "leader": "Gordon Johnson",
+      "leader_ward": "Ormskirk",
+      "deputy_leader": null,
+      "deputy_leader_ward": null,
+      "color": "#7B2D8E"
+    }
+  ]
 }
