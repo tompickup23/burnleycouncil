@@ -6,7 +6,7 @@ import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { COUNCIL_COLORS, TOOLTIP_STYLE } from '../utils/constants'
+import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName } from '../utils/constants'
 import './CrossCouncil.css'
 
 // Service categories by tier — upper-tier services only shown for county/unitary
@@ -67,7 +67,7 @@ function CrossCouncil() {
 
   // Spend per head data — use annualized spend for fair comparison across different year ranges
   const spendPerHead = useMemo(() => councils.map(c => ({
-    name: c.council_name,
+    name: shortenCouncilName(c.council_name),
     spend: Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1)),
     years: c.num_years || 1,
     isCurrent: c.council_name === councilName,
@@ -97,7 +97,7 @@ function CrossCouncil() {
   const councilTaxData = useMemo(() => councils
     .filter(c => c.budget_summary?.council_tax_band_d)
     .map(c => ({
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       bandD: c.budget_summary.council_tax_band_d,
       bandDTotal: c.budget_summary.council_tax_band_d_total || 0,
       isCurrent: c.council_name === councilName,
@@ -108,7 +108,7 @@ function CrossCouncil() {
   const reservesData = useMemo(() => councils
     .filter(c => c.budget_summary?.reserves_total)
     .map(c => ({
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       earmarked: Math.round((c.budget_summary.reserves_earmarked_closing || 0) / 1_000_000),
       unallocated: Math.round((c.budget_summary.reserves_unallocated_closing || 0) / 1_000_000),
       total: Math.round((c.budget_summary.reserves_total || 0) / 1_000_000),
@@ -122,7 +122,7 @@ function CrossCouncil() {
   const nreData = useMemo(() => councils
     .filter(c => c.budget_summary?.net_revenue_expenditure)
     .map(c => ({
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       nre: c.budget_summary.net_revenue_expenditure,
       nrePerHead: Math.round(c.budget_summary.net_revenue_expenditure / (c.population || 1)),
       ctReq: c.budget_summary.council_tax_requirement || 0,
@@ -135,7 +135,7 @@ function CrossCouncil() {
   const collectionRateData = useMemo(() => councils
     .filter(c => c.collection_rate != null)
     .map(c => ({
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       rate: c.collection_rate,
       avg5yr: c.collection_rate_5yr_avg || 0,
       trend: c.collection_rate_trend || 0,
@@ -149,7 +149,7 @@ function CrossCouncil() {
   const dependencyData = useMemo(() => councils
     .filter(c => c.dependency_ratio > 0)
     .map(c => ({
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       ratio: c.dependency_ratio,
       youth: c.youth_ratio || 0,
       elderly: c.elderly_ratio || 0,
@@ -172,7 +172,7 @@ function CrossCouncil() {
       councils: councils
         .filter(c => c.service_hhi && Object.keys(c.service_hhi).length > 0)
         .map(c => ({
-          name: c.council_name,
+          name: shortenCouncilName(c.council_name),
           id: c.council_id,
           overallHhi: c.overall_hhi || 0,
           isCurrent: c.council_name === councilName,
@@ -204,7 +204,7 @@ function CrossCouncil() {
   const payData = useMemo(() => councils
     .filter(c => c.pay?.ceo_midpoint)
     .map(c => ({
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       salary: c.pay.ceo_midpoint,
       ratio: c.pay.ceo_to_median_ratio,
       isCurrent: c.council_name === councilName,
@@ -215,7 +215,7 @@ function CrossCouncil() {
   const dupeData = useMemo(() => councils.map(c => {
     const years = c.num_years || 1
     return {
-      name: c.council_name,
+      name: shortenCouncilName(c.council_name),
       value: Math.round((c.duplicate_value || 0) / years),
       count: Math.round((c.duplicate_count || 0) / years),
       rawValue: c.duplicate_value || 0,
@@ -354,7 +354,7 @@ function CrossCouncil() {
           {councils.map(c => (
             <div key={c.council_id} className={`overview-card ${c.council_name === councilName ? 'current' : ''}`}>
               <div className="overview-header" style={{ borderColor: COUNCIL_COLORS[c.council_id] }}>
-                <h3>{c.council_name}</h3>
+                <h3>{shortenCouncilName(c.council_name)}</h3>
                 {c.council_name === councilName && <span className="current-badge">You are here</span>}
               </div>
               <div className="overview-stats">
@@ -390,9 +390,9 @@ function CrossCouncil() {
         <div className="chart-container" role="img" aria-label="Bar chart comparing spend per head across councils">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={spendPerHead} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-              <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-              <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+              <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={AXIS_TICK_STYLE} />
               <Tooltip
                 formatter={(v) => [`£${v.toLocaleString()}`, 'Annual spend per head']}
                 contentStyle={TOOLTIP_STYLE}
@@ -418,9 +418,9 @@ function CrossCouncil() {
         <div className="chart-container" role="img" aria-label="Grouped bar chart comparing service expenditure per head across councils">
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={serviceData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-              <XAxis dataKey="category" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 11 }} />
-              <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis dataKey="category" tick={AXIS_TICK_STYLE} />
+              <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={AXIS_TICK_STYLE} />
               <Tooltip
                 formatter={(v, name) => {
                   const label = councils.find(c => c.council_id === name)?.council_name || name
@@ -453,9 +453,9 @@ function CrossCouncil() {
           <div className="chart-container" role="img" aria-label="Bar chart comparing council tax Band D rates">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={councilTaxData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-                <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={AXIS_TICK_STYLE} />
                 <Tooltip
                   formatter={(v) => [`£${v.toLocaleString()}`, 'Band D']}
                   contentStyle={TOOLTIP_STYLE}
@@ -483,12 +483,12 @@ function CrossCouncil() {
           <div className="chart-container" role="img" aria-label="Bar chart comparing council tax collection rates">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={collectionRateData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
                 <YAxis
                   domain={[Math.floor(Math.min(...collectionRateData.map(d => d.rate)) - 1), 100]}
                   tickFormatter={v => `${v}%`}
-                  tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                 />
                 <Tooltip
                   formatter={(v, name) => {
@@ -542,9 +542,9 @@ function CrossCouncil() {
           <div className="chart-container" role="img" aria-label="Bar chart comparing net revenue expenditure per head">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={nreData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-                <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={AXIS_TICK_STYLE} />
                 <Tooltip
                   formatter={(v, name) => [`£${v.toLocaleString()}`, name === 'nrePerHead' ? 'NRE per head' : 'CT requirement per head']}
                   contentStyle={TOOLTIP_STYLE}
@@ -571,9 +571,9 @@ function CrossCouncil() {
           <div className="chart-container" role="img" aria-label="Stacked bar chart comparing reserves per head">
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={reservesData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-                <YAxis tickFormatter={v => `£${v}`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tickFormatter={v => `£${v}`} tick={AXIS_TICK_STYLE} />
                 <Tooltip
                   formatter={(v, name) => [`£${v.toLocaleString()}`, name === 'perHead' ? 'Total per head' : name === 'earmarked' ? 'Earmarked (£M)' : 'Unallocated (£M)']}
                   contentStyle={TOOLTIP_STYLE}
@@ -614,12 +614,12 @@ function CrossCouncil() {
           <div className="chart-container" role="img" aria-label="Bar chart comparing dependency ratios">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={dependencyData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
                 <YAxis
                   domain={[0, Math.ceil(Math.max(...dependencyData.map(d => d.ratio)) / 10) * 10]}
                   tickFormatter={v => `${v}%`}
-                  tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                 />
                 <Tooltip
                   formatter={(v) => [`${v.toFixed(1)}%`, 'Dependency ratio']}
@@ -664,7 +664,7 @@ function CrossCouncil() {
             const t = c.transparency || {}
             return (
               <div key={c.council_id} className={`scorecard-card ${c.council_name === councilName ? 'current' : ''}`}>
-                <h3 style={{ color: COUNCIL_COLORS[c.council_id] }}>{c.council_name}</h3>
+                <h3 style={{ color: COUNCIL_COLORS[c.council_id] }}>{shortenCouncilName(c.council_name)}</h3>
                 <div className="score-bars">
                   <ScoreBar label="Dates" value={t.has_dates} />
                   <ScoreBar label="Suppliers" value={t.has_suppliers} />
@@ -745,7 +745,7 @@ function CrossCouncil() {
               <tbody>
                 {councils.filter(c => c.pay).map(c => (
                   <tr key={c.council_id} className={c.council_name === councilName ? 'highlight-row' : ''}>
-                    <td className="council-name">{c.council_name}{c.council_name === councilName ? ' ★' : ''}</td>
+                    <td className="council-name">{shortenCouncilName(c.council_name)}{c.council_name === councilName ? ' ★' : ''}</td>
                     <td>{formatCurrency(c.pay.ceo_midpoint)}</td>
                     <td>{c.pay.ceo_to_median_ratio ? `${c.pay.ceo_to_median_ratio}:1` : '—'}</td>
                     <td>{c.pay.median_employee_salary ? formatCurrency(c.pay.median_employee_salary) : '—'}</td>
@@ -767,9 +767,9 @@ function CrossCouncil() {
         <div className="chart-container" role="img" aria-label="Bar chart comparing potential duplicate payment values across councils">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={dupeData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-              <XAxis dataKey="name" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-              <YAxis tickFormatter={v => `£${(v / 1_000_000).toFixed(1)}M`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+              <YAxis tickFormatter={v => `£${(v / 1_000_000).toFixed(1)}M`} tick={AXIS_TICK_STYLE} />
               <Tooltip
                 formatter={(v) => [formatCurrency(v), 'Flagged value']}
                 contentStyle={TOOLTIP_STYLE}

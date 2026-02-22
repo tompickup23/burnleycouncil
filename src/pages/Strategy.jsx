@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
 import {
   DEFAULT_ASSUMPTIONS,
   predictCouncil,
@@ -465,9 +465,9 @@ export default function Strategy() {
               <h3>Top 10 Priority {wardLabel}s</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={rankedWards.slice(0, 10)} layout="vertical" margin={{ left: 100 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis type="number" domain={[0, 100]} tick={{ fill: '#aaa', fontSize: 12 }} />
-                  <YAxis type="category" dataKey="ward" tick={{ fill: '#ccc', fontSize: 11 }} width={95} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis type="number" domain={[0, 100]} tick={AXIS_TICK_STYLE} />
+                  <YAxis type="category" dataKey="ward" tick={AXIS_TICK_STYLE_SM} width={95} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`${v}/100`, 'Priority Score']} />
                   <Bar dataKey="score" fill="#12B6CF" radius={[0, 4, 4, 0]} />
                 </BarChart>
@@ -818,9 +818,9 @@ export default function Strategy() {
                 <h3>Hours per {wardLabel}</h3>
                 <ResponsiveContainer width="100%" height={Math.max(250, resourceAllocation.length * 28)}>
                   <BarChart data={resourceAllocation.slice(0, 20)} layout="vertical" margin={{ left: 110 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                    <XAxis type="number" tick={{ fill: '#aaa', fontSize: 12 }} />
-                    <YAxis type="category" dataKey="ward" tick={{ fill: '#ccc', fontSize: 11 }} width={105} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} />
+                    <YAxis type="category" dataKey="ward" tick={AXIS_TICK_STYLE_SM} width={105} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [name === 'hours' ? `${v} hrs` : v, name]} />
                     <Bar dataKey="hours" fill="#12B6CF" radius={[0, 4, 4, 0]} />
                   </BarChart>

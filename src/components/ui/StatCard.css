@@ -9,12 +9,23 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  background: var(--bg-secondary);
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: var(--radius-md);
   padding: var(--space-md) var(--space-lg);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   flex: 1;
   min-width: 0;
+  transition: border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 .stat-card.highlight {
@@ -22,9 +33,19 @@
   border-color: rgba(10, 132, 255, 0.2);
 }
 
+.stat-card.highlight:hover {
+  border-color: rgba(10, 132, 255, 0.35);
+  box-shadow: 0 4px 20px rgba(10, 132, 255, 0.1);
+}
+
 .stat-card-icon {
   color: var(--accent-blue);
   flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.stat-card:hover .stat-card-icon {
+  transform: scale(1.08);
 }
 
 .stat-card.highlight .stat-card-icon {

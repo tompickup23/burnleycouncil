@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber, formatDate, formatPercent } from '../utils/format'
-import { TOOLTIP_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { LoadingState } from '../components/ui'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -38,7 +38,7 @@ const COUNCIL_NAMES = {
   burnley: 'Burnley', hyndburn: 'Hyndburn', pendle: 'Pendle', rossendale: 'Rossendale',
   lancaster: 'Lancaster', ribble_valley: 'Ribble Valley', chorley: 'Chorley',
   south_ribble: 'South Ribble', lancashire_cc: 'Lancashire CC', blackpool: 'Blackpool',
-  west_lancashire: 'West Lancashire', blackburn: 'Blackburn with Darwen',
+  west_lancashire: 'West Lancs', blackburn: 'Blackburn',
   wyre: 'Wyre', preston: 'Preston', fylde: 'Fylde',
 }
 
@@ -386,8 +386,8 @@ export default function ConstituencyView() {
             <h3>Candidate Results</h3>
             <ResponsiveContainer width="100%" height={Math.max(250, electionChartData.length * 50)}>
               <BarChart data={electionChartData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" horizontal={false} />
-                <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => formatNumber(v)} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
+                <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => formatNumber(v)} />
                 <YAxis
                   type="category" dataKey="name" width={140}
                   tick={{ fill: '#e5e5e7', fontSize: 12 }}
@@ -592,9 +592,9 @@ export default function ConstituencyView() {
                 <h3>Expenses Breakdown</h3>
                 <ResponsiveContainer width="100%" height={expensesChartData.length * 55 + 30}>
                   <BarChart data={expensesChartData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" horizontal={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
                     <XAxis
-                      type="number" tick={{ fill: '#8e8e93', fontSize: 12 }}
+                      type="number" tick={AXIS_TICK_STYLE}
                       tickFormatter={v => `£${(v / 1000).toFixed(0)}k`}
                     />
                     <YAxis type="category" dataKey="category" width={120} tick={{ fill: '#e5e5e7', fontSize: 12 }} />
@@ -642,13 +642,13 @@ export default function ConstituencyView() {
               <h3>Monthly Claimant Count Trend</h3>
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={claimantChartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
-                    dataKey="fullLabel" tick={{ fill: '#8e8e93', fontSize: 11 }}
+                    dataKey="fullLabel" tick={AXIS_TICK_STYLE}
                     angle={-45} textAnchor="end" height={60}
                     interval={Math.max(0, Math.floor(claimantChartData.length / 8) - 1)}
                   />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => formatNumber(v)} />
+                  <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => formatNumber(v)} />
                   <Tooltip content={({ active, payload, label }) => {
                     if (!active || !payload?.length) return null
                     const d = payload[0].payload

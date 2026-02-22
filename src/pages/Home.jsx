@@ -11,6 +11,7 @@ import {
   PieChart, Pie, Cell
 } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
@@ -382,24 +383,20 @@ function Home() {
             <div className="chart-container" role="img" aria-label="Bar chart showing top 8 suppliers by total payment value">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={topSuppliersChart} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
                     type="number"
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `\u00A3${v}M`}
                   />
                   <YAxis
                     dataKey="name"
                     type="category"
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                    tick={{ fill: '#e5e5e7', fontSize: 12 }}
                     width={80}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value, name, props) => [`\u00A3${value.toFixed(2)}M`, props.payload.fullName]}
                   />
                   <Bar dataKey="amount" fill="var(--accent-orange)" radius={[0, 4, 4, 0]} />
@@ -417,21 +414,17 @@ function Home() {
               <div className="chart-container" role="img" aria-label="Bar chart showing annual external payment totals by financial year">
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={spendByYearChart} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                     <XAxis
                       dataKey="year"
-                      tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                      tick={AXIS_TICK_STYLE}
                     />
                     <YAxis
-                      tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                      tick={AXIS_TICK_STYLE}
                       tickFormatter={(v) => `\u00A3${v}M`}
                     />
                     <Tooltip
-                      contentStyle={{
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '8px',
-                      }}
+                      contentStyle={TOOLTIP_STYLE}
                       formatter={(value) => [`\u00A3${value.toFixed(2)}M`, 'External Payments']}
                     />
                     <Bar dataKey="amount" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} />
@@ -515,11 +508,7 @@ function Home() {
                       ))}
                     </Pie>
                     <Tooltip
-                      contentStyle={{
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '8px',
-                      }}
+                      contentStyle={TOOLTIP_STYLE}
                       formatter={(value, name) => [`${value} seats`, name]}
                     />
                   </PieChart>

@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Search, FileText, Building, TrendingUp, Users, ExternalLink, ChevronLeft, ChevronRight, ArrowUpDown, ChevronDown, PoundSterling, Filter, X, AlertTriangle, Download, Clock, Shield, BarChart3 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { formatCurrency, formatNumber, formatDate, slugify } from '../utils/format'
-import { CHART_COLORS, TOOLTIP_STYLE } from '../utils/constants'
+import { CHART_COLORS, TOOLTIP_STYLE, AXIS_TICK_STYLE } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -506,8 +506,8 @@ function Procurement() {
           >
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={yearChartData} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
-                <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} allowDecimals={false} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} allowDecimals={false} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} />
                 <Bar dataKey="count" fill="#0a84ff" radius={[4, 4, 0, 0]} name="Contracts" />
               </BarChart>
@@ -600,8 +600,8 @@ function Procurement() {
             >
               <ResponsiveContainer width="100%" height={260}>
                 <BarChart data={competitionStats.yearTrend.filter(y => y.avgBids !== null)} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
-                  <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                  <YAxis tick={AXIS_TICK_STYLE} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [name === 'avgBids' ? `${v} bids` : `${v}%`, name === 'avgBids' ? 'Avg Bids' : 'Single Bid %']} />
                   <Bar dataKey="avgBids" fill="#0a84ff" radius={[4, 4, 0, 0]} name="Avg Bids" />
                 </BarChart>

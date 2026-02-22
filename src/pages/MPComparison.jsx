@@ -10,7 +10,7 @@ import {
   PoundSterling, Users, BarChart3, AlertTriangle, TrendingUp, TrendingDown,
   Search, ArrowUpDown, ExternalLink, Landmark, Vote, Scale,
 } from 'lucide-react'
-import { TOOLTIP_STYLE, CHART_COLORS } from '../utils/constants'
+import { TOOLTIP_STYLE, CHART_COLORS, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
 import './MPComparison.css'
 
 // Party colours
@@ -340,11 +340,11 @@ function MPComparison() {
             <h3>Expenses Breakdown by MP</h3>
             <ResponsiveContainer width="100%" height={Math.max(400, mps.length * 35)}>
               <BarChart data={expensesChartData} layout="vertical" margin={{ left: 80, right: 20, top: 10, bottom: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                <XAxis type="number" tickFormatter={v => formatCurrency(v)} stroke="#666" />
-                <YAxis type="category" dataKey="name" width={75} stroke="#888" fontSize={11} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" tickFormatter={v => formatCurrency(v)} axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                <YAxis type="category" dataKey="name" width={75} axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE_SM} />
                 <Tooltip
-                  {...TOOLTIP_STYLE}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(v, name) => [formatCurrency(v), name]}
                   labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName ? `${payload[0].payload.fullName} (${payload[0].payload.constituency})` : ''}
                 />
@@ -360,11 +360,11 @@ function MPComparison() {
             <h3>Total Cost to Taxpayer (Salary + Expenses)</h3>
             <ResponsiveContainer width="100%" height={Math.max(400, mps.length * 35)}>
               <BarChart data={costChartData} layout="vertical" margin={{ left: 80, right: 20, top: 10, bottom: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                <XAxis type="number" tickFormatter={v => formatCurrency(v)} stroke="#666" />
-                <YAxis type="category" dataKey="name" width={75} stroke="#888" fontSize={11} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" tickFormatter={v => formatCurrency(v)} axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                <YAxis type="category" dataKey="name" width={75} axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE_SM} />
                 <Tooltip
-                  {...TOOLTIP_STYLE}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(v, name) => [formatCurrency(v), name]}
                   labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName ? `${payload[0].payload.fullName} (${payload[0].payload.constituency})` : ''}
                 />
@@ -429,11 +429,11 @@ function MPComparison() {
             <h3>Voting Attendance Rate</h3>
             <ResponsiveContainer width="100%" height={Math.max(400, mps.length * 35)}>
               <BarChart data={votingChartData} layout="vertical" margin={{ left: 80, right: 20, top: 10, bottom: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} stroke="#666" />
-                <YAxis type="category" dataKey="name" width={75} stroke="#888" fontSize={11} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                <YAxis type="category" dataKey="name" width={75} axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE_SM} />
                 <Tooltip
-                  {...TOOLTIP_STYLE}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(v, name) => [name === 'Rebellions' ? v : `${v}%`, name]}
                   labelFormatter={(_, payload) => {
                     const p = payload?.[0]?.payload

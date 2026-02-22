@@ -87,11 +87,55 @@ export const MEETING_TYPE_COLORS = {
 
 // ── Recharts Tooltip Styles ──
 
-/** Standard dark tooltip style for Recharts */
+/** Standard dark tooltip style for Recharts — white text on dark bg */
 export const TOOLTIP_STYLE = {
   background: 'rgba(28, 28, 30, 0.95)',
-  border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: '10px',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  borderRadius: '12px',
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)',
   padding: '12px 16px',
+  color: '#ffffff',
+}
+
+// ── Chart Grid & Axis Styles ──
+
+/** Standardised grid line stroke for CartesianGrid */
+export const GRID_STROKE = 'rgba(255, 255, 255, 0.06)'
+
+/** Axis tick style — readable on dark backgrounds (WCAG AA) */
+export const AXIS_TICK_STYLE = { fill: '#8e8e93', fontSize: 12 }
+
+/** Smaller axis tick variant for tight spaces */
+export const AXIS_TICK_STYLE_SM = { fill: '#8e8e93', fontSize: 11 }
+
+// ── Council Display Names ──
+
+/** Short names for charts/tables where space is limited */
+export const COUNCIL_SHORT_NAMES = {
+  burnley: 'Burnley',
+  hyndburn: 'Hyndburn',
+  pendle: 'Pendle',
+  rossendale: 'Rossendale',
+  lancaster: 'Lancaster',
+  ribble_valley: 'Ribble Valley',
+  chorley: 'Chorley',
+  south_ribble: 'South Ribble',
+  lancashire_cc: 'Lancashire CC',
+  blackpool: 'Blackpool',
+  west_lancashire: 'West Lancs',
+  blackburn: 'Blackburn',
+  wyre: 'Wyre',
+  preston: 'Preston',
+  fylde: 'Fylde',
+}
+
+/** Shorten council names for chart labels */
+export function shortenCouncilName(name) {
+  if (!name) return name
+  return name
+    .replace(/Blackburn with Darwen/gi, 'Blackburn')
+    .replace(/Blackburn With Darwen/gi, 'Blackburn')
+    .replace(/West Lancashire/gi, 'West Lancs')
+    .replace(/Lancashire County Council/gi, 'Lancashire CC')
+    .replace(/Lancashire CC/gi, 'Lancashire CC')
 }

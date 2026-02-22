@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import {
   DEFAULT_ASSUMPTIONS,
   predictWard,
@@ -37,7 +37,7 @@ const COUNCIL_NAME_MAP = {
   burnley: 'Burnley', hyndburn: 'Hyndburn', pendle: 'Pendle', rossendale: 'Rossendale',
   lancaster: 'Lancaster', ribble_valley: 'Ribble Valley', chorley: 'Chorley',
   south_ribble: 'South Ribble', lancashire_cc: 'Lancashire CC', blackpool: 'Blackpool',
-  west_lancashire: 'West Lancashire', blackburn: 'Blackburn with Darwen', wyre: 'Wyre',
+  west_lancashire: 'West Lancs', blackburn: 'Blackburn', wyre: 'Wyre',
   preston: 'Preston', fylde: 'Fylde',
 }
 
@@ -708,9 +708,9 @@ export default function Elections() {
               <h3>Turnout Trend</h3>
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={turnoutTrend}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                  <XAxis dataKey="year" stroke="#8e8e93" />
-                  <YAxis stroke="#8e8e93" unit="%" domain={[0, 'auto']} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                  <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" domain={[0, 'auto']} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
                   <Line type="monotone" dataKey="turnout" stroke="#0a84ff" strokeWidth={2} dot={{ r: 4 }} name="Turnout" />
                 </LineChart>
@@ -832,9 +832,9 @@ export default function Elections() {
               <h3>Seats Won by Party</h3>
               <ResponsiveContainer width="100%" height={350}>
                 <BarChart data={councilHistoryData.seats}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                  <XAxis dataKey="year" stroke="#8e8e93" />
-                  <YAxis stroke="#8e8e93" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                  <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
                   <Tooltip content={<ElectionTooltip partyColors={partyColors} />} />
                   <Legend />
                   {councilHistoryData.parties.map(party => (
@@ -856,9 +856,9 @@ export default function Elections() {
                 <h3>Vote Share Trend (%)</h3>
                 <ResponsiveContainer width="100%" height={320}>
                   <LineChart data={councilHistoryData.voteShare}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                    <XAxis dataKey="year" stroke="#8e8e93" />
-                    <YAxis stroke="#8e8e93" unit="%" />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="year" axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                    <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" />
                     <Tooltip content={<ElectionTooltip partyColors={partyColors} />} />
                     <Legend />
                     {councilHistoryData.parties.map(party => (
@@ -1083,9 +1083,9 @@ export default function Elections() {
                   <h4>Majority Trend</h4>
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={majorityData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                      <XAxis dataKey="year" stroke="#8e8e93" />
-                      <YAxis stroke="#8e8e93" unit="%" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis dataKey="year" axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
+                      <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" />
                       <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
                       <Line type="monotone" dataKey="majority" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 3 }} name="Majority" />
                     </LineChart>
@@ -1586,15 +1586,15 @@ export default function Elections() {
               </p>
               <ResponsiveContainer width="100%" height={380}>
                 <ScatterChart>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
                     type="number" dataKey="deprivation" name="IMD Decile"
-                    stroke="#8e8e93" domain={[0, 10]}
+                    axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} domain={[0, 10]}
                     label={{ value: 'IMD Decile (10 = least deprived)', position: 'bottom', fill: '#8e8e93' }}
                   />
                   <YAxis
                     type="number" dataKey="turnout" name="Turnout"
-                    stroke="#8e8e93" unit="%"
+                    axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%"
                     label={{ value: 'Turnout %', angle: -90, position: 'insideLeft', fill: '#8e8e93' }}
                   />
                   <ZAxis type="number" range={[60, 200]} />
@@ -1627,15 +1627,15 @@ export default function Elections() {
                 <h3>Over-65 Population vs Turnout</h3>
                 <ResponsiveContainer width="100%" height={340}>
                   <ScatterChart>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                     <XAxis
                       type="number" dataKey="over65" name="Over 65%"
-                      stroke="#8e8e93" unit="%"
+                      axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%"
                       label={{ value: 'Over 65 %', position: 'bottom', fill: '#8e8e93' }}
                     />
                     <YAxis
                       type="number" dataKey="turnout" name="Turnout"
-                      stroke="#8e8e93" unit="%"
+                      axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%"
                     />
                     <ZAxis type="number" range={[60, 200]} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} />

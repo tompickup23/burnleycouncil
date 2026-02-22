@@ -6,7 +6,7 @@ import { formatCurrency, formatNumber, formatDate, formatPercent } from '../util
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { SEVERITY_COLORS, TOOLTIP_STYLE, COUNCIL_COLORS } from '../utils/constants'
+import { SEVERITY_COLORS, TOOLTIP_STYLE, COUNCIL_COLORS, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import './SupplierView.css'
 
 const RISK_COLORS = {
@@ -297,15 +297,15 @@ function SupplierView() {
               <h3>Spending by Year</h3>
               <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={yearChartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
                     dataKey="year"
-                    tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }}
+                    tick={AXIS_TICK_STYLE}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
-                    tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => formatCurrency(v, true)}
                     axisLine={false}
                     tickLine={false}
@@ -326,15 +326,15 @@ function SupplierView() {
               <h3>Spending by Quarter</h3>
               <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={quarterChartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
                     dataKey="quarter"
-                    tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }}
+                    tick={AXIS_TICK_STYLE}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
-                    tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => formatCurrency(v, true)}
                     axisLine={false}
                     tickLine={false}
@@ -648,10 +648,10 @@ function SupplierView() {
           <div className="supplier-chart-card">
             <ResponsiveContainer width="100%" height={Math.max(200, councilChartData.length * 45)}>
               <BarChart data={councilChartData} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                 <XAxis
                   type="number"
-                  tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => formatCurrency(v, true)}
                   axisLine={false}
                   tickLine={false}
@@ -659,7 +659,7 @@ function SupplierView() {
                 <YAxis
                   type="category"
                   dataKey="council"
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={{ fill: '#e5e5e7', fontSize: 12 }}
                   width={120}
                   axisLine={false}
                   tickLine={false}

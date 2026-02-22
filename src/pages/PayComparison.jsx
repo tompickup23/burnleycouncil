@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Users, TrendingUp, AlertTriangle, Building, ChevronRight, Info, Briefcase, Award, FileText, Hash } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
 import { formatCurrency } from '../utils/format'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -157,12 +158,12 @@ function PayComparison() {
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={320}>
               <LineChart data={salaryTrendData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-                <YAxis tickFormatter={v => `£${(v / 1000).toFixed(0)}K`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                <YAxis tickFormatter={v => `£${(v / 1000).toFixed(0)}K`} tick={AXIS_TICK_STYLE} />
                 <Tooltip
                   formatter={(value, name) => [formatCurrency(value), name === 'total' ? 'CEO Total Remuneration' : name === 'salary' ? 'CEO Base Salary' : 'Median Employee Salary']}
-                  contentStyle={{ background: 'var(--card-bg, #1c1c1e)', border: '1px solid var(--border-color, #333)', borderRadius: '8px' }}
+                  contentStyle={TOOLTIP_STYLE}
                 />
                 <Legend />
                 <Line type="monotone" dataKey="total" name="CEO Total Remuneration" stroke="#ff453a" strokeWidth={2} dot={{ r: 4 }} />
@@ -184,12 +185,12 @@ function PayComparison() {
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={ratioTrendData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-                <YAxis tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} domain={[0, 'auto']} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} domain={[0, 'auto']} />
                 <Tooltip
                   formatter={(value, name) => [`${value}:1`, name === 'medianRatio' ? 'CEO:Median Ratio' : 'CEO:Lowest Ratio']}
-                  contentStyle={{ background: 'var(--card-bg, #1c1c1e)', border: '1px solid var(--border-color, #333)', borderRadius: '8px' }}
+                  contentStyle={TOOLTIP_STYLE}
                 />
                 <Legend />
                 <Bar dataKey="medianRatio" name="CEO:Median" fill="#0a84ff" radius={[4, 4, 0, 0]} />
@@ -210,12 +211,12 @@ function PayComparison() {
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={Math.max(280, comparisonData.length * 40)}>
               <BarChart data={comparisonData} layout="vertical" margin={{ top: 5, right: 30, bottom: 5, left: 80 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color, #333)" />
-                <XAxis type="number" tickFormatter={v => `£${(v / 1000).toFixed(0)}K`} tick={{ fill: 'var(--text-secondary, #999)', fontSize: 12 }} />
-                <YAxis type="category" dataKey="name" tick={{ fill: 'var(--text-primary, #fff)', fontSize: 12 }} width={80} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" tickFormatter={v => `£${(v / 1000).toFixed(0)}K`} tick={AXIS_TICK_STYLE} />
+                <YAxis type="category" dataKey="name" tick={{ fill: '#e5e5e7', fontSize: 12 }} width={80} />
                 <Tooltip
                   formatter={(value) => [formatCurrency(value), 'CEO Salary Midpoint']}
-                  contentStyle={{ background: 'var(--card-bg, #1c1c1e)', border: '1px solid var(--border-color, #333)', borderRadius: '8px' }}
+                  contentStyle={TOOLTIP_STYLE}
                 />
                 <Bar dataKey="salary" radius={[0, 4, 4, 0]}>
                   {comparisonData.map((entry, i) => (

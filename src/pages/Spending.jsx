@@ -6,7 +6,7 @@ import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate, slugify } from '../utils/format'
-import { CHART_COLORS, SPENDING_TYPE_LABELS, TOOLTIP_STYLE } from '../utils/constants'
+import { CHART_COLORS, SPENDING_TYPE_LABELS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
 import './Spending.css'
 
 const PAGE_SIZE_OPTIONS = [50, 100, 200, 500]
@@ -632,20 +632,25 @@ function Spending() {
               <AreaChart data={chartData.monthlyData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
                 <defs>
                   <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0a84ff" stopOpacity={0.3} />
+                    <stop offset="0%" stopColor="#0a84ff" stopOpacity={0.4} />
+                    <stop offset="40%" stopColor="#0a84ff" stopOpacity={0.15} />
                     <stop offset="100%" stopColor="#0a84ff" stopOpacity={0} />
                   </linearGradient>
+                  <linearGradient id="barGlowBlue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0a84ff" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#0a84ff" stopOpacity={0.7} />
+                  </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="label" tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }} interval={2} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }} tickFormatter={(v) => `£${(v/1000000).toFixed(1)}M`} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="label" tick={AXIS_TICK_STYLE_SM} interval={2} axisLine={false} tickLine={false} />
+                <YAxis tick={AXIS_TICK_STYLE_SM} tickFormatter={(v) => `£${(v/1000000).toFixed(1)}M`} axisLine={false} tickLine={false} />
                 <Tooltip
                   contentStyle={TOOLTIP_STYLE}
                   formatter={(value, name) => [formatCurrency(value, true), name === 'avg' ? '3-Mo Average' : 'Monthly Spend']}
                   labelFormatter={(label) => label}
                 />
-                <Area type="monotone" dataKey="amount" stroke="#0a84ff" strokeWidth={2} fill="url(#spendGradient)" />
-                <Area type="monotone" dataKey="avg" stroke="#ff9f0a" strokeWidth={2} strokeDasharray="6 3" fill="none" />
+                <Area type="monotone" dataKey="amount" stroke="#0a84ff" strokeWidth={2.5} fill="url(#spendGradient)" animationDuration={1000} animationEasing="ease-out" dot={false} activeDot={{ r: 5, fill: '#0a84ff', stroke: '#000', strokeWidth: 2 }} />
+                <Area type="monotone" dataKey="avg" stroke="#ff9f0a" strokeWidth={2} strokeDasharray="6 3" fill="none" dot={false} activeDot={{ r: 4, fill: '#ff9f0a', stroke: '#000', strokeWidth: 2 }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -657,17 +662,17 @@ function Spending() {
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={chartData.yearData} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }} tickFormatter={(v) => `£${(v/1000000).toFixed(0)}M`} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE_SM} axisLine={false} tickLine={false} />
+                <YAxis tick={AXIS_TICK_STYLE_SM} tickFormatter={(v) => `£${(v/1000000).toFixed(0)}M`} axisLine={false} tickLine={false} />
                 <Tooltip
                   contentStyle={TOOLTIP_STYLE}
                   formatter={(value) => [formatCurrency(value, true), 'Total']}
                   labelFormatter={(l) => `FY ${l}`}
                 />
-                <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
+                <Bar dataKey="amount" radius={[6, 6, 0, 0]} animationDuration={800} animationEasing="ease-out">
                   {(chartData?.yearData || []).map((_, i) => (
-                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? '#0a84ff' : 'rgba(10, 132, 255, 0.35)'} />
+                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? 'url(#barGlowBlue)' : 'rgba(10, 132, 255, 0.35)'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -727,9 +732,9 @@ function Spending() {
             </div>
             <ResponsiveContainer width="100%" height={380}>
               <BarChart data={chartData.supplierData} layout="vertical" margin={{ top: 10, right: 40, left: 130, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
-                <XAxis type="number" tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }} tickFormatter={(v) => `£${(v/1000000).toFixed(1)}M`} axisLine={false} tickLine={false} />
-                <YAxis type="category" dataKey="name" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} width={120} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
+                <XAxis type="number" tick={AXIS_TICK_STYLE_SM} tickFormatter={(v) => `£${(v/1000000).toFixed(1)}M`} axisLine={false} tickLine={false} />
+                <YAxis type="category" dataKey="name" tick={{ fill: '#e5e5e7', fontSize: 11 }} width={120} axisLine={false} tickLine={false} />
                 <Tooltip
                   contentStyle={TOOLTIP_STYLE}
                   formatter={(value, _name, props) => {

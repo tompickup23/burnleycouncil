@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP } from '../utils/lgrModel'
@@ -569,9 +569,9 @@ function LGRTracker() {
                 <p className="chart-desc">Net of ongoing costs, at 75% realisation rate. Negative = costs MORE than current system.</p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={dogeComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                    <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                    <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => {
                       const label = name === 'dogeSavingsGross' ? 'Gross savings (before deductions)' : 'Realistic savings (net, 75% realised)'
                       return [`£${v.toFixed(1)}M/year`, label]
@@ -592,9 +592,9 @@ function LGRTracker() {
                 <p className="chart-desc">Realistic savings minus transition costs (with 1.25× overrun) over 10 years</p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={dogeComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                    <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                    <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(0)}M`, v >= 0 ? '10yr Net Saving' : '10yr Net Cost']} />
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                     <Bar dataKey="tenYearNet" radius={[6, 6, 0, 0]}>
@@ -616,9 +616,9 @@ function LGRTracker() {
             <p className="chart-desc">Savings breakdown by category for the 2-unitary model (£M/year)</p>
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={savingsBreakdown} layout="vertical" margin={{ top: 10, right: 30, left: 140, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 11 }} tickFormatter={v => `£${v}M`} />
-                <YAxis type="category" dataKey="category" tick={{ fill: '#8e8e93', fontSize: 11 }} width={130} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" tick={AXIS_TICK_STYLE_SM} tickFormatter={v => `£${v}M`} />
+                <YAxis type="category" dataKey="category" tick={AXIS_TICK_STYLE_SM} width={130} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, '']} />
                 <ReferenceLine x={0} stroke="#636366" />
                 <Bar dataKey="two_ua" name="2 UAs" fill="#0a84ff" radius={[0, 4, 4, 0]} />
@@ -669,9 +669,9 @@ function LGRTracker() {
                   }))}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [
                   `£${v?.toFixed(1)}M/yr (gross)`,
                   name === 'newton' ? 'Newton Europe (consultants)' : 'AI DOGE (independent)'
@@ -828,11 +828,11 @@ function LGRTracker() {
             <h3>Annual Costs, Savings & Cumulative Position</h3>
             <ResponsiveContainer width="100%" height={350}>
               <ComposedChart data={cashflowData} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
                 <Tooltip
-                  contentStyle={{ ...TOOLTIP_STYLE }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(v) => [`£${(v / 1e6).toFixed(1)}M`]}
                 />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
@@ -980,11 +980,11 @@ function LGRTracker() {
                 bandBase: sensitivityData.worst[i].cumulative,
                 bandWidth: sensitivityData.best[i].cumulative - sensitivityData.worst[i].cumulative,
               }))} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                <XAxis dataKey="year" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
                 <Tooltip
-                  contentStyle={{ ...TOOLTIP_STYLE }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(v) => [`£${(v / 1e6).toFixed(1)}M`]}
                 />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
@@ -1022,12 +1022,12 @@ function LGRTracker() {
                     layout="vertical"
                     margin={{ top: 5, right: 30, bottom: 5, left: 150 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                    <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 12 }}
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE}
                       tickFormatter={v => `${v >= 0 ? '+' : ''}£${v.toFixed(0)}M`} />
                     <YAxis type="category" dataKey="label" width={140} tick={{ fill: '#e5e5e7', fontSize: 12 }} />
                     <Tooltip
-                      contentStyle={{ ...TOOLTIP_STYLE }}
+                      contentStyle={TOOLTIP_STYLE}
                       formatter={(v) => [`${v >= 0 ? '+' : ''}£${v.toFixed(0)}M`]}
                     />
                     <ReferenceLine x={0} stroke="#636366" strokeDasharray="3 3" />
@@ -1422,9 +1422,9 @@ function LGRTracker() {
                         layout="vertical"
                         margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                        <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}`} />
-                        <YAxis type="category" dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} width={130} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}`} />
+                        <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={130} />
                         <Tooltip formatter={(v) => [formatCurrency(v), 'Spend per head']} contentStyle={TOOLTIP_STYLE} />
                         <Bar dataKey="spendPerHead" radius={[0, 6, 6, 0]}>
                           {authorities.map((_, i) => (
@@ -1474,9 +1474,9 @@ function LGRTracker() {
                 </p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                    <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-                    <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${v}M`} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [
                       v != null ? `£${v.toFixed(1)}M/yr` : 'Not modelled',
                       name === 'ccnSavings' ? 'CCN/PwC estimate' : 'AI DOGE realistic'
@@ -1716,9 +1716,9 @@ function LGRTracker() {
               <h3>Annual Spend by Proposed Authority</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={activeFinancials.filter(f => f.annualSpend > 0)} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                  <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 11 }} angle={-15} textAnchor="end" height={60} />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="name" tick={AXIS_TICK_STYLE_SM} angle={-15} textAnchor="end" height={60} />
+                  <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatCurrency(v, true), 'Annual Spend']} />
                   <Bar dataKey="annualSpend" radius={[6, 6, 0, 0]}>
                     {activeFinancials.filter(f => f.annualSpend > 0).map((_, i) => <Cell key={i} fill={MODEL_COLORS[i % MODEL_COLORS.length]} />)}
@@ -1745,9 +1745,9 @@ function LGRTracker() {
               <p className="chart-desc">Earmarked reserves are tied to obligations. Unallocated reserves are freely available.</p>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={activeFinancials.filter(f => f.reserves > 0)} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2c2c2e" />
-                  <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 11 }} angle={-15} textAnchor="end" height={60} />
-                  <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="name" tick={AXIS_TICK_STYLE_SM} angle={-15} textAnchor="end" height={60} />
+                  <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatCurrency(v, true), '']} />
                   <Bar dataKey="earmarkedReserves" name="Earmarked" stackId="reserves" fill="#ff9f0a" />
                   <Bar dataKey="unallocatedReserves" name="Unallocated" stackId="reserves" fill="#30d158" radius={[6, 6, 0, 0]} />

@@ -5,7 +5,7 @@ import { formatCurrency, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
-import { CHART_COLORS_EXTENDED as DEPT_COLORS } from '../utils/constants'
+import { CHART_COLORS_EXTENDED as DEPT_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import './Budgets.css'
 
 // Departments to exclude from the main table (reserves shown separately, zero-budget items hidden)
@@ -345,18 +345,14 @@ function Budgets() {
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={revenueChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                  <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                   <YAxis
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `£${v}M`}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [`£${value.toFixed(2)}M`, 'Net Revenue Budget']}
                   />
                   <Bar dataKey="budget" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} />
@@ -530,11 +526,7 @@ function Budgets() {
                       ))}
                     </Pie>
                     <Tooltip
-                      contentStyle={{
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '8px',
-                      }}
+                      contentStyle={TOOLTIP_STYLE}
                       formatter={(value) => [`£${value.toFixed(2)}M`]}
                     />
                   </PieChart>
@@ -558,19 +550,15 @@ function Budgets() {
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={revenueChartData.filter(d => d.councilTax > 0)} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                  <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                   <YAxis
                     domain={['dataMin - 10', 'dataMax + 10']}
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `£${v}`}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [`£${value.toFixed(2)}`, `Band D (${councilName})`]}
                   />
                   <Line
@@ -605,18 +593,14 @@ function Budgets() {
                     earmarked: (r.earmarked || 0) / 1_000_000,
                     unallocated: (r.unallocated || 0) / 1_000_000,
                   }))} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                    <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                     <YAxis
-                      tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                      tick={AXIS_TICK_STYLE}
                       tickFormatter={(v) => `£${v}M`}
                     />
                     <Tooltip
-                      contentStyle={{
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '8px',
-                      }}
+                      contentStyle={TOOLTIP_STYLE}
                       formatter={(value, name) => [`£${value.toFixed(1)}M`, name === 'earmarked' ? 'Earmarked Reserves' : 'Unallocated Reserves']}
                     />
                     <Bar dataKey="earmarked" stackId="reserves" fill="var(--accent-blue)" radius={[0, 0, 0, 0]} name="earmarked" />
@@ -693,11 +677,7 @@ function Budgets() {
                     ))}
                   </Pie>
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [formatCurrency(value, true)]}
                   />
                 </PieChart>
@@ -963,24 +943,20 @@ function Budgets() {
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={capitalCategoryData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
                     type="number"
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `£${v}M`}
                   />
                   <YAxis
                     dataKey="name"
                     type="category"
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                    tick={AXIS_TICK_STYLE}
                     width={120}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value, name, props) => [`£${value.toFixed(2)}M`, props.payload.fullName]}
                   />
                   <Bar dataKey="value" radius={[0, 4, 4, 0]}>
@@ -1000,18 +976,14 @@ function Budgets() {
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={250}>
                 <AreaChart data={capitalTimelineData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                  <XAxis dataKey="period" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="period" tick={AXIS_TICK_STYLE} />
                   <YAxis
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `£${v}M`}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [`£${value.toFixed(1)}M`, '5-Year Programme']}
                   />
                   <Area
@@ -1282,19 +1254,15 @@ function CollectionRatesSection({ collectionRates, councilName }) {
       <div className="chart-card">
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-            <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+            <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
             <YAxis
               domain={[Math.floor(Math.min(...trendData.map(d => d.rate)) - 1), 100]}
-              tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+              tick={AXIS_TICK_STYLE}
               tickFormatter={(v) => `${v}%`}
             />
             <Tooltip
-              contentStyle={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '8px',
-              }}
+              contentStyle={TOOLTIP_STYLE}
               formatter={(value, name) => name === 'rate'
                 ? [`${value.toFixed(2)}%`, 'Collection Rate']
                 : [`£${value.toFixed(1)}M`, 'Uncollected']
@@ -1326,18 +1294,14 @@ function CollectionRatesSection({ collectionRates, councilName }) {
           <h3 style={{ marginBottom: 'var(--space-sm)', fontSize: '1rem' }}>Uncollected Council Tax by Year</h3>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={trendData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-              <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
               <YAxis
-                tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                tick={AXIS_TICK_STYLE}
                 tickFormatter={(v) => `£${v.toFixed(0)}M`}
               />
               <Tooltip
-                contentStyle={{
-                  background: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '8px',
-                }}
+                contentStyle={TOOLTIP_STYLE}
                 formatter={(value) => [`£${value.toFixed(2)}M`, 'Uncollected']}
               />
               <Bar dataKey="uncollected" radius={[4, 4, 0, 0]}>
@@ -1356,18 +1320,14 @@ function CollectionRatesSection({ collectionRates, councilName }) {
           <h3 style={{ marginBottom: 'var(--space-sm)', fontSize: '1rem' }}>Quarterly Collection ({latestYear})</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={quarterlyData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-              <XAxis dataKey="q" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis dataKey="q" tick={AXIS_TICK_STYLE} />
               <YAxis
-                tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                tick={AXIS_TICK_STYLE}
                 tickFormatter={(v) => `£${v.toFixed(0)}M`}
               />
               <Tooltip
-                contentStyle={{
-                  background: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '8px',
-                }}
+                contentStyle={TOOLTIP_STYLE}
                 formatter={(value) => [`£${value.toFixed(2)}M`, 'Receipts']}
               />
               <Bar dataKey="value" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} />
@@ -1722,24 +1682,20 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={serviceData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                 <XAxis
                   type="number"
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => `£${v.toFixed(1)}M`}
                 />
                 <YAxis
                   dataKey="name"
                   type="category"
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                  tick={AXIS_TICK_STYLE}
                   width={160}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(value, name, props) => [`£${value.toFixed(2)}M`, props.payload.fullName]}
                 />
                 <Bar dataKey="value" radius={[0, 4, 4, 0]}>
@@ -1764,24 +1720,20 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={Math.max(250, spendingVsBudgetData.length * 50)}>
               <BarChart data={spendingVsBudgetData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                 <XAxis
                   type="number"
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => `£${v.toFixed(0)}M`}
                 />
                 <YAxis
                   dataKey="category"
                   type="category"
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                  tick={AXIS_TICK_STYLE}
                   width={160}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(value, name) => [
                     `£${value.toFixed(2)}M`,
                     name === 'govuk' ? 'GOV.UK Outturn' : 'AI DOGE Tracked'
@@ -1846,18 +1798,14 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={350}>
               <AreaChart data={multiYearTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                 <YAxis
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => `£${v.toFixed(0)}M`}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(value, name) => [`£${value.toFixed(2)}M`, serviceLabels[name] || name]}
                 />
                 {serviceKeys.filter(key => multiYearTrendData.some(d => d[key] > 0)).map(key => (
@@ -1893,18 +1841,14 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={multiYearTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                 <YAxis
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => `£${v.toFixed(0)}M`}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(value, name) => [
                     `£${value.toFixed(1)}M`,
                     name === 'total' ? 'Total Service Expenditure' :
@@ -1929,18 +1873,14 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={reserveTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                 <YAxis
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => `£${v.toFixed(0)}M`}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(value) => [`£${value.toFixed(1)}M`]}
                 />
                 <Bar dataKey="earmarked" stackId="reserves" fill="#0a84ff" name="Earmarked Reserves" radius={[0, 0, 0, 0]} />
@@ -2031,24 +1971,20 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={fundingData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                   <XAxis
                     type="number"
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `£${(v / 1_000_000).toFixed(0)}M`}
                   />
                   <YAxis
                     dataKey="name"
                     type="category"
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
+                    tick={AXIS_TICK_STYLE}
                     width={200}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [formatCurrency(value, true)]}
                   />
                   <Bar dataKey="value" radius={[0, 4, 4, 0]}>
@@ -2071,18 +2007,14 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={350}>
               <AreaChart data={trendChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                 <YAxis
-                  tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={(v) => `£${v}M`}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                  }}
+                  contentStyle={TOOLTIP_STYLE}
                   formatter={(value, name) => [`£${value.toFixed(2)}M`, serviceLabels[name] || name]}
                 />
                 {serviceKeys.map(key => (
@@ -2120,19 +2052,15 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
             <div className="chart-card">
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={bandDData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                  <XAxis dataKey="year" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} interval={2} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} interval={2} />
                   <YAxis
-                    tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                    tick={AXIS_TICK_STYLE}
                     tickFormatter={(v) => `£${v}`}
                     domain={['dataMin - 10', 'dataMax + 10']}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [`£${value.toFixed(2)}`, `${councilName} Band D`]}
                   />
                   <Line type="monotone" dataKey="value" stroke="#ff9f0a" strokeWidth={2} dot={{ fill: '#ff9f0a', r: 3 }} />

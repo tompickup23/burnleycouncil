@@ -3,7 +3,7 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
-import { CHART_COLORS, TOOLTIP_STYLE } from '../utils/constants'
+import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { Users, MapPin, Globe, Briefcase, Church, Info } from 'lucide-react'
 import './Demographics.css'
 
@@ -235,8 +235,8 @@ function Demographics() {
         <div className="demo-chart-container" role="img" aria-label={`Ethnicity breakdown bar chart for ${councilName}`}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={ethnicityChart} layout="vertical" margin={{ left: 60, right: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-              <XAxis type="number" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis type="number" tick={AXIS_TICK_STYLE} />
               <YAxis dataKey="name" type="category" tick={{ fill: '#e5e5e7', fontSize: 13 }} width={55} />
               <Tooltip
                 contentStyle={TOOLTIP_STYLE}
@@ -301,9 +301,9 @@ function Demographics() {
         <div className="demo-chart-container" role="img" aria-label={`Age distribution bar chart for ${councilName}`}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={ageBands} margin={{ left: 10, right: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-              <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
-              <YAxis tick={{ fill: '#8e8e93', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+              <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+              <YAxis tick={AXIS_TICK_STYLE} />
               <Tooltip
                 contentStyle={TOOLTIP_STYLE}
                 formatter={(val) => [fmt(val), 'Population']}

@@ -17,7 +17,7 @@ import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { SEVERITY_COLORS as severityColors } from '../utils/constants'
+import { SEVERITY_COLORS as severityColors, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import './DogeInvestigation.css'
 
 // Confidence badge
@@ -397,15 +397,15 @@ function DogeInvestigation() {
                     <h4>Data Quality Breakdown</h4>
                     <ResponsiveContainer width="100%" height={280}>
                       <RadarChart data={qualityData}>
-                        <PolarGrid stroke="rgba(255,255,255,0.1)" />
+                        <PolarGrid stroke={GRID_STROKE} />
                         <PolarAngleAxis
                           dataKey="metric"
-                          tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                          tick={AXIS_TICK_STYLE}
                         />
                         <PolarRadiusAxis
                           angle={90}
                           domain={[0, 100]}
-                          tick={{ fill: 'var(--text-tertiary)', fontSize: 10 }}
+                          tick={AXIS_TICK_STYLE}
                         />
                         <Radar
                           name="Quality %"
@@ -603,11 +603,11 @@ function DogeInvestigation() {
                     <h4>Payments by Day of Week</h4>
                     <ResponsiveContainer width="100%" height={220}>
                       <BarChart data={dogeFindings.payment_velocity.day_of_week}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                        <XAxis dataKey="day" tick={{ fill: 'var(--text-secondary)', fontSize: 11 }} tickFormatter={d => d.slice(0, 3)} />
-                        <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 10 }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="day" tick={AXIS_TICK_STYLE} tickFormatter={d => d.slice(0, 3)} />
+                        <YAxis tick={AXIS_TICK_STYLE} />
                         <Tooltip
-                          contentStyle={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13 }}
+                          contentStyle={TOOLTIP_STYLE}
                           formatter={(v, name) => [name === 'count' ? formatNumber(v) : formatCurrency(v, true), name === 'count' ? 'Transactions' : 'Total Value']}
                         />
                         <Bar dataKey="count" fill="#0a84ff" radius={[4, 4, 0, 0]} name="count" />
@@ -1023,15 +1023,15 @@ function DogeInvestigation() {
                     <h4>Risk Dimensions</h4>
                     <ResponsiveContainer width="100%" height={250}>
                       <RadarChart data={radarData}>
-                        <PolarGrid stroke="rgba(255,255,255,0.1)" />
+                        <PolarGrid stroke={GRID_STROKE} />
                         <PolarAngleAxis
                           dataKey="metric"
-                          tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+                          tick={AXIS_TICK_STYLE}
                         />
                         <PolarRadiusAxis
                           angle={90}
                           domain={[0, 100]}
-                          tick={{ fill: 'var(--text-tertiary)', fontSize: 10 }}
+                          tick={AXIS_TICK_STYLE}
                         />
                         <Radar
                           name="Risk Score"

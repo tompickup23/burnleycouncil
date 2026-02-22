@@ -404,6 +404,57 @@ tr:hover td {
 .stagger-children > *:nth-child(7) { animation-delay: 0.3s; }
 .stagger-children > *:nth-child(8) { animation-delay: 0.35s; }
 
+/* ── Recharts Tooltip & Legend Overrides ── */
+/* Ensures readable white text on dark tooltip backgrounds across ALL charts */
+.recharts-default-tooltip {
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.recharts-default-tooltip .recharts-tooltip-label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+  margin-bottom: 6px !important;
+}
+
+.recharts-default-tooltip .recharts-tooltip-item {
+  color: #e5e5e7 !important;
+  font-size: 0.8125rem !important;
+  padding: 2px 0 !important;
+}
+
+.recharts-default-tooltip .recharts-tooltip-item-name {
+  color: #8e8e93 !important;
+}
+
+.recharts-default-tooltip .recharts-tooltip-item-value {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.recharts-default-tooltip .recharts-tooltip-item-separator {
+  color: #636366 !important;
+}
+
+/* Recharts legend text — readable on dark backgrounds */
+.recharts-legend-item-text {
+  color: #8e8e93 !important;
+  font-size: 0.8125rem !important;
+}
+
+/* Recharts axis text defaults */
+.recharts-cartesian-axis-tick-value {
+  fill: #8e8e93;
+  font-size: 12px;
+}
+
+/* Chart card hover glow */
+@keyframes chartGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(10, 132, 255, 0); }
+  50% { box-shadow: 0 0 30px rgba(10, 132, 255, 0.08); }
+}
+
 /* Loading skeleton shimmer */
 .skeleton {
   background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 50%, var(--bg-secondary) 75%);

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine } from 'recharts'
 import { Search, Loader2, AlertCircle, PoundSterling, Home, TrendingDown, TrendingUp, ArrowRight, Calculator, MapPin, Building, Users, ChevronDown, ChevronRight, Check, X as XIcon, HelpCircle, ExternalLink, Calendar, AlertTriangle, Brain, BookOpen } from 'lucide-react'
 import { LoadingState } from '../components/ui'
@@ -573,10 +573,10 @@ function LGRCostCalculator() {
             <p className="chart-desc">Your {currentCosts.year} bill, projected 2027/28 bill without LGR, and estimated bill under each proposal. Lower = better for you.</p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={comparisonChartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="name" tick={{ fill: '#8e8e93', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
                 <YAxis
-                  tick={{ fill: '#8e8e93', fontSize: 12 }}
+                  tick={AXIS_TICK_STYLE}
                   tickFormatter={v => `£${v.toFixed(0)}`}
                   domain={['dataMin - 100', 'dataMax + 50']}
                 />
