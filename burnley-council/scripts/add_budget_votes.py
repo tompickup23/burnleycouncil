@@ -21,20 +21,20 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'lancashire_cc'
 KEY_COUNCILLORS = {
     # 2019 budget (14 Feb 2019) - Clifford and Potter not yet elected
     '2019': {
-        'County Councillor Azhar Ali OBE': {'party': 'Labour', 'uid': '4302'},
-        'County Councillor Gina Dowding': {'party': 'Green Party', 'uid': '18946'},
+        'County Councillor Azhar Ali OBE': {'party': 'Labour', 'uid': '4426'},
+        'County Councillor Gina Dowding': {'party': 'Green Party', 'uid': '4438'},
         'County Councillor David Whipp': {'party': 'Liberal Democrats', 'uid': '4430'},
         'County Councillor Aidy Riggott': {'party': 'Conservative', 'uid': '18940'},
         'County Councillor Kim Snape': {'party': 'Labour', 'uid': '4416'},
     },
     # 2023 budget (9 Feb 2023) - Whipp lost seat in 2021
     '2023': {
-        'County Councillor Azhar Ali OBE': {'party': 'Labour', 'uid': '4302'},
-        'County Councillor Gina Dowding': {'party': 'Green Party', 'uid': '18946'},
+        'County Councillor Azhar Ali OBE': {'party': 'Labour', 'uid': '4426'},
+        'County Councillor Gina Dowding': {'party': 'Green Party', 'uid': '4438'},
         'County Councillor Mark Clifford': {'party': 'Labour', 'uid': '26571'},
         'County Councillor Aidy Riggott': {'party': 'Conservative', 'uid': '18940'},
         'County Councillor Kim Snape': {'party': 'Labour', 'uid': '4416'},
-        'County Councillor John Potter': {'party': 'Labour', 'uid': '18954'},
+        'County Councillor John Potter': {'party': 'Liberal Democrats', 'uid': '18954'},
     }
 }
 
