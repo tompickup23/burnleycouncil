@@ -73,8 +73,10 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `firestore.rules` | Firestore security rules (user reads own doc, admin reads all) |
 | `src/hooks/useData.js` | Data fetching hook (loads from /data/*.json) |
 | `src/hooks/useSpendingWorker.js` | Web Worker hook for spending data (v3 chunked + v2/v1 fallback) |
+| `src/hooks/useCountUp.js` | rAF animated number counters (easeOutExpo, prefers-reduced-motion safe) |
+| `src/hooks/useReveal.js` | IntersectionObserver scroll-triggered reveals (JSDOM-safe fallback) |
 | `src/workers/spending.worker.js` | Web Worker: filter, sort, paginate, stats, charts, CSV export |
-| `src/utils/constants.js` | Shared constants: CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, SEVERITY_COLORS, COUNCIL_COLORS |
+| `src/utils/constants.js` | Shared constants: CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, SEVERITY_COLORS, COUNCIL_COLORS |
 | `src/utils/analytics.js` | Shared analytics engine: CPI-H deflation, z-scores, Gini, Benford's 2nd digit, reserves adequacy |
 | `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV calculations |
 | `src/utils/electionModel.js` | Election prediction model: ward-level swing, national polling, demographics-weighted |

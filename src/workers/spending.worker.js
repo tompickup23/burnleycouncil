@@ -381,14 +381,14 @@ function handleExport({ filters, search, sortField, sortDir }) {
   }
 }
 
-// --- Message Handler ---
-self.onmessage = function (e) {
-  const { type, ...payload } = e.data
+// --- Message Queue ---
+// INIT is async (fetches data). Messages arriving before INIT completes
+// must be queued, otherwise QUERY runs against empty allRecords.
+let initComplete = false
+const pendingMessages = []
 
+function processMessage({ type, ...payload }) {
   switch (type) {
-    case 'INIT':
-      handleInit(payload.url)
-      break
     case 'QUERY':
       handleQuery(payload)
       break
@@ -407,4 +407,27 @@ self.onmessage = function (e) {
     default:
       console.warn('Unknown worker message type:', type)
   }
+}
+
+self.onmessage = function (e) {
+  const { type, ...payload } = e.data
+
+  if (type === 'INIT') {
+    handleInit(payload.url).then(() => {
+      initComplete = true
+      // Drain queued messages now that data is loaded
+      for (const msg of pendingMessages) {
+        processMessage(msg)
+      }
+      pendingMessages.length = 0
+    })
+    return
+  }
+
+  if (!initComplete) {
+    pendingMessages.push(e.data)
+    return
+  }
+
+  processMessage(e.data)
 }

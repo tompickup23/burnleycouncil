@@ -187,7 +187,9 @@ function Spending() {
     }
   }, [filters.month, monthly, yearManifest, loadedMonths, loadMonth])
 
-  // Send query to worker whenever filter state changes or new data loads
+  // Send query to worker whenever filter state changes or new data loads.
+  // totalRecords changes when worker signals READY (monolith loaded) or YEAR/MONTH_LOADED,
+  // ensuring a fresh query fires after data is available — not just on mount.
   const prevLoadedCount = useRef(0)
   useEffect(() => {
     // Track year/month loading for ref bookkeeping (prevents stale closure issues)
@@ -195,7 +197,7 @@ function Spending() {
       prevLoadedCount.current = loadedYears.length
     }
     query({ filters, search, sortField, sortDir, page, pageSize })
-  }, [loadedYears, loadedMonths, filters, search, sortField, sortDir, page, pageSize, query])
+  }, [loadedYears, loadedMonths, totalRecords, filters, search, sortField, sortDir, page, pageSize, query])
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length + (search ? 1 : 0)
 
