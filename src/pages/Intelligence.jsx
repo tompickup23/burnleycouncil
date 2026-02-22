@@ -168,10 +168,10 @@ export default function Intelligence() {
   // --- All data bundle for engine functions ---
   const allData = useMemo(() => ({
     councillors: councillorsData?.councillors || councillorsData || [],
-    voting: votingData,
-    integrity: integrityData,
-    interests: interestsData,
-    committees: committeesData,
+    votingData,
+    integrityData,
+    interestsData,
+    committeesData,
     politicsSummary,
     dogeFindings,
     reformTransformation,
@@ -358,9 +358,9 @@ export default function Intelligence() {
             <div className="intel-meeting-card">
               <div className="meeting-card-header">
                 <h3>{selectedMeeting.committee || selectedMeeting.title}</h3>
-                {meetingBriefing?.committeeType && (
+                {meetingBriefing?.committee?.type && (
                   <span className="intel-committee-type-badge">
-                    {meetingBriefing.committeeType}
+                    {meetingBriefing.committee.type}
                   </span>
                 )}
               </div>
@@ -452,11 +452,11 @@ export default function Intelligence() {
                                   <span className="prediction-confidence">{m.prediction.confidence} confidence</span>
                                 </div>
                               )}
-                              {m.dossier.integrityProfile?.risk_level && (
+                              {m.dossier.integrityProfile?.riskLevel && (
                                 <div className="mini-integrity">
-                                  <RiskBadge level={m.dossier.integrityProfile.risk_level} />
-                                  {m.dossier.integrityProfile.total_red_flags > 0 && (
-                                    <span className="mini-red-flags">{m.dossier.integrityProfile.total_red_flags} red flags</span>
+                                  <RiskBadge level={m.dossier.integrityProfile.riskLevel} />
+                                  {m.dossier.integrityProfile.redFlags?.length > 0 && (
+                                    <span className="mini-red-flags">{m.dossier.integrityProfile.redFlags.length} red flags</span>
                                   )}
                                 </div>
                               )}
@@ -484,12 +484,28 @@ export default function Intelligence() {
           )}
 
           {/* Agenda intelligence */}
-          {meetingBriefing?.agendaIntelligence?.length > 0 && (
+          {meetingBriefing?.agendaIntel?.length > 0 && (
             <div className="intel-agenda-section">
               <h3><BarChart3 size={16} /> Agenda Intelligence</h3>
-              {meetingBriefing.agendaIntelligence.map((ai, i) => (
+              {meetingBriefing.agendaIntel.map((ai, i) => (
                 <AgendaIntelCard key={i} intel={ai} />
               ))}
+            </div>
+          )}
+
+          {/* Risk Assessment Banner */}
+          {meetingBriefing?.riskAssessment && (
+            <div className={`intel-risk-banner risk-${meetingBriefing.riskAssessment.level}`}>
+              <div className="risk-banner-header">
+                <Shield size={16} />
+                <span className="risk-level-badge">{meetingBriefing.riskAssessment.level.toUpperCase()} RISK</span>
+              </div>
+              <div className="risk-banner-stats">
+                <span>{meetingBriefing.riskAssessment.battlegroundCount} battleground item{meetingBriefing.riskAssessment.battlegroundCount !== 1 ? 's' : ''}</span>
+                <span>{meetingBriefing.riskAssessment.oppositionSpeakers} likely speaker{meetingBriefing.riskAssessment.oppositionSpeakers !== 1 ? 's' : ''}</span>
+                <span>{meetingBriefing.riskAssessment.likelyOpposers} likely opposer{meetingBriefing.riskAssessment.likelyOpposers !== 1 ? 's' : ''}</span>
+                <span>{meetingBriefing.riskAssessment.politicalItems}/{meetingBriefing.riskAssessment.totalAgendaItems} political items</span>
+              </div>
             </div>
           )}
 
@@ -502,6 +518,38 @@ export default function Intelligence() {
                   <div key={i} className="battleground-card">
                     <h4>{bg.item}</h4>
                     <p>{bg.reason}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* War Game — per-item attack prediction and counter-arguments */}
+          {meetingBriefing?.warGame?.length > 0 && (
+            <div className="intel-wargame-section">
+              <h3><Swords size={16} /> War Game — Attack Predictions &amp; Counters</h3>
+              <p className="intel-section-desc">
+                Predicted opposition attacks per agenda item with prepared counter-arguments and supporting data.
+              </p>
+              {meetingBriefing.warGame.map((wg, i) => (
+                <WarGameCard key={i} warGame={wg} />
+              ))}
+            </div>
+          )}
+
+          {/* Documents */}
+          {meetingBriefing?.meeting?.documents?.length > 0 && (
+            <div className="intel-documents-section">
+              <h3><BookOpen size={16} /> Meeting Documents</h3>
+              <div className="documents-list">
+                {meetingBriefing.meeting.documents.map((doc, i) => (
+                  <div key={i} className="document-item">
+                    <FileText size={14} />
+                    {doc.url ? (
+                      <a href={doc.url} target="_blank" rel="noopener noreferrer">{doc.title}</a>
+                    ) : (
+                      <span>{doc.title}</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -791,6 +839,116 @@ export default function Intelligence() {
 // Agenda Intelligence Card
 // ============================================================================
 
+function WarGameCard({ warGame }) {
+  const [expanded, setExpanded] = useState(false)
+  if (!warGame) return null
+
+  return (
+    <div className={`wargame-card risk-${warGame.riskLevel} ${expanded ? 'expanded' : ''}`}>
+      <div
+        className="wargame-card-header"
+        onClick={() => setExpanded(!expanded)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setExpanded(!expanded)}
+      >
+        <div className="wargame-card-title-row">
+          {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+          <span className={`wargame-risk-indicator risk-${warGame.riskLevel}`}>
+            {warGame.riskLevel === 'high' ? '🔴' : warGame.riskLevel === 'medium' ? '🟡' : '🟢'}
+          </span>
+          <span className="wargame-card-title">{warGame.agendaItem}</span>
+        </div>
+        <div className="wargame-card-tags">
+          <span className="wargame-attack-count">{warGame.attackPredictions.length} predicted attacker{warGame.attackPredictions.length !== 1 ? 's' : ''}</span>
+          <span className="wargame-counter-count">{warGame.counters.length} counter{warGame.counters.length !== 1 ? 's' : ''}</span>
+        </div>
+      </div>
+
+      {expanded && (
+        <div className="wargame-card-body">
+          {/* Predicted attacks per opposition member */}
+          {warGame.attackPredictions.length > 0 && (
+            <div className="wargame-subsection attacks">
+              <h5><AlertTriangle size={12} /> Predicted Attacks</h5>
+              {warGame.attackPredictions.map((att, i) => (
+                <div key={i} className="wargame-attacker">
+                  <div className="wargame-attacker-header">
+                    <span className="wargame-attacker-name">{att.name}</span>
+                    <PartyBadge party={att.party} />
+                    {att.likelyToSpeak && <span className="speaker-badge">Likely Speaker</span>}
+                  </div>
+                  {att.attackLines.length > 0 && (
+                    <div className="wargame-attack-lines">
+                      {att.attackLines.map((al, j) => (
+                        <div key={j} className="wargame-attack-line" style={{ borderLeftColor: SEVERITY_COLORS[al.severity] || '#888' }}>
+                          {al.text}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {att.predictedArguments.length > 0 && (
+                    <div className="wargame-predicted-args">
+                      {att.predictedArguments.map((arg, j) => (
+                        <span key={j} className="wargame-arg-chip">{arg}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Counter-arguments */}
+          {warGame.counters.length > 0 && (
+            <div className="wargame-subsection counters">
+              <h5><Shield size={12} /> Counter-Arguments &amp; Reform Record</h5>
+              {warGame.counters.map((c, i) => (
+                <div key={i} className={`wargame-counter ${c.type}`}>
+                  {c.type === 'rebuttal' && c.trigger && (
+                    <div className="wargame-counter-trigger">If they say: "{c.trigger}"</div>
+                  )}
+                  <div className="wargame-counter-response">
+                    {c.type === 'rebuttal' ? '→ ' : '✓ '}{c.response}
+                    {c.detail && <span className="wargame-counter-detail"> — {c.detail}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Supporting data */}
+          {warGame.supportingData.length > 0 && (
+            <div className="wargame-subsection data">
+              <h5><BarChart3 size={12} /> Supporting DOGE Data</h5>
+              {warGame.supportingData.map((d, i) => (
+                <div key={i} className="wargame-data-point">
+                  <span className="wargame-data-label">{d.label}</span>
+                  <span className="wargame-data-value">{d.value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Past vote context */}
+          {warGame.pastVoteContext.length > 0 && (
+            <div className="wargame-subsection context">
+              <h5>📊 Past Vote Context</h5>
+              {warGame.pastVoteContext.map((v, i) => (
+                <div key={i} className="wargame-past-vote">
+                  <span>{v.title}</span>
+                  <span className="wargame-vote-date">{v.date}</span>
+                  <span className={`wargame-vote-outcome ${v.outcome?.toLowerCase()}`}>{v.outcome}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function AgendaIntelCard({ intel }) {
   const [expanded, setExpanded] = useState(false)
   if (!intel) return null
@@ -805,7 +963,7 @@ function AgendaIntelCard({ intel }) {
         onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setExpanded(!expanded)}
       >
         {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-        <span className="agenda-intel-title">{intel.item}</span>
+        <span className="agenda-intel-title">{intel.text}</span>
         <div className="agenda-intel-tags">
           {intel.policyAreas?.map(area => (
             <span key={area} className="policy-area-tag">{POLICY_AREAS[area] || area}</span>
@@ -815,10 +973,10 @@ function AgendaIntelCard({ intel }) {
 
       {expanded && (
         <div className="agenda-intel-body">
-          {intel.pastVotes?.length > 0 && (
+          {intel.matchingVotes?.length > 0 && (
             <div className="agenda-intel-subsection">
               <h5>Related Past Votes</h5>
-              {intel.pastVotes.map((v, i) => (
+              {intel.matchingVotes.map((v, i) => (
                 <div key={i} className="past-vote-item">
                   <span className="past-vote-title">{v.title || v.description}</span>
                   <span className="past-vote-date">{v.date}</span>
@@ -828,19 +986,22 @@ function AgendaIntelCard({ intel }) {
             </div>
           )}
 
-          {intel.achievements?.length > 0 && (
+          {intel.matchingAchievements?.length > 0 && (
             <div className="agenda-intel-subsection">
               <h5>Reform Achievements</h5>
-              {intel.achievements.map((a, i) => (
-                <div key={i} className="agenda-achievement">{a}</div>
+              {intel.matchingAchievements.map((a, i) => (
+                <div key={i} className="agenda-achievement">
+                  <strong>{a.title || a.headline}</strong>
+                  {a.detail && <span className="achievement-detail"> — {a.detail}</span>}
+                </div>
               ))}
             </div>
           )}
 
-          {intel.rebuttals?.length > 0 && (
+          {intel.matchingRebuttals?.length > 0 && (
             <div className="agenda-intel-subsection">
               <h5>Prepared Rebuttals</h5>
-              {intel.rebuttals.map((r, i) => (
+              {intel.matchingRebuttals.map((r, i) => (
                 <div key={i} className="agenda-rebuttal">
                   <strong>If they say:</strong> "{r.attack}" → <strong>We say:</strong> {r.rebuttal}
                 </div>
@@ -848,10 +1009,10 @@ function AgendaIntelCard({ intel }) {
             </div>
           )}
 
-          {intel.dogeFindings?.length > 0 && (
+          {intel.matchingFindings?.length > 0 && (
             <div className="agenda-intel-subsection">
               <h5>DOGE Findings</h5>
-              {intel.dogeFindings.map((f, i) => (
+              {intel.matchingFindings.map((f, i) => (
                 <div key={i} className="agenda-doge-finding">{f.label}: {f.value}</div>
               ))}
             </div>
@@ -888,10 +1049,10 @@ function CouncillorDossierView({ dossier, activeTab, onTabChange, onBack }) {
           <div className="dossier-view-badges">
             <PartyBadge party={dossier.party} />
             {dossier.groupInfo?.role && (
-              <span className="dossier-group-role">{dossier.groupInfo.role} — {dossier.groupInfo.name}</span>
+              <span className="dossier-group-role">{dossier.groupInfo.role} — {dossier.groupInfo.groupName}</span>
             )}
-            {dossier.integrityProfile?.risk_level && (
-              <RiskBadge level={dossier.integrityProfile.risk_level} />
+            {dossier.integrityProfile?.riskLevel && (
+              <RiskBadge level={dossier.integrityProfile.riskLevel} />
             )}
           </div>
         </div>
@@ -932,15 +1093,18 @@ function DossierProfileTab({ dossier }) {
         <div className="dossier-profile-item"><span className="dossier-profile-label">Party</span><span className="dossier-profile-value"><PartyBadge party={dossier.party} /></span></div>
         <div className="dossier-profile-item"><span className="dossier-profile-label">Ward/Division</span><span className="dossier-profile-value">{dossier.ward || dossier.division || '—'}</span></div>
         {dossier.groupInfo?.role && (
-          <div className="dossier-profile-item"><span className="dossier-profile-label">Group Role</span><span className="dossier-profile-value">{dossier.groupInfo.role} — {dossier.groupInfo.name}</span></div>
+          <div className="dossier-profile-item"><span className="dossier-profile-label">Group Role</span><span className="dossier-profile-value">{dossier.groupInfo.role} — {dossier.groupInfo.groupName}</span></div>
+        )}
+        {dossier.email && (
+          <div className="dossier-profile-item"><span className="dossier-profile-label">Email</span><span className="dossier-profile-value">{dossier.email}</span></div>
         )}
       </div>
 
-      {dossier.notableFacts?.length > 0 && (
+      {dossier.notable?.length > 0 && (
         <div className="dossier-subsection">
           <h4>Notable Facts</h4>
           <ul className="dossier-facts-list">
-            {dossier.notableFacts.map((f, i) => <li key={i}>{f}</li>)}
+            {dossier.notable.map((f, i) => <li key={i}>{f}</li>)}
           </ul>
         </div>
       )}
@@ -959,20 +1123,26 @@ function DossierProfileTab({ dossier }) {
         </div>
       )}
 
-      {dossier.registerOfInterests && (
+      {dossier.interestsProfile && (
         <div className="dossier-subsection">
           <h4>Register of Interests</h4>
-          {dossier.registerOfInterests.companies?.length > 0 && (
-            <p className="dossier-interest-line">Companies: {dossier.registerOfInterests.companies.join(', ')}</p>
+          {dossier.interestsProfile.companies?.length > 0 && (
+            <p className="dossier-interest-line">Companies: {dossier.interestsProfile.companies.join(', ')}</p>
           )}
-          {dossier.registerOfInterests.employment?.length > 0 && (
-            <p className="dossier-interest-line">Employment: {dossier.registerOfInterests.employment.join(', ')}</p>
+          {dossier.interestsProfile.employment?.length > 0 && (
+            <p className="dossier-interest-line">Employment: {dossier.interestsProfile.employment.join(', ')}</p>
           )}
-          {dossier.registerOfInterests.securities?.length > 0 && (
-            <p className="dossier-interest-line">Securities: {dossier.registerOfInterests.securities.join(', ')}</p>
+          {dossier.interestsProfile.securities?.length > 0 && (
+            <p className="dossier-interest-line">Securities: {dossier.interestsProfile.securities.join(', ')}</p>
           )}
-          {dossier.registerOfInterests.land_or_property?.length > 0 && (
-            <p className="dossier-interest-line">Property: {dossier.registerOfInterests.land_or_property.length} declared</p>
+          {dossier.interestsProfile.land?.length > 0 && (
+            <p className="dossier-interest-line">Property: {dossier.interestsProfile.land.length} declared</p>
+          )}
+          {dossier.interestsProfile.sponsorship?.length > 0 && (
+            <p className="dossier-interest-line">Sponsorship: {dossier.interestsProfile.sponsorship.join(', ')}</p>
+          )}
+          {dossier.interestsProfile.memberships?.length > 0 && (
+            <p className="dossier-interest-line">Memberships: {dossier.interestsProfile.memberships.join(', ')}</p>
           )}
         </div>
       )}
@@ -993,13 +1163,13 @@ function DossierVotingTab({ dossier }) {
           <span className="voting-stat-label">Votes</span>
         </div>
         <div className="voting-stat">
-          <span className="voting-stat-number">{dossier.rebelVotes?.length || 0}</span>
+          <span className="voting-stat-number">{dossier.rebelCount || 0}</span>
           <span className="voting-stat-label">Rebel Votes</span>
         </div>
         {dossier.votingRecord.length > 0 && (
           <div className="voting-stat">
             <span className="voting-stat-number">
-              {Math.round(((dossier.rebelVotes?.length || 0) / dossier.votingRecord.length) * 100)}%
+              {Math.round((dossier.rebelRate || 0) * 100)}%
             </span>
             <span className="voting-stat-label">Rebel Rate</span>
           </div>
@@ -1011,12 +1181,18 @@ function DossierVotingTab({ dossier }) {
         <div className="dossier-subsection">
           <h4>Policy Positions</h4>
           <div className="policy-positions-grid">
-            {Object.entries(dossier.policyPositions).map(([area, position]) => (
-              <div key={area} className="policy-position-item">
-                <span className="policy-area-name">{POLICY_AREAS[area] || area}</span>
-                <span className={`policy-position-badge ${position}`}>{position}</span>
-              </div>
-            ))}
+            {Object.entries(dossier.policyPositions).map(([area, counts]) => {
+              const total = (counts.for || 0) + (counts.against || 0) + (counts.abstain || 0)
+              const dominant = counts.for >= counts.against ? (counts.for > 0 ? 'supportive' : 'neutral') : 'opposing'
+              return (
+                <div key={area} className="policy-position-item">
+                  <span className="policy-area-name">{POLICY_AREAS[area] || area}</span>
+                  <span className={`policy-position-badge ${dominant}`}>
+                    {counts.for}F / {counts.against}A{counts.abstain > 0 ? ` / ${counts.abstain}Ab` : ''} ({total})
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
@@ -1025,10 +1201,8 @@ function DossierVotingTab({ dossier }) {
       <div className="dossier-subsection">
         <h4>Recorded Votes</h4>
         <div className="dossier-votes-list">
-          {dossier.votingRecord.map((v, i) => {
-            const isRebel = dossier.rebelVotes?.some(rv => rv.title === v.title)
-            return (
-              <div key={i} className={`dossier-vote-item ${isRebel ? 'rebel' : ''}`}>
+          {dossier.votingRecord.map((v, i) => (
+              <div key={i} className={`dossier-vote-item ${v.isRebel ? 'rebel' : ''}`}>
                 <div className="vote-item-header">
                   <span className="vote-title">{v.title}</span>
                   <span className="vote-date">{v.date}</span>
@@ -1036,14 +1210,15 @@ function DossierVotingTab({ dossier }) {
                 <div className="vote-item-meta">
                   <span className={`vote-position ${v.position}`}>{v.position}</span>
                   <span className={`vote-outcome ${v.outcome?.toLowerCase()}`}>{v.outcome}</span>
-                  {isRebel && <span className="rebel-badge">REBEL</span>}
+                  {v.isRebel && <span className="rebel-badge">REBEL</span>}
+                  {v.isAmendment && <span className="amendment-badge">AMENDMENT</span>}
                   {v.policyAreas?.map(area => (
                     <span key={area} className="policy-area-tag small">{POLICY_AREAS[area] || area}</span>
                   ))}
                 </div>
+                {v.description && <p className="vote-description">{v.description}</p>}
               </div>
-            )
-          })}
+          ))}
         </div>
       </div>
     </div>
@@ -1060,21 +1235,21 @@ function DossierIntegrityTab({ dossier }) {
     <div className="dossier-tab-panel">
       <div className="integrity-header">
         <div className="integrity-score">
-          <span className="integrity-score-number">{profile.integrity_score || profile.score || '—'}</span>
+          <span className="integrity-score-number">{profile.score || '—'}</span>
           <span className="integrity-score-label">/100</span>
         </div>
-        <RiskBadge level={profile.risk_level} />
-        {profile.total_red_flags > 0 && (
-          <span className="integrity-red-flags">{profile.total_red_flags} red flags</span>
+        <RiskBadge level={profile.riskLevel} />
+        {profile.redFlags?.length > 0 && (
+          <span className="integrity-red-flags">{profile.redFlags.length} red flags</span>
         )}
       </div>
 
       {/* Red flags */}
-      {profile.red_flags?.length > 0 && (
+      {profile.redFlags?.length > 0 && (
         <div className="dossier-subsection">
           <h4>Red Flags</h4>
           <div className="red-flags-list">
-            {profile.red_flags.map((flag, i) => (
+            {profile.redFlags.map((flag, i) => (
               <div key={i} className="red-flag-item">
                 <AlertTriangle size={12} className="red-flag-icon" />
                 <span>{typeof flag === 'string' ? flag : flag.description || flag.flag || JSON.stringify(flag)}</span>
@@ -1085,15 +1260,31 @@ function DossierIntegrityTab({ dossier }) {
       )}
 
       {/* Directorships */}
-      {profile.directorships?.length > 0 && (
+      {profile.companies?.length > 0 && (
         <div className="dossier-subsection">
-          <h4>Companies House Directorships ({profile.directorships.length})</h4>
+          <h4>Companies House Directorships ({profile.companies.length})</h4>
           <div className="directorship-list">
-            {profile.directorships.map((d, i) => (
+            {profile.companies.map((d, i) => (
               <div key={i} className={`directorship-item ${d.status === 'active' ? 'active' : 'resigned'}`}>
-                <span className="directorship-name">{d.company_name || d.name}</span>
+                <span className="directorship-name">{d.name}</span>
                 <span className="directorship-status">{d.status}</span>
-                {d.sic_codes && <span className="directorship-sic">{Array.isArray(d.sic_codes) ? d.sic_codes.join(', ') : d.sic_codes}</span>}
+                {d.number && <span className="directorship-number">#{d.number}</span>}
+                {d.sicCodes?.length > 0 && <span className="directorship-sic">{d.sicCodes.join(', ')}</span>}
+                {d.redFlags?.length > 0 && <span className="directorship-flags">{d.redFlags.length} flags</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Supplier conflicts */}
+      {profile.supplierConflicts?.length > 0 && (
+        <div className="dossier-subsection">
+          <h4>⚠ Potential Supplier Conflicts ({profile.supplierConflicts.length})</h4>
+          <div className="conflict-list">
+            {profile.supplierConflicts.map((c, i) => (
+              <div key={i} className="conflict-item">
+                <span>{typeof c === 'string' ? c : c.description || JSON.stringify(c)}</span>
               </div>
             ))}
           </div>

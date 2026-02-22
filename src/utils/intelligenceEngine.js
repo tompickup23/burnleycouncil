@@ -608,9 +608,111 @@ export function buildMeetingBriefing(meeting, allData) {
   })
 
   // Key battlegrounds — agenda items where opposition likely to challenge
-  const keyBattlegrounds = agendaIntel.filter(a =>
-    a.policyAreas.length > 0 && (a.matchingVotes.length > 0 || a.policyAreas.includes('budget_finance'))
-  )
+  const keyBattlegrounds = agendaIntel
+    .filter(a =>
+      a.policyAreas.length > 0 && (a.matchingVotes.length > 0 || a.matchingRebuttals.length > 0 || a.policyAreas.includes('budget_finance'))
+    )
+    .map(a => {
+      const reasons = []
+      if (a.matchingVotes.length > 0) reasons.push(`${a.matchingVotes.length} related past vote(s)`)
+      if (a.matchingRebuttals.length > 0) reasons.push(`${a.matchingRebuttals.length} known opposition attack line(s)`)
+      if (a.policyAreas.includes('budget_finance')) reasons.push('Budget/finance topic — high political salience')
+      if (a.matchingFindings.length > 0) reasons.push(`${a.matchingFindings.length} DOGE finding(s) linked`)
+      return {
+        item: a.text,
+        reason: reasons.join('. ') || 'Relevant policy area identified',
+        policyAreas: a.policyAreas,
+        matchingVotes: a.matchingVotes,
+        matchingRebuttals: a.matchingRebuttals,
+      }
+    })
+
+  // War-game: build risk assessment
+  const riskLevel = keyBattlegrounds.length >= 3 ? 'high'
+    : keyBattlegrounds.length >= 1 ? 'medium'
+    : 'low'
+
+  const oppositionSpeakers = oppositionMembers.filter(m => m.prediction?.likelyToSpeak)
+  const likelyOpposers = oppositionMembers.filter(m => m.prediction?.likelyPosition === 'oppose')
+
+  // War-game: build per-agenda-item attack predictions with counters
+  const warGame = agendaIntel
+    .filter(a => a.policyAreas.length > 0)
+    .map(a => {
+      // Collect predicted attacks from all opposition members for this agenda item
+      const attackPredictions = oppositionMembers
+        .filter(m => m.prediction?.likelyPosition === 'oppose' || m.prediction?.likelyToSpeak)
+        .map(m => {
+          // Find attacks relevant to this agenda item's policy areas
+          const relevantAttacks = (m.topAttackLines || [])
+            .filter(al => {
+              // Check if attack line's text relates to any policy area
+              const attackAreas = mapAgendaToPolicyAreas(al.text)
+              return attackAreas.some(area => a.policyAreas.includes(area)) || a.policyAreas.includes('budget_finance')
+            })
+            .slice(0, 2)
+
+          // Predicted arguments from their behaviour prediction
+          const relevantArgs = (m.prediction?.predictedArguments || []).slice(0, 3)
+
+          if (relevantAttacks.length === 0 && relevantArgs.length === 0) return null
+
+          return {
+            name: m.name,
+            party: m.party,
+            role: m.role,
+            likelyToSpeak: m.prediction?.likelyToSpeak,
+            attackLines: relevantAttacks,
+            predictedArguments: relevantArgs,
+          }
+        })
+        .filter(Boolean)
+
+      // Build counter-arguments from Reform rebuttals and achievements
+      const counters = [
+        ...a.matchingRebuttals.map(r => ({
+          type: 'rebuttal',
+          trigger: r.attack,
+          response: r.rebuttal,
+          source: r.source || 'prepared',
+        })),
+        ...a.matchingAchievements.map(ach => ({
+          type: 'achievement',
+          trigger: null,
+          response: ach.title || ach.headline || (typeof ach === 'string' ? ach : ''),
+          detail: ach.detail || '',
+          source: 'reform_record',
+        })),
+      ]
+
+      // Supporting data from DOGE findings
+      const supportingData = a.matchingFindings.map(f => ({
+        label: f.label,
+        value: f.value,
+        severity: f.severity,
+      }))
+
+      return {
+        agendaItem: a.text,
+        policyAreas: a.policyAreas,
+        riskLevel: attackPredictions.length >= 2 ? 'high' : attackPredictions.length >= 1 ? 'medium' : 'low',
+        attackPredictions,
+        counters,
+        supportingData,
+        pastVoteContext: a.matchingVotes.map(v => ({
+          title: v.title,
+          date: v.date,
+          outcome: v.outcome,
+        })),
+      }
+    })
+    .filter(w => w.attackPredictions.length > 0 || w.counters.length > 0)
+
+  // Meeting documents
+  const documents = (meeting.documents || []).map(doc => ({
+    title: typeof doc === 'string' ? doc : doc.title || doc.name,
+    url: typeof doc === 'object' ? doc.url : null,
+  }))
 
   return {
     meeting: {
@@ -622,6 +724,7 @@ export function buildMeetingBriefing(meeting, allData) {
       venue: meeting.venue,
       link: meeting.link,
       agendaItems: meeting.agenda_items || [],
+      documents,
     },
     committee: committee ? {
       name: committee.name,
@@ -632,6 +735,15 @@ export function buildMeetingBriefing(meeting, allData) {
     oppositionMembers,
     agendaIntel,
     keyBattlegrounds,
+    warGame,
+    riskAssessment: {
+      level: riskLevel,
+      oppositionSpeakers: oppositionSpeakers.length,
+      likelyOpposers: likelyOpposers.length,
+      battlegroundCount: keyBattlegrounds.length,
+      totalAgendaItems: (meeting.agenda_items || []).length,
+      politicalItems: agendaIntel.filter(a => a.policyAreas.length > 0).length,
+    },
   }
 }
 

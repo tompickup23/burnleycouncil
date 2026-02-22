@@ -720,6 +720,249 @@
   line-height: 1.4;
 }
 
+/* --- Risk Assessment Banner --- */
+
+.intel-risk-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #333;
+}
+.intel-risk-banner.risk-high { background: #ff453a15; border-color: #ff453a44; }
+.intel-risk-banner.risk-medium { background: #ff9f0a15; border-color: #ff9f0a44; }
+.intel-risk-banner.risk-low { background: #30d15815; border-color: #30d15844; }
+.risk-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.risk-level-badge {
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+}
+.risk-high .risk-level-badge { color: #ff453a; }
+.risk-medium .risk-level-badge { color: #ff9f0a; }
+.risk-low .risk-level-badge { color: #30d158; }
+.risk-banner-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 0.78rem;
+  color: #888;
+}
+
+/* --- War Game Cards --- */
+
+.intel-wargame-section { margin-bottom: 24px; }
+.intel-wargame-section > h3 { margin-bottom: 8px; }
+.intel-wargame-section > p { margin-bottom: 12px; }
+
+.wargame-card {
+  background: #12121f;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.wargame-card.risk-high { border-left: 3px solid #ff453a; }
+.wargame-card.risk-medium { border-left: 3px solid #ff9f0a; }
+.wargame-card.risk-low { border-left: 3px solid #30d158; }
+.wargame-card.expanded { border-color: #555; }
+
+.wargame-card-header {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.wargame-card-header:hover { background: #ffffff08; }
+.wargame-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+.wargame-card-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #fff;
+}
+.wargame-card-tags {
+  display: flex;
+  gap: 8px;
+}
+.wargame-attack-count, .wargame-counter-count {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.wargame-attack-count { background: #ff453a22; color: #ff453a; }
+.wargame-counter-count { background: #30d15822; color: #30d158; }
+
+.wargame-card-body {
+  padding: 0 16px 16px;
+}
+
+.wargame-subsection {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #222;
+}
+.wargame-subsection:first-child { margin-top: 0; border-top: none; }
+.wargame-subsection h5 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #aaa;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wargame-subsection.attacks h5 { color: #ff453a; }
+.wargame-subsection.counters h5 { color: #30d158; }
+
+/* Attacker cards */
+.wargame-attacker {
+  background: #1a1a2e;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+.wargame-attacker-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.wargame-attacker-name {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #fff;
+}
+.wargame-attack-lines { margin-top: 6px; }
+.wargame-attack-line {
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  border-left: 2px solid;
+  font-size: 0.78rem;
+  color: #ccc;
+  background: #12121f;
+  border-radius: 0 6px 6px 0;
+}
+.wargame-predicted-args {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.wargame-arg-chip {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #ffffff10;
+  color: #aaa;
+}
+
+/* Counter-arguments */
+.wargame-counter {
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+}
+.wargame-counter.rebuttal { background: #30d15808; border: 1px solid #30d15822; }
+.wargame-counter.achievement { background: #0a84ff08; border: 1px solid #0a84ff22; }
+.wargame-counter-trigger {
+  font-size: 0.78rem;
+  color: #ff453a;
+  margin-bottom: 4px;
+  font-style: italic;
+}
+.wargame-counter-response {
+  font-size: 0.82rem;
+  color: #ddd;
+  line-height: 1.4;
+}
+.wargame-counter-detail { color: #888; }
+
+/* Supporting data */
+.wargame-data-point {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.78rem;
+  border-bottom: 1px solid #1a1a2e;
+}
+.wargame-data-label { color: #aaa; }
+.wargame-data-value { color: #fff; font-weight: 500; }
+
+/* Past vote context */
+.wargame-past-vote {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 0.78rem;
+  color: #aaa;
+}
+.wargame-vote-date { font-size: 0.72rem; color: #666; }
+.wargame-vote-outcome {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.wargame-vote-outcome.carried { background: #30d15822; color: #30d158; }
+.wargame-vote-outcome.lost { background: #ff453a22; color: #ff453a; }
+
+/* Documents section */
+.intel-documents-section { margin-bottom: 24px; }
+.documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.document-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #12121f;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+.document-item a {
+  color: #0a84ff;
+  text-decoration: none;
+}
+.document-item a:hover { text-decoration: underline; }
+.document-item span { color: #aaa; }
+
+/* Vote description in dossier */
+.vote-description {
+  font-size: 0.78rem;
+  color: #888;
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+/* Amendment badge in dossier */
+.amendment-badge {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 20px;
+  background: #0a84ff22;
+  color: #0a84ff;
+  font-weight: 600;
+}
+
 /* --- Party Filter --- */
 
 .intel-party-filter {

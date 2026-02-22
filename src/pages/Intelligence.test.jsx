@@ -113,13 +113,20 @@ const mockMeetings = {
 }
 
 const mockBriefing = {
-  meetingDetails: {
-    title: 'Budget and Finance Scrutiny Committee',
+  meeting: {
+    id: 'budget-finance-2026-03-10',
     date: '2026-03-10',
     time: '14:00',
     committee: 'Budget and Finance Scrutiny Committee',
+    type: 'scrutiny',
+    venue: 'Committee Room B',
+    agendaItems: ['Budget Monitoring Quarter 3', 'Savings Delivery Report'],
   },
-  committeeType: 'scrutiny',
+  committee: {
+    name: 'Budget and Finance Scrutiny Committee',
+    type: 'scrutiny',
+    totalMembers: 5,
+  },
   reformMembers: [
     { name: 'Tom Pickup', party: 'Reform UK', role: 'Member' },
     { name: 'Stephen Atkinson', party: 'Reform UK', role: 'Chair' },
@@ -129,52 +136,54 @@ const mockBriefing = {
       name: 'Azhar Ali OBE',
       party: 'Independent',
       role: 'Member',
-      dossier: { attackLines: [{ text: 'Former Labour leader', severity: 'high', source: 'politics' }], integrityProfile: { risk_level: 'elevated', total_red_flags: 5 } },
+      dossier: { attackLines: [{ text: 'Former Labour leader', severity: 'high', source: 'politics' }], integrityProfile: { riskLevel: 'elevated', redFlags: ['Multiple roles', 'Late declarations', 'Co-director overlap', 'SIC mismatch', 'Contract timing'] } },
       prediction: { likelyPosition: 'oppose', confidence: 'high', likelyToSpeak: true, predictedArguments: ['Budget cuts'] },
     },
     {
       name: 'Gina Dowding',
       party: 'Green Party',
       role: 'Member',
-      dossier: { attackLines: [{ text: 'Green budget amendment failed', severity: 'medium', source: 'voting' }], integrityProfile: { risk_level: 'elevated', total_red_flags: 3 } },
+      dossier: { attackLines: [{ text: 'Green budget amendment failed', severity: 'medium', source: 'voting' }], integrityProfile: { riskLevel: 'elevated', redFlags: ['Late declarations', 'SIC mismatch', 'Co-director overlap'] } },
       prediction: { likelyPosition: 'oppose', confidence: 'medium', likelyToSpeak: false, predictedArguments: [] },
     },
   ],
-  agendaIntelligence: [
+  agendaIntel: [
     {
-      item: 'Budget Monitoring Quarter 3',
+      text: 'Budget Monitoring Quarter 3',
       policyAreas: ['budget_finance'],
-      pastVotes: [{ title: 'Budget 2025/26', date: '2025-02-13', outcome: 'Carried' }],
-      achievements: ['Eliminated £28M overspend'],
-      rebuttals: [{ attack: 'Cutting services', rebuttal: 'We protected frontline services', policyAreas: ['budget_finance'] }],
-      dogeFindings: [],
+      matchingVotes: [{ title: 'Budget 2025/26', date: '2025-02-13', outcome: 'Carried' }],
+      matchingAchievements: [{ title: 'Financial Turnaround', headline: 'Eliminated £28M overspend' }],
+      matchingRebuttals: [{ attack: 'Cutting services', rebuttal: 'We protected frontline services', policyAreas: ['budget_finance'] }],
+      matchingFindings: [],
     },
   ],
   keyBattlegrounds: [
-    { item: 'Budget Monitoring Quarter 3', reason: 'High opposition interest in budget scrutiny' },
+    { item: 'Budget Monitoring Quarter 3', reason: 'High opposition interest in budget scrutiny', policyAreas: ['budget_finance'], matchingVotes: [], matchingRebuttals: [] },
   ],
 }
 
 const mockDossier = {
   name: 'Azhar Ali OBE',
+  rawName: 'County Councillor Azhar Ali OBE',
   party: 'Independent',
   ward: 'Pendle Central',
-  division: 'Pendle Central',
+  email: 'azhar.ali@lancashire.gov.uk',
   isOpposition: true,
-  groupInfo: { role: 'Leader', name: 'Progressive Lancashire' },
-  notableFacts: ['Former Labour leader at LCC'],
+  groupInfo: { role: 'Leader', groupName: 'Progressive Lancashire', seats: 11, formalOpposition: true },
+  notable: ['Former Labour leader at LCC'],
   committees: [
-    { name: 'Budget and Finance Scrutiny Committee', role: 'Member' },
-    { name: 'Full Council', role: 'Member' },
+    { name: 'Budget and Finance Scrutiny Committee', role: 'Member', type: 'scrutiny' },
+    { name: 'Full Council', role: 'Member', type: 'other' },
   ],
   votingRecord: [
-    { title: 'Budget 2025/26', date: '2025-02-13', position: 'against', outcome: 'Carried', policyAreas: ['budget_finance'] },
-    { title: 'Devolution Vote', date: '2024-03-14', position: 'for', outcome: 'Lost', policyAreas: ['devolution_lgr'] },
+    { title: 'Budget 2025/26', date: '2025-02-13', position: 'against', outcome: 'Carried', policyAreas: ['budget_finance'], isRebel: false, isAmendment: false },
+    { title: 'Devolution Vote', date: '2024-03-14', position: 'for', outcome: 'Lost', policyAreas: ['devolution_lgr'], isRebel: false, isAmendment: false },
   ],
-  rebelVotes: [],
-  policyPositions: { budget_finance: 'against', devolution_lgr: 'for' },
-  integrityProfile: { risk_level: 'elevated', integrity_score: 62, total_red_flags: 5, red_flags: ['Multiple roles', 'Late declarations'], directorships: [{ company_name: 'ALI CONSULTING LTD', status: 'active' }] },
-  registerOfInterests: { companies: ['Ali Consulting'], employment: ['Self-employed consultant'] },
+  rebelCount: 0,
+  rebelRate: 0,
+  policyPositions: { budget_finance: { for: 0, against: 1, abstain: 0 }, devolution_lgr: { for: 1, against: 0, abstain: 0 } },
+  integrityProfile: { riskLevel: 'elevated', score: 62, redFlags: ['Multiple roles', 'Late declarations'], companies: [{ name: 'ALI CONSULTING LTD', status: 'active', number: '12345678', sicCodes: ['70229'], redFlags: [] }], supplierConflicts: [] },
+  interestsProfile: { companies: ['Ali Consulting'], employment: ['Self-employed consultant'], land: [], securities: [], sponsorship: [], memberships: [] },
   attackLines: [
     { text: 'Former Labour leader', severity: 'high', source: 'politics' },
     { text: 'Leads opposition as "Independent"', severity: 'high', source: 'politics' },
