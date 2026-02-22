@@ -122,6 +122,11 @@
 
 .elec-section-nav .section-nav-btn svg {
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.elec-section-nav .section-nav-btn:hover svg {
+  transform: scale(1.15);
 }
 
 /* ===================== Sections ===================== */
@@ -155,6 +160,7 @@
   font-weight: 700;
   color: #fff;
   display: block;
+  font-variant-numeric: tabular-nums;
 }
 
 .elec-stat-label {
@@ -175,6 +181,7 @@
   color: #fff;
   white-space: nowrap;
   letter-spacing: 0.02em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* ===================== Confidence Dot ===================== */
@@ -466,6 +473,11 @@
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   text-transform: uppercase;
+  transition: transform 0.2s ease;
+}
+
+.elec-elected:hover {
+  transform: scale(1.08);
 }
 
 /* ===================== Ward Explorer ===================== */
@@ -588,6 +600,7 @@
   font-size: 0.85rem;
   color: #0a84ff;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .elec-slider-desc {
@@ -714,6 +727,7 @@
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ===================== Row change indicator ===================== */
@@ -732,6 +746,11 @@
   margin-left: 0.4rem;
   text-transform: uppercase;
   vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.elec-change-arrow:hover {
+  transform: scale(1.1);
 }
 
 /* ===================== Workings ===================== */
@@ -887,6 +906,11 @@
   margin-left: 0.3rem;
   text-transform: uppercase;
   vertical-align: middle;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.elec-majority-badge:hover {
+  transform: scale(1.08);
 }
 
 .elec-builder-actions {
@@ -928,6 +952,8 @@
 
 .elec-builder-ward:hover {
   border-color: #3a3a3c;
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .elec-builder-ward.overridden {
@@ -1012,6 +1038,8 @@
 
 .elec-coalition-card:hover {
   border-color: #0a84ff;
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .elec-coalition-card.selected {
@@ -1128,6 +1156,11 @@
   border-radius: 6px;
   font-size: 0.82rem;
   font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.elec-lgr-control-badge:hover {
+  transform: scale(1.05);
 }
 
 .elec-lgr-control-badge.majority {
@@ -1202,6 +1235,11 @@
 
 .elec-section-icon {
   flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.elec-section-title:hover .elec-section-icon {
+  transform: rotate(-8deg) scale(1.1);
 }
 
 /* ===================== Generic card ===================== */
@@ -1237,6 +1275,7 @@
   font-size: 0.72rem;
   color: #8e8e93;
   margin-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
 }
 .elec-stat-trend.positive { color: #30d158; }
 .elec-stat-trend.negative { color: #ff453a; }
@@ -1249,7 +1288,7 @@
 }
 .elec-constituency-card:hover {
   border-color: #0a84ff;
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
 }
 
 /* ===================== Methodology note ===================== */

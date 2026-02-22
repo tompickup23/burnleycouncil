@@ -84,6 +84,7 @@
 .doge-hero-stat .stat-value {
   font-size: 1.75rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   background: linear-gradient(135deg, #ff453a, #ff9f0a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -169,7 +170,7 @@
 }
 
 .doge-finding-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.01);
   border-color: rgba(255, 69, 58, 0.3);
   box-shadow: 0 8px 32px rgba(255, 69, 58, 0.15);
 }
@@ -177,6 +178,7 @@
 .doge-finding-value {
   font-size: 1.75rem;
   font-weight: 800;
+  font-variant-numeric: tabular-nums;
   letter-spacing: -1px;
   background: linear-gradient(135deg, #ff453a, #ff9f0a);
   -webkit-background-clip: text;
@@ -283,6 +285,7 @@
 
 .expandable-section.severity-critical {
   border-left: 3px solid #ff453a;
+  animation: badgePulse 2s ease infinite;
 }
 
 .expandable-section.severity-warning {
@@ -443,6 +446,8 @@
   border: 1px solid rgba(48, 209, 88, 0.15);
   border-radius: var(--radius-md);
   padding: var(--space-md);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
 }
 
 .verification-header {
@@ -507,9 +512,12 @@
   gap: 4px;
   font-size: 0.75rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   padding: 2px 8px;
   border-radius: 9999px;
   border: 1px solid;
+  backdrop-filter: blur(12px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2) brightness(1.02);
 }
 
 /* Cross-council section */
@@ -547,6 +555,7 @@
 .cc-value {
   font-size: 1.75rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   color: var(--accent-blue);
   line-height: 1.1;
 }
@@ -619,7 +628,7 @@
 .key-finding-card.info { border-top: 3px solid #0a84ff; }
 
 .key-finding-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.01);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -639,7 +648,7 @@
   letter-spacing: 0.04em;
 }
 
-.kf-badge.alert { background: rgba(255, 69, 58, 0.15); color: #ff6b6b; }
+.kf-badge.alert { background: rgba(255, 69, 58, 0.15); color: #ff6b6b; animation: badgePulse 2s ease infinite; }
 .kf-badge.warning { background: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
 .kf-badge.info { background: rgba(10, 132, 255, 0.15); color: #0a84ff; }
 
@@ -723,6 +732,11 @@
 .methodology-card svg {
   color: #30d158;
   margin-bottom: var(--space-sm);
+  transition: transform 0.3s var(--ease-bounce);
+}
+
+.methodology-card:hover svg {
+  transform: scale(1.15) rotate(-5deg);
 }
 
 .methodology-card h5 {
@@ -771,6 +785,11 @@
 .legal-card svg {
   color: var(--accent-blue);
   margin-bottom: var(--space-sm);
+  transition: transform 0.3s var(--ease-bounce);
+}
+
+.legal-card:hover svg {
+  transform: scale(1.15) rotate(-5deg);
 }
 
 .legal-card h4 {
@@ -895,13 +914,18 @@
 }
 
 .action-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.01);
   border-color: rgba(10, 132, 255, 0.3);
   box-shadow: 0 12px 40px rgba(10, 132, 255, 0.15);
 }
 
 .action-card svg {
   color: var(--accent-blue);
+  transition: transform 0.3s var(--ease-bounce);
+}
+
+.action-card:hover svg {
+  transform: scale(1.15) rotate(-5deg);
 }
 
 .action-card h4 {
@@ -1203,6 +1227,7 @@
 .os-value {
   font-size: 1.5rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   color: var(--text-primary);
 }
 
@@ -1241,6 +1266,7 @@
 .proc-stat-value {
   font-size: 1.25rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   color: var(--text-primary);
 }
 

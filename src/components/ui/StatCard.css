@@ -24,8 +24,8 @@
 
 .stat-card:hover {
   border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
 }
 
 .stat-card.highlight {
@@ -45,7 +45,7 @@
 }
 
 .stat-card:hover .stat-card-icon {
-  transform: scale(1.08);
+  transform: scale(1.15) rotate(-5deg);
 }
 
 .stat-card.highlight .stat-card-icon {
@@ -65,6 +65,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-card-label {

@@ -13,6 +13,11 @@
   color: var(--accent-blue);
   flex-shrink: 0;
   margin-top: 4px;
+  transition: transform 0.3s ease;
+}
+
+.integrity-title-row:hover .integrity-icon {
+  transform: rotate(-8deg) scale(1.1);
 }
 
 .integrity-title-row h1 {
@@ -68,8 +73,9 @@
 }
 
 .dashboard-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
   border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .dashboard-number {
@@ -78,6 +84,7 @@
   font-weight: 700;
   letter-spacing: -0.03em;
   margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
 }
 
 .dashboard-label {
@@ -150,6 +157,7 @@
   text-align: right;
   font-size: 0.875rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Network Advisory */
@@ -290,6 +298,8 @@
 
 .integrity-card:hover {
   border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
 }
 
 .integrity-card.has-conflicts {
@@ -365,6 +375,13 @@
   border-radius: 9999px;
   font-size: 0.6875rem;
   font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.badge-directorships:hover,
+.badge-conflict:hover,
+.badge-network:hover {
+  transform: scale(1.05);
 }
 
 .badge-directorships {
@@ -390,6 +407,11 @@
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.risk-badge:hover {
+  transform: scale(1.05);
 }
 
 /* Expanded Detail */
@@ -431,6 +453,7 @@
   justify-content: center;
   font-size: 1.25rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .score-title {
@@ -789,6 +812,11 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.conflict-type-badge:hover {
+  transform: scale(1.05);
 }
 
 .conflict-type-badge.conflict-type-commercial {
@@ -1075,6 +1103,11 @@
   border-radius: 9999px;
   font-size: 0.625rem;
   font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.familial-flag:hover {
+  transform: scale(1.08);
 }
 
 .familial-flag.critical {
@@ -1109,6 +1142,13 @@
   border-radius: 9999px;
   font-size: 0.6875rem;
   font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.badge-cross-council:hover,
+.badge-misconduct:hover,
+.badge-family:hover {
+  transform: scale(1.05);
 }
 
 .badge-cross-council {
@@ -1298,6 +1338,7 @@
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
 }
 
 .crossover-confidence {
@@ -1411,6 +1452,7 @@
   font-weight: 600;
   color: #af52de;
   margin-left: auto;
+  font-variant-numeric: tabular-nums;
 }
 
 /* FCA Section */
@@ -1552,6 +1594,7 @@
   font-weight: 700;
   color: #ffd60a;
   font-size: 1rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .supplier-donation-meta {
@@ -1643,6 +1686,7 @@
   font-size: 0.8125rem;
   font-weight: 600;
   color: #ff9f0a;
+  font-variant-numeric: tabular-nums;
 }
 
 .supplier-investigation-connections {

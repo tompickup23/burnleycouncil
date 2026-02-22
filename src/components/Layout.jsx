@@ -88,7 +88,7 @@ function Layout({ children }) {
   }, [dataSources])
 
   return (
-    <div className="layout">
+    <div className="layout noise-overlay">
       {/* Skip to main content — accessibility */}
       <a href="#main-content" className="skip-to-content">
         Skip to main content

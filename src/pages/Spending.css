@@ -141,7 +141,7 @@
 
 .search-bar input:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15), 0 0 30px rgba(10, 132, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15), 0 0 20px rgba(10, 132, 255, 0.08);
 }
 
 .search-clear {
@@ -320,6 +320,7 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-card-label {
@@ -569,6 +570,14 @@
   background: rgba(58, 58, 60, 0.7);
 }
 
+.spending-table tbody tr {
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.spending-table tbody tr:hover {
+  transform: scale(1.002);
+}
+
 .sort-inactive {
   opacity: 0.3;
 }
@@ -635,6 +644,7 @@
   font-weight: 500;
   background: var(--bg-elevated);
   color: var(--text-secondary);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .type-badge.spend {

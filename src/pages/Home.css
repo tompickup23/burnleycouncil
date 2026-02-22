@@ -184,10 +184,18 @@
 }
 
 .hero-section h1 .highlight {
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-teal) 100%);
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal), var(--accent-purple), var(--accent-blue));
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: textShimmer 6s ease infinite;
+}
+
+@keyframes textShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .hero-subtitle {
@@ -216,15 +224,23 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-md);
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform 0.3s var(--ease-bounce), background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
 }
 
 .impact-card:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
 }
+
+.impact-spend:hover { box-shadow: 0 8px 32px rgba(10, 132, 255, 0.15); }
+.impact-transactions:hover { box-shadow: 0 8px 32px rgba(48, 209, 88, 0.15); }
+.impact-suppliers:hover { box-shadow: 0 8px 32px rgba(191, 90, 242, 0.15); }
+.impact-savings:hover { box-shadow: 0 8px 32px rgba(255, 159, 10, 0.15); }
 
 .impact-card::before {
   content: '';
@@ -241,6 +257,11 @@
 
 .impact-icon {
   margin-bottom: 2px;
+  transition: transform 0.3s var(--ease-bounce);
+}
+
+.impact-card:hover .impact-icon {
+  transform: scale(1.15) rotate(-5deg);
 }
 
 .impact-spend .impact-icon { color: var(--accent-blue); }
@@ -304,8 +325,8 @@
 
 .btn-primary:hover {
   background: #0077e6;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(10, 132, 255, 0.4);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(10, 132, 255, 0.4), 0 0 40px rgba(10, 132, 255, 0.15);
 }
 
 .btn-accent {
@@ -414,6 +435,27 @@
 }
 
 /* Section Styles */
+.home-page section > h2 {
+  position: relative;
+  padding-bottom: var(--space-sm);
+}
+
+.home-page section > h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  transition: width 0.3s var(--ease-smooth);
+}
+
+.home-page section:hover > h2::after {
+  width: 80px;
+}
+
 .section-intro {
   color: var(--text-secondary);
   font-size: 1rem;
@@ -494,9 +536,9 @@
 .doge-card.info::after { background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal)); }
 
 .doge-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.01);
   border-color: rgba(255, 69, 58, 0.3);
-  box-shadow: 0 8px 32px rgba(255, 69, 58, 0.15);
+  box-shadow: 0 8px 32px rgba(255, 69, 58, 0.15), 0 0 0 1px rgba(255, 69, 58, 0.1);
 }
 
 .doge-card-header {
@@ -516,7 +558,7 @@
   letter-spacing: 0.06em;
 }
 
-.doge-severity.critical { background: rgba(255, 69, 58, 0.2); color: #ff453a; }
+.doge-severity.critical { background: rgba(255, 69, 58, 0.2); color: #ff453a; animation: badgePulse 2s ease infinite; }
 .doge-severity.warning { background: rgba(255, 159, 10, 0.2); color: #ff9f0a; }
 .doge-severity.info { background: rgba(10, 132, 255, 0.15); color: var(--accent-blue); }
 
@@ -679,6 +721,11 @@
   transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   border-color: rgba(255, 255, 255, 0.1);
+}
+
+.finding-card:hover .finding-icon {
+  transform: scale(1.2) rotate(-8deg);
+  transition: transform 0.3s var(--ease-bounce);
 }
 
 .finding-card.warning { border-top: 3px solid var(--accent-orange); }
@@ -937,7 +984,7 @@
 }
 
 .news-preview-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(1.01);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   border-color: rgba(255, 255, 255, 0.12);
 }

@@ -76,7 +76,7 @@
 }
 
 .composition-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -105,6 +105,7 @@
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
 }
 
 .coalition-label,
@@ -127,6 +128,12 @@
   font-size: 0.8125rem;
   font-weight: 500;
   color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.party-chip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .coalition-note {
@@ -211,7 +218,7 @@
 }
 
 .figure-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -255,8 +262,9 @@
 }
 
 .opposition-group-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .group-header {
@@ -277,6 +285,12 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
+  font-variant-numeric: tabular-nums;
+  transition: transform 0.2s ease;
+}
+
+.group-seats-badge:hover {
+  transform: scale(1.08);
 }
 
 .group-leader {
@@ -379,6 +393,7 @@
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-label-mini {
@@ -415,6 +430,11 @@
   border-radius: 9999px;
   font-size: 0.6875rem;
   font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.attendance-badge:hover {
+  transform: scale(1.05);
 }
 
 .dual-hatted-badge {
@@ -596,6 +616,11 @@
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.outcome-badge:hover {
+  transform: scale(1.05);
 }
 
 .outcome-carried {
@@ -612,6 +637,7 @@
   display: flex;
   gap: var(--space-md);
   font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .count-for { color: #30d158; }
@@ -868,7 +894,9 @@
 
 .councillor-card:hover {
   background: var(--bg-tertiary);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .councillor-header {
@@ -903,6 +931,12 @@
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.party-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .councillor-roles {
