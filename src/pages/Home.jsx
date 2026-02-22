@@ -16,6 +16,8 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
 import ReformShowcase from '../components/ReformShowcase'
+import { useCountUp } from '../hooks/useCountUp'
+import { useReveal } from '../hooks/useReveal'
 import './Home.css'
 
 // Map icon names from doge_findings.json to Lucide components
@@ -110,7 +112,6 @@ function Home() {
   const totalRecords = insights?.summary?.transaction_count || insights?.transparency_metrics?.total_records || 0
   const uniqueSuppliers = insights?.summary?.unique_suppliers || 0
   const topSupplierConcentration = insights?.supplier_analysis?.concentration_ratio || 0
-
   // Date range label from insights
   const dateRange = insights?.summary?.date_range
   const periodLabel = dateRange
@@ -148,6 +149,17 @@ function Home() {
     value: p.count,
     color: partyColors[p.party] || '#808080',
   })) || [], [politicsSummary])
+
+  // Animated count-up for hero stats
+  const animatedSpend = useCountUp(totalSpend, { formatter: v => formatCurrency(v, true) })
+  const animatedRecords = useCountUp(totalRecords, { formatter: v => formatNumber(Math.round(v)) })
+  const animatedSuppliers = useCountUp(uniqueSuppliers, { formatter: v => formatNumber(Math.round(v)) })
+  const animatedSavings = useCountUp(dogeStats.potentialSavings, { formatter: v => formatCurrency(v, true) })
+
+  // Scroll-triggered reveals for below-fold sections
+  const [explainerRef, explainerVisible] = useReveal()
+  const [chartsRef, chartsVisible] = useReveal()
+  const [sourcesRef, sourcesVisible] = useReveal()
 
   if (loading) {
     return <LoadingState message="Loading dashboard data..." />
@@ -192,29 +204,29 @@ function Home() {
         </div>
 
         {/* Impact Stats — the headline numbers */}
-        <div className="impact-grid">
+        <div className="impact-grid stagger-children">
           <div className="impact-card impact-spend">
             <PoundSterling size={20} className="impact-icon" />
-            <span className="impact-value">{formatCurrency(totalSpend, true)}</span>
+            <span className="impact-value">{animatedSpend}</span>
             <span className="impact-label">Total Spending Tracked</span>
             <span className="impact-period">{periodLabel}</span>
           </div>
           <div className="impact-card impact-transactions">
             <FileText size={20} className="impact-icon" />
-            <span className="impact-value">{formatNumber(totalRecords)}</span>
+            <span className="impact-value">{animatedRecords}</span>
             <span className="impact-label">Individual Payments</span>
             <span className="impact-period">Each one checked</span>
           </div>
           <div className="impact-card impact-suppliers">
             <Building size={20} className="impact-icon" />
-            <span className="impact-value">{formatNumber(uniqueSuppliers)}</span>
+            <span className="impact-value">{animatedSuppliers}</span>
             <span className="impact-label">Companies Paid</span>
             <span className="impact-period">Cross-referenced</span>
           </div>
           {dogeStats.potentialSavings > 0 && (
             <div className="impact-card impact-savings">
               <Zap size={20} className="impact-icon" />
-              <span className="impact-value">{formatCurrency(dogeStats.potentialSavings, true)}</span>
+              <span className="impact-value">{animatedSavings}</span>
               <span className="impact-label">Potential Savings Identified</span>
               <span className="impact-period">Flagged for investigation</span>
             </div>
@@ -243,7 +255,7 @@ function Home() {
       </header>
 
       {/* ===== WHAT IS THIS? — For complete novices ===== */}
-      <section className="explainer-section">
+      <section ref={explainerRef} className={`explainer-section reveal ${explainerVisible ? "is-visible" : ""}`}>
         <div className="explainer-card">
           <h2><HelpCircle size={22} /> What Is This?</h2>
           <div className="explainer-grid">
@@ -307,7 +319,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="doge-findings-grid">
+          <div className="doge-findings-grid stagger-children">
             {findings.slice(0, 4).map((f, i) => (
               <Link key={i} to={f.link || spendingLink} className={`doge-card ${f.severity || 'info'}`}>
                 <div className="doge-card-header">
@@ -346,7 +358,7 @@ function Home() {
             Specific patterns in the spending data worth knowing about.
           </p>
 
-          <div className="findings-grid">
+          <div className="findings-grid stagger-children">
             {keyFindings.slice(0, 4).map((f, i) => {
               const IconComponent = iconMap[f.icon] || AlertTriangle
               return (
@@ -366,7 +378,7 @@ function Home() {
       )}
 
       {/* ===== FOLLOW THE MONEY — Charts ===== */}
-      <section className="charts-section">
+      <section ref={chartsRef} className={`charts-section reveal ${chartsVisible ? "is-visible" : ""}`}>
         <h2><BarChart3 size={22} /> Follow the Money</h2>
         <p className="section-intro">
           Where does your council tax actually go? Here are the biggest recipients and spending trends.
@@ -604,7 +616,7 @@ function Home() {
       )}
 
       {/* ===== DATA SOURCES — Trust and credibility ===== */}
-      <section className="sources-section">
+      <section ref={sourcesRef} className={`sources-section reveal ${sourcesVisible ? "is-visible" : ""}`}>
         <h2><Eye size={22} /> About the Data</h2>
         <p className="section-intro">
           Everything on this site comes from publicly available sources. Here&apos;s exactly where.

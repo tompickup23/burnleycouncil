@@ -11,6 +11,13 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../hooks/useCountUp', () => ({
+  useCountUp: (target, opts = {}) => {
+    const formatter = opts.formatter || Math.round
+    return formatter(target)
+  },
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 

@@ -1,8 +1,17 @@
 import './TabNav.css'
 
 function TabNav({ tabs, activeTab, onChange }) {
+  const activeIdx = tabs.findIndex(t => t.id === activeTab)
   return (
     <nav className="tab-nav" role="tablist">
+      <span
+        className="tab-indicator"
+        aria-hidden="true"
+        style={{
+          width: `${100 / tabs.length}%`,
+          transform: `translateX(${activeIdx * 100}%)`,
+        }}
+      />
       {tabs.map(({ id, label, icon: Icon }) => (
         <button
           key={id}

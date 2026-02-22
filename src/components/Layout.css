@@ -77,10 +77,15 @@
   padding: var(--space-md) var(--space-md);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s var(--ease-bounce);
   margin-bottom: var(--space-xs);
   position: relative;
   overflow: hidden;
+}
+
+.nav-item:active {
+  transform: scale(0.96);
+  transition: transform 0.1s var(--ease-bounce);
 }
 
 .nav-item::before {
@@ -93,7 +98,7 @@
   background: var(--accent-blue);
   border-radius: 0 2px 2px 0;
   transform: scaleY(0);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s var(--ease-bounce);
 }
 
 .nav-item:hover {
@@ -110,6 +115,7 @@
   background: linear-gradient(135deg, rgba(10, 132, 255, 0.2), rgba(10, 132, 255, 0.1));
   color: white;
   border: 1px solid rgba(10, 132, 255, 0.2);
+  box-shadow: 0 0 20px rgba(10, 132, 255, 0.1), inset 0 0 12px rgba(10, 132, 255, 0.03);
 }
 
 .nav-item.active::before {
@@ -235,6 +241,41 @@
   min-height: 100vh;
   padding: var(--space-xl);
   background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background orbs — give glassmorphism something to blur */
+.main-content::before,
+.main-content::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.main-content::before {
+  top: -15%;
+  right: -8%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(ellipse, rgba(10, 132, 255, 0.06) 0%, transparent 70%);
+  animation: gradientShift 14s ease infinite;
+}
+
+.main-content::after {
+  bottom: -10%;
+  left: -5%;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(ellipse, rgba(191, 90, 242, 0.04) 0%, transparent 70%);
+  animation: gradientShift 18s ease infinite reverse;
+}
+
+.main-content > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Mobile header - hidden on desktop */

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import ScrollToTop from './components/ScrollToTop'
 import PasswordGate from './components/PasswordGate'
@@ -105,47 +105,57 @@ function App() {
   return <AppRoutes />
 }
 
+/** Inner router content — uses useLocation for page transitions */
+function RouterContent() {
+  const location = useLocation()
+  return (
+    <CouncilConfigProvider>
+      <Layout>
+        <div key={location.pathname} className="page-transition">
+          <Routes>
+            <Route path="/" element={<Guarded><Home /></Guarded>} />
+            <Route path="/news" element={<Guarded><News /></Guarded>} />
+            <Route path="/news/:articleId" element={<Guarded><ArticleView /></Guarded>} />
+            <Route path="/doge" element={<Guarded><DogeInvestigation /></Guarded>} />
+            <Route path="/spending" element={<Guarded><Spending /></Guarded>} />
+            <Route path="/budgets" element={<Guarded><Budgets /></Guarded>} />
+            <Route path="/politics" element={<Guarded><Politics /></Guarded>} />
+            <Route path="/my-area" element={<Guarded><MyArea /></Guarded>} />
+            <Route path="/legal" element={<Guarded><Legal /></Guarded>} />
+            <Route path="/about" element={<Guarded><About /></Guarded>} />
+            <Route path="/meetings" element={<Guarded><Meetings /></Guarded>} />
+            <Route path="/pay" element={<Guarded><PayComparison /></Guarded>} />
+            <Route path="/compare" element={<Guarded><CrossCouncil /></Guarded>} />
+            <Route path="/foi" element={<Guarded><FOI /></Guarded>} />
+            <Route path="/suppliers" element={<Guarded><Suppliers /></Guarded>} />
+            <Route path="/supplier/:supplierId" element={<Guarded><SupplierView /></Guarded>} />
+            <Route path="/procurement" element={<Guarded><Procurement /></Guarded>} />
+            <Route path="/press" element={<Guarded><Press /></Guarded>} />
+            <Route path="/demographics" element={<Guarded><Demographics /></Guarded>} />
+            <Route path="/lgr" element={<Guarded><LGRTracker /></Guarded>} />
+            <Route path="/lgr-calculator" element={<Guarded><LGRCostCalculator /></Guarded>} />
+            <Route path="/integrity" element={<Guarded><Integrity /></Guarded>} />
+            <Route path="/elections" element={<Guarded><Elections /></Guarded>} />
+            <Route path="/constituencies" element={<Guarded><Constituencies /></Guarded>} />
+            <Route path="/constituencies/compare" element={<Guarded><MPComparison /></Guarded>} />
+            <Route path="/constituency/:constituencyId" element={<Guarded><ConstituencyView /></Guarded>} />
+            <Route path="/strategy" element={<Guarded><Strategy /></Guarded>} />
+            <Route path="/intelligence" element={<Guarded><Intelligence /></Guarded>} />
+            <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Layout>
+    </CouncilConfigProvider>
+  )
+}
+
 /** Shared route definitions used by both auth modes */
 function AppRoutes() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <ScrollToTop />
-      <CouncilConfigProvider>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Guarded><Home /></Guarded>} />
-          <Route path="/news" element={<Guarded><News /></Guarded>} />
-          <Route path="/news/:articleId" element={<Guarded><ArticleView /></Guarded>} />
-          <Route path="/doge" element={<Guarded><DogeInvestigation /></Guarded>} />
-          <Route path="/spending" element={<Guarded><Spending /></Guarded>} />
-          <Route path="/budgets" element={<Guarded><Budgets /></Guarded>} />
-          <Route path="/politics" element={<Guarded><Politics /></Guarded>} />
-          <Route path="/my-area" element={<Guarded><MyArea /></Guarded>} />
-          <Route path="/legal" element={<Guarded><Legal /></Guarded>} />
-          <Route path="/about" element={<Guarded><About /></Guarded>} />
-          <Route path="/meetings" element={<Guarded><Meetings /></Guarded>} />
-          <Route path="/pay" element={<Guarded><PayComparison /></Guarded>} />
-          <Route path="/compare" element={<Guarded><CrossCouncil /></Guarded>} />
-          <Route path="/foi" element={<Guarded><FOI /></Guarded>} />
-          <Route path="/suppliers" element={<Guarded><Suppliers /></Guarded>} />
-          <Route path="/supplier/:supplierId" element={<Guarded><SupplierView /></Guarded>} />
-          <Route path="/procurement" element={<Guarded><Procurement /></Guarded>} />
-          <Route path="/press" element={<Guarded><Press /></Guarded>} />
-          <Route path="/demographics" element={<Guarded><Demographics /></Guarded>} />
-          <Route path="/lgr" element={<Guarded><LGRTracker /></Guarded>} />
-          <Route path="/lgr-calculator" element={<Guarded><LGRCostCalculator /></Guarded>} />
-          <Route path="/integrity" element={<Guarded><Integrity /></Guarded>} />
-          <Route path="/elections" element={<Guarded><Elections /></Guarded>} />
-          <Route path="/constituencies" element={<Guarded><Constituencies /></Guarded>} />
-          <Route path="/constituencies/compare" element={<Guarded><MPComparison /></Guarded>} />
-          <Route path="/constituency/:constituencyId" element={<Guarded><ConstituencyView /></Guarded>} />
-          <Route path="/strategy" element={<Guarded><Strategy /></Guarded>} />
-          <Route path="/intelligence" element={<Guarded><Intelligence /></Guarded>} />
-          <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
-      </CouncilConfigProvider>
+      <RouterContent />
     </Router>
   )
 }

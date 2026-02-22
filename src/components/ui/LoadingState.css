@@ -28,3 +28,44 @@
 .loading-skeleton {
   padding: var(--space-lg);
 }
+
+.skeleton-stat-row {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  flex-wrap: wrap;
+}
+
+.skeleton-stat-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+  min-width: 180px;
+}
+
+.skeleton-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.skeleton-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.skeleton-value {
+  height: 28px;
+  width: 70%;
+  border-radius: 6px;
+}
+
+.skeleton-label {
+  height: 12px;
+  width: 55%;
+  border-radius: 4px;
+}

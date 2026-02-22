@@ -798,8 +798,11 @@ function Integrity() {
                             fill="none"
                             stroke={riskCfg.color}
                             strokeWidth="3"
-                            strokeDasharray={`${councillor.integrity_score}, 100`}
+                            strokeDasharray="100"
+                            strokeDashoffset={100 - councillor.integrity_score}
                             strokeLinecap="round"
+                            className="score-ring-progress"
+                            style={{ strokeDashoffset: 100 - councillor.integrity_score, transition: 'stroke-dashoffset 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s' }}
                           />
                         </svg>
                         <span className="score-number" style={{ color: riskCfg.color }}>{councillor.integrity_score}</span>

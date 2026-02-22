@@ -12,6 +12,7 @@
 .chart-card:hover {
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  animation: chartGlow 3s ease infinite;
 }
 
 .chart-card h3 {
