@@ -684,9 +684,9 @@ export default function Intelligence() {
           {reformTransformation && (
             <div className="intel-achievements-section">
               <h3><Award size={16} /> Achievements</h3>
-              {reformTransformation.achievements?.map((cat, i) => (
-                <div key={i} className="achievement-category">
-                  <h4>{cat.category}</h4>
+              {Object.entries(reformTransformation.achievements || {}).map(([key, cat], i) => (
+                <div key={key} className="achievement-category">
+                  <h4>{cat.headline || key}</h4>
                   <ul>
                     {cat.items?.map((item, j) => (
                       <li key={j}>
@@ -698,9 +698,9 @@ export default function Intelligence() {
               ))}
 
               {/* Comparison table */}
-              {reformTransformation.comparison_table?.length > 0 && (
+              {(reformTransformation.comparison_table?.rows?.length > 0 || (Array.isArray(reformTransformation.comparison_table) && reformTransformation.comparison_table.length > 0)) && (
                 <div className="intel-comparison">
-                  <h4>Reform vs Conservative</h4>
+                  <h4>{reformTransformation.comparison_table?.title || 'Reform vs Conservative'}</h4>
                   <div className="comparison-table-wrap">
                     <table className="intel-comparison-table">
                       <thead>
@@ -711,7 +711,7 @@ export default function Intelligence() {
                         </tr>
                       </thead>
                       <tbody>
-                        {reformTransformation.comparison_table.map((row, i) => (
+                        {(reformTransformation.comparison_table?.rows || reformTransformation.comparison_table || []).map((row, i) => (
                           <tr key={i}>
                             <td>{row.metric}</td>
                             <td className="comparison-old">{row.conservative || row.old}</td>
@@ -725,13 +725,21 @@ export default function Intelligence() {
               )}
 
               {/* Inherited problems */}
-              {reformTransformation.inherited_problems?.length > 0 && (
+              {reformTransformation.inherited_problems && (
                 <div className="intel-inherited">
                   <h4><AlertTriangle size={14} /> Inherited Problems</h4>
                   <ul className="inherited-list">
-                    {reformTransformation.inherited_problems.map((p, i) => (
-                      <li key={i}>{typeof p === 'string' ? p : p.problem || p.description || JSON.stringify(p)}</li>
-                    ))}
+                    {Array.isArray(reformTransformation.inherited_problems)
+                      ? reformTransformation.inherited_problems.map((p, i) => (
+                          <li key={i}>{typeof p === 'string' ? p : p.problem || p.description || JSON.stringify(p)}</li>
+                        ))
+                      : Object.entries(reformTransformation.inherited_problems).map(([key, val]) => (
+                          <li key={key}>
+                            <strong>{key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}:</strong>{' '}
+                            {typeof val === 'boolean' ? (val ? 'Yes' : 'No') : typeof val === 'number' ? val.toLocaleString() : String(val)}
+                          </li>
+                        ))
+                    }
                   </ul>
                 </div>
               )}
