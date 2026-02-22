@@ -155,6 +155,7 @@ export default function Strategy() {
   const [ourParty, setOurParty] = useState('Reform UK')
   const [expandedWards, setExpandedWards] = useState({})
   const [totalHours, setTotalHours] = useState(1000)
+  const [wardHourOverrides, setWardHourOverrides] = useState({}) // { wardName: hours }
   const [selectedDossierWard, setSelectedDossierWard] = useState(null)
   const [dossierTab, setDossierTab] = useState('profile')
 
@@ -259,11 +260,32 @@ export default function Strategy() {
     })
   }, [wardsUp, electionsData, ourParty, rankedWards])
 
-  // --- Derived: resource allocation ---
+  // --- Derived: resource allocation (with per-ward overrides) ---
   const resourceAllocation = useMemo(() => {
     if (!rankedWards.length) return []
-    return allocateResources(rankedWards, totalHours)
-  }, [rankedWards, totalHours])
+    const baseAllocation = allocateResources(rankedWards, totalHours)
+
+    // Apply per-ward overrides: fix overridden hours, redistribute remaining
+    const overrideKeys = Object.keys(wardHourOverrides)
+    if (overrideKeys.length === 0) return baseAllocation
+
+    const overriddenHours = overrideKeys.reduce((sum, w) => sum + (wardHourOverrides[w] || 0), 0)
+    const remainingHours = Math.max(0, totalHours - overriddenHours)
+    const nonOverriddenTotal = baseAllocation
+      .filter(r => !wardHourOverrides.hasOwnProperty(r.ward))
+      .reduce((sum, r) => sum + r.hours, 0)
+
+    return baseAllocation.map(r => {
+      if (wardHourOverrides.hasOwnProperty(r.ward)) {
+        const hours = wardHourOverrides[r.ward]
+        return { ...r, hours, pctOfTotal: totalHours > 0 ? Math.round((hours / totalHours) * 1000) / 10 : 0, overridden: true }
+      }
+      // Redistribute remaining hours proportionally among non-overridden wards
+      const scale = nonOverriddenTotal > 0 ? remainingHours / nonOverriddenTotal : 0
+      const hours = Math.round(r.hours * scale)
+      return { ...r, hours, pctOfTotal: totalHours > 0 ? Math.round((hours / totalHours) * 1000) / 10 : 0 }
+    }).sort((a, b) => b.hours - a.hours)
+  }, [rankedWards, totalHours, wardHourOverrides])
 
   // --- Derived: active ward dossier ---
   const activeDossier = useMemo(() => {
@@ -292,6 +314,22 @@ export default function Strategy() {
     setDossierTab('profile')
     setActiveSection('dossiers')
   }
+
+  const handleWardHoursChange = (wardName, hours) => {
+    const numHours = parseInt(hours, 10)
+    if (isNaN(numHours) || numHours < 0) {
+      // Remove override if invalid/cleared
+      setWardHourOverrides(prev => {
+        const next = { ...prev }
+        delete next[wardName]
+        return next
+      })
+    } else {
+      setWardHourOverrides(prev => ({ ...prev, [wardName]: numHours }))
+    }
+  }
+
+  const resetWardOverrides = () => setWardHourOverrides({})
 
   const handleExportCSV = () => {
     const csv = generateStrategyCSV(rankedWards, resourceAllocation, ourParty, councilName)
@@ -742,10 +780,18 @@ export default function Strategy() {
               onChange={e => setTotalHours(Number(e.target.value))}
             />
             <span className="resource-hours-value">{formatNumber(totalHours)} hrs</span>
+            {Object.keys(wardHourOverrides).length > 0 && (
+              <button className="strategy-reset-btn" onClick={resetWardOverrides} title="Reset all per-ward overrides">
+                Reset Overrides ({Object.keys(wardHourOverrides).length})
+              </button>
+            )}
             <button className="strategy-export-btn" onClick={handleExportCSV} title="Export strategy data as CSV">
               <Download size={14} /> Export CSV
             </button>
           </div>
+          <p className="resource-hint">
+            Click any hours value in the table to manually adjust. Remaining hours redistribute automatically.
+          </p>
 
           {resourceAllocation.length > 0 && (
             <>
@@ -806,7 +852,20 @@ export default function Strategy() {
                             {Math.round(r.winProbability * 100)}%
                           </span>
                         </td>
-                        <td className="resource-hours">{r.hours}</td>
+                        <td className={`resource-hours ${r.overridden ? 'overridden' : ''}`}>
+                          <input
+                            type="number"
+                            className="hours-input"
+                            value={wardHourOverrides.hasOwnProperty(r.ward) ? wardHourOverrides[r.ward] : r.hours}
+                            min={0}
+                            max={totalHours}
+                            step={10}
+                            onChange={e => handleWardHoursChange(r.ward, e.target.value)}
+                            onFocus={e => e.target.select()}
+                            title={r.overridden ? 'Manual override — click Reset to restore' : 'Click to adjust hours'}
+                            aria-label={`Hours for ${r.ward}`}
+                          />
+                        </td>
                         <td>{r.pctOfTotal}%</td>
                         <td>{r.incrementalVotes}</td>
                         <td>{r.costPerVote === Infinity ? '—' : `${r.costPerVote}h`}</td>

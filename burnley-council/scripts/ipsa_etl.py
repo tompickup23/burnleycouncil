@@ -234,6 +234,11 @@ def extract_otherinfo(row):
     salary = parse_money(row.get('Basic salary', ''))
     additional_salary = parse_money(row.get('Additional salary', ''))
 
+    # IPSA returns pro-rata salary for MPs elected mid-year (e.g. July 2024 GE).
+    # Always use the annual salary rate for display purposes.
+    if salary > 0 and salary < MP_SALARY_2024_25:
+        salary = MP_SALARY_2024_25
+
     return {
         'salary': round(salary, 2),
         'additional_salary': round(additional_salary, 2),

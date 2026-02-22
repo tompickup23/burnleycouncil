@@ -238,8 +238,8 @@ describe('calculateDemographicAdjustments', () => {
       ethnicity: { 'Total: All usual residents': 6000, 'White: English, Welsh, Scottish, Northern Irish or British': 5500, 'Asian, Asian British or Asian Welsh': 100 },
     }
     const result = calculateDemographicAdjustments(rawDemographics, null, null)
-    // white_british = 5500/6000 = 0.917 > 0.85 → Reform +4pp
-    expect(result.adjustments['Reform UK']).toBe(0.04)
+    // white_british = 5500/6000 = 0.917 > 0.85 → Reform +3pp
+    expect(result.adjustments['Reform UK']).toBe(0.03)
     expect(result.methodology.factors.length).toBeGreaterThan(0)
     expect(result.methodology.factors[0]).toContain('white British')
   })
@@ -250,9 +250,9 @@ describe('calculateDemographicAdjustments', () => {
       ethnicity: { 'Total: All usual residents': 8000, 'White: English, Welsh, Scottish, Northern Irish or British': 1000, 'Asian, Asian British or Asian Welsh': 6000 },
     }
     const result = calculateDemographicAdjustments(rawDemographics, null, null)
-    // asian = 6000/8000 = 0.75 > 0.20 → Reform -8pp, Independent +2pp
-    expect(result.adjustments['Reform UK']).toBe(-0.08)
-    expect(result.adjustments['Independent']).toBe(0.02)
+    // asian = 6000/8000 = 0.75 > 0.60 → Reform -20pp, Independent +12pp, Labour +5pp (tiered penalty)
+    expect(result.adjustments['Reform UK']).toBe(-0.20)
+    expect(result.adjustments['Independent']).toBe(0.12)
   })
 
   it('derives age_65_plus_pct from raw Census age data', () => {
@@ -273,8 +273,8 @@ describe('calculateDemographicAdjustments', () => {
     }
     const deprivation = { avg_imd_decile: 1 }
     const result = calculateDemographicAdjustments(rawDemographics, deprivation, null)
-    // Deprivation: Reform +3pp; White British 95%: Reform +4pp → total Reform +7pp
-    expect(result.adjustments['Reform UK']).toBe(0.07)
+    // Deprivation: Reform +3pp; White British 95%: Reform +3pp → total Reform +6pp
+    expect(result.adjustments['Reform UK']).toBe(0.06)
     expect(result.adjustments['Labour']).toBe(0.02)
     expect(result.adjustments['Conservative']).toBe(-0.02)
   })
@@ -283,8 +283,8 @@ describe('calculateDemographicAdjustments', () => {
     // If white_british_pct already exists, don't re-derive
     const preComputed = { white_british_pct: 0.90, asian_pct: 0.05, age_65_plus_pct: 0.15 }
     const result = calculateDemographicAdjustments(preComputed, null, null)
-    // white_british > 0.85 → Reform +4pp
-    expect(result.adjustments['Reform UK']).toBe(0.04)
+    // white_british > 0.85 → Reform +3pp
+    expect(result.adjustments['Reform UK']).toBe(0.03)
   })
 })
 

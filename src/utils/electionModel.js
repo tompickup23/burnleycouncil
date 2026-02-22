@@ -134,7 +134,7 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
     over65_reform_bonus: 0.02,
     asian_heritage_independent_bonus: 0.02,
     asian_heritage_reform_penalty: -0.08,
-    high_white_british_reform_bonus: 0.04,
+    high_white_british_reform_bonus: 0.03,
     rural_conservative_bonus: 0.01,
   };
 
@@ -184,10 +184,35 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
   }
 
   // Asian heritage > 20% (East Lancashire specific) — Reform penalty + Independent bonus
+  // Scaled by concentration: higher Asian % → stronger effect (community bloc voting)
   if (demographics?.asian_pct && demographics.asian_pct > 0.20) {
-    adjustments['Independent'] = (adjustments['Independent'] || 0) + demoParams.asian_heritage_independent_bonus;
-    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + demoParams.asian_heritage_reform_penalty;
-    factors.push(`High Asian heritage (${(demographics.asian_pct * 100).toFixed(0)}%): Independent +${(demoParams.asian_heritage_independent_bonus * 100).toFixed(0)}pp, Reform ${(demoParams.asian_heritage_reform_penalty * 100).toFixed(0)}pp`);
+    const asianPct = demographics.asian_pct;
+    let reformPenalty, indBonus, labBonus;
+
+    if (asianPct > 0.60) {
+      // Majority-Asian wards (e.g. Daneshouse 78%): Muslim community candidates dominate
+      reformPenalty = -0.20;
+      indBonus = 0.12;
+      labBonus = 0.05;
+    } else if (asianPct > 0.40) {
+      // Heavily Asian wards: strong community influence
+      reformPenalty = -0.15;
+      indBonus = 0.06;
+      labBonus = 0.03;
+    } else {
+      // 20-40% Asian: moderate influence
+      reformPenalty = demoParams.asian_heritage_reform_penalty;
+      indBonus = demoParams.asian_heritage_independent_bonus;
+      labBonus = 0;
+    }
+
+    adjustments['Independent'] = (adjustments['Independent'] || 0) + indBonus;
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + reformPenalty;
+    if (labBonus > 0) {
+      adjustments['Labour'] = (adjustments['Labour'] || 0) + labBonus;
+    }
+    const desc = `High Asian heritage (${(asianPct * 100).toFixed(0)}%): Independent +${(indBonus * 100).toFixed(0)}pp, Reform ${(reformPenalty * 100).toFixed(0)}pp`;
+    factors.push(labBonus > 0 ? desc + `, Labour +${(labBonus * 100).toFixed(0)}pp` : desc);
   }
 
   return {
@@ -566,14 +591,30 @@ export function predictCouncil(electionsData, wardsUp, assumptions, nationalPoll
   const wardResults = {};
   const seatTotals = {};
 
-  // Get current seat counts from council_history or current_holders
-  // Start with existing seats NOT up for election
+  // Get current seat counts: retained seats from non-contested wards,
+  // and non-defending holders in contested wards (thirds rotation).
+  const defenders = electionsData.meta?.next_election?.defenders || {};
+  const isThirds = electionsData.meta?.election_cycle === 'thirds';
+
   for (const [wardName, wardData] of Object.entries(electionsData.wards || {})) {
-    if (wardsUp.includes(wardName)) continue; // Will be predicted
-    for (const holder of (wardData.current_holders || [])) {
-      const party = holder.party || 'Unknown';
-      seatTotals[party] = (seatTotals[party] || 0) + 1;
+    const holders = wardData.current_holders || [];
+    if (!wardsUp.includes(wardName)) {
+      // Ward NOT contested — all seats retained
+      for (const holder of holders) {
+        const party = holder.party || 'Unknown';
+        seatTotals[party] = (seatTotals[party] || 0) + 1;
+      }
+    } else if (isThirds && holders.length > 1) {
+      // Ward IS contested in thirds — only 1 seat is up, rest retained
+      const defender = defenders[wardName];
+      for (const holder of holders) {
+        // Skip the defending holder — their seat will be predicted
+        if (defender && holder.name === defender.name) continue;
+        const party = holder.party || 'Unknown';
+        seatTotals[party] = (seatTotals[party] || 0) + 1;
+      }
     }
+    // For all-out elections with wardsUp, all seats are predicted (no retained)
   }
 
   // Predict each ward up for election
@@ -1056,6 +1097,40 @@ export function predictConstituencyGE(constituency, polling, modelCoefficients) 
     description: 'Uniform national swing with party-specific dampening (×1.2 for GE)',
     details: swingDetails,
   });
+
+  // Step 2b: Incumbent loss effect — when the GE2024 incumbent lost their seat,
+  // their party's personal vote evaporates for the next election. Long-serving MPs
+  // (like Nigel Evans, 32 years in Ribble Valley) inflate their party's baseline.
+  // Detect via explicit previous_mp_party field OR heuristic (runner-up with
+  // narrow margin likely = former incumbent party that lost).
+  const ge2024Winner = constituency.ge2024.results?.[0]?.party;
+  const ge2024RunnerUp = constituency.ge2024.results?.[1];
+  const prevIncumbentParty = constituency.ge2024?.previous_mp_party
+    || (ge2024RunnerUp && ge2024RunnerUp.pct > 0.25
+        && (ge2024Winner !== ge2024RunnerUp.party)
+        && ((constituency.ge2024.results[0].pct - ge2024RunnerUp.pct) < 0.10)
+        ? ge2024RunnerUp.party : null);
+
+  if (prevIncumbentParty && shares[prevIncumbentParty]) {
+    // Scale penalty by how long the previous MP served (more tenure = bigger personal vote loss)
+    const tenure = constituency.ge2024?.previous_mp_tenure_years || 0;
+    const basePenalty = tenure > 20 ? -0.04 : tenure > 10 ? -0.03 : -0.02;
+    shares[prevIncumbentParty] += basePenalty;
+
+    // Redistribute lost share: in the current environment, Reform captures most of
+    // the disgruntled former-incumbent voters (anti-establishment sentiment)
+    const reformSurging = (currentPolling['Reform UK'] || 0) > (ge2024National['Reform UK'] || 0);
+    if (reformSurging && shares['Reform UK'] != null) {
+      shares['Reform UK'] += Math.abs(basePenalty) * 0.6;
+      if (ge2024Winner && shares[ge2024Winner] != null) {
+        shares[ge2024Winner] += Math.abs(basePenalty) * 0.4;
+      }
+    }
+    methodology.push({
+      step: 2.5, name: 'Incumbent Loss Effect',
+      description: `${prevIncumbentParty} lost seat in GE2024${tenure ? ` after ${tenure}yr tenure` : ''} — personal vote penalty of ${(basePenalty * 100).toFixed(0)}pp, redistributed to challenger parties`,
+    });
+  }
 
   // Normalise
   const normalised = normaliseShares(shares);

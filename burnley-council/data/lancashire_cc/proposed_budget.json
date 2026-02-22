@@ -1,12 +1,12 @@
 {
   "council_id": "lancashire_cc",
   "financial_year": "2026-27",
-  "type": "proposed",
-  "source": "LCC Cabinet 5 Feb 2026 - Appendix B (s271538)",
-  "source_url": "https://council.lancashire.gov.uk/documents/s271538/Appendix%20B.pdf",
-  "status": "recommended_to_full_council",
-  "notes": "Proposed budget recommended by Cabinet to Full Council. All values in GBP.",
-  "net_revenue_budget": 1324444000,
+  "type": "approved",
+  "source": "LCC Full Council 26 Feb 2026 - Budget Report (s272627)",
+  "source_url": "https://council.lancashire.gov.uk/documents/s272627/Report.pdf",
+  "status": "approved_by_full_council",
+  "notes": "Budget approved by Full Council 26 Feb 2026. Updated from Cabinet proposal with Final Settlement adjustments. All values in GBP.",
+  "net_revenue_budget": 1329312000,
   "council_tax": {
     "band_d": 1801.75,
     "increase_pct": 3.8,
@@ -65,132 +65,173 @@
     },
     "Place": {
       "net_2026_27": 261898000,
-      "net_2027_28": 270665000,
-      "net_2028_29": 283115000,
-      "share_of_total_pct": 19.8,
+      "net_2027_28": 263251000,
+      "net_2028_29": 281495000,
+      "share_of_total_pct": 19.7,
       "services": {
         "Highways and Transport": {
           "net_2026_27": 122455000,
+          "net_2027_28": 125891000,
+          "net_2028_29": 135938000,
           "description": "Road maintenance, street lighting, winter gritting, transport planning"
         },
         "Environment and Regulatory": {
           "net_2026_27": 97270000,
+          "net_2027_28": 97382000,
+          "net_2028_29": 106495000,
           "description": "Waste disposal, trading standards, countryside, registrars"
         },
-        "Growth, Environment and Planning": {
-          "net_2026_27": 14773000,
-          "description": "Economic development, LEP, planning, minerals & waste"
+        "Communities and Engagement": {
+          "net_2026_27": 18555000,
+          "net_2027_28": 18540000,
+          "net_2028_29": 18629000,
+          "description": "Community engagement, libraries, museums, culture"
         },
-        "Libraries, Museums and Culture": {
-          "net_2026_27": 14181000,
-          "description": "County library service, museums, archives"
-        },
-        "Community Fire and Rescue": {
-          "net_2026_27": 13219000,
-          "description": "Fire authority contribution (Lancashire Fire & Rescue)"
+        "Growth and Property": {
+          "net_2026_27": 23618000,
+          "net_2027_28": 21438000,
+          "net_2028_29": 20433000,
+          "description": "Economic development, property, planning"
         }
       }
     },
     "Resources": {
       "net_2026_27": 91793000,
-      "net_2027_28": 102614000,
-      "net_2028_29": 131094000,
+      "net_2027_28": 90762000,
+      "net_2028_29": 89133000,
       "share_of_total_pct": 6.9,
       "services": {
-        "Financial Services": {
-          "net_2026_27": 18740000,
-          "description": "Finance, audit, procurement, insurance"
-        },
-        "Legal and Governance": {
-          "net_2026_27": 9284000,
-          "description": "Legal services, democratic services, information governance"
-        },
-        "Human Resources": {
-          "net_2026_27": 7193000,
-          "description": "HR, occupational health, learning & development"
-        },
-        "Digital and Technology": {
-          "net_2026_27": 29776000,
+        "Digital Service": {
+          "net_2026_27": 43644000,
+          "net_2027_28": 43059000,
+          "net_2028_29": 41865000,
           "description": "ICT, Oracle Fusion, digital transformation"
         },
-        "Property and Facilities": {
-          "net_2026_27": 26800000,
-          "description": "Estate management, facilities, capital programme"
+        "Finance and Commerce": {
+          "net_2026_27": 12643000,
+          "net_2027_28": 12656000,
+          "net_2028_29": 12663000,
+          "description": "Finance, audit, procurement, insurance"
+        },
+        "Law and Governance": {
+          "net_2026_27": 21725000,
+          "net_2027_28": 21628000,
+          "net_2028_29": 21300000,
+          "description": "Legal services, democratic services, information governance"
+        },
+        "People Services": {
+          "net_2026_27": 5172000,
+          "net_2027_28": 4983000,
+          "net_2028_29": 4844000,
+          "description": "HR, occupational health, learning & development"
+        },
+        "Strategy and Innovation": {
+          "net_2026_27": 4542000,
+          "net_2027_28": 4364000,
+          "net_2028_29": 4385000,
+          "description": "Strategy, innovation, corporate planning"
         }
       }
     },
+    "Chief Executive Services": {
+      "net_2026_27": 1297000,
+      "net_2027_28": 1299000,
+      "net_2028_29": 1301000,
+      "share_of_total_pct": 0.1
+    },
     "Corporate": {
-      "net_2026_27": 145229000,
-      "net_2027_28": 165280000,
-      "net_2028_29": 174144000,
-      "share_of_total_pct": 11.0,
+      "net_2026_27": 150097000,
+      "net_2027_28": 183090000,
+      "net_2028_29": 213399000,
+      "share_of_total_pct": 11.3,
       "services": {
-        "Capital Financing": {
-          "net_2026_27": 57819000,
-          "description": "Minimum Revenue Provision, interest payments, investment income"
+        "Corporate Budgets (Funding and Grants)": {
+          "net_2026_27": 57251000,
+          "net_2027_28": 81242000,
+          "net_2028_29": 100366000,
+          "description": "Corporate funding, grants passthrough, levies, contingencies"
         },
-        "Pensions and Retirement": {
-          "net_2026_27": 22550000,
-          "description": "Past service pension costs, strain on the fund"
+        "Corporate Budgets (Pensions and Apprenticeship Levy)": {
+          "net_2026_27": 13775000,
+          "net_2027_28": 13852000,
+          "net_2028_29": 13932000,
+          "description": "Past service pension costs, apprenticeship levy"
         },
-        "Contingency and Risk": {
-          "net_2026_27": 17860000,
-          "description": "General contingency, risk provision, savings delivery contingency"
-        },
-        "Levies and Precepts": {
-          "net_2026_27": 47000000,
-          "description": "Environment Agency, inshore fisheries, coroners, joint services"
+        "Corporate Budgets (Treasury Management)": {
+          "net_2026_27": 79071000,
+          "net_2027_28": 87996000,
+          "net_2028_29": 99101000,
+          "description": "MRP, interest payments, investment income, VeLTIP-related borrowing costs"
         }
       }
     }
   },
   "funding": {
     "council_tax": {
-      "amount": 719554000,
-      "pct_of_total": 54.3,
-      "notes": "Including ASC precept"
+      "amount": 717078000,
+      "pct_of_total": 53.9,
+      "notes": "Including ASC precept. Tax base 397,989.95 (reduced from provisional 1.22% to 0.87% increase)"
     },
     "revenue_support_grant": {
-      "amount": 231337000,
-      "pct_of_total": 17.5
+      "amount": 235293000,
+      "pct_of_total": 17.7,
+      "notes": "Increased by £3.956m from Final Settlement (9 Feb 2026)"
     },
     "business_rates_retention": {
-      "amount": 280068000,
+      "amount": 280178000,
       "pct_of_total": 21.1,
-      "notes": "Retained business rates under 50% retention scheme"
+      "notes": "Retained business rates under 50% retention scheme. +£0.110m from Final Settlement"
     },
     "improved_better_care_fund": {
       "amount": 67786000,
       "pct_of_total": 5.1,
-      "notes": "Ring-fenced for adult social care"
+      "notes": "Ring-fenced for adult social care (part of RSG)"
     },
     "collection_fund_surplus": {
-      "amount": 3000000,
-      "pct_of_total": 0.2
+      "amount": 6278000,
+      "pct_of_total": 0.5,
+      "notes": "£3.278m above provisional amount included in Draft Budget"
     },
-    "other_grants": {
-      "amount": 22699000,
-      "pct_of_total": 1.7,
-      "notes": "New Homes Bonus, services grant, other un-ringfenced grants"
+    "recovery_grant": {
+      "amount": 4965000,
+      "pct_of_total": 0.4,
+      "notes": "New grant from Fair Funding 2.0"
     },
-    "total": 1324444000
+    "extended_producer_responsibility": {
+      "amount": 11234000,
+      "pct_of_total": 0.8,
+      "notes": "Extended Producer Responsibility Grant"
+    },
+    "capital_receipts": {
+      "amount": 6500000,
+      "pct_of_total": 0.5,
+      "notes": "Flexible Use of Capital Receipts (FLUCR)"
+    },
+    "total": 1329312000
   },
   "three_year_projections": {
     "2026-27": {
-      "net_budget": 1324444000,
+      "net_budget": 1329312000,
+      "funding": 1329312000,
       "funding_gap": 0,
-      "notes": "Balanced budget"
+      "notes": "Balanced budget — approved by Full Council 26 Feb 2026"
     },
     "2027-28": {
-      "net_budget": 1385095000,
+      "net_budget": 1383641000,
+      "funding": 1383641000,
       "funding_gap": 0,
-      "notes": "Indicative balanced position (subject to spending review)"
+      "notes": "Indicative balanced position (3-year settlement)"
     },
     "2028-29": {
-      "net_budget": 1473747000,
-      "funding_gap": 0,
-      "notes": "Indicative balanced position (significant uncertainty)"
+      "net_budget": 1469425000,
+      "funding": 1452105000,
+      "funding_gap": 17320000,
+      "notes": "£17.3M gap — significant uncertainty. LGR vesting day (Spring 2028) may make projections moot."
     }
+  },
+  "capital_programme": {
+    "total_2026_27": 292162000,
+    "notes": "Funded largely by government grants, prudential borrowing and other contributions"
   },
   "pressures": {
     "inflation": {
@@ -223,7 +264,7 @@
       }
     },
     "demand": {
-      "total_2026_27": 59366000,
+      "total_2026_27": 59471000,
       "detail": {
         "adults_social_care": {
           "amount": 14068000,
@@ -243,26 +284,39 @@
         }
       }
     },
-    "total_pressures_2026_27": 98859000
+    "total_pressures_2026_27": 98964000
   },
   "savings": {
-    "reprofiled_from_feb_2025": {
-      "amount": 40283000,
-      "notes": "Savings originally planned in prior MTFS, re-profiled to 2026/27"
+    "savings_programme": {
+      "amount": 42927000,
+      "notes": "Savings programme agreed for 2026/27"
     },
-    "additional_from_nov_2025": {
-      "amount": 23256000,
-      "notes": "Additional savings identified November 2025 budget review"
+    "reprofiled_savings": {
+      "amount": 2644000,
+      "notes": "Savings re-profiled from earlier years (net adjustment)"
     },
-    "total": 63539000,
+    "additional_savings": {
+      "amount": 21608000,
+      "notes": "Additional savings identified through efficiency review and transformation"
+    },
+    "total": 61891000,
     "savings_delivery_contingency": 5000000,
-    "notes": "\u00a35M contingency set aside for non-delivery risk. Historical delivery rate fell from 91.5% (2023/24) to 48% (2024/25)."
+    "pension_contribution_reduction": 21200000,
+    "notes": "\u00a362M savings (~5% of net budget). \u00a35M contingency for non-delivery risk. \u00a321.2M pension contribution reduction. Historical delivery rate fell from 91.5% (2023/24) to 48% (2024/25) but majority delivered in 2025/26."
   },
   "reserves": {
     "general_reserves": {
       "opening_2026_27": 23484000,
       "minimum_recommended": 23484000,
-      "notes": "At minimum recommended level"
+      "pct_of_net_budget": 5.0,
+      "notes": "At minimum recommended level (5% of net expenditure)"
+    },
+    "working_capital_enhancement_reserve": {
+      "contribution_2026_27": 15900000,
+      "contribution_2027_28": 20000000,
+      "contribution_2028_29": 22500000,
+      "total_3yr": 58400000,
+      "notes": "New reserve to manage VeLTIP cashflow, reduce borrowing costs, and fund potential bond disposal losses. Also receives capital receipts and any windfall monies."
     },
     "transitional_reserve": {
       "balance": 99397000,
@@ -272,7 +326,17 @@
       "balance": 306000000,
       "notes": "Approximate total earmarked reserves (excluding schools)"
     },
-    "risk_assessment": "Reserves at or near minimum. Limited resilience if savings under-deliver or demand exceeds projections."
+    "risk_assessment": "S151 Officer considers reserves adequate at this time. £58.4M being built up in Working Capital Enhancement Reserve over 3 years to manage VeLTIP position."
+  },
+  "strategic_contingency": {
+    "amount": 3956000,
+    "notes": "Created from additional RSG in Final Settlement. To be used for priorities in 2026/27, considered by Cabinet case by case."
+  },
+  "overspend_trajectory": {
+    "q1_2025_26": 28000000,
+    "q2_2025_26": 10400000,
+    "q3_2025_26": 6100000,
+    "notes": "Q3 forecast overspend £6.1M — reduced from £28M at Q1 through mitigation actions. Provisional outturn due July 2026."
   },
   "key_risks": [
     {
@@ -344,12 +408,36 @@
       "admin": "Conservative"
     },
     "2026-27": {
-      "net_budget": 1324444000,
+      "net_budget": 1329312000,
       "ct_increase_pct": 3.8,
-      "admin": "Reform UK"
+      "admin": "Reform UK",
+      "notes": "Approved by Full Council 26 Feb 2026. Lowest CT increase in 12 years."
     }
   },
-  "generated_by": "lcc_proposed_budget.py",
-  "data_quality": "Manually structured from official Cabinet papers. Cross-verified against war-game analysis reports.",
-  "last_updated": "2026-02-16"
+  "district_contributions": {
+    "Burnley": 44137470,
+    "Chorley": 70552800,
+    "Fylde": 59578467,
+    "Hyndburn": 39968220,
+    "Lancaster": 78975549,
+    "Pendle": 45340030,
+    "Preston": 81480360,
+    "Ribble Valley": 46580643,
+    "Rossendale": 38467363,
+    "South Ribble": 69937034,
+    "West Lancashire": 69830209,
+    "Wyre": 72230248,
+    "total": 717078393
+  },
+  "consolidated_grants": {
+    "public_health_grant": 95364000,
+    "crisis_and_resilience_fund": 17239000,
+    "children_families_youth_grant": 22404000,
+    "homelessness_domestic_abuse_grant": 3343000,
+    "total": 138351000,
+    "notes": "Consolidated as part of Fair Funding 2.0. Ring-fenced."
+  },
+  "generated_by": "Manual from Full Council budget report s272627",
+  "data_quality": "Structured from official Full Council approved budget (26 Feb 2026). Cross-verified against Cabinet proposal and Final Settlement.",
+  "last_updated": "2026-02-22"
 }

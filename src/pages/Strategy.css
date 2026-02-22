@@ -780,6 +780,66 @@
   color: #12B6CF;
 }
 
+.resource-hours.overridden {
+  background: #12B6CF15;
+}
+
+.hours-input {
+  width: 60px;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #12B6CF;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 4px 6px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.hours-input::-webkit-outer-spin-button,
+.hours-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.hours-input:focus {
+  outline: none;
+  border-color: #12B6CF;
+  background: #12B6CF11;
+}
+
+.resource-hours.overridden .hours-input {
+  border-color: #ff9f0a;
+  color: #ff9f0a;
+}
+
+.resource-hint {
+  color: #666;
+  font-size: 0.8rem;
+  margin: -12px 0 16px;
+  font-style: italic;
+}
+
+.strategy-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ff9f0a;
+  background: #ff9f0a22;
+  color: #ff9f0a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.strategy-reset-btn:hover {
+  background: #ff9f0a33;
+}
+
 .roi-badge {
   font-weight: 700;
   font-size: 0.75rem;
