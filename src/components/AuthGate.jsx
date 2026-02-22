@@ -2,9 +2,17 @@
  * AuthGate — Login/register screen with social providers + email/password.
  * Shown when Firebase Auth is enabled and user is not authenticated,
  * or when authenticated but role === 'unassigned'.
+ *
+ * After registration, shows a profile completion step to capture:
+ * - User type (public, councillor, journalist, researcher)
+ * - Party (if councillor)
+ * - Constituency (dropdown of 16 Lancashire constituencies)
  */
 import { useState, useRef, useEffect } from 'react'
-import { Lock, Mail, Eye, EyeOff, LogIn, UserPlus, Loader2, AlertCircle } from 'lucide-react'
+import {
+  Lock, Mail, Eye, EyeOff, LogIn, UserPlus, Loader2, AlertCircle,
+  Users, MapPin, ChevronRight, CheckCircle
+} from 'lucide-react'
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -16,7 +24,7 @@ import {
   sendPasswordResetEmail,
   updateProfile,
 } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { useAuth } from '../context/AuthContext'
 import './AuthGate.css'
@@ -24,6 +32,39 @@ import './AuthGate.css'
 const googleProvider = new GoogleAuthProvider()
 const appleProvider = new OAuthProvider('apple.com')
 const facebookProvider = new FacebookAuthProvider()
+
+// Lancashire constituencies for dropdown
+const CONSTITUENCIES = [
+  { id: 'burnley', name: 'Burnley' },
+  { id: 'hyndburn', name: 'Hyndburn' },
+  { id: 'pendle_and_clitheroe', name: 'Pendle and Clitheroe' },
+  { id: 'rossendale_and_darwen', name: 'Rossendale and Darwen' },
+  { id: 'blackburn', name: 'Blackburn' },
+  { id: 'lancaster_and_wyre', name: 'Lancaster and Wyre' },
+  { id: 'morecambe_and_lunesdale', name: 'Morecambe and Lunesdale' },
+  { id: 'ribble_valley', name: 'Ribble Valley' },
+  { id: 'chorley', name: 'Chorley' },
+  { id: 'south_ribble', name: 'South Ribble' },
+  { id: 'preston', name: 'Preston' },
+  { id: 'west_lancashire', name: 'West Lancashire' },
+  { id: 'fylde', name: 'Fylde' },
+  { id: 'blackpool_north_and_fleetwood', name: 'Blackpool North and Fleetwood' },
+  { id: 'blackpool_south', name: 'Blackpool South' },
+  { id: 'southport', name: 'Southport' },
+]
+
+// Parties for councillor role
+const PARTIES = [
+  'Reform UK', 'Conservative', 'Labour', 'Liberal Democrats',
+  'Green Party', 'Independent', 'Other',
+]
+
+// User types
+const USER_TYPES = [
+  { id: 'public', label: 'Member of the Public', icon: '👤', desc: 'Interested in council transparency and accountability' },
+  { id: 'councillor', label: 'Councillor', icon: '🏛️', desc: 'Elected member of a Lancashire council' },
+  { id: 'journalist', label: 'Journalist / Researcher', icon: '📰', desc: 'Working on local government reporting or research' },
+]
 
 /**
  * Ensure a Firestore user doc exists after sign-in/register.
@@ -41,6 +82,10 @@ async function ensureUserDoc(user) {
       council_access: [],
       page_access: {},
       constituency_access: [],
+      user_type: '',
+      party: '',
+      constituency: '',
+      profile_complete: false,
       created_at: new Date().toISOString(),
       provider: user.providerData?.[0]?.providerId || 'email',
     })
@@ -49,7 +94,7 @@ async function ensureUserDoc(user) {
 
 export default function AuthGate() {
   const { user, role, loading: authLoading, signOut } = useAuth()
-  const [mode, setMode] = useState('login') // 'login' | 'register' | 'reset'
+  const [mode, setMode] = useState('login') // 'login' | 'register' | 'reset' | 'profile'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -58,6 +103,13 @@ export default function AuthGate() {
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
   const emailRef = useRef(null)
+
+  // Profile completion fields
+  const [userType, setUserType] = useState('')
+  const [party, setParty] = useState('')
+  const [constituency, setConstituency] = useState('')
+  const [profileSaving, setProfileSaving] = useState(false)
+  const [profileComplete, setProfileComplete] = useState(false)
 
   useEffect(() => {
     emailRef.current?.focus()
@@ -80,6 +132,30 @@ export default function AuthGate() {
       })
     return () => { cancelled = true }
   }, [])
+
+  // Check if profile is already complete when user is unassigned
+  useEffect(() => {
+    if (!user || !db || role !== 'unassigned') return
+    const checkProfile = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (userDoc.exists()) {
+          const data = userDoc.data()
+          if (data.profile_complete) {
+            setProfileComplete(true)
+          } else if (data.user_type) {
+            // Has started but not finished — resume
+            setUserType(data.user_type || '')
+            setParty(data.party || '')
+            setConstituency(data.constituency || '')
+          }
+        }
+      } catch (e) {
+        console.error('Profile check error:', e)
+      }
+    }
+    checkProfile()
+  }, [user, role])
 
   const clearMessages = () => { setError(''); setSuccess('') }
 
@@ -155,8 +231,127 @@ export default function AuthGate() {
     }
   }
 
-  // Authenticated but unassigned — show waiting screen
+  // Save profile completion
+  const handleProfileSave = async () => {
+    if (!userType) {
+      setError('Please select your role')
+      return
+    }
+    if (userType === 'councillor' && !party) {
+      setError('Please select your party')
+      return
+    }
+    setProfileSaving(true)
+    setError('')
+    try {
+      const userRef = doc(db, 'users', user.uid)
+      await updateDoc(userRef, {
+        user_type: userType,
+        party: userType === 'councillor' ? party : '',
+        constituency: constituency || '',
+        profile_complete: true,
+        profile_updated_at: new Date().toISOString(),
+      })
+      setProfileComplete(true)
+    } catch (err) {
+      console.error('Profile save error:', err)
+      setError('Failed to save profile. Please try again.')
+    } finally {
+      setProfileSaving(false)
+    }
+  }
+
+  // Authenticated but unassigned — show profile completion or waiting screen
   if (user && role === 'unassigned') {
+    // Profile not yet completed — show profile form
+    if (!profileComplete) {
+      return (
+        <div className="auth-gate">
+          <div className="auth-gate-card auth-gate-wide">
+            <div className="auth-gate-icon">
+              <Users size={48} />
+            </div>
+            <h1>Complete Your Profile</h1>
+            <p>Help us give you the best experience. This takes 30 seconds.</p>
+
+            {/* User type selection */}
+            <div className="profile-section">
+              <label className="profile-label">I am a...</label>
+              <div className="user-type-grid">
+                {USER_TYPES.map(ut => (
+                  <button
+                    key={ut.id}
+                    className={`user-type-card ${userType === ut.id ? 'selected' : ''}`}
+                    onClick={() => { setUserType(ut.id); clearMessages() }}
+                    type="button"
+                  >
+                    <span className="user-type-icon">{ut.icon}</span>
+                    <span className="user-type-label">{ut.label}</span>
+                    <span className="user-type-desc">{ut.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Party selection — councillors only */}
+            {userType === 'councillor' && (
+              <div className="profile-section">
+                <label className="profile-label">Party</label>
+                <div className="profile-select-wrap">
+                  <select
+                    value={party}
+                    onChange={(e) => { setParty(e.target.value); clearMessages() }}
+                    className="profile-select"
+                  >
+                    <option value="">Select your party...</option>
+                    {PARTIES.map(p => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Constituency */}
+            <div className="profile-section">
+              <label className="profile-label">
+                <MapPin size={14} style={{ marginRight: '0.3rem', verticalAlign: 'middle' }} />
+                Your constituency <span className="profile-optional">(optional)</span>
+              </label>
+              <div className="profile-select-wrap">
+                <select
+                  value={constituency}
+                  onChange={(e) => setConstituency(e.target.value)}
+                  className="profile-select"
+                >
+                  <option value="">Select constituency...</option>
+                  {CONSTITUENCIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {error && <div className="auth-error"><AlertCircle size={16} /> {error}</div>}
+
+            <button
+              className="auth-btn auth-btn-primary"
+              onClick={handleProfileSave}
+              disabled={profileSaving}
+            >
+              {profileSaving ? <Loader2 size={20} className="spin" /> : (
+                <>
+                  <CheckCircle size={18} />
+                  Complete Registration
+                </>
+              )}
+            </button>
+
+            <div className="auth-switch">
+              <button onClick={signOut}>Sign out</button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    // Profile complete — waiting for admin approval
     return (
       <div className="auth-gate">
         <div className="auth-gate-card">
@@ -165,8 +360,8 @@ export default function AuthGate() {
           </div>
           <h1>Awaiting Access</h1>
           <p>
-            Your account has been created. An administrator needs to assign
-            your access permissions before you can view any content.
+            Your profile is complete. An administrator will review and approve
+            your access shortly. You&rsquo;ll be able to explore once approved.
           </p>
           <div className="auth-user-info">
             <span>{user.displayName || user.email}</span>
@@ -202,7 +397,7 @@ export default function AuthGate() {
             <Mail size={48} />
           </div>
           <h1>Reset Password</h1>
-          <p>Enter your email and we'll send a reset link.</p>
+          <p>Enter your email and we&rsquo;ll send a reset link.</p>
 
           <form onSubmit={handleReset}>
             <div className="auth-input-group">
@@ -242,11 +437,13 @@ export default function AuthGate() {
   return (
     <div className="auth-gate">
       <div className="auth-gate-card">
-        <div className="auth-gate-icon">
-          <Lock size={48} />
+        <div className="auth-gate-header">
+          <div className="auth-gate-icon">
+            <Lock size={40} />
+          </div>
+          <h1>AI DOGE</h1>
+          <p className="auth-gate-tagline">Lancashire Council Transparency Platform</p>
         </div>
-        <h1>AI DOGE</h1>
-        <p>Council spending transparency platform</p>
 
         {/* Social providers */}
         <div className="auth-social-buttons">

@@ -3,254 +3,644 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI DOGE — Lancashire Council Transparency</title>
-  <meta name="description" content="Independent public spending transparency for all 15 Lancashire councils. Explore spending data, budgets, procurement and DOGE analysis.">
-  <!-- Open Graph -->
+  <title>AI DOGE — Lancashire Council Transparency Platform</title>
+  <meta name="description" content="AI-powered public spending transparency for all 15 Lancashire councils. Search 2.3 million transactions, £12 billion tracked. Free and independent.">
   <meta property="og:title" content="AI DOGE — Lancashire Council Transparency">
-  <meta property="og:description" content="Independent public spending transparency for all 15 Lancashire councils. £12 billion+ in public spending tracked.">
+  <meta property="og:description" content="AI-powered public spending transparency for all 15 Lancashire councils. 2.3M+ transactions, £12B+ tracked.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aidoge.co.uk/lancashire/">
   <meta property="og:site_name" content="AI DOGE">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="AI DOGE — Lancashire Council Transparency">
-  <meta name="twitter:description" content="Independent public spending transparency for all 15 Lancashire councils. £12 billion+ tracked.">
+  <meta name="twitter:description" content="AI-powered public spending transparency for all 15 Lancashire councils. 2.3M+ transactions, £12B+ tracked.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script>
     // GitHub Pages SPA 404 redirect
-    // Detects if the URL belongs to a council SPA and redirects to the
-    // council's index.html with the sub-route preserved via ?p= parameter.
-    // The council SPA's index.html reads ?p= and uses history.replaceState
-    // to navigate to the correct client-side route.
     (function() {
       var path = window.location.pathname;
-      var councils = ['burnleycouncil', 'hyndburncouncil', 'pendlecouncil', 'rossendalecouncil', 'lancastercouncil', 'ribblevalleycouncil', 'chorleycouncil', 'southribblecouncil', 'lancashirecc', 'blackpoolcouncil', 'westlancashirecouncil', 'blackburncouncil', 'wyrecouncil', 'prestoncouncil', 'fyldecouncil'];
+      var councils = ['burnleycouncil','hyndburncouncil','pendlecouncil','rossendalecouncil','lancastercouncil','ribblevalleycouncil','chorleycouncil','southribblecouncil','lancashirecc','blackpoolcouncil','westlancashirecouncil','blackburncouncil','wyrecouncil','prestoncouncil','fyldecouncil'];
       for (var i = 0; i < councils.length; i++) {
         var base = '/lancashire/' + councils[i] + '/';
         if (path.indexOf(base) === 0) {
           var subRoute = path.substring(base.length);
-          if (subRoute) {
-            window.location.replace(base + '?p=/' + subRoute);
-            return;
-          }
+          if (subRoute) { window.location.replace(base + '?p=/' + subRoute); return; }
         }
       }
-      // Not a council sub-route — show the hub page (below)
     })();
   </script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e5e5e7; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .hub { max-width: 960px; padding: 2rem; text-align: center; }
-    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    h1 span { color: #0a84ff; }
-    .subtitle { color: #8e8e93; margin-bottom: 0.5rem; }
-    .stats-line { color: #636366; font-size: 0.85rem; margin-bottom: 2rem; }
-    .section-label { color: #8e8e93; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; font-weight: 600; }
-    .councils { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 0 0 1.5rem; }
-    .council-card { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 12px; padding: 1.25rem 1rem; text-decoration: none; color: #e5e5e7; transition: all 0.2s; position: relative; overflow: hidden; }
-    .council-card:hover { border-color: #0a84ff; transform: translateY(-2px); }
-    .council-card h2 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-    .council-card p { color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
-    .council-card .accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-    .tier-explainer { color: #636366; font-size: 0.8rem; margin-bottom: 2rem; max-width: 640px; margin-left: auto; margin-right: auto; line-height: 1.5; }
-    .disclaimer { color: #636366; font-size: 0.75rem; margin-top: 2rem; }
-    @media (max-width: 768px) {
-      .councils { grid-template-columns: repeat(2, 1fr); }
-      .hub { padding: 1.5rem; }
-      h1 { font-size: 2rem; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #09090b; --bg-card: #131316; --bg-card-hover: #1a1a1f;
+      --border: #1f1f23; --border-hover: #2a2a30;
+      --text: #fafafa; --text-secondary: #a1a1aa; --text-muted: #636370;
+      --accent: #0a84ff; --accent-glow: rgba(10,132,255,0.15);
+      --green: #22c55e; --orange: #f59e0b; --red: #ef4444; --purple: #a855f7;
+      --radius: 12px; --radius-lg: 16px;
     }
-    @media (max-width: 420px) {
-      .councils { grid-template-columns: 1fr; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(9,9,11,0.85); backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; height: 56px;
+    }
+    .nav-brand { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; }
+    .nav-brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 0.25rem; align-items: center; }
+    .nav-link {
+      padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+      color: var(--text-secondary); transition: all 0.15s; cursor: pointer; border: none; background: none;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta {
+      padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+      background: var(--accent); color: #fff; border: none; cursor: pointer; transition: all 0.15s;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; padding: 8rem 1.5rem 5rem; text-align: center;
+      overflow: hidden; min-height: 90vh; display: flex; align-items: center; justify-content: center;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(10,132,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 100px;
+      background: var(--accent-glow); border: 1px solid rgba(10,132,255,0.25);
+      font-size: 0.78rem; font-weight: 600; color: var(--accent);
+      margin-bottom: 1.75rem; letter-spacing: 0.02em;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; line-height: 1.1;
+      letter-spacing: -0.03em; margin-bottom: 1.25rem;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, #6366f1 50%, var(--purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-secondary);
+      max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600;
+      transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-hero-primary { background: var(--accent); color: #fff; }
+    .btn-hero-primary:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(10,132,255,0.3); }
+    .btn-hero-secondary {
+      background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--border);
+    }
+    .btn-hero-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--border-hover); }
+
+    /* Stats bar */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: var(--border); border-radius: var(--radius-lg); overflow: hidden;
+      max-width: 720px; margin: 0 auto;
+    }
+    .stat-cell {
+      background: var(--bg-card); padding: 1.25rem 0.75rem; text-align: center;
+    }
+    .stat-number {
+      display: block; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 0.15rem;
+    }
+    .stat-number.blue { color: var(--accent); }
+    .stat-number.green { color: var(--green); }
+    .stat-number.orange { color: var(--orange); }
+    .stat-number.purple { color: var(--purple); }
+    .stat-desc { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+
+    /* ===== SECTIONS ===== */
+    .section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem;
+    }
+    .section-header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+    .section-divider {
+      width: 48px; height: 3px; background: var(--accent); border-radius: 2px;
+      margin: 0 auto 1.25rem;
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .how-card {
+      position: relative; padding: 2rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      transition: all 0.2s;
+    }
+    .how-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .how-number {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent-glow); border: 1px solid rgba(10,132,255,0.25);
+      font-size: 0.85rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;
+    }
+    .how-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .how-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ===== FEATURES ===== */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .feature-card {
+      padding: 1.75rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); transition: all 0.25s; cursor: pointer;
+    }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(10,132,255,0.08); }
+    .feature-icon {
+      width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem; font-size: 1.2rem;
+    }
+    .fi-blue { background: rgba(10,132,255,0.12); color: var(--accent); }
+    .fi-green { background: rgba(34,197,94,0.12); color: var(--green); }
+    .fi-orange { background: rgba(245,158,11,0.12); color: var(--orange); }
+    .fi-red { background: rgba(239,68,68,0.12); color: var(--red); }
+    .fi-purple { background: rgba(168,85,247,0.12); color: var(--purple); }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .feature-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
+    .feature-tag {
+      display: inline-block; margin-top: 0.75rem; padding: 0.2rem 0.6rem;
+      border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .ft-live { background: rgba(34,197,94,0.12); color: var(--green); }
+    .ft-all { background: rgba(10,132,255,0.12); color: var(--accent); }
+
+    /* ===== COUNCILS ===== */
+    .councils-section { background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .councils-inner { max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; }
+    .council-search-bar {
+      display: flex; align-items: center; gap: 0.75rem; max-width: 480px; margin: 0 auto 2.5rem;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 1rem;
+    }
+    .council-search-bar svg { color: var(--text-muted); flex-shrink: 0; }
+    .council-search-bar input {
+      background: none; border: none; color: var(--text); font-size: 0.9rem; width: 100%; outline: none;
+      font-family: inherit;
+    }
+    .council-search-bar input::placeholder { color: var(--text-muted); }
+    .councils-tier-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-muted); margin-bottom: 0.75rem; padding-left: 0.25rem;
+    }
+    .councils-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 2rem;
+    }
+    .c-card {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.85rem 1rem; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; transition: all 0.2s; cursor: pointer;
+    }
+    .c-card:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-1px); }
+    .c-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .c-info { min-width: 0; }
+    .c-name { font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .c-meta { font-size: 0.72rem; color: var(--text-muted); }
+    .c-card.hidden { display: none; }
+
+    /* ===== TRUST ===== */
+    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .trust-card {
+      padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); text-align: center;
+    }
+    .trust-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .trust-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .trust-card p { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.5; }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      text-align: center; padding: 5rem 1.5rem;
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(10,132,255,0.03) 50%, var(--bg) 100%);
+    }
+    .cta-section h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .cta-section p { color: var(--text-secondary); font-size: 1.05rem; max-width: 550px; margin: 0 auto 2rem; }
+    .cta-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid var(--border); padding: 2.5rem 1.5rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-brand { font-size: 0.9rem; font-weight: 700; }
+    .footer-brand span { color: var(--accent); }
+    .footer-text { color: var(--text-muted); font-size: 0.78rem; max-width: 500px; line-height: 1.5; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-link { color: var(--text-secondary); font-size: 0.82rem; transition: color 0.15s; }
+    .footer-link:hover { color: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .councils-grid { grid-template-columns: repeat(3, 1fr); }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1rem 3rem; min-height: auto; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .how-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .councils-grid { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid { grid-template-columns: 1fr; }
+      .nav-links .nav-link { display: none; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .section { padding: 3rem 1rem; }
+    }
+    @media (max-width: 480px) {
+      .councils-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-hero { width: 100%; justify-content: center; }
+      .stat-number { font-size: 1.3rem; }
+    }
+
+    /* Animations */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade-up { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+      .fade-up.visible { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="hub">
-    <h1>AI <span>DOGE</span></h1>
-    <p class="subtitle">Independent public spending transparency across Lancashire</p>
-    <p class="stats-line">All 15 councils across 3 tiers &middot; 2,286,000+ transactions &middot; &pound;12 billion+ tracked</p>
-    <p class="tier-explainer">Lancashire has 15 councils across three tiers. District councils handle housing, planning and waste. The County Council covers education, social care and highways. Unitary authorities do both. All 15 councils are now live on the platform.</p>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">AI <span>DOGE</span></div>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#councils" class="nav-link">Councils</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="/lancashire/lancashirecc/" class="nav-cta">Get Started</a>
+      </div>
+    </div>
+  </nav>
 
-    <p class="section-label">Westminster Constituencies</p>
-    <div class="councils" style="grid-template-columns: repeat(4, 1fr)">
-      <a href="/lancashire/burnleycouncil/constituency/burnley" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Burnley</h2>
-        <p>Oliver Ryan<br><small style="color:#DC241F">Labour (Co-op)</small></p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Live &mdash; All 15 Lancashire Councils
+      </div>
+      <h1>Every pound your council spends, <span class="gradient">searchable and audited.</span></h1>
+      <p class="hero-sub">
+        AI DOGE is an independent transparency platform tracking every payment made by all 15 Lancashire councils. AI-powered forensic analysis. Open to everyone. Completely free.
+      </p>
+      <div class="hero-actions">
+        <a href="/lancashire/lancashirecc/" class="btn-hero btn-hero-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Explore the Data
+        </a>
+        <a href="#features" class="btn-hero btn-hero-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Learn More
+        </a>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-cell">
+          <span class="stat-number blue" data-count="15">15</span>
+          <span class="stat-desc">Councils</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-number green">2.3M+</span>
+          <span class="stat-desc">Transactions</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-number orange">&pound;12B+</span>
+          <span class="stat-desc">Tracked</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-number purple">12</span>
+          <span class="stat-desc">AI Audit Checks</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section" id="how">
+    <div class="section-header">
+      <div class="section-divider"></div>
+      <h2>How It Works</h2>
+      <p>Every council must publish their spending by law. We collect it, analyse it, and make it searchable.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card fade-up">
+        <div class="how-number">1</div>
+        <h3>We Collect the Data</h3>
+        <p>Every payment over &pound;500 that your council makes is published by law under the Local Government Transparency Code. We download and compile it all &mdash; 2.3 million transactions and counting.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-number">2</div>
+        <h3>AI Runs 12 Forensic Checks</h3>
+        <p>Duplicate payments, split payment evasion, Benford&rsquo;s Law screening, Companies House compliance, supplier concentration analysis, year-end spikes and more &mdash; all automated.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-number">3</div>
+        <h3>You Hold Them to Account</h3>
+        <p>Search any supplier, read our audit findings, compare councils, and use the data to ask informed questions at council meetings or through FOI requests.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section-header">
+      <div class="section-divider"></div>
+      <h2>What&rsquo;s on the Platform</h2>
+      <p>A comprehensive suite of tools for understanding how your council spends your money.</p>
+    </div>
+    <div class="features-grid">
+      <a href="/lancashire/burnleycouncil/spending" class="feature-card fade-up">
+        <div class="feature-icon fi-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Spending Search</h3>
+        <p>Search every payment to every supplier. Filter by date, department, amount. Export to CSV.</p>
+        <span class="feature-tag ft-all">All 15 councils</span>
       </a>
-      <a href="/lancashire/hyndburncouncil/constituency/hyndburn" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Hyndburn</h2>
-        <p>Sarah Smith<br><small style="color:#DC241F">Labour</small></p>
+      <a href="/lancashire/burnleycouncil/doge" class="feature-card fade-up">
+        <div class="feature-icon fi-red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>DOGE Audit</h3>
+        <p>AI forensic analysis: duplicate payments, split evasion, round-number anomalies, Benford&rsquo;s Law, cross-council pricing.</p>
+        <span class="feature-tag ft-all">All 15 councils</span>
       </a>
-      <a href="/lancashire/pendlecouncil/constituency/pendle_and_clitheroe" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Pendle &amp; Clitheroe</h2>
-        <p>Jonathan Hinder<br><small style="color:#DC241F">Labour</small></p>
+      <a href="/lancashire/burnleycouncil/budgets" class="feature-card fade-up">
+        <div class="feature-icon fi-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Budget Explorer</h3>
+        <p>Revenue and capital budgets, GOV.UK outturn data, reserves, council tax rates, year-on-year trends.</p>
+        <span class="feature-tag ft-all">All 15 councils</span>
       </a>
-      <a href="/lancashire/rossendalecouncil/constituency/rossendale_and_darwen" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Rossendale &amp; Darwen</h2>
-        <p>Andy MacNae<br><small style="color:#DC241F">Labour</small></p>
+      <a href="/lancashire/burnleycouncil/constituencies" class="feature-card fade-up">
+        <div class="feature-icon fi-purple">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Your MP</h3>
+        <p>GE2024 results, IPSA expenses breakdown, Commons voting record, rebel votes, attendance rates.</p>
+        <span class="feature-tag ft-live">16 constituencies</span>
       </a>
-      <a href="/lancashire/blackburncouncil/constituency/blackburn" class="council-card">
-        <div class="accent-bar" style="background:#888888"></div>
-        <h2>Blackburn</h2>
-        <p>Adnan Hussain<br><small style="color:#888888">Independent</small></p>
+      <a href="/lancashire/burnleycouncil/elections" class="feature-card fade-up">
+        <div class="feature-icon fi-orange">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3>Elections</h3>
+        <p>Ward-level results, turnout trends, AI-powered predictions with demographics-weighted swing models.</p>
+        <span class="feature-tag ft-all">All 15 councils</span>
       </a>
-      <a href="/lancashire/lancastercouncil/constituency/lancaster_and_wyre" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Lancaster &amp; Wyre</h2>
-        <p>Cat Smith<br><small style="color:#DC241F">Labour</small></p>
+      <a href="/lancashire/burnleycouncil/integrity" class="feature-card fade-up">
+        <div class="feature-icon fi-red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>Integrity Checker</h3>
+        <p>8-source councillor integrity scoring: Companies House directorships, donations, conflicts of interest.</p>
+        <span class="feature-tag ft-all">All 15 councils</span>
       </a>
-      <a href="/lancashire/lancastercouncil/constituency/morecambe_and_lunesdale" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Morecambe &amp; Lunesdale</h2>
-        <p>Lizzi Collinge<br><small style="color:#DC241F">Labour</small></p>
+      <a href="/lancashire/burnleycouncil/procurement" class="feature-card fade-up">
+        <div class="feature-icon fi-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Procurement</h3>
+        <p>Live contract notices from Contracts Finder. See what&rsquo;s being tendered, awarded, and how competitive the process is.</p>
+        <span class="feature-tag ft-all">14 councils</span>
       </a>
-      <a href="/lancashire/ribblevalleycouncil/constituency/ribble_valley" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Ribble Valley</h2>
-        <p>Maya Ellis<br><small style="color:#DC241F">Labour</small></p>
+      <a href="/lancashire/burnleycouncil/meetings" class="feature-card fade-up">
+        <div class="feature-icon fi-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Meetings</h3>
+        <p>Council meeting calendar with agendas, minutes, and committee membership. Know when decisions are made.</p>
+        <span class="feature-tag ft-live">11 councils</span>
       </a>
-      <a href="/lancashire/chorleycouncil/constituency/chorley" class="council-card">
-        <div class="accent-bar" style="background:#333333"></div>
-        <h2>Chorley</h2>
-        <p>Sir Lindsay Hoyle<br><small style="color:#8e8e93">Speaker</small></p>
-      </a>
-      <a href="/lancashire/southribblecouncil/constituency/south_ribble" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>South Ribble</h2>
-        <p>Paul Foster<br><small style="color:#DC241F">Labour</small></p>
-      </a>
-      <a href="/lancashire/prestoncouncil/constituency/preston" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Preston</h2>
-        <p>Sir Mark Hendrick<br><small style="color:#DC241F">Labour (Co-op)</small></p>
-      </a>
-      <a href="/lancashire/westlancashirecouncil/constituency/west_lancashire" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>West Lancashire</h2>
-        <p>Ashley Dalton<br><small style="color:#DC241F">Labour</small></p>
-      </a>
-      <a href="/lancashire/fyldecouncil/constituency/fylde" class="council-card">
-        <div class="accent-bar" style="background:#0087DC"></div>
-        <h2>Fylde</h2>
-        <p>Andrew Snowden<br><small style="color:#0087DC">Conservative</small></p>
-      </a>
-      <a href="/lancashire/blackpoolcouncil/constituency/blackpool_north_and_fleetwood" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Blackpool N &amp; Fleetwood</h2>
-        <p>Lorraine Beavers<br><small style="color:#DC241F">Labour</small></p>
-      </a>
-      <a href="/lancashire/blackpoolcouncil/constituency/blackpool_south" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Blackpool South</h2>
-        <p>Chris Webb<br><small style="color:#DC241F">Labour</small></p>
-      </a>
-      <a href="/lancashire/westlancashirecouncil/constituency/southport" class="council-card">
-        <div class="accent-bar" style="background:#DC241F"></div>
-        <h2>Southport</h2>
-        <p>Patrick Hurley<br><small style="color:#DC241F">Labour</small> <small style="color:#636366">(partial)</small></p>
+      <a href="/lancashire/burnleycouncil/compare" class="feature-card fade-up">
+        <div class="feature-icon fi-orange">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Cross-Council</h3>
+        <p>Compare councils: collection rates, dependency ratios, reserves, supplier concentration, efficiency metrics.</p>
+        <span class="feature-tag ft-all">All 15 councils</span>
       </a>
     </div>
+  </section>
 
-    <p class="section-label">District Councils &mdash; East Lancashire</p>
-    <div class="councils">
-      <a href="/lancashire/burnleycouncil/" class="council-card">
-        <div class="accent-bar" style="background:#0a84ff"></div>
-        <h2>Burnley</h2>
-        <p>30,580 transactions<br>&pound;355M tracked</p>
-      </a>
-      <a href="/lancashire/hyndburncouncil/" class="council-card">
-        <div class="accent-bar" style="background:#ff9f0a"></div>
-        <h2>Hyndburn</h2>
-        <p>29,804 transactions<br>&pound;211M tracked</p>
-      </a>
-      <a href="/lancashire/pendlecouncil/" class="council-card">
-        <div class="accent-bar" style="background:#30d158"></div>
-        <h2>Pendle</h2>
-        <p>49,741 transactions<br>&pound;125M tracked</p>
-      </a>
-      <a href="/lancashire/rossendalecouncil/" class="council-card">
-        <div class="accent-bar" style="background:#bf5af2"></div>
-        <h2>Rossendale</h2>
-        <p>42,536 transactions<br>&pound;64M tracked</p>
-      </a>
+  <!-- Councils -->
+  <section class="councils-section" id="councils">
+    <div class="councils-inner">
+      <div class="section-header">
+        <div class="section-divider"></div>
+        <h2>Choose Your Council</h2>
+        <p>All 15 Lancashire councils are live. Select yours to explore spending data, budgets, and accountability tools.</p>
+      </div>
+
+      <div class="council-search-bar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="council-filter" placeholder="Search councils..." oninput="filterCouncils(this.value)">
+      </div>
+
+      <p class="councils-tier-label">District Councils</p>
+      <div class="councils-grid" id="districts-grid">
+        <a href="/lancashire/burnleycouncil/" class="c-card" data-name="burnley">
+          <span class="c-dot" style="background:#0a84ff"></span>
+          <div class="c-info"><div class="c-name">Burnley</div><div class="c-meta">30,580 txns &middot; &pound;355M</div></div>
+        </a>
+        <a href="/lancashire/hyndburncouncil/" class="c-card" data-name="hyndburn">
+          <span class="c-dot" style="background:#ff9f0a"></span>
+          <div class="c-info"><div class="c-name">Hyndburn</div><div class="c-meta">29,804 txns &middot; &pound;211M</div></div>
+        </a>
+        <a href="/lancashire/pendlecouncil/" class="c-card" data-name="pendle">
+          <span class="c-dot" style="background:#30d158"></span>
+          <div class="c-info"><div class="c-name">Pendle</div><div class="c-meta">49,741 txns &middot; &pound;125M</div></div>
+        </a>
+        <a href="/lancashire/rossendalecouncil/" class="c-card" data-name="rossendale">
+          <span class="c-dot" style="background:#bf5af2"></span>
+          <div class="c-info"><div class="c-name">Rossendale</div><div class="c-meta">42,536 txns &middot; &pound;64M</div></div>
+        </a>
+        <a href="/lancashire/lancastercouncil/" class="c-card" data-name="lancaster">
+          <span class="c-dot" style="background:#1B5E20"></span>
+          <div class="c-info"><div class="c-name">Lancaster</div><div class="c-meta">32,574 txns &middot; &pound;185M</div></div>
+        </a>
+        <a href="/lancashire/ribblevalleycouncil/" class="c-card" data-name="ribble valley">
+          <span class="c-dot" style="background:#6A1B9A"></span>
+          <div class="c-info"><div class="c-name">Ribble Valley</div><div class="c-meta">13,723 txns &middot; &pound;38M</div></div>
+        </a>
+        <a href="/lancashire/chorleycouncil/" class="c-card" data-name="chorley">
+          <span class="c-dot" style="background:#C62828"></span>
+          <div class="c-info"><div class="c-name">Chorley</div><div class="c-meta">21,421 txns &middot; &pound;365M</div></div>
+        </a>
+        <a href="/lancashire/southribblecouncil/" class="c-card" data-name="south ribble">
+          <span class="c-dot" style="background:#E65100"></span>
+          <div class="c-info"><div class="c-name">South Ribble</div><div class="c-meta">18,517 txns &middot; &pound;178M</div></div>
+        </a>
+        <a href="/lancashire/prestoncouncil/" class="c-card" data-name="preston">
+          <span class="c-dot" style="background:#d4213d"></span>
+          <div class="c-info"><div class="c-name">Preston</div><div class="c-meta">46,711 txns &middot; &pound;205M</div></div>
+        </a>
+        <a href="/lancashire/westlancashirecouncil/" class="c-card" data-name="west lancashire">
+          <span class="c-dot" style="background:#1a6b3c"></span>
+          <div class="c-info"><div class="c-name">West Lancashire</div><div class="c-meta">43,063 txns &middot; &pound;333M</div></div>
+        </a>
+        <a href="/lancashire/wyrecouncil/" class="c-card" data-name="wyre">
+          <span class="c-dot" style="background:#0066cc"></span>
+          <div class="c-info"><div class="c-name">Wyre</div><div class="c-meta">51,092 txns &middot; &pound;678M</div></div>
+        </a>
+        <a href="/lancashire/fyldecouncil/" class="c-card" data-name="fylde">
+          <span class="c-dot" style="background:#2e7d32"></span>
+          <div class="c-info"><div class="c-name">Fylde</div><div class="c-meta">37,514 txns &middot; &pound;155M</div></div>
+        </a>
+      </div>
+
+      <p class="councils-tier-label">County Council</p>
+      <div class="councils-grid" style="grid-template-columns: 1fr" id="county-grid">
+        <a href="/lancashire/lancashirecc/" class="c-card" data-name="lancashire county council lcc" style="max-width:400px">
+          <span class="c-dot" style="background:#D4AF37"></span>
+          <div class="c-info"><div class="c-name">Lancashire County Council</div><div class="c-meta">753,220 txns &middot; &pound;3.6B &middot; Education, social care, highways</div></div>
+        </a>
+      </div>
+
+      <p class="councils-tier-label">Unitary Authorities</p>
+      <div class="councils-grid" style="grid-template-columns: repeat(2, 1fr); max-width:600px" id="unitary-grid">
+        <a href="/lancashire/blackpoolcouncil/" class="c-card" data-name="blackpool">
+          <span class="c-dot" style="background:#e85d1e"></span>
+          <div class="c-info"><div class="c-name">Blackpool</div><div class="c-meta">630,914 txns &middot; &pound;4.1B</div></div>
+        </a>
+        <a href="/lancashire/blackburncouncil/" class="c-card" data-name="blackburn with darwen">
+          <span class="c-dot" style="background:#003087"></span>
+          <div class="c-info"><div class="c-name">Blackburn with Darwen</div><div class="c-meta">492,973 txns &middot; &pound;1.7B</div></div>
+        </a>
+      </div>
     </div>
+  </section>
 
-    <p class="section-label">District Councils &mdash; Central &amp; South Lancashire</p>
-    <div class="councils">
-      <a href="/lancashire/lancastercouncil/" class="council-card">
-        <div class="accent-bar" style="background:#1B5E20"></div>
-        <h2>Lancaster</h2>
-        <p>32,574 transactions<br>&pound;185M tracked</p>
-      </a>
-      <a href="/lancashire/ribblevalleycouncil/" class="council-card">
-        <div class="accent-bar" style="background:#6A1B9A"></div>
-        <h2>Ribble Valley</h2>
-        <p>13,723 transactions<br>&pound;38M tracked</p>
-      </a>
-      <a href="/lancashire/chorleycouncil/" class="council-card">
-        <div class="accent-bar" style="background:#C62828"></div>
-        <h2>Chorley</h2>
-        <p>21,421 transactions<br>&pound;365M tracked</p>
-      </a>
-      <a href="/lancashire/southribblecouncil/" class="council-card">
-        <div class="accent-bar" style="background:#E65100"></div>
-        <h2>South Ribble</h2>
-        <p>18,517 transactions<br>&pound;178M tracked</p>
-      </a>
+  <!-- Trust / About -->
+  <section class="section" id="about">
+    <div class="section-header">
+      <div class="section-divider"></div>
+      <h2>Trusted &amp; Transparent</h2>
+      <p>Everything on AI DOGE comes from publicly available sources. Here is exactly where.</p>
     </div>
-
-    <p class="section-label">District Councils &mdash; Fylde Coast &amp; West</p>
-    <div class="councils">
-      <a href="/lancashire/prestoncouncil/" class="council-card">
-        <div class="accent-bar" style="background:#d4213d"></div>
-        <h2>Preston</h2>
-        <p>46,711 transactions<br>&pound;205M tracked</p>
-      </a>
-      <a href="/lancashire/westlancashirecouncil/" class="council-card">
-        <div class="accent-bar" style="background:#1a6b3c"></div>
-        <h2>West Lancashire</h2>
-        <p>43,063 transactions<br>&pound;333M tracked</p>
-      </a>
-      <a href="/lancashire/wyrecouncil/" class="council-card">
-        <div class="accent-bar" style="background:#0066cc"></div>
-        <h2>Wyre</h2>
-        <p>51,092 transactions<br>&pound;678M tracked</p>
-      </a>
-      <a href="/lancashire/fyldecouncil/" class="council-card">
-        <div class="accent-bar" style="background:#2e7d32"></div>
-        <h2>Fylde</h2>
-        <p>37,514 transactions<br>&pound;155M tracked</p>
-      </a>
+    <div class="trust-grid">
+      <div class="trust-card fade-up">
+        <div class="trust-icon">&#128220;</div>
+        <h4>Official Council Data</h4>
+        <p>Every payment published under the Local Government Transparency Code 2015. Councils are legally required to publish this.</p>
+      </div>
+      <div class="trust-card fade-up">
+        <div class="trust-icon">&#127970;</div>
+        <h4>Companies House</h4>
+        <p>Every supplier cross-referenced against the official UK company register. Active/dissolved status, incorporation dates, director data.</p>
+      </div>
+      <div class="trust-card fade-up">
+        <div class="trust-icon">&#128200;</div>
+        <h4>GOV.UK Budgets</h4>
+        <p>Revenue outturn data from MHCLG. Reserves, council tax Band D rates, year-on-year trends. Official government statistics.</p>
+      </div>
+      <div class="trust-card fade-up">
+        <div class="trust-icon">&#128737;</div>
+        <h4>Independent</h4>
+        <p>NOT affiliated with any council. No advertising, no sponsors. Published by Tom Pickup as a public interest project.</p>
+      </div>
     </div>
+  </section>
 
-    <p class="section-label">County Council</p>
-    <div class="councils">
-      <a href="/lancashire/lancashirecc/" class="council-card">
-        <div class="accent-bar" style="background:#D4AF37"></div>
-        <h2>Lancashire County Council</h2>
-        <p>753,220 transactions<br>&pound;3.6B tracked<br><small style="color:#636366">Education, social care, highways</small></p>
+  <!-- CTA -->
+  <section class="cta-section" id="register">
+    <h2>Ready to explore?</h2>
+    <p>Choose any council above to start searching spending data, reading audit findings, and holding your council to account.</p>
+    <div class="cta-actions">
+      <a href="/lancashire/lancashirecc/" class="btn-hero btn-hero-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Start with Lancashire CC
       </a>
+      <a href="#councils" class="btn-hero btn-hero-secondary">Choose a District Council</a>
     </div>
+  </section>
 
-    <p class="section-label">Unitary Authorities</p>
-    <div class="councils">
-      <a href="/lancashire/blackpoolcouncil/" class="council-card">
-        <div class="accent-bar" style="background:#e85d1e"></div>
-        <h2>Blackpool</h2>
-        <p>630,914 transactions<br>&pound;4.1B tracked<br><small style="color:#636366">All council services combined</small></p>
-      </a>
-      <a href="/lancashire/blackburncouncil/" class="council-card">
-        <div class="accent-bar" style="background:#003087"></div>
-        <h2>Blackburn with Darwen</h2>
-        <p>492,973 transactions<br>&pound;1.7B tracked<br><small style="color:#636366">All council services combined</small></p>
-      </a>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">AI <span>DOGE</span></div>
+        <p class="footer-text">
+          Independent public scrutiny tool. NOT an official council website. All data from publicly available council documents. Published by Tom Pickup.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="/lancashire/burnleycouncil/about" class="footer-link">About</a>
+        <a href="/lancashire/burnleycouncil/legal" class="footer-link">Legal</a>
+        <a href="/lancashire/burnleycouncil/press" class="footer-link">Press</a>
+      </div>
     </div>
+  </footer>
 
-    <p class="disclaimer">NOT an official council website. Independent public scrutiny tool. All data from publicly available council documents. Published by Tom Pickup.</p>
-  </div>
+  <script>
+    // Council search filter
+    function filterCouncils(query) {
+      var q = query.toLowerCase().trim();
+      document.querySelectorAll('.c-card').forEach(function(card) {
+        var name = card.getAttribute('data-name') || '';
+        card.classList.toggle('hidden', q && name.indexOf(q) === -1);
+      });
+    }
+
+    // Intersection Observer for fade-up animations
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
 </html>

@@ -36,6 +36,10 @@ const DEFAULT_PERMISSIONS = {
   constituency_access: [],
   display_name: '',
   email: '',
+  user_type: '',
+  party: '',
+  constituency: '',
+  profile_complete: false,
 }
 
 export function AuthProvider({ children }) {
@@ -73,6 +77,10 @@ export function AuthProvider({ children }) {
             constituency_access: data.constituency_access || [],
             display_name: data.display_name || firebaseUser.displayName || '',
             email: data.email || firebaseUser.email || '',
+            user_type: data.user_type || '',
+            party: data.party || '',
+            constituency: data.constituency || '',
+            profile_complete: data.profile_complete || false,
           })
         } else {
           // First login — user doc doesn't exist yet, role = unassigned
@@ -108,6 +116,10 @@ export function AuthProvider({ children }) {
           constituency_access: data.constituency_access || [],
           display_name: data.display_name || user.displayName || '',
           email: data.email || user.email || '',
+          user_type: data.user_type || '',
+          party: data.party || '',
+          constituency: data.constituency || '',
+          profile_complete: data.profile_complete || false,
         })
       }
     }, (err) => {

@@ -195,6 +195,14 @@ function UserCard({ user, expanded, onToggle, onSave, saving, saveSuccess }) {
         <div className="admin-user-info">
           <span className="admin-user-name">{user.display_name || 'No name'}</span>
           <span className="admin-user-email">{user.email || 'No email'}</span>
+          {(user.user_type || user.party || user.constituency) && (
+            <span className="admin-user-profile">
+              {user.user_type === 'councillor' ? `🏛️ Councillor${user.party ? ` (${user.party})` : ''}` :
+               user.user_type === 'journalist' ? '📰 Journalist/Researcher' :
+               user.user_type === 'public' ? '👤 Public' : ''}
+              {user.constituency ? ` · ${user.constituency}` : ''}
+            </span>
+          )}
         </div>
         <div className="admin-user-meta">
           <span className={roleBadgeClass}>{role}</span>
@@ -278,6 +286,16 @@ function UserCard({ user, expanded, onToggle, onSave, saving, saveSuccess }) {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* User profile info */}
+          {user.user_type && (
+            <div className="admin-section admin-meta-section">
+              <span>Type: {user.user_type === 'councillor' ? '🏛️ Councillor' : user.user_type === 'journalist' ? '📰 Journalist/Researcher' : '👤 Public'}</span>
+              {user.party && <span>Party: {user.party}</span>}
+              {user.constituency && <span>Constituency: {user.constituency}</span>}
+              <span>Profile: {user.profile_complete ? '✅ Complete' : '⏳ Incomplete'}</span>
             </div>
           )}
 
