@@ -137,6 +137,12 @@ function Constituencies() {
         </div>
       </header>
 
+      <div className="constituencies-compare-link">
+        <Link to="/constituencies/compare" className="compare-mps-btn">
+          <ArrowUpDown size={14} /> Compare All MPs — Expenses, Voting &amp; Analysis
+        </Link>
+      </div>
+
       <div className="constituencies-controls">
         <div className="constituencies-search">
           <Search size={16} />

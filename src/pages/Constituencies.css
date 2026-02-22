@@ -68,6 +68,29 @@
   flex-shrink: 0;
 }
 
+/* Compare link */
+.constituencies-compare-link {
+  margin-bottom: 16px;
+}
+.compare-mps-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #0a84ff15;
+  border: 1px solid #0a84ff44;
+  border-radius: 10px;
+  color: #0a84ff;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.compare-mps-btn:hover {
+  background: #0a84ff25;
+  border-color: #0a84ff66;
+}
+
 /* Controls */
 .constituencies-controls {
   display: flex;

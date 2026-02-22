@@ -36,6 +36,7 @@ const Integrity = lazy(() => import('./pages/Integrity'))
 const Elections = lazy(() => import('./pages/Elections'))
 const Constituencies = lazy(() => import('./pages/Constituencies'))
 const ConstituencyView = lazy(() => import('./pages/ConstituencyView'))
+const MPComparison = lazy(() => import('./pages/MPComparison'))
 const Strategy = lazy(() => import('./pages/Strategy'))
 const Intelligence = lazy(() => import('./pages/Intelligence'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
@@ -136,6 +137,7 @@ function AppRoutes() {
           <Route path="/integrity" element={<Guarded><Integrity /></Guarded>} />
           <Route path="/elections" element={<Guarded><Elections /></Guarded>} />
           <Route path="/constituencies" element={<Guarded><Constituencies /></Guarded>} />
+          <Route path="/constituencies/compare" element={<Guarded><MPComparison /></Guarded>} />
           <Route path="/constituency/:constituencyId" element={<Guarded><ConstituencyView /></Guarded>} />
           <Route path="/strategy" element={<Guarded><Strategy /></Guarded>} />
           <Route path="/intelligence" element={<Guarded><Intelligence /></Guarded>} />
