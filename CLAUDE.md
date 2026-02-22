@@ -61,8 +61,8 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 28 lazy-loaded routes |
-| `src/pages/` | 25 page components + 25 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, Integrity, etc.) |
+| `src/App.jsx` | Router with 29 lazy-loaded routes |
+| `src/pages/` | 26 page components + 26 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
@@ -82,7 +82,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 446 tests across 32 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 1,656 tests across 36 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -324,6 +324,9 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Phase 16** (done, 16-17 Feb): Budget enrichment (all 15 budgets:true) + Integrity checker v3 overhaul
 - **Phase 17** (done, 17-19 Feb): Elections page + ward-level predictions, Constituencies pages (MPs, GE2024, IPSA expenses, TWFY votes), analytics engine (14 functions), collection rates ETL, ward-constituency mapping, dependency ratio + reserves trajectory, per-service HHI, election→LGR projections, integrity conflict classification (48 commercial conflicts), article pipeline upgrade (Mistral/Groq), 37 new articles. 446 tests pass (32 files).
 - **Phase 18a+b** (done, 20 Feb): Firebase Auth + RBAC. Dual-mode auth (Firebase prod / PasswordGate dev). 4 social providers + email. 4 roles (unassigned/viewer/strategist/admin). Per-council/page/constituency Firestore permissions. Admin panel. 17 files, 2,695 lines.
-- **Phase 18c-e** (planned): Strategy Engine (ward classification, auto-talking-points, battleground ranking) + Strategy UI pages
+- **Phase 18c** (done, 21 Feb): Strategy Engine + UI. Ward classification, battleground ranking, path-to-control, talking points
+- **Phase 18d** (done, 21 Feb): Advanced Strategy — historical swing, resource allocation, CSV export. 800 tests
+- **Phase 18f** (done, 22 Feb): Intelligence war-game engine (attack predictions, counter-arguments), MP expenses comparison page, hub landing page redesign, registration profile capture (user type/party/constituency). 1,656 tests (36 files)
+- **Phase 18e** (deferred): Advanced strategy — historical swing map overlay, canvassing route optimisation
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.
