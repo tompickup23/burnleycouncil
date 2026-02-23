@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generated": "2026-02-21",
+    "generated": "2026-02-23",
     "description": "Shared election reference data for AI DOGE prediction engine"
   },
   "national_polling": {
-    "latest_date": "2026-02-21",
-    "source": "Electoral Calculus / PollCheck / ElectionPolling.co.uk polling average consensus",
+    "latest_date": "2026-02-23",
+    "source": "poll_aggregator.py weighted average",
     "parties": {
-      "Reform UK": 0.29,
-      "Labour": 0.19,
-      "Conservative": 0.19,
-      "Green Party": 0.14,
-      "Liberal Democrats": 0.12,
-      "Other": 0.07
+      "Reform UK": 0.296,
+      "Labour": 0.191,
+      "Conservative": 0.188,
+      "Green Party": 0.133,
+      "Liberal Democrats": 0.124,
+      "Other": 0.068
     },
     "ge2024_result": {
       "Labour": 0.337,
@@ -27,7 +27,15 @@
     {
       "date": "2026-05-07",
       "type": "borough",
-      "councils": ["burnley", "chorley", "hyndburn", "pendle", "preston", "west_lancashire", "blackburn"],
+      "councils": [
+        "burnley",
+        "chorley",
+        "hyndburn",
+        "pendle",
+        "preston",
+        "west_lancashire",
+        "blackburn"
+      ],
       "note": "Borough elections (un-cancelled after LGR postponement). 7 councils confirmed."
     },
     {
@@ -77,7 +85,7 @@
       "asian_heritage_independent_bonus": 0.02,
       "asian_heritage_reform_penalty": -0.08,
       "asian_40pct_reform_penalty": -0.15,
-      "asian_60pct_reform_penalty": -0.20,
+      "asian_60pct_reform_penalty": -0.2,
       "asian_40pct_independent_bonus": 0.06,
       "asian_60pct_independent_bonus": 0.12,
       "high_white_british_reform_bonus": 0.03,
@@ -95,14 +103,38 @@
     "total_votes": 329832,
     "avg_turnout": 0.345,
     "results": {
-      "Reform UK": {"seats": 53, "pct": 0.357},
-      "Conservative": {"seats": 8, "pct": 0.211},
-      "Independent": {"seats": 7, "pct": 0.055},
-      "Liberal Democrats": {"seats": 5, "pct": 0.090},
-      "Green Party": {"seats": 4, "pct": 0.084},
-      "Labour": {"seats": 4, "pct": 0.178},
-      "Our West Lancashire": {"seats": 2, "pct": 0.012},
-      "Labour & Co-operative": {"seats": 1, "pct": 0.011}
+      "Reform UK": {
+        "seats": 53,
+        "pct": 0.357
+      },
+      "Conservative": {
+        "seats": 8,
+        "pct": 0.211
+      },
+      "Independent": {
+        "seats": 7,
+        "pct": 0.055
+      },
+      "Liberal Democrats": {
+        "seats": 5,
+        "pct": 0.09
+      },
+      "Green Party": {
+        "seats": 4,
+        "pct": 0.084
+      },
+      "Labour": {
+        "seats": 4,
+        "pct": 0.178
+      },
+      "Our West Lancashire": {
+        "seats": 2,
+        "pct": 0.012
+      },
+      "Labour & Co-operative": {
+        "seats": 1,
+        "pct": 0.011
+      }
     }
   }
 }
