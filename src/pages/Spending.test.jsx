@@ -672,7 +672,8 @@ describe('Spending', () => {
     renderComponent(['/spending?ref=doge'])
     const banner = document.querySelector('.doge-evidence-banner')
     expect(banner).toBeTruthy()
-    expect(banner.textContent).toContain('DOGE Investigation')
+    expect(banner.textContent).toContain('DOGE Evidence Trail')
+    expect(banner.textContent).toContain('Back to Investigation')
   })
 
   it('shows filtered supplier name in DOGE banner', () => {
@@ -681,6 +682,7 @@ describe('Spending', () => {
     const banner = document.querySelector('.doge-evidence-banner')
     expect(banner).toBeTruthy()
     expect(banner.textContent).toContain('ACME Corp')
+    expect(banner.textContent).toContain('all payments to')
   })
 
   it('does not show DOGE banner when ref is not set', () => {

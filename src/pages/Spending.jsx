@@ -311,10 +311,21 @@ function Spending() {
       {dogeRef === 'doge' && (
         <div className="doge-evidence-banner">
           <Shield size={16} />
-          <span>
-            Viewing evidence from <Link to="/doge">DOGE Investigation</Link>
-            {filters.supplier && <> — filtered to <strong>{filters.supplier}</strong></>}
-          </span>
+          <div className="doge-evidence-content">
+            <span>
+              <strong>DOGE Evidence Trail</strong>
+              {' — '}
+              {filters.supplier
+                ? <>Showing all payments to <strong>{filters.supplier}</strong></>
+                : 'Showing all spending data for investigation'
+              }
+            </span>
+            {filters.supplier && filteredCount > 0 && (
+              <span className="doge-evidence-summary">
+                {filteredCount.toLocaleString()} transactions • {formatCurrency(stats.total, true)} total
+              </span>
+            )}
+          </div>
           <Link to="/doge" className="evidence-back-link">← Back to Investigation</Link>
         </div>
       )}

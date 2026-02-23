@@ -1918,6 +1918,41 @@ td.conformity-close_conformity { color: #30d158; }
   font-weight: 500;
 }
 
+/* ===== SUPPLIER EVIDENCE LINKS ===== */
+.supplier-evidence-link {
+  color: #0a84ff !important;
+  text-decoration: none;
+  background-image: none !important;
+  cursor: pointer;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  font-weight: 500;
+  display: inline;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.supplier-evidence-link:hover {
+  color: #5ab4ff !important;
+  text-decoration: underline;
+  opacity: 0.9;
+}
+.doge-table td .supplier-evidence-link,
+.doge-table.compact td .supplier-evidence-link {
+  display: inline-block;
+  max-width: 220px;
+}
+.spc-card .supplier-evidence-link {
+  color: inherit !important;
+  text-decoration: underline;
+  text-decoration-color: rgba(10, 132, 255, 0.4);
+  text-underline-offset: 2px;
+}
+.spc-card .supplier-evidence-link:hover {
+  text-decoration-color: #0a84ff;
+  color: #0a84ff !important;
+}
+
 /* ===== RESPONSIVE — ADVANCED SECTIONS ===== */
 @media (max-width: 900px) {
   .acfe-category { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }

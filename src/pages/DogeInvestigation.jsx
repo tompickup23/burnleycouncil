@@ -80,6 +80,21 @@ function VerificationPanel({ checks }) {
   )
 }
 
+// Reusable supplier evidence link — links to Spending filtered by supplier name
+function SupplierLink({ name, hasSpending, maxLen = 30 }) {
+  const display = (name || '').length > maxLen ? (name || '').substring(0, maxLen) + '...' : (name || '')
+  if (!hasSpending || !name) return <span className="supplier-name">{display}</span>
+  return (
+    <Link
+      to={`/spending?supplier=${encodeURIComponent(name)}&ref=doge`}
+      className="supplier-name supplier-evidence-link"
+      title={`View all payments to ${name}`}
+    >
+      {display}
+    </Link>
+  )
+}
+
 function DogeInvestigation() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -1113,7 +1128,7 @@ function DogeInvestigation() {
                 <tbody>
                   {dogeFindings.supplier_risk.top_20_risk.slice(0, 15).map((s, i) => (
                     <tr key={i} className={`risk-${s.risk_level}`}>
-                      <td className="supplier-name">{(s.supplier || '').substring(0, 35)}</td>
+                      <td><SupplierLink name={s.supplier} hasSpending={hasSpending} maxLen={35} /></td>
                       <td><strong className={`risk-score risk-${s.risk_level}`}>{s.risk_score}</strong></td>
                       <td>{s.ch_risk}</td>
                       <td>{s.payment_risk}</td>
@@ -1227,7 +1242,7 @@ function DogeInvestigation() {
                     <tbody>
                       {dogeFindings.benfords_advanced.per_supplier_mad.top_20_outliers.slice(0, 10).map((s, i) => (
                         <tr key={i}>
-                          <td className="supplier-name">{(s.supplier || '').substring(0, 30)}</td>
+                          <td><SupplierLink name={s.supplier} hasSpending={hasSpending} /></td>
                           <td><strong>{s.mad}</strong></td>
                           <td>{s.transaction_count}</td>
                           <td>{formatCurrency(s.total_spend)}</td>
@@ -1311,7 +1326,9 @@ function DogeInvestigation() {
                       <tbody>
                         {dogeFindings.forensic_classics.vendor_integrity.suspect_vendor_pairs.slice(0, 8).map((p, i) => (
                           <tr key={i}>
-                            <td className="supplier-name">{p.names?.join(' / ').substring(0, 50)}</td>
+                            <td>{(p.names || []).map((n, j) => (
+                              <span key={j}>{j > 0 && ' / '}<SupplierLink name={n} hasSpending={hasSpending} maxLen={25} /></span>
+                            ))}</td>
                             <td>{formatCurrency(p.combined_spend)}</td>
                             <td>{p.combined_transactions}</td>
                             <td>{p.has_ch_match ? '✓' : '✗'}</td>
@@ -1434,7 +1451,7 @@ function DogeInvestigation() {
                     <tbody>
                       {dogeFindings.temporal_intelligence.change_points.slice(0, 10).map((cp, i) => (
                         <tr key={i}>
-                          <td className="supplier-name">{(cp.supplier || '').substring(0, 30)}</td>
+                          <td><SupplierLink name={cp.supplier} hasSpending={hasSpending} /></td>
                           <td>{cp.change_month}</td>
                           <td><strong>{cp.shift_ratio}x</strong> mean</td>
                           <td>{formatCurrency(cp.total_spend)}</td>
@@ -1457,7 +1474,7 @@ function DogeInvestigation() {
                 <div className="spc-summary">
                   {dogeFindings.temporal_intelligence.spc_charts.slice(0, 5).map((spc, i) => (
                     <div key={i} className={`spc-card ${spc.out_of_control > 0 ? 'alert' : ''}`}>
-                      <strong>{(spc.supplier || '').substring(0, 25)}</strong>
+                      <strong><SupplierLink name={spc.supplier} hasSpending={hasSpending} maxLen={25} /></strong>
                       <div className="spc-stats">
                         <span>μ={formatCurrency(spc.mean)}/mo</span>
                         <span>σ={formatCurrency(spc.std_dev)}</span>
@@ -1521,7 +1538,7 @@ function DogeInvestigation() {
                     <tbody>
                       {dogeFindings.procurement_intelligence.price_escalation.alerts.slice(0, 10).map((a, i) => (
                         <tr key={i}>
-                          <td className="supplier-name">{(a.supplier || '').substring(0, 30)}</td>
+                          <td><SupplierLink name={a.supplier} hasSpending={hasSpending} /></td>
                           <td>{a.first_year}→{a.last_year}</td>
                           <td className="escalation">{a.real_growth_pct > 0 ? '+' : ''}{a.real_growth_pct}%</td>
                           <td>{formatCurrency(a.total_spend)}</td>
@@ -1546,6 +1563,24 @@ function DogeInvestigation() {
                     <strong>{dogeFindings.procurement_intelligence.cross_dept_splitting.total_flags}</strong> split flags
                     ({formatCurrency(dogeFindings.procurement_intelligence.cross_dept_splitting.total_value)})
                   </div>
+                </div>
+                <div className="table-container">
+                  <table className="doge-table compact">
+                    <thead>
+                      <tr><th>Supplier</th><th>Year</th><th>Combined</th><th>Depts</th><th>Threshold</th></tr>
+                    </thead>
+                    <tbody>
+                      {dogeFindings.procurement_intelligence.cross_dept_splitting.flags.slice(0, 10).map((f, i) => (
+                        <tr key={i}>
+                          <td><SupplierLink name={f.supplier} hasSpending={hasSpending} /></td>
+                          <td>{f.financial_year}</td>
+                          <td>{formatCurrency(f.combined_spend)}</td>
+                          <td>{f.departments}</td>
+                          <td>{formatCurrency(f.threshold_exceeded)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}
@@ -1661,7 +1696,7 @@ function DogeInvestigation() {
                     <tbody>
                       {dogeFindings.supplier_lifecycle.pump_dump.slice(0, 10).map((p, i) => (
                         <tr key={i}>
-                          <td className="supplier-name">{(p.supplier || '').substring(0, 30)}</td>
+                          <td><SupplierLink name={p.supplier} hasSpending={hasSpending} /></td>
                           <td>{formatCurrency(p.total_spend)}</td>
                           <td>{p.active_days} days</td>
                           <td>{p.last_payment}</td>

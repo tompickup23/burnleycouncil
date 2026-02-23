@@ -75,36 +75,64 @@
 /* DOGE Evidence Trail Banner */
 .doge-evidence-banner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-md);
   margin-bottom: var(--space-md);
-  background: rgba(10, 132, 255, 0.08);
-  border: 1px solid rgba(10, 132, 255, 0.2);
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.12), rgba(10, 132, 255, 0.04));
+  border: 1px solid rgba(10, 132, 255, 0.25);
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   color: var(--text-secondary);
+  backdrop-filter: blur(8px);
 }
 
 .doge-evidence-banner svg {
   color: #0a84ff;
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .doge-evidence-banner a {
   color: #0a84ff;
   text-decoration: none;
   font-weight: 500;
+  background-image: none !important;
 }
 
 .doge-evidence-banner a:hover {
   text-decoration: underline;
 }
 
+.doge-evidence-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.doge-evidence-summary {
+  font-size: 0.8rem;
+  color: #0a84ff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .doge-evidence-banner .evidence-back-link {
   margin-left: auto;
   white-space: nowrap;
   font-size: 0.8125rem;
+  padding: 4px 12px;
+  border: 1px solid rgba(10, 132, 255, 0.3);
+  border-radius: var(--radius-sm, 6px);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.doge-evidence-banner .evidence-back-link:hover {
+  background: rgba(10, 132, 255, 0.1);
+  border-color: rgba(10, 132, 255, 0.5);
+  text-decoration: none;
 }
 
 /* Search Section */

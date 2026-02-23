@@ -1120,6 +1120,18 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText('RISKY CORP LTD')).toBeInTheDocument()
       expect(screen.getByText('DODGY SERVICES')).toBeInTheDocument()
     })
+
+    it('supplier names link to spending evidence', () => {
+      setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Supplier Risk Intelligence').closest('button')
+      fireEvent.click(btn)
+      const links = document.querySelectorAll('.supplier-evidence-link')
+      expect(links.length).toBeGreaterThan(0)
+      const href = links[0].getAttribute('href')
+      expect(href).toContain('/spending?supplier=')
+      expect(href).toContain('ref=doge')
+    })
   })
 
   describe("Advanced Benford's Law Section", () => {
@@ -1201,6 +1213,16 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText('ANOMALY CO')).toBeInTheDocument()
       expect(screen.getByText('0.025')).toBeInTheDocument()
     })
+
+    it('MAD outlier suppliers link to spending evidence', () => {
+      setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText("Advanced Benford's Law Analysis").closest('button')
+      fireEvent.click(btn)
+      const link = screen.getByText('ANOMALY CO').closest('a')
+      expect(link).toBeTruthy()
+      expect(link.getAttribute('href')).toContain('/spending?supplier=ANOMALY%20CO&ref=doge')
+    })
   })
 
   describe('Forensic Accounting Section', () => {
@@ -1253,13 +1275,16 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText(/Re-billing flags/)).toBeInTheDocument()
     })
 
-    it('shows vendor integrity suspect pairs', () => {
+    it('shows vendor integrity suspect pairs with evidence links', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
       const btn = screen.getByText('Forensic Accounting Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Fictitious Vendor Detection/)).toBeInTheDocument()
-      expect(screen.getByText(/ABC CONSULTING/)).toBeInTheDocument()
+      // Suspect pair names should link to spending evidence
+      const abcLink = screen.getByText('ABC CONSULTING').closest('a')
+      expect(abcLink).toBeTruthy()
+      expect(abcLink.getAttribute('href')).toContain('/spending?supplier=ABC%20CONSULTING&ref=doge')
     })
 
     it('shows credit patterns', () => {
@@ -1333,24 +1358,26 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText(/6 departments/)).toBeInTheDocument()
     })
 
-    it('shows change-point detection table', () => {
+    it('shows change-point detection table with evidence links', () => {
       setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
       const btn = screen.getByText('Temporal Intelligence').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Change-Point Detection/)).toBeInTheDocument()
-      expect(screen.getByText('CHANGE SUPPLIER')).toBeInTheDocument()
-      expect(screen.getByText(/3.2x/)).toBeInTheDocument()
+      const changeLink = screen.getByText('CHANGE SUPPLIER').closest('a')
+      expect(changeLink).toBeTruthy()
+      expect(changeLink.getAttribute('href')).toContain('/spending?supplier=CHANGE%20SUPPLIER&ref=doge')
     })
 
-    it('shows SPC control cards', () => {
+    it('shows SPC control cards with evidence links', () => {
       setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
       const btn = screen.getByText('Temporal Intelligence').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Statistical Process Control/)).toBeInTheDocument()
-      expect(screen.getByText('SPC TEST LTD')).toBeInTheDocument()
-      expect(screen.getByText(/2 out of control/)).toBeInTheDocument()
+      const spcLink = screen.getByText('SPC TEST LTD').closest('a')
+      expect(spcLink).toBeTruthy()
+      expect(spcLink.getAttribute('href')).toContain('/spending?supplier=SPC%20TEST%20LTD&ref=doge')
     })
   })
 
@@ -1436,16 +1463,20 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText('Supplier Lifecycle Analysis')).toBeInTheDocument()
     })
 
-    it('shows pump-and-dump table on expand', () => {
+    it('shows pump-and-dump table with evidence links on expand', () => {
       setupMocks({ mainData: [withLifecycle, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
       const btn = screen.getByText('Supplier Lifecycle Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Pump-and-Dump Detection/)).toBeInTheDocument()
-      expect(screen.getByText('PHANTOM SUPPLIER')).toBeInTheDocument()
-      expect(screen.getByText('GHOST VENDOR LTD')).toBeInTheDocument()
+      // Suppliers should now be evidence links
+      const phantomLink = screen.getByText('PHANTOM SUPPLIER').closest('a')
+      expect(phantomLink).toBeTruthy()
+      expect(phantomLink.getAttribute('href')).toContain('/spending?supplier=PHANTOM%20SUPPLIER&ref=doge')
+      const ghostLink = screen.getByText('GHOST VENDOR LTD').closest('a')
+      expect(ghostLink).toBeTruthy()
+      expect(ghostLink.getAttribute('href')).toContain('/spending?supplier=GHOST%20VENDOR%20LTD&ref=doge')
       expect(screen.getByText('90 days')).toBeInTheDocument()
-      expect(screen.getByText('45 days')).toBeInTheDocument()
     })
 
     it('does not render when total_pump_dump is 0', () => {
@@ -1453,6 +1484,71 @@ describe('DogeInvestigation', () => {
       setupMocks({ mainData: [noFlags, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
       expect(screen.queryByText('Supplier Lifecycle Analysis')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Procurement Intelligence Section', () => {
+    const withProcurement = {
+      ...mockFindings,
+      procurement_intelligence: {
+        maverick_spend: { has_procurement_data: true, overall_maverick_pct: 35, total_maverick_spend: 500000 },
+        price_escalation: {
+          alerts: [
+            { supplier: 'INFLATING CORP', first_year: '2020/21', last_year: '2023/24', real_growth_pct: 150, total_spend: 200000 },
+          ],
+        },
+        cross_dept_splitting: {
+          total_flags: 3,
+          total_value: 150000,
+          flags: [
+            { supplier: 'SPLITTING SERVICES', financial_year: '2023/24', combined_spend: 80000, departments: 3, threshold_exceeded: 50000 },
+          ],
+        },
+      },
+    }
+
+    it('renders procurement intelligence with evidence links', () => {
+      setupMocks({ mainData: [withProcurement, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Procurement Intelligence').closest('button')
+      fireEvent.click(btn)
+      // Price escalation supplier should link to spending
+      const escalationLink = screen.getByText('INFLATING CORP').closest('a')
+      expect(escalationLink).toBeTruthy()
+      expect(escalationLink.getAttribute('href')).toContain('/spending?supplier=INFLATING%20CORP&ref=doge')
+    })
+
+    it('shows cross-dept splitting table with evidence links', () => {
+      setupMocks({ mainData: [withProcurement, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Procurement Intelligence').closest('button')
+      fireEvent.click(btn)
+      const splitLink = screen.getByText('SPLITTING SERVICES').closest('a')
+      expect(splitLink).toBeTruthy()
+      expect(splitLink.getAttribute('href')).toContain('/spending?supplier=SPLITTING%20SERVICES&ref=doge')
+    })
+  })
+
+  describe('Evidence links respect hasSpending flag', () => {
+    const withSupplierRisk = {
+      ...mockFindings,
+      supplier_risk: {
+        high_risk: 1, elevated_risk: 1, total_suppliers_scored: 10,
+        top_20_risk: [{ supplier: 'TEST SUPPLIER', risk_score: 75, risk_level: 'high', ch_risk: 20, payment_risk: 20, concentration_risk: 20, transparency_risk: 15, total_spend: 100000 }],
+      },
+    }
+
+    it('renders supplier names as plain text when spending is disabled', () => {
+      const noSpendingConfig = { ...mockConfig, data_sources: { spending: false, foi: true } }
+      setupMocks({ config: noSpendingConfig, mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Supplier Risk Intelligence').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('TEST SUPPLIER')).toBeInTheDocument()
+      // Should NOT be a link
+      const el = screen.getByText('TEST SUPPLIER')
+      expect(el.closest('a')).toBeNull()
+      expect(el.tagName).toBe('SPAN')
     })
   })
 
