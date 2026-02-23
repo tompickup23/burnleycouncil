@@ -1,45 +1,45 @@
 {
-  "categories_analysed": 9,
+  "categories_analysed": 10,
   "categories": {
     "Children Social Care": {
-      "transactions": 114122,
-      "total_spend": 342828445.12,
-      "avg_transaction": 3004.05,
-      "hhi": 234,
+      "transactions": 179913,
+      "total_spend": 601958316.86,
+      "avg_transaction": 3345.83,
+      "hhi": 191,
       "hhi_category": "low",
       "top_suppliers": [
         {
           "supplier": "REDACTED",
-          "spend": 38969777.13
+          "spend": 62684993.29
         },
         {
           "supplier": "HIGHFIELD PFI SPV LTD",
-          "spend": 19577048.96
-        },
-        {
-          "supplier": "SANDCASTLE CARE LTD",
-          "spend": 14437929.1
+          "spend": 31993250.09
         },
         {
           "supplier": "EXCEL FOSTERING LTD",
-          "spend": 12422556.17
+          "spend": 20292698.87
+        },
+        {
+          "supplier": "SANDCASTLE CARE LTD",
+          "spend": 17060966.68
         },
         {
           "supplier": "HEXAGON CARE SERVICES LTD",
-          "spend": 7460313.27
+          "spend": 12502005.11
         }
       ],
-      "round_number_pct": 0.7,
-      "year_end_spike_ratio": 0.4,
-      "duplicate_rate_pct": 5.6,
+      "round_number_pct": 0.6,
+      "year_end_spike_ratio": 0.2,
+      "duplicate_rate_pct": 7.1,
       "rating": "amber",
       "issues": 1
     },
     "Environmental and regulatory services": {
-      "transactions": 17865,
-      "total_spend": 171194521.25,
-      "avg_transaction": 9582.68,
-      "hhi": 1100,
+      "transactions": 17868,
+      "total_spend": 171426004.76,
+      "avg_transaction": 9594.02,
+      "hhi": 1097,
       "hhi_category": "low",
       "top_suppliers": [
         {
@@ -70,46 +70,50 @@
       "issues": 0
     },
     "Central services": {
-      "transactions": 40234,
-      "total_spend": 181426172.17,
-      "avg_transaction": 4509.28,
-      "hhi": 530,
+      "transactions": 102994,
+      "total_spend": 2159897026.5,
+      "avg_transaction": 20971.1,
+      "hhi": 124,
       "hhi_category": "low",
       "top_suppliers": [
         {
-          "supplier": "EDF ENERGY",
-          "spend": 28294750.84
+          "supplier": "BANK OF SCOTLAND",
+          "spend": 124574385.9
         },
         {
-          "supplier": "RP TYSON CONSTRUCTION LTD",
-          "spend": 20688961.46
+          "supplier": "MUSE DEVELOPMENTS LTD",
+          "spend": 84876452.89
+        },
+        {
+          "supplier": "EDF ENERGY",
+          "spend": 68425443.67
         },
         {
           "supplier": "Lancashire County Council",
-          "spend": 16104588.07
+          "spend": 56812269.71
         },
         {
-          "supplier": "BAMBERS REMEDIAL CONTRACTORS LTD",
-          "spend": 7931883.61
-        },
-        {
-          "supplier": "CORONA ENERGY (GAS USAGE ONLY)",
-          "spend": 6631672.62
+          "supplier": "WEST YORKSHIRE COMBINED AUTHORITY",
+          "spend": 53369835.63
         }
       ],
-      "round_number_pct": 0.5,
-      "year_end_spike_ratio": 0.5,
-      "duplicate_rate_pct": 2.8,
+      "round_number_pct": 3.3,
+      "year_end_spike_ratio": 0.2,
+      "duplicate_rate_pct": 2.9,
       "rating": "green",
       "issues": 0
     },
     "Adult Social Care": {
-      "transactions": 309389,
-      "total_spend": 590184298.69,
-      "avg_transaction": 1907.58,
-      "hhi": 220,
+      "transactions": 309435,
+      "total_spend": 631490154.82,
+      "avg_transaction": 2040.78,
+      "hhi": 268,
       "hhi_category": "low",
       "top_suppliers": [
+        {
+          "supplier": "NHS BLACKPOOL & NHS LANCS & SOUTH CUMBRIA ICB",
+          "spend": 57729096.24
+        },
         {
           "supplier": "NHS BLACKPOOL CCG",
           "spend": 45024796.23
@@ -123,10 +127,6 @@
           "spend": 34026061.2
         },
         {
-          "supplier": "NHS BLACKPOOL & NHS LANCS & SOUTH CUMBRIA ICB",
-          "spend": 17109969.24
-        },
-        {
           "supplier": "CREATIVE SUPPORT LTD",
           "spend": 15489000.69
         }
@@ -138,12 +138,16 @@
       "issues": 1
     },
     "Capital": {
-      "transactions": 5256,
-      "total_spend": 183080726.33,
-      "avg_transaction": 34832.71,
-      "hhi": 770,
+      "transactions": 11185,
+      "total_spend": 279525841.55,
+      "avg_transaction": 24991.13,
+      "hhi": 603,
       "hhi_category": "low",
       "top_suppliers": [
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL - DIRECT DEBIT ONLY - DO NOT USE",
+          "spend": 41575231.15
+        },
         {
           "supplier": "MUSE DEVELOPMENTS LTD",
           "spend": 33653565.87
@@ -153,54 +157,50 @@
           "spend": 28742490.15
         },
         {
+          "supplier": "BLACKPOOL HOUSING COMPANY LTD",
+          "spend": 12370050.64
+        },
+        {
           "supplier": "CONLON CONSTRUCTION LTD",
           "spend": 12121845.62
-        },
-        {
-          "supplier": "JOHN GRAHAM CONSTRUCTION LTD",
-          "spend": 11594023.49
-        },
-        {
-          "supplier": "BLACKPOOL LOCAL EDUCATION PARTNERSHIP LTD",
-          "spend": 10924944.74
         }
       ],
-      "round_number_pct": 1.8,
-      "year_end_spike_ratio": 0.4,
-      "duplicate_rate_pct": 1.4,
+      "round_number_pct": 1.1,
+      "year_end_spike_ratio": 0.2,
+      "duplicate_rate_pct": 2.8,
       "rating": "green",
       "issues": 0
     },
     "Public Health": {
-      "transactions": 3218,
-      "total_spend": 75403253.6,
-      "avg_transaction": 23431.71,
-      "hhi": 2322,
+      "transactions": 5966,
+      "total_spend": 158120530.64,
+      "avg_transaction": 26503.61,
+      "hhi": 2396,
       "hhi_category": "moderate",
       "top_suppliers": [
         {
           "supplier": "RHEA PROJECTS LTD",
-          "spend": 29362870.82
+          "spend": 67989193.31
         },
         {
           "supplier": "BLACKPOOL TEACHING HOSPITALS NHS FT",
-          "spend": 17458849.92
+          "spend": 31652822.89
         },
         {
           "supplier": "DELPHI MEDICAL CONSULTANTS LTD",
-          "spend": 10850025.0
+          "spend": 12912777.0
         },
         {
-          "supplier": "LIVING STREETS",
-          "spend": 4741972.16
+          "supplier": "DELPHI MEDICAL LTD",
+          "spend": 8998272.0
         },
         {
-          "supplier": "RENAISSANCE UK LTD",
-          "spend": 2810020.42
+          "supplier": "DEPARTMENT FOR BUSINESS, ENERGY & INDUSTRIAL STRATEGY",
+          "spend": 6953205.0
         }
       ],
-      "round_number_pct": 6.0,
-      "year_end_spike_ratio": 0.4,
+      "round_number_pct": 7.4,
+      "year_end_spike_ratio": 0.2,
       "duplicate_rate_pct": 3.4,
       "rating": "amber",
       "issues": 1
@@ -306,8 +306,42 @@
       "duplicate_rate_pct": 2.6,
       "rating": "amber",
       "issues": 2
+    },
+    "Other services": {
+      "transactions": 352,
+      "total_spend": 823838.94,
+      "avg_transaction": 2340.45,
+      "hhi": 958,
+      "hhi_category": "low",
+      "top_suppliers": [
+        {
+          "supplier": "REDACTED",
+          "spend": 231152.28
+        },
+        {
+          "supplier": "KINGDOM LODGINGS LTD",
+          "spend": 53825.0
+        },
+        {
+          "supplier": "WARREN JAMES (JEWELLERS) LTD",
+          "spend": 29000.28
+        },
+        {
+          "supplier": "PORTLAND & BARFIELD LTD",
+          "spend": 24749.71
+        },
+        {
+          "supplier": "JACOBS & TURNER LTD",
+          "spend": 21749.71
+        }
+      ],
+      "round_number_pct": 5.4,
+      "year_end_spike_ratio": 0.0,
+      "duplicate_rate_pct": 15.9,
+      "rating": "amber",
+      "issues": 1
     }
   },
-  "unmapped_transactions": 137630,
-  "unmapped_spend": 2459126123.03
+  "unmapped_transactions": 1,
+  "unmapped_spend": 1826.12
 }
