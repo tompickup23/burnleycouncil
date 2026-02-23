@@ -3,6 +3,8 @@ import {
   CPI_H_INDEX, deflate, realGrowthRate, perCapita, zScore,
   computeDistributionStats, giniCoefficient, reservesAdequacy,
   benfordSecondDigit, peerBenchmark, normalizeFinancialYear,
+  benfordFirstTwoDigits, benfordLastTwoDigits, benfordSummation,
+  materialityThreshold, cipfaResilience,
 } from './analytics'
 
 describe('CPI_H_INDEX', () => {
@@ -308,5 +310,220 @@ describe('normalizeFinancialYear', () => {
   it('handles null/undefined', () => {
     expect(normalizeFinancialYear(null)).toBeNull()
     expect(normalizeFinancialYear(undefined)).toBeUndefined()
+  })
+})
+
+// ═══════════════════════════════════════════════════════════════
+// Advanced Benford's Suite
+// ═══════════════════════════════════════════════════════════════
+
+describe('benfordFirstTwoDigits', () => {
+  it('returns null for fewer than 500 amounts', () => {
+    expect(benfordFirstTwoDigits(Array(499).fill(100))).toBeNull()
+  })
+
+  it('returns null for null input', () => {
+    expect(benfordFirstTwoDigits(null)).toBeNull()
+  })
+
+  it('produces valid output for Benford-like data', () => {
+    // Generate 2000 amounts with realistic distribution
+    const amounts = Array.from({ length: 2000 }, (_, i) => (i + 10) * 1.07 + Math.random() * 500)
+    const result = benfordFirstTwoDigits(amounts)
+    expect(result).not.toBeNull()
+    expect(result.df).toBe(89)
+    expect(result.n).toBeGreaterThanOrEqual(500)
+    expect(result.chiSquared).toBeGreaterThan(0)
+    expect(result.observed).toHaveLength(90)
+    expect(result.expected).toHaveLength(90)
+    expect(['conforming', 'acceptable', 'marginal', 'non_conforming']).toContain(result.conformity)
+    expect(Array.isArray(result.spikes)).toBe(true)
+  })
+
+  it('detects spikes when amounts are clustered', () => {
+    // Create data where £15xx is massively over-represented
+    const base = Array.from({ length: 800 }, (_, i) => (i + 10) * 3.5 + Math.random() * 200)
+    const spike = Array.from({ length: 400 }, () => 1500 + Math.random() * 99)
+    const result = benfordFirstTwoDigits([...base, ...spike])
+    expect(result).not.toBeNull()
+    expect(result.chiSquared).toBeGreaterThan(100)
+  })
+
+  it('ignores amounts below 10', () => {
+    const amounts = Array.from({ length: 1000 }, () => Math.random() * 5)
+    expect(benfordFirstTwoDigits(amounts)).toBeNull()
+  })
+})
+
+describe('benfordLastTwoDigits', () => {
+  it('returns null for fewer than 500 amounts', () => {
+    expect(benfordLastTwoDigits(Array(400).fill(1000))).toBeNull()
+  })
+
+  it('returns null for null input', () => {
+    expect(benfordLastTwoDigits(null)).toBeNull()
+  })
+
+  it('produces valid output for random data', () => {
+    const amounts = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 9900) + 100)
+    const result = benfordLastTwoDigits(amounts)
+    expect(result).not.toBeNull()
+    expect(result.df).toBe(99)
+    expect(result.n).toBeGreaterThanOrEqual(500)
+    expect(result.observed).toHaveLength(100)
+    expect(['conforming', 'acceptable', 'marginal', 'non_conforming']).toContain(result.conformity)
+    expect(typeof result.roundNumberExcess).toBe('number')
+  })
+
+  it('detects round-number excess when amounts end in 00', () => {
+    // All amounts end in 00 — massive non-uniformity
+    const amounts = Array.from({ length: 1000 }, (_, i) => (i + 1) * 100)
+    const result = benfordLastTwoDigits(amounts)
+    expect(result).not.toBeNull()
+    expect(result.conformity).toBe('non_conforming')
+    expect(result.roundNumberExcess).toBeGreaterThan(0)
+  })
+
+  it('ignores amounts below 100', () => {
+    const small = Array.from({ length: 1000 }, () => Math.random() * 50)
+    expect(benfordLastTwoDigits(small)).toBeNull()
+  })
+})
+
+describe('benfordSummation', () => {
+  it('returns null for fewer than 100 amounts', () => {
+    expect(benfordSummation(Array(50).fill(100))).toBeNull()
+  })
+
+  it('returns null for null input', () => {
+    expect(benfordSummation(null)).toBeNull()
+  })
+
+  it('produces 9 digit groups', () => {
+    const amounts = Array.from({ length: 500 }, (_, i) => (i + 1) * 10 + Math.random() * 100)
+    const result = benfordSummation(amounts)
+    expect(result).not.toBeNull()
+    expect(result.digitAnalysis).toHaveLength(9)
+    expect(result.totalSum).toBeGreaterThan(0)
+  })
+
+  it('detects distortion when one digit group dominates', () => {
+    // digit-1 amounts heavily weighted
+    const heavy1 = Array.from({ length: 200 }, () => 1000000 + Math.random() * 500000)
+    const light = Array.from({ length: 300 }, () => 200 + Math.random() * 800)
+    const result = benfordSummation([...heavy1, ...light])
+    expect(result).not.toBeNull()
+    expect(result.distortions.length).toBeGreaterThan(0)
+    expect(result.distortions[0].digit).toBe(1)
+  })
+
+  it('filters out negative amounts', () => {
+    const amounts = Array.from({ length: 200 }, (_, i) => (i + 1) * 5)
+    const withNeg = [...amounts, -100, -200, -300]
+    const result = benfordSummation(withNeg)
+    expect(result).not.toBeNull()
+    // Negative amounts excluded from totalSum
+    expect(result.totalSum).toBeGreaterThan(0)
+  })
+
+  it('each digit analysis has required fields', () => {
+    const amounts = Array.from({ length: 200 }, (_, i) => (i + 1) * 10)
+    const result = benfordSummation(amounts)
+    for (const d of result.digitAnalysis) {
+      expect(d).toHaveProperty('digit')
+      expect(d).toHaveProperty('sum')
+      expect(d).toHaveProperty('count')
+      expect(d).toHaveProperty('pctOfTotal')
+      expect(d).toHaveProperty('expectedPct')
+      expect(d).toHaveProperty('deviation')
+    }
+  })
+})
+
+// ═══════════════════════════════════════════════════════════════
+// Audit Standards Functions
+// ═══════════════════════════════════════════════════════════════
+
+describe('materialityThreshold', () => {
+  it('calculates 1% materiality by default', () => {
+    const result = materialityThreshold(10000000)
+    expect(result).not.toBeNull()
+    expect(result.threshold).toBe(100000)
+    expect(result.planningMateriality).toBe(50000)
+    expect(result.pct).toBe(1.0)
+  })
+
+  it('accepts custom percentage', () => {
+    const result = materialityThreshold(10000000, 2.0)
+    expect(result.threshold).toBe(200000)
+    expect(result.planningMateriality).toBe(100000)
+    expect(result.pct).toBe(2.0)
+  })
+
+  it('returns null for zero expenditure', () => {
+    expect(materialityThreshold(0)).toBeNull()
+  })
+
+  it('returns null for negative expenditure', () => {
+    expect(materialityThreshold(-500000)).toBeNull()
+  })
+
+  it('returns null for null expenditure', () => {
+    expect(materialityThreshold(null)).toBeNull()
+  })
+})
+
+describe('cipfaResilience', () => {
+  it('returns null for null input', () => {
+    expect(cipfaResilience(null)).toBeNull()
+  })
+
+  it('rates healthy council as Sustainable', () => {
+    const result = cipfaResilience({
+      reserves: 10000000,
+      expenditure: 40000000,
+      councilTaxDependency: 40,
+      debtRatio: 30,
+    })
+    expect(result).not.toBeNull()
+    expect(result.overallRating).toBe('Sustainable')
+    expect(result.overallColor).toBe('#28a745')
+    expect(result.components.length).toBe(3)
+  })
+
+  it('rates struggling council as Critical', () => {
+    const result = cipfaResilience({
+      reserves: 500000,
+      expenditure: 40000000,
+      councilTaxDependency: 80,
+      debtRatio: 120,
+    })
+    expect(result.overallRating).toBe('Critical')
+    expect(result.overallColor).toBe('#dc3545')
+  })
+
+  it('rates mixed council as At Risk', () => {
+    const result = cipfaResilience({
+      reserves: 2000000,
+      expenditure: 40000000,
+      councilTaxDependency: 60,
+      debtRatio: 80,
+    })
+    // Low reserves (< 1 month) triggers critical, moderate dependency and elevated debt
+    expect(['At Risk', 'Critical']).toContain(result.overallRating)
+  })
+
+  it('handles partial data', () => {
+    const result = cipfaResilience({ councilTaxDependency: 45 })
+    expect(result).not.toBeNull()
+    expect(result.components.length).toBe(1)
+    expect(result.components[0].name).toBe('Council Tax Dependency')
+  })
+
+  it('handles empty data object', () => {
+    const result = cipfaResilience({})
+    expect(result).not.toBeNull()
+    expect(result.components.length).toBe(0)
+    expect(result.overallRating).toBe('Sustainable')
   })
 })

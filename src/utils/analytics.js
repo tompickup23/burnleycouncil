@@ -332,3 +332,265 @@ export function normalizeFinancialYear(year, format = 'slash') {
   const sep = format === 'slash' ? '/' : '-'
   return year.replace(/[/-]/, sep)
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Advanced Benford's Law Suite (Nigrini 2012)
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Benford's first-two digits test (primary audit sample selection tool).
+ * Expected proportion for digits d (10-99): log10(1 + 1/d)
+ *
+ * @param {number[]} amounts - Transaction amounts (filters to >= 10)
+ * @returns {{observed: number[], expected: number[], chiSquared: number,
+ *            df: number, n: number, spikes: Array, conformity: string}|null}
+ */
+export function benfordFirstTwoDigits(amounts) {
+  if (!amounts || amounts.length < 500) return null
+
+  const expected = {}
+  for (let d = 10; d <= 99; d++) {
+    expected[d] = Math.log10(1 + 1 / d)
+  }
+
+  const digitCounts = {}
+  for (let d = 10; d <= 99; d++) digitCounts[d] = 0
+  let n = 0
+
+  for (const amt of amounts) {
+    const absAmt = Math.abs(amt)
+    if (absAmt < 10) continue
+    const str = absAmt.toString().replace('.', '').replace(/^0+/, '')
+    if (str.length < 2) continue
+    const ft = parseInt(str.substring(0, 2), 10)
+    if (ft >= 10 && ft <= 99) {
+      digitCounts[ft]++
+      n++
+    }
+  }
+
+  if (n < 500) return null
+
+  let chiSquared = 0
+  const observed = []
+  const expectedArr = []
+  const spikes = []
+
+  for (let d = 10; d <= 99; d++) {
+    const obs = digitCounts[d]
+    const expCount = expected[d] * n
+    const obsPct = (obs / n) * 100
+    const expPct = expected[d] * 100
+    chiSquared += Math.pow(obs - expCount, 2) / expCount
+    observed.push(obs)
+    expectedArr.push(expCount)
+
+    if (obs > 20 && expCount > 0 && obs / expCount > 1.5) {
+      spikes.push({ digits: d, observed: obs, expected: Math.round(expCount * 10) / 10, ratio: Math.round(obs / expCount * 100) / 100 })
+    }
+  }
+
+  // df=89, critical: p=0.05→112.02, p=0.01→122.94, p=0.001→135.81
+  let conformity
+  if (chiSquared > 135.81) conformity = 'non_conforming'
+  else if (chiSquared > 122.94) conformity = 'marginal'
+  else if (chiSquared > 112.02) conformity = 'acceptable'
+  else conformity = 'conforming'
+
+  spikes.sort((a, b) => b.ratio - a.ratio)
+
+  return { observed, expected: expectedArr, chiSquared: Math.round(chiSquared * 100) / 100, df: 89, n, spikes: spikes.slice(0, 10), conformity }
+}
+
+/**
+ * Benford's last-two digits uniformity test (round-number fraud detection).
+ * Last two digits should be uniformly distributed (~1% each for 00-99).
+ *
+ * @param {number[]} amounts - Transaction amounts (filters to >= 100)
+ * @returns {{observed: number[], chiSquared: number, df: number, n: number,
+ *            roundNumberExcess: number, conformity: string, topEndings: Array}|null}
+ */
+export function benfordLastTwoDigits(amounts) {
+  if (!amounts || amounts.length < 500) return null
+
+  const digitCounts = new Array(100).fill(0)
+  let n = 0
+
+  for (const amt of amounts) {
+    const absAmt = Math.abs(amt)
+    if (absAmt < 100) continue
+    const intPart = Math.floor(absAmt)
+    const lastTwo = intPart % 100
+    digitCounts[lastTwo]++
+    n++
+  }
+
+  if (n < 500) return null
+
+  const expectedCount = n / 100
+  let chiSquared = 0
+  const observed = []
+  let roundNumberExcess = 0
+
+  for (let d = 0; d < 100; d++) {
+    const obs = digitCounts[d]
+    chiSquared += Math.pow(obs - expectedCount, 2) / expectedCount
+    observed.push(obs)
+    if (d === 0 || d === 50) {
+      roundNumberExcess += obs - expectedCount
+    }
+  }
+
+  // df=99, critical: p=0.05→123.23, p=0.01→135.81, p=0.001→149.45
+  let conformity
+  if (chiSquared > 149.45) conformity = 'non_conforming'
+  else if (chiSquared > 135.81) conformity = 'marginal'
+  else if (chiSquared > 123.23) conformity = 'acceptable'
+  else conformity = 'conforming'
+
+  // Top over-represented endings
+  const endings = observed.map((obs, d) => ({ digits: d, observed: obs, excess: Math.round((obs / n * 100 - 1) * 100) / 100 }))
+  endings.sort((a, b) => b.excess - a.excess)
+
+  return {
+    observed,
+    chiSquared: Math.round(chiSquared * 100) / 100,
+    df: 99,
+    n,
+    roundNumberExcess: Math.round(roundNumberExcess),
+    roundNumberExcessPct: Math.round(roundNumberExcess / n * 10000) / 100,
+    conformity,
+    topEndings: endings.slice(0, 10),
+  }
+}
+
+/**
+ * Benford's Summation Test (large fraud detection).
+ * Sums values by first digit group — each should contribute ~11.1%.
+ * Designed to catch single inflated invoices hiding in normal digit frequencies.
+ *
+ * @param {number[]} amounts - Transaction amounts (filters to > 0)
+ * @returns {{digitAnalysis: Array, distortions: Array, totalSum: number}|null}
+ */
+export function benfordSummation(amounts) {
+  if (!amounts || amounts.length < 100) return null
+
+  const digitSums = {}
+  const digitCounts = {}
+  for (let d = 1; d <= 9; d++) { digitSums[d] = 0; digitCounts[d] = 0 }
+  let totalSum = 0
+
+  for (const amt of amounts) {
+    if (amt <= 0) continue
+    const str = Math.abs(amt).toString().replace('.', '').replace(/^0+/, '')
+    if (!str) continue
+    const fd = parseInt(str[0], 10)
+    if (fd >= 1 && fd <= 9) {
+      digitSums[fd] += amt
+      digitCounts[fd]++
+      totalSum += amt
+    }
+  }
+
+  if (totalSum === 0) return null
+
+  const expectedPct = 100 / 9
+  const digitAnalysis = []
+  const distortions = []
+
+  for (let d = 1; d <= 9; d++) {
+    const pct = (digitSums[d] / totalSum) * 100
+    const deviation = pct - expectedPct
+    digitAnalysis.push({
+      digit: d,
+      sum: Math.round(digitSums[d] * 100) / 100,
+      count: digitCounts[d],
+      pctOfTotal: Math.round(pct * 100) / 100,
+      expectedPct: Math.round(expectedPct * 100) / 100,
+      deviation: Math.round(deviation * 100) / 100,
+    })
+
+    if (deviation > 5) {
+      distortions.push({ digit: d, pctOfTotal: Math.round(pct * 100) / 100, excessPct: Math.round(deviation * 100) / 100 })
+    }
+  }
+
+  distortions.sort((a, b) => b.excessPct - a.excessPct)
+
+  return { digitAnalysis, distortions, totalSum: Math.round(totalSum * 100) / 100 }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Audit Standards Functions
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Calculate INTOSAI materiality threshold.
+ * Standard: 1% of total expenditure (range 0.5-2%).
+ *
+ * @param {number} totalExpenditure - Total expenditure in £
+ * @param {number} [pct=1.0] - Materiality percentage (default 1%)
+ * @returns {{threshold: number, planningMateriality: number, pct: number}|null}
+ */
+export function materialityThreshold(totalExpenditure, pct = 1.0) {
+  if (totalExpenditure == null || totalExpenditure <= 0) return null
+  return {
+    threshold: totalExpenditure * (pct / 100),
+    planningMateriality: totalExpenditure * (pct / 200),  // Half of materiality
+    pct,
+  }
+}
+
+/**
+ * CIPFA Financial Resilience assessment.
+ * Scores council financial health across multiple components.
+ *
+ * @param {{reserves: number, expenditure: number, councilTaxDependency: number,
+ *          debtRatio: number, interestPaymentsRatio: number}} data
+ * @returns {{components: Array, overallRating: string, overallColor: string}}
+ */
+export function cipfaResilience(data) {
+  if (!data) return null
+
+  const components = []
+
+  // Reserves assessment (uses existing reservesAdequacy)
+  if (data.reserves != null && data.expenditure != null && data.expenditure > 0) {
+    const res = reservesAdequacy(data.reserves, data.expenditure)
+    if (res) {
+      components.push({ name: 'Reserves', value: res.monthsCover, unit: 'months', rating: res.rating, color: res.color })
+    }
+  }
+
+  // Council tax dependency
+  if (data.councilTaxDependency != null) {
+    const dep = data.councilTaxDependency
+    let rating, color
+    if (dep > 70) { rating = 'High Dependency'; color = '#dc3545' }
+    else if (dep > 50) { rating = 'Moderate'; color = '#fd7e14' }
+    else { rating = 'Diversified'; color = '#28a745' }
+    components.push({ name: 'Council Tax Dependency', value: dep, unit: '%', rating, color })
+  }
+
+  // Debt ratio
+  if (data.debtRatio != null) {
+    const dr = data.debtRatio
+    let rating, color
+    if (dr > 100) { rating = 'Critical'; color = '#dc3545' }
+    else if (dr > 50) { rating = 'Elevated'; color = '#fd7e14' }
+    else { rating = 'Sustainable'; color = '#28a745' }
+    components.push({ name: 'Debt Ratio', value: dr, unit: '%', rating, color })
+  }
+
+  // Overall rating
+  const criticalCount = components.filter(c => c.color === '#dc3545').length
+  const warningCount = components.filter(c => c.color === '#fd7e14').length
+  let overallRating, overallColor
+  if (criticalCount >= 2) { overallRating = 'Critical'; overallColor = '#dc3545' }
+  else if (criticalCount >= 1 || warningCount >= 2) { overallRating = 'At Risk'; overallColor = '#fd7e14' }
+  else { overallRating = 'Sustainable'; overallColor = '#28a745' }
+
+  return { components, overallRating, overallColor }
+}

@@ -1025,4 +1025,480 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText(/DOGE Investigation: Test/)).toBeInTheDocument()
     })
   })
+
+  // --- Advanced Forensic Sections (backward compatibility) ---
+  describe('Advanced Sections — Backward Compatibility', () => {
+    it('does not render supplier risk section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Supplier Risk Intelligence')).not.toBeInTheDocument()
+    })
+
+    it('does not render advanced benfords section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText("Advanced Benford's Law Analysis")).not.toBeInTheDocument()
+    })
+
+    it('does not render forensic accounting section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Forensic Accounting Analysis')).not.toBeInTheDocument()
+    })
+
+    it('does not render temporal intelligence section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Temporal Intelligence')).not.toBeInTheDocument()
+    })
+
+    it('does not render procurement intelligence section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Procurement Intelligence')).not.toBeInTheDocument()
+    })
+
+    it('does not render audit standards section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Audit Standards & Materiality')).not.toBeInTheDocument()
+    })
+
+    it('does not render supplier lifecycle section when data absent', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Supplier Lifecycle Analysis')).not.toBeInTheDocument()
+    })
+
+    it('always renders methodology section', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Methodology & Standards')).toBeInTheDocument()
+    })
+  })
+
+  // --- Advanced Sections with Data ---
+  describe('Supplier Risk Intelligence Section', () => {
+    const withSupplierRisk = {
+      ...mockFindings,
+      supplier_risk: {
+        high_risk: 3,
+        elevated_risk: 5,
+        high_risk_spend: 250000,
+        elevated_risk_spend: 500000,
+        total_suppliers_scored: 100,
+        top_20_risk: [
+          { supplier: 'RISKY CORP LTD', risk_score: 82, risk_level: 'high', ch_risk: 20, payment_risk: 22, concentration_risk: 25, transparency_risk: 15, total_spend: 150000 },
+          { supplier: 'DODGY SERVICES', risk_score: 71, risk_level: 'elevated', ch_risk: 15, payment_risk: 18, concentration_risk: 20, transparency_risk: 18, total_spend: 95000 },
+        ],
+      },
+    }
+
+    it('renders supplier risk section when data present', () => {
+      setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText('Supplier Risk Intelligence')).toBeInTheDocument()
+    })
+
+    it('shows risk stat pills on expand', () => {
+      setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Supplier Risk Intelligence').closest('button')
+      fireEvent.click(btn)
+      // stat-pill contains "<strong>3</strong> High Risk" — check container text
+      const pills = document.querySelectorAll('.stat-pill')
+      const pillTexts = Array.from(pills).map(p => p.textContent)
+      expect(pillTexts.some(t => t.includes('High Risk'))).toBe(true)
+      expect(pillTexts.some(t => t.includes('Elevated'))).toBe(true)
+    })
+
+    it('shows supplier risk table on expand', () => {
+      setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Supplier Risk Intelligence').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('RISKY CORP LTD')).toBeInTheDocument()
+      expect(screen.getByText('DODGY SERVICES')).toBeInTheDocument()
+    })
+  })
+
+  describe("Advanced Benford's Law Section", () => {
+    const withBenfords = {
+      ...mockFindings,
+      benfords_advanced: {
+        first_two_digits: {
+          chi_squared: 145.2,
+          conformity: 'non_conforming',
+          p_description: 'Significant (p<0.001)',
+          spikes: [
+            { digits: 15, ratio: 2.3, observed: 45, expected: 19.5 },
+            { digits: 50, ratio: 1.8, observed: 32, expected: 17.8 },
+          ],
+        },
+        last_two_digits: {
+          chi_squared: 210.5,
+          conformity: 'non_conforming',
+          p_description: 'Significant',
+          round_number_excess_pct: 4.2,
+          total_tested: 15000,
+        },
+        summation: {
+          distortions: [{ digit: 1, pctOfTotal: 22.5, excessPct: 11.4 }],
+          digit_analysis: [
+            { digit: 1, pct_of_total: 22.5, deviation: 11.4 },
+            { digit: 2, pct_of_total: 12.0, deviation: 0.9 },
+          ],
+        },
+        per_supplier_mad: {
+          nonconforming: 12,
+          suppliers_tested: 80,
+          top_20_outliers: [
+            { supplier: 'ANOMALY CO', mad: 0.025, transaction_count: 60, total_spend: 200000, conformity: 'nonconforming' },
+          ],
+        },
+      },
+    }
+
+    it("renders advanced benfords section when data present", () => {
+      setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText("Advanced Benford's Law Analysis")).toBeInTheDocument()
+    })
+
+    it('shows first-two digits test on expand', () => {
+      setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText("Advanced Benford's Law Analysis").closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/First-Two Digits Test/)).toBeInTheDocument()
+      expect(screen.getByText(/145.2/)).toBeInTheDocument()
+    })
+
+    it('shows spike badges on expand', () => {
+      setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText("Advanced Benford's Law Analysis").closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/£15xx/)).toBeInTheDocument()
+      expect(screen.getByText(/2.3x expected/)).toBeInTheDocument()
+    })
+
+    it('shows last-two digits test', () => {
+      setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText("Advanced Benford's Law Analysis").closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Last-Two Digits Uniformity Test/)).toBeInTheDocument()
+      expect(screen.getByText(/Round-number excess: 4.2%/)).toBeInTheDocument()
+    })
+
+    it('shows per-supplier MAD table', () => {
+      setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText("Advanced Benford's Law Analysis").closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Per-Supplier Benford/)).toBeInTheDocument()
+      expect(screen.getByText('ANOMALY CO')).toBeInTheDocument()
+      expect(screen.getByText('0.025')).toBeInTheDocument()
+    })
+  })
+
+  describe('Forensic Accounting Section', () => {
+    const withForensics = {
+      ...mockFindings,
+      forensic_classics: {
+        same_same_different: {
+          rebilling: { total_flags: 8, total_value: 45000 },
+          cross_department: { total_flags: 3 },
+          collusion_indicators: { total_flags: 1 },
+        },
+        vendor_integrity: {
+          total_suspect_pairs: 4,
+          total_single_payment: 6,
+          single_payment_value: 85000,
+          total_unverified: 2,
+          unverified_spend: 120000,
+          suspect_vendor_pairs: [
+            { names: ['ABC CONSULTING', 'A.B.C CONSULTANCY'], combined_spend: 75000, combined_transactions: 12, has_ch_match: false },
+          ],
+        },
+        credit_patterns: {
+          total_zero_credit: 15,
+          zero_credit_spend: 320000,
+          total_exact_offsets: 3,
+          credit_stats: { credit_ratio: 2.1 },
+        },
+        description_quality: {
+          transparency_score: 62,
+          vague_rate: 18,
+          vague_spend: 500000,
+          empty_descriptions: 45,
+          priority_investigation: [{ department: 'Corporate Services' }],
+        },
+      },
+    }
+
+    it('renders forensic accounting section when data present', () => {
+      setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText('Forensic Accounting Analysis')).toBeInTheDocument()
+    })
+
+    it('shows same-same-different stats on expand', () => {
+      setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Forensic Accounting Analysis').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Same-Same-Different Testing/)).toBeInTheDocument()
+      expect(screen.getByText(/Re-billing flags/)).toBeInTheDocument()
+    })
+
+    it('shows vendor integrity suspect pairs', () => {
+      setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Forensic Accounting Analysis').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Fictitious Vendor Detection/)).toBeInTheDocument()
+      expect(screen.getByText(/ABC CONSULTING/)).toBeInTheDocument()
+    })
+
+    it('shows credit patterns', () => {
+      setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Forensic Accounting Analysis').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Credit & Refund Pattern Analysis/)).toBeInTheDocument()
+      // stat-pill contains "<strong>15</strong> Zero-credit suppliers"
+      const pills = document.querySelectorAll('.stat-pill')
+      const pillTexts = Array.from(pills).map(p => p.textContent)
+      expect(pillTexts.some(t => t.includes('Zero-credit suppliers'))).toBe(true)
+    })
+
+    it('shows description quality transparency score', () => {
+      setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Forensic Accounting Analysis').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Description Quality/)).toBeInTheDocument()
+      expect(screen.getByText(/62\/100/)).toBeInTheDocument()
+    })
+
+    it('shows priority investigation alert', () => {
+      setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Forensic Accounting Analysis').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Priority:/)).toBeInTheDocument()
+      expect(screen.getByText(/1 departments/)).toBeInTheDocument()
+    })
+  })
+
+  describe('Temporal Intelligence Section', () => {
+    const withTemporal = {
+      ...mockFindings,
+      temporal_intelligence: {
+        year_end_acceleration: [
+          { financial_year: '2023-24', acceleration_index: 2.4 },
+          { financial_year: '2024-25', acceleration_index: 1.8 },
+        ],
+        dept_acceleration: [
+          { department: 'Env Services', index: 3.1 },
+          { department: 'Housing', index: 2.5 },
+          { department: 'Legal', index: 2.2 },
+          { department: 'HR', index: 2.1 },
+          { department: 'IT', index: 2.0 },
+          { department: 'Finance', index: 2.0 },
+        ],
+        change_points: [
+          { supplier: 'CHANGE SUPPLIER', change_month: '2024-06', shift_ratio: 3.2, total_spend: 180000 },
+        ],
+        spc_charts: [
+          { supplier: 'SPC TEST LTD', mean: 5000, std_dev: 1200, out_of_control: 2 },
+        ],
+      },
+    }
+
+    it('renders temporal intelligence section when data present', () => {
+      setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText('Temporal Intelligence')).toBeInTheDocument()
+    })
+
+    it('shows year-end acceleration on expand', () => {
+      setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Temporal Intelligence').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Year-End Acceleration Index/)).toBeInTheDocument()
+      expect(screen.getByText(/6 departments/)).toBeInTheDocument()
+    })
+
+    it('shows change-point detection table', () => {
+      setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Temporal Intelligence').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Change-Point Detection/)).toBeInTheDocument()
+      expect(screen.getByText('CHANGE SUPPLIER')).toBeInTheDocument()
+      expect(screen.getByText(/3.2x/)).toBeInTheDocument()
+    })
+
+    it('shows SPC control cards', () => {
+      setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Temporal Intelligence').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Statistical Process Control/)).toBeInTheDocument()
+      expect(screen.getByText('SPC TEST LTD')).toBeInTheDocument()
+      expect(screen.getByText(/2 out of control/)).toBeInTheDocument()
+    })
+  })
+
+  describe('Audit Standards Section', () => {
+    const withAudit = {
+      ...mockFindings,
+      audit_standards: {
+        materiality: {
+          threshold: 1500000,
+          planning_materiality: 750000,
+          threshold_pct: 1,
+        },
+        acfe_risk_matrix: {
+          asset_misappropriation: 45,
+          corruption: 62,
+          financial_statement: 28,
+        },
+        peer_benchmark: {
+          fraud_triangle_rank: 3,
+          total_councils: 15,
+          fraud_triangle_percentile: 80,
+        },
+      },
+    }
+
+    it('renders audit standards section when data present', () => {
+      setupMocks({ mainData: [withAudit, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText('Audit Standards & Materiality')).toBeInTheDocument()
+    })
+
+    it('shows materiality threshold on expand', () => {
+      setupMocks({ mainData: [withAudit, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Audit Standards & Materiality').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/INTOSAI Materiality Threshold/)).toBeInTheDocument()
+    })
+
+    it('shows ACFE risk matrix', () => {
+      setupMocks({ mainData: [withAudit, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Audit Standards & Materiality').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/ACFE Occupational Fraud Risk Matrix/)).toBeInTheDocument()
+      expect(screen.getByText('Asset Misappropriation')).toBeInTheDocument()
+      expect(screen.getByText('Corruption')).toBeInTheDocument()
+      expect(screen.getByText('Financial Statement')).toBeInTheDocument()
+      expect(screen.getByText('45/100')).toBeInTheDocument()
+      expect(screen.getByText('62/100')).toBeInTheDocument()
+      expect(screen.getByText('28/100')).toBeInTheDocument()
+    })
+
+    it('shows peer benchmark rank', () => {
+      setupMocks({ mainData: [withAudit, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Audit Standards & Materiality').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Lancashire Peer Benchmark/)).toBeInTheDocument()
+      // Rendered as: "Fraud triangle rank: <strong>3</strong>/15 councils (percentile: 80%)"
+      const peerSection = screen.getByText(/Lancashire Peer Benchmark/).closest('.forensic-subsection')
+      expect(peerSection.textContent).toContain('/15 councils')
+      expect(peerSection.textContent).toContain('80%')
+    })
+  })
+
+  describe('Supplier Lifecycle Section', () => {
+    const withLifecycle = {
+      ...mockFindings,
+      supplier_lifecycle: {
+        total_pump_dump: 2,
+        total_escalations: 4,
+        pump_dump: [
+          { supplier: 'PHANTOM SUPPLIER', total_spend: 75000, active_days: 90, last_payment: '2024-03-15' },
+          { supplier: 'GHOST VENDOR LTD', total_spend: 55000, active_days: 45, last_payment: '2024-06-01' },
+        ],
+      },
+    }
+
+    it('renders supplier lifecycle section when pump-dump data present', () => {
+      setupMocks({ mainData: [withLifecycle, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText('Supplier Lifecycle Analysis')).toBeInTheDocument()
+    })
+
+    it('shows pump-and-dump table on expand', () => {
+      setupMocks({ mainData: [withLifecycle, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      const btn = screen.getByText('Supplier Lifecycle Analysis').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText(/Pump-and-Dump Detection/)).toBeInTheDocument()
+      expect(screen.getByText('PHANTOM SUPPLIER')).toBeInTheDocument()
+      expect(screen.getByText('GHOST VENDOR LTD')).toBeInTheDocument()
+      expect(screen.getByText('90 days')).toBeInTheDocument()
+      expect(screen.getByText('45 days')).toBeInTheDocument()
+    })
+
+    it('does not render when total_pump_dump is 0', () => {
+      const noFlags = { ...mockFindings, supplier_lifecycle: { total_pump_dump: 0, total_escalations: 0 } }
+      setupMocks({ mainData: [noFlags, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.queryByText('Supplier Lifecycle Analysis')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Methodology & Standards Section', () => {
+    it('shows technique count', () => {
+      const withCount = { ...mockFindings, technique_count: 35 }
+      setupMocks({ mainData: [withCount, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      renderComponent()
+      expect(screen.getByText(/35 forensic techniques applied/i)).toBeInTheDocument()
+    })
+
+    it('shows all 6 standard cards on expand', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Methodology & Standards').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('ACFE')).toBeInTheDocument()
+      expect(screen.getByText('INTOSAI')).toBeInTheDocument()
+      expect(screen.getByText('Nigrini')).toBeInTheDocument()
+      expect(screen.getByText('CIPFA')).toBeInTheDocument()
+      expect(screen.getByText('NAO')).toBeInTheDocument()
+      expect(screen.getByText('OECD')).toBeInTheDocument()
+    })
+
+    it('shows technique categories on expand', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Methodology & Standards').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Statistical')).toBeInTheDocument()
+      expect(screen.getByText('Forensic')).toBeInTheDocument()
+      expect(screen.getByText('Supplier Risk')).toBeInTheDocument()
+      expect(screen.getByText('Temporal')).toBeInTheDocument()
+      expect(screen.getByText('Procurement')).toBeInTheDocument()
+      expect(screen.getByText('Audit Standards')).toBeInTheDocument()
+    })
+
+    it('shows technique badges', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Methodology & Standards').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Benford 1st digit')).toBeInTheDocument()
+      expect(screen.getByText('Duplicate detection')).toBeInTheDocument()
+      expect(screen.getByText('Pump-and-dump')).toBeInTheDocument()
+      expect(screen.getByText('Materiality (INTOSAI)')).toBeInTheDocument()
+    })
+  })
 })

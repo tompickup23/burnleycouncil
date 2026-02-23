@@ -2737,6 +2737,1597 @@ def analyse_benfords_second_digit(all_spending):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 12: Advanced Benford's Law Suite
+# First-Two Digits, Last-Two Digits, Summation Test, Per-Supplier MAD
+# References: Nigrini (2012), ACFE Fraud Examiners Manual
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_benfords_first_two_digits(all_spending):
+    """First-two digits test (Nigrini primary audit sample selection tool).
+
+    Analyses the joint distribution of the first two digits (10-99) against
+    Benford's expected proportions. More granular than single-digit tests —
+    identifies specific amount ranges being manufactured.
+
+    Expected proportion for digits d1d2: log10(1 + 1/(d1d2))
+    Chi-squared test with df=89.
+    """
+    import math
+
+    # Pre-compute expected proportions for digits 10-99
+    expected = {}
+    for d in range(10, 100):
+        expected[d] = math.log10(1 + 1 / d)
+
+    results = {}
+    for council_id, records in all_spending.items():
+        amounts = [r["amount"] for r in records if r.get("amount", 0) >= 10]
+        if len(amounts) < 500:
+            results[council_id] = {"status": "insufficient_data", "count": len(amounts)}
+            continue
+
+        # Count first two digits
+        digit_counts = defaultdict(int)
+        n = 0
+        for amt in amounts:
+            s = str(abs(amt)).replace('.', '').lstrip('0')
+            if len(s) < 2:
+                continue
+            ft = int(s[:2])
+            if 10 <= ft <= 99:
+                digit_counts[ft] += 1
+                n += 1
+
+        if n < 500:
+            results[council_id] = {"status": "insufficient_data", "count": n}
+            continue
+
+        # Chi-squared goodness of fit (df=89)
+        chi_squared = 0
+        digit_analysis = []
+        spikes = []
+
+        for d in range(10, 100):
+            obs = digit_counts.get(d, 0)
+            exp_count = expected[d] * n
+            exp_pct = expected[d] * 100
+            obs_pct = (obs / n) * 100 if n > 0 else 0
+            chi_sq_component = ((obs - exp_count) ** 2) / exp_count if exp_count > 0 else 0
+            chi_squared += chi_sq_component
+            deviation = obs_pct - exp_pct
+
+            digit_analysis.append({
+                "digits": d,
+                "observed": obs,
+                "observed_pct": round(obs_pct, 2),
+                "expected_pct": round(exp_pct, 2),
+                "deviation": round(deviation, 2),
+            })
+
+            # Flag significant spikes (>50% above expected with 20+ observations)
+            if obs > 20 and exp_count > 0 and obs / exp_count > 1.5:
+                spikes.append({
+                    "digits": d,
+                    "observed": obs,
+                    "expected": round(exp_count, 1),
+                    "ratio": round(obs / exp_count, 2),
+                    "amount_range": f"£{d}0-£{d}9" if d < 100 else f"£{d}00+",
+                })
+
+        chi_squared = round(chi_squared, 2)
+        # Critical values for df=89: p=0.05→112.02, p=0.01→122.94, p=0.001→135.81
+        if chi_squared > 135.81:
+            conformity = "non_conforming"
+            p_desc = "p < 0.001 (highly significant)"
+        elif chi_squared > 122.94:
+            conformity = "marginal"
+            p_desc = "p < 0.01 (very significant)"
+        elif chi_squared > 112.02:
+            conformity = "acceptable"
+            p_desc = "p < 0.05 (significant)"
+        else:
+            conformity = "conforming"
+            p_desc = "p > 0.05 (not significant)"
+
+        spikes.sort(key=lambda x: -x["ratio"])
+
+        results[council_id] = {
+            "total_tested": n,
+            "chi_squared": chi_squared,
+            "df": 89,
+            "conformity": conformity,
+            "p_description": p_desc,
+            "digit_analysis": digit_analysis,
+            "spikes": spikes[:10],
+        }
+
+        emoji = "✓" if conformity in ("conforming", "acceptable") else "⚠" if conformity == "marginal" else "✗"
+        print(f"\n  {council_id.upper()} (1st-2 digits): {emoji} χ²={chi_squared} — {p_desc}")
+        if spikes:
+            print(f"    Top spike: {spikes[0]['digits']} ({spikes[0]['ratio']}x expected)")
+
+    return results
+
+
+def analyse_benfords_last_two_digits(all_spending):
+    """Last-two digits uniformity test (round-number fraud detection).
+
+    In naturally occurring data, the last two digits should be uniformly
+    distributed (~1% each for 00-99). Fabricated amounts cluster on round
+    endings (00, 50, 99). This replaces simple round-number counting with
+    a statistically rigorous distributional test.
+
+    Chi-squared test with df=99. Reference: Nigrini (2012) Ch. 7.
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        # Need amounts with meaningful last two digits (>= £100)
+        amounts = [r["amount"] for r in records if r.get("amount", 0) >= 100]
+        if len(amounts) < 500:
+            results[council_id] = {"status": "insufficient_data", "count": len(amounts)}
+            continue
+
+        # Extract last two digits
+        digit_counts = defaultdict(int)
+        n = 0
+        for amt in amounts:
+            # Get integer part and extract last two digits
+            int_part = int(abs(amt))
+            last_two = int_part % 100
+            digit_counts[last_two] += 1
+            n += 1
+
+        if n < 500:
+            results[council_id] = {"status": "insufficient_data", "count": n}
+            continue
+
+        # Expected: uniform distribution = 1% each = n/100
+        expected_count = n / 100
+        chi_squared = 0
+        digit_analysis = []
+        round_number_excess = 0
+
+        for d in range(100):
+            obs = digit_counts.get(d, 0)
+            obs_pct = (obs / n) * 100
+            chi_sq_component = ((obs - expected_count) ** 2) / expected_count
+            chi_squared += chi_sq_component
+
+            digit_analysis.append({
+                "last_two": f"{d:02d}",
+                "observed": obs,
+                "observed_pct": round(obs_pct, 2),
+                "expected_pct": 1.0,
+                "excess": round(obs_pct - 1.0, 2),
+            })
+
+            # Track round-number excess (00, 50 endings)
+            if d in (0, 50):
+                round_number_excess += obs - expected_count
+
+        chi_squared = round(chi_squared, 2)
+        # Critical values for df=99: p=0.05→123.23, p=0.01→135.81, p=0.001→149.45
+        if chi_squared > 149.45:
+            conformity = "non_conforming"
+            p_desc = "p < 0.001 (highly significant)"
+        elif chi_squared > 135.81:
+            conformity = "marginal"
+            p_desc = "p < 0.01 (very significant)"
+        elif chi_squared > 123.23:
+            conformity = "acceptable"
+            p_desc = "p < 0.05 (significant)"
+        else:
+            conformity = "conforming"
+            p_desc = "p > 0.05 (not significant)"
+
+        # Top 10 over-represented endings
+        top_endings = sorted(digit_analysis, key=lambda x: -x["excess"])[:10]
+
+        results[council_id] = {
+            "total_tested": n,
+            "chi_squared": chi_squared,
+            "df": 99,
+            "conformity": conformity,
+            "p_description": p_desc,
+            "round_number_excess": round(round_number_excess, 1),
+            "round_number_excess_pct": round((round_number_excess / n) * 100, 2) if n > 0 else 0,
+            "top_endings": top_endings,
+            "digit_analysis": digit_analysis,
+        }
+
+        emoji = "✓" if conformity in ("conforming", "acceptable") else "⚠" if conformity == "marginal" else "✗"
+        print(f"\n  {council_id.upper()} (last-2 digits): {emoji} χ²={chi_squared} — {p_desc}")
+        print(f"    Round-number excess (00/50): {round(round_number_excess, 0)} extra payments ({results[council_id]['round_number_excess_pct']}%)")
+
+    return results
+
+
+def analyse_benfords_summation(all_spending):
+    """Benford's Summation Test (large fraud detection).
+
+    Instead of counting how often each first digit appears, this sums the
+    VALUES starting with each digit. In clean data, each digit group should
+    contribute roughly equal total value (~11.1% each). If digit-1 amounts
+    sum to 40% of total spend, investigate those large payments.
+
+    Specifically designed to catch the 'one big fraud' that digit counting
+    misses — a single inflated invoice hides in normal digit frequencies
+    but dominates the summation. Reference: Nigrini (2012) Ch. 6.
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        amounts = [r["amount"] for r in records if r.get("amount", 0) > 0]
+        if len(amounts) < 100:
+            results[council_id] = {"status": "insufficient_data", "count": len(amounts)}
+            continue
+
+        # Sum values by first digit
+        digit_sums = defaultdict(float)
+        digit_counts = defaultdict(int)
+        total_sum = 0
+
+        for amt in amounts:
+            s = str(abs(amt)).replace('.', '').lstrip('0')
+            if not s:
+                continue
+            first_digit = int(s[0])
+            if 1 <= first_digit <= 9:
+                digit_sums[first_digit] += amt
+                digit_counts[first_digit] += 1
+                total_sum += amt
+
+        if total_sum == 0:
+            continue
+
+        # Expected: ~11.1% per digit group (1/9 = 11.11%)
+        expected_pct = 100 / 9  # 11.11%
+        digit_analysis = []
+        distortions = []
+
+        for d in range(1, 10):
+            actual_pct = (digit_sums[d] / total_sum) * 100 if total_sum > 0 else 0
+            deviation = actual_pct - expected_pct
+
+            digit_analysis.append({
+                "digit": d,
+                "sum": round(digit_sums[d], 2),
+                "count": digit_counts[d],
+                "pct_of_total": round(actual_pct, 2),
+                "expected_pct": round(expected_pct, 2),
+                "deviation": round(deviation, 2),
+                "avg_amount": round(digit_sums[d] / digit_counts[d], 2) if digit_counts[d] > 0 else 0,
+            })
+
+            # Flag significant distortions (>5pp above expected)
+            if deviation > 5:
+                distortions.append({
+                    "digit": d,
+                    "pct_of_total": round(actual_pct, 2),
+                    "excess_pct": round(deviation, 2),
+                    "excess_value": round(digit_sums[d] - (expected_pct / 100 * total_sum), 2),
+                    "count": digit_counts[d],
+                    "avg_amount": round(digit_sums[d] / digit_counts[d], 2) if digit_counts[d] > 0 else 0,
+                })
+
+        distortions.sort(key=lambda x: -x["excess_pct"])
+
+        results[council_id] = {
+            "total_sum": round(total_sum, 2),
+            "total_amounts": len(amounts),
+            "digit_analysis": digit_analysis,
+            "distortions": distortions,
+            "max_digit_pct": max(d["pct_of_total"] for d in digit_analysis) if digit_analysis else 0,
+        }
+
+        print(f"\n  {council_id.upper()} (summation): Total {fmt_gbp(total_sum)}")
+        for da in digit_analysis:
+            bar = "█" * int(da["pct_of_total"] / 2)
+            flag = " ⚠" if abs(da["deviation"]) > 5 else ""
+            print(f"    Digit {da['digit']}: {da['pct_of_total']:5.1f}% (exp {da['expected_pct']:.1f}%) {bar}{flag}")
+
+    return results
+
+
+def analyse_benfords_per_supplier_mad(all_spending):
+    """Per-supplier Benford's MAD (Mean Absolute Deviation) scoring.
+
+    For each supplier with 50+ transactions, compute MAD from Benford's
+    expected first-digit distribution. Rank suppliers by conformity —
+    outliers with high MAD are flagged for investigation.
+
+    Nigrini's MAD thresholds (first digit):
+      <0.006 = Close conformity
+      0.006-0.012 = Acceptable conformity
+      0.012-0.015 = Marginally acceptable
+      >0.015 = Nonconforming
+    """
+    import math
+
+    BENFORD_EXPECTED = {
+        1: 0.301, 2: 0.176, 3: 0.125, 4: 0.097, 5: 0.079,
+        6: 0.067, 7: 0.058, 8: 0.051, 9: 0.046,
+    }
+
+    results = {}
+    for council_id, records in all_spending.items():
+        # Group amounts by supplier
+        supplier_amounts = defaultdict(list)
+        for r in records:
+            if r.get("amount", 0) > 100:
+                s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+                if s and s.upper() not in {"UNKNOWN", "NAME WITHHELD", "REDACTED", "VARIOUS", "SUNDRY"}:
+                    supplier_amounts[s].append(r["amount"])
+
+        supplier_scores = []
+        for supplier, amounts in supplier_amounts.items():
+            if len(amounts) < 50:
+                continue
+
+            # Count first digits
+            digit_counts = defaultdict(int)
+            n = 0
+            for amt in amounts:
+                s = str(abs(amt)).replace('.', '').lstrip('0')
+                if s and s[0].isdigit():
+                    fd = int(s[0])
+                    if 1 <= fd <= 9:
+                        digit_counts[fd] += 1
+                        n += 1
+
+            if n < 50:
+                continue
+
+            # MAD = (1/K) * sum(|observed_pct - expected_pct|) where K=9
+            mad = 0
+            for d in range(1, 10):
+                obs_pct = digit_counts[d] / n
+                mad += abs(obs_pct - BENFORD_EXPECTED[d])
+            mad = mad / 9
+
+            # Classification
+            if mad < 0.006:
+                conformity = "close"
+            elif mad < 0.012:
+                conformity = "acceptable"
+            elif mad < 0.015:
+                conformity = "marginally_acceptable"
+            else:
+                conformity = "nonconforming"
+
+            supplier_scores.append({
+                "supplier": supplier,
+                "mad": round(mad, 4),
+                "conformity": conformity,
+                "transaction_count": n,
+                "total_spend": round(sum(amounts), 2),
+            })
+
+        # Sort by MAD descending (worst first)
+        supplier_scores.sort(key=lambda x: -x["mad"])
+
+        # Summary stats
+        nonconforming = [s for s in supplier_scores if s["conformity"] == "nonconforming"]
+        marginal = [s for s in supplier_scores if s["conformity"] == "marginally_acceptable"]
+
+        results[council_id] = {
+            "suppliers_tested": len(supplier_scores),
+            "nonconforming": len(nonconforming),
+            "nonconforming_spend": round(sum(s["total_spend"] for s in nonconforming), 2),
+            "marginally_acceptable": len(marginal),
+            "top_20_outliers": supplier_scores[:20],
+        }
+
+        print(f"\n  {council_id.upper()} (per-supplier MAD): {len(supplier_scores)} suppliers tested")
+        print(f"    Nonconforming (MAD>0.015): {len(nonconforming)} suppliers ({fmt_gbp(results[council_id]['nonconforming_spend'])})")
+        if supplier_scores:
+            top = supplier_scores[0]
+            print(f"    Worst: {top['supplier'][:40]} MAD={top['mad']} ({top['transaction_count']} txns, {fmt_gbp(top['total_spend'])})")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 13: Forensic Accounting Classics
+# Same-Same-Different, Fictitious Vendor, Credits, Descriptions
+# References: ACFE Fraud Examiners Manual, Journal of Accountancy
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_same_same_different(all_spending):
+    """Classic forensic accounting 'same-same-different' testing.
+
+    Searches for payments matching on 2+ fields but differing on one:
+    - Same supplier + same amount + different date → potential re-billing
+    - Same supplier + same date + different department → cross-department double-billing
+    - Same amount + same date + different supplier → potential collusion
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) >= 1000]
+
+        # Test 1: Same supplier + same amount + different dates (re-billing)
+        rebilling = defaultdict(list)
+        for r in tx:
+            s = r.get("supplier_canonical", "") or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED"}:
+                continue
+            key = (s, r.get("amount", 0))
+            rebilling[key].append(r)
+
+        rebilling_flags = []
+        for (supplier, amount), recs in rebilling.items():
+            dates = set(r.get("date", "") for r in recs)
+            if len(dates) >= 3 and len(recs) >= 3:
+                rebilling_flags.append({
+                    "supplier": supplier,
+                    "amount": amount,
+                    "occurrences": len(recs),
+                    "unique_dates": len(dates),
+                    "total_value": round(amount * len(recs), 2),
+                    "departments": list(set(r.get("department", "") for r in recs))[:5],
+                })
+        rebilling_flags.sort(key=lambda x: -x["total_value"])
+
+        # Test 2: Same supplier + same date + different departments (cross-dept billing)
+        cross_dept = defaultdict(list)
+        for r in tx:
+            s = r.get("supplier_canonical", "") or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED"}:
+                continue
+            key = (s, r.get("date", ""))
+            cross_dept[key].append(r)
+
+        cross_dept_flags = []
+        for (supplier, date), recs in cross_dept.items():
+            depts = set(r.get("department", "") for r in recs if r.get("department"))
+            if len(depts) >= 2:
+                total = sum(r.get("amount", 0) for r in recs)
+                cross_dept_flags.append({
+                    "supplier": supplier,
+                    "date": date,
+                    "departments": list(depts),
+                    "payments": len(recs),
+                    "total_value": round(total, 2),
+                })
+        cross_dept_flags.sort(key=lambda x: -x["total_value"])
+
+        # Test 3: Same amount + same date + different suppliers (collusion indicator)
+        collusion = defaultdict(list)
+        for r in tx:
+            if r.get("amount", 0) >= 5000:  # Higher threshold for collusion
+                key = (r.get("amount", 0), r.get("date", ""))
+                collusion[key].append(r)
+
+        collusion_flags = []
+        for (amount, date), recs in collusion.items():
+            suppliers = set(r.get("supplier_canonical", "") for r in recs if r.get("supplier_canonical"))
+            if len(suppliers) >= 2:
+                collusion_flags.append({
+                    "amount": amount,
+                    "date": date,
+                    "suppliers": list(suppliers)[:10],
+                    "count": len(suppliers),
+                    "total_value": round(amount * len(recs), 2),
+                })
+        collusion_flags.sort(key=lambda x: -x["total_value"])
+
+        results[council_id] = {
+            "rebilling": {
+                "flags": rebilling_flags[:20],
+                "total_flags": len(rebilling_flags),
+                "total_value": round(sum(f["total_value"] for f in rebilling_flags), 2),
+            },
+            "cross_department": {
+                "flags": cross_dept_flags[:20],
+                "total_flags": len(cross_dept_flags),
+                "total_value": round(sum(f["total_value"] for f in cross_dept_flags), 2),
+            },
+            "collusion_indicators": {
+                "flags": collusion_flags[:20],
+                "total_flags": len(collusion_flags),
+                "total_value": round(sum(f["total_value"] for f in collusion_flags), 2),
+            },
+        }
+
+        print(f"\n  {council_id.upper()} (same-same-different):")
+        print(f"    Re-billing: {len(rebilling_flags)} flags ({fmt_gbp(results[council_id]['rebilling']['total_value'])})")
+        print(f"    Cross-dept: {len(cross_dept_flags)} flags ({fmt_gbp(results[council_id]['cross_department']['total_value'])})")
+        print(f"    Collusion:  {len(collusion_flags)} flags ({fmt_gbp(results[council_id]['collusion_indicators']['total_value'])})")
+
+    return results
+
+
+def analyse_vendor_integrity(all_spending):
+    """Fictitious/duplicate vendor detection.
+
+    Combines multiple forensic techniques:
+    - Fuzzy name matching (Levenshtein-like) to find duplicate vendor records
+    - Single-payment high-value vendors (one payment then disappear)
+    - Unverified high-spend vendors (no CH match + >£50K)
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0]
+
+        # Build supplier profile
+        supplier_profile = defaultdict(lambda: {
+            "total": 0, "count": 0, "first_date": None, "last_date": None,
+            "has_ch": False, "departments": set(), "amounts": []
+        })
+
+        for r in tx:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED", "VARIOUS", "SUNDRY"}:
+                continue
+            p = supplier_profile[s]
+            p["total"] += r.get("amount", 0)
+            p["count"] += 1
+            p["amounts"].append(r.get("amount", 0))
+            date = r.get("date", "")
+            if date:
+                if p["first_date"] is None or date < p["first_date"]:
+                    p["first_date"] = date
+                if p["last_date"] is None or date > p["last_date"]:
+                    p["last_date"] = date
+            if r.get("supplier_company_number"):
+                p["has_ch"] = True
+            dept = r.get("department", "")
+            if dept:
+                p["departments"].add(dept)
+
+        # Fuzzy name matching — find similar supplier names
+        names = sorted(supplier_profile.keys())
+        suspect_pairs = []
+
+        # Simplified fuzzy match: normalise and compare
+        def normalise(name):
+            """Strip common suffixes and normalise for comparison."""
+            n = name.upper().strip()
+            for suffix in [" LTD", " LIMITED", " PLC", " LLC", " INC", " UK", " GROUP", " SERVICES", " CONSULTING", " CONSULTANCY"]:
+                n = n.replace(suffix, "")
+            # Remove punctuation
+            n = ''.join(c for c in n if c.isalnum() or c == ' ')
+            return ' '.join(n.split())
+
+        normalised = {name: normalise(name) for name in names}
+        # Group by normalised name
+        norm_groups = defaultdict(list)
+        for name, norm in normalised.items():
+            if norm:
+                norm_groups[norm].append(name)
+
+        for norm, group in norm_groups.items():
+            if len(group) >= 2:
+                combined_spend = sum(supplier_profile[n]["total"] for n in group)
+                if combined_spend >= 5000:
+                    suspect_pairs.append({
+                        "names": group[:5],
+                        "normalised": norm,
+                        "combined_spend": round(combined_spend, 2),
+                        "combined_transactions": sum(supplier_profile[n]["count"] for n in group),
+                        "has_ch_match": any(supplier_profile[n]["has_ch"] for n in group),
+                    })
+
+        suspect_pairs.sort(key=lambda x: -x["combined_spend"])
+
+        # Single-payment high-value vendors
+        single_payment = []
+        for name, profile in supplier_profile.items():
+            if profile["count"] == 1 and profile["total"] >= 10000:
+                single_payment.append({
+                    "supplier": name,
+                    "amount": round(profile["total"], 2),
+                    "date": profile["first_date"],
+                    "has_ch": profile["has_ch"],
+                    "department": list(profile["departments"])[0] if profile["departments"] else "",
+                })
+        single_payment.sort(key=lambda x: -x["amount"])
+
+        # Unverified high-spend vendors (no CH match + high spend)
+        unverified = []
+        for name, profile in supplier_profile.items():
+            if not profile["has_ch"] and profile["total"] >= 50000:
+                unverified.append({
+                    "supplier": name,
+                    "total_spend": round(profile["total"], 2),
+                    "transactions": profile["count"],
+                    "departments": list(profile["departments"])[:5],
+                })
+        unverified.sort(key=lambda x: -x["total_spend"])
+
+        results[council_id] = {
+            "suspect_vendor_pairs": suspect_pairs[:20],
+            "total_suspect_pairs": len(suspect_pairs),
+            "single_payment_vendors": single_payment[:20],
+            "total_single_payment": len(single_payment),
+            "single_payment_value": round(sum(s["amount"] for s in single_payment), 2),
+            "unverified_high_spend": unverified[:20],
+            "total_unverified": len(unverified),
+            "unverified_spend": round(sum(u["total_spend"] for u in unverified), 2),
+        }
+
+        print(f"\n  {council_id.upper()} (vendor integrity):")
+        print(f"    Suspect name pairs: {len(suspect_pairs)} ({fmt_gbp(sum(p['combined_spend'] for p in suspect_pairs))})")
+        print(f"    Single-payment (>£10K): {len(single_payment)} ({fmt_gbp(results[council_id]['single_payment_value'])})")
+        print(f"    Unverified high-spend: {len(unverified)} ({fmt_gbp(results[council_id]['unverified_spend'])})")
+
+    return results
+
+
+def analyse_credit_patterns(all_spending):
+    """Credit/refund pattern analysis (ACFE fictitious vendor indicators).
+
+    Flags:
+    - Long-standing suppliers (2+ years) with ZERO credits (fictitious vendor indicator)
+    - Credits that exactly offset a prior payment (potential circular transaction)
+    - Unusual credit-to-debit ratios per supplier
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        # Separate credits and debits by supplier
+        supplier_txns = defaultdict(lambda: {"credits": [], "debits": [], "first_date": None, "last_date": None})
+
+        for r in records:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED", "VARIOUS", "SUNDRY"}:
+                continue
+            amt = r.get("amount", 0)
+            date = r.get("date", "")
+            p = supplier_txns[s]
+            if amt < 0:
+                p["credits"].append({"amount": amt, "date": date})
+            elif amt > 0:
+                p["debits"].append({"amount": amt, "date": date})
+
+            if date:
+                if p["first_date"] is None or date < p["first_date"]:
+                    p["first_date"] = date
+                if p["last_date"] is None or date > p["last_date"]:
+                    p["last_date"] = date
+
+        # Flag 1: Long-standing suppliers with zero credits
+        zero_credit_suppliers = []
+        for supplier, txns in supplier_txns.items():
+            if not txns["first_date"] or not txns["last_date"]:
+                continue
+            # Check if relationship spans 2+ years
+            try:
+                first = datetime.strptime(txns["first_date"][:10], "%Y-%m-%d")
+                last = datetime.strptime(txns["last_date"][:10], "%Y-%m-%d")
+                span_days = (last - first).days
+            except (ValueError, TypeError):
+                continue
+
+            if span_days >= 730 and len(txns["debits"]) >= 10 and len(txns["credits"]) == 0:
+                total_spend = sum(d["amount"] for d in txns["debits"])
+                zero_credit_suppliers.append({
+                    "supplier": supplier,
+                    "total_spend": round(total_spend, 2),
+                    "transactions": len(txns["debits"]),
+                    "relationship_days": span_days,
+                    "relationship_years": round(span_days / 365, 1),
+                })
+
+        zero_credit_suppliers.sort(key=lambda x: -x["total_spend"])
+
+        # Flag 2: Exact-offset credits (credit = -1 * prior debit)
+        exact_offsets = []
+        for supplier, txns in supplier_txns.items():
+            debit_amounts = set(round(d["amount"], 2) for d in txns["debits"])
+            for credit in txns["credits"]:
+                credit_abs = round(abs(credit["amount"]), 2)
+                if credit_abs in debit_amounts and credit_abs >= 1000:
+                    exact_offsets.append({
+                        "supplier": supplier,
+                        "amount": credit_abs,
+                        "credit_date": credit["date"],
+                    })
+        exact_offsets.sort(key=lambda x: -x["amount"])
+
+        # Overall credit statistics
+        total_credits = sum(len(t["credits"]) for t in supplier_txns.values())
+        total_debits = sum(len(t["debits"]) for t in supplier_txns.values())
+        suppliers_with_credits = sum(1 for t in supplier_txns.values() if t["credits"])
+
+        results[council_id] = {
+            "zero_credit_long_standing": zero_credit_suppliers[:20],
+            "total_zero_credit": len(zero_credit_suppliers),
+            "zero_credit_spend": round(sum(s["total_spend"] for s in zero_credit_suppliers), 2),
+            "exact_offset_credits": exact_offsets[:20],
+            "total_exact_offsets": len(exact_offsets),
+            "credit_stats": {
+                "total_credits": total_credits,
+                "total_debits": total_debits,
+                "credit_ratio": round(total_credits / total_debits * 100, 2) if total_debits > 0 else 0,
+                "suppliers_with_credits": suppliers_with_credits,
+                "suppliers_without_credits": len(supplier_txns) - suppliers_with_credits,
+            },
+        }
+
+        print(f"\n  {council_id.upper()} (credit patterns):")
+        print(f"    Zero-credit long-standing: {len(zero_credit_suppliers)} suppliers ({fmt_gbp(results[council_id]['zero_credit_spend'])})")
+        print(f"    Exact-offset credits: {len(exact_offsets)}")
+        print(f"    Credit ratio: {results[council_id]['credit_stats']['credit_ratio']}% ({total_credits} credits / {total_debits} debits)")
+
+    return results
+
+
+def analyse_description_quality(all_spending):
+    """Vague description detector — transparency and fraud risk indicator.
+
+    Flags uninformative descriptions: 'miscellaneous', 'various', 'sundries',
+    single-word, empty. Cross-references with spend to prioritise investigation.
+    ACFE: vague descriptions correlate strongly with fraud risk.
+    """
+    VAGUE_TERMS = {
+        "miscellaneous", "misc", "various", "sundries", "sundry", "payment",
+        "invoice", "services", "goods", "supplies", "general", "other",
+        "expenses", "costs", "charges", "fees", "items", "materials",
+        "provision", "contribution", "recharge", "transfer",
+    }
+
+    results = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0]
+        if not tx:
+            continue
+
+        dept_quality = defaultdict(lambda: {"total_tx": 0, "vague_tx": 0, "empty_tx": 0, "total_spend": 0, "vague_spend": 0})
+        total_vague = 0
+        total_empty = 0
+
+        for r in tx:
+            desc = (r.get("description", "") or "").strip()
+            dept = r.get("department", "") or "Unknown"
+            amt = r.get("amount", 0)
+            dq = dept_quality[dept]
+            dq["total_tx"] += 1
+            dq["total_spend"] += amt
+
+            is_vague = False
+            if not desc:
+                total_empty += 1
+                dq["empty_tx"] += 1
+                is_vague = True
+            elif len(desc.split()) <= 1:
+                # Single-word description
+                if desc.lower() in VAGUE_TERMS:
+                    is_vague = True
+            elif desc.lower() in VAGUE_TERMS or any(desc.lower().startswith(t) for t in VAGUE_TERMS):
+                is_vague = True
+
+            if is_vague:
+                total_vague += 1
+                dq["vague_tx"] += 1
+                dq["vague_spend"] += amt
+
+        # Calculate department-level transparency scores
+        dept_scores = []
+        for dept, dq in dept_quality.items():
+            vague_rate = dq["vague_tx"] / dq["total_tx"] * 100 if dq["total_tx"] > 0 else 0
+            dept_scores.append({
+                "department": dept,
+                "total_transactions": dq["total_tx"],
+                "vague_transactions": dq["vague_tx"],
+                "empty_descriptions": dq["empty_tx"],
+                "vague_rate": round(vague_rate, 1),
+                "total_spend": round(dq["total_spend"], 2),
+                "vague_spend": round(dq["vague_spend"], 2),
+            })
+
+        dept_scores.sort(key=lambda x: -x["vague_rate"])
+
+        # Priority investigation: high vague rate AND high spend
+        priority_depts = [d for d in dept_scores if d["vague_rate"] > 30 and d["vague_spend"] > 50000]
+
+        total_tx = len(tx)
+        overall_vague_rate = total_vague / total_tx * 100 if total_tx > 0 else 0
+        total_spend = sum(r.get("amount", 0) for r in tx)
+        vague_spend = sum(d["vague_spend"] for d in dept_scores)
+
+        results[council_id] = {
+            "total_transactions": total_tx,
+            "vague_transactions": total_vague,
+            "empty_descriptions": total_empty,
+            "vague_rate": round(overall_vague_rate, 1),
+            "total_spend": round(total_spend, 2),
+            "vague_spend": round(vague_spend, 2),
+            "transparency_score": round(100 - overall_vague_rate, 1),
+            "department_scores": dept_scores[:20],
+            "priority_investigation": priority_depts,
+        }
+
+        print(f"\n  {council_id.upper()} (description quality):")
+        print(f"    Vague: {total_vague}/{total_tx} ({overall_vague_rate:.1f}%) — {fmt_gbp(vague_spend)} affected")
+        print(f"    Empty: {total_empty}")
+        print(f"    Transparency score: {results[council_id]['transparency_score']}/100")
+        if priority_depts:
+            print(f"    Priority departments: {len(priority_depts)}")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 14: Supplier Risk Intelligence
+# Composite risk scoring, lifecycle analysis, shell indicators
+# References: Moody's KYC, APEX Analytix, Companies House PSC
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_supplier_risk(all_spending, compliance, concentration, benfords_supplier_mad, vendor_integrity, description_quality, credit_patterns):
+    """Composite supplier risk score (0-100) combining multiple dimensions.
+
+    Dimensions:
+    - CH Risk (0-25): Companies House flags, filing delays, strike-off
+    - Payment Risk (0-25): Benford MAD, round numbers, split payments, cadence
+    - Concentration Risk (0-25): department dependency, sole-source
+    - Transparency Risk (0-25): vague descriptions, missing CH match
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0]
+
+        # Build per-supplier profile
+        supplier_profile = defaultdict(lambda: {
+            "total": 0, "count": 0, "departments": set(), "has_ch": False,
+            "amounts": [], "dates": [],
+        })
+
+        for r in tx:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED", "VARIOUS", "SUNDRY"}:
+                continue
+            p = supplier_profile[s]
+            p["total"] += r.get("amount", 0)
+            p["count"] += 1
+            p["amounts"].append(r.get("amount", 0))
+            if r.get("date"):
+                p["dates"].append(r["date"])
+            if r.get("supplier_company_number"):
+                p["has_ch"] = True
+            dept = r.get("department", "")
+            if dept:
+                p["departments"].add(dept)
+
+        total_spend = sum(r.get("amount", 0) for r in tx)
+
+        # Get CH compliance flags for this council
+        ch_flags = {}
+        if council_id in compliance:
+            for fs in compliance[council_id].get("flagged_suppliers", []):
+                ch_flags[fs["supplier"]] = fs
+
+        # Get Benford MAD scores for this council
+        mad_scores = {}
+        if council_id in benfords_supplier_mad:
+            for s in benfords_supplier_mad[council_id].get("top_20_outliers", []):
+                mad_scores[s["supplier"]] = s["mad"]
+
+        # Score each supplier
+        scored_suppliers = []
+        for supplier, profile in supplier_profile.items():
+            if profile["count"] < 3:
+                continue
+
+            # Dimension 1: CH Risk (0-25)
+            ch_risk = 0
+            if supplier in ch_flags:
+                flag = ch_flags[supplier]
+                severity = flag.get("max_severity", "")
+                if severity == "critical":
+                    ch_risk = 25
+                elif severity == "high":
+                    ch_risk = 20
+                elif severity == "medium":
+                    ch_risk = 12
+                else:
+                    ch_risk = 6
+            elif not profile["has_ch"]:
+                ch_risk = 8  # No CH match = moderate risk
+
+            # Dimension 2: Payment Risk (0-25)
+            payment_risk = 0
+            # Benford MAD
+            mad = mad_scores.get(supplier, 0)
+            if mad > 0.015:
+                payment_risk += 10
+            elif mad > 0.012:
+                payment_risk += 6
+            elif mad > 0.006:
+                payment_risk += 2
+            # Round numbers
+            round_count = sum(1 for a in profile["amounts"] if a >= 5000 and a == int(a) and int(a) % 1000 == 0)
+            round_pct = round_count / profile["count"] * 100 if profile["count"] > 0 else 0
+            if round_pct > 50:
+                payment_risk += 8
+            elif round_pct > 25:
+                payment_risk += 4
+            # Single large payment dominance
+            if profile["amounts"]:
+                max_amt = max(profile["amounts"])
+                if max_amt / profile["total"] > 0.5 and profile["count"] > 5:
+                    payment_risk += 7
+
+            payment_risk = min(25, payment_risk)
+
+            # Dimension 3: Concentration Risk (0-25)
+            concentration_risk = 0
+            spend_pct = (profile["total"] / total_spend * 100) if total_spend > 0 else 0
+            if spend_pct > 10:
+                concentration_risk += 15
+            elif spend_pct > 5:
+                concentration_risk += 10
+            elif spend_pct > 2:
+                concentration_risk += 5
+            # Single-department dependency
+            if len(profile["departments"]) == 1 and profile["count"] >= 10:
+                concentration_risk += 10
+
+            concentration_risk = min(25, concentration_risk)
+
+            # Dimension 4: Transparency Risk (0-25)
+            transparency_risk = 0
+            if not profile["has_ch"]:
+                transparency_risk += 12
+            # Check description quality (if available)
+            if council_id in description_quality:
+                dq = description_quality[council_id]
+                if dq.get("vague_rate", 0) > 50:
+                    transparency_risk += 8
+            # Single payment vendor
+            if profile["count"] == 1 and profile["total"] >= 10000:
+                transparency_risk += 10
+
+            transparency_risk = min(25, transparency_risk)
+
+            # Overall score
+            total_risk = ch_risk + payment_risk + concentration_risk + transparency_risk
+
+            if total_risk > 0:  # Only include suppliers with some risk
+                scored_suppliers.append({
+                    "supplier": supplier,
+                    "risk_score": total_risk,
+                    "ch_risk": ch_risk,
+                    "payment_risk": payment_risk,
+                    "concentration_risk": concentration_risk,
+                    "transparency_risk": transparency_risk,
+                    "total_spend": round(profile["total"], 2),
+                    "transactions": profile["count"],
+                    "departments": len(profile["departments"]),
+                    "has_ch": profile["has_ch"],
+                    "risk_level": "high" if total_risk >= 60 else "elevated" if total_risk >= 40 else "medium" if total_risk >= 20 else "low",
+                })
+
+        scored_suppliers.sort(key=lambda x: -x["risk_score"])
+
+        # Summary
+        high_risk = [s for s in scored_suppliers if s["risk_level"] == "high"]
+        elevated = [s for s in scored_suppliers if s["risk_level"] == "elevated"]
+
+        results[council_id] = {
+            "total_suppliers_scored": len(scored_suppliers),
+            "high_risk": len(high_risk),
+            "high_risk_spend": round(sum(s["total_spend"] for s in high_risk), 2),
+            "elevated_risk": len(elevated),
+            "elevated_risk_spend": round(sum(s["total_spend"] for s in elevated), 2),
+            "top_20_risk": scored_suppliers[:20],
+            "risk_distribution": {
+                "high": len(high_risk),
+                "elevated": len(elevated),
+                "medium": len([s for s in scored_suppliers if s["risk_level"] == "medium"]),
+                "low": len([s for s in scored_suppliers if s["risk_level"] == "low"]),
+            },
+        }
+
+        print(f"\n  {council_id.upper()} (supplier risk): {len(scored_suppliers)} scored")
+        print(f"    High risk: {len(high_risk)} ({fmt_gbp(results[council_id]['high_risk_spend'])})")
+        print(f"    Elevated:  {len(elevated)} ({fmt_gbp(results[council_id]['elevated_risk_spend'])})")
+        if scored_suppliers:
+            top = scored_suppliers[0]
+            print(f"    Top risk: {top['supplier'][:40]} (score {top['risk_score']}/100, {fmt_gbp(top['total_spend'])})")
+
+    return results
+
+
+def analyse_supplier_lifecycle(all_spending):
+    """Supplier lifespan analysis — pump-and-dump, phoenix, escalation detection.
+
+    Flags:
+    - Pump-and-dump: <6 months active, >£50K spend, then disappear
+    - Dependency escalation: spend share increases >50% year-on-year
+    """
+    results = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0 and r.get("date")]
+
+        supplier_timeline = defaultdict(lambda: {"dates": [], "amounts": [], "yearly_spend": defaultdict(float)})
+
+        for r in tx:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED", "VARIOUS", "SUNDRY"}:
+                continue
+            st = supplier_timeline[s]
+            st["dates"].append(r["date"])
+            st["amounts"].append(r["amount"])
+            fy = r.get("financial_year", "")
+            if fy:
+                st["yearly_spend"][fy] += r["amount"]
+
+        # Detect pump-and-dump
+        pump_dump = []
+        # Get the overall last date across all records for this council
+        all_dates = [r.get("date", "") for r in tx if r.get("date")]
+        council_last_date = max(all_dates) if all_dates else ""
+
+        for supplier, st in supplier_timeline.items():
+            if not st["dates"]:
+                continue
+            first = min(st["dates"])
+            last = max(st["dates"])
+            total = sum(st["amounts"])
+
+            try:
+                first_dt = datetime.strptime(first[:10], "%Y-%m-%d")
+                last_dt = datetime.strptime(last[:10], "%Y-%m-%d")
+                span_days = (last_dt - first_dt).days
+            except (ValueError, TypeError):
+                continue
+
+            # Pump-and-dump: active <6 months, spent >£50K, last payment >6 months before council's latest data
+            if span_days <= 180 and total >= 50000:
+                if council_last_date:
+                    try:
+                        council_end = datetime.strptime(council_last_date[:10], "%Y-%m-%d")
+                        gap = (council_end - last_dt).days
+                        if gap > 180:
+                            pump_dump.append({
+                                "supplier": supplier,
+                                "total_spend": round(total, 2),
+                                "transactions": len(st["amounts"]),
+                                "first_payment": first,
+                                "last_payment": last,
+                                "active_days": span_days,
+                                "gap_since_last": gap,
+                            })
+                    except (ValueError, TypeError):
+                        pass
+
+        pump_dump.sort(key=lambda x: -x["total_spend"])
+
+        # Detect dependency escalation (spend share increasing >50% YoY)
+        escalations = []
+        # Get total spend per year
+        yearly_totals = defaultdict(float)
+        for r in tx:
+            fy = r.get("financial_year", "")
+            if fy:
+                yearly_totals[fy] += r["amount"]
+
+        years = sorted(yearly_totals.keys())
+        if len(years) >= 2:
+            for supplier, st in supplier_timeline.items():
+                if len(st["yearly_spend"]) < 2:
+                    continue
+                for i in range(1, len(years)):
+                    prev_yr = years[i - 1]
+                    curr_yr = years[i]
+                    prev_share = (st["yearly_spend"].get(prev_yr, 0) / yearly_totals[prev_yr] * 100) if yearly_totals.get(prev_yr, 0) > 0 else 0
+                    curr_share = (st["yearly_spend"].get(curr_yr, 0) / yearly_totals[curr_yr] * 100) if yearly_totals.get(curr_yr, 0) > 0 else 0
+
+                    if prev_share > 0.5 and curr_share > prev_share * 1.5:
+                        escalations.append({
+                            "supplier": supplier,
+                            "year": curr_yr,
+                            "previous_share": round(prev_share, 2),
+                            "current_share": round(curr_share, 2),
+                            "increase_pct": round((curr_share - prev_share) / prev_share * 100, 1),
+                            "current_spend": round(st["yearly_spend"].get(curr_yr, 0), 2),
+                        })
+
+        escalations.sort(key=lambda x: -x["increase_pct"])
+
+        results[council_id] = {
+            "pump_dump": pump_dump[:20],
+            "total_pump_dump": len(pump_dump),
+            "pump_dump_spend": round(sum(p["total_spend"] for p in pump_dump), 2),
+            "escalations": escalations[:20],
+            "total_escalations": len(escalations),
+        }
+
+        print(f"\n  {council_id.upper()} (supplier lifecycle):")
+        print(f"    Pump-and-dump: {len(pump_dump)} ({fmt_gbp(results[council_id]['pump_dump_spend'])})")
+        print(f"    Dependency escalations: {len(escalations)}")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 15: Temporal & Statistical Intelligence
+# Year-end acceleration, change-point detection, SPC, trend degradation
+# References: INTOSAI ISSAI 3000, NAO VFM methodology
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_temporal_intelligence(all_spending):
+    """Temporal intelligence: year-end acceleration, change-points, SPC, degradation.
+
+    Combines multiple time-series techniques into a single output.
+    """
+    import math
+
+    results = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0 and r.get("date")]
+
+        # ── Year-End Acceleration Index ──
+        # (last 30 days of FY spend) / (average 30-day spend)
+        fy_monthly = defaultdict(lambda: defaultdict(float))
+        fy_march = defaultdict(float)
+        for r in tx:
+            fy = r.get("financial_year", "")
+            month = r.get("month", 0)
+            dept = r.get("department", "") or "Unknown"
+            if fy and month:
+                fy_monthly[fy][month] += r["amount"]
+                if month == 3:  # March = year-end
+                    fy_march[fy] += r["amount"]
+
+        acceleration = []
+        for fy in sorted(fy_monthly.keys()):
+            months = fy_monthly[fy]
+            if len(months) < 6:
+                continue
+            total_spend = sum(months.values())
+            avg_monthly = total_spend / len(months)
+            march_spend = fy_march.get(fy, 0)
+            if avg_monthly > 0:
+                index = march_spend / avg_monthly
+                acceleration.append({
+                    "financial_year": fy,
+                    "march_spend": round(march_spend, 2),
+                    "avg_monthly": round(avg_monthly, 2),
+                    "acceleration_index": round(index, 2),
+                    "flag": index > 2.0,
+                })
+
+        # ── Per-Dept Year-End Acceleration ──
+        dept_fy_spend = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
+        for r in tx:
+            fy = r.get("financial_year", "")
+            month = r.get("month", 0)
+            dept = r.get("department", "") or "Unknown"
+            if fy and month:
+                dept_fy_spend[dept][fy][month] += r["amount"]
+
+        dept_acceleration = []
+        for dept, fy_data in dept_fy_spend.items():
+            for fy, months in fy_data.items():
+                if len(months) < 6:
+                    continue
+                total = sum(months.values())
+                avg = total / len(months)
+                march = months.get(3, 0)
+                if avg > 0 and march > 0:
+                    idx = march / avg
+                    if idx > 2.0:
+                        dept_acceleration.append({
+                            "department": dept,
+                            "financial_year": fy,
+                            "acceleration_index": round(idx, 2),
+                            "march_spend": round(march, 2),
+                        })
+        dept_acceleration.sort(key=lambda x: -x["acceleration_index"])
+
+        # ── Change-Point Detection (simplified CUSUM) ──
+        # For top 20 suppliers: detect largest monthly spending shifts
+        supplier_monthly = defaultdict(lambda: defaultdict(float))
+        supplier_totals = defaultdict(float)
+        for r in tx:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            if not s or s.upper() in {"UNKNOWN", "NAME WITHHELD", "REDACTED"}:
+                continue
+            year_month = r.get("date", "")[:7]
+            if year_month:
+                supplier_monthly[s][year_month] += r["amount"]
+                supplier_totals[s] += r["amount"]
+
+        top_suppliers = sorted(supplier_totals.keys(), key=lambda s: -supplier_totals[s])[:50]
+        change_points = []
+
+        for supplier in top_suppliers:
+            months_data = supplier_monthly[supplier]
+            if len(months_data) < 12:
+                continue
+
+            sorted_months = sorted(months_data.keys())
+            values = [months_data[m] for m in sorted_months]
+            mean_val = sum(values) / len(values)
+
+            if mean_val == 0:
+                continue
+
+            # CUSUM: cumulative sum of deviations
+            cusum = []
+            running = 0
+            max_shift = 0
+            max_shift_month = ""
+            for i, (m, v) in enumerate(zip(sorted_months, values)):
+                running += (v - mean_val)
+                cusum.append(running)
+                if i > 0:
+                    shift = abs(cusum[i] - cusum[i - 1])
+                    if shift > max_shift:
+                        max_shift = shift
+                        max_shift_month = m
+
+            # Only flag significant change-points (>3x mean monthly)
+            if max_shift > mean_val * 3:
+                change_points.append({
+                    "supplier": supplier,
+                    "change_month": max_shift_month,
+                    "shift_magnitude": round(max_shift, 2),
+                    "mean_monthly": round(mean_val, 2),
+                    "shift_ratio": round(max_shift / mean_val, 1),
+                    "total_spend": round(supplier_totals[supplier], 2),
+                })
+
+        change_points.sort(key=lambda x: -x["shift_ratio"])
+
+        # ── SPC Control Charts (top 10 suppliers) ──
+        spc_charts = []
+        for supplier in top_suppliers[:10]:
+            months_data = supplier_monthly[supplier]
+            if len(months_data) < 6:
+                continue
+
+            sorted_months = sorted(months_data.keys())
+            values = [months_data[m] for m in sorted_months]
+            n = len(values)
+            mean_val = sum(values) / n
+            variance = sum((v - mean_val) ** 2 for v in values) / (n - 1) if n > 1 else 0
+            std_dev = math.sqrt(variance)
+
+            if std_dev == 0:
+                continue
+
+            ucl_2 = mean_val + 2 * std_dev
+            ucl_3 = mean_val + 3 * std_dev
+            out_of_control = []
+
+            monthly_data = []
+            for m, v in zip(sorted_months, values):
+                entry = {"month": m, "value": round(v, 2)}
+                if v > ucl_3:
+                    entry["flag"] = "action"
+                    out_of_control.append(m)
+                elif v > ucl_2:
+                    entry["flag"] = "warning"
+                monthly_data.append(entry)
+
+            spc_charts.append({
+                "supplier": supplier,
+                "mean": round(mean_val, 2),
+                "std_dev": round(std_dev, 2),
+                "ucl_2sigma": round(ucl_2, 2),
+                "ucl_3sigma": round(ucl_3, 2),
+                "months": len(monthly_data),
+                "out_of_control": len(out_of_control),
+                "monthly_data": monthly_data,
+            })
+
+        results[council_id] = {
+            "year_end_acceleration": acceleration,
+            "dept_acceleration": dept_acceleration[:20],
+            "change_points": change_points[:20],
+            "total_change_points": len(change_points),
+            "spc_charts": spc_charts,
+        }
+
+        print(f"\n  {council_id.upper()} (temporal intelligence):")
+        if acceleration:
+            latest = acceleration[-1]
+            print(f"    Latest year-end acceleration: {latest['acceleration_index']}x ({latest['financial_year']})")
+        print(f"    Dept year-end flags (>2x): {len(dept_acceleration)}")
+        print(f"    Change-points detected: {len(change_points)}")
+        print(f"    SPC charts: {len(spc_charts)} suppliers")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 16: Procurement & Contract Intelligence
+# Maverick spend, price escalation, enhanced contract splitting
+# References: Deloitte Procurement Analytics, CIPS
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_procurement_intelligence(all_spending, councils):
+    """Procurement intelligence: maverick spend, price escalation, contract splitting."""
+    results = {}
+    for council_id in councils:
+        records = all_spending.get(council_id, [])
+        tx = [r for r in records if r.get("amount", 0) > 0]
+        if not tx:
+            continue
+
+        # Load procurement data
+        proc_path = DATA_DIR / council_id / "procurement.json"
+        procurement = []
+        if proc_path.exists():
+            try:
+                with open(proc_path) as f:
+                    procurement = json.load(f)
+                if isinstance(procurement, dict):
+                    procurement = procurement.get("contracts", [])
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+        # ── Maverick Spend Detection ──
+        # Cross-reference spending suppliers against procurement contract holders
+        contract_suppliers = set()
+        for c in procurement:
+            supplier = (c.get("supplier", "") or "").upper().strip()
+            if supplier:
+                contract_suppliers.add(supplier)
+
+        dept_maverick = defaultdict(lambda: {"total": 0, "maverick": 0, "maverick_suppliers": set()})
+        for r in tx:
+            s = (r.get("supplier_canonical", r.get("supplier", "")) or "").upper().strip()
+            dept = r.get("department", "") or "Unknown"
+            amt = r.get("amount", 0)
+            dept_maverick[dept]["total"] += amt
+            if s and s not in contract_suppliers and contract_suppliers:
+                dept_maverick[dept]["maverick"] += amt
+                dept_maverick[dept]["maverick_suppliers"].add(s)
+
+        maverick_depts = []
+        for dept, data in dept_maverick.items():
+            if data["total"] > 0:
+                pct = data["maverick"] / data["total"] * 100
+                maverick_depts.append({
+                    "department": dept,
+                    "total_spend": round(data["total"], 2),
+                    "maverick_spend": round(data["maverick"], 2),
+                    "maverick_pct": round(pct, 1),
+                    "maverick_suppliers": len(data["maverick_suppliers"]),
+                })
+        maverick_depts.sort(key=lambda x: -x["maverick_pct"])
+
+        total_spend = sum(r.get("amount", 0) for r in tx)
+        total_maverick = sum(d["maverick_spend"] for d in maverick_depts)
+        overall_maverick_pct = (total_maverick / total_spend * 100) if total_spend > 0 else 0
+
+        # ── Contract Price Escalation ──
+        # Track average payment size per supplier year-on-year
+        supplier_yearly = defaultdict(lambda: defaultdict(list))
+        for r in tx:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            fy = r.get("financial_year", "")
+            if s and fy:
+                supplier_yearly[s][fy].append(r["amount"])
+
+        escalation_alerts = []
+        for supplier, yearly in supplier_yearly.items():
+            years = sorted(yearly.keys())
+            if len(years) < 3:
+                continue
+
+            # Calculate average payment size per year
+            year_avgs = []
+            for yr in years:
+                amts = yearly[yr]
+                year_avgs.append({
+                    "year": yr,
+                    "avg": sum(amts) / len(amts),
+                    "count": len(amts),
+                    "total": sum(amts),
+                })
+
+            # Check for consistent real-terms escalation
+            if len(year_avgs) >= 2:
+                first_avg = year_avgs[0]["avg"]
+                last_avg = year_avgs[-1]["avg"]
+                if first_avg > 0:
+                    nominal_growth = ((last_avg - first_avg) / first_avg) * 100
+                    # Simple inflation adjustment (~3% per year compounded)
+                    years_span = len(year_avgs) - 1
+                    inflation_adj = (1.03 ** years_span - 1) * 100
+                    real_growth = nominal_growth - inflation_adj
+
+                    if real_growth > 20 and last_avg > 1000:
+                        escalation_alerts.append({
+                            "supplier": supplier,
+                            "first_year": years[0],
+                            "last_year": years[-1],
+                            "first_avg": round(first_avg, 2),
+                            "last_avg": round(last_avg, 2),
+                            "nominal_growth_pct": round(nominal_growth, 1),
+                            "real_growth_pct": round(real_growth, 1),
+                            "total_spend": round(sum(ya["total"] for ya in year_avgs), 2),
+                        })
+
+        escalation_alerts.sort(key=lambda x: -x["real_growth_pct"])
+
+        # ── Enhanced Contract Splitting (Cross-Department) ──
+        # Same supplier, payments across multiple depts, combined exceeding thresholds
+        supplier_dept_spend = defaultdict(lambda: defaultdict(float))
+        for r in tx:
+            s = r.get("supplier_canonical", r.get("supplier", "")) or ""
+            dept = r.get("department", "") or "Unknown"
+            fy = r.get("financial_year", "")
+            if s and fy:
+                key = (s, fy)
+                supplier_dept_spend[key][dept] += r.get("amount", 0)
+
+        cross_dept_splits = []
+        thresholds = [30000, 138760, 500000]
+        for (supplier, fy), depts in supplier_dept_spend.items():
+            if len(depts) < 2:
+                continue
+            combined = sum(depts.values())
+            individual_max = max(depts.values())
+            for threshold in thresholds:
+                if combined >= threshold and individual_max < threshold:
+                    cross_dept_splits.append({
+                        "supplier": supplier,
+                        "financial_year": fy,
+                        "combined_spend": round(combined, 2),
+                        "threshold_exceeded": threshold,
+                        "departments": len(depts),
+                        "max_single_dept": round(individual_max, 2),
+                        "dept_breakdown": {d: round(v, 2) for d, v in sorted(depts.items(), key=lambda x: -x[1])},
+                    })
+                    break  # Only flag at highest threshold
+        cross_dept_splits.sort(key=lambda x: -x["combined_spend"])
+
+        results[council_id] = {
+            "maverick_spend": {
+                "has_procurement_data": len(procurement) > 0,
+                "overall_maverick_pct": round(overall_maverick_pct, 1),
+                "total_maverick_spend": round(total_maverick, 2),
+                "department_breakdown": maverick_depts[:15],
+            },
+            "price_escalation": {
+                "alerts": escalation_alerts[:20],
+                "total_alerts": len(escalation_alerts),
+            },
+            "cross_dept_splitting": {
+                "flags": cross_dept_splits[:20],
+                "total_flags": len(cross_dept_splits),
+                "total_value": round(sum(f["combined_spend"] for f in cross_dept_splits), 2),
+            },
+        }
+
+        print(f"\n  {council_id.upper()} (procurement intelligence):")
+        print(f"    Maverick spend: {overall_maverick_pct:.1f}% ({fmt_gbp(total_maverick)})")
+        print(f"    Price escalation alerts: {len(escalation_alerts)}")
+        print(f"    Cross-dept splits: {len(cross_dept_splits)} ({fmt_gbp(results[council_id]['cross_dept_splitting']['total_value'])})")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# ANALYSIS 17: Audit Standards & Materiality
+# INTOSAI materiality, ACFE risk matrix, enhanced peer benchmarking
+# References: INTOSAI ISSAI 3000, ACFE RTTN 2024, CIPFA
+# ═══════════════════════════════════════════════════════════════════════
+
+def analyse_audit_standards(all_spending, all_budgets, fraud_triangles, duplicates, compliance, vendor_integrity, concentration, benfords):
+    """Audit standards: materiality flagging, ACFE risk matrix, peer benchmarks."""
+    results = {}
+
+    # Collect all-council metrics for peer benchmarking
+    council_metrics = {}
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0]
+        total_spend = sum(r.get("amount", 0) for r in tx)
+        council_metrics[council_id] = {"total_spend": total_spend, "tx_count": len(tx)}
+
+    for council_id, records in all_spending.items():
+        tx = [r for r in records if r.get("amount", 0) > 0]
+        total_spend = sum(r.get("amount", 0) for r in tx)
+
+        # ── INTOSAI Materiality Threshold ──
+        # Standard: 1% of total expenditure (can range 0.5-2%)
+        materiality = total_spend * 0.01
+        planning_materiality = total_spend * 0.005  # More conservative for planning
+
+        # ── ACFE Occupational Fraud Risk Matrix ──
+        # Map findings to 3 ACFE categories
+        asset_misappropriation = 0  # Duplicate payments, fictitious vendors, credits
+        corruption = 0  # Supplier concentration, sole-source, threshold avoidance
+        financial_statement = 0  # Budget variance, year-end spikes, reserve issues
+
+        # Asset misappropriation signals
+        if council_id in duplicates:
+            dup = duplicates[council_id]
+            if dup.get("high_confidence", 0) > 0:
+                asset_misappropriation += 25
+            if dup.get("medium_confidence", 0) > 5:
+                asset_misappropriation += 15
+        if council_id in vendor_integrity:
+            vi = vendor_integrity[council_id]
+            if vi.get("total_suspect_pairs", 0) > 5:
+                asset_misappropriation += 20
+            if vi.get("total_single_payment", 0) > 10:
+                asset_misappropriation += 15
+            if vi.get("total_unverified", 0) > 5:
+                asset_misappropriation += 10
+
+        # Corruption signals
+        if council_id in concentration:
+            conc = concentration[council_id]
+            hhi = conc.get("hhi", 0)
+            if hhi > 2500:
+                corruption += 30
+            elif hhi > 1500:
+                corruption += 15
+        if council_id in compliance:
+            comp = compliance[council_id]
+            if comp.get("confirmed_during_breach", {}).get("suppliers", 0) > 0:
+                corruption += 25
+
+        # Financial statement signals
+        if council_id in fraud_triangles:
+            ft = fraud_triangles[council_id]
+            pressure = ft.get("dimensions", {}).get("pressure", {}).get("score", 0)
+            if pressure > 50:
+                financial_statement += 30
+            elif pressure > 30:
+                financial_statement += 15
+
+        # Cap at 100
+        asset_misappropriation = min(100, asset_misappropriation)
+        corruption = min(100, corruption)
+        financial_statement = min(100, financial_statement)
+
+        acfe_matrix = {
+            "asset_misappropriation": asset_misappropriation,
+            "corruption": corruption,
+            "financial_statement": financial_statement,
+            "overall": round((asset_misappropriation + corruption + financial_statement) / 3, 1),
+        }
+
+        # ── Peer Benchmarking (enhanced) ──
+        # Compare against councils of same tier
+        # Detect tier from record count / spend level
+        peer_ids = [c for c in council_metrics.keys() if c != council_id]
+        peer_spends = [council_metrics[c]["total_spend"] for c in peer_ids]
+
+        fraud_scores = {c: fraud_triangles.get(c, {}).get("overall_score", 0) for c in all_spending.keys()}
+        peer_fraud = [fraud_scores[c] for c in peer_ids if fraud_scores.get(c, 0) > 0]
+        own_fraud = fraud_scores.get(council_id, 0)
+
+        # Rank
+        if peer_fraud and own_fraud > 0:
+            all_scores = sorted(peer_fraud + [own_fraud])
+            rank = all_scores.index(own_fraud) + 1
+            percentile = round(rank / len(all_scores) * 100, 1)
+        else:
+            rank = 0
+            percentile = 0
+
+        results[council_id] = {
+            "materiality": {
+                "threshold": round(materiality, 2),
+                "planning_materiality": round(planning_materiality, 2),
+                "total_expenditure": round(total_spend, 2),
+                "threshold_pct": 1.0,
+            },
+            "acfe_risk_matrix": acfe_matrix,
+            "peer_benchmark": {
+                "fraud_triangle_rank": rank,
+                "fraud_triangle_percentile": percentile,
+                "total_councils": len(all_spending),
+                "own_score": own_fraud,
+            },
+        }
+
+        print(f"\n  {council_id.upper()} (audit standards):")
+        print(f"    Materiality: {fmt_gbp(materiality)} (1% of {fmt_gbp(total_spend)})")
+        print(f"    ACFE: Asset={asset_misappropriation}, Corruption={corruption}, FinStmt={financial_statement}")
+        print(f"    Peer rank: {rank}/{len(all_spending)} (percentile: {percentile}%)")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # ANALYSIS 6: Self-Verification Engine
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -3054,6 +4645,100 @@ def main():
             if ft:
                 fraud_triangles[c] = ft
 
+    # ═══════════════════════════════════════════════════════════════
+    # ADVANCED FORENSIC ANALYSES (Phases 12-17)
+    # ═══════════════════════════════════════════════════════════════
+
+    # ── Advanced Benford's Suite ──
+    benfords_first_two = {}
+    benfords_last_two = {}
+    benfords_summation = {}
+    benfords_supplier_mad = {}
+    if True:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 12a: Benford's First-Two Digits Test")
+        print("=" * 60)
+        benfords_first_two = analyse_benfords_first_two_digits(all_spending)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 12b: Benford's Last-Two Digits Test")
+        print("=" * 60)
+        benfords_last_two = analyse_benfords_last_two_digits(all_spending)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 12c: Benford's Summation Test")
+        print("=" * 60)
+        benfords_summation = analyse_benfords_summation(all_spending)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 12d: Per-Supplier Benford's MAD")
+        print("=" * 60)
+        benfords_supplier_mad = analyse_benfords_per_supplier_mad(all_spending)
+
+    # ── Forensic Accounting Classics ──
+    same_same_different = {}
+    vendor_integrity = {}
+    credit_patterns = {}
+    description_quality = {}
+    if True:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 13a: Same-Same-Different Testing")
+        print("=" * 60)
+        same_same_different = analyse_same_same_different(all_spending)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 13b: Vendor Integrity (Fictitious Vendor Detection)")
+        print("=" * 60)
+        vendor_integrity = analyse_vendor_integrity(all_spending)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 13c: Credit/Refund Pattern Analysis")
+        print("=" * 60)
+        credit_patterns = analyse_credit_patterns(all_spending)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 13d: Description Quality & Transparency")
+        print("=" * 60)
+        description_quality = analyse_description_quality(all_spending)
+
+    # ── Supplier Risk Intelligence ──
+    supplier_risk = {}
+    supplier_lifecycle = {}
+    if True:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 14a: Composite Supplier Risk Score")
+        print("=" * 60)
+        supplier_risk = analyse_supplier_risk(all_spending, compliance, concentration, benfords_supplier_mad, vendor_integrity, description_quality, credit_patterns)
+
+        print("\n" + "=" * 60)
+        print("ANALYSIS 14b: Supplier Lifecycle Analysis")
+        print("=" * 60)
+        supplier_lifecycle = analyse_supplier_lifecycle(all_spending)
+
+    # ── Temporal Intelligence ──
+    temporal = {}
+    if True:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 15: Temporal & Statistical Intelligence")
+        print("=" * 60)
+        temporal = analyse_temporal_intelligence(all_spending)
+
+    # ── Procurement Intelligence ──
+    procurement_intel = {}
+    if True:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 16: Procurement & Contract Intelligence")
+        print("=" * 60)
+        procurement_intel = analyse_procurement_intelligence(all_spending, councils)
+
+    # ── Audit Standards ──
+    audit_standards = {}
+    if True:
+        print("\n" + "=" * 60)
+        print("ANALYSIS 17: Audit Standards & Materiality")
+        print("=" * 60)
+        audit_standards = analyse_audit_standards(all_spending, all_budgets, fraud_triangles, duplicates, compliance, vendor_integrity, concentration, benfords)
+
     # Generate output files
     if args.output or True:  # Always output for now
         print("\n" + "=" * 60)
@@ -3062,9 +4747,38 @@ def main():
 
         for c in councils:
             findings = generate_doge_findings(c, duplicates, cross_council, patterns, compliance, benfords, concentration, procurement_compliance, fraud_triangles.get(c), budget_variance, budget_efficiency, contract_crossref, benfords_2nd)
+
+            # Attach advanced analysis results directly to findings JSON
+            findings["benfords_advanced"] = {
+                "first_two_digits": benfords_first_two.get(c, {}),
+                "last_two_digits": benfords_last_two.get(c, {}),
+                "summation": benfords_summation.get(c, {}),
+                "per_supplier_mad": benfords_supplier_mad.get(c, {}),
+            }
+            findings["forensic_classics"] = {
+                "same_same_different": same_same_different.get(c, {}),
+                "vendor_integrity": vendor_integrity.get(c, {}),
+                "credit_patterns": credit_patterns.get(c, {}),
+                "description_quality": description_quality.get(c, {}),
+            }
+            findings["supplier_risk"] = supplier_risk.get(c, {})
+            findings["supplier_lifecycle"] = supplier_lifecycle.get(c, {})
+            findings["temporal_intelligence"] = temporal.get(c, {})
+            findings["procurement_intelligence"] = procurement_intel.get(c, {})
+            findings["audit_standards"] = audit_standards.get(c, {})
+
+            # Add technique count to findings
+            findings["technique_count"] = 35
+            findings["analyses_run"] = findings.get("analyses_run", []) + [
+                "benfords_first_two_digits", "benfords_last_two_digits", "benfords_summation",
+                "benfords_per_supplier_mad", "same_same_different", "vendor_integrity",
+                "credit_patterns", "description_quality", "supplier_risk", "supplier_lifecycle",
+                "temporal_intelligence", "procurement_intelligence", "audit_standards",
+            ]
+
             output_path = DATA_DIR / c / "doge_findings.json"
             with open(output_path, "w") as f:
-                json.dump(findings, f, indent=2)
+                json.dump(findings, f, indent=2, default=str)
             print(f"  {c}: {len(findings['findings'])} findings, {len(findings['key_findings'])} key findings → {output_path}")
 
         # Run self-verification on each council
@@ -3101,6 +4815,19 @@ def main():
             "compliance": compliance,
             "benfords_law": benfords,
             "benfords_second_digit": benfords_2nd,
+            "benfords_first_two_digits": benfords_first_two,
+            "benfords_last_two_digits": benfords_last_two,
+            "benfords_summation": benfords_summation,
+            "benfords_supplier_mad": benfords_supplier_mad,
+            "same_same_different": same_same_different,
+            "vendor_integrity": vendor_integrity,
+            "credit_patterns": credit_patterns,
+            "description_quality": description_quality,
+            "supplier_risk": supplier_risk,
+            "supplier_lifecycle": supplier_lifecycle,
+            "temporal_intelligence": temporal,
+            "procurement_intelligence": procurement_intel,
+            "audit_standards": audit_standards,
             "supplier_concentration": concentration,
             "procurement_compliance": procurement_compliance,
             "fraud_triangles": fraud_triangles,
@@ -3115,7 +4842,7 @@ def main():
         print(f"\n  Full results → {results_path}")
 
     print("\n" + "=" * 60)
-    print("DOGE Analysis Complete")
+    print(f"DOGE Analysis Complete — 35 techniques across {len(councils)} councils")
     print("=" * 60)
 
 

@@ -1067,6 +1067,680 @@ function DogeInvestigation() {
         </ExpandableSection>
       )}
 
+      {/* ═══ ADVANCED FORENSIC ANALYSIS SECTIONS ═══ */}
+
+      {/* Supplier Risk Intelligence */}
+      {dogeFindings.supplier_risk?.top_20_risk?.length > 0 && (
+        <ExpandableSection
+          title="Supplier Risk Intelligence"
+          subtitle={`${dogeFindings.supplier_risk.high_risk || 0} high-risk, ${dogeFindings.supplier_risk.elevated_risk || 0} elevated-risk suppliers`}
+          severity={dogeFindings.supplier_risk.high_risk > 0 ? 'warning' : 'info'}
+        >
+          <div className="forensic-section">
+            <p className="section-methodology">
+              Composite risk score (0-100) combining Companies House flags, payment anomalies
+              (Benford&apos;s MAD), concentration risk, and transparency indicators. Methodology:
+              ACFE Fraud Examiners Manual, Moody&apos;s KYC framework.
+            </p>
+
+            <div className="risk-summary-stats">
+              <div className="stat-pill warning">
+                <strong>{dogeFindings.supplier_risk.high_risk || 0}</strong> High Risk
+                ({formatCurrency(dogeFindings.supplier_risk.high_risk_spend)})
+              </div>
+              <div className="stat-pill info">
+                <strong>{dogeFindings.supplier_risk.elevated_risk || 0}</strong> Elevated
+                ({formatCurrency(dogeFindings.supplier_risk.elevated_risk_spend)})
+              </div>
+              <div className="stat-pill">
+                <strong>{dogeFindings.supplier_risk.total_suppliers_scored || 0}</strong> Total Scored
+              </div>
+            </div>
+
+            <div className="table-container">
+              <table className="doge-table">
+                <thead>
+                  <tr>
+                    <th>Supplier</th>
+                    <th>Risk Score</th>
+                    <th>CH</th>
+                    <th>Payment</th>
+                    <th>Conc.</th>
+                    <th>Transp.</th>
+                    <th>Spend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dogeFindings.supplier_risk.top_20_risk.slice(0, 15).map((s, i) => (
+                    <tr key={i} className={`risk-${s.risk_level}`}>
+                      <td className="supplier-name">{(s.supplier || '').substring(0, 35)}</td>
+                      <td><strong className={`risk-score risk-${s.risk_level}`}>{s.risk_score}</strong></td>
+                      <td>{s.ch_risk}</td>
+                      <td>{s.payment_risk}</td>
+                      <td>{s.concentration_risk}</td>
+                      <td>{s.transparency_risk}</td>
+                      <td>{formatCurrency(s.total_spend)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <VerificationPanel checks={[
+              { label: 'Methodology', detail: 'Multi-dimensional scoring: CH Risk (0-25), Payment Risk (0-25), Concentration Risk (0-25), Transparency Risk (0-25). ACFE/Moody\'s aligned.', status: 'pass' },
+              { label: 'Limitation', detail: 'High risk score indicates statistical anomalies warranting investigation, not confirmed fraud. Many triggers have legitimate explanations.', status: 'info' },
+            ]} />
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Advanced Benford's Analysis */}
+      {dogeFindings.benfords_advanced && (
+        <ExpandableSection
+          title="Advanced Benford's Law Analysis"
+          subtitle={`4 tests: first-two digits, last-two digits, summation, per-supplier MAD`}
+          severity={
+            dogeFindings.benfords_advanced.first_two_digits?.conformity === 'non_conforming' ? 'warning' : 'info'
+          }
+        >
+          <div className="forensic-section">
+            <p className="section-methodology">
+              Nigrini (2012) advanced Benford&apos;s Law suite. Goes beyond basic first-digit testing
+              to detect specific fraud patterns. Used by ACFE certified fraud examiners worldwide.
+            </p>
+
+            {/* First-Two Digits */}
+            {dogeFindings.benfords_advanced.first_two_digits?.spikes?.length > 0 && (
+              <div className="benford-subsection">
+                <h4>First-Two Digits Test (Nigrini Primary Audit Tool)</h4>
+                <p>Analyses digits 10-99. Spikes indicate manufactured amount ranges.</p>
+                <div className="benford-stats">
+                  <span>χ²={dogeFindings.benfords_advanced.first_two_digits.chi_squared} (df=89)</span>
+                  <span className={`conformity-badge ${dogeFindings.benfords_advanced.first_two_digits.conformity}`}>
+                    {dogeFindings.benfords_advanced.first_two_digits.p_description}
+                  </span>
+                </div>
+                {dogeFindings.benfords_advanced.first_two_digits.spikes.length > 0 && (
+                  <div className="spike-list">
+                    <strong>Amount range spikes:</strong>
+                    {dogeFindings.benfords_advanced.first_two_digits.spikes.slice(0, 5).map((s, i) => (
+                      <span key={i} className="spike-badge">
+                        £{s.digits}xx: {s.ratio}x expected
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Last-Two Digits */}
+            {dogeFindings.benfords_advanced.last_two_digits?.total_tested > 0 && (
+              <div className="benford-subsection">
+                <h4>Last-Two Digits Uniformity Test</h4>
+                <p>Detects round-number fabrication with statistical rigour. Should be uniform (1% each for 00-99).</p>
+                <div className="benford-stats">
+                  <span>χ²={dogeFindings.benfords_advanced.last_two_digits.chi_squared} (df=99)</span>
+                  <span className={`conformity-badge ${dogeFindings.benfords_advanced.last_two_digits.conformity}`}>
+                    {dogeFindings.benfords_advanced.last_two_digits.p_description}
+                  </span>
+                  <span>Round-number excess: {dogeFindings.benfords_advanced.last_two_digits.round_number_excess_pct}%</span>
+                </div>
+              </div>
+            )}
+
+            {/* Summation Test */}
+            {dogeFindings.benfords_advanced.summation?.distortions?.length > 0 && (
+              <div className="benford-subsection">
+                <h4>Summation Test (Large Fraud Detection)</h4>
+                <p>Each first-digit group should contribute ~11.1% of total value. Distortions indicate outsized payments.</p>
+                <div className="summation-bars">
+                  {dogeFindings.benfords_advanced.summation.digit_analysis?.map((d) => (
+                    <div key={d.digit} className="summation-bar-row">
+                      <span className="digit-label">{d.digit}</span>
+                      <div className="bar-container">
+                        <div
+                          className={`bar-fill ${Math.abs(d.deviation) > 5 ? 'anomaly' : ''}`}
+                          style={{ width: `${Math.min(d.pct_of_total * 3, 100)}%` }}
+                        />
+                      </div>
+                      <span className="bar-value">{d.pct_of_total}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Per-Supplier MAD */}
+            {dogeFindings.benfords_advanced.per_supplier_mad?.top_20_outliers?.length > 0 && (
+              <div className="benford-subsection">
+                <h4>Per-Supplier Benford&apos;s Conformity (MAD Scoring)</h4>
+                <p>
+                  Suppliers with MAD &gt; 0.015 are nonconforming (Nigrini thresholds).
+                  {' '}{dogeFindings.benfords_advanced.per_supplier_mad.nonconforming || 0} nonconforming
+                  of {dogeFindings.benfords_advanced.per_supplier_mad.suppliers_tested || 0} tested.
+                </p>
+                <div className="table-container">
+                  <table className="doge-table compact">
+                    <thead>
+                      <tr><th>Supplier</th><th>MAD</th><th>Txns</th><th>Spend</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                      {dogeFindings.benfords_advanced.per_supplier_mad.top_20_outliers.slice(0, 10).map((s, i) => (
+                        <tr key={i}>
+                          <td className="supplier-name">{(s.supplier || '').substring(0, 30)}</td>
+                          <td><strong>{s.mad}</strong></td>
+                          <td>{s.transaction_count}</td>
+                          <td>{formatCurrency(s.total_spend)}</td>
+                          <td className={`conformity-${s.conformity}`}>{s.conformity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            <VerificationPanel checks={[
+              { label: 'Reference', detail: 'Nigrini, M.J. (2012). Benford\'s Law: Applications for Forensic Accounting, Auditing, and Fraud Detection. Wiley.', status: 'pass' },
+              { label: 'Limitation', detail: 'Benford\'s Law applies to naturally occurring datasets. Municipal spending typically conforms, but high χ² values alone don\'t prove fraud — they identify audit samples.', status: 'info' },
+            ]} />
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Forensic Accounting Classics */}
+      {dogeFindings.forensic_classics && (
+        <ExpandableSection
+          title="Forensic Accounting Analysis"
+          subtitle="Same-same-different, vendor integrity, credit patterns, description quality"
+          severity={
+            (dogeFindings.forensic_classics.vendor_integrity?.total_suspect_pairs > 5 ||
+             dogeFindings.forensic_classics.credit_patterns?.total_zero_credit > 20) ? 'warning' : 'info'
+          }
+        >
+          <div className="forensic-section">
+            {/* Same-Same-Different */}
+            {dogeFindings.forensic_classics.same_same_different?.rebilling?.total_flags > 0 && (
+              <div className="forensic-subsection">
+                <h4>Same-Same-Different Testing</h4>
+                <p className="section-methodology">
+                  Classic forensic technique: finds payments matching on 2 fields but differing on a third.
+                </p>
+                <div className="risk-summary-stats">
+                  <div className="stat-pill warning">
+                    <strong>{dogeFindings.forensic_classics.same_same_different.rebilling.total_flags}</strong> Re-billing flags
+                    ({formatCurrency(dogeFindings.forensic_classics.same_same_different.rebilling.total_value)})
+                  </div>
+                  <div className="stat-pill info">
+                    <strong>{dogeFindings.forensic_classics.same_same_different.cross_department?.total_flags || 0}</strong> Cross-dept flags
+                  </div>
+                  <div className="stat-pill">
+                    <strong>{dogeFindings.forensic_classics.same_same_different.collusion_indicators?.total_flags || 0}</strong> Collusion indicators
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Vendor Integrity */}
+            {(dogeFindings.forensic_classics.vendor_integrity?.total_suspect_pairs > 0 ||
+              dogeFindings.forensic_classics.vendor_integrity?.total_single_payment > 0) && (
+              <div className="forensic-subsection">
+                <h4>Fictitious Vendor Detection</h4>
+                <p className="section-methodology">
+                  ACFE methodology: fuzzy name matching, single-payment high-value vendors, unverified high-spend suppliers.
+                </p>
+                <div className="risk-summary-stats">
+                  <div className="stat-pill warning">
+                    <strong>{dogeFindings.forensic_classics.vendor_integrity.total_suspect_pairs}</strong> Suspect name pairs
+                  </div>
+                  <div className="stat-pill">
+                    <strong>{dogeFindings.forensic_classics.vendor_integrity.total_single_payment}</strong> Single-payment vendors (&gt;£10K)
+                    ({formatCurrency(dogeFindings.forensic_classics.vendor_integrity.single_payment_value)})
+                  </div>
+                  <div className="stat-pill">
+                    <strong>{dogeFindings.forensic_classics.vendor_integrity.total_unverified}</strong> Unverified high-spend
+                    ({formatCurrency(dogeFindings.forensic_classics.vendor_integrity.unverified_spend)})
+                  </div>
+                </div>
+                {dogeFindings.forensic_classics.vendor_integrity.suspect_vendor_pairs?.length > 0 && (
+                  <div className="table-container">
+                    <table className="doge-table compact">
+                      <thead>
+                        <tr><th>Similar Names</th><th>Combined Spend</th><th>Txns</th><th>CH Match</th></tr>
+                      </thead>
+                      <tbody>
+                        {dogeFindings.forensic_classics.vendor_integrity.suspect_vendor_pairs.slice(0, 8).map((p, i) => (
+                          <tr key={i}>
+                            <td className="supplier-name">{p.names?.join(' / ').substring(0, 50)}</td>
+                            <td>{formatCurrency(p.combined_spend)}</td>
+                            <td>{p.combined_transactions}</td>
+                            <td>{p.has_ch_match ? '✓' : '✗'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Credit/Refund Patterns */}
+            {dogeFindings.forensic_classics.credit_patterns?.total_zero_credit > 0 && (
+              <div className="forensic-subsection">
+                <h4>Credit &amp; Refund Pattern Analysis</h4>
+                <p className="section-methodology">
+                  ACFE indicator: long-standing suppliers with zero credits may indicate fictitious vendors
+                  (real suppliers occasionally have refunds/credits).
+                </p>
+                <div className="risk-summary-stats">
+                  <div className="stat-pill warning">
+                    <strong>{dogeFindings.forensic_classics.credit_patterns.total_zero_credit}</strong> Zero-credit suppliers (2+ years)
+                    ({formatCurrency(dogeFindings.forensic_classics.credit_patterns.zero_credit_spend)})
+                  </div>
+                  <div className="stat-pill">
+                    <strong>{dogeFindings.forensic_classics.credit_patterns.total_exact_offsets}</strong> Exact-offset credits
+                  </div>
+                  <div className="stat-pill">
+                    Credit ratio: {dogeFindings.forensic_classics.credit_patterns.credit_stats?.credit_ratio || 0}%
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Description Quality */}
+            {dogeFindings.forensic_classics.description_quality?.vague_rate > 0 && (
+              <div className="forensic-subsection">
+                <h4>Description Quality &amp; Transparency</h4>
+                <p className="section-methodology">
+                  Vague descriptions correlate with fraud risk (ACFE). Transparency score = % of spend with meaningful descriptions.
+                </p>
+                <div className="risk-summary-stats">
+                  <div className={`stat-pill ${dogeFindings.forensic_classics.description_quality.transparency_score < 70 ? 'warning' : ''}`}>
+                    Transparency: <strong>{dogeFindings.forensic_classics.description_quality.transparency_score}/100</strong>
+                  </div>
+                  <div className="stat-pill">
+                    Vague: {dogeFindings.forensic_classics.description_quality.vague_rate}% ({formatCurrency(dogeFindings.forensic_classics.description_quality.vague_spend)})
+                  </div>
+                  <div className="stat-pill">
+                    Empty: {dogeFindings.forensic_classics.description_quality.empty_descriptions} descriptions
+                  </div>
+                </div>
+                {dogeFindings.forensic_classics.description_quality.priority_investigation?.length > 0 && (
+                  <div className="priority-alert">
+                    <AlertTriangle size={16} />
+                    <strong>Priority:</strong> {dogeFindings.forensic_classics.description_quality.priority_investigation.length} departments
+                    with &gt;30% vague descriptions AND &gt;£50K spend flagged for investigation.
+                  </div>
+                )}
+              </div>
+            )}
+
+            <VerificationPanel checks={[
+              { label: 'Framework', detail: 'ACFE Report to the Nations 2024, Journal of Accountancy forensic data analytics methodology.', status: 'pass' },
+              { label: 'False positives', detail: 'Fuzzy name matching may flag legitimate name variations (Ltd vs Limited). Zero-credit flags require manual review of supplier relationship.', status: 'info' },
+            ]} />
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Temporal Intelligence */}
+      {dogeFindings.temporal_intelligence && (
+        <ExpandableSection
+          title="Temporal Intelligence"
+          subtitle={`Year-end acceleration, change-points, statistical process control`}
+          severity={dogeFindings.temporal_intelligence.dept_acceleration?.length > 5 ? 'warning' : 'info'}
+        >
+          <div className="forensic-section">
+            {/* Year-End Acceleration */}
+            {dogeFindings.temporal_intelligence.year_end_acceleration?.length > 0 && (
+              <div className="forensic-subsection">
+                <h4>Year-End Acceleration Index</h4>
+                <p className="section-methodology">
+                  March spend / average monthly spend. Index &gt; 2.0 indicates year-end budget dumping.
+                </p>
+                <div className="acceleration-chart">
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={dogeFindings.temporal_intelligence.year_end_acceleration}>
+                      <CartesianGrid stroke={GRID_STROKE} />
+                      <XAxis dataKey="financial_year" tick={AXIS_TICK_STYLE} />
+                      <YAxis tick={AXIS_TICK_STYLE} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} />
+                      <Bar dataKey="acceleration_index" name="Acceleration Index" fill="#ff9f0a" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                {dogeFindings.temporal_intelligence.dept_acceleration?.length > 0 && (
+                  <div className="dept-flags">
+                    <strong>{dogeFindings.temporal_intelligence.dept_acceleration.length} departments</strong> exceeded
+                    2.0x year-end acceleration threshold.
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Change-Point Detection */}
+            {dogeFindings.temporal_intelligence.change_points?.length > 0 && (
+              <div className="forensic-subsection">
+                <h4>Change-Point Detection (CUSUM)</h4>
+                <p className="section-methodology">
+                  Detects moments when a supplier&apos;s spending pattern fundamentally shifts — potential
+                  contract kickback start, price manipulation, or relationship change.
+                </p>
+                <div className="table-container">
+                  <table className="doge-table compact">
+                    <thead>
+                      <tr><th>Supplier</th><th>Change Month</th><th>Shift Ratio</th><th>Total Spend</th></tr>
+                    </thead>
+                    <tbody>
+                      {dogeFindings.temporal_intelligence.change_points.slice(0, 10).map((cp, i) => (
+                        <tr key={i}>
+                          <td className="supplier-name">{(cp.supplier || '').substring(0, 30)}</td>
+                          <td>{cp.change_month}</td>
+                          <td><strong>{cp.shift_ratio}x</strong> mean</td>
+                          <td>{formatCurrency(cp.total_spend)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* SPC Control Charts */}
+            {dogeFindings.temporal_intelligence.spc_charts?.length > 0 && (
+              <div className="forensic-subsection">
+                <h4>Statistical Process Control</h4>
+                <p className="section-methodology">
+                  Control charts for top suppliers. Payments beyond 3σ (action limit) indicate
+                  out-of-control processes.
+                </p>
+                <div className="spc-summary">
+                  {dogeFindings.temporal_intelligence.spc_charts.slice(0, 5).map((spc, i) => (
+                    <div key={i} className={`spc-card ${spc.out_of_control > 0 ? 'alert' : ''}`}>
+                      <strong>{(spc.supplier || '').substring(0, 25)}</strong>
+                      <div className="spc-stats">
+                        <span>μ={formatCurrency(spc.mean)}/mo</span>
+                        <span>σ={formatCurrency(spc.std_dev)}</span>
+                        {spc.out_of_control > 0 && (
+                          <span className="ooc-badge">{spc.out_of_control} out of control</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <VerificationPanel checks={[
+              { label: 'Methodology', detail: 'CUSUM change-point detection, Shewhart control charts (2σ warning, 3σ action limits). INTOSAI ISSAI 3000 aligned.', status: 'pass' },
+              { label: 'Limitation', detail: 'Year-end acceleration is common in public sector. Change-points may reflect legitimate contract changes. SPC assumes stable process.', status: 'info' },
+            ]} />
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Procurement Intelligence */}
+      {dogeFindings.procurement_intelligence && (
+        <ExpandableSection
+          title="Procurement Intelligence"
+          subtitle="Maverick spend, price escalation, cross-department splitting"
+          severity={dogeFindings.procurement_intelligence.maverick_spend?.overall_maverick_pct > 30 ? 'warning' : 'info'}
+        >
+          <div className="forensic-section">
+            {/* Maverick Spend */}
+            {dogeFindings.procurement_intelligence.maverick_spend?.has_procurement_data && (
+              <div className="forensic-subsection">
+                <h4>Maverick Spend Detection</h4>
+                <p className="section-methodology">
+                  Off-contract spending: payments to suppliers not in any Contracts Finder procurement record.
+                  Deloitte estimates 10-20% is typical; above 30% warrants review.
+                </p>
+                <div className="risk-summary-stats">
+                  <div className={`stat-pill ${dogeFindings.procurement_intelligence.maverick_spend.overall_maverick_pct > 30 ? 'warning' : ''}`}>
+                    Overall: <strong>{dogeFindings.procurement_intelligence.maverick_spend.overall_maverick_pct}%</strong> maverick
+                  </div>
+                  <div className="stat-pill">
+                    {formatCurrency(dogeFindings.procurement_intelligence.maverick_spend.total_maverick_spend)} off-contract
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Price Escalation */}
+            {dogeFindings.procurement_intelligence.price_escalation?.alerts?.length > 0 && (
+              <div className="forensic-subsection">
+                <h4>Contract Price Escalation</h4>
+                <p className="section-methodology">
+                  Suppliers with real-terms price increases exceeding 20% (CPI-adjusted).
+                </p>
+                <div className="table-container">
+                  <table className="doge-table compact">
+                    <thead>
+                      <tr><th>Supplier</th><th>Period</th><th>Real Growth</th><th>Total Spend</th></tr>
+                    </thead>
+                    <tbody>
+                      {dogeFindings.procurement_intelligence.price_escalation.alerts.slice(0, 10).map((a, i) => (
+                        <tr key={i}>
+                          <td className="supplier-name">{(a.supplier || '').substring(0, 30)}</td>
+                          <td>{a.first_year}→{a.last_year}</td>
+                          <td className="escalation">{a.real_growth_pct > 0 ? '+' : ''}{a.real_growth_pct}%</td>
+                          <td>{formatCurrency(a.total_spend)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Cross-Department Splitting */}
+            {dogeFindings.procurement_intelligence.cross_dept_splitting?.flags?.length > 0 && (
+              <div className="forensic-subsection">
+                <h4>Cross-Department Contract Splitting</h4>
+                <p className="section-methodology">
+                  Same supplier paid across multiple departments — combined spend exceeds procurement thresholds
+                  but individual department spend stays below.
+                </p>
+                <div className="risk-summary-stats">
+                  <div className="stat-pill warning">
+                    <strong>{dogeFindings.procurement_intelligence.cross_dept_splitting.total_flags}</strong> split flags
+                    ({formatCurrency(dogeFindings.procurement_intelligence.cross_dept_splitting.total_value)})
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <VerificationPanel checks={[
+              { label: 'Reference', detail: 'CIPS Procurement Best Practice, Deloitte Procurement Analytics, UK Public Contracts Regulations 2015.', status: 'pass' },
+              { label: 'Limitation', detail: 'Maverick spend depends on Contracts Finder data completeness. Price escalation may reflect genuine scope changes.', status: 'info' },
+            ]} />
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Audit Standards & Materiality */}
+      {dogeFindings.audit_standards && (
+        <ExpandableSection
+          title="Audit Standards & Materiality"
+          subtitle={`INTOSAI materiality, ACFE risk matrix, peer benchmarking`}
+          severity="info"
+        >
+          <div className="forensic-section">
+            <p className="section-methodology">
+              Aligned with international audit standards: INTOSAI ISSAI 3000, ACFE Report to the Nations 2024,
+              CIPFA Financial Resilience Index, NAO Value for Money framework.
+            </p>
+
+            {/* Materiality */}
+            {dogeFindings.audit_standards.materiality && (
+              <div className="forensic-subsection">
+                <h4>INTOSAI Materiality Threshold</h4>
+                <div className="materiality-display">
+                  <div className="materiality-value">
+                    <strong>{formatCurrency(dogeFindings.audit_standards.materiality.threshold)}</strong>
+                    <span>Materiality ({dogeFindings.audit_standards.materiality.threshold_pct}% of expenditure)</span>
+                  </div>
+                  <div className="materiality-value">
+                    <strong>{formatCurrency(dogeFindings.audit_standards.materiality.planning_materiality)}</strong>
+                    <span>Planning Materiality (0.5%)</span>
+                  </div>
+                </div>
+                <p className="materiality-note">
+                  Findings above materiality threshold would be &quot;likely to influence the decisions of intended
+                  users&quot; (INTOSAI ISSAI 1320). Sub-material findings are still disclosed for transparency.
+                </p>
+              </div>
+            )}
+
+            {/* ACFE Risk Matrix */}
+            {dogeFindings.audit_standards.acfe_risk_matrix && (
+              <div className="forensic-subsection">
+                <h4>ACFE Occupational Fraud Risk Matrix</h4>
+                <div className="acfe-matrix">
+                  {[
+                    { key: 'asset_misappropriation', label: 'Asset Misappropriation', desc: 'Duplicates, fictitious vendors, credits' },
+                    { key: 'corruption', label: 'Corruption', desc: 'Concentration, sole-source, CH breaches' },
+                    { key: 'financial_statement', label: 'Financial Statement', desc: 'Budget variance, year-end spikes, reserves' },
+                  ].map(({ key, label, desc }) => {
+                    const score = dogeFindings.audit_standards.acfe_risk_matrix[key] || 0
+                    return (
+                      <div key={key} className="acfe-category">
+                        <div className="acfe-label">
+                          <strong>{label}</strong>
+                          <span>{desc}</span>
+                        </div>
+                        <div className="acfe-bar-container">
+                          <div
+                            className={`acfe-bar ${score >= 50 ? 'high' : score >= 25 ? 'medium' : 'low'}`}
+                            style={{ width: `${score}%` }}
+                          />
+                        </div>
+                        <strong className="acfe-score">{score}/100</strong>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Peer Benchmark */}
+            {dogeFindings.audit_standards.peer_benchmark?.fraud_triangle_rank > 0 && (
+              <div className="forensic-subsection">
+                <h4>Lancashire Peer Benchmark</h4>
+                <p>
+                  Fraud triangle rank: <strong>{dogeFindings.audit_standards.peer_benchmark.fraud_triangle_rank}</strong>
+                  /{dogeFindings.audit_standards.peer_benchmark.total_councils} councils
+                  (percentile: {dogeFindings.audit_standards.peer_benchmark.fraud_triangle_percentile}%)
+                </p>
+              </div>
+            )}
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Supplier Lifecycle */}
+      {dogeFindings.supplier_lifecycle?.total_pump_dump > 0 && (
+        <ExpandableSection
+          title="Supplier Lifecycle Analysis"
+          subtitle={`${dogeFindings.supplier_lifecycle.total_pump_dump} pump-and-dump flags, ${dogeFindings.supplier_lifecycle.total_escalations} escalation alerts`}
+          severity={dogeFindings.supplier_lifecycle.total_pump_dump > 3 ? 'warning' : 'info'}
+        >
+          <div className="forensic-section">
+            <div className="forensic-subsection">
+              <h4>Pump-and-Dump Detection</h4>
+              <p className="section-methodology">
+                Suppliers active &lt;6 months, receiving &gt;£50K, then disappearing. May indicate
+                fictitious vendor fraud or phoenix company behaviour.
+              </p>
+              {dogeFindings.supplier_lifecycle.pump_dump?.length > 0 && (
+                <div className="table-container">
+                  <table className="doge-table compact">
+                    <thead>
+                      <tr><th>Supplier</th><th>Spend</th><th>Active Days</th><th>Last Payment</th></tr>
+                    </thead>
+                    <tbody>
+                      {dogeFindings.supplier_lifecycle.pump_dump.slice(0, 10).map((p, i) => (
+                        <tr key={i}>
+                          <td className="supplier-name">{(p.supplier || '').substring(0, 30)}</td>
+                          <td>{formatCurrency(p.total_spend)}</td>
+                          <td>{p.active_days} days</td>
+                          <td>{p.last_payment}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </ExpandableSection>
+      )}
+
+      {/* Methodology & Technique Inventory */}
+      <ExpandableSection
+        title="Methodology & Standards"
+        subtitle={`${dogeFindings.technique_count || analysesRun.length} forensic techniques applied`}
+        severity="info"
+      >
+        <div className="forensic-section">
+          <div className="methodology-overview">
+            <h4>Analysis Framework</h4>
+            <p>
+              This investigation applies <strong>{dogeFindings.technique_count || analysesRun.length} forensic analysis techniques</strong> across
+              6 categories, aligned with international audit and fraud examination standards.
+            </p>
+
+            <div className="standards-grid">
+              <div className="standard-card">
+                <strong>ACFE</strong>
+                <span>Association of Certified Fraud Examiners — Report to the Nations 2024</span>
+              </div>
+              <div className="standard-card">
+                <strong>INTOSAI</strong>
+                <span>International Standards of Supreme Audit Institutions — ISSAI 3000</span>
+              </div>
+              <div className="standard-card">
+                <strong>Nigrini</strong>
+                <span>Benford&apos;s Law: Applications for Forensic Accounting (2012)</span>
+              </div>
+              <div className="standard-card">
+                <strong>CIPFA</strong>
+                <span>Chartered Institute of Public Finance — Financial Resilience Index</span>
+              </div>
+              <div className="standard-card">
+                <strong>NAO</strong>
+                <span>National Audit Office — Value for Money (3Es) Framework</span>
+              </div>
+              <div className="standard-card">
+                <strong>OECD</strong>
+                <span>Guidelines for Fighting Bid Rigging in Public Procurement (2025)</span>
+              </div>
+            </div>
+
+            <h4>Technique Inventory</h4>
+            <div className="technique-categories">
+              {[
+                { name: 'Statistical', techniques: ['Benford 1st digit', 'Benford 2nd digit', 'First-two digits', 'Last-two digits', 'Summation test', 'Per-supplier MAD', 'Chi-squared', 'Z-scores', 'Gini coefficient'] },
+                { name: 'Forensic', techniques: ['Duplicate detection', 'Same-same-different', 'Fictitious vendor', 'Credit patterns', 'Description quality', 'Round-number analysis'] },
+                { name: 'Supplier Risk', techniques: ['Composite risk score', 'Lifecycle analysis', 'Pump-and-dump', 'Dependency escalation', 'Shell company indicators'] },
+                { name: 'Temporal', techniques: ['Year-end acceleration', 'Change-point (CUSUM)', 'SPC control charts', 'Payment cadence'] },
+                { name: 'Procurement', techniques: ['Maverick spend', 'Price escalation', 'Contract splitting', 'Threshold avoidance', 'Weak competition'] },
+                { name: 'Audit Standards', techniques: ['Materiality (INTOSAI)', 'ACFE risk matrix', 'Fraud triangle', 'Peer benchmarking', 'Budget variance'] },
+              ].map((cat) => (
+                <div key={cat.name} className="technique-category">
+                  <strong>{cat.name}</strong>
+                  <div className="technique-list">
+                    {cat.techniques.map((t) => (
+                      <span key={t} className="technique-badge">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </ExpandableSection>
+
       {/* Cross-Council Comparison */}
       {crossCouncil && (crossCouncil.shared_suppliers || crossCouncil.shared_supplier_count) && (
         <section className="doge-cross-council">
