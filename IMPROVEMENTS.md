@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-02-21
+> Last updated: 2026-02-23
 
-**Summary**: 4 open issues | Critical: 0 | High: 2 | Medium: 2 | Low: 0
+**Summary**: 6 open issues | Critical: 0 | High: 3 | Medium: 3 | Low: 0
 
 ---
 
@@ -29,8 +29,10 @@
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
 | A1 | High | 1 pages have no `useData` error handling [auto] | Pages: SupplierView. Add error fallback UI. | open |
-| A17 | Medium | Unguarded chained property access (121 instances) [auto] | At Budgets:400, Budgets:603, Budgets:1469, Budgets:1497, Budgets:1610.... Use optional chaining or `|| {}` defaults. | open |
-| A4 | Medium | Accessibility gaps in 2 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView. | open |
+| A2 | High | 1 pages have zero tests [auto] | Untested: MPComparison (609L). | open |
+| A17 | Medium | Unguarded chained property access (130 instances) [auto] | At Budgets:396, Budgets:591, Budgets:1429, Budgets:1457, Budgets:1570.... Use optional chaining or `|| {}` defaults. | open |
+| A4 | Medium | Accessibility gaps in 3 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView, MPComparison. | open |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:99`. Add clearTimeout in useEffect cleanup. | open |
 
 ---
 
@@ -49,3 +51,4 @@
 - **2026-02-20** — Auto-scan: 5 issues found, 1 resolved
 - **2026-02-21** — Phase 18c: A15, A1, A5 fixed. Elections tests expanded (A2 fixed). A4 accessibility fixed. A17 wontfix (false positive). All issues resolved
 - **2026-02-21** — Auto-scan: 4 issues found
+- **2026-02-23** — Auto-scan: 6 issues found
