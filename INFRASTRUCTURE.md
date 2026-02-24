@@ -104,8 +104,11 @@
 # 0 6 * * *  DISABLED — mega_article_writer.py (28/28 queue exhausted, replaced by article_pipeline.py)
 0 7 * * *     Data monitor (check councils for new CSVs)
 0 8 * * *     Auto pipeline (ETL + analysis + articles if new data detected)
-# PAUSED 10 Feb 2026 — saving LLM credits until upgrades done
-# 0 9 * * *     Article pipeline (article_pipeline.py)
+0 9 * * *     Article pipeline (article_pipeline.py --max-articles 3)
+              # Re-enabled 24 Feb 2026 — fully automated, free tier safe
+              # Lockfile prevents conflicts with auto_pipeline (8am)
+              # Daily budget: 50K tokens (~12 articles, well within Mistral free 33M/day)
+              # 20+ topic templates with quarterly keys — no exhaustion
 # 0 10 * * *    News Lancashire deploy (deploy_newslancashire.sh)
 # 30 10 * * *   News Burnley deploy (deploy_newsburnley.sh)
 0 4 1 * *     Councillor scraper

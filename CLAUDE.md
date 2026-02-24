@@ -120,7 +120,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `scripts/academic_export.py` | Academic export: panel dataset, LGR model inputs, cross-council efficiency CSVs |
 | `scripts/daily_audit.py` | Daily automated code quality/data audit (runs via GitHub Actions) |
 | `scripts/suggest_improvements.py` | Auto-scan for code issues → IMPROVEMENTS.md |
-| `burnley-council/scripts/article_pipeline.py` | Data-driven article generation (Mistral/Groq + fact verification) |
+| `burnley-council/scripts/article_pipeline.py` | Fully automated article generation: 20+ topic templates (quarterly keys), Mistral free tier, lockfile, token budget (50K/day), numerical fact verification, auto-tagging, git push |
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
 | `scripts/setup_uptimerobot.sh` | Create UptimeRobot monitors for all council sites (requires API key) |
 | `scripts/vps_backup.sh` | Weekly rsync backup of vps-main + vps-news to local machine |
