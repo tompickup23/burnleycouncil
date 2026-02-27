@@ -81,14 +81,16 @@ function Integrity() {
     '/data/councillors.json',
     '/data/shared/mp_interests.json',
     '/data/shared/integrity_cross_council.json',
+    '/data/shared/ec_donations.json',
+    '/data/shared/hansard_cross_reference.json',
   ])
-  const [integrity, councillorsFull, mpInterests, crossCouncilIntegrity] = data || [null, [], null, null]
+  const [integrity, councillorsFull, mpInterests, crossCouncilIntegrity, ecDonations, hansardData] = data || [null, [], null, null, null, null]
   const [search, setSearch] = useState('')
   const [riskFilter, setRiskFilter] = useState('')
   const [partyFilter, setPartyFilter] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const [sortBy, setSortBy] = useState('risk') // risk, name, directorships
-  const [activeTab, setActiveTab] = useState('councillors') // councillors, mps, investigation
+  const [activeTab, setActiveTab] = useState('councillors') // councillors, mps, donations, investigation
 
   useEffect(() => {
     document.title = `Councillor Integrity | ${councilName} Council Transparency`
@@ -129,6 +131,23 @@ function Integrity() {
       beneficial_ownership: c.beneficial_ownership,
       donation_contract_correlation: c.donation_contract_correlation,
       network_centrality: c.network_centrality,
+      // v5 fields
+      shell_company_findings: c.shell_company_findings,
+      threshold_manipulation: c.threshold_manipulation,
+      temporal_clusters: c.temporal_clusters,
+      contract_splitting: c.contract_splitting,
+      phantom_companies: c.phantom_companies,
+      dormant_to_active: c.dormant_to_active,
+      family_donation_coordination: c.family_donation_coordination,
+      mp_councillor_alignment: c.mp_councillor_alignment,
+      bid_rigging: c.bid_rigging,
+      seasonal_anomaly: c.seasonal_anomaly,
+      gift_frequency: c.gift_frequency,
+      hansard_mentions: c.hansard_mentions,
+      undeclared_interests: c.undeclared_interests,
+      formation_timing: c.formation_timing,
+      social_network: c.social_network,
+      reciprocal_appointments: c.reciprocal_appointments,
     }))
   }, [integrity, councillorsFull])
 
@@ -327,7 +346,7 @@ function Integrity() {
       <section className="methodology-banner">
         <Info size={18} />
         <div>
-          <strong>14-source forensic investigation (v4):</strong> Each councillor&apos;s{' '}
+          <strong>{integrity?.data_sources?.length || 31}-source political fraud detection (v5.1):</strong> Each councillor&apos;s{' '}
           <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer">
             Companies House
           </a>{' '}
@@ -340,9 +359,12 @@ function Integrity() {
             <> Register of interests is not available — verification relies on name + geographic proximity. </>
           )}
           {' '}Cross-referenced against: co-director networks,
-          Electoral Commission donations, FCA prohibition orders, cross-council supplier matching (17 bodies),
+          Electoral Commission bulk donations, FCA prohibition orders, cross-council supplier matching (17 bodies),
           familial connections, MP Register of Financial Interests, revolving door detection,
-          beneficial ownership chains, donation-to-contract correlation, and network centrality scoring.
+          beneficial ownership chains (3-layer PSC), donation-to-contract correlation, network centrality scoring,
+          shell company detection, threshold manipulation, contract splitting, phantom companies,
+          bid rigging indicators, temporal donation clustering, parliamentary Hansard cross-reference,
+          undeclared interest detection, company formation timing analysis, and seasonal spending anomaly detection.
           {stats?.network_centrality_applied && <> Network centrality amplification applied.</>}
         </div>
       </section>
@@ -422,6 +444,61 @@ function Integrity() {
               <div className="dashboard-card accent-critical">
                 <span className="dashboard-number">{stats.donation_contract_correlations}</span>
                 <span className="dashboard-label">Donation→Contract</span>
+              </div>
+            )}
+            {/* v5 stat cards */}
+            {(stats.shell_company_donors || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.shell_company_donors}</span>
+                <span className="dashboard-label">Shell Company Donors</span>
+              </div>
+            )}
+            {(stats.threshold_manipulation_alerts || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.threshold_manipulation_alerts}</span>
+                <span className="dashboard-label">Threshold Alerts</span>
+              </div>
+            )}
+            {(stats.contract_splitting_flags || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.contract_splitting_flags}</span>
+                <span className="dashboard-label">Contract Splitting</span>
+              </div>
+            )}
+            {(stats.phantom_companies || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.phantom_companies}</span>
+                <span className="dashboard-label">Phantom Companies</span>
+              </div>
+            )}
+            {(stats.bid_rigging_indicators || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.bid_rigging_indicators}</span>
+                <span className="dashboard-label">Bid Rigging Patterns</span>
+              </div>
+            )}
+            {(stats.temporal_clusters || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.temporal_clusters}</span>
+                <span className="dashboard-label">Temporal Clusters</span>
+              </div>
+            )}
+            {(stats.hansard_mentions || stats.parliamentary_mentions || 0) > 0 && (
+              <div className="dashboard-card">
+                <span className="dashboard-number">{stats.hansard_mentions || stats.parliamentary_mentions}</span>
+                <span className="dashboard-label">Hansard Mentions</span>
+              </div>
+            )}
+            {(stats.undeclared_interests || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.undeclared_interests}</span>
+                <span className="dashboard-label">Undeclared Interests</span>
+              </div>
+            )}
+            {(stats.formation_timing_flags || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.formation_timing_flags}</span>
+                <span className="dashboard-label">Formation Timing</span>
               </div>
             )}
           </div>
@@ -539,6 +616,18 @@ function Integrity() {
               <span className="tab-count">{investigationPriorities.length}</span>
             </button>
           )}
+          {ecDonations && (
+            <button
+              role="tab"
+              className={`integrity-tab ${activeTab === 'donations' ? 'active' : ''}`}
+              onClick={() => setActiveTab('donations')}
+              aria-selected={activeTab === 'donations'}
+            >
+              <PoundSterling size={16} />
+              Donations
+              <span className="tab-count">{ecDonations?.summary?.total_donations || 0}</span>
+            </button>
+          )}
         </nav>
       )}
 
@@ -632,6 +721,40 @@ function Integrity() {
                     ))}
                   </div>
                 )}
+
+                {/* Parliamentary Mentions (v5) */}
+                {hansardData?.mp_mentions?.[mp.mp_name]?.mentions?.length > 0 && (
+                  <div className="mp-hansard-mentions">
+                    <h5><FileText size={14} /> Parliamentary Mentions</h5>
+                    <p className="section-desc-sm">
+                      Companies/donors in this MP&apos;s network mentioned in parliamentary debates.
+                    </p>
+                    {hansardData.mp_mentions[mp.mp_name].mentions.slice(0, 10).map((mention, i) => (
+                      <div key={i} className={`mp-mention severity-${mention.risk_indicator || 'info'}`}>
+                        <span className={`severity-badge ${mention.risk_indicator || 'info'}`}>
+                          {mention.relationship || 'mention'}
+                        </span>
+                        <div className="mention-detail">
+                          <strong>{mention.company_or_donor}</strong>
+                          {mention.debate_title && (
+                            <span className="mention-debate"> in &quot;{mention.debate_title}&quot;</span>
+                          )}
+                          {mention.debate_date && (
+                            <span className="mention-date"> ({mention.debate_date})</span>
+                          )}
+                          {mention.hansard_url && (
+                            <a href={mention.hansard_url} target="_blank" rel="noopener noreferrer" className="mention-link">
+                              <ExternalLink size={12} /> Hansard
+                            </a>
+                          )}
+                        </div>
+                        {mention.excerpt && (
+                          <div className="mention-excerpt">&quot;{mention.excerpt.slice(0, 200)}&quot;</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -678,6 +801,138 @@ function Integrity() {
               </div>
             ))}
           </div>
+        </section>
+      )}
+
+      {/* ══════ Donations Tab ══════ */}
+      {activeTab === 'donations' && ecDonations && (
+        <section className="integrity-donations-section">
+          <h3><PoundSterling size={18} /> Lancashire Political Donations</h3>
+          <p className="section-desc">
+            Bulk donation data from the{' '}
+            <a href="https://search.electoralcommission.org.uk/" target="_blank" rel="noopener noreferrer">
+              Electoral Commission
+            </a>, cross-referenced against council suppliers, councillor companies, and MP interests.
+            Covers all Lancashire party branches and 16 MPs.
+          </p>
+
+          {/* Donation summary cards */}
+          <div className="stat-grid stat-grid-4">
+            <div className="stat-card">
+              <div className="stat-value">{ecDonations.summary?.total_donations?.toLocaleString() || 0}</div>
+              <div className="stat-label">Total Donations</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">{formatCurrency(ecDonations.summary?.total_value || 0)}</div>
+              <div className="stat-label">Total Value</div>
+            </div>
+            <div className="stat-card accent">
+              <div className="stat-value">{ecDonations.summary?.suppliers_who_donate || 0}</div>
+              <div className="stat-label">Supplier-Donors</div>
+            </div>
+            <div className="stat-card accent">
+              <div className="stat-value">{ecDonations.summary?.threshold_proximity_count || 0}</div>
+              <div className="stat-label">Threshold Alerts</div>
+            </div>
+          </div>
+
+          {/* Supplier-donor pipeline */}
+          {ecDonations.supplier_donations?.length > 0 && (
+            <div className="donations-findings">
+              <h4><AlertTriangle size={16} /> Supplier-Donor Pipeline</h4>
+              <p className="section-desc">Companies that both donate to political parties AND receive council contracts.</p>
+              <div className="findings-list">
+                {ecDonations.supplier_donations.slice(0, 20).map((sd, i) => (
+                  <div key={i} className="integrity-finding severity-high">
+                    <span className="severity-badge high">pipeline</span>
+                    <div className="finding-text">
+                      <strong>{sd.donor_name || sd.matched_supplier}</strong> donated{' '}
+                      {formatCurrency(sd.value || 0)} to {sd.regulated_entity || 'party'}{' '}
+                      ({sd.accounting_unit || ''}){sd.accepted_date ? ` on ${sd.accepted_date}` : ''}
+                      {sd.council_spend > 0 && (
+                        <span className="finding-extra"> — received {formatCurrency(sd.council_spend)} in council contracts</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Threshold proximity alerts */}
+          {ecDonations.threshold_proximity?.length > 0 && (
+            <div className="donations-findings">
+              <h4><AlertTriangle size={16} /> Threshold Proximity Alerts</h4>
+              <p className="section-desc">Donations suspiciously close to PPERA reporting thresholds — may indicate structured giving.</p>
+              <div className="findings-list">
+                {ecDonations.threshold_proximity.slice(0, 15).map((tp, i) => (
+                  <div key={i} className="integrity-finding severity-warning">
+                    <span className="severity-badge warning">threshold</span>
+                    <div className="finding-text">
+                      <strong>{tp.donor_name}</strong>: {formatCurrency(tp.value || 0)} to {tp.accounting_unit || tp.regulated_entity}{' '}
+                      — {tp.below_pct}% below {tp.threshold_type} threshold ({formatCurrency(tp.threshold_value || 0)})
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Temporal clusters */}
+          {ecDonations.temporal_clusters?.length > 0 && (
+            <div className="donations-findings">
+              <h4><AlertTriangle size={16} /> Temporal Donation Clusters</h4>
+              <p className="section-desc">Multiple donations from different donors arriving within a 30-day window — possible coordination.</p>
+              <div className="findings-list">
+                {ecDonations.temporal_clusters.slice(0, 10).map((tc, i) => (
+                  <div key={i} className="integrity-finding severity-high">
+                    <span className="severity-badge high">cluster</span>
+                    <div className="finding-text">
+                      <strong>{tc.donation_count} donations</strong> from {tc.unique_donors} unique donors
+                      totalling {formatCurrency(tc.total_value || 0)} to {tc.entity} ({tc.accounting_unit}){' '}
+                      between {tc.window_start} and {tc.window_end}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Unincorporated associations */}
+          {ecDonations.unincorporated_associations?.length > 0 && (
+            <div className="donations-findings">
+              <h4><AlertTriangle size={16} /> Unincorporated Association Donations</h4>
+              <p className="section-desc">
+                UAs can accept foreign donations and pass them to UK parties — a major PPERA transparency loophole.
+              </p>
+              <div className="findings-list">
+                {ecDonations.unincorporated_associations.slice(0, 15).map((ua, i) => (
+                  <div key={i} className="integrity-finding severity-warning">
+                    <span className="severity-badge warning">UA</span>
+                    <div className="finding-text">
+                      <strong>{ua.donor_name}</strong>: {formatCurrency(ua.value || 0)} to {ua.accounting_unit || ua.regulated_entity}
+                      {ua.accepted_date ? ` (${ua.accepted_date})` : ''}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Party totals breakdown */}
+          {ecDonations.summary?.party_totals && (
+            <div className="donations-party-totals">
+              <h4>Donations by Party</h4>
+              <div className="party-totals-grid">
+                {Object.entries(ecDonations.summary.party_totals).slice(0, 8).map(([party, total]) => (
+                  <div key={party} className="party-total-card">
+                    <div className="party-total-name">{party}</div>
+                    <div className="party-total-value">{formatCurrency(total)}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
       )}
 
@@ -1578,6 +1833,278 @@ function Integrity() {
                     </div>
                   )}
 
+                  {/* v5: Shell Company Findings */}
+                  {councillor.shell_company_findings?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Building2 size={16} /> Shell Company Donor Findings</h4>
+                      <div className="flags-list">
+                        {councillor.shell_company_findings.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Contract Splitting */}
+                  {councillor.contract_splitting?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><AlertTriangle size={16} /> Contract Splitting Detection</h4>
+                      <div className="flags-list">
+                        {councillor.contract_splitting.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Phantom Companies */}
+                  {councillor.phantom_companies?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Building2 size={16} /> Phantom Company Detection</h4>
+                      <div className="flags-list">
+                        {councillor.phantom_companies.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Dormant-to-Active */}
+                  {councillor.dormant_to_active?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><AlertTriangle size={16} /> Dormant→Active Supplier</h4>
+                      <div className="flags-list">
+                        {councillor.dormant_to_active.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Bid Rigging */}
+                  {councillor.bid_rigging?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><ShieldAlert size={16} /> Bid Rigging Indicators</h4>
+                      <div className="flags-list">
+                        {councillor.bid_rigging.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Threshold Manipulation */}
+                  {councillor.threshold_manipulation?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><PoundSterling size={16} /> Donation Threshold Manipulation</h4>
+                      <div className="flags-list">
+                        {councillor.threshold_manipulation.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Temporal Donation Clusters */}
+                  {councillor.temporal_clusters?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><AlertTriangle size={16} /> Temporal Donation Clusters</h4>
+                      <div className="flags-list">
+                        {councillor.temporal_clusters.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Family Donation Coordination */}
+                  {councillor.family_donation_coordination?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Heart size={16} /> Family Donation Coordination</h4>
+                      <div className="flags-list">
+                        {councillor.family_donation_coordination.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: MP-Councillor Alignment */}
+                  {councillor.mp_councillor_alignment?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Landmark size={16} /> MP-Councillor Donor Alignment</h4>
+                      <div className="flags-list">
+                        {councillor.mp_councillor_alignment.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Social Network Triangulation */}
+                  {councillor.social_network?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Network size={16} /> Social Network Triangulation</h4>
+                      <div className="flags-list">
+                        {councillor.social_network.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Reciprocal Appointments */}
+                  {councillor.reciprocal_appointments?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Globe size={16} /> Reciprocal Cross-Council Appointments</h4>
+                      <div className="flags-list">
+                        {councillor.reciprocal_appointments.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Seasonal Spending Anomaly */}
+                  {councillor.seasonal_anomaly?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><AlertTriangle size={16} /> Seasonal Spending Anomaly</h4>
+                      <div className="flags-list">
+                        {councillor.seasonal_anomaly.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.warning }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5: Gift/Hospitality Frequency */}
+                  {councillor.gift_frequency?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Heart size={16} /> Gift &amp; Hospitality Frequency</h4>
+                      <div className="flags-list">
+                        {councillor.gift_frequency.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.warning }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5.1: Hansard Parliamentary Mentions */}
+                  {councillor.hansard_mentions?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Landmark size={16} /> Hansard Parliamentary Mentions</h4>
+                      <div className="flags-list">
+                        {councillor.hansard_mentions.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.warning }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5.1: Undeclared Interests */}
+                  {councillor.undeclared_interests?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><Eye size={16} /> Undeclared Interests</h4>
+                      <div className="flags-list">
+                        {councillor.undeclared_interests.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v5.1: Company Formation Timing */}
+                  {councillor.formation_timing?.length > 0 && (
+                    <div className="v5-findings-section">
+                      <h4><FileText size={16} /> Company Formation Timing</h4>
+                      <div className="flags-list">
+                        {councillor.formation_timing.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.warning }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* No Issues */}
                   {!hasFlags && !hasConflicts && ch.total_directorships === 0 && councillor.checked_at && (
                     <div className="clean-check">
@@ -1610,10 +2137,18 @@ function Integrity() {
       {/* Legal Disclaimer */}
       <section className="integrity-disclaimer">
         <p>
-          <strong>Important:</strong> This tool uses publicly available data from {integrity?.data_sources?.length || 14} sources
-          including Companies House, Electoral Commission, FCA Register, UK Parliament Register of Members&apos; Financial Interests,
-          council registers of interests, and spending records from 17 Lancashire public bodies.
-          {integrity?.version === '4.0' ? (
+          <strong>Important:</strong> This tool uses publicly available data from {integrity?.data_sources?.length || 28} sources
+          including Companies House, Electoral Commission (bulk CSV), FCA Register, UK Parliament Register of Members&apos; Financial Interests,
+          Hansard parliamentary records, council registers of interests, and spending records from 17 Lancashire public bodies.
+          {integrity?.version?.startsWith('5') ? (
+            <> Directorships are DOB-verified with register-anchored identity confirmation.
+            31 detection algorithms include shell company detection, threshold manipulation, contract splitting,
+            bid rigging indicators, temporal donation clustering, social network triangulation,
+            reciprocal cross-council appointments, parliamentary mention cross-referencing (UK Parliament Hansard API),
+            beneficial ownership chains (3-layer PSC), donation-to-contract ROI correlation,
+            undeclared interest detection (CH vs register), and company formation timing analysis.
+            Network centrality scoring amplifies risk for highly-connected individuals. </>
+          ) : integrity?.version === '4.0' ? (
             <> Directorships are DOB-verified with register-anchored identity confirmation.
             Network centrality scoring amplifies risk for highly-connected individuals.
             Cross-references include MP declared interests, revolving door detection,

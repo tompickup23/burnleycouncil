@@ -372,7 +372,7 @@ function getCardNames() {
 }
 
 function renderWithRichData() {
-  useData.mockReturnValue({ data: [richIntegrity, richCouncillorsFull, null, null], loading: false, error: null })
+  useData.mockReturnValue({ data: [richIntegrity, richCouncillorsFull, null, null, null, null], loading: false, error: null })
   return render(
     <MemoryRouter>
       <Integrity />
@@ -399,13 +399,13 @@ describe('Integrity', () => {
   })
 
   it('renders the page heading with data', () => {
-    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null, null, null], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Councillor Integrity Checker')).toBeInTheDocument()
   })
 
   it('renders councillor name from data', () => {
-    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null, null, null], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Test Councillor')).toBeInTheDocument()
   })
@@ -1023,7 +1023,7 @@ describe('Integrity', () => {
         ...richIntegrity,
         councillors_checked: 0,
       }
-      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull, null, null], loading: false, error: null })
+      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull, null, null, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1037,7 +1037,7 @@ describe('Integrity', () => {
         ...richIntegrity,
         councillors_checked: 0,
       }
-      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull, null, null], loading: false, error: null })
+      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull, null, null, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1096,7 +1096,7 @@ describe('Integrity', () => {
         ...richIntegrity,
         cross_council_summary: { councillor_companies_in_other_councils: 0 },
       }
-      useData.mockReturnValue({ data: [noXCouncil, richCouncillorsFull, null, null], loading: false, error: null })
+      useData.mockReturnValue({ data: [noXCouncil, richCouncillorsFull, null, null, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1186,7 +1186,7 @@ describe('Integrity', () => {
 
     it('does not render familial section when no clusters exist', () => {
       const noFamilial = { ...richIntegrity, surname_clusters: [] }
-      useData.mockReturnValue({ data: [noFamilial, richCouncillorsFull, null, null], loading: false, error: null })
+      useData.mockReturnValue({ data: [noFamilial, richCouncillorsFull, null, null, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1313,7 +1313,7 @@ describe('Integrity', () => {
   describe('methodology banner', () => {
     it('renders methodology banner', () => {
       renderWithRichData()
-      expect(screen.getByText(/14-source forensic investigation/)).toBeInTheDocument()
+      expect(screen.getByText(/source political fraud detection/)).toBeInTheDocument()
     })
 
     it('shows register available message when register is available', () => {
@@ -1323,7 +1323,7 @@ describe('Integrity', () => {
 
     it('shows register not available message when register is missing', () => {
       const noRegister = { ...richIntegrity, register_available: false }
-      useData.mockReturnValue({ data: [noRegister, richCouncillorsFull, null, null], loading: false, error: null })
+      useData.mockReturnValue({ data: [noRegister, richCouncillorsFull, null, null, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1371,7 +1371,7 @@ describe('Integrity', () => {
         }
       }
       useData.mockReturnValue({
-        data: [richIntegrity, richCouncillorsFull, mpInterests, null],
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null, null, null],
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
@@ -1419,7 +1419,7 @@ describe('Integrity', () => {
         }
       }
       useData.mockReturnValue({
-        data: [richIntegrity, richCouncillorsFull, mpInterests, null],
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null, null, null],
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
@@ -1439,7 +1439,7 @@ describe('Integrity', () => {
         summary: { ...richIntegrity.summary, mp_financial_links: 3 },
       }
       useData.mockReturnValue({
-        data: [v4Integrity, richCouncillorsFull, null, null],
+        data: [v4Integrity, richCouncillorsFull, null, null, null, null],
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
@@ -1453,7 +1453,7 @@ describe('Integrity', () => {
         summary: { ...richIntegrity.summary, revolving_door_detections: 2 },
       }
       useData.mockReturnValue({
-        data: [v4Integrity, richCouncillorsFull, null, null],
+        data: [v4Integrity, richCouncillorsFull, null, null, null, null],
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
@@ -1474,7 +1474,7 @@ describe('Integrity', () => {
       }))
       const v4Integrity = { ...richIntegrity, councillors: v4Councillors }
       useData.mockReturnValue({
-        data: [v4Integrity, richCouncillorsFull, null, null],
+        data: [v4Integrity, richCouncillorsFull, null, null, null, null],
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
@@ -1498,7 +1498,7 @@ describe('Integrity', () => {
       }))
       const v4Integrity = { ...richIntegrity, councillors: v4Councillors }
       useData.mockReturnValue({
-        data: [v4Integrity, richCouncillorsFull, null, null],
+        data: [v4Integrity, richCouncillorsFull, null, null, null, null],
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
@@ -1509,6 +1509,460 @@ describe('Integrity', () => {
       fireEvent.click(headers[0])
       expect(screen.getByText('Network Centrality')).toBeInTheDocument()
       expect(screen.getByText(/Highly connected/)).toBeInTheDocument()
+    })
+  })
+
+  // ══════ v5: Donations Tab ══════
+
+  describe('v5 donations tab', () => {
+    const mockEcDonations = {
+      summary: {
+        total_donations: 1046,
+        total_value: 3250000,
+        suppliers_who_donate: 5,
+        threshold_proximity_count: 12,
+        party_totals: { 'Labour Party': 1500000, 'Conservative Party': 1200000, 'Reform UK': 350000, 'Liberal Democrats': 200000 },
+      },
+      supplier_donations: [
+        { donor_name: 'Acme Corp Ltd', value: 5000, regulated_entity: 'Labour Party', accounting_unit: 'Burnley CLP', accepted_date: '2024-06-15', council_spend: 45000 },
+      ],
+      threshold_proximity: [
+        { donor_name: 'Anonymous Donor', value: 11150, accounting_unit: 'Burnley CLP', below_pct: 0.3, threshold_type: 'central', threshold_value: 11180 },
+      ],
+      temporal_clusters: [
+        { donation_count: 5, unique_donors: 4, total_value: 25000, entity: 'Labour Party', accounting_unit: 'Burnley CLP', window_start: '2024-03-01', window_end: '2024-03-28' },
+      ],
+      unincorporated_associations: [
+        { donor_name: 'Lancashire Business Club', value: 8000, accounting_unit: 'Burnley CLP', accepted_date: '2024-09-10' },
+      ],
+    }
+
+    it('renders Donations tab button when ecDonations data available', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText('Donations')).toBeInTheDocument()
+    })
+
+    it('shows donation summary cards when Donations tab is active', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('Donations'))
+      expect(screen.getByText('Total Donations')).toBeInTheDocument()
+      expect(screen.getByText('Total Value')).toBeInTheDocument()
+      expect(screen.getByText('Supplier-Donors')).toBeInTheDocument()
+      expect(screen.getByText('Threshold Alerts')).toBeInTheDocument()
+    })
+
+    it('renders supplier-donor pipeline section', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('Donations'))
+      expect(screen.getByText('Supplier-Donor Pipeline')).toBeInTheDocument()
+      expect(screen.getByText(/Acme Corp Ltd/)).toBeInTheDocument()
+    })
+
+    it('renders threshold proximity alerts', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('Donations'))
+      expect(screen.getByText('Threshold Proximity Alerts')).toBeInTheDocument()
+    })
+
+    it('renders temporal donation clusters', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('Donations'))
+      expect(screen.getByText('Temporal Donation Clusters')).toBeInTheDocument()
+    })
+
+    it('renders unincorporated association donations', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('Donations'))
+      expect(screen.getByText('Unincorporated Association Donations')).toBeInTheDocument()
+    })
+
+    it('renders party totals breakdown', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, mockEcDonations, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('Donations'))
+      expect(screen.getByText('Donations by Party')).toBeInTheDocument()
+      expect(screen.getByText('Labour Party')).toBeInTheDocument()
+      expect(screen.getByText('Conservative Party')).toBeInTheDocument()
+    })
+
+    it('does not show Donations tab when no ecDonations data', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const tabs = screen.getAllByRole('tab')
+      const tabTexts = tabs.map(t => t.textContent)
+      expect(tabTexts.join('')).not.toContain('Donations')
+    })
+  })
+
+  // ══════ v5: Parliamentary Mentions ══════
+
+  describe('v5 parliamentary mentions', () => {
+    const mpInterests = {
+      constituencies: {
+        'Burnley': {
+          mp_name: 'Oliver Ryan',
+          mp_party: 'Labour',
+          total_interests: 5,
+          companies_declared: ['D-International'],
+          donors: ['Labour Together'],
+          total_declared_value: 25000,
+          interests_by_category: { employment: [{ name: 'D-International' }] },
+          supplier_findings: [],
+          ch_cross_reference: [],
+        },
+      },
+    }
+
+    const mockHansard = {
+      mp_mentions: {
+        'Oliver Ryan': {
+          twfy_person_id: 26494,
+          total_mentions: 2,
+          mentions: [
+            {
+              company_or_donor: 'D-International',
+              relationship: 'donor_to_mp',
+              debate_title: 'Business of the House',
+              debate_date: '2025-06-15',
+              excerpt: '...supports local businesses like D-International...',
+              hansard_url: 'https://hansard.parliament.uk/debate123',
+              risk_indicator: 'mp_promoted_donor_in_parliament',
+            },
+          ],
+        },
+      },
+    }
+
+    it('renders Parliamentary Mentions section in MP card', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null, null, mockHansard],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('MPs'))
+      expect(screen.getByText('Parliamentary Mentions')).toBeInTheDocument()
+      expect(screen.getByText('D-International')).toBeInTheDocument()
+    })
+
+    it('shows debate title and Hansard link', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null, null, mockHansard],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('MPs'))
+      expect(screen.getByText(/Business of the House/)).toBeInTheDocument()
+      const hansardLink = screen.getByText('Hansard')
+      expect(hansardLink.closest('a')).toHaveAttribute('href', 'https://hansard.parliament.uk/debate123')
+    })
+
+    it('does not show Parliamentary Mentions when no hansard data', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByText('MPs'))
+      expect(screen.queryByText('Parliamentary Mentions')).not.toBeInTheDocument()
+    })
+  })
+
+  // ══════ v5: Stat Cards ══════
+
+  describe('v5 stat cards', () => {
+    it('renders shell company donors stat when present', () => {
+      const v5Summary = { ...richIntegrity.summary, shell_company_donors: 3 }
+      const v5Integrity = { ...richIntegrity, summary: v5Summary }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText('Shell Company Donors')).toBeInTheDocument()
+    })
+
+    it('renders contract splitting stat when present', () => {
+      const v5Summary = { ...richIntegrity.summary, contract_splitting_flags: 7 }
+      const v5Integrity = { ...richIntegrity, summary: v5Summary }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText('Contract Splitting')).toBeInTheDocument()
+    })
+
+    it('renders bid rigging stat when present', () => {
+      const v5Summary = { ...richIntegrity.summary, bid_rigging_indicators: 2 }
+      const v5Integrity = { ...richIntegrity, summary: v5Summary }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText('Bid Rigging Patterns')).toBeInTheDocument()
+    })
+
+    it('does not render v5 stats when zero', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.queryByText('Shell Company Donors')).not.toBeInTheDocument()
+      expect(screen.queryByText('Contract Splitting')).not.toBeInTheDocument()
+      expect(screen.queryByText('Bid Rigging Patterns')).not.toBeInTheDocument()
+    })
+  })
+
+  // ══════ v5: Finding Sections in Councillor Detail ══════
+
+  describe('v5 finding sections in councillor detail', () => {
+    function makeV5Councillors(findings) {
+      return richIntegrity.councillors.map(c => ({
+        ...c,
+        ...((c.councillor_id === 'c1') ? findings : {}),
+      }))
+    }
+
+    it('renders shell company findings in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        shell_company_findings: [{ detail: 'Donor XYZ Ltd is a shell company (SIC 82990, dormant)', severity: 'critical' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Shell Company Donor Findings')).toBeInTheDocument()
+      expect(screen.getByText(/Donor XYZ Ltd is a shell company/)).toBeInTheDocument()
+    })
+
+    it('renders contract splitting detection in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        contract_splitting: [{ detail: 'Pemberton Consulting: 8 payments of £24K (total £192K, just below £200K threshold)', severity: 'critical' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Contract Splitting Detection')).toBeInTheDocument()
+    })
+
+    it('renders bid rigging indicators in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        bid_rigging: [{ detail: 'Rotating winner pattern detected: 3 contracts alternating between 2 suppliers', severity: 'critical' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Bid Rigging Indicators')).toBeInTheDocument()
+    })
+
+    it('renders phantom company detection in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        phantom_companies: [{ detail: 'Alpha Holdings Ltd: no filed accounts, dormant SIC code, formation agent address', severity: 'high' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Phantom Company Detection')).toBeInTheDocument()
+    })
+
+    it('renders social network triangulation in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        social_network: [{ detail: '2-hop link: Pemberton → Bob Jones → Jones Services → Council supplier', severity: 'high' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Social Network Triangulation')).toBeInTheDocument()
+    })
+
+    it('renders reciprocal cross-council appointments in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        reciprocal_appointments: [{ detail: 'Reciprocal pattern: directs company supplying Hyndburn while Hyndburn councillor directs company supplying Burnley', severity: 'critical' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Reciprocal Cross-Council Appointments')).toBeInTheDocument()
+    })
+
+    it('renders seasonal spending anomaly in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        seasonal_anomaly: [{ detail: 'March spending spike: £145K in March vs £45K monthly average (z-score: 3.2)', severity: 'warning' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Seasonal Spending Anomaly')).toBeInTheDocument()
+    })
+
+    it('renders threshold manipulation in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        threshold_manipulation: [{ detail: 'Donation of £11,150 to Burnley CLP — 0.3% below PPERA central threshold', severity: 'high' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Donation Threshold Manipulation')).toBeInTheDocument()
+    })
+
+    it('renders hansard parliamentary mentions in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        hansard_mentions: [{ detail: 'MP Cat Smith mentioned Unite the Union in Business of the House debate (declared interest)', severity: 'high', type: 'hansard_interest_mention' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Hansard Parliamentary Mentions')).toBeInTheDocument()
+    })
+
+    it('renders undeclared interests in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        undeclared_interests: [{ detail: 'CH directorship at ACME LTD (08765432) not declared on register of interests', severity: 'critical', type: 'undeclared_interest' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Undeclared Interests')).toBeInTheDocument()
+    })
+
+    it('renders company formation timing in expanded detail', () => {
+      const v5Councillors = makeV5Councillors({
+        formation_timing: [{ detail: 'NEWCO LTD incorporated 3 months before receiving £45,000 council contract', severity: 'critical', type: 'company_formed_before_contract' }],
+      })
+      const v5Integrity = { ...richIntegrity, councillors: v5Councillors }
+      useData.mockReturnValue({
+        data: [v5Integrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Company Formation Timing')).toBeInTheDocument()
+    })
+  })
+
+  // ══════ v5: Methodology Banner ══════
+
+  describe('v5 methodology banner', () => {
+    it('shows source count description', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText(/source political fraud detection/)).toBeInTheDocument()
+    })
+
+    it('mentions shell company detection in methodology', () => {
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, null, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText(/shell company detection/)).toBeInTheDocument()
     })
   })
 })

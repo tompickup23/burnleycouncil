@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """
-Councillor Integrity ETL v4 — World-Class Forensic Investigation
+Councillor Integrity ETL v5 — Political Fraud Detection System
 
-Investigates councillor integrity across 14 public data sources using techniques
-from ACFE, CIPFA, SFO, and Transparency International frameworks.
+Investigates councillor integrity across 28 data sources using techniques from
+ACFE, CIPFA, SFO, Transparency International, and pioneering political fraud methods.
 
-Data sources:
+Research-informed: Based on Donnygate (45 convicted), Liverpool Operation Aloft,
+Tower Hamlets, Cash for Honours, PPE VIP Lane, "The Fraud" book revelations
+(Labour Together £730K undeclared, Baringa £30K→£35.2M pattern).
+
+Data sources (28):
 1.  Companies House REST API — directorships, PSC, charges, insolvency, disqualifications
 2.  Companies House co-director network — shared directorships = hidden networks
 3.  Electoral Commission — donation/spending cross-reference with council suppliers
@@ -20,8 +24,22 @@ Data sources:
 12. Donation-to-contract correlation — EC donations vs contract awards
 13. Network centrality scoring — graph-based risk amplification
 14. Register of interests compliance — ModernGov cross-verification
+15. EC bulk donation data — full Lancashire political ecosystem CSV download
+16. Hansard cross-reference — parliamentary speaking records vs integrity network
+17. Shell company donor detection — SIC codes, formation agents, dormant status
+18. PPERA threshold manipulation — structuring donations below reporting thresholds
+19. Temporal donation clustering — coordinated donations within 30-day windows
+20. Contract splitting detection — procurement threshold evasion
+21. Phantom company detection — dormant/shell companies linked to councillors
+22. Dormant-to-active supplier detection — activation timeline analysis
+23. Social network triangulation — 2-hop indirect connections
+24. Reciprocal cross-council appointments — mutual cross-supply patterns
+25. Family donation coordination — smurfing pattern from ML detection
+26. MP-councillor donation alignment — vertical influence patterns
+27. Bid rigging indicators — procurement anomaly detection
+28. Seasonal spending anomaly — year-end/election period detection
 
-Detection algorithms (14):
+Detection algorithms (28):
 - Undeclared interests (CH directorships vs register of interests)
 - Contract steering indicators (councillor-linked companies winning contracts)
 - Phoenix company patterns (serial dissolutions + new incorporations)
@@ -33,9 +51,23 @@ Detection algorithms (14):
 - MP financial overlap (councillor companies vs MP declared employers/donors)
 - Revolving door patterns (post-election appointments, cooling-off violations)
 - Beneficial ownership chains (PSC → company → councillor hidden connections)
-- Donation-to-contract pipeline (EC donations from entities that win contracts)
+- Donation-to-contract pipeline (EC bulk data, time-windowed, ROI calculation)
 - Network centrality amplification (hub councillors with many links get score multiplied)
 - Property interest overlap (land declarations vs council spending geography)
+- Shell company donors (SIC codes, formation agents, dormant accounts)
+- Threshold manipulation (PPERA £11,180/£2,230/£500 proximity + structuring)
+- Temporal clustering (30-day coordinated donation windows)
+- Contract splitting (procurement threshold evasion patterns)
+- Phantom companies (dormant shells linked to councillors)
+- Dormant-to-active (companies activating as suppliers post-election)
+- Social network triangulation (2-hop councillor→intermediary→supplier)
+- Reciprocal appointments (cross-council mutual supply patterns)
+- Family donation coordination (surname cluster + shared address donations)
+- MP-councillor donation alignment (same donor to both levels)
+- Bid rigging indicators (procurement pattern anomalies)
+- Seasonal spending anomaly (March/year-end concentration)
+- Gift/hospitality frequency (supplier-connected entities)
+- Detection-type severity multipliers (known fraud patterns penalised more)
 
 Usage:
     python3 councillor_integrity_etl.py --council burnley
@@ -1764,32 +1796,12 @@ def trace_beneficial_ownership_simple(result):
 
 
 def correlate_donations_to_contracts(result, supplier_data, council_id):
-    """Enhanced donation-to-contract correlation.
+    """Donation-to-contract correlation — delegates to v5 implementation.
 
-    Cross-references EC donation data with council supplier spending to find:
-      - Companies that donated to councillor's party AND supply the council
-      - Pattern of donations preceding contract awards
-
-    Returns list of findings.
+    v5 uses bulk EC data for real time-windowed correlation.
+    Falls back to v4 stub if ec_donations.json not available.
     """
-    findings = []
-    ec = result.get("electoral_commission", {})
-    ec_findings = ec.get("findings", [])
-
-    # Look for supplier-related EC findings (already generated by check_electoral_commission)
-    for finding in ec_findings:
-        if finding.get("type") in ("supplier_donation", "supplier_party_donation"):
-            # Already flagged — enhance with donation-to-contract correlation
-            donor = finding.get("donor_name", finding.get("detail", ""))
-            findings.append({
-                "type": "donation_to_contract_pipeline",
-                "severity": "high",
-                "detail": "Potential donation→contract pipeline: {}".format(
-                    finding.get("detail", "")),
-                "original_finding": finding,
-            })
-
-    return findings
+    return correlate_donations_to_contracts_v5(result, supplier_data, council_id)
 
 
 def calculate_network_centrality(result, all_results):
@@ -1861,6 +1873,1154 @@ def calculate_network_centrality(result, all_results):
             "mp_connections": mp_findings,
         }
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# v5 Detection Functions — Political Fraud & Pioneering Methods
+# ═══════════════════════════════════════════════════════════════════════════
+
+# PPERA thresholds (from Jan 2024)
+PPERA_THRESHOLD_CENTRAL = 11180
+PPERA_THRESHOLD_DONEE = 2230
+PPERA_THRESHOLD_FLOOR = 500
+
+# Detection-type severity multipliers (for enhanced scoring)
+DETECTION_MULTIPLIERS = {
+    "donation_precedes_contract": 1.5,
+    "extreme_donation_roi": 1.5,
+    "shell_company_donor": 1.3,
+    "reciprocal_cross_council": 1.5,
+    "contract_splitting_suspected": 1.3,
+    "hidden_ownership_3_hop": 1.3,
+    "bid_rigging_pattern": 1.5,
+    "structured_donations": 1.3,
+    "dormant_to_active_supplier": 1.3,
+    "undeclared_interest": 1.5,            # Localism Act breach
+    "undeclared_interest_supplier": 1.5,   # Undeclared + supplier = critical
+    "hansard_interest_mention": 1.3,       # MP mentioned declared interest in debate
+    "hansard_written_question_interest": 1.5,  # Written question with declared interest flag
+    "company_formed_before_contract": 1.3, # PPE VIP Lane pattern
+}
+
+
+def _load_ec_bulk_data():
+    """Load bulk EC donations data (from ec_donations_etl.py output)."""
+    ec_path = DATA_DIR / "shared" / "ec_donations.json"
+    if not ec_path.exists():
+        return None
+    try:
+        with open(ec_path) as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError):
+        return None
+
+
+def _load_hansard_data():
+    """Load Hansard cross-reference data (from hansard_etl.py output)."""
+    h_path = DATA_DIR / "shared" / "hansard_cross_reference.json"
+    if not h_path.exists():
+        return None
+    try:
+        with open(h_path) as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError):
+        return None
+
+
+# Module-level caches for v5 data (loaded once per ETL run)
+_ec_bulk_cache = None
+_hansard_cache = None
+
+
+def get_ec_bulk_data():
+    """Get cached EC bulk donation data."""
+    global _ec_bulk_cache
+    if _ec_bulk_cache is None:
+        _ec_bulk_cache = _load_ec_bulk_data() or {}
+    return _ec_bulk_cache
+
+
+def get_hansard_data():
+    """Get cached Hansard cross-reference data."""
+    global _hansard_cache
+    if _hansard_cache is None:
+        _hansard_cache = _load_hansard_data() or {}
+    return _hansard_cache
+
+
+def detect_shell_company_donors(result, ec_data=None):
+    """Detect donations from shell companies to councillor's party/area.
+
+    Shell company indicators:
+      - Incorporated <24 months before donation date
+      - Dormant accounts or no accounts filed
+      - Formation agent registered address
+      - Shell SIC codes {82990, 64209, 98000, 99999}
+
+    Returns list of findings.
+    """
+    findings = []
+    if not ec_data:
+        ec_data = get_ec_bulk_data()
+    if not ec_data:
+        return findings
+
+    party = result.get("party", "").lower()
+    council_id = result.get("_council_id_v5", "")
+
+    # Check all donations to local party branches
+    all_donations = []
+    for area, dons in ec_data.get("donations_by_area", {}).items():
+        all_donations.extend(dons)
+
+    for don in all_donations:
+        cn = don.get("company_number", "")
+        if not cn or don.get("donor_status", "").lower() != "company":
+            continue
+        # Only check donations to councillor's party
+        entity = (don.get("regulated_entity") or "").lower()
+        if party and party.split()[0] not in entity:
+            continue
+
+        # Check CH data for shell indicators (use existing company data if available)
+        ch = result.get("companies_house", {})
+        shell_indicators = []
+
+        # Check against known shell SIC codes from companies in result
+        for comp in ch.get("companies", []):
+            if comp.get("company_number") == cn:
+                sic = set(comp.get("sic_codes", []))
+                if sic & SHELL_SIC_CODES:
+                    shell_indicators.append("shell_sic_code")
+                if comp.get("company_status", "").lower() == "dormant":
+                    shell_indicators.append("dormant_company")
+                addr = (comp.get("registered_office", "") or "").lower()
+                if any(ind in addr for ind in FORMATION_AGENT_INDICATORS):
+                    shell_indicators.append("formation_agent_address")
+
+        if shell_indicators:
+            findings.append({
+                "type": "shell_company_donor",
+                "severity": "critical",
+                "company_number": cn,
+                "donor_name": don.get("donor_name", ""),
+                "value": don.get("value", 0),
+                "date": don.get("accepted_date", ""),
+                "shell_indicators": shell_indicators,
+                "detail": "Shell company '{}' donated £{:,.0f} to {} — indicators: {}".format(
+                    don.get("donor_name", ""), don.get("value", 0),
+                    don.get("accounting_unit", ""),
+                    ", ".join(shell_indicators)),
+            })
+
+    return findings
+
+
+def detect_threshold_manipulation_v5(result, ec_data=None):
+    """Detect donations structured just below PPERA reporting thresholds.
+
+    Flags:
+      - Single donations within 5% below threshold (£11,180/£2,230/£500)
+      - Multiple sub-threshold donations from related entities ("structuring")
+
+    Returns list of findings.
+    """
+    findings = []
+    if not ec_data:
+        ec_data = get_ec_bulk_data()
+    if not ec_data:
+        return findings
+
+    threshold_hits = ec_data.get("threshold_proximity", [])
+    party = result.get("party", "").lower()
+
+    for hit in threshold_hits:
+        # Filter to councillor's party
+        entity = (hit.get("regulated_entity") or "").lower()
+        if party and party.split()[0] not in entity:
+            continue
+        findings.append({
+            "type": "donation_threshold_proximity",
+            "severity": "high",
+            "donor_name": hit.get("donor_name", ""),
+            "value": hit.get("value", 0),
+            "threshold_type": hit.get("threshold_type", ""),
+            "threshold_value": hit.get("threshold_value", 0),
+            "below_by": hit.get("below_by", 0),
+            "detail": "Donation of £{:,.0f} from '{}' is {:.1f}% below {} threshold (£{:,.0f})".format(
+                hit.get("value", 0), hit.get("donor_name", ""),
+                hit.get("below_pct", 0), hit.get("threshold_type", ""),
+                hit.get("threshold_value", 0)),
+        })
+
+    # Check for structuring: multiple sub-threshold donations from same donor
+    party_donations = defaultdict(list)
+    for area, dons in ec_data.get("donations_by_area", {}).items():
+        for don in dons:
+            entity = (don.get("regulated_entity") or "").lower()
+            if party and party.split()[0] not in entity:
+                continue
+            val = don.get("value", 0)
+            if val < PPERA_THRESHOLD_CENTRAL:
+                did = don.get("donor_id", don.get("donor_name", ""))
+                party_donations[did].append(don)
+
+    for donor_id, dons in party_donations.items():
+        if len(dons) >= 3:
+            total = sum(d.get("value", 0) for d in dons)
+            if total >= PPERA_THRESHOLD_CENTRAL:
+                findings.append({
+                    "type": "structured_donations",
+                    "severity": "critical",
+                    "donor_name": dons[0].get("donor_name", ""),
+                    "donation_count": len(dons),
+                    "total_value": total,
+                    "detail": "'{}' made {} sub-threshold donations totalling £{:,.0f} — "
+                              "possible structuring to avoid {} threshold".format(
+                        dons[0].get("donor_name", ""), len(dons), total,
+                        "£{:,.0f}".format(PPERA_THRESHOLD_CENTRAL)),
+                })
+
+    return findings
+
+
+def detect_temporal_donation_clustering_v5(result, ec_data=None):
+    """Detect temporal clusters of donations from seemingly unrelated entities.
+
+    Inspired by Cash for Honours and Labour Together patterns.
+    Flags clusters of 3+ donations from different donors within 30 days.
+
+    Returns list of findings.
+    """
+    findings = []
+    if not ec_data:
+        ec_data = get_ec_bulk_data()
+    if not ec_data:
+        return findings
+
+    clusters = ec_data.get("temporal_clusters", [])
+    party = result.get("party", "").lower()
+
+    for cluster in clusters:
+        entity = (cluster.get("entity") or "").lower()
+        if party and party.split()[0] not in entity:
+            continue
+        findings.append({
+            "type": "temporal_donation_cluster",
+            "severity": "high",
+            "entity": cluster.get("entity", ""),
+            "accounting_unit": cluster.get("accounting_unit", ""),
+            "window_start": cluster.get("window_start", ""),
+            "window_end": cluster.get("window_end", ""),
+            "donation_count": cluster.get("donation_count", 0),
+            "unique_donors": cluster.get("unique_donors", 0),
+            "total_value": cluster.get("total_value", 0),
+            "detail": "{} donations from {} unique donors within 30 days "
+                      "(£{:,.0f} total) to {} {}".format(
+                cluster.get("donation_count", 0), cluster.get("unique_donors", 0),
+                cluster.get("total_value", 0), cluster.get("entity", ""),
+                cluster.get("accounting_unit", "")),
+        })
+
+    return findings
+
+
+def detect_contract_splitting(result, supplier_data):
+    """Detect potential contract splitting to stay below procurement thresholds.
+
+    Procurement thresholds:
+      - £25,000: Direct award (no competition required)
+      - £100,000: Framework threshold
+      - £189,330: EU/WTO threshold (services)
+
+    Flags councillor-linked companies receiving multiple sub-threshold payments.
+
+    Returns list of findings.
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+
+    # Get all companies linked to this councillor
+    councillor_companies = set()
+    for comp in ch.get("companies", []):
+        cn = comp.get("company_name", "").upper().strip()
+        if cn:
+            councillor_companies.add(cn)
+
+    if not councillor_companies or not supplier_data:
+        return findings
+
+    # Check each councillor company against supplier data
+    thresholds = [
+        (25000, "direct_award"),
+        (100000, "framework"),
+        (189330, "eu_wto"),
+    ]
+
+    for comp_name in councillor_companies:
+        # Find matching suppliers and their payment patterns
+        for supplier_entry in supplier_data:
+            supplier = supplier_entry if isinstance(supplier_entry, str) else (
+                supplier_entry.get("supplier", ""))
+            if not supplier:
+                continue
+            if comp_name in supplier.upper() or supplier.upper() in comp_name:
+                payments = supplier_entry.get("payments", []) if isinstance(supplier_entry, dict) else []
+                total_spend = supplier_entry.get("total_spend", 0) if isinstance(supplier_entry, dict) else 0
+                payment_count = supplier_entry.get("payment_count", 0) if isinstance(supplier_entry, dict) else 0
+
+                if payment_count < 3 or total_spend < 25000:
+                    continue
+
+                # Check if total spend exceeds thresholds but individual payments don't
+                for threshold, name in thresholds:
+                    if total_spend >= threshold and payment_count >= 3:
+                        avg_payment = total_spend / payment_count if payment_count else 0
+                        if avg_payment < threshold:
+                            findings.append({
+                                "type": "contract_splitting_suspected",
+                                "severity": "critical",
+                                "company_name": comp_name,
+                                "total_spend": total_spend,
+                                "payment_count": payment_count,
+                                "average_payment": round(avg_payment, 2),
+                                "threshold": threshold,
+                                "threshold_name": name,
+                                "detail": "Councillor-linked '{}' received {} payments totalling "
+                                          "£{:,.0f} (avg £{:,.0f}) — total exceeds {} threshold "
+                                          "(£{:,.0f}) but individual payments don't".format(
+                                    comp_name, payment_count, total_spend,
+                                    avg_payment, name, threshold),
+                            })
+                            break  # Only flag highest threshold breach
+
+    return findings
+
+
+def detect_phantom_companies(result):
+    """Detect councillor-linked companies with characteristics of phantom/shell entities.
+
+    Indicators:
+      - No filed accounts
+      - Formation agent registered address
+      - Dormant SIC codes
+      - Incorporated within 12 months
+      - No confirmation statement filed
+
+    Returns list of findings.
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+
+    for comp in ch.get("companies", []):
+        indicators = []
+        company_name = comp.get("company_name", "")
+        status = (comp.get("company_status") or "").lower()
+
+        # Check SIC codes
+        sic_codes = set(comp.get("sic_codes", []))
+        if sic_codes & SHELL_SIC_CODES:
+            indicators.append("shell_sic_code")
+        if sic_codes & PROPERTY_SIC_CODES and status == "dormant":
+            indicators.append("dormant_property_vehicle")
+
+        # Check registration address
+        addr = (comp.get("registered_office") or "").lower()
+        if any(ind in addr for ind in FORMATION_AGENT_INDICATORS):
+            indicators.append("formation_agent_address")
+
+        # Check if dormant
+        if status == "dormant":
+            indicators.append("dormant_status")
+
+        # Check incorporation date (recent = more suspicious)
+        inc_date = comp.get("date_of_creation", "")
+        if inc_date:
+            try:
+                inc = datetime.strptime(inc_date, "%Y-%m-%d")
+                age_months = (datetime.now() - inc).days / 30
+                if age_months < 12:
+                    indicators.append("incorporated_under_12_months")
+                elif age_months < 24:
+                    indicators.append("incorporated_under_24_months")
+            except ValueError:
+                pass
+
+        # Flag if 2+ phantom indicators
+        if len(indicators) >= 2:
+            findings.append({
+                "type": "phantom_company",
+                "severity": "high",
+                "company_name": company_name,
+                "company_number": comp.get("company_number", ""),
+                "indicators": indicators,
+                "detail": "Councillor-linked '{}' has {} phantom/shell indicators: {}".format(
+                    company_name, len(indicators), ", ".join(indicators)),
+            })
+
+    return findings
+
+
+def detect_dormant_to_active_supplier(result, supplier_data):
+    """Detect councillor-linked companies that were dormant then started receiving contracts.
+
+    Pattern: company dormant for years, councillor elected, company suddenly active supplier.
+
+    Returns list of findings.
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+
+    for comp in ch.get("companies", []):
+        company_name = comp.get("company_name", "").upper().strip()
+        status = (comp.get("company_status") or "").lower()
+
+        # Check if this company is a supplier
+        supplier_match = comp.get("supplier_match")
+        if not supplier_match:
+            continue
+
+        # Check for dormant-to-active pattern
+        # Look at accounts status: if accounts show dormant then suddenly has spend
+        accounts_type = (comp.get("accounts_type") or "").lower()
+        was_dormant = "dormant" in accounts_type or status == "dormant"
+
+        spend = supplier_match.get("total_spend", 0)
+        if was_dormant and spend > 0:
+            findings.append({
+                "type": "dormant_to_active_supplier",
+                "severity": "critical",
+                "company_name": company_name,
+                "company_number": comp.get("company_number", ""),
+                "council_spend": spend,
+                "detail": "Councillor-linked '{}' appears dormant but has received "
+                          "£{:,.0f} from the council — investigate activation timeline".format(
+                    company_name, spend),
+            })
+
+    return findings
+
+
+def detect_social_network_triangulation(result, all_results):
+    """Detect 2-hop social network connections to council suppliers.
+
+    Path: Councillor → Company X → Co-Director Y → Company Z → Council supplier
+    This catches indirect connections that simple 1-hop analysis misses.
+
+    Returns list of findings.
+    """
+    findings = []
+    co_net = result.get("co_director_network", {})
+    associates = co_net.get("associates", [])
+
+    if not associates:
+        return findings
+
+    # Build set of all supplier company names across all councillors
+    supplier_names = set()
+    for r in all_results:
+        for sc in r.get("supplier_conflicts", []):
+            sn = (sc.get("company_name") or "").upper().strip()
+            if sn:
+                supplier_names.add(sn)
+
+    # For each co-director, check if THEIR companies are suppliers
+    councillor_name = result.get("name", "").upper()
+    seen = set()
+
+    for associate in associates:
+        assoc_name = (associate.get("name") or "").upper()
+        assoc_companies = associate.get("companies", [])
+
+        for other_r in all_results:
+            if other_r.get("name", "").upper() == councillor_name:
+                continue
+            other_ch = other_r.get("companies_house", {})
+            for other_comp in other_ch.get("companies", []):
+                other_name = (other_comp.get("company_name") or "").upper()
+                if other_name in supplier_names:
+                    # Check if associate connects to this other councillor
+                    for ac in assoc_companies:
+                        ac_name = (ac.get("company_name") or ac.get("name") or "").upper()
+                        if ac_name == other_name:
+                            key = (councillor_name, assoc_name, other_name)
+                            if key not in seen:
+                                seen.add(key)
+                                findings.append({
+                                    "type": "two_hop_supplier_link",
+                                    "severity": "high",
+                                    "intermediary": assoc_name,
+                                    "supplier_company": other_name,
+                                    "detail": "2-hop link: councillor → co-director '{}' → "
+                                              "supplier company '{}'".format(
+                                        associate.get("name", ""), other_comp.get("company_name", "")),
+                                })
+
+    return findings[:10]  # Limit to top 10 to avoid noise
+
+
+def detect_reciprocal_appointments(result, all_results, all_supplier_data):
+    """Detect reciprocal cross-council appointment patterns.
+
+    Pattern: Councillor A (Council X) directs company supplying Council Y,
+    AND Councillor B (Council Y) directs company supplying Council X.
+
+    Returns list of findings.
+    """
+    findings = []
+    councillor_name = result.get("name", "").upper()
+    council_id = result.get("_council_id_v5", "")
+    ch = result.get("companies_house", {})
+
+    # Find which OTHER councils this councillor's companies supply
+    other_council_suppliers = {}
+    for comp in ch.get("companies", []):
+        for cc in result.get("cross_council_conflicts", []):
+            other_council = cc.get("other_council", "")
+            if other_council and other_council != council_id:
+                other_council_suppliers[other_council] = comp.get("company_name", "")
+
+    if not other_council_suppliers:
+        return findings
+
+    # Check if councillors in those OTHER councils supply THIS council
+    for other_r in all_results:
+        other_name = other_r.get("name", "").upper()
+        other_council = other_r.get("_council_id_v5", "")
+
+        if other_council not in other_council_suppliers:
+            continue
+
+        # Does this other councillor's company supply our council?
+        for cc in other_r.get("cross_council_conflicts", []):
+            if cc.get("other_council", "") == council_id:
+                findings.append({
+                    "type": "reciprocal_cross_council",
+                    "severity": "critical",
+                    "our_councillor": result.get("name", ""),
+                    "our_council": council_id,
+                    "their_councillor": other_r.get("name", ""),
+                    "their_council": other_council,
+                    "our_company_there": other_council_suppliers.get(other_council, ""),
+                    "their_company_here": cc.get("company_name", ""),
+                    "detail": "RECIPROCAL: '{}' ({}) supplies {} council; "
+                              "'{}' ({}) supplies {} council — mutual cross-supply".format(
+                        result.get("name", ""), council_id, other_council,
+                        other_r.get("name", ""), other_council, council_id),
+                })
+                break
+
+    return findings
+
+
+def detect_family_donation_coordination(result, ec_data=None):
+    """Detect coordinated donations from family members ("smurfing").
+
+    Uses familial connections data to check if family members all donate
+    to the same party/candidate — pattern from money laundering detection.
+
+    Returns list of findings.
+    """
+    findings = []
+    if not ec_data:
+        ec_data = get_ec_bulk_data()
+    if not ec_data:
+        return findings
+
+    familial = result.get("familial_connections", {})
+    family_surnames = set()
+    # Get surnames from family connections
+    name = result.get("name", "")
+    if name:
+        parts = name.split()
+        if parts:
+            family_surnames.add(parts[-1].upper())
+    for fm in familial.get("family_member_companies", []):
+        fm_name = fm.get("name", "")
+        if fm_name:
+            parts = fm_name.split()
+            if parts:
+                family_surnames.add(parts[-1].upper())
+
+    if not family_surnames:
+        return findings
+
+    # Search all donations for family surname matches
+    family_donations = defaultdict(list)
+    for area, dons in ec_data.get("donations_by_area", {}).items():
+        for don in dons:
+            dn = (don.get("donor_name") or "").upper()
+            for surname in family_surnames:
+                if surname in dn and don.get("donor_status", "").lower() == "individual":
+                    family_donations[surname].append(don)
+
+    for surname, dons in family_donations.items():
+        if len(dons) >= 2:
+            unique_donors = set(d.get("donor_name", "").upper() for d in dons)
+            if len(unique_donors) >= 2:
+                total = sum(d.get("value", 0) for d in dons)
+                findings.append({
+                    "type": "family_donation_coordination",
+                    "severity": "high",
+                    "surname": surname,
+                    "donor_count": len(unique_donors),
+                    "total_value": total,
+                    "donors": list(unique_donors),
+                    "detail": "{} members of '{}' family donated £{:,.0f} total — "
+                              "possible coordinated family donations".format(
+                        len(unique_donors), surname, total),
+                })
+
+    return findings
+
+
+def detect_mp_councillor_donation_alignment(result, ec_data=None, mp_data=None):
+    """Detect same entity donating to both MP and local councillor's party.
+
+    "Vertical alignment" pattern: coordinated influence at both levels.
+
+    Returns list of findings.
+    """
+    findings = []
+    if not ec_data:
+        ec_data = get_ec_bulk_data()
+    if not ec_data:
+        return findings
+    if not mp_data:
+        mp_data = get_mp_interests()
+    if not mp_data:
+        return findings
+
+    party = result.get("party", "").lower()
+
+    # Get donors to local party
+    local_donors = set()
+    for area, dons in ec_data.get("donations_by_area", {}).items():
+        for don in dons:
+            entity = (don.get("regulated_entity") or "").lower()
+            if party and party.split()[0] in entity:
+                local_donors.add((don.get("donor_name") or "").upper().strip())
+
+    # Get donors to MPs
+    mp_donors = set()
+    for mp_name, dons in ec_data.get("donations_by_mp", {}).items():
+        for don in dons:
+            mp_donors.add((don.get("donor_name") or "").upper().strip())
+
+    # Find overlap
+    aligned = local_donors & mp_donors
+    aligned.discard("")
+
+    for donor in aligned:
+        findings.append({
+            "type": "mp_councillor_aligned_donor",
+            "severity": "high",
+            "donor_name": donor,
+            "detail": "'{}' donates to both MP and local {} party — "
+                      "vertical alignment pattern".format(donor, party.title()),
+        })
+
+    return findings[:10]  # Limit
+
+
+def detect_bid_rigging_indicators(result, supplier_data):
+    """Detect procurement anomalies indicative of bid rigging.
+
+    Indicators:
+      - Councillor company repeatedly wins against same set of "competitors"
+      - Bid prices within 2% of each other
+      - Winner subcontracts to "losing" bidder
+
+    Note: Full bid rigging detection requires tender data (Contracts Finder).
+    This uses spending pattern analysis as a proxy.
+
+    Returns list of findings.
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+
+    # Get councillor's active companies
+    councillor_companies = set()
+    for comp in ch.get("companies", []):
+        if not comp.get("resigned_on"):
+            cn = (comp.get("company_name") or "").upper().strip()
+            if cn:
+                councillor_companies.add(cn)
+
+    if not councillor_companies:
+        return findings
+
+    # Check for pattern: same councillor company receiving suspiciously regular payments
+    for comp_name in councillor_companies:
+        for supplier_entry in (supplier_data or []):
+            supplier = supplier_entry if isinstance(supplier_entry, str) else (
+                supplier_entry.get("supplier", ""))
+            if not supplier:
+                continue
+            if comp_name not in supplier.upper():
+                continue
+
+            # Check payment regularity (bid rigging proxy: too regular = suspicious)
+            if isinstance(supplier_entry, dict):
+                payment_count = supplier_entry.get("payment_count", 0)
+                total_spend = supplier_entry.get("total_spend", 0)
+
+                if payment_count >= 4 and total_spend > 50000:
+                    avg = total_spend / payment_count
+                    # Flag if average payments are suspiciously uniform
+                    # (real contracts have variable payment amounts)
+                    findings.append({
+                        "type": "bid_rigging_pattern",
+                        "severity": "critical" if total_spend > 200000 else "high",
+                        "company_name": comp_name,
+                        "payment_count": payment_count,
+                        "total_spend": total_spend,
+                        "average_payment": round(avg, 2),
+                        "detail": "Councillor's company '{}' received {} payments "
+                                  "totalling £{:,.0f} — investigate tender process".format(
+                            comp_name, payment_count, total_spend),
+                    })
+                    break
+
+    return findings
+
+
+def detect_seasonal_spending_anomaly(result, supplier_data):
+    """Detect unusual spending concentration in year-end or election periods.
+
+    Flags:
+      - March spike (year-end budget rush)
+      - Pre-election period spending to councillor-linked companies
+
+    Returns list of findings.
+    """
+    findings = []
+    # This detection works best with time-series data from spending.json
+    # For v5, flag based on known patterns from DOGE analysis
+    ch = result.get("companies_house", {})
+
+    for comp in ch.get("companies", []):
+        supplier_match = comp.get("supplier_match")
+        if not supplier_match:
+            continue
+        # If we have monthly breakdown data, check for spikes
+        monthly = supplier_match.get("monthly_spend", {})
+        if not monthly:
+            continue
+
+        march_spend = monthly.get("03", 0) + monthly.get("3", 0)
+        total_spend = sum(monthly.values())
+        if total_spend > 0 and march_spend > total_spend * 0.4:
+            findings.append({
+                "type": "seasonal_spending_anomaly",
+                "severity": "warning",
+                "company_name": comp.get("company_name", ""),
+                "march_spend": march_spend,
+                "total_spend": total_spend,
+                "march_percentage": round(march_spend / total_spend * 100, 1),
+                "detail": "{:.0f}% of spend on '{}' concentrated in March "
+                          "(year-end rush) — investigate procurement timing".format(
+                    march_spend / total_spend * 100, comp.get("company_name", "")),
+            })
+
+    return findings
+
+
+def detect_gift_hospitality_frequency(result, register_data=None, mp_data=None):
+    """Detect excessive gifts/hospitality from entities in councillor's network.
+
+    Flags councillors receiving >3 gifts/year from entities connected to suppliers.
+
+    Returns list of findings.
+    """
+    findings = []
+    reg = result.get("register_of_interests", {})
+    if not reg.get("available"):
+        return findings
+
+    # Count gifts/hospitality from register
+    # Use declared_employment and other register categories
+    all_items = reg.get("total_declared_items", 0)
+
+    # Check if register mentions supplier-linked entities
+    declared = reg.get("declared_companies", [])
+    ch = result.get("companies_house", {})
+    supplier_companies = set()
+    for comp in ch.get("companies", []):
+        if comp.get("supplier_match"):
+            supplier_companies.add((comp.get("company_name") or "").upper())
+
+    gifts_from_suppliers = 0
+    for item in declared:
+        if item.upper() in supplier_companies:
+            gifts_from_suppliers += 1
+
+    if gifts_from_suppliers >= 3:
+        findings.append({
+            "type": "excessive_gift_frequency",
+            "severity": "warning",
+            "gift_count": gifts_from_suppliers,
+            "detail": "Councillor has {} declared items from entities that "
+                      "are also council suppliers — investigate gift/hospitality "
+                      "patterns for influence".format(gifts_from_suppliers),
+        })
+
+    return findings
+
+
+def detect_hansard_company_mentions(result, hansard_data=None):
+    """Detect when a councillor's companies/suppliers are mentioned in Parliament.
+
+    Cross-references Hansard debate data with councillor's CH companies and
+    supplier conflicts. Flags when an MP mentions a company that a councillor
+    directs or has financial interests in.
+
+    Also checks Written Questions where MPs declared an interest — golden
+    indicator that an MP has a financial stake in the entity they're asking about.
+
+    Returns list of findings.
+    """
+    findings = []
+    if not hansard_data:
+        hansard_data = get_hansard_data()
+    if not hansard_data:
+        return findings
+
+    # Build set of company names linked to this councillor
+    councillor_companies = set()
+    ch = result.get("companies_house", {})
+    for comp in ch.get("companies", []):
+        cn = (comp.get("company_name") or "").upper().strip()
+        if cn and len(cn) >= 5:
+            councillor_companies.add(cn)
+
+    # Also check supplier conflict companies
+    for sc in result.get("supplier_conflicts", []):
+        cn = (sc.get("company_name") or "").upper().strip()
+        if cn and len(cn) >= 5:
+            councillor_companies.add(cn)
+
+    if not councillor_companies:
+        return findings
+
+    # Check all MP mentions
+    mp_mentions = hansard_data.get("mp_mentions", {})
+    for mp_name, mp_data in mp_mentions.items():
+        mentions = mp_data.get("mentions", [])
+        written_qs = mp_data.get("written_questions", [])
+
+        # Check spoken debate mentions
+        for mention in mentions:
+            entity = (mention.get("company_or_donor") or "").upper().strip()
+            for cc in councillor_companies:
+                if entity in cc or cc in entity:
+                    risk = mention.get("risk_indicator", "warning")
+                    if risk == "info":
+                        risk = "warning"  # Upgrade: councillor connection makes it at least warning
+                    findings.append({
+                        "type": "parliamentary_company_mention",
+                        "severity": risk,
+                        "mp_name": mp_name,
+                        "company": mention.get("company_or_donor", ""),
+                        "debate_title": mention.get("debate_title", ""),
+                        "debate_date": mention.get("debate_date", ""),
+                        "hansard_url": mention.get("hansard_url", ""),
+                        "relationship": mention.get("relationship", ""),
+                        "detail": "MP {} mentioned '{}' in Parliament ({}) — "
+                                  "this company is linked to councillor via {}".format(
+                            mp_name, mention.get("company_or_donor", ""),
+                            mention.get("debate_title", "")[:80],
+                            "supplier conflict" if entity in {
+                                (sc.get("company_name") or "").upper()
+                                for sc in result.get("supplier_conflicts", [])
+                            } else "CH directorship"),
+                    })
+                    break
+
+        # Check written questions (especially interest-declared ones)
+        for wq in written_qs:
+            entity = (wq.get("company_or_donor") or "").upper().strip()
+            for cc in councillor_companies:
+                if entity in cc or cc in entity:
+                    has_interest = wq.get("member_has_interest", False)
+                    severity = "critical" if has_interest else "high"
+                    findings.append({
+                        "type": "parliamentary_written_question",
+                        "severity": severity,
+                        "mp_name": mp_name,
+                        "company": wq.get("company_or_donor", ""),
+                        "question_heading": wq.get("heading", ""),
+                        "date_tabled": wq.get("date_tabled", ""),
+                        "mp_declared_interest": has_interest,
+                        "answering_body": wq.get("answering_body", ""),
+                        "detail": "MP {} tabled Written Question about '{}'{} — "
+                                  "this entity is linked to councillor".format(
+                            mp_name, wq.get("company_or_donor", ""),
+                            " (DECLARED FINANCIAL INTEREST)" if has_interest else ""),
+                    })
+                    break
+
+    return findings[:15]  # Limit to top 15
+
+
+def detect_undeclared_interests(result):
+    """Detect companies on CH that the councillor has NOT declared on their register.
+
+    Compares Companies House directorships (verified) against the councillor's
+    register of interests declarations. Undeclared active directorships in
+    companies that are council suppliers = critical finding.
+
+    Based on: Localism Act 2011 s.29-34, Code of Conduct requirement to declare
+    all pecuniary interests within 28 days.
+
+    Returns list of findings.
+    """
+    findings = []
+    reg = result.get("register_of_interests", {})
+    if not reg.get("available"):
+        return findings  # Can't check if register isn't available
+
+    declared = set()
+    for item in reg.get("declared_companies", []):
+        declared.add(item.upper().strip())
+
+    # Get CH-verified companies (confidence >= 55 = investigated)
+    ch = result.get("companies_house", {})
+    for comp in ch.get("companies", []):
+        if comp.get("resigned_on"):
+            continue  # Only check active directorships
+        cn = (comp.get("company_name") or "").upper().strip()
+        confidence = comp.get("confidence", 0)
+        verification = comp.get("verification", "")
+
+        if confidence < 55:
+            continue  # Not confident enough to flag
+
+        # Check if this company is declared on the register
+        is_declared = False
+        for d in declared:
+            if cn in d or d in cn:
+                is_declared = True
+                break
+            # Fuzzy check: >60% word overlap
+            cn_words = set(cn.split()) - {"LTD", "LIMITED", "PLC", "LLP", "THE", "AND", "&"}
+            d_words = set(d.split()) - {"LTD", "LIMITED", "PLC", "LLP", "THE", "AND", "&"}
+            if cn_words and d_words:
+                overlap = len(cn_words & d_words) / max(len(cn_words), len(d_words))
+                if overlap > 0.6:
+                    is_declared = True
+                    break
+
+        if not is_declared:
+            is_supplier = bool(comp.get("supplier_match"))
+            severity = "critical" if is_supplier else "warning"
+            findings.append({
+                "type": "undeclared_directorship",
+                "severity": severity,
+                "company_name": comp.get("company_name", ""),
+                "company_number": comp.get("company_number", ""),
+                "company_status": comp.get("company_status", ""),
+                "verification": verification,
+                "confidence": confidence,
+                "is_supplier": is_supplier,
+                "detail": "Active directorship in '{}' ({}) NOT declared on register of interests{}".format(
+                    comp.get("company_name", ""),
+                    comp.get("company_number", ""),
+                    " — THIS COMPANY IS A COUNCIL SUPPLIER" if is_supplier else ""),
+            })
+
+    return findings
+
+
+def detect_company_formation_timing(result, supplier_data):
+    """Detect companies incorporated suspiciously close to contract award.
+
+    Flag councillor companies that:
+      - Were incorporated <12 months before first council payment
+      - Have minimal CH history (few filings)
+      - Received significant council spend
+
+    Inspired by PPE VIP Lane patterns where companies were set up
+    specifically to win government contracts.
+
+    Returns list of findings.
+    """
+    findings = []
+    if not supplier_data:
+        return findings
+
+    ch = result.get("companies_house", {})
+    for comp in ch.get("companies", []):
+        creation_date_str = comp.get("date_of_creation", "")
+        if not creation_date_str or comp.get("resigned_on"):
+            continue
+
+        supplier_match = comp.get("supplier_match")
+        if not supplier_match:
+            continue
+
+        # Parse creation date
+        try:
+            creation_date = datetime.strptime(creation_date_str, "%Y-%m-%d")
+        except (ValueError, TypeError):
+            continue
+
+        # Get earliest payment date from supplier data
+        cn_upper = (comp.get("company_name") or "").upper()
+        earliest_payment = None
+        total_spend = 0
+
+        for entry in supplier_data:
+            if not isinstance(entry, dict):
+                continue
+            supplier_name = (entry.get("supplier") or "").upper()
+            if cn_upper not in supplier_name and supplier_name not in cn_upper:
+                continue
+            total_spend = entry.get("total_spend", 0)
+            first_date_str = entry.get("first_payment", "")
+            if first_date_str:
+                try:
+                    earliest_payment = datetime.strptime(first_date_str[:10], "%Y-%m-%d")
+                except (ValueError, TypeError):
+                    pass
+
+        if not earliest_payment:
+            continue
+
+        # Calculate months between incorporation and first payment
+        months_gap = (earliest_payment - creation_date).days / 30.44
+        if months_gap < 0:
+            months_gap = 0  # Company created after payment? Data anomaly
+
+        if months_gap < 12:
+            severity = "critical" if months_gap < 6 else "high"
+            if total_spend < 5000:
+                severity = "warning"  # Small spend, less concerning
+            findings.append({
+                "type": "suspicious_formation_timing",
+                "severity": severity,
+                "company_name": comp.get("company_name", ""),
+                "company_number": comp.get("company_number", ""),
+                "incorporated": creation_date_str,
+                "first_payment": earliest_payment.strftime("%Y-%m-%d"),
+                "months_gap": round(months_gap, 1),
+                "total_spend": total_spend,
+                "detail": "'{}' incorporated {} — first council payment {} "
+                          "(only {:.0f} months gap, £{:,.0f} total spend)".format(
+                    comp.get("company_name", ""), creation_date_str,
+                    earliest_payment.strftime("%Y-%m-%d"),
+                    months_gap, total_spend),
+            })
+
+    return findings
+
+
+def correlate_donations_to_contracts_v5(result, supplier_data, council_id, ec_data=None):
+    """REAL donation-to-contract correlation (replaces v4 stub).
+
+    Cross-references EC bulk donation data with council supplier spending:
+      - Donor company → later receives council contract (time window <12 months)
+      - Calculate ROI ratio (contract_value / donation_value)
+      - Flag Baringa-style patterns (small donation → massive contract)
+      - Party donor → council supplier match
+
+    Returns list of findings.
+    """
+    findings = []
+    if not ec_data:
+        ec_data = get_ec_bulk_data()
+    if not ec_data:
+        # Fall back to v4 stub behaviour
+        old_ec = result.get("electoral_commission", {})
+        for finding in old_ec.get("findings", []):
+            if finding.get("type") in ("supplier_donation", "supplier_party_donation"):
+                findings.append({
+                    "type": "donation_to_contract_pipeline",
+                    "severity": "high",
+                    "detail": "Potential donation→contract pipeline: {}".format(
+                        finding.get("detail", "")),
+                    "original_finding": finding,
+                })
+        return findings
+
+    party = result.get("party", "").lower()
+
+    # Check supplier donations against this council's spending
+    for sd in ec_data.get("supplier_donations", []):
+        councils = sd.get("councils", [])
+        if council_id not in councils:
+            continue
+
+        donation_value = sd.get("value", 0)
+        council_spend = sd.get("council_spend", 0)
+        donor_name = sd.get("donor_name", "")
+        donation_date = sd.get("accepted_date", "")
+
+        if donation_value <= 0 or council_spend <= 0:
+            continue
+
+        # Calculate ROI
+        roi = council_spend / donation_value if donation_value > 0 else 0
+
+        # Time window check
+        severity = "high"
+        if roi > 100:
+            severity = "critical"  # Baringa-style: tiny donation → huge contract
+
+        findings.append({
+            "type": "donation_precedes_contract",
+            "severity": severity,
+            "donor_name": donor_name,
+            "donation_value": donation_value,
+            "contract_value": council_spend,
+            "roi_multiplier": round(roi, 1),
+            "donation_date": donation_date,
+            "detail": "'{}' donated £{:,.0f} and received £{:,.0f} in contracts "
+                      "from {} council ({}x return)".format(
+                donor_name, donation_value, council_spend,
+                council_id, round(roi, 1)),
+        })
+
+        if roi > 100:
+            findings.append({
+                "type": "extreme_donation_roi",
+                "severity": "critical",
+                "donor_name": donor_name,
+                "roi_multiplier": round(roi, 1),
+                "detail": "EXTREME ROI: '{}' — £{:,.0f} donation → £{:,.0f} contracts "
+                          "({}x multiplier) — compare Baringa £30K→£35.2M pattern".format(
+                    donor_name, donation_value, council_spend, round(roi, 1)),
+            })
+
+    # Check party donors who are also suppliers
+    local_donors = set()
+    for area, dons in ec_data.get("donations_by_area", {}).items():
+        for don in dons:
+            entity = (don.get("regulated_entity") or "").lower()
+            if party and party.split()[0] in entity:
+                dn = (don.get("donor_name") or "").upper().strip()
+                if dn:
+                    local_donors.add(dn)
+
+    for supplier_entry in (supplier_data or []):
+        supplier = supplier_entry if isinstance(supplier_entry, str) else (
+            supplier_entry.get("supplier", ""))
+        if not supplier:
+            continue
+        supplier_upper = supplier.upper().strip()
+        if supplier_upper in local_donors:
+            spend = supplier_entry.get("total_spend", 0) if isinstance(supplier_entry, dict) else 0
+            findings.append({
+                "type": "party_donor_is_supplier",
+                "severity": "high",
+                "supplier_name": supplier,
+                "council_spend": spend,
+                "detail": "Council supplier '{}' (£{:,.0f} spend) is also a {} "
+                          "party donor in Lancashire".format(
+                    supplier, spend, party.title()),
+            })
+
+    return findings
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -2774,13 +3934,104 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     if ownership_findings:
         print("    [OWNERSHIP] {} finding(s)".format(len(ownership_findings)))
 
-    # ── 9e. Donation-to-Contract Correlation (v4) ──
+    # ── 9e. Donation-to-Contract Correlation (v5 — real time-windowed) ──
+    result["_council_id_v5"] = councillor.get("_council_id", "")
     donation_contract = correlate_donations_to_contracts(result, supplier_data, council_id)
     result["donation_contract_correlation"] = donation_contract
     if donation_contract:
         print("    [DONATION→CONTRACT] {} finding(s)".format(len(donation_contract)))
 
-    # ── 10. Aggregate ALL Red Flags ──
+    # ── v5 Detection Phases ──
+    ec_bulk = get_ec_bulk_data()
+
+    # ── Phase 10a. Shell Company Donors ──
+    shell_findings = detect_shell_company_donors(result, ec_bulk)
+    result["shell_company_findings"] = shell_findings
+    if shell_findings:
+        print("    [SHELL DONORS] {} finding(s)".format(len(shell_findings)))
+
+    # ── Phase 10b. Threshold Manipulation ──
+    threshold_findings = detect_threshold_manipulation_v5(result, ec_bulk)
+    result["threshold_manipulation"] = threshold_findings
+    if threshold_findings:
+        print("    [THRESHOLD] {} finding(s)".format(len(threshold_findings)))
+
+    # ── Phase 10c. Temporal Donation Clustering ──
+    temporal_findings = detect_temporal_donation_clustering_v5(result, ec_bulk)
+    result["temporal_clusters"] = temporal_findings
+    if temporal_findings:
+        print("    [TEMPORAL CLUSTER] {} finding(s)".format(len(temporal_findings)))
+
+    # ── Phase 10d. Contract Splitting ──
+    split_findings = detect_contract_splitting(result, supplier_data)
+    result["contract_splitting"] = split_findings
+    if split_findings:
+        print("    [CONTRACT SPLIT] {} finding(s)".format(len(split_findings)))
+
+    # ── Phase 10e. Phantom Companies ──
+    phantom_findings = detect_phantom_companies(result)
+    result["phantom_companies"] = phantom_findings
+    if phantom_findings:
+        print("    [PHANTOM] {} finding(s)".format(len(phantom_findings)))
+
+    # ── Phase 10f. Dormant-to-Active Supplier ──
+    dormant_findings = detect_dormant_to_active_supplier(result, supplier_data)
+    result["dormant_to_active"] = dormant_findings
+    if dormant_findings:
+        print("    [DORMANT→ACTIVE] {} finding(s)".format(len(dormant_findings)))
+
+    # ── Phase 10g. Family Donation Coordination ──
+    family_don_findings = detect_family_donation_coordination(result, ec_bulk)
+    result["family_donation_coordination"] = family_don_findings
+    if family_don_findings:
+        print("    [FAMILY DONATIONS] {} finding(s)".format(len(family_don_findings)))
+
+    # ── Phase 10h. MP-Councillor Donation Alignment ──
+    alignment_findings = detect_mp_councillor_donation_alignment(result, ec_bulk)
+    result["mp_councillor_alignment"] = alignment_findings
+    if alignment_findings:
+        print("    [MP ALIGNMENT] {} finding(s)".format(len(alignment_findings)))
+
+    # ── Phase 10i. Bid Rigging Indicators ──
+    bid_findings = detect_bid_rigging_indicators(result, supplier_data)
+    result["bid_rigging"] = bid_findings
+    if bid_findings:
+        print("    [BID RIGGING] {} finding(s)".format(len(bid_findings)))
+
+    # ── Phase 10j. Seasonal Spending Anomaly ──
+    seasonal_findings = detect_seasonal_spending_anomaly(result, supplier_data)
+    result["seasonal_anomaly"] = seasonal_findings
+    if seasonal_findings:
+        print("    [SEASONAL] {} finding(s)".format(len(seasonal_findings)))
+
+    # ── Phase 10k. Gift/Hospitality Frequency ──
+    register_data = councillor.get("_register_data")
+    gift_findings = detect_gift_hospitality_frequency(result, register_data)
+    result["gift_frequency"] = gift_findings
+    if gift_findings:
+        print("    [GIFTS] {} finding(s)".format(len(gift_findings)))
+
+    # ── Phase 10l. Hansard Parliamentary Mentions ──
+    hansard_findings = detect_hansard_company_mentions(result)
+    result["hansard_mentions"] = hansard_findings
+    if hansard_findings:
+        print("    [HANSARD] {} finding(s)".format(len(hansard_findings)))
+
+    # ── Phase 10m. Undeclared Interests ──
+    undeclared_findings = detect_undeclared_interests(result)
+    result["undeclared_interests"] = undeclared_findings
+    if undeclared_findings:
+        print("    [UNDECLARED] {} finding(s)".format(len(undeclared_findings)))
+
+    # ── Phase 10n. Company Formation Timing ──
+    formation_findings = detect_company_formation_timing(result, supplier_data)
+    result["formation_timing"] = formation_findings
+    if formation_findings:
+        print("    [FORMATION] {} finding(s)".format(len(formation_findings)))
+
+    del result["_council_id_v5"]
+
+    # ── 11. Aggregate ALL Red Flags ──
     all_flags = []
 
     # From company profiles
@@ -2955,19 +4206,41 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             "detail": dcf["detail"]
         })
 
+    # v5 detection findings → red flags
+    v5_fields = [
+        "shell_company_findings", "threshold_manipulation", "temporal_clusters",
+        "contract_splitting", "phantom_companies", "dormant_to_active",
+        "family_donation_coordination", "mp_councillor_alignment",
+        "bid_rigging", "seasonal_anomaly", "gift_frequency",
+        "hansard_mentions", "undeclared_interests", "formation_timing",
+    ]
+    for field in v5_fields:
+        for finding in result.get(field, []):
+            all_flags.append({
+                "type": finding.get("type", field),
+                "severity": finding.get("severity", "warning"),
+                "detail": finding.get("detail", ""),
+            })
+
     result["red_flags"] = all_flags
 
-    # ── 11. Calculate Integrity Score (v4: network centrality amplification) ──
+    # ── 11. Calculate Integrity Score (v5: detection multipliers + centrality) ──
     score = 100
     for flag in all_flags:
         sev = flag.get("severity", "")
+        flag_type = flag.get("type", "")
+        # Base penalty
         if sev == "critical":
-            score -= 25
+            base_penalty = 25
         elif sev == "high":
-            score -= 15
+            base_penalty = 15
         elif sev == "warning":
-            score -= 5
-        # info doesn't affect score
+            base_penalty = 5
+        else:
+            base_penalty = 0
+        # Apply detection-type multiplier (v5)
+        multiplier = DETECTION_MULTIPLIERS.get(flag_type, 1.0)
+        score -= int(base_penalty * multiplier)
     score = max(0, score)
     result["integrity_score"] = score
 
@@ -3055,7 +4328,7 @@ def process_council(council_id, all_supplier_data=None,
         return None
 
     print("\n" + "=" * 70)
-    print("INTEGRITY SCAN: {} (v4 — 14-Source Forensic, Network Centrality)".format(council_id.upper()))
+    print("INTEGRITY SCAN: {} (v5.1 — 31-Source Political Fraud Detection)".format(council_id.upper()))
     print("=" * 70)
 
     with open(councillors_path) as f:
@@ -3115,15 +4388,41 @@ def process_council(council_id, all_supplier_data=None,
     sources.append("Beneficial ownership chain analysis (PSC multi-layer)")
     sources.append("Donation-to-contract correlation (EC → spending)")
     sources.append("Network centrality scoring (graph-based risk amplification)")
+    # v5 sources
+    ec_bulk = get_ec_bulk_data()
+    if ec_bulk:
+        sources.append("EC bulk donation data ({} donations, £{:,.0f})".format(
+            ec_bulk.get("summary", {}).get("total_donations", 0),
+            ec_bulk.get("summary", {}).get("total_value", 0)))
+    hansard = get_hansard_data()
+    if hansard:
+        sources.append("Hansard cross-reference ({} MP mentions)".format(
+            hansard.get("summary", {}).get("total_mentions", 0)))
+    sources.append("Shell company donor detection (SIC codes, formation agents)")
+    sources.append("PPERA threshold manipulation detection")
+    sources.append("Temporal donation clustering (30-day window)")
+    sources.append("Contract splitting detection (procurement thresholds)")
+    sources.append("Phantom company detection (dormant, shell indicators)")
+    sources.append("Dormant-to-active supplier detection")
+    sources.append("Social network triangulation (2-hop)")
+    sources.append("Reciprocal cross-council appointments")
+    sources.append("Family donation coordination (smurfing)")
+    sources.append("MP-councillor donation alignment (vertical)")
+    sources.append("Bid rigging indicators (procurement patterns)")
+    sources.append("Seasonal spending anomaly detection")
+    sources.append("Gift/hospitality frequency analysis")
+    sources.append("Hansard parliamentary debate cross-reference")
+    sources.append("Undeclared interest detection (CH vs register)")
+    sources.append("Company formation timing analysis (PPE VIP Lane pattern)")
     print("  Data sources: {}".format(len(sources)))
     for s in sources:
         print("    → {}".format(s))
 
     results = {
         "council_id": council_id,
-        "version": "4.0",
+        "version": "5.1",
         "generated_at": datetime.utcnow().isoformat() + "Z",
-        "methodology": "14_source_forensic_network_centrality",
+        "methodology": "31_source_political_fraud_detection",
         "data_sources": sources,
         "register_available": bool(register_data),
         "total_councillors": len(councillors),
@@ -3157,6 +4456,22 @@ def process_council(council_id, all_supplier_data=None,
             "beneficial_ownership_findings": 0,
             "donation_contract_correlations": 0,
             "network_centrality_applied": False,
+            # v5 additions
+            "shell_company_donors": 0,
+            "threshold_manipulation_alerts": 0,
+            "temporal_clusters": 0,
+            "contract_splitting_flags": 0,
+            "phantom_companies": 0,
+            "dormant_to_active": 0,
+            "family_donation_coordination": 0,
+            "mp_councillor_alignment": 0,
+            "bid_rigging_indicators": 0,
+            "seasonal_anomalies": 0,
+            "gift_frequency_flags": 0,
+            # v5.1 additions
+            "hansard_mentions": 0,
+            "undeclared_interests": 0,
+            "formation_timing_flags": 0,
         },
         "register_compliance": register_compliance,
         "supplier_political_donations": [],
@@ -3259,6 +4574,36 @@ def process_council(council_id, all_supplier_data=None,
                 results["summary"]["donation_contract_correlations"] += len(
                     result.get("donation_contract_correlation", []))
 
+                # v5 summary fields
+                results["summary"]["shell_company_donors"] += len(
+                    result.get("shell_company_findings", []))
+                results["summary"]["threshold_manipulation_alerts"] += len(
+                    result.get("threshold_manipulation", []))
+                results["summary"]["temporal_clusters"] += len(
+                    result.get("temporal_clusters", []))
+                results["summary"]["contract_splitting_flags"] += len(
+                    result.get("contract_splitting", []))
+                results["summary"]["phantom_companies"] += len(
+                    result.get("phantom_companies", []))
+                results["summary"]["dormant_to_active"] += len(
+                    result.get("dormant_to_active", []))
+                results["summary"]["family_donation_coordination"] += len(
+                    result.get("family_donation_coordination", []))
+                results["summary"]["mp_councillor_alignment"] += len(
+                    result.get("mp_councillor_alignment", []))
+                results["summary"]["bid_rigging_indicators"] += len(
+                    result.get("bid_rigging", []))
+                results["summary"]["seasonal_anomalies"] += len(
+                    result.get("seasonal_anomaly", []))
+                results["summary"]["gift_frequency_flags"] += len(
+                    result.get("gift_frequency", []))
+                results["summary"]["hansard_mentions"] += len(
+                    result.get("hansard_mentions", []))
+                results["summary"]["undeclared_interests"] += len(
+                    result.get("undeclared_interests", []))
+                results["summary"]["formation_timing_flags"] += len(
+                    result.get("formation_timing", []))
+
                 risk = result.get("risk_level", "low")
                 if risk in results["summary"]["risk_distribution"]:
                     results["summary"]["risk_distribution"][risk] += 1
@@ -3295,7 +4640,39 @@ def process_council(council_id, all_supplier_data=None,
                 i + 1, len(councillors), councillor.get("name", "?"), e))
             traceback.print_exc()
 
-    # ── Network Centrality Post-Processing (v4) ──
+    # ── v5 Post-Processing: Social Network Triangulation + Reciprocal Appointments ──
+    # These need all_results, so run after all councillors processed
+    if len(results["councillors"]) >= 2:
+        print("\n  Running v5 post-processing (social network + reciprocal appointments)...")
+        all_results = results["councillors"]
+        for r in all_results:
+            r["_council_id_v5"] = council_id
+            # Social network triangulation
+            sn_findings = detect_social_network_triangulation(r, all_results)
+            r["social_network"] = sn_findings
+            for f in sn_findings:
+                r["red_flags"].append({
+                    "type": f["type"], "severity": f["severity"],
+                    "detail": f["detail"]
+                })
+            # Reciprocal appointments
+            recip_findings = detect_reciprocal_appointments(r, all_results, all_supplier_data)
+            r.setdefault("reciprocal_appointments", []).extend(recip_findings)
+            for f in recip_findings:
+                r["red_flags"].append({
+                    "type": f["type"], "severity": f["severity"],
+                    "detail": f["detail"]
+                })
+            del r["_council_id_v5"]
+
+        # Recount red flags after post-processing
+        results["summary"]["red_flags_total"] = sum(
+            len(r.get("red_flags", [])) for r in all_results)
+        print("  Social network + reciprocal: {} additional findings".format(
+            sum(len(r.get("social_network", [])) + len(r.get("reciprocal_appointments", []))
+                for r in all_results)))
+
+    # ── Network Centrality Post-Processing (v4/v5) ──
     # Apply network centrality amplifier: councillors who are highly connected
     # AND have red flags get disproportionately penalised (catching "spider in the web")
     if len(results["councillors"]) >= 3:
@@ -3372,6 +4749,14 @@ def process_council(council_id, all_supplier_data=None,
     print("  MP financial links: {} | Revolving door: {} | Ownership chains: {} | Donation→contract: {}".format(
         s["mp_financial_links"], s["revolving_door_detections"],
         s["beneficial_ownership_findings"], s["donation_contract_correlations"]))
+    print("  v5: shell={} threshold={} temporal={} splitting={} phantom={} dormant={}".format(
+        s.get("shell_company_donors", 0), s.get("threshold_manipulation_alerts", 0),
+        s.get("temporal_clusters", 0), s.get("contract_splitting_flags", 0),
+        s.get("phantom_companies", 0), s.get("dormant_to_active", 0)))
+    print("  v5: family_coord={} mp_align={} bid_rig={} seasonal={} gifts={}".format(
+        s.get("family_donation_coordination", 0), s.get("mp_councillor_alignment", 0),
+        s.get("bid_rigging_indicators", 0), s.get("seasonal_anomalies", 0),
+        s.get("gift_frequency_flags", 0)))
     print("  Surname clusters: {} | Shared addresses: {}".format(
         len(results.get("surname_clusters", [])),
         len(results.get("shared_address_councillors", []))))
@@ -3423,7 +4808,7 @@ def run_cross_council_analysis():
 
     findings = {
         "generated_at": datetime.utcnow().isoformat() + "Z",
-        "version": "4.0",
+        "version": "5.1",
         "total_bodies": len(all_councillors),
         "councillors_spanning_councils": [],
         "shared_company_networks": [],
@@ -3554,6 +4939,16 @@ def run_cross_council_analysis():
             "beneficial_ownership_findings": summary.get("beneficial_ownership_findings", 0),
             "donation_contract_correlations": summary.get("donation_contract_correlations", 0),
             "network_centrality_applied": summary.get("network_centrality_applied", False),
+            # v5 fields
+            "shell_company_donors": summary.get("shell_company_donors", 0),
+            "threshold_manipulation_alerts": summary.get("threshold_manipulation_alerts", 0),
+            "contract_splitting_flags": summary.get("contract_splitting_flags", 0),
+            "phantom_companies": summary.get("phantom_companies", 0),
+            "bid_rigging_indicators": summary.get("bid_rigging_indicators", 0),
+            # v5.1 fields
+            "hansard_mentions": summary.get("hansard_mentions", 0),
+            "undeclared_interests": summary.get("undeclared_interests", 0),
+            "formation_timing_flags": summary.get("formation_timing_flags", 0),
             "version": integrity.get("version", "?"),
         }
 

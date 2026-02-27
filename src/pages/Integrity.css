@@ -2313,4 +2313,203 @@
   .mp-card-header {
     flex-direction: column;
   }
+
+  .stat-grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .party-totals-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ══════ v5: Donations Tab ══════ */
+.integrity-donations-section {
+  margin-bottom: var(--space-xl);
+}
+
+.stat-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-grid-4 .stat-card {
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.stat-grid-4 .stat-card.accent {
+  border-color: rgba(255, 159, 10, 0.3);
+  background: rgba(255, 159, 10, 0.05);
+}
+
+.stat-grid-4 .stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-grid-4 .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  display: block;
+}
+
+.donations-findings {
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.donations-findings h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.donations-findings .section-desc {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-md);
+}
+
+.donations-party-totals {
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.donations-party-totals h4 {
+  font-size: 0.875rem;
+  margin-bottom: var(--space-md);
+}
+
+.party-totals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-sm);
+}
+
+.party-total-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.party-total-name {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.party-total-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ══════ v5: Parliamentary Mentions ══════ */
+.mp-hansard-mentions {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mp-hansard-mentions h5 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.section-desc-sm {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+}
+
+.mp-mention {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: var(--space-xs);
+  border-left: 3px solid transparent;
+}
+
+.mp-mention.severity-mp_promoted_donor_in_parliament {
+  border-left-color: #ff453a;
+}
+
+.mp-mention.severity-donor_mentioned_in_debate {
+  border-left-color: #ff9f0a;
+}
+
+.mp-mention.severity-info {
+  border-left-color: #5ac8fa;
+}
+
+.mention-detail {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.mention-debate {
+  color: var(--text-tertiary);
+}
+
+.mention-date {
+  color: var(--text-tertiary);
+  font-size: 0.6875rem;
+}
+
+.mention-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6875rem;
+  color: var(--accent-blue);
+  margin-left: 6px;
+}
+
+.mention-excerpt {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ══════ v5: Finding Sections in Councillor Detail ══════ */
+.v5-findings-section {
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) 0;
+}
+
+.v5-findings-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
 }
