@@ -1,0 +1,49 @@
+{
+  "checks": [
+    {
+      "label": "Data completeness",
+      "status": "pass",
+      "detail": "Dates: 100.0%, Suppliers: 100.0%, Amounts: 99.3%, Departments: 100.0%, Descriptions: 0.0%",
+      "metrics": {
+        "date_pct": 100.0,
+        "supplier_pct": 100.0,
+        "amount_pct": 99.3,
+        "dept_pct": 100.0,
+        "desc_pct": 0.0
+      }
+    },
+    {
+      "label": "Duplicate payment verification",
+      "status": "pass",
+      "detail": "No high-confidence duplicates after filtering 41 batch payments and 0 CSV overlaps. Previous false positives eliminated."
+    },
+    {
+      "label": "Split payment analysis",
+      "status": "pass",
+      "detail": "36 suspect instances (\u00a312.1M, 2.3% of spend). Threshold: 5+ payments to same supplier in same week, 80%+ of approval limit."
+    },
+    {
+      "label": "Year-end spike verification",
+      "status": "warning",
+      "detail": "Highest spike: 24.3x in Building Cleaning Contract (External). Year-end spikes are common in public sector (capital programmes, grants). Only extreme spikes (>3x) warrant concern."
+    },
+    {
+      "label": "CH compliance \u2014 pre-breach only",
+      "status": "info",
+      "detail": "2 suppliers have current breaches, but all payments were made before breaches started. Not violations at time of payment."
+    },
+    {
+      "label": "Benford's Law forensic screening",
+      "status": "warning",
+      "detail": "Significant deviation from Benford's Law (p < 0.001). \u03c7\u00b2=5030.63 on 50715 amounts >\u00a3100. Largest deviation: digit 5 (4.9% off expected)."
+    }
+  ],
+  "warnings": [
+    "CRITICAL: Only 0.0% of transactions have descriptions. This severely limits analysis quality.",
+    "Benford's Law analysis shows significant deviation (\u03c7\u00b2=5030.63). Digit 5 deviates 4.9% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments."
+  ],
+  "score": 50,
+  "total_checks": 6,
+  "passed": 3,
+  "generated": "2026-02-27T03:20:58.511327"
+}

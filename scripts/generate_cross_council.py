@@ -35,9 +35,10 @@ CPI_H_INDEX = {
     "2023/24": 131.5, "2024/25": 136.0, "2025/26": 138.7,
 }
 
-COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc", "blackpool", "west_lancashire", "blackburn", "wyre", "preston", "fylde"]
+COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale", "lancaster", "ribble_valley", "chorley", "south_ribble", "lancashire_cc", "blackpool", "west_lancashire", "blackburn", "wyre", "preston", "fylde", "lancashire_pcc", "lancashire_fire"]
 
 # Population figures (2021 Census) — updated manually when new census data available
+# PCC and Fire serve all of Lancashire (~1.5M) but not comparable per-capita to councils
 POPULATIONS = {
     "burnley": 88600,
     "hyndburn": 81000,
@@ -54,6 +55,8 @@ POPULATIONS = {
     "wyre": 113900,
     "preston": 143135,
     "fylde": 81550,
+    "lancashire_pcc": 1500000,
+    "lancashire_fire": 1500000,
 }
 
 

@@ -21,7 +21,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      COUNCILS: "burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc blackpool:blackpoolcouncil west_lancashire:westlancashirecouncil blackburn:blackburncouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil"
+      COUNCILS: "burnley:burnleycouncil hyndburn:hyndburncouncil pendle:pendlecouncil rossendale:rossendalecouncil lancaster:lancastercouncil ribble_valley:ribblevalleycouncil chorley:chorleycouncil south_ribble:southribblecouncil lancashire_cc:lancashirecc blackpool:blackpoolcouncil west_lancashire:westlancashirecouncil blackburn:blackburncouncil wyre:wyrecouncil preston:prestoncouncil fylde:fyldecouncil lancashire_pcc:lancashirepcc lancashire_fire:lancashirefire"
 
     steps:
       - name: Checkout

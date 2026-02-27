@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-02-15",
+  "last_updated": "2026-02-27",
   "council_metadata": {
     "burnley": {
       "type": "district",
@@ -113,6 +113,22 @@
       "publishes_purchase_cards": false,
       "publishes_contracts": false,
       "data_start": "2015/16"
+    },
+    "lancashire_pcc": {
+      "type": "pcc",
+      "ons_code": "E23000007",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2018/19"
+    },
+    "lancashire_fire": {
+      "type": "fire",
+      "ons_code": "E31000019",
+      "spending_threshold": 500,
+      "publishes_purchase_cards": false,
+      "publishes_contracts": false,
+      "data_start": "2022/23"
     }
   },
   "departments": {

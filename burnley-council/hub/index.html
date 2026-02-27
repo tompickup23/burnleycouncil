@@ -20,7 +20,7 @@
     // GitHub Pages SPA 404 redirect
     (function() {
       var path = window.location.pathname;
-      var councils = ['burnleycouncil','hyndburncouncil','pendlecouncil','rossendalecouncil','lancastercouncil','ribblevalleycouncil','chorleycouncil','southribblecouncil','lancashirecc','blackpoolcouncil','westlancashirecouncil','blackburncouncil','wyrecouncil','prestoncouncil','fyldecouncil'];
+      var councils = ['burnleycouncil','hyndburncouncil','pendlecouncil','rossendalecouncil','lancastercouncil','ribblevalleycouncil','chorleycouncil','southribblecouncil','lancashirecc','blackpoolcouncil','westlancashirecouncil','blackburncouncil','wyrecouncil','prestoncouncil','fyldecouncil','lancashirepcc','lancashirefire'];
       for (var i = 0; i < councils.length; i++) {
         var base = '/lancashire/' + councils[i] + '/';
         if (path.indexOf(base) === 0) {
@@ -544,6 +544,18 @@
         <a href="/lancashire/blackburncouncil/" class="c-card" data-name="blackburn with darwen">
           <span class="c-dot" style="background:#003087"></span>
           <div class="c-info"><div class="c-name">Blackburn with Darwen</div><div class="c-meta">492,973 txns &middot; &pound;1.7B</div></div>
+        </a>
+      </div>
+
+      <p class="councils-tier-label">Other Public Bodies</p>
+      <div class="councils-grid" style="grid-template-columns: repeat(2, 1fr); max-width:600px" id="bodies-grid">
+        <a href="/lancashire/lancashirepcc/" class="c-card" data-name="lancashire police crime commissioner pcc">
+          <span class="c-dot" style="background:#003366"></span>
+          <div class="c-info"><div class="c-name">Lancashire PCC</div><div class="c-meta">Police &amp; Crime Commissioner</div></div>
+        </a>
+        <a href="/lancashire/lancashirefire/" class="c-card" data-name="lancashire fire rescue authority">
+          <span class="c-dot" style="background:#cc0000"></span>
+          <div class="c-info"><div class="c-name">Lancashire Fire</div><div class="c-meta">Combined Fire Authority</div></div>
         </a>
       </div>
     </div>

@@ -1,0 +1,1716 @@
+{
+  "summary": {
+    "total_spend": 526088069.6,
+    "transaction_count": 50718,
+    "unique_suppliers": 2432,
+    "avg_transaction": 10372.81,
+    "median_transaction": 1755.05,
+    "date_range": {
+      "min": "2018-04-03",
+      "max": "2025-01-30"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "SCC",
+        "total": 41663803.61,
+        "transactions": 1495,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "LANCASHIRE COUNTY COUNCIL (200398)",
+        "total": 24969245.36,
+        "transactions": 890,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ALLSTAR BUSINESS SOLUTIONS LTD [ARVAL PHH BUSINESS SOLUTIONS LTD]",
+        "total": 19707850.11,
+        "transactions": 1899,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "VICTIM SUPPORT LANCASHIRE",
+        "total": 17664876.17,
+        "transactions": 224,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "INSIGHT DIRECT (UK) LTD",
+        "total": 15882825.98,
+        "transactions": 862,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HOME OFFICE",
+        "total": 13779136.72,
+        "transactions": 54,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "MERSEYSIDE POLICE AUTHORITY",
+        "total": 13697274.0,
+        "transactions": 142,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THIRD PARTY SUPPLIER",
+        "total": 13159777.79,
+        "transactions": 980,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "UKROED LTD",
+        "total": 13079494.0,
+        "transactions": 84,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ARTHUR J GALLAGHER (UK)",
+        "total": 11620296.57,
+        "transactions": 91,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "REED SPECIALIST RECRUITMENT LTD",
+        "total": 11378857.53,
+        "transactions": 1003,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CONLON CONSTRUCTION LTD",
+        "total": 10172385.31,
+        "transactions": 48,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WILLMOTT DIXON CONSTRUCTION LTD",
+        "total": 9231170.96,
+        "transactions": 23,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "REED CALIFORNIA",
+        "total": 8212090.94,
+        "transactions": 238,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THE BRIDGE (IT RECRUITMENT) LTD",
+        "total": 7255500.0,
+        "transactions": 84,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EVERYTHING EVERYWHERE LTD",
+        "total": 6800378.42,
+        "transactions": 395,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "POLICE & CRIME COMMISSIONER FOR WEST YORKSHIRE",
+        "total": 6688630.04,
+        "transactions": 61,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "THIRD PARTY FORENSIC SERVICES",
+        "total": 5816203.14,
+        "transactions": 711,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SOUTH RIBBLE BOROUGH COUNCIL",
+        "total": 5791011.21,
+        "transactions": 111,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "AIRWAVE SOLUTIONS LTD",
+        "total": 5640954.69,
+        "transactions": 27,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.4984,
+    "total_unique_suppliers": 2432,
+    "single_transaction_suppliers": 828
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 1742,
+      "potential_value": 58450294.3,
+      "items": [
+        {
+          "supplier": "SCC",
+          "amount": 2094915.96,
+          "date": "2024-04-09",
+          "occurrences": 9,
+          "potential_overpayment": 16759327.68
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL (200398)",
+          "amount": 104932.96,
+          "date": "2024-03-28",
+          "occurrences": 37,
+          "potential_overpayment": 3777586.56
+        },
+        {
+          "supplier": "ALLSTAR BUSINESS SOLUTIONS LTD [ARVAL PHH BUSINESS SOLUTIONS LTD]",
+          "amount": 41299.58,
+          "date": "2024-03-28",
+          "occurrences": 65,
+          "potential_overpayment": 2643173.12
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL (200398)",
+          "amount": 104932.96,
+          "date": "2024-04-16",
+          "occurrences": 22,
+          "potential_overpayment": 2203592.16
+        },
+        {
+          "supplier": "ALLSTAR BUSINESS SOLUTIONS LTD [ARVAL PHH BUSINESS SOLUTIONS LTD]",
+          "amount": 36876.31,
+          "date": "2024-04-16",
+          "occurrences": 47,
+          "potential_overpayment": 1696310.26
+        },
+        {
+          "supplier": "THE BRIDGE (IT RECRUITMENT) LTD",
+          "amount": 139250.0,
+          "date": "2024-04-09",
+          "occurrences": 13,
+          "potential_overpayment": 1671000.0
+        },
+        {
+          "supplier": "ALLSTAR BUSINESS SOLUTIONS LTD [ARVAL PHH BUSINESS SOLUTIONS LTD]",
+          "amount": 38316.19,
+          "date": "2024-04-09",
+          "occurrences": 41,
+          "potential_overpayment": 1532647.6
+        },
+        {
+          "supplier": "LASER ENERGY BUYING GROUP",
+          "amount": 338579.65,
+          "date": "2024-04-03",
+          "occurrences": 4,
+          "potential_overpayment": 1015738.95
+        },
+        {
+          "supplier": "EVERYTHING EVERYWHERE LTD",
+          "amount": 909000.0,
+          "date": "2023-01-13",
+          "occurrences": 2,
+          "potential_overpayment": 909000.0
+        },
+        {
+          "supplier": "CICELEY COMMERCIALS LTD [227519]",
+          "amount": 50900.0,
+          "date": "2025-01-28",
+          "occurrences": 12,
+          "potential_overpayment": 559900.0
+        },
+        {
+          "supplier": "THE BRIDGE (IT RECRUITMENT) LTD",
+          "amount": 116800.0,
+          "date": "2024-04-09",
+          "occurrences": 5,
+          "potential_overpayment": 467200.0
+        },
+        {
+          "supplier": "FORD MOTOR CO LTD",
+          "amount": 24572.57,
+          "date": "2023-09-13",
+          "occurrences": 20,
+          "potential_overpayment": 466878.83
+        },
+        {
+          "supplier": "LANCASHIRE COUNTY COUNCIL (200398)",
+          "amount": 115520.69,
+          "date": "2024-06-04",
+          "occurrences": 5,
+          "potential_overpayment": 462082.76
+        },
+        {
+          "supplier": "WILKER UK LTD",
+          "amount": 19203.19,
+          "date": "2024-03-21",
+          "occurrences": 25,
+          "potential_overpayment": 460876.56
+        },
+        {
+          "supplier": "THIRD PARTY SUPPLIER",
+          "amount": 192711.14,
+          "date": "2024-03-07",
+          "occurrences": 3,
+          "potential_overpayment": 385422.28
+        },
+        {
+          "supplier": "LASER ENERGY BUYING GROUP",
+          "amount": 118701.61,
+          "date": "2024-04-03",
+          "occurrences": 4,
+          "potential_overpayment": 356104.83
+        },
+        {
+          "supplier": "WILKER UK LTD",
+          "amount": 19549.32,
+          "date": "2024-05-02",
+          "occurrences": 19,
+          "potential_overpayment": 351887.76
+        },
+        {
+          "supplier": "VOLKSWAGEN GROUP UNITED KINGDOM LTD",
+          "amount": 17848.0,
+          "date": "2023-07-28",
+          "occurrences": 19,
+          "potential_overpayment": 321264.0
+        },
+        {
+          "supplier": "PERRYS MOTOR SALES LTD",
+          "amount": 15905.58,
+          "date": "2025-01-09",
+          "occurrences": 21,
+          "potential_overpayment": 318111.6
+        },
+        {
+          "supplier": "MOTOROLA LTD [229816]",
+          "amount": 157606.28,
+          "date": "2024-07-11",
+          "occurrences": 3,
+          "potential_overpayment": 315212.56
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 1202,
+      "total_value": 27314000.0
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "Computer Licences",
+      "spend": 50520091.22,
+      "count": 952
+    },
+    {
+      "department": "Police - Other Third Party Payments",
+      "spend": 27527453.75,
+      "count": 2779
+    },
+    {
+      "department": "PCC Commissioning - Public Protection",
+      "spend": 25386132.86,
+      "count": 545
+    },
+    {
+      "department": "Vehicle Purchase",
+      "spend": 20812763.39,
+      "count": 1154
+    },
+    {
+      "department": "Petrol",
+      "spend": 19596333.44,
+      "count": 1912
+    },
+    {
+      "department": "Computer Equipment (Hardware)",
+      "spend": 19589548.81,
+      "count": 1180
+    },
+    {
+      "department": "Consolidated invoice suspense",
+      "spend": 18461941.86,
+      "count": 265
+    },
+    {
+      "department": "Computer Maintenance",
+      "spend": 18319841.97,
+      "count": 591
+    },
+    {
+      "department": "Rates",
+      "spend": 16740173.18,
+      "count": 422
+    },
+    {
+      "department": "Equipment",
+      "spend": 16515551.21,
+      "count": 332
+    },
+    {
+      "department": "Ext\u00a0 Adapt\u00a0 Improv\u00a0 Etc",
+      "spend": 15983550.58,
+      "count": 399
+    },
+    {
+      "department": "Consultant Fees",
+      "spend": 14379167.82,
+      "count": 1212
+    },
+    {
+      "department": "IT Consultancy",
+      "spend": 14147777.42,
+      "count": 483
+    },
+    {
+      "department": "Building Cleaning Contract (External)",
+      "spend": 13538336.28,
+      "count": 374
+    },
+    {
+      "department": "Equipment General",
+      "spend": 11350705.84,
+      "count": 3176
+    },
+    {
+      "department": "Training Expenses (External)",
+      "spend": 10637011.39,
+      "count": 4269
+    },
+    {
+      "department": "Works Fees (External)",
+      "spend": 10592577.68,
+      "count": 415
+    },
+    {
+      "department": "Police - Surgeons",
+      "spend": 9480381.47,
+      "count": 80
+    },
+    {
+      "department": "Police - FSS",
+      "spend": 9412918.79,
+      "count": 1361
+    },
+    {
+      "department": "Erection Of Buildings",
+      "spend": 8141185.04,
+      "count": 20
+    },
+    {
+      "department": "Police - Collaboration - Regional Air Support Unit",
+      "spend": 7729428.88,
+      "count": 31
+    },
+    {
+      "department": "Telecommunications Equipment",
+      "spend": 7724543.69,
+      "count": 144
+    },
+    {
+      "department": "Computer Software",
+      "spend": 7466697.69,
+      "count": 251
+    },
+    {
+      "department": "Clothing & Uniform",
+      "spend": 7049633.37,
+      "count": 2053
+    },
+    {
+      "department": "Transport Insurance",
+      "spend": 5856201.26,
+      "count": 40
+    },
+    {
+      "department": "PCC Commissioning - Community Liason",
+      "spend": 5509265.22,
+      "count": 370
+    },
+    {
+      "department": "Purchase Of Land & Buildings",
+      "spend": 5254863.05,
+      "count": 14
+    },
+    {
+      "department": "Police - Employers / Public Liability",
+      "spend": 4851695.0,
+      "count": 14
+    },
+    {
+      "department": "Partnership Grants",
+      "spend": 4697146.59,
+      "count": 160
+    },
+    {
+      "department": "Electricity",
+      "spend": 4576488.22,
+      "count": 644
+    },
+    {
+      "department": "LGPS Pensions Deficit Payment",
+      "spend": 4000000.0,
+      "count": 2
+    },
+    {
+      "department": "Police Reactive Maintenance - Building Services",
+      "spend": 3566134.06,
+      "count": 1600
+    },
+    {
+      "department": "Police - Telecom Forensics",
+      "spend": 3299166.61,
+      "count": 225
+    },
+    {
+      "department": "Rents - General",
+      "spend": 3121344.23,
+      "count": 634
+    },
+    {
+      "department": "Police - Outsourced Custody Costs",
+      "spend": 3108164.41,
+      "count": 30
+    },
+    {
+      "department": "NDQIS",
+      "spend": 3028371.72,
+      "count": 1
+    },
+    {
+      "department": "Water",
+      "spend": 2939598.72,
+      "count": 328
+    },
+    {
+      "department": "Police - Vehicle Workshop Parts",
+      "spend": 2696469.24,
+      "count": 1619
+    },
+    {
+      "department": "Police - National ANPR",
+      "spend": 2689067.44,
+      "count": 2
+    },
+    {
+      "department": "Biometric Services Gateway (BSG)",
+      "spend": 2567043.23,
+      "count": 2
+    },
+    {
+      "department": "Catering Service (External)",
+      "spend": 2459771.85,
+      "count": 1079
+    },
+    {
+      "department": "Police - NMAT2\u00a0 CASWEB & MIRWEB",
+      "spend": 2422488.24,
+      "count": 2
+    },
+    {
+      "department": "Programmed Work",
+      "spend": 2399805.21,
+      "count": 396
+    },
+    {
+      "department": "PND",
+      "spend": 2037951.52,
+      "count": 5
+    },
+    {
+      "department": "Furniture (Purchase)",
+      "spend": 2025659.42,
+      "count": 157
+    },
+    {
+      "department": "Programmed Service Contracts",
+      "spend": 1950533.63,
+      "count": 362
+    },
+    {
+      "department": "Police - Tyres",
+      "spend": 1943707.81,
+      "count": 236
+    },
+    {
+      "department": "Police - Pathologists Fees",
+      "spend": 1891707.39,
+      "count": 688
+    },
+    {
+      "department": "Police - Mobile Data",
+      "spend": 1868319.77,
+      "count": 405
+    },
+    {
+      "department": "Police - Vehicle Recovery & Storage",
+      "spend": 1839393.57,
+      "count": 179
+    },
+    {
+      "department": "Computer Hardware",
+      "spend": 1823868.6,
+      "count": 315
+    },
+    {
+      "department": "Postage & Carriage",
+      "spend": 1793484.46,
+      "count": 638
+    },
+    {
+      "department": "Police - Training Expenses for DHEP ( Degree Holder Entry )",
+      "spend": 1720500.0,
+      "count": 17
+    },
+    {
+      "department": "Police - Interpreters",
+      "spend": 1629779.79,
+      "count": 213
+    },
+    {
+      "department": "Police - Counsel Fees",
+      "spend": 1555970.32,
+      "count": 617
+    },
+    {
+      "department": "Agency Staff",
+      "spend": 1500075.84,
+      "count": 474
+    },
+    {
+      "department": "Police - Financial Services - Ledger",
+      "spend": 1453023.04,
+      "count": 19
+    },
+    {
+      "department": "Photocopying",
+      "spend": 1432349.53,
+      "count": 144
+    },
+    {
+      "department": "Police - Financial Services - Pensions",
+      "spend": 1413442.05,
+      "count": 38
+    },
+    {
+      "department": "Police Reactive Maintenance - Building Fabric",
+      "spend": 1407425.78,
+      "count": 619
+    },
+    {
+      "department": "Police - Other Investigative Expenses",
+      "spend": 1403570.43,
+      "count": 341
+    },
+    {
+      "department": "Police - Trainer/Lecturer Fees",
+      "spend": 1290050.25,
+      "count": 428
+    },
+    {
+      "department": "Computer Data Network",
+      "spend": 1257519.0,
+      "count": 126
+    },
+    {
+      "department": "PCC Commissioning - Criminal Justice",
+      "spend": 1233720.0,
+      "count": 11
+    },
+    {
+      "department": "Hire of Transport",
+      "spend": 1197768.55,
+      "count": 1003
+    },
+    {
+      "department": "Exchange Phones",
+      "spend": 1084056.54,
+      "count": 200
+    },
+    {
+      "department": "R12 - AP Prepayment",
+      "spend": 1048037.8,
+      "count": 39
+    },
+    {
+      "department": "Police - Financial Services - Payroll",
+      "spend": 1005300.34,
+      "count": 6
+    },
+    {
+      "department": "Vehicle & Plant R&M (External)",
+      "spend": 991646.85,
+      "count": 592
+    },
+    {
+      "department": "Chronicle",
+      "spend": 885148.3,
+      "count": 34
+    },
+    {
+      "department": "Police - Firearms Ammunition",
+      "spend": 881046.83,
+      "count": 135
+    },
+    {
+      "department": "Police - Statutory Maintenance",
+      "spend": 844348.93,
+      "count": 405
+    },
+    {
+      "department": "Police - Planned Preventative Maintenance",
+      "spend": 775310.42,
+      "count": 424
+    },
+    {
+      "department": "Police - VIPER",
+      "spend": 767386.75,
+      "count": 14
+    },
+    {
+      "department": "Waste Collection Charges",
+      "spend": 739894.49,
+      "count": 556
+    },
+    {
+      "department": "Police - Scientific Support Equipment",
+      "spend": 673232.57,
+      "count": 381
+    },
+    {
+      "department": "Recruitment - Expenses",
+      "spend": 664190.3,
+      "count": 54
+    },
+    {
+      "department": "Building & Contents Insurance",
+      "spend": 662602.65,
+      "count": 12
+    },
+    {
+      "department": "Police - Professional Subscriptions",
+      "spend": 642970.59,
+      "count": 156
+    },
+    {
+      "department": "Police - Media Campaigns",
+      "spend": 640532.43,
+      "count": 178
+    },
+    {
+      "department": "Other Expenses",
+      "spend": 615165.54,
+      "count": 177
+    },
+    {
+      "department": "Police - Horse Expenses",
+      "spend": 605529.19,
+      "count": 460
+    },
+    {
+      "department": "Police - Dog Expenses",
+      "spend": 599161.67,
+      "count": 228
+    },
+    {
+      "department": "Police ICT Company",
+      "spend": 582956.0,
+      "count": 3
+    },
+    {
+      "department": "Police - Detained Persons - Other Expenses",
+      "spend": 580860.47,
+      "count": 278
+    },
+    {
+      "department": "Police - Other Specialist Operational Equipment",
+      "spend": 555678.14,
+      "count": 189
+    },
+    {
+      "department": "Police - Health & Safety - Occ Health",
+      "spend": 538757.29,
+      "count": 302
+    },
+    {
+      "department": "Police - Exchanges Phones - Call Charges",
+      "spend": 531394.42,
+      "count": 140
+    },
+    {
+      "department": "Audit Fees (External)",
+      "spend": 530556.34,
+      "count": 63
+    },
+    {
+      "department": "ICT Stock / Stores",
+      "spend": 517718.17,
+      "count": 255
+    },
+    {
+      "department": "Furniture General",
+      "spend": 514457.66,
+      "count": 340
+    },
+    {
+      "department": "Police\u00a0 - Additional Cleaning",
+      "spend": 512017.45,
+      "count": 55
+    },
+    {
+      "department": "Police -Stray / Dangerous Animals",
+      "spend": 504796.19,
+      "count": 298
+    },
+    {
+      "department": "Police - Community Engagement",
+      "spend": 498984.79,
+      "count": 116
+    },
+    {
+      "department": "Police - NABIS",
+      "spend": 494066.0,
+      "count": 9
+    },
+    {
+      "department": "Police - Detained Persons - Meals / Refreshments",
+      "spend": 489998.96,
+      "count": 319
+    },
+    {
+      "department": "Police - Airwave",
+      "spend": 488823.51,
+      "count": 46
+    },
+    {
+      "department": "Police - Mutual assistance",
+      "spend": 485719.2,
+      "count": 82
+    },
+    {
+      "department": "Police Reactive Maintenance \u2013 Building Services",
+      "spend": 451712.14,
+      "count": 332
+    },
+    {
+      "department": "Conference Expenses",
+      "spend": 444320.21,
+      "count": 313
+    },
+    {
+      "department": "Police - Collaboration Regional Toxicology Service",
+      "spend": 443176.31,
+      "count": 8
+    },
+    {
+      "department": "Cleaning Materials",
+      "spend": 443093.72,
+      "count": 44
+    },
+    {
+      "department": "Gas",
+      "spend": 424342.33,
+      "count": 66
+    },
+    {
+      "department": "Police - Settlements - Staff",
+      "spend": 420126.35,
+      "count": 28
+    },
+    {
+      "department": "PNC",
+      "spend": 400632.0,
+      "count": 5
+    },
+    {
+      "department": "Police - Damage to Property / Boarding Up",
+      "spend": 385921.26,
+      "count": 92
+    },
+    {
+      "department": "Computer Expenditure General",
+      "spend": 374398.73,
+      "count": 80
+    },
+    {
+      "department": "Police - Property External Fees",
+      "spend": 366261.2,
+      "count": 89
+    },
+    {
+      "department": "Police Vehicle Insurance - Own Damage",
+      "spend": 331060.89,
+      "count": 143
+    },
+    {
+      "department": "Police - Treasurers Services - Other",
+      "spend": 323906.84,
+      "count": 12
+    },
+    {
+      "department": "Police - Qualification Training",
+      "spend": 316424.95,
+      "count": 89
+    },
+    {
+      "department": "Police - Collaboration - Motorway & ANPR",
+      "spend": 311277.14,
+      "count": 6
+    },
+    {
+      "department": "Acquisition Fees (External)",
+      "spend": 307841.4,
+      "count": 16
+    },
+    {
+      "department": "Police - Vehicle Cleaning",
+      "spend": 300929.85,
+      "count": 54
+    },
+    {
+      "department": "Police - IDENT 1",
+      "spend": 275493.0,
+      "count": 1
+    },
+    {
+      "department": "Printing - External",
+      "spend": 270893.27,
+      "count": 165
+    },
+    {
+      "department": "Laundry",
+      "spend": 255502.15,
+      "count": 122
+    },
+    {
+      "department": "Police - Vehicle Workshop Equipment",
+      "spend": 254209.57,
+      "count": 113
+    },
+    {
+      "department": "Subsistence",
+      "spend": 246971.41,
+      "count": 137
+    },
+    {
+      "department": "Travelling Expenses General",
+      "spend": 246830.33,
+      "count": 98
+    },
+    {
+      "department": "Police - Waste Collection Charges - Clinical",
+      "spend": 237077.49,
+      "count": 176
+    },
+    {
+      "department": "Recruitment - Advertising",
+      "spend": 233345.04,
+      "count": 106
+    },
+    {
+      "department": "Police - Collaboration - Regional ESN",
+      "spend": 232131.43,
+      "count": 13
+    },
+    {
+      "department": "Police - Counselling",
+      "spend": 221263.16,
+      "count": 224
+    },
+    {
+      "department": "Police - Guest Speakers",
+      "spend": 218777.18,
+      "count": 158
+    },
+    {
+      "department": "Delegated Grounds Maintenance",
+      "spend": 215039.99,
+      "count": 217
+    },
+    {
+      "department": "Police - Doctors Statements",
+      "spend": 210500.14,
+      "count": 105
+    },
+    {
+      "department": "Police Reactive Maintenance \u2013 Building Fabric",
+      "spend": 209258.89,
+      "count": 131
+    },
+    {
+      "department": "Mobile Phone Costs",
+      "spend": 203597.93,
+      "count": 84
+    },
+    {
+      "department": "Cleaning & Domestic General",
+      "spend": 199945.28,
+      "count": 126
+    },
+    {
+      "department": "Police- Collaboration - CDSE",
+      "spend": 187472.45,
+      "count": 9
+    },
+    {
+      "department": "Insurances General",
+      "spend": 186895.24,
+      "count": 25
+    },
+    {
+      "department": "Contributions",
+      "spend": 185416.6,
+      "count": 2
+    },
+    {
+      "department": "Police - Terrorism",
+      "spend": 185107.64,
+      "count": 9
+    },
+    {
+      "department": "Site Investigations",
+      "spend": 183245.13,
+      "count": 15
+    },
+    {
+      "department": "Stationery",
+      "spend": 180857.82,
+      "count": 36
+    },
+    {
+      "department": "Police - Private Wires",
+      "spend": 179762.35,
+      "count": 24
+    },
+    {
+      "department": "SIS II",
+      "spend": 174591.0,
+      "count": 1
+    },
+    {
+      "department": "Police - Other Equipment",
+      "spend": 168066.97,
+      "count": 52
+    },
+    {
+      "department": "Police - Agents Fees",
+      "spend": 167426.25,
+      "count": 74
+    },
+    {
+      "department": "Police - Superintendents Association",
+      "spend": 166012.0,
+      "count": 12
+    },
+    {
+      "department": "Police - Accreditation",
+      "spend": 162780.57,
+      "count": 31
+    },
+    {
+      "department": "Furniture - H&S",
+      "spend": 160957.21,
+      "count": 161
+    },
+    {
+      "department": "Debt Management Expense",
+      "spend": 150638.34,
+      "count": 20
+    },
+    {
+      "department": "Publications for Office Use",
+      "spend": 148387.78,
+      "count": 48
+    },
+    {
+      "department": "Police - Compensation",
+      "spend": 147234.82,
+      "count": 140
+    },
+    {
+      "department": "National Police Coordination Centre",
+      "spend": 144360.0,
+      "count": 3
+    },
+    {
+      "department": "Marketing Fees",
+      "spend": 143858.43,
+      "count": 33
+    },
+    {
+      "department": "Police - ACRO",
+      "spend": 143220.6,
+      "count": 2
+    },
+    {
+      "department": "Police - UWS",
+      "spend": 142998.52,
+      "count": 8
+    },
+    {
+      "department": "Environmental Saving Initiatives",
+      "spend": 137306.55,
+      "count": 32
+    },
+    {
+      "department": "Radio Costs",
+      "spend": 135423.67,
+      "count": 67
+    },
+    {
+      "department": "Police - Collaboration - Co-Ordinator",
+      "spend": 134598.52,
+      "count": 20
+    },
+    {
+      "department": "Hospitality",
+      "spend": 129102.87,
+      "count": 57
+    },
+    {
+      "department": "Lubricants",
+      "spend": 128792.23,
+      "count": 84
+    },
+    {
+      "department": "Fixture & Fittings - General",
+      "spend": 125784.82,
+      "count": 108
+    },
+    {
+      "department": "Police - Telephony/Broadband",
+      "spend": 124878.77,
+      "count": 28
+    },
+    {
+      "department": "Police.UK",
+      "spend": 122580.53,
+      "count": 5
+    },
+    {
+      "department": "Police - Waste Collection - ERP",
+      "spend": 117605.85,
+      "count": 35
+    },
+    {
+      "department": "Police - PNLD",
+      "spend": 116958.33,
+      "count": 5
+    },
+    {
+      "department": "Police - Legal Costs",
+      "spend": 115562.22,
+      "count": 17
+    },
+    {
+      "department": "Police - PentiP",
+      "spend": 111315.0,
+      "count": 2
+    },
+    {
+      "department": "Window Cleaning",
+      "spend": 107999.02,
+      "count": 122
+    },
+    {
+      "department": "Police - Internal Audit Fees",
+      "spend": 107870.0,
+      "count": 3
+    },
+    {
+      "department": "Police - Data Acquisition/Surveys",
+      "spend": 107368.5,
+      "count": 10
+    },
+    {
+      "department": "Police Staff",
+      "spend": 106681.58,
+      "count": 3
+    },
+    {
+      "department": "Prisons Recalls & Licences",
+      "spend": 105296.47,
+      "count": 5
+    },
+    {
+      "department": "Other Energy Costs",
+      "spend": 103828.06,
+      "count": 62
+    },
+    {
+      "department": "Police - NPCC Central Office",
+      "spend": 102042.0,
+      "count": 3
+    },
+    {
+      "department": "Police - ANPR",
+      "spend": 97592.51,
+      "count": 28
+    },
+    {
+      "department": "Police - Conferences",
+      "spend": 96885.62,
+      "count": 53
+    },
+    {
+      "department": "Police - Court Fees",
+      "spend": 90403.0,
+      "count": 26
+    },
+    {
+      "department": "FINDS",
+      "spend": 90031.0,
+      "count": 1
+    },
+    {
+      "department": "Expenses On Sale Of Property",
+      "spend": 80273.76,
+      "count": 12
+    },
+    {
+      "department": "Engineering Insurance",
+      "spend": 79943.21,
+      "count": 10
+    },
+    {
+      "department": "Lump Sum",
+      "spend": 75433.9,
+      "count": 58
+    },
+    {
+      "department": "Police - Child Abuse Image Database (CAID)",
+      "spend": 72783.0,
+      "count": 1
+    },
+    {
+      "department": "Voluntary Associations",
+      "spend": 69426.0,
+      "count": 20
+    },
+    {
+      "department": "Deputy Chief Constable",
+      "spend": 66395.3,
+      "count": 1
+    },
+    {
+      "department": "Pensions - Injuries Gratuities",
+      "spend": 64702.07,
+      "count": 1
+    },
+    {
+      "department": "Police - APA / LGA Subscription",
+      "spend": 63327.64,
+      "count": 5
+    },
+    {
+      "department": "Police - Collaboration - ANPR",
+      "spend": 62512.24,
+      "count": 4
+    },
+    {
+      "department": "Police - Medical Expenses Recruits",
+      "spend": 61521.0,
+      "count": 48
+    },
+    {
+      "department": "Import Duty",
+      "spend": 60732.81,
+      "count": 21
+    },
+    {
+      "department": "Pensions - Injuries",
+      "spend": 60470.14,
+      "count": 2
+    },
+    {
+      "department": "Police Digital Service Subscription",
+      "spend": 60000.0,
+      "count": 1
+    },
+    {
+      "department": "General Office Supplies",
+      "spend": 59562.42,
+      "count": 1
+    },
+    {
+      "department": "Police - Collaboration Regional Courier Service",
+      "spend": 58930.69,
+      "count": 8
+    },
+    {
+      "department": "Police - Property Services",
+      "spend": 55862.95,
+      "count": 6
+    },
+    {
+      "department": "Barclaycard Payment (Stationary,Cleaning & External Printing)",
+      "spend": 55492.26,
+      "count": 2
+    },
+    {
+      "department": "Police - Personal Accident",
+      "spend": 55125.37,
+      "count": 21
+    },
+    {
+      "department": "Police - Drug Testing",
+      "spend": 54314.89,
+      "count": 46
+    },
+    {
+      "department": "Police - Casualty Bureau Collaboration",
+      "spend": 51546.74,
+      "count": 7
+    },
+    {
+      "department": "Police - IAM",
+      "spend": 51456.0,
+      "count": 1
+    },
+    {
+      "department": "Late Payment Costs",
+      "spend": 50323.46,
+      "count": 8
+    },
+    {
+      "department": "Police - Corporate Hospitality",
+      "spend": 46356.7,
+      "count": 15
+    },
+    {
+      "department": "Food Provisions General",
+      "spend": 43834.67,
+      "count": 33
+    },
+    {
+      "department": "Road Safety Initiatives",
+      "spend": 42866.32,
+      "count": 38
+    },
+    {
+      "department": "Police - Promotional Materials",
+      "spend": 41158.45,
+      "count": 26
+    },
+    {
+      "department": "Car Parks/Road Tolls",
+      "spend": 39770.85,
+      "count": 7
+    },
+    {
+      "department": "Computer Expenditure - H&S",
+      "spend": 39017.46,
+      "count": 26
+    },
+    {
+      "department": "Police - Collaboration - NWROCU Regional Crime Unit",
+      "spend": 37163.6,
+      "count": 1
+    },
+    {
+      "department": "Police - Staff Engagement",
+      "spend": 36145.0,
+      "count": 5
+    },
+    {
+      "department": "Police - Authority Services - Actuarial",
+      "spend": 36050.62,
+      "count": 6
+    },
+    {
+      "department": "Police - Settlements",
+      "spend": 35500.0,
+      "count": 3
+    },
+    {
+      "department": "Police - Cash Fidelity Guarantee",
+      "spend": 35416.06,
+      "count": 7
+    },
+    {
+      "department": "Radio Equipment",
+      "spend": 34616.75,
+      "count": 4
+    },
+    {
+      "department": "Police - National Policing Risk Management Team",
+      "spend": 33840.0,
+      "count": 2
+    },
+    {
+      "department": "Police - Treasurers Services - Internal",
+      "spend": 33150.0,
+      "count": 1
+    },
+    {
+      "department": "Police - High Level Vetting",
+      "spend": 32597.0,
+      "count": 17
+    },
+    {
+      "department": "Police - Found & Unclaimed Cash",
+      "spend": 31633.04,
+      "count": 5
+    },
+    {
+      "department": "Police - Drinking Water",
+      "spend": 29844.14,
+      "count": 29
+    },
+    {
+      "department": "Staff Long Service Award",
+      "spend": 29453.67,
+      "count": 9
+    },
+    {
+      "department": "Staff Medicals",
+      "spend": 28377.0,
+      "count": 25
+    },
+    {
+      "department": "Vehicle - Operating Lease",
+      "spend": 27034.71,
+      "count": 2
+    },
+    {
+      "department": "Police - Police Cloud Gateway",
+      "spend": 25836.0,
+      "count": 1
+    },
+    {
+      "department": "Puchasing Default Code",
+      "spend": 24588.0,
+      "count": 5
+    },
+    {
+      "department": "Police - Waste Collection Charges - Confidential",
+      "spend": 22086.86,
+      "count": 6
+    },
+    {
+      "department": "Road Fund Licences",
+      "spend": 21700.0,
+      "count": 11
+    },
+    {
+      "department": "Police - Divisional/Departmental Maintenance",
+      "spend": 20367.96,
+      "count": 4
+    },
+    {
+      "department": "Other Ex Contract Items",
+      "spend": 19116.89,
+      "count": 4
+    },
+    {
+      "department": "Police - IDIOM",
+      "spend": 18533.0,
+      "count": 1
+    },
+    {
+      "department": "Police - Optical Fees Eye Tests",
+      "spend": 18400.0,
+      "count": 8
+    },
+    {
+      "department": "Microfiche",
+      "spend": 17803.0,
+      "count": 1
+    },
+    {
+      "department": "Estates",
+      "spend": 16344.66,
+      "count": 5
+    },
+    {
+      "department": "Medical Fees",
+      "spend": 16329.0,
+      "count": 11
+    },
+    {
+      "department": "Legal Fees",
+      "spend": 16275.0,
+      "count": 7
+    },
+    {
+      "department": "101",
+      "spend": 15882.04,
+      "count": 2
+    },
+    {
+      "department": "Police - Office Supplies",
+      "spend": 15407.2,
+      "count": 7
+    },
+    {
+      "department": "Police - SGT & INSP Fees (NPPF . CMI . NIE)",
+      "spend": 15173.96,
+      "count": 4
+    },
+    {
+      "department": "Police - LBPA Lancashire Black Police Association",
+      "spend": 14626.17,
+      "count": 9
+    },
+    {
+      "department": "External Interest - Local Authorities",
+      "spend": 13232.88,
+      "count": 3
+    },
+    {
+      "department": "Police - Collaboration - Prisoner Intelligence Unit",
+      "spend": 12752.31,
+      "count": 1
+    },
+    {
+      "department": "Building Cleaning Service",
+      "spend": 12396.36,
+      "count": 3
+    },
+    {
+      "department": "Other Redundancy Costs",
+      "spend": 11675.34,
+      "count": 8
+    },
+    {
+      "department": "Bank Charges",
+      "spend": 11600.01,
+      "count": 1
+    },
+    {
+      "department": "Secondments",
+      "spend": 10487.64,
+      "count": 2
+    },
+    {
+      "department": "Police - Financial Services - VAT",
+      "spend": 10400.0,
+      "count": 1
+    },
+    {
+      "department": "Police - Paper (Photocopiers & Printers)",
+      "spend": 9092.66,
+      "count": 10
+    },
+    {
+      "department": "Grants to Other Bodies",
+      "spend": 8600.0,
+      "count": 2
+    },
+    {
+      "department": "Police - Protected Persons Service- Collaboration",
+      "spend": 8274.33,
+      "count": 1
+    },
+    {
+      "department": "Police - Advertising Non Staff",
+      "spend": 7405.33,
+      "count": 5
+    },
+    {
+      "department": "Pensions Services SLA",
+      "spend": 7396.0,
+      "count": 3
+    },
+    {
+      "department": "Structural Maintenance",
+      "spend": 6913.01,
+      "count": 1
+    },
+    {
+      "department": "Access to Work",
+      "spend": 6846.5,
+      "count": 3
+    },
+    {
+      "department": "Vending Machine Rentals",
+      "spend": 6821.31,
+      "count": 3
+    },
+    {
+      "department": "Police - Christian Network",
+      "spend": 6350.0,
+      "count": 5
+    },
+    {
+      "department": "Forensic Environmental Monitoring",
+      "spend": 5734.7,
+      "count": 4
+    },
+    {
+      "department": "Materials General",
+      "spend": 5667.66,
+      "count": 2
+    },
+    {
+      "department": "FIRE RISK ASSESSMENTS",
+      "spend": 5530.0,
+      "count": 7
+    },
+    {
+      "department": "General Rents",
+      "spend": 5527.4,
+      "count": 1
+    },
+    {
+      "department": "Police - LGBT Lesbian Gay Bisexual Trans Network",
+      "spend": 5428.68,
+      "count": 5
+    },
+    {
+      "department": "Police - Collaboration - NWROCU Ops 1",
+      "spend": 4802.67,
+      "count": 1
+    },
+    {
+      "department": "Minerva",
+      "spend": 4792.0,
+      "count": 1
+    },
+    {
+      "department": "Police - Autism Network",
+      "spend": 4275.0,
+      "count": 6
+    },
+    {
+      "department": "Vehicle Recovery - Seized Vehicles",
+      "spend": 4233.2,
+      "count": 1
+    },
+    {
+      "department": "Taser Cartridges",
+      "spend": 4099.9,
+      "count": 1
+    },
+    {
+      "department": "Constable",
+      "spend": 3531.97,
+      "count": 1
+    },
+    {
+      "department": "Police - Mobile ID",
+      "spend": 3025.0,
+      "count": 2
+    },
+    {
+      "department": "Police \u2013 PCSO Funding Contributions",
+      "spend": 2875.0,
+      "count": 1
+    },
+    {
+      "department": "Police - Inspire - Womens Network",
+      "spend": 2764.33,
+      "count": 4
+    },
+    {
+      "department": "Members Other Expenses",
+      "spend": 2729.5,
+      "count": 2
+    },
+    {
+      "department": "Police - Stranded Persons",
+      "spend": 2729.12,
+      "count": 2
+    },
+    {
+      "department": "Agency Staff - Supply Teaching Staff",
+      "spend": 2557.77,
+      "count": 4
+    },
+    {
+      "department": "Telephone Equipment & Installation",
+      "spend": 2362.1,
+      "count": 2
+    },
+    {
+      "department": "Vehicle & Plant Insurance Below Excess",
+      "spend": 2238.38,
+      "count": 2
+    },
+    {
+      "department": "Police - DNA",
+      "spend": 2198.33,
+      "count": 2
+    },
+    {
+      "department": "Police - Health & Safety - General",
+      "spend": 1868.35,
+      "count": 1
+    },
+    {
+      "department": "Police - Disability Network",
+      "spend": 1500.0,
+      "count": 1
+    },
+    {
+      "department": "Rents - Grounds",
+      "spend": 1283.24,
+      "count": 1
+    },
+    {
+      "department": "Fire - Retained Firefighters LOE Training",
+      "spend": 970.55,
+      "count": 1
+    },
+    {
+      "department": "Delegated Maintenance General",
+      "spend": 956.0,
+      "count": 1
+    },
+    {
+      "department": "LCDL Reception Staff-recoverable",
+      "spend": 655.56,
+      "count": 1
+    },
+    {
+      "department": "Police Staff - OT",
+      "spend": 600.0,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2018/19": 62670693.14,
+      "2019/20": 50272905.91,
+      "2020/21": 53677159.89,
+      "2021/22": 74882889.7,
+      "2022/23": 76524431.17,
+      "2023/24": 95890154.77,
+      "2024/25": 112169835.02
+    },
+    "transactions_by_year": {
+      "2018/19": 7907,
+      "2019/20": 7209,
+      "2020/21": 5209,
+      "2021/22": 6692,
+      "2022/23": 7602,
+      "2023/24": 8332,
+      "2024/25": 7767
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 50718
+  }
+}

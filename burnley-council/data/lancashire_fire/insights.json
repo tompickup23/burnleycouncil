@@ -1,0 +1,1141 @@
+{
+  "summary": {
+    "total_spend": 86165072.72,
+    "transaction_count": 15338,
+    "unique_suppliers": 957,
+    "avg_transaction": 5617.75,
+    "median_transaction": 1095.0,
+    "date_range": {
+      "min": "2022-04-01",
+      "max": "2025-12-23"
+    }
+  },
+  "supplier_analysis": {
+    "top_20_suppliers": [
+      {
+        "supplier": "MERSEYSIDE FIRE & RESCUE AUTHORITY",
+        "total": 7237037.44,
+        "transactions": 148,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NORTH WEST FIRE CONTROL LTD",
+        "total": 6884993.01,
+        "transactions": 24,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "EMERGENCY ONE UK LTD",
+        "total": 5158127.53,
+        "transactions": 281,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PFF LANCASHIRE LTD",
+        "total": 3136868.68,
+        "transactions": 54,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "Lancashire County Council",
+        "total": 2451049.65,
+        "transactions": 328,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "SCHOFIELD & SONS LTD",
+        "total": 2249348.15,
+        "transactions": 37,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ZURICH INSURANCE PLC",
+        "total": 1968639.91,
+        "transactions": 47,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "HOME OFFICE",
+        "total": 1938654.58,
+        "transactions": 36,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "VALTO IT LTD",
+        "total": 1890834.83,
+        "transactions": 49,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PHOENIX SOFTWARE LTD",
+        "total": 1762404.56,
+        "transactions": 106,
+        "company_number": "02548628",
+        "company_url": "https://find-and-update.company-information.service.gov.uk/company/02548628"
+      },
+      {
+        "supplier": "TERBERG DTS UK LTD",
+        "total": 1734767.24,
+        "transactions": 211,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "NPOWER",
+        "total": 1716443.29,
+        "transactions": 774,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "TOYOTA GB PLC",
+        "total": 1197229.11,
+        "transactions": 70,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WATER PLUS LTD",
+        "total": 1193647.51,
+        "transactions": 44,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "WH BENCE (COACHWORKS) LTD",
+        "total": 1190615.91,
+        "transactions": 53,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "ALLSTAR BUSINESS SOLUTIONS LTD",
+        "total": 1158963.77,
+        "transactions": 87,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CHORLEY BOROUGH COUNCIL",
+        "total": 1069930.0,
+        "transactions": 4,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "CORONA ENERGY",
+        "total": 1025958.37,
+        "transactions": 555,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "JAMES HART (CHORLEY) LTD",
+        "total": 997386.22,
+        "transactions": 325,
+        "company_number": null,
+        "company_url": null
+      },
+      {
+        "supplier": "PINNACLE FM LTD",
+        "total": 965214.0,
+        "transactions": 28,
+        "company_number": null,
+        "company_url": null
+      }
+    ],
+    "concentration_ratio": 0.5446,
+    "total_unique_suppliers": 957,
+    "single_transaction_suppliers": 315
+  },
+  "efficiency_flags": [
+    {
+      "type": "same_day_duplicates",
+      "severity": "high",
+      "description": "Identical payments to same supplier on same day",
+      "count": 923,
+      "potential_value": 7722389.98,
+      "items": [
+        {
+          "supplier": "FITNESS WAREHOUSE LTD T/A GYM GEAR",
+          "amount": 40827.4,
+          "date": "2025-02-26",
+          "occurrences": 17,
+          "potential_overpayment": 653238.4
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 27765.0,
+          "date": "2023-05-22",
+          "occurrences": 16,
+          "potential_overpayment": 416475.0
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 17313.75,
+          "date": "2023-10-09",
+          "occurrences": 20,
+          "potential_overpayment": 328961.25
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 18510.0,
+          "date": "2023-05-22",
+          "occurrences": 16,
+          "potential_overpayment": 277650.0
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 25970.63,
+          "date": "2023-10-09",
+          "occurrences": 10,
+          "potential_overpayment": 233735.67
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 25970.62,
+          "date": "2023-10-09",
+          "occurrences": 10,
+          "potential_overpayment": 233735.58
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 10783.5,
+          "date": "2023-09-01",
+          "occurrences": 20,
+          "potential_overpayment": 204886.5
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 86568.75,
+          "date": "2023-10-09",
+          "occurrences": 3,
+          "potential_overpayment": 173137.5
+        },
+        {
+          "supplier": "WH BENCE (COACHWORKS) LTD",
+          "amount": 165487.5,
+          "date": "2023-11-08",
+          "occurrences": 2,
+          "potential_overpayment": 165487.5
+        },
+        {
+          "supplier": "TOYOTA GB PLC",
+          "amount": 32003.34,
+          "date": "2023-12-14",
+          "occurrences": 6,
+          "potential_overpayment": 160016.7
+        },
+        {
+          "supplier": "MERSEYSIDE FIRE & RESCUE AUTHORITY",
+          "amount": 157107.55,
+          "date": "2023-07-05",
+          "occurrences": 2,
+          "potential_overpayment": 157107.55
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 7189.0,
+          "date": "2023-09-01",
+          "occurrences": 20,
+          "potential_overpayment": 136591.0
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 128640.0,
+          "date": "2024-08-16",
+          "occurrences": 2,
+          "potential_overpayment": 128640.0
+        },
+        {
+          "supplier": "VOLVO GROUP UK LTD",
+          "amount": 98748.0,
+          "date": "2025-01-14",
+          "occurrences": 2,
+          "potential_overpayment": 98748.0
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 89725.0,
+          "date": "2024-08-16",
+          "occurrences": 2,
+          "potential_overpayment": 89725.0
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 89725.0,
+          "date": "2024-11-05",
+          "occurrences": 2,
+          "potential_overpayment": 89725.0
+        },
+        {
+          "supplier": "EMERGENCY ONE UK LTD",
+          "amount": 83295.0,
+          "date": "2023-05-22",
+          "occurrences": 2,
+          "potential_overpayment": 83295.0
+        },
+        {
+          "supplier": "TOYOTA GB PLC",
+          "amount": 20104.89,
+          "date": "2024-09-06",
+          "occurrences": 5,
+          "potential_overpayment": 80419.56
+        },
+        {
+          "supplier": "WH BENCE (COACHWORKS) LTD",
+          "amount": 79206.25,
+          "date": "2024-01-29",
+          "occurrences": 2,
+          "potential_overpayment": 79206.25
+        },
+        {
+          "supplier": "WH BENCE (COACHWORKS) LTD",
+          "amount": 79206.25,
+          "date": "2024-01-18",
+          "occurrences": 2,
+          "potential_overpayment": 79206.25
+        }
+      ]
+    },
+    {
+      "type": "round_number_payments",
+      "severity": "low",
+      "description": "Large round-number payments (may indicate estimates)",
+      "count": 161,
+      "total_value": 1974000.0
+    },
+    {
+      "type": "frequent_small_transactions",
+      "severity": "medium",
+      "description": "Suppliers with 10+ transactions under \u00a3500",
+      "count": 67
+    }
+  ],
+  "department_breakdown": [
+    {
+      "department": "lfrs",
+      "spend": 19120977.7,
+      "count": 3167
+    },
+    {
+      "department": "LFRS",
+      "spend": 13586743.37,
+      "count": 1808
+    },
+    {
+      "department": "vehicle management",
+      "spend": 6794896.38,
+      "count": 432
+    },
+    {
+      "department": "information communication technology",
+      "spend": 6312133.67,
+      "count": 788
+    },
+    {
+      "department": "human resources",
+      "spend": 4002934.58,
+      "count": 1058
+    },
+    {
+      "department": "financial services",
+      "spend": 3926022.91,
+      "count": 197
+    },
+    {
+      "department": "utilities",
+      "spend": 2780891.24,
+      "count": 921
+    },
+    {
+      "department": "facilities & management services",
+      "spend": 2653027.64,
+      "count": 76
+    },
+    {
+      "department": "works - construction, repair & maint",
+      "spend": 2263508.34,
+      "count": 905
+    },
+    {
+      "department": "Pfi - Capital Charge",
+      "spend": 2117506.28,
+      "count": 23
+    },
+    {
+      "department": "FINANCIAL SERVICES",
+      "spend": 1473653.07,
+      "count": 60
+    },
+    {
+      "department": "Rates",
+      "spend": 1266135.5,
+      "count": 40
+    },
+    {
+      "department": "fire & rescue",
+      "spend": 1191556.51,
+      "count": 776
+    },
+    {
+      "department": "WORKS - CONSTRUCTION, REPAIR & MAINT",
+      "spend": 1176814.57,
+      "count": 119
+    },
+    {
+      "department": "Other Expenses",
+      "spend": 1048066.21,
+      "count": 12
+    },
+    {
+      "department": "INFORMATION COMMUNICATION TECHNOLOGY",
+      "spend": 1031627.74,
+      "count": 156
+    },
+    {
+      "department": "cleaning & janitorial",
+      "spend": 962336.25,
+      "count": 79
+    },
+    {
+      "department": "Computer Software",
+      "spend": 915735.98,
+      "count": 111
+    },
+    {
+      "department": "arts & leisure services",
+      "spend": 869441.37,
+      "count": 99
+    },
+    {
+      "department": "CLOTHING",
+      "spend": 631403.46,
+      "count": 62
+    },
+    {
+      "department": "Ext\u00a0 Adapt\u00a0 Improv\u00a0 Etc",
+      "spend": 598529.82,
+      "count": 50
+    },
+    {
+      "department": "clothing",
+      "spend": 597642.63,
+      "count": 397
+    },
+    {
+      "department": "HUMAN RESOURCES",
+      "spend": 589325.95,
+      "count": 236
+    },
+    {
+      "department": "Fire Mobs Airwave Costs",
+      "spend": 409058.22,
+      "count": 11
+    },
+    {
+      "department": "Course Providers",
+      "spend": 398751.8,
+      "count": 173
+    },
+    {
+      "department": "Diesel",
+      "spend": 392912.52,
+      "count": 68
+    },
+    {
+      "department": "Stocks And Stores - General",
+      "spend": 374887.17,
+      "count": 191
+    },
+    {
+      "department": "healthcare",
+      "spend": 347830.77,
+      "count": 41
+    },
+    {
+      "department": "Insurances General",
+      "spend": 340399.28,
+      "count": 11
+    },
+    {
+      "department": "Computer Data Network",
+      "spend": 315863.16,
+      "count": 29
+    },
+    {
+      "department": "Vehicle Purchase",
+      "spend": 312873.14,
+      "count": 20
+    },
+    {
+      "department": "CLEANING & JANITORIAL",
+      "spend": 306658.86,
+      "count": 14
+    },
+    {
+      "department": "cemetery & crematorium",
+      "spend": 300139.78,
+      "count": 66
+    },
+    {
+      "department": "information communication tech",
+      "spend": 271245.31,
+      "count": 45
+    },
+    {
+      "department": "Computer Hardware",
+      "spend": 267992.5,
+      "count": 43
+    },
+    {
+      "department": "Electricity",
+      "spend": 264059.23,
+      "count": 129
+    },
+    {
+      "department": "Professional Services",
+      "spend": 254988.81,
+      "count": 161
+    },
+    {
+      "department": "Agency Staff",
+      "spend": 254393.64,
+      "count": 147
+    },
+    {
+      "department": "Programmed Work",
+      "spend": 249558.18,
+      "count": 72
+    },
+    {
+      "department": "Transport Insurance",
+      "spend": 246874.55,
+      "count": 3
+    },
+    {
+      "department": "Ramp",
+      "spend": 233608.45,
+      "count": 8
+    },
+    {
+      "department": "internal",
+      "spend": 230473.78,
+      "count": 117
+    },
+    {
+      "department": "Building Cleaning Contract (External)",
+      "spend": 223320.86,
+      "count": 8
+    },
+    {
+      "department": "Repairs & Maintenance General",
+      "spend": 213268.15,
+      "count": 91
+    },
+    {
+      "department": "Fire - Operational Equipment",
+      "spend": 205159.12,
+      "count": 65
+    },
+    {
+      "department": "UTILITIES",
+      "spend": 191004.8,
+      "count": 72
+    },
+    {
+      "department": "Service Contracts",
+      "spend": 154865.49,
+      "count": 51
+    },
+    {
+      "department": "Vehicle & Plant R&M (External)",
+      "spend": 142416.98,
+      "count": 95
+    },
+    {
+      "department": "Protective Clothing",
+      "spend": 133438.32,
+      "count": 117
+    },
+    {
+      "department": "Water",
+      "spend": 133115.18,
+      "count": 9
+    },
+    {
+      "department": "catering",
+      "spend": 130790.43,
+      "count": 459
+    },
+    {
+      "department": "Gas",
+      "spend": 126279.06,
+      "count": 80
+    },
+    {
+      "department": "horticultural",
+      "spend": 107933.98,
+      "count": 32
+    },
+    {
+      "department": "Fire Mobs Network Maint",
+      "spend": 97828.59,
+      "count": 16
+    },
+    {
+      "department": "animals",
+      "spend": 93942.26,
+      "count": 9
+    },
+    {
+      "department": "Medical Fees",
+      "spend": 93443.87,
+      "count": 29
+    },
+    {
+      "department": "Payroll Services Sla",
+      "spend": 90750.24,
+      "count": 3
+    },
+    {
+      "department": "environmental services",
+      "spend": 89139.45,
+      "count": 146
+    },
+    {
+      "department": "Vehicle & Plant Insurance Below Excess",
+      "spend": 87896.0,
+      "count": 15
+    },
+    {
+      "department": "Subscriptions",
+      "spend": 86137.46,
+      "count": 8
+    },
+    {
+      "department": "Pensions Services Sla",
+      "spend": 73108.75,
+      "count": 4
+    },
+    {
+      "department": "Surveys & Consultation",
+      "spend": 70512.5,
+      "count": 10
+    },
+    {
+      "department": "ARTS & LEISURE SERVICES",
+      "spend": 70444.87,
+      "count": 25
+    },
+    {
+      "department": "furniture & soft furnishings",
+      "spend": 66156.65,
+      "count": 24
+    },
+    {
+      "department": "Fire - Op Equip R&D",
+      "spend": 64545.77,
+      "count": 36
+    },
+    {
+      "department": "Pt Residential Training Courses",
+      "spend": 61638.0,
+      "count": 19
+    },
+    {
+      "department": "INFORMATION COMMUNICATION TECH",
+      "spend": 61143.26,
+      "count": 12
+    },
+    {
+      "department": "Exchange Phones",
+      "spend": 57819.36,
+      "count": 12
+    },
+    {
+      "department": "Fire - Op Equip Repairs",
+      "spend": 56757.49,
+      "count": 188
+    },
+    {
+      "department": "Fire - Hoses",
+      "spend": 55561.68,
+      "count": 11
+    },
+    {
+      "department": "legal services",
+      "spend": 55145.96,
+      "count": 12
+    },
+    {
+      "department": "Photocopying",
+      "spend": 54680.21,
+      "count": 6
+    },
+    {
+      "department": "Vehicle R&M",
+      "spend": 52100.99,
+      "count": 2
+    },
+    {
+      "department": "Mobile Phone Costs",
+      "spend": 52048.5,
+      "count": 17
+    },
+    {
+      "department": "Fire Operational Communications",
+      "spend": 48604.57,
+      "count": 31
+    },
+    {
+      "department": "Fire - Breathing Apparatus",
+      "spend": 47268.02,
+      "count": 54
+    },
+    {
+      "department": "VEHICLE MANAGEMENT",
+      "spend": 44445.0,
+      "count": 4
+    },
+    {
+      "department": "mail services",
+      "spend": 41255.58,
+      "count": 37
+    },
+    {
+      "department": "ENVIRONMENTAL SERVICES",
+      "spend": 40604.01,
+      "count": 24
+    },
+    {
+      "department": "Financial Services Sla",
+      "spend": 39438.0,
+      "count": 6
+    },
+    {
+      "department": "Chg - Audit Fees (Internal)",
+      "spend": 37237.47,
+      "count": 3
+    },
+    {
+      "department": "FACILITIES & MANAGEMENT SERVICES",
+      "spend": 36919.68,
+      "count": 12
+    },
+    {
+      "department": "Ict Support Services (External)",
+      "spend": 32675.0,
+      "count": 8
+    },
+    {
+      "department": "Consumable Materials",
+      "spend": 32307.67,
+      "count": 16
+    },
+    {
+      "department": "General Fees & Charges",
+      "spend": 31865.84,
+      "count": 5
+    },
+    {
+      "department": "Delegated Grounds Maintenance",
+      "spend": 30032.87,
+      "count": 12
+    },
+    {
+      "department": "Catering Service (External)",
+      "spend": 29700.82,
+      "count": 33
+    },
+    {
+      "department": "Fire - Training Props",
+      "spend": 29607.71,
+      "count": 25
+    },
+    {
+      "department": "Audit Fees (External)",
+      "spend": 28604.5,
+      "count": 3
+    },
+    {
+      "department": "Tyres",
+      "spend": 28481.48,
+      "count": 12
+    },
+    {
+      "department": "0",
+      "spend": 28387.4,
+      "count": 2
+    },
+    {
+      "department": "Equipment",
+      "spend": 26397.7,
+      "count": 15
+    },
+    {
+      "department": "Waste Collection Charges",
+      "spend": 26335.24,
+      "count": 9
+    },
+    {
+      "department": "consultancy",
+      "spend": 26140.0,
+      "count": 5
+    },
+    {
+      "department": "Fire Mobs Paging Equipment",
+      "spend": 24923.68,
+      "count": 10
+    },
+    {
+      "department": "CATERING",
+      "spend": 24623.45,
+      "count": 31
+    },
+    {
+      "department": "Rents - Premises",
+      "spend": 23808.55,
+      "count": 8
+    },
+    {
+      "department": "Laundry",
+      "spend": 22620.9,
+      "count": 3
+    },
+    {
+      "department": "Treasurers Services Sla",
+      "spend": 22425.0,
+      "count": 16
+    },
+    {
+      "department": "Fire - Hydrants",
+      "spend": 21829.81,
+      "count": 25
+    },
+    {
+      "department": "Petrol",
+      "spend": 21769.58,
+      "count": 8
+    },
+    {
+      "department": "Computer Equipment (Hardware)",
+      "spend": 20500.0,
+      "count": 1
+    },
+    {
+      "department": "Recruitment - Expenses",
+      "spend": 19823.5,
+      "count": 2
+    },
+    {
+      "department": "Stationery",
+      "spend": 18507.47,
+      "count": 12
+    },
+    {
+      "department": "Private Contractors & Other Agencies - Other",
+      "spend": 17614.38,
+      "count": 25
+    },
+    {
+      "department": "Fire Safety - Publicity & Promotion",
+      "spend": 17157.0,
+      "count": 9
+    },
+    {
+      "department": "Recruitment - Advertising",
+      "spend": 15852.9,
+      "count": 9
+    },
+    {
+      "department": "Accounts Payable Sla",
+      "spend": 14977.25,
+      "count": 3
+    },
+    {
+      "department": "",
+      "spend": 13813.93,
+      "count": 5
+    },
+    {
+      "department": "Clothing & Uniform",
+      "spend": 13395.2,
+      "count": 74
+    },
+    {
+      "department": "Publication Of Information",
+      "spend": 13216.6,
+      "count": 10
+    },
+    {
+      "department": "Puchasing Default Code",
+      "spend": 13047.8,
+      "count": 3
+    },
+    {
+      "department": "the private finance initiative (pfi)",
+      "spend": 12902.0,
+      "count": 1
+    },
+    {
+      "department": "Fuel Oil",
+      "spend": 12116.92,
+      "count": 4
+    },
+    {
+      "department": "INTERNAL",
+      "spend": 11751.17,
+      "count": 9
+    },
+    {
+      "department": "Works Fees (External)",
+      "spend": 10935.0,
+      "count": 5
+    },
+    {
+      "department": "Computer Expenditure General",
+      "spend": 10261.05,
+      "count": 2
+    },
+    {
+      "department": "Other Local Authorities",
+      "spend": 9636.0,
+      "count": 1
+    },
+    {
+      "department": "Hire Of Transport",
+      "spend": 9630.0,
+      "count": 7
+    },
+    {
+      "department": "HEALTHCARE",
+      "spend": 9389.84,
+      "count": 2
+    },
+    {
+      "department": "domestic goods",
+      "spend": 9226.67,
+      "count": 8
+    },
+    {
+      "department": "Day To Day",
+      "spend": 8783.9,
+      "count": 8
+    },
+    {
+      "department": "Equipment General",
+      "spend": 7755.01,
+      "count": 10
+    },
+    {
+      "department": "Health\u00a0 Safety & Environment Equipment",
+      "spend": 7390.1,
+      "count": 3
+    },
+    {
+      "department": "facilities\u00a0& management",
+      "spend": 6617.0,
+      "count": 7
+    },
+    {
+      "department": "computer software",
+      "spend": 6339.26,
+      "count": 1
+    },
+    {
+      "department": "Computer Licences",
+      "spend": 5950.0,
+      "count": 1
+    },
+    {
+      "department": "stationery",
+      "spend": 5638.32,
+      "count": 8
+    },
+    {
+      "department": "highway equipment & materials",
+      "spend": 5548.3,
+      "count": 18
+    },
+    {
+      "department": "Spoilt Meals & Other Refreshments",
+      "spend": 4489.49,
+      "count": 4
+    },
+    {
+      "department": "DOMESTIC GOODS",
+      "spend": 3965.23,
+      "count": 2
+    },
+    {
+      "department": "Fixture & Fittings - General",
+      "spend": 3170.0,
+      "count": 1
+    },
+    {
+      "department": "Fire Safety - Smoke Detectors",
+      "spend": 2695.0,
+      "count": 4
+    },
+    {
+      "department": "Support For Member Champion",
+      "spend": 2640.7,
+      "count": 12
+    },
+    {
+      "department": "Fire Safety - Consumables",
+      "spend": 2524.0,
+      "count": 2
+    },
+    {
+      "department": "Postage & Carriage",
+      "spend": 2484.83,
+      "count": 7
+    },
+    {
+      "department": "HORTICULTURAL",
+      "spend": 2255.0,
+      "count": 2
+    },
+    {
+      "department": "Trainer/Lecturer Fees",
+      "spend": 2200.0,
+      "count": 1
+    },
+    {
+      "department": "MAIL SERVICES",
+      "spend": 2066.16,
+      "count": 4
+    },
+    {
+      "department": "Design Work - External",
+      "spend": 2000.0,
+      "count": 1
+    },
+    {
+      "department": "CONSULTANCY",
+      "spend": 1960.0,
+      "count": 1
+    },
+    {
+      "department": "FURNITURE & SOFT FURNISHINGS",
+      "spend": 1867.5,
+      "count": 1
+    },
+    {
+      "department": "STATIONERY",
+      "spend": 1831.0,
+      "count": 1
+    },
+    {
+      "department": "Road Fund Licences",
+      "spend": 1825.0,
+      "count": 6
+    },
+    {
+      "department": "Furniture General",
+      "spend": 1776.8,
+      "count": 3
+    },
+    {
+      "department": "Publications For Office Use",
+      "spend": 1685.0,
+      "count": 2
+    },
+    {
+      "department": "Consultant Fees",
+      "spend": 1560.0,
+      "count": 1
+    },
+    {
+      "department": "Main Works",
+      "spend": 1272.0,
+      "count": 1
+    },
+    {
+      "department": "Conference Expenses",
+      "spend": 1251.0,
+      "count": 1
+    },
+    {
+      "department": "Printing - External",
+      "spend": 1180.0,
+      "count": 1
+    },
+    {
+      "department": "CEMETERY & CREMATORIUM",
+      "spend": 1000.0,
+      "count": 2
+    },
+    {
+      "department": "Combined Liability Policy",
+      "spend": 846.0,
+      "count": 1
+    },
+    {
+      "department": "Training Expenses (External)",
+      "spend": 812.4,
+      "count": 2
+    },
+    {
+      "department": "Premises Materials & Equipment",
+      "spend": 750.0,
+      "count": 1
+    },
+    {
+      "department": "Members Training",
+      "spend": 720.0,
+      "count": 1
+    },
+    {
+      "department": "Retained Insurance",
+      "spend": 694.58,
+      "count": 1
+    },
+    {
+      "department": "Exhibitions",
+      "spend": 545.0,
+      "count": 1
+    },
+    {
+      "department": "Fire - Ill Health Appeals",
+      "spend": 540.0,
+      "count": 1
+    },
+    {
+      "department": "Project Work General",
+      "spend": 505.38,
+      "count": 1
+    }
+  ],
+  "yoy_analysis": {
+    "spend_by_year": {
+      "2022/23": 13540046.08,
+      "2023/24": 28687325.81,
+      "2024/25": 24622388.91,
+      "2025/26": 19315311.92
+    },
+    "transactions_by_year": {
+      "2022/23": 2742,
+      "2023/24": 6556,
+      "2024/25": 3376,
+      "2025/26": 2664
+    }
+  },
+  "transparency_metrics": {
+    "has_dates": 100.0,
+    "has_suppliers": 100.0,
+    "has_departments": 100.0,
+    "total_records": 15338
+  }
+}

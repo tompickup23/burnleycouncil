@@ -201,6 +201,28 @@ COUNCIL_REGISTRY = {
         "publishes_purchase_cards": False,
         "publishes_contracts": False,
     },
+    "lancashire_pcc": {
+        "name": "Office of the Police and Crime Commissioner for Lancashire",
+        "short_name": "Lancashire PCC",
+        "type": "pcc",
+        "ons_code": "E23000007",
+        "spending_url": "https://www.lancashire-pcc.gov.uk/transparency/financial-information/spending-over-500/",
+        "spending_threshold": 500,
+        "data_start_fy": "2018/19",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
+    "lancashire_fire": {
+        "name": "Lancashire Combined Fire Authority",
+        "short_name": "Lancashire Fire",
+        "type": "fire",
+        "ons_code": "E31000019",
+        "spending_url": "https://www.lancsfirerescue.org.uk/about/publications",
+        "spending_threshold": 500,
+        "data_start_fy": "2022/23",
+        "publishes_purchase_cards": False,
+        "publishes_contracts": False,
+    },
 }
 
 # ─── Utility Functions ───────────────────────────────────────────────
@@ -1812,6 +1834,200 @@ def parse_fylde(csv_files, data_start_fy="2015/16"):
         all_records.extend(records)
 
     print(f"  Total Fylde records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_lancashire_pcc(xlsx_files, data_start_fy="2018/19"):
+    """Parse Lancashire PCC spending XLSX files.
+
+    PCC publishes annual XLSX files with one sheet per month.
+    Two column formats across years:
+      Pre-2023: Expenditure Category, Date, Total Invoice Amount, SUPPLIER, [Column1]
+      2023+:    * Expenditure Category, * Date, TOTAL, * SUPPLIER FINAL
+    Threshold: £500
+    """
+    import openpyxl
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for xlsx_path in xlsx_files:
+        try:
+            wb = openpyxl.load_workbook(str(xlsx_path), read_only=True)
+        except Exception as e:
+            print(f"  SKIP {xlsx_path.name}: {e}")
+            continue
+
+        file_records = 0
+        for sheet_name in wb.sheetnames:
+            ws = wb[sheet_name]
+            rows_iter = ws.iter_rows(values_only=True)
+
+            # Read header row
+            try:
+                header_raw = next(rows_iter)
+            except StopIteration:
+                continue
+            header = [str(c).strip() if c else "" for c in header_raw]
+
+            # Detect column mapping (handle both formats)
+            header_upper = {h.upper().replace("*", "").strip(): i for i, h in enumerate(header)}
+            cat_idx = header_upper.get("EXPENDITURE CATEGORY")
+            date_idx = header_upper.get("DATE")
+            amount_idx = header_upper.get("TOTAL") or header_upper.get("TOTAL INVOICE AMOUNT")
+            supplier_idx = header_upper.get("SUPPLIER FINAL") or header_upper.get("SUPPLIER")
+
+            if date_idx is None or amount_idx is None:
+                print(f"  SKIP sheet {sheet_name}: missing date/amount columns")
+                continue
+
+            records = []
+            for row in rows_iter:
+                if not row or len(row) <= max(filter(None, [cat_idx, date_idx, amount_idx, supplier_idx])):
+                    continue
+
+                # Parse date (datetime objects or strings)
+                date_val = row[date_idx] if date_idx is not None else None
+                if isinstance(date_val, datetime):
+                    parsed_date = date_val.strftime("%Y-%m-%d")
+                else:
+                    parsed_date = parse_date(str(date_val))
+                if not parsed_date:
+                    continue
+
+                # Parse amount
+                amount_val = row[amount_idx] if amount_idx is not None else 0
+                if isinstance(amount_val, (int, float)):
+                    amount = round(float(amount_val), 2)
+                else:
+                    amount = parse_amount(str(amount_val))
+                if not amount or amount == 0:
+                    continue
+
+                supplier = str(row[supplier_idx]).strip() if supplier_idx is not None and row[supplier_idx] else ""
+                if not supplier or supplier.lower() in ('none', 'nan', ''):
+                    continue
+
+                category = str(row[cat_idx]).strip() if cat_idx is not None and row[cat_idx] else ""
+
+                records.append(build_record(
+                    date=parsed_date, supplier=supplier, amount=amount,
+                    council_id="lancashire_pcc",
+                    department_raw=category,
+                    service_area_raw=category,
+                    source_file=f"{xlsx_path.name}/{sheet_name}",
+                ))
+
+            filtered = filter_records_by_fy(records, data_start_fy)
+            all_records.extend(filtered)
+            file_records += len(filtered)
+
+        wb.close()
+        if file_records:
+            print(f"  {xlsx_path.name}: {file_records} records")
+
+    print(f"  Total Lancashire PCC records (from {data_start_fy}): {len(all_records)}")
+    return all_records
+
+
+def parse_lancashire_fire(xlsx_files, data_start_fy="2022/23"):
+    """Parse Lancashire Combined Fire Authority spending XLSX files.
+
+    Fire Authority publishes annual/quarterly XLSX files with a single sheet.
+    Columns: Transaction Number, Date, Expenditure Category, Supplier Name,
+             Supplier Classification, Amount
+    Category format: dotted hierarchy (e.g. 'lfrs.expenditure.supplies & services.computer software')
+    Threshold: £500
+    """
+    import openpyxl
+    all_records = []
+    start_year = fy_to_start_year(data_start_fy)
+
+    for xlsx_path in xlsx_files:
+        try:
+            wb = openpyxl.load_workbook(str(xlsx_path), read_only=True)
+        except Exception as e:
+            print(f"  SKIP {xlsx_path.name}: {e}")
+            continue
+
+        file_records = 0
+        for sheet_name in wb.sheetnames:
+            ws = wb[sheet_name]
+            rows_iter = ws.iter_rows(values_only=True)
+
+            # Read header row
+            try:
+                header_raw = next(rows_iter)
+            except StopIteration:
+                continue
+            header = [str(c).strip() if c else "" for c in header_raw]
+            header_upper = {h.upper(): i for i, h in enumerate(header)}
+
+            # Map columns
+            txn_idx = header_upper.get("TRANSACTION NUMBER")
+            date_idx = header_upper.get("DATE")
+            cat_idx = header_upper.get("EXPENDITURE CATEGORY")
+            supplier_idx = header_upper.get("SUPPLIER NAME")
+            class_idx = header_upper.get("SUPPLIER CLASSIFICATION")
+            amount_idx = header_upper.get("AMOUNT")
+
+            if date_idx is None or amount_idx is None:
+                print(f"  SKIP sheet {sheet_name}: missing date/amount columns in {list(header_upper.keys())[:6]}")
+                continue
+
+            records = []
+            for row in rows_iter:
+                if not row:
+                    continue
+
+                # Parse date
+                date_val = row[date_idx] if date_idx is not None else None
+                if isinstance(date_val, datetime):
+                    parsed_date = date_val.strftime("%Y-%m-%d")
+                else:
+                    parsed_date = parse_date(str(date_val))
+                if not parsed_date:
+                    continue
+
+                # Parse amount
+                amount_val = row[amount_idx] if amount_idx is not None else 0
+                if isinstance(amount_val, (int, float)):
+                    amount = round(float(amount_val), 2)
+                else:
+                    amount = parse_amount(str(amount_val))
+                if not amount or amount == 0:
+                    continue
+
+                supplier = str(row[supplier_idx]).strip() if supplier_idx is not None and row[supplier_idx] else ""
+                if not supplier or supplier.lower() in ('none', 'nan', ''):
+                    continue
+
+                # Extract top-level department from dotted category hierarchy
+                category = str(row[cat_idx]).strip() if cat_idx is not None and row[cat_idx] else ""
+                parts = category.split(".")
+                dept = parts[0].strip() if parts else category
+
+                classification = str(row[class_idx]).strip() if class_idx is not None and row[class_idx] else ""
+                txn_num = str(row[txn_idx]).strip() if txn_idx is not None and row[txn_idx] else ""
+
+                records.append(build_record(
+                    date=parsed_date, supplier=supplier, amount=amount,
+                    council_id="lancashire_fire",
+                    department_raw=dept,
+                    service_area_raw=classification if classification else category,
+                    description=category,
+                    reference=txn_num,
+                    source_file=f"{xlsx_path.name}/{sheet_name}",
+                ))
+
+            filtered = filter_records_by_fy(records, data_start_fy)
+            all_records.extend(filtered)
+            file_records += len(filtered)
+
+        wb.close()
+        if file_records:
+            print(f"  {xlsx_path.name}: {file_records} records")
+
+    print(f"  Total Lancashire Fire records (from {data_start_fy}): {len(all_records)}")
     return all_records
 
 
@@ -3565,6 +3781,26 @@ def main():
         print(f"\n  Parsing {len(csv_files)} files...")
         data_start = council_info.get("data_start_fy", "2015/16")
         records = parse_fylde(csv_files, data_start)
+
+    elif council_id == "lancashire_pcc":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "lancashire_pcc" / "csvs"
+        csv_files = sorted(csv_dir.glob("*.xlsx"))
+        if not csv_files:
+            print(f"  No XLSX files found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} XLSX files...")
+        data_start = council_info.get("data_start_fy", "2018/19")
+        records = parse_lancashire_pcc(csv_files, data_start)
+
+    elif council_id == "lancashire_fire":
+        csv_dir = Path(args.csv_dir) if args.csv_dir else DATA_DIR / "lancashire_fire" / "csvs"
+        csv_files = sorted(csv_dir.glob("*.xlsx"))
+        if not csv_files:
+            print(f"  No XLSX files found in {csv_dir}.")
+            sys.exit(1)
+        print(f"\n  Parsing {len(csv_files)} XLSX files...")
+        data_start = council_info.get("data_start_fy", "2022/23")
+        records = parse_lancashire_fire(csv_files, data_start)
 
     if not records:
         print("  No records parsed. Check your data source.")
