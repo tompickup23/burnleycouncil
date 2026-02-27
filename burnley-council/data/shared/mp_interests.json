@@ -1,0 +1,1023 @@
+{
+  "generated_at": "2026-02-27T03:43:05.606604Z",
+  "version": "1.0",
+  "data_source": "UK Parliament Register of Members' Financial Interests API v1",
+  "api_url": "https://interests-api.parliament.uk/api/v1/",
+  "methodology": "All declared interests fetched via official Parliament API. Company/employer/donor names cross-referenced against council supplier spending data (all 17 Lancashire bodies) using fuzzy name matching. Companies House lookups performed for entity verification.",
+  "summary": {
+    "mps_processed": 16,
+    "total_interests_declared": 52,
+    "total_supplier_findings": 4,
+    "findings_by_severity": {
+      "critical": 0,
+      "high": 4,
+      "warning": 0
+    }
+  },
+  "constituencies": {
+    "burnley": {
+      "mp_name": "Oliver Ryan",
+      "mp_party": "Labour (Co-op)",
+      "parliament_id": 5135,
+      "constituency": "Burnley",
+      "total_interests": 2,
+      "total_declared_value": 4600.0,
+      "interests_by_category": {
+        "overseas_visits": [
+          {
+            "interest_id": 13658,
+            "category": "overseas_visits",
+            "category_label": "Overseas Visits",
+            "summary": "International visit to Saudi Arabia between 11 October 2025 and 14 October 2025",
+            "registered_date": null,
+            "published_date": "2025-10-29",
+            "destination": "Saudi Arabia"
+          }
+        ],
+        "donations": [
+          {
+            "interest_id": 13660,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "Anthony George Watson - \u00a34,600.00",
+            "registered_date": null,
+            "published_date": "2025-10-28",
+            "total_value": 4600.0,
+            "donor_name": "Anthony George Watson"
+          }
+        ]
+      },
+      "companies_declared": [],
+      "donors": [
+        "Anthony George Watson"
+      ],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "hyndburn": {
+      "mp_name": "Sarah Smith",
+      "mp_party": "Labour",
+      "parliament_id": 5117,
+      "constituency": "Hyndburn",
+      "total_interests": 2,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "shareholdings": [
+          {
+            "interest_id": 10147,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in Limina Group ltd",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "company_name": "Limina Group ltd"
+          }
+        ],
+        "land_property": [
+          {
+            "interest_id": 6373,
+            "category": "land_property",
+            "category_label": "Land & Property",
+            "summary": "Property in Cheltenham",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "location": "Cheltenham"
+          }
+        ]
+      },
+      "companies_declared": [
+        "Limina Group ltd"
+      ],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "pendle_and_clitheroe": {
+      "mp_name": "Jonathan Hinder",
+      "mp_party": "Labour",
+      "parliament_id": 5264,
+      "constituency": "Pendle and Clitheroe",
+      "total_interests": 1,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 13791,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Director of Blue Labour Campaign Limited. This is an unpaid role.",
+            "registered_date": null,
+            "published_date": "2025-11-07",
+            "company_name": "Blue Labour Campaign Limited",
+            "role": "director"
+          }
+        ]
+      },
+      "companies_declared": [
+        "Blue Labour Campaign Limited"
+      ],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "rossendale_and_darwen": {
+      "mp_name": "Andy MacNae",
+      "mp_party": "Labour",
+      "parliament_id": 5134,
+      "constituency": "Rossendale and Darwen",
+      "total_interests": 3,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 14434,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Election as officer of the Labour Rural Research Group with specific interest in outdoor recreation and access to nature.",
+            "registered_date": null,
+            "published_date": "2026-01-29"
+          }
+        ],
+        "land_property": [
+          {
+            "interest_id": 6690,
+            "category": "land_property",
+            "category_label": "Land & Property",
+            "summary": "Property in Northwich",
+            "registered_date": null,
+            "published_date": "2024-07-19",
+            "location": "Northwich"
+          }
+        ],
+        "shareholdings": [
+          {
+            "interest_id": 6688,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in Venture Xtreme Consultancy Limited",
+            "registered_date": null,
+            "published_date": "2024-07-19",
+            "company_name": "Venture Xtreme Consultancy Limited"
+          }
+        ]
+      },
+      "companies_declared": [
+        "Venture Xtreme Consultancy Limited"
+      ],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "lancaster_and_wyre": {
+      "mp_name": "Cat Smith",
+      "mp_party": "Labour",
+      "parliament_id": 4436,
+      "constituency": "Lancaster and Wyre",
+      "total_interests": 3,
+      "total_declared_value": 350.0,
+      "interests_by_category": {
+        "overseas_visits": [
+          {
+            "interest_id": 13664,
+            "category": "overseas_visits",
+            "category_label": "Overseas Visits",
+            "summary": "International visit to Israel between 06 October 2025 and 09 October 2025",
+            "registered_date": null,
+            "published_date": "2025-10-29",
+            "destination": "Israel"
+          },
+          {
+            "interest_id": 11799,
+            "category": "overseas_visits",
+            "category_label": "Overseas Visits",
+            "summary": "International visit to United States between 03 February 2025 and 06 February 2025",
+            "registered_date": null,
+            "published_date": "2025-02-13",
+            "destination": "United States"
+          }
+        ],
+        "gifts_hospitality_uk": [
+          {
+            "interest_id": 12318,
+            "category": "gifts_hospitality_uk",
+            "category_label": "Gifts & Hospitality (UK)",
+            "summary": "London Marathon Events Ltd - \u00a3350.00",
+            "registered_date": null,
+            "published_date": "2025-04-30",
+            "total_value": 350.0,
+            "donor_name": "London Marathon Events Ltd"
+          }
+        ]
+      },
+      "companies_declared": [
+        "London Marathon Events Ltd"
+      ],
+      "donors": [
+        "London Marathon Events Ltd"
+      ],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "morecambe_and_lunesdale": {
+      "mp_name": "Lizzi Collinge",
+      "mp_party": "Labour",
+      "parliament_id": 5225,
+      "constituency": "Morecambe and Lunesdale",
+      "total_interests": 2,
+      "total_declared_value": 466.49,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 13354,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Lancashire County Councillor, (unpaid since 30 August 2024 and previously registered under Category 1)",
+            "registered_date": null,
+            "published_date": "2025-09-23"
+          }
+        ],
+        "gifts_hospitality_uk": [
+          {
+            "interest_id": 12635,
+            "category": "gifts_hospitality_uk",
+            "category_label": "Gifts & Hospitality (UK)",
+            "summary": "Humanists UK - \u00a3466.49",
+            "registered_date": null,
+            "published_date": "2025-06-16",
+            "total_value": 466.49,
+            "donor_name": "Humanists UK"
+          }
+        ]
+      },
+      "companies_declared": [],
+      "donors": [
+        "Humanists UK"
+      ],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "ribble_valley": {
+      "mp_name": "Maya Ellis",
+      "mp_party": "Labour",
+      "parliament_id": 5228,
+      "constituency": "Ribble Valley",
+      "total_interests": 2,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 14417,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Treasurer - Labour Rural Research Group. This is an unpaid role.",
+            "registered_date": null,
+            "published_date": "2026-01-27"
+          },
+          {
+            "interest_id": 6092,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Parish councillor. This is an unpaid role.",
+            "registered_date": null,
+            "published_date": "2024-08-02"
+          }
+        ]
+      },
+      "companies_declared": [],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "chorley": {
+      "mp_name": "Sir Lindsay Hoyle",
+      "mp_party": "Speaker",
+      "parliament_id": 467,
+      "constituency": "Chorley",
+      "total_interests": 0,
+      "total_declared_value": 0,
+      "interests_by_category": {},
+      "companies_declared": [],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "south_ribble": {
+      "mp_name": "Mr Paul Foster",
+      "mp_party": "Labour",
+      "parliament_id": 5074,
+      "constituency": "South Ribble",
+      "total_interests": 10,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 8143,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Unpaid Director of Home Safe Veterans & Homeless Support Ltd.  This entity is currently seeking charitable status.",
+            "registered_date": null,
+            "published_date": "2024-07-30",
+            "company_name": "Home Safe Veterans & Homeless Support Ltd",
+            "role": "director"
+          },
+          {
+            "interest_id": 7060,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Unpaid director of WT IP Ltd.",
+            "registered_date": null,
+            "published_date": "2024-07-24",
+            "company_name": "WT IP Ltd",
+            "role": "director"
+          },
+          {
+            "interest_id": 7063,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Unpaid Director of NWSD Professional Services Ltd.",
+            "registered_date": null,
+            "published_date": "2024-07-24",
+            "company_name": "NWSD Professional Services Ltd",
+            "role": "director"
+          },
+          {
+            "interest_id": 7058,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Unpaid Directorship of Project Furnishings Management Ltd.",
+            "registered_date": null,
+            "published_date": "2024-07-23",
+            "company_name": "Project Furnishings Management Ltd",
+            "role": "director"
+          },
+          {
+            "interest_id": 7071,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "A 10% shareholding in WT IP Ltd.  The shareholding is below the threshold for registration.",
+            "registered_date": null,
+            "published_date": "2024-07-23",
+            "company_name": "WT IP Ltd",
+            "role": "shareholder"
+          },
+          {
+            "interest_id": 6863,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Unpaid Director of PFPM Preston Ltd",
+            "registered_date": null,
+            "published_date": "2024-07-22",
+            "company_name": "PFPM Preston Ltd",
+            "role": "director"
+          }
+        ],
+        "shareholdings": [
+          {
+            "interest_id": 7066,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in PFPM (Preston) Ltd",
+            "registered_date": null,
+            "published_date": "2024-07-24",
+            "company_name": "PFPM (Preston) Ltd"
+          },
+          {
+            "interest_id": 7070,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in NWSD Professional Services Ltd",
+            "registered_date": null,
+            "published_date": "2024-07-23",
+            "company_name": "NWSD Professional Services Ltd"
+          },
+          {
+            "interest_id": 7068,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in Project Furnishings Management Ltd (Dormant)",
+            "registered_date": null,
+            "published_date": "2024-07-23",
+            "company_name": "Project Furnishings Management Ltd (Dormant)"
+          }
+        ],
+        "land_property": [
+          {
+            "interest_id": 6865,
+            "category": "land_property",
+            "category_label": "Land & Property",
+            "summary": "Property in Preston",
+            "registered_date": null,
+            "published_date": "2024-07-22",
+            "location": "Preston"
+          }
+        ]
+      },
+      "companies_declared": [
+        "Home Safe Veterans & Homeless Support Ltd",
+        "NWSD Professional Services Ltd",
+        "PFPM (Preston) Ltd",
+        "PFPM Preston Ltd",
+        "Project Furnishings Management Ltd",
+        "Project Furnishings Management Ltd (Dormant)",
+        "WT IP Ltd"
+      ],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "preston": {
+      "mp_name": "Sir Mark Hendrick",
+      "mp_party": "Labour (Co-op)",
+      "parliament_id": 473,
+      "constituency": "Preston",
+      "total_interests": 0,
+      "total_declared_value": 0,
+      "interests_by_category": {},
+      "companies_declared": [],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "west_lancashire": {
+      "mp_name": "Ashley Dalton",
+      "mp_party": "Labour",
+      "parliament_id": 4981,
+      "constituency": "West Lancashire",
+      "total_interests": 1,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "land_property": [
+          {
+            "interest_id": 5051,
+            "category": "land_property",
+            "category_label": "Land & Property",
+            "summary": "Residential in Southend on Sea",
+            "registered_date": null,
+            "published_date": "2024-03-18"
+          }
+        ]
+      },
+      "companies_declared": [],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "fylde": {
+      "mp_name": "Mr Andrew Snowden",
+      "mp_party": "Conservative",
+      "parliament_id": 5072,
+      "constituency": "Fylde",
+      "total_interests": 7,
+      "total_declared_value": 13400.0,
+      "interests_by_category": {
+        "donations": [
+          {
+            "interest_id": 14485,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "D-Tec International - \u00a32,500.00",
+            "registered_date": null,
+            "published_date": "2026-02-03",
+            "total_value": 2500.0,
+            "donor_name": "D-Tec International"
+          },
+          {
+            "interest_id": 14018,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "Colin Shenton - \u00a31,500.00",
+            "registered_date": null,
+            "published_date": "2025-12-01",
+            "total_value": 1500.0,
+            "donor_name": "Colin Shenton"
+          },
+          {
+            "interest_id": 14019,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "Colin Shenton - \u00a31,500.00",
+            "registered_date": null,
+            "published_date": "2025-12-01",
+            "total_value": 1500.0,
+            "donor_name": "Colin Shenton"
+          },
+          {
+            "interest_id": 13323,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "Fox Brothers - \u00a32,500.00",
+            "registered_date": null,
+            "published_date": "2025-09-17",
+            "total_value": 2500.0,
+            "donor_name": "Fox Brothers"
+          },
+          {
+            "interest_id": 12845,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "John James - \u00a32,500.00",
+            "registered_date": null,
+            "published_date": "2025-07-09",
+            "total_value": 2500.0,
+            "donor_name": "John James"
+          },
+          {
+            "interest_id": 11773,
+            "category": "donations",
+            "category_label": "Donations & Support",
+            "summary": "D-Tec International - \u00a32,500.00",
+            "registered_date": null,
+            "published_date": "2025-02-06",
+            "total_value": 2500.0,
+            "donor_name": "D-Tec International"
+          }
+        ],
+        "gifts_hospitality_uk": [
+          {
+            "interest_id": 12820,
+            "category": "gifts_hospitality_uk",
+            "category_label": "Gifts & Hospitality (UK)",
+            "summary": "Fylde Borough Council - \u00a3400.00",
+            "registered_date": null,
+            "published_date": "2025-07-07",
+            "total_value": 400.0,
+            "donor_name": "Fylde Borough Council"
+          }
+        ]
+      },
+      "companies_declared": [
+        "Fylde Borough Council"
+      ],
+      "donors": [
+        "Colin Shenton",
+        "D-Tec International",
+        "Fox Brothers",
+        "Fylde Borough Council",
+        "John James"
+      ],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [
+        {
+          "type": "mp_company_is_supplier",
+          "severity": "high",
+          "mp_entity": "Fylde Borough Council",
+          "entity_type": "declared_company",
+          "supplier_match": {
+            "matched_name": "FYLDE BOROUGH COUNCIL",
+            "normalised": "FYLDE BOROUGH COUNCIL",
+            "total_spend": 9198222.52,
+            "councils": {
+              "pendle": 532.98,
+              "lancaster": 125206.0,
+              "ribble_valley": 840.0,
+              "lancashire_cc": 6090305.4,
+              "blackpool": 2166253.51,
+              "wyre": 38330.63,
+              "preston": 77453.03,
+              "lancashire_pcc": 444140.22,
+              "lancashire_fire": 255160.75
+            },
+            "confidence": 100
+          },
+          "narrative": "Mr Andrew Snowden declares financial interest in 'Fylde Borough Council', which matches council supplier 'FYLDE BOROUGH COUNCIL' (\u00a39,198,223 total spend across 9 council(s))."
+        },
+        {
+          "type": "mp_donor_is_supplier",
+          "severity": "high",
+          "mp_entity": "D-Tec International",
+          "entity_type": "donor",
+          "supplier_match": {
+            "matched_name": "D.TEC INTERNATIONAL LTD",
+            "normalised": "DTEC INTERNATIONAL",
+            "total_spend": 280595.35,
+            "councils": {
+              "rossendale": 10618.35,
+              "lancashire_pcc": 269977.0
+            },
+            "confidence": 100
+          },
+          "narrative": "Donor to Mr Andrew Snowden \u2014 'D-Tec International' \u2014 matches council supplier 'D.TEC INTERNATIONAL LTD' (\u00a3280,595 total spend). This creates a potential donation-to-contract pipeline."
+        },
+        {
+          "type": "mp_donor_is_supplier",
+          "severity": "high",
+          "mp_entity": "Fylde Borough Council",
+          "entity_type": "donor",
+          "supplier_match": {
+            "matched_name": "FYLDE BOROUGH COUNCIL",
+            "normalised": "FYLDE BOROUGH COUNCIL",
+            "total_spend": 9198222.52,
+            "councils": {
+              "pendle": 532.98,
+              "lancaster": 125206.0,
+              "ribble_valley": 840.0,
+              "lancashire_cc": 6090305.4,
+              "blackpool": 2166253.51,
+              "wyre": 38330.63,
+              "preston": 77453.03,
+              "lancashire_pcc": 444140.22,
+              "lancashire_fire": 255160.75
+            },
+            "confidence": 100
+          },
+          "narrative": "Donor to Mr Andrew Snowden \u2014 'Fylde Borough Council' \u2014 matches council supplier 'FYLDE BOROUGH COUNCIL' (\u00a39,198,223 total spend). This creates a potential donation-to-contract pipeline."
+        }
+      ],
+      "risk_summary": {
+        "total_findings": 3,
+        "critical": 0,
+        "high": 3,
+        "warning": 0
+      }
+    },
+    "blackpool_north_and_fleetwood": {
+      "mp_name": "Lorraine Beavers",
+      "mp_party": "Labour",
+      "parliament_id": 5232,
+      "constituency": "Blackpool North and Fleetwood",
+      "total_interests": 2,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 9772,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Elected Councillor on Fleetwood Town Council. This is an unpaid role",
+            "registered_date": null,
+            "published_date": "2024-10-21"
+          },
+          {
+            "interest_id": 6585,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Deputy chair Fleetwood Beach wheelchairs.  This is an unpaid role.",
+            "registered_date": null,
+            "published_date": "2024-07-19"
+          }
+        ]
+      },
+      "companies_declared": [],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "blackpool_south": {
+      "mp_name": "Chris Webb",
+      "mp_party": "Labour",
+      "parliament_id": 5025,
+      "constituency": "Blackpool South",
+      "total_interests": 3,
+      "total_declared_value": 1000.0,
+      "interests_by_category": {
+        "gifts_outside_uk": [
+          {
+            "interest_id": 14043,
+            "category": "gifts_outside_uk",
+            "category_label": "Gifts (Outside UK)",
+            "summary": "Riyadh Season - \u00a31,000.00",
+            "registered_date": null,
+            "published_date": "2025-12-04",
+            "total_value": 1000.0,
+            "donor_name": "Riyadh Season"
+          }
+        ],
+        "miscellaneous": [
+          {
+            "interest_id": 5890,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Member of the Blackpool Towns Board. This is an unpaid role.",
+            "registered_date": null,
+            "published_date": "2024-05-24"
+          },
+          {
+            "interest_id": 5853,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Trustee of CWUHA, a children's humanitarian charity. This is an unpaid role.",
+            "registered_date": null,
+            "published_date": "2024-05-23",
+            "company_name": "CWUHA",
+            "role": "trustee"
+          }
+        ]
+      },
+      "companies_declared": [
+        "CWUHA"
+      ],
+      "donors": [
+        "Riyadh Season"
+      ],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    },
+    "blackburn": {
+      "mp_name": "Mr Adnan Hussain",
+      "mp_party": "Independent",
+      "parliament_id": 5231,
+      "constituency": "Blackburn",
+      "total_interests": 12,
+      "total_declared_value": 0,
+      "interests_by_category": {
+        "miscellaneous": [
+          {
+            "interest_id": 13576,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Nominating officer for Your Party, registered with the Electoral Commission under reference PP18172.",
+            "registered_date": null,
+            "published_date": "2025-10-19",
+            "company_name": "Your Party",
+            "role": "nominating_officer"
+          },
+          {
+            "interest_id": 13364,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Director of A&H Bros (& others) Investments Ltd.",
+            "registered_date": null,
+            "published_date": "2025-09-24",
+            "company_name": "A&H Bros (& others) Investments Ltd",
+            "role": "director"
+          },
+          {
+            "interest_id": 13317,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Unpaid Secretary of Your Party UK Ltd, a private company limited by guarantee without share capital which was incorporated on 31 July 2025",
+            "registered_date": null,
+            "published_date": "2025-09-17",
+            "company_name": "Your Party UK Ltd",
+            "role": "secretary"
+          },
+          {
+            "interest_id": 9864,
+            "category": "miscellaneous",
+            "category_label": "Miscellaneous",
+            "summary": "Company Director, One Nine Seven Investments Ltd and A&H Bros (& others) Investments Ltd.\r\nI resigned as Director of One Nine Seven Investments Ltd on 07/08/2025.\r\nI resigned as Director of A&H Bros (& others) Investments Ltd on 18 July 2025.\r\nI continue to hold shares in both companies, listed separately.",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "company_name": "One Nine Seven Investments Ltd on 07/08/2025",
+            "role": "director"
+          }
+        ],
+        "shareholdings": [
+          {
+            "interest_id": 9834,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in A & H Bros (& Others) Investments Limited",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "company_name": "A & H Bros (& Others) Investments Limited"
+          },
+          {
+            "interest_id": 9833,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in Clarity Legal Ltd",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "company_name": "Clarity Legal Ltd"
+          },
+          {
+            "interest_id": 9830,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in CHNA Ltd",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "company_name": "CHNA Ltd"
+          },
+          {
+            "interest_id": 9863,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in One Nine Seven Investments Ltd",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "company_name": "One Nine Seven Investments Ltd"
+          },
+          {
+            "interest_id": 8244,
+            "category": "shareholdings",
+            "category_label": "Shareholdings",
+            "summary": "Shares in Bank View Solicitors Limited",
+            "registered_date": null,
+            "published_date": "2024-07-30",
+            "company_name": "Bank View Solicitors Limited"
+          }
+        ],
+        "land_property": [
+          {
+            "interest_id": 10170,
+            "category": "land_property",
+            "category_label": "Land & Property",
+            "summary": "Property in Burnley",
+            "registered_date": null,
+            "published_date": "2024-08-04",
+            "location": "Burnley"
+          }
+        ],
+        "employment": [
+          {
+            "interest_id": 9835,
+            "category": "employment",
+            "category_label": "Employment & Earnings",
+            "summary": "Consultant - Clarity Legal Ltd",
+            "registered_date": null,
+            "published_date": "2024-08-04"
+          },
+          {
+            "interest_id": 7644,
+            "category": "employment",
+            "category_label": "Employment & Earnings",
+            "summary": "Barrister (employee) and until 3 February 2025, Director - Bank View Solicitors Limited",
+            "registered_date": null,
+            "published_date": "2024-07-30"
+          }
+        ]
+      },
+      "companies_declared": [
+        "A & H Bros (& Others) Investments Limited",
+        "A&H Bros (& others) Investments Ltd",
+        "Bank View Solicitors Limited",
+        "CHNA Ltd",
+        "Clarity Legal Ltd",
+        "One Nine Seven Investments Ltd",
+        "One Nine Seven Investments Ltd on 07/08/2025",
+        "Your Party",
+        "Your Party UK Ltd"
+      ],
+      "donors": [],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [
+        {
+          "type": "mp_company_is_supplier",
+          "severity": "high",
+          "mp_entity": "Bank View Solicitors Limited",
+          "entity_type": "declared_company",
+          "supplier_match": {
+            "matched_name": "BANK VIEW SOLICITORS",
+            "normalised": "BANK VIEW SOLICITORS",
+            "total_spend": 6000.0,
+            "councils": {
+              "blackburn": 6000.0
+            },
+            "confidence": 100
+          },
+          "narrative": "Mr Adnan Hussain declares financial interest in 'Bank View Solicitors Limited', which matches council supplier 'BANK VIEW SOLICITORS' (\u00a36,000 total spend across 1 council(s))."
+        }
+      ],
+      "risk_summary": {
+        "total_findings": 1,
+        "critical": 0,
+        "high": 1,
+        "warning": 0
+      }
+    },
+    "southport": {
+      "mp_name": "Patrick Hurley",
+      "mp_party": "Labour",
+      "parliament_id": 5052,
+      "constituency": "Southport",
+      "total_interests": 2,
+      "total_declared_value": 4680.0,
+      "interests_by_category": {
+        "gifts_hospitality_uk": [
+          {
+            "interest_id": 12679,
+            "category": "gifts_hospitality_uk",
+            "category_label": "Gifts & Hospitality (UK)",
+            "summary": "SXSW London t/a Panarise Ltd - \u00a31,560.00",
+            "registered_date": null,
+            "published_date": "2025-06-23",
+            "total_value": 1560.0,
+            "donor_name": "SXSW London t/a Panarise Ltd"
+          },
+          {
+            "interest_id": 11990,
+            "category": "gifts_hospitality_uk",
+            "category_label": "Gifts & Hospitality (UK)",
+            "summary": "British Recorded Music Industry Ltd - \u00a33,120.00",
+            "registered_date": null,
+            "published_date": "2025-03-12",
+            "total_value": 3120.0,
+            "donor_name": "British Recorded Music Industry Ltd"
+          }
+        ]
+      },
+      "companies_declared": [
+        "British Recorded Music Industry Ltd",
+        "SXSW London t/a Panarise Ltd"
+      ],
+      "donors": [
+        "British Recorded Music Industry Ltd",
+        "SXSW London t/a Panarise Ltd"
+      ],
+      "employers": [],
+      "ch_cross_reference": [],
+      "supplier_findings": [],
+      "risk_summary": {
+        "total_findings": 0,
+        "critical": 0,
+        "high": 0,
+        "warning": 0
+      }
+    }
+  }
+}

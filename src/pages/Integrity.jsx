@@ -79,13 +79,16 @@ function Integrity() {
   const { data, loading, error } = useData([
     '/data/integrity.json',
     '/data/councillors.json',
+    '/data/shared/mp_interests.json',
+    '/data/shared/integrity_cross_council.json',
   ])
-  const [integrity, councillorsFull] = data || [null, []]
+  const [integrity, councillorsFull, mpInterests, crossCouncilIntegrity] = data || [null, [], null, null]
   const [search, setSearch] = useState('')
   const [riskFilter, setRiskFilter] = useState('')
   const [partyFilter, setPartyFilter] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const [sortBy, setSortBy] = useState('risk') // risk, name, directorships
+  const [activeTab, setActiveTab] = useState('councillors') // councillors, mps, investigation
 
   useEffect(() => {
     document.title = `Councillor Integrity | ${councilName} Council Transparency`
@@ -103,7 +106,7 @@ function Integrity() {
       ...c,
       // Merge in full councillor data (email, phone, roles, party_color)
       ...(fullMap.get(c.councillor_id) || {}),
-      // Keep integrity fields (v2)
+      // Keep integrity fields (v2 + v4)
       integrity_score: c.integrity_score,
       risk_level: c.risk_level,
       companies_house: c.companies_house,
@@ -120,6 +123,12 @@ function Integrity() {
       red_flags: c.red_flags,
       checked_at: c.checked_at,
       data_sources_checked: c.data_sources_checked,
+      // v4 fields
+      mp_findings: c.mp_findings,
+      revolving_door: c.revolving_door,
+      beneficial_ownership: c.beneficial_ownership,
+      donation_contract_correlation: c.donation_contract_correlation,
+      network_centrality: c.network_centrality,
     }))
   }, [integrity, councillorsFull])
 
@@ -271,6 +280,23 @@ function Integrity() {
     return [...supplierMap.values()].sort((a, b) => b.totalSpend - a.totalSpend)
   }, [councillors])
 
+  // MP interests data
+  const mpData = useMemo(() => {
+    if (!mpInterests?.constituencies) return []
+    return Object.entries(mpInterests.constituencies).map(([constId, mp]) => ({
+      id: constId,
+      ...mp,
+      riskScore: (mp.ch_cross_reference?.length || 0) * 20 +
+        (mp.supplier_findings?.length || 0) * 30,
+    })).sort((a, b) => b.riskScore - a.riskScore)
+  }, [mpInterests])
+
+  // Investigation priorities from cross-council data
+  const investigationPriorities = useMemo(() => {
+    if (!crossCouncilIntegrity?.investigation_priorities) return []
+    return crossCouncilIntegrity.investigation_priorities
+  }, [crossCouncilIntegrity])
+
   // Determine if scan has been run
   const scanComplete = integrity?.councillors_checked > 0
 
@@ -301,22 +327,23 @@ function Integrity() {
       <section className="methodology-banner">
         <Info size={18} />
         <div>
-          <strong>Register-anchored, DOB-verified investigation (v3):</strong> Each councillor&apos;s{' '}
+          <strong>14-source forensic investigation (v4):</strong> Each councillor&apos;s{' '}
           <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer">
             Companies House
           </a>{' '}
           record is verified using their public register of interests as an anchor.
-          Declared companies are matched to CH records to confirm the councillor&apos;s date of birth,
-          which then eliminates false positives from same-name officers elsewhere in the country.
+          DOB verification eliminates false positives.
           {integrity?.register_available && (
             <> Register of interests data is available for this council. </>
           )}
           {!integrity?.register_available && (
-            <> Register of interests is not available for this council — verification relies on name matching with geographic proximity. </>
+            <> Register of interests is not available — verification relies on name + geographic proximity. </>
           )}
-          Additional checks: co-director network mapping,
-          Electoral Commission donations, FCA prohibition orders, cross-council supplier matching,
-          and familial connection detection. Only confirmed and high-confidence results are shown.
+          {' '}Cross-referenced against: co-director networks,
+          Electoral Commission donations, FCA prohibition orders, cross-council supplier matching (17 bodies),
+          familial connections, MP Register of Financial Interests, revolving door detection,
+          beneficial ownership chains, donation-to-contract correlation, and network centrality scoring.
+          {stats?.network_centrality_applied && <> Network centrality amplification applied.</>}
         </div>
       </section>
 
@@ -370,6 +397,31 @@ function Integrity() {
               <div className="dashboard-card accent-critical">
                 <span className="dashboard-number">{stats.network_crossover_links}</span>
                 <span className="dashboard-label">Network Crossover Links</span>
+              </div>
+            )}
+            {/* v4 stat cards */}
+            {(stats.mp_financial_links || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.mp_financial_links}</span>
+                <span className="dashboard-label">MP Financial Links</span>
+              </div>
+            )}
+            {(stats.revolving_door_detections || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.revolving_door_detections}</span>
+                <span className="dashboard-label">Revolving Door</span>
+              </div>
+            )}
+            {(stats.beneficial_ownership_findings || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.beneficial_ownership_findings}</span>
+                <span className="dashboard-label">Ownership Chains</span>
+              </div>
+            )}
+            {(stats.donation_contract_correlations || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.donation_contract_correlations}</span>
+                <span className="dashboard-label">Donation→Contract</span>
               </div>
             )}
           </div>
@@ -449,6 +501,188 @@ function Integrity() {
           </div>
         </div>
       )}
+
+      {/* Tab Navigation */}
+      {scanComplete && (
+        <nav className="integrity-tabs" role="tablist">
+          <button
+            role="tab"
+            className={`integrity-tab ${activeTab === 'councillors' ? 'active' : ''}`}
+            onClick={() => setActiveTab('councillors')}
+            aria-selected={activeTab === 'councillors'}
+          >
+            <Users size={16} />
+            Councillors
+            <span className="tab-count">{councillors.length}</span>
+          </button>
+          {mpData.length > 0 && (
+            <button
+              role="tab"
+              className={`integrity-tab ${activeTab === 'mps' ? 'active' : ''}`}
+              onClick={() => setActiveTab('mps')}
+              aria-selected={activeTab === 'mps'}
+            >
+              <Landmark size={16} />
+              MPs
+              <span className="tab-count">{mpData.length}</span>
+            </button>
+          )}
+          {investigationPriorities.length > 0 && (
+            <button
+              role="tab"
+              className={`integrity-tab ${activeTab === 'investigation' ? 'active' : ''}`}
+              onClick={() => setActiveTab('investigation')}
+              aria-selected={activeTab === 'investigation'}
+            >
+              <Eye size={16} />
+              Investigation Priorities
+              <span className="tab-count">{investigationPriorities.length}</span>
+            </button>
+          )}
+        </nav>
+      )}
+
+      {/* ══════ MPs Tab ══════ */}
+      {activeTab === 'mps' && mpData.length > 0 && (
+        <section className="integrity-mp-section">
+          <h3><Landmark size={18} /> MP Register of Financial Interests</h3>
+          <p className="section-desc">
+            Declared interests from the{' '}
+            <a href="https://interests.parliament.uk/" target="_blank" rel="noopener noreferrer">
+              UK Parliament Register of Members&apos; Financial Interests
+            </a>, cross-referenced against spending data from all 17 Lancashire public bodies.
+          </p>
+          <div className="mp-grid">
+            {mpData.map(mp => (
+              <div key={mp.id} className={`mp-card ${mp.supplier_findings?.length > 0 ? 'has-findings' : ''}`}>
+                <div className="mp-card-header">
+                  <h4>{mp.mp_name}</h4>
+                  <span className="mp-party">{mp.mp_party}</span>
+                  <span className="mp-constituency">{mp.id}</span>
+                </div>
+                <div className="mp-stats">
+                  <span className="mp-stat">
+                    <strong>{mp.total_interests || 0}</strong> interests
+                  </span>
+                  <span className="mp-stat">
+                    <strong>{mp.companies_declared?.length || 0}</strong> companies
+                  </span>
+                  <span className="mp-stat">
+                    <strong>{mp.donors?.length || 0}</strong> donors
+                  </span>
+                  {mp.total_declared_value > 0 && (
+                    <span className="mp-stat">
+                      <strong>{formatCurrency(mp.total_declared_value)}</strong> declared
+                    </span>
+                  )}
+                </div>
+
+                {/* Interest categories */}
+                {mp.interests_by_category && Object.entries(mp.interests_by_category).map(([cat, items]) => {
+                  if (!items?.length) return null
+                  return (
+                    <div key={cat} className="mp-category">
+                      <span className="mp-category-label">{cat.replace(/_/g, ' ')}</span>
+                      <span className="mp-category-count">{items.length}</span>
+                    </div>
+                  )
+                })}
+
+                {/* Supplier cross-reference findings */}
+                {mp.supplier_findings?.length > 0 && (
+                  <div className="mp-findings">
+                    <h5><AlertTriangle size={14} /> Supplier Cross-Reference Findings</h5>
+                    {mp.supplier_findings.map((f, i) => (
+                      <div key={i} className={`mp-finding severity-${f.severity || 'warning'}`}>
+                        <span className={`severity-badge ${f.severity || 'warning'}`}>{f.severity || 'warning'}</span>
+                        <span className="mp-finding-detail">{f.detail || f.mp_entity}</span>
+                        {f.supplier_match?.total_spend > 0 && (
+                          <span className="mp-finding-spend">{formatCurrency(f.supplier_match.total_spend)}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* CH cross-references */}
+                {mp.ch_cross_reference?.length > 0 && (
+                  <div className="mp-ch-refs">
+                    <h5><Building2 size={14} /> Companies House Cross-References</h5>
+                    {mp.ch_cross_reference.map((ref, i) => (
+                      <div key={i} className={`mp-ch-ref ${ref.is_supplier ? 'is-supplier' : ''}`}>
+                        <span className="mp-ch-company">{ref.declared_company}</span>
+                        {ref.company_number && (
+                          <a href={`https://find-and-update.company-information.service.gov.uk/company/${ref.company_number}`}
+                            target="_blank" rel="noopener noreferrer" className="mp-ch-link">
+                            <ExternalLink size={12} /> CH
+                          </a>
+                        )}
+                        <span className="mp-ch-status">{ref.ch_status}</span>
+                        {ref.is_supplier && (
+                          <span className="mp-ch-supplier-tag">
+                            SUPPLIER — {formatCurrency(ref.supplier_spend || 0)}
+                          </span>
+                        )}
+                        {ref.councils_supplied?.length > 0 && (
+                          <span className="mp-ch-councils">
+                            Supplies: {ref.councils_supplied.join(', ')}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ══════ Investigation Priorities Tab ══════ */}
+      {activeTab === 'investigation' && investigationPriorities.length > 0 && (
+        <section className="integrity-investigation-section">
+          <h3><Eye size={18} /> Investigation Priorities</h3>
+          <p className="section-desc">
+            Ranked list of the most concerning findings across all councillors, sorted by
+            critical flag count and network centrality score. These represent the highest-priority
+            cases for further examination.
+          </p>
+          <div className="investigation-list">
+            {investigationPriorities.map((item, i) => (
+              <div key={i} className={`investigation-card risk-${item.risk_level}`}>
+                <div className="investigation-rank">#{i + 1}</div>
+                <div className="investigation-details">
+                  <div className="investigation-header">
+                    <strong>{item.councillor}</strong>
+                    <span className="investigation-council">{item.council}</span>
+                    <span className={`risk-badge ${item.risk_level}`}>
+                      {item.risk_level}
+                    </span>
+                    <span className="investigation-score">Score: {item.integrity_score}/100</span>
+                  </div>
+                  <div className="investigation-metrics">
+                    <span>{item.critical_flags} critical flags</span>
+                    <span>{item.total_flags} total flags</span>
+                    {item.network_centrality > 0 && (
+                      <span>Centrality: {(item.network_centrality * 100).toFixed(0)}%</span>
+                    )}
+                  </div>
+                  {item.top_concerns?.length > 0 && (
+                    <ul className="investigation-concerns">
+                      {item.top_concerns.map((concern, j) => (
+                        <li key={j}>{concern}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ══════ Councillors Tab ══════ */}
+      {activeTab === 'councillors' && <>
 
       {/* Filters */}
       <section className="integrity-filters">
@@ -1255,6 +1489,95 @@ function Integrity() {
                     </div>
                   )}
 
+                  {/* v4: MP Financial Links */}
+                  {councillor.mp_findings?.length > 0 && (
+                    <div className="mp-links-section">
+                      <h4><Landmark size={16} /> MP Financial Connections</h4>
+                      <div className="flags-list">
+                        {councillor.mp_findings.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v4: Revolving Door */}
+                  {councillor.revolving_door?.length > 0 && (
+                    <div className="revolving-door-section">
+                      <h4><Scale size={16} /> Revolving Door Analysis</h4>
+                      <div className="flags-list">
+                        {councillor.revolving_door.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.warning }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v4: Beneficial Ownership */}
+                  {councillor.beneficial_ownership?.length > 0 && (
+                    <div className="ownership-section">
+                      <h4><Network size={16} /> Beneficial Ownership Analysis</h4>
+                      <div className="flags-list">
+                        {councillor.beneficial_ownership.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.warning }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v4: Donation-to-Contract Correlation */}
+                  {councillor.donation_contract_correlation?.length > 0 && (
+                    <div className="donation-contract-section">
+                      <h4><PoundSterling size={16} /> Donation→Contract Correlation</h4>
+                      <div className="flags-list">
+                        {councillor.donation_contract_correlation.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v4: Network Centrality */}
+                  {councillor.network_centrality?.score > 0.3 && (
+                    <div className="centrality-section">
+                      <h4><Fingerprint size={16} /> Network Centrality</h4>
+                      <div className="centrality-meter">
+                        <div className="centrality-bar" style={{ width: `${(councillor.network_centrality.score * 100)}%` }} />
+                        <span className="centrality-score">{(councillor.network_centrality.score * 100).toFixed(0)}%</span>
+                      </div>
+                      <p className="centrality-desc">
+                        {councillor.network_centrality.score > 0.8 ? 'Very highly connected — score penalty amplified ×1.5' :
+                         councillor.network_centrality.score > 0.5 ? 'Highly connected — score penalty amplified ×1.3' :
+                         'Moderately connected'}
+                      </p>
+                      <div className="centrality-components">
+                        {councillor.network_centrality.components && Object.entries(councillor.network_centrality.components).map(([key, val]) => (
+                          val > 0 ? <span key={key} className="centrality-component">{key.replace(/_/g, ' ')}: {val}</span> : null
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* No Issues */}
                   {!hasFlags && !hasConflicts && ch.total_directorships === 0 && councillor.checked_at && (
                     <div className="clean-check">
@@ -1281,16 +1604,22 @@ function Integrity() {
         <p className="no-results">No councillors match your filters.</p>
       )}
 
+      </>}
+      {/* End of councillors tab */}
+
       {/* Legal Disclaimer */}
       <section className="integrity-disclaimer">
         <p>
-          <strong>Important:</strong> This tool uses publicly available data from Companies House, the Electoral
-          Commission, the FCA Register, council register of interests, and council spending records.
-          {integrity?.version === '3.0' ? (
-            <> Directorships are verified using date-of-birth confirmation and geographic proximity
-            scoring to minimise false positives. Where a councillor&apos;s register of interests is available,
-            declared companies are used as anchor points for identity verification. Only confirmed and
-            high-confidence matches are displayed. </>
+          <strong>Important:</strong> This tool uses publicly available data from {integrity?.data_sources?.length || 14} sources
+          including Companies House, Electoral Commission, FCA Register, UK Parliament Register of Members&apos; Financial Interests,
+          council registers of interests, and spending records from 17 Lancashire public bodies.
+          {integrity?.version === '4.0' ? (
+            <> Directorships are DOB-verified with register-anchored identity confirmation.
+            Network centrality scoring amplifies risk for highly-connected individuals.
+            Cross-references include MP declared interests, revolving door detection,
+            beneficial ownership chains, and donation-to-contract correlation. </>
+          ) : integrity?.version === '3.0' ? (
+            <> Directorships are verified using date-of-birth confirmation and geographic proximity scoring. </>
           ) : (
             <> Name matching is probabilistic and may produce false positives. </>
           )}

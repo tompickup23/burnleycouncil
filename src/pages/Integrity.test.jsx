@@ -372,7 +372,7 @@ function getCardNames() {
 }
 
 function renderWithRichData() {
-  useData.mockReturnValue({ data: [richIntegrity, richCouncillorsFull], loading: false, error: null })
+  useData.mockReturnValue({ data: [richIntegrity, richCouncillorsFull, null, null], loading: false, error: null })
   return render(
     <MemoryRouter>
       <Integrity />
@@ -399,13 +399,13 @@ describe('Integrity', () => {
   })
 
   it('renders the page heading with data', () => {
-    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Councillor Integrity Checker')).toBeInTheDocument()
   })
 
   it('renders councillor name from data', () => {
-    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors], loading: false, error: null })
+    useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null], loading: false, error: null })
     renderComponent()
     expect(screen.getByText('Test Councillor')).toBeInTheDocument()
   })
@@ -1023,7 +1023,7 @@ describe('Integrity', () => {
         ...richIntegrity,
         councillors_checked: 0,
       }
-      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull], loading: false, error: null })
+      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1037,7 +1037,7 @@ describe('Integrity', () => {
         ...richIntegrity,
         councillors_checked: 0,
       }
-      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull], loading: false, error: null })
+      useData.mockReturnValue({ data: [uncheckedIntegrity, richCouncillorsFull, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1096,7 +1096,7 @@ describe('Integrity', () => {
         ...richIntegrity,
         cross_council_summary: { councillor_companies_in_other_councils: 0 },
       }
-      useData.mockReturnValue({ data: [noXCouncil, richCouncillorsFull], loading: false, error: null })
+      useData.mockReturnValue({ data: [noXCouncil, richCouncillorsFull, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1186,7 +1186,7 @@ describe('Integrity', () => {
 
     it('does not render familial section when no clusters exist', () => {
       const noFamilial = { ...richIntegrity, surname_clusters: [] }
-      useData.mockReturnValue({ data: [noFamilial, richCouncillorsFull], loading: false, error: null })
+      useData.mockReturnValue({ data: [noFamilial, richCouncillorsFull, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
@@ -1313,7 +1313,7 @@ describe('Integrity', () => {
   describe('methodology banner', () => {
     it('renders methodology banner', () => {
       renderWithRichData()
-      expect(screen.getByText(/Register-anchored, DOB-verified investigation/)).toBeInTheDocument()
+      expect(screen.getByText(/14-source forensic investigation/)).toBeInTheDocument()
     })
 
     it('shows register available message when register is available', () => {
@@ -1323,13 +1323,13 @@ describe('Integrity', () => {
 
     it('shows register not available message when register is missing', () => {
       const noRegister = { ...richIntegrity, register_available: false }
-      useData.mockReturnValue({ data: [noRegister, richCouncillorsFull], loading: false, error: null })
+      useData.mockReturnValue({ data: [noRegister, richCouncillorsFull, null, null], loading: false, error: null })
       render(
         <MemoryRouter>
           <Integrity />
         </MemoryRouter>
       )
-      expect(screen.getByText(/Register of interests is not available for this council/)).toBeInTheDocument()
+      expect(screen.getByText(/Register of interests is not available/)).toBeInTheDocument()
     })
   })
 
@@ -1343,6 +1343,172 @@ describe('Integrity', () => {
       fireEvent.click(header)
       const detail = document.querySelector('.integrity-detail')
       expect(within(detail).getByText('Community/Charity')).toBeInTheDocument()
+    })
+  })
+
+  // ── v4: Tab Navigation ──
+
+  describe('v4 tab navigation', () => {
+    it('renders Councillors tab by default', () => {
+      renderWithRichData()
+      const tab = screen.getByRole('tab', { name: /Councillors/i })
+      expect(tab).toBeInTheDocument()
+      expect(tab).toHaveAttribute('aria-selected', 'true')
+    })
+
+    it('renders MPs tab when MP interests data is available', () => {
+      const mpInterests = {
+        constituencies: {
+          burnley: {
+            mp_name: 'Oliver Ryan',
+            mp_party: 'Labour (Co-op)',
+            total_interests: 5,
+            companies_declared: ['Ryan Corp'],
+            donors: ['Big Donor Co'],
+            supplier_findings: [],
+            ch_cross_reference: [],
+          }
+        }
+      }
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const tab = screen.getByRole('tab', { name: /MPs/i })
+      expect(tab).toBeInTheDocument()
+    })
+
+    it('renders Investigation Priorities tab when cross-council data has priorities', () => {
+      const crossCouncil = {
+        investigation_priorities: [
+          {
+            councillor: 'Suspect Councillor',
+            council: 'burnley',
+            risk_level: 'high',
+            integrity_score: 20,
+            critical_flags: 3,
+            total_flags: 8,
+            network_centrality: 0.9,
+            priority_score: 34.5,
+            top_concerns: ['Supplier conflict with hidden ownership'],
+          }
+        ]
+      }
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, null, crossCouncil],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const tab = screen.getByRole('tab', { name: /Investigation Priorities/i })
+      expect(tab).toBeInTheDocument()
+    })
+
+    it('switches to MPs tab on click and shows MP section', () => {
+      const mpInterests = {
+        constituencies: {
+          burnley: {
+            mp_name: 'Oliver Ryan',
+            mp_party: 'Labour',
+            total_interests: 3,
+            companies_declared: [],
+            donors: [],
+            supplier_findings: [],
+            ch_cross_reference: [],
+          }
+        }
+      }
+      useData.mockReturnValue({
+        data: [richIntegrity, richCouncillorsFull, mpInterests, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      fireEvent.click(screen.getByRole('tab', { name: /MPs/i }))
+      expect(screen.getByText('Oliver Ryan')).toBeInTheDocument()
+      expect(document.querySelector('.integrity-mp-section')).toBeInTheDocument()
+    })
+  })
+
+  // ── v4: Dashboard stat cards ──
+
+  describe('v4 dashboard stats', () => {
+    it('renders MP financial links stat when present', () => {
+      const v4Integrity = {
+        ...richIntegrity,
+        version: '4.0',
+        summary: { ...richIntegrity.summary, mp_financial_links: 3 },
+      }
+      useData.mockReturnValue({
+        data: [v4Integrity, richCouncillorsFull, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText('MP Financial Links')).toBeInTheDocument()
+    })
+
+    it('renders revolving door stat when present', () => {
+      const v4Integrity = {
+        ...richIntegrity,
+        version: '4.0',
+        summary: { ...richIntegrity.summary, revolving_door_detections: 2 },
+      }
+      useData.mockReturnValue({
+        data: [v4Integrity, richCouncillorsFull, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      expect(screen.getByText('Revolving Door')).toBeInTheDocument()
+    })
+  })
+
+  // ── v4: Councillor expanded v4 sections ──
+
+  describe('v4 councillor detail sections', () => {
+    it('renders MP financial connections in expanded detail', () => {
+      const v4Councillors = richIntegrity.councillors.map(c => ({
+        ...c,
+        mp_findings: c.councillor_id === 'c1' ? [{
+          type: 'mp_shared_company', severity: 'critical',
+          detail: 'Councillor company matches MP declared employer',
+        }] : [],
+      }))
+      const v4Integrity = { ...richIntegrity, councillors: v4Councillors }
+      useData.mockReturnValue({
+        data: [v4Integrity, richCouncillorsFull, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      // Find the card header by role="button" containing Alice
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      expect(headers.length).toBeGreaterThan(0)
+      fireEvent.click(headers[0])
+      expect(screen.getByText('MP Financial Connections')).toBeInTheDocument()
+      expect(screen.getByText(/Councillor company matches MP declared employer/)).toBeInTheDocument()
+    })
+
+    it('renders network centrality meter in expanded detail', () => {
+      const v4Councillors = richIntegrity.councillors.map(c => ({
+        ...c,
+        network_centrality: c.councillor_id === 'c1' ? {
+          score: 0.75, amplifier: 1.3, raw_score: 15, max_in_council: 20,
+          components: { companies: 4, associates: 8, cross_council_links: 1, supplier_conflicts: 2, mp_connections: 0 },
+        } : null,
+      }))
+      const v4Integrity = { ...richIntegrity, councillors: v4Councillors }
+      useData.mockReturnValue({
+        data: [v4Integrity, richCouncillorsFull, null, null],
+        loading: false, error: null,
+      })
+      render(<MemoryRouter><Integrity /></MemoryRouter>)
+      const headers = screen.getAllByRole('button').filter(
+        el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
+      )
+      expect(headers.length).toBeGreaterThan(0)
+      fireEvent.click(headers[0])
+      expect(screen.getByText('Network Centrality')).toBeInTheDocument()
+      expect(screen.getByText(/Highly connected/)).toBeInTheDocument()
     })
   })
 })
