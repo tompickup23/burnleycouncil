@@ -1,17 +1,22 @@
 {
   "council_id": "rossendale",
-  "version": "3.0",
-  "generated_at": "2026-02-19T21:24:48.307129Z",
-  "methodology": "register_anchored_dob_verified",
+  "version": "4.0",
+  "generated_at": "2026-02-27T12:15:56.162059Z",
+  "methodology": "14_source_forensic_network_centrality",
   "data_sources": [
     "Companies House (officers, PSC, charges, disqualifications \u2014 DOB-verified)",
     "Electoral Commission (donations)",
     "FCA Register (regulated persons)",
     "Co-director network analysis",
-    "Cross-council supplier matching (15 councils)",
+    "Cross-council supplier matching (17 bodies)",
     "Familial connection detection (surname clusters, shared addresses, family CH)",
     "Misconduct pattern detection (7 algorithms)",
-    "Geographic proximity scoring (Lancashire postcode matching)"
+    "Geographic proximity scoring (Lancashire postcode matching)",
+    "MP Register of Members' Financial Interests (16 MPs)",
+    "Revolving door detection (appointment timeline analysis)",
+    "Beneficial ownership chain analysis (PSC multi-layer)",
+    "Donation-to-contract correlation (EC \u2192 spending)",
+    "Network centrality scoring (graph-based risk amplification)"
   ],
   "register_available": false,
   "total_councillors": 29,
@@ -28,16 +33,16 @@
       "council_appointed": 0,
       "arms_length_body": 0
     },
-    "cross_council_conflicts": 16,
+    "cross_council_conflicts": 20,
     "electoral_commission_findings": 1,
     "fca_findings": 0,
     "misconduct_patterns": 9,
-    "red_flags_total": 84,
+    "red_flags_total": 124,
     "risk_distribution": {
-      "low": 22,
-      "medium": 1,
-      "elevated": 4,
-      "high": 2
+      "low": 0,
+      "medium": 22,
+      "elevated": 1,
+      "high": 6
     },
     "network_investigations_advisable": 12,
     "network_investigation_high_priority": 6,
@@ -45,7 +50,12 @@
     "co_directors_mapped": 48,
     "family_connections_found": 0,
     "family_supplier_conflicts": 0,
-    "network_crossover_links": 0
+    "network_crossover_links": 0,
+    "mp_financial_links": 29,
+    "revolving_door_detections": 7,
+    "beneficial_ownership_findings": 0,
+    "donation_contract_correlations": 0,
+    "network_centrality_applied": true
   },
   "register_compliance": {
     "register_available": false,
@@ -103,11 +113,12 @@
   ],
   "shared_address_councillors": [],
   "cross_council_summary": {
-    "councillor_companies_in_other_councils": 16,
+    "councillor_companies_in_other_councils": 20,
     "affected_councils": [
       "blackburn",
       "fylde",
       "lancashire_cc",
+      "lancashire_pcc",
       "lancaster",
       "pendle",
       "preston",
@@ -121,11 +132,12 @@
       "name": "Adrian Lythgoe",
       "party": "Labour",
       "ward": "Haslingden",
-      "checked_at": "2026-02-19T21:25:08.147629Z",
+      "checked_at": "2026-02-27T12:16:20.285800Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -166,7 +178,7 @@
               "supplier": "ROSSENDALE TRANSPORT LTD",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 451257.26
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -214,7 +226,7 @@
             "supplier": "ROSSENDALE TRANSPORT LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 451257.26
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -231,7 +243,7 @@
             "supplier": "ROSSENDALE TRANSPORT",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 2925982.94
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -245,7 +257,7 @@
             "supplier": "ROSSENDALE TRANSPORT LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 4007.82
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -256,27 +268,7 @@
         "total_links": 0,
         "links": []
       },
-      "misconduct_patterns": [
-        {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked commercial company 'ROSSENDALE TRANSPORT LIMITED' received \u00a3451,257 in council contracts",
-          "evidence": {
-            "company_name": "ROSSENDALE TRANSPORT LIMITED",
-            "company_number": "02004970",
-            "supplier_match": {
-              "supplier": "ROSSENDALE TRANSPORT LTD",
-              "match_type": "exact",
-              "confidence": 100,
-              "total_spend": 451257.26
-            },
-            "severity": "info",
-            "conflict_type": "commercial",
-            "company_type": "ltd",
-            "council_id": "rossendale"
-          }
-        }
-      ],
+      "misconduct_patterns": [],
       "red_flags": [
         {
           "type": "supplier_conflict",
@@ -297,12 +289,12 @@
           "conflict_type": "commercial"
         },
         {
-          "type": "contract_steering_indicator",
-          "severity": "critical",
-          "detail": "Councillor-linked commercial company 'ROSSENDALE TRANSPORT LIMITED' received \u00a3451,257 in council contracts"
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 75,
+      "integrity_score": 85,
       "risk_level": "medium",
       "register_of_interests": {
         "available": false,
@@ -310,14 +302,40 @@
       },
       "unverified_leads": [],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "2 cross-council conflict(s) \u2014 multi-authority exposure",
-          "1 critical misconduct pattern(s) detected"
+          "2 cross-council conflict(s) \u2014 multi-authority exposure"
         ],
-        "priority": "high"
+        "priority": "medium"
+      },
+      "network_centrality": {
+        "score": 0.347,
+        "amplifier": 1.1,
+        "raw_score": 17,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 0,
+          "cross_council_links": 2,
+          "supplier_conflicts": 1,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -325,11 +343,12 @@
       "name": "Alan Neal",
       "party": "Community First",
       "ward": "Whitworth",
-      "checked_at": "2026-02-19T21:25:12.623048Z",
+      "checked_at": "2026-02-27T12:16:25.452577Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -516,10 +535,15 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of ALAN NEAL GRAPHICS LIMITED (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -823,10 +847,37 @@
         }
       ],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.163,
+        "amplifier": 1.0,
+        "raw_score": 8,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 2,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -834,11 +885,12 @@
       "name": "Alan Woods",
       "party": "Conservative",
       "ward": "Helmshore",
-      "checked_at": "2026-02-19T21:25:19.391049Z",
+      "checked_at": "2026-02-27T12:16:33.167690Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -932,7 +984,7 @@
               "supplier": "VETERANS IN COMMUNITIES",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 2100.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -1216,7 +1268,7 @@
             "supplier": "VETERANS IN COMMUNITIES",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 2100.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -1228,12 +1280,26 @@
         {
           "company_name": "VETERANS IN COMMUNITIES",
           "company_number": "08230197",
+          "other_council": "ribble_valley",
+          "supplier_match": {
+            "supplier": "VETERANS IN COMMUNITIES",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "VETERANS IN COMMUNITIES",
+          "company_number": "08230197",
           "other_council": "lancashire_cc",
           "supplier_match": {
             "supplier": "VETERANS IN COMMUNITIES",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 1300.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -1262,6 +1328,20 @@
         {
           "type": "cross_council_supplier_conflict",
           "severity": "critical",
+          "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at ribble_valley council",
+          "evidence": {
+            "other_council": "ribble_valley",
+            "match": {
+              "supplier": "VETERANS IN COMMUNITIES",
+              "match_type": "exact",
+              "confidence": 100,
+              "total_spend": 0
+            }
+          }
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
           "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at lancashire_cc council",
           "evidence": {
             "other_council": "lancashire_cc",
@@ -1269,7 +1349,7 @@
               "supplier": "VETERANS IN COMMUNITIES",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 1300.0
+              "total_spend": 0
             }
           }
         }
@@ -1308,6 +1388,12 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
+          "detail": "Company 'VETERANS IN COMMUNITIES' matches supplier at ribble_valley council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
           "detail": "Company 'VETERANS IN COMMUNITIES' matches supplier at lancashire_cc council [community/charity]",
           "conflict_type": "community_trustee"
         },
@@ -1319,15 +1405,25 @@
         {
           "type": "cross_council_supplier_conflict",
           "severity": "critical",
+          "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at ribble_valley council"
+        },
+        {
+          "type": "cross_council_supplier_conflict",
+          "severity": "critical",
           "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at lancashire_cc council"
         },
         {
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of Q-LEAD CONSULTING LTD (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 40,
+      "integrity_score": 0,
       "risk_level": "high",
       "register_of_interests": {
         "available": false,
@@ -1849,17 +1945,44 @@
         }
       ],
       "false_positives_eliminated": 48,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "4 active directorships \u2014 complex company portfolio",
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "1 cross-council conflict(s) \u2014 multi-authority exposure",
+          "2 cross-council conflict(s) \u2014 multi-authority exposure",
           "high risk level \u2014 multiple red flags",
-          "1 critical misconduct pattern(s) detected",
+          "2 critical misconduct pattern(s) detected",
           "3 dissolved/liquidated companies \u2014 phoenix risk pattern"
         ],
         "priority": "high"
+      },
+      "network_centrality": {
+        "score": 0.633,
+        "amplifier": 1.3,
+        "raw_score": 31,
+        "max_in_council": 49,
+        "components": {
+          "companies": 4,
+          "associates": 8,
+          "cross_council_links": 2,
+          "supplier_conflicts": 1,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -1867,11 +1990,12 @@
       "name": "Alyson Barnes",
       "party": "Labour",
       "ward": "Goodshaw and Cribden",
-      "checked_at": "2026-02-19T21:25:33.274503Z",
+      "checked_at": "2026-02-27T12:16:49.378191Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -1912,7 +2036,7 @@
               "supplier": "RTB PARTNERSHIP",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 1000.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -2019,7 +2143,7 @@
               "supplier": "EAST LANCASHIRE RAILWAY TRUST LTD",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 36000.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -2212,7 +2336,7 @@
             "supplier": "RTB PARTNERSHIP",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 1000.0
+            "total_spend": 0
           },
           "severity": "critical",
           "conflict_type": "commercial",
@@ -2226,7 +2350,7 @@
             "supplier": "EAST LANCASHIRE RAILWAY TRUST LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 36000.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -2243,7 +2367,7 @@
             "supplier": "GROWTH LANCASHIRE LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 103415.19
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "arms_length_body",
@@ -2257,7 +2381,7 @@
             "supplier": "GROWTH LANCASHIRE LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 18250.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "arms_length_body",
@@ -2271,7 +2395,7 @@
             "supplier": "GROWTH LANCASHIRE LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 8162.44
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "arms_length_body",
@@ -2285,7 +2409,7 @@
             "supplier": "GROWTH LANCASHIRE LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 40717.5
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "arms_length_body",
@@ -2299,7 +2423,7 @@
             "supplier": "GROWTH LANCASHIRE LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 148517.76
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "arms_length_body",
@@ -2313,7 +2437,7 @@
             "supplier": "GROWTH LANCASHIRE LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 23269.05
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "arms_length_body",
@@ -2403,25 +2527,57 @@
           "severity": "info",
           "detail": "Company 'GROWTH LANCASHIRE LIMITED' matches supplier at fylde council [arm's-length body]",
           "conflict_type": "arms_length_body"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 55,
-      "risk_level": "elevated",
+      "integrity_score": 10,
+      "risk_level": "high",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "2 supplier conflict(s) \u2014 possible self-dealing",
           "6 cross-council conflict(s) \u2014 multi-authority exposure",
-          "elevated risk level \u2014 multiple red flags",
+          "high risk level \u2014 multiple red flags",
           "6 total directorships \u2014 extensive company history"
         ],
         "priority": "high"
+      },
+      "network_centrality": {
+        "score": 1.0,
+        "amplifier": 1.5,
+        "raw_score": 49,
+        "max_in_council": 49,
+        "components": {
+          "companies": 6,
+          "associates": 5,
+          "cross_council_links": 6,
+          "supplier_conflicts": 2,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -2429,11 +2585,12 @@
       "name": "Andrew Walmsley",
       "party": "Labour",
       "ward": "Britannia and Lee Mill",
-      "checked_at": "2026-02-19T21:25:44.901285Z",
+      "checked_at": "2026-02-27T12:17:02.931679Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -2485,18 +2642,15 @@
             "verification": "ch_proximity_match"
           },
           {
-            "officer_id": "SQXTBqPvco6SJa9mLFE9o-sWuFw",
-            "title": "Andrew WALMSLEY",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 7,
-              "year": 1977
-            },
-            "address_snippet": "159 High Street, Barnet, England, EN5 5SU",
-            "proximity_score": 0,
+            "officer_id": "igV3UbbGjnNgW6oeKqPssfA7ym4",
+            "title": "Andrew William WALMSLEY",
+            "match_score": 90,
+            "date_of_birth": {},
+            "address_snippet": "Solutions House, Fairways Office Park, Fulwood, Preston, Lancashire, PR2 9WT",
+            "proximity_score": 15,
             "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
+            "confidence": 55,
+            "verification": "ch_proximity_match"
           }
         ],
         "total_directorships": 11,
@@ -2521,7 +2675,7 @@
               "supplier": "THE BACUP CONSORTIUM TRUST",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 2545.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -2942,7 +3096,7 @@
             "supplier": "THE BACUP CONSORTIUM TRUST",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 2545.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -2959,7 +3113,21 @@
             "supplier": "THE BACUP CONSORTIUM TRUST",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 19737.58
+            "total_spend": 0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "THE BACUP CONSORTIUM TRUST",
+          "company_number": "05097958",
+          "other_council": "lancashire_pcc",
+          "supplier_match": {
+            "supplier": "THE BACUP CONSORTIUM TRUST",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -3073,6 +3241,12 @@
           "conflict_type": "community_trustee"
         },
         {
+          "type": "cross_council_conflict",
+          "severity": "info",
+          "detail": "Company 'THE BACUP CONSORTIUM TRUST' matches supplier at lancashire_pcc council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
           "type": "phoenix_company_pattern",
           "severity": "high",
           "detail": "3 dissolved companies + 7 active in same/similar sectors \u2014 possible phoenix pattern"
@@ -3081,6 +3255,11 @@
           "type": "shared_address_cluster",
           "severity": "warning",
           "detail": "2 companies share registered address"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
       "integrity_score": 0,
@@ -3112,10 +3291,21 @@
         {
           "officer_name": "Andrew WALMSLEY",
           "match_score": 100,
-          "address": "1 Trinity, 161 Old Christchurch Road, Bournemouth, England, BH1 1JU",
+          "address": "1 Ravenspurn Street, Grimsby, England, DN31 1TE",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1962
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Andrew WALMSLEY",
+          "match_score": 100,
+          "address": "7 Wessex House, St. Leonards Road, Bournemouth, Dorset, England, BH8 8QS",
           "date_of_birth": {
             "month": 6,
-            "year": 1971
+            "year": 1969
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3145,21 +3335,10 @@
         {
           "officer_name": "Andrew WALMSLEY",
           "match_score": 100,
-          "address": "7 Wessex House, St. Leonards Road, Bournemouth, Dorset, England, BH8 8QS",
+          "address": "14 Queensway, New Milton, Hampshire, England, BH25 5NN",
           "date_of_birth": {
             "month": 6,
-            "year": 1969
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Andrew WALMSLEY",
-          "match_score": 100,
-          "address": "1 Ravenspurn Street, Grimsby, England, DN31 1TE",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1962
+            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -3461,29 +3640,7 @@
         {
           "officer_name": "Paul Andrew WALMSLEY",
           "match_score": 90,
-          "address": "Wellyn Lodge, Marsh Lane, North Somercotes, Louth, Lincolnshire, United Kingdom, LN11 7PD",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul Andrew WALMSLEY",
-          "match_score": 90,
           "address": "19 Wilton Road, Humberston, Grimsby, North East Lincs, England, DN36 4AW",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul Andrew WALMSLEY",
-          "match_score": 90,
-          "address": "117 - 119, Cleethorpe Road, Grimsby, England, DN31 3ET",
           "date_of_birth": {
             "month": 7,
             "year": 1965
@@ -3506,17 +3663,6 @@
           "officer_name": "Paul Andrew WALMSLEY",
           "match_score": 90,
           "address": "Wellyn Lodge, Marsh Lane, North Somercotes, Louth, Lincolnshire, United Kingdom, LN11 7PD",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Paul Andrew WALMSLEY",
-          "match_score": 90,
-          "address": "19 Wilton Road, Humberston, Grimsby, N E Lincs, United Kingdom, DN36 4AW",
           "date_of_birth": {
             "month": 7,
             "year": 1965
@@ -3578,20 +3724,69 @@
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Andrew John WALMSLEY",
+          "match_score": 90,
+          "address": "43 Winnipeg Close, Lammack, Blackburn, Lancashire, BB2 7DX",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1950
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Stephen Andrew WALMSLEY",
+          "match_score": 90,
+          "address": "71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1962
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         }
       ],
-      "false_positives_eliminated": 46,
+      "false_positives_eliminated": 45,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "7 active directorships \u2014 complex company portfolio",
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "1 cross-council conflict(s) \u2014 multi-authority exposure",
+          "2 cross-council conflict(s) \u2014 multi-authority exposure",
           "high risk level \u2014 multiple red flags",
           "3 dissolved/liquidated companies \u2014 phoenix risk pattern",
           "11 total directorships \u2014 extensive company history"
         ],
         "priority": "high"
+      },
+      "network_centrality": {
+        "score": 0.796,
+        "amplifier": 1.3,
+        "raw_score": 39,
+        "max_in_council": 49,
+        "components": {
+          "companies": 11,
+          "associates": 2,
+          "cross_council_links": 2,
+          "supplier_conflicts": 1,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -3599,11 +3794,12 @@
       "name": "Ann Hodgkiss",
       "party": "Conservative",
       "ward": "Helmshore",
-      "checked_at": "2026-02-19T21:26:03.575268Z",
+      "checked_at": "2026-02-27T12:17:25.607228Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -3714,9 +3910,15 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -3817,10 +4019,37 @@
         }
       ],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -3828,11 +4057,12 @@
       "name": "Ann Kenyon",
       "party": "Labour",
       "ward": "Haslingden",
-      "checked_at": "2026-02-19T21:26:06.842827Z",
+      "checked_at": "2026-02-27T12:17:29.400537Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -4011,10 +4241,15 @@
           "severity": "warning",
           "detail": "Company status: dissolved",
           "company": "HILLSIDE KIDZ CLUB"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 95,
-      "risk_level": "low",
+      "integrity_score": 80,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -4306,10 +4541,37 @@
         }
       ],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.163,
+        "amplifier": 1.0,
+        "raw_score": 8,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 2,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -4317,11 +4579,12 @@
       "name": "Anne Cartner Cheetham",
       "party": "Conservative",
       "ward": "Greenfield and Eden",
-      "checked_at": "2026-02-19T21:26:13.579300Z",
+      "checked_at": "2026-02-27T12:17:37.109692Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -4432,9 +4695,15 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -4497,10 +4766,37 @@
         }
       ],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -4508,11 +4804,12 @@
       "name": "Annie McMahon",
       "party": "Labour",
       "ward": "Hareholme and Waterfoot",
-      "checked_at": "2026-02-19T21:26:16.853103Z",
+      "checked_at": "2026-02-27T12:17:40.720336Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -4554,7 +4851,7 @@
               "supplier": "EAST LANCASHIRE RAILWAY TRUST LTD",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 36000.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -4772,7 +5069,7 @@
             "supplier": "EAST LANCASHIRE RAILWAY TRUST LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 36000.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -4792,23 +5089,70 @@
           "severity": "info",
           "detail": "Company 'EAST LANCASHIRE RAILWAY TRUST LIMITED' matches council supplier 'EAST LANCASHIRE RAILWAY TRUST LTD' [community/charity]",
           "conflict_type": "community_trustee"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        },
+        {
+          "type": "revolving_door_supplier",
+          "severity": "critical",
+          "detail": "Appointed director of supplier 'EAST LANCASHIRE RAILWAY TRUST LIMITED' on 2023-05-19 (after election). This company received \u00a30 from the council."
         }
       ],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "integrity_score": 60,
+      "risk_level": "elevated",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [
+        {
+          "type": "revolving_door_supplier",
+          "severity": "critical",
+          "company": "EAST LANCASHIRE RAILWAY TRUST LIMITED",
+          "appointed_on": "2023-05-19",
+          "supplier_spend": 0,
+          "detail": "Appointed director of supplier 'EAST LANCASHIRE RAILWAY TRUST LIMITED' on 2023-05-19 (after election). This company received \u00a30 from the council."
+        }
+      ],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "1 supplier conflict(s) \u2014 possible self-dealing",
+          "elevated risk level \u2014 multiple red flags",
           "12 unique co-directors \u2014 extensive business network"
         ],
-        "priority": "medium"
+        "priority": "high"
+      },
+      "network_centrality": {
+        "score": 0.469,
+        "amplifier": 1.1,
+        "raw_score": 23,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 12,
+          "cross_council_links": 0,
+          "supplier_conflicts": 1,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -4816,11 +5160,12 @@
       "name": "Bob Bauld",
       "party": "Green",
       "ward": "Whitewell and Stacksteads",
-      "checked_at": "2026-02-19T21:26:25.309180Z",
+      "checked_at": "2026-02-27T12:17:50.577929Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [],
@@ -4860,19 +5205,52 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -4880,11 +5258,12 @@
       "name": "Christine Gill",
       "party": "Labour",
       "ward": "Goodshaw and Cribden",
-      "checked_at": "2026-02-19T21:26:28.568686Z",
+      "checked_at": "2026-02-27T12:17:54.360181Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -4901,6 +5280,20 @@
             "dob_match": null,
             "confidence": 70,
             "verification": "ch_strong_proximity"
+          },
+          {
+            "officer_id": "XODewt743MBFQTTnB4UnYYOJoKY",
+            "title": "Christine GILL",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 9,
+              "year": 1969
+            },
+            "address_snippet": "11 The Shambles, Wetherby, West Yorkshire, England, LS22 6NG",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
           },
           {
             "officer_id": "OAEUVXOt40LkneE9DlpN741h8pE",
@@ -4925,20 +5318,6 @@
               "year": 1959
             },
             "address_snippet": "12 Thorncliffe View, Chapeltown, Sheffield, South Yorkshire, England, S35 3XU",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "XODewt743MBFQTTnB4UnYYOJoKY",
-            "title": "Christine GILL",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 9,
-              "year": 1969
-            },
-            "address_snippet": "11 The Shambles, Wetherby, West Yorkshire, England, LS22 6NG",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -4978,7 +5357,7 @@
               "supplier": "VETERANS IN COMMUNITIES",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 2100.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -5026,7 +5405,7 @@
             "supplier": "VETERANS IN COMMUNITIES",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 2100.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -5038,12 +5417,26 @@
         {
           "company_name": "VETERANS IN COMMUNITIES",
           "company_number": "08230197",
+          "other_council": "ribble_valley",
+          "supplier_match": {
+            "supplier": "VETERANS IN COMMUNITIES",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "VETERANS IN COMMUNITIES",
+          "company_number": "08230197",
           "other_council": "lancashire_cc",
           "supplier_match": {
             "supplier": "VETERANS IN COMMUNITIES",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 1300.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -5065,17 +5458,39 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
+          "detail": "Company 'VETERANS IN COMMUNITIES' matches supplier at ribble_valley council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
           "detail": "Company 'VETERANS IN COMMUNITIES' matches supplier at lancashire_cc council [community/charity]",
           "conflict_type": "community_trustee"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [
+        {
+          "officer_name": "Christine GILL",
+          "match_score": 100,
+          "address": "11 The Shambles, Wetherby, West Yorkshire, England, LS22 6NG",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
         {
           "officer_name": "Christine GILL",
           "match_score": 100,
@@ -5101,18 +5516,23 @@
         {
           "officer_name": "Christine GILL",
           "match_score": 100,
-          "address": "11 The Shambles, Wetherby, West Yorkshire, England, LS22 6NG",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1969
-          },
+          "address": "29 Rainford Road, Dentons Green, St. Helens, Merseyside, England, WA10 6BT",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
           "officer_name": "Christine GILL",
           "match_score": 100,
-          "address": "29 Rainford Road, Dentons Green, St. Helens, Merseyside, England, WA10 6BT",
+          "address": "5 Beaumont Avenue, Eccleston, St Helens, Merseyside, WA10 4EP",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Christine GILL",
+          "match_score": 100,
+          "address": "14 Uxbridge Grove, Hull, England, HU9 5BU",
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5136,22 +5556,6 @@
             "month": 12,
             "year": 1955
           },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Christine GILL",
-          "match_score": 100,
-          "address": "5 Beaumont Avenue, Eccleston, St Helens, Merseyside, WA10 4EP",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Christine GILL",
-          "match_score": 100,
-          "address": "14 Uxbridge Grove, Hull, England, HU9 5BU",
-          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -5430,16 +5834,51 @@
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Christine Elaine GILL",
+          "match_score": 90,
+          "address": "20 Merton Walk, Godmanchester, Huntingdon, PE29 2DH",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         }
       ],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "1 supplier conflict(s) \u2014 possible self-dealing",
-          "1 cross-council conflict(s) \u2014 multi-authority exposure"
+          "2 cross-council conflict(s) \u2014 multi-authority exposure"
         ],
         "priority": "medium"
+      },
+      "network_centrality": {
+        "score": 0.347,
+        "amplifier": 1.1,
+        "raw_score": 17,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 0,
+          "cross_council_links": 2,
+          "supplier_conflicts": 1,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -5447,11 +5886,12 @@
       "name": "Danielle Ashworth",
       "party": "Labour",
       "ward": "Britannia and Lee Mill",
-      "checked_at": "2026-02-19T21:26:33.029698Z",
+      "checked_at": "2026-02-27T12:17:59.478809Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -5534,9 +5974,15 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -5577,10 +6023,37 @@
         }
       ],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -5588,51 +6061,38 @@
       "name": "David Hancock",
       "party": "Labour",
       "ward": "Bacup",
-      "checked_at": "2026-02-19T21:26:36.485089Z",
+      "checked_at": "2026-02-27T12:18:03.156665Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
           {
-            "officer_id": "PPm3U-c13VdF9K4U6ZI9vaQ6BCs",
+            "officer_id": "o7F9fm_vX045x8JW943m9a1S9qI",
             "title": "David HANCOCK",
             "match_score": 100,
             "date_of_birth": {
-              "month": 6,
-              "year": 1964
+              "month": 8,
+              "year": 1943
             },
-            "address_snippet": "11 Dyke Vale Road, Hackenthorpe, Sheffield, South Yorkshire, S12 4EQ",
+            "address_snippet": "The Drumbles Hayes Bank, Stone, Staffordshire, ST15 8SZ",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "1-yBNuxRB89WQf1EEFmraZDTAS8",
+            "officer_id": "p_fzX8-2OLmu9VZ2n30752QcNoM",
             "title": "David HANCOCK",
             "match_score": 100,
             "date_of_birth": {
               "month": 5,
-              "year": 1972
+              "year": 1991
             },
-            "address_snippet": "Flat 4, 39 Craven Hill Gardens, London, United Kingdom, W2 3EA",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "3SHDFAhpf-CQ3K7MbSwVbImHhDo",
-            "title": "David HANCOCK",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 6,
-              "year": 1968
-            },
-            "address_snippet": "9 Livingstone Walk, Hemel Hempstead, Hertfordshire, United Kingdom, HP2 6AH",
+            "address_snippet": "51 High Street, Loscoe, Heanor, England, DE75 7LG",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -5661,6 +6121,20 @@
               "year": 1948
             },
             "address_snippet": "256 Grasmere Way, Leighton Buzzard, Bedfordshire, LU7 2QB",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "1-yBNuxRB89WQf1EEFmraZDTAS8",
+            "title": "David HANCOCK",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 5,
+              "year": 1972
+            },
+            "address_snippet": "Flat 4, 39 Craven Hill Gardens, London, United Kingdom, W2 3EA",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -5716,10 +6190,15 @@
           "type": "councillor_is_donor",
           "severity": "info",
           "detail": "Councillor appears as political donor: \u00a31,800 to Liberal Democrats"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -5728,10 +6207,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "11 Dyke Vale Road, Hackenthorpe, Sheffield, South Yorkshire, S12 4EQ",
+          "address": "The Drumbles Hayes Bank, Stone, Staffordshire, ST15 8SZ",
           "date_of_birth": {
-            "month": 6,
-            "year": 1964
+            "month": 8,
+            "year": 1943
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5739,21 +6218,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "Flat 4, 39 Craven Hill Gardens, London, United Kingdom, W2 3EA",
+          "address": "51 High Street, Loscoe, Heanor, England, DE75 7LG",
           "date_of_birth": {
             "month": 5,
-            "year": 1972
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HANCOCK",
-          "match_score": 100,
-          "address": "9 Livingstone Walk, Hemel Hempstead, Hertfordshire, United Kingdom, HP2 6AH",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1968
+            "year": 1991
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5783,10 +6251,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "The Drumbles Hayes Bank, Stone, Staffordshire, ST15 8SZ",
+          "address": "Flat 4, 39 Craven Hill Gardens, London, United Kingdom, W2 3EA",
           "date_of_birth": {
-            "month": 8,
-            "year": 1943
+            "month": 5,
+            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5794,10 +6262,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "51 High Street, Loscoe, Heanor, England, DE75 7LG",
+          "address": "9 Livingstone Walk, Hemel Hempstead, Hertfordshire, United Kingdom, HP2 6AH",
           "date_of_birth": {
-            "month": 5,
-            "year": 1991
+            "month": 6,
+            "year": 1968
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5809,6 +6277,17 @@
           "date_of_birth": {
             "month": 7,
             "year": 1983
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HANCOCK",
+          "match_score": 100,
+          "address": "11 Dyke Vale Road, Hackenthorpe, Sheffield, South Yorkshire, S12 4EQ",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1964
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5860,14 +6339,6 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "54 Amity Road, London, United Kingdom, E15 4AT",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HANCOCK",
-          "match_score": 100,
           "address": "Unit 212 Vanilla Factory, 39 Fleet Street, Liverpool, England, L1 4AR",
           "date_of_birth": {
             "month": 11,
@@ -5884,6 +6355,14 @@
             "month": 9,
             "year": 1963
           },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HANCOCK",
+          "match_score": 100,
+          "address": "54 Amity Road, London, United Kingdom, E15 4AT",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -5923,10 +6402,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "Paymatters Barons Court, Manchester Road, Wilmslow, Cheshire, United Kingdom, SK9 1BQ",
+          "address": "5 Reeds Hill, Bracknell, Berkshire, England, RG12 7LJ",
           "date_of_birth": {
-            "month": 6,
-            "year": 1968
+            "month": 5,
+            "year": 1988
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5945,10 +6424,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "5 Reeds Hill, Bracknell, Berkshire, England, RG12 7LJ",
+          "address": "Paymatters Barons Court, Manchester Road, Wilmslow, Cheshire, United Kingdom, SK9 1BQ",
           "date_of_birth": {
-            "month": 5,
-            "year": 1988
+            "month": 6,
+            "year": 1968
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -5960,17 +6439,6 @@
           "date_of_birth": {
             "month": 7,
             "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HANCOCK",
-          "match_score": 100,
-          "address": "407 Topsham Road, Exeter, England, EX2 7AB",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1982
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6008,6 +6476,14 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
+          "address": "116 Mill Lane, Liverpool, Merseyside, L12 7JF",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HANCOCK",
+          "match_score": 100,
           "address": "41 Lingfield Avenue, Port Talbot, Wales, SA12 6NX",
           "date_of_birth": {
             "month": 1,
@@ -6019,8 +6495,11 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "116 Mill Lane, Liverpool, Merseyside, L12 7JF",
-          "date_of_birth": {},
+          "address": "407 Topsham Road, Exeter, England, EX2 7AB",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1982
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -6038,21 +6517,10 @@
         {
           "officer_name": "David HANCOCK",
           "match_score": 100,
-          "address": "367b Church Road, Frampton Cotterell, Bristol, United Kingdom, BS36 2AQ",
+          "address": "Manor Court Chambers, Townsend Drive, Nuneaton, Warwickshire, United Kingdom, CV11 6RU",
           "date_of_birth": {
-            "month": 2,
-            "year": 1940
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HANCOCK",
-          "match_score": 100,
-          "address": "65 Westerham Road, Sittingbourne, Kent, ME10 1XH",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1939
+            "month": 3,
+            "year": 1989
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6064,17 +6532,6 @@
           "date_of_birth": {
             "month": 8,
             "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "David HANCOCK",
-          "match_score": 100,
-          "address": "Manor Court Chambers, Townsend Drive, Nuneaton, Warwickshire, United Kingdom, CV11 6RU",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1989
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6114,6 +6571,28 @@
           "match_score": 100,
           "address": "Cautley, Chapel Lane, Souldrop, Beds, MK44 1HB",
           "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HANCOCK",
+          "match_score": 100,
+          "address": "367b Church Road, Frampton Cotterell, Bristol, United Kingdom, BS36 2AQ",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1940
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "David HANCOCK",
+          "match_score": 100,
+          "address": "65 Westerham Road, Sittingbourne, Kent, ME10 1XH",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1939
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -6262,10 +6741,37 @@
         }
       ],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -6273,11 +6779,12 @@
       "name": "Greg Bleakley",
       "party": "Labour",
       "ward": "Goodshaw and Cribden",
-      "checked_at": "2026-02-19T21:26:39.841609Z",
+      "checked_at": "2026-02-27T12:18:06.930397Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [],
@@ -6317,19 +6824,52 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -6337,11 +6877,12 @@
       "name": "James Eaton",
       "party": "Labour",
       "ward": "Bacup",
-      "checked_at": "2026-02-19T21:26:43.098874Z",
+      "checked_at": "2026-02-27T12:18:10.608453Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -6388,20 +6929,6 @@
             "verification": "ch_proximity_match"
           },
           {
-            "officer_id": "N-g0yNmAOZSo2cbZGekdFHpcDXA",
-            "title": "James EATON",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 3,
-              "year": 1981
-            },
-            "address_snippet": "27 Jutland Road, Avonmouth, Bristol, United Kingdom, BS119ER",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "W72UmDyzCprAMo9P4WZ7p_RaDvI",
             "title": "James EATON",
             "match_score": 100,
@@ -6410,6 +6937,20 @@
               "year": 1992
             },
             "address_snippet": "37 Marston Road, Stafford, England, ST16 3BT",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "N-g0yNmAOZSo2cbZGekdFHpcDXA",
+            "title": "James EATON",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 3,
+              "year": 1981
+            },
+            "address_snippet": "27 Jutland Road, Avonmouth, Bristol, United Kingdom, BS119ER",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -6670,10 +7211,15 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of SOUTHVIEW JOINERY LIMITED (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 55,
-      "risk_level": "elevated",
+      "integrity_score": 40,
+      "risk_level": "high",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -6682,10 +7228,10 @@
         {
           "officer_name": "James EATON",
           "match_score": 100,
-          "address": "27 Jutland Road, Avonmouth, Bristol, United Kingdom, BS119ER",
+          "address": "37 Marston Road, Stafford, England, ST16 3BT",
           "date_of_birth": {
-            "month": 3,
-            "year": 1981
+            "month": 4,
+            "year": 1992
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6693,10 +7239,10 @@
         {
           "officer_name": "James EATON",
           "match_score": 100,
-          "address": "37 Marston Road, Stafford, England, ST16 3BT",
+          "address": "27 Jutland Road, Avonmouth, Bristol, United Kingdom, BS119ER",
           "date_of_birth": {
-            "month": 4,
-            "year": 1992
+            "month": 3,
+            "year": 1981
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6723,17 +7269,6 @@
         {
           "officer_name": "James EATON",
           "match_score": 100,
-          "address": "10 Watermark Way, Foxholes Business Park, Hertford, United Kingdom, SG13 7TZ",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1984
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "James EATON",
-          "match_score": 100,
           "address": "8 Church Close, Smalley, Derby, Derbyshire, DE7 6JX",
           "date_of_birth": {
             "month": 9,
@@ -6745,21 +7280,10 @@
         {
           "officer_name": "James EATON",
           "match_score": 100,
-          "address": "Suite 10, Old Marsh Farm Barns, Welsh Road, Deeside, Flintshire, United Kingdom, CH5 2LY",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1974
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "James EATON",
-          "match_score": 100,
-          "address": "15c Dunsmure Road, Stamford Hill, Hackney, London, United Kingdom, N16 5PU",
+          "address": "10 Watermark Way, Foxholes Business Park, Hertford, United Kingdom, SG13 7TZ",
           "date_of_birth": {
             "month": 9,
-            "year": 1980
+            "year": 1984
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6771,6 +7295,17 @@
           "date_of_birth": {
             "month": 6,
             "year": 1990
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "James EATON",
+          "match_score": 100,
+          "address": "Mt.Fitness Gym, Mount Rooms Hotel, Porthkerry Road, Barry, South Glamorgan, United Kingdom, CF62 7XY",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1991
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6797,10 +7332,21 @@
         {
           "officer_name": "James EATON",
           "match_score": 100,
-          "address": "Mt.Fitness Gym, Mount Rooms Hotel, Porthkerry Road, Barry, South Glamorgan, United Kingdom, CF62 7XY",
+          "address": "Suite 10, Old Marsh Farm Barns, Welsh Road, Deeside, Flintshire, United Kingdom, CH5 2LY",
           "date_of_birth": {
             "month": 4,
-            "year": 1991
+            "year": 1974
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "James EATON",
+          "match_score": 100,
+          "address": "15c Dunsmure Road, Stamford Hill, Hackney, London, United Kingdom, N16 5PU",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1980
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6896,10 +7442,10 @@
         {
           "officer_name": "James Alexander EATON",
           "match_score": 90,
-          "address": "Suite 114, Lymington Town Hall, Avenue Road, Lymington, Hampshire, England, SO41 9ZG",
+          "address": "45 Weyland Road, Sherburn-In-Elmet, United Kingdom, LS25 6QT",
           "date_of_birth": {
-            "month": 12,
-            "year": 1965
+            "month": 7,
+            "year": 1992
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -6907,10 +7453,10 @@
         {
           "officer_name": "James Alexander EATON",
           "match_score": 90,
-          "address": "45 Weyland Road, Sherburn-In-Elmet, United Kingdom, LS25 6QT",
+          "address": "Suite 114, Lymington Town Hall, Avenue Road, Lymington, Hampshire, England, SO41 9ZG",
           "date_of_birth": {
-            "month": 7,
-            "year": 1992
+            "month": 12,
+            "year": 1965
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7192,12 +7738,39 @@
         }
       ],
       "false_positives_eliminated": 47,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
-          "elevated risk level \u2014 multiple red flags"
+          "high risk level \u2014 multiple red flags"
         ],
         "priority": "medium"
+      },
+      "network_centrality": {
+        "score": 0.265,
+        "amplifier": 1.0,
+        "raw_score": 13,
+        "max_in_council": 49,
+        "components": {
+          "companies": 4,
+          "associates": 1,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -7205,11 +7778,12 @@
       "name": "John Payne",
       "party": "Green",
       "ward": "Whitewell and Stacksteads",
-      "checked_at": "2026-02-19T21:26:52.358074Z",
+      "checked_at": "2026-02-27T12:18:21.460840Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -7242,31 +7816,6 @@
             "verification": "ch_proximity_match"
           },
           {
-            "officer_id": "AYqY2M7fTNv-01zbr5bxmCnkSWg",
-            "title": "John PAYNE",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "Suite 1, Whitfield House, St Johns Road, Durham, Durham, United Kingdom, DH7 8XL",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
-            "officer_id": "OE8KofHJo86ZcvL7LoDNQ44BlRg",
-            "title": "John PAYNE",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 7,
-              "year": 1975
-            },
-            "address_snippet": "57a, Priory Road, Newbury, Berkshire, England, RG14 7QT",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "bX0Ces2QKcQPnBaj6_68k3AIBss",
             "title": "John PAYNE",
             "match_score": 100,
@@ -7275,6 +7824,34 @@
               "year": 1957
             },
             "address_snippet": "5 Eley Road, London, England, N18 3BB",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "nZgKqqFFTpuaUH7-hFH3TKFmjSw",
+            "title": "John PAYNE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 4,
+              "year": 1950
+            },
+            "address_snippet": "Bridge Farm, Upper Hayesden Lane, Tonbridge, Kent, TN11 8AA",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "pCXSr6t1Z31pKzqpimJp9BcB3bg",
+            "title": "John PAYNE",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 11,
+              "year": 1969
+            },
+            "address_snippet": "15 Regent Grove, Regent Grove, Doncaster, England, DN5 8HS",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -7456,10 +8033,20 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of PAYNE LOGISTICS LTD (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "detail": "Directorship at 'PAYNE LOGISTICS LTD' started 2024-03-25 (post-election)"
         }
       ],
-      "integrity_score": 95,
-      "risk_level": "low",
+      "integrity_score": 80,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -7468,67 +8055,10 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "Suite 1, Whitfield House, St Johns Road, Durham, Durham, United Kingdom, DH7 8XL",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "57a, Priory Road, Newbury, Berkshire, England, RG14 7QT",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
           "address": "5 Eley Road, London, England, N18 3BB",
           "date_of_birth": {
             "month": 3,
             "year": 1957
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "41 Shipley Road, Bristol, BS9 3HR",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1948
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "1 Mill Cottages, Otterden Road, Eastling, Faversham, Kent, United Kingdom, ME13 0BN",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "1 Mill Cottages, Otterden Road Eastling, Faversham, Kent, England, ME13 0BN",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "Chancery House, 27 Lombard Street, Lichfield, Staffordshire, United Kingdom, WS13 6DP",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1965
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7577,6 +8107,14 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
+          "address": "Suite 1, Whitfield House, St Johns Road, Durham, Durham, United Kingdom, DH7 8XL",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
           "address": "Level 3, 207 Regent Street, London, United Kingdom, W1B 3HH",
           "date_of_birth": {
             "month": 7,
@@ -7588,10 +8126,10 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "Flat 3 22-23, Marylebone High Street, London, England, W1U 4PF",
+          "address": "Chancery House, 27 Lombard Street, Lichfield, Staffordshire, United Kingdom, WS13 6DP",
           "date_of_birth": {
-            "month": 3,
-            "year": 1988
+            "month": 4,
+            "year": 1965
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7599,10 +8137,37 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "20 Lyndhurst Avenue, Broadmoor, Kilgetty, Wales, SA68 0RZ",
+          "address": "41 Shipley Road, Bristol, BS9 3HR",
           "date_of_birth": {
-            "month": 9,
-            "year": 1986
+            "month": 3,
+            "year": 1948
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "1 Mill Cottages, Otterden Road, Eastling, Faversham, Kent, United Kingdom, ME13 0BN",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "1 Mill Cottages, Otterden Road Eastling, Faversham, Kent, England, ME13 0BN",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "57a, Priory Road, Newbury, Berkshire, England, RG14 7QT",
+          "date_of_birth": {
+            "month": 7,
+            "year": 1975
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7614,6 +8179,47 @@
           "date_of_birth": {
             "month": 5,
             "year": 1964
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "Four Winds, Copthorne Road, Colwyn Bay, Conwy, LL285YP",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "73 Wilberforce Way, Gravesend, Kent, England, DA12 5DJ",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "52 Niton St, Fulham, London, United Kingdom, SW6 6NJ",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1959
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "20 Lyndhurst Avenue, Broadmoor, Kilgetty, Wales, SA68 0RZ",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1986
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7643,29 +8249,10 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "52 Niton St, Fulham, London, United Kingdom, SW6 6NJ",
+          "address": "Flat 3 22-23, Marylebone High Street, London, England, W1U 4PF",
           "date_of_birth": {
             "month": 3,
-            "year": 1959
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "Four Winds, Copthorne Road, Colwyn Bay, Conwy, LL285YP",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "73 Wilberforce Way, Gravesend, Kent, England, DA12 5DJ",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1984
+            "year": 1988
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7706,6 +8293,25 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
+          "address": "1 Mount Villas, Upper Clatford, Andover, Hampshire, SP11 7QQ",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1957
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "12 Fringford Close, Lower Earley, United Kingdom, RG6 4JU",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
           "address": "4385, 12779733 - Companies House Default Address, Cardiff, CF14 8LH",
           "date_of_birth": {
             "month": 10,
@@ -7739,30 +8345,11 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "1 Mount Villas, Upper Clatford, Andover, Hampshire, SP11 7QQ",
-          "date_of_birth": {
-            "month": 9,
-            "year": 1957
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
           "address": "35 Westgate, Huddersfield, West Yorkshire, United Kingdom, HD1 1PA",
           "date_of_birth": {
             "month": 12,
             "year": 1962
           },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "12 Fringford Close, Lower Earley, United Kingdom, RG6 4JU",
-          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -7780,10 +8367,10 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "239 Wulfstan Street, London, England, W12 0AB",
+          "address": "Rm Accountancy Services Ltd, The Old Post Office, 137-139 Long Street, Tamworth, United Kingdom, B78 1SH",
           "date_of_birth": {
-            "month": 3,
-            "year": 1957
+            "month": 2,
+            "year": 1982
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7791,10 +8378,21 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "Rm Accountancy Services Ltd, The Old Post Office, 137-139 Long Street, Tamworth, United Kingdom, B78 1SH",
+          "address": "10 Rush Green, Bartley Green, Birmingham, United Kingdom, B32 3BJ",
           "date_of_birth": {
             "month": 2,
             "year": 1982
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "239 Wulfstan Street, London, England, W12 0AB",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1957
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7835,17 +8433,6 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "10 Rush Green, Bartley Green, Birmingham, United Kingdom, B32 3BJ",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1982
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
           "address": "14 The Willows, Rainham, Gillingham, Kent, ME8 7DW",
           "date_of_birth": {},
           "confidence": 35,
@@ -7865,21 +8452,10 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "90 Wedgewood Drive, Harlow, England, CM17 9PY",
+          "address": "12 Fringford Close, Lower Earley, United Kingdom, RG6 4JU",
           "date_of_birth": {
-            "month": 2,
-            "year": 1966
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "Ground Floor, 28 Station Road, Wiltshire, Warminster, United Kingdom, BA12 9BR",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1951
+            "month": 7,
+            "year": 1961
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7891,17 +8467,6 @@
           "date_of_birth": {
             "month": 12,
             "year": 1947
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "John PAYNE",
-          "match_score": 100,
-          "address": "12 Fringford Close, Lower Earley, United Kingdom, RG6 4JU",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1961
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -7942,6 +8507,28 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
+          "address": "90 Wedgewood Drive, Harlow, England, CM17 9PY",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1966
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
+          "address": "Ground Floor, 28 Station Road, Wiltshire, Warminster, United Kingdom, BA12 9BR",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1951
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "John PAYNE",
+          "match_score": 100,
           "address": "1 Sopwith Crescent, Wickford, Essex, United Kingdom, SS11 8YU",
           "date_of_birth": {
             "month": 2,
@@ -7961,20 +8548,55 @@
         {
           "officer_name": "John PAYNE",
           "match_score": 100,
-          "address": "12 Warrington Road, Glazebury, Warrington, England, WA3 5NW",
+          "address": "18 Cromwell Road, St. Andrews, Bristol, England, BS6 5HG",
           "date_of_birth": {
-            "month": 11,
-            "year": 1971
+            "month": 12,
+            "year": 1951
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         }
       ],
       "false_positives_eliminated": 48,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "company": "PAYNE LOGISTICS LTD",
+          "appointed_on": "2024-03-25",
+          "detail": "Directorship at 'PAYNE LOGISTICS LTD' started 2024-03-25 (post-election)"
+        }
+      ],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.204,
+        "amplifier": 1.0,
+        "raw_score": 10,
+        "max_in_council": 49,
+        "components": {
+          "companies": 2,
+          "associates": 2,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -7982,11 +8604,12 @@
       "name": "Judith Driver",
       "party": "Labour",
       "ward": "Bacup",
-      "checked_at": "2026-02-19T21:27:01.616246Z",
+      "checked_at": "2026-02-27T12:18:32.108714Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [],
@@ -8026,19 +8649,52 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -8046,11 +8702,12 @@
       "name": "Julie Adshead",
       "party": "Green",
       "ward": "Whitewell and Stacksteads",
-      "checked_at": "2026-02-19T21:27:04.888845Z",
+      "checked_at": "2026-02-27T12:18:35.800528Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -8146,20 +8803,52 @@
           "severity": "warning",
           "detail": "Latest accounts filed as dormant",
           "company": "BRIDGE SOLUTIONS & SERVICES LIMITED"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 95,
-      "risk_level": "low",
+      "integrity_score": 80,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.122,
+        "amplifier": 1.0,
+        "raw_score": 6,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -8167,11 +8856,12 @@
       "name": "Liz McInnes",
       "party": "Labour",
       "ward": "Longholme",
-      "checked_at": "2026-02-19T21:27:09.335473Z",
+      "checked_at": "2026-02-27T12:18:40.903360Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [],
@@ -8211,19 +8901,52 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -8231,11 +8954,12 @@
       "name": "Mackenzie Ritson",
       "party": "Reform UK",
       "ward": "Whitworth",
-      "checked_at": "2026-02-19T21:27:12.598842Z",
+      "checked_at": "2026-02-27T12:18:44.574759Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -8354,20 +9078,52 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of VOYAGE CAREERS LIMITED (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 95,
-      "risk_level": "low",
+      "integrity_score": 80,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.122,
+        "amplifier": 1.0,
+        "raw_score": 6,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -8375,11 +9131,12 @@
       "name": "Marilyn Procter",
       "party": "Labour",
       "ward": "Haslingden",
-      "checked_at": "2026-02-19T21:27:18.203688Z",
+      "checked_at": "2026-02-27T12:18:51.014138Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -8434,7 +9191,7 @@
               "supplier": "VETERANS IN COMMUNITIES",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 2100.0
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -8466,7 +9223,7 @@
               "supplier": "ROSSENDALE TRANSPORT LTD",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 451257.26
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -8614,7 +9371,7 @@
             "supplier": "VETERANS IN COMMUNITIES",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 2100.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -8628,7 +9385,7 @@
             "supplier": "ROSSENDALE TRANSPORT LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 451257.26
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -8640,12 +9397,26 @@
         {
           "company_name": "VETERANS IN COMMUNITIES",
           "company_number": "08230197",
+          "other_council": "ribble_valley",
+          "supplier_match": {
+            "supplier": "VETERANS IN COMMUNITIES",
+            "match_type": "exact",
+            "confidence": 100,
+            "total_spend": 0
+          },
+          "severity": "info",
+          "conflict_type": "community_trustee",
+          "company_type": "private-limited-guarant-nsc-limited-exemption"
+        },
+        {
+          "company_name": "VETERANS IN COMMUNITIES",
+          "company_number": "08230197",
           "other_council": "lancashire_cc",
           "supplier_match": {
             "supplier": "VETERANS IN COMMUNITIES",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 1300.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -8659,7 +9430,7 @@
             "supplier": "ROSSENDALE TRANSPORT",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 2925982.94
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -8673,7 +9444,7 @@
             "supplier": "ROSSENDALE TRANSPORT LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 4007.82
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -8686,22 +9457,17 @@
       },
       "misconduct_patterns": [
         {
-          "type": "contract_steering_indicator",
+          "type": "cross_council_supplier_conflict",
           "severity": "critical",
-          "detail": "Councillor-linked commercial company 'ROSSENDALE TRANSPORT LIMITED' received \u00a3451,257 in council contracts",
+          "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at ribble_valley council",
           "evidence": {
-            "company_name": "ROSSENDALE TRANSPORT LIMITED",
-            "company_number": "02004970",
-            "supplier_match": {
-              "supplier": "ROSSENDALE TRANSPORT LTD",
+            "other_council": "ribble_valley",
+            "match": {
+              "supplier": "VETERANS IN COMMUNITIES",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 451257.26
-            },
-            "severity": "info",
-            "conflict_type": "commercial",
-            "company_type": "ltd",
-            "council_id": "rossendale"
+              "total_spend": 0
+            }
           }
         },
         {
@@ -8714,7 +9480,7 @@
               "supplier": "VETERANS IN COMMUNITIES",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 1300.0
+              "total_spend": 0
             }
           }
         }
@@ -8735,6 +9501,12 @@
         {
           "type": "cross_council_conflict",
           "severity": "info",
+          "detail": "Company 'VETERANS IN COMMUNITIES' matches supplier at ribble_valley council [community/charity]",
+          "conflict_type": "community_trustee"
+        },
+        {
+          "type": "cross_council_conflict",
+          "severity": "info",
           "detail": "Company 'VETERANS IN COMMUNITIES' matches supplier at lancashire_cc council [community/charity]",
           "conflict_type": "community_trustee"
         },
@@ -8751,18 +9523,23 @@
           "conflict_type": "commercial"
         },
         {
-          "type": "contract_steering_indicator",
+          "type": "cross_council_supplier_conflict",
           "severity": "critical",
-          "detail": "Councillor-linked commercial company 'ROSSENDALE TRANSPORT LIMITED' received \u00a3451,257 in council contracts"
+          "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at ribble_valley council"
         },
         {
           "type": "cross_council_supplier_conflict",
           "severity": "critical",
           "detail": "Company 'VETERANS IN COMMUNITIES' also matches supplier at lancashire_cc council"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 50,
-      "risk_level": "elevated",
+      "integrity_score": 15,
+      "risk_level": "high",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -8781,15 +9558,42 @@
         }
       ],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "2 supplier conflict(s) \u2014 possible self-dealing",
-          "3 cross-council conflict(s) \u2014 multi-authority exposure",
-          "elevated risk level \u2014 multiple red flags",
+          "4 cross-council conflict(s) \u2014 multi-authority exposure",
+          "high risk level \u2014 multiple red flags",
           "2 critical misconduct pattern(s) detected"
         ],
         "priority": "high"
+      },
+      "network_centrality": {
+        "score": 0.755,
+        "amplifier": 1.3,
+        "raw_score": 37,
+        "max_in_council": 49,
+        "components": {
+          "companies": 2,
+          "associates": 7,
+          "cross_council_links": 4,
+          "supplier_conflicts": 2,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -8797,11 +9601,12 @@
       "name": "Matt Norton",
       "party": "Labour",
       "ward": "Longholme",
-      "checked_at": "2026-02-19T21:27:27.273298Z",
+      "checked_at": "2026-02-27T12:19:01.473155Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -8856,9 +9661,15 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -8877,10 +9688,37 @@
         }
       ],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -8888,11 +9726,12 @@
       "name": "Michelle Smith",
       "party": "Labour",
       "ward": "Britannia and Lee Mill",
-      "checked_at": "2026-02-19T21:27:30.533016Z",
+      "checked_at": "2026-02-27T12:19:05.160973Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -8922,17 +9761,6 @@
             "verification": "ch_proximity_match"
           },
           {
-            "officer_id": "_5KdvWH1pm6Y1JwcKdl2E3bH9vo",
-            "title": "Michelle SMITH",
-            "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "Unit 18, Reedspire Industrial Estate, Pride Parkway, Sleaford, Lincolnshire, England, NG34 8GL",
-            "proximity_score": 0,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "--_8dOjnuqXDmRsDAPA5ciMqNpA",
             "title": "Michelle SMITH",
             "match_score": 100,
@@ -8944,14 +9772,25 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "NA5vcKJfpU1K3rN97E_xML4VsRQ",
+            "officer_id": "-dodxBnvPQiS1GiBBw_NB2qo940",
             "title": "Michelle SMITH",
             "match_score": 100,
             "date_of_birth": {
-              "month": 5,
-              "year": 1980
+              "month": 1,
+              "year": 1974
             },
-            "address_snippet": "94 Grampian Gardens, Arbroath, Scotland, DD11 4AQ",
+            "address_snippet": "28 Church Road, Stanmore, Middlesex, England, HA7 4XR",
+            "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "B9jtldAQVVGNkUIQlF0dtoZ4b6k",
+            "title": "Michelle SMITH",
+            "match_score": 100,
+            "date_of_birth": {},
+            "address_snippet": "306a, Stourbridge Road, Catshill, West Midlands, England, B61 9LH",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -9341,10 +10180,35 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of STEELERS ICE ARENA HOLDINGS LIMITED (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "detail": "Directorship at 'STEELERS ICE ARENA LIMITED' started 2024-10-01 (post-election)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "detail": "Directorship at 'BEAMSHAPE LIMITED' started 2024-10-01 (post-election)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "detail": "Directorship at 'BEAMSHAPE HOLDINGS LIMITED' started 2024-08-09 (post-election)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "detail": "Directorship at 'STEELERS ICE ARENA HOLDINGS LIMITED' started 2024-07-15 (post-election)"
         }
       ],
-      "integrity_score": 55,
-      "risk_level": "elevated",
+      "integrity_score": 40,
+      "risk_level": "high",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -9353,7 +10217,7 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "Unit 18, Reedspire Industrial Estate, Pride Parkway, Sleaford, Lincolnshire, England, NG34 8GL",
+          "address": "17 Ryeland Close, Worcester, Worcestershire, WR3 8HE",
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9361,7 +10225,26 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "17 Ryeland Close, Worcester, Worcestershire, WR3 8HE",
+          "address": "28 Church Road, Stanmore, Middlesex, England, HA7 4XR",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1974
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "306a, Stourbridge Road, Catshill, West Midlands, England, B61 9LH",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "Byways 125 Main Road, Drax, Selby, North Yorkshire, YO8 8NJ",
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9374,6 +10257,41 @@
             "month": 5,
             "year": 1980
           },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "23 Stockton Road, Darlington, England, DL1 2RX",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "220 Church Lane, Woodford, Stockport, Cheshire, SK7 1PQ",
+          "date_of_birth": {
+            "month": 8,
+            "year": 1955
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "Exchange Building, 66 Church Street, Hartlepool, England, TS24 7DN",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "46b, Bell Street, Sawbridgeworth, Hertfordshire, England, CM21 9AN",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -9426,104 +10344,6 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "306a, Stourbridge Road, Catshill, West Midlands, England, B61 9LH",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "46b, Bell Street, Sawbridgeworth, Hertfordshire, England, CM21 9AN",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "Ground Floor, Advance House, Unit 9, Waterfall Lane Trading Estate, Waterfall Lane, Cradley Heath, West Midlands, England, B64 6PU",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "1 Brinckman Terrace, West Hill, Inverness, Scotland, IV2 5BL",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1982
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "28 Hawley Manor, Barnstaple, Devon, United Kingdom, EX32 8AP",
-          "date_of_birth": {
-            "month": 3,
-            "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "Byways 125 Main Road, Drax, Selby, North Yorkshire, YO8 8NJ",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "35 Hamilton Road, Thornton Heath, Surrey, United Kingdom, CR7 8NN",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "9 Bacchante Way, Newmachar, Aberdeen, Scotland, AB21 0AX",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1981
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "2 Woolmerdine Court, Bushey, United Kingdom, WD23 2JF",
-          "date_of_birth": {
-            "month": 8,
-            "year": 1971
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "28 Church Road, Stanmore, Middlesex, England, HA7 4XR",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1974
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
           "address": "20 Hall Close, Stoneleigh, Coventry, West Midlands, CV8 3DG",
           "date_of_birth": {},
           "confidence": 35,
@@ -9559,18 +10379,10 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "23 Stockton Road, Darlington, England, DL1 2RX",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "Suite G04, 1 Quality Court, Chancery Lane, London, England, WC2A 1HR",
+          "address": "Ground Floor, Advance House, Unit 9, Waterfall Lane Trading Estate, Waterfall Lane, Cradley Heath, West Midlands, England, B64 6PU",
           "date_of_birth": {
-            "month": 9,
-            "year": 1978
+            "month": 4,
+            "year": 1965
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9578,8 +10390,22 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "9 Stone Pippin Orchard, Badsey, Evesham, Worcestershire, United Kingdom, WR11 7AA",
-          "date_of_birth": {},
+          "address": "1 Brinckman Terrace, West Hill, Inverness, Scotland, IV2 5BL",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1982
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "28 Hawley Manor, Barnstaple, Devon, United Kingdom, EX32 8AP",
+          "date_of_birth": {
+            "month": 3,
+            "year": 1980
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -9627,10 +10453,29 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "220 Church Lane, Woodford, Stockport, Cheshire, SK7 1PQ",
+          "address": "35 Hamilton Road, Thornton Heath, Surrey, United Kingdom, CR7 8NN",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "9 Bacchante Way, Newmachar, Aberdeen, Scotland, AB21 0AX",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1981
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "2 Woolmerdine Court, Bushey, United Kingdom, WD23 2JF",
           "date_of_birth": {
             "month": 8,
-            "year": 1955
+            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9638,7 +10483,18 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "Exchange Building, 66 Church Street, Hartlepool, England, TS24 7DN",
+          "address": "Suite G04, 1 Quality Court, Chancery Lane, London, England, WC2A 1HR",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1978
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "9 Stone Pippin Orchard, Badsey, Evesham, Worcestershire, United Kingdom, WR11 7AA",
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -9646,101 +10502,8 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "6 Walton Garth, Drighlington, Bradford, West Yorkshire, BD11 1HW",
+          "address": "Unit 18, Reedspire Industrial Estate, Pride Parkway, Sleaford, Lincolnshire, England, NG34 8GL",
           "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "Offices 7-9 The Old Printshop, Bowden Hall, Bowden Lane, Marple, Stockport, England, SK6 6NE",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "8 Clarendon Way, Glinton, Peterborough, PE6 7JQ",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "35 Hamilton Road, Thornton Heath, Surrey, England, CR7 8NN",
-          "date_of_birth": {},
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Dr Michelle SMITH",
-          "match_score": 100,
-          "address": "52 Gledhow Park Avenue, Leeds, England, LS7 4JN",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1975
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "130 Old Street, London, England, EC1V 9BD",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1974
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "25 Melrose Close, Lowestoft, Suffolk, NR32 4QJ",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1965
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "17 Dora Avenue, Newry, Northern Ireland, BT34 1JW",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1980
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "Rutherford House, 1st Floor, Birchwood Park, Warrington, Cheshire, England, WA3 6ZH",
-          "date_of_birth": {
-            "month": 11,
-            "year": 1972
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Michelle SMITH",
-          "match_score": 100,
-          "address": "7 Hazelwood Close, Connah's Quay, Flintshire, United Kingdom, CH5 4FT",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1974
-          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -9782,8 +10545,68 @@
         {
           "officer_name": "Michelle SMITH",
           "match_score": 100,
-          "address": "103 Birds Nest Avenue, Leicester, United Kingdom, LEICESTERS",
+          "address": "8 Clarendon Way, Glinton, Peterborough, PE6 7JQ",
           "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "35 Hamilton Road, Thornton Heath, Surrey, England, CR7 8NN",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "C/O Pearson & Associates, Suite E Canal Wharf, Eshton Road, Gargrave, Skipton, North Yorkshire, England, BD23 3SE",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "Estate Office, Longford Castle, Salisbury, Wilts, SP5 4ED",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "2 Cromalt Close, Dibden Purlieu, Southampton, England, SO45 5SR",
+          "date_of_birth": {
+            "month": 9,
+            "year": 1969
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "Rutherford House, 1st Floor, Birchwood Park, Warrington, Cheshire, England, WA3 6ZH",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1972
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "7 Hazelwood Close, Connah's Quay, Flintshire, United Kingdom, CH5 4FT",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1974
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -9799,6 +10622,44 @@
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "14 Barrett Road, Darlington, Co Durham, United Kingdom, DL3 8LB",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1968
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "66 Broomfield Road, Portlethen, Aberdeen, Aberdeenshire, Scotland, AB12 4SU",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "62 Kennington Avenue, Bishopston, Bristol, England, BS7 9ET",
+          "date_of_birth": {},
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Michelle SMITH",
+          "match_score": 100,
+          "address": "31 Bullards Lane, Woodbridge, Suffolk, United Kingdom, IP12 4HE",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
           "officer_name": "MICHELLE LYN SMITH",
           "match_score": 90,
           "address": "Suite 17, Essex House, Station Road, Upminster, Essex, England, RM14 2SJ",
@@ -9808,14 +10669,70 @@
         }
       ],
       "false_positives_eliminated": 48,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "company": "STEELERS ICE ARENA LIMITED",
+          "appointed_on": "2024-10-01",
+          "detail": "Directorship at 'STEELERS ICE ARENA LIMITED' started 2024-10-01 (post-election)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "company": "BEAMSHAPE LIMITED",
+          "appointed_on": "2024-10-01",
+          "detail": "Directorship at 'BEAMSHAPE LIMITED' started 2024-10-01 (post-election)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "company": "BEAMSHAPE HOLDINGS LIMITED",
+          "appointed_on": "2024-08-09",
+          "detail": "Directorship at 'BEAMSHAPE HOLDINGS LIMITED' started 2024-08-09 (post-election)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "company": "STEELERS ICE ARENA HOLDINGS LIMITED",
+          "appointed_on": "2024-07-15",
+          "detail": "Directorship at 'STEELERS ICE ARENA HOLDINGS LIMITED' started 2024-07-15 (post-election)"
+        }
+      ],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "5 active directorships \u2014 complex company portfolio",
-          "elevated risk level \u2014 multiple red flags",
+          "high risk level \u2014 multiple red flags",
           "5 total directorships \u2014 extensive company history"
         ],
         "priority": "high"
+      },
+      "network_centrality": {
+        "score": 0.388,
+        "amplifier": 1.1,
+        "raw_score": 19,
+        "max_in_council": 49,
+        "components": {
+          "companies": 5,
+          "associates": 5,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -9823,11 +10740,12 @@
       "name": "Neil Looker",
       "party": "Labour",
       "ward": "Greenfield and Eden",
-      "checked_at": "2026-02-19T21:27:45.622117Z",
+      "checked_at": "2026-02-27T12:19:22.824748Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [],
@@ -9867,19 +10785,52 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
       },
       "unverified_leads": [],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -9887,11 +10838,12 @@
       "name": "Nick Harris",
       "party": "Labour",
       "ward": "Hareholme and Waterfoot",
-      "checked_at": "2026-02-19T21:27:48.891434Z",
+      "checked_at": "2026-02-27T12:19:26.530356Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -9932,20 +10884,6 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "UdYLrAlqSM05P6tLCgaBQoF5vJo",
-            "title": "Nick HARRIS",
-            "match_score": 100,
-            "date_of_birth": {
-              "month": 7,
-              "year": 1949
-            },
-            "address_snippet": "County Hall, Lancashire County Council, Democratic Services Department, Preston, Lancashire, England, PR1 0LD",
-            "proximity_score": 10,
-            "dob_match": null,
-            "confidence": 35,
-            "verification": "name_match_only"
-          },
-          {
             "officer_id": "yixJw7aiUxfN92bZcIozoSEED4o",
             "title": "Nick HARRIS",
             "match_score": 100,
@@ -9955,6 +10893,20 @@
             },
             "address_snippet": "75 Wear Barton Road, Exeter, United Kingdom, EX2 7EQ",
             "proximity_score": 0,
+            "dob_match": null,
+            "confidence": 35,
+            "verification": "name_match_only"
+          },
+          {
+            "officer_id": "UdYLrAlqSM05P6tLCgaBQoF5vJo",
+            "title": "Nick HARRIS",
+            "match_score": 100,
+            "date_of_birth": {
+              "month": 7,
+              "year": 1949
+            },
+            "address_snippet": "County Hall, Lancashire County Council, Democratic Services Department, Preston, Lancashire, England, PR1 0LD",
+            "proximity_score": 10,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
@@ -10052,7 +11004,7 @@
             "supplier": "ARKANCE UK LTD",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 32968.77
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "commercial",
@@ -10070,10 +11022,15 @@
           "severity": "info",
           "detail": "Company 'ARKANCE UK LIMITED' matches supplier at blackburn council",
           "conflict_type": "commercial"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -10090,10 +11047,10 @@
         {
           "officer_name": "Nick HARRIS",
           "match_score": 100,
-          "address": "County Hall, Lancashire County Council, Democratic Services Department, Preston, Lancashire, England, PR1 0LD",
+          "address": "75 Wear Barton Road, Exeter, United Kingdom, EX2 7EQ",
           "date_of_birth": {
-            "month": 7,
-            "year": 1949
+            "month": 10,
+            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10101,10 +11058,10 @@
         {
           "officer_name": "Nick HARRIS",
           "match_score": 100,
-          "address": "75 Wear Barton Road, Exeter, United Kingdom, EX2 7EQ",
+          "address": "County Hall, Lancashire County Council, Democratic Services Department, Preston, Lancashire, England, PR1 0LD",
           "date_of_birth": {
-            "month": 10,
-            "year": 1971
+            "month": 7,
+            "year": 1949
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10309,12 +11266,39 @@
         }
       ],
       "false_positives_eliminated": 48,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "1 cross-council conflict(s) \u2014 multi-authority exposure"
         ],
         "priority": "medium"
+      },
+      "network_centrality": {
+        "score": 0.224,
+        "amplifier": 1.0,
+        "raw_score": 11,
+        "max_in_council": 49,
+        "components": {
+          "companies": 2,
+          "associates": 0,
+          "cross_council_links": 1,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -10322,11 +11306,12 @@
       "name": "Samantha Harrison",
       "party": "Labour",
       "ward": "Longholme",
-      "checked_at": "2026-02-19T21:27:54.550985Z",
+      "checked_at": "2026-02-27T12:19:32.936883Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -10345,25 +11330,25 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "nhP9Elqz2ucI7JBEOUGrxrqo6Nk",
+            "officer_id": "G1fz5ysn-dfcaLMRAK1MNurdfAQ",
             "title": "Samantha HARRISON",
             "match_score": 100,
-            "date_of_birth": {},
-            "address_snippet": "23 Faraday Place, West Molesey, Surrey, United Kingdom, KT8 2TX",
+            "date_of_birth": {
+              "month": 11,
+              "year": 1968
+            },
+            "address_snippet": "72 Carrowreagh Road, Armoy, Ballymoney, Co Antrim, N Ireland, BT53 8RS",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
             "verification": "name_match_only"
           },
           {
-            "officer_id": "sdEjzkKK0M1RX84n86cjApHjPXw",
+            "officer_id": "nhP9Elqz2ucI7JBEOUGrxrqo6Nk",
             "title": "Samantha HARRISON",
             "match_score": 100,
-            "date_of_birth": {
-              "month": 7,
-              "year": 1976
-            },
-            "address_snippet": "C/O Clever Accounts Ltd Brookfield Court, Selby Road, Leeds, England, LS25 1NB",
+            "date_of_birth": {},
+            "address_snippet": "23 Faraday Place, West Molesey, Surrey, United Kingdom, KT8 2TX",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -10384,14 +11369,14 @@
             "verification": "name_match_only"
           },
           {
-            "officer_id": "G1fz5ysn-dfcaLMRAK1MNurdfAQ",
+            "officer_id": "sdEjzkKK0M1RX84n86cjApHjPXw",
             "title": "Samantha HARRISON",
             "match_score": 100,
             "date_of_birth": {
-              "month": 11,
-              "year": 1968
+              "month": 7,
+              "year": 1976
             },
-            "address_snippet": "72 Carrowreagh Road, Armoy, Ballymoney, Co Antrim, N Ireland, BT53 8RS",
+            "address_snippet": "C/O Clever Accounts Ltd Brookfield Court, Selby Road, Leeds, England, LS25 1NB",
             "proximity_score": 0,
             "dob_match": null,
             "confidence": 35,
@@ -10434,9 +11419,15 @@
         "links": []
       },
       "misconduct_patterns": [],
-      "red_flags": [],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "red_flags": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -10456,19 +11447,19 @@
         {
           "officer_name": "Samantha HARRISON",
           "match_score": 100,
-          "address": "23 Faraday Place, West Molesey, Surrey, United Kingdom, KT8 2TX",
-          "date_of_birth": {},
+          "address": "72 Carrowreagh Road, Armoy, Ballymoney, Co Antrim, N Ireland, BT53 8RS",
+          "date_of_birth": {
+            "month": 11,
+            "year": 1968
+          },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
         {
           "officer_name": "Samantha HARRISON",
           "match_score": 100,
-          "address": "C/O Clever Accounts Ltd Brookfield Court, Selby Road, Leeds, England, LS25 1NB",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1976
-          },
+          "address": "23 Faraday Place, West Molesey, Surrey, United Kingdom, KT8 2TX",
+          "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         },
@@ -10486,10 +11477,10 @@
         {
           "officer_name": "Samantha HARRISON",
           "match_score": 100,
-          "address": "72 Carrowreagh Road, Armoy, Ballymoney, Co Antrim, N Ireland, BT53 8RS",
+          "address": "C/O Clever Accounts Ltd Brookfield Court, Selby Road, Leeds, England, LS25 1NB",
           "date_of_birth": {
-            "month": 11,
-            "year": 1968
+            "month": 7,
+            "year": 1976
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -10955,10 +11946,37 @@
         }
       ],
       "false_positives_eliminated": 50,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.082,
+        "amplifier": 1.0,
+        "raw_score": 4,
+        "max_in_council": 49,
+        "components": {
+          "companies": 0,
+          "associates": 0,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -10966,11 +11984,12 @@
       "name": "Samara Barnes",
       "party": "Labour",
       "ward": "Helmshore",
-      "checked_at": "2026-02-19T21:27:57.818423Z",
+      "checked_at": "2026-02-27T12:19:36.607341Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -11028,7 +12047,7 @@
               "supplier": "HASLINGDEN COMMUNITY LINK",
               "match_type": "exact",
               "confidence": 100,
-              "total_spend": 79208.05
+              "total_spend": 0
             },
             "verification": "ch_strong_proximity",
             "confidence": 70,
@@ -11076,7 +12095,7 @@
             "supplier": "HASLINGDEN COMMUNITY LINK",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 79208.05
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -11093,7 +12112,7 @@
             "supplier": "HASLINGDEN COMMUNITY LINK",
             "match_type": "exact",
             "confidence": 100,
-            "total_spend": 819.0
+            "total_spend": 0
           },
           "severity": "info",
           "conflict_type": "community_trustee",
@@ -11117,10 +12136,15 @@
           "severity": "info",
           "detail": "Company 'HASLINGDEN COMMUNITY LINK' matches supplier at blackburn council [community/charity]",
           "conflict_type": "community_trustee"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 100,
-      "risk_level": "low",
+      "integrity_score": 85,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -11139,6 +12163,20 @@
         }
       ],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
@@ -11146,6 +12184,19 @@
           "1 cross-council conflict(s) \u2014 multi-authority exposure"
         ],
         "priority": "medium"
+      },
+      "network_centrality": {
+        "score": 0.286,
+        "amplifier": 1.0,
+        "raw_score": 14,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 0,
+          "cross_council_links": 1,
+          "supplier_conflicts": 1,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -11153,11 +12204,12 @@
       "name": "Scott Smith",
       "party": "Conservative",
       "ward": "Whitworth",
-      "checked_at": "2026-02-19T21:28:02.293847Z",
+      "checked_at": "2026-02-27T12:19:41.743487Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -11336,10 +12388,15 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of SOME BUZZ LIMITED (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
         }
       ],
-      "integrity_score": 95,
-      "risk_level": "low",
+      "integrity_score": 80,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -11677,6 +12734,39 @@
         {
           "officer_name": "Scott SMITH",
           "match_score": 100,
+          "address": "18 Newton Street, Burnley, Lancashire, United Kingdom, BB12 0LG",
+          "date_of_birth": {
+            "month": 10,
+            "year": 1986
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Scott SMITH",
+          "match_score": 100,
+          "address": "Floor 5, Smithson Tower, St. James's Street, London, England, SW1A 1HJ",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1954
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Scott SMITH",
+          "match_score": 100,
+          "address": "17 Montpelier Road, Birmingham, England, B24 8EB",
+          "date_of_birth": {
+            "month": 1,
+            "year": 1972
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Scott SMITH",
+          "match_score": 100,
           "address": "Centric House, E2 Waterfold Business Park, Bury, United Kingdom, BL9 7BR",
           "date_of_birth": {
             "month": 6,
@@ -11725,17 +12815,6 @@
           "date_of_birth": {
             "month": 7,
             "year": 1982
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Scott SMITH",
-          "match_score": 100,
-          "address": "17 Montpelier Road, Birmingham, England, B24 8EB",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1972
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -11798,65 +12877,43 @@
         {
           "officer_name": "Scott SMITH",
           "match_score": 100,
-          "address": "4 Edgecumbe House, Bramwell Way, Halifax, West Yorkshire, United Kingdom, HX1 2NW",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1988
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Scott SMITH",
-          "match_score": 100,
-          "address": "15 Warwick Road, Stratford-Upon-Avon, United Kingdom, CV37 6YW",
-          "date_of_birth": {
-            "month": 1,
-            "year": 1966
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Scott SMITH",
-          "match_score": 100,
-          "address": "2  Gavinburn Gd, Gavinburn, Old Kilpatrick, Glasgow, United Kingdom, G60 5ND",
-          "date_of_birth": {
-            "month": 4,
-            "year": 1989
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Scott SMITH",
-          "match_score": 100,
-          "address": "Hylands, Carshalton Road, Banstead, Surrey, England, SM7 3HZ",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1979
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Scott SMITH",
-          "match_score": 100,
-          "address": "19 Williams Walk, Colchester, England, CO1 1TS",
-          "date_of_birth": {
-            "month": 7,
-            "year": 1993
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Scott SMITH",
-          "match_score": 100,
           "address": "6 Walcot Place, Higher Furzeham Road, Brixham, Devon, United Kingdom, TQ5 8BJ",
           "date_of_birth": {
             "month": 11,
             "year": 1984
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Scott SMITH",
+          "match_score": 100,
+          "address": "1 Go2cabs Whitegate Shopping Complex, Henver Road, Newquay, Cornwall, United Kingdom, TR7 3BP",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1983
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Scott SMITH",
+          "match_score": 100,
+          "address": "The Old Exchange, 234 Southchurch Road, Southend On Sea, Essex, SS1 2EG",
+          "date_of_birth": {
+            "month": 5,
+            "year": 1983
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Scott SMITH",
+          "match_score": 100,
+          "address": "1 Shenstone Drive, Aldridge, Walsall, United Kingdom, WS9 8TH",
+          "date_of_birth": {
+            "month": 4,
+            "year": 1982
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -11874,10 +12931,37 @@
         }
       ],
       "false_positives_eliminated": 49,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": false,
         "reasons": [],
         "priority": "none"
+      },
+      "network_centrality": {
+        "score": 0.143,
+        "amplifier": 1.0,
+        "raw_score": 7,
+        "max_in_council": 49,
+        "components": {
+          "companies": 1,
+          "associates": 1,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     },
     {
@@ -11885,11 +12969,12 @@
       "name": "Simon Holland",
       "party": "Conservative",
       "ward": "Greenfield and Eden",
-      "checked_at": "2026-02-19T21:28:08.593656Z",
+      "checked_at": "2026-02-27T12:19:49.025670Z",
       "data_sources_checked": [
         "companies_house",
         "electoral_commission",
-        "fca_register"
+        "fca_register",
+        "mp_register_of_interests"
       ],
       "companies_house": {
         "officer_matches": [
@@ -12040,7 +13125,7 @@
               {
                 "type": "recently_incorporated",
                 "severity": "warning",
-                "detail": "Company incorporated 59 days ago (2025-12-22)",
+                "detail": "Company incorporated 67 days ago (2025-12-22)",
                 "company": "SIMON HOLLAND CONSULTING LIMITED"
               }
             ],
@@ -12161,7 +13246,7 @@
         {
           "type": "recently_incorporated",
           "severity": "warning",
-          "detail": "Company incorporated 59 days ago (2025-12-22)",
+          "detail": "Company incorporated 67 days ago (2025-12-22)",
           "company": "SIMON HOLLAND CONSULTING LIMITED"
         },
         {
@@ -12178,10 +13263,20 @@
           "type": "psc_ownership",
           "severity": "info",
           "detail": "Person with Significant Control of SIMON HOLLAND CONSULTING LIMITED (ownership stake)"
+        },
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        },
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "detail": "Directorship at 'SIMON HOLLAND CONSULTING LIMITED' started 2025-12-22 (post-election)"
         }
       ],
-      "integrity_score": 90,
-      "risk_level": "low",
+      "integrity_score": 75,
+      "risk_level": "medium",
       "register_of_interests": {
         "available": false,
         "register_empty": null
@@ -12256,10 +13351,10 @@
         {
           "officer_name": "Simon HOLLAND",
           "match_score": 100,
-          "address": "56 Hollies Drive, Meir Heath, Stoke On Trent, United Kingdom, ST3 7JR",
+          "address": "46 Rose Lane, Marple, Stockport, England, SK6 6DT",
           "date_of_birth": {
-            "month": 10,
-            "year": 1963
+            "month": 9,
+            "year": 1987
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12267,10 +13362,10 @@
         {
           "officer_name": "Simon HOLLAND",
           "match_score": 100,
-          "address": "Bridegate Mews, Bridegate Lane, Hickling Pastures, Melton Mowbray Leicestershire, United Kingdom, LE14 3QA",
+          "address": "56 Hollies Drive, Meir Heath, Stoke On Trent, United Kingdom, ST3 7JR",
           "date_of_birth": {
-            "month": 11,
-            "year": 1974
+            "month": 10,
+            "year": 1963
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12289,21 +13384,10 @@
         {
           "officer_name": "Simon HOLLAND",
           "match_score": 100,
-          "address": "46 Rose Lane, Marple, Stockport, England, SK6 6DT",
+          "address": "Bridegate Mews, Bridegate Lane, Hickling Pastures, Melton Mowbray Leicestershire, United Kingdom, LE14 3QA",
           "date_of_birth": {
-            "month": 9,
-            "year": 1987
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Simon HOLLAND",
-          "match_score": 100,
-          "address": "Crombies, 34, Waterloo Road, Crombies, 34, Wolverhampton, United Kingdom, WV1 4DG",
-          "date_of_birth": {
-            "month": 5,
-            "year": 1977
+            "month": 11,
+            "year": 1974
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12315,6 +13399,28 @@
           "date_of_birth": {
             "month": 3,
             "year": 1973
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Simon HOLLAND",
+          "match_score": 100,
+          "address": "135 Cotswold Avenue, Knutton, Newcastle, Staffs, England, ST5 6HS",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1979
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Simon HOLLAND",
+          "match_score": 100,
+          "address": "C/O Clever Accounts Ltd Brookfield Court, Selby Road, Leeds, England, LS25 1NB",
+          "date_of_birth": {
+            "month": 6,
+            "year": 1971
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12348,28 +13454,6 @@
           "date_of_birth": {
             "month": 11,
             "year": 1969
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Simon HOLLAND",
-          "match_score": 100,
-          "address": "C/O Clever Accounts Ltd Brookfield Court, Selby Road, Leeds, England, LS25 1NB",
-          "date_of_birth": {
-            "month": 6,
-            "year": 1971
-          },
-          "confidence": 35,
-          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
-        },
-        {
-          "officer_name": "Simon HOLLAND",
-          "match_score": 100,
-          "address": "135 Cotswold Avenue, Knutton, Newcastle, Staffs, England, ST5 6HS",
-          "date_of_birth": {
-            "month": 2,
-            "year": 1979
           },
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
@@ -12619,7 +13703,7 @@
         {
           "officer_name": "Simon Jake HOLLAND",
           "match_score": 90,
-          "address": "35 Mortimers Lane, Fair Oak, Eastleigh, England, SO50 7BH",
+          "address": "44 Alcantara Crescent, Southampton, England, SO14 3HR",
           "date_of_birth": {
             "month": 9,
             "year": 1967
@@ -12700,15 +13784,61 @@
           "date_of_birth": {},
           "confidence": 35,
           "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
+        },
+        {
+          "officer_name": "Simon Marcus HOLLAND",
+          "match_score": 90,
+          "address": "7 Moorlands Court, Darwen, United Kingdom, BB3 3LQ",
+          "date_of_birth": {
+            "month": 2,
+            "year": 1975
+          },
+          "confidence": 35,
+          "reason": "Below confidence threshold (35) \u2014 name match only, no DOB/proximity confirmation"
         }
       ],
       "false_positives_eliminated": 47,
+      "mp_findings": [
+        {
+          "type": "mp_donor_supplies_council",
+          "severity": "high",
+          "mp_name": "Mr Andrew Snowden",
+          "mp_constituency": "fylde",
+          "donor": "D-Tec International",
+          "supplier_spend": 10618.35,
+          "detail": "MP Mr Andrew Snowden's donor 'D-Tec International' supplies this council (\u00a310,618)"
+        }
+      ],
+      "revolving_door": [
+        {
+          "type": "post_election_appointment",
+          "severity": "info",
+          "company": "SIMON HOLLAND CONSULTING LIMITED",
+          "appointed_on": "2025-12-22",
+          "detail": "Directorship at 'SIMON HOLLAND CONSULTING LIMITED' started 2025-12-22 (post-election)"
+        }
+      ],
+      "beneficial_ownership": [],
+      "donation_contract_correlation": [],
       "network_investigation": {
         "advisable": true,
         "reasons": [
           "3 active directorships \u2014 complex company portfolio"
         ],
         "priority": "medium"
+      },
+      "network_centrality": {
+        "score": 0.224,
+        "amplifier": 1.0,
+        "raw_score": 11,
+        "max_in_council": 49,
+        "components": {
+          "companies": 3,
+          "associates": 1,
+          "cross_council_links": 0,
+          "supplier_conflicts": 0,
+          "mp_connections": 1
+        }
       }
     }
   ]
