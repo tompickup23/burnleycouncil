@@ -534,17 +534,20 @@ def main():
         }
 
         # Save — either to specific path or to each council's data directory
+        # Use compact format to reduce file size (~60% smaller than indent=2)
         if args.output:
             out_path = Path(args.output)
             with open(out_path, 'w') as f:
-                json.dump(output, f, indent=2, default=str)
-            print(f"\n  Saved: {out_path} ({len(profiles)} profiles)")
+                json.dump(output, f, separators=(',', ':'), default=str)
+            size_mb = out_path.stat().st_size / (1024 * 1024)
+            print(f"\n  Saved: {out_path} ({len(profiles)} profiles, {size_mb:.1f}MB)")
         else:
             for council_id in councils:
                 out_path = DATA_DIR / council_id / "supplier_profiles.json"
                 with open(out_path, 'w') as f:
-                    json.dump(output, f, indent=2, default=str)
-                print(f"  Saved: {out_path}")
+                    json.dump(output, f, separators=(',', ':'), default=str)
+                size_mb = out_path.stat().st_size / (1024 * 1024)
+                print(f"  Saved: {out_path} ({size_mb:.1f}MB)")
 
         # Summary stats
         total_spend = sum(p["spending"]["total_all_councils"] for p in profiles)
