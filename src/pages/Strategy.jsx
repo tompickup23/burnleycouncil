@@ -312,7 +312,7 @@ export default function Strategy() {
         color: '#888',
         partyColor: PARTY_COLORS[w.winner] || '#888',
         winner: w.winner,
-        predPct: Math.round(w.ourPct * 100 * 10) / 10,
+        predPct: Math.round((w.ourPct || 0) * 100 * 10) / 10,
         classLabel: w.classLabel,
         hours: alloc?.hours || 0,
       }
@@ -396,7 +396,7 @@ export default function Strategy() {
     a.href = url
     a.download = `strategy-${config.council_id}-${ourParty.toLowerCase().replace(/\s+/g, '-')}.csv`
     a.click()
-    URL.revokeObjectURL(url)
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 
   const handleExportCanvassingCSV = () => {
@@ -408,7 +408,7 @@ export default function Strategy() {
     a.href = url
     a.download = `canvassing-${config.council_id}-${ourParty.toLowerCase().replace(/\s+/g, '-')}.csv`
     a.click()
-    URL.revokeObjectURL(url)
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 
   // --- Loading/error ---
@@ -1158,7 +1158,7 @@ function WardRow({ rank, ward, ourParty, expanded, onToggle, onDossier }) {
         onClick={onToggle}
         role="button"
         tabIndex={0}
-        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle()}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle() } }}
         aria-expanded={expanded}
       >
         <td className="rank">{rank}</td>
@@ -1348,9 +1348,9 @@ function DossierElection({ election, ourParty }) {
           <h4>Prediction</h4>
           <div className="dossier-stat-grid small">
             <div className="dossier-stat-item"><div className="dossier-stat-value"><PartyBadge party={election.prediction.winner} /></div><div className="dossier-stat-label">Predicted Winner</div></div>
-            <div className="dossier-stat-item"><div className="dossier-stat-value">{(election.prediction.ourPct * 100).toFixed(1)}%</div><div className="dossier-stat-label">Our Share</div></div>
-            <div className="dossier-stat-item"><div className="dossier-stat-value">{Math.round(election.prediction.winProbability * 100)}%</div><div className="dossier-stat-label">Win Probability</div></div>
-            <div className="dossier-stat-item"><div className="dossier-stat-value">{election.prediction.swingRequired > 0 ? '+' : ''}{(election.prediction.swingRequired * 100).toFixed(1)}pp</div><div className="dossier-stat-label">Swing Needed</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{((election.prediction.ourPct ?? 0) * 100).toFixed(1)}%</div><div className="dossier-stat-label">Our Share</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{Math.round((election.prediction.winProbability ?? 0) * 100)}%</div><div className="dossier-stat-label">Win Probability</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{(election.prediction.swingRequired ?? 0) > 0 ? '+' : ''}{((election.prediction.swingRequired ?? 0) * 100).toFixed(1)}pp</div><div className="dossier-stat-label">Swing Needed</div></div>
           </div>
         </div>
       )}
@@ -1571,7 +1571,7 @@ function DossierCheatSheet({ cheatSheet }) {
         <div className="cheat-section">
           <h4>Key Stats</h4>
           <div className="cheat-stats">
-            {cheatSheet.keyStats.map((s, i) => <span key={i} className="cheat-stat">{s}</span>)}
+            {cheatSheet.keyStats?.map((s, i) => <span key={i} className="cheat-stat">{s}</span>)}
           </div>
         </div>
 
@@ -1582,7 +1582,7 @@ function DossierCheatSheet({ cheatSheet }) {
         <div className="cheat-section">
           <h4>Top 5 Talking Points</h4>
           <ol className="cheat-tp-list">
-            {cheatSheet.top5TalkingPoints.map((tp, i) => (
+            {cheatSheet.top5TalkingPoints?.map((tp, i) => (
               <li key={i}>{tp.text}</li>
             ))}
           </ol>

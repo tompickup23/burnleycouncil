@@ -32,14 +32,20 @@ const CLUSTER_COLORS = [
   '#e879f9', '#84cc16', '#f59e0b', '#8b5cf6',
 ]
 
+/** Escape HTML entities to prevent XSS in Leaflet tooltips. */
+function esc(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
 function buildTooltipHTML(wardName, data) {
-  if (!data) return `<strong>${wardName}</strong>`
-  const lines = [`<strong>${wardName}</strong>`]
-  if (data.winner) lines.push(`<span style="color:${data.partyColor || '#ccc'}">${data.winner}</span>`)
-  if (data.predPct != null) lines.push(`Predicted: ${data.predPct}%`)
-  if (data.swingTrend) lines.push(`Swing: ${data.swingTrend}`)
-  if (data.hours) lines.push(`Hours: ${data.hours}`)
-  if (data.classLabel) lines.push(data.classLabel)
+  const safeName = esc(wardName || '')
+  if (!data) return `<strong>${safeName}</strong>`
+  const lines = [`<strong>${safeName}</strong>`]
+  if (data.winner) lines.push(`<span style="color:${esc(data.partyColor || '#ccc')}">${esc(data.winner)}</span>`)
+  if (data.predPct != null) lines.push(`Predicted: ${esc(String(data.predPct))}%`)
+  if (data.swingTrend) lines.push(`Swing: ${esc(data.swingTrend)}`)
+  if (data.hours) lines.push(`Hours: ${esc(String(data.hours))}`)
+  if (data.classLabel) lines.push(esc(data.classLabel))
   return lines.join('<br/>')
 }
 
@@ -60,6 +66,7 @@ export default function WardMap({
   const geoLayerRef = useRef(null)
   const routeLayerRef = useRef(null)
   const markersLayerRef = useRef(null)
+  const boundariesIdRef = useRef(null) // track which boundaries are loaded
 
   // Initialise Leaflet map on mount
   useEffect(() => {
@@ -104,38 +111,35 @@ export default function WardMap({
     return wardData[wardName]?.color || '#666'
   }, [overlayMode, routeClusters, wardData])
 
-  // Update GeoJSON layer when data changes
+  // Create GeoJSON layer when boundaries change (only on new boundary data)
   useEffect(() => {
     const map = mapRef.current
     if (!map || !boundaries?.features?.length) return
 
-    // Remove existing layers
+    // Check if boundaries actually changed (avoid rebuild on wardData/overlay changes)
+    const boundariesId = boundaries.features.length + ':' + (boundaries.features[0]?.properties?.name || '')
+    if (boundariesIdRef.current === boundariesId && geoLayerRef.current) return
+    boundariesIdRef.current = boundariesId
+
+    // Remove existing layer
     if (geoLayerRef.current) {
       map.removeLayer(geoLayerRef.current)
       geoLayerRef.current = null
     }
 
-    const wardsUpSet = new Set(wardsUp)
-
     const layer = L.geoJSON(boundaries, {
-      style: (feature) => {
-        const name = feature.properties?.name
-        const isContested = wardsUpSet.has(name)
-        const isSelected = selectedWard === name
-        return {
-          fillColor: getWardColor(name),
-          fillOpacity: isContested ? 0.65 : 0.15,
-          color: isSelected ? '#fff' : (isContested ? '#555' : '#333'),
-          weight: isSelected ? 3 : (isContested ? 1.5 : 0.5),
-          opacity: isContested ? 1 : 0.3,
-        }
-      },
+      style: () => ({
+        fillColor: '#666',
+        fillOpacity: 0.15,
+        color: '#333',
+        weight: 0.5,
+        opacity: 0.3,
+      }),
       onEachFeature: (feature, featureLayer) => {
         const name = feature.properties?.name
-        const data = wardData[name]
 
-        // Tooltip
-        featureLayer.bindTooltip(buildTooltipHTML(name, data), {
+        // Tooltip (updated dynamically via setTooltipContent in style effect)
+        featureLayer.bindTooltip(buildTooltipHTML(name, null), {
           sticky: true,
           direction: 'top',
           className: 'ward-map-tooltip',
@@ -163,11 +167,37 @@ export default function WardMap({
     layer.addTo(map)
     geoLayerRef.current = layer
 
-    // Fit bounds
+    // Fit bounds only when boundaries change (not on style/overlay changes)
     try {
       map.fitBounds(layer.getBounds(), { padding: [20, 20] })
     } catch { /* empty boundaries */ }
-  }, [boundaries, wardData, wardsUp, overlayMode, selectedWard, getWardColor])
+  }, [boundaries])
+
+  // Update styles in-place when wardData/overlay/selection changes (no layer rebuild)
+  useEffect(() => {
+    const layer = geoLayerRef.current
+    if (!layer) return
+
+    const wardsUpSet = new Set(wardsUp)
+
+    layer.eachLayer((featureLayer) => {
+      const name = featureLayer.feature?.properties?.name
+      const isContested = wardsUpSet.has(name)
+      const isSelected = selectedWard === name
+
+      featureLayer.setStyle({
+        fillColor: getWardColor(name),
+        fillOpacity: isContested ? 0.65 : 0.15,
+        color: isSelected ? '#fff' : (isContested ? '#555' : '#333'),
+        weight: isSelected ? 3 : (isContested ? 1.5 : 0.5),
+        opacity: isContested ? 1 : 0.3,
+      })
+
+      // Update tooltip content
+      const data = wardData[name]
+      featureLayer.setTooltipContent(buildTooltipHTML(name, data))
+    })
+  }, [wardData, wardsUp, overlayMode, selectedWard, getWardColor])
 
   // Draw route lines
   useEffect(() => {
@@ -190,7 +220,7 @@ export default function WardMap({
     const markerGroup = L.layerGroup()
 
     // Draw polylines between consecutive wards
-    routeLines.forEach(([from, to], idx) => {
+    routeLines.forEach(([from, to]) => {
       if (!from || !to) return
       // Leaflet uses [lat, lng] not [lng, lat]
       const line = L.polyline(
@@ -243,6 +273,11 @@ export default function WardMap({
     markerGroup.addTo(map)
     routeLayerRef.current = routeGroup
     markersLayerRef.current = markerGroup
+
+    return () => {
+      if (routeLayerRef.current) { map.removeLayer(routeLayerRef.current); routeLayerRef.current = null }
+      if (markersLayerRef.current) { map.removeLayer(markersLayerRef.current); markersLayerRef.current = null }
+    }
   }, [overlayMode, routeLines, routeClusters, boundaries])
 
   return (

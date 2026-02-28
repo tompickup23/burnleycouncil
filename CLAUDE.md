@@ -65,7 +65,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 |------|---------|
 | `src/App.jsx` | Router with 31 lazy-loaded routes, 34 routes total |
 | `src/pages/` | 29 page components + 37 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, etc.) |
-| `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
+| `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
 | `src/firebase.js` | Firebase app init (only when VITE_FIREBASE_API_KEY set) |
@@ -86,7 +86,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 1,808 tests across 37 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 1,831 tests across 37 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -114,6 +114,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/ipsa_etl.py` | IPSA MP expenses data extraction |
 | `burnley-council/scripts/elections_etl.py` | Election data compilation → elections.json per council |
 | `burnley-council/scripts/poll_aggregator.py` | National polling data aggregation → polling.json |
+| `burnley-council/scripts/ward_boundaries_etl.py` | ONS ArcGIS ward boundary GeoJSON → ward_boundaries.json per council |
 | `burnley-council/scripts/ward_constituency_map.py` | ONS ward-to-constituency lookup → ward_constituency_map.json |
 | `burnley-council/scripts/calibrate_model.py` | Election model calibration using LCC 2025 results |
 | `burnley-council/scripts/lgr_financial_model.py` | LGR financial modelling + savings calculations |
@@ -171,6 +172,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `meetings.json` | meetings_etl.py | Council meetings (title, date, committee, venue, agenda/minutes links) |
 | `elections.json` | elections_etl.py / manual | Ward-level election history, current holders, upcoming elections |
 | `constituencies.json` | constituency_etl.py | Parliamentary constituency data: GE2024, MP expenses, votes, activity |
+| `ward_boundaries.json` | ward_boundaries_etl.py | Ward/division boundary GeoJSON (ONS ArcGIS BSC polygons + centroids) |
 | `ward_constituency_map.json` | ward_constituency_map.py | ONS ward-to-constituency lookup |
 | `collection_rates.json` | collection_rates_etl.py | Council tax collection rates (5-year history, billing authorities only) |
 
@@ -335,7 +337,7 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Phase 18c** (done, 21 Feb): Strategy Engine + UI. Ward classification, battleground ranking, path-to-control, talking points
 - **Phase 18d** (done, 21 Feb): Advanced Strategy — historical swing, resource allocation, CSV export. 800 tests
 - **Phase 18f** (done, 22 Feb): Intelligence war-game engine (attack predictions, counter-arguments), MP expenses comparison page, hub landing page redesign, registration profile capture (user type/party/constituency). 1,656 tests (36 files)
-- **Phase 18e** (deferred): Advanced strategy — historical swing map overlay, canvassing route optimisation
+- **Phase 18e** (done, 28 Feb): Swing Map + Canvassing Route Optimisation. Leaflet.js ward boundary maps (CartoDB Dark Matter tiles), ONS ArcGIS boundary ETL (15 councils, 321 wards/divisions), k-means clustering + nearest-neighbor TSP route optimisation, 4 overlay modes (classification/swing/party/route), canvassing session cards + CSV export. 1,831 tests (37 files).
 - **v6 Master Overhaul** (done, 27-28 Feb): "Leave No Stone Unturned" — 29 files, 5,991 lines. CouncillorDossier page, 8 shared components, election/LGR/analytics model upgrades, collapsible nav, 10 page upgrades with cross-references. Backend: legal_framework +11 laws, councillor_integrity_etl +791 lines (13 new detections), councillor_research_etl NEW, foi_generator NEW. 1,808 tests (37 files).
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

@@ -1609,7 +1609,7 @@ function haversineDistance(a, b) {
   const sinLng = Math.sin(dLng / 2);
   const h = sinLat * sinLat +
     Math.cos(a[1] * Math.PI / 180) * Math.cos(b[1] * Math.PI / 180) * sinLng * sinLng;
-  return 2 * R * Math.asin(Math.sqrt(h));
+  return 2 * R * Math.asin(Math.sqrt(Math.min(1, h)));
 }
 
 /**
@@ -1697,10 +1697,11 @@ export function clusterWards(centroids, wardsUp, maxPerCluster = 4) {
     return [...points[idx]];
   });
 
-  // Run k-means (10 iterations)
+  // Run k-means (max 20 iterations with convergence check)
   let assignments = new Array(wards.length).fill(0);
-  for (let iter = 0; iter < 10; iter++) {
+  for (let iter = 0; iter < 20; iter++) {
     // Assign each ward to nearest mean
+    const prevAssignments = [...assignments];
     for (let i = 0; i < wards.length; i++) {
       let minDist = Infinity;
       let minK = 0;
@@ -1710,6 +1711,9 @@ export function clusterWards(centroids, wardsUp, maxPerCluster = 4) {
       }
       assignments[i] = minK;
     }
+
+    // Check convergence
+    if (iter > 0 && assignments.every((a, i) => a === prevAssignments[i])) break;
 
     // Update means
     const sums = Array.from({ length: k }, () => [0, 0, 0]); // [sumLng, sumLat, count]
@@ -1814,17 +1818,17 @@ export function optimiseCanvassingRoute(clusters, centroids, resourceAllocation 
       clusterCentroid: cluster.centroid,
     });
 
-    // Build route lines between consecutive wards
+    // Connect from previous cluster's last ward FIRST (inter-cluster link)
+    if (prevCentroid) {
+      const firstInCluster = centroids.get(orderedWards[0]);
+      if (firstInCluster) routeLines.push([prevCentroid, firstInCluster]);
+    }
+
+    // Then build intra-cluster route lines between consecutive wards
     for (let i = 0; i < orderedWards.length - 1; i++) {
       const from = centroids.get(orderedWards[i]);
       const to = centroids.get(orderedWards[i + 1]);
       if (from && to) routeLines.push([from, to]);
-    }
-
-    // Connect to previous cluster's last ward
-    if (prevCentroid) {
-      const firstInCluster = centroids.get(orderedWards[0]);
-      if (firstInCluster) routeLines.push([prevCentroid, firstInCluster]);
     }
     prevCentroid = centroids.get(orderedWards[orderedWards.length - 1]);
   }
@@ -1850,7 +1854,7 @@ export function generateCanvassingCSV(sessions, ourParty, councilName) {
       rows.push([
         session.sessionNumber,
         ward.visitOrder,
-        `"${ward.ward}"`,
+        `"${ward.ward.replace(/"/g, '""')}"`,
         lat,
         lng,
         ward.hours,
@@ -1860,11 +1864,11 @@ export function generateCanvassingCSV(sessions, ourParty, councilName) {
     }
   }
 
+  // Metadata row (valid CSV — empty fields except Ward column for notes)
   rows.push('');
-  rows.push(`# ${ourParty} Canvassing Plan — ${councilName}`);
-  rows.push(`# Generated ${new Date().toISOString().split('T')[0]}`);
-  rows.push(`# Total sessions: ${sessions.length}`);
-  rows.push(`# Total hours: ${sessions.reduce((s, sess) => s + sess.totalHours, 0)}`);
+  const totalHours = sessions.reduce((s, sess) => s + sess.totalHours, 0);
+  rows.push(`,,${ourParty} Canvassing Plan — ${councilName},,,,`);
+  rows.push(`,,Generated ${new Date().toISOString().split('T')[0]} | ${sessions.length} sessions | ${totalHours} hours,,,,`);
 
   return rows.join('\n');
 }

@@ -1817,6 +1817,6 @@ describe('generateCanvassingCSV', () => {
     const clusters = clusterWards(centroids, allWards, 3)
     const { sessions } = optimiseCanvassingRoute(clusters, centroids, {})
     const csv = generateCanvassingCSV(sessions, 'Reform UK', 'Test')
-    expect(csv).toContain(`Total sessions: ${sessions.length}`)
+    expect(csv).toContain(`${sessions.length} sessions`)
   })
 })

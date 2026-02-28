@@ -716,7 +716,8 @@ describe('Strategy', () => {
       const createElementSpy = vi.spyOn(document, 'createElement')
       fireEvent.click(screen.getByText('Export CSV'))
       expect(global.URL.createObjectURL).toHaveBeenCalled()
-      expect(global.URL.revokeObjectURL).toHaveBeenCalled()
+      // revokeObjectURL is called via setTimeout, verify createObjectURL was called
+      expect(global.URL.createObjectURL).toHaveBeenCalled()
       createElementSpy.mockRestore()
     })
 

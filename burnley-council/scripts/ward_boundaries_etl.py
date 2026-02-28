@@ -177,7 +177,10 @@ def normalise_name(name):
     if not name:
         return ""
     name = re.sub(r'\s+', ' ', name.strip())
-    return re.sub(r'[^a-z0-9 ]', '', name.lower()).strip()
+    name = name.replace('&', 'and')  # ONS uses &, elections.json uses "and"
+    name = name.replace(',', '')     # Handle comma-separated names
+    name = re.sub(r'[^a-z0-9 ]', '', name.lower())
+    return re.sub(r'\s+', ' ', name).strip()  # collapse double spaces
 
 
 def compute_centroid(geometry):
@@ -187,11 +190,12 @@ def compute_centroid(geometry):
 
     if geo_type == "Polygon":
         ring = geometry.get("coordinates", [[]])[0]
-        coords.extend(ring)
+        coords.extend(ring[:-1] if len(ring) > 1 else ring)  # exclude closing vertex
     elif geo_type == "MultiPolygon":
         for polygon in geometry.get("coordinates", []):
-            if polygon:
-                coords.extend(polygon[0])
+            if polygon and polygon[0]:
+                ring = polygon[0]
+                coords.extend(ring[:-1] if len(ring) > 1 else ring)
 
     if not coords:
         return None
@@ -221,14 +225,33 @@ def match_ward_names(features, elections_wards, name_field):
             matches[i] = elections_normalised[norm]
             continue
 
-        # Strip "ward" suffix
+        # Strip "ward" suffix from ONS name
         stripped = re.sub(r'\s+ward$', '', norm)
         if stripped in elections_normalised:
             matches[i] = elections_normalised[stripped]
             continue
 
-        # Prefix match
+        # Strip "ward" suffix from elections names too (bidirectional)
+        elections_no_ward = {re.sub(r'\s+ward$', '', k): v for k, v in elections_normalised.items()}
+        if norm in elections_no_ward:
+            matches[i] = elections_no_ward[norm]
+            continue
+        if stripped in elections_no_ward:
+            matches[i] = elections_no_ward[stripped]
+            continue
+
+        # Space-collapsed match (catches "Coal Clough" vs "Coalclough", "High Cross" vs "Highcross")
+        norm_spaceless = norm.replace(' ', '')
         found = False
+        for enorm, ename in elections_normalised.items():
+            if enorm.replace(' ', '') == norm_spaceless:
+                matches[i] = ename
+                found = True
+                break
+        if found:
+            continue
+
+        # Prefix match
         for enorm, ename in elections_normalised.items():
             if enorm.startswith(norm) or norm.startswith(enorm):
                 matches[i] = ename
