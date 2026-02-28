@@ -419,4 +419,148 @@ describe('PropertyDetail', () => {
     renderComponent()
     expect(screen.getByText('Primary Recommendation:')).toBeInTheDocument()
   })
+
+  // --- Assessment tab ---
+
+  describe('Assessment tab', () => {
+    const assessmentAsset = {
+      ...baseAsset,
+      assessment: {
+        recommendation: 'Dispose',
+        recommendation_category: 'A. Disposal - low service signal land',
+        priority_score: 85,
+        confidence: 'High',
+        disposal_readiness: 78,
+        repurpose_potential: 25,
+        service_criticality: 12,
+        net_zero_priority: 45,
+        resilience_need: 30,
+        disposal_band: 'high',
+        repurpose_band: 'low',
+        service_band: 'low',
+        net_zero_band: 'medium',
+        resilience_band: 'low',
+        innovative_use_primary: 'Community energy generation',
+        innovative_use_secondary: 'Meanwhile use for local food growing',
+        innovative_use_count: 2,
+        reasoning: 'Land-only asset with low service signal;No active use identified',
+        key_risks: 'Covenant restrictions|Environmental contamination potential',
+        next_steps: 'Commission title appraisal;Undertake market test',
+      },
+      sales_evidence: [
+        { type: 'current_lcc_sale_listing', title: 'Test Farm, Chorley', status: 'marketed', price: '38000', date: '10 March 2026', method: 'auction', url: 'https://example.com/listing', confidence: 'exact_match' },
+      ],
+    }
+
+    beforeEach(() => {
+      useData.mockReturnValue({ data: { meta: {}, assets: [assessmentAsset] }, loading: false, error: null })
+    })
+
+    it('switches to assessment tab and renders recommendation badge', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Assessment Recommendation')).toBeInTheDocument()
+      expect(screen.getAllByText('Dispose').length).toBeGreaterThan(0)
+    })
+
+    it('renders confidence badge', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('High confidence')).toBeInTheDocument()
+    })
+
+    it('renders priority score', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Priority Score')).toBeInTheDocument()
+      // 85 appears in both keep_score card and priority_score — use getAllByText
+      expect(screen.getAllByText('85').length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('renders recommendation category', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('A. Disposal - low service signal land')).toBeInTheDocument()
+    })
+
+    it('renders all five world-class dimension labels', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('World-Class Scores')).toBeInTheDocument()
+      expect(screen.getByText('Disposal Readiness')).toBeInTheDocument()
+      expect(screen.getByText('Repurpose Potential')).toBeInTheDocument()
+      expect(screen.getByText('Service Criticality')).toBeInTheDocument()
+      expect(screen.getByText('Net Zero Priority')).toBeInTheDocument()
+      expect(screen.getByText('Resilience Need')).toBeInTheDocument()
+    })
+
+    it('renders world-class scores with band labels', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('78')).toBeInTheDocument()
+      expect(screen.getByText('25')).toBeInTheDocument()
+      expect(screen.getByText('12')).toBeInTheDocument()
+      expect(screen.getByText('45')).toBeInTheDocument()
+      expect(screen.getByText('30')).toBeInTheDocument()
+    })
+
+    it('renders innovative uses (primary and secondary)', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Innovative Uses')).toBeInTheDocument()
+      expect(screen.getByText('Community energy generation')).toBeInTheDocument()
+      expect(screen.getByText('Meanwhile use for local food growing')).toBeInTheDocument()
+      expect(screen.getByText('Primary')).toBeInTheDocument()
+      expect(screen.getByText('Secondary')).toBeInTheDocument()
+    })
+
+    it('renders reasoning paragraphs (split by semicolons)', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Land-only asset with low service signal')).toBeInTheDocument()
+      expect(screen.getByText('No active use identified')).toBeInTheDocument()
+    })
+
+    it('renders key risks as list items', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Covenant restrictions')).toBeInTheDocument()
+      expect(screen.getByText('Environmental contamination potential')).toBeInTheDocument()
+    })
+
+    it('renders next steps as list items', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Commission title appraisal')).toBeInTheDocument()
+      expect(screen.getByText('Undertake market test')).toBeInTheDocument()
+    })
+
+    it('renders sales evidence table with link', () => {
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('Sales Evidence')).toBeInTheDocument()
+      expect(screen.getByText(/Test Farm, Chorley/)).toBeInTheDocument()
+      expect(screen.getByText('marketed')).toBeInTheDocument()
+      expect(screen.getByText('38000')).toBeInTheDocument()
+      expect(screen.getByText('auction')).toBeInTheDocument()
+    })
+
+    it('handles missing assessment gracefully', () => {
+      const noAssessAsset = { ...baseAsset, assessment: null }
+      useData.mockReturnValue({ data: { meta: {}, assets: [noAssessAsset] }, loading: false, error: null })
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      expect(screen.getByText('No assessment data available for this property.')).toBeInTheDocument()
+    })
+
+    it('handles empty sales_evidence gracefully', () => {
+      const noSalesAsset = { ...assessmentAsset, sales_evidence: [] }
+      useData.mockReturnValue({ data: { meta: {}, assets: [noSalesAsset] }, loading: false, error: null })
+      renderComponent()
+      fireEvent.click(screen.getByText('Assessment'))
+      // Should still render assessment but no sales evidence section
+      expect(screen.getByText('Assessment Recommendation')).toBeInTheDocument()
+      expect(screen.queryByText('Sales Evidence')).not.toBeInTheDocument()
+    })
+  })
 })

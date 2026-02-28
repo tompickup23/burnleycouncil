@@ -321,7 +321,7 @@ export default function WardMap({
       // Radius proportional to linked spend (log scale, 4-12px range)
       const spend = asset.linkedSpend || 0
       const radius = spend > 0 ? Math.min(12, Math.max(4, 4 + Math.log10(spend + 1) * 1.6)) : 4
-      const color = ASSET_CATEGORY_COLORS[asset.category] || '#9E9E9E'
+      const color = asset.markerColor || ASSET_CATEGORY_COLORS[asset.category] || '#9E9E9E'
 
       const marker = L.circleMarker([asset.lat, asset.lng], {
         radius,

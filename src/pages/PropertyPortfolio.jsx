@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useState, useMemo, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb } from 'lucide-react'
 import { useData } from '../hooks/useData'
@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext'
 import { isFirebaseEnabled } from '../firebase'
 import { LoadingState } from '../components/ui'
 import { formatNumber, formatCurrency } from '../utils/format'
+
+const WardMap = lazy(() => import('../components/WardMap'))
 
 const PAGE_SIZE = 50
 
@@ -155,6 +157,7 @@ export default function PropertyPortfolio() {
   const councilName = config.council_name || 'Council'
 
   const { data, loading, error } = useData('/data/property_assets.json')
+  const { data: boundariesData } = useData('/data/ward_boundaries.json')
 
   // --- Page title ---
   useEffect(() => {
@@ -177,6 +180,7 @@ export default function PropertyPortfolio() {
   const [sortDir, setSortDir] = useState('asc')
   const [page, setPage] = useState(1)
   const [viewMode, setViewMode] = useState('table')
+  const [mapOverlay, setMapOverlay] = useState('category')
 
   // --- Parse data ---
   const meta = data?.meta || {}
@@ -257,6 +261,37 @@ export default function PropertyPortfolio() {
 
     return result
   }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation])
+
+  // --- Map assets (geocoded + overlay colour) ---
+  const EPC_COLORS = { A: '#00c853', B: '#30d158', C: '#ffd60a', D: '#ff9f0a', E: '#ff6d3b', F: '#ff453a', G: '#b71c1c' }
+  const BAND_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#30d158' }
+
+  const mapAssets = useMemo(() => {
+    return filteredAssets
+      .filter(a => a.lat && a.lng)
+      .map(a => {
+        let markerColor
+        switch (mapOverlay) {
+          case 'disposal':
+            markerColor = BAND_COLORS[a.disposal_band] || '#8e8e93'
+            break
+          case 'netzero':
+            markerColor = BAND_COLORS[a.net_zero_band] || '#8e8e93'
+            break
+          case 'epc':
+            markerColor = EPC_COLORS[a.epc_rating] || '#8e8e93'
+            break
+          default:
+            markerColor = CATEGORY_COLORS[a.category] || '#9E9E9E'
+        }
+        return {
+          ...a,
+          linkedSpend: a.linked_spend || 0,
+          epcRating: a.epc_rating || '',
+          markerColor,
+        }
+      })
+  }, [filteredAssets, mapOverlay])
 
   // --- Sort ---
   const sortedAssets = useMemo(() => {
@@ -904,17 +939,98 @@ export default function PropertyPortfolio() {
         </div>
       )}
 
-      {/* Map View Placeholder */}
+      {/* Map View */}
       {viewMode === 'map' && (
-        <div className="glass-card" style={{ padding: '60px 20px', textAlign: 'center' }}>
-          <MapPin size={48} style={{ color: '#8e8e93', marginBottom: '16px' }} />
-          <h3 style={{ color: '#fff', marginBottom: '8px' }}>Map View</h3>
-          <p style={{ color: 'var(--text-secondary, #aaa)', maxWidth: '400px', margin: '0 auto' }}>
-            Interactive property map coming in Phase 4.
-            {filteredAssets.filter(a => a.lat && a.lng).length > 0 && (
-              <span> {formatNumber(filteredAssets.filter(a => a.lat && a.lng).length)} assets have coordinates.</span>
-            )}
-          </p>
+        <div>
+          {/* Overlay Mode Toggles */}
+          <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary, #aaa)', marginRight: '4px' }}>Colour by:</span>
+            {[
+              { id: 'category', label: 'Category' },
+              { id: 'disposal', label: 'Disposal' },
+              { id: 'netzero', label: 'Net Zero' },
+              { id: 'epc', label: 'EPC Rating' },
+            ].map(mode => (
+              <button
+                key={mode.id}
+                onClick={() => setMapOverlay(mode.id)}
+                style={{
+                  padding: '4px 12px',
+                  borderRadius: '6px',
+                  border: mapOverlay === mode.id ? '1px solid rgba(10,132,255,0.4)' : '1px solid rgba(255,255,255,0.1)',
+                  background: mapOverlay === mode.id ? 'rgba(10,132,255,0.2)' : 'rgba(255,255,255,0.05)',
+                  color: mapOverlay === mode.id ? '#0a84ff' : '#aaa',
+                  fontSize: '0.78rem',
+                  cursor: 'pointer',
+                  fontWeight: mapOverlay === mode.id ? 600 : 400,
+                }}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Asset count */}
+          <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary, #aaa)', marginBottom: '8px' }}>
+            Showing {formatNumber(mapAssets.length)} of {formatNumber(filteredAssets.length)} assets on map
+            {filteredAssets.length > mapAssets.length && ` (${filteredAssets.length - mapAssets.length} missing coordinates)`}
+          </div>
+
+          {/* Leaflet Map */}
+          <Suspense fallback={
+            <div className="glass-card" style={{ padding: '60px 20px', textAlign: 'center' }}>
+              <MapPin size={32} style={{ color: '#8e8e93', marginBottom: '8px' }} />
+              <p style={{ color: 'var(--text-secondary, #aaa)' }}>Loading map...</p>
+            </div>
+          }>
+            <WardMap
+              boundaries={boundariesData}
+              assets={mapAssets}
+              onAssetClick={(id) => navigate(`/property/${id}`)}
+              height="600px"
+            />
+          </Suspense>
+
+          {/* Legend */}
+          <div className="glass-card" style={{ padding: '12px 16px', marginTop: '8px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary, #666)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Legend</span>
+              {mapOverlay === 'category' && Object.entries(CATEGORY_COLORS).map(([cat, color]) => (
+                <span key={cat} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  {CATEGORY_LABELS[cat] || cat.replace(/_/g, ' ')}
+                </span>
+              ))}
+              {mapOverlay === 'disposal' && [
+                { label: 'High priority', color: '#ff453a' },
+                { label: 'Medium priority', color: '#ff9f0a' },
+                { label: 'Low priority', color: '#30d158' },
+                { label: 'No data', color: '#8e8e93' },
+              ].map(item => (
+                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                  {item.label}
+                </span>
+              ))}
+              {mapOverlay === 'netzero' && [
+                { label: 'High priority', color: '#ff453a' },
+                { label: 'Medium priority', color: '#ff9f0a' },
+                { label: 'Low priority', color: '#30d158' },
+                { label: 'No data', color: '#8e8e93' },
+              ].map(item => (
+                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                  {item.label}
+                </span>
+              ))}
+              {mapOverlay === 'epc' && ['A', 'B', 'C', 'D', 'E', 'F', 'G'].map(rating => (
+                <span key={rating} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: EPC_COLORS[rating], flexShrink: 0 }} />
+                  {rating}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 

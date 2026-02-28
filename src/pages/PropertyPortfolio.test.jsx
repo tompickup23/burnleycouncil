@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import PropertyPortfolio from './PropertyPortfolio'
 
@@ -21,6 +21,14 @@ vi.mock('../firebase', () => ({
 
 vi.mock('../components/ui', () => ({
   LoadingState: () => <div>Loading...</div>,
+}))
+
+vi.mock('../components/WardMap', () => ({
+  default: (props) => (
+    <div data-testid="ward-map" data-asset-count={props.assets?.length || 0}>
+      WardMap with {props.assets?.length || 0} assets
+    </div>
+  ),
 }))
 
 import { useData } from '../hooks/useData'
@@ -154,33 +162,50 @@ describe('PropertyPortfolio', () => {
     vi.clearAllMocks()
     useCouncilConfig.mockReturnValue(mockConfig)
     useAuth.mockReturnValue({ isStrategist: true, isAdmin: false })
-    useData.mockReturnValue({ data: mockPropertyData, loading: false, error: null })
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') {
+        return { data: null, loading: false, error: null }
+      }
+      return { data: mockPropertyData, loading: false, error: null }
+    })
     mockNavigate.mockReset()
   })
 
   // --- Loading / Error / Empty ---
 
   it('renders loading state', () => {
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') return { data: null, loading: false, error: null }
+      return { data: null, loading: true, error: null }
+    })
     renderComponent()
     expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
 
   it('renders error state', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('fail') })
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') return { data: null, loading: false, error: null }
+      return { data: null, loading: false, error: new Error('fail') }
+    })
     renderComponent()
     expect(screen.getByText('Failed to load property data.')).toBeInTheDocument()
   })
 
   it('renders empty state when no assets', () => {
-    useData.mockReturnValue({ data: { meta: {}, assets: [] }, loading: false, error: null })
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') return { data: null, loading: false, error: null }
+      return { data: { meta: {}, assets: [] }, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText('No Property Data')).toBeInTheDocument()
     expect(screen.getByText(/not yet available/)).toBeInTheDocument()
   })
 
   it('renders empty state when data is null', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: null })
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') return { data: null, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText('No Property Data')).toBeInTheDocument()
   })
@@ -396,10 +421,9 @@ describe('PropertyPortfolio', () => {
       id: `lcc-${String(i).padStart(3, '0')}`,
       name: `Asset ${String(i).padStart(3, '0')}`,
     }))
-    useData.mockReturnValue({
-      data: { ...mockPropertyData, assets: manyAssets },
-      loading: false,
-      error: null,
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') return { data: null, loading: false, error: null }
+      return { data: { ...mockPropertyData, assets: manyAssets }, loading: false, error: null }
     })
     renderComponent()
     expect(screen.getByText('Page 1 of 2')).toBeInTheDocument()
@@ -411,10 +435,9 @@ describe('PropertyPortfolio', () => {
       id: `lcc-${String(i).padStart(3, '0')}`,
       name: `Asset ${String(i).padStart(3, '0')}`,
     }))
-    useData.mockReturnValue({
-      data: { ...mockPropertyData, assets: manyAssets },
-      loading: false,
-      error: null,
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') return { data: null, loading: false, error: null }
+      return { data: { ...mockPropertyData, assets: manyAssets }, loading: false, error: null }
     })
     renderComponent()
     fireEvent.click(screen.getByText(/Next/))
@@ -459,14 +482,65 @@ describe('PropertyPortfolio', () => {
   it('renders table view by default', () => {
     renderComponent()
     expect(screen.getByText('County Hall')).toBeInTheDocument()
-    expect(screen.queryByText('Interactive property map coming in Phase 4.')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('ward-map')).not.toBeInTheDocument()
   })
 
-  it('switches to map view on Map button click', () => {
+  it('switches to map view on Map button click', async () => {
     renderComponent()
     fireEvent.click(screen.getByText('Map'))
-    expect(screen.getByText('Map View')).toBeInTheDocument()
-    expect(screen.getByText(/Interactive property map coming in Phase 4/)).toBeInTheDocument()
+    // WardMap is lazy-loaded — wait for Suspense to resolve
+    expect(await screen.findByTestId('ward-map')).toBeInTheDocument()
+    expect(screen.getByText('WardMap with 3 assets')).toBeInTheDocument()
+  })
+
+  it('map view shows correct geocoded asset count', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Map'))
+    expect(screen.getByText(/Showing 3 of 3 assets on map/)).toBeInTheDocument()
+  })
+
+  it('map view respects active filters', async () => {
+    renderComponent()
+    // Filter to library category first
+    const selects = screen.getAllByRole('combobox')
+    const categorySelect = selects.find(s => {
+      const options = within(s).queryAllByRole('option')
+      return options.some(o => o.textContent === 'All Categories')
+    })
+    fireEvent.change(categorySelect, { target: { value: 'library' } })
+    // Switch to map
+    fireEvent.click(screen.getByText('Map'))
+    expect(await screen.findByText('WardMap with 1 assets')).toBeInTheDocument()
+    expect(screen.getByText(/Showing 1 of 1 assets on map/)).toBeInTheDocument()
+  })
+
+  it('map view renders overlay mode toggles', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Map'))
+    expect(screen.getByText('Category')).toBeInTheDocument()
+    expect(screen.getByText('Disposal')).toBeInTheDocument()
+    expect(screen.getByText('Net Zero')).toBeInTheDocument()
+    expect(screen.getByText('EPC Rating')).toBeInTheDocument()
+  })
+
+  it('map view shows legend for selected overlay', async () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Map'))
+    await screen.findByTestId('ward-map')
+    // Default overlay is 'category' — legend shows category labels
+    expect(screen.getByText('Legend')).toBeInTheDocument()
+    expect(screen.getAllByText('Education').length).toBeGreaterThan(0)
+  })
+
+  it('map view switches overlay mode on toggle click', async () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Map'))
+    await screen.findByTestId('ward-map')
+    // Switch to EPC overlay
+    fireEvent.click(screen.getByText('EPC Rating'))
+    // Legend should show EPC ratings (A-G)
+    expect(screen.getByText('A')).toBeInTheDocument()
+    expect(screen.getByText('G')).toBeInTheDocument()
   })
 
   // --- Category breakdown ---
