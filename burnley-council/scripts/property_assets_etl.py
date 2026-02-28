@@ -540,6 +540,86 @@ def compute_urgency(asset):
     return min(score, 100)
 
 
+# Lancashire average values for revenue estimation (£/sqm ranges by use)
+# Based on VOA, RICS and public auction evidence for East/Central Lancashire
+REVENUE_RATES = {
+    'quick_win_auction': {'land_per_ha': 75000, 'building_per_sqm': 350, 'label': 'Auction sale'},
+    'private_treaty_sale': {'land_per_ha': 120000, 'building_per_sqm': 550, 'label': 'Private sale'},
+    'development_partnership': {'land_per_ha': 200000, 'building_per_sqm': 0, 'label': 'Dev partnership (land value share)'},
+    'community_asset_transfer': {'land_per_ha': 15000, 'building_per_sqm': 50, 'label': 'CAT (below market)'},
+    'long_lease_income': {'annual_per_sqm': 45, 'label': 'Annual rental income'},
+    'meanwhile_use': {'annual_per_sqm': 25, 'label': 'Meanwhile rent (short-term)'},
+    'energy_generation': {'land_per_ha': 8000, 'label': 'Annual FIT/PPA income'},
+    'carbon_offset_woodland': {'land_per_ha': 5000, 'label': 'Woodland carbon credits (annual)'},
+    'housing_partnership': {'land_per_ha': 180000, 'building_per_sqm': 0, 'label': 'Housing land value'},
+    'refurbish_relet': {'annual_per_sqm': 60, 'capex_per_sqm': 150, 'label': 'Net annual rent after refurb'},
+}
+
+
+def estimate_revenue(asset, pathway, occupancy):
+    """Estimate revenue/value for the given disposal pathway.
+    Returns (capital_estimate, annual_estimate, methodology) tuple.
+    Uses conservative Lancashire-level rates adjusted by IMD and EPC."""
+    floor = asset.get('floor_area_sqm') or 0
+    is_land = asset.get('land_only', False)
+    imd = asset.get('imd_decile') or 5
+    epc = asset.get('epc_rating') or ''
+
+    # Location multiplier: affluent areas command premium
+    loc_mult = 0.7 + (imd / 10) * 0.6  # IMD 1 → 0.76, IMD 5 → 1.0, IMD 10 → 1.3
+
+    # EPC quality multiplier for buildings
+    epc_mult = {'A': 1.15, 'B': 1.1, 'C': 1.05, 'D': 1.0, 'E': 0.9, 'F': 0.8, 'G': 0.7}.get(epc, 0.95)
+
+    rates = REVENUE_RATES.get(pathway, {})
+
+    # Estimate land area from floor area or assume 0.1 hectare for small sites
+    land_ha = (floor / 10000) * 2 if floor > 0 else 0.1  # crude: 2x plot ratio
+
+    capital = 0
+    annual = 0
+    method = rates.get('label', pathway)
+
+    if pathway in ('quick_win_auction', 'private_treaty_sale', 'development_partnership',
+                    'community_asset_transfer', 'housing_partnership'):
+        if is_land:
+            capital = round(land_ha * rates.get('land_per_ha', 0) * loc_mult)
+        else:
+            capital = round(floor * rates.get('building_per_sqm', 0) * loc_mult * epc_mult)
+            if capital == 0 and land_ha > 0:
+                capital = round(land_ha * rates.get('land_per_ha', 0) * loc_mult)
+
+    elif pathway in ('long_lease_income', 'meanwhile_use'):
+        if floor > 0:
+            annual = round(floor * rates.get('annual_per_sqm', 0) * loc_mult * epc_mult)
+        else:
+            annual = round(land_ha * 10000 * rates.get('annual_per_sqm', 0) * loc_mult * 0.3)
+
+    elif pathway == 'energy_generation':
+        annual = round(land_ha * rates.get('land_per_ha', 0))
+
+    elif pathway == 'carbon_offset_woodland':
+        annual = round(land_ha * rates.get('land_per_ha', 0))
+
+    elif pathway == 'refurbish_relet':
+        if floor > 0:
+            capex = round(floor * rates.get('capex_per_sqm', 0))
+            annual = round(floor * rates.get('annual_per_sqm', 0) * loc_mult * epc_mult)
+            capital = -capex  # negative = investment required
+            method = f"{method} (capex: £{capex:,})"
+
+    # Strategic hold and governance review = no direct revenue
+    if pathway in ('strategic_hold', 'governance_review', 'co_locate_consolidate'):
+        # Cost avoidance: maintenance savings if consolidated
+        annual_cost = asset.get('condition_spend') or 0
+        if annual_cost > 0:
+            method = f"Annual maintenance liability: £{annual_cost:,}"
+        else:
+            method = 'No direct revenue — retain for service delivery'
+
+    return capital, annual, method
+
+
 def determine_pathway(asset, occupancy, complexity, readiness, revenue):
     """Determine the best disposal pathway and secondary option."""
     name = (asset.get('name') or '').lower()
@@ -643,6 +723,8 @@ def compute_disposal_intelligence(lean_assets):
     occupancy_counts = {}
     quick_win_count = 0
     complexity_bands = {'low': 0, 'medium': 0, 'high': 0}
+    total_capital = 0
+    total_annual = 0
 
     for asset in lean_assets:
         # 1. Infer occupancy
@@ -704,11 +786,21 @@ def compute_disposal_intelligence(lean_assets):
         # 7. Timeline
         asset['_timeline'] = PATHWAY_TIMELINES.get(pathway, '6-12 months')
 
+        # 8. Revenue estimate
+        cap_est, ann_est, rev_method = estimate_revenue(asset, pathway, occ_status)
+        asset['_revenue_estimate_capital'] = cap_est
+        asset['_revenue_estimate_annual'] = ann_est
+        asset['_revenue_method'] = rev_method
+        total_capital += cap_est
+        total_annual += ann_est
+
     return {
         'pathway_breakdown': dict(sorted(pathway_counts.items(), key=lambda x: -x[1])),
         'occupancy_breakdown': dict(sorted(occupancy_counts.items(), key=lambda x: -x[1])),
         'quick_wins': quick_win_count,
         'complexity_distribution': complexity_bands,
+        'estimated_capital_receipts': total_capital,
+        'estimated_annual_income': total_annual,
     }
 
 
@@ -1129,6 +1221,12 @@ def compute_meta(lean_assets, detail_assets):
         'occupancy_breakdown': dict(sorted(occupancy_breakdown.items(), key=lambda x: -x[1])),
         'quick_wins': quick_wins,
         'complexity_distribution': complexity_bands,
+        'estimated_capital_receipts': round(sum(
+            a.get('revenue_estimate_capital', 0) or 0 for a in lean_assets
+        )),
+        'estimated_annual_income': round(sum(
+            a.get('revenue_estimate_annual', 0) or 0 for a in lean_assets
+        )),
         'band_distributions': band_dist,
         'ced_summary': dict(sorted(ced_summary.items())),
         # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)
@@ -1451,6 +1549,9 @@ def main():
         detail['disposal']['estimated_timeline'] = lean.get('_timeline')
         detail['disposal']['quick_win'] = lean.get('_quick_win', False)
         detail['disposal']['smart_priority'] = lean.get('_smart_priority')
+        detail['disposal']['revenue_estimate_capital'] = lean.get('_revenue_estimate_capital', 0)
+        detail['disposal']['revenue_estimate_annual'] = lean.get('_revenue_estimate_annual', 0)
+        detail['disposal']['revenue_method'] = lean.get('_revenue_method', '')
         # Also sync top-level lean fields
         detail['occupancy_status'] = lean.get('occupancy_status')
         detail['disposal_complexity'] = lean.get('disposal_complexity')
@@ -1459,16 +1560,24 @@ def main():
         detail['disposal_pathway'] = lean.get('disposal_pathway')
         detail['disposal_pathway_secondary'] = lean.get('disposal_pathway_secondary')
 
+    # Promote revenue estimates to public lean fields before stripping temp
+    for asset in lean_assets:
+        asset['revenue_estimate_capital'] = round(asset.get('_revenue_estimate_capital', 0) or 0)
+        asset['revenue_estimate_annual'] = round(asset.get('_revenue_estimate_annual', 0) or 0)
+
     # Clean temporary fields from lean
     for asset in lean_assets:
         for key in ['_occupancy_signals', '_complexity_breakdown', '_readiness_breakdown',
-                     '_revenue_breakdown', '_smart_priority', '_pathway_reasoning', '_quick_win', '_timeline']:
+                     '_revenue_breakdown', '_smart_priority', '_pathway_reasoning', '_quick_win', '_timeline',
+                     '_revenue_estimate_capital', '_revenue_estimate_annual', '_revenue_method']:
             asset.pop(key, None)
 
     print(f"  Pathways: {intel_stats['pathway_breakdown']}")
     print(f"  Occupancy: {intel_stats['occupancy_breakdown']}")
     print(f"  Quick wins: {intel_stats['quick_wins']}")
     print(f"  Complexity: {intel_stats['complexity_distribution']}")
+    print(f"  Est. capital receipts: £{intel_stats['estimated_capital_receipts']:,.0f}")
+    print(f"  Est. annual income: £{intel_stats['estimated_annual_income']:,.0f}")
 
     # Sort by smart priority (high first) then by name
     lean_assets.sort(key=lambda a: (

@@ -614,6 +614,44 @@ function DisposalTab({ asset }) {
         </div>
       </div>
 
+      {/* Revenue estimate */}
+      {(disp?.revenue_estimate_capital > 0 || disp?.revenue_estimate_annual > 0) && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Estimated Revenue</h3>
+          <div style={{ display: 'flex', gap: 'var(--space-xl)', flexWrap: 'wrap', marginBottom: 'var(--space-sm)' }}>
+            {disp.revenue_estimate_capital > 0 && (
+              <div>
+                <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#30d158' }}>
+                  £{(disp.revenue_estimate_capital / 1000).toFixed(0)}k
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Capital Receipt</div>
+              </div>
+            )}
+            {disp.revenue_estimate_capital < 0 && (
+              <div>
+                <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#ff9f0a' }}>
+                  £{(Math.abs(disp.revenue_estimate_capital) / 1000).toFixed(0)}k
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Investment Required</div>
+              </div>
+            )}
+            {disp.revenue_estimate_annual > 0 && (
+              <div>
+                <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#0a84ff' }}>
+                  £{(disp.revenue_estimate_annual / 1000).toFixed(0)}k<span style={{ fontSize: '0.9rem' }}>/yr</span>
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Annual Income</div>
+              </div>
+            )}
+          </div>
+          {disp.revenue_method && (
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: 0, fontStyle: 'italic' }}>
+              Methodology: {disp.revenue_method}. Estimates use Lancashire-level rates adjusted for location (IMD) and EPC quality. For indicative purposes only.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Occupancy evidence */}
       {disp?.occupancy_signals?.length > 0 && (
         <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>

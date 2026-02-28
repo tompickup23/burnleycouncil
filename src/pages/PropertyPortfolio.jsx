@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb } from 'lucide-react'
+import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb, TrendingUp, Clock, DollarSign, PoundSterling } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useAuth } from '../context/AuthContext'
@@ -66,6 +66,47 @@ const PATHWAY_MAP_COLORS = {
 const OCCUPANCY_MAP_COLORS = {
   occupied: '#0a84ff', school_grounds: '#5e5ce6', likely_vacant: '#ff9f0a',
   vacant_land: '#30d158', third_party: '#bf5af2', unknown: '#8e8e93',
+}
+
+const PATHWAY_LABELS = {
+  quick_win_auction: 'Quick Win — Auction',
+  private_treaty_sale: 'Private Treaty Sale',
+  development_partnership: 'Development Partnership',
+  community_asset_transfer: 'Community Asset Transfer',
+  long_lease_income: 'Long Lease Income',
+  meanwhile_use: 'Meanwhile Use',
+  energy_generation: 'Energy Generation',
+  carbon_offset_woodland: 'Carbon Offset Woodland',
+  housing_partnership: 'Housing Partnership',
+  co_locate_consolidate: 'Co-locate & Consolidate',
+  strategic_hold: 'Strategic Hold',
+  governance_review: 'Governance Review',
+  refurbish_relet: 'Refurbish & Re-let',
+}
+
+const PATHWAY_TIMELINES = {
+  quick_win_auction: { months: 6, label: '3-6 months', type: 'capital' },
+  private_treaty_sale: { months: 9, label: '6-12 months', type: 'capital' },
+  development_partnership: { months: 24, label: '12-24 months', type: 'capital' },
+  community_asset_transfer: { months: 12, label: '6-12 months', type: 'transfer' },
+  long_lease_income: { months: 6, label: '3-6 months', type: 'income' },
+  meanwhile_use: { months: 3, label: '1-3 months', type: 'income' },
+  energy_generation: { months: 18, label: '12-24 months', type: 'income' },
+  carbon_offset_woodland: { months: 24, label: '24+ months', type: 'income' },
+  housing_partnership: { months: 24, label: '12-24 months', type: 'capital' },
+  co_locate_consolidate: { months: 18, label: '12-24 months', type: 'savings' },
+  strategic_hold: { months: 0, label: 'Ongoing', type: 'hold' },
+  governance_review: { months: 6, label: '3-6 months', type: 'review' },
+  refurbish_relet: { months: 12, label: '6-12 months', type: 'income' },
+}
+
+const OCCUPANCY_LABELS = {
+  occupied: 'Operationally Active',
+  school_grounds: 'School Grounds',
+  likely_vacant: 'Likely Vacant',
+  vacant_land: 'Vacant Land',
+  third_party: 'Third-Party Occupied',
+  unknown: 'Unknown',
 }
 
 function CategoryBadge({ category }) {
@@ -443,7 +484,7 @@ export default function PropertyPortfolio() {
 
   // --- CSV Export ---
   const exportCSV = useCallback(() => {
-    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
+    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
     const rows = sortedAssets.map(a => [
       `"${(a.name || '').replace(/"/g, '""')}"`,
       `"${(a.address || '').replace(/"/g, '""')}"`,
@@ -470,6 +511,8 @@ export default function PropertyPortfolio() {
       a.market_readiness ?? '',
       a.revenue_potential ?? '',
       a.disposal?.smart_priority ?? '',
+      a.revenue_estimate_capital ?? 0,
+      a.revenue_estimate_annual ?? 0,
       a.disposal_band || '',
       a.repurpose_band || '',
       a.service_band || '',
@@ -589,6 +632,328 @@ export default function PropertyPortfolio() {
         <StatCard label="Assessed" value={formatNumber(meta.has_assessment || 0)} subtitle={meta.has_sales_evidence ? `${meta.has_sales_evidence} with market evidence` : undefined} icon={Info} />
         <StatCard label="CEDs Mapped" value={formatNumber(meta.has_ced)} subtitle={`${cedCount} divisions`} icon={MapPin} />
       </div>
+
+      {/* Financial Summary Dashboard */}
+      {(meta.estimated_capital_receipts > 0 || meta.estimated_annual_income > 0) && (
+        <div className="glass-card" style={{ padding: '20px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <TrendingUp size={18} style={{ color: '#30d158' }} />
+            <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Revenue Opportunity</h3>
+            <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(48,209,88,0.12)', color: '#30d158', fontWeight: 600 }}>
+              Estimated
+            </span>
+          </div>
+
+          {/* Revenue headline cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.15)' }}>
+              <div style={{ fontSize: '0.72rem', color: '#30d158', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                Capital Receipts
+              </div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#30d158' }}>
+                {formatCurrency(meta.estimated_capital_receipts)}
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)', marginTop: '4px' }}>
+                From {assets.filter(a => (a.revenue_estimate_capital || 0) > 0).length} disposal assets
+              </div>
+            </div>
+            <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)' }}>
+              <div style={{ fontSize: '0.72rem', color: '#0a84ff', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                Annual Income
+              </div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#0a84ff' }}>
+                {formatCurrency(meta.estimated_annual_income)}<span style={{ fontSize: '0.9rem', fontWeight: 400 }}>/yr</span>
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)', marginTop: '4px' }}>
+                From {assets.filter(a => (a.revenue_estimate_annual || 0) > 0).length} income-generating assets
+              </div>
+            </div>
+            <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(255,159,10,0.08)', border: '1px solid rgba(255,159,10,0.15)' }}>
+              <div style={{ fontSize: '0.72rem', color: '#ff9f0a', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                Quick Win Receipts
+              </div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#ff9f0a' }}>
+                {formatCurrency(assets.filter(isQuickWin).reduce((s, a) => s + (a.revenue_estimate_capital || 0), 0))}
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)', marginTop: '4px' }}>
+                {meta.quick_wins || 0} quick-win assets within 6 months
+              </div>
+            </div>
+          </div>
+
+          {/* Revenue by pathway bar chart */}
+          {meta.pathway_breakdown && (() => {
+            const pathwayRevenue = {}
+            for (const a of assets) {
+              const pw = a.disposal_pathway
+              if (!pw) continue
+              if (!pathwayRevenue[pw]) pathwayRevenue[pw] = { capital: 0, annual: 0, count: 0 }
+              pathwayRevenue[pw].capital += a.revenue_estimate_capital || 0
+              pathwayRevenue[pw].annual += a.revenue_estimate_annual || 0
+              pathwayRevenue[pw].count += 1
+            }
+            const entries = Object.entries(pathwayRevenue)
+              .filter(([, v]) => v.capital > 0 || v.annual > 0)
+              .sort((a, b) => (b[1].capital + b[1].annual * 10) - (a[1].capital + a[1].annual * 10))
+            if (!entries.length) return null
+            const maxVal = Math.max(...entries.map(([, v]) => Math.max(v.capital, v.annual * 10)))
+            return (
+              <div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #aaa)', marginBottom: '8px', fontWeight: 600 }}>
+                  Revenue by Disposal Pathway
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {entries.map(([pw, v]) => (
+                    <div key={pw} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ width: '160px', flexShrink: 0, fontSize: '0.72rem', color: '#ccc', textAlign: 'right' }}>
+                        {PATHWAY_LABELS[pw] || pw.replace(/_/g, ' ')}
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', gap: '2px', height: '18px' }}>
+                        {v.capital > 0 && (
+                          <div style={{
+                            width: `${Math.max(2, (v.capital / maxVal) * 100)}%`,
+                            background: '#30d158',
+                            borderRadius: '3px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.62rem',
+                            color: '#000',
+                            fontWeight: 600,
+                            minWidth: v.capital > maxVal * 0.08 ? 'auto' : '0',
+                            overflow: 'hidden',
+                          }}>
+                            {v.capital > maxVal * 0.08 ? formatCurrency(v.capital) : ''}
+                          </div>
+                        )}
+                        {v.annual > 0 && (
+                          <div style={{
+                            width: `${Math.max(2, (v.annual * 10 / maxVal) * 100)}%`,
+                            background: '#0a84ff',
+                            borderRadius: '3px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.62rem',
+                            color: '#fff',
+                            fontWeight: 600,
+                            minWidth: v.annual * 10 > maxVal * 0.08 ? 'auto' : '0',
+                            overflow: 'hidden',
+                          }}>
+                            {v.annual * 10 > maxVal * 0.08 ? `${formatCurrency(v.annual)}/yr` : ''}
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ width: '50px', flexShrink: 0, fontSize: '0.68rem', color: '#8e8e93', textAlign: 'right' }}>
+                        {v.count} assets
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: '16px', marginTop: '8px', fontSize: '0.68rem', color: 'var(--text-tertiary, #666)' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#30d158' }} /> Capital receipt
+                  </span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#0a84ff' }} /> Annual income (×10 for scale)
+                  </span>
+                </div>
+              </div>
+            )
+          })()}
+
+          <div style={{ marginTop: '12px', fontSize: '0.68rem', color: 'var(--text-tertiary, #666)', fontStyle: 'italic' }}>
+            Estimates based on Lancashire-level market rates adjusted by location quality (IMD) and energy efficiency (EPC). For indicative purposes — formal valuations required before disposal.
+          </div>
+        </div>
+      )}
+
+      {/* Disposal Timeline Waterfall */}
+      {meta.pathway_breakdown && (() => {
+        const timelineBands = [
+          { label: '0-6 months', pathways: ['quick_win_auction', 'meanwhile_use', 'long_lease_income', 'governance_review'], color: '#30d158' },
+          { label: '6-12 months', pathways: ['private_treaty_sale', 'community_asset_transfer', 'refurbish_relet'], color: '#0a84ff' },
+          { label: '12-24 months', pathways: ['development_partnership', 'energy_generation', 'co_locate_consolidate', 'housing_partnership'], color: '#ff9f0a' },
+          { label: '24+ months', pathways: ['carbon_offset_woodland'], color: '#bf5af2' },
+          { label: 'Ongoing', pathways: ['strategic_hold'], color: '#8e8e93' },
+        ]
+        const bandData = timelineBands.map(band => {
+          const count = band.pathways.reduce((s, pw) => s + (meta.pathway_breakdown[pw] || 0), 0)
+          const capital = band.pathways.reduce((s, pw) => {
+            return s + assets.filter(a => a.disposal_pathway === pw).reduce((t, a) => t + (a.revenue_estimate_capital || 0), 0)
+          }, 0)
+          const annual = band.pathways.reduce((s, pw) => {
+            return s + assets.filter(a => a.disposal_pathway === pw).reduce((t, a) => t + (a.revenue_estimate_annual || 0), 0)
+          }, 0)
+          return { ...band, count, capital, annual }
+        }).filter(b => b.count > 0)
+        const maxCount = Math.max(...bandData.map(b => b.count))
+        let cumulative = 0
+
+        return (
+          <div className="glass-card" style={{ padding: '20px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+              <Clock size={18} style={{ color: '#64d2ff' }} />
+              <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Disposal Timeline</h3>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {bandData.map(band => {
+                cumulative += band.count
+                return (
+                  <div key={band.label} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ width: '100px', flexShrink: 0, textAlign: 'right' }}>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 600, color: band.color }}>{band.label}</div>
+                    </div>
+                    <div style={{ flex: 1, position: 'relative' }}>
+                      <div style={{
+                        height: '32px',
+                        borderRadius: '6px',
+                        background: `${band.color}22`,
+                        border: `1px solid ${band.color}33`,
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}>
+                        <div style={{
+                          height: '100%',
+                          width: `${Math.max(3, (band.count / maxCount) * 100)}%`,
+                          background: `${band.color}44`,
+                          borderRadius: '5px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          paddingLeft: '8px',
+                        }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fff', whiteSpace: 'nowrap' }}>
+                            {band.count} assets
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ width: '140px', flexShrink: 0, textAlign: 'right' }}>
+                      {band.capital > 0 && (
+                        <div style={{ fontSize: '0.7rem', color: '#30d158' }}>
+                          {formatCurrency(band.capital)} capital
+                        </div>
+                      )}
+                      {band.annual > 0 && (
+                        <div style={{ fontSize: '0.7rem', color: '#0a84ff' }}>
+                          {formatCurrency(band.annual)}/yr income
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ width: '80px', flexShrink: 0, textAlign: 'right', fontSize: '0.68rem', color: 'var(--text-tertiary, #666)' }}>
+                      {cumulative}/{assets.length} cum.
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Pathway detail grid */}
+            <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #aaa)', marginBottom: '10px', fontWeight: 600 }}>
+                Pathway Breakdown
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '8px' }}>
+                {Object.entries(meta.pathway_breakdown)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([pw, count]) => {
+                    const tl = PATHWAY_TIMELINES[pw] || {}
+                    const isActive = filterPathway === pw
+                    return (
+                      <div
+                        key={pw}
+                        onClick={() => { setFilterPathway(isActive ? '' : pw); setViewMode('table') }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '8px 12px',
+                          borderRadius: '6px',
+                          background: isActive ? 'rgba(10,132,255,0.15)' : 'rgba(255,255,255,0.03)',
+                          cursor: 'pointer',
+                          transition: 'background 0.15s',
+                          border: isActive ? '1px solid rgba(10,132,255,0.3)' : '1px solid transparent',
+                        }}
+                      >
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{
+                            width: '10px', height: '10px', borderRadius: '50%',
+                            background: PATHWAY_MAP_COLORS[pw] || '#8e8e93', flexShrink: 0,
+                          }} />
+                          <span>
+                            <span style={{ fontSize: '0.78rem', color: '#ccc', display: 'block' }}>
+                              {PATHWAY_LABELS[pw] || pw.replace(/_/g, ' ')}
+                            </span>
+                            {tl.label && (
+                              <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary, #666)' }}>
+                                {tl.label} · {tl.type}
+                              </span>
+                            )}
+                          </span>
+                        </span>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff', marginLeft: '8px' }}>
+                          {formatNumber(count)}
+                        </span>
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          </div>
+        )
+      })()}
+
+      {/* Occupancy Summary */}
+      {meta.occupancy_breakdown && (
+        <div className="glass-card" style={{ padding: '20px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+            <Building size={18} style={{ color: '#5e5ce6' }} />
+            <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Occupancy Analysis</h3>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>
+            {Object.entries(meta.occupancy_breakdown)
+              .sort((a, b) => b[1] - a[1])
+              .map(([occ, count]) => {
+                const pct = meta.total_assets ? ((count / meta.total_assets) * 100).toFixed(1) : '0'
+                const isActive = filterOccupancy === occ
+                return (
+                  <div
+                    key={occ}
+                    onClick={() => { setFilterOccupancy(isActive ? '' : occ); setViewMode('table') }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '10px 14px',
+                      borderRadius: '6px',
+                      background: isActive ? 'rgba(10,132,255,0.15)' : 'rgba(255,255,255,0.03)',
+                      cursor: 'pointer',
+                      transition: 'background 0.15s',
+                      border: isActive ? '1px solid rgba(10,132,255,0.3)' : '1px solid transparent',
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        width: '10px', height: '10px', borderRadius: '50%',
+                        background: OCCUPANCY_MAP_COLORS[occ] || '#8e8e93', flexShrink: 0,
+                      }} />
+                      <span style={{ fontSize: '0.8rem', color: '#ccc' }}>
+                        {OCCUPANCY_LABELS[occ] || occ.replace(/_/g, ' ')}
+                      </span>
+                    </span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary, #666)' }}>{pct}%</span>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff' }}>
+                        {formatNumber(count)}
+                      </span>
+                    </span>
+                  </div>
+                )
+              })}
+          </div>
+        </div>
+      )}
 
       {/* Estate Context */}
       {meta.estate_context && (
@@ -1142,6 +1507,32 @@ export default function PropertyPortfolio() {
                   {rating}
                 </span>
               ))}
+              {mapOverlay === 'complexity' && [
+                { label: 'Low (<30)', color: '#30d158' },
+                { label: 'Medium (30-59)', color: '#ff9f0a' },
+                { label: 'High (60+)', color: '#ff453a' },
+              ].map(item => (
+                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                  {item.label}
+                </span>
+              ))}
+              {mapOverlay === 'pathway' && Object.entries(PATHWAY_MAP_COLORS)
+                .filter(([pw]) => meta.pathway_breakdown?.[pw])
+                .map(([pw, color]) => (
+                  <span key={pw} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                    {PATHWAY_LABELS[pw] || pw.replace(/_/g, ' ')}
+                  </span>
+                ))}
+              {mapOverlay === 'occupancy' && Object.entries(OCCUPANCY_MAP_COLORS)
+                .filter(([occ]) => meta.occupancy_breakdown?.[occ])
+                .map(([occ, color]) => (
+                  <span key={occ} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                    {OCCUPANCY_LABELS[occ] || occ.replace(/_/g, ' ')}
+                  </span>
+                ))}
             </div>
           </div>
         </div>
