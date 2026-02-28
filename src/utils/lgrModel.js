@@ -306,3 +306,41 @@ export function calculateTransitionRiskAdjustment(dogeFindings, integrityData) {
 
   return { dataRemediationCost, legalRiskCost, factors };
 }
+
+/**
+ * Estimate property rationalisation savings from asset portfolio data.
+ * Used in LGR modelling to quantify estate consolidation potential.
+ *
+ * @param {Array} propertyAssets - Array of asset objects from property_assets.json
+ * @returns {{ disposalSaving: number, coLocationSaving: number, conditionSaving: number, factors: string[] }}
+ */
+export function estimatePropertyRationalisationSavings(propertyAssets) {
+  const factors = [];
+  if (!propertyAssets?.length) {
+    return { disposalSaving: 0, coLocationSaving: 0, conditionSaving: 0, factors: ['No property data available'] };
+  }
+
+  // Disposal savings: category A/B candidates × estimated annual holding cost
+  const disposalCandidates = propertyAssets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B');
+  const avgHoldingCost = 15000; // £15k average annual holding cost per property
+  const disposalSaving = disposalCandidates.length * avgHoldingCost * 0.75; // 75% realisation
+  if (disposalCandidates.length > 0) {
+    factors.push(`${disposalCandidates.length} disposal candidates → £${Math.round(disposalSaving / 1000)}k annual saving (75% realisation)`);
+  }
+
+  // Co-location savings: properties within 500m that could be consolidated
+  const coLocatable = propertyAssets.filter(a => (a.nearby_500m || 0) > 0);
+  const coLocationSaving = Math.floor(coLocatable.length / 2) * 25000 * 0.5; // Pairs × £25k × 50% realisation
+  if (coLocatable.length >= 2) {
+    factors.push(`${coLocatable.length} co-locatable assets (${Math.floor(coLocatable.length / 2)} pairs) → £${Math.round(coLocationSaving / 1000)}k potential`);
+  }
+
+  // Condition spend reduction via better estate management
+  const totalCondition = propertyAssets.reduce((s, a) => s + (a.condition_spend || 0), 0);
+  const conditionSaving = totalCondition * 0.20; // 20% efficiency from consolidated management
+  if (totalCondition > 0) {
+    factors.push(`£${Math.round(totalCondition / 1000)}k condition spend → £${Math.round(conditionSaving / 1000)}k saving (20% efficiency)`);
+  }
+
+  return { disposalSaving, coLocationSaving, conditionSaving, factors };
+}

@@ -201,6 +201,10 @@ export default function Elections() {
   const { data: modelCoeffs } = useData('/data/shared/model_coefficients.json')
   const { data: integrityData } = useData('/data/integrity.json')
 
+  // Property assets (optional — for ward asset context)
+  const { data: propertyAssetsRaw } = useData('/data/property_assets.json')
+  const propertyAssets = propertyAssetsRaw?.assets || []
+
   // --- State ---
   const [activeSection, setActiveSection] = useState('overview')
   const [selectedWard, setSelectedWard] = useState('')
@@ -1236,7 +1240,14 @@ export default function Elections() {
 
                     return [
                       <tr key={wardName} className={isChange ? 'elec-row-change' : ''}>
-                        <td><strong>{wardName}</strong></td>
+                        <td>
+                          <strong>{wardName}</strong>
+                          {propertyAssets.filter(a => a.ced === wardName || a.ward === wardName).length > 0 && (
+                            <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', marginLeft: '0.5rem' }} title="LCC-owned assets">
+                              {propertyAssets.filter(a => a.ced === wardName || a.ward === wardName).length}
+                            </span>
+                          )}
+                        </td>
                         <td>
                           {result.winner ? (
                             <PartyBadge party={result.winner} color={partyColors[result.winner]} />

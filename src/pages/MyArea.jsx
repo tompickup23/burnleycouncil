@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3 } from 'lucide-react'
+import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -33,6 +33,9 @@ function MyArea() {
   // Deprivation is optional — LCC and other county councils don't have it
   const { data: deprivationRaw } = useData('/data/deprivation.json')
   const deprivation = deprivationRaw?.wards || {}
+  // Property assets data (optional — only LCC has this currently)
+  const { data: propertyRaw } = useData('/data/property_assets.json')
+  const propertyAssets = propertyRaw?.assets || []
   const [selectedWard, setSelectedWard] = useState(null)
   const [postcode, setPostcode] = useState('')
   const [postcodeLoading, setPostcodeLoading] = useState(false)
@@ -256,6 +259,51 @@ function MyArea() {
                   Based on the English Indices of Deprivation 2019 (MHCLG). A score above 30 indicates significant deprivation.
                   Averaged across {depData.lsoa_count} small areas (LSOAs) in this ward.
                 </p>
+              </div>
+            )
+          })()}
+
+          {/* Property assets in this ward */}
+          {(() => {
+            const wardPropertyAssets = propertyAssets.filter(a =>
+              a.ced === selectedWard || a.ward === selectedWard
+            )
+            if (wardPropertyAssets.length === 0) return null
+            const totalSpend = wardPropertyAssets.reduce((s, a) => s + (a.linked_spend || 0), 0)
+            const disposalCount = wardPropertyAssets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B').length
+            const categories = {}
+            wardPropertyAssets.forEach(a => { categories[a.category || 'other'] = (categories[a.category || 'other'] || 0) + 1 })
+            return (
+              <div className="deprivation-panel" style={{ marginTop: '1rem' }}>
+                <h3><Building size={16} /> LCC Property Assets</h3>
+                <div className="deprivation-stats">
+                  <div className="dep-stat">
+                    <span className="dep-value">{wardPropertyAssets.length}</span>
+                    <span className="dep-label">Assets in Area</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{totalSpend > 0 ? `£${Math.round(totalSpend / 1000)}k` : '—'}</span>
+                    <span className="dep-label">Linked Spend</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{disposalCount}</span>
+                    <span className="dep-label">Disposal Candidates</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{Object.keys(categories).length}</span>
+                    <span className="dep-label">Categories</span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', margin: '0.75rem 0' }}>
+                  {Object.entries(categories).sort((a, b) => b[1] - a[1]).map(([cat, count]) => (
+                    <span key={cat} style={{ fontSize: '0.7rem', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '4px' }}>
+                      {cat.replace(/_/g, ' ')} ({count})
+                    </span>
+                  ))}
+                </div>
+                <a href="/properties" style={{ color: 'var(--accent-primary, #12B6CF)', fontSize: '0.8rem' }}>
+                  View all assets →
+                </a>
               </div>
             )
           })()}

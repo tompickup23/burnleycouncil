@@ -79,6 +79,10 @@ function Budgets() {
   const mappingData = !hasBudgets ? (d[5] || null) : null      // budget_mapping.json
   // Collection rates: always last in the array when hasCollectionRates is true
   const collectionRates = hasCollectionRates ? (d[d.length - 1] || null) : null
+
+  // Property assets (optional — for estate overview)
+  const { data: propertyAssetsRaw } = useData('/data/property_assets.json')
+
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -337,6 +341,58 @@ function Budgets() {
               </div>
             </div>
           </section>
+
+          {/* Property Estate Overview — when data available */}
+          {propertyAssetsRaw?.assets?.length > 0 && (() => {
+            const assets = propertyAssetsRaw.assets
+            const totalSpend = assets.reduce((s, a) => s + (a.linked_spend || 0), 0)
+            const conditionSpend = assets.reduce((s, a) => s + (a.condition_spend || 0), 0)
+            const disposals = assets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B').length
+            const categories = {}
+            assets.forEach(a => { categories[a.category || 'other'] = (categories[a.category || 'other'] || 0) + 1 })
+            return (
+              <section className="chart-section" style={{ marginTop: '1.5rem' }}>
+                <h2><Building size={20} /> Property Estate</h2>
+                <p className="section-note">{assets.length} council-owned properties and land assets</p>
+                <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+                  <div className="metric-card">
+                    <div className="metric-content">
+                      <span className="metric-value">{assets.length}</span>
+                      <span className="metric-label">Total Assets</span>
+                    </div>
+                  </div>
+                  <div className="metric-card">
+                    <div className="metric-content">
+                      <span className="metric-value">{totalSpend >= 1000000 ? (totalSpend / 1000000).toFixed(1) + 'M' : Math.round(totalSpend / 1000) + 'k'}</span>
+                      <span className="metric-label">Linked Supplier Spend</span>
+                    </div>
+                  </div>
+                  <div className="metric-card">
+                    <div className="metric-content">
+                      <span className="metric-value">{Math.round(conditionSpend / 1000)}k</span>
+                      <span className="metric-label">Condition Spend</span>
+                    </div>
+                  </div>
+                  <div className="metric-card">
+                    <div className="metric-content">
+                      <span className="metric-value text-orange">{disposals}</span>
+                      <span className="metric-label">Disposal Candidates</span>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', margin: '1rem 0' }}>
+                  {Object.entries(categories).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([cat, count]) => (
+                    <span key={cat} style={{ fontSize: '0.7rem', background: 'rgba(255,255,255,0.06)', padding: '3px 10px', borderRadius: '4px', color: 'var(--text-secondary)' }}>
+                      {cat.replace(/_/g, ' ')} ({count})
+                    </span>
+                  ))}
+                </div>
+                <a href="/properties" style={{ color: 'var(--accent-primary, #12B6CF)', fontSize: '0.85rem' }}>
+                  View full property portfolio &rarr;
+                </a>
+              </section>
+            )
+          })()}
 
           {/* Revenue Trend Chart */}
           <section className="chart-section">

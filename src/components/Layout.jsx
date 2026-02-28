@@ -252,6 +252,20 @@ function Layout({ children }) {
             </div>
           )}
 
+          {/* Property Estate — strategist-only, requires property_assets data */}
+          {authCtx?.isStrategist && dataSources.property_assets && (
+            <div className="nav-section">
+              <NavLink
+                to="/properties"
+                className={({ isActive }) => `nav-item nav-property-link ${isActive ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Building size={20} />
+                <span>Property Estate</span>
+              </NavLink>
+            </div>
+          )}
+
           {/* Admin link — only visible to admins in Firebase mode */}
           {authCtx?.isAdmin && (
             <div className="nav-section">

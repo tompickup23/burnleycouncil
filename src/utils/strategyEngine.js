@@ -108,6 +108,88 @@ export function calculateSwingRequired(wardPrediction, ourParty) {
 // ---------------------------------------------------------------------------
 
 /**
+ * Generate talking points based on LCC property/land assets in a ward/CED.
+ * @param {string} cedName - CED or ward name
+ * @param {Array} propertyAssets - Array of asset objects from property_assets.json
+ * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
+ */
+export function generateAssetTalkingPoints(cedName, propertyAssets) {
+  const points = [];
+  if (!cedName || !propertyAssets?.length) return points;
+
+  // Filter assets in this CED
+  const wardAssets = propertyAssets.filter(a =>
+    a.ced === cedName || a.ward === cedName
+  );
+  if (wardAssets.length === 0) return points;
+
+  // Total assets in ward
+  points.push({
+    category: 'Property',
+    icon: 'Building',
+    priority: 2,
+    text: `${wardAssets.length} LCC-owned asset${wardAssets.length !== 1 ? 's' : ''} in this division — scrutinise maintenance costs and utilisation.`,
+  });
+
+  // Disposal candidates
+  const disposalCandidates = wardAssets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B');
+  if (disposalCandidates.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'AlertTriangle',
+      priority: 1,
+      text: `${disposalCandidates.length} propert${disposalCandidates.length !== 1 ? 'ies' : 'y'} recommended for disposal — potential campaign issue on waste and asset management.`,
+    });
+  }
+
+  // High condition spend
+  const conditionSpend = wardAssets.reduce((sum, a) => sum + (a.condition_spend || 0), 0);
+  if (conditionSpend > 10000) {
+    points.push({
+      category: 'Property',
+      icon: 'PoundSterling',
+      priority: 2,
+      text: `£${Math.round(conditionSpend / 1000)}k spent on maintenance of LCC assets in this area — question value for money.`,
+    });
+  }
+
+  // Linked supplier spend
+  const linkedSpend = wardAssets.reduce((sum, a) => sum + (a.linked_spend || 0), 0);
+  if (linkedSpend > 50000) {
+    points.push({
+      category: 'Property',
+      icon: 'PoundSterling',
+      priority: 3,
+      text: `£${Math.round(linkedSpend / 1000)}k supplier spend linked to LCC properties here — cross-reference with DOGE findings.`,
+    });
+  }
+
+  // Co-location opportunities
+  const coLocatable = wardAssets.filter(a => (a.nearby_500m || 0) > 0);
+  if (coLocatable.length >= 2) {
+    points.push({
+      category: 'Property',
+      icon: 'MapPin',
+      priority: 3,
+      text: `${coLocatable.length} assets within 500m of each other — co-location/consolidation could save money.`,
+    });
+  }
+
+  // Energy risk
+  const energyRisk = wardAssets.filter(a => a.flags?.includes('energy_risk'));
+  if (energyRisk.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'Zap',
+      priority: 3,
+      text: `${energyRisk.length} asset${energyRisk.length !== 1 ? 's' : ''} flagged as energy risk (poor EPC/no rating) — net zero accountability.`,
+    });
+  }
+
+  return points;
+}
+
+/**
  * Generate auto-talking-points for a ward based on demographics, deprivation, turnout, and spending.
  * @param {Object} wardElection - Ward data from elections.json
  * @param {Object|null} demographics - Census 2021 ward data
@@ -1405,6 +1487,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     dogeFindings, budgetSummary, collectionRates,
     constituenciesData, wardConstituencyMap,
     councilPrediction, rankedWard, meetingsData,
+    propertyAssets,
   } = allData;
 
   const wardElection = electionsData?.wards?.[wardName] || null;
@@ -1530,6 +1613,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
 
   // Talking points — categorised
   const localPoints = generateTalkingPoints(wardElection, demo, deprivation, pred);
+  const assetPoints = generateAssetTalkingPoints(wardName, propertyAssets);
   const councilAttack = councilPerformance.attackLines.map(a => ({
     priority: a.severity === 'high' ? 1 : a.severity === 'medium' ? 2 : 3,
     category: a.category || 'Council',
@@ -1541,7 +1625,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   const pureNational = nationalPoints.filter(p => p.category === 'National');
 
   const talkingPoints = {
-    local: localPoints,
+    local: [...localPoints, ...assetPoints],
     council: councilAttack,
     national: pureNational,
     constituency: constituencyPoints,

@@ -22,6 +22,7 @@ import {
   clusterWards,
   optimiseCanvassingRoute,
   generateCanvassingCSV,
+  generateAssetTalkingPoints,
   WARD_CLASSES,
 } from './strategyEngine'
 
@@ -1818,5 +1819,98 @@ describe('generateCanvassingCSV', () => {
     const { sessions } = optimiseCanvassingRoute(clusters, centroids, {})
     const csv = generateCanvassingCSV(sessions, 'Reform UK', 'Test')
     expect(csv).toContain(`${sessions.length} sessions`)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// generateAssetTalkingPoints
+// ---------------------------------------------------------------------------
+
+describe('generateAssetTalkingPoints', () => {
+  const mockAssets = [
+    { id: '1', ced: 'Burnley Central', ward: 'Burnley SW', category: 'office_civic', linked_spend: 80000, condition_spend: 15000, nearby_500m: 2, flags: ['energy_risk'], disposal: { category: 'B', priority: 70 } },
+    { id: '2', ced: 'Burnley Central', ward: 'Burnley SW', category: 'library', linked_spend: 20000, condition_spend: 5000, nearby_500m: 1, flags: [], disposal: { category: 'D', priority: 30 } },
+    { id: '3', ced: 'Preston East', ward: 'Preston North', category: 'land_general', linked_spend: 0, condition_spend: 0, nearby_500m: 0, flags: [], disposal: { category: 'A', priority: 90 } },
+  ]
+
+  it('returns empty array when no cedName', () => {
+    const result = generateAssetTalkingPoints(null, mockAssets)
+    expect(result).toEqual([])
+  })
+
+  it('returns empty array when no propertyAssets', () => {
+    expect(generateAssetTalkingPoints('Burnley Central', null)).toEqual([])
+    expect(generateAssetTalkingPoints('Burnley Central', [])).toEqual([])
+    expect(generateAssetTalkingPoints('Burnley Central', undefined)).toEqual([])
+  })
+
+  it('returns empty array when no assets match the CED', () => {
+    const result = generateAssetTalkingPoints('Nonexistent Ward', mockAssets)
+    expect(result).toEqual([])
+  })
+
+  it('returns total assets count for matching CED', () => {
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    const countPoint = result.find(p => p.text.includes('2 LCC-owned assets'))
+    expect(countPoint).toBeDefined()
+    expect(countPoint.category).toBe('Property')
+    expect(countPoint.icon).toBe('Building')
+  })
+
+  it('returns disposal candidate talking point when A/B category assets exist', () => {
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    const disposalPoint = result.find(p => p.text.includes('disposal'))
+    expect(disposalPoint).toBeDefined()
+    expect(disposalPoint.text).toContain('1 property recommended for disposal')
+    expect(disposalPoint.priority).toBe(1)
+  })
+
+  it('returns condition spend talking point when spend > 10k', () => {
+    // Burnley Central total condition_spend = 15000 + 5000 = 20000
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    const conditionPoint = result.find(p => p.text.includes('spent on maintenance'))
+    expect(conditionPoint).toBeDefined()
+    expect(conditionPoint.text).toContain('£20k')
+    expect(conditionPoint.icon).toBe('PoundSterling')
+  })
+
+  it('returns linked supplier spend talking point when spend > 50k', () => {
+    // Burnley Central total linked_spend = 80000 + 20000 = 100000
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    const linkedPoint = result.find(p => p.text.includes('supplier spend linked'))
+    expect(linkedPoint).toBeDefined()
+    expect(linkedPoint.text).toContain('£100k')
+    expect(linkedPoint.text).toContain('DOGE')
+  })
+
+  it('returns co-location talking point when 2+ assets nearby', () => {
+    // Both Burnley Central assets have nearby_500m > 0 (2 and 1)
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    const colocPoint = result.find(p => p.text.includes('co-location'))
+    expect(colocPoint).toBeDefined()
+    expect(colocPoint.text).toContain('2 assets within 500m')
+    expect(colocPoint.icon).toBe('MapPin')
+  })
+
+  it('returns energy risk talking point when flagged assets exist', () => {
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    const energyPoint = result.find(p => p.text.includes('energy risk'))
+    expect(energyPoint).toBeDefined()
+    expect(energyPoint.text).toContain('1 asset flagged')
+    expect(energyPoint.icon).toBe('Zap')
+  })
+
+  it('returns multiple talking points for rich data', () => {
+    // Burnley Central should trigger: count, disposal, condition, linked, co-location, energy
+    const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
+    expect(result.length).toBeGreaterThanOrEqual(5)
+    const categories = result.map(p => p.category)
+    expect(categories.every(c => c === 'Property')).toBe(true)
+    const icons = result.map(p => p.icon)
+    expect(icons).toContain('Building')
+    expect(icons).toContain('AlertTriangle')
+    expect(icons).toContain('PoundSterling')
+    expect(icons).toContain('MapPin')
+    expect(icons).toContain('Zap')
   })
 })

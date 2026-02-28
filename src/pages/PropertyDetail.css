@@ -1,0 +1,229 @@
+/* ============================================ */
+/* PropertyDetail — LCC Property Asset Detail   */
+/* iOS Dark Theme                               */
+/* ============================================ */
+
+.property-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Back Link ── */
+.property-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent, #0a84ff);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: var(--space-lg);
+  padding: 4px 0;
+  transition: opacity 0.2s ease;
+  background-image: none;
+}
+
+.property-back-link:hover {
+  opacity: 0.8;
+  background-image: none;
+}
+
+/* ── Header ── */
+.property-detail-header {
+  margin-bottom: var(--space-xl);
+}
+
+/* ── Score Row ── */
+.property-score-row {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+@media (max-width: 640px) {
+  .property-score-row {
+    flex-direction: column;
+  }
+}
+
+/* ── Tabs ── */
+.property-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: var(--space-xl);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-bottom: 1px solid var(--border-color, #334155);
+  padding-bottom: 0;
+}
+
+.property-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.property-tab {
+  padding: var(--space-sm) var(--space-lg);
+  background: none;
+  border: none;
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+  bottom: -1px;
+}
+
+.property-tab:hover {
+  color: var(--text-primary, #e2e8f0);
+}
+
+.property-tab.active {
+  color: var(--accent, #0a84ff);
+  border-bottom-color: var(--accent, #0a84ff);
+  font-weight: 600;
+}
+
+/* ── Tab Content ── */
+.property-tab-content {
+  min-height: 200px;
+}
+
+/* ── Detail Grid ── */
+.property-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.property-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  gap: var(--space-md);
+}
+
+.property-detail-row:last-child {
+  border-bottom: none;
+}
+
+.property-detail-label {
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  min-width: 140px;
+}
+
+.property-detail-value {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* ── Links ── */
+.property-external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent, #0a84ff);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(10, 132, 255, 0.08);
+  border-radius: var(--radius-md, 8px);
+  margin-top: var(--space-md);
+  transition: background 0.2s ease;
+  background-image: none;
+}
+
+.property-external-link:hover {
+  background: rgba(10, 132, 255, 0.15);
+  background-image: none;
+}
+
+.property-internal-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent, #0a84ff);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(10, 132, 255, 0.08);
+  border-radius: var(--radius-md, 8px);
+  transition: background 0.2s ease;
+  background-image: none;
+}
+
+.property-internal-link:hover {
+  background: rgba(10, 132, 255, 0.15);
+  background-image: none;
+}
+
+/* ── Table ── */
+.property-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.property-table th {
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border-color, #334155);
+}
+
+.property-table td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.property-table tr:last-child td {
+  border-bottom: none;
+}
+
+.property-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ── Badge ── */
+.property-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 480px) {
+  .property-detail-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .property-detail-value {
+    text-align: left;
+    justify-content: flex-start;
+  }
+  .property-detail-label {
+    min-width: auto;
+  }
+  .property-tab {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.75rem;
+  }
+}

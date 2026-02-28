@@ -119,6 +119,8 @@ function DogeInvestigation() {
   const { data: dogeKnowledge } = useData('/data/doge_knowledge.json')
   // Integrity data for councillor-supplier cross-reference
   const { data: integrityData } = useData('/data/integrity.json')
+  // Property assets for portfolio savings section (optional)
+  const { data: propertyAssetsRaw } = useData('/data/property_assets.json')
 
   // Build supplier→councillor map from integrity data for cross-reference badges
   const supplierCouncillorMap = useMemo(() => {
@@ -1737,6 +1739,75 @@ function DogeInvestigation() {
           </div>
         </ExpandableSection>
       )}
+
+      {/* Property Portfolio Savings — when property data is available */}
+      {propertyAssetsRaw?.assets?.length > 0 && (() => {
+        const assets = propertyAssetsRaw.assets
+        const disposalCandidates = assets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B')
+        const totalLinkedSpend = assets.reduce((s, a) => s + (a.linked_spend || 0), 0)
+        const conditionSpend = assets.reduce((s, a) => s + (a.condition_spend || 0), 0)
+        const coLocatable = assets.filter(a => (a.nearby_500m || 0) > 0)
+        const energyRisk = assets.filter(a => a.flags?.includes('energy_risk'))
+        const categories = {}
+        disposalCandidates.forEach(a => { categories[a.category || 'other'] = (categories[a.category || 'other'] || 0) + 1 })
+        return (
+          <ExpandableSection
+            title="Property Portfolio Savings"
+            subtitle={`${disposalCandidates.length} disposal candidates from ${assets.length} assets`}
+            severity="warning"
+          >
+            <div className="forensic-section">
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+                Analysis of {assets.length} LCC-owned properties and land across Lancashire,
+                identifying disposal candidates, maintenance savings, and co-location opportunities.
+              </p>
+              <div className="stat-grid">
+                <div className="stat-card">
+                  <span className="stat-value">{assets.length}</span>
+                  <span className="stat-label">Total Assets</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value text-red">{disposalCandidates.length}</span>
+                  <span className="stat-label">Disposal Candidates</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">£{Math.round(totalLinkedSpend / 1000)}k</span>
+                  <span className="stat-label">Linked Supplier Spend</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">£{Math.round(conditionSpend / 1000)}k</span>
+                  <span className="stat-label">Condition/Maintenance Spend</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{coLocatable.length}</span>
+                  <span className="stat-label">Co-location Opportunities</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value text-orange">{energyRisk.length}</span>
+                  <span className="stat-label">Energy Risk Assets</span>
+                </div>
+              </div>
+              {Object.keys(categories).length > 0 && (
+                <div style={{ marginTop: '1rem' }}>
+                  <h4>Disposal Candidates by Category</h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    {Object.entries(categories).sort((a, b) => b[1] - a[1]).map(([cat, count]) => (
+                      <span key={cat} className="technique-badge">
+                        {cat.replace(/_/g, ' ')} ({count})
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div style={{ marginTop: '1rem' }}>
+                <Link to="/properties" style={{ color: 'var(--accent-primary, #12B6CF)' }}>
+                  View full property portfolio analysis →
+                </Link>
+              </div>
+            </div>
+          </ExpandableSection>
+        )
+      })()}
 
       {/* Methodology & Technique Inventory */}
       <ExpandableSection

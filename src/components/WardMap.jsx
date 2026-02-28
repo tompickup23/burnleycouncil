@@ -25,6 +25,20 @@ import 'leaflet/dist/leaflet.css'
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
 
+// Category colours for property asset markers
+const ASSET_CATEGORY_COLORS = {
+  education: '#2196F3',
+  library: '#9C27B0',
+  children_social_care: '#E91E63',
+  office_civic: '#607D8B',
+  operations_depot_waste: '#795548',
+  transport_highways: '#FF9800',
+  land_general: '#4CAF50',
+  land_woodland: '#388E3C',
+  land_open_space: '#66BB6A',
+  other_building: '#9E9E9E',
+}
+
 // Default colours for clusters in route mode
 const CLUSTER_COLORS = [
   '#12B6CF', '#f97316', '#a855f7', '#22c55e',
@@ -59,6 +73,8 @@ export default function WardMap({
   onWardHover,
   routeLines = [],
   routeClusters = [],
+  assets = [],
+  onAssetClick,
   height = '500px',
 }) {
   const containerRef = useRef(null)
@@ -96,11 +112,15 @@ export default function WardMap({
     }
   }, [])
 
+  const assetLayerRef = useRef(null)
+
   // Stable callback refs to avoid re-renders
   const onClickRef = useRef(onWardClick)
   const onHoverRef = useRef(onWardHover)
+  const onAssetClickRef = useRef(onAssetClick)
   useEffect(() => { onClickRef.current = onWardClick }, [onWardClick])
   useEffect(() => { onHoverRef.current = onWardHover }, [onWardHover])
+  useEffect(() => { onAssetClickRef.current = onAssetClick }, [onAssetClick])
 
   // Get ward colour — route mode uses cluster colours
   const getWardColor = useCallback((wardName) => {
@@ -279,6 +299,59 @@ export default function WardMap({
       if (markersLayerRef.current) { map.removeLayer(markersLayerRef.current); markersLayerRef.current = null }
     }
   }, [overlayMode, routeLines, routeClusters, boundaries])
+
+  // Draw property asset markers (circle markers colored by category, sized by spend)
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+
+    // Clear previous asset layer
+    if (assetLayerRef.current) {
+      map.removeLayer(assetLayerRef.current)
+      assetLayerRef.current = null
+    }
+
+    if (!assets?.length || overlayMode === 'route') return
+
+    const group = L.layerGroup()
+
+    assets.forEach((asset) => {
+      if (!asset.lat || !asset.lng) return
+
+      // Radius proportional to linked spend (log scale, 4-12px range)
+      const spend = asset.linkedSpend || 0
+      const radius = spend > 0 ? Math.min(12, Math.max(4, 4 + Math.log10(spend + 1) * 1.6)) : 4
+      const color = ASSET_CATEGORY_COLORS[asset.category] || '#9E9E9E'
+
+      const marker = L.circleMarker([asset.lat, asset.lng], {
+        radius,
+        fillColor: color,
+        fillOpacity: 0.8,
+        color: '#fff',
+        weight: 1,
+        opacity: 0.6,
+      })
+
+      // Tooltip
+      const tooltipLines = [`<strong>${esc(asset.name || 'Unknown')}</strong>`]
+      if (asset.category) tooltipLines.push(esc(asset.category.replace(/_/g, ' ')))
+      if (asset.epcRating) tooltipLines.push(`EPC: ${esc(asset.epcRating)}`)
+      if (spend > 0) tooltipLines.push(`Spend: £${spend >= 1000 ? esc(String(Math.round(spend / 1000))) + 'k' : esc(String(Math.round(spend)))}`)
+      marker.bindTooltip(tooltipLines.join('<br/>'), { sticky: true, direction: 'top', className: 'ward-map-tooltip' })
+
+      // Click handler
+      marker.on('click', () => onAssetClickRef.current?.(asset.id))
+
+      group.addLayer(marker)
+    })
+
+    group.addTo(map)
+    assetLayerRef.current = group
+
+    return () => {
+      if (assetLayerRef.current) { map.removeLayer(assetLayerRef.current); assetLayerRef.current = null }
+    }
+  }, [assets, overlayMode])
 
   return (
     <div
