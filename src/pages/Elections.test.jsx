@@ -198,7 +198,7 @@ function setupMocks({
       if (path[0] === '/data/elections.json') {
         return {
           data: electionsData
-            ? [electionsData, referenceData || mockReferenceData, mockCouncillorsData, politicsSummary || mockPoliticsSummary]
+            ? [electionsData, referenceData || mockReferenceData, politicsSummary || mockPoliticsSummary]
             : null,
           loading,
           error,

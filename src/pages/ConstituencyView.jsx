@@ -400,7 +400,7 @@ export default function ConstituencyView() {
                       <p style={{ margin: '0 0 4px', fontWeight: 600, color: '#fff' }}>{d.name}</p>
                       <p style={{ margin: '2px 0', color: d.fill, fontSize: '13px' }}>{d.party}</p>
                       <p style={{ margin: '2px 0', color: '#ccc', fontSize: '13px' }}>
-                        {formatNumber(d.votes)} votes ({formatPercent(d.pct * 100)})
+                        {formatNumber(d.votes)} votes ({d.pct != null ? formatPercent(d.pct * 100) : '—'})
                       </p>
                     </div>
                   )
@@ -434,7 +434,7 @@ export default function ConstituencyView() {
                       </td>
                       <td><PartyBadge party={c.party} color={c.fill} /></td>
                       <td style={{ textAlign: 'right' }}>{formatNumber(c.votes)}</td>
-                      <td style={{ textAlign: 'right' }}>{formatPercent(c.pct * 100)}</td>
+                      <td style={{ textAlign: 'right' }}>{c.pct != null ? formatPercent(c.pct * 100) : '—'}</td>
                     </tr>
                   ))}
                 </tbody>

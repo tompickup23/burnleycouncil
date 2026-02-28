@@ -184,10 +184,9 @@ export default function Elections() {
   const { data, loading, error } = useData([
     '/data/elections.json',
     '/data/shared/elections_reference.json',
-    '/data/councillors.json',
     '/data/politics_summary.json',
   ])
-  const [electionsData, referenceData, councillorsData, politicsSummary] = data || [null, null, null, null]
+  const [electionsData, referenceData, politicsSummary] = data || [null, null, null]
 
   // Optional data (demographics, deprivation) — may fail
   const { data: optData } = useData(['/data/demographics.json', '/data/deprivation.json'])

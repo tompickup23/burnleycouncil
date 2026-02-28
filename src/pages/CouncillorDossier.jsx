@@ -156,7 +156,16 @@ export default function CouncillorDossier() {
   const electoralData = useMemo(() => {
     if (!elections || !councillor) return null
     const wards = elections.wards || elections
-    if (!wards || !Array.isArray(wards)) return null
+    if (!wards) return null
+    // wards is an object keyed by ward name (not an array)
+    if (!Array.isArray(wards)) {
+      const wardName = councillor.ward
+      if (!wardName) return null
+      return wards[wardName] || Object.values(wards).find(w =>
+        slugify(w.ward || w.ward_name || '') === slugify(wardName)
+      ) || null
+    }
+    // Fallback: array format
     return wards.find(w =>
       w.ward === councillor.ward ||
       w.ward_name === councillor.ward ||

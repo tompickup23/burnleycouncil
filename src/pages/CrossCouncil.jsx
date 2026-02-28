@@ -46,16 +46,22 @@ function CrossCouncil() {
 
   const { data, loading, error } = useData('/data/cross_council.json')
   const comparison = data
-  // Integrity cross-council data for red flag counts per council
-  const { data: integrityXC } = useData('/data/shared/integrity_cross_council.json')
-
   const allCouncils = comparison?.councils || []
   // For county/unitary tiers with very few peer councils, default to showing all
   const sameTierCouncils = allCouncils.filter(c => (c.council_tier || 'district') === councilTier)
   const hasEnoughPeers = sameTierCouncils.length >= 3
-  const [showAllTiers, setShowAllTiers] = useState(!hasEnoughPeers)
+  const [showAllTiers, setShowAllTiers] = useState(true) // true until data loads
+  const [tierInitialized, setTierInitialized] = useState(false)
   const councils = showAllTiers ? allCouncils : sameTierCouncils
   const otherTierCount = allCouncils.length - sameTierCouncils.length
+
+  // Set correct default once data loads
+  useEffect(() => {
+    if (!tierInitialized && allCouncils.length > 0) {
+      setShowAllTiers(!hasEnoughPeers)
+      setTierInitialized(true)
+    }
+  }, [allCouncils.length, hasEnoughPeers, tierInitialized])
 
   useEffect(() => {
     document.title = `Cross-Council Comparison | ${councilName} Council Transparency`
@@ -863,7 +869,7 @@ function CrossCouncil() {
                 ))}
               </ul>
             </div>
-            <p className="generated-date">Comparison generated: {comparison.generated}</p>
+            {comparison.generated && <p className="generated-date">Comparison generated: {comparison.generated}</p>}
           </div>
         </div>
       </section>

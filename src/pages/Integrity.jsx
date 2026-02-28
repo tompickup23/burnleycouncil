@@ -102,9 +102,8 @@ function Integrity() {
   const councillors = useMemo(() => {
     if (!integrity?.councillors) return []
     const fullMap = new Map()
-    if (Array.isArray(councillorsFull)) {
-      councillorsFull.forEach(c => fullMap.set(c.id, c))
-    }
+    const fullList = Array.isArray(councillorsFull) ? councillorsFull : councillorsFull?.councillors || []
+    fullList.forEach(c => fullMap.set(c.id, c))
     return integrity.councillors.map(c => ({
       ...c,
       // Merge in full councillor data (email, phone, roles, party_color)

@@ -53,7 +53,7 @@ export function getBaseline(wardData, electionType = 'borough') {
   for (const c of election.candidates) {
     // Take the best candidate per party
     if (!parties[c.party] || c.pct > parties[c.party]) {
-      parties[c.party] = c.pct || (c.votes / (election.turnout_votes || 1));
+      parties[c.party] = c.pct != null ? c.pct : (c.votes || 0) / (election.turnout_votes || 1);
     }
   }
 
@@ -412,7 +412,13 @@ export function calculateReformEntry(baseline, constituencyResult, lcc2025, assu
  */
 export function normaliseShares(shares) {
   const total = Object.values(shares).reduce((s, v) => s + Math.max(0, v), 0);
-  if (total <= 0) return shares;
+  if (total <= 0) {
+    // All-zero shares — distribute equally
+    const n = Object.keys(shares).length;
+    if (n === 0) return shares;
+    const equal = 1 / n;
+    return Object.fromEntries(Object.keys(shares).map(k => [k, equal]));
+  }
   const result = {};
   for (const [party, share] of Object.entries(shares)) {
     result[party] = Math.max(0, share) / total;
@@ -538,7 +544,7 @@ export function predictWard(
   const turnout = Math.max(0.15, Math.min(0.65,
     (baseline.turnout || 0.30) + (assumptions.turnoutAdjustment || 0)
   ));
-  const electorate = baseline.electorate || baseline.turnoutVotes / (baseline.turnout || 0.30);
+  const electorate = baseline.electorate || (baseline.turnoutVotes ? baseline.turnoutVotes / (baseline.turnout || 0.30) : 1000);
   const totalVotes = Math.round(electorate * turnout);
 
   const prediction = {};
@@ -1002,7 +1008,7 @@ export function predictWardV2(
   // Vote estimation
   const turnout = Math.max(0.15, Math.min(0.65,
     (baseline.turnout || 0.30) + (assumptions.turnoutAdjustment || 0)));
-  const electorate = baseline.electorate || baseline.turnoutVotes / (baseline.turnout || 0.30);
+  const electorate = baseline.electorate || (baseline.turnoutVotes ? baseline.turnoutVotes / (baseline.turnout || 0.30) : 1000);
   const totalVotes = Math.round(electorate * turnout);
 
   const prediction = {};
@@ -1416,12 +1422,12 @@ export function adjustTurnoutForDoge(baseTurnout, dogeData, deprivation) {
   // Fraud triangle score → disengagement in deprived areas
   const fraudTriangle = dogeData.verification?.fraud_triangle_score || dogeData.fraud_triangle_score;
   if (fraudTriangle && fraudTriangle > 60 && deprivation?.avg_imd_decile <= 2) {
-    const penalty = -2.0; // -2pp
+    const penalty = -0.02; // -2pp as decimal (turnout is a ratio 0-1)
     adjusted += penalty;
     adjustments.fraudTriangleDisengagement = penalty;
   }
 
-  return { adjustedTurnout: Math.max(5, adjusted), adjustments };
+  return { adjustedTurnout: Math.max(0.05, adjusted), adjustments };
 }
 
 /**
@@ -1437,7 +1443,9 @@ export function explainPrediction(wardResult) {
 
   // Winner summary
   if (wardResult.winner) {
-    parts.push(`Predicted winner: ${wardResult.winner.party} (${Math.round((wardResult.winner.share || 0) * 100)}% projected share).`);
+    // winner is a party name string; get projected share from prediction
+    const winnerShare = wardResult.prediction?.[wardResult.winner]?.pct || wardResult.majorityPct || 0;
+    parts.push(`Predicted winner: ${wardResult.winner} (${Math.round(winnerShare * 100)}% projected share).`);
   }
 
   // Methodology steps
@@ -1451,8 +1459,8 @@ export function explainPrediction(wardResult) {
   }
 
   // Margin
-  if (wardResult.margin != null) {
-    const marginPct = Math.round(wardResult.margin * 100);
+  if (wardResult.majorityPct != null) {
+    const marginPct = Math.round(wardResult.majorityPct * 100);
     const safety = marginPct > 15 ? 'safe' : marginPct > 5 ? 'competitive' : 'marginal';
     parts.push(`Margin: ${marginPct}pp (${safety}).`);
   }

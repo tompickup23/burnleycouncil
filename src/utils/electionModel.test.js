@@ -402,10 +402,10 @@ describe('normaliseShares', () => {
     expect(total).toBeCloseTo(1.0, 5)
   })
 
-  it('handles all zeros', () => {
+  it('handles all zeros by distributing equally', () => {
     const result = normaliseShares({ A: 0, B: 0 })
-    expect(result.A).toBe(0)
-    expect(result.B).toBe(0)
+    expect(result.A).toBe(0.5)
+    expect(result.B).toBe(0.5)
   })
 
   it('preserves relative proportions', () => {

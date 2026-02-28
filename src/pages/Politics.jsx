@@ -26,7 +26,8 @@ function Politics() {
     '/data/wards.json',
     '/data/integrity.json',
   ])
-  const [councillors, summary, _wards, integrityData] = data || [[], null, {}, null]
+  const [councillorsRaw, summary, _wards, integrityData] = data || [[], null, {}, null]
+  const councillors = Array.isArray(councillorsRaw) ? councillorsRaw : councillorsRaw?.councillors || []
 
   // Optional voting/attendance data — separate fetch so failure doesn't block page
   // Always call useData (React hooks rule) but use a path that won't exist when feature disabled

@@ -19,11 +19,14 @@ import { useAuth } from '../context/AuthContext'
 import { useCouncilConfig } from '../context/CouncilConfig'
 
 export default function ProtectedRoute({ children, page, requireStrategist = false }) {
+  // Hooks must be called unconditionally (React Rules of Hooks)
+  const auth = useAuth()
+  const config = useCouncilConfig()
+
   // In dev mode (no Firebase), allow everything
   if (!isFirebaseEnabled) return children
 
-  const { hasPageAccess, isAdmin, isStrategist, role } = useAuth()
-  const config = useCouncilConfig()
+  const { hasPageAccess, isAdmin, isStrategist } = auth
   const councilId = config.council_id || 'unknown'
 
   // Admin sees everything
