@@ -177,6 +177,9 @@ export default function PropertyPortfolio() {
   const [filterDisposal, setFilterDisposal] = useState(() => searchParams.get('disposal') || '')
   const [filterCED, setFilterCED] = useState(() => searchParams.get('ced') || '')
   const [filterRecommendation, setFilterRecommendation] = useState(() => searchParams.get('rec') || '')
+  const [filterOccupancy, setFilterOccupancy] = useState(() => searchParams.get('occ') || '')
+  const [filterPathway, setFilterPathway] = useState(() => searchParams.get('pw') || '')
+  const [quickWinsOnly, setQuickWinsOnly] = useState(() => searchParams.get('qw') === '1')
   const [sortField, setSortField] = useState(() => searchParams.get('sort') || 'name')
   const [sortDir, setSortDir] = useState(() => searchParams.get('dir') || 'asc')
   const [page, setPage] = useState(() => parseInt(searchParams.get('page'), 10) || 1)
@@ -193,13 +196,16 @@ export default function PropertyPortfolio() {
     if (filterDisposal) params.disposal = filterDisposal
     if (filterCED) params.ced = filterCED
     if (filterRecommendation) params.rec = filterRecommendation
+    if (filterOccupancy) params.occ = filterOccupancy
+    if (filterPathway) params.pw = filterPathway
+    if (quickWinsOnly) params.qw = '1'
     if (sortField && sortField !== 'name') params.sort = sortField
     if (sortDir && sortDir !== 'asc') params.dir = sortDir
     if (page > 1) params.page = String(page)
     if (viewMode !== 'table') params.view = viewMode
     if (mapOverlay !== 'category') params.overlay = mapOverlay
     setSearchParams(params, { replace: true })
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
 
   // --- Parse data ---
   const meta = data?.meta || {}
@@ -227,6 +233,20 @@ export default function PropertyPortfolio() {
       .sort((a, b) => b[1] - a[1])
       .map(([rec]) => rec)
   }, [meta.disposal_recommendations])
+
+  const pathwayOptions = useMemo(() => {
+    if (!meta.pathway_breakdown) return []
+    return Object.entries(meta.pathway_breakdown)
+      .sort((a, b) => b[1] - a[1])
+      .map(([pw]) => pw)
+  }, [meta.pathway_breakdown])
+
+  const occupancyOptions = useMemo(() => {
+    if (!meta.occupancy_breakdown) return []
+    return Object.entries(meta.occupancy_breakdown)
+      .sort((a, b) => b[1] - a[1])
+      .map(([occ]) => occ)
+  }, [meta.occupancy_breakdown])
 
   // --- Filter + Search ---
   const filteredAssets = useMemo(() => {
@@ -278,12 +298,41 @@ export default function PropertyPortfolio() {
       result = result.filter(a => a.disposal?.recommendation === filterRecommendation)
     }
 
+    if (filterOccupancy) {
+      result = result.filter(a => a.occupancy_status === filterOccupancy)
+    }
+
+    if (filterPathway) {
+      result = result.filter(a => a.disposal_pathway === filterPathway)
+    }
+
+    if (quickWinsOnly) {
+      result = result.filter(a =>
+        a.disposal_pathway === 'quick_win_auction' &&
+        (a.disposal_complexity || 0) <= 30 &&
+        (a.occupancy_status === 'vacant_land' || a.occupancy_status === 'likely_vacant')
+      )
+    }
+
     return result
-  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation])
+  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
 
   // --- Map assets (geocoded + overlay colour) ---
   const EPC_COLORS = { A: '#00c853', B: '#30d158', C: '#ffd60a', D: '#ff9f0a', E: '#ff6d3b', F: '#ff453a', G: '#b71c1c' }
   const BAND_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#30d158' }
+  const PATHWAY_MAP_COLORS = {
+    quick_win_auction: '#00c853', private_treaty_sale: '#30d158',
+    development_partnership: '#0a84ff', community_asset_transfer: '#bf5af2',
+    long_lease_income: '#ff9f0a', meanwhile_use: '#64d2ff',
+    energy_generation: '#ffd60a', carbon_offset_woodland: '#34c759',
+    housing_partnership: '#ff6d3b', co_locate_consolidate: '#5e5ce6',
+    strategic_hold: '#8e8e93', governance_review: '#636366',
+    refurbish_relet: '#ac8e68',
+  }
+  const OCCUPANCY_MAP_COLORS = {
+    occupied: '#0a84ff', school_grounds: '#5e5ce6', likely_vacant: '#ff9f0a',
+    vacant_land: '#30d158', third_party: '#bf5af2', unknown: '#8e8e93',
+  }
 
   const mapAssets = useMemo(() => {
     return filteredAssets
@@ -299,6 +348,17 @@ export default function PropertyPortfolio() {
             break
           case 'epc':
             markerColor = EPC_COLORS[a.epc_rating] || '#8e8e93'
+            break
+          case 'complexity': {
+            const c = a.disposal_complexity || 0
+            markerColor = c >= 60 ? '#ff453a' : c >= 30 ? '#ff9f0a' : '#30d158'
+            break
+          }
+          case 'pathway':
+            markerColor = PATHWAY_MAP_COLORS[a.disposal_pathway] || '#8e8e93'
+            break
+          case 'occupancy':
+            markerColor = OCCUPANCY_MAP_COLORS[a.occupancy_status] || '#8e8e93'
             break
           default:
             markerColor = CATEGORY_COLORS[a.category] || '#9E9E9E'
@@ -386,7 +446,7 @@ export default function PropertyPortfolio() {
 
   // --- CSV Export ---
   const exportCSV = useCallback(() => {
-    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Recommendation', 'Disposal Category', 'Disposal Priority', 'Disposal Confidence', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
+    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
     const rows = sortedAssets.map(a => [
       `"${(a.name || '').replace(/"/g, '""')}"`,
       `"${(a.address || '').replace(/"/g, '""')}"`,
@@ -406,10 +466,13 @@ export default function PropertyPortfolio() {
       a.keep_score ?? '',
       a.colocate_score ?? '',
       a.primary_option || '',
-      `"${(a.disposal?.recommendation || '').replace(/"/g, '""')}"`,
-      `"${(a.disposal?.category || '').replace(/"/g, '""')}"`,
+      `"${(a.disposal_pathway || '').replace(/_/g, ' ')}"`,
+      `"${(a.disposal_pathway_secondary || '').replace(/_/g, ' ')}"`,
+      `"${(a.occupancy_status || '').replace(/_/g, ' ')}"`,
+      a.disposal_complexity ?? '',
+      a.market_readiness ?? '',
+      a.revenue_potential ?? '',
       a.disposal?.priority ?? '',
-      a.disposal?.confidence || '',
       a.disposal_band || '',
       a.repurpose_band || '',
       a.service_band || '',
@@ -446,10 +509,13 @@ export default function PropertyPortfolio() {
     setFilterDisposal('')
     setFilterCED('')
     setFilterRecommendation('')
+    setFilterOccupancy('')
+    setFilterPathway('')
+    setQuickWinsOnly(false)
     setPage(1)
   }, [])
 
-  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterDisposal || filterCED || filterRecommendation
+  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || quickWinsOnly
 
   // --- Access gate ---
   if (!hasAccess) {
@@ -712,15 +778,43 @@ export default function PropertyPortfolio() {
             ))}
           </select>
 
-          {/* Disposal Recommendation */}
-          {recommendationOptions.length > 0 && (
-            <select value={filterRecommendation} onChange={e => setFilterRecommendation(e.target.value)} style={{ ...selectStyle, minWidth: '160px' }}>
-              <option value="">All Recommendations</option>
-              {recommendationOptions.map(r => (
-                <option key={r} value={r}>{r}</option>
+          {/* Disposal Pathway */}
+          {pathwayOptions.length > 0 && (
+            <select value={filterPathway} onChange={e => setFilterPathway(e.target.value)} style={{ ...selectStyle, minWidth: '150px' }}>
+              <option value="">All Pathways</option>
+              {pathwayOptions.map(pw => (
+                <option key={pw} value={pw}>{pw.replace(/_/g, ' ')}</option>
               ))}
             </select>
           )}
+
+          {/* Occupancy */}
+          {occupancyOptions.length > 0 && (
+            <select value={filterOccupancy} onChange={e => setFilterOccupancy(e.target.value)} style={selectStyle}>
+              <option value="">All Occupancy</option>
+              {occupancyOptions.map(occ => (
+                <option key={occ} value={occ}>{occ.replace(/_/g, ' ')}</option>
+              ))}
+            </select>
+          )}
+
+          {/* Quick Wins toggle */}
+          <button
+            onClick={() => setQuickWinsOnly(!quickWinsOnly)}
+            style={{
+              padding: '8px 12px',
+              borderRadius: '8px',
+              border: quickWinsOnly ? '1px solid rgba(0,200,83,0.5)' : '1px solid rgba(255,255,255,0.15)',
+              background: quickWinsOnly ? 'rgba(0,200,83,0.15)' : 'rgba(255,255,255,0.05)',
+              color: quickWinsOnly ? '#00c853' : 'var(--text-secondary, #aaa)',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              fontWeight: quickWinsOnly ? 600 : 400,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            ⚡ Quick Wins{meta.quick_wins ? ` (${meta.quick_wins})` : ''}
+          </button>
 
           {hasActiveFilters && (
             <button
@@ -966,6 +1060,9 @@ export default function PropertyPortfolio() {
             <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary, #aaa)', marginRight: '4px' }}>Colour by:</span>
             {[
               { id: 'category', label: 'Category' },
+              { id: 'complexity', label: 'Complexity' },
+              { id: 'pathway', label: 'Pathway' },
+              { id: 'occupancy', label: 'Occupancy' },
               { id: 'disposal', label: 'Disposal' },
               { id: 'netzero', label: 'Net Zero' },
               { id: 'epc', label: 'EPC Rating' },

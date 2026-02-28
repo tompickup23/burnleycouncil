@@ -1527,10 +1527,25 @@ const CATEGORY_LABELS_SHORT = {
   land_open_space: 'Open Space', other_building: 'Other',
 }
 
+const PATHWAY_SHORT = {
+  quick_win_auction: 'Quick Win', private_treaty_sale: 'Sell', development_partnership: 'Develop',
+  community_asset_transfer: 'CAT', long_lease_income: 'Lease', meanwhile_use: 'Meanwhile',
+  energy_generation: 'Energy', carbon_offset_woodland: 'Carbon', housing_partnership: 'Housing',
+  co_locate_consolidate: 'Co-locate', strategic_hold: 'Hold', governance_review: 'Gov Review',
+  refurbish_relet: 'Refurb/Let',
+}
+const PATHWAY_COL = {
+  quick_win_auction: '#30d158', private_treaty_sale: '#0a84ff', development_partnership: '#bf5af2',
+  community_asset_transfer: '#ff9f0a', long_lease_income: '#64d2ff', meanwhile_use: '#ffd60a',
+  energy_generation: '#34c759', carbon_offset_woodland: '#00c7be', housing_partnership: '#ff6482',
+  co_locate_consolidate: '#ac8e68', strategic_hold: '#8e8e93', governance_review: '#ff453a',
+  refurbish_relet: '#5e5ce6',
+}
+
 function DossierProperty({ propertySummary }) {
   if (!propertySummary) return <p className="dossier-empty">No property data for this division.</p>
 
-  const { total, totalSpend, conditionSpend, disposalCount, energyRiskCount, categories, assets } = propertySummary
+  const { total, totalSpend, conditionSpend, quickWinCount, energyRiskCount, pathways, occupancy, categories, assets } = propertySummary
 
   return (
     <div className="dossier-property">
@@ -1552,14 +1567,28 @@ function DossierProperty({ propertySummary }) {
           <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Condition Spend</div>
         </div>
         <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
-          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: disposalCount > 0 ? '#ff453a' : '#30d158' }}>{disposalCount}</div>
-          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Disposal Candidates</div>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: quickWinCount > 0 ? '#30d158' : '#8e8e93' }}>{quickWinCount}</div>
+          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Quick Wins</div>
         </div>
         <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
           <div style={{ fontSize: '1.4rem', fontWeight: 600, color: energyRiskCount > 0 ? '#ff9f0a' : '#30d158' }}>{energyRiskCount}</div>
           <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Energy Risk</div>
         </div>
       </div>
+
+      {/* Pathway breakdown */}
+      {pathways && Object.keys(pathways).length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <h4 style={{ fontSize: '0.75rem', color: '#e2e8f0', marginBottom: '6px' }}>Disposal Pathways</h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+            {Object.entries(pathways).sort((a, b) => b[1] - a[1]).map(([pw, count]) => (
+              <span key={pw} style={{ fontSize: '0.65rem', padding: '3px 8px', borderRadius: '4px', background: `${PATHWAY_COL[pw] || '#666'}22`, color: PATHWAY_COL[pw] || '#cbd5e1', border: `1px solid ${PATHWAY_COL[pw] || '#666'}44` }}>
+                {PATHWAY_SHORT[pw] || pw} ({count})
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Category breakdown */}
       {Object.keys(categories).length > 0 && (
@@ -1586,7 +1615,7 @@ function DossierProperty({ propertySummary }) {
                   <th style={{ textAlign: 'left', padding: '4px 6px' }}>Name</th>
                   <th style={{ textAlign: 'left', padding: '4px 6px' }}>Category</th>
                   <th style={{ textAlign: 'center', padding: '4px 6px' }}>EPC</th>
-                  <th style={{ textAlign: 'center', padding: '4px 6px' }}>Disposal</th>
+                  <th style={{ textAlign: 'center', padding: '4px 6px' }}>Pathway</th>
                   <th style={{ textAlign: 'right', padding: '4px 6px' }}>Spend</th>
                 </tr>
               </thead>
@@ -1597,8 +1626,8 @@ function DossierProperty({ propertySummary }) {
                     <td style={{ padding: '4px 6px', color: '#8e8e93' }}>{CATEGORY_LABELS_SHORT[a.category] || a.category}</td>
                     <td style={{ padding: '4px 6px', textAlign: 'center', color: a.epc_rating ? '#e2e8f0' : '#555' }}>{a.epc_rating || '—'}</td>
                     <td style={{ padding: '4px 6px', textAlign: 'center' }}>
-                      <span style={{ color: a.disposal_band === 'high' ? '#ff453a' : a.disposal_band === 'medium' ? '#ff9f0a' : '#30d158' }}>
-                        {a.disposal_band || '—'}
+                      <span style={{ color: PATHWAY_COL[a.disposal_pathway] || '#8e8e93', fontSize: '0.6rem' }}>
+                        {PATHWAY_SHORT[a.disposal_pathway] || a.disposal_pathway || '—'}
                       </span>
                     </td>
                     <td style={{ padding: '4px 6px', textAlign: 'right', color: '#e2e8f0' }}>

@@ -50,6 +50,9 @@ LEAN_FIELDS = [
     'deprivation_level', 'deprivation_score',
     # Demographics context (from demographics.json ward lookup)
     'ward_population',
+    # Smart disposal intelligence (computed by engine)
+    'occupancy_status', 'disposal_complexity', 'market_readiness',
+    'revenue_potential', 'disposal_pathway', 'disposal_pathway_secondary',
 ]
 
 
@@ -224,6 +227,475 @@ def compute_fire_proximity(lat, lng):
             min_dist = d
             nearest_name = name
     return round(min_dist, 2), nearest_name
+
+
+# ── Smart Disposal Intelligence Engine ──────────────────────────────────────
+# Replaces naive Codex binary recommendations with computed, market-conscious
+# scoring using all available signals. No new data sources needed.
+
+SERVICE_OCCUPIED_KEYWORDS = [
+    'school', 'academy', 'library', 'fire station', 'children',
+    'day centre', 'care home', 'depot', 'office', 'civic',
+    'museum', 'leisure', 'sports', 'swimming', 'youth',
+    'register office', 'coroner', 'court', 'police', 'ambulance',
+    'health centre', 'clinic', 'surgery', 'hospital', 'nursery',
+]
+
+PATHWAY_LABELS = {
+    'quick_win_auction':      'Quick Win — Auction',
+    'private_treaty_sale':    'Private Treaty Sale',
+    'development_partnership':'Development Partnership',
+    'community_asset_transfer':'Community Asset Transfer',
+    'long_lease_income':      'Long Lease / Income',
+    'meanwhile_use':          'Meanwhile Use',
+    'energy_generation':      'Energy Generation',
+    'carbon_offset_woodland': 'Carbon Offset / Woodland',
+    'housing_partnership':    'Housing Partnership',
+    'co_locate_consolidate':  'Co-locate & Consolidate',
+    'strategic_hold':         'Strategic Hold',
+    'governance_review':      'Governance Review',
+    'refurbish_relet':        'Refurbish & Re-let',
+}
+
+PATHWAY_TIMELINES = {
+    'quick_win_auction':       '3-6 months',
+    'private_treaty_sale':     '6-12 months',
+    'development_partnership': '12-24 months',
+    'community_asset_transfer':'6-12 months',
+    'long_lease_income':       '3-6 months',
+    'meanwhile_use':           '1-3 months',
+    'energy_generation':       '12-24 months',
+    'carbon_offset_woodland':  '12-24 months',
+    'housing_partnership':     '12-24 months',
+    'co_locate_consolidate':   '12-24 months',
+    'strategic_hold':          'Ongoing',
+    'governance_review':       '6-12 months',
+    'refurbish_relet':         '6-12 months',
+}
+
+
+def infer_occupancy(asset):
+    """Infer occupancy status from available signals. Returns (status, signals)."""
+    signals = []
+    name = (asset.get('name') or '').lower()
+    is_land = asset.get('land_only', False)
+    spend = asset.get('linked_spend', 0) or 0
+    txns = asset.get('linked_txns', 0) or 0
+    cond_spend = asset.get('condition_spend', 0) or 0
+    flags = asset.get('flags', [])
+
+    category = (asset.get('category') or '').lower()
+
+    # Non-owned / unclear → third party
+    if 'non_owned' in flags:
+        signals.append('Non-owned or partnership asset')
+        return 'third_party', signals
+
+    # --- School/education land protection ---
+    # School-named land parcels are almost certainly school grounds (playing fields,
+    # car parks, access roads) that cannot be sold while the school operates.
+    # LCC registers freehold land under academies, VA/VC schools, and maintained schools.
+    SCHOOL_KEYWORDS = ['school', 'academy', 'primary', 'secondary', 'high school',
+                       'infant', 'junior', 'nursery school', 'sixth form', 'college']
+    is_school_name = any(kw in name for kw in SCHOOL_KEYWORDS)
+    is_education = category == 'education'
+
+    if (is_school_name or is_education) and is_land:
+        # Land named after a school → almost certainly school grounds
+        if 'historic_sale' not in flags and 'current_sale' not in flags:
+            signals.append(f'School/education land — likely school grounds serving active institution')
+            signals.append('LCC retains freehold under academies, VA/VC and maintained schools')
+            return 'school_grounds', signals
+        else:
+            signals.append(f'School-named land with disposal evidence — may be surplus')
+
+    if (is_school_name or is_education) and not is_land:
+        # School building — almost certainly in active use
+        if spend > 0 or cond_spend > 0:
+            signals.append(f'School building with active spend (£{spend:,.0f})')
+            return 'occupied', signals
+        else:
+            # No spend but school-named building — likely academy-managed (trust handles spend)
+            signals.append('School building with no LCC spend — likely academy/trust-managed')
+            return 'school_grounds', signals
+
+    # Land with no spend → vacant land (NON-school)
+    if is_land and spend == 0 and cond_spend == 0:
+        signals.append('Land-only asset with zero operational spend')
+        return 'vacant_land', signals
+
+    # Service keyword + spend → occupied
+    for kw in SERVICE_OCCUPIED_KEYWORDS:
+        if kw in name:
+            if spend > 0 or cond_spend > 0:
+                signals.append(f'Name contains "{kw}" with active spend (£{spend:,.0f})')
+                return 'occupied', signals
+            else:
+                signals.append(f'Name contains "{kw}" but zero spend — may be closed/transferred')
+                break
+
+    # High operational activity → occupied
+    if spend > 5000 and txns > 5:
+        signals.append(f'Significant operational spend: £{spend:,.0f} across {txns} transactions')
+        return 'occupied', signals
+
+    # Moderate activity → likely occupied
+    if spend > 0 and txns > 2:
+        signals.append(f'Moderate spend: £{spend:,.0f} across {txns} transactions')
+        return 'occupied', signals
+
+    # Condition spend only → maintained but potentially underused
+    if cond_spend > 0 and spend == 0:
+        signals.append(f'Condition spend only (£{cond_spend:,.0f}), no operational spend')
+        return 'likely_vacant', signals
+
+    # Building with zero spend → likely vacant
+    if not is_land and spend == 0 and cond_spend == 0:
+        signals.append('Building with zero operational and condition spend')
+        return 'likely_vacant', signals
+
+    # Land with some spend → check further
+    if is_land and spend > 0:
+        signals.append(f'Land with spend (£{spend:,.0f}) — may have structures/use')
+        return 'occupied', signals
+
+    signals.append('Insufficient signals for occupancy inference')
+    return 'unknown', signals
+
+
+def compute_complexity(asset, occupancy):
+    """Compute disposal complexity score (0-100). Higher = harder to dispose."""
+    score = 0
+    breakdown = []
+    flags = asset.get('flags', [])
+
+    if occupancy == 'school_grounds':
+        score += 30
+        breakdown.append(('School grounds — disposal requires school closure/relocation', 30))
+    elif occupancy == 'occupied':
+        score += 25
+        breakdown.append(('Service-occupied — needs relocation plan', 25))
+    if occupancy == 'third_party':
+        score += 20
+        breakdown.append(('Third-party occupied — governance/legal sensitivity', 20))
+    if (asset.get('ownership') or '').lower() == 'leasehold':
+        score += 15
+        breakdown.append(('Leasehold — title constraints, consent needed', 15))
+    if (asset.get('flood_areas_1km') or 0) > 0:
+        score += 15
+        breakdown.append(('Flood zone proximity — environmental risk disclosure', 15))
+    if 'high_deprivation' in flags:
+        score += 10
+        breakdown.append(('High deprivation area — equity/political sensitivity', 10))
+    if (asset.get('condition_spend') or 0) > 10000:
+        score += 10
+        breakdown.append(('High condition spend (>£10k) — buyer due diligence concern', 10))
+    if (asset.get('imd_decile') or 10) <= 2:
+        score += 10
+        breakdown.append(('IMD decile 1-2 — regeneration obligation', 10))
+    if not asset.get('epc_rating'):
+        score += 5
+        breakdown.append(('No EPC — compliance gap before marketing', 5))
+    if (asset.get('crime_density') or '') == 'high':
+        score += 5
+        breakdown.append(('High crime density — market perception risk', 5))
+    if (asset.get('fire_station_distance_km') or 0) > 10:
+        score += 5
+        breakdown.append(('Remote from fire station (>10km) — insurance concern', 5))
+    if not asset.get('postcode'):
+        score += 5
+        breakdown.append(('No postcode — address data gap', 5))
+
+    return min(score, 100), breakdown
+
+
+def compute_readiness(asset, occupancy):
+    """Compute market readiness score (0-100). Higher = more sale-ready."""
+    score = 50
+    breakdown = []
+    flags = asset.get('flags', [])
+
+    # Positive factors
+    if asset.get('land_only') and occupancy == 'vacant_land':
+        score += 20
+        breakdown.append(('Vacant land — clean title, no occupancy', +20))
+    if 'current_sale' in flags:
+        score += 15
+        breakdown.append(('Already being marketed', +15))
+    if 'historic_sale' in flags:
+        score += 10
+        breakdown.append(('Historic disposal precedent', +10))
+    if asset.get('epc_rating') and not asset.get('epc_expired'):
+        score += 10
+        breakdown.append(('Valid EPC certificate', +10))
+    if (asset.get('floor_area_sqm') or 0) > 0:
+        score += 10
+        breakdown.append(('Floor area measured — marketable', +10))
+    if asset.get('lat') and asset.get('lng'):
+        pass  # no penalty
+    else:
+        score -= 15
+        breakdown.append(('No coordinates — can\'t locate on map', -15))
+
+    # Negative factors
+    if occupancy == 'school_grounds':
+        score -= 25
+        breakdown.append(('School grounds — not marketable while institution active', -25))
+    elif occupancy == 'occupied':
+        score -= 20
+        breakdown.append(('Service-occupied — vacancy required first', -20))
+    elif occupancy == 'third_party':
+        score -= 10
+        breakdown.append(('Third-party occupied — requires negotiation', -10))
+    if (asset.get('condition_spend') or 0) > 50000:
+        score -= 10
+        breakdown.append(('High condition liability (>£50k)', -10))
+    if not asset.get('postcode'):
+        score -= 5
+        breakdown.append(('No postcode — data gap', -5))
+    if not asset.get('address'):
+        score -= 5
+        breakdown.append(('No address — data gap', -5))
+    if not asset.get('district'):
+        score -= 5
+        breakdown.append(('No district — data gap', -5))
+
+    return max(0, min(score, 100)), breakdown
+
+
+def compute_revenue_potential(asset, occupancy):
+    """Compute revenue potential score (0-100). Higher = more income opportunity."""
+    score = 30  # base
+    flags = asset.get('flags', [])
+    epc = asset.get('epc_rating') or ''
+    floor = asset.get('floor_area_sqm') or 0
+    imd = asset.get('imd_decile') or 5
+
+    if floor > 500:
+        score += 20
+    elif floor > 200:
+        score += 10
+    elif floor > 0:
+        score += 5
+
+    if epc in ('A', 'B', 'C'):
+        score += 15
+    elif epc in ('F', 'G'):
+        score -= 10
+
+    if imd >= 7:
+        score += 15
+    elif imd >= 5:
+        score += 5
+    elif imd <= 2:
+        score -= 5
+
+    if (asset.get('nearby_500m') or 0) > 3:
+        score += 10
+
+    if 'flood_exposure' not in flags and 'high_crime' not in flags:
+        score += 10
+
+    if asset.get('land_only') and floor == 0:
+        score -= 15
+
+    # Occupied assets already generating implicit value
+    if occupancy == 'occupied':
+        score -= 5
+
+    return max(0, min(score, 100))
+
+
+def compute_urgency(asset):
+    """Compute urgency factor (0-100) for priority weighting."""
+    score = 0
+    flags = asset.get('flags', [])
+
+    if 'current_sale' in flags:
+        score += 30
+    if 'historic_sale' in flags:
+        score += 15
+    if asset.get('epc_expired'):
+        score += 10
+    if (asset.get('condition_spend') or 0) > 20000:
+        score += 20
+    if asset.get('land_only') and (asset.get('linked_spend') or 0) == 0:
+        score += 15
+    if 'high_condition_spend' in flags:
+        score += 10
+
+    return min(score, 100)
+
+
+def determine_pathway(asset, occupancy, complexity, readiness, revenue):
+    """Determine the best disposal pathway and secondary option."""
+    name = (asset.get('name') or '').lower()
+    flags = asset.get('flags', [])
+    is_land = asset.get('land_only', False)
+    floor = asset.get('floor_area_sqm') or 0
+    epc = asset.get('epc_rating') or ''
+    imd = asset.get('imd_decile') or 5
+    nearby = asset.get('nearby_500m') or 0
+    flood_1km = asset.get('flood_areas_1km') or 0
+
+    # --- Governance review: non-owned ---
+    if 'non_owned' in flags:
+        secondary = 'community_asset_transfer' if imd <= 3 else None
+        return 'governance_review', secondary, \
+            'Non-owned or partnership asset — ownership and governance must be clarified before any disposal action'
+
+    # --- School grounds: land/buildings serving active educational institutions ---
+    if occupancy == 'school_grounds':
+        return 'strategic_hold', 'long_lease_income', \
+            'School/education land or building — retained freehold serving active institution. ' \
+            'Disposal requires school closure or relocation which is outside estate management scope'
+
+    # --- Strategic hold: actively occupied + high service criticality ---
+    if occupancy == 'occupied' and (asset.get('linked_spend') or 0) > 10000:
+        secondary = 'co_locate_consolidate' if nearby > 2 else None
+        return 'strategic_hold', secondary, \
+            f'Active service asset with £{asset.get("linked_spend", 0):,.0f} operational spend — retain for service delivery'
+
+    # --- Occupied but low spend — co-location or long lease ---
+    if occupancy == 'occupied':
+        if nearby > 2:
+            return 'co_locate_consolidate', 'long_lease_income', \
+                f'{nearby} nearby LCC assets within 500m — consolidation opportunity to release this site'
+        return 'long_lease_income', 'strategic_hold', \
+            'Occupied with modest spend — formalise as income-generating lease or retain'
+
+    # --- Third-party occupied ---
+    if occupancy == 'third_party':
+        return 'long_lease_income', 'governance_review', \
+            'Third-party use (NHS/police/foundation) — formalise lease arrangements for rental income'
+
+    # --- Vacant land pathways ---
+    if is_land and occupancy == 'vacant_land':
+        # Flood land → carbon offset
+        if flood_1km > 0:
+            return 'carbon_offset_woodland', 'energy_generation', \
+                'Flood-zone land unsuitable for development — woodland creation for carbon credits and biodiversity net gain'
+        # Deprived area → housing
+        if imd <= 3 and 'high_deprivation' in flags:
+            return 'housing_partnership', 'community_asset_transfer', \
+                'Vacant land in deprived area — housing association partnership for social/affordable housing'
+        # Clustered land → development
+        if nearby > 3:
+            return 'development_partnership', 'quick_win_auction', \
+                f'Clustered with {nearby} nearby assets — development partnership for higher combined value'
+        # Default vacant land → quick win auction
+        if complexity <= 30 and readiness >= 60:
+            return 'quick_win_auction', 'private_treaty_sale', \
+                'Low-complexity vacant land with good market readiness — auction for fast receipt'
+        return 'private_treaty_sale', 'energy_generation', \
+            'Vacant land — private treaty sale or explore energy generation potential'
+
+    # --- Likely vacant buildings ---
+    if occupancy in ('likely_vacant', 'unknown'):
+        # Poor EPC → refurbish first
+        if epc in ('F', 'G') and floor > 100:
+            return 'refurbish_relet', 'meanwhile_use', \
+                f'Vacant building with poor EPC ({epc}) — refurbish to improve rating, then let at higher yield'
+        # Good building → private treaty
+        if epc in ('A', 'B', 'C') and floor > 200:
+            return 'private_treaty_sale', 'meanwhile_use', \
+                f'Vacant building with good EPC ({epc}), {floor:.0f}sqm — sell via agent for best price'
+        # Large site → development or meanwhile
+        if floor > 500:
+            return 'development_partnership', 'private_treaty_sale', \
+                f'Large vacant building ({floor:.0f}sqm) — development partnership for maximum value'
+        # Deprived area → community
+        if imd <= 3:
+            return 'community_asset_transfer', 'meanwhile_use', \
+                'Vacant building in deprived area — community asset transfer opportunity'
+        # Urban + vacant → meanwhile use
+        if readiness < 50:
+            return 'meanwhile_use', 'refurbish_relet', \
+                'Vacant building not yet market-ready — meanwhile commercial use while preparing for disposal'
+        # Default → private treaty
+        if complexity <= 40:
+            return 'quick_win_auction', 'private_treaty_sale', \
+                'Low-complexity vacant building — auction for quick receipt'
+        return 'private_treaty_sale', 'meanwhile_use', \
+            'Vacant building — sell via agent to maximise price'
+
+    # Fallback
+    return 'governance_review', None, 'Insufficient data for pathway determination'
+
+
+def compute_disposal_intelligence(lean_assets):
+    """Run the full disposal intelligence engine on all assets.
+    Mutates lean_assets in-place, returns stats dict for meta."""
+    pathway_counts = {}
+    occupancy_counts = {}
+    quick_win_count = 0
+    complexity_bands = {'low': 0, 'medium': 0, 'high': 0}
+
+    for asset in lean_assets:
+        # 1. Infer occupancy
+        occ_status, occ_signals = infer_occupancy(asset)
+        asset['occupancy_status'] = occ_status
+        asset['_occupancy_signals'] = occ_signals  # stripped before output
+        occupancy_counts[occ_status] = occupancy_counts.get(occ_status, 0) + 1
+
+        # 2. Compute scores
+        complexity, comp_breakdown = compute_complexity(asset, occ_status)
+        readiness, read_breakdown = compute_readiness(asset, occ_status)
+        revenue = compute_revenue_potential(asset, occ_status)
+        urgency = compute_urgency(asset)
+
+        asset['disposal_complexity'] = complexity
+        asset['market_readiness'] = readiness
+        asset['revenue_potential'] = revenue
+        asset['_complexity_breakdown'] = comp_breakdown
+        asset['_readiness_breakdown'] = read_breakdown
+
+        # 3. Smart priority
+        priority = round(
+            readiness * 0.3 +
+            (100 - complexity) * 0.3 +
+            revenue * 0.2 +
+            urgency * 0.2
+        )
+        asset['_smart_priority'] = max(1, min(priority, 100))
+
+        # 4. Determine pathway
+        pathway, pathway2, reasoning = determine_pathway(
+            asset, occ_status, complexity, readiness, revenue)
+        asset['disposal_pathway'] = pathway
+        asset['disposal_pathway_secondary'] = pathway2
+        asset['_pathway_reasoning'] = reasoning
+
+        pathway_counts[pathway] = pathway_counts.get(pathway, 0) + 1
+
+        # 5. Quick win flag
+        is_quick_win = (
+            complexity <= 30 and
+            readiness >= 60 and
+            occ_status in ('vacant_land', 'likely_vacant') and
+            pathway in ('quick_win_auction', 'private_treaty_sale')
+        )
+        asset['_quick_win'] = is_quick_win
+        if is_quick_win:
+            quick_win_count += 1
+
+        # 6. Complexity band
+        if complexity >= 60:
+            complexity_bands['high'] += 1
+        elif complexity >= 30:
+            complexity_bands['medium'] += 1
+        else:
+            complexity_bands['low'] += 1
+
+        # 7. Timeline
+        asset['_timeline'] = PATHWAY_TIMELINES.get(pathway, '6-12 months')
+
+    return {
+        'pathway_breakdown': dict(sorted(pathway_counts.items(), key=lambda x: -x[1])),
+        'occupancy_breakdown': dict(sorted(occupancy_counts.items(), key=lambda x: -x[1])),
+        'quick_wins': quick_win_count,
+        'complexity_distribution': complexity_bands,
+    }
 
 
 def build_flags(row, fire_dist=None):
@@ -459,9 +931,11 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
     else:
         detail['sales_evidence'] = []
 
-    # Add disposal data if available
+    # Add disposal data — smart engine fields populated later by compute_disposal_intelligence()
+    # Preserve Codex original as reference
+    codex_rec = None
     if disposal_info:
-        detail['disposal'] = {
+        codex_rec = {
             'recommendation': safe_str(disposal_info.get('recommendation')),
             'category': safe_str(disposal_info.get('recommendation_category')),
             'priority': safe_int(disposal_info.get('priority_score')) or None,
@@ -470,16 +944,36 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
             'key_risks': safe_str(disposal_info.get('key_risks')),
             'next_steps': safe_str(disposal_info.get('next_steps')),
         }
-    else:
-        detail['disposal'] = {
-            'recommendation': None,
-            'category': None,
-            'priority': None,
-            'confidence': None,
-            'reasoning': None,
-            'key_risks': None,
-            'next_steps': None,
+    elif assessment_info and safe_str(assessment_info.get('reasoning')):
+        codex_rec = {
+            'recommendation': safe_str(assessment_info.get('recommendation')),
+            'category': safe_str(assessment_info.get('recommendation_category')),
+            'priority': safe_int(assessment_info.get('priority_score')) or None,
+            'confidence': safe_str(assessment_info.get('confidence')),
+            'reasoning': safe_str(assessment_info.get('reasoning')),
+            'key_risks': safe_str(assessment_info.get('key_risks')),
+            'next_steps': safe_str(assessment_info.get('next_steps')),
         }
+    detail['disposal'] = {
+        # Smart engine fields — populated by compute_disposal_intelligence()
+        'pathway': None,
+        'pathway_label': None,
+        'pathway_secondary': None,
+        'pathway_secondary_label': None,
+        'pathway_reasoning': None,
+        'complexity_score': None,
+        'complexity_breakdown': [],
+        'market_readiness_score': None,
+        'readiness_breakdown': [],
+        'revenue_potential_score': None,
+        'occupancy_inferred': None,
+        'occupancy_signals': [],
+        'estimated_timeline': None,
+        'quick_win': False,
+        'smart_priority': None,
+        # Codex original for comparison
+        'codex': codex_rec,
+    }
 
     # Add external supplier links if available
     if supplier_links:
@@ -503,7 +997,7 @@ def compute_meta(lean_assets, detail_assets):
     total_spend = sum(a.get('linked_spend', 0) for a in lean_assets)
     has_condition = sum(1 for a in lean_assets if a.get('condition_spend', 0) > 0)
     total_condition = sum(a.get('condition_spend', 0) for a in lean_assets)
-    disposal_candidates = sum(1 for d in detail_assets if d.get('disposal', {}).get('priority'))
+    disposal_candidates = sum(1 for d in detail_assets if d.get('disposal', {}).get('smart_priority'))
     has_ced = sum(1 for a in lean_assets if a.get('ced'))
     has_latlon = sum(1 for a in lean_assets if a.get('lat'))
 
@@ -533,7 +1027,7 @@ def compute_meta(lean_assets, detail_assets):
     # Add disposal counts to CED
     for d in detail_assets:
         ced = d.get('ced')
-        if ced and d.get('disposal', {}).get('priority'):
+        if ced and d.get('disposal', {}).get('smart_priority'):
             if ced in ced_summary:
                 ced_summary[ced]['disposal_candidates'] += 1
 
@@ -549,12 +1043,36 @@ def compute_meta(lean_assets, detail_assets):
         if r:
             epc_dist[r] = epc_dist.get(r, 0) + 1
 
-    # Disposal recommendation breakdown
+    # Disposal recommendation / pathway breakdown
     disposal_recs = {}
     for a in lean_assets:
         rec = (a.get('disposal', {}) or {}).get('recommendation')
         if rec:
             disposal_recs[rec] = disposal_recs.get(rec, 0) + 1
+
+    # Smart disposal intelligence breakdowns
+    pathway_breakdown = {}
+    occupancy_breakdown = {}
+    quick_wins = 0
+    complexity_bands = {'low': 0, 'medium': 0, 'high': 0}
+    for a in lean_assets:
+        pw = a.get('disposal_pathway')
+        if pw:
+            pathway_breakdown[pw] = pathway_breakdown.get(pw, 0) + 1
+        occ = a.get('occupancy_status')
+        if occ:
+            occupancy_breakdown[occ] = occupancy_breakdown.get(occ, 0) + 1
+        dc = a.get('disposal_complexity', 0)
+        if dc >= 60:
+            complexity_bands['high'] += 1
+        elif dc >= 30:
+            complexity_bands['medium'] += 1
+        else:
+            complexity_bands['low'] += 1
+        # Quick win: disposal says quick_win_auction or private_treaty + low complexity
+        if a.get('disposal_pathway') in ('quick_win_auction', 'private_treaty_sale') and dc <= 30:
+            if a.get('occupancy_status') in ('vacant_land', 'likely_vacant'):
+                quick_wins += 1
 
     # World-class band distributions
     band_dist = {}
@@ -592,6 +1110,10 @@ def compute_meta(lean_assets, detail_assets):
         'district_breakdown': dict(sorted(districts.items(), key=lambda x: -x[1])),
         'epc_distribution': dict(sorted(epc_dist.items())),
         'disposal_recommendations': dict(sorted(disposal_recs.items(), key=lambda x: -x[1])),
+        'pathway_breakdown': dict(sorted(pathway_breakdown.items(), key=lambda x: -x[1])),
+        'occupancy_breakdown': dict(sorted(occupancy_breakdown.items(), key=lambda x: -x[1])),
+        'quick_wins': quick_wins,
+        'complexity_distribution': complexity_bands,
         'band_distributions': band_dist,
         'ced_summary': dict(sorted(ced_summary.items())),
         # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)
@@ -867,23 +1389,8 @@ def main():
 
         lean_assets.append(lean)
 
-        # Add disposal to lean (from full assessment first, then disposal register)
-        if assessment_info and safe_str(assessment_info.get('recommendation')):
-            lean['disposal'] = {
-                'recommendation': safe_str(assessment_info.get('recommendation')),
-                'category': safe_str(assessment_info.get('recommendation_category')),
-                'priority': safe_int(assessment_info.get('priority_score')) or None,
-                'confidence': safe_str(assessment_info.get('confidence')),
-            }
-        elif disposal_info:
-            lean['disposal'] = {
-                'recommendation': safe_str(disposal_info.get('recommendation')),
-                'category': safe_str(disposal_info.get('recommendation_category')),
-                'priority': safe_int(disposal_info.get('priority_score')) or None,
-                'confidence': safe_str(disposal_info.get('confidence')),
-            }
-        else:
-            lean['disposal'] = {'recommendation': None, 'category': None, 'priority': None, 'confidence': None}
+        # Disposal stub — populated by intelligence engine below
+        lean['disposal'] = {'recommendation': None, 'category': None, 'priority': None, 'confidence': None}
 
         detail = build_detail_asset(row, ced_name, disposal_info, supplier_links,
                                     condition_info, assessment_info, sales_evidence,
@@ -894,13 +1401,64 @@ def main():
     print(f"  Ward deprivation: {dep_enriched}/{len(primary_by_id)} assets")
     print(f"  Ward demographics: {demo_enriched}/{len(primary_by_id)} assets")
 
-    # Sort by priority (disposal candidates first) then by name
+    # --- 5b. Run Smart Disposal Intelligence Engine ---
+    print(f"\n--- Running Smart Disposal Intelligence Engine ---")
+    intel_stats = compute_disposal_intelligence(lean_assets)
+
+    # Populate lean disposal fields from engine results
+    for lean, detail in zip(lean_assets, detail_assets):
+        lean['disposal'] = {
+            'recommendation': PATHWAY_LABELS.get(lean.get('disposal_pathway'), lean.get('disposal_pathway')),
+            'category': lean.get('disposal_pathway'),
+            'priority': lean.get('_smart_priority'),
+            'confidence': 'computed',
+        }
+        # Populate detail disposal from engine
+        detail['disposal']['pathway'] = lean.get('disposal_pathway')
+        detail['disposal']['pathway_label'] = PATHWAY_LABELS.get(lean.get('disposal_pathway'), '')
+        detail['disposal']['pathway_secondary'] = lean.get('disposal_pathway_secondary')
+        detail['disposal']['pathway_secondary_label'] = PATHWAY_LABELS.get(lean.get('disposal_pathway_secondary'), '')
+        detail['disposal']['pathway_reasoning'] = lean.get('_pathway_reasoning', '')
+        detail['disposal']['complexity_score'] = lean.get('disposal_complexity', 0)
+        detail['disposal']['complexity_breakdown'] = [
+            {'factor': f, 'points': p} for f, p in lean.get('_complexity_breakdown', [])
+        ]
+        detail['disposal']['market_readiness_score'] = lean.get('market_readiness', 0)
+        detail['disposal']['readiness_breakdown'] = [
+            {'factor': f, 'points': p} for f, p in lean.get('_readiness_breakdown', [])
+        ]
+        detail['disposal']['revenue_potential_score'] = lean.get('revenue_potential', 0)
+        detail['disposal']['occupancy_inferred'] = lean.get('occupancy_status')
+        detail['disposal']['occupancy_signals'] = lean.get('_occupancy_signals', [])
+        detail['disposal']['estimated_timeline'] = lean.get('_timeline')
+        detail['disposal']['quick_win'] = lean.get('_quick_win', False)
+        detail['disposal']['smart_priority'] = lean.get('_smart_priority')
+        # Also sync top-level lean fields
+        detail['occupancy_status'] = lean.get('occupancy_status')
+        detail['disposal_complexity'] = lean.get('disposal_complexity')
+        detail['market_readiness'] = lean.get('market_readiness')
+        detail['revenue_potential'] = lean.get('revenue_potential')
+        detail['disposal_pathway'] = lean.get('disposal_pathway')
+        detail['disposal_pathway_secondary'] = lean.get('disposal_pathway_secondary')
+
+    # Clean temporary fields from lean
+    for asset in lean_assets:
+        for key in ['_occupancy_signals', '_complexity_breakdown', '_readiness_breakdown',
+                     '_smart_priority', '_pathway_reasoning', '_quick_win', '_timeline']:
+            asset.pop(key, None)
+
+    print(f"  Pathways: {intel_stats['pathway_breakdown']}")
+    print(f"  Occupancy: {intel_stats['occupancy_breakdown']}")
+    print(f"  Quick wins: {intel_stats['quick_wins']}")
+    print(f"  Complexity: {intel_stats['complexity_distribution']}")
+
+    # Sort by smart priority (high first) then by name
     lean_assets.sort(key=lambda a: (
         -(a.get('disposal', {}).get('priority') or 0),
         a.get('name', '')
     ))
     detail_assets.sort(key=lambda a: (
-        -(a.get('disposal', {}).get('priority') or 0),
+        -(a.get('disposal', {}).get('smart_priority') or 0),
         a.get('name', '')
     ))
 

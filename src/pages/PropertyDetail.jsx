@@ -92,6 +92,40 @@ const RECOMMENDATION_COLORS = {
   Governance: '#8e8e93',
 }
 
+const PATHWAY_COLORS = {
+  quick_win_auction:       '#00c853',
+  private_treaty_sale:     '#30d158',
+  development_partnership: '#0a84ff',
+  community_asset_transfer:'#bf5af2',
+  long_lease_income:       '#ff9f0a',
+  meanwhile_use:           '#64d2ff',
+  energy_generation:       '#ffd60a',
+  carbon_offset_woodland:  '#34c759',
+  housing_partnership:     '#ff6d3b',
+  co_locate_consolidate:   '#5e5ce6',
+  strategic_hold:          '#8e8e93',
+  governance_review:       '#636366',
+  refurbish_relet:         '#ac8e68',
+}
+
+const OCCUPANCY_LABELS = {
+  occupied: 'Service-Occupied',
+  school_grounds: 'School Grounds',
+  likely_vacant: 'Likely Vacant',
+  vacant_land: 'Vacant Land',
+  third_party: 'Third-Party Use',
+  unknown: 'Unknown',
+}
+
+const OCCUPANCY_COLORS = {
+  occupied: '#0a84ff',
+  school_grounds: '#5e5ce6',
+  likely_vacant: '#ff9f0a',
+  vacant_land: '#30d158',
+  third_party: '#bf5af2',
+  unknown: '#8e8e93',
+}
+
 const BAND_COLORS = {
   high: '#ff453a',
   medium: '#ff9f0a',
@@ -506,61 +540,117 @@ function EnergyTab({ asset }) {
   )
 }
 
+function ScoreGauge({ label, score, invert }) {
+  const pct = Math.max(0, Math.min(score || 0, 100))
+  // For complexity, green=low (good), red=high (bad). For readiness/revenue, green=high.
+  let color
+  if (invert) {
+    color = pct >= 60 ? '#ff453a' : pct >= 30 ? '#ff9f0a' : '#30d158'
+  } else {
+    color = pct >= 60 ? '#30d158' : pct >= 30 ? '#ff9f0a' : '#ff453a'
+  }
+  return (
+    <div style={{ flex: 1, minWidth: 100 }}>
+      <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+      <div style={{ fontSize: '1.5rem', fontWeight: 700, color, lineHeight: 1 }}>{score ?? '-'}</div>
+      <div style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 4, height: 4, marginTop: 6, overflow: 'hidden' }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: 4, transition: 'width 0.5s ease' }} />
+      </div>
+    </div>
+  )
+}
+
 function DisposalTab({ asset }) {
   const disp = asset.disposal
+  const pw = disp?.pathway
+  const pwColor = PATHWAY_COLORS[pw] || '#8e8e93'
+  const occStatus = disp?.occupancy_inferred || asset.occupancy_status
+  const occLabel = OCCUPANCY_LABELS[occStatus] || occStatus || 'Unknown'
+  const occColor = OCCUPANCY_COLORS[occStatus] || '#8e8e93'
 
-  if (!disp || !disp.recommendation) {
-    return (
-      <div className="glass-card" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
-        <Trash2 size={40} style={{ color: 'var(--text-tertiary)', marginBottom: 'var(--space-md)', opacity: 0.4 }} />
-        <p style={{ color: 'var(--text-secondary)' }}>Not flagged for disposal.</p>
-      </div>
-    )
-  }
-
-  const recColor = RECOMMENDATION_COLORS[disp.recommendation] || '#8e8e93'
-  const risks = disp.key_risks ? disp.key_risks.split('|').map(r => r.trim()).filter(Boolean) : []
-  const steps = disp.next_steps ? disp.next_steps.split('|').map(s => s.trim()).filter(Boolean) : []
+  // Codex AI analysis (reasoning, risks, next_steps)
+  const codex = disp?.codex
+  const risks = codex?.key_risks ? codex.key_risks.split(/[|;]/).map(r => r.trim()).filter(Boolean) : []
+  const steps = codex?.next_steps ? codex.next_steps.split(/[|;]/).map(s => s.trim()).filter(Boolean) : []
 
   return (
     <div>
-      {/* Recommendation */}
+      {/* Quick Win banner */}
+      {disp?.quick_win && (
+        <div style={{ background: 'rgba(0,200,83,0.12)', border: '1px solid rgba(0,200,83,0.3)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md) var(--space-lg)', marginBottom: 'var(--space-lg)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+          <TrendingUp size={18} style={{ color: '#00c853' }} />
+          <span style={{ fontWeight: 600, color: '#00c853', fontSize: '0.85rem' }}>Quick Win — Low complexity, market-ready, estimated {disp.estimated_timeline || '3-6 months'}</span>
+        </div>
+      )}
+
+      {/* Pathway + Occupancy Header */}
       <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
-        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Disposal Assessment</h3>
-        <div style={{ display: 'flex', gap: 'var(--space-xl)', alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
-          <Badge
-            label={disp.recommendation}
-            color={recColor}
-            bg={`${recColor}20`}
-          />
-          {disp.category && (
-            <Badge label={disp.category} />
+        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Recommended Pathway</h3>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
+          <Badge label={disp?.pathway_label || pw || 'Not assessed'} color={pwColor} bg={`${pwColor}20`} />
+          {disp?.pathway_secondary_label && (
+            <Badge label={`Alt: ${disp.pathway_secondary_label}`} color="#8e8e93" bg="rgba(142,142,147,0.15)" />
           )}
-          {disp.confidence && (
-            <Badge
-              label={`${disp.confidence} confidence`}
-              color={disp.confidence === 'high' ? '#30d158' : disp.confidence === 'medium' ? '#ff9f0a' : '#8e8e93'}
-              bg={disp.confidence === 'high' ? 'rgba(48,209,88,0.15)' : disp.confidence === 'medium' ? 'rgba(255,159,10,0.15)' : 'rgba(142,142,147,0.15)'}
-            />
+          <Badge label={occLabel} color={occColor} bg={`${occColor}15`} />
+          {disp?.estimated_timeline && (
+            <Badge label={disp.estimated_timeline} />
           )}
         </div>
-        {disp.priority != null && (
-          <div style={{ marginBottom: 'var(--space-md)' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Priority Score</span>
-            <div style={{ fontSize: '2rem', fontWeight: 700, color: scoreColor(disp.priority) }}>
-              {disp.priority}
-            </div>
-          </div>
+        {disp?.pathway_reasoning && (
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+            {disp.pathway_reasoning}
+          </p>
         )}
       </div>
 
-      {/* Reasoning */}
-      {disp.reasoning && (
+      {/* Score gauges */}
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Intelligence Scores</h3>
+        <div style={{ display: 'flex', gap: 'var(--space-xl)', flexWrap: 'wrap' }}>
+          <ScoreGauge label="Disposal Complexity" score={disp?.complexity_score} invert />
+          <ScoreGauge label="Market Readiness" score={disp?.market_readiness_score} />
+          <ScoreGauge label="Revenue Potential" score={disp?.revenue_potential_score} />
+          <ScoreGauge label="Smart Priority" score={disp?.smart_priority} />
+        </div>
+      </div>
+
+      {/* Occupancy evidence */}
+      {disp?.occupancy_signals?.length > 0 && (
         <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
-          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>Reasoning</h3>
-          {disp.reasoning.split('\n').filter(Boolean).map((p, i) => (
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>Occupancy Evidence</h3>
+          <ul style={{ margin: 0, paddingLeft: 'var(--space-lg)' }}>
+            {disp.occupancy_signals.map((s, i) => (
+              <li key={i} style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>{s}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Complexity breakdown */}
+      {disp?.complexity_breakdown?.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <AlertTriangle size={16} style={{ color: '#ff9f0a' }} /> Complexity Factors
+          </h3>
+          {disp.complexity_breakdown.map((item, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: i < disp.complexity_breakdown.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{item.factor}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ff9f0a', minWidth: 40, textAlign: 'right' }}>+{item.points}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Codex AI Analysis */}
+      {codex?.reasoning && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Lightbulb size={16} style={{ color: '#ffd60a' }} /> AI Analysis
+            {codex.confidence && <Badge label={`${codex.confidence} confidence`} />}
+          </h3>
+          {codex.reasoning.split(/[\n;]/).filter(Boolean).map((p, i) => (
             <p key={i} style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)', lineHeight: 1.6 }}>
-              {p}
+              {p.trim()}
             </p>
           ))}
         </div>

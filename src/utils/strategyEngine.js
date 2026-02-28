@@ -131,14 +131,53 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
     text: `${wardAssets.length} LCC-owned asset${wardAssets.length !== 1 ? 's' : ''} in this division — scrutinise maintenance costs and utilisation.`,
   });
 
-  // Disposal candidates
-  const disposalCandidates = wardAssets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B');
-  if (disposalCandidates.length > 0) {
+  // Quick win disposals
+  const quickWins = wardAssets.filter(a =>
+    a.disposal_pathway === 'quick_win_auction' &&
+    (a.disposal_complexity || 0) <= 30 &&
+    (a.occupancy_status === 'vacant_land' || a.occupancy_status === 'likely_vacant')
+  );
+  if (quickWins.length > 0) {
     points.push({
       category: 'Property',
-      icon: 'AlertTriangle',
+      icon: 'TrendingUp',
       priority: 1,
-      text: `${disposalCandidates.length} propert${disposalCandidates.length !== 1 ? 'ies' : 'y'} recommended for disposal — potential campaign issue on waste and asset management.`,
+      text: `${quickWins.length} quick-win disposal${quickWins.length !== 1 ? 's' : ''} — low complexity, market-ready assets that could generate receipts within 6 months.`,
+    });
+  }
+
+  // Community asset transfer opportunities
+  const catAssets = wardAssets.filter(a => a.disposal_pathway === 'community_asset_transfer');
+  if (catAssets.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'Heart',
+      priority: 2,
+      text: `${catAssets.length} asset${catAssets.length !== 1 ? 's' : ''} suitable for community asset transfer — engage local groups in deprived area.`,
+    });
+  }
+
+  // Energy/carbon opportunities
+  const greenAssets = wardAssets.filter(a =>
+    a.disposal_pathway === 'energy_generation' || a.disposal_pathway === 'carbon_offset_woodland'
+  );
+  if (greenAssets.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'Leaf',
+      priority: 2,
+      text: `${greenAssets.length} site${greenAssets.length !== 1 ? 's' : ''} identified for energy generation or carbon offset — net zero strategy alignment.`,
+    });
+  }
+
+  // School grounds (sensitive)
+  const schoolAssets = wardAssets.filter(a => a.occupancy_status === 'school_grounds');
+  if (schoolAssets.length > 3) {
+    points.push({
+      category: 'Property',
+      icon: 'School',
+      priority: 3,
+      text: `${schoolAssets.length} school sites — LCC freehold under active institutions, cannot be disposed without school closure.`,
     });
   }
 
@@ -202,8 +241,23 @@ export function generatePropertySummary(wardName, propertyAssets) {
 
   const totalSpend = wardAssets.reduce((s, a) => s + (a.linked_spend || 0), 0);
   const conditionSpend = wardAssets.reduce((s, a) => s + (a.condition_spend || 0), 0);
-  const disposalCandidates = wardAssets.filter(a => a.disposal_band === 'high');
+  const quickWins = wardAssets.filter(a => a.disposal_pathway === 'quick_win_auction' && (a.disposal_complexity || 0) <= 30);
   const energyRisk = wardAssets.filter(a => a.flags?.includes('energy_risk'));
+
+  // Pathway breakdown
+  const pathways = {};
+  for (const a of wardAssets) {
+    const pw = a.disposal_pathway || 'unknown';
+    pathways[pw] = (pathways[pw] || 0) + 1;
+  }
+
+  // Occupancy breakdown
+  const occupancy = {};
+  for (const a of wardAssets) {
+    const occ = a.occupancy_status || 'unknown';
+    occupancy[occ] = (occupancy[occ] || 0) + 1;
+  }
+
   const categories = {};
   for (const a of wardAssets) {
     const cat = a.category || 'unknown';
@@ -214,12 +268,16 @@ export function generatePropertySummary(wardName, propertyAssets) {
     total: wardAssets.length,
     totalSpend,
     conditionSpend,
-    disposalCount: disposalCandidates.length,
+    quickWinCount: quickWins.length,
     energyRiskCount: energyRisk.length,
+    pathways,
+    occupancy,
     categories,
     assets: wardAssets.map(a => ({
       id: a.id, name: a.name, category: a.category,
-      epc_rating: a.epc_rating, disposal_band: a.disposal_band,
+      epc_rating: a.epc_rating, disposal_pathway: a.disposal_pathway,
+      occupancy_status: a.occupancy_status,
+      disposal_complexity: a.disposal_complexity || 0,
       linked_spend: a.linked_spend || 0, condition_spend: a.condition_spend || 0,
     })),
   };

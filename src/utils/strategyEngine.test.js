@@ -1829,9 +1829,9 @@ describe('generateCanvassingCSV', () => {
 
 describe('generateAssetTalkingPoints', () => {
   const mockAssets = [
-    { id: '1', ced: 'Burnley Central', ward: 'Burnley SW', category: 'office_civic', linked_spend: 80000, condition_spend: 15000, nearby_500m: 2, flags: ['energy_risk'], disposal: { category: 'B', priority: 70 } },
-    { id: '2', ced: 'Burnley Central', ward: 'Burnley SW', category: 'library', linked_spend: 20000, condition_spend: 5000, nearby_500m: 1, flags: [], disposal: { category: 'D', priority: 30 } },
-    { id: '3', ced: 'Preston East', ward: 'Preston North', category: 'land_general', linked_spend: 0, condition_spend: 0, nearby_500m: 0, flags: [], disposal: { category: 'A', priority: 90 } },
+    { id: '1', ced: 'Burnley Central', ward: 'Burnley SW', category: 'office_civic', linked_spend: 80000, condition_spend: 15000, nearby_500m: 2, flags: ['energy_risk'], disposal_pathway: 'quick_win_auction', disposal_complexity: 20, occupancy_status: 'likely_vacant' },
+    { id: '2', ced: 'Burnley Central', ward: 'Burnley SW', category: 'library', linked_spend: 20000, condition_spend: 5000, nearby_500m: 1, flags: [], disposal_pathway: 'strategic_hold', disposal_complexity: 60, occupancy_status: 'occupied' },
+    { id: '3', ced: 'Preston East', ward: 'Preston North', category: 'land_general', linked_spend: 0, condition_spend: 0, nearby_500m: 0, flags: [], disposal_pathway: 'community_asset_transfer', disposal_complexity: 45, occupancy_status: 'vacant_land' },
   ]
 
   it('returns empty array when no cedName', () => {
@@ -1858,12 +1858,12 @@ describe('generateAssetTalkingPoints', () => {
     expect(countPoint.icon).toBe('Building')
   })
 
-  it('returns disposal candidate talking point when A/B category assets exist', () => {
+  it('returns quick win talking point when low-complexity auction assets exist', () => {
     const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
-    const disposalPoint = result.find(p => p.text.includes('disposal'))
-    expect(disposalPoint).toBeDefined()
-    expect(disposalPoint.text).toContain('1 property recommended for disposal')
-    expect(disposalPoint.priority).toBe(1)
+    const qwPoint = result.find(p => p.text.includes('quick-win'))
+    expect(qwPoint).toBeDefined()
+    expect(qwPoint.text).toContain('receipts within 6 months')
+    expect(qwPoint.priority).toBe(1)
   })
 
   it('returns condition spend talking point when spend > 10k', () => {
@@ -1902,14 +1902,14 @@ describe('generateAssetTalkingPoints', () => {
   })
 
   it('returns multiple talking points for rich data', () => {
-    // Burnley Central should trigger: count, disposal, condition, linked, co-location, energy
+    // Burnley Central should trigger: count, quick win, condition, linked, co-location, energy
     const result = generateAssetTalkingPoints('Burnley Central', mockAssets)
     expect(result.length).toBeGreaterThanOrEqual(5)
     const categories = result.map(p => p.category)
     expect(categories.every(c => c === 'Property')).toBe(true)
     const icons = result.map(p => p.icon)
     expect(icons).toContain('Building')
-    expect(icons).toContain('AlertTriangle')
+    expect(icons).toContain('TrendingUp')
     expect(icons).toContain('PoundSterling')
     expect(icons).toContain('MapPin')
     expect(icons).toContain('Zap')
@@ -1921,11 +1921,14 @@ describe('generateAssetTalkingPoints', () => {
 describe('generatePropertySummary', () => {
   const mockAssets = [
     { id: '1', name: 'School A', ced: 'Test Ward', ward: 'Test Ward', category: 'education',
-      disposal_band: 'high', linked_spend: 50000, condition_spend: 5000, flags: ['energy_risk'] },
+      disposal_pathway: 'quick_win_auction', disposal_complexity: 15, occupancy_status: 'vacant_land',
+      linked_spend: 50000, condition_spend: 5000, flags: ['energy_risk'] },
     { id: '2', name: 'Office B', ced: 'Test Ward', ward: 'Other', category: 'office_civic',
-      disposal_band: 'low', linked_spend: 20000, condition_spend: 0, flags: [] },
+      disposal_pathway: 'strategic_hold', disposal_complexity: 55, occupancy_status: 'occupied',
+      linked_spend: 20000, condition_spend: 0, flags: [] },
     { id: '3', name: 'Land C', ced: 'Other Ward', ward: 'Other Ward', category: 'land_general',
-      disposal_band: 'high', linked_spend: 0, condition_spend: 0, flags: [] },
+      disposal_pathway: 'quick_win_auction', disposal_complexity: 10, occupancy_status: 'vacant_land',
+      linked_spend: 0, condition_spend: 0, flags: [] },
   ]
 
   it('returns null for empty/missing ward name', () => {
@@ -1948,9 +1951,11 @@ describe('generatePropertySummary', () => {
     expect(result.total).toBe(2)
     expect(result.totalSpend).toBe(70000)
     expect(result.conditionSpend).toBe(5000)
-    expect(result.disposalCount).toBe(1)
+    expect(result.quickWinCount).toBe(1)
     expect(result.energyRiskCount).toBe(1)
     expect(result.categories).toEqual({ education: 1, office_civic: 1 })
+    expect(result.pathways).toEqual({ quick_win_auction: 1, strategic_hold: 1 })
+    expect(result.occupancy).toEqual({ vacant_land: 1, occupied: 1 })
   })
 
   it('returns assets array with correct fields', () => {
@@ -1959,7 +1964,9 @@ describe('generatePropertySummary', () => {
     expect(result.assets[0]).toHaveProperty('id', '1')
     expect(result.assets[0]).toHaveProperty('name', 'School A')
     expect(result.assets[0]).toHaveProperty('category', 'education')
-    expect(result.assets[0]).toHaveProperty('disposal_band', 'high')
+    expect(result.assets[0]).toHaveProperty('disposal_pathway', 'quick_win_auction')
+    expect(result.assets[0]).toHaveProperty('occupancy_status', 'vacant_land')
+    expect(result.assets[0]).toHaveProperty('disposal_complexity', 15)
   })
 
   it('matches assets by ward field (not just ced)', () => {

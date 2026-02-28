@@ -74,7 +74,7 @@ const baseAsset = {
   keep_score: 85,
   colocate_score: 40,
   primary_option: 'Retain',
-  disposal: { category: 'E', priority: 10, confidence: 'high', recommendation: 'Retain', reasoning: 'Strategic headquarters.\nCore administrative function.', key_risks: 'High maintenance cost|Listed building constraints', next_steps: 'Commission condition survey|Review energy efficiency' },
+  disposal: { pathway: 'strategic_hold', pathway_label: 'Strategic Hold', pathway_reasoning: 'Core administrative function, high service criticality.', complexity_score: 65, market_readiness_score: 25, revenue_potential_score: 40, smart_priority: 30, occupancy_inferred: 'occupied', occupancy_signals: ['High linked spend indicates operational use', 'Office/civic category with active services'], complexity_breakdown: [{ factor: 'Service-Occupied', points: 25 }, { factor: 'Listed building', points: 15 }], estimated_timeline: '24+ months', quick_win: false, codex: { recommendation: 'Retain', confidence: 'high', reasoning: 'Strategic headquarters.\nCore administrative function.', key_risks: 'High maintenance cost|Listed building constraints', next_steps: 'Commission condition survey|Review energy efficiency' } },
   flags: ['listed_building'],
   google_maps_url: 'https://maps.google.com/?q=53.7632,-2.7051',
   deprivation: { imd_decile: 4, income_decile: 3, employment_decile: 5, education_decile: 6, health_decile: 4, crime_decile: 2, housing_decile: 7, living_env_decile: 5, imd_rank: 5000 },
@@ -272,7 +272,7 @@ describe('PropertyDetail', () => {
   it('switches to disposal tab', () => {
     renderComponent()
     fireEvent.click(screen.getByText('Disposal'))
-    expect(screen.getByText('Disposal Assessment')).toBeInTheDocument()
+    expect(screen.getByText('Recommended Pathway')).toBeInTheDocument()
   })
 
   it('switches to location tab', () => {
@@ -319,36 +319,42 @@ describe('PropertyDetail', () => {
 
   // --- Disposal tab ---
 
-  it('shows disposal recommendation and reasoning', () => {
+  it('shows pathway and intelligence scores in disposal tab', () => {
     renderComponent()
     fireEvent.click(screen.getByText('Disposal'))
-    expect(screen.getAllByText(/Retain/).length).toBeGreaterThan(0)
-    expect(screen.getByText('high confidence')).toBeInTheDocument()
-    expect(screen.getByText('Reasoning')).toBeInTheDocument()
-    expect(screen.getByText('Strategic headquarters.')).toBeInTheDocument()
+    expect(screen.getByText('Strategic Hold')).toBeInTheDocument()
+    expect(screen.getByText('Intelligence Scores')).toBeInTheDocument()
+    expect(screen.getByText('Disposal Complexity')).toBeInTheDocument()
+    expect(screen.getByText('Market Readiness')).toBeInTheDocument()
   })
 
-  it('shows key risks in disposal tab', () => {
+  it('shows codex AI analysis with risks and next steps', () => {
     renderComponent()
     fireEvent.click(screen.getByText('Disposal'))
+    expect(screen.getByText('AI Analysis')).toBeInTheDocument()
+    expect(screen.getByText('high confidence')).toBeInTheDocument()
     expect(screen.getByText('Key Risks')).toBeInTheDocument()
     expect(screen.getByText('High maintenance cost')).toBeInTheDocument()
-    expect(screen.getByText('Listed building constraints')).toBeInTheDocument()
-  })
-
-  it('shows next steps in disposal tab', () => {
-    renderComponent()
-    fireEvent.click(screen.getByText('Disposal'))
     expect(screen.getByText('Next Steps')).toBeInTheDocument()
     expect(screen.getByText('Commission condition survey')).toBeInTheDocument()
   })
 
-  it('shows not flagged message when no disposal recommendation', () => {
+  it('shows occupancy evidence and complexity factors', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Disposal'))
+    expect(screen.getByText('Occupancy Evidence')).toBeInTheDocument()
+    expect(screen.getByText('High linked spend indicates operational use')).toBeInTheDocument()
+    expect(screen.getByText('Complexity Factors')).toBeInTheDocument()
+    expect(screen.getAllByText('Service-Occupied').length).toBeGreaterThan(0)
+  })
+
+  it('shows pathway card with no data gracefully', () => {
     const assetNoDisposal = { ...baseAsset, disposal: {} }
     useData.mockReturnValue({ data: { meta: {}, assets: [assetNoDisposal] }, loading: false, error: null })
     renderComponent()
     fireEvent.click(screen.getByText('Disposal'))
-    expect(screen.getByText(/Not flagged for disposal/)).toBeInTheDocument()
+    expect(screen.getByText('Recommended Pathway')).toBeInTheDocument()
+    expect(screen.getByText('Not assessed')).toBeInTheDocument()
   })
 
   // --- Location tab ---
