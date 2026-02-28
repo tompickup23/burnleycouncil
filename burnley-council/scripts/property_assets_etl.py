@@ -38,6 +38,12 @@ LEAN_FIELDS = [
     'sell_score', 'keep_score', 'colocate_score', 'primary_option',
     'flags',
     'flood_areas_1km', 'crime_total', 'crime_density',
+    # World-class assessment bands
+    'disposal_band', 'repurpose_band', 'service_band', 'net_zero_band', 'resilience_band',
+    # Disposal/sales evidence
+    'sales_signal_score', 'sales_total_value',
+    # Innovative reuse
+    'innovative_use',
 ]
 
 
@@ -199,10 +205,22 @@ def build_lean_asset(row, ced_name=''):
         'flood_areas_1km': safe_int(row.get('flood_areas_within_1km')),
         'crime_total': safe_int(row.get('crime_total_within_1mi')),
         'crime_density': safe_str(row.get('crime_density_band')),
+        # World-class assessment bands
+        'disposal_band': safe_str(row.get('world_class_disposal_band')) or None,
+        'repurpose_band': safe_str(row.get('world_class_repurpose_band')) or None,
+        'service_band': safe_str(row.get('world_class_service_band')) or None,
+        'net_zero_band': safe_str(row.get('world_class_net_zero_band')) or None,
+        'resilience_band': safe_str(row.get('world_class_resilience_band')) or None,
+        # Disposal/sales evidence
+        'sales_signal_score': safe_float(row.get('disposals_sales_signal_score')) or None,
+        'sales_total_value': safe_str(row.get('disposals_sales_total_known_value')) or None,
+        # Innovative reuse
+        'innovative_use': safe_str(row.get('innovative_use_primary')) or None,
     }
 
 
-def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None, condition_info=None):
+def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None,
+                       condition_info=None, assessment_info=None, sales_evidence=None):
     """Build full detail asset dict for property_assets_detail.json."""
     lean = build_lean_asset(row, ced_name)
 
@@ -295,6 +313,39 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
         },
     }
 
+    # World-class assessment scores (from full assessment)
+    if assessment_info:
+        detail['assessment'] = {
+            'recommendation': safe_str(assessment_info.get('recommendation')),
+            'recommendation_category': safe_str(assessment_info.get('recommendation_category')),
+            'priority_score': safe_int(assessment_info.get('priority_score')) or None,
+            'confidence': safe_str(assessment_info.get('confidence')),
+            'disposal_readiness': safe_float(assessment_info.get('world_class_disposal_readiness')) or None,
+            'repurpose_potential': safe_float(assessment_info.get('world_class_repurpose_potential')) or None,
+            'service_criticality': safe_float(assessment_info.get('world_class_service_criticality')) or None,
+            'net_zero_priority': safe_float(assessment_info.get('world_class_net_zero_priority')) or None,
+            'resilience_need': safe_float(assessment_info.get('world_class_resilience_need')) or None,
+            'disposal_band': safe_str(assessment_info.get('world_class_disposal_band')) or None,
+            'repurpose_band': safe_str(assessment_info.get('world_class_repurpose_band')) or None,
+            'service_band': safe_str(assessment_info.get('world_class_service_band')) or None,
+            'net_zero_band': safe_str(assessment_info.get('world_class_net_zero_band')) or None,
+            'resilience_band': safe_str(assessment_info.get('world_class_resilience_band')) or None,
+            'innovative_use_primary': safe_str(assessment_info.get('innovative_use_primary')),
+            'innovative_use_secondary': safe_str(assessment_info.get('innovative_use_secondary')),
+            'innovative_use_count': safe_int(assessment_info.get('innovative_use_count')),
+            'reasoning': safe_str(assessment_info.get('reasoning')),
+            'key_risks': safe_str(assessment_info.get('key_risks')),
+            'next_steps': safe_str(assessment_info.get('next_steps')),
+        }
+    else:
+        detail['assessment'] = None
+
+    # Sales evidence (auction lots, current market listings)
+    if sales_evidence:
+        detail['sales_evidence'] = sales_evidence
+    else:
+        detail['sales_evidence'] = []
+
     # Add disposal data if available
     if disposal_info:
         detail['disposal'] = {
@@ -385,6 +436,27 @@ def compute_meta(lean_assets, detail_assets):
         if r:
             epc_dist[r] = epc_dist.get(r, 0) + 1
 
+    # Disposal recommendation breakdown
+    disposal_recs = {}
+    for a in lean_assets:
+        rec = (a.get('disposal', {}) or {}).get('recommendation')
+        if rec:
+            disposal_recs[rec] = disposal_recs.get(rec, 0) + 1
+
+    # World-class band distributions
+    band_dist = {}
+    for band_key in ['disposal_band', 'repurpose_band', 'service_band', 'net_zero_band', 'resilience_band']:
+        dist = {}
+        for a in lean_assets:
+            v = a.get(band_key)
+            if v:
+                dist[v] = dist.get(v, 0) + 1
+        band_dist[band_key] = dict(sorted(dist.items()))
+
+    # Sales evidence stats
+    has_sales = sum(1 for d in detail_assets if d.get('sales_evidence'))
+    has_assessment = sum(1 for d in detail_assets if d.get('assessment'))
+
     return {
         'generated': __import__('datetime').datetime.utcnow().isoformat() + 'Z',
         'source': 'LCC Local Authority Land List + Codex enrichment + AI DOGE CED mapping',
@@ -398,13 +470,37 @@ def compute_meta(lean_assets, detail_assets):
         'total_condition_spend': round(total_condition, 2),
         'disposal_candidates': disposal_candidates,
         'has_ced': has_ced,
+        'has_assessment': has_assessment,
+        'has_sales_evidence': has_sales,
         'freehold': freehold,
         'leasehold': leasehold,
         'land_only': land_only,
         'category_breakdown': dict(sorted(categories.items(), key=lambda x: -x[1])),
         'district_breakdown': dict(sorted(districts.items(), key=lambda x: -x[1])),
         'epc_distribution': dict(sorted(epc_dist.items())),
+        'disposal_recommendations': dict(sorted(disposal_recs.items(), key=lambda x: -x[1])),
+        'band_distributions': band_dist,
         'ced_summary': dict(sorted(ced_summary.items())),
+        # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)
+        'estate_context': {
+            'strategy_total_assets': 2000,
+            'strategy_note': 'LCC Property Asset Management Strategy (Feb 2020) states just under 2,000 assets including ~600 schools',
+            'portfolio_value': '£2 billion',
+            'running_cost_annual': '£21 million (2021-22)',
+            'condition_backlog': '£56.6 million (P1-P4)',
+            'rm_budget': '£4.7 million (2022-23)',
+            'carbon_tonnes_co2': 5581,
+            'gia_sqm': 332516,
+            'disposals_since_2016': 272,
+            'disposals_value_since_2016': '£63.2 million',
+            'community_transfers_since_2016': 10,
+            'register_coverage_pct': round(100 * total / 2000, 1),
+            'sources': [
+                'LCC Property Asset Management Strategy (Feb 2020)',
+                'Council Estate, Use and Occupancy of Council Buildings and Asset Disposal (Sep 2023)',
+                'LCC Local Authority Land Register (Transparency Code)',
+            ],
+        },
     }
 
 
@@ -414,6 +510,8 @@ def main():
     parser.add_argument('--council', default='lancashire_cc', help='Council ID')
     parser.add_argument('--owned-only', action='store_true', default=True,
                         help='Only include LCC-owned assets (default: true)')
+    parser.add_argument('--include-all', action='store_true', default=False,
+                        help='Include non-owned/partnership records (overrides --owned-only)')
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir)
@@ -445,12 +543,14 @@ def main():
         print("ERROR: No primary CSV found!")
         sys.exit(1)
 
-    # Filter to owned only
-    if args.owned_only:
+    # Filter to owned only (unless --include-all)
+    if args.owned_only and not args.include_all:
         before = len(primary_rows)
         primary_rows = [r for r in primary_rows
                         if safe_str(r.get('is_owned_in_lcc_register', 'Y')) != 'N']
         print(f"  Filtered to owned: {before} → {len(primary_rows)}")
+    else:
+        print(f"  Including ALL records (owned + non-owned): {len(primary_rows)}")
 
     # Index by ID
     primary_by_id = {}
@@ -492,6 +592,48 @@ def main():
         aid = safe_str(row.get('unique_asset_id'))
         if aid:
             condition_by_id[aid] = row
+
+    # Non-owned records (merge any not already in primary)
+    if args.include_all:
+        non_owned_rows = read_csv(str(input_dir / 'lcc_non_owned_or_unclear_records.csv'))
+        added = 0
+        for row in non_owned_rows:
+            aid = safe_str(row.get('unique_asset_id'))
+            if aid and aid not in primary_by_id:
+                primary_rows.append(row)
+                primary_by_id[aid] = row
+                added += 1
+        if added:
+            print(f"  Added {added} non-owned records from supplementary CSV")
+
+    # Full assessment (world-class scores, innovative use, reasoning, risks, next steps)
+    assessment_rows = read_csv(str(input_dir / 'lcc_property_full_assessment.csv'))
+    assessment_by_id = {}
+    for row in assessment_rows:
+        aid = safe_str(row.get('unique_asset_id'))
+        if aid:
+            assessment_by_id[aid] = row
+
+    # Disposals/sales evidence (auction lots, current market listings)
+    sales_evidence_rows = read_csv(str(input_dir / 'lcc_disposals_sales_lot_evidence.csv'))
+    sales_by_asset_id = {}
+    for row in sales_evidence_rows:
+        aid = safe_str(row.get('matched_asset_id'))
+        if not aid:
+            continue
+        if aid not in sales_by_asset_id:
+            sales_by_asset_id[aid] = []
+        sales_by_asset_id[aid].append({
+            'type': safe_str(row.get('lot_source_type')),
+            'title': safe_str(row.get('lot_title')),
+            'status': safe_str(row.get('lot_status')),
+            'price': safe_str(row.get('lot_price')),
+            'date': safe_str(row.get('lot_date')),
+            'method': safe_str(row.get('lot_method')),
+            'url': safe_str(row.get('lot_url')),
+            'confidence': safe_str(row.get('match_confidence')),
+        })
+    print(f"  Sales evidence: {len(sales_evidence_rows)} lots across {len(sales_by_asset_id)} assets")
 
     # Decision screen (for screening scores if not in primary)
     screen_rows = read_csv(str(input_dir / 'lcc_property_decision_screen.csv'))
@@ -545,21 +687,69 @@ def main():
         disposal_info = disposal_by_id.get(aid)
         supplier_links = supplier_links_by_id.get(aid, [])
         condition_info = condition_by_id.get(aid)
+        assessment_info = assessment_by_id.get(aid)
+        sales_evidence = sales_by_asset_id.get(aid, [])
 
         lean = build_lean_asset(row, ced_name)
+
+        # Merge supplier spend from separate CSV if primary has 0
+        if lean['linked_spend'] == 0 and supplier_links:
+            agg_spend = sum(sl['spend'] for sl in supplier_links)
+            agg_txns = sum(sl['transactions'] for sl in supplier_links)
+            if agg_spend > 0:
+                lean['linked_spend'] = round(agg_spend, 2)
+                lean['linked_txns'] = agg_txns
+                lean['linked_suppliers'] = len(supplier_links)
+
+        # Merge condition spend from separate CSV if primary has 0
+        if lean['condition_spend'] == 0 and condition_info:
+            cs = safe_float(condition_info.get('condition_related_spend_total'))
+            ct = safe_int(condition_info.get('condition_related_transactions'))
+            if cs > 0:
+                lean['condition_spend'] = round(cs, 2)
+                lean['condition_txns'] = ct
+
+        # Merge world-class bands from full assessment if missing from primary
+        if assessment_info:
+            for band_key, assess_key in [
+                ('disposal_band', 'world_class_disposal_band'),
+                ('repurpose_band', 'world_class_repurpose_band'),
+                ('service_band', 'world_class_service_band'),
+                ('net_zero_band', 'world_class_net_zero_band'),
+                ('resilience_band', 'world_class_resilience_band'),
+            ]:
+                if not lean.get(band_key):
+                    lean[band_key] = safe_str(assessment_info.get(assess_key)) or None
+            # Merge innovative use
+            if not lean.get('innovative_use'):
+                lean['innovative_use'] = safe_str(assessment_info.get('innovative_use_primary')) or None
+            # Merge disposal/sales signal from assessment
+            if not lean.get('sales_signal_score') and assessment_info.get('disposals_sales_signal_score'):
+                lean['sales_signal_score'] = safe_float(assessment_info.get('disposals_sales_signal_score')) or None
+                lean['sales_total_value'] = safe_str(assessment_info.get('disposals_sales_total_known_value')) or None
+
         lean_assets.append(lean)
 
-        # Add disposal to lean
-        if disposal_info:
+        # Add disposal to lean (from full assessment first, then disposal register)
+        if assessment_info and safe_str(assessment_info.get('recommendation')):
             lean['disposal'] = {
+                'recommendation': safe_str(assessment_info.get('recommendation')),
+                'category': safe_str(assessment_info.get('recommendation_category')),
+                'priority': safe_int(assessment_info.get('priority_score')) or None,
+                'confidence': safe_str(assessment_info.get('confidence')),
+            }
+        elif disposal_info:
+            lean['disposal'] = {
+                'recommendation': safe_str(disposal_info.get('recommendation')),
                 'category': safe_str(disposal_info.get('recommendation_category')),
                 'priority': safe_int(disposal_info.get('priority_score')) or None,
                 'confidence': safe_str(disposal_info.get('confidence')),
             }
         else:
-            lean['disposal'] = {'category': None, 'priority': None, 'confidence': None}
+            lean['disposal'] = {'recommendation': None, 'category': None, 'priority': None, 'confidence': None}
 
-        detail = build_detail_asset(row, ced_name, disposal_info, supplier_links, condition_info)
+        detail = build_detail_asset(row, ced_name, disposal_info, supplier_links,
+                                    condition_info, assessment_info, sales_evidence)
         detail_assets.append(detail)
 
     # Sort by priority (disposal candidates first) then by name

@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home } from 'lucide-react'
+import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useAuth } from '../context/AuthContext'
@@ -91,6 +91,26 @@ function DisposalBadge({ priority }) {
   )
 }
 
+function BandBadge({ band }) {
+  if (!band) return <span style={{ color: '#8e8e93' }}>-</span>
+  const colors = { high: '#ff453a', medium: '#ff9f0a', low: '#30d158' }
+  return (
+    <span style={{
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: '4px',
+      fontSize: '0.72rem',
+      fontWeight: 600,
+      color: '#fff',
+      background: colors[band] || '#607D8B',
+      textTransform: 'capitalize',
+      whiteSpace: 'nowrap',
+    }}>
+      {band}
+    </span>
+  )
+}
+
 function SortHeader({ label, field, sortField, sortDir, onSort }) {
   const active = sortField === field
   return (
@@ -152,6 +172,7 @@ export default function PropertyPortfolio() {
   const [filterOwnership, setFilterOwnership] = useState('')
   const [filterDisposal, setFilterDisposal] = useState('')
   const [filterCED, setFilterCED] = useState('')
+  const [filterRecommendation, setFilterRecommendation] = useState('')
   const [sortField, setSortField] = useState('name')
   const [sortDir, setSortDir] = useState('asc')
   const [page, setPage] = useState(1)
@@ -176,6 +197,13 @@ export default function PropertyPortfolio() {
     if (!meta.ced_summary) return []
     return Object.keys(meta.ced_summary).sort()
   }, [meta.ced_summary])
+
+  const recommendationOptions = useMemo(() => {
+    if (!meta.disposal_recommendations) return []
+    return Object.entries(meta.disposal_recommendations)
+      .sort((a, b) => b[1] - a[1])
+      .map(([rec]) => rec)
+  }, [meta.disposal_recommendations])
 
   // --- Filter + Search ---
   const filteredAssets = useMemo(() => {
@@ -223,8 +251,12 @@ export default function PropertyPortfolio() {
       result = result.filter(a => a.ced === filterCED)
     }
 
+    if (filterRecommendation) {
+      result = result.filter(a => a.disposal?.recommendation === filterRecommendation)
+    }
+
     return result
-  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED])
+  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation])
 
   // --- Sort ---
   const sortedAssets = useMemo(() => {
@@ -260,6 +292,12 @@ export default function PropertyPortfolio() {
           aVal = a.disposal?.priority ?? -1
           bVal = b.disposal?.priority ?? -1
           break
+        case 'disposal_band': {
+          const bandOrder = { high: 3, medium: 2, low: 1 }
+          aVal = bandOrder[a.disposal_band] || 0
+          bVal = bandOrder[b.disposal_band] || 0
+          break
+        }
         default:
           aVal = a.name || ''
           bVal = b.name || ''
@@ -279,7 +317,7 @@ export default function PropertyPortfolio() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setPage(1)
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation])
 
   // --- Sort handler ---
   const handleSort = useCallback((field) => {
@@ -294,7 +332,7 @@ export default function PropertyPortfolio() {
 
   // --- CSV Export ---
   const exportCSV = useCallback(() => {
-    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Category', 'Disposal Priority', 'Disposal Confidence', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
+    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Recommendation', 'Disposal Category', 'Disposal Priority', 'Disposal Confidence', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
     const rows = sortedAssets.map(a => [
       `"${(a.name || '').replace(/"/g, '""')}"`,
       `"${(a.address || '').replace(/"/g, '""')}"`,
@@ -314,9 +352,18 @@ export default function PropertyPortfolio() {
       a.keep_score ?? '',
       a.colocate_score ?? '',
       a.primary_option || '',
-      a.disposal?.category || '',
+      `"${(a.disposal?.recommendation || '').replace(/"/g, '""')}"`,
+      `"${(a.disposal?.category || '').replace(/"/g, '""')}"`,
       a.disposal?.priority ?? '',
       a.disposal?.confidence || '',
+      a.disposal_band || '',
+      a.repurpose_band || '',
+      a.service_band || '',
+      a.net_zero_band || '',
+      a.resilience_band || '',
+      a.sales_signal_score ?? '',
+      a.sales_total_value ?? 0,
+      `"${(a.innovative_use || '').replace(/"/g, '""')}"`,
       a.linked_spend ?? 0,
       a.linked_txns ?? 0,
       a.condition_spend ?? 0,
@@ -344,10 +391,11 @@ export default function PropertyPortfolio() {
     setFilterOwnership('')
     setFilterDisposal('')
     setFilterCED('')
+    setFilterRecommendation('')
     setPage(1)
   }, [])
 
-  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterDisposal || filterCED
+  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterDisposal || filterCED || filterRecommendation
 
   // --- Access gate ---
   if (!hasAccess) {
@@ -384,7 +432,6 @@ export default function PropertyPortfolio() {
 
   const freeholdPct = meta.total_assets ? ((meta.freehold || 0) / meta.total_assets * 100).toFixed(1) : '0'
   const landOnlyPct = meta.total_assets ? ((meta.land_only || 0) / meta.total_assets * 100).toFixed(1) : '0'
-  const districtCount = meta.district_breakdown ? Object.keys(meta.district_breakdown).length : 0
   const cedCount = meta.ced_summary ? Object.keys(meta.ced_summary).length : 0
 
   const selectStyle = {
@@ -418,13 +465,132 @@ export default function PropertyPortfolio() {
         gap: '12px',
         marginBottom: '24px',
       }}>
-        <StatCard label="Total Assets" value={formatNumber(meta.total_assets)} icon={Building} />
+        <StatCard label="Total Assets" value={formatNumber(meta.total_assets)} subtitle={meta.owned_assets ? `${formatNumber(meta.owned_assets)} owned` : undefined} icon={Building} />
         <StatCard label="Freehold" value={`${freeholdPct}%`} subtitle={`${formatNumber(meta.freehold)} assets`} icon={Landmark} />
         <StatCard label="Land Only" value={`${landOnlyPct}%`} subtitle={`${formatNumber(meta.land_only)} parcels`} icon={TreePine} />
         <StatCard label="Disposal Candidates" value={formatNumber(meta.disposal_candidates)} icon={Home} />
-        <StatCard label="Districts" value={districtCount} icon={MapPin} />
+        <StatCard label="Assessed" value={formatNumber(meta.has_assessment || 0)} subtitle={meta.has_sales_evidence ? `${meta.has_sales_evidence} with market evidence` : undefined} icon={Info} />
         <StatCard label="CEDs Mapped" value={formatNumber(meta.has_ced)} subtitle={`${cedCount} divisions`} icon={MapPin} />
       </div>
+
+      {/* Estate Context */}
+      {meta.estate_context && (
+        <div className="glass-card" style={{ padding: '20px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+            <Info size={18} style={{ color: '#0a84ff' }} />
+            <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Estate Context</h3>
+            <span style={{
+              fontSize: '0.7rem',
+              padding: '2px 8px',
+              borderRadius: '4px',
+              background: 'rgba(10,132,255,0.15)',
+              color: '#0a84ff',
+              fontWeight: 600,
+            }}>
+              {meta.estate_context?.register_coverage_pct ?? 0}% of full estate
+            </span>
+          </div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: '12px',
+          }}>
+            {[
+              { label: 'Portfolio Value', value: meta.estate_context?.portfolio_value || '-' },
+              { label: 'Full Estate Size', value: `~${formatNumber(meta.estate_context?.strategy_total_assets || 0)} assets` },
+              { label: 'Register Coverage', value: `${formatNumber(meta.total_assets || 0)} of ~${formatNumber(meta.estate_context?.strategy_total_assets || 0)}` },
+              { label: 'Running Cost', value: meta.estate_context?.running_cost_annual || '-' },
+              { label: 'Condition Backlog', value: meta.estate_context?.condition_backlog || '-' },
+              { label: 'Disposals Since 2016', value: `${formatNumber(meta.estate_context?.disposals_since_2016 || 0)} (${meta.estate_context?.disposals_value_since_2016 || '-'})` },
+              { label: 'Carbon Emissions', value: `${formatNumber(meta.estate_context?.carbon_tonnes_co2 || 0)} tCO2` },
+              { label: 'Gross Internal Area', value: `${formatNumber(meta.estate_context?.gia_sqm || 0)} sqm` },
+            ].map(item => (
+              <div key={item.label} style={{
+                padding: '10px 14px',
+                borderRadius: '8px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #aaa)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  {item.label}
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#fff' }}>
+                  {item.value}
+                </div>
+              </div>
+            ))}
+          </div>
+          {meta.estate_context?.sources && (
+            <div style={{ marginTop: '10px', fontSize: '0.7rem', color: 'var(--text-tertiary, #666)' }}>
+              Sources: {meta.estate_context.sources.join(' | ')}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Disposal Recommendations */}
+      {meta.disposal_recommendations && (
+        <div className="glass-card" style={{ padding: '20px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+            <Lightbulb size={18} style={{ color: '#ff9f0a' }} />
+            <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Disposal Recommendations</h3>
+          </div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gap: '8px',
+          }}>
+            {Object.entries(meta.disposal_recommendations)
+              .sort((a, b) => b[1] - a[1])
+              .map(([rec, count]) => {
+                const isDispose = rec.toLowerCase().startsWith('dispose')
+                const isRetain = rec.toLowerCase().startsWith('retain')
+                const isRepurpose = rec.toLowerCase().startsWith('repurpose')
+                const isGovernance = rec.toLowerCase().startsWith('governance')
+                let dotColor = '#9E9E9E'
+                if (isDispose) dotColor = '#ff453a'
+                else if (isRetain) dotColor = '#30d158'
+                else if (isRepurpose) dotColor = '#ff9f0a'
+                else if (isGovernance) dotColor = '#0a84ff'
+                const isActive = filterRecommendation === rec
+                return (
+                  <div
+                    key={rec}
+                    onClick={() => {
+                      setFilterRecommendation(isActive ? '' : rec)
+                      setViewMode('table')
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      background: isActive ? 'rgba(10,132,255,0.15)' : 'rgba(255,255,255,0.03)',
+                      cursor: 'pointer',
+                      transition: 'background 0.15s',
+                      border: isActive ? '1px solid rgba(10,132,255,0.3)' : '1px solid transparent',
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        background: dotColor,
+                        flexShrink: 0,
+                      }} />
+                      <span style={{ fontSize: '0.8rem', color: '#ccc' }}>{rec}</span>
+                    </span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#fff', marginLeft: '8px' }}>
+                      {formatNumber(count)}
+                    </span>
+                  </div>
+                )
+              })}
+          </div>
+        </div>
+      )}
 
       {/* Filter Bar */}
       <div className="glass-card" style={{ padding: '16px 20px', marginBottom: '16px' }}>
@@ -491,6 +657,16 @@ export default function PropertyPortfolio() {
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
+
+          {/* Disposal Recommendation */}
+          {recommendationOptions.length > 0 && (
+            <select value={filterRecommendation} onChange={e => setFilterRecommendation(e.target.value)} style={{ ...selectStyle, minWidth: '160px' }}>
+              <option value="">All Recommendations</option>
+              {recommendationOptions.map(r => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+          )}
 
           {hasActiveFilters && (
             <button
@@ -598,12 +774,25 @@ export default function PropertyPortfolio() {
                   <SortHeader label="EPC" field="epc" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
                   <SortHeader label="Sell Score" field="sell_score" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
                   <SortHeader label="Disposal" field="disposal" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+                  <SortHeader label="Assessment" field="disposal_band" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+                  <th style={{
+                    padding: '10px 12px',
+                    textAlign: 'left',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary, #aaa)',
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    whiteSpace: 'nowrap',
+                    minWidth: '180px',
+                  }}>
+                    Innovative Use
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {pageAssets.length === 0 && (
                   <tr>
-                    <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: '#8e8e93' }}>
+                    <td colSpan={9} style={{ padding: '40px', textAlign: 'center', color: '#8e8e93' }}>
                       No assets match your filters.
                     </td>
                   </tr>
@@ -643,6 +832,17 @@ export default function PropertyPortfolio() {
                     </td>
                     <td style={{ padding: '10px 12px' }}>
                       <DisposalBadge priority={asset.disposal?.priority} />
+                    </td>
+                    <td style={{ padding: '10px 12px' }}>
+                      <BandBadge band={asset.disposal_band} />
+                    </td>
+                    <td style={{
+                      padding: '10px 12px',
+                      fontSize: '0.75rem',
+                      color: 'var(--text-secondary, #aaa)',
+                      maxWidth: '220px',
+                    }}>
+                      {asset.innovative_use || '-'}
                     </td>
                   </tr>
                 ))}

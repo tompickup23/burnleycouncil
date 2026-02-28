@@ -227,7 +227,7 @@ describe('PropertyPortfolio', () => {
     expect(screen.getAllByText('Freehold').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('Land Only')).toBeInTheDocument()
     expect(screen.getByText('Disposal Candidates')).toBeInTheDocument()
-    expect(screen.getByText('Districts')).toBeInTheDocument()
+    expect(screen.getByText('Assessed')).toBeInTheDocument()
     expect(screen.getByText('CEDs Mapped')).toBeInTheDocument()
   })
 

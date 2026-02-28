@@ -210,6 +210,41 @@
   gap: 4px;
 }
 
+/* ── Assessment: Innovative Uses ── */
+.assessment-innovative-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md, 8px);
+  border-left: 3px solid #ffd60a;
+}
+
+.assessment-innovative-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #ffd60a;
+  padding: 2px 6px;
+  background: rgba(255, 214, 10, 0.12);
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.assessment-innovative-tag.secondary {
+  color: #bf5af2;
+  background: rgba(191, 90, 242, 0.12);
+  border-color: #bf5af2;
+}
+
+.assessment-innovative-item + .assessment-innovative-item {
+  border-left-color: #bf5af2;
+}
+
 @media (max-width: 480px) {
   .property-detail-row {
     flex-direction: column;

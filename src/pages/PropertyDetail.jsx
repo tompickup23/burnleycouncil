@@ -3,12 +3,13 @@
  *
  * Route: /property/:propertyId
  *
- * Strategist-only page with 5 tabs:
+ * Strategist-only page with 6 tabs:
  *   1. Overview -- Ownership, category, deprivation, Google Maps link
  *   2. Financials -- Linked spend, supplier breakdown
  *   3. Energy -- EPC rating, heating, floor area
  *   4. Disposal -- Recommendation, priority, reasoning, risks
- *   5. Location -- District, constituency, co-location, flood, crime
+ *   5. Assessment -- World-class scores, innovative uses, sales evidence
+ *   6. Location -- District, constituency, co-location, flood, crime
  *
  * Data: /data/property_assets_detail.json
  */
@@ -17,6 +18,7 @@ import { useParams, Link } from 'react-router-dom'
 import {
   Building, MapPin, Zap, Trash2, Navigation, ArrowLeft,
   ExternalLink, AlertTriangle, Shield, Thermometer,
+  ClipboardCheck, Tag, Lightbulb, TrendingUp,
 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -75,6 +77,7 @@ const TABS = [
   { id: 'financials', label: 'Financials', icon: Shield },
   { id: 'energy', label: 'Energy', icon: Zap },
   { id: 'disposal', label: 'Disposal', icon: Trash2 },
+  { id: 'assessment', label: 'Assessment', icon: ClipboardCheck },
   { id: 'location', label: 'Location', icon: Navigation },
 ]
 
@@ -84,7 +87,24 @@ const RECOMMENDATION_COLORS = {
   'Co-locate': '#ff9f0a',
   Review: '#ffd60a',
   Transfer: '#0a84ff',
+  Dispose: '#ff453a',
+  Repurpose: '#bf5af2',
+  Governance: '#8e8e93',
 }
+
+const BAND_COLORS = {
+  high: '#ff453a',
+  medium: '#ff9f0a',
+  low: '#30d158',
+}
+
+const WORLD_CLASS_DIMENSIONS = [
+  { key: 'disposal_readiness', bandKey: 'disposal_band', label: 'Disposal Readiness' },
+  { key: 'repurpose_potential', bandKey: 'repurpose_band', label: 'Repurpose Potential' },
+  { key: 'service_criticality', bandKey: 'service_band', label: 'Service Criticality' },
+  { key: 'net_zero_priority', bandKey: 'net_zero_band', label: 'Net Zero Priority' },
+  { key: 'resilience_need', bandKey: 'resilience_band', label: 'Resilience Need' },
+]
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -103,6 +123,28 @@ function scoreColor(score) {
   if (score >= 50) return '#ff9f0a'
   if (score >= 30) return '#ffd60a'
   return '#30d158'
+}
+
+/** Match recommendation text (e.g. "Dispose (active listing...)") to a color key. */
+function recommendationColor(rec) {
+  if (!rec) return '#8e8e93'
+  const lower = rec.toLowerCase()
+  if (lower.startsWith('dispose')) return RECOMMENDATION_COLORS.Dispose
+  if (lower.startsWith('retain')) return RECOMMENDATION_COLORS.Retain
+  if (lower.startsWith('repurpose')) return RECOMMENDATION_COLORS.Repurpose
+  if (lower.startsWith('governance')) return RECOMMENDATION_COLORS.Governance
+  if (lower.includes('sell')) return RECOMMENDATION_COLORS.Sell
+  if (lower.includes('co-locate')) return RECOMMENDATION_COLORS['Co-locate']
+  if (lower.includes('review')) return RECOMMENDATION_COLORS.Review
+  return '#0a84ff'
+}
+
+function confidenceColor(conf) {
+  if (!conf) return '#8e8e93'
+  const lower = conf.toLowerCase()
+  if (lower === 'high') return '#30d158'
+  if (lower === 'medium') return '#ff9f0a'
+  return '#8e8e93'
 }
 
 function Badge({ label, color, bg }) {
@@ -152,6 +194,29 @@ function DeprivationBar({ label, decile }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
         <span style={{ color: 'var(--text-secondary, #94a3b8)' }}>{label}</span>
         <span style={{ color, fontWeight: 600 }}>{decile != null ? `${decile}/10` : '-'}</span>
+      </div>
+      <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: '4px', transition: 'width 0.4s ease' }} />
+      </div>
+    </div>
+  )
+}
+
+// ── World-Class Score Bar ─────────────────────────────────────────────────────
+
+function WorldClassBar({ label, score, band }) {
+  const pct = score != null ? Math.min(score, 100) : 0
+  const color = BAND_COLORS[band] || scoreColor(score)
+  return (
+    <div style={{ marginBottom: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
+        <span style={{ color: 'var(--text-secondary, #94a3b8)' }}>{label}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {band && (
+            <span style={{ fontSize: '0.7rem', color, textTransform: 'capitalize', fontWeight: 500 }}>{band}</span>
+          )}
+          <span style={{ color, fontWeight: 600 }}>{score != null ? score : '-'}</span>
+        </span>
       </div>
       <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
         <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: '4px', transition: 'width 0.4s ease' }} />
@@ -682,6 +747,200 @@ function LocationTab({ asset }) {
   )
 }
 
+// ── Assessment Tab ────────────────────────────────────────────────────────────
+
+function SalesEvidenceSection({ evidence }) {
+  if (!evidence?.length) return null
+  return (
+    <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+      <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <TrendingUp size={16} style={{ color: '#0a84ff' }} /> Sales Evidence
+      </h3>
+      <div style={{ overflowX: 'auto' }}>
+        <table className="property-table">
+          <thead>
+            <tr>
+              <th>Listing</th>
+              <th>Status</th>
+              <th style={{ textAlign: 'right' }}>Price</th>
+              <th>Method</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {evidence.map((ev, i) => (
+              <tr key={i}>
+                <td>
+                  {ev.url ? (
+                    <a
+                      href={ev.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="property-internal-link"
+                      style={{ padding: 0, background: 'none' }}
+                    >
+                      {ev.title || ev.type?.replace(/_/g, ' ') || 'Listing'} <ExternalLink size={11} />
+                    </a>
+                  ) : (
+                    <span>{ev.title || ev.type?.replace(/_/g, ' ') || 'Listing'}</span>
+                  )}
+                  {ev.confidence && (
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '2px' }}>
+                      {ev.confidence.replace(/_/g, ' ')}
+                    </div>
+                  )}
+                </td>
+                <td>
+                  <Badge
+                    label={ev.status || '-'}
+                    color={ev.status === 'marketed' ? '#30d158' : ev.status === 'sold' ? '#0a84ff' : '#8e8e93'}
+                    bg={ev.status === 'marketed' ? 'rgba(48,209,88,0.15)' : ev.status === 'sold' ? 'rgba(10,132,255,0.15)' : 'rgba(142,142,147,0.15)'}
+                  />
+                </td>
+                <td style={{ textAlign: 'right', fontWeight: 600 }}>{ev.price || '-'}</td>
+                <td>{ev.method || '-'}</td>
+                <td style={{ whiteSpace: 'nowrap' }}>{ev.date || '-'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+function AssessmentTab({ asset }) {
+  const assess = asset.assessment
+
+  if (!assess) {
+    return (
+      <div className="glass-card" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
+        <ClipboardCheck size={40} style={{ color: 'var(--text-tertiary)', marginBottom: 'var(--space-md)', opacity: 0.4 }} />
+        <p style={{ color: 'var(--text-secondary)' }}>No assessment data available for this property.</p>
+      </div>
+    )
+  }
+
+  const recColor = recommendationColor(assess.recommendation)
+  const confColor = confidenceColor(assess.confidence)
+  const risks = assess.key_risks ? assess.key_risks.split(/[|;]/).map(r => r.trim()).filter(Boolean) : []
+  const steps = assess.next_steps ? assess.next_steps.split(/[|;]/).map(s => s.trim()).filter(Boolean) : []
+
+  return (
+    <div>
+      {/* Recommendation header */}
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Assessment Recommendation</h3>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
+          <Badge label={assess.recommendation} color={recColor} bg={`${recColor}20`} />
+          {assess.confidence && (
+            <Badge
+              label={`${assess.confidence} confidence`}
+              color={confColor}
+              bg={`${confColor}15`}
+            />
+          )}
+        </div>
+        {assess.recommendation_category && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 'var(--space-md)' }}>
+            <Tag size={13} style={{ color: 'var(--text-tertiary)' }} />
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{assess.recommendation_category}</span>
+          </div>
+        )}
+        {assess.priority_score != null && (
+          <div>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Priority Score</span>
+            <div style={{ fontSize: '2rem', fontWeight: 700, color: scoreColor(assess.priority_score) }}>
+              {assess.priority_score}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* World-class scores */}
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>World-Class Scores</h3>
+        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary, #94a3b8)', marginBottom: 'var(--space-md)' }}>
+          Five-dimension assessment (0 = low priority, 100 = high priority)
+        </p>
+        {WORLD_CLASS_DIMENSIONS.map(d => (
+          <WorldClassBar
+            key={d.key}
+            label={d.label}
+            score={assess[d.key]}
+            band={assess[d.bandKey]}
+          />
+        ))}
+      </div>
+
+      {/* Innovative uses */}
+      {(assess.innovative_use_primary || assess.innovative_use_secondary) && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Lightbulb size={16} style={{ color: '#ffd60a' }} /> Innovative Uses
+            {assess.innovative_use_count != null && (
+              <Badge label={`${assess.innovative_use_count} identified`} />
+            )}
+          </h3>
+          {assess.innovative_use_primary && (
+            <div className="assessment-innovative-item" style={{ marginBottom: assess.innovative_use_secondary ? 'var(--space-sm)' : 0 }}>
+              <span className="assessment-innovative-tag">Primary</span>
+              <span style={{ fontSize: '0.85rem' }}>{assess.innovative_use_primary}</span>
+            </div>
+          )}
+          {assess.innovative_use_secondary && (
+            <div className="assessment-innovative-item">
+              <span className="assessment-innovative-tag secondary">Secondary</span>
+              <span style={{ fontSize: '0.85rem' }}>{assess.innovative_use_secondary}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Reasoning */}
+      {assess.reasoning && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>Reasoning</h3>
+          {assess.reasoning.split(/\n|;\s*/).filter(Boolean).map((p, i) => (
+            <p key={i} style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)', lineHeight: 1.6 }}>
+              {p.trim()}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {/* Key risks */}
+      {risks.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <AlertTriangle size={16} style={{ color: '#ff9f0a' }} /> Key Risks
+          </h3>
+          <ul style={{ margin: 0, paddingLeft: 'var(--space-lg)' }}>
+            {risks.map((r, i) => (
+              <li key={i} style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>{r}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Next steps */}
+      {steps.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>Next Steps</h3>
+          <ul style={{ margin: 0, paddingLeft: 'var(--space-lg)' }}>
+            {steps.map((s, i) => (
+              <li key={i} style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>{s}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Sales evidence */}
+      <SalesEvidenceSection evidence={asset.sales_evidence} />
+    </div>
+  )
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────────
 
 function PropertyDetail() {
@@ -833,6 +1092,7 @@ function PropertyDetail() {
         {activeTab === 'financials' && <FinancialsTab asset={asset} />}
         {activeTab === 'energy' && <EnergyTab asset={asset} />}
         {activeTab === 'disposal' && <DisposalTab asset={asset} />}
+        {activeTab === 'assessment' && <AssessmentTab asset={asset} />}
         {activeTab === 'location' && <LocationTab asset={asset} />}
       </div>
     </div>
