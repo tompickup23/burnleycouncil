@@ -1,47 +1,67 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair } from 'lucide-react'
-import { useState, useMemo, useEffect } from 'react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, Search } from 'lucide-react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
 import { useAuth as useAuthHook } from '../context/AuthContext'
-import { preloadData } from '../hooks/useData'
+import { preloadData, useData } from '../hooks/useData'
+import GlobalSearch from './GlobalSearch'
+import DataFreshnessStamp from './DataFreshnessStamp'
 import './Layout.css'
 
-// Nav items grouped into sections with optional data_sources key for conditional display
+// Nav items grouped into labelled collapsible sections
 const navSections = [
   {
     items: [
       { path: '/', icon: Home, label: 'Home' },
+    ],
+  },
+  {
+    title: 'Transparency',
+    collapsible: true,
+    items: [
+      { path: '/spending', icon: PoundSterling, label: 'Spending', requires: 'spending' },
+      { path: '/budgets', icon: PieChart, label: 'Budgets', requires: ['budgets', 'budget_trends'] },
       { path: '/doge', icon: Shield, label: 'DOGE', requires: 'doge_investigation' },
+      { path: '/suppliers', icon: Building, label: 'Suppliers', requires: ['supplier_profiles', 'supplier_index'] },
+      { path: '/procurement', icon: FileText, label: 'Contracts', requires: 'procurement' },
+      { path: '/foi', icon: FileQuestion, label: 'FOI', requires: 'foi' },
+    ],
+  },
+  {
+    title: 'People',
+    collapsible: true,
+    items: [
+      { path: '/politics', icon: Users, label: 'Councillors', requires: 'politics' },
+      { path: '/integrity', icon: Fingerprint, label: 'Integrity', requires: 'integrity' },
+      { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
+      { path: '/constituencies', icon: Landmark, label: 'MPs', requires: 'constituencies' },
+    ],
+  },
+  {
+    title: 'Democracy',
+    collapsible: true,
+    items: [
+      { path: '/elections', icon: Vote, label: 'Elections', requires: 'elections' },
+      { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
       { path: '/news', icon: Newspaper, label: 'News', requires: 'news' },
     ],
   },
   {
+    title: 'Area',
+    collapsible: true,
     items: [
-      { path: '/spending', icon: PoundSterling, label: 'Spending', requires: 'spending' },
-      { path: '/budgets', icon: PieChart, label: 'Budgets', requires: ['budgets', 'budget_trends'] },
-      { path: '/procurement', icon: FileText, label: 'Contracts', requires: 'procurement' },
-      { path: '/suppliers', icon: Building, label: 'Suppliers', requires: ['supplier_profiles', 'supplier_index'] },
-      { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
-    ],
-  },
-  {
-    items: [
-      { path: '/politics', icon: Users, label: 'Politics', requires: 'politics' },
-      { path: '/integrity', icon: Fingerprint, label: 'Integrity', requires: 'integrity' },
       { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
       { path: '/demographics', icon: Globe, label: 'Demographics', requires: 'demographics' },
-      { path: '/lgr', icon: Landmark, label: 'LGR Tracker', requires: 'lgr_tracker' },
-      { path: '/elections', icon: Vote, label: 'Elections', requires: 'elections' },
-      { path: '/constituencies', icon: Landmark, label: 'MPs', requires: 'constituencies' },
-      { path: '/lgr-calculator', icon: Calculator, label: 'LGR Cost', requires: 'lgr_tracker' },
-      { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
+      { path: '/compare', icon: GitCompareArrows, label: 'Cross-Council' },
     ],
   },
   {
+    title: 'Analysis',
+    collapsible: true,
     items: [
-      { path: '/compare', icon: GitCompareArrows, label: 'Compare' },
-      { path: '/foi', icon: FileQuestion, label: 'FOI', requires: 'foi' },
+      { path: '/lgr', icon: Landmark, label: 'LGR Tracker', requires: 'lgr_tracker' },
+      { path: '/lgr-calculator', icon: Calculator, label: 'LGR Cost', requires: 'lgr_tracker' },
       { path: '/press', icon: Megaphone, label: 'Press' },
       { path: '/about', icon: Info, label: 'About' },
     ],
@@ -50,6 +70,8 @@ const navSections = [
 
 function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [collapsedSections, setCollapsedSections] = useState({})
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const officialUrl = config.official_website || '#'
@@ -59,15 +81,33 @@ function Layout({ children }) {
   // Auth context — returns null when no AuthProvider (dev mode)
   const authCtx = useAuthHook()
 
+  // Load data for GlobalSearch
+  const { data: searchData } = useData(['/data/councillors.json', '/data/config.json'])
+  const [councillorsForSearch, configForSearch] = searchData || [[], null]
+
+  // Keyboard shortcut: Cmd+K / Ctrl+K for GlobalSearch
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen(prev => !prev)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
+  const toggleSection = useCallback((title) => {
+    setCollapsedSections(prev => ({ ...prev, [title]: !prev[title] }))
+  }, [])
+
   // Preload data for likely next routes based on current page
   const location = useLocation()
   useEffect(() => {
     const path = location.pathname
     if (path === '/') {
-      // From Home, users most often visit Spending or DOGE
       preloadData(['/data/spending.json', '/data/doge_findings.json'])
     } else if (path === '/spending') {
-      // From Spending, users often check suppliers or budgets
       preloadData(['/data/supplier_profiles.json', '/data/taxonomy.json'])
     }
   }, [location.pathname])
@@ -79,7 +119,6 @@ function Layout({ children }) {
         ...section,
         items: section.items.filter(item => {
           if (!item.requires) return true
-          // requires can be a string or array — show if ANY flag is truthy
           const keys = Array.isArray(item.requires) ? item.requires : [item.requires]
           return keys.some(key => dataSources[key])
         }),
@@ -115,6 +154,19 @@ function Layout({ children }) {
         </div>
 
         <nav className="sidebar-nav" aria-label="Site navigation">
+          {/* Search trigger */}
+          <div className="nav-section">
+            <button
+              className="nav-item nav-search-trigger"
+              onClick={() => setSearchOpen(true)}
+              style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', color: 'inherit' }}
+            >
+              <Search size={20} />
+              <span>Search</span>
+              <kbd className="nav-shortcut">⌘K</kbd>
+            </button>
+          </div>
+
           {/* Hub link — back to all councils directory */}
           <div className="nav-section">
             <a
@@ -129,8 +181,35 @@ function Layout({ children }) {
           </div>
           {visibleSections.map((section, si) => (
             <div key={si} className="nav-section">
-              {si > 0 && <div className="nav-divider" />}
-              {section.items.map(({ path, icon: Icon, label }) => (
+              {si > 0 && !section.title && <div className="nav-divider" />}
+              {section.title && (
+                <>
+                  <div className="nav-divider" />
+                  <button
+                    className="nav-section-title"
+                    onClick={() => section.collapsible && toggleSection(section.title)}
+                    style={{
+                      background: 'none', border: 'none', width: '100%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      padding: '6px 16px 2px', cursor: section.collapsible ? 'pointer' : 'default',
+                      color: 'var(--text-secondary, #94a3b8)', fontSize: '0.6rem',
+                      fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
+                    }}
+                  >
+                    {section.title}
+                    {section.collapsible && (
+                      <ChevronDown
+                        size={12}
+                        style={{
+                          transform: collapsedSections[section.title] ? 'rotate(-90deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.2s ease',
+                        }}
+                      />
+                    )}
+                  </button>
+                </>
+              )}
+              {!collapsedSections[section.title] && section.items.map(({ path, icon: Icon, label }) => (
                 <NavLink
                   key={path}
                   to={path}
@@ -217,6 +296,7 @@ function Layout({ children }) {
           <p className="footer-imprint">
             Published by {config.publisher || 'AI DOGE'}
           </p>
+          <DataFreshnessStamp lastUpdated={configForSearch?.last_updated || config.last_updated} />
         </div>
       </aside>
 
@@ -230,6 +310,13 @@ function Layout({ children }) {
           tabIndex={-1}
         />
       )}
+
+      {/* GlobalSearch modal */}
+      <GlobalSearch
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        councillors={Array.isArray(councillorsForSearch) ? councillorsForSearch : councillorsForSearch?.councillors || []}
+      />
 
       {/* Main content */}
       <main id="main-content" className="main-content" role="main">

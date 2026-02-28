@@ -4,6 +4,7 @@ import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTria
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CouncillorLink from '../components/CouncillorLink'
 import { formatCurrency, slugify } from '../utils/format'
 import { SEVERITY_COLORS } from '../utils/constants'
 import './Integrity.css'
@@ -552,7 +553,9 @@ function Integrity() {
               </p>
               <div className="network-candidates">
                 {stats.networkCandidateNames.map(name => (
-                  <span key={name} className="network-candidate-chip">{name}</span>
+                  <span key={name} className="network-candidate-chip">
+                    <CouncillorLink name={name} councillorId={slugify(name)} compact />
+                  </span>
                 ))}
               </div>
               <p className="network-note">
@@ -776,7 +779,7 @@ function Integrity() {
                 <div className="investigation-rank">#{i + 1}</div>
                 <div className="investigation-details">
                   <div className="investigation-header">
-                    <strong>{item.councillor}</strong>
+                    <strong><CouncillorLink name={item.councillor} councillorId={slugify(item.councillor)} compact /></strong>
                     <span className="investigation-council">{item.council}</span>
                     <span className={`risk-badge ${item.risk_level}`}>
                       {item.risk_level}
@@ -995,7 +998,7 @@ function Integrity() {
                 <div className="familial-members">
                   {cluster.members.map((m, j) => (
                     <div key={j} className="familial-member">
-                      <span>{m.name}</span>
+                      <span><CouncillorLink name={m.name} councillorId={slugify(m.name)} compact /></span>
                       <span className="familial-meta">{m.party} · {m.ward}</span>
                     </div>
                   ))}
@@ -1017,7 +1020,7 @@ function Integrity() {
                 <div className="familial-members">
                   {shared.members.map((m, j) => (
                     <div key={j} className="familial-member">
-                      <span>{m.name}</span>
+                      <span><CouncillorLink name={m.name} councillorId={slugify(m.name)} compact /></span>
                       <span className="familial-meta">{m.party} · {m.ward}</span>
                     </div>
                   ))}
@@ -1121,7 +1124,9 @@ function Integrity() {
                             {conn.conflictType === 'community_trustee' ? 'Community' : conn.conflictType === 'council_appointed' ? 'Appointed' : conn.conflictType === 'arms_length_body' ? "Arm's-Length" : ''}
                           </span>
                         )}
-                        <span className="connection-councillor">{conn.councillor}</span>
+                        <span className="connection-councillor">
+                          <CouncillorLink name={conn.councillor} councillorId={conn.councillorId || slugify(conn.councillor)} compact />
+                        </span>
                         {conn.party && (
                           <span className="connection-party">{conn.party}</span>
                         )}
@@ -1211,7 +1216,7 @@ function Integrity() {
                 <div className="integrity-name-block">
                   <div className="party-indicator" style={{ background: councillor.party_color || '#666' }} />
                   <div>
-                    <h3>{councillor.name}</h3>
+                    <h3><CouncillorLink name={councillor.name} councillorId={councillor.councillor_id || slugify(councillor.name)} compact /></h3>
                     <span className="integrity-ward">{councillor.ward}</span>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import {
   AlertTriangle, Shield, ChevronRight, TrendingUp, Building,
@@ -13,10 +13,12 @@ import {
   PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   ScatterChart, Scatter, ZAxis, Legend
 } from 'recharts'
-import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
+import { formatCurrency, formatNumber, formatPercent, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CouncillorLink from '../components/CouncillorLink'
+import IntegrityBadge from '../components/IntegrityBadge'
 import { SEVERITY_COLORS as severityColors, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import './DogeInvestigation.css'
 
@@ -115,6 +117,8 @@ function DogeInvestigation() {
   const { data, loading, error } = useData(dataUrls)
   // doge_knowledge.json is optional — only exists for some councils
   const { data: dogeKnowledge } = useData('/data/doge_knowledge.json')
+  // Integrity data for councillor-supplier cross-reference
+  const { data: integrityData } = useData('/data/integrity.json')
 
   useEffect(() => {
     document.title = `DOGE Investigation | ${councilName} Council Transparency`
@@ -147,6 +151,29 @@ function DogeInvestigation() {
   const keyFindings = dogeFindings.key_findings || []
   const analysesRun = dogeFindings.analyses_run || []
   const generated = dogeFindings.generated
+
+  // Build supplier→councillor map from integrity data for cross-reference badges
+  const supplierCouncillorMap = useMemo(() => {
+    const map = new Map()
+    if (!integrityData?.councillors) return map
+    integrityData.councillors.forEach(c => {
+      c.supplier_conflicts?.forEach(conflict => {
+        const name = (conflict.supplier_match?.supplier || '').toLowerCase()
+        if (name) {
+          if (!map.has(name)) map.set(name, [])
+          map.get(name).push({ name: c.name, id: c.councillor_id, risk: c.risk_level })
+        }
+      })
+      c.network_crossover?.links?.forEach(link => {
+        const name = (link.supplier_company || '').toLowerCase()
+        if (name) {
+          if (!map.has(name)) map.set(name, [])
+          map.get(name).push({ name: c.name, id: c.councillor_id, risk: c.risk_level, indirect: true })
+        }
+      })
+    })
+    return map
+  }, [integrityData])
 
   // Knowledge data
   const profile = dogeKnowledge?.council_profile || dogeContext

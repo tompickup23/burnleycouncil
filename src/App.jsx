@@ -39,6 +39,7 @@ const ConstituencyView = lazy(() => import('./pages/ConstituencyView'))
 const MPComparison = lazy(() => import('./pages/MPComparison'))
 const Strategy = lazy(() => import('./pages/Strategy'))
 const Intelligence = lazy(() => import('./pages/Intelligence'))
+const CouncillorDossier = lazy(() => import('./pages/CouncillorDossier'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
 
 // Preload commonly needed data
@@ -141,6 +142,7 @@ function RouterContent() {
             <Route path="/constituency/:constituencyId" element={<Guarded><ConstituencyView /></Guarded>} />
             <Route path="/strategy" element={<Guarded><Strategy /></Guarded>} />
             <Route path="/intelligence" element={<Guarded><Intelligence /></Guarded>} />
+            <Route path="/councillor/:councillorId" element={<Guarded><CouncillorDossier /></Guarded>} />
             <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

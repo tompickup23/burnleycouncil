@@ -46,6 +46,8 @@ function CrossCouncil() {
 
   const { data, loading, error } = useData('/data/cross_council.json')
   const comparison = data
+  // Integrity cross-council data for red flag counts per council
+  const { data: integrityXC } = useData('/data/shared/integrity_cross_council.json')
 
   const allCouncils = comparison?.councils || []
   // For county/unitary tiers with very few peer councils, default to showing all

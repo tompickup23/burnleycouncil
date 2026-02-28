@@ -267,6 +267,59 @@ def scrape_committees(base_url):
     return committees
 
 
+def scrape_committee_members(base_url, cid, committee_name):
+    """Scrape members of a specific committee from mgCommitteeDetails.aspx.
+
+    Returns list of dicts: [{name, role, uid}, ...] where role is
+    'Chair', 'Vice-Chair', or 'Member'.
+    """
+    url = f"{base_url}/mgCommitteeDetails.aspx?ID={cid}"
+    soup = fetch_page(url)
+    if not soup:
+        return []
+
+    members = []
+    seen_uids = set()
+
+    # ModernGov lists members as links to mgUserInfo.aspx?UID=xxx
+    for link in soup.find_all('a', href=True):
+        href = link['href']
+        if 'mgUserInfo.aspx' not in href:
+            continue
+        m = re.search(r'UID=(\d+)', href, re.I)
+        if not m:
+            continue
+        uid = m.group(1)
+        if uid in seen_uids:
+            continue
+        seen_uids.add(uid)
+
+        name = link.get_text(strip=True)
+        if not name or len(name) < 3:
+            continue
+        # Strip "Councillor" / "Cllr" prefix for consistency
+        name = re.sub(r'^(Cllr|Councillor)\s+', '', name, flags=re.I).strip()
+
+        # Determine role — check surrounding text/parent for Chair/Vice-Chair
+        role = 'Member'
+        parent_text = ''
+        parent = link.find_parent(['tr', 'li', 'div', 'span', 'td'])
+        if parent:
+            parent_text = parent.get_text(' ', strip=True).lower()
+        if 'vice' in parent_text and 'chair' in parent_text:
+            role = 'Vice-Chair'
+        elif 'chair' in parent_text and 'vice' not in parent_text:
+            role = 'Chair'
+
+        members.append({
+            'name': name,
+            'role': role,
+            'uid': uid,
+        })
+
+    return members
+
+
 def scrape_committee_meetings(base_url, cid, committee_name, year=None):
     """Scrape meetings for a specific committee in a given year."""
     if year is None:
@@ -485,13 +538,21 @@ def scrape_council_meetings(council_id, config, months_ahead=2, fetch_detail=Tru
     base_url = config['moderngov_url']
     if not base_url:
         log.warning(f"  {council_id}: No ModernGov URL, skipping")
-        return []
+        return [], []
 
     log.info(f"  Scraping committees for {council_id}...")
     committees = scrape_committees(base_url)
     if not committees:
         log.warning(f"  {council_id}: No committees found")
-        return []
+        return [], []
+
+    # Scrape committee membership for each committee
+    log.info(f"  Scraping committee members for {len(committees)} committees...")
+    for committee in committees:
+        members = scrape_committee_members(base_url, committee['cid'], committee['name'])
+        committee['members'] = members
+    member_count = sum(len(c.get('members', [])) for c in committees)
+    log.info(f"  Found {member_count} total member seats across {len(committees)} committees")
 
     # Determine which years to scrape
     now = datetime.now()
@@ -550,10 +611,10 @@ def scrape_council_meetings(council_id, config, months_ahead=2, fetch_detail=Tru
     # Sort by date, then time
     filtered.sort(key=lambda m: (m['date'], m.get('time') or ''))
 
-    return filtered
+    return filtered, committees
 
 
-def format_meetings_json(council_id, config, meetings):
+def format_meetings_json(council_id, config, meetings, committees=None):
     """Format scraped meetings into the meetings.json structure."""
     now = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z')
     next_week = (datetime.utcnow() + timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
@@ -588,11 +649,23 @@ def format_meetings_json(council_id, config, meetings):
             'documents': m.get('documents', []),
         })
 
+    # Format committees with membership data
+    formatted_committees = []
+    if committees:
+        for c in committees:
+            formatted_committees.append({
+                'cid': c['cid'],
+                'name': c['name'],
+                'type': c['type'],
+                'members': c.get('members', []),
+            })
+
     return {
         'last_updated': now,
         'next_update': next_week,
         'source': config['moderngov_url'],
         'how_to_attend': {},
+        'committees': formatted_committees,
         'meetings': formatted_meetings,
     }
 
@@ -601,17 +674,20 @@ def process_council(council_id, config, months_ahead=2, dry_run=False, fetch_det
     """Process a single council."""
     log.info(f"Processing {council_id} ({config['name']})...")
 
-    meetings = scrape_council_meetings(council_id, config, months_ahead, fetch_detail)
+    meetings, committees = scrape_council_meetings(council_id, config, months_ahead, fetch_detail)
 
     if not meetings:
         log.warning(f"  {council_id}: No meetings found")
-        # Still write empty meetings.json
-        result = format_meetings_json(council_id, config, [])
+        # Still write empty meetings.json — but include committees
+        result = format_meetings_json(council_id, config, [], committees)
     else:
-        result = format_meetings_json(council_id, config, meetings)
+        result = format_meetings_json(council_id, config, meetings, committees)
 
     meeting_count = len(result['meetings'])
-    log.info(f"  {council_id}: {meeting_count} meetings formatted")
+    committee_count = len(result.get('committees', []))
+    member_seats = sum(len(c.get('members', [])) for c in result.get('committees', []))
+    log.info(f"  {council_id}: {meeting_count} meetings, {committee_count} committees, "
+             f"{member_seats} member seats formatted")
 
     if dry_run:
         log.info(f"  DRY RUN: Would write {meeting_count} meetings to "

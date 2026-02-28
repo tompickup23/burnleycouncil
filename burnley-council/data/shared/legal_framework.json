@@ -106,5 +106,104 @@
     "relevance": "If council whistleblowing policies are weak or whistleblowers face retaliation, waste and fraud can persist. DOGE analysis serves a similar public interest disclosure function.",
     "signals": ["No published whistleblowing policy", "Employment tribunals citing whistleblower detriment", "No evidence of disclosures being acted upon"],
     "url": "https://www.legislation.gov.uk/ukpga/1998/23/contents"
+  },
+  {
+    "law": "Bribery Act 2010, ss.1-6",
+    "title": "Bribery of Public Officials",
+    "category": "accountability",
+    "summary": "Criminalises offering or receiving bribes (ss.1-2), bribery of foreign public officials (s.6), and failure by organisations to prevent bribery (s.7). Maximum penalty: 10 years imprisonment and unlimited fine.",
+    "relevance": "Donation-to-contract correlations, gift/hospitality patterns, and financial links between councillors and suppliers may indicate bribery indicators requiring police referral. Section 7 corporate liability applies to councils themselves.",
+    "signals": ["Donations followed by contract awards within 12 months", "Gifts from suppliers to committee decision-makers", "Financial links between councillors and beneficiaries of their decisions"],
+    "url": "https://www.legislation.gov.uk/ukpga/2010/23/contents"
+  },
+  {
+    "law": "Proceeds of Crime Act 2002, ss.327-332",
+    "title": "Money Laundering",
+    "category": "accountability",
+    "summary": "Criminalises concealing (s.327), arranging (s.328), and acquiring (s.329) criminal property. Sections 330-332 require disclosure of knowledge or suspicion of money laundering. Failure to report is itself an offence.",
+    "relevance": "Shell company donor patterns, phantom companies receiving public funds, and complex ownership chains involving council suppliers may indicate money laundering. Dormant companies suddenly activated as suppliers is a classic layering technique.",
+    "signals": ["Shell company donors to political parties", "Dormant-to-active supplier activation patterns", "Complex ownership chains obscuring beneficial ownership", "Multiple companies at formation agent addresses"],
+    "url": "https://www.legislation.gov.uk/ukpga/2002/29/contents"
+  },
+  {
+    "law": "Local Government Finance Act 1992, ss.30-52, 106",
+    "title": "Council Tax & Precepts",
+    "category": "financial",
+    "summary": "Establishes council tax framework. Section 106 disqualifies any councillor with council tax arrears of 2+ months from voting on council tax, precepts, or any recommendation relating to the council's budget. Breach is a criminal offence.",
+    "relevance": "Section 106 disqualification is rarely enforced but detectable through cross-referencing council tax records with councillor registers. Councillors voting on budgets while holding undeclared financial interests in budget beneficiaries violates the spirit of the Act.",
+    "signals": ["Councillor council tax arrears exceeding 2 months", "Budget votes benefiting declared interests", "Precept decisions without public impact assessment"],
+    "url": "https://www.legislation.gov.uk/ukpga/1992/14/contents"
+  },
+  {
+    "law": "Town and Country Planning Act 1990",
+    "title": "Planning Decisions",
+    "category": "governance",
+    "summary": "Framework for planning permission decisions by local authorities. Councillors on planning committees must declare interests in applications and withdraw from decisions. Planning decisions can be challenged by judicial review if procedurally flawed.",
+    "relevance": "Councillors with declared land interests sitting on planning committees face the highest conflict-of-interest risk in local government. Cross-referencing land declarations against planning applications and committee memberships is a priority detection target.",
+    "signals": ["Planning committee member with land interest in application area", "Councillor voting on planning applications benefiting associates or employers", "Planning decisions favouring councillor-linked developers"],
+    "url": "https://www.legislation.gov.uk/ukpga/1990/8/contents"
+  },
+  {
+    "law": "Companies Act 2006, ss.170-177, 190-196, 382-384, 479",
+    "title": "Director Duties & Thresholds",
+    "category": "accountability",
+    "summary": "ss.170-177: General duties of directors including duty to promote success (s.172), avoid conflicts (s.175), not accept third-party benefits (s.176), and declare interests (s.177). ss.190-196: Substantial property transactions with directors require shareholder approval. ss.382-384: Small company accounting thresholds (turnover <£10.2M, assets <£5.1M, employees <50 — must meet 2 of 3). s.479: Audit exemption for subsidiary companies requires whole group to qualify as small.",
+    "relevance": "Councillor-directors have dual duties to their company and their public office. Section 175 duty to avoid conflicts directly applies when their company trades with the council. Section 190 substantial property transactions may reveal hidden dealings. Small company exemptions and total exemption full accounts are frequently exploited to avoid publishing turnover and profit data.",
+    "signals": ["Councillor-directors not declaring conflicts under s.175", "Substantial property transactions with councillor-linked companies", "Companies filing total exemption accounts despite exceeding thresholds", "Group companies claiming subsidiary audit exemption inappropriately"],
+    "url": "https://www.legislation.gov.uk/ukpga/2006/46/contents"
+  },
+  {
+    "law": "Housing Act 2004, Part 3",
+    "title": "Selective Licensing",
+    "category": "governance",
+    "summary": "Councils can designate areas requiring selective licensing for private rented housing. Landlords must apply for and hold a licence. Councils set licence conditions, fees, and enforcement policy. Failure to obtain a licence is a criminal offence with unlimited fines.",
+    "relevance": "Councillors who are private landlords in selective licensing areas face direct conflicts of interest. They vote on licensing policies and fee levels that directly affect their rental income and property values. East Lancashire councils (Burnley, Hyndburn, Pendle) all operate selective licensing schemes.",
+    "signals": ["Councillor-landlords in selective licensing areas", "Landlord councillors voting on licensing policy or fee levels", "Property-owning councillors on housing committees"],
+    "url": "https://www.legislation.gov.uk/ukpga/2004/34/part/3"
+  },
+  {
+    "law": "Environmental Protection Act 1990, Part II",
+    "title": "Waste Collection & Disposal",
+    "category": "procurement",
+    "summary": "Councils have a statutory duty to collect and dispose of household waste. Waste contracts are among the largest council procurement areas, frequently worth tens of millions over contract periods. Competitive tendering is required for waste services.",
+    "relevance": "Waste collection contracts are high-value, long-term, and frequently feature supplier concentration or monopoly. Burnley's URBASER contract (£19.5M tracked) is typical. Councillors with interests in waste management companies face direct procurement conflicts.",
+    "signals": ["Single-supplier waste contracts without competitive re-tender", "Councillor links to waste management companies", "Waste contract splitting below tender thresholds", "Contract extensions without market testing"],
+    "url": "https://www.legislation.gov.uk/ukpga/1990/43/part/II"
+  },
+  {
+    "law": "Seven Principles of Public Life (Nolan Principles)",
+    "title": "Standards of Conduct",
+    "category": "governance",
+    "summary": "Selflessness, Integrity, Objectivity, Accountability, Openness, Honesty, and Leadership. Established by the Committee on Standards in Public Life (1995). Not statute law but binding on councillors through local authority codes of conduct adopted under the Localism Act 2011.",
+    "relevance": "The Nolan Principles provide the ethical framework against which all integrity findings should be measured. Empty registers violate Openness. Undeclared directorships violate Honesty. Voting on personal interest items violates Objectivity. AI DOGE exists to uphold Accountability.",
+    "signals": ["Empty register of interests (violates Openness)", "Undeclared directorships (violates Honesty)", "Voting on personal interest items (violates Objectivity)", "No published code of conduct (violates Leadership)"],
+    "url": "https://www.gov.uk/government/publications/the-7-principles-of-public-life"
+  },
+  {
+    "law": "Data Protection Act 2018 / UK GDPR",
+    "title": "Data Protection",
+    "category": "transparency",
+    "summary": "Regulates processing of personal data. Lawful bases include public task (Article 6(1)(e)) and legitimate interests (Article 6(1)(f)). Processing of special category data (political opinions) requires additional safeguards under Article 9(2)(e) for data manifestly made public.",
+    "relevance": "AI DOGE processes publicly available data about elected officials under the legitimate interests basis. Councillors' public roles, declared interests, and company directorships are not private data. Analysis serves the substantial public interest in democratic accountability and transparency. All source data is either published by the council, filed at Companies House, or declared to the Electoral Commission.",
+    "signals": [],
+    "url": "https://www.legislation.gov.uk/ukpga/2018/12/contents"
+  },
+  {
+    "law": "Regulation of Investigatory Powers Act 2000",
+    "title": "Council Surveillance Powers",
+    "category": "governance",
+    "summary": "Councils can authorise directed surveillance and covert human intelligence sources (CHIS) for specific purposes. Since the Protection of Freedoms Act 2012, judicial approval is required for all council RIPA authorisations. Councils must publish annual RIPA usage statistics.",
+    "relevance": "Provides context for understanding council investigatory powers and their limits. Councils that misuse RIPA for trivial matters (school catchment surveillance, dog fouling) raise governance concerns. Also relevant if councils investigate their own members following integrity findings.",
+    "signals": ["Council RIPA authorisations for trivial or disproportionate matters", "No published RIPA policy or annual statistics", "No RIPA oversight committee or reports"],
+    "url": "https://www.legislation.gov.uk/ukpga/2000/23/contents"
+  },
+  {
+    "law": "Anti-social Behaviour, Crime and Policing Act 2014",
+    "title": "PSPOs & Discretionary Powers",
+    "category": "governance",
+    "summary": "Gives councils power to make Public Spaces Protection Orders (PSPOs), issue Community Protection Notices, and obtain closure orders. These are discretionary powers exercised by councillors and officers. PSPOs can restrict activities in public spaces for up to 3 years.",
+    "relevance": "Councillors using discretionary enforcement powers (PSPOs, licensing, planning conditions) in areas where they have property or business interests represents a direct conflict between public duty and private gain. Cross-referencing PSPO areas with councillor property declarations can reveal patterns.",
+    "signals": ["PSPOs covering areas near councillor property interests", "Selective enforcement patterns near councillor-linked businesses", "Licensing decisions favouring councillor-connected parties", "Enforcement action against competitors of councillor-linked businesses"],
+    "url": "https://www.legislation.gov.uk/ukpga/2014/12/contents"
   }
 ]

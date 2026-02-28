@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText } from 'lucide-react'
+import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText, Users } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CouncillorLink from '../components/CouncillorLink'
+import { slugify } from '../utils/format'
 import { MEETING_TYPE_LABELS as TYPE_LABELS, MEETING_TYPE_COLORS as TYPE_COLORS } from '../utils/constants'
 import './Meetings.css'
 
@@ -292,6 +294,19 @@ function Meetings() {
                     <div className="speak-deadline">
                       <MessageSquare size={14} />
                       <span>Register to speak by: <strong>{meeting.speak_deadline}</strong></span>
+                    </div>
+                  )}
+
+                  {meeting.committee_members?.length > 0 && (
+                    <div className="meeting-detail-section">
+                      <h4><Users size={16} /> Committee Members</h4>
+                      <div className="committee-members-list" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+                        {meeting.committee_members.map((member, i) => (
+                          <span key={i} className="committee-member-chip" style={{ fontSize: '0.75rem', padding: '2px 8px', background: 'rgba(255,255,255,0.06)', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                            <CouncillorLink name={member.name || member} councillorId={slugify(member.name || member)} compact />
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
 

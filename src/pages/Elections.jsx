@@ -23,6 +23,9 @@ import {
   MapPin, Sliders, RotateCcw, Building, ExternalLink, AlertTriangle,
   BarChart3, Target, Handshake, Map, PieChart as PieChartIcon, Landmark,
 } from 'lucide-react'
+import { slugify } from '../utils/format'
+import CouncillorLink from '../components/CouncillorLink'
+import IntegrityBadge from '../components/IntegrityBadge'
 import './Elections.css'
 
 // --- Council ID to slug mapping (for cross-council links) ---
@@ -197,6 +200,7 @@ export default function Elections() {
   const { data: pollingData } = useData('/data/shared/polling.json')
   const { data: constData } = useData('/data/shared/constituencies.json')
   const { data: modelCoeffs } = useData('/data/shared/model_coefficients.json')
+  const { data: integrityData } = useData('/data/integrity.json')
 
   // --- State ---
   const [activeSection, setActiveSection] = useState('overview')
@@ -973,7 +977,11 @@ export default function Elections() {
                   {selectedWardData.current_holders.map((h, i) => (
                     <div key={i} className="elec-holder-item">
                       <PartyBadge party={h.party} color={partyColors[h.party]} />
-                      <span>{h.name}</span>
+                      <CouncillorLink
+                        name={h.name}
+                        councillorId={h.id || slugify(h.name)}
+                        compact
+                      />
                     </div>
                   ))}
                 </div>

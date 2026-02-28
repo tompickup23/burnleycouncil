@@ -3,6 +3,9 @@ import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, 
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CouncillorLink from '../components/CouncillorLink'
+import IntegrityBadge from '../components/IntegrityBadge'
+import { slugify } from '../utils/format'
 import './MyArea.css'
 
 // Pure helper — no component deps, safe at module scope
@@ -24,8 +27,9 @@ function MyArea() {
   const { data, loading, error } = useData([
     '/data/wards.json',
     '/data/councillors.json',
+    '/data/integrity.json',
   ])
-  const [wards, councillors] = data || [{}, []]
+  const [wards, councillors, integrityData] = data || [{}, [], null]
   // Deprivation is optional — LCC and other county councils don't have it
   const { data: deprivationRaw } = useData('/data/deprivation.json')
   const deprivation = deprivationRaw?.wards || {}
@@ -267,7 +271,13 @@ function MyArea() {
                   <div className="councillor-main">
                     <User size={40} className="councillor-avatar" />
                     <div>
-                      <h3>{councillor.name}</h3>
+                      <h3>
+                        <CouncillorLink
+                          name={councillor.name}
+                          councillorId={councillor.id || slugify(councillor.name)}
+                          integrityData={integrityData}
+                        />
+                      </h3>
                       <span
                         className="party-badge"
                         style={{
@@ -350,7 +360,9 @@ function MyArea() {
                   )}
                   <div className="ward-councillor-names">
                     {wardCouncillors.map(c => (
-                      <span key={c.id} className="councillor-name">{c.name}</span>
+                      <span key={c.id} className="councillor-name">
+                        <CouncillorLink name={c.name} councillorId={c.id || slugify(c.name)} compact />
+                      </span>
                     ))}
                   </div>
                 </div>

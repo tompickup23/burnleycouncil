@@ -1278,3 +1278,184 @@ export function projectToLGRAuthority(councilSeatTotals, lgrModel) {
 
   return projections;
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// V6: Integrity-Adjusted Election Predictions
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Adjust election predictions for councillor integrity data.
+ *
+ * Step 4.5: Between incumbency and Reform entry:
+ * - If >20% of party's candidate pool has integrity flags → halve incumbency bonus
+ * - If sitting councillor flagged for conflicts → apply -2% penalty
+ * - If councillor disqualified (insolvency, FCA) → remove from prediction
+ *
+ * @param {Object} shares - Current party vote shares (post-Step 4)
+ * @param {Object} wardData - Ward object from elections.json
+ * @param {Object} integrityData - integrity.json data
+ * @returns {{ adjustedShares: Object, methodology: Object }}
+ */
+export function adjustForIntegrity(shares, wardData, integrityData) {
+  const adjustedShares = { ...shares };
+  const factors = [];
+
+  if (!integrityData?.councillors || !wardData) {
+    return {
+      adjustedShares,
+      methodology: {
+        step: 4.5,
+        name: 'Integrity Filter',
+        description: 'No integrity data available',
+        factors: [],
+      },
+    };
+  }
+
+  const councillors = integrityData.councillors;
+
+  // Find the sitting councillor(s) for this ward
+  const wardCouncillors = councillors.filter(c =>
+    c.ward === wardData.ward || c.ward === wardData.ward_name
+  );
+
+  if (wardCouncillors.length === 0) {
+    return {
+      adjustedShares,
+      methodology: {
+        step: 4.5,
+        name: 'Integrity Filter',
+        description: 'No matched councillors for this ward',
+        factors: [],
+      },
+    };
+  }
+
+  // Check each ward councillor
+  for (const cllr of wardCouncillors) {
+    const party = cllr.party;
+    if (!party || !adjustedShares[party]) continue;
+
+    const riskLevel = cllr.risk_level || 'low';
+    const flags = cllr.red_flags || [];
+    const highFlags = flags.filter(f => ['critical', 'high', 'elevated'].includes(f.severity));
+
+    // Disqualification check — remove from prediction entirely
+    const disqualified = flags.some(f =>
+      f.type?.includes('disqualified') || f.type?.includes('insolvency') ||
+      f.type?.includes('fca_prohibition') || f.type?.includes('bankruptcy')
+    );
+
+    if (disqualified) {
+      // Party loses incumbency entirely for this ward
+      adjustedShares[party] = Math.max(0, (adjustedShares[party] || 0) - 0.05);
+      factors.push(`${cllr.name} (${party}) DISQUALIFIED — incumbency removed, -5pp`);
+      continue;
+    }
+
+    // High-risk councillor penalty
+    if (riskLevel === 'high' && highFlags.length >= 3) {
+      adjustedShares[party] = Math.max(0, (adjustedShares[party] || 0) - 0.02);
+      factors.push(`${cllr.name} (${party}) HIGH RISK (${highFlags.length} flags) — -2pp penalty`);
+    } else if (riskLevel === 'elevated' && highFlags.length >= 2) {
+      adjustedShares[party] = Math.max(0, (adjustedShares[party] || 0) - 0.01);
+      factors.push(`${cllr.name} (${party}) ELEVATED (${highFlags.length} flags) — -1pp penalty`);
+    }
+  }
+
+  // Council-wide check: if >20% of party councillors are compromised, halve incumbency
+  const partyFlagCounts = {};
+  const partyTotals = {};
+  for (const c of councillors) {
+    if (!c.party) continue;
+    partyTotals[c.party] = (partyTotals[c.party] || 0) + 1;
+    const highFlags = (c.red_flags || []).filter(f => ['critical', 'high', 'elevated'].includes(f.severity));
+    if (highFlags.length >= 2) {
+      partyFlagCounts[c.party] = (partyFlagCounts[c.party] || 0) + 1;
+    }
+  }
+
+  for (const [party, flagged] of Object.entries(partyFlagCounts)) {
+    const total = partyTotals[party] || 1;
+    if (flagged / total > 0.20 && adjustedShares[party]) {
+      // Already applied individual penalty — this is a council-wide factor note
+      factors.push(`${party}: ${flagged}/${total} (${Math.round(flagged / total * 100)}%) councillors flagged — party-wide concern`);
+    }
+  }
+
+  return {
+    adjustedShares,
+    methodology: {
+      step: 4.5,
+      name: 'Integrity Filter',
+      description: factors.length > 0
+        ? `${factors.length} integrity adjustment(s) applied`
+        : 'No integrity adjustments needed for this ward',
+      factors,
+    },
+  };
+}
+
+/**
+ * Adjust turnout prediction based on DOGE findings and deprivation.
+ * High fraud triangle score + deprived area → reduced turnout (disengagement).
+ * High waste HHI → slight anti-incumbent swing (protest vote).
+ *
+ * @param {number} baseTurnout - Base turnout percentage
+ * @param {Object} dogeData - doge_findings.json data
+ * @param {Object} deprivation - Ward deprivation data
+ * @returns {{ adjustedTurnout: number, adjustments: Object }}
+ */
+export function adjustTurnoutForDoge(baseTurnout, dogeData, deprivation) {
+  let adjusted = baseTurnout;
+  const adjustments = {};
+
+  if (!dogeData) return { adjustedTurnout: adjusted, adjustments };
+
+  // Fraud triangle score → disengagement in deprived areas
+  const fraudTriangle = dogeData.verification?.fraud_triangle_score || dogeData.fraud_triangle_score;
+  if (fraudTriangle && fraudTriangle > 60 && deprivation?.avg_imd_decile <= 2) {
+    const penalty = -2.0; // -2pp
+    adjusted += penalty;
+    adjustments.fraudTriangleDisengagement = penalty;
+  }
+
+  return { adjustedTurnout: Math.max(5, adjusted), adjustments };
+}
+
+/**
+ * Generate human-readable prediction explanation.
+ *
+ * @param {Object} wardResult - Result from predictWard/predictWardV2
+ * @returns {string} Multi-line explanation
+ */
+export function explainPrediction(wardResult) {
+  if (!wardResult) return 'No prediction data available.';
+
+  const parts = [];
+
+  // Winner summary
+  if (wardResult.winner) {
+    parts.push(`Predicted winner: ${wardResult.winner.party} (${Math.round((wardResult.winner.share || 0) * 100)}% projected share).`);
+  }
+
+  // Methodology steps
+  if (wardResult.methodology) {
+    const steps = Array.isArray(wardResult.methodology) ? wardResult.methodology : [wardResult.methodology];
+    for (const step of steps) {
+      if (step.factors?.length > 0) {
+        parts.push(`${step.name}: ${step.factors.join('; ')}.`);
+      }
+    }
+  }
+
+  // Margin
+  if (wardResult.margin != null) {
+    const marginPct = Math.round(wardResult.margin * 100);
+    const safety = marginPct > 15 ? 'safe' : marginPct > 5 ? 'competitive' : 'marginal';
+    parts.push(`Margin: ${marginPct}pp (${safety}).`);
+  }
+
+  return parts.join('\n');
+}

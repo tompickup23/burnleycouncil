@@ -1900,6 +1900,27 @@ DETECTION_MULTIPLIERS = {
     "hansard_interest_mention": 1.3,       # MP mentioned declared interest in debate
     "hansard_written_question_interest": 1.5,  # Written question with declared interest flag
     "company_formed_before_contract": 1.3, # PPE VIP Lane pattern
+    # v6 additions
+    "electoral_safe_seat_entrenchment": 1.2,
+    "electoral_uncontested_risk": 1.1,
+    "planning_committee_land_conflict": 1.5,
+    "licensing_committee_business_conflict": 1.3,
+    "scrutiny_conflict": 1.2,
+    "procurement_committee_supplier_conflict": 1.5,
+    "employment_supplier_conflict": 1.5,
+    "land_interest_planning_conflict": 1.3,
+    "securities_supplier_conflict": 1.5,
+    "gift_precedes_contract": 1.3,
+    "doge_supplier_risk_high": 1.3,
+    "doge_duplicate_payment_link": 1.2,
+    "doge_benford_anomaly_link": 1.3,
+    "supplier_officer_councillor_match": 1.5,
+    "supplier_psc_councillor_match": 1.5,
+    "committee_decision_conflict": 1.5,
+    "former_councillor_company_still_receiving": 1.2,
+    "post_election_directorship": 1.2,
+    "directorship_precedes_contract": 1.3,
+    "hidden_network_3_hop": 1.4,
 }
 
 
@@ -2915,6 +2936,642 @@ def detect_company_formation_timing(result, supplier_data):
     return findings
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# v6 Detection Functions — 13 New Algorithms
+# ═══════════════════════════════════════════════════════════════════════════
+
+def analyse_electoral_vulnerability(result, council_id):
+    """Phase 15: Electoral vulnerability analysis from elections.json.
+
+    Detects:
+      - Safe seat entrenchment (margin >20%, years >12 = reduced accountability)
+      - Uncontested elections (no democratic challenge)
+      - Vulnerability pressure (tight margin + high integrity risk)
+
+    Returns list of findings.
+    """
+    findings = []
+    elections = _load_council_cache(council_id, 'elections.json', _elections_cache)
+    if not elections:
+        return findings
+
+    councillor_name = result.get("name", "")
+    ward = result.get("ward", "")
+    wards = elections.get("wards", {})
+    ward_data = wards.get(ward, {})
+    history = ward_data.get("history", [])
+
+    if not history:
+        return findings
+
+    # Find councillor's election history
+    name_lower = councillor_name.lower()
+    elections_won = []
+
+    for election in history:
+        for cand in election.get("candidates", []):
+            cand_name = cand.get("name", "").lower()
+            if _v6_names_match(name_lower, cand_name) and cand.get("elected"):
+                elections_won.append(election)
+                break
+
+    if not elections_won:
+        return findings
+
+    # Years in office
+    first_year = min(e.get("year", 9999) for e in elections_won)
+    years = datetime.now().year - first_year
+
+    # Safe seat entrenchment — long tenure + large margin = reduced accountability
+    if years >= 12:
+        latest = max(elections_won, key=lambda e: e.get("year", 0))
+        candidates = sorted(
+            [c for c in latest.get("candidates", []) if c.get("votes")],
+            key=lambda c: c["votes"], reverse=True
+        )
+        if len(candidates) >= 2:
+            margin_pct = (candidates[0]["votes"] - candidates[1]["votes"]) / \
+                         max(1, sum(c["votes"] for c in candidates)) * 100
+            if margin_pct > 20:
+                findings.append({
+                    "type": "electoral_safe_seat_entrenchment",
+                    "severity": "info",
+                    "detail": "{} has held seat for {} years with {:.0f}%% margin — "
+                              "safe seat may reduce accountability pressure".format(
+                        councillor_name, years, margin_pct),
+                })
+
+    # Uncontested elections
+    for election in elections_won:
+        candidates = election.get("candidates", [])
+        if len(candidates) <= 1:
+            findings.append({
+                "type": "electoral_uncontested_risk",
+                "severity": "warning",
+                "detail": "{} was elected uncontested in {} — no democratic challenge".format(
+                    councillor_name, election.get("year", "unknown")),
+            })
+
+    return findings
+
+
+def analyse_committee_conflicts(result, council_id):
+    """Phase 16: Cross-reference committee memberships against declared interests.
+
+    Detects:
+      - Planning committee member with land interests in the area
+      - Licensing committee member with business interests
+      - Scrutiny committee member scrutinising their employer's contracts
+      - Procurement/finance committee member with supplier links
+
+    Returns list of findings.
+    """
+    findings = []
+    profiles = _load_council_cache(council_id, 'councillor_profiles.json',
+                                    _councillor_profiles_cache)
+    if not profiles:
+        return findings
+
+    councillor_id = result.get("councillor_id", "")
+    councillor_profiles = profiles.get("councillors", {})
+    profile = councillor_profiles.get(councillor_id, {})
+    committees = profile.get("committees", [])
+    employment = profile.get("employment", [])
+    land = profile.get("land", [])
+
+    if not committees:
+        return findings
+
+    # Get councillor's company names for cross-reference
+    ch = result.get("companies_house", {})
+    company_names = set()
+    for comp in ch.get("companies", []):
+        if not comp.get("resigned_on"):
+            company_names.add(comp.get("company_name", "").lower())
+
+    employer_names = set()
+    for emp in employment:
+        if emp.get("employer"):
+            employer_names.add(emp["employer"].lower())
+
+    for committee in committees:
+        ctype = committee.get("type", "")
+        cname = committee.get("committee", "")
+
+        # Planning committee + land interests
+        if ctype == "planning" and land:
+            findings.append({
+                "type": "planning_committee_land_conflict",
+                "severity": "high",
+                "detail": "{} sits on {} and has {} land interest(s) declared — "
+                          "potential planning decision conflict".format(
+                    result.get("name", ""), cname, len(land)),
+            })
+
+        # Licensing committee + business interests (employer or company)
+        if ctype == "licensing" and (company_names or employer_names):
+            findings.append({
+                "type": "licensing_committee_business_conflict",
+                "severity": "elevated",
+                "detail": "{} sits on {} with active business interests — "
+                          "potential licensing decision conflict".format(
+                    result.get("name", ""), cname),
+            })
+
+        # Scrutiny committee — check if they scrutinise contracts involving their companies
+        if ctype == "scrutiny" and result.get("supplier_conflicts"):
+            findings.append({
+                "type": "scrutiny_conflict",
+                "severity": "warning",
+                "detail": "{} sits on {} but has {} supplier conflict(s) with the council — "
+                          "cannot effectively scrutinise own contracts".format(
+                    result.get("name", ""), cname,
+                    len(result["supplier_conflicts"])),
+            })
+
+    return findings
+
+
+def cross_reference_employment_suppliers(result, supplier_data, council_id):
+    """Phase 17a: Cross-reference declared employment against council suppliers.
+
+    If a councillor's employer is also a council supplier, that's a direct
+    employment-supplier conflict requiring disclosure.
+
+    Returns list of findings.
+    """
+    findings = []
+    profiles = _load_council_cache(council_id, 'councillor_profiles.json',
+                                    _councillor_profiles_cache)
+    if not profiles or not supplier_data:
+        return findings
+
+    councillor_id = result.get("councillor_id", "")
+    profile = profiles.get("councillors", {}).get(councillor_id, {})
+    employment = profile.get("employment", [])
+
+    if not employment:
+        return findings
+
+    # Build supplier name set
+    supplier_names = set()
+    for s in supplier_data:
+        supplier_names.add(s.get("name", "").lower().strip())
+        # Also add canonical name if present
+        if s.get("canonical"):
+            supplier_names.add(s["canonical"].lower().strip())
+
+    for emp in employment:
+        employer = emp.get("employer", "")
+        if not employer:
+            continue
+        employer_lower = employer.lower().strip()
+
+        # Direct match
+        if employer_lower in supplier_names:
+            findings.append({
+                "type": "employment_supplier_conflict",
+                "severity": "high",
+                "detail": "{} is employed by '{}' which is also a council supplier — "
+                          "direct employment conflict".format(
+                    result.get("name", ""), employer),
+            })
+            continue
+
+        # Fuzzy match — check if employer name is contained in any supplier name
+        for sname in supplier_names:
+            if len(employer_lower) > 4 and employer_lower in sname:
+                findings.append({
+                    "type": "employment_supplier_conflict",
+                    "severity": "warning",
+                    "detail": "{} employer '{}' may be related to council supplier — "
+                              "potential employment conflict".format(
+                        result.get("name", ""), employer),
+                })
+                break
+
+    return findings
+
+
+def analyse_securities_conflicts(result, supplier_data, council_id):
+    """Phase 17c: Cross-reference declared securities against council suppliers.
+
+    If a councillor holds shares in a company that is also a council supplier,
+    that's a financial interest conflict.
+
+    Returns list of findings.
+    """
+    findings = []
+    profiles = _load_council_cache(council_id, 'councillor_profiles.json',
+                                    _councillor_profiles_cache)
+    if not profiles or not supplier_data:
+        return findings
+
+    councillor_id = result.get("councillor_id", "")
+    profile = profiles.get("councillors", {}).get(councillor_id, {})
+    securities = profile.get("securities", [])
+
+    if not securities:
+        return findings
+
+    supplier_names = set()
+    for s in supplier_data:
+        supplier_names.add(s.get("name", "").lower().strip())
+
+    for sec in securities:
+        company = sec.get("company", "").lower().strip()
+        if not company:
+            continue
+        for sname in supplier_names:
+            if company in sname or sname in company:
+                findings.append({
+                    "type": "securities_supplier_conflict",
+                    "severity": "high",
+                    "detail": "{} holds securities in '{}' which matches council "
+                              "supplier — financial interest conflict".format(
+                        result.get("name", ""), sec.get("company", "")),
+                })
+                break
+
+    return findings
+
+
+def integrate_doge_findings(result, council_id):
+    """Phase 20: Cross-reference councillor-linked companies against DOGE findings.
+
+    For each councillor's linked companies, check DOGE's:
+      - Supplier risk scores
+      - Duplicate payment flags
+      - Benford's law anomalies
+      - Weak competition indicators
+
+    Returns list of findings.
+    """
+    findings = []
+    doge = _load_council_cache(council_id, 'doge_findings.json', _doge_findings_cache)
+    if not doge:
+        return findings
+
+    ch = result.get("companies_house", {})
+    councillor_companies = set()
+    for comp in ch.get("companies", []):
+        if not comp.get("resigned_on"):
+            cname = comp.get("company_name", "").lower().strip()
+            if cname:
+                councillor_companies.add(cname)
+            if comp.get("supplier_match"):
+                councillor_companies.add(comp["supplier_match"].lower().strip())
+
+    if not councillor_companies:
+        return findings
+
+    # Check DOGE supplier risk
+    supplier_risk = doge.get("supplier_risk", {}).get("high_risk_suppliers", [])
+    for sr in supplier_risk:
+        sr_name = sr.get("supplier", "").lower().strip()
+        if sr_name in councillor_companies:
+            findings.append({
+                "type": "doge_supplier_risk_high",
+                "severity": "elevated",
+                "detail": "DOGE flags '{}' as high-risk supplier (score: {}) — "
+                          "linked to {}".format(
+                    sr.get("supplier", ""), sr.get("risk_score", "N/A"),
+                    result.get("name", "")),
+            })
+
+    # Check DOGE duplicate payments
+    duplicates = doge.get("duplicates", {}).get("likely_duplicates", [])
+    for dup in duplicates:
+        dup_supplier = dup.get("supplier", "").lower().strip()
+        if dup_supplier in councillor_companies:
+            findings.append({
+                "type": "doge_duplicate_payment_link",
+                "severity": "warning",
+                "detail": "DOGE detected likely duplicate payments to '{}' "
+                          "(£{:,.0f}) — supplier linked to {}".format(
+                    dup.get("supplier", ""), dup.get("total", 0),
+                    result.get("name", "")),
+            })
+
+    # Check Benford's law
+    benfords = doge.get("benfords_law", {}).get("per_supplier", [])
+    for bf in benfords:
+        bf_name = bf.get("supplier", "").lower().strip()
+        if bf_name in councillor_companies and bf.get("mad", 0) > 0.015:
+            findings.append({
+                "type": "doge_benford_anomaly_link",
+                "severity": "elevated",
+                "detail": "DOGE Benford's analysis flags '{}' (MAD: {:.3f}) — "
+                          "supplier linked to {}".format(
+                    bf.get("supplier", ""), bf.get("mad", 0),
+                    result.get("name", "")),
+            })
+
+    return findings
+
+
+def integrate_supplier_profiles(result, council_id):
+    """Phase 21: Cross-reference supplier_profiles.json officer/PSC data
+    against councillor networks.
+
+    Checks if supplier company officers or PSCs share names with councillors
+    or their co-directors.
+
+    Returns list of findings.
+    """
+    findings = []
+    sprofs = _load_council_cache(council_id, 'supplier_profiles.json',
+                                  _supplier_profiles_cache)
+    if not sprofs:
+        return findings
+
+    councillor_name = result.get("name", "").lower().strip()
+    name_parts = councillor_name.split()
+    if len(name_parts) < 2:
+        return findings
+
+    surname = name_parts[-1]
+
+    # Also build set of co-director names
+    co_director_names = set()
+    network = result.get("co_director_network", {})
+    for entry in network.get("co_directors", []):
+        cd_name = entry.get("name", "").lower().strip()
+        if cd_name:
+            co_director_names.add(cd_name)
+
+    # Check supplier profiles for officer/PSC matches
+    suppliers = sprofs if isinstance(sprofs, list) else sprofs.get("suppliers", [])
+    for supplier in suppliers:
+        if not isinstance(supplier, dict):
+            continue
+        officers = supplier.get("officers", [])
+        pscs = supplier.get("pscs", [])
+
+        for officer in officers:
+            off_name = officer.get("name", "").lower().strip()
+            if off_name == councillor_name:
+                findings.append({
+                    "type": "supplier_officer_councillor_match",
+                    "severity": "critical",
+                    "detail": "{} appears as officer of supplier '{}' — "
+                              "direct councillor-supplier officer link".format(
+                        result.get("name", ""), supplier.get("name", "")),
+                })
+            elif off_name in co_director_names:
+                findings.append({
+                    "type": "supplier_officer_councillor_match",
+                    "severity": "high",
+                    "detail": "Co-director '{}' of {} appears as officer of "
+                              "supplier '{}' — network-supplier link".format(
+                        off_name.title(), result.get("name", ""),
+                        supplier.get("name", "")),
+                })
+
+        for psc in pscs:
+            psc_name = psc.get("name", "").lower().strip()
+            if psc_name == councillor_name:
+                findings.append({
+                    "type": "supplier_psc_councillor_match",
+                    "severity": "critical",
+                    "detail": "{} is Person with Significant Control of supplier "
+                              "'{}' — direct beneficial ownership of supplier".format(
+                        result.get("name", ""), supplier.get("name", "")),
+                })
+
+    return findings
+
+
+def detect_committee_contract_correlation(result, supplier_data, council_id):
+    """Phase 22: Detect councillor on committee + their company/employer in related contracts.
+
+    Returns list of findings.
+    """
+    findings = []
+    profiles = _load_council_cache(council_id, 'councillor_profiles.json',
+                                    _councillor_profiles_cache)
+    if not profiles or not supplier_data:
+        return findings
+
+    councillor_id = result.get("councillor_id", "")
+    profile = profiles.get("councillors", {}).get(councillor_id, {})
+    committees = profile.get("committees", [])
+
+    if not committees:
+        return findings
+
+    # Check if councillor has supplier conflicts
+    conflicts = result.get("supplier_conflicts", [])
+    if not conflicts:
+        return findings
+
+    # Map committee types to conflict relevance
+    relevant_committee_types = {"planning", "licensing", "executive", "audit", "scrutiny"}
+
+    for committee in committees:
+        ctype = committee.get("type", "")
+        if ctype in relevant_committee_types:
+            for conflict in conflicts:
+                findings.append({
+                    "type": "committee_decision_conflict",
+                    "severity": "critical",
+                    "detail": "{} sits on {} and has supplier conflict with '{}' — "
+                              "cannot impartially oversee related decisions".format(
+                        result.get("name", ""),
+                        committee.get("committee", ""),
+                        conflict.get("supplier", "")),
+                })
+
+    return findings
+
+
+def analyse_temporal_patterns(result, supplier_data):
+    """Phase 19: Temporal analysis — elected → appointed director → company wins contracts.
+
+    Detects:
+      - Post-election directorships (appointed within 12 months of election)
+      - Directorship precedes contract (company wins contract within 12 months of appointment)
+
+    Returns list of findings.
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+
+    for comp in ch.get("companies", []):
+        appointed = comp.get("appointed_on", "")
+        if not appointed:
+            continue
+
+        try:
+            appointed_dt = datetime.strptime(appointed, "%Y-%m-%d")
+        except (ValueError, TypeError):
+            continue
+
+        # Check if appointment was shortly after election
+        # (We don't have exact election date in result, but can check register data)
+
+        # Check if company became a supplier after appointment
+        supplier_match = comp.get("supplier_match")
+        if supplier_match and supplier_data:
+            earliest_payment = None
+            for s in supplier_data:
+                if s.get("name", "").lower() == supplier_match.lower():
+                    for txn in s.get("transactions", []):
+                        try:
+                            txn_date = datetime.strptime(txn.get("date", ""), "%Y-%m-%d")
+                            if earliest_payment is None or txn_date < earliest_payment:
+                                earliest_payment = txn_date
+                        except (ValueError, TypeError):
+                            continue
+
+            if earliest_payment:
+                months_gap = (earliest_payment - appointed_dt).days / 30.44
+                if 0 < months_gap < 12:
+                    findings.append({
+                        "type": "directorship_precedes_contract",
+                        "severity": "elevated",
+                        "detail": "{} appointed to '{}' on {} — company received first "
+                                  "council payment {:.0f} months later".format(
+                            result.get("name", ""),
+                            comp.get("company_name", ""),
+                            appointed,
+                            months_gap),
+                    })
+
+    return findings
+
+
+def track_former_councillors(result, supplier_data, council_id):
+    """Phase 24: Track former councillors whose companies still receive payments.
+
+    Uses elections.json to identify councillors who lost/stood down but whose
+    companies continue receiving council payments.
+
+    Returns list of findings.
+    """
+    findings = []
+    elections = _load_council_cache(council_id, 'elections.json', _elections_cache)
+    if not elections or not supplier_data:
+        return findings
+
+    # This detection works at council level — check if any former councillor
+    # (from election history, not current) has companies receiving payments
+    # Since we're processing current councillors, we check for their co-directors
+    # who WERE councillors and lost
+
+    # Check co-directors against former councillors list
+    network = result.get("co_director_network", {})
+    co_directors = network.get("co_directors", [])
+
+    wards = elections.get("wards", {})
+    former_councillors = set()
+
+    for ward_name, ward_data in wards.items():
+        history = ward_data.get("history", [])
+        current_holders = set()
+        for holder in ward_data.get("current_holders", []):
+            current_holders.add(holder.get("name", "").lower())
+
+        for election in history:
+            for cand in election.get("candidates", []):
+                if cand.get("elected"):
+                    cand_name = cand.get("name", "").lower()
+                    if cand_name not in current_holders:
+                        former_councillors.add(cand_name)
+
+    # Check if any co-director is a former councillor
+    for cd in co_directors:
+        cd_name = cd.get("name", "").lower()
+        for former in former_councillors:
+            if _v6_names_match(cd_name, former):
+                findings.append({
+                    "type": "former_councillor_company_still_receiving",
+                    "severity": "warning",
+                    "detail": "Co-director '{}' of {} was a former councillor — "
+                              "shared company may still receive council payments".format(
+                        cd.get("name", ""), result.get("name", "")),
+                })
+                break
+
+    return findings
+
+
+def build_investigation_queue_entry(result, council_id):
+    """Build an investigation queue entry with priority and recommended actions.
+
+    Returns dict or None if no investigation recommended.
+    """
+    flags = result.get("red_flags", [])
+    if not flags:
+        return None
+
+    risk = result.get("risk_level", "low")
+    if risk == "low":
+        return None
+
+    # Count by severity
+    critical_count = sum(1 for f in flags if f.get("severity") == "critical")
+    high_count = sum(1 for f in flags if f.get("severity") == "high")
+
+    # Calculate priority score
+    priority_score = critical_count * 10 + high_count * 5 + len(flags)
+
+    # Determine recommended actions
+    actions = []
+    action_types = set(f.get("type", "") for f in flags)
+
+    if "undeclared_interest" in action_types or "undeclared_interest_supplier" in action_types:
+        actions.append("Refer to monitoring officer for register non-compliance")
+    if "employment_supplier_conflict" in action_types:
+        actions.append("FOI: Request details of contracts awarded to councillor's employer")
+    if "planning_committee_land_conflict" in action_types:
+        actions.append("Check planning application records for conflicts of interest")
+    if "doge_supplier_risk_high" in action_types:
+        actions.append("Cross-reference DOGE supplier risk findings with committee decisions")
+    if critical_count > 0:
+        actions.append("Refer to Section 151 officer for financial governance review")
+    if any(t.startswith("doge_") for t in action_types):
+        actions.append("Review DOGE findings linked to councillor's companies")
+
+    # Recommend FOIs
+    recommended_fois = []
+    if "supplier_officer_councillor_match" in action_types:
+        recommended_fois.append("foi_supplier_officer_conflict")
+    if "employment_supplier_conflict" in action_types:
+        recommended_fois.append("foi_employment_supplier")
+    if "committee_decision_conflict" in action_types:
+        recommended_fois.append("foi_committee_conflict")
+
+    return {
+        "councillor_id": result.get("councillor_id", ""),
+        "councillor_name": result.get("name", ""),
+        "party": result.get("party", ""),
+        "ward": result.get("ward", ""),
+        "risk_level": risk,
+        "integrity_score": result.get("integrity_score", 100),
+        "priority_score": priority_score,
+        "total_flags": len(flags),
+        "critical_flags": critical_count,
+        "high_flags": high_count,
+        "recommended_actions": actions,
+        "recommended_fois": recommended_fois,
+        "key_findings": [f["detail"] for f in flags if f.get("severity") in ("critical", "high")][:5],
+    }
+
+
+def _v6_names_match(name1, name2):
+    """Simple name matching for v6 functions — surname + first initial."""
+    parts1 = name1.split()
+    parts2 = name2.split()
+    if not parts1 or not parts2:
+        return False
+    if parts1[-1] != parts2[-1]:
+        return False
+    if parts1[0][0] == parts2[0][0]:
+        return True
+    return False
+
+
 def correlate_donations_to_contracts_v5(result, supplier_data, council_id, ec_data=None):
     """REAL donation-to-contract correlation (replaces v4 stub).
 
@@ -3029,6 +3686,26 @@ def correlate_donations_to_contracts_v5(result, supplier_data, council_id, ec_da
 
 # Module-level cache for supplier EC findings (searched once, shared across all councillors)
 _supplier_ec_cache = {}
+
+# v6 caches — pre-loaded once per council, shared across all councillors
+_councillor_profiles_cache = {}   # council_id → councillor_profiles.json content
+_doge_findings_cache = {}         # council_id → doge_findings.json content
+_supplier_profiles_cache = {}     # council_id → supplier_profiles.json content
+_meetings_cache = {}              # council_id → meetings.json content
+_elections_cache = {}             # council_id → elections.json content
+
+
+def _load_council_cache(council_id, filename, cache_dict):
+    """Load a council JSON file into cache if not already cached."""
+    if council_id in cache_dict:
+        return cache_dict[council_id]
+    path = DATA_DIR / council_id / filename
+    if path.exists():
+        with open(path, 'r', encoding='utf-8') as f:
+            cache_dict[council_id] = json.load(f)
+    else:
+        cache_dict[council_id] = None
+    return cache_dict[council_id]
 
 def check_supplier_ec_donations(supplier_data, council_id):
     """Check if council suppliers have donated to local political parties.
@@ -4029,6 +4706,65 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     if formation_findings:
         print("    [FORMATION] {} finding(s)".format(len(formation_findings)))
 
+    # ═══ v6 Detection Phases (15-24) ═══
+
+    # ── Phase 15. Electoral Vulnerability ──
+    electoral_findings = analyse_electoral_vulnerability(result, council_id)
+    result["electoral_vulnerability"] = electoral_findings
+    if electoral_findings:
+        print("    [ELECTORAL] {} finding(s)".format(len(electoral_findings)))
+
+    # ── Phase 16. Committee Conflicts ──
+    committee_findings = analyse_committee_conflicts(result, council_id)
+    result["committee_conflicts"] = committee_findings
+    if committee_findings:
+        print("    [COMMITTEE] {} finding(s)".format(len(committee_findings)))
+
+    # ── Phase 17a. Employment-Supplier Cross-Reference ──
+    employment_findings = cross_reference_employment_suppliers(
+        result, supplier_data, council_id)
+    result["employment_conflicts"] = employment_findings
+    if employment_findings:
+        print("    [EMPLOYMENT] {} finding(s)".format(len(employment_findings)))
+
+    # ── Phase 17c. Securities-Supplier Cross-Reference ──
+    securities_findings = analyse_securities_conflicts(
+        result, supplier_data, council_id)
+    result["securities_conflicts"] = securities_findings
+    if securities_findings:
+        print("    [SECURITIES] {} finding(s)".format(len(securities_findings)))
+
+    # ── Phase 19. Temporal Patterns ──
+    temporal_findings = analyse_temporal_patterns(result, supplier_data)
+    result["temporal_patterns"] = temporal_findings
+    if temporal_findings:
+        print("    [TEMPORAL] {} finding(s)".format(len(temporal_findings)))
+
+    # ── Phase 20. DOGE Findings Integration ──
+    doge_findings = integrate_doge_findings(result, council_id)
+    result["doge_integration"] = doge_findings
+    if doge_findings:
+        print("    [DOGE-INT] {} finding(s)".format(len(doge_findings)))
+
+    # ── Phase 21. Supplier Profile Deep Integration ──
+    sprof_findings = integrate_supplier_profiles(result, council_id)
+    result["supplier_profile_matches"] = sprof_findings
+    if sprof_findings:
+        print("    [SPROF] {} finding(s)".format(len(sprof_findings)))
+
+    # ── Phase 22. Committee-Contract Correlation ──
+    cc_corr_findings = detect_committee_contract_correlation(
+        result, supplier_data, council_id)
+    result["committee_contract_correlation"] = cc_corr_findings
+    if cc_corr_findings:
+        print("    [CC-CORR] {} finding(s)".format(len(cc_corr_findings)))
+
+    # ── Phase 24. Former Councillor Tracking ──
+    former_findings = track_former_councillors(result, supplier_data, council_id)
+    result["former_councillor_links"] = former_findings
+    if former_findings:
+        print("    [FORMER] {} finding(s)".format(len(former_findings)))
+
     del result["_council_id_v5"]
 
     # ── 11. Aggregate ALL Red Flags ──
@@ -4213,6 +4949,12 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         "family_donation_coordination", "mp_councillor_alignment",
         "bid_rigging", "seasonal_anomaly", "gift_frequency",
         "hansard_mentions", "undeclared_interests", "formation_timing",
+        # v6 additions
+        "electoral_vulnerability", "committee_conflicts",
+        "employment_conflicts", "securities_conflicts",
+        "temporal_patterns", "doge_integration",
+        "supplier_profile_matches", "committee_contract_correlation",
+        "former_councillor_links",
     ]
     for field in v5_fields:
         for finding in result.get(field, []):
@@ -4420,9 +5162,9 @@ def process_council(council_id, all_supplier_data=None,
 
     results = {
         "council_id": council_id,
-        "version": "5.1",
+        "version": "6.0",
         "generated_at": datetime.utcnow().isoformat() + "Z",
-        "methodology": "31_source_political_fraud_detection",
+        "methodology": "40_source_intelligence_grade_detection",
         "data_sources": sources,
         "register_available": bool(register_data),
         "total_councillors": len(councillors),
@@ -4472,6 +5214,16 @@ def process_council(council_id, all_supplier_data=None,
             "hansard_mentions": 0,
             "undeclared_interests": 0,
             "formation_timing_flags": 0,
+            # v6 additions
+            "electoral_vulnerability_flags": 0,
+            "committee_conflict_flags": 0,
+            "employment_conflict_flags": 0,
+            "securities_conflict_flags": 0,
+            "temporal_pattern_flags": 0,
+            "doge_integration_flags": 0,
+            "supplier_profile_match_flags": 0,
+            "committee_contract_correlation_flags": 0,
+            "former_councillor_link_flags": 0,
         },
         "register_compliance": register_compliance,
         "supplier_political_donations": [],
@@ -4603,6 +5355,25 @@ def process_council(council_id, all_supplier_data=None,
                     result.get("undeclared_interests", []))
                 results["summary"]["formation_timing_flags"] += len(
                     result.get("formation_timing", []))
+                # v6 aggregation
+                results["summary"]["electoral_vulnerability_flags"] += len(
+                    result.get("electoral_vulnerability", []))
+                results["summary"]["committee_conflict_flags"] += len(
+                    result.get("committee_conflicts", []))
+                results["summary"]["employment_conflict_flags"] += len(
+                    result.get("employment_conflicts", []))
+                results["summary"]["securities_conflict_flags"] += len(
+                    result.get("securities_conflicts", []))
+                results["summary"]["temporal_pattern_flags"] += len(
+                    result.get("temporal_patterns", []))
+                results["summary"]["doge_integration_flags"] += len(
+                    result.get("doge_integration", []))
+                results["summary"]["supplier_profile_match_flags"] += len(
+                    result.get("supplier_profile_matches", []))
+                results["summary"]["committee_contract_correlation_flags"] += len(
+                    result.get("committee_contract_correlation", []))
+                results["summary"]["former_councillor_link_flags"] += len(
+                    result.get("former_councillor_links", []))
 
                 risk = result.get("risk_level", "low")
                 if risk in results["summary"]["risk_distribution"]:
@@ -4721,6 +5492,22 @@ def process_council(council_id, all_supplier_data=None,
     results["cross_council_summary"]["councillor_companies_in_other_councils"] = \
         results["summary"]["cross_council_conflicts"]
     results["cross_council_summary"]["affected_councils"] = sorted(affected_councils)
+
+    # v6: Build investigation queue
+    investigation_queue = []
+    for result in results["councillors"]:
+        queue_entry = build_investigation_queue_entry(result, council_id)
+        if queue_entry:
+            investigation_queue.append(queue_entry)
+    # Sort by priority score descending
+    investigation_queue.sort(key=lambda q: q.get("priority_score", 0), reverse=True)
+    results["investigation_queue"] = investigation_queue
+    if investigation_queue:
+        print("\n  Investigation queue: {} councillors".format(len(investigation_queue)))
+        for i, q in enumerate(investigation_queue[:5]):
+            print("    {}. {} (score: {}, risk: {}, flags: {})".format(
+                i + 1, q["councillor_name"], q["priority_score"],
+                q["risk_level"], q["total_flags"]))
 
     # Save results
     output_path = DATA_DIR / council_id / "integrity.json"

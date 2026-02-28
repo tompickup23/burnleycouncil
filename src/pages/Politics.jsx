@@ -5,6 +5,9 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { TOOLTIP_STYLE } from '../utils/constants'
+import { slugify } from '../utils/format'
+import CouncillorLink from '../components/CouncillorLink'
+import IntegrityBadge from '../components/IntegrityBadge'
 import './Politics.css'
 
 const ATTENDANCE_COLORS = { good: '#30d158', amber: '#ff9f0a', poor: '#ff453a' }
@@ -21,8 +24,9 @@ function Politics() {
     '/data/councillors.json',
     '/data/politics_summary.json',
     '/data/wards.json',
+    '/data/integrity.json',
   ])
-  const [councillors, summary, _wards] = data || [[], null, {}]
+  const [councillors, summary, _wards, integrityData] = data || [[], null, {}, null]
 
   // Optional voting/attendance data — separate fetch so failure doesn't block page
   // Always call useData (React hooks rule) but use a path that won't exist when feature disabled
@@ -580,7 +584,11 @@ function Politics() {
                   />
                   <div className="councillor-info">
                     <h3>
-                      {councillor.name}
+                      <CouncillorLink
+                        name={councillor.name}
+                        councillorId={councillor.id || slugify(councillor.name)}
+                        compact
+                      />
                       {councillor.group_role && (
                         <span className={`group-role-badge ${councillor.group_role}`}>
                           {councillor.group_role === 'leader' ? 'Group Leader' : 'Deputy Leader'}
@@ -595,6 +603,12 @@ function Politics() {
                   <span className="party-tag" style={{ background: councillor.party_color + '30', color: councillor.party_color }}>
                     {councillor.party}
                   </span>
+                  {(() => {
+                    const ic = integrityData?.councillors?.find(c => c.councillor_id === councillor.id || slugify(c.name) === slugify(councillor.name))
+                    return ic?.risk_level && ic.risk_level !== 'low' && ic.risk_level !== 'not_checked' ? (
+                      <IntegrityBadge riskLevel={ic.risk_level} score={ic.integrity_score} />
+                    ) : null
+                  })()}
                   {att && (
                     <span className="attendance-badge" style={{ background: attendanceColor(att.attendance_rate) + '25', color: attendanceColor(att.attendance_rate) }}>
                       {Math.round(att.attendance_rate * 100)}% attendance

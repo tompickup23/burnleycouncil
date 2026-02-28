@@ -187,3 +187,122 @@ export const MODEL_KEY_MAP = {
   four_unitary_alt: 'five_ua',
   county_unitary: 'county',
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// V6: DOGE-Adjusted Savings Realisation
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Calculate per-authority savings realisation rate based on DOGE findings.
+ *
+ * Instead of a flat 75% realisation rate, adjust per-authority based on:
+ * - Supplier HHI: High concentration = limited procurement savings
+ * - Duplicate/fraud scores: Lower realisation for councils with weak controls
+ * - Integrity conflicts: Connected firms in monopoly → minimal savings
+ *
+ * @param {Object} dogeFindings - doge_findings.json data for a council
+ * @param {Object} integrityData - integrity.json data for a council
+ * @returns {{ realisationRate: number, procurementSaving: number, factors: string[] }}
+ */
+export function calculateDogeAdjustedRealisation(dogeFindings, integrityData) {
+  let realisationRate = 0.75; // Base rate
+  let procurementSaving = 0.03; // Base procurement saving %
+  const factors = [];
+
+  if (!dogeFindings) {
+    return { realisationRate, procurementSaving, factors: ['No DOGE data — using default 75% realisation'] };
+  }
+
+  // Supplier concentration assessment
+  const findings = dogeFindings.findings || dogeFindings;
+  const supplierHHI = Array.isArray(findings)
+    ? findings.find(f => f.type === 'supplier_concentration' || f.type === 'category_monopoly')
+    : null;
+
+  if (supplierHHI) {
+    const hhi = supplierHHI.hhi || supplierHHI.value || 0;
+    if (hhi > 2500) {
+      procurementSaving = 0.01; // Near-monopoly: minimal procurement savings
+      factors.push(`HHI ${hhi} (HIGH concentration) → procurement saving 1%`);
+    } else if (hhi > 1500) {
+      procurementSaving = 0.02;
+      factors.push(`HHI ${hhi} (moderate concentration) → procurement saving 2%`);
+    } else if (hhi < 800) {
+      procurementSaving = 0.05; // Low concentration: more savings possible
+      factors.push(`HHI ${hhi} (low concentration) → procurement saving 5%`);
+    }
+  }
+
+  // Duplicate/fraud risk → reduce realisation rate
+  const duplicateRisk = Array.isArray(findings)
+    ? findings.find(f => f.type === 'duplicate_payments' || f.type === 'likely_duplicates')
+    : null;
+
+  if (duplicateRisk) {
+    const dupAmount = duplicateRisk.total_amount || duplicateRisk.value || 0;
+    if (dupAmount > 500000) {
+      realisationRate -= 0.10;
+      factors.push(`High duplicate risk (£${(dupAmount / 1000).toFixed(0)}k) → realisation -10pp`);
+    } else if (dupAmount > 100000) {
+      realisationRate -= 0.05;
+      factors.push(`Moderate duplicate risk (£${(dupAmount / 1000).toFixed(0)}k) → realisation -5pp`);
+    }
+  }
+
+  // Integrity: councillor-connected monopoly suppliers
+  if (integrityData?.summary) {
+    const conflicts = integrityData.summary.supplier_conflicts || 0;
+    if (conflicts >= 5) {
+      procurementSaving = Math.max(0.01, procurementSaving - 0.01);
+      factors.push(`${conflicts} councillor-supplier conflicts → procurement saving reduced`);
+    }
+  }
+
+  realisationRate = Math.max(0.40, Math.min(1.0, realisationRate));
+
+  return { realisationRate, procurementSaving, factors };
+}
+
+/**
+ * Compute data quality risk adjustment for transition costs.
+ *
+ * @param {Object} dogeFindings - doge_findings.json data
+ * @param {Object} integrityData - integrity.json data
+ * @returns {{ dataRemediationCost: number, legalRiskCost: number, factors: string[] }}
+ */
+export function calculateTransitionRiskAdjustment(dogeFindings, integrityData) {
+  let dataRemediationCost = 0;
+  let legalRiskCost = 0;
+  const factors = [];
+
+  if (dogeFindings) {
+    const findings = dogeFindings.findings || dogeFindings;
+    // Missing descriptions → data quality issue
+    const missingDescs = Array.isArray(findings)
+      ? findings.find(f => f.type === 'missing_descriptions')
+      : null;
+
+    if (missingDescs) {
+      const pct = missingDescs.pct || missingDescs.percentage || 0;
+      if (pct > 50) {
+        dataRemediationCost = 5000000; // £5M
+        factors.push(`${pct}% missing descriptions → £5M data remediation estimate`);
+      } else if (pct > 20) {
+        dataRemediationCost = 2000000; // £2M
+        factors.push(`${pct}% missing descriptions → £2M data remediation estimate`);
+      }
+    }
+  }
+
+  if (integrityData?.summary) {
+    const highRisk = (integrityData.summary.risk_distribution?.high || 0) +
+                     (integrityData.summary.risk_distribution?.elevated || 0);
+    if (highRisk >= 10) {
+      legalRiskCost = 1000000; // £1M additional legal
+      factors.push(`${highRisk} high/elevated risk councillors → £1M legal risk provision`);
+    }
+  }
+
+  return { dataRemediationCost, legalRiskCost, factors };
+}

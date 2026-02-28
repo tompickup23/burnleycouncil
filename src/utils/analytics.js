@@ -594,3 +594,108 @@ export function cipfaResilience(data) {
 
   return { components, overallRating, overallColor }
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// V6: Integrity-Weighted Analytics
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Integrity-weighted HHI — weights higher when supplier has councillor links.
+ *
+ * Standard HHI treats all suppliers equally. This variant applies a weight
+ * multiplier when a supplier is linked to a councillor (via integrity.json),
+ * amplifying the concentration signal for connected firms.
+ *
+ * @param {Array<{name: string, amount: number}>} suppliers - Supplier amounts
+ * @param {Object} integrityData - integrity.json data
+ * @param {number} conflictWeight - Multiplier for connected suppliers (default 1.5)
+ * @returns {{ hhi: number, standardHhi: number, connectedSuppliers: number,
+ *             amplification: number, isCouncillorConnected: boolean }}
+ */
+export function integrityWeightedHHI(suppliers, integrityData, conflictWeight = 1.5) {
+  if (!suppliers || suppliers.length === 0) {
+    return { hhi: 0, standardHhi: 0, connectedSuppliers: 0, amplification: 0, isCouncillorConnected: false };
+  }
+
+  // Build set of councillor-linked supplier names (lowercased)
+  const connectedNames = new Set();
+  if (integrityData?.councillors) {
+    for (const cllr of integrityData.councillors) {
+      const conflicts = cllr.ch?.supplier_conflicts || cllr.supplier_conflicts || [];
+      for (const conflict of conflicts) {
+        const name = conflict.supplier_match?.supplier || conflict.company_name || '';
+        if (name) connectedNames.add(name.toLowerCase());
+      }
+      // Also check network crossovers
+      const crossovers = cllr.ch?.network_crossovers || [];
+      for (const co of crossovers) {
+        if (co.supplier_company) connectedNames.add(co.supplier_company.toLowerCase());
+      }
+    }
+  }
+
+  // Calculate total spend
+  const totalSpend = suppliers.reduce((sum, s) => sum + (s.amount || 0), 0);
+  if (totalSpend === 0) {
+    return { hhi: 0, standardHhi: 0, connectedSuppliers: 0, amplification: 0, isCouncillorConnected: false };
+  }
+
+  let standardHhi = 0;
+  let weightedHhi = 0;
+  let connectedCount = 0;
+
+  for (const supplier of suppliers) {
+    const share = (supplier.amount || 0) / totalSpend;
+    const sharePct = share * 100;
+    const standardContribution = sharePct * sharePct;
+    standardHhi += standardContribution;
+
+    const isConnected = connectedNames.has((supplier.name || '').toLowerCase());
+    if (isConnected) {
+      connectedCount++;
+      weightedHhi += standardContribution * conflictWeight;
+    } else {
+      weightedHhi += standardContribution;
+    }
+  }
+
+  return {
+    hhi: Math.round(weightedHhi),
+    standardHhi: Math.round(standardHhi),
+    connectedSuppliers: connectedCount,
+    amplification: standardHhi > 0 ? Math.round((weightedHhi / standardHhi - 1) * 100) : 0,
+    isCouncillorConnected: connectedCount > 0,
+  };
+}
+
+/**
+ * Check if high Benford deviation should affect election model.
+ * Returns a signal strength that can adjust incumbency bonus downward.
+ *
+ * @param {Object} benfordResult - Result from benfordSecondDigit() or benfordFirstTwoDigits()
+ * @returns {{ signal: number, description: string }}
+ */
+export function benfordToElectionSignal(benfordResult) {
+  if (!benfordResult) return { signal: 0, description: 'No Benford data' };
+
+  // Non-conforming Benford → potential budget manipulation → local anger
+  const conformity = benfordResult.conformity;
+  const significant = benfordResult.significant;
+
+  if (conformity === 'non_conforming' || (significant && benfordResult.chiSquared > 27.88)) {
+    return {
+      signal: -0.02, // -2pp incumbency adjustment
+      description: `Highly non-conforming Benford (χ²=${benfordResult.chiSquared?.toFixed(1)}) → budget manipulation signal`,
+    };
+  }
+
+  if (conformity === 'marginal' || (significant && benfordResult.chiSquared > 21.67)) {
+    return {
+      signal: -0.01, // -1pp
+      description: `Marginal Benford conformity (χ²=${benfordResult.chiSquared?.toFixed(1)}) → minor concern signal`,
+    };
+  }
+
+  return { signal: 0, description: 'Benford conforming — no election impact' };
+}
