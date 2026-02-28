@@ -1,54 +1,859 @@
 {
-  "last_updated": "2026-02-18T15:39:09.000Z",
-  "next_update": "2026-02-25T15:39:09.000Z",
+  "last_updated": "2026-02-28T07:01:18.000Z",
+  "next_update": "2026-03-07T07:01:18.000Z",
   "source": "https://hyndburn.moderngov.co.uk",
   "how_to_attend": {},
-  "meetings": [
+  "committees": [
     {
-      "id": "cabinet-2026-01-21-3032",
-      "date": "2026-01-21",
-      "time": "17:00",
-      "committee": "Cabinet",
-      "type": "executive",
-      "venue": "Scaitcliffe House, Accrington",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://hyndburn.moderngov.co.uk/ieListDocuments.aspx?CId=133&MId=3032&Ver=4",
-      "agenda_items": [
-        "Apologies for Absence",
-        "Declarations of Interest and Dispensations",
-        "Minutes of Cabinet",
-        "Reports of Cabinet Members",
-        "Council Tax Base - 2026/2027",
-        "Prudential Indicators Monitoring and Treasury Management Strategy Update - Quarter 3 2025/26",
-        "Revenue Budget Monitoring 2025/2026 - Quarter 3 to end of December 2025",
-        "Capital Programme Monitoring 2025/26 - 3rd Quarter Update to 31st December 2025",
-        "The Introduction of Food Waste Collections",
-        "Fixed Penalty Notice Charges",
-        "Equality and Diversity Strategy 2026-30"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed draft minutes",
-        "Minutes of Cabinet",
-        "Cabinet Minutes - 3 December 2025, item 276.",
-        "Council Tax Base - 2026/2027",
-        "Prudential Indicators Monitoring and Treasury Management Strategy Update - Quarter 3 2025/26",
-        "Revenue Budget Monitoring 2025/2026 - Quarter 3 to end of December 2025",
-        "Capital Programme Monitoring 2025/26 - 3rd Quarter Update to 31st December 2025",
-        "The Introduction of Food Waste Collections",
-        "Appendix 1 - Customer First Analysis, item 282.",
-        "Fixed Penalty Notice Charges",
-        "Appendix 1 - Customer First Analysis, item 283.",
-        "Equality and Diversity Strategy 2026-30",
-        "Appendix 1 - Draft Equality and Diversity Strategy 2026-2030, item 284."
+      "cid": "130",
+      "name": "Council",
+      "type": "other",
+      "members": [
+        {
+          "name": "Judith Addison",
+          "role": "Member",
+          "uid": "112"
+        },
+        {
+          "name": "Vanessa Alexander",
+          "role": "Member",
+          "uid": "205"
+        },
+        {
+          "name": "Josh Allen",
+          "role": "Member",
+          "uid": "386"
+        },
+        {
+          "name": "Heather Anderson",
+          "role": "Member",
+          "uid": "504"
+        },
+        {
+          "name": "Noordad Aziz",
+          "role": "Member",
+          "uid": "133"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Member",
+          "uid": "506"
+        },
+        {
+          "name": "Scott Brerton",
+          "role": "Member",
+          "uid": "483"
+        },
+        {
+          "name": "Stephen Button",
+          "role": "Member",
+          "uid": "508"
+        },
+        {
+          "name": "Danny Cassidy",
+          "role": "Member",
+          "uid": "481"
+        },
+        {
+          "name": "Andrew Clegg",
+          "role": "Member",
+          "uid": "384"
+        },
+        {
+          "name": "Jodi Clements",
+          "role": "Member",
+          "uid": "482"
+        },
+        {
+          "name": "Loraine Cox",
+          "role": "Member",
+          "uid": "288"
+        },
+        {
+          "name": "Paul Cox",
+          "role": "Member",
+          "uid": "121"
+        },
+        {
+          "name": "Munsif Dad BEM JP",
+          "role": "Member",
+          "uid": "122"
+        },
+        {
+          "name": "Bernard Dawson MBE",
+          "role": "Member",
+          "uid": "484"
+        },
+        {
+          "name": "Stewart Eaves",
+          "role": "Member",
+          "uid": "537"
+        },
+        {
+          "name": "Peter Edwards",
+          "role": "Member",
+          "uid": "480"
+        },
+        {
+          "name": "Shabir Fazal OBE",
+          "role": "Member",
+          "uid": "536"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Andy Gilbert",
+          "role": "Member",
+          "uid": "541"
+        },
+        {
+          "name": "David James Heap",
+          "role": "Member",
+          "uid": "560"
+        },
+        {
+          "name": "Zak Khan",
+          "role": "Member",
+          "uid": "486"
+        },
+        {
+          "name": "Clare McKenna",
+          "role": "Member",
+          "uid": "534"
+        },
+        {
+          "name": "Dave Parkins",
+          "role": "Member",
+          "uid": "507"
+        },
+        {
+          "name": "Joyce Plummer",
+          "role": "Member",
+          "uid": "114"
+        },
+        {
+          "name": "Kath Pratt",
+          "role": "Member",
+          "uid": "115"
+        },
+        {
+          "name": "Clare Pritchard",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Ethan Rawcliffe",
+          "role": "Member",
+          "uid": "540"
+        },
+        {
+          "name": "Steven Smithson",
+          "role": "Member",
+          "uid": "455"
+        },
+        {
+          "name": "Tina Walker",
+          "role": "Member",
+          "uid": "542"
+        },
+        {
+          "name": "Kate Walsh",
+          "role": "Member",
+          "uid": "415"
+        },
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Member",
+          "uid": "485"
+        },
+        {
+          "name": "Clare Yates",
+          "role": "Member",
+          "uid": "538"
+        },
+        {
+          "name": "Mohammed Younis",
+          "role": "Member",
+          "uid": "505"
+        }
       ]
     },
+    {
+      "cid": "139",
+      "name": "Audit Committee",
+      "type": "audit",
+      "members": [
+        {
+          "name": "Bernard Dawson MBE",
+          "role": "Chair",
+          "uid": "484"
+        },
+        {
+          "name": "Peter Edwards",
+          "role": "Member",
+          "uid": "480"
+        },
+        {
+          "name": "Danny Cassidy",
+          "role": "Member",
+          "uid": "481"
+        },
+        {
+          "name": "Heather Anderson",
+          "role": "Member",
+          "uid": "504"
+        },
+        {
+          "name": "Noordad Aziz",
+          "role": "Vice-Chair",
+          "uid": "133"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Member",
+          "uid": "506"
+        }
+      ]
+    },
+    {
+      "cid": "133",
+      "name": "Cabinet",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Vanessa Alexander",
+          "role": "Member",
+          "uid": "205"
+        },
+        {
+          "name": "Scott Brerton",
+          "role": "Member",
+          "uid": "483"
+        },
+        {
+          "name": "Munsif Dad BEM JP",
+          "role": "Chair",
+          "uid": "122"
+        },
+        {
+          "name": "Stewart Eaves",
+          "role": "Member",
+          "uid": "537"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Clare Pritchard",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Ethan Rawcliffe",
+          "role": "Member",
+          "uid": "540"
+        },
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Member",
+          "uid": "485"
+        }
+      ]
+    },
+    {
+      "cid": "150",
+      "name": "Cabinet Committee (Scrap Metal Dealers Act 2013)",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Vanessa Alexander",
+          "role": "Member",
+          "uid": "205"
+        },
+        {
+          "name": "Stewart Eaves",
+          "role": "Chair",
+          "uid": "537"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        }
+      ]
+    },
+    {
+      "cid": "303",
+      "name": "Cabinet Committee (Street Naming)",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Scott Brerton",
+          "role": "Chair",
+          "uid": "483"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Clare Pritchard",
+          "role": "Member",
+          "uid": "539"
+        }
+      ]
+    },
+    {
+      "cid": "199",
+      "name": "Hearing Sub Committee",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "140",
+      "name": "Judicial Committee (Private Hire and Hackney Carriage Licensing)",
+      "type": "licensing",
+      "members": [
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Chair",
+          "uid": "485"
+        },
+        {
+          "name": "Danny Cassidy",
+          "role": "Member",
+          "uid": "481"
+        },
+        {
+          "name": "Vanessa Alexander",
+          "role": "Member",
+          "uid": "205"
+        },
+        {
+          "name": "Bernard Dawson MBE",
+          "role": "Member",
+          "uid": "484"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Vice-Chair",
+          "uid": "286"
+        }
+      ]
+    },
+    {
+      "cid": "137",
+      "name": "Licensing Committee",
+      "type": "licensing",
+      "members": [
+        {
+          "name": "Shabir Fazal OBE",
+          "role": "Member",
+          "uid": "536"
+        },
+        {
+          "name": "Andy Gilbert",
+          "role": "Member",
+          "uid": "541"
+        },
+        {
+          "name": "Clare Yates",
+          "role": "Chair",
+          "uid": "538"
+        },
+        {
+          "name": "Stewart Eaves",
+          "role": "Member",
+          "uid": "537"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Clare Pritchard",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Tina Walker",
+          "role": "Member",
+          "uid": "542"
+        },
+        {
+          "name": "Danny Cassidy",
+          "role": "Member",
+          "uid": "481"
+        },
+        {
+          "name": "Loraine Cox",
+          "role": "Member",
+          "uid": "288"
+        },
+        {
+          "name": "Heather Anderson",
+          "role": "Member",
+          "uid": "504"
+        },
+        {
+          "name": "Ethan Rawcliffe",
+          "role": "Vice-Chair",
+          "uid": "540"
+        },
+        {
+          "name": "Stephen Button",
+          "role": "Member",
+          "uid": "508"
+        },
+        {
+          "name": "Josh Allen",
+          "role": "Member",
+          "uid": "386"
+        }
+      ]
+    },
+    {
+      "cid": "151",
+      "name": "Licensing Sub Committee",
+      "type": "licensing",
+      "members": [
+        {
+          "name": "Clare Yates",
+          "role": "Member",
+          "uid": "538"
+        },
+        {
+          "name": "Ethan Rawcliffe",
+          "role": "Vice-Chair",
+          "uid": "540"
+        }
+      ]
+    },
+    {
+      "cid": "141",
+      "name": "Management Review Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "Zak Khan",
+          "role": "Member",
+          "uid": "486"
+        },
+        {
+          "name": "Danny Cassidy",
+          "role": "Member",
+          "uid": "481"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Munsif Dad BEM JP",
+          "role": "Chair",
+          "uid": "122"
+        },
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Vice-Chair",
+          "uid": "485"
+        }
+      ]
+    },
+    {
+      "cid": "302",
+      "name": "Planning (Trees) Sub-Committee",
+      "type": "planning",
+      "members": [
+        {
+          "name": "Judith Addison",
+          "role": "Member",
+          "uid": "112"
+        },
+        {
+          "name": "Scott Brerton",
+          "role": "Member",
+          "uid": "483"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Chair",
+          "uid": "506"
+        },
+        {
+          "name": "Stephen Button",
+          "role": "Vice-Chair",
+          "uid": "508"
+        },
+        {
+          "name": "Joyce Plummer",
+          "role": "Member",
+          "uid": "114"
+        }
+      ]
+    },
+    {
+      "cid": "131",
+      "name": "Planning Committee",
+      "type": "planning",
+      "members": [
+        {
+          "name": "Dave Parkins",
+          "role": "Chair",
+          "uid": "507"
+        },
+        {
+          "name": "Bernard Dawson MBE",
+          "role": "Vice-Chair",
+          "uid": "484"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Member",
+          "uid": "506"
+        },
+        {
+          "name": "Joyce Plummer",
+          "role": "Member",
+          "uid": "114"
+        },
+        {
+          "name": "Loraine Cox",
+          "role": "Member",
+          "uid": "288"
+        },
+        {
+          "name": "Clare Pritchard",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Ethan Rawcliffe",
+          "role": "Member",
+          "uid": "540"
+        },
+        {
+          "name": "Kath Pratt",
+          "role": "Member",
+          "uid": "115"
+        },
+        {
+          "name": "Judith Addison",
+          "role": "Member",
+          "uid": "112"
+        },
+        {
+          "name": "Scott Brerton",
+          "role": "Member",
+          "uid": "483"
+        },
+        {
+          "name": "Stephen Button",
+          "role": "Member",
+          "uid": "508"
+        },
+        {
+          "name": "Noordad Aziz",
+          "role": "Member",
+          "uid": "133"
+        },
+        {
+          "name": "Stewart Eaves",
+          "role": "Member",
+          "uid": "537"
+        },
+        {
+          "name": "Josh Allen",
+          "role": "Member",
+          "uid": "386"
+        }
+      ]
+    },
+    {
+      "cid": "142",
+      "name": "Standards Committee",
+      "type": "audit",
+      "members": [
+        {
+          "name": "Noordad Aziz",
+          "role": "Chair",
+          "uid": "133"
+        },
+        {
+          "name": "Clare Yates",
+          "role": "Vice-Chair",
+          "uid": "538"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Danny Cassidy",
+          "role": "Member",
+          "uid": "481"
+        },
+        {
+          "name": "Zak Khan",
+          "role": "Member",
+          "uid": "486"
+        },
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Member",
+          "uid": "485"
+        },
+        {
+          "name": "Clare Pritchard",
+          "role": "Member",
+          "uid": "539"
+        }
+      ]
+    },
+    {
+      "cid": "129",
+      "name": "Communities and Wellbeing Overview and Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Stephen Button",
+          "role": "Chair",
+          "uid": "508"
+        },
+        {
+          "name": "Jodi Clements",
+          "role": "Vice-Chair",
+          "uid": "482"
+        },
+        {
+          "name": "Clare Yates",
+          "role": "Member",
+          "uid": "538"
+        },
+        {
+          "name": "Clare McKenna",
+          "role": "Member",
+          "uid": "534"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Member",
+          "uid": "506"
+        },
+        {
+          "name": "David James Heap",
+          "role": "Member",
+          "uid": "560"
+        },
+        {
+          "name": "Loraine Cox",
+          "role": "Member",
+          "uid": "288"
+        },
+        {
+          "name": "Tina Walker",
+          "role": "Member",
+          "uid": "542"
+        }
+      ]
+    },
+    {
+      "cid": "132",
+      "name": "Resources Overview and Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Noordad Aziz",
+          "role": "Chair",
+          "uid": "133"
+        },
+        {
+          "name": "Paul Cox",
+          "role": "Vice-Chair",
+          "uid": "121"
+        },
+        {
+          "name": "Andrew Clegg",
+          "role": "Member",
+          "uid": "384"
+        },
+        {
+          "name": "Heather Anderson",
+          "role": "Member",
+          "uid": "504"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Member",
+          "uid": "506"
+        },
+        {
+          "name": "David James Heap",
+          "role": "Member",
+          "uid": "560"
+        },
+        {
+          "name": "Judith Addison",
+          "role": "Member",
+          "uid": "112"
+        },
+        {
+          "name": "Steven Smithson",
+          "role": "Member",
+          "uid": "455"
+        }
+      ]
+    },
+    {
+      "cid": "323",
+      "name": "Special Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Josh Allen",
+          "role": "Member",
+          "uid": "386"
+        },
+        {
+          "name": "Heather Anderson",
+          "role": "Member",
+          "uid": "504"
+        },
+        {
+          "name": "Mike Booth",
+          "role": "Vice-Chair",
+          "uid": "506"
+        },
+        {
+          "name": "Zak Khan",
+          "role": "Member",
+          "uid": "486"
+        },
+        {
+          "name": "Clare McKenna",
+          "role": "Member",
+          "uid": "534"
+        },
+        {
+          "name": "Kate Walsh",
+          "role": "Chair",
+          "uid": "415"
+        },
+        {
+          "name": "Clare Yates",
+          "role": "Member",
+          "uid": "538"
+        },
+        {
+          "name": "Mohammed Younis",
+          "role": "Member",
+          "uid": "505"
+        }
+      ]
+    },
+    {
+      "cid": "279",
+      "name": "Cabinet Waste and Recycling Group",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Munsif Dad BEM JP",
+          "role": "Member",
+          "uid": "122"
+        },
+        {
+          "name": "Stewart Eaves",
+          "role": "Chair",
+          "uid": "537"
+        },
+        {
+          "name": "Steven Smithson",
+          "role": "Member",
+          "uid": "455"
+        },
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Member",
+          "uid": "485"
+        }
+      ]
+    },
+    {
+      "cid": "144",
+      "name": "Leader's Policy Development Board",
+      "type": "other",
+      "members": [
+        {
+          "name": "Munsif Dad BEM JP",
+          "role": "Chair",
+          "uid": "122"
+        },
+        {
+          "name": "Melissa Fisher",
+          "role": "Member",
+          "uid": "286"
+        },
+        {
+          "name": "Zak Khan",
+          "role": "Member",
+          "uid": "486"
+        },
+        {
+          "name": "Kath Pratt",
+          "role": "Member",
+          "uid": "115"
+        },
+        {
+          "name": "Kimberley Whitehead",
+          "role": "Member",
+          "uid": "485"
+        }
+      ]
+    },
+    {
+      "cid": "145",
+      "name": "Learning and Development Panel",
+      "type": "other",
+      "members": [
+        {
+          "name": "Heather Anderson",
+          "role": "Member",
+          "uid": "504"
+        },
+        {
+          "name": "Judith Addison",
+          "role": "Member",
+          "uid": "112"
+        },
+        {
+          "name": "Vanessa Alexander",
+          "role": "Chair",
+          "uid": "205"
+        },
+        {
+          "name": "Clare McKenna",
+          "role": "Member",
+          "uid": "534"
+        }
+      ]
+    },
+    {
+      "cid": "289",
+      "name": "Constitution",
+      "type": "other",
+      "members": []
+    }
+  ],
+  "meetings": [
     {
       "id": "planning-committee-2026-02-11-3024",
       "date": "2026-02-11",
@@ -76,6 +881,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Minutes of the Last Meeting",
         "11/25/0485 - The Plough Pub & Restaurant, Broadfield, Oswaldtwistle, BB5 3RY",
         "11/25/0504 - 58 Station Road, Rishton, BB1 4HF",
@@ -100,7 +906,8 @@
         "Internal Audit Plan Progress Update",
         "Follow Ups Update",
         "Internal Audit Plan 2026/27",
-        "External Audit Update"
+        "External Audit Update",
+        "Statement of Accounts 2024/2025"
       ],
       "summary": null,
       "public_relevance": null,
@@ -109,13 +916,15 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Minutes of the Last Meeting",
         "Internal Audit Plan Progress Update",
         "Follow Ups Update",
         "Internal Audit Plan 2026/27",
-        "Plan Cover & Preface 2026-27, item 5.",
-        "Audit Areas Planned for 2026-27, item 5.",
-        "External Audit Update"
+        "Plan Cover & Preface 2026-27, item 297.",
+        "Audit Areas Planned for 2026-27, item 297.",
+        "External Audit Update",
+        "https://democracy.hyndburnbc.gov.uk/documents/g3036/Public%20reports%20pack%2022nd-Sep-2025%2016.00%20Audit%20Committee.pdf?T=10"
       ]
     },
     {
@@ -206,12 +1015,33 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://hyndburn.moderngov.co.uk/ieListDocuments.aspx?CId=130&MId=3012&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies for absence",
+        "Declarations of Interest and Dispensations",
+        "Announcements",
+        "Confirmation of Minutes",
+        "Appointments to Outside Bodies",
+        "Council Tax Exceptional Hardship Scheme - Proposed New Exemption for Care Leavers",
+        "Medium Term Financial Strategy 2026/2027 - 2028/2029",
+        "Prudential Indicators, Capital, Treasury Management and Investment Strategies 2026/27 - 2028/29",
+        "General Fund Revenue Budget, Council Tax Levels and Capital Programme 2026/27"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Confirmation of Minutes",
+        "Council Tax Exceptional Hardship Scheme - Proposed New Exemption for Care Leavers",
+        "Medium Term Financial Strategy 2026/2027 - 2028/2029",
+        "Prudential Indicators, Capital, Treasury Management and Investment Strategies 2026/27 - 2028/29",
+        "General Fund Revenue Budget, Council Tax Levels and Capital Programme 2026/27",
+        "b) Capital Programme 2026/27 - 2028/29, item 9.",
+        "c) Comments and Recommendations of Resources OSC, item 9.",
+        "d) Council Tax Resolution 2026/27, item 9."
+      ]
     },
     {
       "id": "resources-overview-and-scrutiny-committee-2026-03-03-3051",
@@ -240,12 +1070,25 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://hyndburn.moderngov.co.uk/ieListDocuments.aspx?CId=129&MId=3042&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies for Absence and Substitutions",
+        "Declarations of Interest and Dispensations",
+        "Minutes of Last Meeting",
+        "Chair's Update",
+        "Active Wellbeing Services",
+        "Access to Swimming Lessons in the Borough",
+        "Oswaldtwistle Civic Theatre"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Minutes of Last Meeting",
+        "Oswaldtwistle Civic Theatre"
+      ]
     },
     {
       "id": "planning-committee-2026-03-11-3025",
@@ -257,6 +1100,23 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://hyndburn.moderngov.co.uk/ieListDocuments.aspx?CId=131&MId=3025&Ver=4",
+      "agenda_items": [],
+      "summary": null,
+      "public_relevance": null,
+      "doge_relevance": null,
+      "speak_deadline": null,
+      "documents": []
+    },
+    {
+      "id": "cabinet-2026-03-18-3150",
+      "date": "2026-03-18",
+      "time": "17:00",
+      "committee": "Cabinet",
+      "type": "executive",
+      "venue": "Scaitcliffe House, Accrington",
+      "status": "agenda_published",
+      "cancelled": false,
+      "link": "https://hyndburn.moderngov.co.uk/ieListDocuments.aspx?CId=133&MId=3150&Ver=4",
       "agenda_items": [],
       "summary": null,
       "public_relevance": null,

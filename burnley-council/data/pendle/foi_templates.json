@@ -92,6 +92,28 @@
           "context": "Local government reorganisation in Lancashire will replace the current two-tier system. The transition costs money during a period of significant financial pressure."
         }
       ]
+    },
+    {
+      "id": "auto-detected",
+      "name": "Auto-Detected from DOGE Analysis",
+      "description": "FOI templates automatically generated from AI DOGE anomaly detection. Each template targets a specific finding with pre-filled questions.",
+      "templates": [
+        {
+          "id": "auto-sole-supplier-liberata-uk-ltd",
+          "title": "Sole Supplier: Liberata UK Ltd — 13% of Spend",
+          "why": "AI DOGE analysis identified Liberata UK Ltd as receiving 13% of the council's tracked expenditure (£16,700,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to Liberata UK Ltd:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows Liberata UK Ltd has received £16,700,000 (13% of tracked spend) from Pendle Borough Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "Liberata UK Ltd",
+            "spend": 16700000.0,
+            "pct": 13.4
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        }
+      ]
     }
   ],
   "submission_url": "https://www.pendle.gov.uk/info/20090/access_to_information/211/freedom_of_information",

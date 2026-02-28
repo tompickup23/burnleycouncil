@@ -1,11 +1,13 @@
 import { useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Building, Building2, Shield, AlertTriangle, Users, FileText, Calendar, ExternalLink, MapPin, Briefcase, CheckCircle, XCircle, Scale, Handshake, PoundSterling } from 'lucide-react'
+import { ArrowLeft, Building, Building2, Shield, AlertTriangle, Users, FileText, Calendar, ExternalLink, MapPin, Briefcase, CheckCircle, XCircle, Scale, Handshake, PoundSterling, TrendingUp } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { formatCurrency, formatNumber, formatDate, formatPercent } from '../utils/format'
+import { formatCurrency, formatNumber, formatDate, formatPercent, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CouncillorLink from '../components/CouncillorLink'
+import IntegrityBadge from '../components/IntegrityBadge'
 import { SEVERITY_COLORS, TOOLTIP_STYLE, COUNCIL_COLORS, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import './SupplierView.css'
 
@@ -27,6 +29,7 @@ function SupplierView() {
   const { data: indexData, loading: loading2, error: error2 } = useData('/data/supplier_index.json')
   const { data: integrityData } = useData('/data/integrity.json')
   const { data: procurementData } = useData('/data/procurement.json')
+  const { data: dogeData } = useData('/data/doge_findings.json')
 
   const profile = profilesData?.profiles?.find(p => p.id === supplierId)
     || indexData?.profiles?.find(p => p.id === supplierId)
@@ -68,6 +71,17 @@ function SupplierView() {
       return normNames.some(n => norm.includes(n) || n.includes(norm))
     })
   }, [procurementData, profile])
+
+  // DOGE findings related to this supplier
+  const dogeFindings = useMemo(() => {
+    if (!dogeData?.findings || !profile) return []
+    const canonical = (profile.canonical || profile.name || '').toUpperCase()
+    if (!canonical) return []
+    return dogeData.findings.filter(f => {
+      const context = JSON.stringify(f.context || f.detail || f.suppliers || '').toUpperCase()
+      return context.includes(canonical)
+    }).slice(0, 10) // Cap at 10 most relevant
+  }, [dogeData, profile])
 
   // Cross-council chart data (from lightweight profiles) — must be before early returns (Rules of Hooks)
   const councilChartData = useMemo(() => {
@@ -603,16 +617,29 @@ function SupplierView() {
               <div className="governance-subsection">
                 <h3>Directors</h3>
                 <div className="directors-grid">
-                  {governance.directors.map((d, i) => (
-                    <div key={i} className="director-card">
-                      <span className="director-name">{d.name}</span>
-                      <span className="director-role">{d.role}</span>
-                      <span className="director-appointed">
-                        <Calendar size={12} />
-                        Appointed {formatDate(d.appointed)}
-                      </span>
-                    </div>
-                  ))}
+                  {governance.directors.map((d, i) => {
+                    // Check if director name matches any councillor
+                    const isCouncillor = integrityData?.councillors?.some(c => {
+                      const cName = (c.name || '').toUpperCase()
+                      const dName = (d.name || '').toUpperCase()
+                      // Match surname + first name initial
+                      return cName === dName || dName.includes(cName) || cName.includes(dName)
+                    })
+                    return (
+                      <div key={i} className={`director-card ${isCouncillor ? 'councillor-director' : ''}`}>
+                        <span className="director-name">
+                          {isCouncillor ? (
+                            <CouncillorLink name={d.name} councillorId={slugify(d.name)} integrityData={integrityData} />
+                          ) : d.name}
+                        </span>
+                        <span className="director-role">{d.role}</span>
+                        <span className="director-appointed">
+                          <Calendar size={12} />
+                          Appointed {formatDate(d.appointed)}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
@@ -708,6 +735,46 @@ function SupplierView() {
         </section>
       )}
 
+      {/* DOGE Findings Section */}
+      {dogeFindings.length > 0 && (
+        <section className="supplier-section">
+          <h2><TrendingUp size={22} /> DOGE Analysis Findings</h2>
+          <p className="section-subtitle">{dogeFindings.length} finding{dogeFindings.length !== 1 ? 's' : ''} related to this supplier</p>
+          <div className="doge-findings-list">
+            {dogeFindings.map((finding, i) => {
+              const sevColor = SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.info
+              return (
+                <div key={i} className="doge-finding-item">
+                  <div className="doge-finding-header">
+                    <span
+                      className="severity-badge"
+                      style={{
+                        background: `${sevColor}18`,
+                        color: sevColor,
+                        borderColor: `${sevColor}40`,
+                      }}
+                    >
+                      {(finding.severity || 'info').charAt(0).toUpperCase() + (finding.severity || 'info').slice(1)}
+                    </span>
+                    <span className="doge-finding-type">{(finding.type || finding.category || '').replace(/_/g, ' ')}</span>
+                  </div>
+                  <h4 className="doge-finding-title">{finding.title || finding.finding}</h4>
+                  {finding.detail && <p className="doge-finding-detail">{finding.detail}</p>}
+                  {finding.recommendation && (
+                    <p className="doge-finding-rec">
+                      <strong>Recommendation:</strong> {finding.recommendation}
+                    </p>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+          <Link to="/doge" className="doge-link">
+            View full DOGE analysis →
+          </Link>
+        </section>
+      )}
+
       {/* Councillor Conflicts Section */}
       {councillorConflicts.length > 0 && (
         <section className="supplier-section">
@@ -717,11 +784,15 @@ function SupplierView() {
             {councillorConflicts.map((cllr, i) => (
               <div key={i} className="councillor-conflict-card">
                 <div className="conflict-cllr-info">
-                  <Link to="/integrity" className="conflict-cllr-name">{cllr.name}</Link>
+                  <CouncillorLink
+                    name={cllr.name}
+                    councillorId={slugify(cllr.name)}
+                    integrityData={integrityData}
+                  />
                   <div className="conflict-cllr-meta">
                     <span className="conflict-party">{cllr.party}</span>
                     {cllr.ward && <span className="conflict-ward">{cllr.ward}</span>}
-                    <span className={`conflict-risk-badge risk-${cllr.risk_level}`}>{cllr.risk_level} risk</span>
+                    <IntegrityBadge riskLevel={cllr.risk_level} />
                   </div>
                 </div>
                 <div className="conflict-details">

@@ -1,1 +1,55 @@
-[]
+{
+  "categories": [
+    {
+      "id": "auto-detected",
+      "name": "Auto-Detected from DOGE Analysis",
+      "description": "FOI templates automatically generated from AI DOGE anomaly detection. Each template targets a specific finding with pre-filled questions.",
+      "templates": [
+        {
+          "id": "auto-sole-supplier-maple-grove-developments",
+          "title": "Sole Supplier: Maple Grove Developments — 15% of Spend",
+          "why": "AI DOGE analysis identified Maple Grove Developments as receiving 15% of the council's tracked expenditure (£31,500,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to Maple Grove Developments:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows Maple Grove Developments has received £31,500,000 (15% of tracked spend) from Preston City Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "Maple Grove Developments",
+            "spend": 31500000.0,
+            "pct": 15.4
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-sole-supplier-lancashire-county-council",
+          "title": "Sole Supplier: Lancashire County Council — 14% of Spend",
+          "why": "AI DOGE analysis identified Lancashire County Council as receiving 14% of the council's tracked expenditure (£28,000,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to Lancashire County Council:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows Lancashire County Council has received £28,000,000 (14% of tracked spend) from Preston City Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "Lancashire County Council",
+            "spend": 28000000.0,
+            "pct": 13.7
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-duplicates",
+          "title": "Duplicate Payment Detection — £515,800",
+          "why": "AI DOGE identified £515,800 across 477 high-confidence duplicate payment groups. Each group shares the same supplier, amount, and approximate date.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's duplicate payment detection procedures and software\n2. How many duplicate payments have been identified and recovered in each financial year since 2021/22\n3. The total value of duplicate payments identified and recovered\n4. Whether the council uses NFI (National Fraud Initiative) data matching for duplicate detection\n5. Any internal audit reports on accounts payable controls since 2021\n",
+          "status": "auto-detected",
+          "context": "The National Fraud Initiative estimates councils lose £100M+ annually to duplicate payments. DOGE analysis detected £515,800 in potential duplicates at Preston City Council.",
+          "trigger": "duplicates",
+          "data": {
+            "total": 515799.99999999994,
+            "groups": 477
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        }
+      ]
+    }
+  ]
+}

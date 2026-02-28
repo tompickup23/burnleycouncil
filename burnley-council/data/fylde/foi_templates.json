@@ -1,1 +1,55 @@
-[]
+{
+  "categories": [
+    {
+      "id": "auto-detected",
+      "name": "Auto-Detected from DOGE Analysis",
+      "description": "FOI templates automatically generated from AI DOGE anomaly detection. Each template targets a specific finding with pre-filled questions.",
+      "templates": [
+        {
+          "id": "auto-sole-supplier-vba-joint-venture-ltd",
+          "title": "Sole Supplier: VBA Joint Venture Ltd — 14% of Spend",
+          "why": "AI DOGE analysis identified VBA Joint Venture Ltd as receiving 14% of the council's tracked expenditure (£22,000,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to VBA Joint Venture Ltd:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows VBA Joint Venture Ltd has received £22,000,000 (14% of tracked spend) from Fylde Borough Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "VBA Joint Venture Ltd",
+            "spend": 22000000.0,
+            "pct": 14.2
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-sole-supplier-blackpool-council",
+          "title": "Sole Supplier: Blackpool Council — 10% of Spend",
+          "why": "AI DOGE analysis identified Blackpool Council as receiving 10% of the council's tracked expenditure (£15,900,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to Blackpool Council:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows Blackpool Council has received £15,900,000 (10% of tracked spend) from Fylde Borough Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "Blackpool Council",
+            "spend": 15900000.0,
+            "pct": 10.3
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-duplicates",
+          "title": "Duplicate Payment Detection — £458,200",
+          "why": "AI DOGE identified £458,200 across 281 high-confidence duplicate payment groups. Each group shares the same supplier, amount, and approximate date.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's duplicate payment detection procedures and software\n2. How many duplicate payments have been identified and recovered in each financial year since 2021/22\n3. The total value of duplicate payments identified and recovered\n4. Whether the council uses NFI (National Fraud Initiative) data matching for duplicate detection\n5. Any internal audit reports on accounts payable controls since 2021\n",
+          "status": "auto-detected",
+          "context": "The National Fraud Initiative estimates councils lose £100M+ annually to duplicate payments. DOGE analysis detected £458,200 in potential duplicates at Fylde Borough Council.",
+          "trigger": "duplicates",
+          "data": {
+            "total": 458200.0,
+            "groups": 281
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        }
+      ]
+    }
+  ]
+}

@@ -1276,4 +1276,76 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .doge-finding-item {
+    padding: var(--space-sm);
+  }
+}
+
+/* ============================================ */
+/* DOGE Findings Section                        */
+/* ============================================ */
+.doge-findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.doge-finding-item {
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.doge-finding-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.doge-finding-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.doge-finding-type {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.doge-finding-title {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.doge-finding-detail {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.doge-finding-rec {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin: var(--space-xs) 0 0;
+  padding-top: var(--space-xs);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.doge-link {
+  display: inline-block;
+  margin-top: var(--space-md);
+  font-size: 0.85rem;
+  color: #0a84ff;
+}
+
+/* Councillor-director highlight */
+.director-card.councillor-director {
+  border-color: rgba(255, 159, 10, 0.3);
+  background: rgba(255, 159, 10, 0.06);
 }

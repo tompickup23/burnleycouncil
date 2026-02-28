@@ -1,107 +1,993 @@
 {
-  "last_updated": "2026-02-18T15:47:07.000Z",
-  "next_update": "2026-02-25T15:47:07.000Z",
+  "last_updated": "2026-02-28T07:12:08.000Z",
+  "next_update": "2026-03-07T07:12:08.000Z",
   "source": "https://committeeadmin.lancaster.gov.uk",
   "how_to_attend": {},
-  "meetings": [
+  "committees": [
     {
-      "id": "overview-and-scrutiny-committee-2026-01-21-8520",
-      "date": "2026-01-21",
-      "time": null,
-      "committee": "Overview and Scrutiny Committee",
-      "type": "scrutiny",
-      "venue": "Lancaster Town Hall",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=298&MId=8520&Ver=4",
-      "agenda_items": [
-        "Minutes",
-        "Items of Urgent Business authorised by the Chair",
-        "Declarations of Interest",
-        "Pre-Decision Scrutiny Protocol",
-        "Government Waste Strategy Delivery",
-        "Discussion regarding the Fit for Future Workshop",
-        "Forthcoming Key Decisions",
-        "City Council Commissioned Consultations",
-        "Decisions the Chair has been consulted on",
-        "Work Programme"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed draft minutes",
-        "Pre-Decision Scrutiny Protocol",
-        "Appendix A, item 50.",
-        "Appendix B, item 50.",
-        "Government Waste Strategy Delivery",
-        "Work Programme",
-        "Work Progamme Appendix (1), item 56."
-      ]
-    },
-    {
-      "id": "standards-committee-2026-01-22-8614",
-      "date": "2026-01-22",
-      "time": null,
-      "committee": "Standards Committee",
-      "type": "audit",
-      "venue": "Lancaster Town Hall",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=299&MId=8614&Ver=4",
-      "agenda_items": [],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": []
-    },
-    {
-      "id": "council-2026-01-28-8480",
-      "date": "2026-01-28",
-      "time": null,
-      "committee": "Council",
+      "cid": "305",
+      "name": "Council",
       "type": "other",
-      "venue": "Lancaster Town Hall",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=305&MId=8480&Ver=4",
-      "agenda_items": [
-        "APOLOGIES",
-        "MINUTES",
-        "DECLARATIONS OF INTEREST",
-        "ANNOUNCEMENT - MAYOR'S CABARET EVENING",
-        "ANNOUNCEMENT - RECORDED VOTE",
-        "QUESTIONS FROM THE PUBLIC UNDER COUNCIL PROCEDURE RULE 11",
-        "PETITIONS AND ADDRESSES",
-        "LEADER'S REPORT",
-        "Budget and Policy Framework Update 2026/27 to 2030/31",
-        "Executive Arrangements",
-        "APPOINTMENTS AND CHANGES TO COMMITTEE MEMBERSHIP",
-        "QUESTIONS UNDER COUNCIL PROCEDURE RULE 12",
-        "MINUTES OF CABINET"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed draft minutes",
-        "MINUTES",
-        "17 December Minutes, item 98.",
-        "LEADER'S REPORT",
-        "Budget and Policy Framework Update 2026/27 to 2030/31",
-        "Executive Arrangements",
-        "QUESTIONS UNDER COUNCIL PROCEDURE RULE 12",
-        "MINUTES OF CABINET",
-        "2 Dec Cabinet Minutes, item 109."
+      "members": [
+        {
+          "name": "Margaret Pattison",
+          "role": "Member",
+          "uid": "2238"
+        },
+        {
+          "name": "John Hanson",
+          "role": "Member",
+          "uid": "9881"
+        },
+        {
+          "name": "Suhir Abuhajar",
+          "role": "Member",
+          "uid": "9869"
+        },
+        {
+          "name": "Joanne Ainscough",
+          "role": "Member",
+          "uid": "9870"
+        },
+        {
+          "name": "Catherine Armistead",
+          "role": "Member",
+          "uid": "9871"
+        },
+        {
+          "name": "Mandy Bannon",
+          "role": "Member",
+          "uid": "8359"
+        },
+        {
+          "name": "Matthew Black",
+          "role": "Member",
+          "uid": "9873"
+        },
+        {
+          "name": "Phillip Black",
+          "role": "Member",
+          "uid": "8360"
+        },
+        {
+          "name": "Martin Bottoms",
+          "role": "Member",
+          "uid": "9874"
+        },
+        {
+          "name": "Louise Belcher",
+          "role": "Member",
+          "uid": "9872"
+        },
+        {
+          "name": "Gerry Blaikie",
+          "role": "Member",
+          "uid": "9611"
+        },
+        {
+          "name": "Philip Bradley",
+          "role": "Member",
+          "uid": "9875"
+        },
+        {
+          "name": "Dave Brookes",
+          "role": "Member",
+          "uid": "2223"
+        },
+        {
+          "name": "Keith Budden",
+          "role": "Member",
+          "uid": "920"
+        },
+        {
+          "name": "Roger Cleet",
+          "role": "Member",
+          "uid": "8386"
+        },
+        {
+          "name": "Ruth Colbridge",
+          "role": "Member",
+          "uid": "9876"
+        },
+        {
+          "name": "Wilson Colley",
+          "role": "Member",
+          "uid": "10457"
+        },
+        {
+          "name": "Brett Cooper",
+          "role": "Member",
+          "uid": "2838"
+        },
+        {
+          "name": "Claire Cozler",
+          "role": "Member",
+          "uid": "2825"
+        },
+        {
+          "name": "Maria Deery",
+          "role": "Member",
+          "uid": "10350"
+        },
+        {
+          "name": "Roger Dennison",
+          "role": "Member",
+          "uid": "1829"
+        },
+        {
+          "name": "Gina Dowding",
+          "role": "Member",
+          "uid": "930"
+        },
+        {
+          "name": "Tom Fish",
+          "role": "Member",
+          "uid": "9877"
+        },
+        {
+          "name": "Andrew Gardiner",
+          "role": "Member",
+          "uid": "2827"
+        },
+        {
+          "name": "Martin Gawith",
+          "role": "Member",
+          "uid": "9879"
+        },
+        {
+          "name": "Alan Greenwell",
+          "role": "Member",
+          "uid": "9880"
+        },
+        {
+          "name": "Tim Hamilton-Cox",
+          "role": "Member",
+          "uid": "2228"
+        },
+        {
+          "name": "Chris Hanna",
+          "role": "Member",
+          "uid": "9882"
+        },
+        {
+          "name": "Prof Chris Harris",
+          "role": "Member",
+          "uid": "9883"
+        },
+        {
+          "name": "Paul Hart",
+          "role": "Member",
+          "uid": "9884"
+        },
+        {
+          "name": "Colin Hartley JP",
+          "role": "Member",
+          "uid": "2830"
+        },
+        {
+          "name": "Ross Hunter",
+          "role": "Member",
+          "uid": "9612"
+        },
+        {
+          "name": "Caroline Jackson",
+          "role": "Member",
+          "uid": "2674"
+        },
+        {
+          "name": "Peter Jackson",
+          "role": "Member",
+          "uid": "9885"
+        },
+        {
+          "name": "Kate Knight",
+          "role": "Member",
+          "uid": "9886"
+        },
+        {
+          "name": "Jack Lenox",
+          "role": "Member",
+          "uid": "9495"
+        },
+        {
+          "name": "John Livermore",
+          "role": "Member",
+          "uid": "9887"
+        },
+        {
+          "name": "Sally Maddocks",
+          "role": "Member",
+          "uid": "9684"
+        },
+        {
+          "name": "Sarah McGowan",
+          "role": "Member",
+          "uid": "9889"
+        },
+        {
+          "name": "Isabella Metcalf-Riener",
+          "role": "Member",
+          "uid": "10317"
+        },
+        {
+          "name": "Abi Mills",
+          "role": "Member",
+          "uid": "2760"
+        },
+        {
+          "name": "Hamish Mills",
+          "role": "Member",
+          "uid": "9891"
+        },
+        {
+          "name": "Paul Newton",
+          "role": "Member",
+          "uid": "9892"
+        },
+        {
+          "name": "Andrew Otway",
+          "role": "Member",
+          "uid": "10359"
+        },
+        {
+          "name": "Jean Parr",
+          "role": "Member",
+          "uid": "7431"
+        },
+        {
+          "name": "Susan Penney",
+          "role": "Member",
+          "uid": "9893"
+        },
+        {
+          "name": "Catherine Potter",
+          "role": "Member",
+          "uid": "9894"
+        },
+        {
+          "name": "Joyce Pritchard",
+          "role": "Member",
+          "uid": "8374"
+        },
+        {
+          "name": "Sarah Punshon",
+          "role": "Member",
+          "uid": "9895"
+        },
+        {
+          "name": "Robert Redfern",
+          "role": "Member",
+          "uid": "955"
+        },
+        {
+          "name": "Sam Riches",
+          "role": "Member",
+          "uid": "9896"
+        },
+        {
+          "name": "James Sommerville",
+          "role": "Member",
+          "uid": "9898"
+        },
+        {
+          "name": "Jackson Stubbs",
+          "role": "Member",
+          "uid": "10330"
+        },
+        {
+          "name": "Paul Stubbins",
+          "role": "Member",
+          "uid": "8378"
+        },
+        {
+          "name": "Sandra Thornberry",
+          "role": "Member",
+          "uid": "8393"
+        },
+        {
+          "name": "Sue Tyldesley",
+          "role": "Member",
+          "uid": "9838"
+        },
+        {
+          "name": "Paul Tynan",
+          "role": "Member",
+          "uid": "9899"
+        },
+        {
+          "name": "David Whitaker",
+          "role": "Member",
+          "uid": "965"
+        },
+        {
+          "name": "John Wild",
+          "role": "Member",
+          "uid": "2848"
+        },
+        {
+          "name": "Nick Wilkinson",
+          "role": "Member",
+          "uid": "2842"
+        },
+        {
+          "name": "Jason Wood",
+          "role": "Member",
+          "uid": "8380"
+        }
       ]
     },
+    {
+      "cid": "317",
+      "name": "Appeals Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "Sarah McGowan",
+          "role": "Chair",
+          "uid": "9889"
+        },
+        {
+          "name": "Catherine Armistead",
+          "role": "Member",
+          "uid": "9871"
+        },
+        {
+          "name": "Claire Cozler",
+          "role": "Member",
+          "uid": "2825"
+        },
+        {
+          "name": "Gina Dowding",
+          "role": "Member",
+          "uid": "930"
+        },
+        {
+          "name": "Tom Fish",
+          "role": "Member",
+          "uid": "9877"
+        },
+        {
+          "name": "Paul Hart",
+          "role": "Member",
+          "uid": "9884"
+        },
+        {
+          "name": "James Sommerville",
+          "role": "Member",
+          "uid": "9898"
+        }
+      ]
+    },
+    {
+      "cid": "316",
+      "name": "Audit Committee",
+      "type": "audit",
+      "members": [
+        {
+          "name": "Paul Stubbins",
+          "role": "Chair",
+          "uid": "8378"
+        },
+        {
+          "name": "David Whitaker",
+          "role": "Vice-Chair",
+          "uid": "965"
+        },
+        {
+          "name": "Ruth Colbridge",
+          "role": "Member",
+          "uid": "9876"
+        },
+        {
+          "name": "Brett Cooper",
+          "role": "Member",
+          "uid": "2838"
+        },
+        {
+          "name": "Peter Jackson",
+          "role": "Member",
+          "uid": "9885"
+        },
+        {
+          "name": "Colin Hartley JP",
+          "role": "Member",
+          "uid": "2830"
+        },
+        {
+          "name": "Isabella Metcalf-Riener",
+          "role": "Member",
+          "uid": "10317"
+        }
+      ]
+    },
+    {
+      "cid": "640",
+      "name": "Council Business Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "Ross Hunter",
+          "role": "Chair",
+          "uid": "9612"
+        },
+        {
+          "name": "Paul Newton",
+          "role": "Vice-Chair",
+          "uid": "9892"
+        },
+        {
+          "name": "David Whitaker",
+          "role": "Member",
+          "uid": "965"
+        },
+        {
+          "name": "Suhir Abuhajar",
+          "role": "Member",
+          "uid": "9869"
+        },
+        {
+          "name": "Sarah McGowan",
+          "role": "Member",
+          "uid": "9889"
+        },
+        {
+          "name": "Abi Mills",
+          "role": "Member",
+          "uid": "2760"
+        },
+        {
+          "name": "Jean Parr",
+          "role": "Member",
+          "uid": "7431"
+        }
+      ]
+    },
+    {
+      "cid": "1027",
+      "name": "People and Organisational Development Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "Jason Wood",
+          "role": "Chair",
+          "uid": "8380"
+        },
+        {
+          "name": "Caroline Jackson",
+          "role": "Vice-Chair",
+          "uid": "2674"
+        },
+        {
+          "name": "Phillip Black",
+          "role": "Member",
+          "uid": "8360"
+        },
+        {
+          "name": "Paul Hart",
+          "role": "Member",
+          "uid": "9884"
+        },
+        {
+          "name": "Sally Maddocks",
+          "role": "Member",
+          "uid": "9684"
+        },
+        {
+          "name": "Paul Newton",
+          "role": "Member",
+          "uid": "9892"
+        },
+        {
+          "name": "Paul Stubbins",
+          "role": "Member",
+          "uid": "8378"
+        }
+      ]
+    },
+    {
+      "cid": "299",
+      "name": "Standards Committee",
+      "type": "audit",
+      "members": [
+        {
+          "name": "Hamish Mills",
+          "role": "Chair",
+          "uid": "9891"
+        },
+        {
+          "name": "Phillip Black",
+          "role": "Member",
+          "uid": "8360"
+        },
+        {
+          "name": "Wilson Colley",
+          "role": "Member",
+          "uid": "10457"
+        },
+        {
+          "name": "Roger Dennison",
+          "role": "Member",
+          "uid": "1829"
+        },
+        {
+          "name": "Paul Newton",
+          "role": "Member",
+          "uid": "9892"
+        },
+        {
+          "name": "Sarah Punshon",
+          "role": "Member",
+          "uid": "9895"
+        },
+        {
+          "name": "Jackson Stubbs",
+          "role": "Member",
+          "uid": "10330"
+        }
+      ]
+    },
+    {
+      "cid": "297",
+      "name": "Cabinet",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Caroline Jackson",
+          "role": "Chair",
+          "uid": "2674"
+        },
+        {
+          "name": "Peter Jackson",
+          "role": "Member",
+          "uid": "9885"
+        },
+        {
+          "name": "Mandy Bannon",
+          "role": "Member",
+          "uid": "8359"
+        },
+        {
+          "name": "Martin Bottoms",
+          "role": "Member",
+          "uid": "9874"
+        },
+        {
+          "name": "Tim Hamilton-Cox",
+          "role": "Member",
+          "uid": "2228"
+        },
+        {
+          "name": "Paul Hart",
+          "role": "Member",
+          "uid": "9884"
+        },
+        {
+          "name": "Sally Maddocks",
+          "role": "Member",
+          "uid": "9684"
+        },
+        {
+          "name": "Sam Riches",
+          "role": "Member",
+          "uid": "9896"
+        },
+        {
+          "name": "Sue Tyldesley",
+          "role": "Member",
+          "uid": "9838"
+        }
+      ]
+    },
+    {
+      "cid": "870",
+      "name": "Joint Committee for Revenues and Benefits",
+      "type": "partnership",
+      "members": [
+        {
+          "name": "Tim Hamilton-Cox",
+          "role": "Chair",
+          "uid": "2228"
+        },
+        {
+          "name": "Caroline Jackson",
+          "role": "Member",
+          "uid": "2674"
+        }
+      ]
+    },
+    {
+      "cid": "616",
+      "name": "Individual Cabinet Member and Officer Delegated Decisions",
+      "type": "executive",
+      "members": []
+    },
+    {
+      "cid": "618",
+      "name": "Urgent Business",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "312",
+      "name": "Budget and Performance Panel",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Chris Hanna",
+          "role": "Chair",
+          "uid": "9882"
+        },
+        {
+          "name": "Ross Hunter",
+          "role": "Vice-Chair",
+          "uid": "9612"
+        },
+        {
+          "name": "Keith Budden",
+          "role": "Member",
+          "uid": "920"
+        },
+        {
+          "name": "Ruth Colbridge",
+          "role": "Member",
+          "uid": "9876"
+        },
+        {
+          "name": "Isabella Metcalf-Riener",
+          "role": "Member",
+          "uid": "10317"
+        },
+        {
+          "name": "Hamish Mills",
+          "role": "Member",
+          "uid": "9891"
+        },
+        {
+          "name": "Susan Penney",
+          "role": "Member",
+          "uid": "9893"
+        },
+        {
+          "name": "James Sommerville",
+          "role": "Member",
+          "uid": "9898"
+        },
+        {
+          "name": "Jackson Stubbs",
+          "role": "Member",
+          "uid": "10330"
+        }
+      ]
+    },
+    {
+      "cid": "298",
+      "name": "Overview and Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Martin Gawith",
+          "role": "Chair",
+          "uid": "9879"
+        },
+        {
+          "name": "Chris Hanna",
+          "role": "Vice-Chair",
+          "uid": "9882"
+        },
+        {
+          "name": "Suhir Abuhajar",
+          "role": "Member",
+          "uid": "9869"
+        },
+        {
+          "name": "Wilson Colley",
+          "role": "Member",
+          "uid": "10457"
+        },
+        {
+          "name": "Maria Deery",
+          "role": "Member",
+          "uid": "10350"
+        },
+        {
+          "name": "Gina Dowding",
+          "role": "Member",
+          "uid": "930"
+        },
+        {
+          "name": "Susan Penney",
+          "role": "Member",
+          "uid": "9893"
+        },
+        {
+          "name": "Joyce Pritchard",
+          "role": "Member",
+          "uid": "8374"
+        },
+        {
+          "name": "John Wild",
+          "role": "Member",
+          "uid": "2848"
+        }
+      ]
+    },
+    {
+      "cid": "969",
+      "name": "Licensing Committee",
+      "type": "licensing",
+      "members": [
+        {
+          "name": "Paul Tynan",
+          "role": "Chair",
+          "uid": "9899"
+        },
+        {
+          "name": "Sally Maddocks",
+          "role": "Vice-Chair",
+          "uid": "9684"
+        },
+        {
+          "name": "Louise Belcher",
+          "role": "Member",
+          "uid": "9872"
+        },
+        {
+          "name": "Gerry Blaikie",
+          "role": "Member",
+          "uid": "9611"
+        },
+        {
+          "name": "Martin Bottoms",
+          "role": "Member",
+          "uid": "9874"
+        },
+        {
+          "name": "Maria Deery",
+          "role": "Member",
+          "uid": "10350"
+        },
+        {
+          "name": "Martin Gawith",
+          "role": "Member",
+          "uid": "9879"
+        },
+        {
+          "name": "John Hanson",
+          "role": "Member",
+          "uid": "9881"
+        },
+        {
+          "name": "Margaret Pattison",
+          "role": "Member",
+          "uid": "2238"
+        },
+        {
+          "name": "John Wild",
+          "role": "Member",
+          "uid": "2848"
+        }
+      ]
+    },
+    {
+      "cid": "970",
+      "name": "Licensing Sub-Committee",
+      "type": "licensing",
+      "members": [
+        {
+          "name": "Martin Bottoms",
+          "role": "Chair",
+          "uid": "9874"
+        },
+        {
+          "name": "Sally Maddocks",
+          "role": "Chair",
+          "uid": "9684"
+        },
+        {
+          "name": "Margaret Pattison",
+          "role": "Chair",
+          "uid": "2238"
+        },
+        {
+          "name": "Paul Tynan",
+          "role": "Chair",
+          "uid": "9899"
+        }
+      ]
+    },
+    {
+      "cid": "315",
+      "name": "Planning Regulatory Committee",
+      "type": "planning",
+      "members": [
+        {
+          "name": "Sandra Thornberry",
+          "role": "Chair",
+          "uid": "8393"
+        },
+        {
+          "name": "Dave Brookes",
+          "role": "Vice-Chair",
+          "uid": "2223"
+        },
+        {
+          "name": "Louise Belcher",
+          "role": "Member",
+          "uid": "9872"
+        },
+        {
+          "name": "Martin Bottoms",
+          "role": "Member",
+          "uid": "9874"
+        },
+        {
+          "name": "Keith Budden",
+          "role": "Member",
+          "uid": "920"
+        },
+        {
+          "name": "Tom Fish",
+          "role": "Member",
+          "uid": "9877"
+        },
+        {
+          "name": "Alan Greenwell",
+          "role": "Member",
+          "uid": "9880"
+        },
+        {
+          "name": "John Hanson",
+          "role": "Member",
+          "uid": "9881"
+        },
+        {
+          "name": "Jack Lenox",
+          "role": "Member",
+          "uid": "9495"
+        },
+        {
+          "name": "John Livermore",
+          "role": "Member",
+          "uid": "9887"
+        },
+        {
+          "name": "Andrew Otway",
+          "role": "Member",
+          "uid": "10359"
+        },
+        {
+          "name": "Catherine Potter",
+          "role": "Member",
+          "uid": "9894"
+        },
+        {
+          "name": "Robert Redfern",
+          "role": "Member",
+          "uid": "955"
+        },
+        {
+          "name": "Sue Tyldesley",
+          "role": "Member",
+          "uid": "9838"
+        },
+        {
+          "name": "Paul Tynan",
+          "role": "Member",
+          "uid": "9899"
+        }
+      ]
+    },
+    {
+      "cid": "1042",
+      "name": "Planning Policy Cabinet Advisory Group",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Sue Tyldesley",
+          "role": "Chair",
+          "uid": "9838"
+        },
+        {
+          "name": "Louise Belcher",
+          "role": "Member",
+          "uid": "9872"
+        },
+        {
+          "name": "Dave Brookes",
+          "role": "Member",
+          "uid": "2223"
+        },
+        {
+          "name": "Keith Budden",
+          "role": "Member",
+          "uid": "920"
+        },
+        {
+          "name": "Andrew Otway",
+          "role": "Member",
+          "uid": "10359"
+        },
+        {
+          "name": "Jean Parr",
+          "role": "Member",
+          "uid": "7431"
+        },
+        {
+          "name": "Joyce Pritchard",
+          "role": "Member",
+          "uid": "8374"
+        },
+        {
+          "name": "Sandra Thornberry",
+          "role": "Member",
+          "uid": "8393"
+        },
+        {
+          "name": "Paul Tynan",
+          "role": "Member",
+          "uid": "9899"
+        }
+      ]
+    },
+    {
+      "cid": "1014",
+      "name": "Shareholders Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "Phillip Black",
+          "role": "Chair",
+          "uid": "8360"
+        },
+        {
+          "name": "Joanne Ainscough",
+          "role": "Member",
+          "uid": "9870"
+        },
+        {
+          "name": "Tim Hamilton-Cox",
+          "role": "Member",
+          "uid": "2228"
+        },
+        {
+          "name": "Caroline Jackson",
+          "role": "Member",
+          "uid": "2674"
+        },
+        {
+          "name": "Peter Jackson",
+          "role": "Member",
+          "uid": "9885"
+        },
+        {
+          "name": "Jean Parr",
+          "role": "Member",
+          "uid": "7431"
+        },
+        {
+          "name": "Catherine Potter",
+          "role": "Member",
+          "uid": "9894"
+        },
+        {
+          "name": "Paul Stubbins",
+          "role": "Member",
+          "uid": "8378"
+        },
+        {
+          "name": "Nick Wilkinson",
+          "role": "Member",
+          "uid": "2842"
+        },
+        {
+          "name": "Jason Wood",
+          "role": "Member",
+          "uid": "8380"
+        }
+      ]
+    }
+  ],
+  "meetings": [
     {
       "id": "budget-and-performance-panel-2026-02-03-8726",
       "date": "2026-02-03",
@@ -138,13 +1024,11 @@
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=298&MId=8521&Ver=4",
       "agenda_items": [
-        "ALL MEMBERS OF COUNCIL ARE INVITED TO ATTEND EITHER IN PERSON OR VIA MICROSOFT TEAMS FOR THE ITEM REGARDING THE CARE QUALITY COMMISSION ASSESSMENT",
-        "Apologies for Absence",
         "Minutes",
         "Items of Urgent Business authorised by the Chair",
         "Declarations of Interest",
-        "Care Quality Commission (CQC) Assessment",
         "Flooding in Lancaster - Lancaster City Surface Water Management Plan",
+        "Care Quality Commission (CQC) Assessment",
         "Fit for the Future",
         "Forthcoming Key Decisions",
         "City Council Commissioned Consultations",
@@ -158,6 +1042,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Work Programme"
       ]
     },
@@ -172,11 +1057,9 @@
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=969&MId=8494&Ver=4",
       "agenda_items": [
-        "Apologies for Absence",
         "Minutes",
         "Items of Urgent Business authorised by the Chair",
         "Declarations of Interest",
-        "Matters for Decision",
         "Hackney Carriage Fare Review 2026",
         "Proposed Licensing Fees 2026/27",
         "Government Consultation - Taxi and PHV Licensing"
@@ -188,16 +1071,17 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Hackney Carriage Fare Review 2026",
-        "Appendix 1 - Table of Fares, item 5.",
-        "Appendix 2 - RPI Uplift, item 5.",
+        "Appendix 1 - Table of Fares, item 37.",
+        "Appendix 2 - RPI Uplift, item 37.",
         "Proposed Licensing Fees 2026/27",
-        "Fees and Charges Policy - Appendix 1, item 6.",
-        "Licensing Fees 2026 - Appendix 2, item 6.",
-        "Animal Licensing Fees - Appendix 3, item 6.",
+        "Fees and Charges Policy - Appendix 1, item 38.",
+        "Licensing Fees 2026 - Appendix 2, item 38.",
+        "Animal Licensing Fees - Appendix 3, item 38.",
         "Government Consultation - Taxi and PHV Licensing",
-        "Appendix 1 - Consultation Doc, item 7.",
-        "Appendix 2 - Answers, item 7."
+        "Appendix 1 - Consultation Doc, item 39.",
+        "Appendix 2 - Answers, item 39."
       ]
     },
     {
@@ -320,7 +1204,6 @@
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=312&MId=8569&Ver=4",
       "agenda_items": [
-        "Apologies for Absence",
         "Minutes",
         "Items of Urgent Business authorised by the Chair",
         "Declaration of Interests",
@@ -340,35 +1223,36 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Budget & Policy Framework General Fund Revenue Budget 2026/27 - 2030/31",
-        "Appendix A GF Budget Projections, item 5.",
-        "Appendix B Budget Variances, item 5.",
-        "Appendix C Savings & Growth, item 5.",
-        "View the full list of documents for item 5.",
+        "Appendix A GF Budget Projections, item 45.",
+        "Appendix B Budget Variances, item 45.",
+        "Appendix C Savings & Growth, item 45.",
+        "View the full list of documents for item 45.",
         "Capital Programme 2026/27 – 2035/36 & Capital Strategy (Investing in the Future)",
-        "Appendix A - GF Capital Programme UPDATED, item 6.",
-        "Appendix B Capital Strategy - Investing in the Future, item 6.",
-        "Appendix C - CAG Terms of Reference, item 6.",
+        "Appendix A - GF Capital Programme UPDATED, item 46.",
+        "Appendix B Capital Strategy - Investing in the Future, item 46.",
+        "Appendix C - CAG Terms of Reference, item 46.",
         "Treasury Management Strategy 2026/27",
-        "Appendix A - Council Responsibility, item 7.",
-        "Appendix B - TM Policy, item 7.",
-        "Appendix C - Treasury Management Strategy 2026-27, item 7.",
+        "Appendix A - Council Responsibility, item 47.",
+        "Appendix B - TM Policy, item 47.",
+        "Appendix C - Treasury Management Strategy 2026-27, item 47.",
         "Medium Term Financial Strategy 2026/27 – 2030/31",
         "Housing Revenue Account Budget Framework 2026/27 - 2030/31",
-        "Appendix A HRA Statement, item 9.",
-        "Appendix B HRA Variance Analysis, item 9.",
-        "Appendix C HRA Capital Programme, item 9.",
-        "Appendix D HRA Capital Key Changes, item 9.",
-        "Appendix E(i) HRA Reserves, item 9.",
-        "View the full list of documents for item 9.",
+        "Appendix A HRA Statement, item 49.",
+        "Appendix B HRA Variance Analysis, item 49.",
+        "Appendix C HRA Capital Programme, item 49.",
+        "Appendix D HRA Capital Key Changes, item 49.",
+        "Appendix E(i) HRA Reserves, item 49.",
+        "View the full list of documents for item 49.",
         "Flexible Use of Capital Receipts Strategy 2026/27",
         "Delivering Our Priorities 2025/26 Q3",
-        "DoP Appendix Pack Q3 25-26, item 11.",
+        "DoP Appendix Pack Q3 25-26, item 51.",
         "Work Programme",
-        "App A - Work Programme, item 12.",
-        "App B Terms of Reference, item 12.",
-        "App C - Carnforth MoU, item 12.",
-        "App D - Lcr Dist Strat Partnership - MOU, item 12."
+        "App A - Work Programme, item 52.",
+        "App B Terms of Reference, item 52.",
+        "App C - Carnforth MoU, item 52.",
+        "App D - Lcr Dist Strat Partnership - MOU, item 52."
       ]
     },
     {
@@ -391,11 +1275,12 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "LICENSING ACT 2003 - PREMISE LICENCE GRANT-SCALE HALL STORES, LANCASTER, LA1 1HD - DETERMINATION OF APPLICATION FOLLOWING RELEVANT REPRESENTATIONS",
-        "APPENDIX 1 - APPLICATION AND PLAN, item 1.",
-        "APPENDIX 2 - OBJECTION 1 - 14 REDACTED, item 1.",
-        "APPENDIX 3 - Statement of Licensing Policy 2023-2027, item 1.",
-        "APPENDIX 4 - Government Section 182 Guidance, item 1."
+        "APPENDIX 1 - APPLICATION AND PLAN, item 5.",
+        "APPENDIX 2 - OBJECTION 1 - 14 REDACTED, item 5.",
+        "APPENDIX 3 - Statement of Licensing Policy 2023-2027, item 5.",
+        "APPENDIX 4 - Government Section 182 Guidance, item 5."
       ]
     },
     {
@@ -409,19 +1294,29 @@
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=315&MId=8505&Ver=4",
       "agenda_items": [
-        "Apologies for Absence",
         "Minutes",
         "Items of Urgent Business authorised by the Chair",
         "Declarations of Interest",
-        "Planning Applications for Decision",
+        "THE CHAIR RE-ORDERED THE AGENDA AS FOLLOWS: A5, A8, A9, A10, A11, A12 THEN A6 AND A7.",
+        "APPLICATIONS SUBJECT TO PUBLIC PARTICIPATION:",
         "Land to the west of Slyne Road Bolton Le Sands Lancashire",
-        "Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
-        "Land East of Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
+        "THE CHAIR ADJOURNED THE MEETING AT 13:00; AND RE-CONVENED THE MEETING AT 13:30.",
+        "COUNCILLOR ANDREW OTWAY LEFT THE MEETING AT 13:30.",
+        "APPLICATIONS NOT SUBJECT TO PUBLIC PARTICIPATION:",
         "Land North West Of Sand Lane Warton Lancashire",
+        "COUNCILLORS DAVE BROOKES AND JACK LENOX LEFT THE MEETING AT 13:40.",
         "Land Off Newlands Road Lancaster Lancashire",
+        "COUNCILLOR MARTIN BOTTOMS LEFT THE MEETING AT 14:05.",
+        "COUNCILLOR SUE TYLDESLEY RECUSED HERSELF FROM THE MEETING (SEE DECLARATION ABOVE).",
         "Ryelands House  Owen Road Lancaster Lancashire",
+        "COUNCILLOR SUE TYLDESLEY REJOINED THE MEETING AT 14:15.",
         "Boundary Wall and Footway to Moor Mills Car Park Off Nelson Street Lancaster Lancashire",
         "Boundary Wall to Moor Mills Car Park Off Nelson Street Lancaster Lancashire",
+        "COUNCILLOR SANDRA THORNBERRY RECUSED HERSELF FROM THE MEETING AT 14:25 (SEE DECLARATION ABOVE).",
+        "COUNCILLORS CAROLINE POTTER AND SUE TYLDESLEY LEFT THE MEETING AT 14:25.",
+        "COUNCILLOR JOHN HANSON LEFT THE MEETING AT 14:30.",
+        "Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
+        "Land East of Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
         "Delegated List",
         "Updates"
       ],
@@ -432,20 +1327,21 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Land to the west of Slyne Road Bolton Le Sands Lancashire",
-        "Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
-        "Land East of Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
         "Land North West Of Sand Lane Warton Lancashire",
         "Land Off Newlands Road Lancaster Lancashire",
         "Ryelands House  Owen Road Lancaster Lancashire",
         "Boundary Wall and Footway to Moor Mills Car Park Off Nelson Street Lancaster Lancashire",
         "Boundary Wall to Moor Mills Car Park Off Nelson Street Lancaster Lancashire",
+        "Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
+        "Land East of Central Promenade Regeneration Site Marine Road Central Morecambe Lancashire",
         "Delegated List",
         "Updates",
-        "A5 Committee Update, item 14.",
-        "A6  25.01118.VCN Committee Update Eden, item 14.",
-        "A7  26.00023.FUL Committee Update Eden floodwall, item 14.",
-        "A9  24.01417.FUL Committee Update Newlands, item 14."
+        "A5 Committee Update, item 105.",
+        "A6  25.01118.VCN Committee Update Eden, item 105.",
+        "A7  26.00023.FUL Committee Update Eden floodwall, item 105.",
+        "A9  24.01417.FUL Committee Update Newlands, item 105."
       ]
     },
     {
@@ -547,7 +1443,7 @@
         "MINUTES",
         "DECLARATIONS OF INTEREST",
         "ITEMS OF URGENT BUSINESS",
-        "ANNOUNCEMENTS",
+        "ANNOUNCEMENT - Honorary Alderman Mike Greenall",
         "QUESTIONS FROM THE PUBLIC UNDER COUNCIL PROCEDURE RULE 11",
         "PETITIONS AND ADDRESSES",
         "LEADER'S REPORT",
@@ -614,7 +1510,7 @@
         "Items of Urgent Business authorised by the Chair",
         "People Plan Update",
         "Inclusive Recruitment",
-        "Pay Policy Statement 2025/2026"
+        "Pay Policy Statement"
       ],
       "summary": null,
       "public_relevance": null,
@@ -627,7 +1523,7 @@
         "Lancaster City Council People Plan 2026 DRAFT, item 5.",
         "Inclusive Recruitment",
         "Inclusive Recruitment Report October 2025 – UPDATED MARCH 2026, item 6.",
-        "Pay Policy Statement 2025/2026",
+        "Pay Policy Statement",
         "Pay Policy Statement 26-27, item 7.",
         "JNC Conditions of Service Handbook, item 7."
       ]
@@ -642,12 +1538,32 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=298&MId=8522&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies for Absence",
+        "Minutes",
+        "Items of Urgent Business authorised by the Chair",
+        "Declarations of Interest",
+        "Council Plan 2026-2028",
+        "Tenants Satisfaction Measures",
+        "Housing Needs/Housing Strategy and Social Housing Policy and Practice/Home Strategy 2020-2025 - Update",
+        "Forthcoming Key Decisions",
+        "City Council Commissioned Consultations",
+        "Decisions the Chair has been consulted on",
+        "Work Programme"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Council Plan 2026-2028",
+        "Council Plan 2024-27, item 5.",
+        "Tenants Satisfaction Measures",
+        "Housing Needs/Housing Strategy and Social Housing Policy and Practice/Home Strategy 2020-2025 - Update",
+        "Work Programme"
+      ]
     },
     {
       "id": "council-2026-03-05-8758",
@@ -659,12 +1575,18 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=305&MId=8758&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "APOLOGIES FOR ABSENCE",
+        "Honorary Freedom of the City of Lancaster"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack"
+      ]
     },
     {
       "id": "licensing-sub-committee-2026-03-05-8776",
@@ -676,12 +1598,23 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=970&MId=8776&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "LICENSING ACT 2003 - PREMISE LICENCE REVIEW - BOMBAY BALTI RESTAURANT - CHINA STREET, LANCASTER, LA1 1EX - DETERMINATION OF APPLICATION FOR THE REVIEW OF THE PREMISES LICENCE"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "LICENSING ACT 2003 - PREMISE LICENCE REVIEW - BOMBAY BALTI RESTAURANT - CHINA STREET, LANCASTER, LA1 1EX - DETERMINATION OF APPLICATION FOR THE REVIEW OF THE PREMISES LICENCE",
+        "APPENDIX 1 - APPLICATION AND EVIDANCE_redacted, item 1.",
+        "APPENDIX 2 - Premises licence, item 1.",
+        "APPENDIX 3 - Notice of hearing, item 1.",
+        "APPENDIX 4 - Notice of review Bombay Balti 2026, item 1.",
+        "APPENDIX 5 - Statement of Licensing Policy 2023-2027, item 1."
+      ]
     },
     {
       "id": "cabinet-2026-03-10-8534",
@@ -693,12 +1626,36 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=297&MId=8534&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies",
+        "Minutes",
+        "Items of Urgent Business Authorised by the Leader",
+        "Declarations of Interest",
+        "Public Speaking",
+        "Reports from Overview and Scrutiny",
+        "Reports",
+        "Rent and Service Charge Setting Policy",
+        "Projects and Performance Quarter 3 2025-26",
+        "Strategic Risk Management",
+        "Exclusion of the Press and Public",
+        "Industrial Style Roof Repairs",
+        "Lancaster Canal Quarter Early Phase Housing Proposals - Procurement and Delivery Matters"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Rent and Service Charge Setting Policy",
+        "Appendix 1 - Rent and Service Charge Setting Policy March 2026, item 7.",
+        "Projects and Performance Quarter 3 2025-26",
+        "Appendix A - Q3 Performance Report 2025-26 - Intranet, item 8.",
+        "Appendix B - Q3 Projects Report 2025-26 - Intranet, item 8.",
+        "Strategic Risk Management",
+        "Appendix A - Strategic Risk Report - Unrestricted - 16.02.26_V2.xls, item 9."
+      ]
     },
     {
       "id": "budget-and-performance-panel-2026-03-11-8568",
@@ -863,6 +1820,23 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=315&MId=8507&Ver=4",
+      "agenda_items": [],
+      "summary": null,
+      "public_relevance": null,
+      "doge_relevance": null,
+      "speak_deadline": null,
+      "documents": []
+    },
+    {
+      "id": "council-2026-04-22-8483",
+      "date": "2026-04-22",
+      "time": null,
+      "committee": "Council",
+      "type": "other",
+      "venue": "Lancaster Town Hall",
+      "status": "agenda_published",
+      "cancelled": false,
+      "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=305&MId=8483&Ver=4",
       "agenda_items": [],
       "summary": null,
       "public_relevance": null,

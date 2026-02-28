@@ -91,6 +91,42 @@
           "context": "As Lancashire progresses through local government reorganisation, costs are likely to increase significantly. Similar processes at other councils have cost millions. Understanding these costs early supports accountability."
         }
       ]
+    },
+    {
+      "id": "auto-detected",
+      "name": "Auto-Detected from DOGE Analysis",
+      "description": "FOI templates automatically generated from AI DOGE anomaly detection. Each template targets a specific finding with pre-filled questions.",
+      "templates": [
+        {
+          "id": "auto-sole-supplier-lancashire-county-council",
+          "title": "Sole Supplier: Lancashire County Council — 13% of Spend",
+          "why": "AI DOGE analysis identified Lancashire County Council as receiving 13% of the council's tracked expenditure (£23,100,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to Lancashire County Council:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows Lancashire County Council has received £23,100,000 (13% of tracked spend) from South Ribble Borough Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "Lancashire County Council",
+            "spend": 23100000.0,
+            "pct": 13.1
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-duplicates",
+          "title": "Duplicate Payment Detection — £406,000",
+          "why": "AI DOGE identified £406,000 across 105 high-confidence duplicate payment groups. Each group shares the same supplier, amount, and approximate date.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's duplicate payment detection procedures and software\n2. How many duplicate payments have been identified and recovered in each financial year since 2021/22\n3. The total value of duplicate payments identified and recovered\n4. Whether the council uses NFI (National Fraud Initiative) data matching for duplicate detection\n5. Any internal audit reports on accounts payable controls since 2021\n",
+          "status": "auto-detected",
+          "context": "The National Fraud Initiative estimates councils lose £100M+ annually to duplicate payments. DOGE analysis detected £406,000 in potential duplicates at South Ribble Borough Council.",
+          "trigger": "duplicates",
+          "data": {
+            "total": 406000.0,
+            "groups": 105
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        }
+      ]
     }
   ],
   "submission_url": "",

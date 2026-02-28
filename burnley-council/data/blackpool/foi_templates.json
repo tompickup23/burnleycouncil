@@ -1,1 +1,26 @@
-{"templates":[]}
+{
+  "templates": [],
+  "categories": [
+    {
+      "id": "auto-detected",
+      "name": "Auto-Detected from DOGE Analysis",
+      "description": "FOI templates automatically generated from AI DOGE anomaly detection. Each template targets a specific finding with pre-filled questions.",
+      "templates": [
+        {
+          "id": "auto-duplicates",
+          "title": "Duplicate Payment Detection — £217,700",
+          "why": "AI DOGE identified £217,700 across 50 high-confidence duplicate payment groups. Each group shares the same supplier, amount, and approximate date.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's duplicate payment detection procedures and software\n2. How many duplicate payments have been identified and recovered in each financial year since 2021/22\n3. The total value of duplicate payments identified and recovered\n4. Whether the council uses NFI (National Fraud Initiative) data matching for duplicate detection\n5. Any internal audit reports on accounts payable controls since 2021\n",
+          "status": "auto-detected",
+          "context": "The National Fraud Initiative estimates councils lose £100M+ annually to duplicate payments. DOGE analysis detected £217,700 in potential duplicates at Blackpool Council.",
+          "trigger": "duplicates",
+          "data": {
+            "total": 217700.0,
+            "groups": 50
+          },
+          "generated_at": "2026-02-28T07:14:58Z"
+        }
+      ]
+    }
+  ]
+}

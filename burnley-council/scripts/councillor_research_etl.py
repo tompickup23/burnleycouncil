@@ -516,7 +516,7 @@ def process_council(council_id, skip_moderngov=False, dry_run=False):
     bio_scraped = 0
 
     for i, councillor in enumerate(councillors):
-        cid = councillor['id']
+        cid = councillor.get('id') or councillor['name'].lower().replace(' ', '-').replace("'", '')
         name = councillor['name']
         uid = councillor.get('moderngov_uid')
 

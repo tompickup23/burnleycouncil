@@ -15,6 +15,8 @@ import {
   cleanCouncillorName,
 } from '../utils/intelligenceEngine'
 import { LoadingState } from '../components/ui'
+import CouncillorLink from '../components/CouncillorLink'
+import { slugify } from '../utils/format'
 import {
   Shield, AlertTriangle, ChevronDown, ChevronRight,
   Users, Target, FileText, Lock, Printer, Eye, Copy, Check,
@@ -403,7 +405,9 @@ export default function Intelligence() {
                   <div className="members-grid">
                     {meetingBriefing.reformMembers.map((m, i) => (
                       <div key={i} className="member-card reform">
-                        <span className="member-name">{m.name}</span>
+                        <span className="member-name">
+                          <CouncillorLink name={m.name} councillorId={slugify(m.name)} integrityData={integrityData} compact />
+                        </span>
                         <span className="member-role">{m.role || 'Member'}</span>
                       </div>
                     ))}
@@ -432,7 +436,9 @@ export default function Intelligence() {
                           >
                             <div className="member-name-row">
                               {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                              <span className="member-name">{m.name}</span>
+                              <span className="member-name">
+                                <CouncillorLink name={m.name} councillorId={slugify(m.name)} integrityData={integrityData} compact />
+                              </span>
                               {isLeader && <Star size={12} className="leader-star" />}
                             </div>
                             <div className="member-meta">
@@ -616,7 +622,9 @@ export default function Intelligence() {
                       onClick={() => openDossier(leader.name)}
                     >
                       <div className="leader-card-header">
-                        <span className="leader-name">{leader.name}</span>
+                        <span className="leader-name">
+                          <CouncillorLink name={leader.name} councillorId={slugify(leader.name)} integrityData={integrityData} compact />
+                        </span>
                         {leader.groupRole && <span className="leader-role-badge">{leader.groupRole}</span>}
                       </div>
                       <div className="leader-card-meta">
@@ -648,7 +656,9 @@ export default function Intelligence() {
                   onClick={() => openDossier(c.name)}
                 >
                   <div className="councillor-card-top">
-                    <span className="councillor-card-name">{cleanCouncillorName(c.name)}</span>
+                    <span className="councillor-card-name">
+                      <CouncillorLink name={cleanCouncillorName(c.name)} councillorId={slugify(c.name)} integrityData={integrityData} compact />
+                    </span>
                     <PartyBadge party={c.party} />
                   </div>
                   <div className="councillor-card-bottom">
@@ -874,7 +884,9 @@ function WarGameCard({ warGame }) {
               {warGame.attackPredictions.map((att, i) => (
                 <div key={i} className="wargame-attacker">
                   <div className="wargame-attacker-header">
-                    <span className="wargame-attacker-name">{att.name}</span>
+                    <span className="wargame-attacker-name">
+                      <CouncillorLink name={att.name} councillorId={slugify(att.name)} integrityData={integrityData} compact />
+                    </span>
                     <PartyBadge party={att.party} />
                     {att.likelyToSpeak && <span className="speaker-badge">Likely Speaker</span>}
                   </div>
@@ -1045,7 +1057,7 @@ function CouncillorDossierView({ dossier, activeTab, onTabChange, onBack }) {
           <ArrowLeft size={16} /> Opposition Profiles
         </button>
         <div className="dossier-view-title">
-          <h2>{dossier.name}</h2>
+          <h2><CouncillorLink name={dossier.name} councillorId={slugify(dossier.name)} /></h2>
           <div className="dossier-view-badges">
             <PartyBadge party={dossier.party} />
             {dossier.groupInfo?.role && (

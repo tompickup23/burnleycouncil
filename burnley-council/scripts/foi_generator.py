@@ -462,6 +462,9 @@ def process_council(council_id, dry_run=False):
     # Load existing templates for deduplication
     foi_path = DATA_DIR / council_id / 'foi_templates.json'
     existing = load_json(foi_path) or {"categories": []}
+    # Handle legacy format with 'templates' key instead of 'categories'
+    if 'categories' not in existing:
+        existing['categories'] = []
 
     unique = deduplicate_templates(templates, existing)
     log.info(f"  {len(unique)} new templates after deduplication")

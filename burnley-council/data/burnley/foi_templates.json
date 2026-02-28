@@ -115,6 +115,100 @@
           "context": "Spending data shows at least £37,000 paid to consultants including 31ten Consulting and Socitm for local government reorganisation. As reorganisation progresses, these costs are likely to increase significantly. Similar processes at other councils have cost millions."
         }
       ]
+    },
+    {
+      "id": "auto-detected",
+      "name": "Auto-Detected from DOGE Analysis",
+      "description": "FOI templates automatically generated from AI DOGE anomaly detection. Each template targets a specific finding with pre-filled questions.",
+      "templates": [
+        {
+          "id": "auto-sole-supplier-liberata-uk-ltd",
+          "title": "Sole Supplier: Liberata UK Ltd — 10% of Spend",
+          "why": "AI DOGE analysis identified Liberata UK Ltd as receiving 10% of the council's tracked expenditure (£36,700,000). This concentration raises Best Value questions under the Local Government Act 1999 s.3.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request the following information regarding payments to Liberata UK Ltd:\n\n1. The procurement process used to award this contract/arrangement (competitive tender, framework, direct award, or exemption)\n2. If direct award, the justification under the Public Contracts Regulations 2015\n3. The original contract value and any extensions or variations\n4. Any Contracts Finder publication reference numbers\n5. When the contract was last competitively tendered\n6. Any benchmarking or market testing conducted\n",
+          "status": "auto-detected",
+          "context": "DOGE analysis shows Liberata UK Ltd has received £36,700,000 (10% of tracked spend) from Burnley Borough Council. The Public Contracts Regulations 2015 require competitive tendering above £30,000.",
+          "trigger": "sole_supplier",
+          "data": {
+            "supplier": "Liberata UK Ltd",
+            "spend": 36700000.0,
+            "pct": 10.3
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-duplicates",
+          "title": "Duplicate Payment Detection — £510,700",
+          "why": "AI DOGE identified £510,700 across 137 high-confidence duplicate payment groups. Each group shares the same supplier, amount, and approximate date.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's duplicate payment detection procedures and software\n2. How many duplicate payments have been identified and recovered in each financial year since 2021/22\n3. The total value of duplicate payments identified and recovered\n4. Whether the council uses NFI (National Fraud Initiative) data matching for duplicate detection\n5. Any internal audit reports on accounts payable controls since 2021\n",
+          "status": "auto-detected",
+          "context": "The National Fraud Initiative estimates councils lose £100M+ annually to duplicate payments. DOGE analysis detected £510,700 in potential duplicates at Burnley Borough Council.",
+          "trigger": "duplicates",
+          "data": {
+            "total": 510700.0,
+            "groups": 137
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-missing-descriptions",
+          "title": "Missing Transaction Descriptions — 100%",
+          "why": "100% of Burnley Borough Council transactions have no description. This is the worst transparency record of any East Lancashire council and likely breaches the Local Government Transparency Code 2015.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. Why the council's published spending data over £500 does not include transaction descriptions as required by the Local Government Transparency Code 2015\n2. When the council plans to publish descriptions alongside payment amounts and supplier names\n3. The council's compliance assessment against the Transparency Code\n4. Whether the council's external auditor has raised concerns about data quality in published spending information\n",
+          "status": "auto-detected",
+          "context": "The Local Government Transparency Code 2015 requires councils to publish spending over £500 quarterly. Best practice includes descriptions explaining what was purchased. 100% of Burnley Borough Council transactions lack any description.",
+          "trigger": "missing_descriptions",
+          "data": {
+            "pct": 100
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-ch-breach-dlh-professional-services-ltd",
+          "title": "Companies House Breach: DLH Professional Services Ltd",
+          "why": "DLH Professional Services Ltd received £4,000 from Burnley Borough Council during a period of active Companies House non-compliance (Paid during active strike-off / confirmation statement breach). Payments to non-compliant companies indicate weak due diligence.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's supplier due diligence policy and whether it includes Companies House status checks\n2. Whether the council was aware of DLH Professional Services Ltd's Companies House breach (Paid during active strike-off / confirmation statement breach) at the time payments were made\n3. Whether the s.151 officer has reviewed payments to companies with active Companies House breaches\n4. The council's policy on payments to companies facing strike-off, with overdue accounts, or without active directors\n",
+          "status": "auto-detected",
+          "context": "Companies Act 2006 requires companies to file accounts (s.441), maintain active directors (s.154), and register persons with significant control (s.790D). Payments to non-compliant companies without enhanced checks suggests inadequate financial controls.",
+          "trigger": "ch_breach",
+          "data": {
+            "supplier": "DLH Professional Services Ltd",
+            "spend": 4000.0,
+            "breach": "Paid during active strike-off / confirmation statement breach"
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-ch-breach-home-first-interiors-ltd",
+          "title": "Companies House Breach: Home First Interiors Ltd",
+          "why": "Home First Interiors Ltd received £2,700 from Burnley Borough Council during a period of active Companies House non-compliance (Paid during active strike-off / confirmation statement breach). Payments to non-compliant companies indicate weak due diligence.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's supplier due diligence policy and whether it includes Companies House status checks\n2. Whether the council was aware of Home First Interiors Ltd's Companies House breach (Paid during active strike-off / confirmation statement breach) at the time payments were made\n3. Whether the s.151 officer has reviewed payments to companies with active Companies House breaches\n4. The council's policy on payments to companies facing strike-off, with overdue accounts, or without active directors\n",
+          "status": "auto-detected",
+          "context": "Companies Act 2006 requires companies to file accounts (s.441), maintain active directors (s.154), and register persons with significant control (s.790D). Payments to non-compliant companies without enhanced checks suggests inadequate financial controls.",
+          "trigger": "ch_breach",
+          "data": {
+            "supplier": "Home First Interiors Ltd",
+            "spend": 2700.0,
+            "breach": "Paid during active strike-off / confirmation statement breach"
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        },
+        {
+          "id": "auto-ch-breach-jml-property-solutions-ltd",
+          "title": "Companies House Breach: JML Property Solutions Ltd",
+          "why": "JML Property Solutions Ltd received £48,000 from Burnley Borough Council during a period of active Companies House non-compliance (Facing strike-off proceedings). Payments to non-compliant companies indicate weak due diligence.",
+          "template": "Dear FOI Officer,\n\nUnder the Freedom of Information Act 2000, I request:\n\n1. The council's supplier due diligence policy and whether it includes Companies House status checks\n2. Whether the council was aware of JML Property Solutions Ltd's Companies House breach (Facing strike-off proceedings) at the time payments were made\n3. Whether the s.151 officer has reviewed payments to companies with active Companies House breaches\n4. The council's policy on payments to companies facing strike-off, with overdue accounts, or without active directors\n",
+          "status": "auto-detected",
+          "context": "Companies Act 2006 requires companies to file accounts (s.441), maintain active directors (s.154), and register persons with significant control (s.790D). Payments to non-compliant companies without enhanced checks suggests inadequate financial controls.",
+          "trigger": "ch_breach",
+          "data": {
+            "supplier": "JML Property Solutions Ltd",
+            "spend": 48000.0,
+            "breach": "Facing strike-off proceedings"
+          },
+          "generated_at": "2026-02-28T07:14:34Z"
+        }
+      ]
     }
   ],
   "submission_url": "https://burnley.gov.uk/council-democracy/freedom-of-information-foi/",

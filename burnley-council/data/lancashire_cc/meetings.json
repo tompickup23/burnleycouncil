@@ -1,509 +1,1485 @@
 {
-  "last_updated": "2026-02-22T04:00:00.000Z",
-  "next_update": "2026-03-01T04:00:00.000Z",
+  "last_updated": "2026-02-28T07:03:48.000Z",
+  "next_update": "2026-03-07T07:03:48.000Z",
   "source": "https://council.lancashire.gov.uk",
   "how_to_attend": {},
-  "meetings": [
+  "committees": [
     {
-      "id": "health-and-adult-services-scrutiny-committee-2026-01-19-15415",
-      "date": "2026-01-19",
-      "time": "10:30",
-      "committee": "Health and Adult Services Scrutiny Committee",
-      "type": "scrutiny",
-      "venue": "County Hall, Preston",
-      "status": "postponed",
-      "cancelled": true,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1810&MId=15415&Ver=4",
-      "agenda_items": [],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": []
-    },
-    {
-      "id": "joint-health-scrutiny-committee-shaping-care-together-programme-2026-01-20-16708",
-      "date": "2026-01-20",
-      "time": "11:00",
-      "committee": "Joint Health Scrutiny Committee - Shaping Care Together Programme",
-      "type": "scrutiny",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=2099&MId=16708&Ver=4",
-      "agenda_items": [],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": []
-    },
-    {
-      "id": "lancashire-health-and-wellbeing-board-2026-01-20-15416",
-      "date": "2026-01-20",
-      "time": "14:00",
-      "committee": "Lancashire Health and Wellbeing Board",
-      "type": "partnership",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=825&MId=15416&Ver=4",
-      "agenda_items": [
-        "Welcome, introductions and apologies",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Lancashire and South Cumbria Integrated Care Board NHS Medium Term Planning and 5 Year Strategic Commissioning Plan",
-        "Minutes of the Last Meeting held on 18 November 2025",
-        "Urgent Business",
-        "Date of Next Meeting",
-        "Workshop",
-        "Neighbourhood Health Plans in Lancashire - Workshop"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Lancashire and South Cumbria Integrated Care Board NHS Medium Term Planning and 5 Year Strategic Commissioning Plan",
-        "Appendix 'A', item 3.",
-        "Appendix 'B', item 3.",
-        "Minutes of the Last Meeting held on 18 November 2025"
+      "cid": "138",
+      "name": "Full Council",
+      "type": "full_council",
+      "members": [
+        {
+          "name": "CC N Alderson",
+          "role": "Member",
+          "uid": "33738"
+        },
+        {
+          "name": "CC A Ali",
+          "role": "Member",
+          "uid": "4426"
+        },
+        {
+          "name": "CC U Arif",
+          "role": "Member",
+          "uid": "26569"
+        },
+        {
+          "name": "CC S Asghar",
+          "role": "Member",
+          "uid": "33860"
+        },
+        {
+          "name": "CC J Ash",
+          "role": "Member",
+          "uid": "33775"
+        },
+        {
+          "name": "CC T Ashton",
+          "role": "Member",
+          "uid": "119"
+        },
+        {
+          "name": "CC M Atkinson",
+          "role": "Member",
+          "uid": "33883"
+        },
+        {
+          "name": "CC S Atkinson",
+          "role": "Member",
+          "uid": "33642"
+        },
+        {
+          "name": "CC G Austin",
+          "role": "Member",
+          "uid": "33618"
+        },
+        {
+          "name": "CC C Balchin",
+          "role": "Member",
+          "uid": "33757"
+        },
+        {
+          "name": "CC S Barnes",
+          "role": "Member",
+          "uid": "26570"
+        },
+        {
+          "name": "CC A Blake",
+          "role": "Member",
+          "uid": "33807"
+        },
+        {
+          "name": "CC M Brown",
+          "role": "Member",
+          "uid": "26590"
+        },
+        {
+          "name": "CC P Buckley",
+          "role": "Member",
+          "uid": "4423"
+        },
+        {
+          "name": "CC A Clempson",
+          "role": "Chair",
+          "uid": "4447"
+        },
+        {
+          "name": "CC J Clemson",
+          "role": "Member",
+          "uid": "33897"
+        },
+        {
+          "name": "CC M Clifford",
+          "role": "Member",
+          "uid": "26571"
+        },
+        {
+          "name": "CC E Close",
+          "role": "Member",
+          "uid": "33795"
+        },
+        {
+          "name": "CC F Cottam",
+          "role": "Member",
+          "uid": "33834"
+        },
+        {
+          "name": "CC J Crawford",
+          "role": "Member",
+          "uid": "33660"
+        },
+        {
+          "name": "CC S Crimmins",
+          "role": "Member",
+          "uid": "33635"
+        },
+        {
+          "name": "CC G Dalton",
+          "role": "Member",
+          "uid": "33645"
+        },
+        {
+          "name": "CC T de Freitas",
+          "role": "Member",
+          "uid": "33812"
+        },
+        {
+          "name": "CC G Dowding",
+          "role": "Member",
+          "uid": "4438"
+        },
+        {
+          "name": "CC F Duke",
+          "role": "Member",
+          "uid": "30330"
+        },
+        {
+          "name": "CC I Duxbury",
+          "role": "Member",
+          "uid": "33626"
+        },
+        {
+          "name": "CC D Dwyer",
+          "role": "Member",
+          "uid": "33687"
+        },
+        {
+          "name": "CC R Edwards",
+          "role": "Member",
+          "uid": "33824"
+        },
+        {
+          "name": "CC S Evans",
+          "role": "Member",
+          "uid": "33844"
+        },
+        {
+          "name": "CC J Fox",
+          "role": "Member",
+          "uid": "33873"
+        },
+        {
+          "name": "CC W Goldsworthy",
+          "role": "Member",
+          "uid": "33622"
+        },
+        {
+          "name": "CC L Graham",
+          "role": "Member",
+          "uid": "33825"
+        },
+        {
+          "name": "CC S Gummer",
+          "role": "Member",
+          "uid": "33801"
+        },
+        {
+          "name": "CC G Hargreaves",
+          "role": "Member",
+          "uid": "33886"
+        },
+        {
+          "name": "CC H Hartley",
+          "role": "Member",
+          "uid": "26575"
+        },
+        {
+          "name": "CC D Howarth",
+          "role": "Member",
+          "uid": "4452"
+        },
+        {
+          "name": "CC L Hutchinson",
+          "role": "Vice-Chair",
+          "uid": "33871"
+        },
+        {
+          "name": "CC M Iqbal",
+          "role": "Member",
+          "uid": "163"
+        },
+        {
+          "name": "CC M Jewell",
+          "role": "Member",
+          "uid": "165"
+        },
+        {
+          "name": "CC G Johnson",
+          "role": "Member",
+          "uid": "30134"
+        },
+        {
+          "name": "CC A Jones",
+          "role": "Member",
+          "uid": "33732"
+        },
+        {
+          "name": "CC M Jones",
+          "role": "Member",
+          "uid": "33701"
+        },
+        {
+          "name": "CC A Joynes MSc",
+          "role": "Member",
+          "uid": "33850"
+        },
+        {
+          "name": "CC G Kniveton",
+          "role": "Member",
+          "uid": "33653"
+        },
+        {
+          "name": "CC E Kutavicius",
+          "role": "Member",
+          "uid": "33768"
+        },
+        {
+          "name": "CC M Lavalette",
+          "role": "Member",
+          "uid": "33665"
+        },
+        {
+          "name": "CC T Lord",
+          "role": "Member",
+          "uid": "33837"
+        },
+        {
+          "name": "CC M Kamran",
+          "role": "Member",
+          "uid": "33750"
+        },
+        {
+          "name": "CC D Matchett",
+          "role": "Member",
+          "uid": "33786"
+        },
+        {
+          "name": "CC N McCollum",
+          "role": "Member",
+          "uid": "33906"
+        },
+        {
+          "name": "CC H Mills",
+          "role": "Member",
+          "uid": "30275"
+        },
+        {
+          "name": "CC G Mirfin",
+          "role": "Member",
+          "uid": "26579"
+        },
+        {
+          "name": "CC B Moore",
+          "role": "Member",
+          "uid": "33662"
+        },
+        {
+          "name": "CC L More",
+          "role": "Member",
+          "uid": "33818"
+        },
+        {
+          "name": "CC Y Motala",
+          "role": "Member",
+          "uid": "175"
+        },
+        {
+          "name": "CC A Owens",
+          "role": "Member",
+          "uid": "33808"
+        },
+        {
+          "name": "CC L Parker",
+          "role": "Member",
+          "uid": "33681"
+        },
+        {
+          "name": "CC L Parkinson",
+          "role": "Member",
+          "uid": "33876"
+        },
+        {
+          "name": "CC T Pickup",
+          "role": "Member",
+          "uid": "33781"
+        },
+        {
+          "name": "CC J Potter",
+          "role": "Member",
+          "uid": "18954"
+        },
+        {
+          "name": "CC M Poulton",
+          "role": "Member",
+          "uid": "33766"
+        },
+        {
+          "name": "CC A Razakazi",
+          "role": "Member",
+          "uid": "33703"
+        },
+        {
+          "name": "CC S Rigby",
+          "role": "Member",
+          "uid": "26580"
+        },
+        {
+          "name": "CC A Riggott",
+          "role": "Member",
+          "uid": "18940"
+        },
+        {
+          "name": "CC M Ritson",
+          "role": "Member",
+          "uid": "33772"
+        },
+        {
+          "name": "CC J Roberts",
+          "role": "Member",
+          "uid": "33679"
+        },
+        {
+          "name": "CC M Salter",
+          "role": "Member",
+          "uid": "19502"
+        },
+        {
+          "name": "CC J Schofield",
+          "role": "Member",
+          "uid": "33695"
+        },
+        {
+          "name": "CC D Shaw",
+          "role": "Member",
+          "uid": "33717"
+        },
+        {
+          "name": "CC J R Singleton JP",
+          "role": "Member",
+          "uid": "26581"
+        },
+        {
+          "name": "CC K Snape",
+          "role": "Member",
+          "uid": "4416"
+        },
+        {
+          "name": "CC C Snow",
+          "role": "Member",
+          "uid": "33823"
+        },
+        {
+          "name": "CC P Stubbins",
+          "role": "Member",
+          "uid": "33630"
+        },
+        {
+          "name": "CC M Sutton",
+          "role": "Member",
+          "uid": "33668"
+        },
+        {
+          "name": "CC N Swales",
+          "role": "Member",
+          "uid": "33859"
+        },
+        {
+          "name": "CC J Tetlow",
+          "role": "Member",
+          "uid": "33835"
+        },
+        {
+          "name": "CC L Thomson",
+          "role": "Member",
+          "uid": "33756"
+        },
+        {
+          "name": "CC J Tomlinson",
+          "role": "Member",
+          "uid": "33777"
+        },
+        {
+          "name": "CC M Topp",
+          "role": "Member",
+          "uid": "33847"
+        },
+        {
+          "name": "CC M Wade",
+          "role": "Member",
+          "uid": "33864"
+        },
+        {
+          "name": "CC R Walsh",
+          "role": "Member",
+          "uid": "33656"
+        },
+        {
+          "name": "CC H Whalley",
+          "role": "Member",
+          "uid": "33792"
+        },
+        {
+          "name": "CC D Whipp",
+          "role": "Member",
+          "uid": "4430"
+        },
+        {
+          "name": "CC E Worthington",
+          "role": "Member",
+          "uid": "33800"
+        }
       ]
     },
     {
-      "id": "budget-and-finance-scrutiny-committee-2026-01-21-16250",
-      "date": "2026-01-21",
-      "time": "09:30",
-      "committee": "Budget and Finance Scrutiny Committee",
-      "type": "scrutiny",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=2056&MId=16250&Ver=4",
-      "agenda_items": [
-        "Apologies",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Minutes of the Meeting Held on 24 November 2025",
-        "Draft Budget 2026/27",
-        "Budget and Finance Scrutiny Committee Work Programme",
-        "Urgent Business",
-        "Date of Next Meeting"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the Meeting Held on 24 November 2025",
-        "Draft Budget 2026/27",
-        "Draft Budget 202627 Covering Report, item 4.",
-        "Appendix A, item 4.",
-        "Appendix B, item 4.",
-        "Appendix C, item 4.",
-        "Appendix D, item 4.",
-        "View the full list of documents for item 4.",
-        "Budget and Finance Scrutiny Committee Work Programme",
-        "Appendix A, item 5."
-      ]
-    },
-    {
-      "id": "development-control-committee-2026-01-21-15464",
-      "date": "2026-01-21",
-      "time": "10:30",
-      "committee": "Development Control Committee",
-      "type": "planning",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=118&MId=15464&Ver=4",
-      "agenda_items": [
-        "Apologies for absence",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Minutes of the last meeting held on 4 December 2025",
-        "Update Sheet",
-        "Hyndburn Borough: LCC/2025/0001, Land to the south of Woodnook Primary School; between Belfield Road and Royds Street, Accrington",
-        "South Ribble Borough: LCC/2025/0008, Land at Croston Road A582 junction, Farington Moss, Preston",
-        "Decisions taken on development control matters by the Director of Environment and Regulatory in accordance with the County Council's Scheme of Delegation",
-        "Urgent Business",
-        "Date of Next Meeting"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the last meeting held on 4 December 2025",
-        "Update Sheet",
-        "Hyndburn Borough: LCC/2025/0001, Land to the south of Woodnook Primary School; between Belfield Road and Royds Street, Accrington",
-        "Appendix 'A', item 5.",
-        "Appendix 'B', item 5.",
-        "South Ribble Borough: LCC/2025/0008, Land at Croston Road A582 junction, Farington Moss, Preston",
-        "Appendix 'A', item 6.",
-        "Appendix 'B', item 6.",
-        "Decisions taken on development control matters by the Director of Environment and Regulatory in accordance with the County Council's Scheme of Delegation"
-      ]
-    },
-    {
-      "id": "corporate-parenting-board-2026-01-21-15462",
-      "date": "2026-01-21",
-      "time": "18:00",
-      "committee": "Corporate Parenting Board",
-      "type": "other",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=178&MId=15462&Ver=4",
-      "agenda_items": [
-        "Introductions and Apologies",
-        "Notes of the Meeting and Matters Arising from 19 November 2025",
-        "Participation Team Update",
-        "Corporate Parenting Strategy 2026-2030",
-        "District Team Update",
-        "Educational Attainments",
-        "Health Update",
-        "Any Other Business",
-        "Date and Time of Next Meeting"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Notes of the Meeting and Matters Arising from 19 November 2025"
-      ]
-    },
-    {
-      "id": "cabinet-2026-01-22-15455",
-      "date": "2026-01-22",
-      "time": "14:00",
-      "committee": "Cabinet",
+      "cid": "122",
+      "name": "Cabinet",
       "type": "executive",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=122&MId=15455&Ver=4",
-      "agenda_items": [
-        "Apologies for Absence",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Minutes of the Meeting held on 27 November 2025",
-        "Questions for Cabinet",
-        "Cabinet Working Group for Museums - Revised Terms of Reference",
-        "Fairness, Equality and Inclusion Workforce Framework",
-        "Preston Sufficiency Update",
-        "Schools Budget 2026/27",
-        "Revisions to Highway Safety Inspection Policy Following Policy Review",
-        "Revocation of Lancashire Enhanced Partnership",
-        "Traffic Regulation Order 2025-2026 Ribble Valley (Clitheroe) Area",
-        "Supplementary Procurement Report",
-        "Urgent Decisions taken by the Leader of the County Council and the relevant Cabinet Member(s)",
-        "Urgent Business",
-        "Date of Next Meeting",
-        "Notice of Intention to Conduct Business in Private",
-        "Exclusion of Press and Public",
-        "Appendix 'A' to Item 7 - Preston Sufficiency Update"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the Meeting held on 27 November 2025",
-        "Cabinet Working Group for Museums - Revised Terms of Reference",
-        "Appendix A, item 5.",
-        "Fairness, Equality and Inclusion Workforce Framework",
-        "Appendix A, item 6.",
-        "Appendix B, item 6.",
-        "Preston Sufficiency Update",
-        "Schools Budget 2026/27",
-        "Appendix A, item 8.",
-        "Annex A, item 8.",
-        "Revisions to Highway Safety Inspection Policy Following Policy Review",
-        "Appendix A, item 9.",
-        "Appendix B, item 9.",
-        "Appendix C, item 9.",
-        "Appendix D, item 9.",
-        "Appendix E, item 9.",
-        "Appendix F, item 9.",
-        "Revocation of Lancashire Enhanced Partnership",
-        "Appendix A, item 10.",
-        "Appendix B, item 10.",
-        "Traffic Regulation Order 2025-2026 Ribble Valley (Clitheroe) Area",
-        "Appendix A, item 11.",
-        "Appendix B, item 11.",
-        "Appendix C, item 11.",
-        "Appendix D, item 11.",
-        "Appendix E, item 11.",
-        "View the full list of documents for item 11.",
-        "Supplementary Procurement Report",
-        "Appendix A, item 12."
+      "members": [
+        {
+          "name": "CC S Atkinson",
+          "role": "Chair",
+          "uid": "33642"
+        },
+        {
+          "name": "CC S Evans",
+          "role": "Chair",
+          "uid": "33844"
+        },
+        {
+          "name": "CC G Mirfin",
+          "role": "Member",
+          "uid": "26579"
+        },
+        {
+          "name": "CC G Dalton",
+          "role": "Member",
+          "uid": "33645"
+        },
+        {
+          "name": "CC D Matchett",
+          "role": "Member",
+          "uid": "33786"
+        },
+        {
+          "name": "CC M Salter",
+          "role": "Member",
+          "uid": "19502"
+        },
+        {
+          "name": "CC B Moore",
+          "role": "Member",
+          "uid": "33662"
+        },
+        {
+          "name": "CC W Goldsworthy",
+          "role": "Member",
+          "uid": "33622"
+        },
+        {
+          "name": "CC J Roberts",
+          "role": "Member",
+          "uid": "33679"
+        },
+        {
+          "name": "CC D Dwyer",
+          "role": "Member",
+          "uid": "33687"
+        }
       ]
     },
     {
-      "id": "pension-fund-committee-2026-01-23-16599",
-      "date": "2026-01-23",
-      "time": "14:00",
-      "committee": "Pension Fund Committee",
+      "cid": "1876",
+      "name": "Company Member Cabinet Committee",
+      "type": "executive",
+      "members": [
+        {
+          "name": "County Councillor David Dwyer",
+          "role": "Chair",
+          "uid": "33687"
+        },
+        {
+          "name": "County Councillor Brian Moore",
+          "role": "Member",
+          "uid": "33662"
+        },
+        {
+          "name": "County Councillor David Shaw",
+          "role": "Member",
+          "uid": "33717"
+        },
+        {
+          "name": "County Councillor Paul Stubbins",
+          "role": "Member",
+          "uid": "33630"
+        },
+        {
+          "name": "CC H Whalley",
+          "role": "Member",
+          "uid": "33792"
+        }
+      ]
+    },
+    {
+      "cid": "178",
+      "name": "Corporate Parenting Board",
       "type": "other",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=183&MId=16599&Ver=4",
-      "agenda_items": [
-        "Welcome and Apologies",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests.",
-        "Minutes of the last meeting.",
-        "Valuation 2025 Key Parameters and Contribution rates",
-        "Urgent Business",
-        "Date of Next Meeting"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the last meeting.",
-        "Valuation 2025 Key Parameters and Contribution rates",
-        "Appendix A Engagement Activities, item 4.",
-        "Appendix B Mercers Report_v2, item 4.",
-        "Appendix C Contribution Rate Risk Matrix, item 4.",
-        "Appendix 'D' Acronyms, item 4."
+      "members": [
+        {
+          "name": "CC E Close",
+          "role": "Chair",
+          "uid": "33795"
+        },
+        {
+          "name": "CC G Hargreaves",
+          "role": "Chair",
+          "uid": "33886"
+        },
+        {
+          "name": "CC J Ash",
+          "role": "Member",
+          "uid": "33775"
+        },
+        {
+          "name": "CC J Fox",
+          "role": "Member",
+          "uid": "33873"
+        },
+        {
+          "name": "CC N McCollum",
+          "role": "Member",
+          "uid": "33906"
+        },
+        {
+          "name": "CC A Razakazi",
+          "role": "Member",
+          "uid": "33703"
+        },
+        {
+          "name": "CC J Schofield",
+          "role": "Member",
+          "uid": "33695"
+        }
       ]
     },
     {
-      "id": "audit-risk-and-governance-committee-2026-01-26-15454",
-      "date": "2026-01-26",
-      "time": "14:00",
-      "committee": "Audit, Risk and Governance Committee",
+      "cid": "2056",
+      "name": "Budget and Finance Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "CC D Shaw",
+          "role": "Chair",
+          "uid": "33717"
+        },
+        {
+          "name": "CC A Blake",
+          "role": "Chair",
+          "uid": "33807"
+        },
+        {
+          "name": "CC A Ali OBE",
+          "role": "Member",
+          "uid": "4426"
+        },
+        {
+          "name": "CC M Atkinson",
+          "role": "Member",
+          "uid": "33883"
+        },
+        {
+          "name": "CC G Dowding",
+          "role": "Member",
+          "uid": "4438"
+        },
+        {
+          "name": "CC M Jewell",
+          "role": "Member",
+          "uid": "165"
+        },
+        {
+          "name": "CC G Kniveton",
+          "role": "Member",
+          "uid": "33653"
+        },
+        {
+          "name": "CC A Riggott",
+          "role": "Member",
+          "uid": "18940"
+        },
+        {
+          "name": "CC M Ritson",
+          "role": "Member",
+          "uid": "33772"
+        },
+        {
+          "name": "County Councillor Mr Joel Michael Tetlow",
+          "role": "Member",
+          "uid": "33835"
+        }
+      ]
+    },
+    {
+      "cid": "1811",
+      "name": "Children, Families and Skills Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "CC M Atkinson",
+          "role": "Member",
+          "uid": "33883"
+        },
+        {
+          "name": "CC S Barnes",
+          "role": "Member",
+          "uid": "26570"
+        },
+        {
+          "name": "CC A Blake",
+          "role": "Member",
+          "uid": "33807"
+        },
+        {
+          "name": "CC J Ash",
+          "role": "Chair",
+          "uid": "33775"
+        },
+        {
+          "name": "CC M Lavelette",
+          "role": "Chair",
+          "uid": "33665"
+        },
+        {
+          "name": "CC F Duke",
+          "role": "Member",
+          "uid": "30330"
+        },
+        {
+          "name": "CC J Fox",
+          "role": "Member",
+          "uid": "33873"
+        },
+        {
+          "name": "CC T Lord",
+          "role": "Member",
+          "uid": "33837"
+        },
+        {
+          "name": "CC T Ashton",
+          "role": "Member",
+          "uid": "119"
+        },
+        {
+          "name": "CC N McCollum",
+          "role": "Member",
+          "uid": "33906"
+        },
+        {
+          "name": "CC M Ritson",
+          "role": "Member",
+          "uid": "33772"
+        },
+        {
+          "name": "CC J Schofield",
+          "role": "Member",
+          "uid": "33695"
+        },
+        {
+          "name": "CC N Swales",
+          "role": "Member",
+          "uid": "33859"
+        },
+        {
+          "name": "County Councillor Mark Wade",
+          "role": "Member",
+          "uid": "33864"
+        }
+      ]
+    },
+    {
+      "cid": "1813",
+      "name": "Community, Cultural, and Corporate Services Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "County Councillor Shaun Crimmins",
+          "role": "Chair",
+          "uid": "33635"
+        },
+        {
+          "name": "County Councillor Simon Gummer",
+          "role": "Chair",
+          "uid": "33801"
+        },
+        {
+          "name": "County Councillor Nigel Alderson",
+          "role": "Member",
+          "uid": "33738"
+        },
+        {
+          "name": "County Councillor Joanne Ash",
+          "role": "Member",
+          "uid": "33775"
+        },
+        {
+          "name": "County Councillor Rick Edwards",
+          "role": "Member",
+          "uid": "33824"
+        },
+        {
+          "name": "County Councillor Alice Jones",
+          "role": "Member",
+          "uid": "33732"
+        },
+        {
+          "name": "County Councillor Yousuf Motala",
+          "role": "Member",
+          "uid": "175"
+        },
+        {
+          "name": "County Councillor John Potter",
+          "role": "Member",
+          "uid": "18954"
+        },
+        {
+          "name": "County Councillor Aidy Riggott",
+          "role": "Member",
+          "uid": "18940"
+        },
+        {
+          "name": "County Councillor Kim Snape",
+          "role": "Member",
+          "uid": "4416"
+        }
+      ]
+    },
+    {
+      "cid": "1812",
+      "name": "Environment, Economic Growth and Transport Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "CC M Poulton",
+          "role": "Chair",
+          "uid": "33766"
+        },
+        {
+          "name": "CC A Jones",
+          "role": "Chair",
+          "uid": "33732"
+        },
+        {
+          "name": "CC F Cottam",
+          "role": "Member",
+          "uid": "33834"
+        },
+        {
+          "name": "CC D Shaw",
+          "role": "Member",
+          "uid": "33717"
+        },
+        {
+          "name": "CC J R Singleton JP",
+          "role": "Member",
+          "uid": "26581"
+        },
+        {
+          "name": "CC Mr C Snow",
+          "role": "Member",
+          "uid": "33823"
+        },
+        {
+          "name": "CC P Stubbins",
+          "role": "Member",
+          "uid": "33630"
+        },
+        {
+          "name": "CC J M Tetlow",
+          "role": "Member",
+          "uid": "33835"
+        },
+        {
+          "name": "CC M Wade",
+          "role": "Member",
+          "uid": "33864"
+        },
+        {
+          "name": "CC D Whipp",
+          "role": "Member",
+          "uid": "4430"
+        }
+      ]
+    },
+    {
+      "cid": "1810",
+      "name": "Health and Adult Services Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "CC N Swales",
+          "role": "Chair",
+          "uid": "33859"
+        },
+        {
+          "name": "CC H Mills",
+          "role": "Chair",
+          "uid": "30275"
+        },
+        {
+          "name": "CC S Crimmins",
+          "role": "Member",
+          "uid": "33635"
+        },
+        {
+          "name": "CC de Freitas",
+          "role": "Member",
+          "uid": "33812"
+        },
+        {
+          "name": "CC J Fox",
+          "role": "Member",
+          "uid": "33873"
+        },
+        {
+          "name": "CC G Hargreaves",
+          "role": "Member",
+          "uid": "33886"
+        },
+        {
+          "name": "CC M Iqbal MBE",
+          "role": "Member",
+          "uid": "163"
+        },
+        {
+          "name": "CC M Jewell",
+          "role": "Member",
+          "uid": "165"
+        },
+        {
+          "name": "CC N McCollum",
+          "role": "Member",
+          "uid": "33906"
+        },
+        {
+          "name": "CC J Schofield",
+          "role": "Member",
+          "uid": "33695"
+        }
+      ]
+    },
+    {
+      "cid": "2099",
+      "name": "Joint Health Scrutiny Committee - Shaping Care Together Programme",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "County Councillor Shaun Crimmins",
+          "role": "Member",
+          "uid": "33635"
+        },
+        {
+          "name": "County Councillor Hamish Mills",
+          "role": "Member",
+          "uid": "30275"
+        },
+        {
+          "name": "County Councillor Nigel Swales",
+          "role": "Member",
+          "uid": "33859"
+        }
+      ]
+    },
+    {
+      "cid": "728",
+      "name": "Audit, Risk and Governance Committee",
       "type": "audit",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=728&MId=15454&Ver=4",
-      "agenda_items": [
-        "Apologies",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Minutes of the Meeting held on 13 October 2025",
-        "Statement of Accounts - 2024/25",
-        "External Audit - Lancashire County Pension Fund External Audit Findings Report 2024/25",
-        "External Audit: LCC Audit Findings Report 2024/25",
-        "External Audit: Auditor's Annual Report",
-        "Treasury Management Activity 2025/26",
-        "Treasury Management Strategy 2026/27",
-        "Internal Audit Progress Report",
-        "Procurement Waivers and Non Compliance 2025-26",
-        "Code of Member Conduct - Annual Report of Complaints",
-        "Corporate Risk and Opportunity Register – Quarterly Update",
-        "Urgent Business",
-        "Date of Next Meeting",
-        "Exclusion of Press and Public",
-        "Part II (Not open to Press and Public)",
-        "Update on the Overpayment of Salaries",
-        "Counter Financial Crime, Investigations and Whistleblowing Half Year Update Report",
-        "Appendix A to Item 11 Procurement Waivers and Non Compliance 2025-26",
-        "Appendix C to Item 13 - Corporate Risk and Opportunity Register - Quarterly Update"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Minutes of the Meeting held on 13 October 2025",
-        "Statement of Accounts - 2024/25",
-        "Appendix A, item 4.",
-        "Appendix B, item 4.",
-        "Appendix C, item 4.",
-        "External Audit - Lancashire County Pension Fund External Audit Findings Report 2024/25",
-        "Appendix A, item 5.",
-        "External Audit: LCC Audit Findings Report 2024/25",
-        "Appendix A, item 6.",
-        "External Audit: Auditor's Annual Report",
-        "Appendix A, item 7.",
-        "Treasury Management Activity 2025/26",
-        "Appendix A, item 8.",
-        "Treasury Management Strategy 2026/27",
-        "Appendix A, item 9.",
-        "Appendix B, item 9.",
-        "Internal Audit Progress Report",
-        "Appendix A, item 10.",
-        "Appendix B, item 10.",
-        "Appendix C, item 10.",
-        "Appendix D, item 10.",
-        "Procurement Waivers and Non Compliance 2025-26",
-        "Code of Member Conduct - Annual Report of Complaints",
-        "Appendix A, item 12.",
-        "Corporate Risk and Opportunity Register – Quarterly Update",
-        "Appendix A, item 13.",
-        "Appendix B, item 13."
+      "members": [
+        {
+          "name": "CC H Whalley",
+          "role": "Chair",
+          "uid": "33792"
+        },
+        {
+          "name": "CC R Edwards",
+          "role": "Chair",
+          "uid": "33824"
+        },
+        {
+          "name": "CC G Austin",
+          "role": "Member",
+          "uid": "33618"
+        },
+        {
+          "name": "CC P Buckley",
+          "role": "Member",
+          "uid": "4423"
+        },
+        {
+          "name": "CC M Jewell",
+          "role": "Member",
+          "uid": "165"
+        },
+        {
+          "name": "CC M Ritson",
+          "role": "Member",
+          "uid": "33772"
+        },
+        {
+          "name": "CC P Stubbins",
+          "role": "Member",
+          "uid": "33630"
+        },
+        {
+          "name": "CC J M Tetlow",
+          "role": "Member",
+          "uid": "33835"
+        }
       ]
     },
     {
-      "id": "lancashire-local-pension-board-2026-01-27-15686",
-      "date": "2026-01-27",
-      "time": "14:00",
-      "committee": "Lancashire Local Pension Board",
+      "cid": "1957",
+      "name": "Audit, Risk and Governance Committee - Appointments Sub Committee",
+      "type": "audit",
+      "members": []
+    },
+    {
+      "cid": "737",
+      "name": "Conduct Committee",
       "type": "other",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1175&MId=15686&Ver=4",
-      "agenda_items": [
-        "Welcome and Apologies.",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests.",
-        "Minutes of the Last Meeting.",
-        "Regulatory Update",
-        "LCPF Internal Dispute Resolution Procedure -  Appeals update",
-        "Pension related training for Board members",
-        "Lancashire County Pension Fund - Communications Strategy update",
-        "Pensions Administration Strategy",
-        "Update on Funding Strategy Statement",
-        "Local Pension Partnership Administration Update",
-        "Pensions Dashboard",
-        "General Code of Practice - Annual compliance report",
-        "LCPF Risk Register",
-        "LCPF Breaches & Complaints Report",
-        "Part I reports on the Pension Fund Committee agenda",
-        "Date of Next Meeting.",
-        "Programme of Meetings 2026/27",
-        "Urgent Business.",
-        "Exclusion of Press and Public.",
-        "Part II Reports on the Pension Fund Committee agenda"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the Last Meeting.",
-        "Regulatory Update",
-        "LCPF Internal Dispute Resolution Procedure -  Appeals update",
-        "Pension related training for Board members",
-        "Appendix A, item 6.",
-        "Lancashire County Pension Fund - Communications Strategy update",
-        "Pensions Administration Strategy",
-        "Appendix A, item 8.",
-        "Update on Funding Strategy Statement",
-        "Local Pension Partnership Administration Update",
-        "Appendix A, item 10.",
-        "Appendix B, item 10.",
-        "Pensions Dashboard",
-        "Appendix A, item 11.",
-        "General Code of Practice - Annual compliance report",
-        "Appendix A, item 12.",
-        "LCPF Risk Register",
-        "Appendix A, item 13.",
-        "Appendix B, item 13.",
-        "Appendix C, item 13.",
-        "Appendix D, item 13.",
-        "LCPF Breaches & Complaints Report",
-        "Appendix A, item 14.",
-        "Appendix B, item 14.",
-        "Appendix C, item 14.",
-        "Part I reports on the Pension Fund Committee agenda",
-        "Programme of Meetings 2026/27"
+      "members": [
+        {
+          "name": "CC T Lord",
+          "role": "Chair",
+          "uid": "33837"
+        },
+        {
+          "name": "CC J Ash",
+          "role": "Chair",
+          "uid": "33775"
+        },
+        {
+          "name": "CC A Ali OBE",
+          "role": "Member",
+          "uid": "4426"
+        },
+        {
+          "name": "County Councillor Peter Buckley",
+          "role": "Member",
+          "uid": "4423"
+        },
+        {
+          "name": "CC M Atkinson",
+          "role": "Member",
+          "uid": "33883"
+        }
       ]
     },
     {
-      "id": "employment-committee-2026-01-27-15465",
-      "date": "2026-01-27",
-      "time": "14:30",
-      "committee": "Employment Committee",
-      "type": "other",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=710&MId=15465&Ver=4",
-      "agenda_items": [
-        "Apologies",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Minutes of the Meeting held on 4 November 2025",
-        "Urgent Business",
-        "Date of Next Meeting",
-        "Exclusion of Press and Public",
-        "Shortlisting for the Interim Director of Finance Role (Section 151 Officer)"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the Meeting held on 4 November 2025"
+      "cid": "118",
+      "name": "Development Control Committee",
+      "type": "planning",
+      "members": [
+        {
+          "name": "CC S Gummer",
+          "role": "Chair",
+          "uid": "33801"
+        },
+        {
+          "name": "CC T Lord",
+          "role": "Chair",
+          "uid": "33837"
+        },
+        {
+          "name": "CC C Balchin",
+          "role": "Member",
+          "uid": "33757"
+        },
+        {
+          "name": "CC T de Freitas",
+          "role": "Member",
+          "uid": "33812"
+        },
+        {
+          "name": "CC R Edwards",
+          "role": "Member",
+          "uid": "33824"
+        },
+        {
+          "name": "CC L Hutchinson",
+          "role": "Member",
+          "uid": "33871"
+        },
+        {
+          "name": "CC M Jones",
+          "role": "Member",
+          "uid": "33701"
+        },
+        {
+          "name": "CC A Joynes",
+          "role": "Member",
+          "uid": "33850"
+        },
+        {
+          "name": "CC H Mills",
+          "role": "Member",
+          "uid": "30275"
+        },
+        {
+          "name": "CC A Owens",
+          "role": "Member",
+          "uid": "33808"
+        },
+        {
+          "name": "CC K Snape",
+          "role": "Member",
+          "uid": "4416"
+        },
+        {
+          "name": "CC L Thomson",
+          "role": "Member",
+          "uid": "33756"
+        }
       ]
     },
     {
-      "id": "regulatory-committee-2026-01-28-15418",
-      "date": "2026-01-28",
-      "time": "10:30",
-      "committee": "Regulatory Committee",
+      "cid": "710",
+      "name": "Employment Committee",
       "type": "other",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=121&MId=15418&Ver=4",
-      "agenda_items": [
-        "Apologies",
-        "Disclosure of Pecuniary and Non-Pecuniary Interests",
-        "Minutes of the last Meeting held on 12 November 2025",
-        "Guidance",
-        "Annual Progress Report",
-        "Wildlife and Countryside Act 1981 Definitive Map Investigation: Addition of Bridleway from Wennington Road to Old Moor Road, Wennington",
-        "Wildlife and Countryside Act 1981 Definitive Map Investigation:  Hall Lane, Longton, South Ribble",
-        "Highways Act 1980 – Section 119 Wildlife and Countryside Act 1981 – Section 53A  Proposed Diversion of Footpath at Bramblewood, Barnacre",
-        "Highways Act 1980 - Section 119 Wildlife and Countryside Act 1981 - Section 53A Diversion of Bridleway at Kirk House Farm, Over Kellet",
-        "Urgent Business",
-        "Date of Next Meeting"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed minutes",
-        "Minutes of the last Meeting held on 12 November 2025",
-        "Guidance",
-        "Guidance ANNEX A, item 4.",
-        "Guidance ANNEX B, item 4.",
-        "Guidance ANNEX C, item 4.",
-        "Annual Progress Report",
-        "Wildlife and Countryside Act 1981 Definitive Map Investigation: Addition of Bridleway from Wennington Road to Old Moor Road, Wennington",
-        "Appendix 'A', item 6.",
-        "Appendix 'B', item 6.",
-        "Wildlife and Countryside Act 1981 Definitive Map Investigation:  Hall Lane, Longton, South Ribble",
-        "Appendix 'A(1)', item 7.",
-        "Appendix 'A(2)', item 7.",
-        "Appendix 'B', item 7.",
-        "Highways Act 1980 – Section 119 Wildlife and Countryside Act 1981 – Section 53A  Proposed Diversion of Footpath at Bramblewood, Barnacre",
-        "Appendix 'A', item 8.",
-        "Appendix 'B', item 8.",
-        "Highways Act 1980 - Section 119 Wildlife and Countryside Act 1981 - Section 53A Diversion of Bridleway at Kirk House Farm, Over Kellet",
-        "Appendix 'A', item 9.",
-        "Appendix 'B', item 9."
+      "members": [
+        {
+          "name": "CC S Atkinson",
+          "role": "Chair",
+          "uid": "33642"
+        },
+        {
+          "name": "CC S Evans",
+          "role": "Chair",
+          "uid": "33844"
+        },
+        {
+          "name": "CC A Ali",
+          "role": "Member",
+          "uid": "4426"
+        },
+        {
+          "name": "CC M Atkinson",
+          "role": "Member",
+          "uid": "33883"
+        },
+        {
+          "name": "CC M Clifford",
+          "role": "Member",
+          "uid": "26571"
+        },
+        {
+          "name": "CC B Moore",
+          "role": "Member",
+          "uid": "33662"
+        },
+        {
+          "name": "CC G Mirfin",
+          "role": "Member",
+          "uid": "26579"
+        },
+        {
+          "name": "CC A Riggott",
+          "role": "Member",
+          "uid": "18940"
+        }
       ]
     },
+    {
+      "cid": "825",
+      "name": "Lancashire Health and Wellbeing Board",
+      "type": "partnership",
+      "members": [
+        {
+          "name": "CC D Matchett",
+          "role": "Chair",
+          "uid": "33786"
+        },
+        {
+          "name": "CC Dr L More",
+          "role": "Member",
+          "uid": "33818"
+        },
+        {
+          "name": "CC G Dalton",
+          "role": "Member",
+          "uid": "33645"
+        }
+      ]
+    },
+    {
+      "cid": "1175",
+      "name": "Lancashire Local Pension Board",
+      "type": "other",
+      "members": [
+        {
+          "name": "County Councillor Hannah Whalley",
+          "role": "Member",
+          "uid": "33792"
+        }
+      ]
+    },
+    {
+      "cid": "183",
+      "name": "Pension Fund Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "County Councillor Joanne Ash",
+          "role": "Member",
+          "uid": "33775"
+        },
+        {
+          "name": "County Councillor Mrs Marion Atkinson",
+          "role": "Chair",
+          "uid": "33883"
+        },
+        {
+          "name": "County Councillor Andy Blake",
+          "role": "Member",
+          "uid": "33807"
+        },
+        {
+          "name": "County Councillor Matthew Brown",
+          "role": "Member",
+          "uid": "26590"
+        },
+        {
+          "name": "County Councillor Rick Edwards",
+          "role": "Member",
+          "uid": "33824"
+        },
+        {
+          "name": "County Councillor Gordon Johnson",
+          "role": "Member",
+          "uid": "30134"
+        },
+        {
+          "name": "County Councillor Ashley Joynes",
+          "role": "Member",
+          "uid": "33850"
+        },
+        {
+          "name": "County Councillor Prof. Michael Lavalette",
+          "role": "Member",
+          "uid": "33665"
+        },
+        {
+          "name": "County Councillor Tom Pickup",
+          "role": "Member",
+          "uid": "33781"
+        },
+        {
+          "name": "County Councillor Steve Rigby",
+          "role": "Member",
+          "uid": "26580"
+        },
+        {
+          "name": "County Councillor Mr Joel Michael Tetlow",
+          "role": "Chair",
+          "uid": "33835"
+        },
+        {
+          "name": "County Councillor Mr Russell Walsh",
+          "role": "Member",
+          "uid": "33656"
+        }
+      ]
+    },
+    {
+      "cid": "1783",
+      "name": "Pension Fund Committee - Appointments Sub Committee",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "121",
+      "name": "Regulatory Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "CC I Duxbury",
+          "role": "Chair",
+          "uid": "33626"
+        },
+        {
+          "name": "CC G Austin",
+          "role": "Chair",
+          "uid": "33618"
+        },
+        {
+          "name": "CC N Alderson",
+          "role": "Member",
+          "uid": "33738"
+        },
+        {
+          "name": "CC S Asghar",
+          "role": "Member",
+          "uid": "33860"
+        },
+        {
+          "name": "CC M Clifford",
+          "role": "Member",
+          "uid": "26571"
+        },
+        {
+          "name": "CC F Cottam",
+          "role": "Member",
+          "uid": "33834"
+        },
+        {
+          "name": "CC J Crawford",
+          "role": "Member",
+          "uid": "33660"
+        },
+        {
+          "name": "CC H Hartley",
+          "role": "Member",
+          "uid": "26575"
+        },
+        {
+          "name": "CC D Howarth",
+          "role": "Member",
+          "uid": "4452"
+        },
+        {
+          "name": "CC M Jones",
+          "role": "Member",
+          "uid": "33701"
+        },
+        {
+          "name": "CC A Joynes",
+          "role": "Member",
+          "uid": "33850"
+        },
+        {
+          "name": "CC L Thomson",
+          "role": "Member",
+          "uid": "33756"
+        }
+      ]
+    },
+    {
+      "cid": "2112",
+      "name": "Special Sub-Committee for VG110 - Determination of Town and Village Green Application - Land to the North side of Accrington Road, Whalley known as 'The Hellicliffes'",
+      "type": "other",
+      "members": [
+        {
+          "name": "County Councillor Ashley Joynes",
+          "role": "Member",
+          "uid": "33850"
+        },
+        {
+          "name": "County Councillor Nigel Alderson",
+          "role": "Member",
+          "uid": "33738"
+        },
+        {
+          "name": "County Councillor Sohail Asghar",
+          "role": "Member",
+          "uid": "33860"
+        }
+      ]
+    },
+    {
+      "cid": "187",
+      "name": "Urgency Committee of the Full Council",
+      "type": "full_council",
+      "members": [
+        {
+          "name": "CC S Atkinson",
+          "role": "Chair",
+          "uid": "33642"
+        },
+        {
+          "name": "CC L Hutchinson",
+          "role": "Member",
+          "uid": "33871"
+        },
+        {
+          "name": "CC G Mirfin",
+          "role": "Member",
+          "uid": "26579"
+        },
+        {
+          "name": "CC L Parker",
+          "role": "Member",
+          "uid": "33681"
+        },
+        {
+          "name": "CC J M Tetlow",
+          "role": "Member",
+          "uid": "33835"
+        },
+        {
+          "name": "CC E Worthington",
+          "role": "Member",
+          "uid": "33800"
+        },
+        {
+          "name": "CC G Johnson",
+          "role": "Member",
+          "uid": "30134"
+        },
+        {
+          "name": "CC C Balchin",
+          "role": "Member",
+          "uid": "33757"
+        },
+        {
+          "name": "CC M Topp",
+          "role": "Member",
+          "uid": "33847"
+        },
+        {
+          "name": "CC G Dowding",
+          "role": "Member",
+          "uid": "4438"
+        },
+        {
+          "name": "CC A Ali OBE",
+          "role": "Member",
+          "uid": "4426"
+        },
+        {
+          "name": "CC A Riggott",
+          "role": "Member",
+          "uid": "18940"
+        }
+      ]
+    },
+    {
+      "cid": "1988",
+      "name": "Lancashire Combined County Authority",
+      "type": "other",
+      "members": [
+        {
+          "name": "County Councillor Stephen Atkinson",
+          "role": "Chair",
+          "uid": "33642"
+        },
+        {
+          "name": "County Councillor Simon Evans",
+          "role": "Member",
+          "uid": "33844"
+        }
+      ]
+    },
+    {
+      "cid": "1989",
+      "name": "Lancashire Combined County Authority - Audit and Governance Committee",
+      "type": "audit",
+      "members": [
+        {
+          "name": "County Councillor Peter Buckley",
+          "role": "Member",
+          "uid": "4423"
+        },
+        {
+          "name": "County Councillor David Dwyer",
+          "role": "Member",
+          "uid": "33687"
+        },
+        {
+          "name": "County Councillor Luke Parker",
+          "role": "Member",
+          "uid": "33681"
+        },
+        {
+          "name": "County Councillor David Shaw",
+          "role": "Member",
+          "uid": "33717"
+        },
+        {
+          "name": "County Councillor Paul Stubbins",
+          "role": "Member",
+          "uid": "33630"
+        },
+        {
+          "name": "CC H Whalley",
+          "role": "Member",
+          "uid": "33792"
+        }
+      ]
+    },
+    {
+      "cid": "1990",
+      "name": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "County Councillor Ged Mirfin",
+          "role": "Member",
+          "uid": "26579"
+        },
+        {
+          "name": "County Councillor Matthew Salter",
+          "role": "Member",
+          "uid": "19502"
+        },
+        {
+          "name": "County Councillor Joshua Roberts",
+          "role": "Member",
+          "uid": "33679"
+        },
+        {
+          "name": "County Councillor Azhar Ali OBE",
+          "role": "Member",
+          "uid": "4426"
+        },
+        {
+          "name": "County Councillor Aidy Riggott",
+          "role": "Member",
+          "uid": "18940"
+        },
+        {
+          "name": "County Councillor Luke Parker",
+          "role": "Member",
+          "uid": "33681"
+        }
+      ]
+    },
+    {
+      "cid": "1018",
+      "name": "Central Lancashire Strategic Planning Joint Advisory Committee",
+      "type": "planning",
+      "members": []
+    },
+    {
+      "cid": "933",
+      "name": "Growth Lancashire Limited",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "941",
+      "name": "Lancashire County Developments Limited",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "946",
+      "name": "Lancashire Environmental Fund Board",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "1007",
+      "name": "Lancashire Renewables Limited",
+      "type": "other",
+      "members": []
+    },
+    {
+      "cid": "943",
+      "name": "The Lancashire Partnership Against Crime Board",
+      "type": "partnership",
+      "members": []
+    }
+  ],
+  "meetings": [
     {
       "id": "environment-economic-growth-and-transport-scrutiny-committee-2026-01-29-15467",
       "date": "2026-01-29",
@@ -571,6 +1547,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Minutes of the Meeting Held on 10 December 2025",
         "CQC Improvement and Adult, Health and Wellbeing Services Transformation",
         "Proposed Bed Reductions at the Royal Lancaster Infirmary",
@@ -609,6 +1586,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Minutes of the Meeting Held on 21 January 2026",
         "2025/26 Quarter 3 Financial Monitoring Report",
         "Appendix A, item 4.",
@@ -702,7 +1680,6 @@
         "Urgent Business",
         "Date of Next Meeting",
         "Exclusion of Press and Public",
-        "Part II (Not Open to Press and Public)",
         "Interviews for the Director of Finance and S151 Officer",
         "Retention of Senior Colleagues"
       ],
@@ -712,7 +1689,8 @@
       "speak_deadline": null,
       "documents": [
         "Agenda frontsheet",
-        "Agenda reports pack"
+        "Agenda reports pack",
+        "Printed minutes"
       ]
     },
     {
@@ -771,6 +1749,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Minutes of the Meeting Held on 6 November 2025",
         "Libraries as Community Hubs",
         "Appendix A, item 4.",
@@ -828,7 +1807,6 @@
         "Date of next meeting",
         "Notice of intention to Conduct Business in Private",
         "Exclusion of the Press and Public",
-        "Part II (Not Open to Press and Public)",
         "Appendix 'A' to Item 7 - Lancashire Investment Fund"
       ],
       "summary": null,
@@ -838,6 +1816,7 @@
       "documents": [
         "Agenda frontsheet",
         "Supplementary Agenda - Item 11 - Budget 2026/27 and Medium Term Financial Strategy 2027/28",
+        "Printed minutes",
         "Minutes of the meeting held on 16 December 2025",
         "Local Transport Consolidated Funding Settlement",
         "Bus Service Improvement Plan and Enhanced Partnership Arrangements",
@@ -881,6 +1860,7 @@
       "speak_deadline": null,
       "documents": [
         "Agenda frontsheet",
+        "Agenda reports pack",
         "Minutes of the Meeting held on 11 February 2026"
       ]
     },
@@ -901,7 +1881,6 @@
         "Urgent Business",
         "Date of Next Meeting",
         "Exclusion of Press and Public",
-        "Part II (Not open to Press and Public)",
         "Local Pensions Partnership Investments Limited - Admission of New Partner Funds"
       ],
       "summary": null,
@@ -911,6 +1890,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed minutes",
         "Minutes of the last meeting."
       ]
     },
@@ -974,6 +1954,7 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed minutes",
         "Report of the Employment Committee - Appointment of the Corporate Director of Finance (Section 151 Officer)"
       ]
     },
@@ -1035,12 +2016,28 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1810&MId=15436&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies",
+        "Disclosure of Pecuniary and Non-Pecuniary Interests",
+        "Minutes of the Meeting Held on 3 February 2026",
+        "Neighbourhood Health Development Plan for Lancashire and Collaboration between Health, Adult Social Care and Community Sector Winter 2025/26",
+        "Health and Adult Services Scrutiny Committee and Steering Group Work Programmes 2025/26",
+        "Urgent Business",
+        "Date of Next Meeting"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Minutes of the Meeting Held on 3 February 2026",
+        "Neighbourhood Health Development Plan for Lancashire and Collaboration between Health, Adult Social Care and Community Sector Winter 2025/26",
+        "Health and Adult Services Scrutiny Committee and Steering Group Work Programmes 2025/26",
+        "Appendix A, item 5.",
+        "Appendix B, item 5."
+      ]
     },
     {
       "id": "cabinet-2026-03-05-15426",
@@ -1052,12 +2049,52 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=122&MId=15426&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies for Absence",
+        "Disclosure of Pecuniary and Non-Pecuniary Interests",
+        "Minutes of the Meeting held on 5 February 2026",
+        "Questions for Cabinet",
+        "Matters for Decision:",
+        "The Cabinet Member for Health and Wellbeing - County Councillor Daniel Matchett",
+        "Allocation of Crisis Resilience Fund in Lancashire",
+        "The Cabinet Member for Highways and Transport - County Councillor Warren Goldsworthy",
+        "Goosnargh Lane, Preston - No Waiting At Any-Time Proposal",
+        "Proposed 2026/27 Highways Capital Programmes",
+        "The Cabinet Member for Data, Technology, Customer and Efficiency - County Councillor David Dwyer",
+        "Procurement Pipeline 2026/27",
+        "Matters for Information:",
+        "Urgent Decisions taken by the Leader of the County Council and the relevant Cabinet Member(s)",
+        "Urgent Business",
+        "Local Government Reorganisation - Statutory Consultation Response",
+        "Date of Next Meeting",
+        "Notice of Intention to Conduct Business in Private",
+        "Exclusion of Press and Public",
+        "Part II (Not Open to Press and Public)",
+        "Lancashire County  Council (A582 Croston Road Junction Improvements) Compulsory Purchase Order 2026"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Supplementary Agenda - Local Government Reorganisation Report",
+        "Minutes of the Meeting held on 5 February 2026",
+        "Allocation of Crisis Resilience Fund in Lancashire",
+        "Goosnargh Lane, Preston - No Waiting At Any-Time Proposal",
+        "Appendix A, item 6.",
+        "Proposed 2026/27 Highways Capital Programmes",
+        "Appendix A, item 7.",
+        "Appendix B, item 7.",
+        "Appendix C, item 7.",
+        "Appendix D, item 7.",
+        "Appendix E, item 7.",
+        "Procurement Pipeline 2026/27",
+        "Appendix A, item 8.",
+        "Appendix B, item 8.",
+        "Local Government Reorganisation - Statutory Consultation Response",
+        "Appendix A, item 10a"
+      ]
     },
     {
       "id": "lancashire-combined-county-authority-overview-and-scrutiny-committee-2026-03-09-15788",
@@ -1069,12 +2106,32 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1990&MId=15788&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies for absence",
+        "Disclosure of Pecuniary and Non-Pecuniary Interests",
+        "Minutes of the meeting held on 8 December 2025",
+        "Chief Operating Officer Update",
+        "Get Lancashire Working",
+        "Budget 2026/27 and Medium-Term Financial Strategy 2027/28",
+        "Overview and Scrutiny Committee Work Programme 2025/26",
+        "Urgent Business",
+        "Date of next meeting"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Minutes of the meeting held on 8 December 2025",
+        "Chief Operating Officer Update",
+        "Appendix A, item 4.",
+        "Get Lancashire Working",
+        "Budget 2026/27 and Medium-Term Financial Strategy 2027/28",
+        "Appendix A, item 6.",
+        "Appendix B, item 6."
+      ]
     },
     {
       "id": "lancashire-health-and-wellbeing-board-2026-03-10-15437",
@@ -1247,23 +2304,6 @@
       "documents": []
     },
     {
-      "id": "cabinet-2026-04-09-15441",
-      "date": "2026-04-09",
-      "time": "14:00",
-      "committee": "Cabinet",
-      "type": "executive",
-      "venue": "County Hall, Preston",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=122&MId=15441&Ver=4",
-      "agenda_items": [],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": []
-    },
-    {
       "id": "lancashire-local-pension-board-2026-04-14-15687",
       "date": "2026-04-14",
       "time": "14:00",
@@ -1315,15 +2355,32 @@
       "documents": []
     },
     {
-      "id": "health-and-adult-services-scrutiny-committee-2026-04-22",
+      "id": "cabinet-2026-04-15-15441",
+      "date": "2026-04-15",
+      "time": "14:00",
+      "committee": "Cabinet",
+      "type": "executive",
+      "venue": "County Hall, Preston",
+      "status": "agenda_published",
+      "cancelled": false,
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=122&MId=15441&Ver=4",
+      "agenda_items": [],
+      "summary": null,
+      "public_relevance": null,
+      "doge_relevance": null,
+      "speak_deadline": null,
+      "documents": []
+    },
+    {
+      "id": "health-and-adult-services-scrutiny-committee-2026-04-22-15447",
       "date": "2026-04-22",
       "time": "10:30",
       "committee": "Health and Adult Services Scrutiny Committee",
       "type": "scrutiny",
       "venue": "County Hall, Preston",
-      "status": "scheduled",
+      "status": "agenda_published",
       "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1810",
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1810&MId=15447&Ver=4",
       "agenda_items": [],
       "summary": null,
       "public_relevance": null,
@@ -1332,15 +2389,15 @@
       "documents": []
     },
     {
-      "id": "environment-economic-growth-and-transport-scrutiny-committee-2026-04-23",
+      "id": "environment-economic-growth-and-transport-scrutiny-committee-2026-04-23-16561",
       "date": "2026-04-23",
       "time": "10:00",
       "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
       "type": "scrutiny",
       "venue": "County Hall, Preston",
-      "status": "scheduled",
+      "status": "agenda_published",
       "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1812",
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1812&MId=16561&Ver=4",
       "agenda_items": [],
       "summary": null,
       "public_relevance": null,
@@ -1349,15 +2406,49 @@
       "documents": []
     },
     {
-      "id": "community-cultural-and-corporate-services-scrutiny-committee-2026-04-30",
+      "id": "audit-risk-and-governance-committee-2026-04-27-15440",
+      "date": "2026-04-27",
+      "time": "14:00",
+      "committee": "Audit, Risk and Governance Committee",
+      "type": "audit",
+      "venue": "County Hall, Preston",
+      "status": "agenda_published",
+      "cancelled": false,
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=728&MId=15440&Ver=4",
+      "agenda_items": [],
+      "summary": null,
+      "public_relevance": null,
+      "doge_relevance": null,
+      "speak_deadline": null,
+      "documents": []
+    },
+    {
+      "id": "development-control-committee-2026-04-29-15446",
+      "date": "2026-04-29",
+      "time": "10:30",
+      "committee": "Development Control Committee",
+      "type": "planning",
+      "venue": "County Hall, Preston",
+      "status": "agenda_published",
+      "cancelled": false,
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=118&MId=15446&Ver=4",
+      "agenda_items": [],
+      "summary": null,
+      "public_relevance": null,
+      "doge_relevance": null,
+      "speak_deadline": null,
+      "documents": []
+    },
+    {
+      "id": "community-cultural-and-corporate-services-scrutiny-committee-2026-04-30-15445",
       "date": "2026-04-30",
       "time": "10:30",
       "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
       "type": "scrutiny",
       "venue": "County Hall, Preston",
-      "status": "scheduled",
+      "status": "agenda_published",
       "cancelled": false,
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1813",
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1813&MId=15445&Ver=4",
       "agenda_items": [],
       "summary": null,
       "public_relevance": null,

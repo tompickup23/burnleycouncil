@@ -1,65 +1,698 @@
 {
-  "last_updated": "2026-02-18T15:46:08.000Z",
-  "next_update": "2026-02-25T15:46:08.000Z",
+  "last_updated": "2026-02-28T07:10:45.000Z",
+  "next_update": "2026-03-07T07:10:45.000Z",
   "source": "https://wyre.moderngov.co.uk",
   "how_to_attend": {},
-  "meetings": [
+  "committees": [
     {
-      "id": "council-2026-01-22-2187",
-      "date": "2026-01-22",
-      "time": "19:00",
-      "committee": "Council",
+      "cid": "135",
+      "name": "Council",
       "type": "other",
-      "venue": "Civic Centre, Poulton-le-Fylde",
-      "status": "agenda_published",
-      "cancelled": false,
-      "link": "https://wyre.moderngov.co.uk/ieListDocuments.aspx?CId=135&MId=2187&Ver=4",
-      "agenda_items": [
-        "The Council observed a minutes silence in the memory of the former Mayor's Attendant, Peter Hutton and council officer, Lisa Drew.",
-        "Confirmation of minutes",
-        "Declarations of Interest",
-        "Announcements",
-        "Public questions or statements",
-        "Questions \"On Notice\" from councillors",
-        "Executive reports",
-        "Executive Report: Leader of the Council",
-        "Executive Report: Resources Portfolio Holder",
-        "Executive Report: Street Scene, Parks and Open Spaces Portfolio Holder",
-        "Executive Report: Planning Policy and Economic Development Portfolio Holder",
-        "Executive Report: Neighbourhood Services and Community Safety Portfolio Holder and Deputy Leader",
-        "Executive Report: Leisure, Health and Community Engagement Portfolio Holder",
-        "Questions and comments from members of the Cabinet to their colleagues",
-        "Localised Council Tax Support Scheme 2026/27",
-        "Members' Allowance Scheme 2026/27",
-        "Periodic Report - Planning Committee",
-        "Periodic Report - Lead Member for Children and Young People",
-        "Notices of Motion"
-      ],
-      "summary": null,
-      "public_relevance": null,
-      "doge_relevance": null,
-      "speak_deadline": null,
-      "documents": [
-        "Agenda frontsheet",
-        "Agenda reports pack",
-        "Printed draft minutes",
-        "Confirmation of minutes",
-        "Minutes Public Pack, 27/11/2025 Council, item 48.",
-        "Public questions or statements",
-        "Executive Report: Leader of the Council",
-        "Executive Report: Resources Portfolio Holder",
-        "Executive Report: Street Scene, Parks and Open Spaces Portfolio Holder",
-        "Executive Report: Planning Policy and Economic Development Portfolio Holder",
-        "Executive Report: Neighbourhood Services and Community Safety Portfolio Holder and Deputy Leader",
-        "Executive Report: Leisure, Health and Community Engagement Portfolio Holder",
-        "Localised Council Tax Support Scheme 2026/27",
-        "Members' Allowance Scheme 2026/27",
-        "Appendix 1 for Members' Allowance Scheme, item 55.",
-        "Appendix 2 for Members' Allowance Scheme, item 55.",
-        "Periodic Report - Planning Committee",
-        "Periodic Report - Lead Member for Children and Young People"
+      "members": [
+        {
+          "name": "Jane Preston",
+          "role": "Chair",
+          "uid": "528"
+        },
+        {
+          "name": "Steve Nicholls",
+          "role": "Chair",
+          "uid": "527"
+        },
+        {
+          "name": "Ian Amos",
+          "role": "Member",
+          "uid": "127"
+        },
+        {
+          "name": "Lady Dulcie Atkins",
+          "role": "Member",
+          "uid": "136"
+        },
+        {
+          "name": "Sir Robert Atkins",
+          "role": "Member",
+          "uid": "348"
+        },
+        {
+          "name": "Callum Baxter",
+          "role": "Member",
+          "uid": "359"
+        },
+        {
+          "name": "Roger Berry",
+          "role": "Member",
+          "uid": "123"
+        },
+        {
+          "name": "Mary Belshaw",
+          "role": "Member",
+          "uid": "352"
+        },
+        {
+          "name": "Colette Birch",
+          "role": "Member",
+          "uid": "141"
+        },
+        {
+          "name": "Maureen Blair",
+          "role": "Member",
+          "uid": "549"
+        },
+        {
+          "name": "Daniel Bolton",
+          "role": "Member",
+          "uid": "520"
+        },
+        {
+          "name": "Lynne Bowen",
+          "role": "Member",
+          "uid": "125"
+        },
+        {
+          "name": "Simon Bridge",
+          "role": "Member",
+          "uid": "142"
+        },
+        {
+          "name": "Peter Cartridge",
+          "role": "Member",
+          "uid": "143"
+        },
+        {
+          "name": "Sue Catterall",
+          "role": "Member",
+          "uid": "144"
+        },
+        {
+          "name": "Alice Collinson",
+          "role": "Member",
+          "uid": "145"
+        },
+        {
+          "name": "James Crawford",
+          "role": "Member",
+          "uid": "639"
+        },
+        {
+          "name": "Ruth Duffy",
+          "role": "Member",
+          "uid": "531"
+        },
+        {
+          "name": "Paul Ellison",
+          "role": "Member",
+          "uid": "350"
+        },
+        {
+          "name": "Rob Fail",
+          "role": "Member",
+          "uid": "149"
+        },
+        {
+          "name": "Stuart Fielding",
+          "role": "Member",
+          "uid": "532"
+        },
+        {
+          "name": "Alice Jones",
+          "role": "Member",
+          "uid": "668"
+        },
+        {
+          "name": "Kevin Higginson",
+          "role": "Member",
+          "uid": "533"
+        },
+        {
+          "name": "David Higgs",
+          "role": "Member",
+          "uid": "521"
+        },
+        {
+          "name": "John Ibison",
+          "role": "Member",
+          "uid": "130"
+        },
+        {
+          "name": "Andrea Kay",
+          "role": "Member",
+          "uid": "156"
+        },
+        {
+          "name": "Peter Le Marinel",
+          "role": "Member",
+          "uid": "347"
+        },
+        {
+          "name": "Adam Leigh",
+          "role": "Member",
+          "uid": "523"
+        },
+        {
+          "name": "Steven Livesey",
+          "role": "Member",
+          "uid": "524"
+        },
+        {
+          "name": "Wayne Martin",
+          "role": "Member",
+          "uid": "534"
+        },
+        {
+          "name": "Lesley McKay",
+          "role": "Member",
+          "uid": "158"
+        },
+        {
+          "name": "Bernice Meekins",
+          "role": "Member",
+          "uid": "525"
+        },
+        {
+          "name": "Kenneth Minto",
+          "role": "Member",
+          "uid": "358"
+        },
+        {
+          "name": "Michelle Moliner",
+          "role": "Member",
+          "uid": "535"
+        },
+        {
+          "name": "Cheryl Raynor",
+          "role": "Member",
+          "uid": "179"
+        },
+        {
+          "name": "Richard Rendell",
+          "role": "Member",
+          "uid": "476"
+        },
+        {
+          "name": "Claire Rimmer",
+          "role": "Member",
+          "uid": "541"
+        },
+        {
+          "name": "Julie Robinson",
+          "role": "Member",
+          "uid": "132"
+        },
+        {
+          "name": "Collette Rushforth",
+          "role": "Member",
+          "uid": "483"
+        },
+        {
+          "name": "Christine Smith",
+          "role": "Member",
+          "uid": "164"
+        },
+        {
+          "name": "Ashley Sorensen",
+          "role": "Member",
+          "uid": "542"
+        },
+        {
+          "name": "Carole Stephenson",
+          "role": "Member",
+          "uid": "536"
+        },
+        {
+          "name": "Brian Stephenson",
+          "role": "Member",
+          "uid": "548"
+        },
+        {
+          "name": "Harry Swatton",
+          "role": "Member",
+          "uid": "537"
+        },
+        {
+          "name": "David Swift",
+          "role": "Member",
+          "uid": "529"
+        },
+        {
+          "name": "Frances Thewlis",
+          "role": "Member",
+          "uid": "530"
+        },
+        {
+          "name": "Michael Vincent",
+          "role": "Member",
+          "uid": "121"
+        },
+        {
+          "name": "Andrew Walker",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Charlotte Walker",
+          "role": "Member",
+          "uid": "540"
+        },
+        {
+          "name": "Victoria Wells",
+          "role": "Member",
+          "uid": "538"
+        }
       ]
     },
+    {
+      "cid": "136",
+      "name": "Cabinet",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Michael Vincent",
+          "role": "Chair",
+          "uid": "121"
+        },
+        {
+          "name": "Roger Berry",
+          "role": "Vice-Chair",
+          "uid": "123"
+        },
+        {
+          "name": "Lesley McKay",
+          "role": "Member",
+          "uid": "158"
+        },
+        {
+          "name": "Lynne Bowen",
+          "role": "Member",
+          "uid": "125"
+        },
+        {
+          "name": "Simon Bridge JP",
+          "role": "Member",
+          "uid": "142"
+        },
+        {
+          "name": "Peter Le Marinel",
+          "role": "Member",
+          "uid": "347"
+        }
+      ]
+    },
+    {
+      "cid": "149",
+      "name": "Audit and Standards Committee",
+      "type": "audit",
+      "members": [
+        {
+          "name": "John Ibison",
+          "role": "Chair",
+          "uid": "130"
+        },
+        {
+          "name": "Kenneth Minto",
+          "role": "Member",
+          "uid": "358"
+        },
+        {
+          "name": "Callum Baxter",
+          "role": "Member",
+          "uid": "359"
+        },
+        {
+          "name": "Daniel Bolton",
+          "role": "Member",
+          "uid": "520"
+        },
+        {
+          "name": "James Crawford",
+          "role": "Member",
+          "uid": "639"
+        },
+        {
+          "name": "Rob Fail",
+          "role": "Member",
+          "uid": "149"
+        },
+        {
+          "name": "Adam Leigh",
+          "role": "Member",
+          "uid": "523"
+        },
+        {
+          "name": "Steven Livesey",
+          "role": "Member",
+          "uid": "524"
+        },
+        {
+          "name": "Richard Rendell",
+          "role": "Member",
+          "uid": "476"
+        },
+        {
+          "name": "Harry Swatton",
+          "role": "Member",
+          "uid": "537"
+        },
+        {
+          "name": "Andrew Walker",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Charlotte Walker",
+          "role": "Member",
+          "uid": "540"
+        }
+      ]
+    },
+    {
+      "cid": "148",
+      "name": "Licensing Committee",
+      "type": "licensing",
+      "members": [
+        {
+          "name": "Colette Birch",
+          "role": "Chair",
+          "uid": "141"
+        },
+        {
+          "name": "Callum Baxter",
+          "role": "Member",
+          "uid": "359"
+        },
+        {
+          "name": "Adam Leigh",
+          "role": "Member",
+          "uid": "523"
+        },
+        {
+          "name": "Kenneth Minto",
+          "role": "Vice-Chair",
+          "uid": "358"
+        },
+        {
+          "name": "Michelle Moliner",
+          "role": "Member",
+          "uid": "535"
+        },
+        {
+          "name": "Collette Rushforth",
+          "role": "Member",
+          "uid": "483"
+        },
+        {
+          "name": "Christine Smith",
+          "role": "Member",
+          "uid": "164"
+        },
+        {
+          "name": "David Swift",
+          "role": "Member",
+          "uid": "529"
+        },
+        {
+          "name": "Brian Stephenson",
+          "role": "Member",
+          "uid": "548"
+        },
+        {
+          "name": "Carole Stephenson",
+          "role": "Member",
+          "uid": "536"
+        },
+        {
+          "name": "Julie Robinson",
+          "role": "Member",
+          "uid": "132"
+        },
+        {
+          "name": "Jane Preston",
+          "role": "Member",
+          "uid": "528"
+        }
+      ]
+    },
+    {
+      "cid": "144",
+      "name": "Planning Committee",
+      "type": "planning",
+      "members": [
+        {
+          "name": "Ian Amos",
+          "role": "Member",
+          "uid": "127"
+        },
+        {
+          "name": "Lady Dulcie Atkins",
+          "role": "Chair",
+          "uid": "136"
+        },
+        {
+          "name": "Mary Belshaw",
+          "role": "Member",
+          "uid": "352"
+        },
+        {
+          "name": "Richard Rendell",
+          "role": "Chair",
+          "uid": "476"
+        },
+        {
+          "name": "Sue Catterall",
+          "role": "Member",
+          "uid": "144"
+        },
+        {
+          "name": "Alice Collinson",
+          "role": "Member",
+          "uid": "145"
+        },
+        {
+          "name": "Stuart Fielding",
+          "role": "Member",
+          "uid": "532"
+        },
+        {
+          "name": "Andrea Kay",
+          "role": "Member",
+          "uid": "156"
+        },
+        {
+          "name": "Steven Livesey",
+          "role": "Member",
+          "uid": "524"
+        },
+        {
+          "name": "Cheryl Raynor",
+          "role": "Member",
+          "uid": "179"
+        },
+        {
+          "name": "Claire Rimmer",
+          "role": "Member",
+          "uid": "541"
+        },
+        {
+          "name": "Harry Swatton",
+          "role": "Member",
+          "uid": "537"
+        }
+      ]
+    },
+    {
+      "cid": "262",
+      "name": "Overview and Scrutiny Climate Change Sub-Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Sir Robert Atkins",
+          "role": "Chair",
+          "uid": "348"
+        },
+        {
+          "name": "Daniel Bolton",
+          "role": "Member",
+          "uid": "520"
+        },
+        {
+          "name": "Peter Cartridge",
+          "role": "Chair",
+          "uid": "143"
+        },
+        {
+          "name": "Rob Fail",
+          "role": "Member",
+          "uid": "149"
+        },
+        {
+          "name": "Cheryl Raynor",
+          "role": "Member",
+          "uid": "179"
+        },
+        {
+          "name": "Julie Robinson",
+          "role": "Member",
+          "uid": "132"
+        },
+        {
+          "name": "Kenneth Minto",
+          "role": "Member",
+          "uid": "358"
+        },
+        {
+          "name": "Alice Jones",
+          "role": "Member",
+          "uid": "668"
+        }
+      ]
+    },
+    {
+      "cid": "143",
+      "name": "Overview and Scrutiny Committee",
+      "type": "scrutiny",
+      "members": [
+        {
+          "name": "Peter Cartridge",
+          "role": "Chair",
+          "uid": "143"
+        },
+        {
+          "name": "Callum Baxter",
+          "role": "Chair",
+          "uid": "359"
+        },
+        {
+          "name": "Ian Amos",
+          "role": "Member",
+          "uid": "127"
+        },
+        {
+          "name": "Sir Robert Atkins",
+          "role": "Member",
+          "uid": "348"
+        },
+        {
+          "name": "Mary Belshaw",
+          "role": "Member",
+          "uid": "352"
+        },
+        {
+          "name": "Maureen Blair",
+          "role": "Member",
+          "uid": "549"
+        },
+        {
+          "name": "Daniel Bolton",
+          "role": "Member",
+          "uid": "520"
+        },
+        {
+          "name": "Andrea Kay",
+          "role": "Member",
+          "uid": "156"
+        },
+        {
+          "name": "David Higgs",
+          "role": "Member",
+          "uid": "521"
+        },
+        {
+          "name": "Julie Robinson",
+          "role": "Member",
+          "uid": "132"
+        },
+        {
+          "name": "Andrew Walker",
+          "role": "Member",
+          "uid": "539"
+        },
+        {
+          "name": "Victoria Wells",
+          "role": "Member",
+          "uid": "538"
+        }
+      ]
+    },
+    {
+      "cid": "164",
+      "name": "Blackpool, Fylde and Wyre Economic Prosperity Board",
+      "type": "other",
+      "members": [
+        {
+          "name": "Michael Vincent",
+          "role": "Member",
+          "uid": "121"
+        }
+      ]
+    },
+    {
+      "cid": "150",
+      "name": "Employment and Appeals Committee",
+      "type": "other",
+      "members": [
+        {
+          "name": "Colette Birch",
+          "role": "Vice-Chair",
+          "uid": "141"
+        },
+        {
+          "name": "Peter Cartridge",
+          "role": "Member",
+          "uid": "143"
+        },
+        {
+          "name": "Ruth Duffy",
+          "role": "Member",
+          "uid": "531"
+        },
+        {
+          "name": "John Ibison",
+          "role": "Chair",
+          "uid": "130"
+        }
+      ]
+    },
+    {
+      "cid": "241",
+      "name": "Emergency Powers Executive Decisions",
+      "type": "executive",
+      "members": [
+        {
+          "name": "Roger Berry",
+          "role": "Member",
+          "uid": "123"
+        },
+        {
+          "name": "Lynne Bowen",
+          "role": "Member",
+          "uid": "125"
+        },
+        {
+          "name": "Simon Bridge",
+          "role": "Member",
+          "uid": "142"
+        },
+        {
+          "name": "Michael Vincent",
+          "role": "Member",
+          "uid": "121"
+        }
+      ]
+    },
+    {
+      "cid": "240",
+      "name": "Emergency Powers Non-Executive Decisions",
+      "type": "executive",
+      "members": []
+    },
+    {
+      "cid": "219",
+      "name": "Constitution",
+      "type": "other",
+      "members": []
+    }
+  ],
+  "meetings": [
     {
       "id": "planning-committee-2026-02-04-2178",
       "date": "2026-02-04",
@@ -136,6 +769,7 @@
       "doge_relevance": null,
       "speak_deadline": null,
       "documents": [
+        "Agenda frontsheet",
         "Agenda reports pack",
         "Printed draft minutes",
         "Confirmation of minutes",
@@ -250,7 +884,6 @@
       "cancelled": false,
       "link": "https://wyre.moderngov.co.uk/ieListDocuments.aspx?CId=143&MId=2210&Ver=4",
       "agenda_items": [
-        "Apologies for absence",
         "Declarations of interest",
         "Confirmation of minutes",
         "Council Plan Monitoring Quarter Three 2025/26",
@@ -263,10 +896,12 @@
       "documents": [
         "Agenda frontsheet",
         "Agenda reports pack",
+        "Printed draft minutes",
         "Confirmation of minutes",
         "Council Plan Monitoring Quarter Three 2025/26",
         "Overview and Scrutiny Work Programme 2025/26 - update",
-        "Appendix 1 - Overview and Scrutiny Work Programme 202526, item 5."
+        "Appendix 1 - Overview and Scrutiny Work Programme 202526, item 40.",
+        "Part 4.05 - Overview and Scrutiny Procedure\r\nRules.pdf"
       ]
     },
     {
@@ -328,12 +963,38 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://wyre.moderngov.co.uk/ieListDocuments.aspx?CId=144&MId=2179&Ver=4",
-      "agenda_items": [],
+      "agenda_items": [
+        "Apologies for absence",
+        "Declarations of interest",
+        "Confirmation of minutes",
+        "Appeals",
+        "Planning applications",
+        "25/00809/FUL - James Farm, New Lane, Eagland Hill, Pilling, Lancashire, PR3 6BA",
+        "25/00294/LMAJ - Snapewood Solar Farm  Park Lane Cabus",
+        "Wyre Borough Council Tree Preservation Order No 16 of 2025: The Derby Arms, Carrs Green, Inskip with Sowerby, PR4 0TJ",
+        "PLEASE NOTE:"
+      ],
       "summary": null,
       "public_relevance": null,
       "doge_relevance": null,
       "speak_deadline": null,
-      "documents": []
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Confirmation of minutes",
+        "Appeals",
+        "Appeal Decision - 25/00318/FUL, item 4.",
+        "Appeal Decision - 25/00705/AGR, item 4.",
+        "Appeal Decision 25/00278/FUL, item 4.",
+        "Appeal Decision - 25/00145/COUQ, item 4.",
+        "Appeal Decision - 25/00496/PIP, item 4.",
+        "View the full list of documents for item 4.",
+        "25/00809/FUL - James Farm, New Lane, Eagland Hill, Pilling, Lancashire, PR3 6BA",
+        "Item 1 Map, item 5a",
+        "25/00294/LMAJ - Snapewood Solar Farm  Park Lane Cabus",
+        "Item 2 Map, item 5b",
+        "Wyre Borough Council Tree Preservation Order No 16 of 2025: The Derby Arms, Carrs Green, Inskip with Sowerby, PR4 0TJ"
+      ]
     },
     {
       "id": "council-2026-03-05-2188",
@@ -345,6 +1006,55 @@
       "status": "agenda_published",
       "cancelled": false,
       "link": "https://wyre.moderngov.co.uk/ieListDocuments.aspx?CId=135&MId=2188&Ver=4",
+      "agenda_items": [
+        "Apologies for absence",
+        "Confirmation of minutes",
+        "Declarations of Interest",
+        "Announcements",
+        "Public questions or statements",
+        "Questions \"On Notice\" from councillors",
+        "Pay Policy Statement 2026/27",
+        "Treasury Management Policy and Annual Investment Strategy, Minimum Revenue Provision Policy Statement and Capital Strategy 2026/27",
+        "Revenue Budget, Council Tax and Capital Programme",
+        "Notices of Motion"
+      ],
+      "summary": null,
+      "public_relevance": null,
+      "doge_relevance": null,
+      "speak_deadline": null,
+      "documents": [
+        "Agenda frontsheet",
+        "Agenda reports pack",
+        "Confirmation of minutes",
+        "Public questions or statements",
+        "Pay Policy Statement 2026/27",
+        "Appendix 1 for Pay Policy Statement 2026/27, item 7.",
+        "Treasury Management Policy and Annual Investment Strategy, Minimum Revenue Provision Policy Statement and Capital Strategy 2026/27",
+        "TMSS Appendix 1 2627 TM policy statement, item 8.",
+        "TMSS Appendix 2 2627 TM practices, item 8.",
+        "TMSS Appendix 3 2627 TM Strategy, item 8.",
+        "TMSS Appendix 4 2627 MRP policy, item 8.",
+        "TMSS Appendix 5 Capital Strategy 202627, item 8.",
+        "TMP Appendix 5 - Capital programme 20yr plan 2627, item 8.",
+        "Revenue Budget, Council Tax and Capital Programme",
+        "Appendix 1 - Tax resolution, item 9.",
+        "Appendix A - Council Tax, item 9.",
+        "Appendix A - Dummy Council Tax Bill, item 9.",
+        "Appendix A.1 - CTAX Statement, item 9.",
+        "Appendix A.2 - NNDR Statement, item 9.",
+        "View the full list of documents for item 9."
+      ]
+    },
+    {
+      "id": "licensing-committee-2026-03-10-2696",
+      "date": "2026-03-10",
+      "time": "18:00",
+      "committee": "Licensing Committee",
+      "type": "licensing",
+      "venue": "Civic Centre, Poulton-le-Fylde",
+      "status": "agenda_published",
+      "cancelled": false,
+      "link": "https://wyre.moderngov.co.uk/ieListDocuments.aspx?CId=148&MId=2696&Ver=4",
       "agenda_items": [],
       "summary": null,
       "public_relevance": null,
