@@ -104,6 +104,20 @@ export function calculateSwingRequired(wardPrediction, ourParty) {
 }
 
 // ---------------------------------------------------------------------------
+// Shared Utilities
+// ---------------------------------------------------------------------------
+
+/** Unified quick-win detection — matches ETL engine definition exactly. */
+export function isQuickWin(asset) {
+  return (
+    (asset.disposal_pathway === 'quick_win_auction' || asset.disposal_pathway === 'private_treaty_sale') &&
+    (asset.disposal_complexity || 0) <= 30 &&
+    (asset.market_readiness || 0) >= 60 &&
+    (asset.occupancy_status === 'vacant_land' || asset.occupancy_status === 'likely_vacant')
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Talking Points Generator
 // ---------------------------------------------------------------------------
 
@@ -131,12 +145,8 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
     text: `${wardAssets.length} LCC-owned asset${wardAssets.length !== 1 ? 's' : ''} in this division — scrutinise maintenance costs and utilisation.`,
   });
 
-  // Quick win disposals
-  const quickWins = wardAssets.filter(a =>
-    a.disposal_pathway === 'quick_win_auction' &&
-    (a.disposal_complexity || 0) <= 30 &&
-    (a.occupancy_status === 'vacant_land' || a.occupancy_status === 'likely_vacant')
-  );
+  // Quick win disposals (uses shared definition)
+  const quickWins = wardAssets.filter(isQuickWin);
   if (quickWins.length > 0) {
     points.push({
       category: 'Property',
@@ -153,7 +163,7 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
       category: 'Property',
       icon: 'Heart',
       priority: 2,
-      text: `${catAssets.length} asset${catAssets.length !== 1 ? 's' : ''} suitable for community asset transfer — engage local groups in deprived area.`,
+      text: `${catAssets.length} asset${catAssets.length !== 1 ? 's' : ''} suitable for community asset transfer — engage local groups and voluntary organisations.`,
     });
   }
 
@@ -172,7 +182,7 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
 
   // School grounds (sensitive)
   const schoolAssets = wardAssets.filter(a => a.occupancy_status === 'school_grounds');
-  if (schoolAssets.length > 3) {
+  if (schoolAssets.length > 0) {
     points.push({
       category: 'Property',
       icon: 'School',
@@ -241,7 +251,7 @@ export function generatePropertySummary(wardName, propertyAssets) {
 
   const totalSpend = wardAssets.reduce((s, a) => s + (a.linked_spend || 0), 0);
   const conditionSpend = wardAssets.reduce((s, a) => s + (a.condition_spend || 0), 0);
-  const quickWins = wardAssets.filter(a => a.disposal_pathway === 'quick_win_auction' && (a.disposal_complexity || 0) <= 30);
+  const quickWins = wardAssets.filter(isQuickWin);
   const energyRisk = wardAssets.filter(a => a.flags?.includes('energy_risk'));
 
   // Pathway breakdown

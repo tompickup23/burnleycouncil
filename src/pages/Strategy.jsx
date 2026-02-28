@@ -34,6 +34,7 @@ import {
   Crosshair, TrendingUp, TrendingDown, MapPin, Briefcase, Globe,
   CheckCircle, Swords, GraduationCap, Lock, Clock, BarChart3,
   Download, FileText, ArrowLeft, Printer, Eye, Map, Navigation, Building,
+  Heart, Leaf, Zap, PoundSterling, School,
 } from 'lucide-react'
 import './Strategy.css'
 
@@ -49,7 +50,8 @@ const CONFIDENCE_COLORS = { high: '#30d158', medium: '#ff9f0a', low: '#ff453a', 
 
 const ICON_MAP = {
   Users, GraduationCap, Globe, Briefcase, TrendingDown, TrendingUp,
-  Target, CheckCircle, MapPin, Swords,
+  Target, CheckCircle, MapPin, Swords, Building, Heart, Leaf, Zap,
+  PoundSterling, School, AlertTriangle,
 }
 
 // Severity colors for attack lines
@@ -1590,6 +1592,20 @@ function DossierProperty({ propertySummary }) {
         </div>
       )}
 
+      {/* Occupancy breakdown */}
+      {occupancy && Object.keys(occupancy).length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <h4 style={{ fontSize: '0.75rem', color: '#e2e8f0', marginBottom: '6px' }}>Occupancy Status</h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+            {Object.entries(occupancy).sort((a, b) => b[1] - a[1]).map(([occ, count]) => (
+              <span key={occ} style={{ fontSize: '0.65rem', padding: '3px 8px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>
+                {occ.replace(/_/g, ' ')} ({count})
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Category breakdown */}
       {Object.keys(categories).length > 0 && (
         <div style={{ marginBottom: '16px' }}>
@@ -1613,21 +1629,25 @@ function DossierProperty({ propertySummary }) {
               <thead>
                 <tr style={{ color: '#8e8e93', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                   <th style={{ textAlign: 'left', padding: '4px 6px' }}>Name</th>
-                  <th style={{ textAlign: 'left', padding: '4px 6px' }}>Category</th>
-                  <th style={{ textAlign: 'center', padding: '4px 6px' }}>EPC</th>
                   <th style={{ textAlign: 'center', padding: '4px 6px' }}>Pathway</th>
+                  <th style={{ textAlign: 'center', padding: '4px 6px' }}>Complexity</th>
                   <th style={{ textAlign: 'right', padding: '4px 6px' }}>Spend</th>
                 </tr>
               </thead>
               <tbody>
                 {assets.map(a => (
                   <tr key={a.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <td style={{ padding: '4px 6px', color: '#e2e8f0' }}>{a.name}</td>
-                    <td style={{ padding: '4px 6px', color: '#8e8e93' }}>{CATEGORY_LABELS_SHORT[a.category] || a.category}</td>
-                    <td style={{ padding: '4px 6px', textAlign: 'center', color: a.epc_rating ? '#e2e8f0' : '#555' }}>{a.epc_rating || '—'}</td>
+                    <td style={{ padding: '4px 6px' }}>
+                      <a href={`#/property/${a.id}`} style={{ color: '#0a84ff', textDecoration: 'none', fontSize: '0.65rem' }}>{a.name}</a>
+                    </td>
                     <td style={{ padding: '4px 6px', textAlign: 'center' }}>
                       <span style={{ color: PATHWAY_COL[a.disposal_pathway] || '#8e8e93', fontSize: '0.6rem' }}>
                         {PATHWAY_SHORT[a.disposal_pathway] || a.disposal_pathway || '—'}
+                      </span>
+                    </td>
+                    <td style={{ padding: '4px 6px', textAlign: 'center' }}>
+                      <span style={{ fontSize: '0.6rem', color: (a.disposal_complexity || 0) > 60 ? '#ff453a' : (a.disposal_complexity || 0) > 30 ? '#ff9f0a' : '#30d158' }}>
+                        {a.disposal_complexity ?? '—'}
                       </span>
                     </td>
                     <td style={{ padding: '4px 6px', textAlign: 'right', color: '#e2e8f0' }}>

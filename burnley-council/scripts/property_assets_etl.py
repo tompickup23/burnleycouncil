@@ -466,6 +466,7 @@ def compute_readiness(asset, occupancy):
 def compute_revenue_potential(asset, occupancy):
     """Compute revenue potential score (0-100). Higher = more income opportunity."""
     score = 30  # base
+    breakdown = []
     flags = asset.get('flags', [])
     epc = asset.get('epc_rating') or ''
     floor = asset.get('floor_area_sqm') or 0
@@ -473,37 +474,49 @@ def compute_revenue_potential(asset, occupancy):
 
     if floor > 500:
         score += 20
+        breakdown.append(('Large floor area (>500 sqm)', 20))
     elif floor > 200:
         score += 10
+        breakdown.append(('Medium floor area (>200 sqm)', 10))
     elif floor > 0:
         score += 5
+        breakdown.append(('Small floor area', 5))
 
     if epc in ('A', 'B', 'C'):
         score += 15
+        breakdown.append(('Good EPC (A-C)', 15))
     elif epc in ('F', 'G'):
         score -= 10
+        breakdown.append(('Poor EPC (F-G)', -10))
 
     if imd >= 7:
         score += 15
+        breakdown.append(('Affluent area (IMD 7+)', 15))
     elif imd >= 5:
         score += 5
+        breakdown.append(('Mid-range area (IMD 5-6)', 5))
     elif imd <= 2:
         score -= 5
+        breakdown.append(('High deprivation (IMD 1-2)', -5))
 
     if (asset.get('nearby_500m') or 0) > 3:
         score += 10
+        breakdown.append(('Clustered assets (>3 nearby)', 10))
 
     if 'flood_exposure' not in flags and 'high_crime' not in flags:
         score += 10
+        breakdown.append(('No flood or crime risk', 10))
 
     if asset.get('land_only') and floor == 0:
         score -= 15
+        breakdown.append(('Land only, no floor area', -15))
 
     # Occupied assets already generating implicit value
     if occupancy == 'occupied':
         score -= 5
+        breakdown.append(('Currently occupied', -5))
 
-    return max(0, min(score, 100))
+    return max(0, min(score, 100)), breakdown
 
 
 def compute_urgency(asset):
@@ -641,7 +654,7 @@ def compute_disposal_intelligence(lean_assets):
         # 2. Compute scores
         complexity, comp_breakdown = compute_complexity(asset, occ_status)
         readiness, read_breakdown = compute_readiness(asset, occ_status)
-        revenue = compute_revenue_potential(asset, occ_status)
+        revenue, rev_breakdown = compute_revenue_potential(asset, occ_status)
         urgency = compute_urgency(asset)
 
         asset['disposal_complexity'] = complexity
@@ -649,6 +662,7 @@ def compute_disposal_intelligence(lean_assets):
         asset['revenue_potential'] = revenue
         asset['_complexity_breakdown'] = comp_breakdown
         asset['_readiness_breakdown'] = read_breakdown
+        asset['_revenue_breakdown'] = rev_breakdown
 
         # 3. Smart priority
         priority = round(
@@ -1069,8 +1083,9 @@ def compute_meta(lean_assets, detail_assets):
             complexity_bands['medium'] += 1
         else:
             complexity_bands['low'] += 1
-        # Quick win: disposal says quick_win_auction or private_treaty + low complexity
-        if a.get('disposal_pathway') in ('quick_win_auction', 'private_treaty_sale') and dc <= 30:
+        # Quick win: must match engine definition exactly (complexity<=30, readiness>=60, vacant, disposal pathway)
+        mr = a.get('market_readiness') or 0
+        if a.get('disposal_pathway') in ('quick_win_auction', 'private_treaty_sale') and dc <= 30 and mr >= 60:
             if a.get('occupancy_status') in ('vacant_land', 'likely_vacant'):
                 quick_wins += 1
 
@@ -1428,6 +1443,9 @@ def main():
             {'factor': f, 'points': p} for f, p in lean.get('_readiness_breakdown', [])
         ]
         detail['disposal']['revenue_potential_score'] = lean.get('revenue_potential', 0)
+        detail['disposal']['revenue_breakdown'] = [
+            {'factor': f, 'points': p} for f, p in lean.get('_revenue_breakdown', [])
+        ]
         detail['disposal']['occupancy_inferred'] = lean.get('occupancy_status')
         detail['disposal']['occupancy_signals'] = lean.get('_occupancy_signals', [])
         detail['disposal']['estimated_timeline'] = lean.get('_timeline')
@@ -1444,7 +1462,7 @@ def main():
     # Clean temporary fields from lean
     for asset in lean_assets:
         for key in ['_occupancy_signals', '_complexity_breakdown', '_readiness_breakdown',
-                     '_smart_priority', '_pathway_reasoning', '_quick_win', '_timeline']:
+                     '_revenue_breakdown', '_smart_priority', '_pathway_reasoning', '_quick_win', '_timeline']:
             asset.pop(key, None)
 
     print(f"  Pathways: {intel_stats['pathway_breakdown']}")

@@ -641,6 +641,32 @@ function DisposalTab({ asset }) {
         </div>
       )}
 
+      {/* Readiness breakdown */}
+      {disp?.readiness_breakdown?.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>Market Readiness Factors</h3>
+          {disp.readiness_breakdown.map((item, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: i < disp.readiness_breakdown.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{item.factor}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: item.points > 0 ? '#30d158' : '#ff453a', minWidth: 40, textAlign: 'right' }}>{item.points > 0 ? '+' : ''}{item.points}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Revenue breakdown */}
+      {disp?.revenue_breakdown?.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>Revenue Potential Factors</h3>
+          {disp.revenue_breakdown.map((item, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: i < disp.revenue_breakdown.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{item.factor}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: item.points > 0 ? '#30d158' : '#ff453a', minWidth: 40, textAlign: 'right' }}>{item.points > 0 ? '+' : ''}{item.points}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Codex AI Analysis */}
       {codex?.reasoning && (
         <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>

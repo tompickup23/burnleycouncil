@@ -24,6 +24,7 @@ import {
   generateCanvassingCSV,
   generateAssetTalkingPoints,
   generatePropertySummary,
+  isQuickWin,
   WARD_CLASSES,
 } from './strategyEngine'
 
@@ -1829,9 +1830,9 @@ describe('generateCanvassingCSV', () => {
 
 describe('generateAssetTalkingPoints', () => {
   const mockAssets = [
-    { id: '1', ced: 'Burnley Central', ward: 'Burnley SW', category: 'office_civic', linked_spend: 80000, condition_spend: 15000, nearby_500m: 2, flags: ['energy_risk'], disposal_pathway: 'quick_win_auction', disposal_complexity: 20, occupancy_status: 'likely_vacant' },
-    { id: '2', ced: 'Burnley Central', ward: 'Burnley SW', category: 'library', linked_spend: 20000, condition_spend: 5000, nearby_500m: 1, flags: [], disposal_pathway: 'strategic_hold', disposal_complexity: 60, occupancy_status: 'occupied' },
-    { id: '3', ced: 'Preston East', ward: 'Preston North', category: 'land_general', linked_spend: 0, condition_spend: 0, nearby_500m: 0, flags: [], disposal_pathway: 'community_asset_transfer', disposal_complexity: 45, occupancy_status: 'vacant_land' },
+    { id: '1', ced: 'Burnley Central', ward: 'Burnley SW', category: 'office_civic', linked_spend: 80000, condition_spend: 15000, nearby_500m: 2, flags: ['energy_risk'], disposal_pathway: 'quick_win_auction', disposal_complexity: 20, market_readiness: 70, occupancy_status: 'likely_vacant' },
+    { id: '2', ced: 'Burnley Central', ward: 'Burnley SW', category: 'library', linked_spend: 20000, condition_spend: 5000, nearby_500m: 1, flags: [], disposal_pathway: 'strategic_hold', disposal_complexity: 60, market_readiness: 25, occupancy_status: 'occupied' },
+    { id: '3', ced: 'Preston East', ward: 'Preston North', category: 'land_general', linked_spend: 0, condition_spend: 0, nearby_500m: 0, flags: [], disposal_pathway: 'community_asset_transfer', disposal_complexity: 45, market_readiness: 40, occupancy_status: 'vacant_land' },
   ]
 
   it('returns empty array when no cedName', () => {
@@ -1921,13 +1922,13 @@ describe('generateAssetTalkingPoints', () => {
 describe('generatePropertySummary', () => {
   const mockAssets = [
     { id: '1', name: 'School A', ced: 'Test Ward', ward: 'Test Ward', category: 'education',
-      disposal_pathway: 'quick_win_auction', disposal_complexity: 15, occupancy_status: 'vacant_land',
+      disposal_pathway: 'quick_win_auction', disposal_complexity: 15, market_readiness: 75, occupancy_status: 'vacant_land',
       linked_spend: 50000, condition_spend: 5000, flags: ['energy_risk'] },
     { id: '2', name: 'Office B', ced: 'Test Ward', ward: 'Other', category: 'office_civic',
-      disposal_pathway: 'strategic_hold', disposal_complexity: 55, occupancy_status: 'occupied',
+      disposal_pathway: 'strategic_hold', disposal_complexity: 55, market_readiness: 25, occupancy_status: 'occupied',
       linked_spend: 20000, condition_spend: 0, flags: [] },
     { id: '3', name: 'Land C', ced: 'Other Ward', ward: 'Other Ward', category: 'land_general',
-      disposal_pathway: 'quick_win_auction', disposal_complexity: 10, occupancy_status: 'vacant_land',
+      disposal_pathway: 'quick_win_auction', disposal_complexity: 10, market_readiness: 80, occupancy_status: 'vacant_land',
       linked_spend: 0, condition_spend: 0, flags: [] },
   ]
 
@@ -1974,5 +1975,44 @@ describe('generatePropertySummary', () => {
     expect(result).not.toBeNull()
     expect(result.total).toBe(1)
     expect(result.assets[0].name).toBe('Land C')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// isQuickWin
+// ---------------------------------------------------------------------------
+
+describe('isQuickWin', () => {
+  it('returns true for matching quick win asset', () => {
+    expect(isQuickWin({ disposal_pathway: 'quick_win_auction', disposal_complexity: 20, market_readiness: 70, occupancy_status: 'vacant_land' })).toBe(true)
+  })
+
+  it('returns true for private_treaty_sale quick win', () => {
+    expect(isQuickWin({ disposal_pathway: 'private_treaty_sale', disposal_complexity: 25, market_readiness: 65, occupancy_status: 'likely_vacant' })).toBe(true)
+  })
+
+  it('returns false when complexity too high', () => {
+    expect(isQuickWin({ disposal_pathway: 'quick_win_auction', disposal_complexity: 50, market_readiness: 70, occupancy_status: 'vacant_land' })).toBe(false)
+  })
+
+  it('returns false when readiness too low', () => {
+    expect(isQuickWin({ disposal_pathway: 'quick_win_auction', disposal_complexity: 20, market_readiness: 40, occupancy_status: 'vacant_land' })).toBe(false)
+  })
+
+  it('returns false when occupied', () => {
+    expect(isQuickWin({ disposal_pathway: 'quick_win_auction', disposal_complexity: 20, market_readiness: 70, occupancy_status: 'occupied' })).toBe(false)
+  })
+
+  it('returns false for school_grounds', () => {
+    expect(isQuickWin({ disposal_pathway: 'quick_win_auction', disposal_complexity: 10, market_readiness: 80, occupancy_status: 'school_grounds' })).toBe(false)
+  })
+
+  it('returns false for strategic_hold pathway', () => {
+    expect(isQuickWin({ disposal_pathway: 'strategic_hold', disposal_complexity: 20, market_readiness: 70, occupancy_status: 'vacant_land' })).toBe(false)
+  })
+
+  it('handles missing fields gracefully', () => {
+    expect(isQuickWin({})).toBe(false)
+    expect(isQuickWin({ disposal_pathway: 'quick_win_auction' })).toBe(false)
   })
 })

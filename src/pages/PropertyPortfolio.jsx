@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext'
 import { isFirebaseEnabled } from '../firebase'
 import { LoadingState } from '../components/ui'
 import { formatNumber, formatCurrency } from '../utils/format'
+import { isQuickWin } from '../utils/strategyEngine'
 
 const WardMap = lazy(() => import('../components/WardMap'))
 
@@ -49,6 +50,22 @@ const CATEGORY_ICONS = {
   land_woodland: '🌲',
   land_open_space: '🌳',
   other_building: '🏠',
+}
+
+const EPC_COLORS = { A: '#00c853', B: '#30d158', C: '#ffd60a', D: '#ff9f0a', E: '#ff6d3b', F: '#ff453a', G: '#b71c1c' }
+const BAND_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#30d158' }
+const PATHWAY_MAP_COLORS = {
+  quick_win_auction: '#00c853', private_treaty_sale: '#30d158',
+  development_partnership: '#0a84ff', community_asset_transfer: '#bf5af2',
+  long_lease_income: '#ff9f0a', meanwhile_use: '#64d2ff',
+  energy_generation: '#ffd60a', carbon_offset_woodland: '#34c759',
+  housing_partnership: '#ff6d3b', co_locate_consolidate: '#5e5ce6',
+  strategic_hold: '#8e8e93', governance_review: '#636366',
+  refurbish_relet: '#ac8e68',
+}
+const OCCUPANCY_MAP_COLORS = {
+  occupied: '#0a84ff', school_grounds: '#5e5ce6', likely_vacant: '#ff9f0a',
+  vacant_land: '#30d158', third_party: '#bf5af2', unknown: '#8e8e93',
 }
 
 function CategoryBadge({ category }) {
@@ -307,33 +324,13 @@ export default function PropertyPortfolio() {
     }
 
     if (quickWinsOnly) {
-      result = result.filter(a =>
-        a.disposal_pathway === 'quick_win_auction' &&
-        (a.disposal_complexity || 0) <= 30 &&
-        (a.occupancy_status === 'vacant_land' || a.occupancy_status === 'likely_vacant')
-      )
+      result = result.filter(isQuickWin)
     }
 
     return result
   }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
 
   // --- Map assets (geocoded + overlay colour) ---
-  const EPC_COLORS = { A: '#00c853', B: '#30d158', C: '#ffd60a', D: '#ff9f0a', E: '#ff6d3b', F: '#ff453a', G: '#b71c1c' }
-  const BAND_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#30d158' }
-  const PATHWAY_MAP_COLORS = {
-    quick_win_auction: '#00c853', private_treaty_sale: '#30d158',
-    development_partnership: '#0a84ff', community_asset_transfer: '#bf5af2',
-    long_lease_income: '#ff9f0a', meanwhile_use: '#64d2ff',
-    energy_generation: '#ffd60a', carbon_offset_woodland: '#34c759',
-    housing_partnership: '#ff6d3b', co_locate_consolidate: '#5e5ce6',
-    strategic_hold: '#8e8e93', governance_review: '#636366',
-    refurbish_relet: '#ac8e68',
-  }
-  const OCCUPANCY_MAP_COLORS = {
-    occupied: '#0a84ff', school_grounds: '#5e5ce6', likely_vacant: '#ff9f0a',
-    vacant_land: '#30d158', third_party: '#bf5af2', unknown: '#8e8e93',
-  }
-
   const mapAssets = useMemo(() => {
     return filteredAssets
       .filter(a => a.lat && a.lng)
@@ -431,7 +428,7 @@ export default function PropertyPortfolio() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setPage(1)
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
 
   // --- Sort handler ---
   const handleSort = useCallback((field) => {
@@ -472,7 +469,7 @@ export default function PropertyPortfolio() {
       a.disposal_complexity ?? '',
       a.market_readiness ?? '',
       a.revenue_potential ?? '',
-      a.disposal?.priority ?? '',
+      a.disposal?.smart_priority ?? '',
       a.disposal_band || '',
       a.repurpose_band || '',
       a.service_band || '',
