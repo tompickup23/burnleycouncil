@@ -33,7 +33,7 @@ import {
   Target, Users, Shield, AlertTriangle, ChevronDown, ChevronRight,
   Crosshair, TrendingUp, TrendingDown, MapPin, Briefcase, Globe,
   CheckCircle, Swords, GraduationCap, Lock, Clock, BarChart3,
-  Download, FileText, ArrowLeft, Printer, Eye, Map, Navigation,
+  Download, FileText, ArrowLeft, Printer, Eye, Map, Navigation, Building,
 } from 'lucide-react'
 import './Strategy.css'
 
@@ -1228,6 +1228,7 @@ const DOSSIER_TABS = [
   { id: 'councillors', label: 'Councillors', icon: Eye },
   { id: 'council', label: 'Council', icon: AlertTriangle },
   { id: 'constituency', label: 'Constituency', icon: MapPin },
+  { id: 'property', label: 'Property', icon: Building },
   { id: 'talkingPoints', label: 'Talking Points', icon: Briefcase },
   { id: 'cheatSheet', label: 'Cheat Sheet', icon: Printer },
 ]
@@ -1279,6 +1280,7 @@ function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange,
         {activeTab === 'councillors' && <DossierCouncillors councillors={dossier.councillors} />}
         {activeTab === 'council' && <DossierCouncilPerf perf={dossier.councilPerformance} />}
         {activeTab === 'constituency' && <DossierConstituency constituency={dossier.constituency} />}
+        {activeTab === 'property' && <DossierProperty propertySummary={dossier.propertySummary} />}
         {activeTab === 'talkingPoints' && <DossierTalkingPoints talkingPoints={dossier.talkingPoints} />}
         {activeTab === 'cheatSheet' && <DossierCheatSheet cheatSheet={dossier.cheatSheet} />}
       </div>
@@ -1513,6 +1515,101 @@ function DossierConstituency({ constituency }) {
         <p className="dossier-meta">
           Claimant count: {constituency.claimantCount[0].claimant_rate_pct}% ({constituency.claimantCount[0].claimant_count?.toLocaleString()} people)
         </p>
+      )}
+    </div>
+  )
+}
+
+const CATEGORY_LABELS_SHORT = {
+  education: 'Education', library: 'Library', children_social_care: 'Children/SC',
+  office_civic: 'Office/Civic', operations_depot_waste: 'Ops/Depot',
+  transport_highways: 'Transport', land_general: 'Land', land_woodland: 'Woodland',
+  land_open_space: 'Open Space', other_building: 'Other',
+}
+
+function DossierProperty({ propertySummary }) {
+  if (!propertySummary) return <p className="dossier-empty">No property data for this division.</p>
+
+  const { total, totalSpend, conditionSpend, disposalCount, energyRiskCount, categories, assets } = propertySummary
+
+  return (
+    <div className="dossier-property">
+      <div className="dossier-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', marginBottom: '16px' }}>
+        <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: '#0a84ff' }}>{total}</div>
+          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>LCC Assets</div>
+        </div>
+        <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: totalSpend > 0 ? '#ff9f0a' : '#8e8e93' }}>
+            {totalSpend > 0 ? `£${Math.round(totalSpend / 1000)}k` : '—'}
+          </div>
+          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Supplier Spend</div>
+        </div>
+        <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: conditionSpend > 0 ? '#ff9f0a' : '#8e8e93' }}>
+            {conditionSpend > 0 ? `£${Math.round(conditionSpend / 1000)}k` : '—'}
+          </div>
+          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Condition Spend</div>
+        </div>
+        <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: disposalCount > 0 ? '#ff453a' : '#30d158' }}>{disposalCount}</div>
+          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Disposal Candidates</div>
+        </div>
+        <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: energyRiskCount > 0 ? '#ff9f0a' : '#30d158' }}>{energyRiskCount}</div>
+          <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>Energy Risk</div>
+        </div>
+      </div>
+
+      {/* Category breakdown */}
+      {Object.keys(categories).length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <h4 style={{ fontSize: '0.75rem', color: '#e2e8f0', marginBottom: '6px' }}>By Category</h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+            {Object.entries(categories).sort((a, b) => b[1] - a[1]).map(([cat, count]) => (
+              <span key={cat} style={{ fontSize: '0.65rem', padding: '3px 8px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>
+                {CATEGORY_LABELS_SHORT[cat] || cat} ({count})
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Asset list */}
+      {assets?.length > 0 && (
+        <div>
+          <h4 style={{ fontSize: '0.75rem', color: '#e2e8f0', marginBottom: '6px' }}>Assets</h4>
+          <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+            <table style={{ width: '100%', fontSize: '0.65rem', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ color: '#8e8e93', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <th style={{ textAlign: 'left', padding: '4px 6px' }}>Name</th>
+                  <th style={{ textAlign: 'left', padding: '4px 6px' }}>Category</th>
+                  <th style={{ textAlign: 'center', padding: '4px 6px' }}>EPC</th>
+                  <th style={{ textAlign: 'center', padding: '4px 6px' }}>Disposal</th>
+                  <th style={{ textAlign: 'right', padding: '4px 6px' }}>Spend</th>
+                </tr>
+              </thead>
+              <tbody>
+                {assets.map(a => (
+                  <tr key={a.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <td style={{ padding: '4px 6px', color: '#e2e8f0' }}>{a.name}</td>
+                    <td style={{ padding: '4px 6px', color: '#8e8e93' }}>{CATEGORY_LABELS_SHORT[a.category] || a.category}</td>
+                    <td style={{ padding: '4px 6px', textAlign: 'center', color: a.epc_rating ? '#e2e8f0' : '#555' }}>{a.epc_rating || '—'}</td>
+                    <td style={{ padding: '4px 6px', textAlign: 'center' }}>
+                      <span style={{ color: a.disposal_band === 'high' ? '#ff453a' : a.disposal_band === 'medium' ? '#ff9f0a' : '#30d158' }}>
+                        {a.disposal_band || '—'}
+                      </span>
+                    </td>
+                    <td style={{ padding: '4px 6px', textAlign: 'right', color: '#e2e8f0' }}>
+                      {a.linked_spend > 0 ? `£${Math.round(a.linked_spend / 1000)}k` : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   )

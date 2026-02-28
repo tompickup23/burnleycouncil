@@ -145,9 +145,9 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
-function renderComponent() {
+function renderComponent(initialEntries = ['/properties']) {
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={initialEntries}>
       <PropertyPortfolio />
     </MemoryRouter>
   )
@@ -562,5 +562,45 @@ describe('PropertyPortfolio', () => {
   it('sets document title on mount', () => {
     renderComponent()
     expect(document.title).toBe('Property Estate | Lancashire CC Transparency')
+  })
+
+  // --- URL parameter support ---
+
+  it('initialises search filter from URL search param', () => {
+    renderComponent(['/properties?search=County'])
+    expect(screen.getByText('County Hall')).toBeInTheDocument()
+    expect(screen.queryByText('Burnley Library')).not.toBeInTheDocument()
+  })
+
+  it('initialises category filter from URL cat param', () => {
+    renderComponent(['/properties?cat=library'])
+    expect(screen.getByText('Burnley Library')).toBeInTheDocument()
+    expect(screen.queryByText('County Hall')).not.toBeInTheDocument()
+  })
+
+  it('initialises map view from URL view param', async () => {
+    renderComponent(['/properties?view=map'])
+    expect(await screen.findByTestId('ward-map')).toBeInTheDocument()
+  })
+
+  it('initialises map overlay from URL overlay param', async () => {
+    renderComponent(['/properties?view=map&overlay=epc'])
+    await screen.findByTestId('ward-map')
+    // EPC overlay legend shows A-G ratings
+    expect(screen.getByText('A')).toBeInTheDocument()
+    expect(screen.getByText('G')).toBeInTheDocument()
+  })
+
+  it('initialises multiple filters from URL params', () => {
+    renderComponent(['/properties?search=Library&cat=library'])
+    expect(screen.getByText('Burnley Library')).toBeInTheDocument()
+    expect(screen.queryByText('County Hall')).not.toBeInTheDocument()
+    expect(screen.queryByText('Land at Whalley Road')).not.toBeInTheDocument()
+  })
+
+  it('initialises CED filter from URL ced param', () => {
+    renderComponent(['/properties?ced=Preston%20Central%20East'])
+    expect(screen.getByText('County Hall')).toBeInTheDocument()
+    expect(screen.queryByText('Burnley Library')).not.toBeInTheDocument()
   })
 })

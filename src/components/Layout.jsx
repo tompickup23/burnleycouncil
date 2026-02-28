@@ -82,8 +82,9 @@ function Layout({ children }) {
   const authCtx = useAuthHook()
 
   // Load data for GlobalSearch
-  const { data: searchData } = useData(['/data/councillors.json', '/data/config.json'])
-  const [councillorsForSearch, configForSearch] = searchData || [[], null]
+  const { data: searchData } = useData(['/data/councillors.json', '/data/config.json', '/data/property_assets.json'])
+  const [councillorsForSearch, configForSearch, propertyAssetsForSearch] = searchData || [[], null, null]
+  const propertiesForSearch = propertyAssetsForSearch?.assets || []
 
   // Keyboard shortcut: Cmd+K / Ctrl+K for GlobalSearch
   useEffect(() => {
@@ -330,6 +331,7 @@ function Layout({ children }) {
         isOpen={searchOpen}
         onClose={() => setSearchOpen(false)}
         councillors={Array.isArray(councillorsForSearch) ? councillorsForSearch : councillorsForSearch?.councillors || []}
+        properties={propertiesForSearch}
       />
 
       {/* Main content */}

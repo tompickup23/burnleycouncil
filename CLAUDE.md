@@ -86,7 +86,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 1,904 tests across 40 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 1,913 tests across 39 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -342,6 +342,6 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Phase 18f** (done, 22 Feb): Intelligence war-game engine (attack predictions, counter-arguments), MP expenses comparison page, hub landing page redesign, registration profile capture (user type/party/constituency). 1,656 tests (36 files)
 - **Phase 18e** (done, 28 Feb): Swing Map + Canvassing Route Optimisation. Leaflet.js ward boundary maps (CartoDB Dark Matter tiles), ONS ArcGIS boundary ETL (15 councils, 321 wards/divisions), k-means clustering + nearest-neighbor TSP route optimisation, 4 overlay modes (classification/swing/party/route), canvassing session cards + CSV export. 1,831 tests (37 files).
 - **v6 Master Overhaul** (done, 27-28 Feb): "Leave No Stone Unturned" — 29 files, 5,991 lines. CouncillorDossier page, 8 shared components, election/LGR/analytics model upgrades, collapsible nav, 10 page upgrades with cross-references. Backend: legal_framework +11 laws, councillor_integrity_etl +791 lines (13 new detections), councillor_research_etl NEW, foi_generator NEW. 1,808 tests (37 files).
-- **LCC Property Estate** (done, 28 Feb): 1,121 LCC-owned assets. PropertyPortfolio + PropertyDetail pages (strategist-only), WardMap property overlay, 6-page cross-system integration (Strategy/MyArea/DOGE/LGR/Elections/Budgets), property_assets_etl.py with CED point-in-polygon mapping. 73 new tests. 1,904 tests (40 files).
+- **LCC Property Estate** (done, 28 Feb): 1,121 LCC-owned assets. PropertyPortfolio + PropertyDetail pages (strategist-only), WardMap property overlay, 6-page cross-system integration (Strategy/MyArea/DOGE/LGR/Elections/Budgets), property_assets_etl.py with CED point-in-polygon mapping. 73 new tests. 1,913 tests (40 files).
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

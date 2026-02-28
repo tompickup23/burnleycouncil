@@ -190,6 +190,42 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
 }
 
 /**
+ * Generate a property summary object for a ward dossier.
+ * @param {string} wardName - CED or ward name
+ * @param {Array} propertyAssets - Array of asset objects from property_assets.json
+ * @returns {Object|null} Summary object or null if no assets
+ */
+export function generatePropertySummary(wardName, propertyAssets) {
+  if (!wardName || !propertyAssets?.length) return null;
+  const wardAssets = propertyAssets.filter(a => a.ced === wardName || a.ward === wardName);
+  if (wardAssets.length === 0) return null;
+
+  const totalSpend = wardAssets.reduce((s, a) => s + (a.linked_spend || 0), 0);
+  const conditionSpend = wardAssets.reduce((s, a) => s + (a.condition_spend || 0), 0);
+  const disposalCandidates = wardAssets.filter(a => a.disposal_band === 'high');
+  const energyRisk = wardAssets.filter(a => a.flags?.includes('energy_risk'));
+  const categories = {};
+  for (const a of wardAssets) {
+    const cat = a.category || 'unknown';
+    categories[cat] = (categories[cat] || 0) + 1;
+  }
+
+  return {
+    total: wardAssets.length,
+    totalSpend,
+    conditionSpend,
+    disposalCount: disposalCandidates.length,
+    energyRiskCount: energyRisk.length,
+    categories,
+    assets: wardAssets.map(a => ({
+      id: a.id, name: a.name, category: a.category,
+      epc_rating: a.epc_rating, disposal_band: a.disposal_band,
+      linked_spend: a.linked_spend || 0, condition_spend: a.condition_spend || 0,
+    })),
+  };
+}
+
+/**
  * Generate auto-talking-points for a ward based on demographics, deprivation, turnout, and spending.
  * @param {Object} wardElection - Ward data from elections.json
  * @param {Object|null} demographics - Census 2021 ward data
@@ -1657,6 +1693,9 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
 
   const electionDate = electionsData?.meta?.next_election?.date || null;
 
+  // Property summary for this ward
+  const propertySummary = generatePropertySummary(wardName, propertyAssets);
+
   const dossier = {
     ward: wardName,
     ourParty,
@@ -1669,6 +1708,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     councilPerformance,
     constituency: constituencyContext,
     talkingPoints,
+    propertySummary,
   };
 
   // Add cheat sheet

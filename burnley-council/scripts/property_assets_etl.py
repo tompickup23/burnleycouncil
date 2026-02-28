@@ -44,6 +44,12 @@ LEAN_FIELDS = [
     'sales_signal_score', 'sales_total_value',
     # Innovative reuse
     'innovative_use',
+    # Fire risk (LFRS proximity)
+    'fire_station_distance_km', 'fire_station_nearest',
+    # Deprivation context (from deprivation.json ward lookup)
+    'deprivation_level', 'deprivation_score',
+    # Demographics context (from demographics.json ward lookup)
+    'ward_population',
 ]
 
 
@@ -140,7 +146,87 @@ def find_ced(lat, lng, ced_polygons):
     return ''
 
 
-def build_flags(row):
+def load_ward_deprivation(council_dir):
+    """Load deprivation.json for ward-level deprivation enrichment."""
+    dep_path = Path(council_dir) / 'deprivation.json'
+    if not dep_path.exists():
+        print(f"  deprivation.json not found — skipping ward deprivation enrichment")
+        return {}
+    try:
+        with open(dep_path) as f:
+            dep_data = json.load(f)
+        wards = dep_data.get('wards', {})
+        print(f"  Loaded deprivation data for {len(wards)} wards")
+        return wards
+    except Exception as e:
+        print(f"  Error loading deprivation.json: {e}")
+        return {}
+
+
+def load_ward_demographics(council_dir):
+    """Load demographics.json for ward-level demographic enrichment."""
+    demo_path = Path(council_dir) / 'demographics.json'
+    if not demo_path.exists():
+        print(f"  demographics.json not found — skipping demographic enrichment")
+        return {}
+    try:
+        with open(demo_path) as f:
+            demo_data = json.load(f)
+        wards = demo_data.get('wards', {})
+        # Build name-keyed lookup (demographics uses ward codes as keys)
+        by_name = {}
+        for code, val in wards.items():
+            name = val.get('name') or val.get('ward_name', '')
+            if name:
+                by_name[name] = val
+        print(f"  Loaded demographics data for {len(by_name)} wards")
+        return by_name
+    except Exception as e:
+        print(f"  Error loading demographics.json: {e}")
+        return {}
+
+
+# Lancashire Fire & Rescue Service (LFRS) fire stations — lat/lng for proximity calculation
+# Source: LFRS public station listing
+LANCASHIRE_FIRE_STATIONS = [
+    ('Burnley', 53.7920, -2.2430), ('Nelson', 53.8360, -2.2130),
+    ('Colne', 53.8561, -2.1763), ('Hyndburn', 53.7530, -2.3700),
+    ('Rawtenstall', 53.7010, -2.2900), ('Bacup', 53.7050, -2.2030),
+    ('Blackburn', 53.7480, -2.4820), ('Darwen', 53.6960, -2.4610),
+    ('Preston', 53.7590, -2.7100), ('Fulwood', 53.7780, -2.6990),
+    ('Penwortham', 53.7440, -2.7240), ('Bamber Bridge', 53.7340, -2.6630),
+    ('Leyland', 53.6970, -2.6870), ('Chorley', 53.6530, -2.6290),
+    ('Lancaster', 54.0490, -2.8010), ('Morecambe', 54.0720, -2.8680),
+    ('Carnforth', 54.1290, -2.7690), ('Fleetwood', 53.9220, -3.0080),
+    ('Blackpool', 53.8170, -3.0510), ('South Shore', 53.7910, -3.0520),
+    ('St Annes', 53.7520, -2.9930), ('Lytham', 53.7360, -2.9660),
+    ('Fulwood', 53.7780, -2.6990), ('Longridge', 53.8290, -2.5960),
+    ('Ormskirk', 53.5680, -2.8820), ('Skelmersdale', 53.5510, -2.7760),
+    ('Wyre (Thornton)', 53.8750, -3.0080), ('Garstang', 53.8990, -2.7730),
+    ('Clitheroe', 53.8710, -2.3930), ('Haslingden', 53.7080, -2.3280),
+]
+
+
+def compute_fire_proximity(lat, lng):
+    """Compute distance to nearest LFRS fire station in km (Haversine)."""
+    import math
+    if not lat or not lng:
+        return None, None
+    min_dist = float('inf')
+    nearest_name = None
+    for name, slat, slng in LANCASHIRE_FIRE_STATIONS:
+        R = 6371
+        dLat = math.radians(slat - lat)
+        dLng = math.radians(slng - lng)
+        a = math.sin(dLat/2)**2 + math.cos(math.radians(lat)) * math.cos(math.radians(slat)) * math.sin(dLng/2)**2
+        d = 2 * R * math.asin(math.sqrt(min(1, a)))
+        if d < min_dist:
+            min_dist = d
+            nearest_name = name
+    return round(min_dist, 2), nearest_name
+
+
+def build_flags(row, fire_dist=None):
     """Build flags array from row data."""
     flags = []
     if safe_str(row.get('flag_energy_risk')) == 'Y':
@@ -163,10 +249,13 @@ def build_flags(row):
         flags.append('historic_sale')
     if safe_str(row.get('flag_cat_transfer')) == 'Y':
         flags.append('cat_transfer')
+    # Fire risk: >10km from nearest fire station
+    if fire_dist is not None and fire_dist > 10:
+        flags.append('fire_risk')
     return flags
 
 
-def build_lean_asset(row, ced_name=''):
+def build_lean_asset(row, ced_name='', ward_dep=None, ward_demo=None, fire_dist=None, fire_station=None):
     """Build lean asset dict for property_assets.json."""
     return {
         'id': safe_str(row.get('unique_asset_id')),
@@ -201,7 +290,7 @@ def build_lean_asset(row, ced_name=''):
         'keep_score': safe_int(row.get('screen_keep_score')),
         'colocate_score': safe_int(row.get('screen_colocate_score')),
         'primary_option': safe_str(row.get('screen_primary_option')),
-        'flags': build_flags(row),
+        'flags': build_flags(row, fire_dist),
         'flood_areas_1km': safe_int(row.get('flood_areas_within_1km')),
         'crime_total': safe_int(row.get('crime_total_within_1mi')),
         'crime_density': safe_str(row.get('crime_density_band')),
@@ -216,13 +305,22 @@ def build_lean_asset(row, ced_name=''):
         'sales_total_value': safe_str(row.get('disposals_sales_total_known_value')) or None,
         # Innovative reuse
         'innovative_use': safe_str(row.get('innovative_use_primary')) or None,
+        # Fire risk (LFRS proximity)
+        'fire_station_distance_km': fire_dist,
+        'fire_station_nearest': fire_station,
+        # Deprivation context (from deprivation.json ward lookup)
+        'deprivation_level': ward_dep.get('deprivation_level') if ward_dep else None,
+        'deprivation_score': round(ward_dep.get('avg_imd_score', 0), 1) if ward_dep else None,
+        # Demographics context (from demographics.json ward lookup)
+        'ward_population': ward_demo.get('population') or ward_demo.get('total_population') if ward_demo else None,
     }
 
 
 def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None,
-                       condition_info=None, assessment_info=None, sales_evidence=None):
+                       condition_info=None, assessment_info=None, sales_evidence=None,
+                       ward_dep=None, ward_demo=None, fire_dist=None, fire_station=None):
     """Build full detail asset dict for property_assets_detail.json."""
-    lean = build_lean_asset(row, ced_name)
+    lean = build_lean_asset(row, ced_name, ward_dep, ward_demo, fire_dist, fire_station)
 
     # Add full enrichment data
     detail = {
@@ -281,6 +379,21 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
             'density_band': safe_str(row.get('crime_density_band')),
             'top3_categories': safe_str(row.get('crime_top3_categories')),
         },
+        # Fire risk (LFRS proximity)
+        'fire': {
+            'nearest_station': fire_station,
+            'distance_km': fire_dist,
+            'high_risk': fire_dist is not None and fire_dist > 10,
+        },
+        # Ward-level context
+        'ward_deprivation': ward_dep if ward_dep else None,
+        'ward_demographics': {
+            'population': ward_demo.get('population') or ward_demo.get('total_population'),
+            'over_65_pct': ward_demo.get('over_65_pct'),
+            'under_18_pct': ward_demo.get('under_18_pct'),
+            'white_british_pct': ward_demo.get('white_british_pct'),
+            'economically_active_pct': ward_demo.get('economically_active_pct'),
+        } if ward_demo else None,
         # Co-location detail
         'co_location': {
             'same_postcode': safe_int(row.get('co_locate_same_postcode_count')),
@@ -643,6 +756,11 @@ def main():
         if aid:
             screen_by_id[aid] = row
 
+    # --- 2b. Load ward-level enrichment data ---
+    print(f"\n--- Loading ward enrichment data ---")
+    ward_dep_data = load_ward_deprivation(council_dir)
+    ward_demo_data = load_ward_demographics(council_dir)
+
     # --- 3. Build CED lookup ---
     print(f"\n--- Building CED lookup ---")
     ced_polygons = build_ced_lookup(str(boundaries_path))
@@ -682,6 +800,9 @@ def main():
     lean_assets = []
     detail_assets = []
 
+    fire_enriched = 0
+    dep_enriched = 0
+    demo_enriched = 0
     for aid, row in primary_by_id.items():
         ced_name = row.get('_ced', '')
         disposal_info = disposal_by_id.get(aid)
@@ -690,7 +811,23 @@ def main():
         assessment_info = assessment_by_id.get(aid)
         sales_evidence = sales_by_asset_id.get(aid, [])
 
-        lean = build_lean_asset(row, ced_name)
+        # Ward-level enrichment lookups
+        ward_name = safe_str(row.get('admin_ward'))
+        ward_dep = ward_dep_data.get(ward_name)
+        ward_demo = ward_demo_data.get(ward_name)
+        if ward_dep:
+            dep_enriched += 1
+        if ward_demo:
+            demo_enriched += 1
+
+        # Fire proximity
+        lat = safe_float(row.get('latitude_wgs84'))
+        lng = safe_float(row.get('longitude_wgs84'))
+        fire_dist, fire_station = compute_fire_proximity(lat, lng)
+        if fire_dist is not None:
+            fire_enriched += 1
+
+        lean = build_lean_asset(row, ced_name, ward_dep, ward_demo, fire_dist, fire_station)
 
         # Merge supplier spend from separate CSV if primary has 0
         if lean['linked_spend'] == 0 and supplier_links:
@@ -749,8 +886,13 @@ def main():
             lean['disposal'] = {'recommendation': None, 'category': None, 'priority': None, 'confidence': None}
 
         detail = build_detail_asset(row, ced_name, disposal_info, supplier_links,
-                                    condition_info, assessment_info, sales_evidence)
+                                    condition_info, assessment_info, sales_evidence,
+                                    ward_dep, ward_demo, fire_dist, fire_station)
         detail_assets.append(detail)
+
+    print(f"  Fire proximity: {fire_enriched}/{len(primary_by_id)} assets")
+    print(f"  Ward deprivation: {dep_enriched}/{len(primary_by_id)} assets")
+    print(f"  Ward demographics: {demo_enriched}/{len(primary_by_id)} assets")
 
     # Sort by priority (disposal candidates first) then by name
     lean_assets.sort(key=lambda a: (

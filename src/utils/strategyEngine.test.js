@@ -23,6 +23,7 @@ import {
   optimiseCanvassingRoute,
   generateCanvassingCSV,
   generateAssetTalkingPoints,
+  generatePropertySummary,
   WARD_CLASSES,
 } from './strategyEngine'
 
@@ -1912,5 +1913,59 @@ describe('generateAssetTalkingPoints', () => {
     expect(icons).toContain('PoundSterling')
     expect(icons).toContain('MapPin')
     expect(icons).toContain('Zap')
+  })
+})
+
+// generatePropertySummary
+
+describe('generatePropertySummary', () => {
+  const mockAssets = [
+    { id: '1', name: 'School A', ced: 'Test Ward', ward: 'Test Ward', category: 'education',
+      disposal_band: 'high', linked_spend: 50000, condition_spend: 5000, flags: ['energy_risk'] },
+    { id: '2', name: 'Office B', ced: 'Test Ward', ward: 'Other', category: 'office_civic',
+      disposal_band: 'low', linked_spend: 20000, condition_spend: 0, flags: [] },
+    { id: '3', name: 'Land C', ced: 'Other Ward', ward: 'Other Ward', category: 'land_general',
+      disposal_band: 'high', linked_spend: 0, condition_spend: 0, flags: [] },
+  ]
+
+  it('returns null for empty/missing ward name', () => {
+    expect(generatePropertySummary(null, mockAssets)).toBeNull()
+    expect(generatePropertySummary('', mockAssets)).toBeNull()
+  })
+
+  it('returns null for empty/missing assets', () => {
+    expect(generatePropertySummary('Test Ward', null)).toBeNull()
+    expect(generatePropertySummary('Test Ward', [])).toBeNull()
+  })
+
+  it('returns null when no assets match ward', () => {
+    expect(generatePropertySummary('Nonexistent', mockAssets)).toBeNull()
+  })
+
+  it('returns correct summary for ward with assets', () => {
+    const result = generatePropertySummary('Test Ward', mockAssets)
+    expect(result).not.toBeNull()
+    expect(result.total).toBe(2)
+    expect(result.totalSpend).toBe(70000)
+    expect(result.conditionSpend).toBe(5000)
+    expect(result.disposalCount).toBe(1)
+    expect(result.energyRiskCount).toBe(1)
+    expect(result.categories).toEqual({ education: 1, office_civic: 1 })
+  })
+
+  it('returns assets array with correct fields', () => {
+    const result = generatePropertySummary('Test Ward', mockAssets)
+    expect(result.assets).toHaveLength(2)
+    expect(result.assets[0]).toHaveProperty('id', '1')
+    expect(result.assets[0]).toHaveProperty('name', 'School A')
+    expect(result.assets[0]).toHaveProperty('category', 'education')
+    expect(result.assets[0]).toHaveProperty('disposal_band', 'high')
+  })
+
+  it('matches assets by ward field (not just ced)', () => {
+    const result = generatePropertySummary('Other Ward', mockAssets)
+    expect(result).not.toBeNull()
+    expect(result.total).toBe(1)
+    expect(result.assets[0].name).toBe('Land C')
   })
 })

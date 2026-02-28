@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback, lazy, Suspense } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -154,6 +154,7 @@ export default function PropertyPortfolio() {
   const config = useCouncilConfig()
   const auth = useAuth()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const councilName = config.council_name || 'Council'
 
   const { data, loading, error } = useData('/data/property_assets.json')
@@ -168,19 +169,37 @@ export default function PropertyPortfolio() {
   // --- Strategist gate ---
   const hasAccess = auth?.isStrategist || !isFirebaseEnabled
 
-  // --- State ---
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filterCategory, setFilterCategory] = useState('')
-  const [filterDistrict, setFilterDistrict] = useState('')
-  const [filterOwnership, setFilterOwnership] = useState('')
-  const [filterDisposal, setFilterDisposal] = useState('')
-  const [filterCED, setFilterCED] = useState('')
-  const [filterRecommendation, setFilterRecommendation] = useState('')
-  const [sortField, setSortField] = useState('name')
-  const [sortDir, setSortDir] = useState('asc')
-  const [page, setPage] = useState(1)
-  const [viewMode, setViewMode] = useState('table')
-  const [mapOverlay, setMapOverlay] = useState('category')
+  // --- State (initialised from URL params for shareable links) ---
+  const [searchTerm, setSearchTerm] = useState(() => searchParams.get('search') || '')
+  const [filterCategory, setFilterCategory] = useState(() => searchParams.get('cat') || '')
+  const [filterDistrict, setFilterDistrict] = useState(() => searchParams.get('district') || '')
+  const [filterOwnership, setFilterOwnership] = useState(() => searchParams.get('ownership') || '')
+  const [filterDisposal, setFilterDisposal] = useState(() => searchParams.get('disposal') || '')
+  const [filterCED, setFilterCED] = useState(() => searchParams.get('ced') || '')
+  const [filterRecommendation, setFilterRecommendation] = useState(() => searchParams.get('rec') || '')
+  const [sortField, setSortField] = useState(() => searchParams.get('sort') || 'name')
+  const [sortDir, setSortDir] = useState(() => searchParams.get('dir') || 'asc')
+  const [page, setPage] = useState(() => parseInt(searchParams.get('page'), 10) || 1)
+  const [viewMode, setViewMode] = useState(() => searchParams.get('view') || 'table')
+  const [mapOverlay, setMapOverlay] = useState(() => searchParams.get('overlay') || 'category')
+
+  // --- Sync state → URL params (replace, not push — avoids back-button clutter) ---
+  useEffect(() => {
+    const params = {}
+    if (searchTerm) params.search = searchTerm
+    if (filterCategory) params.cat = filterCategory
+    if (filterDistrict) params.district = filterDistrict
+    if (filterOwnership) params.ownership = filterOwnership
+    if (filterDisposal) params.disposal = filterDisposal
+    if (filterCED) params.ced = filterCED
+    if (filterRecommendation) params.rec = filterRecommendation
+    if (sortField && sortField !== 'name') params.sort = sortField
+    if (sortDir && sortDir !== 'asc') params.dir = sortDir
+    if (page > 1) params.page = String(page)
+    if (viewMode !== 'table') params.view = viewMode
+    if (mapOverlay !== 'category') params.overlay = mapOverlay
+    setSearchParams(params, { replace: true })
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
 
   // --- Parse data ---
   const meta = data?.meta || {}

@@ -11,6 +11,7 @@
  *   suppliers {array} - [{name}]
  *   wards {array} - [{name}]
  *   articles {array} - [{title, id}]
+ *   properties {array} - [{id, name, address, postcode, category}]
  */
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -36,9 +37,10 @@ const TYPE_ICONS = {
   supplier: '🏢',
   ward: '📍',
   article: '📰',
+  property: '🏛️',
 }
 
-export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, wards, articles }) {
+export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, wards, articles, properties }) {
   const [query, setQuery] = useState('')
   const [selectedIdx, setSelectedIdx] = useState(0)
   const inputRef = useRef(null)
@@ -61,9 +63,12 @@ export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, 
       ...searchItems(query, suppliers, 'supplier', s => s.name || s, s => `/spending?supplier=${encodeURIComponent(s.name || s)}`),
       ...searchItems(query, wards, 'ward', w => w.name || w, w => `/my-area?ward=${encodeURIComponent(w.name || w)}`),
       ...searchItems(query, articles, 'article', a => a.title, a => `/news?article=${a.id || a.slug}`),
+      ...searchItems(query, properties, 'property',
+        p => `${p.name || ''}${p.postcode ? ' (' + p.postcode + ')' : ''}`,
+        p => `/property/${p.id}`),
     ]
     return r.slice(0, MAX_RESULTS)
-  }, [query, councillors, suppliers, wards, articles])
+  }, [query, councillors, suppliers, wards, articles, properties])
 
   // Keyboard navigation
   const handleKeyDown = useCallback((e) => {
@@ -138,7 +143,7 @@ export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, 
             value={query}
             onChange={e => { setQuery(e.target.value); setSelectedIdx(0) }}
             onKeyDown={handleKeyDown}
-            placeholder="Search councillors, suppliers, wards, articles..."
+            placeholder="Search councillors, suppliers, wards, properties..."
             style={{
               width: '100%',
               background: 'transparent',
