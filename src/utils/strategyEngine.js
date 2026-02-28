@@ -1592,3 +1592,279 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
 
   return dossier;
 }
+
+
+// ============================================================================
+// Phase 18e — Geographic + Route Optimisation Functions
+// ============================================================================
+
+/**
+ * Haversine distance between two [lng, lat] centroids in km.
+ */
+function haversineDistance(a, b) {
+  const R = 6371;
+  const dLat = (b[1] - a[1]) * Math.PI / 180;
+  const dLng = (b[0] - a[0]) * Math.PI / 180;
+  const sinLat = Math.sin(dLat / 2);
+  const sinLng = Math.sin(dLng / 2);
+  const h = sinLat * sinLat +
+    Math.cos(a[1] * Math.PI / 180) * Math.cos(b[1] * Math.PI / 180) * sinLng * sinLng;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+/**
+ * Nearest-neighbor ordering of indices given a distance matrix.
+ * Returns ordered array of indices starting from startIdx.
+ */
+function nearestNeighborOrder(indices, distMatrix, startIdx = 0) {
+  if (indices.length <= 1) return [...indices];
+  const remaining = new Set(indices);
+  const order = [startIdx];
+  remaining.delete(startIdx);
+
+  while (remaining.size > 0) {
+    const current = order[order.length - 1];
+    let nearest = null;
+    let nearestDist = Infinity;
+    for (const idx of remaining) {
+      const d = distMatrix[current]?.[idx] ?? Infinity;
+      if (d < nearestDist) {
+        nearestDist = d;
+        nearest = idx;
+      }
+    }
+    if (nearest == null) break;
+    order.push(nearest);
+    remaining.delete(nearest);
+  }
+  return order;
+}
+
+/**
+ * Extract ward centroids from ward_boundaries.json GeoJSON.
+ * Returns Map: wardName → [lng, lat]
+ */
+export function computeWardCentroids(boundaries) {
+  const centroids = new Map();
+  if (!boundaries?.features) return centroids;
+
+  for (const feature of boundaries.features) {
+    const name = feature.properties?.name;
+    const centroid = feature.properties?.centroid;
+    if (name && centroid && centroid.length === 2) {
+      centroids.set(name, centroid);
+    }
+  }
+  return centroids;
+}
+
+/**
+ * Cluster contested wards into canvassing sessions by geographic proximity.
+ * Uses k-means clustering on ward centroids.
+ *
+ * @param {Map} centroids — wardName → [lng, lat]
+ * @param {string[]} wardsUp — contested ward names
+ * @param {number} maxPerCluster — target max wards per session (default 4)
+ * @returns {Array<{ wards: string[], centroid: number[], color: string }>}
+ */
+export function clusterWards(centroids, wardsUp, maxPerCluster = 4) {
+  const CLUSTER_COLORS = [
+    '#12B6CF', '#f97316', '#a855f7', '#22c55e',
+    '#f43f5e', '#facc15', '#6366f1', '#14b8a6',
+    '#e879f9', '#84cc16', '#f59e0b', '#8b5cf6',
+  ];
+
+  // Filter to wards with centroids
+  const wards = wardsUp.filter(w => centroids.has(w));
+  if (wards.length === 0) return [];
+  if (wards.length <= maxPerCluster) {
+    return [{
+      wards,
+      centroid: [
+        wards.reduce((s, w) => s + centroids.get(w)[0], 0) / wards.length,
+        wards.reduce((s, w) => s + centroids.get(w)[1], 0) / wards.length,
+      ],
+      color: CLUSTER_COLORS[0],
+    }];
+  }
+
+  const k = Math.ceil(wards.length / maxPerCluster);
+  const points = wards.map(w => centroids.get(w));
+
+  // Initialise k-means centroids evenly spaced from ward list
+  let means = Array.from({ length: k }, (_, i) => {
+    const idx = Math.floor(i * points.length / k);
+    return [...points[idx]];
+  });
+
+  // Run k-means (10 iterations)
+  let assignments = new Array(wards.length).fill(0);
+  for (let iter = 0; iter < 10; iter++) {
+    // Assign each ward to nearest mean
+    for (let i = 0; i < wards.length; i++) {
+      let minDist = Infinity;
+      let minK = 0;
+      for (let j = 0; j < k; j++) {
+        const d = haversineDistance(points[i], means[j]);
+        if (d < minDist) { minDist = d; minK = j; }
+      }
+      assignments[i] = minK;
+    }
+
+    // Update means
+    const sums = Array.from({ length: k }, () => [0, 0, 0]); // [sumLng, sumLat, count]
+    for (let i = 0; i < wards.length; i++) {
+      const c = assignments[i];
+      sums[c][0] += points[i][0];
+      sums[c][1] += points[i][1];
+      sums[c][2]++;
+    }
+    for (let j = 0; j < k; j++) {
+      if (sums[j][2] > 0) {
+        means[j] = [sums[j][0] / sums[j][2], sums[j][1] / sums[j][2]];
+      }
+    }
+  }
+
+  // Build clusters
+  const clusters = Array.from({ length: k }, (_, i) => ({
+    wards: [],
+    centroid: means[i],
+    color: CLUSTER_COLORS[i % CLUSTER_COLORS.length],
+  }));
+  for (let i = 0; i < wards.length; i++) {
+    clusters[assignments[i]].wards.push(wards[i]);
+  }
+
+  // Remove empty clusters
+  return clusters.filter(c => c.wards.length > 0);
+}
+
+/**
+ * Optimise canvassing route: order clusters by proximity,
+ * order wards within each cluster by nearest-neighbor.
+ *
+ * @param {Array} clusters — from clusterWards()
+ * @param {Map} centroids — wardName → [lng, lat]
+ * @param {object} resourceAllocation — wardName → { hours }
+ * @returns {{ sessions: Array, routeLines: Array }}
+ */
+export function optimiseCanvassingRoute(clusters, centroids, resourceAllocation = {}) {
+  if (!clusters.length) return { sessions: [], routeLines: [] };
+
+  // Build inter-cluster distance matrix
+  const clusterDist = {};
+  for (let i = 0; i < clusters.length; i++) {
+    clusterDist[i] = {};
+    for (let j = 0; j < clusters.length; j++) {
+      clusterDist[i][j] = haversineDistance(clusters[i].centroid, clusters[j].centroid);
+    }
+  }
+
+  // Order clusters by nearest-neighbor from cluster 0
+  const clusterOrder = nearestNeighborOrder(
+    clusters.map((_, i) => i), clusterDist, 0
+  );
+
+  const sessions = [];
+  const routeLines = [];
+  let prevCentroid = null;
+
+  for (const ci of clusterOrder) {
+    const cluster = clusters[ci];
+    const wardNames = cluster.wards;
+
+    // Build intra-cluster distance matrix
+    const wardDist = {};
+    for (let i = 0; i < wardNames.length; i++) {
+      wardDist[i] = {};
+      for (let j = 0; j < wardNames.length; j++) {
+        wardDist[i][j] = haversineDistance(
+          centroids.get(wardNames[i]), centroids.get(wardNames[j])
+        );
+      }
+    }
+
+    // Order wards within cluster by nearest-neighbor
+    const wardIndices = wardNames.map((_, i) => i);
+    const orderedIndices = nearestNeighborOrder(wardIndices, wardDist, 0);
+    const orderedWards = orderedIndices.map(i => wardNames[i]);
+
+    // Calculate session stats
+    let totalHours = 0;
+    const wardDetails = orderedWards.map((w, visitOrder) => {
+      const alloc = resourceAllocation[w];
+      const hours = alloc?.hours || alloc?.totalHours || 4;
+      totalHours += hours;
+      return {
+        ward: w,
+        visitOrder: visitOrder + 1,
+        centroid: centroids.get(w),
+        hours,
+        roi: alloc?.roi || 'medium',
+      };
+    });
+
+    sessions.push({
+      sessionNumber: sessions.length + 1,
+      wards: wardDetails,
+      totalHours,
+      estimatedBlocks: Math.ceil(totalHours / 4),
+      color: cluster.color,
+      clusterCentroid: cluster.centroid,
+    });
+
+    // Build route lines between consecutive wards
+    for (let i = 0; i < orderedWards.length - 1; i++) {
+      const from = centroids.get(orderedWards[i]);
+      const to = centroids.get(orderedWards[i + 1]);
+      if (from && to) routeLines.push([from, to]);
+    }
+
+    // Connect to previous cluster's last ward
+    if (prevCentroid) {
+      const firstInCluster = centroids.get(orderedWards[0]);
+      if (firstInCluster) routeLines.push([prevCentroid, firstInCluster]);
+    }
+    prevCentroid = centroids.get(orderedWards[orderedWards.length - 1]);
+  }
+
+  return { sessions, routeLines };
+}
+
+/**
+ * Generate canvassing CSV export.
+ *
+ * @param {Array} sessions — from optimiseCanvassingRoute()
+ * @param {string} ourParty
+ * @param {string} councilName
+ * @returns {string} CSV content
+ */
+export function generateCanvassingCSV(sessions, ourParty, councilName) {
+  const rows = ['Session,Visit Order,Ward,Latitude,Longitude,Hours,ROI,Est 4hr Blocks'];
+
+  for (const session of sessions) {
+    for (const ward of session.wards) {
+      const lat = ward.centroid?.[1]?.toFixed(6) || '';
+      const lng = ward.centroid?.[0]?.toFixed(6) || '';
+      rows.push([
+        session.sessionNumber,
+        ward.visitOrder,
+        `"${ward.ward}"`,
+        lat,
+        lng,
+        ward.hours,
+        ward.roi,
+        session.estimatedBlocks,
+      ].join(','));
+    }
+  }
+
+  rows.push('');
+  rows.push(`# ${ourParty} Canvassing Plan — ${councilName}`);
+  rows.push(`# Generated ${new Date().toISOString().split('T')[0]}`);
+  rows.push(`# Total sessions: ${sessions.length}`);
+  rows.push(`# Total hours: ${sessions.reduce((s, sess) => s + sess.totalHours, 0)}`);
+
+  return rows.join('\n');
+}

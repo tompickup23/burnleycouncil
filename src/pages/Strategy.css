@@ -1674,3 +1674,278 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ========================================================================
+   Swing Map + Canvassing Routes (Phase 18e)
+   ======================================================================== */
+
+/* --- Map overlay controls --- */
+.map-overlay-controls {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.map-overlay-btn {
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.6);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.map-overlay-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.9);
+}
+.map-overlay-btn.active {
+  background: rgba(18,182,207,0.15);
+  border-color: #12B6CF;
+  color: #12B6CF;
+}
+
+/* --- Map loading --- */
+.map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
+}
+
+/* --- Empty state --- */
+.strategy-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.strategy-empty-state svg {
+  opacity: 0.3;
+}
+.strategy-empty-state code {
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+/* --- Leaflet tooltip override (dark theme) --- */
+.ward-map-tooltip {
+  background: rgba(20,20,25,0.95) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-size: 0.82rem !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  line-height: 1.5 !important;
+}
+.ward-map-tooltip::before {
+  border-top-color: rgba(20,20,25,0.95) !important;
+}
+
+/* --- Session markers --- */
+.ward-map-session-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #12B6CF;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* --- Map legend --- */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0;
+  margin-top: 8px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+}
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* --- Map summary bar --- */
+.map-summary-bar {
+  display: flex;
+  gap: 16px;
+  padding: 8px 0;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 4px;
+}
+
+/* --- Canvassing summary --- */
+.canvassing-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.canvassing-stat {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+}
+.canvassing-export-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(18,182,207,0.4);
+  border-radius: 6px;
+  background: rgba(18,182,207,0.1);
+  color: #12B6CF;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.canvassing-export-btn:hover {
+  background: rgba(18,182,207,0.2);
+}
+
+/* --- Canvassing session cards grid --- */
+.canvassing-sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.canvassing-session-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 3px solid #888;
+  border-radius: 10px;
+  padding: 14px;
+}
+.session-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.session-number {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.session-hours {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
+}
+.session-ward-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: ward-counter;
+}
+.session-ward-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.82rem;
+  counter-increment: ward-counter;
+}
+.session-ward-item::before {
+  content: counter(ward-counter) ".";
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+  min-width: 18px;
+}
+.session-ward-link {
+  background: none;
+  border: none;
+  color: #12B6CF;
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 0;
+  text-align: left;
+  flex: 1;
+}
+.session-ward-link:hover {
+  text-decoration: underline;
+}
+.session-ward-hours {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.78rem;
+}
+.session-ward-roi {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.session-ward-roi.roi-high { background: rgba(48,209,88,0.15); color: #30d158; }
+.session-ward-roi.roi-medium { background: rgba(255,159,10,0.15); color: #ff9f0a; }
+.session-ward-roi.roi-low { background: rgba(255,69,58,0.15); color: #ff453a; }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .map-overlay-controls {
+    flex-wrap: wrap;
+  }
+  .canvassing-sessions-grid {
+    grid-template-columns: 1fr;
+  }
+  .canvassing-summary {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .canvassing-export-btn {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  .map-summary-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-loading,
+  .strategy-empty-state {
+    height: auto;
+    min-height: 200px;
+  }
+}

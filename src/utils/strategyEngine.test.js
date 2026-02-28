@@ -18,6 +18,10 @@ import {
   scoreWardPriority,
   generateCheatSheet,
   generateWardDossier,
+  computeWardCentroids,
+  clusterWards,
+  optimiseCanvassingRoute,
+  generateCanvassingCSV,
   WARD_CLASSES,
 } from './strategyEngine'
 
@@ -1647,5 +1651,172 @@ describe('generateWardDossier', () => {
   it('uses specified party name', () => {
     const dossier = generateWardDossier('Test Ward', minimalAllData, 'Labour')
     expect(dossier.ourParty).toBe('Labour')
+  })
+})
+
+// ===========================================================================
+// Phase 18e: Geographic + Route Optimisation
+// ===========================================================================
+
+const mockBoundaries = {
+  type: 'FeatureCollection',
+  features: [
+    { type: 'Feature', properties: { name: 'Ward A', centroid: [-2.24, 53.79] }, geometry: { type: 'Polygon', coordinates: [[[-2.25, 53.78], [-2.23, 53.78], [-2.23, 53.80], [-2.25, 53.80], [-2.25, 53.78]]] } },
+    { type: 'Feature', properties: { name: 'Ward B', centroid: [-2.22, 53.80] }, geometry: { type: 'Polygon', coordinates: [[[-2.23, 53.79], [-2.21, 53.79], [-2.21, 53.81], [-2.23, 53.81], [-2.23, 53.79]]] } },
+    { type: 'Feature', properties: { name: 'Ward C', centroid: [-2.20, 53.77] }, geometry: { type: 'Polygon', coordinates: [[[-2.21, 53.76], [-2.19, 53.76], [-2.19, 53.78], [-2.21, 53.78], [-2.21, 53.76]]] } },
+    { type: 'Feature', properties: { name: 'Ward D', centroid: [-2.26, 53.81] }, geometry: { type: 'Polygon', coordinates: [[[-2.27, 53.80], [-2.25, 53.80], [-2.25, 53.82], [-2.27, 53.82], [-2.27, 53.80]]] } },
+    { type: 'Feature', properties: { name: 'Ward E', centroid: [-2.18, 53.79] }, geometry: { type: 'Polygon', coordinates: [[[-2.19, 53.78], [-2.17, 53.78], [-2.17, 53.80], [-2.19, 53.80], [-2.19, 53.78]]] } },
+    { type: 'Feature', properties: { name: 'Ward F', centroid: [-2.21, 53.82] }, geometry: { type: 'Polygon', coordinates: [[[-2.22, 53.81], [-2.20, 53.81], [-2.20, 53.83], [-2.22, 53.83], [-2.22, 53.81]]] } },
+  ],
+}
+
+describe('computeWardCentroids', () => {
+  it('extracts centroids from GeoJSON features', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    expect(centroids.size).toBe(6)
+    expect(centroids.get('Ward A')).toEqual([-2.24, 53.79])
+    expect(centroids.get('Ward C')).toEqual([-2.20, 53.77])
+  })
+
+  it('returns empty map for null/missing data', () => {
+    expect(computeWardCentroids(null).size).toBe(0)
+    expect(computeWardCentroids({}).size).toBe(0)
+    expect(computeWardCentroids({ features: [] }).size).toBe(0)
+  })
+
+  it('skips features without centroids', () => {
+    const partial = {
+      features: [
+        { type: 'Feature', properties: { name: 'Good', centroid: [-2.0, 53.0] }, geometry: {} },
+        { type: 'Feature', properties: { name: 'Bad' }, geometry: {} },
+      ],
+    }
+    const centroids = computeWardCentroids(partial)
+    expect(centroids.size).toBe(1)
+    expect(centroids.has('Good')).toBe(true)
+  })
+})
+
+describe('clusterWards', () => {
+  it('returns single cluster when wards <= maxPerCluster', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const clusters = clusterWards(centroids, ['Ward A', 'Ward B'], 4)
+    expect(clusters).toHaveLength(1)
+    expect(clusters[0].wards).toHaveLength(2)
+    expect(clusters[0].color).toBeDefined()
+  })
+
+  it('creates multiple clusters for many wards', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const allWards = ['Ward A', 'Ward B', 'Ward C', 'Ward D', 'Ward E', 'Ward F']
+    const clusters = clusterWards(centroids, allWards, 3)
+    expect(clusters.length).toBeGreaterThanOrEqual(2)
+    const totalWards = clusters.reduce((s, c) => s + c.wards.length, 0)
+    expect(totalWards).toBe(6)
+  })
+
+  it('returns empty array for no wards', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    expect(clusterWards(centroids, [], 4)).toEqual([])
+  })
+
+  it('filters out wards without centroids', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const clusters = clusterWards(centroids, ['Ward A', 'Nonexistent'], 4)
+    expect(clusters[0].wards).toEqual(['Ward A'])
+  })
+
+  it('each cluster has centroid and color', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const allWards = ['Ward A', 'Ward B', 'Ward C', 'Ward D', 'Ward E', 'Ward F']
+    const clusters = clusterWards(centroids, allWards, 2)
+    for (const cluster of clusters) {
+      expect(cluster.centroid).toHaveLength(2)
+      expect(typeof cluster.color).toBe('string')
+      expect(cluster.wards.length).toBeGreaterThan(0)
+    }
+  })
+})
+
+describe('optimiseCanvassingRoute', () => {
+  it('returns sessions and route lines', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const allWards = ['Ward A', 'Ward B', 'Ward C', 'Ward D', 'Ward E', 'Ward F']
+    const clusters = clusterWards(centroids, allWards, 3)
+    const { sessions, routeLines } = optimiseCanvassingRoute(clusters, centroids, {})
+    expect(sessions.length).toBeGreaterThan(0)
+    expect(sessions[0].sessionNumber).toBe(1)
+    expect(sessions[0].wards).toBeDefined()
+    expect(sessions[0].totalHours).toBeGreaterThan(0)
+    expect(routeLines.length).toBeGreaterThan(0)
+  })
+
+  it('returns empty for no clusters', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const { sessions, routeLines } = optimiseCanvassingRoute([], centroids, {})
+    expect(sessions).toEqual([])
+    expect(routeLines).toEqual([])
+  })
+
+  it('respects resource allocation hours', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const clusters = clusterWards(centroids, ['Ward A', 'Ward B'], 4)
+    const alloc = { 'Ward A': { hours: 20 }, 'Ward B': { hours: 10 } }
+    const { sessions } = optimiseCanvassingRoute(clusters, centroids, alloc)
+    expect(sessions[0].totalHours).toBe(30)
+  })
+
+  it('each session has visit order and centroids', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const allWards = ['Ward A', 'Ward B', 'Ward C', 'Ward D', 'Ward E']
+    const clusters = clusterWards(centroids, allWards, 3)
+    const { sessions } = optimiseCanvassingRoute(clusters, centroids, {})
+    for (const session of sessions) {
+      for (const ward of session.wards) {
+        expect(ward.visitOrder).toBeGreaterThan(0)
+        expect(ward.centroid).toHaveLength(2)
+        expect(typeof ward.ward).toBe('string')
+      }
+    }
+  })
+
+  it('route lines connect consecutive wards with [lng, lat] pairs', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const clusters = clusterWards(centroids, ['Ward A', 'Ward B', 'Ward C'], 4)
+    const { routeLines } = optimiseCanvassingRoute(clusters, centroids, {})
+    for (const [from, to] of routeLines) {
+      expect(from).toHaveLength(2)
+      expect(to).toHaveLength(2)
+    }
+  })
+})
+
+describe('generateCanvassingCSV', () => {
+  it('generates valid CSV with headers', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const clusters = clusterWards(centroids, ['Ward A', 'Ward B'], 4)
+    const { sessions } = optimiseCanvassingRoute(clusters, centroids, {})
+    const csv = generateCanvassingCSV(sessions, 'Reform UK', 'Burnley')
+    expect(csv).toContain('Session,Visit Order,Ward')
+    expect(csv).toContain('Reform UK')
+    expect(csv).toContain('Burnley')
+  })
+
+  it('includes GPS coordinates', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const clusters = clusterWards(centroids, ['Ward A'], 4)
+    const { sessions } = optimiseCanvassingRoute(clusters, centroids, {})
+    const csv = generateCanvassingCSV(sessions, 'Reform UK', 'Burnley')
+    expect(csv).toContain('53.') // latitude
+    expect(csv).toContain('-2.') // longitude
+  })
+
+  it('reports total sessions count', () => {
+    const centroids = computeWardCentroids(mockBoundaries)
+    const allWards = ['Ward A', 'Ward B', 'Ward C', 'Ward D', 'Ward E', 'Ward F']
+    const clusters = clusterWards(centroids, allWards, 3)
+    const { sessions } = optimiseCanvassingRoute(clusters, centroids, {})
+    const csv = generateCanvassingCSV(sessions, 'Reform UK', 'Test')
+    expect(csv).toContain(`Total sessions: ${sessions.length}`)
   })
 })

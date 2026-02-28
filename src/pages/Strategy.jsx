@@ -1,4 +1,6 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react'
+
+const WardMap = lazy(() => import('../components/WardMap'))
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
@@ -16,6 +18,10 @@ import {
   allocateResources,
   generateStrategyCSV,
   generateWardDossier,
+  computeWardCentroids,
+  clusterWards,
+  optimiseCanvassingRoute,
+  generateCanvassingCSV,
   WARD_CLASSES,
 } from '../utils/strategyEngine'
 import { LoadingState } from '../components/ui'
@@ -27,7 +33,7 @@ import {
   Target, Users, Shield, AlertTriangle, ChevronDown, ChevronRight,
   Crosshair, TrendingUp, TrendingDown, MapPin, Briefcase, Globe,
   CheckCircle, Swords, GraduationCap, Lock, Clock, BarChart3,
-  Download, FileText, ArrowLeft, Printer, Eye,
+  Download, FileText, ArrowLeft, Printer, Eye, Map, Navigation,
 } from 'lucide-react'
 import './Strategy.css'
 
@@ -58,6 +64,8 @@ const SECTIONS = [
   { id: 'vulnerable', label: 'Vulnerable Seats', icon: Shield },
   { id: 'swingHistory', label: 'Swing History', icon: Clock },
   { id: 'resources', label: 'Resources', icon: BarChart3 },
+  { id: 'swingMap', label: 'Swing Map', icon: Map },
+  { id: 'canvassing', label: 'Canvassing Routes', icon: Navigation },
   { id: 'archetypes', label: 'Ward Archetypes', icon: Users },
 ]
 
@@ -130,8 +138,8 @@ export default function Strategy() {
   ])
   const [electionsData, referenceData, politicsSummary] = data || [null, null, null]
 
-  const { data: optData } = useData(['/data/demographics.json', '/data/deprivation.json'])
-  const [demographicsData, deprivationData] = optData || [null, null]
+  const { data: optData } = useData(['/data/demographics.json', '/data/deprivation.json', '/data/ward_boundaries.json'])
+  const [demographicsData, deprivationData, boundariesData] = optData || [null, null, null]
 
   // Dossier data sources (loaded separately to avoid blocking main render)
   const { data: dossierData } = useData([
@@ -158,6 +166,7 @@ export default function Strategy() {
   const [wardHourOverrides, setWardHourOverrides] = useState({}) // { wardName: hours }
   const [selectedDossierWard, setSelectedDossierWard] = useState(null)
   const [dossierTab, setDossierTab] = useState('profile')
+  const [mapOverlay, setMapOverlay] = useState('classification')
 
   // --- Page title ---
   useEffect(() => {
@@ -287,6 +296,53 @@ export default function Strategy() {
     }).sort((a, b) => b.hours - a.hours)
   }, [rankedWards, totalHours, wardHourOverrides])
 
+  // --- Derived: ward centroids from boundary data ---
+  const wardCentroids = useMemo(() => {
+    return computeWardCentroids(boundariesData)
+  }, [boundariesData])
+
+  // --- Derived: per-ward map data based on overlay mode ---
+  const wardMapData = useMemo(() => {
+    const data = {}
+    if (!rankedWards.length) return data
+    for (const w of rankedWards) {
+      const swingH = swingHistories.find(s => s.ward === w.ward)
+      const alloc = resourceAllocation.find(r => r.ward === w.ward)
+      const entry = {
+        color: '#888',
+        partyColor: PARTY_COLORS[w.winner] || '#888',
+        winner: w.winner,
+        predPct: Math.round(w.ourPct * 100 * 10) / 10,
+        classLabel: w.classLabel,
+        hours: alloc?.hours || 0,
+      }
+
+      if (mapOverlay === 'classification') {
+        entry.color = w.classColor || WARD_CLASSES[w.classification]?.color || '#888'
+      } else if (mapOverlay === 'swing') {
+        const trend = swingH?.trend
+        entry.color = TREND_CONFIG[trend]?.color || '#555'
+        entry.swingTrend = TREND_CONFIG[trend]?.label || 'Unknown'
+      } else if (mapOverlay === 'party') {
+        entry.color = PARTY_COLORS[w.winner] || '#888'
+      }
+      data[w.ward] = entry
+    }
+    return data
+  }, [rankedWards, mapOverlay, swingHistories, resourceAllocation])
+
+  // --- Derived: canvassing route ---
+  const canvassingData = useMemo(() => {
+    if (!wardCentroids.size || !wardsUp.length) return { sessions: [], routeLines: [], clusters: [] }
+    const clusters = clusterWards(wardCentroids, wardsUp, 4)
+    const allocMap = {}
+    for (const r of resourceAllocation) {
+      allocMap[r.ward] = r
+    }
+    const { sessions, routeLines } = optimiseCanvassingRoute(clusters, wardCentroids, allocMap)
+    return { sessions, routeLines, clusters }
+  }, [wardCentroids, wardsUp, resourceAllocation])
+
   // --- Derived: active ward dossier ---
   const activeDossier = useMemo(() => {
     if (!selectedDossierWard) return null
@@ -339,6 +395,18 @@ export default function Strategy() {
     const a = document.createElement('a')
     a.href = url
     a.download = `strategy-${config.council_id}-${ourParty.toLowerCase().replace(/\s+/g, '-')}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const handleExportCanvassingCSV = () => {
+    if (!canvassingData.sessions.length) return
+    const csv = generateCanvassingCSV(canvassingData.sessions, ourParty, councilName)
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `canvassing-${config.council_id}-${ourParty.toLowerCase().replace(/\s+/g, '-')}.csv`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -887,6 +955,166 @@ export default function Strategy() {
       {/* ================================================================ */}
       {/* WARD ARCHETYPES */}
       {/* ================================================================ */}
+      {/* ================================================================ */}
+      {/* SWING MAP */}
+      {/* ================================================================ */}
+      {activeSection === 'swingMap' && (
+        <section className="strategy-section">
+          <h2><Map size={20} /> Swing Map</h2>
+          <p className="strategy-section-desc">
+            Geographic view of {wardLabel.toLowerCase()} boundaries coloured by strategy overlay. Click a {wardLabel.toLowerCase()} to open its dossier.
+          </p>
+
+          {!boundariesData?.features?.length ? (
+            <div className="strategy-empty-state">
+              <Map size={48} />
+              <p>No ward boundary data available. Run <code>ward_boundaries_etl.py</code> to generate boundary data for this council.</p>
+            </div>
+          ) : (
+            <>
+              <div className="map-overlay-controls">
+                {[
+                  { id: 'classification', label: 'Classification' },
+                  { id: 'swing', label: 'Swing Trend' },
+                  { id: 'party', label: 'Party Control' },
+                ].map(mode => (
+                  <button
+                    key={mode.id}
+                    className={`map-overlay-btn ${mapOverlay === mode.id ? 'active' : ''}`}
+                    onClick={() => setMapOverlay(mode.id)}
+                  >
+                    {mode.label}
+                  </button>
+                ))}
+              </div>
+
+              <Suspense fallback={<div className="map-loading">Loading map...</div>}>
+                <WardMap
+                  boundaries={boundariesData}
+                  wardData={wardMapData}
+                  wardsUp={wardsUp}
+                  overlayMode={mapOverlay}
+                  selectedWard={selectedDossierWard}
+                  onWardClick={openDossier}
+                  height="500px"
+                />
+              </Suspense>
+
+              <div className="map-legend">
+                {mapOverlay === 'classification' && Object.entries(WARD_CLASSES).map(([key, cls]) => (
+                  <div key={key} className="legend-item">
+                    <span className="legend-swatch" style={{ background: cls.color }} />
+                    <span>{cls.label}</span>
+                  </div>
+                ))}
+                {mapOverlay === 'swing' && Object.entries(TREND_CONFIG).filter(([k]) => k !== 'unknown').map(([key, cfg]) => (
+                  <div key={key} className="legend-item">
+                    <span className="legend-swatch" style={{ background: cfg.color }} />
+                    <span>{cfg.label}</span>
+                  </div>
+                ))}
+                {mapOverlay === 'party' && Object.entries(PARTY_COLORS).slice(0, 8).map(([party, color]) => (
+                  <div key={party} className="legend-item">
+                    <span className="legend-swatch" style={{ background: color }} />
+                    <span>{party}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="map-summary-bar">
+                <span>{wardsUp.length} contested {wardLabel.toLowerCase()}s</span>
+                {summary && <span>{summary.predictedGains} predicted gains</span>}
+                {summary && <span>{summary.predictedLosses} predicted losses</span>}
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {/* ================================================================ */}
+      {/* CANVASSING ROUTES */}
+      {/* ================================================================ */}
+      {activeSection === 'canvassing' && (
+        <section className="strategy-section">
+          <h2><Navigation size={20} /> Canvassing Routes</h2>
+          <p className="strategy-section-desc">
+            Optimised canvassing sessions grouping nearby {wardLabel.toLowerCase()}s for efficient door-knocking campaigns.
+            {wardLabel.toLowerCase()}s are clustered by geographic proximity with nearest-neighbor visit ordering.
+          </p>
+
+          {!boundariesData?.features?.length || !canvassingData.sessions.length ? (
+            <div className="strategy-empty-state">
+              <Navigation size={48} />
+              <p>
+                {!boundariesData?.features?.length
+                  ? <>No ward boundary data available. Run <code>ward_boundaries_etl.py</code> to generate boundary data.</>
+                  : 'No canvassing sessions could be computed. Ensure ward boundary data includes centroids.'
+                }
+              </p>
+            </div>
+          ) : (
+            <>
+              <Suspense fallback={<div className="map-loading">Loading map...</div>}>
+                <WardMap
+                  boundaries={boundariesData}
+                  wardData={wardMapData}
+                  wardsUp={wardsUp}
+                  overlayMode="route"
+                  selectedWard={selectedDossierWard}
+                  onWardClick={openDossier}
+                  routeLines={canvassingData.routeLines}
+                  routeClusters={canvassingData.sessions.map(s => ({
+                    wards: s.wards.map(w => w.ward),
+                    color: s.color,
+                  }))}
+                  height="500px"
+                />
+              </Suspense>
+
+              <div className="canvassing-summary">
+                <div className="canvassing-stat">{canvassingData.sessions.length} sessions</div>
+                <div className="canvassing-stat">
+                  {canvassingData.sessions.reduce((s, sess) => s + sess.totalHours, 0)} total hours
+                </div>
+                <div className="canvassing-stat">
+                  {canvassingData.sessions.reduce((s, sess) => s + sess.estimatedBlocks, 0)} x 4hr blocks
+                </div>
+                <button className="canvassing-export-btn" onClick={handleExportCanvassingCSV}>
+                  <Download size={14} /> Export CSV
+                </button>
+              </div>
+
+              <div className="canvassing-sessions-grid">
+                {canvassingData.sessions.map(session => (
+                  <div key={session.sessionNumber} className="canvassing-session-card" style={{ borderTopColor: session.color }}>
+                    <div className="session-header">
+                      <span className="session-number" style={{ background: session.color }}>
+                        {session.sessionNumber}
+                      </span>
+                      <span className="session-hours">{session.totalHours}hrs ({session.estimatedBlocks} blocks)</span>
+                    </div>
+                    <ol className="session-ward-list">
+                      {session.wards.map(w => (
+                        <li key={w.ward} className="session-ward-item">
+                          <button
+                            className="session-ward-link"
+                            onClick={() => openDossier(w.ward)}
+                          >
+                            {w.ward}
+                          </button>
+                          <span className="session-ward-hours">{w.hours}hrs</span>
+                          <span className={`session-ward-roi roi-${w.roi}`}>{w.roi}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
       {activeSection === 'archetypes' && (
         <section className="strategy-section">
           <h2><Users size={20} /> {wardLabel} Archetypes</h2>

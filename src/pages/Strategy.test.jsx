@@ -216,7 +216,7 @@ function setupMocks(opts = {}) {
     if (Array.isArray(urls) && urls[0] === '/data/councillors.json') {
       return { data: [councillors, integrity, interests, dogeFindings, budgetSummary, collectionRates, constituencies, wardMap], loading: false, error: null }
     }
-    return { data: [demographics, deprivation], loading: false, error: null }
+    return { data: [demographics, deprivation, opts.boundaries || null], loading: false, error: null }
   })
 }
 
@@ -1070,6 +1070,69 @@ describe('Strategy', () => {
       fireEvent.click(bankHallCard)
       // Should still render without crashing
       expect(screen.getByRole('heading', { level: 2, name: 'Bank Hall' })).toBeInTheDocument()
+    })
+  })
+
+  // =========================================================================
+  // Phase 18e: Swing Map + Canvassing Routes
+  // =========================================================================
+
+  describe('Swing Map section', () => {
+    it('shows Swing Map nav button', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Swing Map')).toBeInTheDocument()
+    })
+
+    it('shows fallback when no boundary data', () => {
+      setupMocks({ boundaries: null })
+      renderComponent()
+      fireEvent.click(screen.getByText('Swing Map'))
+      expect(screen.getByText(/No ward boundary data/)).toBeInTheDocument()
+    })
+
+    it('shows overlay mode buttons when boundaries exist', () => {
+      const mockBoundaries = {
+        type: 'FeatureCollection',
+        features: [
+          { type: 'Feature', properties: { name: 'Bank Hall', centroid: [-2.24, 53.79] }, geometry: { type: 'Polygon', coordinates: [[[-2.25, 53.78], [-2.23, 53.78], [-2.23, 53.80], [-2.25, 53.80], [-2.25, 53.78]]] } },
+        ],
+      }
+      setupMocks({ boundaries: mockBoundaries })
+      renderComponent()
+      fireEvent.click(screen.getByText('Swing Map'))
+      expect(screen.getByText('Classification')).toBeInTheDocument()
+      expect(screen.getByText('Swing Trend')).toBeInTheDocument()
+      expect(screen.getByText('Party Control')).toBeInTheDocument()
+    })
+  })
+
+  describe('Canvassing Routes section', () => {
+    it('shows Canvassing Routes nav button', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Canvassing Routes')).toBeInTheDocument()
+    })
+
+    it('shows fallback when no boundary data', () => {
+      setupMocks({ boundaries: null })
+      renderComponent()
+      fireEvent.click(screen.getByText('Canvassing Routes'))
+      expect(screen.getByText(/No ward boundary data/)).toBeInTheDocument()
+    })
+
+    it('shows export button when boundaries and sessions exist', () => {
+      const mockBoundaries = {
+        type: 'FeatureCollection',
+        features: [
+          { type: 'Feature', properties: { name: 'Bank Hall', centroid: [-2.24, 53.79] }, geometry: { type: 'Polygon', coordinates: [[[-2.25, 53.78], [-2.23, 53.78], [-2.23, 53.80], [-2.25, 53.80], [-2.25, 53.78]]] } },
+          { type: 'Feature', properties: { name: 'Briercliffe', centroid: [-2.22, 53.80] }, geometry: { type: 'Polygon', coordinates: [[[-2.23, 53.79], [-2.21, 53.79], [-2.21, 53.81], [-2.23, 53.81], [-2.23, 53.79]]] } },
+        ],
+      }
+      setupMocks({ boundaries: mockBoundaries })
+      renderComponent()
+      fireEvent.click(screen.getByText('Canvassing Routes'))
+      expect(screen.getByText('Export CSV')).toBeInTheDocument()
     })
   })
 })
