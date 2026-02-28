@@ -1,0 +1,1120 @@
+{
+  "generated_at": "2026-02-27T22:25:17.198988Z",
+  "version": "2.0",
+  "data_sources": [
+    "Parliament Hansard API (hansard-api.parliament.uk)",
+    "Written Questions API (questions-statements-api.parliament.uk)",
+    "Parliament Members API (members-api.parliament.uk)"
+  ],
+  "methodology": "Cross-reference Lancashire MP parliamentary speeches and Written Questions against declared interests, EC donations, and council supplier networks. Uses official Parliament APIs under the Open Parliament Licence \u2014 completely free, no API keys required.",
+  "search_window": {
+    "from": "2015-01-01",
+    "to": "2026-02-27"
+  },
+  "mp_mentions": {
+    "Oliver Ryan": {
+      "member_id": 5135,
+      "display_name": "Oliver Ryan",
+      "total_mentions": 1,
+      "hansard_mentions": 1,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Kitty Ussher",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Building Safety and Resilience",
+          "debate_date": "2024-09-11",
+          "excerpt": "... illness to raise us, by an NHS with the time and resources to care. Schemes such as Building Schools for the Future, first praised by my predecessor Kitty Ussher in her maiden speech in 2005, gave me this future, and I am one of many. We stand on the shoulders of giants in this place, but I was able to climb o...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2024-09-11/debates/F17D41E0-ECB9-4A35-8394-39ABB6791F2F",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    },
+    "Cat Smith": {
+      "member_id": 4436,
+      "display_name": "Cat Smith",
+      "total_mentions": 1,
+      "hansard_mentions": 1,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Unite the Union",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": "Trade Union Bill",
+          "debate_date": "2015-09-14",
+          "excerpt": "I draw the House\u2019s attention to my entry in the Register of Members\u2019 Financial Interests and declare that I, too, am a member of Unite the union and the GMB. I am also the daughter and grandaughter of two trade unionists. I am very well aware that I stand on the shoulders of giants from the ge...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2015-09-14/debates/1509146000001",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    },
+    "Lizzi Collinge": {
+      "member_id": 5225,
+      "display_name": "Lizzi Collinge",
+      "total_mentions": 3,
+      "hansard_mentions": 3,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Humanists UK",
+          "relationship": "donor_to_mp",
+          "all_relationships": [
+            "donor_to_mp",
+            "donor_to_party"
+          ],
+          "debate_title": "Humanist Marriage",
+          "debate_date": "2025-06-12",
+          "excerpt": "...ey can do so in a ceremony that reflects their beliefs. I declare an interest: I am the chair of the all-party parliamentary humanist group, to which Humanists UK provide the secretariat. However, I speak today not on behalf of any organisation or formal grouping, but on behalf of people like me who share stron...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2025-06-12/debates/88BADD43-303D-4964-8431-B8CE6CC8CBFF",
+          "risk_indicator": "high",
+          "source": "hansard_api",
+          "section": "Westminster Hall"
+        },
+        {
+          "company_or_donor": "Humanists UK",
+          "relationship": "donor_to_mp",
+          "all_relationships": [
+            "donor_to_mp",
+            "donor_to_party"
+          ],
+          "debate_title": " Children\u2019s Wellbeing and Schools Bill",
+          "debate_date": "2025-03-18",
+          "excerpt": "...or a flavour of the attitude of high-control religious groups towards reporting abuse within their own communities. I also lay on record my thanks to Humanists UK for its work exposing the dreadful practices in illegal schools over the past decade. I welcome this Labour Government\u2019s recognition of the severity ...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2025-03-18/debates/1ADE3133-E454-489F-8154-1C7BA296FACC",
+          "risk_indicator": "high",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "Humanists UK",
+          "relationship": "donor_to_mp",
+          "all_relationships": [
+            "donor_to_mp",
+            "donor_to_party"
+          ],
+          "debate_title": "Children\u2019s Wellbeing and Schools Bill",
+          "debate_date": "2025-01-08",
+          "excerpt": "...easures in the Bill will protect children from both poor schooling and the use of illegal schools to terrorise children. I put on record my thanks to Humanists UK, which has led a campaign for over a decade to crack down on illegal schools and has shone a light on some really horrific practices. I thank the Sec...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2025-01-08/debates/656F7D15-EA9D-46EA-8D8A-795738402CE9",
+          "risk_indicator": "high",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    },
+    "Mr Andrew Snowden": {
+      "member_id": 5072,
+      "display_name": "Mr Andrew Snowden",
+      "total_mentions": 2,
+      "hansard_mentions": 2,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Fylde Borough Council",
+          "relationship": "declared_interest",
+          "all_relationships": [
+            "declared_interest",
+            "donor_to_mp",
+            "donor_to_party"
+          ],
+          "debate_title": "Draft Surrey (Structural Changes) Order 2026",
+          "debate_date": "2026-02-25",
+          "excerpt": "...pport off the back of Woking\u2019s unsupported debt. That rings a bell with me; my neighbouring authority in Blackpool has \u00a3500 million of debt, while my Fylde borough council carries no debt. How much do the Government think they will pay in debt support as they look at the other councils going through this process, and ha...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2026-02-25/debates/e18515e1-02d7-41df-a938-1ab8198b7520",
+          "risk_indicator": "info",
+          "source": "hansard_api",
+          "section": "General Committees"
+        },
+        {
+          "company_or_donor": "Fylde Borough Council",
+          "relationship": "declared_interest",
+          "all_relationships": [
+            "declared_interest",
+            "donor_to_mp",
+            "donor_to_party"
+          ],
+          "debate_title": "Supporting Local Growth",
+          "debate_date": "2025-04-07",
+          "excerpt": "I was delighted to see recently that Lancashire county council and Fylde borough council have committed more funds to the St Annes pier link project, and are also looking at the Island site, which is critical for driving growth in the tow...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2025-04-07/debates/2927ED1D-5E8D-48FD-9455-1F6D4BE00DC8",
+          "risk_indicator": "info",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    },
+    "Chris Webb": {
+      "member_id": 5025,
+      "display_name": "Chris Webb",
+      "total_mentions": 1,
+      "hansard_mentions": 1,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Communication Workers Union",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Sanctions",
+          "debate_date": "2024-05-24",
+          "excerpt": "...ic service. My dad was a Blackpool postie who wanted to help and support fellow workers in Royal Mail, and then those in BT and others throughout the Communication Workers Union. Thanks to the last Labour Government, my mum was able to retrain for free and became an early years teaching assistant at my primary school\u2014her drea...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2024-05-24/debates/A306BE4C-3608-4B48-AECA-4CFA14269F0D",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    },
+    "Sir Mark Hendrick": {
+      "member_id": 473,
+      "display_name": "Sir Mark Hendrick",
+      "total_mentions": 10,
+      "hansard_mentions": 10,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Debate on the Address",
+          "debate_date": "2024-07-17",
+          "excerpt": "..., it will take back control of our energy supply, producing cheaper power for our country, and ensure that profits go back into our communities. As a Co-operative party MP, I want to see more community energy companies based on the Co-operative model. Not only will Great British Energy generate clean energy, but it w...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2024-07-17/debates/E49310A5-9111-4957-905D-5471B0019D80",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": "Co-operatives, Mutuals and Friendly Societies Bill",
+          "debate_date": "2023-02-24",
+          "excerpt": "... are present in the Chamber today. I wish to thank Peter Hunt and Mark Willetts at Mutuo for their help and advice in drafting the Bill, and also the Co-operative party, which has supported me throughout the whole of my political career, stretching back to the 1980s when I was in local government, the 1990s when I wa...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2023-02-24/debates/48D45025-3353-410F-A054-1089F3CFC13E",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": "Co-operatives, Mutuals and Friendly Societies Bill (First sitting)",
+          "debate_date": "2022-11-30",
+          "excerpt": "...ons and for being present to support the Bill. I also thank everyone who has worked so hard to make it a success, including Peter Hunt and Mutuo, the Co-operative party, the co-operative sector, and the Minister and his Treasury officials. Only by working in a modern and supportive business environment will co-operat...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2022-11-30/debates/ffb3144b-f30c-46c3-892d-89004c8f88b4",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Public Bill Committees"
+        },
+        {
+          "company_or_donor": "Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Co-operatives, Mutuals and Friendly Societies Bill",
+          "debate_date": "2022-10-28",
+          "excerpt": "... being entered into as part of that process. I thank everybody who has supported me on this Bill in this House, in the co-operative sector and in the Co-operative party, and, of course, Mutuo, which has helped a lot to provide all the material for my discussions with the Treasury. Question put and agreed to. Bill acc...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2022-10-28/debates/EF78901A-76CC-44D0-AEAF-56597246BE71",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": "Co-operatives and Mutual Societies",
+          "debate_date": "2021-12-14",
+          "excerpt": "...o far from my own Lancashire constituency of Preston. The movement has gone from strength to strength, and it has changed remarkably since then. As a Co-operative party MP, I have always believed that co-operatives and mutual societies are the future, not the past, and they are instrumental in creating a successful, ...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2021-12-14/debates/99C173B7-8598-417E-A868-28B2913B9AD8",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Westminster Hall"
+        },
+        {
+          "company_or_donor": "Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Department for Transport",
+          "debate_date": "2018-02-27",
+          "excerpt": "...f colleagues, will focus on community transport. As a Labour and Co-operative MP, I am particularly keen to talk about the not-for-profit sector. The Co-operative party believes that community transport and commercial bus routes should be designated community assets that are, as my hon. Friend the Member for Harrow W...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2018-02-27/debates/EE322B12-2A10-4A9B-B19C-6E9B9A734118",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "The Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": "Co-operatives, Mutuals and Friendly Societies Bill",
+          "debate_date": "2023-02-24",
+          "excerpt": "... who are present in the Chamber today. I wish to thank Peter Hunt and Mark Willetts at Mutuo for their help and advice in drafting the Bill, and also the Co-operative party, which has supported me throughout the whole of my political career, stretching back to the 1980s when I was in local government, the 1990s when I wa...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2023-02-24/debates/48D45025-3353-410F-A054-1089F3CFC13E",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "The Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": "Co-operatives, Mutuals and Friendly Societies Bill (First sitting)",
+          "debate_date": "2022-11-30",
+          "excerpt": "...butions and for being present to support the Bill. I also thank everyone who has worked so hard to make it a success, including Peter Hunt and Mutuo, the Co-operative party, the co-operative sector, and the Minister and his Treasury officials. Only by working in a modern and supportive business environment will co-operat...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2022-11-30/debates/ffb3144b-f30c-46c3-892d-89004c8f88b4",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Public Bill Committees"
+        },
+        {
+          "company_or_donor": "The Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Co-operatives, Mutuals and Friendly Societies Bill",
+          "debate_date": "2022-10-28",
+          "excerpt": "...sion being entered into as part of that process. I thank everybody who has supported me on this Bill in this House, in the co-operative sector and in the Co-operative party, and, of course, Mutuo, which has helped a lot to provide all the material for my discussions with the Treasury. Question put and agreed to. Bill acc...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2022-10-28/debates/EF78901A-76CC-44D0-AEAF-56597246BE71",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "The Co-operative Party",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Department for Transport",
+          "debate_date": "2018-02-27",
+          "excerpt": "...er of colleagues, will focus on community transport. As a Labour and Co-operative MP, I am particularly keen to talk about the not-for-profit sector. The Co-operative party believes that community transport and commercial bus routes should be designated community assets that are, as my hon. Friend the Member for Harrow W...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2018-02-27/debates/EE322B12-2A10-4A9B-B19C-6E9B9A734118",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    },
+    "Lorraine Beavers": {
+      "member_id": 5232,
+      "display_name": "Lorraine Beavers",
+      "total_mentions": 3,
+      "hansard_mentions": 3,
+      "written_question_mentions": 0,
+      "mentions": [
+        {
+          "company_or_donor": "Communication Workers Union",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Employment Rights Bill",
+          "debate_date": "2025-03-11",
+          "excerpt": "I welcome the Report stage of this Bill. I proudly declare my membership of Unite and the Communication Workers Union and I refer the House to my entry in the Register of Members\u2019 Financial Interests. This Bill will see the biggest upgrade to workers\u2019 rights for a ge...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2025-03-11/debates/5F064261-A587-4975-B120-2B7045B095D7",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "Communication Workers Union",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Employment Rights Bill",
+          "debate_date": "2024-10-21",
+          "excerpt": "I congratulate all Members who have made their maiden speech today. I am a proud member of Unite the Union and the Communication Workers Union. I would first like to pay tribute to my predecessor Paul Maynard. Paul worked incredibly hard for his constituents and was rightly proud to be the f...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2024-10-21/debates/DC4CA46C-E3A4-4A75-A0AA-5143E3E12585",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        },
+        {
+          "company_or_donor": "Unite the Union",
+          "relationship": "donor_to_party",
+          "all_relationships": [
+            "donor_to_party"
+          ],
+          "debate_title": " Employment Rights Bill",
+          "debate_date": "2024-10-21",
+          "excerpt": "I congratulate all Members who have made their maiden speech today. I am a proud member of Unite the Union and the Communication Workers Union. I would first like to pay tribute to my predecessor Paul Maynard. Paul worked incredibly hard for his constituen...",
+          "hansard_url": "https://hansard.parliament.uk/commons/2024-10-21/debates/DC4CA46C-E3A4-4A75-A0AA-5143E3E12585",
+          "risk_indicator": "warning",
+          "source": "hansard_api",
+          "section": "Commons Chamber"
+        }
+      ],
+      "written_questions": []
+    }
+  },
+  "written_statements": [
+    {
+      "title": "United Kingdom National Report to the Treaty on the Non-Proliferation of Nuclear Weapons (NPT) Review Cycle",
+      "text": "Today the Government is publishing the United Kingdom\u2019s updated National Report under the Treaty on the Non-Proliferation of Nuclear Weapons (NPT). The report reviews the UK\u2019s progress against the Treaty\u2019s three mutually reinforcing pillars\u2014disarmament, n...",
+      "member_name": "",
+      "member_role": "Minister of State for Europe, North America and Overseas Territories",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1368",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Government Response to Green Paper on the Future of the Post Office",
+      "text": "The Post Office is a vital part of the UK\u2019s social and economic fabric, supporting communities, small businesses and local high streets. Last year, the Government published a Green Paper to open a national conversation about how to secure a modern, truste...",
+      "member_name": "",
+      "member_role": "Minister for Small Business and Economic Transformation",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1360",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Update on the Telegraph sale",
+      "text": "I wish to update the House on the sale of Telegraph Media Group Holdings Limited (TMGH).On 12 February 2026, I issued a Public Interest Intervention Notice (PIIN) in relation to the anticipated acquisition of TMGH by the Daily Mail and General Trust plc (...",
+      "member_name": "",
+      "member_role": "Secretary of State for Culture, Media and Sport",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1353",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Update on disclosed documents for AC-2025-LON-003837",
+      "text": "On 19 February I wrote to the Judge hearing the above claim in respect of my ongoing duty of candour in those proceedings.Pursuant to an order of the Court from 10 December 2025, on 12 December 2025 I approved the disclosure of a number of documents that ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Transport",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Department for Transport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1348",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Storm Chandra and ongoing flooding impacts",
+      "text": "SummaryStorm Chandra brought heavy rain to the UK on Monday 26 and Tuesday 27 January. This was the seventh named storm overall to hit the UK so far for the 2025-26 storm season starting on 1 September. Storm Chandra closely followed Storm Ingrid, which b...",
+      "member_name": "",
+      "member_role": "Minister for Water and Flooding",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Department for Environment, Food and Rural Affairs",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1343",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Update on the proposed acquisition of Telegraph Media Group Holdings",
+      "text": "My Department has today written to Penultimate Investments Holdings Limited (PIHL) and the Daily Mail and General Trust (DMGT), the current and proposed owners of the Telegraph Media Group Holdings (TMGH) in relation to the Proposed Acquisition of TMGH by...",
+      "member_name": "",
+      "member_role": "Secretary of State for Culture, Media and Sport",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1338",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Implementing the Employment Rights Act: February Consultation Package ",
+      "text": "This Government\u2019s top priority is to grow the economy and improve living standards. We are clear that you cannot build a strong economy whilst having people in insecure work. For too long employment law has failed to keep pace with fundamental changes to ...",
+      "member_name": "",
+      "member_role": "Minister for Employment Rights and Consumer Protection",
+      "date_made": "2026-02-04T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-04/HCWS1304",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Local Government Best Value",
+      "text": "This Government is committed to taking the action necessary to fix the foundations of local government. Today, I am updating the House on the steps we are taking to support Nottingham City Council recover and reform.Nottingham City Council has been under ...",
+      "member_name": "",
+      "member_role": "Minister of State for Local Government and Homelessness",
+      "date_made": "2026-02-04T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-04/HCWS1303",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Resetting the S106 system",
+      "text": "The government has a manifesto commitment to deliver the biggest increase in social and affordable housebuilding in a generation and to strengthen planning obligations to ensure new developments provide more affordable homes.Section 106 (S106) agreements ...",
+      "member_name": "",
+      "member_role": "Minister of State for Housing and Planning",
+      "date_made": "2026-01-28T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-01-28/HCWS1286",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Syria",
+      "text": "Recent events in Syria have been deeply concerning, with violent clashes in Aleppo and across North-East Syria, mass displacement of civilians, and a deteriorating humanitarian situation. I wanted to update the House on the latest developments, and the ac...",
+      "member_name": "",
+      "member_role": "Parliamentary Under-Secretary of State for Middle East, North Africa, Afghanistan and Pakistan",
+      "date_made": "2026-01-28T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-01-28/HCWS1284",
+      "entity_searched": "CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "United Kingdom National Report to the Treaty on the Non-Proliferation of Nuclear Weapons (NPT) Review Cycle",
+      "text": "Today the Government is publishing the United Kingdom\u2019s updated National Report under the Treaty on the Non-Proliferation of Nuclear Weapons (NPT). The report reviews the UK\u2019s progress against the Treaty\u2019s three mutually reinforcing pillars\u2014disarmament, n...",
+      "member_name": "",
+      "member_role": "Minister of State for Europe, North America and Overseas Territories",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1368",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Government Response to Green Paper on the Future of the Post Office",
+      "text": "The Post Office is a vital part of the UK\u2019s social and economic fabric, supporting communities, small businesses and local high streets. Last year, the Government published a Green Paper to open a national conversation about how to secure a modern, truste...",
+      "member_name": "",
+      "member_role": "Minister for Small Business and Economic Transformation",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1360",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Update on the Telegraph sale",
+      "text": "I wish to update the House on the sale of Telegraph Media Group Holdings Limited (TMGH).On 12 February 2026, I issued a Public Interest Intervention Notice (PIIN) in relation to the anticipated acquisition of TMGH by the Daily Mail and General Trust plc (...",
+      "member_name": "",
+      "member_role": "Secretary of State for Culture, Media and Sport",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1353",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Update on disclosed documents for AC-2025-LON-003837",
+      "text": "On 19 February I wrote to the Judge hearing the above claim in respect of my ongoing duty of candour in those proceedings.Pursuant to an order of the Court from 10 December 2025, on 12 December 2025 I approved the disclosure of a number of documents that ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Transport",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Department for Transport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1348",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Storm Chandra and ongoing flooding impacts",
+      "text": "SummaryStorm Chandra brought heavy rain to the UK on Monday 26 and Tuesday 27 January. This was the seventh named storm overall to hit the UK so far for the 2025-26 storm season starting on 1 September. Storm Chandra closely followed Storm Ingrid, which b...",
+      "member_name": "",
+      "member_role": "Minister for Water and Flooding",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Department for Environment, Food and Rural Affairs",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1343",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Update on the proposed acquisition of Telegraph Media Group Holdings",
+      "text": "My Department has today written to Penultimate Investments Holdings Limited (PIHL) and the Daily Mail and General Trust (DMGT), the current and proposed owners of the Telegraph Media Group Holdings (TMGH) in relation to the Proposed Acquisition of TMGH by...",
+      "member_name": "",
+      "member_role": "Secretary of State for Culture, Media and Sport",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1338",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Implementing the Employment Rights Act: February Consultation Package ",
+      "text": "This Government\u2019s top priority is to grow the economy and improve living standards. We are clear that you cannot build a strong economy whilst having people in insecure work. For too long employment law has failed to keep pace with fundamental changes to ...",
+      "member_name": "",
+      "member_role": "Minister for Employment Rights and Consumer Protection",
+      "date_made": "2026-02-04T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-04/HCWS1304",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Local Government Best Value",
+      "text": "This Government is committed to taking the action necessary to fix the foundations of local government. Today, I am updating the House on the steps we are taking to support Nottingham City Council recover and reform.Nottingham City Council has been under ...",
+      "member_name": "",
+      "member_role": "Minister of State for Local Government and Homelessness",
+      "date_made": "2026-02-04T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-04/HCWS1303",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Resetting the S106 system",
+      "text": "The government has a manifesto commitment to deliver the biggest increase in social and affordable housebuilding in a generation and to strengthen planning obligations to ensure new developments provide more affordable homes.Section 106 (S106) agreements ...",
+      "member_name": "",
+      "member_role": "Minister of State for Housing and Planning",
+      "date_made": "2026-01-28T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-01-28/HCWS1286",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "Syria",
+      "text": "Recent events in Syria have been deeply concerning, with violent clashes in Aleppo and across North-East Syria, mass displacement of civilians, and a deteriorating humanitarian situation. I wanted to update the House on the latest developments, and the ac...",
+      "member_name": "",
+      "member_role": "Parliamentary Under-Secretary of State for Middle East, North Africa, Afghanistan and Pakistan",
+      "date_made": "2026-01-28T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-01-28/HCWS1284",
+      "entity_searched": "THE CO-OPERATIVE PARTY"
+    },
+    {
+      "title": "United Kingdom National Report to the Treaty on the Non-Proliferation of Nuclear Weapons (NPT) Review Cycle",
+      "text": "Today the Government is publishing the United Kingdom\u2019s updated National Report under the Treaty on the Non-Proliferation of Nuclear Weapons (NPT). The report reviews the UK\u2019s progress against the Treaty\u2019s three mutually reinforcing pillars\u2014disarmament, n...",
+      "member_name": "",
+      "member_role": "Minister of State for Europe, North America and Overseas Territories",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1368",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "British Steel",
+      "text": "The Government committed to updating Parliament on British Steel every four sitting weeks for the duration of the period of special measures being applied under the Steel Industry (Special Measures) Act 2025.The Government\u2019s priority remains to maintain t...",
+      "member_name": "",
+      "member_role": "Minister for Industry",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1366",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "UK-EU Competition Cooperation Agreement",
+      "text": "I am pleased to announce that today in Brussels the United Kingdom and the European Union have signed the UK-EU Competition Cooperation Agreement.This is the first supplementary agreement to the UK\u2011EU Trade and Cooperation Agreement (TCA) signed since the...",
+      "member_name": "",
+      "member_role": "Secretary of State for the Department of Business and Trade",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1364",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "The Enforcement of Electronic Travel Authorisation",
+      "text": "Today, 25 February 2026, marks a significant milestone in the transition to a fully digital immigration system with the UK moving to full enforcement of its digital \u2018permission to travel\u2019 requirements. Firstly, everyone (except British and Irish citizens ...",
+      "member_name": "",
+      "member_role": "The Parliamentary Under-Secretary of State for Migration and Citizenship",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Home Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1361",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Government Response to Green Paper on the Future of the Post Office",
+      "text": "The Post Office is a vital part of the UK\u2019s social and economic fabric, supporting communities, small businesses and local high streets. Last year, the Government published a Green Paper to open a national conversation about how to secure a modern, truste...",
+      "member_name": "",
+      "member_role": "Minister for Small Business and Economic Transformation",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1360",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Update on Sustainable Farming at the National Farmers\u2019 Union 2026 Conference",
+      "text": "British agriculture employs hundreds of thousands of people, sustains rural communities, shapes the countryside, and contributes billions to our economy. Today, I wish to update the House on a package of measures to support a productive, resilient and sus...",
+      "member_name": "",
+      "member_role": "Secretary of State",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Environment, Food and Rural Affairs",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1358",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Court Modernisation",
+      "text": "This Government inherited a criminal justice system on the brink of collapse. Trials are taking longer, hearings are being cancelled, and victims are facing unacceptable delays.As the Independent Review of Criminal Courts (IRCC) concluded, without action,...",
+      "member_name": "",
+      "member_role": "Deputy Prime Minister, Lord Chancellor and Secretary of State for Justice",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Ministry of Justice",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1356",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Unexplained Wealth Orders Annual Report 2024-2025",
+      "text": "Today, the unexplained wealth order report for the period 2024 to 2025 will be laid before Parliament. The unexplained wealth order report details the number of unexplained wealth orders made by the High Court in England and Wales during that period, and ...",
+      "member_name": "",
+      "member_role": "The Minister of State for Security",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Home Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1355",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Updates to the regulation of TV and video-on-demand services",
+      "text": "I am pleased to update the House on essential reforms the government is making to television and video-on-demand regulation. These measures mark an important step in the government\u2019s implementation of the Media Act 2024, and extend vital audience benefits...",
+      "member_name": "",
+      "member_role": "Minister for Creative Industries, Media and Arts",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1354",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Update on the Telegraph sale",
+      "text": "I wish to update the House on the sale of Telegraph Media Group Holdings Limited (TMGH).On 12 February 2026, I issued a Public Interest Intervention Notice (PIIN) in relation to the anticipated acquisition of TMGH by the Daily Mail and General Trust plc (...",
+      "member_name": "",
+      "member_role": "Secretary of State for Culture, Media and Sport",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1353",
+      "entity_searched": "HUMANISTS UK"
+    },
+    {
+      "title": "Public Service Pension Scheme Indexation and Revaluation 2026",
+      "text": "Public service pensions are a cornerstone of the remuneration package for hardworking people across our public services. Ensuring that they maintain their value over time is essential to delivering dignity in retirement for current and former public servi...",
+      "member_name": "",
+      "member_role": "The Chief Secretary to the Treasury",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Treasury",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1367",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "Implementing the Employment Rights Act: Further February Consultation Package ",
+      "text": "Our Plan to Make Work Pay will modernise our employment rights legislation, extending the employment protections already given by the best British companies to millions more workers across the country. Strengthening this underlying framework will help bui...",
+      "member_name": "",
+      "member_role": "Minister for Employment Rights and Consumer Protection",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1365",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "UK-EU Competition Cooperation Agreement",
+      "text": "I am pleased to announce that today in Brussels the United Kingdom and the European Union have signed the UK-EU Competition Cooperation Agreement.This is the first supplementary agreement to the UK\u2011EU Trade and Cooperation Agreement (TCA) signed since the...",
+      "member_name": "",
+      "member_role": "Secretary of State for the Department of Business and Trade",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1364",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "The Enforcement of Electronic Travel Authorisation",
+      "text": "Today, 25 February 2026, marks a significant milestone in the transition to a fully digital immigration system with the UK moving to full enforcement of its digital \u2018permission to travel\u2019 requirements. Firstly, everyone (except British and Irish citizens ...",
+      "member_name": "",
+      "member_role": "The Parliamentary Under-Secretary of State for Migration and Citizenship",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Home Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1361",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "Update on Sustainable Farming at the National Farmers\u2019 Union 2026 Conference",
+      "text": "British agriculture employs hundreds of thousands of people, sustains rural communities, shapes the countryside, and contributes billions to our economy. Today, I wish to update the House on a package of measures to support a productive, resilient and sus...",
+      "member_name": "",
+      "member_role": "Secretary of State",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Environment, Food and Rural Affairs",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1358",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "Court Modernisation",
+      "text": "This Government inherited a criminal justice system on the brink of collapse. Trials are taking longer, hearings are being cancelled, and victims are facing unacceptable delays.As the Independent Review of Criminal Courts (IRCC) concluded, without action,...",
+      "member_name": "",
+      "member_role": "Deputy Prime Minister, Lord Chancellor and Secretary of State for Justice",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Ministry of Justice",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1356",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "Updates to the regulation of TV and video-on-demand services",
+      "text": "I am pleased to update the House on essential reforms the government is making to television and video-on-demand regulation. These measures mark an important step in the government\u2019s implementation of the Media Act 2024, and extend vital audience benefits...",
+      "member_name": "",
+      "member_role": "Minister for Creative Industries, Media and Arts",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1354",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "Further extension of the Ukraine Permission Extension Scheme",
+      "text": "The Government remains steadfast in its support for the people of Ukraine in the face of Russia\u2019s illegal and unprovoked invasion. From the outset of the conflict, the Government has acted decisively and compassionately, offering sanctuary to over 310,000...",
+      "member_name": "",
+      "member_role": "The Parliamentary Under-Secretary of State for Migration and Citizenship",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Home Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1350",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "NHS Agenda for Change Workforce",
+      "text": "Today, I am announcing that from April 2026, over 1.4 million NHS staff on Agenda for Change (AfC) Terms and Conditions will receive a 3.3 per cent pay rise.The uplift is above the Office for Budget Responsibility\u2019s forecast inflation of 2.2 per cent for ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Health and Social Care",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Department of Health and Social Care",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1340",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "The Sentencing of Vincent Chan",
+      "text": "In December I gave a statement to the House on the Metropolitan police investigation into child sexual abuse in Camden. Today, Vincent Chan is due to appear for sentencing at Wood Green Crown Court in relation to 56 offences, to which he has pleaded guilt...",
+      "member_name": "",
+      "member_role": "Secretary of State for Education and Minister for Women and Equalities",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Department for Education",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1332",
+      "entity_searched": "COMMUNICATION WORKERS UNION"
+    },
+    {
+      "title": "United Kingdom National Report to the Treaty on the Non-Proliferation of Nuclear Weapons (NPT) Review Cycle",
+      "text": "Today the Government is publishing the United Kingdom\u2019s updated National Report under the Treaty on the Non-Proliferation of Nuclear Weapons (NPT). The report reviews the UK\u2019s progress against the Treaty\u2019s three mutually reinforcing pillars\u2014disarmament, n...",
+      "member_name": "",
+      "member_role": "Minister of State for Europe, North America and Overseas Territories",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1368",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Implementing the Employment Rights Act: Further February Consultation Package ",
+      "text": "Our Plan to Make Work Pay will modernise our employment rights legislation, extending the employment protections already given by the best British companies to millions more workers across the country. Strengthening this underlying framework will help bui...",
+      "member_name": "",
+      "member_role": "Minister for Employment Rights and Consumer Protection",
+      "date_made": "2026-02-26T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-26/HCWS1365",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "UK-EU Competition Cooperation Agreement",
+      "text": "I am pleased to announce that today in Brussels the United Kingdom and the European Union have signed the UK-EU Competition Cooperation Agreement.This is the first supplementary agreement to the UK\u2011EU Trade and Cooperation Agreement (TCA) signed since the...",
+      "member_name": "",
+      "member_role": "Secretary of State for the Department of Business and Trade",
+      "date_made": "2026-02-25T00:00:00",
+      "answering_body": "Department for Business and Trade",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-25/HCWS1364",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Update on Sustainable Farming at the National Farmers\u2019 Union 2026 Conference",
+      "text": "British agriculture employs hundreds of thousands of people, sustains rural communities, shapes the countryside, and contributes billions to our economy. Today, I wish to update the House on a package of measures to support a productive, resilient and sus...",
+      "member_name": "",
+      "member_role": "Secretary of State",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Environment, Food and Rural Affairs",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1358",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Updates to the regulation of TV and video-on-demand services",
+      "text": "I am pleased to update the House on essential reforms the government is making to television and video-on-demand regulation. These measures mark an important step in the government\u2019s implementation of the Media Act 2024, and extend vital audience benefits...",
+      "member_name": "",
+      "member_role": "Minister for Creative Industries, Media and Arts",
+      "date_made": "2026-02-24T00:00:00",
+      "answering_body": "Department for Culture, Media and Sport",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-24/HCWS1354",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Media Freedom Coalition",
+      "text": "The United Kingdom remains steadfast in its commitment to media freedom around the world, and we recognise the vital role that journalists play in upholding human rights, supporting accountable governance, and protecting democracy. As the Moldovan Preside...",
+      "member_name": "",
+      "member_role": "Parliamentary Under Secretary of State for Multilateral, Human Rights, Latin America and the Caribbean",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Foreign, Commonwealth and Development Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1342",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Update on the Government response to the Humble Address motion",
+      "text": "Last week the House made a Humble Address to His Majesty for the Government to disclose material surrounding the appointment of Peter Mandelson as Ambassador to the United States of America. The Parliamentary Secretary to the Cabinet Office also updated t...",
+      "member_name": "",
+      "member_role": "Chief Secretary to the Prime Minister, Minister for Intergovernmental Relations and Chancellor of the Duchy of Lancaster",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Cabinet Office",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1341",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "NHS Agenda for Change Workforce",
+      "text": "Today, I am announcing that from April 2026, over 1.4 million NHS staff on Agenda for Change (AfC) Terms and Conditions will receive a 3.3 per cent pay rise.The uplift is above the Office for Budget Responsibility\u2019s forecast inflation of 2.2 per cent for ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Health and Social Care",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Department of Health and Social Care",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1340",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Support for the nursing workforce",
+      "text": "Today I am announcing a comprehensive package to recognise the value of the nursing profession. Nurses are essential to leading and delivering the government's 10 Year Health Plan, and critical for patient safety and outcomes, but the profession has been ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Health and Social Care",
+      "date_made": "2026-02-11T00:00:00",
+      "answering_body": "Department of Health and Social Care",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-11/HCWS1329",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Somalia: Operating Base SHAND Gifting",
+      "text": "It is the normal practice when a Government Department proposes to make a gift of a value exceeding \u00a3300,000, for the Department concerned to present to the House of Commons a minute giving particulars of the gift and explaining the circumstances; and to ...",
+      "member_name": "",
+      "member_role": "Minister for the Armed Forces ",
+      "date_made": "2026-02-05T00:00:00",
+      "answering_body": "Ministry of Defence",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-05/HCWS1308",
+      "entity_searched": "UNITE THE UNION"
+    },
+    {
+      "title": "Local Government Reorganisation",
+      "text": "On Monday 16 February the Government wrote to the High Court setting out that I had decided to withdraw my decision to postpone the council elections of 30 local councils due to take place in May 2026 in the light of legal advice. I invited the Minister f...",
+      "member_name": "",
+      "member_role": "Secretary of State for Housing, Communities and Local Government",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1349",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": " Local Government Finance",
+      "text": "Earlier this month, this government delivered the first multi-year Local Government Finance Settlement in a decade, coming good on our promise of reforming the system \u2013 which previous governments failed to do.After 14 years of austerity and decades of cen...",
+      "member_name": "",
+      "member_role": "Minister of State for Local Government and Homelessness",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1346",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "Storm Chandra and ongoing flooding impacts",
+      "text": "SummaryStorm Chandra brought heavy rain to the UK on Monday 26 and Tuesday 27 January. This was the seventh named storm overall to hit the UK so far for the 2025-26 storm season starting on 1 September. Storm Chandra closely followed Storm Ingrid, which b...",
+      "member_name": "",
+      "member_role": "Minister for Water and Flooding",
+      "date_made": "2026-02-23T00:00:00",
+      "answering_body": "Department for Environment, Food and Rural Affairs",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-23/HCWS1343",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "NHS Agenda for Change Workforce",
+      "text": "Today, I am announcing that from April 2026, over 1.4 million NHS staff on Agenda for Change (AfC) Terms and Conditions will receive a 3.3 per cent pay rise.The uplift is above the Office for Budget Responsibility\u2019s forecast inflation of 2.2 per cent for ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Health and Social Care",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Department of Health and Social Care",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1340",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "Sub-Regional Strategic Planning",
+      "text": "The government was clear in its manifesto that housing need in England cannot be met without planning for growth on a larger than local scale. That is why we committed to introducing effective new mechanisms for cross-boundary strategic planning.In the En...",
+      "member_name": "",
+      "member_role": "Minister of State for Housing and Planning",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1337",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "A Modern Youth Justice System - Foundations Fit For The Future",
+      "text": "Today I have published a policy statement setting out the first stages of this Government\u2019s plans to modernise and reform the youth justice system so that it is fit for the future.The youth justice system in England and Wales has seen considerable success...",
+      "member_name": "",
+      "member_role": "Parliamentary Under-Secretary of State for Justice",
+      "date_made": "2026-02-12T00:00:00",
+      "answering_body": "Ministry of Justice",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-12/HCWS1334",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "Support for the nursing workforce",
+      "text": "Today I am announcing a comprehensive package to recognise the value of the nursing profession. Nurses are essential to leading and delivering the government's 10 Year Health Plan, and critical for patient safety and outcomes, but the profession has been ...",
+      "member_name": "",
+      "member_role": "Secretary of State for Health and Social Care",
+      "date_made": "2026-02-11T00:00:00",
+      "answering_body": "Department of Health and Social Care",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-11/HCWS1329",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "Local Government Best Value",
+      "text": "This Government is committed to taking the action necessary to fix the foundations of local government. Today, I am updating the House on the steps we are taking to support two councils to recover and reform: Bedford Borough Council and Spelthorne Borough...",
+      "member_name": "",
+      "member_role": "Minister of State for Local Government and Homelessness",
+      "date_made": "2026-02-10T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-10/HCWS1323",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "Local Supported Housing Strategies",
+      "text": "Today I am pleased to publish statutory guidance under Section 2 of the Supported Housing (Regulatory Oversight) Act 2023, which sets out the framework for local housing authorities in England to formulate and publish local supported housing strategies.Th...",
+      "member_name": "",
+      "member_role": "Minister of State for Local Government and Homelessness",
+      "date_made": "2026-02-09T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-09/HCWS1317",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    },
+    {
+      "title": "Local Government Finance Settlement 2026-27 to 2028-29",
+      "text": "This time last year, this government committed to delivering long overdue reforms to local government funding, through the first multi-year Local Government Finance Settlement (\u2018the Settlement\u2019) in a decade. Today, we have delivered on that promise.The pr...",
+      "member_name": "",
+      "member_role": "Minister of State for Local Government and Homelessness",
+      "date_made": "2026-02-09T00:00:00",
+      "answering_body": "Ministry of Housing, Communities and Local Government",
+      "parliament_url": "https://questions-statements.parliament.uk/written-statements/detail/2026-02-09/HCWS1315",
+      "entity_searched": "FYLDE BOROUGH COUNCIL"
+    }
+  ],
+  "company_mentions_summary": {
+    "CO-OPERATIVE PARTY": {
+      "mentioned_by": [
+        "Sir Mark Hendrick"
+      ],
+      "relationships": [
+        "donor_to_party"
+      ],
+      "count": 7,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "warning"
+      ]
+    },
+    "THE CO-OPERATIVE PARTY": {
+      "mentioned_by": [
+        "Sir Mark Hendrick"
+      ],
+      "relationships": [
+        "donor_to_party"
+      ],
+      "count": 5,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "warning"
+      ]
+    },
+    "HUMANISTS UK": {
+      "mentioned_by": [
+        "Lizzi Collinge"
+      ],
+      "relationships": [
+        "donor_to_mp",
+        "donor_to_party"
+      ],
+      "count": 3,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "high"
+      ]
+    },
+    "COMMUNICATION WORKERS UNION": {
+      "mentioned_by": [
+        "Chris Webb",
+        "Lorraine Beavers"
+      ],
+      "relationships": [
+        "donor_to_party"
+      ],
+      "count": 3,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "warning"
+      ]
+    },
+    "UNITE THE UNION": {
+      "mentioned_by": [
+        "Cat Smith",
+        "Lorraine Beavers"
+      ],
+      "relationships": [
+        "donor_to_party"
+      ],
+      "count": 2,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "warning"
+      ]
+    },
+    "FYLDE BOROUGH COUNCIL": {
+      "mentioned_by": [
+        "Mr Andrew Snowden"
+      ],
+      "relationships": [
+        "declared_interest",
+        "donor_to_mp",
+        "donor_to_party"
+      ],
+      "count": 2,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "info"
+      ]
+    },
+    "KITTY USSHER": {
+      "mentioned_by": [
+        "Oliver Ryan"
+      ],
+      "relationships": [
+        "donor_to_party"
+      ],
+      "count": 1,
+      "sources": [
+        "hansard"
+      ],
+      "risk_levels": [
+        "warning"
+      ]
+    }
+  },
+  "summary": {
+    "mps_searched": 16,
+    "mps_resolved": 16,
+    "mps_with_mentions": 7,
+    "total_spoken_mentions": 23,
+    "total_written_questions": 1136,
+    "interest_declared_questions": 1,
+    "written_statements_found": 60,
+    "unique_entities_mentioned": 7,
+    "high_risk_mentions": 3,
+    "interest_declared_in_questions": 0
+  },
+  "stats": {
+    "requests": 495,
+    "mentions_found": 23,
+    "errors": 3,
+    "written_questions_found": 1136,
+    "interest_declared_questions": 1
+  }
+}
