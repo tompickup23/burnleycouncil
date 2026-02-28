@@ -28,7 +28,8 @@
     "supplier_index": true,
     "constituencies": false,
     "polling": false,
-    "collection_rates": false
+    "collection_rates": false,
+    "councillor_profiles": true
   },
   "spending_data_period": "April 2018 \u2013 January 2025",
   "hero_subtitle": "Explore how Lancashire\u2019s Police and Crime Commissioner allocates public money. With 7 years of spending data covering policing, crime reduction, and victim services across the county.",
@@ -42,11 +43,31 @@
   "publisher_photo": "/images/tom-pickup.jpg",
   "publisher_quote": "It\u2019s your money. The more people understand where it goes, the better.",
   "publisher_social": [
-    { "platform": "x", "url": "https://x.com/tompickup", "label": "@tompickup" },
-    { "platform": "facebook", "url": "https://facebook.com/tompickupburnley", "label": "Facebook" },
-    { "platform": "instagram", "url": "https://instagram.com/tompickupburnley", "label": "Instagram" },
-    { "platform": "tiktok", "url": "https://tiktok.com/@tompickupburnley", "label": "TikTok" },
-    { "platform": "email", "url": "mailto:tom.pickup@lancashire.gov.uk", "label": "Email" }
+    {
+      "platform": "x",
+      "url": "https://x.com/tompickup",
+      "label": "@tompickup"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://facebook.com/tompickupburnley",
+      "label": "Facebook"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://instagram.com/tompickupburnley",
+      "label": "Instagram"
+    },
+    {
+      "platform": "tiktok",
+      "url": "https://tiktok.com/@tompickupburnley",
+      "label": "TikTok"
+    },
+    {
+      "platform": "email",
+      "url": "mailto:tom.pickup@lancashire.gov.uk",
+      "label": "Email"
+    }
   ],
   "foi_url": "https://www.lancashire-pcc.gov.uk/transparency/freedom-of-information/",
   "theme_accent": "#003366",

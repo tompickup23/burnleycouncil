@@ -22,6 +22,7 @@ vi.mock('react-router-dom', async () => {
 vi.mock('recharts', () => ({
   BarChart: () => null,
   Bar: () => null,
+  Cell: () => null,
   XAxis: () => null,
   YAxis: () => null,
   CartesianGrid: () => null,

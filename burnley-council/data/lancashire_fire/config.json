@@ -28,7 +28,8 @@
     "supplier_index": true,
     "constituencies": false,
     "polling": false,
-    "collection_rates": false
+    "collection_rates": false,
+    "councillor_profiles": true
   },
   "spending_data_period": "April 2022 \u2013 December 2025",
   "hero_subtitle": "Explore how Lancashire Combined Fire Authority spends public money. Covering fire and rescue services, prevention, protection, and emergency response across the county.",
@@ -42,11 +43,31 @@
   "publisher_photo": "/images/tom-pickup.jpg",
   "publisher_quote": "It\u2019s your money. The more people understand where it goes, the better.",
   "publisher_social": [
-    { "platform": "x", "url": "https://x.com/tompickup", "label": "@tompickup" },
-    { "platform": "facebook", "url": "https://facebook.com/tompickupburnley", "label": "Facebook" },
-    { "platform": "instagram", "url": "https://instagram.com/tompickupburnley", "label": "Instagram" },
-    { "platform": "tiktok", "url": "https://tiktok.com/@tompickupburnley", "label": "TikTok" },
-    { "platform": "email", "url": "mailto:tom.pickup@lancashire.gov.uk", "label": "Email" }
+    {
+      "platform": "x",
+      "url": "https://x.com/tompickup",
+      "label": "@tompickup"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://facebook.com/tompickupburnley",
+      "label": "Facebook"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://instagram.com/tompickupburnley",
+      "label": "Instagram"
+    },
+    {
+      "platform": "tiktok",
+      "url": "https://tiktok.com/@tompickupburnley",
+      "label": "TikTok"
+    },
+    {
+      "platform": "email",
+      "url": "mailto:tom.pickup@lancashire.gov.uk",
+      "label": "Email"
+    }
   ],
   "foi_url": "https://www.lancsfirerescue.org.uk/about-us/freedom-of-information/",
   "theme_accent": "#cc0000",

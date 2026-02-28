@@ -120,6 +120,29 @@ function DogeInvestigation() {
   // Integrity data for councillor-supplier cross-reference
   const { data: integrityData } = useData('/data/integrity.json')
 
+  // Build supplier→councillor map from integrity data for cross-reference badges
+  const supplierCouncillorMap = useMemo(() => {
+    const map = new Map()
+    if (!integrityData?.councillors) return map
+    integrityData.councillors.forEach(c => {
+      c.supplier_conflicts?.forEach(conflict => {
+        const name = (conflict.supplier_match?.supplier || '').toLowerCase()
+        if (name) {
+          if (!map.has(name)) map.set(name, [])
+          map.get(name).push({ name: c.name, id: c.councillor_id, risk: c.risk_level })
+        }
+      })
+      c.network_crossover?.links?.forEach(link => {
+        const name = (link.supplier_company || '').toLowerCase()
+        if (name) {
+          if (!map.has(name)) map.set(name, [])
+          map.get(name).push({ name: c.name, id: c.councillor_id, risk: c.risk_level, indirect: true })
+        }
+      })
+    })
+    return map
+  }, [integrityData])
+
   useEffect(() => {
     document.title = `DOGE Investigation | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
@@ -151,29 +174,6 @@ function DogeInvestigation() {
   const keyFindings = dogeFindings.key_findings || []
   const analysesRun = dogeFindings.analyses_run || []
   const generated = dogeFindings.generated
-
-  // Build supplier→councillor map from integrity data for cross-reference badges
-  const supplierCouncillorMap = useMemo(() => {
-    const map = new Map()
-    if (!integrityData?.councillors) return map
-    integrityData.councillors.forEach(c => {
-      c.supplier_conflicts?.forEach(conflict => {
-        const name = (conflict.supplier_match?.supplier || '').toLowerCase()
-        if (name) {
-          if (!map.has(name)) map.set(name, [])
-          map.get(name).push({ name: c.name, id: c.councillor_id, risk: c.risk_level })
-        }
-      })
-      c.network_crossover?.links?.forEach(link => {
-        const name = (link.supplier_company || '').toLowerCase()
-        if (name) {
-          if (!map.has(name)) map.set(name, [])
-          map.get(name).push({ name: c.name, id: c.councillor_id, risk: c.risk_level, indirect: true })
-        }
-      })
-    })
-    return map
-  }, [integrityData])
 
   // Knowledge data
   const profile = dogeKnowledge?.council_profile || dogeContext

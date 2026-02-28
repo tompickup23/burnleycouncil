@@ -6,7 +6,7 @@ import { formatCurrency, formatNumber, formatDate, formatPercent } from '../util
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { LoadingState } from '../components/ui'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line,
 } from 'recharts'
 import {
@@ -407,7 +407,7 @@ export default function ConstituencyView() {
                 }} />
                 <Bar dataKey="votes" radius={[0, 6, 6, 0]}>
                   {electionChartData.map((entry, idx) => (
-                    <rect key={idx} fill={entry.fill} />
+                    <Cell key={idx} fill={entry.fill} />
                   ))}
                 </Bar>
               </BarChart>

@@ -3219,8 +3219,11 @@ def integrate_doge_findings(result, council_id):
             cname = comp.get("company_name", "").lower().strip()
             if cname:
                 councillor_companies.add(cname)
-            if comp.get("supplier_match"):
-                councillor_companies.add(comp["supplier_match"].lower().strip())
+            sm = comp.get("supplier_match")
+            if sm:
+                sm_name = sm.get("supplier", sm) if isinstance(sm, dict) else sm
+                if isinstance(sm_name, str) and sm_name:
+                    councillor_companies.add(sm_name.lower().strip())
 
     if not councillor_companies:
         return findings
@@ -3412,7 +3415,10 @@ def analyse_temporal_patterns(result, supplier_data):
 
         # Check if company became a supplier after appointment
         supplier_match = comp.get("supplier_match")
-        if supplier_match and supplier_data:
+        # supplier_match can be a string or dict — normalise to string
+        if isinstance(supplier_match, dict):
+            supplier_match = supplier_match.get("name", supplier_match.get("supplier", ""))
+        if supplier_match and isinstance(supplier_match, str) and supplier_data:
             earliest_payment = None
             for s in supplier_data:
                 if s.get("name", "").lower() == supplier_match.lower():

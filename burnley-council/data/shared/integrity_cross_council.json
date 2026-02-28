@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-02-27T14:03:12.407896Z",
-  "version": "4.0",
+  "generated_at": "2026-02-28T09:34:28.045546Z",
+  "version": "5.1",
   "total_bodies": 15,
   "councillors_spanning_councils": [],
   "shared_company_networks": [
@@ -3197,183 +3197,18 @@
   "mp_cross_council_links": [],
   "investigation_priorities": [
     {
-      "councillor": "Melissa Fisher",
-      "council": "hyndburn",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 8,
-      "total_flags": 40,
-      "network_centrality": 1.0,
-      "priority_score": 85.0,
-      "top_concerns": [
-        "Company 'HYNDBURN LEISURE' also matches supplier at lancashire_cc council",
-        "Company 'HYNDBURN LEISURE' also matches supplier at blackburn council",
-        "Company 'HYNDBURN LEISURE' also matches supplier at lancashire_pcc council"
-      ]
-    },
-    {
-      "councillor": "Afrasiab Anwar",
-      "council": "burnley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 6,
-      "total_flags": 15,
-      "network_centrality": 1.0,
-      "priority_score": 65.0,
-      "top_concerns": [
-        "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at pendle council",
-        "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'CLARETS IN THE COMMUNITY LIMITED' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "Bradley Mitchell",
-      "council": "blackpool",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 6,
-      "total_flags": 12,
-      "network_centrality": 0.297,
-      "priority_score": 61.5,
-      "top_concerns": [
-        "Company 'BLACKPOOL TRANSPORT SERVICES LIMITED' matches council supplier 'BLACKPOOL TRANSPORT SERVICES LTD'",
-        "Company 'BLACKPOOL TRANSPORT SERVICES LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'BLACKPOOL TRANSPORT SERVICES LIMITED' also matches supplier at wyre council"
-      ]
-    },
-    {
-      "councillor": "John Boughton",
-      "council": "blackpool",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 6,
-      "total_flags": 12,
-      "network_centrality": 0.305,
-      "priority_score": 61.5,
-      "top_concerns": [
-        "Company 'BLACKPOOL TRANSPORT SERVICES LIMITED' matches council supplier 'BLACKPOOL TRANSPORT SERVICES LTD'",
-        "Company 'BLACKPOOL TRANSPORT SERVICES LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'BLACKPOOL TRANSPORT SERVICES LIMITED' also matches supplier at wyre council"
-      ]
-    },
-    {
-      "councillor": "Brett Cooper",
-      "council": "lancaster",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 5,
-      "total_flags": 14,
-      "network_centrality": 1.0,
-      "priority_score": 55.0,
-      "top_concerns": [
-        "Company 'BRABNERS LLP' matches council supplier 'BRABNERS LLP'",
-        "Councillor-linked commercial company 'BRABNERS LLP' received \u00a33,503,724 in council contracts",
-        "Company 'BRABNERS LLP' also matches supplier at pendle council"
-      ]
-    },
-    {
-      "councillor": "Margaret Lishman",
-      "council": "burnley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 5,
-      "total_flags": 18,
-      "network_centrality": 0.95,
-      "priority_score": 54.8,
-      "top_concerns": [
-        "Company 'LANCASHIRE WOMEN' also matches supplier at hyndburn council",
-        "Company 'LANCASHIRE WOMEN' also matches supplier at lancashire_cc council",
-        "Company 'LANCASHIRE WOMEN' also matches supplier at blackpool council"
-      ]
-    },
-    {
-      "councillor": "Mark Clifford",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 5,
-      "total_flags": 104,
-      "network_centrality": 0.692,
-      "priority_score": 53.5,
-      "top_concerns": [
-        "Councillor-linked commercial company 'LANCASHIRE RENEWABLES LIMITED' received \u00a371,162,537 in council contracts",
-        "Company 'GENERATION HOLDINGS LIMITED' also matches supplier at blackpool council",
-        "Company 'GENERATION (UK) LIMITED' also matches supplier at blackpool council"
-      ]
-    },
-    {
-      "councillor": "Azhar Ali",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 5,
-      "total_flags": 62,
-      "network_centrality": 0.421,
-      "priority_score": 52.1,
-      "top_concerns": [
-        "Company 'HOME OFFICE UK LTD' matches council supplier 'HOME OFFICE'",
-        "Company 'HOME OFFICE UK LTD' filed dormant accounts but matches council supplier",
-        "Company 'HOME OFFICE UK LTD' also matches supplier at blackpool council"
-      ]
-    },
-    {
-      "councillor": "Janet Elizabeth Alcock",
-      "council": "ribble_valley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 4,
-      "total_flags": 12,
-      "network_centrality": 0.66,
-      "priority_score": 43.3,
-      "top_concerns": [
-        "Company 'RIBBLE RIVERS TRUST LIMITED' also matches supplier at hyndburn council",
-        "Company 'RIBBLE RIVERS TRUST LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'RIBBLE RIVERS TRUST LIMITED' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "David Whipp",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 4,
-      "total_flags": 45,
-      "network_centrality": 0.412,
-      "priority_score": 42.1,
-      "top_concerns": [
-        "Company 'PEARL TOGETHER LIMITED' matches council supplier 'PEARL TOGETHER LTD'",
-        "Company 'PENDLE ENTERPRISE AND REGENERATION (BRIERFIELD MILL) LIMITED' matches council supplier 'PENDLE ENTERPRISE & REGENERATION (BRIERFIELD MILL) LTD'",
-        "Company 'PENBROOK DEVELOPMENTS LIMITED' also matches supplier at pendle council"
-      ]
-    },
-    {
       "councillor": "Diane Mitchell",
       "council": "blackpool",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 4,
-      "total_flags": 10,
-      "network_centrality": 0.28,
-      "priority_score": 41.4,
+      "critical_flags": 18,
+      "total_flags": 55,
+      "network_centrality": 0.694,
+      "priority_score": 183.5,
       "top_concerns": [
-        "Company 'BLACKPOOL HOUSING COMPANY LIMITED' matches council supplier 'BLACKPOOL HOUSING COMPANY LTD'",
-        "Company 'BLACKPOOL COASTAL HOUSING LIMITED' also matches supplier at lancashire_pcc council",
-        "Appointed director of supplier 'BLACKPOOL HOUSING COMPANY LIMITED' on 2024-06-20 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Salim Sidat",
-      "council": "blackburn",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 34,
-      "network_centrality": 0.927,
-      "priority_score": 34.6,
-      "top_concerns": [
-        "Company 'BLACKBURN YOUTH ZONE' also matches supplier at lancashire_cc council",
-        "Company 'BLACKBURN YOUTH ZONE' also matches supplier at lancashire_pcc council",
-        "Appointed director of supplier 'BLACKBURN YOUTH ZONE' on 2023-09-26 (after election). This company received \u00a30 from the council."
+        "Appointed director of supplier 'BLACKPOOL COASTAL HOUSING LIMITED' on 2024-06-20 (after election). This company received \u00a350,854,835 from the council.",
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
@@ -3381,384 +3216,14 @@
       "council": "hyndburn",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 22,
-      "network_centrality": 0.875,
-      "priority_score": 34.4,
-      "top_concerns": [
-        "Company 'HYNDBURN ARTS LIMITED' also matches supplier at rossendale council",
-        "Company 'HYNDBURN ARTS LIMITED' also matches supplier at blackburn council",
-        "Company 'ADVENTURE HYNDBURN LTD' also matches supplier at lancashire_cc council"
-      ]
-    },
-    {
-      "councillor": "Daniel Bolton",
-      "council": "wyre",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 15,
-      "network_centrality": 0.81,
-      "priority_score": 34.0,
-      "top_concerns": [
-        "Company 'LANCASTER CANAL CRUISES LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'GARSTANG COMMUNITY SPORTS CLUB LTD' also matches supplier at lancashire_cc council",
-        "Appointed director of supplier 'GARSTANG COMMUNITY SPORTS CLUB LTD' on 2025-09-09 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Mark Sutcliffe",
-      "council": "ribble_valley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 9,
-      "network_centrality": 0.642,
-      "priority_score": 33.2,
-      "top_concerns": [
-        "Company 'LANCASHIRE WILDLIFE ENTERPRISES LIMITED' also matches supplier at lancaster council",
-        "Company 'LANCASHIRE WILDLIFE ENTERPRISES LIMITED' also matches supplier at lancashire_cc council",
-        "Appointed director of supplier 'THE FOUNDATION FOR RIBBLE VALLEY FAMILIES' on 2025-10-02 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Howard Hartley",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 112,
-      "network_centrality": 0.579,
-      "priority_score": 32.9,
-      "top_concerns": [
-        "Company 'C & R WALNE (ENGRAVERS) LIMITED' also matches supplier at hyndburn council",
-        "Company 'C & R WALNE (ENGRAVERS) LIMITED' also matches supplier at pendle council",
-        "Company 'C & R WALNE (ENGRAVERS) LIMITED' also matches supplier at rossendale council"
-      ]
-    },
-    {
-      "councillor": "Loraine Cox",
-      "council": "hyndburn",
-      "risk_level": "high",
-      "integrity_score": 15,
-      "critical_flags": 3,
-      "total_flags": 12,
-      "network_centrality": 0.475,
-      "priority_score": 32.4,
-      "top_concerns": [
-        "Company 'COMMUNITY SOLUTIONS NORTH WEST LTD' also matches supplier at lancashire_cc council",
-        "Company 'COMMUNITY SOLUTIONS NORTH WEST LTD' also matches supplier at lancashire_pcc council",
-        "Appointed director of supplier 'COMMUNITY SOLUTIONS NORTH WEST LTD' on 2025-10-17 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Paul Stubbins",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 40,
-      "network_centrality": 0.308,
-      "priority_score": 31.5,
-      "top_concerns": [
-        "Company 'NORTH LANCASHIRE CITIZENS ADVICE BUREAU' also matches supplier at lancaster council",
-        "Company 'NORTH LANCASHIRE CITIZENS ADVICE BUREAU' also matches supplier at west_lancashire council",
-        "Appointed director of supplier 'NORTH LANCASHIRE CITIZENS ADVICE BUREAU' on 2023-11-28 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Paul Stubbins",
-      "council": "lancaster",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 3,
-      "total_flags": 8,
-      "network_centrality": 0.205,
-      "priority_score": 31.0,
-      "top_concerns": [
-        "Company 'NORTH LANCASHIRE CITIZENS ADVICE BUREAU' also matches supplier at lancashire_cc council",
-        "Company 'NORTH LANCASHIRE CITIZENS ADVICE BUREAU' also matches supplier at west_lancashire council",
-        "Appointed director of supplier 'NORTH LANCASHIRE CITIZENS ADVICE BUREAU' on 2023-11-28 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "John Atherton",
-      "council": "ribble_valley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 32,
+      "critical_flags": 17,
+      "total_flags": 55,
       "network_centrality": 1.0,
-      "priority_score": 25.0,
+      "priority_score": 175.0,
       "top_concerns": [
-        "Company 'ATHERTONS LIMITED' also matches supplier at rossendale council",
-        "Company 'ATHERTONS LIMITED' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "Marilyn Procter",
-      "council": "rossendale",
-      "risk_level": "high",
-      "integrity_score": 15,
-      "critical_flags": 2,
-      "total_flags": 9,
-      "network_centrality": 0.755,
-      "priority_score": 23.8,
-      "top_concerns": [
-        "Company 'VETERANS IN COMMUNITIES' also matches supplier at ribble_valley council",
-        "Company 'VETERANS IN COMMUNITIES' also matches supplier at lancashire_cc council"
-      ]
-    },
-    {
-      "councillor": "Gordon Johnson",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 102,
-      "network_centrality": 0.697,
-      "priority_score": 23.5,
-      "top_concerns": [
-        "Company 'FUTURE FIT FOR BUSINESS LIMITED' also matches supplier at blackpool council",
-        "Company 'FUTURE FIT FOR BUSINESS LIMITED' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "Alan Woods",
-      "council": "rossendale",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 12,
-      "network_centrality": 0.633,
-      "priority_score": 23.2,
-      "top_concerns": [
-        "Company 'VETERANS IN COMMUNITIES' also matches supplier at ribble_valley council",
-        "Company 'VETERANS IN COMMUNITIES' also matches supplier at lancashire_cc council"
-      ]
-    },
-    {
-      "councillor": "James Rogerson",
-      "council": "ribble_valley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 21,
-      "network_centrality": 0.623,
-      "priority_score": 23.1,
-      "top_concerns": [
-        "Company 'SR8 LTD' also matches supplier at south_ribble council",
-        "Company 'SR8 LTD' also matches supplier at blackpool council"
-      ]
-    },
-    {
-      "councillor": "James Crawford",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 99,
-      "network_centrality": 0.615,
-      "priority_score": 23.1,
-      "top_concerns": [
-        "Company 'WORLD OF BOOKS GROUP LTD' also matches supplier at chorley council",
-        "Company 'WORLD OF BOOKS LIMITED' also matches supplier at chorley council"
-      ]
-    },
-    {
-      "councillor": "Lubna Khan",
-      "council": "burnley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 15,
-      "network_centrality": 0.583,
-      "priority_score": 22.9,
-      "top_concerns": [
-        "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "Gillian Campbell",
-      "council": "blackpool",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 17,
-      "network_centrality": 0.585,
-      "priority_score": 22.9,
-      "top_concerns": [
-        "Company 'BLACKPOOL AIRPORT PROPERTIES LIMITED' matches council supplier 'BLACKPOOL AIRPORT PROPERTIES LTD'",
-        "Company 'BLACKPOOL AIRPORT OPERATIONS LIMITED' matches council supplier 'BLACKPOOL AIRPORT OPERATIONS LTD'"
-      ]
-    },
-    {
-      "councillor": "Haydn Williams",
-      "council": "south_ribble",
-      "risk_level": "high",
-      "integrity_score": 20,
-      "critical_flags": 2,
-      "total_flags": 8,
-      "network_centrality": 0.436,
-      "priority_score": 22.2,
-      "top_concerns": [
-        "Company 'CRANKSHAFT HOLDINGS LTD' matches council supplier 'CRANKSHAFT HOLDINGS LTD'",
-        "Company 'CRANKSHAFT BREWERY LIMITED' matches council supplier 'CRANKSHAFT BREWERY LTD'"
-      ]
-    },
-    {
-      "councillor": "Donna O'Rourke",
-      "council": "ribble_valley",
-      "risk_level": "high",
-      "integrity_score": 20,
-      "critical_flags": 2,
-      "total_flags": 7,
-      "network_centrality": 0.415,
-      "priority_score": 22.1,
-      "top_concerns": [
-        "Company 'RIBBLE VALLEY SPORTS AND RECREATION' also matches supplier at lancashire_cc council",
-        "Company 'RIBBLE VALLEY SPORTS AND RECREATION' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "Neal Brookes",
-      "council": "blackpool",
-      "risk_level": "high",
-      "integrity_score": 10,
-      "critical_flags": 2,
-      "total_flags": 14,
-      "network_centrality": 0.415,
-      "priority_score": 22.1,
-      "top_concerns": [
-        "Company 'BLACKPOOL HOUSING COMPANY LIMITED' matches council supplier 'BLACKPOOL HOUSING COMPANY LTD'",
-        "Company 'BLACKPOOL COASTAL HOUSING LIMITED' also matches supplier at lancashire_pcc council"
-      ]
-    },
-    {
-      "councillor": "Stephen Button",
-      "council": "hyndburn",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 11,
-      "network_centrality": 0.4,
-      "priority_score": 22.0,
-      "top_concerns": [
-        "Company 'THE PROSPECTS FOUNDATION' also matches supplier at lancashire_cc council",
-        "Appointed director of supplier 'THE PROSPECTS FOUNDATION' on 2024-07-31 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Mohammed Iqbal",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 61,
-      "network_centrality": 0.389,
-      "priority_score": 21.9,
-      "top_concerns": [
-        "Match on disqualified directors register (1 confirmed match(es))",
-        "Appointed director of supplier 'KEPPLEGATE LIMITED' on 2024-06-07 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Mohammed Ishtiaq",
-      "council": "burnley",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 13,
-      "network_centrality": 0.317,
-      "priority_score": 21.6,
-      "top_concerns": [
-        "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at lancashire_cc council",
-        "Company 'CURANTIS HEALTHCARE LIMITED' also matches supplier at blackburn council"
-      ]
-    },
-    {
-      "councillor": "Imran Ahmed",
-      "council": "blackburn",
-      "risk_level": "high",
-      "integrity_score": 5,
-      "critical_flags": 2,
-      "total_flags": 8,
-      "network_centrality": 0.317,
-      "priority_score": 21.6,
-      "top_concerns": [
-        "Company 'HELP YOUR PROPERTY LIMITED' also matches supplier at hyndburn council",
-        "Company 'HELP YOUR PROPERTY LIMITED' also matches supplier at rossendale council"
-      ]
-    },
-    {
-      "councillor": "Jason Roberts",
-      "council": "blackpool",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 9,
-      "network_centrality": 0.271,
-      "priority_score": 21.4,
-      "top_concerns": [
-        "Company 'BLACKPOOL AIRPORT PROPERTIES LIMITED' matches council supplier 'BLACKPOOL AIRPORT PROPERTIES LTD'",
-        "Company 'BLACKPOOL AIRPORT OPERATIONS LIMITED' matches council supplier 'BLACKPOOL AIRPORT OPERATIONS LTD'"
-      ]
-    },
-    {
-      "councillor": "Neil Darby",
-      "council": "preston",
-      "risk_level": "high",
-      "integrity_score": 15,
-      "critical_flags": 2,
-      "total_flags": 7,
-      "network_centrality": 0.275,
-      "priority_score": 21.4,
-      "top_concerns": [
-        "Company 'DISABILITY EQUALITY (NW) LTD' also matches supplier at lancashire_cc council",
-        "Appointed director of supplier 'DISABILITY EQUALITY (NW) LTD' on 2023-06-20 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Stewart Eaves",
-      "council": "hyndburn",
-      "risk_level": "elevated",
-      "integrity_score": 50,
-      "critical_flags": 2,
-      "total_flags": 4,
-      "network_centrality": 0.2,
-      "priority_score": 21.0,
-      "top_concerns": [
-        "Company 'ADVENTURE HYNDBURN LTD' also matches supplier at lancashire_cc council",
-        "Appointed director of supplier 'ADVENTURE HYNDBURN LTD' on 2024-08-08 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Carl Mitchell",
-      "council": "blackpool",
-      "risk_level": "high",
-      "integrity_score": 20,
-      "critical_flags": 2,
-      "total_flags": 6,
-      "network_centrality": 0.195,
-      "priority_score": 21.0,
-      "top_concerns": [
-        "Company 'BLACKPOOL ENTERTAINMENT COMPANY LIMITED' also matches supplier at wyre council",
-        "Appointed director of supplier 'BLACKPOOL ENTERTAINMENT COMPANY LIMITED' on 2024-06-17 (after election). This company received \u00a30 from the council."
-      ]
-    },
-    {
-      "councillor": "Gaynor Hargreaves",
-      "council": "lancashire_cc",
-      "risk_level": "high",
-      "integrity_score": 0,
-      "critical_flags": 2,
-      "total_flags": 18,
-      "network_centrality": 0.163,
-      "priority_score": 20.8,
-      "top_concerns": [
-        "Company 'THE PROSPECTS FOUNDATION' also matches supplier at hyndburn council",
-        "Appointed director of supplier 'THE PROSPECTS FOUNDATION' on 2025-07-30 (after election). This company received \u00a30 from the council."
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
@@ -3766,51 +3231,44 @@
       "council": "pendle",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 18,
+      "critical_flags": 17,
+      "total_flags": 64,
       "network_centrality": 1.0,
-      "priority_score": 15.0,
+      "priority_score": 175.0,
       "top_concerns": [
-        "Company 'BACKHOUSE INSURANCE BROKERS LIMITED' also matches supplier at lancashire_cc council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
-      "councillor": "Alyson Barnes",
-      "council": "rossendale",
-      "risk_level": "high",
-      "integrity_score": 10,
-      "critical_flags": 1,
-      "total_flags": 14,
-      "network_centrality": 1.0,
-      "priority_score": 15.0,
-      "top_concerns": [
-        "Company 'RTB PARTNERSHIP LIMITED' matches council supplier 'RTB PARTNERSHIP'"
-      ]
-    },
-    {
-      "councillor": "David Howarth",
-      "council": "lancashire_cc",
+      "councillor": "Kate Knight",
+      "council": "lancaster",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 170,
+      "critical_flags": 17,
+      "total_flags": 87,
       "network_centrality": 1.0,
-      "priority_score": 15.0,
+      "priority_score": 175.0,
       "top_concerns": [
-        "Councillor-linked commercial company 'LANCASHIRE RENEWABLES LIMITED' received \u00a371,162,537 in council contracts"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
-      "councillor": "Ivan Taylor",
-      "council": "blackpool",
+      "councillor": "John Mee",
+      "council": "west_lancashire",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 38,
+      "critical_flags": 17,
+      "total_flags": 120,
       "network_centrality": 1.0,
-      "priority_score": 15.0,
+      "priority_score": 175.0,
       "top_concerns": [
-        "Company 'CLAREMONT FIRST STEP COMMUNITY CENTRE' also matches supplier at lancashire_cc council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
@@ -3818,90 +3276,674 @@
       "council": "wyre",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 29,
+      "critical_flags": 17,
+      "total_flags": 76,
       "network_centrality": 1.0,
-      "priority_score": 15.0,
+      "priority_score": 175.0,
       "top_concerns": [
-        "Company 'BAXTER HOMES LIMITED' also matches supplier at fylde council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
       "councillor": "Michael Withers",
       "council": "fylde",
       "risk_level": "high",
-      "integrity_score": 47,
-      "critical_flags": 1,
-      "total_flags": 8,
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
       "network_centrality": 1.0,
-      "priority_score": 15.0,
+      "priority_score": 175.0,
       "top_concerns": [
-        "Company 'LYTHAM TOWN TRUST LIMITED' also matches supplier at lancashire_cc council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
-      "councillor": "Mary Robinson",
+      "councillor": "Alan Woods",
+      "council": "rossendale",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 55,
+      "network_centrality": 0.714,
+      "priority_score": 173.6,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Loraine Cox",
+      "council": "hyndburn",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 52,
+      "network_centrality": 0.692,
+      "priority_score": 173.5,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Steven Livesey",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 53,
+      "network_centrality": 0.692,
+      "priority_score": 173.5,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Mohammad Kaleem",
+      "council": "pendle",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 55,
+      "network_centrality": 0.677,
+      "priority_score": 173.4,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Anita Cooper",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 53,
+      "network_centrality": 0.611,
+      "priority_score": 173.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Jason Roberts",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 55,
+      "network_centrality": 0.611,
+      "priority_score": 173.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Daniel Bolton",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 58,
+      "network_centrality": 0.59,
+      "priority_score": 172.9,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Kevin Horkin",
       "council": "ribble_valley",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 16,
-      "network_centrality": 0.962,
-      "priority_score": 14.8,
+      "critical_flags": 17,
+      "total_flags": 65,
+      "network_centrality": 0.556,
+      "priority_score": 172.8,
       "top_concerns": [
-        "Company 'LITTLE GREEN BUS LTD' also matches supplier at lancashire_cc council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
-      "councillor": "John Potter",
+      "councillor": "Howard Hartley",
       "council": "lancashire_cc",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 114,
-      "network_centrality": 0.747,
-      "priority_score": 13.7,
+      "critical_flags": 17,
+      "total_flags": 195,
+      "network_centrality": 0.551,
+      "priority_score": 172.8,
       "top_concerns": [
-        "Company 'TORUS HOLDINGS LIMITED' also matches supplier at west_lancashire council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
-      "councillor": "Ehsan Raja",
-      "council": "blackburn",
-      "risk_level": "high",
-      "integrity_score": 35,
-      "critical_flags": 1,
-      "total_flags": 6,
-      "network_centrality": 0.732,
-      "priority_score": 13.7,
-      "top_concerns": [
-        "Company 'ONE VOICE BLACKBURN CIC' also matches supplier at lancashire_pcc council"
-      ]
-    },
-    {
-      "councillor": "Salma Patel",
-      "council": "blackburn",
+      "councillor": "Mark Bell",
+      "council": "preston",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 13,
-      "network_centrality": 0.61,
-      "priority_score": 13.1,
+      "critical_flags": 17,
+      "total_flags": 62,
+      "network_centrality": 0.536,
+      "priority_score": 172.7,
       "top_concerns": [
-        "Company 'UDAT STORES LIMITED' matches council supplier 'UDAT STORES LTD'"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     },
     {
-      "councillor": "Usman Arif",
+      "councillor": "Peter Buckley",
       "council": "lancashire_cc",
       "risk_level": "high",
       "integrity_score": 0,
-      "critical_flags": 1,
-      "total_flags": 80,
-      "network_centrality": 0.511,
-      "priority_score": 12.6,
+      "critical_flags": 17,
+      "total_flags": 147,
+      "network_centrality": 0.514,
+      "priority_score": 172.6,
       "top_concerns": [
-        "Company 'USMAN ARIF LTD' also matches supplier at pendle council"
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Susan Fazackerley",
+      "council": "fylde",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.522,
+      "priority_score": 172.6,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Janet Elizabeth Alcock",
+      "council": "ribble_valley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.5,
+      "priority_score": 172.5,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Bradley Mitchell",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.472,
+      "priority_score": 172.4,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Julie Sloman",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
+      "network_centrality": 0.472,
+      "priority_score": 172.4,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Kenneth Minto",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.487,
+      "priority_score": 172.4,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Gary Scott",
+      "council": "ribble_valley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 55,
+      "network_centrality": 0.444,
+      "priority_score": 172.2,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "David Whittington",
+      "council": "west_lancashire",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 72,
+      "network_centrality": 0.443,
+      "priority_score": 172.2,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Kevin Salter",
+      "council": "pendle",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.419,
+      "priority_score": 172.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Alan Platt",
+      "council": "chorley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 59,
+      "network_centrality": 0.421,
+      "priority_score": 172.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Paul Wilshaw",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.417,
+      "priority_score": 172.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Carl Mitchell",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.417,
+      "priority_score": 172.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Dulcie Atkins",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
+      "network_centrality": 0.41,
+      "priority_score": 172.1,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Simon Holland",
+      "council": "rossendale",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 55,
+      "network_centrality": 0.393,
+      "priority_score": 172.0,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Stephen Whittam",
+      "council": "preston",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 55,
+      "network_centrality": 0.393,
+      "priority_score": 172.0,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "John Kirkham",
+      "council": "fylde",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 56,
+      "network_centrality": 0.391,
+      "priority_score": 172.0,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Gerard Walsh",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 50,
+      "network_centrality": 0.389,
+      "priority_score": 171.9,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Michael Vincent",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
+      "network_centrality": 0.385,
+      "priority_score": 171.9,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Paul Newton",
+      "council": "lancaster",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
+      "network_centrality": 0.366,
+      "priority_score": 171.8,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Susan Bibby",
+      "council": "ribble_valley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
+      "network_centrality": 0.361,
+      "priority_score": 171.8,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Michele Scott",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 51,
+      "network_centrality": 0.361,
+      "priority_score": 171.8,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "David Swift",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 56,
+      "network_centrality": 0.359,
+      "priority_score": 171.8,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Mike Steel",
+      "council": "burnley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 68,
+      "network_centrality": 0.341,
+      "priority_score": 171.7,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Paul Galley",
+      "council": "blackpool",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 50,
+      "network_centrality": 0.333,
+      "priority_score": 171.7,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Jane Marshall",
+      "council": "west_lancashire",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 78,
+      "network_centrality": 0.344,
+      "priority_score": 171.7,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Jane Preston",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 57,
+      "network_centrality": 0.333,
+      "priority_score": 171.7,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Peter Le Marinel",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 50,
+      "network_centrality": 0.333,
+      "priority_score": 171.7,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Alice Collinson",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 54,
+      "network_centrality": 0.333,
+      "priority_score": 171.7,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "John Wild",
+      "council": "lancaster",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 53,
+      "network_centrality": 0.317,
+      "priority_score": 171.6,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Andrew Gardiner",
+      "council": "lancaster",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 52,
+      "network_centrality": 0.317,
+      "priority_score": 171.6,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Peter Cartridge",
+      "council": "wyre",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 53,
+      "network_centrality": 0.308,
+      "priority_score": 171.5,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Tony Austin",
+      "council": "ribble_valley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 53,
+      "network_centrality": 0.278,
+      "priority_score": 171.4,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
+      ]
+    },
+    {
+      "councillor": "Simon Hore",
+      "council": "ribble_valley",
+      "risk_level": "high",
+      "integrity_score": 0,
+      "critical_flags": 17,
+      "total_flags": 56,
+      "network_centrality": 0.278,
+      "priority_score": 171.4,
+      "top_concerns": [
+        "'The Cayzer Trust Company Ltd' made 6 sub-threshold donations totalling \u00a325,600 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'Mr David H Brown' made 3 sub-threshold donations totalling \u00a317,000 \u2014 possible structuring to avoid \u00a311,180 threshold",
+        "'The United & Cecil Club' made 6 sub-threshold donations totalling \u00a312,000 \u2014 possible structuring to avoid \u00a311,180 threshold"
       ]
     }
   ],
@@ -3909,287 +3951,407 @@
     "burnley": {
       "councillors_checked": 45,
       "risk_distribution": {
-        "low": 33,
-        "medium": 3,
+        "low": 9,
+        "medium": 4,
         "elevated": 2,
-        "high": 7
+        "high": 30
       },
-      "red_flags_total": 169,
-      "supplier_conflicts": 6,
-      "cross_council_conflicts": 50,
-      "misconduct_patterns": 25,
-      "mp_financial_links": 0,
-      "revolving_door_detections": 10,
-      "beneficial_ownership_findings": 0,
-      "donation_contract_correlations": 0,
-      "network_centrality_applied": true,
-      "version": "4.0"
-    },
-    "hyndburn": {
-      "councillors_checked": 34,
-      "risk_distribution": {
-        "low": 25,
-        "medium": 2,
-        "elevated": 2,
-        "high": 5
-      },
-      "red_flags_total": 120,
-      "supplier_conflicts": 11,
-      "cross_council_conflicts": 31,
-      "misconduct_patterns": 25,
+      "red_flags_total": 1202,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 10,
       "mp_financial_links": 0,
       "revolving_door_detections": 9,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 502,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 30,
+      "formation_timing_flags": 0,
+      "version": "6.0"
+    },
+    "hyndburn": {
+      "councillors_checked": 34,
+      "risk_distribution": {
+        "low": 0,
+        "medium": 1,
+        "elevated": 0,
+        "high": 33
+      },
+      "red_flags_total": 1377,
+      "supplier_conflicts": 1,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 9,
+      "mp_financial_links": 0,
+      "revolving_door_detections": 8,
+      "beneficial_ownership_findings": 0,
+      "donation_contract_correlations": 0,
+      "network_centrality_applied": true,
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 453,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "pendle": {
       "councillors_checked": 33,
       "risk_distribution": {
         "low": 0,
-        "medium": 25,
-        "elevated": 1,
-        "high": 7
+        "medium": 7,
+        "elevated": 2,
+        "high": 24
       },
-      "red_flags_total": 147,
-      "supplier_conflicts": 2,
-      "cross_council_conflicts": 5,
-      "misconduct_patterns": 12,
+      "red_flags_total": 1011,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 11,
       "mp_financial_links": 66,
-      "revolving_door_detections": 8,
+      "revolving_door_detections": 7,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 539,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "rossendale": {
       "councillors_checked": 29,
       "risk_distribution": {
         "low": 0,
-        "medium": 22,
-        "elevated": 1,
-        "high": 6
+        "medium": 5,
+        "elevated": 0,
+        "high": 24
       },
-      "red_flags_total": 124,
-      "supplier_conflicts": 10,
-      "cross_council_conflicts": 20,
-      "misconduct_patterns": 9,
+      "red_flags_total": 998,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 5,
       "mp_financial_links": 29,
       "revolving_door_detections": 7,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 281,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 2,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "lancaster": {
-      "councillors_checked": 61,
+      "councillors_checked": 60,
       "risk_distribution": {
         "low": 0,
-        "medium": 29,
-        "elevated": 14,
-        "high": 18
+        "medium": 18,
+        "elevated": 6,
+        "high": 36
       },
-      "red_flags_total": 364,
-      "supplier_conflicts": 9,
-      "cross_council_conflicts": 24,
-      "misconduct_patterns": 23,
-      "mp_financial_links": 122,
-      "revolving_door_detections": 20,
+      "red_flags_total": 1516,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 16,
+      "mp_financial_links": 120,
+      "revolving_door_detections": 16,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 521,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "ribble_valley": {
       "councillors_checked": 40,
       "risk_distribution": {
         "low": 0,
-        "medium": 23,
-        "elevated": 8,
-        "high": 9
+        "medium": 6,
+        "elevated": 3,
+        "high": 31
       },
-      "red_flags_total": 224,
-      "supplier_conflicts": 6,
-      "cross_council_conflicts": 22,
-      "misconduct_patterns": 24,
+      "red_flags_total": 1406,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 10,
       "mp_financial_links": 80,
       "revolving_door_detections": 6,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 617,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 1,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "chorley": {
       "councillors_checked": 42,
       "risk_distribution": {
-        "low": 36,
-        "medium": 5,
+        "low": 1,
+        "medium": 1,
         "elevated": 0,
-        "high": 1
+        "high": 40
       },
-      "red_flags_total": 49,
-      "supplier_conflicts": 3,
-      "cross_council_conflicts": 9,
-      "misconduct_patterns": 3,
+      "red_flags_total": 1509,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 2,
       "mp_financial_links": 0,
       "revolving_door_detections": 0,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 412,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 9,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "south_ribble": {
       "councillors_checked": 50,
       "risk_distribution": {
-        "low": 44,
-        "medium": 3,
-        "elevated": 1,
-        "high": 2
+        "low": 0,
+        "medium": 0,
+        "elevated": 0,
+        "high": 50
       },
-      "red_flags_total": 83,
-      "supplier_conflicts": 3,
-      "cross_council_conflicts": 3,
-      "misconduct_patterns": 9,
+      "red_flags_total": 2054,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 8,
       "mp_financial_links": 0,
       "revolving_door_detections": 2,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 769,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 23,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "lancashire_cc": {
       "councillors_checked": 84,
       "risk_distribution": {
         "low": 0,
-        "medium": 22,
+        "medium": 14,
         "elevated": 12,
-        "high": 50
+        "high": 58
       },
-      "red_flags_total": 2590,
-      "supplier_conflicts": 20,
-      "cross_council_conflicts": 67,
-      "misconduct_patterns": 205,
+      "red_flags_total": 4364,
+      "supplier_conflicts": 3,
+      "cross_council_conflicts": 3,
+      "misconduct_patterns": 184,
       "mp_financial_links": 168,
       "revolving_door_detections": 223,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 404,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 13,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 1049,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "blackpool": {
       "councillors_checked": 42,
       "risk_distribution": {
         "low": 0,
-        "medium": 29,
-        "elevated": 4,
-        "high": 9
+        "medium": 3,
+        "elevated": 0,
+        "high": 39
       },
-      "red_flags_total": 238,
-      "supplier_conflicts": 33,
-      "cross_council_conflicts": 53,
-      "misconduct_patterns": 18,
+      "red_flags_total": 1669,
+      "supplier_conflicts": 5,
+      "cross_council_conflicts": 1,
+      "misconduct_patterns": 6,
       "mp_financial_links": 84,
-      "revolving_door_detections": 14,
+      "revolving_door_detections": 11,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 507,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "blackburn": {
       "councillors_checked": 51,
       "risk_distribution": {
         "low": 0,
-        "medium": 40,
+        "medium": 6,
         "elevated": 4,
-        "high": 7
+        "high": 41
       },
-      "red_flags_total": 203,
-      "supplier_conflicts": 7,
-      "cross_council_conflicts": 17,
-      "misconduct_patterns": 19,
+      "red_flags_total": 1694,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 14,
       "mp_financial_links": 51,
       "revolving_door_detections": 8,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 459,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 0,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 45,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "west_lancashire": {
       "councillors_checked": 45,
       "risk_distribution": {
-        "low": 26,
-        "medium": 5,
-        "elevated": 7,
-        "high": 7
+        "low": 2,
+        "medium": 0,
+        "elevated": 0,
+        "high": 43
       },
-      "red_flags_total": 242,
-      "supplier_conflicts": 11,
-      "cross_council_conflicts": 10,
+      "red_flags_total": 1973,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
       "misconduct_patterns": 21,
       "mp_financial_links": 0,
       "revolving_door_detections": 18,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 560,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 1,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 89,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "wyre": {
       "councillors_checked": 50,
       "risk_distribution": {
         "low": 0,
-        "medium": 34,
-        "elevated": 5,
-        "high": 11
+        "medium": 4,
+        "elevated": 2,
+        "high": 44
       },
-      "red_flags_total": 199,
-      "supplier_conflicts": 2,
-      "cross_council_conflicts": 9,
-      "misconduct_patterns": 15,
+      "red_flags_total": 2010,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 0,
+      "misconduct_patterns": 9,
       "mp_financial_links": 100,
-      "revolving_door_detections": 14,
+      "revolving_door_detections": 13,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 729,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 1,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "preston": {
       "councillors_checked": 48,
       "risk_distribution": {
         "low": 0,
-        "medium": 37,
-        "elevated": 6,
-        "high": 5
+        "medium": 1,
+        "elevated": 0,
+        "high": 47
       },
-      "red_flags_total": 213,
-      "supplier_conflicts": 9,
-      "cross_council_conflicts": 27,
+      "red_flags_total": 1899,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 2,
       "misconduct_patterns": 6,
       "mp_financial_links": 96,
-      "revolving_door_detections": 5,
+      "revolving_door_detections": 4,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 806,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 1,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 18,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     },
     "fylde": {
       "councillors_checked": 37,
       "risk_distribution": {
-        "low": 30,
+        "low": 8,
         "medium": 2,
-        "elevated": 2,
-        "high": 3
+        "elevated": 1,
+        "high": 26
       },
-      "red_flags_total": 66,
-      "supplier_conflicts": 2,
-      "cross_council_conflicts": 7,
-      "misconduct_patterns": 7,
+      "red_flags_total": 1212,
+      "supplier_conflicts": 0,
+      "cross_council_conflicts": 1,
+      "misconduct_patterns": 5,
       "mp_financial_links": 0,
       "revolving_door_detections": 8,
       "beneficial_ownership_findings": 0,
       "donation_contract_correlations": 0,
       "network_centrality_applied": true,
-      "version": "4.0"
+      "shell_company_donors": 0,
+      "threshold_manipulation_alerts": 546,
+      "contract_splitting_flags": 0,
+      "phantom_companies": 1,
+      "bid_rigging_indicators": 0,
+      "hansard_mentions": 0,
+      "undeclared_interests": 0,
+      "formation_timing_flags": 0,
+      "version": "6.0"
     }
   }
 }
