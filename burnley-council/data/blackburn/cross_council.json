@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-01T22:30:41",
+  "generated": "2026-03-01T23:03:31",
   "benchmarks": {
     "district": {
       "count": 12,
@@ -8,10 +8,10 @@
       "median_reserves_months": 14.2,
       "median_collection_rate": 95.5,
       "median_dependency_ratio": 62.6,
-      "planning_councils_with_data": 7,
-      "median_cost_per_planning_app": 771,
-      "median_apps_per_year": 532,
-      "median_planning_approval_rate": 0.666
+      "planning_councils_with_data": 8,
+      "median_cost_per_planning_app": 936,
+      "median_apps_per_year": 440,
+      "median_planning_approval_rate": 0.7
     },
     "county": {
       "count": 1,
@@ -1713,7 +1713,47 @@
       "total_councillors": 50,
       "majority_threshold": 26,
       "ruling_party": "Labour",
-      "planning": {},
+      "planning": {
+        "total_applications": 456,
+        "by_year": {
+          "2025": 72,
+          "2026": 384
+        },
+        "by_type": {
+          "Full": 175,
+          "Conditions": 104,
+          "null": 58,
+          "Outline": 51,
+          "Amendment": 33,
+          "Trees": 27,
+          "Advertising": 6,
+          "Heritage": 2
+        },
+        "by_decision": {
+          "null": 284,
+          "Permitted": 107,
+          "Conditions": 49,
+          "Rejected": 9,
+          "Undecided": 6,
+          "Withdrawn": 1
+        },
+        "by_size": {
+          "Small": 440,
+          "Medium": 16
+        },
+        "approval_rate": 0.922,
+        "avg_decision_days": 32,
+        "median_decision_days": 16,
+        "decided_count": 116,
+        "apps_per_year": 228,
+        "development_control_spend": 708000,
+        "cost_per_application": 3105,
+        "total_planning_spend": 3806000,
+        "total_cost_per_app": 16693,
+        "budget_year": "2024-25",
+        "years_back": 3,
+        "fetched": "2026-03-01"
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
