@@ -1993,6 +1993,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   // Talking points — categorised
   const localPoints = generateTalkingPoints(wardElection, demo, deprivation, pred);
   const assetPoints = generateAssetTalkingPoints(wardName, propertyAssets);
+  const planningPoints = generatePlanningTalkingPoints(wardName, allData.planningData);
   const councilAttack = councilPerformance.attackLines.map(a => ({
     priority: a.severity === 'high' ? 1 : a.severity === 'medium' ? 2 : 3,
     category: a.category || 'Council',
@@ -2004,7 +2005,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   const pureNational = nationalPoints.filter(p => p.category === 'National');
 
   const talkingPoints = {
-    local: [...localPoints, ...assetPoints],
+    local: [...localPoints, ...assetPoints, ...planningPoints],
     council: councilAttack,
     national: pureNational,
     constituency: constituencyPoints,

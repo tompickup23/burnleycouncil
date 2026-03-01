@@ -154,13 +154,14 @@ export default function Strategy() {
     '/data/shared/constituencies.json',
     '/data/ward_constituency_map.json',
     '/data/property_assets.json',
+    '/data/planning.json',
   ])
   const [
     councillorsData, integrityData, interestsData,
     dogeFindings, budgetSummary, collectionRates,
     constituenciesData, wardConstituencyMap,
-    propertyAssetsRaw,
-  ] = dossierData || [null, null, null, null, null, null, null, null, null]
+    propertyAssetsRaw, planningData,
+  ] = dossierData || [null, null, null, null, null, null, null, null, null, null]
   const propertyAssets = propertyAssetsRaw?.assets || []
 
   // --- State ---
@@ -359,12 +360,12 @@ export default function Strategy() {
       constituenciesData, wardConstituencyMap,
       councilPrediction, rankedWard: rankedWards.find(w => w.ward === selectedDossierWard),
       meetingsData: null,
-      propertyAssets,
+      propertyAssets, planningData,
     }, ourParty)
   }, [selectedDossierWard, electionsData, referenceData, politicsSummary,
       demographicsData, deprivationData, councillorsData, integrityData,
       interestsData, dogeFindings, budgetSummary, collectionRates,
-      constituenciesData, wardConstituencyMap, councilPrediction, rankedWards, ourParty, propertyAssets])
+      constituenciesData, wardConstituencyMap, councilPrediction, rankedWards, ourParty, propertyAssets, planningData])
 
   // --- Handlers ---
   const toggleWard = (wardName) => {
