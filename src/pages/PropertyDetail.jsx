@@ -307,6 +307,23 @@ function OverviewTab({ asset }) {
               <span className="property-detail-value">{Math.round(asset.ownership_pct * 100)}%</span>
             </div>
           )}
+          {asset.sellable_by_lcc != null && (
+            <div className="property-detail-row">
+              <span className="property-detail-label">Sellable by LCC</span>
+              <span className="property-detail-value" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Badge
+                  label={asset.sellable_by_lcc ? 'Yes' : 'No'}
+                  color={asset.sellable_by_lcc ? '#30d158' : '#ff453a'}
+                  bg={asset.sellable_by_lcc ? '#30d15822' : '#ff453a22'}
+                />
+                {asset.sale_mechanism && asset.sale_mechanism !== 'direct_disposal' && (
+                  <span style={{ fontSize: '0.72rem', color: '#8e8e93' }}>
+                    via {asset.sale_mechanism.replace(/_/g, ' ')}
+                  </span>
+                )}
+              </span>
+            </div>
+          )}
           <div className="property-detail-row">
             <span className="property-detail-label">Land Only</span>
             <span className="property-detail-value">{asset.land_only ? 'Yes' : 'No'}</span>
@@ -1155,6 +1172,23 @@ function ValuationTab({ asset }) {
               <div className="property-detail-row">
                 <span className="property-detail-label">Parent Entity</span>
                 <span className="property-detail-value">{asset.ownership_detail.parent_entity}</span>
+              </div>
+            )}
+            {asset.ownership_detail.sellable_by_lcc != null && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Sellable by LCC</span>
+                <span className="property-detail-value" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Badge
+                    label={asset.ownership_detail.sellable_by_lcc ? 'Yes' : 'No'}
+                    color={asset.ownership_detail.sellable_by_lcc ? '#30d158' : '#ff453a'}
+                    bg={asset.ownership_detail.sellable_by_lcc ? '#30d15822' : '#ff453a22'}
+                  />
+                  {asset.ownership_detail.sale_mechanism && (
+                    <span style={{ fontSize: '0.72rem', color: '#8e8e93' }}>
+                      {asset.ownership_detail.sale_mechanism.replace(/_/g, ' ')}
+                    </span>
+                  )}
+                </span>
               </div>
             )}
             {asset.ownership_detail.notes && (

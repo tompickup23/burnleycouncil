@@ -380,3 +380,74 @@ export function estimatePropertyRationalisationSavings(propertyAssets) {
            subsidiaryValue, subsidiaryCount: subsidiaryAssets.length,
            jvCount: jvAssets.length, factors };
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Planning Workload Analysis for LGR
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Estimate planning department consolidation savings from planning data.
+ * Under LGR, planning services could be merged across authorities.
+ *
+ * @param {Object} planningDataMap - { council_id: planning.json } for councils in an LGR model
+ * @returns {{ totalApps: number, totalPlanningSpend: number, avgCostPerApp: number,
+ *             bestCostPerApp: number, consolidationSaving: number, factors: string[] }}
+ */
+export function estimatePlanningConsolidationSavings(planningDataMap) {
+  const factors = [];
+  if (!planningDataMap || Object.keys(planningDataMap).length === 0) {
+    return { totalApps: 0, totalPlanningSpend: 0, avgCostPerApp: 0,
+             bestCostPerApp: 0, consolidationSaving: 0, factors: ['No planning data'] };
+  }
+
+  let totalApps = 0;
+  let totalSpend = 0;
+  const costPerAppByCouncil = {};
+
+  for (const [cid, pd] of Object.entries(planningDataMap)) {
+    const eff = pd?.efficiency;
+    if (!eff) continue;
+
+    const apps = eff.apps_per_year || 0;
+    const spend = eff.development_control_spend || 0;
+    totalApps += apps;
+    totalSpend += spend;
+
+    if (apps > 0 && spend > 0) {
+      costPerAppByCouncil[cid] = Math.round(spend / apps);
+    }
+  }
+
+  const councils = Object.entries(costPerAppByCouncil);
+  if (councils.length === 0) {
+    return { totalApps, totalPlanningSpend: totalSpend, avgCostPerApp: 0,
+             bestCostPerApp: 0, consolidationSaving: 0,
+             factors: ['Insufficient planning budget data'] };
+  }
+
+  const avgCostPerApp = totalApps > 0 ? Math.round(totalSpend / totalApps) : 0;
+  const bestCost = Math.min(...councils.map(([, c]) => c));
+  const bestCouncil = councils.find(([, c]) => c === bestCost)?.[0] || '';
+
+  // Savings: if all councils operated at 80th percentile efficiency
+  const targetCost = bestCost * 1.1; // 10% above best (realistic)
+  const consolidationSaving = Math.max(0, totalSpend - (targetCost * totalApps));
+
+  factors.push(`${councils.length} councils, ${totalApps} apps/year, £${Math.round(totalSpend / 1000)}k total spend`);
+  factors.push(`Cost range: £${bestCost}/app (${bestCouncil}) to £${Math.max(...councils.map(([, c]) => c))}/app`);
+  if (consolidationSaving > 0) {
+    factors.push(`Consolidation to 80th percentile (£${targetCost}/app) → £${Math.round(consolidationSaving / 1000)}k annual saving`);
+  }
+
+  return {
+    totalApps,
+    totalPlanningSpend: totalSpend,
+    avgCostPerApp,
+    bestCostPerApp: bestCost,
+    bestCouncil,
+    consolidationSaving,
+    costPerAppByCouncil,
+    factors,
+  };
+}

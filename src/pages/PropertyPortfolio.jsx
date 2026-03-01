@@ -243,6 +243,7 @@ export default function PropertyPortfolio() {
   const [filterOccupancy, setFilterOccupancy] = useState(() => searchParams.get('occ') || '')
   const [filterPathway, setFilterPathway] = useState(() => searchParams.get('pw') || '')
   const [quickWinsOnly, setQuickWinsOnly] = useState(() => searchParams.get('qw') === '1')
+  const [sellableOnly, setSellableOnly] = useState(() => searchParams.get('sell') === '1')
   const [sortField, setSortField] = useState(() => searchParams.get('sort') || 'name')
   const [sortDir, setSortDir] = useState(() => searchParams.get('dir') || 'asc')
   const [page, setPage] = useState(() => parseInt(searchParams.get('page'), 10) || 1)
@@ -263,13 +264,14 @@ export default function PropertyPortfolio() {
     if (filterOccupancy) params.occ = filterOccupancy
     if (filterPathway) params.pw = filterPathway
     if (quickWinsOnly) params.qw = '1'
+    if (sellableOnly) params.sell = '1'
     if (sortField && sortField !== 'name') params.sort = sortField
     if (sortDir && sortDir !== 'asc') params.dir = sortDir
     if (page > 1) params.page = String(page)
     if (viewMode !== 'table') params.view = viewMode
     if (mapOverlay !== 'category') params.overlay = mapOverlay
     setSearchParams(params, { replace: true })
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sellableOnly, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
 
   // --- Parse data ---
   const meta = data?.meta || {}
@@ -378,8 +380,12 @@ export default function PropertyPortfolio() {
       result = result.filter(isQuickWin)
     }
 
+    if (sellableOnly) {
+      result = result.filter(a => a.sellable_by_lcc === true)
+    }
+
     return result
-  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
+  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sellableOnly])
 
   // --- Map assets (geocoded + overlay colour) ---
   const mapAssets = useMemo(() => {
@@ -423,6 +429,11 @@ export default function PropertyPortfolio() {
               : a.tier === 'jv' ? '#bf5af2'
               : a.tier === 'third_party' ? '#ff453a'
               : '#0a84ff'  // county (direct LCC)
+            break
+          case 'sellability':
+            markerColor = a.sellable_by_lcc === true ? '#30d158'
+              : a.sellable_by_lcc === false ? '#ff453a'
+              : '#8e8e93'
             break
           default:
             markerColor = CATEGORY_COLORS[a.category] || '#9E9E9E'
@@ -599,10 +610,11 @@ export default function PropertyPortfolio() {
     setFilterOccupancy('')
     setFilterPathway('')
     setQuickWinsOnly(false)
+    setSellableOnly(false)
     setPage(1)
   }, [])
 
-  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterTier || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || quickWinsOnly
+  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterTier || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || quickWinsOnly || sellableOnly
 
   // --- Access gate ---
   if (!hasAccess) {
@@ -1241,6 +1253,26 @@ export default function PropertyPortfolio() {
             ⚡ Quick Wins{meta.quick_wins ? ` (${meta.quick_wins})` : ''}
           </button>
 
+          {/* Sellable by LCC toggle */}
+          {meta.ownership?.sellable_by_lcc > 0 && (
+            <button
+              onClick={() => setSellableOnly(!sellableOnly)}
+              style={{
+                padding: '8px 12px',
+                borderRadius: '8px',
+                border: sellableOnly ? '1px solid rgba(48,209,88,0.5)' : '1px solid rgba(255,255,255,0.15)',
+                background: sellableOnly ? 'rgba(48,209,88,0.15)' : 'rgba(255,255,255,0.05)',
+                color: sellableOnly ? '#30d158' : 'var(--text-secondary, #aaa)',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                fontWeight: sellableOnly ? 600 : 400,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              🏷️ Sellable ({meta.ownership.sellable_by_lcc})
+            </button>
+          )}
+
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
@@ -1494,6 +1526,7 @@ export default function PropertyPortfolio() {
               { id: 'heritage', label: 'Heritage' },
               { id: 'constraints', label: 'Constraints' },
               { id: 'ownership', label: 'Ownership' },
+              { id: 'sellability', label: 'Sellability' },
             ].map(mode => (
               <button
                 key={mode.id}
@@ -1603,6 +1636,16 @@ export default function PropertyPortfolio() {
                 <span key={grade} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
                   {HERITAGE_LABELS[grade] || grade}
+                </span>
+              ))}
+              {mapOverlay === 'sellability' && [
+                { label: 'Sellable by LCC', color: '#30d158' },
+                { label: 'Not sellable', color: '#ff453a' },
+                { label: 'Unknown', color: '#8e8e93' },
+              ].map(item => (
+                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                  {item.label}
                 </span>
               ))}
               {mapOverlay === 'constraints' && Object.entries(CONSTRAINT_COLORS).map(([key, color]) => (

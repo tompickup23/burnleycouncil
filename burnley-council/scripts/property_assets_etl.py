@@ -68,6 +68,8 @@ LEAN_FIELDS = [
     # Ownership hierarchy
     'owner_entity', 'owner_entity_ch', 'ownership_model', 'ownership_pct',
     'tier', 'parent_council',
+    # Sellability (LCC as shareholder can direct subsidiaries to sell)
+    'sellable_by_lcc', 'sale_mechanism',
 ]
 
 
@@ -1798,8 +1800,9 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
     # Helper to sync ownership fields from lean to detail
     def _sync_ownership(lean, detail):
         for k in ('owner_entity', 'owner_entity_ch', 'ownership_model',
-                   'ownership_pct', 'tier', 'parent_council'):
-            detail[k] = lean[k]
+                   'ownership_pct', 'tier', 'parent_council',
+                   'sellable_by_lcc', 'sale_mechanism'):
+            detail[k] = lean.get(k)
 
     if is_subsidiary and entity_key in LCC_SUBSIDIARIES:
         sub = LCC_SUBSIDIARIES[entity_key]
@@ -1809,6 +1812,16 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
         lean['ownership_pct'] = sub['lcc_stake']
         lean['tier'] = sub['tier']
         lean['parent_council'] = 'lancashire_cc'
+        # LCC as majority shareholder (≥50%) can direct the company to sell
+        # Wholly-owned subs: LCC can instruct sale via board resolution
+        # JVs (50%): need partner consent but LCC has blocking stake
+        lean['sellable_by_lcc'] = sub['lcc_stake'] >= 0.5
+        lean['sale_mechanism'] = (
+            'board_resolution' if sub['lcc_stake'] >= 1.0
+            else 'shareholder_vote' if sub['lcc_stake'] > 0.5
+            else 'partner_consent' if sub['lcc_stake'] == 0.5
+            else 'minority_stake'
+        )
         if detail:
             _sync_ownership(lean, detail)
             detail['ownership_detail'] = {
@@ -1819,8 +1832,10 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
                 'lcc_stake': sub['lcc_stake'],
                 'governance': sub['governance'],
                 'parent_entity': sub['parent_entity'],
-                'notes': f"Wholly-owned LCC subsidiary" if sub['lcc_stake'] >= 1.0
-                         else f"LCC {int(sub['lcc_stake']*100)}% joint venture",
+                'sellable_by_lcc': lean['sellable_by_lcc'],
+                'sale_mechanism': lean['sale_mechanism'],
+                'notes': f"Wholly-owned LCC subsidiary — sellable via board resolution" if sub['lcc_stake'] >= 1.0
+                         else f"LCC {int(sub['lcc_stake']*100)}%% JV — sellable with partner consent",
             }
     elif is_non_owned:
         lean['owner_entity'] = safe_str(row.get('ownership_details')) or 'Third Party'
@@ -1828,6 +1843,8 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
         lean['ownership_pct'] = 0.0
         lean['tier'] = 'third_party'
         lean['parent_council'] = 'lancashire_cc'
+        lean['sellable_by_lcc'] = False  # LCC freehold but not controlled
+        lean['sale_mechanism'] = 'not_applicable'
         if detail:
             _sync_ownership(lean, detail)
             detail['ownership_detail'] = {
@@ -1837,6 +1854,8 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
                 'lcc_stake': 0.0,
                 'governance': 'third_party_occupation',
                 'parent_entity': None,
+                'sellable_by_lcc': False,
+                'sale_mechanism': 'not_applicable',
                 'notes': 'Non-owned: governance review needed',
             }
     else:
@@ -1847,6 +1866,8 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
         lean['ownership_pct'] = 1.0
         lean['tier'] = 'county'
         lean['parent_council'] = 'lancashire_cc'
+        lean['sellable_by_lcc'] = True  # Direct ownership = full control
+        lean['sale_mechanism'] = 'direct_disposal'
         if detail:
             _sync_ownership(lean, detail)
             detail['ownership_detail'] = {
@@ -1856,6 +1877,8 @@ def assign_ownership(lean, detail, row, is_subsidiary=False):
                 'lcc_stake': 1.0,
                 'governance': 'direct_ownership',
                 'parent_entity': None,
+                'sellable_by_lcc': True,
+                'sale_mechanism': 'direct_disposal',
                 'notes': None,
             }
 
@@ -2977,6 +3000,14 @@ def compute_meta(lean_assets, detail_assets):
         om = a.get('ownership_model', 'unknown')
         assets_by_ownership_model[om] = assets_by_ownership_model.get(om, 0) + 1
 
+    # Sellability stats
+    sellable_count = sum(1 for a in lean_assets if a.get('sellable_by_lcc'))
+    sellable_value = sum(a.get('rb_market_value') or 0 for a in lean_assets if a.get('sellable_by_lcc'))
+    sale_mechanisms = {}
+    for a in lean_assets:
+        sm = a.get('sale_mechanism', 'unknown')
+        sale_mechanisms[sm] = sale_mechanisms.get(sm, 0) + 1
+
     return {
         'generated': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
         'source': 'LCC Local Authority Land List + Codex enrichment + AI DOGE CED mapping + live API enrichment (Police/EA/HE/NE)',
@@ -3042,6 +3073,9 @@ def compute_meta(lean_assets, detail_assets):
             'assets_by_tier': dict(sorted(assets_by_tier.items(), key=lambda x: -x[1])),
             'assets_by_ownership_model': dict(sorted(assets_by_ownership_model.items(), key=lambda x: -x[1])),
             'value_by_tier': {k: round(v) for k, v in sorted(value_by_tier.items(), key=lambda x: -x[1])},
+            'sellable_by_lcc': sellable_count,
+            'sellable_value': round(sellable_value),
+            'sale_mechanisms': dict(sorted(sale_mechanisms.items(), key=lambda x: -x[1])),
         },
         'ced_summary': dict(sorted(ced_summary.items())),
         # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)

@@ -349,6 +349,85 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
     });
   }
 
+  // Sellable assets (LCC can direct sale as majority shareholder)
+  const sellable = wardAssets.filter(a => a.sellable_by_lcc);
+  const nonSellable = wardAssets.filter(a => a.sellable_by_lcc === false);
+  if (sellable.length > 0 && nonSellable.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'TrendingUp',
+      priority: 2,
+      text: `${sellable.length} of ${wardAssets.length} assets sellable by LCC (including subsidiaries via board resolution). ${nonSellable.length} require third-party agreement.`,
+    });
+  }
+
+  return points;
+}
+
+/**
+ * Generate talking points based on planning application data in a ward.
+ * @param {string} wardName - Ward name
+ * @param {Object} planningData - planning.json data for the council
+ * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
+ */
+export function generatePlanningTalkingPoints(wardName, planningData) {
+  const points = [];
+  if (!wardName || !planningData?.summary?.by_ward) return points;
+
+  const wardApps = planningData.summary.by_ward[wardName] || 0;
+  if (wardApps === 0) return points;
+
+  const totalApps = planningData.summary.total || 1;
+  const wardPct = Math.round((wardApps / totalApps) * 100);
+
+  points.push({
+    category: 'Planning',
+    icon: 'Building',
+    priority: wardApps > 50 ? 2 : 3,
+    text: `${wardApps} planning applications (${wardPct}% of council total). ${wardApps > 50 ? 'High development pressure — community concern likely.' : 'Moderate development activity.'}`,
+  });
+
+  // Planning efficiency context
+  const efficiency = planningData.efficiency;
+  if (efficiency?.cost_per_application) {
+    points.push({
+      category: 'Planning',
+      icon: 'PoundSterling',
+      priority: 3,
+      text: `Planning costs £${efficiency.cost_per_application.toLocaleString()} per application (${efficiency.budget_year}). Potential LGR consolidation savings.`,
+    });
+  }
+
+  // Approval rate context
+  const approvalRate = planningData.summary.approval_rate;
+  if (approvalRate != null) {
+    const pct = Math.round(approvalRate * 100);
+    if (pct < 70) {
+      points.push({
+        category: 'Planning',
+        icon: 'AlertTriangle',
+        priority: 2,
+        text: `Low approval rate (${pct}%) — residents may feel planning process is broken or obstructive.`,
+      });
+    }
+  }
+
+  // Cross-references: planning on council land
+  const propMatches = planningData.cross_references?.property_matches;
+  if (propMatches?.length > 0) {
+    const wardMatches = propMatches.filter(m =>
+      m.application?.ward === wardName
+    );
+    if (wardMatches.length > 0) {
+      points.push({
+        category: 'Planning',
+        icon: 'Target',
+        priority: 1,
+        text: `${wardMatches.length} planning application${wardMatches.length !== 1 ? 's' : ''} within 100m of council-owned assets — potential disposal/development coordination opportunity.`,
+      });
+    }
+  }
+
   return points;
 }
 
