@@ -34,9 +34,10 @@
     "councillor_profiles": true,
     "foi_templates": true,
     "ward_boundaries": true,
-    "supplier_profiles": true
+    "supplier_profiles": true,
+    "planning": true
   },
-  "spending_data_period": "January 2021 \u2013 present",
+  "spending_data_period": "January 2021 – present",
   "hero_subtitle": "Explore how Chorley Borough Council spends public money. All data comes from publicly available council documents.",
   "disclaimer_entity": "Chorley Borough Council",
   "publisher": "Tom Pickup",
@@ -78,52 +79,52 @@
   "theme_accent": "#C62828",
   "political_control": "Labour majority (36 seats of 42). Conservative 4, Reform UK 1, Independent 1.",
   "doge_context": {
-    "total_spend": "\u00a3365M",
+    "total_spend": "£365M",
     "transactions": 21421,
     "suppliers": 2170,
     "data_period": "2021/2022 - 2025/2026",
-    "annual_net_revenue_budget": "\u00a314.1M",
+    "annual_net_revenue_budget": "£14.1M",
     "political_control": "Labour majority (36 seats of 42). Conservative 4, Reform UK 1, Independent 1.",
     "key_suppliers": [
       {
         "name": "Lancashire County Council",
-        "spend": "\u00a3149.0M",
+        "spend": "£149.0M",
         "note": "County-level precept and service payments"
       },
       {
         "name": "MHCLG",
-        "spend": "\u00a332.4M",
+        "spend": "£32.4M",
         "note": "Government grant passthrough"
       },
       {
         "name": "Police & Crime Commissioner",
-        "spend": "\u00a321.8M",
+        "spend": "£21.8M",
         "note": "Policing precept collection"
       }
     ],
     "doge_findings": {
-      "likely_duplicates": "\u00a374.4K across 184 high-confidence duplicate groups",
-      "ch_red_flags": "\u00a393.5K to 7 suppliers with Companies House compliance issues",
-      "split_payments": "\u00a396.3K suspected across 2 instances",
+      "likely_duplicates": "£74.4K across 184 high-confidence duplicate groups",
+      "ch_red_flags": "£93.5K to 7 suppliers with Companies House compliance issues",
+      "split_payments": "£96.3K suspected across 2 instances",
       "year_end_spike": "Policy & Governance spent 5.7x monthly average in March",
-      "round_numbers": "\u00a39.9M across 320 round-number payments over \u00a35K",
-      "benfords_law": "3.5% max digit deviation \u2014 within normal range",
+      "round_numbers": "£9.9M across 320 round-number payments over £5K",
+      "benfords_law": "3.5% max digit deviation — within normal range",
       "weak_competition": "7 contracts with limited competition indicators"
     },
     "notable_suppliers": [
       {
         "name": "Chorley Leisure Ltd",
-        "spend": "\u00a33.5M",
-        "note": "Arms-length leisure company \u2014 42 transactions"
+        "spend": "£3.5M",
+        "note": "Arms-length leisure company — 42 transactions"
       },
       {
         "name": "Robertson CE Ltd",
-        "spend": "\u00a311.2M",
-        "note": "Major construction \u2014 22 transactions"
+        "spend": "£11.2M",
+        "note": "Major construction — 22 transactions"
       },
       {
         "name": "FCC Environment Services",
-        "spend": "\u00a35.6M",
+        "spend": "£5.6M",
         "note": "Waste collection services"
       }
     ]

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-01T21:47:52",
+  "generated": "2026-03-01T22:30:41",
   "benchmarks": {
     "district": {
       "count": 12,
@@ -8,10 +8,10 @@
       "median_reserves_months": 14.2,
       "median_collection_rate": 95.5,
       "median_dependency_ratio": 62.6,
-      "planning_councils_with_data": 5,
+      "planning_councils_with_data": 7,
       "median_cost_per_planning_app": 771,
-      "median_apps_per_year": 744,
-      "median_planning_approval_rate": 0.742
+      "median_apps_per_year": 532,
+      "median_planning_approval_rate": 0.666
     },
     "county": {
       "count": 1,
@@ -1090,42 +1090,40 @@
       "majority_threshold": 31,
       "ruling_party": "Green Party",
       "planning": {
-        "total_applications": 373,
+        "total_applications": 85,
         "by_year": {
-          "2024": 166,
-          "2025": 207
+          "2026": 85
         },
         "by_type": {
-          "Full": 135,
-          "Conditions": 67,
-          "Outline": 66,
-          "Trees": 50,
-          "Heritage": 18,
-          "Amendment": 18,
-          "Other": 13,
-          "Advertising": 6
+          "Full": 30,
+          "Conditions": 18,
+          "Outline": 13,
+          "Trees": 9,
+          "Heritage": 6,
+          "Amendment": 5,
+          "Other": 3,
+          "Advertising": 1
         },
         "by_decision": {
-          "Permitted": 289,
-          "Rejected": 50,
-          "Unresolved": 14,
-          "Undecided": 12,
-          "Withdrawn": 8
+          "Undecided": 74,
+          "Permitted": 7,
+          "Rejected": 3,
+          "Withdrawn": 1
         },
         "by_size": {
-          "Small": 351,
-          "Medium": 19,
-          "Large": 3
+          "Small": 82,
+          "Medium": 2,
+          "Large": 1
         },
-        "approval_rate": 0.853,
-        "avg_decision_days": 70,
-        "median_decision_days": 56,
-        "decided_count": 339,
-        "apps_per_year": 186,
+        "approval_rate": 0.7,
+        "avg_decision_days": 11,
+        "median_decision_days": 12,
+        "decided_count": 10,
+        "apps_per_year": 85,
         "development_control_spend": -480000,
-        "cost_per_application": -2574,
+        "cost_per_application": -5647,
         "total_planning_spend": 6056000,
-        "total_cost_per_app": 32472,
+        "total_cost_per_app": 71247,
         "budget_year": "2024-25",
         "years_back": 3,
         "fetched": "2026-03-01"
@@ -1309,7 +1307,45 @@
       "total_councillors": 40,
       "majority_threshold": 21,
       "ruling_party": "Conservative",
-      "planning": {},
+      "planning": {
+        "total_applications": 880,
+        "by_year": {
+          "2024": 330,
+          "2025": 550
+        },
+        "by_type": {
+          "Full": 502,
+          "Trees": 104,
+          "Conditions": 78,
+          "Other": 70,
+          "Outline": 68,
+          "Heritage": 38,
+          "Amendment": 20
+        },
+        "by_decision": {
+          "Conditions": 558,
+          "Rejected": 116,
+          "Permitted": 116,
+          "Withdrawn": 74,
+          "Undecided": 16
+        },
+        "by_size": {
+          "Small": 838,
+          "null": 42
+        },
+        "approval_rate": 0.5,
+        "avg_decision_days": 92,
+        "median_decision_days": 71,
+        "decided_count": 232,
+        "apps_per_year": 440,
+        "development_control_spend": 300600,
+        "cost_per_application": 683,
+        "total_planning_spend": 904600,
+        "total_cost_per_app": 2056,
+        "budget_year": "2024-25",
+        "years_back": 3,
+        "fetched": "2026-03-01"
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
@@ -1455,7 +1491,47 @@
       "total_councillors": 42,
       "majority_threshold": 22,
       "ruling_party": "Labour",
-      "planning": {},
+      "planning": {
+        "total_applications": 430,
+        "by_year": {
+          "2024": 318,
+          "2025": 112
+        },
+        "by_type": {
+          "Full": 200,
+          "Trees": 74,
+          "Outline": 66,
+          "Conditions": 38,
+          "Amendment": 26,
+          "Heritage": 12,
+          "Telecoms": 6,
+          "Advertising": 6,
+          "null": 2
+        },
+        "by_decision": {
+          "Permitted": 342,
+          "Conditions": 36,
+          "Undecided": 20,
+          "Withdrawn": 18,
+          "Rejected": 14
+        },
+        "by_size": {
+          "Small": 398,
+          "Large": 32
+        },
+        "approval_rate": 0.961,
+        "avg_decision_days": 92,
+        "median_decision_days": 66,
+        "decided_count": 356,
+        "apps_per_year": 215,
+        "development_control_spend": 576000,
+        "cost_per_application": 2679,
+        "total_planning_spend": 563000,
+        "total_cost_per_app": 2619,
+        "budget_year": "2024-25",
+        "years_back": 3,
+        "fetched": "2026-03-01"
+      },
       "per_capita_rank": 0,
       "per_capita_percentile": 0
     },
