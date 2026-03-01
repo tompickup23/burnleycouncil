@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-02-28
+> Last updated: 2026-03-01
 
-**Summary**: 7 open issues | Critical: 1 | High: 3 | Medium: 3 | Low: 0
+**Summary**: 7 open issues | 1 auto-resolved this run | Critical: 0 | High: 3 | Medium: 4 | Low: 0
 
 ---
 
@@ -28,12 +28,13 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
-| A15 | Critical | React hooks after early return (Rules of Hooks violation) [auto] | Violations: DogeInvestigation:156 (useMemo). Move ALL hooks before any `return` statements. | open |
 | A1 | High | 1 pages have no `useData` error handling [auto] | Pages: SupplierView. Add error fallback UI. | open |
 | A2 | High | 1 pages have zero tests [auto] | Untested: MPComparison (609L). | open |
-| A17 | Medium | Unguarded chained property access (136 instances) [auto] | At Budgets:396, Budgets:591, Budgets:1429, Budgets:1457, Budgets:1570.... Use optional chaining or `|| {}` defaults. | open |
-| A4 | Medium | Accessibility gaps in 4 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView, CouncillorDossier, MPComparison. | open |
-| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:99`. Add clearTimeout in useEffect cleanup. | open |
+| A17 | Medium | Unguarded chained property access (144 instances) [auto] | At Budgets:452, Budgets:647, Budgets:1485, Budgets:1513, Budgets:1626.... Use optional chaining or `|| {}` defaults. | open |
+| A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (4 data transforms, 1 useMemo). | open |
+| A4 | Medium | Accessibility gaps in 6 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView, CouncillorDossier, MPComparison, PropertyDetail, PropertyPortfolio. | open |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:101`, `src/pages/Strategy.jsx:405`, `src/pages/Strategy.jsx:417`. Add clearTimeout in useEffect cleanup. | open |
+| A15 | Critical | React hooks after early return (Rules of Hooks violation) [auto] | Violations: DogeInvestigation:156 (useMemo). Move ALL hooks before any `return` statements. | fixed |
 
 ---
 
@@ -58,3 +59,4 @@
 - **2026-02-26** — Auto-scan: 6 issues found
 - **2026-02-27** — Auto-scan: 6 issues found
 - **2026-02-28** — Auto-scan: 7 issues found
+- **2026-03-01** — Auto-scan: 7 issues found, 1 resolved
