@@ -539,6 +539,48 @@ function CrossCouncil() {
               </div>
             ))}
           </div>
+
+          {/* LGR Consolidation Savings Estimate */}
+          {(() => {
+            const withCost = planningData.filter(d => d.costPerApp > 0 && d.totalPlanningSpend > 0)
+            if (withCost.length < 3) return null
+            const totalSpend = withCost.reduce((s, d) => s + d.totalPlanningSpend, 0)
+            const totalApps = withCost.reduce((s, d) => s + d.appsPerYear, 0)
+            const bestCost = Math.min(...withCost.map(d => d.costPerApp))
+            const targetCost = Math.round(bestCost * 1.1) // 10% above best as realistic target
+            const consolidatedSpend = totalApps * targetCost
+            const saving = totalSpend - consolidatedSpend
+            if (saving <= 0) return null
+            return (
+              <div style={{ marginTop: 16, padding: '16px 20px', background: 'rgba(48,209,88,0.08)', borderRadius: '12px', border: '1px solid rgba(48,209,88,0.2)' }}>
+                <h4 style={{ fontSize: '0.85rem', color: '#30d158', margin: '0 0 8px 0' }}>
+                  LGR Planning Consolidation Potential
+                </h4>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0 0 8px 0' }}>
+                  If planning departments were merged under LGR and achieved the best-practice cost of £{bestCost.toLocaleString()}/app
+                  (+10% overhead = £{targetCost.toLocaleString()}/app target), estimated annual savings:
+                </p>
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                  <div>
+                    <span style={{ fontSize: '1.2rem', fontWeight: 700, color: '#30d158' }}>£{Math.round(saving / 1000).toLocaleString()}k</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginLeft: 6 }}>estimated annual saving</span>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>{totalApps.toLocaleString()}</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginLeft: 6 }}>combined apps/year ({withCost.length} councils)</span>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>£{Math.round(totalSpend / 1000).toLocaleString()}k</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginLeft: 6 }}>current total dev control spend</span>
+                  </div>
+                </div>
+                <p style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', margin: '8px 0 0 0' }}>
+                  Indicative only. Actual savings depend on staff TUPE, IT systems, and transition timeline.
+                  Based on {withCost.length} councils with complete planning + budget data.
+                </p>
+              </div>
+            )
+          })()}
         </section>
       )}
 
