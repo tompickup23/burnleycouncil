@@ -67,6 +67,10 @@ const OCCUPANCY_MAP_COLORS = {
   occupied: '#0a84ff', school_grounds: '#5e5ce6', likely_vacant: '#ff9f0a',
   vacant_land: '#30d158', third_party: '#bf5af2', unknown: '#8e8e93',
 }
+const HERITAGE_COLORS = { 'I': '#c41e3a', 'II*': '#e8662e', 'II': '#ffa500', none: '#8e8e93' }
+const HERITAGE_LABELS = { 'I': 'Grade I Listed', 'II*': 'Grade II* Listed', 'II': 'Grade II Listed', none: 'No Listing' }
+const CONSTRAINT_COLORS = { sssi: '#2d5016', aonb: '#70ad47', flood3: '#002060', flood2: '#4472c4', none: '#8e8e93' }
+const CONSTRAINT_LABELS = { sssi: 'SSSI', aonb: 'AONB / National Landscape', flood3: 'Flood Zone 3', flood2: 'Flood Zone 2', none: 'No Constraint' }
 
 const PATHWAY_LABELS = {
   quick_win_auction: 'Quick Win — Auction',
@@ -398,6 +402,16 @@ export default function PropertyPortfolio() {
           case 'occupancy':
             markerColor = OCCUPANCY_MAP_COLORS[a.occupancy_status] || '#8e8e93'
             break
+          case 'heritage':
+            markerColor = a.listed_building_grade ? (HERITAGE_COLORS[a.listed_building_grade] || '#ffa500') : '#8e8e93'
+            break
+          case 'constraints':
+            markerColor = a.sssi_nearby ? CONSTRAINT_COLORS.sssi
+              : a.aonb_name ? CONSTRAINT_COLORS.aonb
+              : a.flood_zone >= 3 ? CONSTRAINT_COLORS.flood3
+              : a.flood_zone >= 2 ? CONSTRAINT_COLORS.flood2
+              : '#8e8e93'
+            break
           default:
             markerColor = CATEGORY_COLORS[a.category] || '#9E9E9E'
         }
@@ -484,7 +498,7 @@ export default function PropertyPortfolio() {
 
   // --- CSV Export ---
   const exportCSV = useCallback(() => {
-    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total']
+    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total', 'Listed Building Grade', 'Flood Zone', 'SSSI Nearby', 'AONB', 'Deprivation Level', 'IMD Decile']
     const rows = sortedAssets.map(a => [
       `"${(a.name || '').replace(/"/g, '""')}"`,
       `"${(a.address || '').replace(/"/g, '""')}"`,
@@ -528,6 +542,12 @@ export default function PropertyPortfolio() {
       a.nearby_1000m ?? 0,
       a.flood_areas_1km ?? 0,
       a.crime_total ?? 0,
+      a.listed_building_grade || '',
+      a.flood_zone ?? '',
+      a.sssi_nearby ? 'Yes' : 'No',
+      `"${(a.aonb_name || '').replace(/"/g, '""')}"`,
+      `"${(a.deprivation_level || '').replace(/_/g, ' ')}"`,
+      a.imd_decile ?? '',
     ].join(','))
 
     const csv = [headers.join(','), ...rows].join('\n')
@@ -1428,6 +1448,8 @@ export default function PropertyPortfolio() {
               { id: 'disposal', label: 'Disposal' },
               { id: 'netzero', label: 'Net Zero' },
               { id: 'epc', label: 'EPC Rating' },
+              { id: 'heritage', label: 'Heritage' },
+              { id: 'constraints', label: 'Constraints' },
             ].map(mode => (
               <button
                 key={mode.id}
@@ -1533,6 +1555,18 @@ export default function PropertyPortfolio() {
                     {OCCUPANCY_LABELS[occ] || occ.replace(/_/g, ' ')}
                   </span>
                 ))}
+              {mapOverlay === 'heritage' && Object.entries(HERITAGE_COLORS).map(([grade, color]) => (
+                <span key={grade} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  {HERITAGE_LABELS[grade] || grade}
+                </span>
+              ))}
+              {mapOverlay === 'constraints' && Object.entries(CONSTRAINT_COLORS).map(([key, color]) => (
+                <span key={key} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
+                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  {CONSTRAINT_LABELS[key] || key}
+                </span>
+              ))}
             </div>
           </div>
         </div>

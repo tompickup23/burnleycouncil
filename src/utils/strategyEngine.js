@@ -235,6 +235,44 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
     });
   }
 
+  // Heritage constraints
+  const listed = wardAssets.filter(a => a.listed_building_grade);
+  if (listed.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'Shield',
+      priority: 3,
+      text: `${listed.length} listed building${listed.length !== 1 ? 's' : ''} — heritage constraints affect disposal options and maintenance obligations.`,
+    });
+  }
+
+  // Flood risk
+  const floodRisk = wardAssets.filter(a => a.flood_zone >= 2);
+  if (floodRisk.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'AlertTriangle',
+      priority: 3,
+      text: `${floodRisk.length} asset${floodRisk.length !== 1 ? 's' : ''} in flood zone — environmental risk disclosure required for any disposal.`,
+    });
+  }
+
+  // Valuation context
+  const withComps = wardAssets.filter(a => (a.lr_median_price || 0) > 0);
+  if (withComps.length > 0) {
+    const medians = withComps.map(a => a.lr_median_price);
+    const areaAvg = Math.round(medians.reduce((s, p) => s + p, 0) / medians.length);
+    const fmt = areaAvg >= 1000000
+      ? `£${(areaAvg / 1000000).toFixed(1)}M`
+      : `£${Math.round(areaAvg / 1000)}k`;
+    points.push({
+      category: 'Property',
+      icon: 'TrendingUp',
+      priority: 3,
+      text: `Area median property price: ${fmt} (Land Registry) — context for asset valuation and disposal pricing.`,
+    });
+  }
+
   return points;
 }
 
@@ -274,6 +312,19 @@ export function generatePropertySummary(wardName, propertyAssets) {
     categories[cat] = (categories[cat] || 0) + 1;
   }
 
+  // Heritage / environmental constraints
+  const listedCount = wardAssets.filter(a => a.listed_building_grade).length;
+  const floodZoneCount = wardAssets.filter(a => a.flood_zone >= 2).length;
+  const sssiCount = wardAssets.filter(a => a.sssi_nearby).length;
+  const aonbCount = wardAssets.filter(a => a.aonb_name).length;
+
+  // Valuation context (Land Registry comparables)
+  const withComps = wardAssets.filter(a => (a.lr_comparables_count || 0) > 0);
+  const medianPrices = withComps.map(a => a.lr_median_price).filter(Boolean);
+  const areaMedian = medianPrices.length > 0
+    ? Math.round(medianPrices.reduce((s, p) => s + p, 0) / medianPrices.length)
+    : null;
+
   return {
     total: wardAssets.length,
     totalSpend,
@@ -283,12 +334,23 @@ export function generatePropertySummary(wardName, propertyAssets) {
     pathways,
     occupancy,
     categories,
+    listedCount,
+    floodZoneCount,
+    sssiCount,
+    aonbCount,
+    valuationContext: areaMedian ? {
+      assetsWithComps: withComps.length,
+      areaMedianPrice: areaMedian,
+    } : null,
     assets: wardAssets.map(a => ({
       id: a.id, name: a.name, category: a.category,
       epc_rating: a.epc_rating, disposal_pathway: a.disposal_pathway,
       occupancy_status: a.occupancy_status,
       disposal_complexity: a.disposal_complexity || 0,
       linked_spend: a.linked_spend || 0, condition_spend: a.condition_spend || 0,
+      listed_building_grade: a.listed_building_grade || null,
+      flood_zone: a.flood_zone || 0,
+      lr_median_price: a.lr_median_price || null,
     })),
   };
 }

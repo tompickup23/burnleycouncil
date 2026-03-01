@@ -867,7 +867,7 @@ function LocationTab({ asset }) {
 
       {/* Crime context */}
       {crime && (
-        <div className="glass-card" style={{ padding: 'var(--space-lg)' }}>
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
           <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Crime Context</h3>
           <div className="property-detail-grid">
             <div className="property-detail-row">
@@ -895,6 +895,238 @@ function LocationTab({ asset }) {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Heritage context */}
+      {asset.heritage && (asset.heritage.listed_building_grade || asset.heritage.listed_buildings_nearby > 0) && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Heritage Context</h3>
+          <div className="property-detail-grid">
+            {asset.heritage.listed_building_grade && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Listed Status</span>
+                <span className="property-detail-value">
+                  <span style={{
+                    display: 'inline-block', padding: '2px 8px', borderRadius: '4px',
+                    background: asset.heritage.listed_building_grade === 'I' ? 'rgba(255,59,48,0.15)' :
+                      asset.heritage.listed_building_grade === 'II*' ? 'rgba(255,149,0,0.15)' : 'rgba(255,204,0,0.15)',
+                    color: asset.heritage.listed_building_grade === 'I' ? '#ff3b30' :
+                      asset.heritage.listed_building_grade === 'II*' ? '#ff9500' : '#ffcc00',
+                    fontWeight: 600, fontSize: '0.85rem',
+                  }}>
+                    Grade {asset.heritage.listed_building_grade}
+                  </span>
+                </span>
+              </div>
+            )}
+            {asset.heritage.listed_building_name && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Listed Name</span>
+                <span className="property-detail-value">{asset.heritage.listed_building_name}</span>
+              </div>
+            )}
+            {asset.heritage.listed_building_entry && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">List Entry</span>
+                <span className="property-detail-value">
+                  <a
+                    href={`https://historicengland.org.uk/listing/the-list/list-entry/${asset.heritage.listed_building_entry}`}
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ color: '#0a84ff' }}
+                  >
+                    #{asset.heritage.listed_building_entry} <ExternalLink size={11} />
+                  </a>
+                </span>
+              </div>
+            )}
+            <div className="property-detail-row">
+              <span className="property-detail-label">Listed Buildings Nearby (200m)</span>
+              <span className="property-detail-value">{formatNumber(asset.heritage.listed_buildings_nearby || 0)}</span>
+            </div>
+            {asset.heritage.nearby_detail?.length > 0 && (
+              <div className="property-detail-row" style={{ flexDirection: 'column', gap: '4px' }}>
+                <span className="property-detail-label">Nearby Detail</span>
+                <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>
+                  {asset.heritage.nearby_detail.slice(0, 5).map((b, i) => (
+                    <div key={i} style={{ padding: '2px 0' }}>
+                      Grade {b.grade} — {b.name} ({b.distance_m}m)
+                    </div>
+                  ))}
+                  {asset.heritage.nearby_detail.length > 5 && (
+                    <div style={{ opacity: 0.6 }}>+ {asset.heritage.nearby_detail.length - 5} more</div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Environmental designations */}
+      {asset.environment && (asset.environment.sssi_nearby || asset.environment.aonb_name || asset.environment.flood_zone > 0) && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Environmental Constraints</h3>
+          <div className="property-detail-grid">
+            {asset.environment.flood_zone > 0 && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">EA Flood Zone</span>
+                <span className="property-detail-value">
+                  <span style={{
+                    display: 'inline-block', padding: '2px 8px', borderRadius: '4px',
+                    background: asset.environment.flood_zone >= 3 ? 'rgba(255,59,48,0.15)' : 'rgba(255,149,0,0.15)',
+                    color: asset.environment.flood_zone >= 3 ? '#ff3b30' : '#ff9500',
+                    fontWeight: 600, fontSize: '0.85rem',
+                  }}>
+                    Zone {asset.environment.flood_zone}
+                  </span>
+                </span>
+              </div>
+            )}
+            {asset.environment.flood_stations_1km > 0 && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Flood Monitoring Stations (1km)</span>
+                <span className="property-detail-value">{asset.environment.flood_stations_1km}</span>
+              </div>
+            )}
+            {asset.environment.flood_nearest_river && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Nearest River(s)</span>
+                <span className="property-detail-value">{asset.environment.flood_nearest_river}</span>
+              </div>
+            )}
+            {asset.environment.sssi_nearby && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">SSSI</span>
+                <span className="property-detail-value">
+                  <span style={{
+                    display: 'inline-block', padding: '2px 8px', borderRadius: '4px',
+                    background: 'rgba(52,199,89,0.15)', color: '#34c759', fontWeight: 600, fontSize: '0.85rem',
+                  }}>
+                    {asset.environment.sssi_name || 'Nearby'}
+                  </span>
+                </span>
+              </div>
+            )}
+            {asset.environment.aonb_name && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">AONB / National Landscape</span>
+                <span className="property-detail-value">
+                  <span style={{
+                    display: 'inline-block', padding: '2px 8px', borderRadius: '4px',
+                    background: 'rgba(52,199,89,0.15)', color: '#34c759', fontWeight: 600, fontSize: '0.85rem',
+                  }}>
+                    {asset.environment.aonb_name}
+                  </span>
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Deprivation context */}
+      {asset.deprivation_level && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Deprivation Context</h3>
+          <div className="property-detail-grid">
+            <div className="property-detail-row">
+              <span className="property-detail-label">Deprivation Level</span>
+              <span className="property-detail-value" style={{ textTransform: 'capitalize' }}>
+                {(asset.deprivation_level || '').replace(/_/g, ' ')}
+              </span>
+            </div>
+            {asset.imd_decile != null && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">IMD Decile</span>
+                <span className="property-detail-value">
+                  {asset.imd_decile} / 10
+                  <span style={{ opacity: 0.6, marginLeft: '8px', fontSize: '0.8rem' }}>
+                    (1 = most deprived)
+                  </span>
+                </span>
+              </div>
+            )}
+            {asset.deprivation_score != null && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">IMD Score (approx)</span>
+                <span className="property-detail-value">{asset.deprivation_score.toFixed(1)}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Valuation Context — Land Registry Price Paid comparables */}
+      {asset.valuation?.comparables_count > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <TrendingUp size={16} style={{ color: '#30d158' }} /> Valuation Context — Land Registry
+          </h3>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-md)' }}>
+            Recent sales in {asset.valuation.area || asset.district || 'this area'}. These are area comparables, not direct valuations of this asset.
+          </p>
+          <div className="property-detail-grid" style={{ marginBottom: 'var(--space-md)' }}>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Median Sale Price</span>
+              <span className="property-detail-value" style={{ color: '#30d158', fontWeight: 600 }}>
+                {formatCurrency(asset.valuation.median_price)}
+              </span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Price Range</span>
+              <span className="property-detail-value">
+                {formatCurrency(asset.valuation.min_price)} – {formatCurrency(asset.valuation.max_price)}
+              </span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Sales Analysed</span>
+              <span className="property-detail-value">{asset.valuation.comparables_count}</span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Date Range</span>
+              <span className="property-detail-value">
+                {asset.valuation.oldest_date || '?'} to {asset.valuation.most_recent_date || '?'}
+              </span>
+            </div>
+          </div>
+
+          {/* Top 10 comparables table */}
+          {asset.valuation.comparables?.length > 0 && (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="property-table">
+                <thead>
+                  <tr>
+                    <th>Address</th>
+                    <th>Postcode</th>
+                    <th style={{ textAlign: 'right' }}>Price</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {asset.valuation.comparables.slice(0, 10).map((c, i) => (
+                    <tr key={i}>
+                      <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {c.address || '-'}
+                      </td>
+                      <td>{c.postcode || '-'}</td>
+                      <td style={{ textAlign: 'right', fontWeight: 500 }}>{formatCurrency(c.price)}</td>
+                      <td>{c.date || '-'}</td>
+                      <td style={{ textTransform: 'capitalize' }}>
+                        {(c.type || '').replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {asset.valuation.comparables.length > 10 && (
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '8px', textAlign: 'center' }}>
+                  Showing 10 of {asset.valuation.comparables.length} comparables
+                </p>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
