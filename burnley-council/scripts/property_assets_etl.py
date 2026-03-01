@@ -60,6 +60,9 @@ LEAN_FIELDS = [
     # Smart disposal intelligence (computed by engine)
     'occupancy_status', 'disposal_complexity', 'market_readiness',
     'revenue_potential', 'disposal_pathway', 'disposal_pathway_secondary',
+    # Green Book options appraisal (computed)
+    'gb_preferred_option', 'gb_preferred_npv', 'gb_market_value',
+    'gb_confidence', 'gb_holding_cost',
 ]
 
 
@@ -1023,6 +1026,504 @@ PATHWAY_TIMELINES = {
     'refurbish_relet':         '6-12 months',
 }
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# GREEN BOOK OPTIONS APPRAISAL ENGINE
+# HM Treasury five-case model applied to property disposal.
+# Computes 10-year NPV for 5 standard options per asset.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# HM Treasury Social Time Preference Rate
+GREEN_BOOK_DISCOUNT_RATE = 0.035
+GREEN_BOOK_HORIZON = 10  # years
+
+# Pre-computed discount factors for 3.5% over 10 years
+DISCOUNT_FACTORS = [1.0 / (1 + GREEN_BOOK_DISCOUNT_RATE) ** t for t in range(GREEN_BOOK_HORIZON + 1)]
+ANNUITY_FACTOR = sum(DISCOUNT_FACTORS[1:])  # ≈ 8.3166
+
+# Holding cost benchmarks (£/sqm/year) by category — Lancashire local authority rates
+HOLDING_COST_PER_SQM = {
+    'office_civic': 180,
+    'education': 120,
+    'library': 150,
+    'children_social_care': 140,
+    'operations_depot_waste': 65,
+    'transport_highways': 55,
+    'land_general': 5,       # rates + minimal grounds
+    'land_woodland': 3,
+    'land_open_space': 8,
+    'other_building': 100,
+}
+
+# Market value benchmarks (£/sqm) by category — Lancashire adjusted
+MARKET_VALUE_PER_SQM = {
+    'office_civic': 1100,
+    'education': 900,
+    'library': 850,
+    'children_social_care': 800,
+    'operations_depot_waste': 500,
+    'transport_highways': 400,
+    'land_general': 45,      # per sqm of land
+    'land_woodland': 12,
+    'land_open_space': 30,
+    'other_building': 700,
+}
+
+# Rental yield benchmarks (£/sqm/year) — Lancashire
+RENTAL_YIELD_PER_SQM = {
+    'office_civic': 110,
+    'education': 75,
+    'library': 80,
+    'children_social_care': 70,
+    'operations_depot_waste': 45,
+    'transport_highways': 35,
+    'land_general': 4,
+    'land_woodland': 1,
+    'land_open_space': 5,
+    'other_building': 60,
+}
+
+# Renovation cost benchmarks (£/sqm) by condition
+RENOVATION_COST_PER_SQM = {
+    'good': 350,
+    'fair': 800,
+    'poor': 1400,
+    'unknown': 900,
+}
+
+# HACT social value proxy (£/beneficiary/year) — weighted average
+SOCIAL_VALUE_PER_BENEFICIARY = 2500
+
+# Disposal cost benchmarks
+DISPOSAL_COST_FIXED = 12000   # Legal, marketing, admin
+DISPOSAL_COST_PCT = 0.025     # 2.5% of sale price (agent + marketing)
+
+# Community transfer costs
+CAT_TRANSFER_COST = 10000
+CAT_ANNUAL_SUPPORT = 15000    # Transitional support per year
+CAT_SUPPORT_YEARS = 3
+
+# Development partnership assumptions
+DEV_PLANNING_COST = 100000
+DEV_COUNCIL_SHARE = 0.40
+DEV_TIME_YEARS = 3
+
+
+def estimate_market_value(asset):
+    """Estimate market value from available signals.
+
+    Priority: 1) Sales evidence, 2) LR comparables, 3) Floor area * benchmark.
+    Returns (value, confidence, method) tuple.
+    """
+    floor = asset.get('floor_area_sqm') or 0
+    is_land = asset.get('land_only', False)
+    category = asset.get('category', 'other_building')
+    imd = asset.get('imd_decile') or 5
+    epc = asset.get('epc_rating') or ''
+
+    # Location factor: IMD 1 (most deprived) → 0.76, IMD 10 (affluent) → 1.3
+    loc_factor = 0.7 + (imd / 10) * 0.6
+
+    # EPC factor for buildings
+    epc_factor = {'A': 1.15, 'B': 1.1, 'C': 1.05, 'D': 1.0,
+                  'E': 0.9, 'F': 0.8, 'G': 0.7}.get(epc, 0.95)
+
+    # 1. Sales evidence (most reliable)
+    sales_val_str = asset.get('sales_total_value') or ''
+    if sales_val_str:
+        try:
+            sv = float(str(sales_val_str).replace('£', '').replace(',', '').strip())
+            if sv > 0:
+                return sv, 'high', 'Direct sales evidence'
+        except (ValueError, TypeError):
+            pass
+
+    # 2. LR comparables (area-level proxy)
+    lr_median = asset.get('lr_median_price') or 0
+    if lr_median > 0:
+        # Scale by floor area relative to typical property
+        if floor > 0 and not is_land:
+            # Average UK property ~80sqm; scale proportionally but cap at 5x
+            area_ratio = min(floor / 80, 5.0)
+            val = int(lr_median * area_ratio * epc_factor)
+            return val, 'medium', f'LR comparable (median £{lr_median:,} × area ratio {area_ratio:.1f})'
+        else:
+            return lr_median, 'low', f'LR area median (£{lr_median:,})'
+
+    # 3. Floor area * benchmark rate
+    if floor > 0:
+        base = MARKET_VALUE_PER_SQM.get(category, 700)
+        val = int(floor * base * loc_factor * epc_factor)
+        return val, 'low', f'Benchmark {category} @ £{base}/sqm × loc {loc_factor:.2f}'
+
+    # 4. Land area estimate
+    if is_land:
+        # Assume 0.1ha minimum for small sites
+        land_sqm = max(floor, 1000)  # at least 1000sqm
+        base = MARKET_VALUE_PER_SQM.get(category, 45)
+        val = int(land_sqm * base * loc_factor)
+        return val, 'very_low', f'Land benchmark {category} @ £{base}/sqm'
+
+    # 5. Fallback — minimal value
+    return 50000, 'very_low', 'Fallback estimate (no floor area or comparables)'
+
+
+def estimate_annual_holding_cost(asset):
+    """Estimate annual holding cost (business rates, maintenance, utilities, insurance).
+    Returns cost in £/year."""
+    floor = asset.get('floor_area_sqm') or 0
+    category = asset.get('category', 'other_building')
+    is_land = asset.get('land_only', False)
+    condition = asset.get('condition_spend') or 0
+
+    base_rate = HOLDING_COST_PER_SQM.get(category, 100)
+
+    if floor > 0:
+        base_cost = floor * base_rate
+    elif is_land:
+        base_cost = 1000 * HOLDING_COST_PER_SQM.get(category, 5)  # assume 0.1ha
+    else:
+        base_cost = 15000  # fallback for buildings without floor area
+
+    # Add condition backlog amortisation (assume spread over 10 years)
+    if condition > 0:
+        base_cost += condition / 3  # amortise over ~3 years since it's recent spend
+
+    return round(base_cost)
+
+
+def estimate_renovation_cost(asset):
+    """Estimate renovation cost based on floor area, EPC gap, condition.
+    Returns cost in £."""
+    floor = asset.get('floor_area_sqm') or 0
+    if floor <= 0:
+        return 50000  # fallback for buildings without measured area
+
+    # Condition proxy — if high condition spend, asset is in poor state
+    condition = asset.get('condition_spend') or 0
+    if condition > 50000:
+        state = 'poor'
+    elif condition > 10000:
+        state = 'fair'
+    elif condition > 0:
+        state = 'good'
+    else:
+        state = 'unknown'
+
+    base = RENOVATION_COST_PER_SQM.get(state, 900)
+
+    # EPC upgrade premium: if current rating is F/G, add 30%; E = +15%
+    epc = asset.get('epc_rating') or ''
+    if epc in ('F', 'G'):
+        base *= 1.3
+    elif epc == 'E':
+        base *= 1.15
+
+    return round(floor * base)
+
+
+def estimate_social_value(asset):
+    """Estimate annual social value for community asset transfer.
+    Based on HACT wellbeing proxies, adjusted for deprivation, capacity, and suitability.
+    Conservative: 25% probability discount (not all CATs achieve full impact)."""
+    floor = asset.get('floor_area_sqm') or 0
+    imd = asset.get('imd_decile') or 5
+    category = asset.get('category', 'other_building')
+    is_land = asset.get('land_only', False)
+
+    # Category suitability: some assets are poor candidates for community use
+    cat_suit = {
+        'library': 1.0,           # ideal
+        'children_social_care': 0.8,
+        'office_civic': 0.6,
+        'other_building': 0.5,
+        'education': 0.15,        # schools rarely viable for CAT
+        'operations_depot_waste': 0.1,
+        'transport_highways': 0.1,
+        'land_general': 0.3,
+        'land_woodland': 0.35,
+        'land_open_space': 0.5,
+    }.get(category, 0.3)
+
+    # Capacity: ~1 person per 20 sqm (conservative)
+    if floor > 0 and not is_land:
+        beneficiaries = max(5, floor / 20)
+    elif is_land:
+        beneficiaries = 15
+    else:
+        beneficiaries = 20
+
+    # Hard cap at 80 beneficiaries per asset
+    beneficiaries = min(beneficiaries, 80)
+
+    # Deprivation weight: most deprived areas = higher marginal social value
+    dep_weight = (11 - imd) / 10
+
+    # Probability discount: only ~25% of CATs achieve intended full impact
+    return round(beneficiaries * SOCIAL_VALUE_PER_BENEFICIARY * dep_weight * cat_suit * 0.25)
+
+
+def compute_green_book_appraisal(asset):
+    """Compute Green Book 5-case options appraisal for a single asset.
+
+    Returns dict with NPV for each option, preferred option, and breakdown.
+    Uses HM Treasury 3.5% STPR over 10-year horizon.
+    """
+    market_value, mv_confidence, mv_method = estimate_market_value(asset)
+    holding_cost = estimate_annual_holding_cost(asset)
+    reno_cost = estimate_renovation_cost(asset)
+    social_value = estimate_social_value(asset)
+    floor = asset.get('floor_area_sqm') or 0
+    category = asset.get('category', 'other_building')
+    is_land = asset.get('land_only', False)
+    imd = asset.get('imd_decile') or 5
+    epc = asset.get('epc_rating') or ''
+    occupancy = asset.get('occupancy_status') or 'unknown'
+
+    # Location/EPC factors for rental income
+    loc_factor = 0.7 + (imd / 10) * 0.6
+    epc_factor = {'A': 1.15, 'B': 1.1, 'C': 1.05, 'D': 1.0,
+                  'E': 0.9, 'F': 0.8, 'G': 0.7}.get(epc, 0.95)
+
+    # ── OPTION 0: Do Nothing (baseline) ────────────────────────────────
+    # Pay holding costs every year, asset deteriorates
+    # For occupied assets, service delivery offsets some cost
+    service_value = 0
+    if occupancy in ('occupied', 'school_grounds'):
+        # Service-occupied: holding cost is partially justified by service delivery
+        # Proxy: equivalent rental that would be paid for alternative premises
+        service_value = round(holding_cost * 0.7)  # 70% of holding = implied service value
+    elif occupancy == 'third_party':
+        service_value = round(holding_cost * 0.4)  # some offset from third-party use
+
+    npv_0 = -round((holding_cost - service_value) * ANNUITY_FACTOR)
+    opt0 = {
+        'name': 'Do Nothing',
+        'code': 'do_nothing',
+        'npv': npv_0,
+        'cashflows': {
+            'annual_holding_cost': -holding_cost,
+            'implied_service_value': service_value,
+            'net_annual_cost': -(holding_cost - service_value),
+            'pv_total_cost': npv_0,
+        },
+        'non_monetised': [],
+        'constraints': [],
+    }
+    if occupancy in ('occupied', 'school_grounds'):
+        opt0['non_monetised'].append('Continued service delivery')
+        opt0['non_monetised'].append('Avoids relocation cost and disruption')
+    if asset.get('condition_spend', 0) > 20000:
+        opt0['non_monetised'].append('Deterioration risk — condition backlog growing')
+
+    # ── OPTION 1: Dispose (Open Market Sale) ───────────────────────────
+    disposal_costs = round(market_value * DISPOSAL_COST_PCT + DISPOSAL_COST_FIXED)
+    net_receipt = market_value - disposal_costs
+
+    # For occupied assets, subtract relocation cost (finding alternative premises)
+    relocation_cost = 0
+    if occupancy in ('occupied', 'school_grounds'):
+        # Relocation cost: 2 years of holding cost (find premises, move, fit-out)
+        relocation_cost = round(holding_cost * 2)
+    elif occupancy == 'third_party':
+        relocation_cost = round(holding_cost * 0.5)  # lighter touch
+
+    # Only count net avoided holding (subtract service value we'd still need)
+    avoided_holding_pv = round((holding_cost - service_value) * ANNUITY_FACTOR)
+
+    npv_1 = net_receipt + avoided_holding_pv - relocation_cost
+    opt1 = {
+        'name': 'Dispose (Open Market)',
+        'code': 'dispose',
+        'npv': npv_1,
+        'cashflows': {
+            'estimated_market_value': market_value,
+            'disposal_costs': -disposal_costs,
+            'net_capital_receipt': net_receipt,
+            'relocation_cost': -relocation_cost if relocation_cost > 0 else None,
+            'avoided_holding_pv': avoided_holding_pv,
+        },
+        'non_monetised': [],
+        'constraints': [],
+    }
+    # Remove None cashflows
+    opt1['cashflows'] = {k: v for k, v in opt1['cashflows'].items() if v is not None}
+
+    if asset.get('listed_building_grade'):
+        opt1['constraints'].append(f'Listed building (Grade {asset["listed_building_grade"]}) — heritage consent required')
+    if asset.get('flood_zone') and asset['flood_zone'] >= 3:
+        opt1['constraints'].append(f'Flood Zone {asset["flood_zone"]} — environmental risk disclosure')
+    if occupancy in ('occupied', 'school_grounds'):
+        opt1['constraints'].append('Service-occupied — relocation plan needed before disposal')
+        opt1['non_monetised'].append('Service disruption during relocation')
+        opt1['non_monetised'].append(f'Relocation cost estimate: £{relocation_cost:,}')
+    if asset.get('sssi_nearby'):
+        opt1['constraints'].append(f'Near SSSI ({asset.get("sssi_name", "")}) — ecological assessment needed')
+
+    # ── OPTION 2: Repurpose (Renovate + Generate Rental Income) ────────
+    rental_base = RENTAL_YIELD_PER_SQM.get(category, 60)
+    if floor > 0:
+        annual_rent = round(floor * rental_base * loc_factor * epc_factor)
+    elif is_land:
+        annual_rent = round(1000 * RENTAL_YIELD_PER_SQM.get(category, 4) * loc_factor)
+    else:
+        annual_rent = round(200 * rental_base * loc_factor * epc_factor)  # assume 200sqm
+
+    # 25% void/management/maintenance deduction
+    net_rent = round(annual_rent * 0.75)
+    rent_pv = round(net_rent * ANNUITY_FACTOR)
+    # 6-month void during renovation
+    void_cost = round(holding_cost * 0.5)
+
+    npv_2 = -reno_cost + rent_pv - void_cost
+    opt2 = {
+        'name': 'Repurpose (Renovate & Rent)',
+        'code': 'repurpose',
+        'npv': npv_2,
+        'cashflows': {
+            'renovation_cost': -reno_cost,
+            'annual_gross_rental': annual_rent,
+            'annual_net_rental': net_rent,
+            'pv_net_rental_10yr': rent_pv,
+            'void_during_works': -void_cost,
+        },
+        'non_monetised': ['Employment during renovation', 'Improved energy performance'],
+        'constraints': [],
+    }
+    if is_land:
+        opt2['constraints'].append('Land-only — limited renovation scope')
+    if asset.get('listed_building_grade'):
+        opt2['constraints'].append(f'Listed (Grade {asset["listed_building_grade"]}) — renovation constraints + premium costs')
+        reno_cost_adj = round(reno_cost * 1.35)  # 35% listed building premium
+        opt2['cashflows']['listed_premium'] = -(reno_cost_adj - reno_cost)
+        npv_2 = npv_2 - (reno_cost_adj - reno_cost)
+        opt2['npv'] = npv_2
+
+    # ── OPTION 3: Community Asset Transfer ─────────────────────────────
+    cat_support_pv = sum(CAT_ANNUAL_SUPPORT * DISCOUNT_FACTORS[t] for t in range(1, CAT_SUPPORT_YEARS + 1))
+    nominal_receipt = round(market_value * 0.10)  # 10% nominal consideration
+    social_pv = round(social_value * ANNUITY_FACTOR)
+
+    avoided_holding_cat = round((holding_cost - service_value) * ANNUITY_FACTOR)
+    npv_3 = (nominal_receipt - CAT_TRANSFER_COST
+             - round(cat_support_pv)
+             + avoided_holding_cat
+             + social_pv
+             - relocation_cost)
+    opt3 = {
+        'name': 'Community Asset Transfer',
+        'code': 'community_transfer',
+        'npv': npv_3,
+        'cashflows': {
+            'nominal_receipt': nominal_receipt,
+            'transfer_costs': -CAT_TRANSFER_COST,
+            'transitional_support_pv': -round(cat_support_pv),
+            'relocation_cost': -relocation_cost if relocation_cost > 0 else 0,
+            'avoided_holding_pv': avoided_holding_cat,
+            'social_value_annual': social_value,
+            'social_value_pv': social_pv,
+        },
+        'non_monetised': [
+            'Community empowerment and ownership',
+            'Reduced social isolation',
+            'Local employment and volunteering',
+        ],
+        'constraints': [],
+    }
+    if imd >= 8:
+        opt3['constraints'].append('Low deprivation area — lower social value uplift')
+    if is_land:
+        opt3['non_monetised'].append('Community garden / allotment potential')
+
+    # ── OPTION 4: Redevelop (Development Partnership) ──────────────────
+    # Development uplift depends on category and location
+    dev_uplift = 1.5  # base 50% uplift
+    if category in ('land_general', 'land_open_space') and imd >= 6:
+        dev_uplift = 2.5  # residential development in affluent area
+    elif category in ('operations_depot_waste', 'transport_highways'):
+        dev_uplift = 2.0  # brownfield regeneration premium
+    elif category == 'education' and imd >= 5:
+        dev_uplift = 2.2  # school site — housing potential
+
+    dev_value = round(market_value * dev_uplift)
+    council_share = round(dev_value * DEV_COUNCIL_SHARE)
+    # Receipt arrives in year 3 (development phase)
+    council_share_pv = round(council_share * DISCOUNT_FACTORS[DEV_TIME_YEARS])
+    net_holding = holding_cost - service_value
+    holding_during_dev = round(net_holding * sum(DISCOUNT_FACTORS[1:DEV_TIME_YEARS + 1]))
+    avoided_post_dev = round(net_holding * sum(DISCOUNT_FACTORS[DEV_TIME_YEARS + 1:]))
+
+    npv_4 = -DEV_PLANNING_COST + council_share_pv - holding_during_dev + avoided_post_dev - relocation_cost
+    opt4 = {
+        'name': 'Redevelop (Partnership)',
+        'code': 'redevelop',
+        'npv': npv_4,
+        'cashflows': {
+            'planning_and_design': -DEV_PLANNING_COST,
+            'development_value': dev_value,
+            'council_share_40pct': council_share,
+            'council_share_pv': council_share_pv,
+            'holding_during_dev_pv': -holding_during_dev,
+            'avoided_post_dev_pv': avoided_post_dev,
+        },
+        'non_monetised': ['Regeneration and placemaking', 'New housing supply'],
+        'constraints': [],
+    }
+    if asset.get('flood_zone') and asset['flood_zone'] >= 3:
+        opt4['constraints'].append('Flood Zone 3 — SuDS required, may reduce developable area')
+    if asset.get('listed_building_grade'):
+        opt4['constraints'].append('Listed building — conversion costs +35%')
+    if asset.get('sssi_nearby'):
+        opt4['constraints'].append('SSSI proximity — biodiversity net gain assessment required')
+    if occupancy in ('occupied', 'school_grounds'):
+        opt4['constraints'].append('Requires decant before development — adds 12+ months')
+
+    # ── Rank options by NPV ────────────────────────────────────────────
+    options = [opt0, opt1, opt2, opt3, opt4]
+    # Filter out inapplicable options
+    applicable = []
+    for opt in options:
+        # Land-only assets: repurpose is less meaningful but still possible (e.g., farm buildings)
+        applicable.append(opt)
+
+    # Sort by NPV descending
+    applicable.sort(key=lambda o: o['npv'], reverse=True)
+    for rank, opt in enumerate(applicable, 1):
+        opt['rank'] = rank
+
+    preferred = applicable[0]
+
+    # Confidence level based on data quality
+    if mv_confidence == 'high':
+        confidence = 'high'
+    elif mv_confidence == 'medium':
+        confidence = 'medium'
+    elif floor > 0:
+        confidence = 'low'
+    else:
+        confidence = 'indicative'
+
+    return {
+        'options': {opt['code']: {
+            'name': opt['name'],
+            'npv': opt['npv'],
+            'rank': opt['rank'],
+            'cashflows': opt['cashflows'],
+            'non_monetised': opt['non_monetised'],
+            'constraints': opt['constraints'],
+        } for opt in applicable},
+        'preferred_option': preferred['code'],
+        'preferred_option_name': preferred['name'],
+        'preferred_npv': preferred['npv'],
+        'npv_vs_bau': preferred['npv'] - npv_0,
+        'market_value_estimate': market_value,
+        'market_value_confidence': mv_confidence,
+        'market_value_method': mv_method,
+        'annual_holding_cost': holding_cost,
+        'discount_rate': GREEN_BOOK_DISCOUNT_RATE,
+        'horizon_years': GREEN_BOOK_HORIZON,
+        'confidence': confidence,
+    }
+
 
 def infer_occupancy(asset):
     """Infer occupancy status from available signals. Returns (status, signals)."""
@@ -1851,6 +2352,10 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
     else:
         detail['valuation'] = None
 
+    # Green Book options appraisal is computed after disposal intelligence engine runs
+    # (needs occupancy_status which is set by compute_disposal_intelligence)
+    detail['green_book'] = None  # placeholder — populated in main()
+
     # Add disposal data — smart engine fields populated later by compute_disposal_intelligence()
     # Preserve Codex original as reference
     codex_rec = None
@@ -2018,6 +2523,21 @@ def compute_meta(lean_assets, detail_assets):
     has_demographics = sum(1 for a in lean_assets if a.get('ward_population'))
     has_lr_comps = sum(1 for a in lean_assets if (a.get('lr_comparables_count') or 0) > 0)
 
+    # Green Book options appraisal stats
+    gb_preferred_breakdown = {}
+    gb_confidence_breakdown = {}
+    gb_total_market_value = 0
+    gb_total_holding_cost = 0
+    for a in lean_assets:
+        pref = a.get('gb_preferred_option')
+        if pref:
+            gb_preferred_breakdown[pref] = gb_preferred_breakdown.get(pref, 0) + 1
+        conf = a.get('gb_confidence')
+        if conf:
+            gb_confidence_breakdown[conf] = gb_confidence_breakdown.get(conf, 0) + 1
+        gb_total_market_value += a.get('gb_market_value') or 0
+        gb_total_holding_cost += a.get('gb_holding_cost') or 0
+
     return {
         'generated': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
         'source': 'LCC Local Authority Land List + Codex enrichment + AI DOGE CED mapping + live API enrichment (Police/EA/HE/NE)',
@@ -2059,6 +2579,16 @@ def compute_meta(lean_assets, detail_assets):
         'has_deprivation': has_deprivation,
         'has_demographics': has_demographics,
         'has_lr_comparables': has_lr_comps,
+        # Green Book options appraisal stats
+        'green_book': {
+            'preferred_breakdown': dict(sorted(gb_preferred_breakdown.items(), key=lambda x: -x[1])),
+            'confidence_breakdown': dict(sorted(gb_confidence_breakdown.items(), key=lambda x: -x[1])),
+            'total_estimated_market_value': round(gb_total_market_value),
+            'total_annual_holding_cost': round(gb_total_holding_cost),
+            'discount_rate': GREEN_BOOK_DISCOUNT_RATE,
+            'horizon_years': GREEN_BOOK_HORIZON,
+            'methodology': 'HM Treasury Green Book 5-case model, 3.5% STPR, 10-year NPV',
+        },
         'ced_summary': dict(sorted(ced_summary.items())),
         # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)
         'estate_context': {
@@ -2406,6 +2936,31 @@ def main():
         detail['revenue_potential'] = lean.get('revenue_potential')
         detail['disposal_pathway'] = lean.get('disposal_pathway')
         detail['disposal_pathway_secondary'] = lean.get('disposal_pathway_secondary')
+
+    # --- 5c. Green Book Options Appraisal ---
+    print(f"\n--- Running Green Book Options Appraisal Engine ---")
+    gb_preferred = {}
+    total_npv_vs_bau = 0
+    for lean, detail in zip(lean_assets, detail_assets):
+        gb = compute_green_book_appraisal(lean)
+        detail['green_book'] = gb
+        # Lean fields for portfolio view
+        lean['gb_preferred_option'] = gb['preferred_option']
+        lean['gb_preferred_npv'] = gb['preferred_npv']
+        lean['gb_market_value'] = gb['market_value_estimate']
+        lean['gb_confidence'] = gb['confidence']
+        lean['gb_holding_cost'] = gb['annual_holding_cost']
+        # Track for meta
+        pref = gb['preferred_option']
+        gb_preferred[pref] = gb_preferred.get(pref, 0) + 1
+        total_npv_vs_bau += gb['npv_vs_bau']
+
+    total_market_value = sum(a.get('gb_market_value', 0) for a in lean_assets)
+    total_holding = sum(a.get('gb_holding_cost', 0) for a in lean_assets)
+    print(f"  Green Book preferred: {gb_preferred}")
+    print(f"  Total estimated market value: £{total_market_value:,.0f}")
+    print(f"  Total annual holding cost: £{total_holding:,.0f}")
+    print(f"  Total NPV advantage vs BAU: £{total_npv_vs_bau:,.0f}")
 
     # Promote revenue estimates to public lean fields before stripping temp
     for asset in lean_assets:

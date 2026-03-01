@@ -3,13 +3,14 @@
  *
  * Route: /property/:propertyId
  *
- * Strategist-only page with 6 tabs:
+ * Strategist-only page with 7 tabs:
  *   1. Overview -- Ownership, category, deprivation, Google Maps link
  *   2. Financials -- Linked spend, supplier breakdown
  *   3. Energy -- EPC rating, heating, floor area
  *   4. Disposal -- Recommendation, priority, reasoning, risks
  *   5. Assessment -- World-class scores, innovative uses, sales evidence
- *   6. Location -- District, constituency, co-location, flood, crime
+ *   6. Valuation -- Green Book options appraisal, market value, LR comparables
+ *   7. Location -- District, constituency, co-location, flood, crime
  *
  * Data: /data/property_assets_detail.json
  */
@@ -18,7 +19,8 @@ import { useParams, Link } from 'react-router-dom'
 import {
   Building, MapPin, Zap, Trash2, Navigation, ArrowLeft,
   ExternalLink, AlertTriangle, Shield, Thermometer,
-  ClipboardCheck, Tag, Lightbulb, TrendingUp,
+  ClipboardCheck, Tag, Lightbulb, TrendingUp, DollarSign,
+  BarChart3, Scale,
 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -78,6 +80,7 @@ const TABS = [
   { id: 'energy', label: 'Energy', icon: Zap },
   { id: 'disposal', label: 'Disposal', icon: Trash2 },
   { id: 'assessment', label: 'Assessment', icon: ClipboardCheck },
+  { id: 'valuation', label: 'Valuation', icon: Scale },
   { id: 'location', label: 'Location', icon: Navigation },
 ]
 
@@ -745,6 +748,303 @@ function DisposalTab({ asset }) {
           </ul>
         </div>
       )}
+    </div>
+  )
+}
+
+// ── Green Book Option Labels & Colors ─────────────────────────────────────────
+
+const GB_OPTION_LABELS = {
+  do_nothing: 'Do Nothing (BAU)',
+  dispose: 'Dispose (Open Market)',
+  repurpose: 'Repurpose (Renovate & Rent)',
+  community_transfer: 'Community Asset Transfer',
+  redevelop: 'Redevelop (Partnership)',
+}
+
+const GB_OPTION_COLORS = {
+  do_nothing: '#8e8e93',
+  dispose: '#30d158',
+  repurpose: '#0a84ff',
+  community_transfer: '#bf5af2',
+  redevelop: '#ff9f0a',
+}
+
+const GB_CONFIDENCE_COLORS = {
+  high: '#30d158',
+  medium: '#ff9f0a',
+  low: '#ff453a',
+  indicative: '#8e8e93',
+}
+
+function NpvBar({ label, npv, maxNpv, color }) {
+  const pct = maxNpv > 0 ? Math.max(0, Math.min(100, ((npv + maxNpv) / (2 * maxNpv)) * 100)) : 50
+  return (
+    <div style={{ marginBottom: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
+        <span style={{ color: 'var(--text-secondary, #94a3b8)' }}>{label}</span>
+        <span style={{ color: npv >= 0 ? '#30d158' : '#ff453a', fontWeight: 600 }}>
+          {npv >= 0 ? '+' : ''}{formatCurrency(npv)}
+        </span>
+      </div>
+      <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: color || '#0a84ff', borderRadius: '4px', transition: 'width 0.4s ease' }} />
+      </div>
+    </div>
+  )
+}
+
+function CashflowRow({ label, value, indent = false }) {
+  const isNeg = value < 0
+  return (
+    <div className="property-detail-row" style={{ paddingLeft: indent ? '16px' : 0 }}>
+      <span className="property-detail-label" style={{ fontSize: indent ? '0.75rem' : '0.8rem' }}>{label}</span>
+      <span className="property-detail-value" style={{ color: isNeg ? '#ff453a' : '#30d158', fontWeight: 600 }}>
+        {isNeg ? '-' : '+'}{formatCurrency(Math.abs(value))}
+      </span>
+    </div>
+  )
+}
+
+function ValuationTab({ asset }) {
+  const gb = asset.green_book
+  const valuation = asset.valuation
+
+  return (
+    <div>
+      {/* Market Value Estimate */}
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <DollarSign size={16} style={{ color: '#30d158' }} /> Market Value Estimate
+        </h3>
+        {gb ? (
+          <>
+            <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
+              <div style={{ flex: 1, minWidth: '120px' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#30d158' }}>
+                  {formatCurrency(gb.market_value_estimate)}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Estimated Market Value</div>
+              </div>
+              <div style={{ flex: 1, minWidth: '120px' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 600, color: '#ff453a' }}>
+                  {formatCurrency(gb.annual_holding_cost)}/yr
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Annual Holding Cost</div>
+              </div>
+              <div style={{ flex: 1, minWidth: '120px' }}>
+                <Badge
+                  label={`${gb.market_value_confidence} confidence`}
+                  color={GB_CONFIDENCE_COLORS[gb.market_value_confidence] || '#8e8e93'}
+                  bg={`${GB_CONFIDENCE_COLORS[gb.market_value_confidence] || '#8e8e93'}22`}
+                />
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '4px' }}>
+                  {gb.market_value_method}
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.85rem' }}>
+            No valuation data — run ETL with Green Book engine enabled.
+          </p>
+        )}
+      </div>
+
+      {/* Green Book Options Appraisal */}
+      {gb?.options && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <BarChart3 size={16} style={{ color: '#0a84ff' }} /> Green Book Options Appraisal
+          </h3>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-md)' }}>
+            HM Treasury 5-case model. 10-year NPV at {((gb.discount_rate || 0.035) * 100).toFixed(1)}% Social Time Preference Rate.
+          </p>
+
+          {/* Preferred option banner */}
+          <div style={{
+            background: `${GB_OPTION_COLORS[gb.preferred_option] || '#0a84ff'}18`,
+            border: `1px solid ${GB_OPTION_COLORS[gb.preferred_option] || '#0a84ff'}44`,
+            borderRadius: '8px', padding: '12px 16px', marginBottom: 'var(--space-lg)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          }}>
+            <div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Preferred Option
+              </div>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: GB_OPTION_COLORS[gb.preferred_option] || '#0a84ff' }}>
+                {GB_OPTION_LABELS[gb.preferred_option] || gb.preferred_option_name}
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#30d158' }}>
+                +{formatCurrency(gb.npv_vs_bau)}
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>NPV vs Do Nothing</div>
+            </div>
+          </div>
+
+          {/* NPV comparison bars */}
+          {(() => {
+            const opts = Object.values(gb.options).sort((a, b) => b.npv - a.npv)
+            const maxAbs = Math.max(...opts.map(o => Math.abs(o.npv)), 1)
+            return opts.map(opt => (
+              <NpvBar
+                key={opt.name}
+                label={`${opt.rank}. ${GB_OPTION_LABELS[Object.keys(gb.options).find(k => gb.options[k] === opt)] || opt.name}`}
+                npv={opt.npv}
+                maxNpv={maxAbs}
+                color={GB_OPTION_COLORS[Object.keys(gb.options).find(k => gb.options[k] === opt)] || '#0a84ff'}
+              />
+            ))
+          })()}
+
+          {/* Confidence badge */}
+          <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <Badge
+              label={`${gb.confidence} confidence`}
+              color={GB_CONFIDENCE_COLORS[gb.confidence] || '#8e8e93'}
+              bg={`${GB_CONFIDENCE_COLORS[gb.confidence] || '#8e8e93'}22`}
+            />
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
+              Based on {gb.market_value_method?.toLowerCase() || 'benchmark estimates'}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Option Detail Cards */}
+      {gb?.options && Object.entries(gb.options).sort(([,a],[,b]) => a.rank - b.rank).map(([code, opt]) => (
+        <div key={code} className="glass-card" style={{
+          padding: 'var(--space-lg)', marginBottom: 'var(--space-md)',
+          borderLeft: `3px solid ${GB_OPTION_COLORS[code] || '#0a84ff'}`,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 600, margin: 0, color: GB_OPTION_COLORS[code] }}>
+              {opt.rank}. {GB_OPTION_LABELS[code] || opt.name}
+            </h4>
+            <span style={{ fontSize: '1rem', fontWeight: 700, color: opt.npv >= 0 ? '#30d158' : '#ff453a' }}>
+              NPV: {opt.npv >= 0 ? '+' : ''}{formatCurrency(opt.npv)}
+            </span>
+          </div>
+
+          {/* Cashflows */}
+          <div className="property-detail-grid" style={{ marginBottom: opt.non_monetised?.length || opt.constraints?.length ? 'var(--space-sm)' : 0 }}>
+            {Object.entries(opt.cashflows || {}).map(([key, val]) => (
+              <CashflowRow
+                key={key}
+                label={key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).replace(/Pv /g, 'PV ').replace(/Sqm/g, 'SQM')}
+                value={val}
+                indent={key.includes('pv_') || key.includes('avoided')}
+              />
+            ))}
+          </div>
+
+          {/* Non-monetised benefits */}
+          {opt.non_monetised?.length > 0 && (
+            <div style={{ marginTop: '8px' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>Non-Monetised:</span>
+              <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '4px' }}>
+                {opt.non_monetised.map((b, i) => (
+                  <span key={i} style={{
+                    fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px',
+                    background: 'rgba(48, 209, 88, 0.12)', color: '#30d158',
+                  }}>{b}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Constraints */}
+          {opt.constraints?.length > 0 && (
+            <div style={{ marginTop: '8px' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>Constraints:</span>
+              <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '4px' }}>
+                {opt.constraints.map((c, i) => (
+                  <span key={i} style={{
+                    fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px',
+                    background: 'rgba(255, 69, 58, 0.12)', color: '#ff453a',
+                  }}>{c}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Land Registry Comparables (moved from Location tab) */}
+      {valuation?.comparables_count > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <TrendingUp size={16} style={{ color: '#30d158' }} /> Land Registry Comparables
+          </h3>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-md)' }}>
+            Recent sales in {valuation.area || asset.district || 'this area'}. Area comparables, not direct valuations.
+          </p>
+          <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
+            <div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#30d158' }}>
+                {formatCurrency(valuation.median_price)}
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Median</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {formatCurrency(valuation.min_price)} — {formatCurrency(valuation.max_price)}
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Range</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {valuation.comparables_count}
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Sales</div>
+            </div>
+          </div>
+          {/* Comparables table */}
+          {valuation.comparables?.length > 0 && (
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', fontSize: '0.75rem', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                    <th style={{ textAlign: 'left', padding: '6px 8px', color: 'var(--text-tertiary)' }}>Address</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px', color: 'var(--text-tertiary)' }}>Postcode</th>
+                    <th style={{ textAlign: 'right', padding: '6px 8px', color: 'var(--text-tertiary)' }}>Price</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px', color: 'var(--text-tertiary)' }}>Date</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px', color: 'var(--text-tertiary)' }}>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {valuation.comparables.slice(0, 10).map((c, i) => (
+                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <td style={{ padding: '5px 8px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {c.address || '-'}
+                      </td>
+                      <td style={{ padding: '5px 8px' }}>{c.postcode || '-'}</td>
+                      <td style={{ padding: '5px 8px', textAlign: 'right', fontWeight: 600, color: '#30d158' }}>
+                        {c.price ? formatCurrency(c.price) : '-'}
+                      </td>
+                      <td style={{ padding: '5px 8px' }}>{c.date || '-'}</td>
+                      <td style={{ padding: '5px 8px' }}>{c.type || '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Methodology note */}
+      <div className="glass-card" style={{ padding: 'var(--space-md)', background: 'rgba(255,255,255,0.03)' }}>
+        <p style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.5 }}>
+          <strong>Methodology:</strong> HM Treasury Green Book 5-case options appraisal model.
+          10-year NPV at 3.5% Social Time Preference Rate (STPR).
+          Market values estimated from sales evidence, Land Registry comparables, and Lancashire benchmarks.
+          Social value based on HACT wellbeing proxies adjusted for ward deprivation.
+          All figures are indicative estimates for screening purposes — formal valuations should be commissioned for assets progressing to disposal.
+        </p>
+      </div>
     </div>
   )
 }
@@ -1479,6 +1779,7 @@ function PropertyDetail() {
         {activeTab === 'energy' && <EnergyTab asset={asset} />}
         {activeTab === 'disposal' && <DisposalTab asset={asset} />}
         {activeTab === 'assessment' && <AssessmentTab asset={asset} />}
+        {activeTab === 'valuation' && <ValuationTab asset={asset} />}
         {activeTab === 'location' && <LocationTab asset={asset} />}
       </div>
     </div>

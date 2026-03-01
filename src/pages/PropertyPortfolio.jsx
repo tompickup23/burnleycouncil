@@ -498,7 +498,7 @@ export default function PropertyPortfolio() {
 
   // --- CSV Export ---
   const exportCSV = useCallback(() => {
-    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total', 'Listed Building Grade', 'Flood Zone', 'SSSI Nearby', 'AONB', 'Deprivation Level', 'IMD Decile']
+    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'GB Market Value', 'GB Preferred Option', 'GB Preferred NPV', 'GB Holding Cost/yr', 'GB Confidence', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total', 'Listed Building Grade', 'Flood Zone', 'SSSI Nearby', 'AONB', 'Deprivation Level', 'IMD Decile']
     const rows = sortedAssets.map(a => [
       `"${(a.name || '').replace(/"/g, '""')}"`,
       `"${(a.address || '').replace(/"/g, '""')}"`,
@@ -527,6 +527,11 @@ export default function PropertyPortfolio() {
       a.disposal?.smart_priority ?? '',
       a.revenue_estimate_capital ?? 0,
       a.revenue_estimate_annual ?? 0,
+      a.gb_market_value ?? '',
+      `"${(a.gb_preferred_option || '').replace(/_/g, ' ')}"`,
+      a.gb_preferred_npv ?? '',
+      a.gb_holding_cost ?? '',
+      a.gb_confidence || '',
       a.disposal_band || '',
       a.repurpose_band || '',
       a.service_band || '',

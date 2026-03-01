@@ -273,6 +273,43 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
     });
   }
 
+  // Green Book appraisal highlights
+  const withGb = wardAssets.filter(a => a.gb_market_value > 0);
+  if (withGb.length > 0) {
+    const totalMv = withGb.reduce((s, a) => s + (a.gb_market_value || 0), 0);
+    const totalHolding = withGb.reduce((s, a) => s + (a.gb_holding_cost || 0), 0);
+    const fmtMv = totalMv >= 1000000 ? `£${(totalMv / 1000000).toFixed(1)}M` : `£${Math.round(totalMv / 1000)}k`;
+    const fmtHc = totalHolding >= 1000000 ? `£${(totalHolding / 1000000).toFixed(1)}M` : `£${Math.round(totalHolding / 1000)}k`;
+    points.push({
+      category: 'Property',
+      icon: 'Scale',
+      priority: 2,
+      text: `Green Book: ${fmtMv} total estimated market value, ${fmtHc}/yr holding costs — options appraisals available for ${withGb.length} assets.`,
+    });
+
+    // Preferred option breakdown
+    const prefCounts = {};
+    for (const a of withGb) {
+      const pref = a.gb_preferred_option || 'unknown';
+      prefCounts[pref] = (prefCounts[pref] || 0) + 1;
+    }
+    const disposeCount = (prefCounts.dispose || 0) + (prefCounts.redevelop || 0);
+    const repurposeCount = prefCounts.repurpose || 0;
+    const catCount = prefCounts.community_transfer || 0;
+    if (disposeCount > 0 || repurposeCount > 0) {
+      const parts = [];
+      if (disposeCount > 0) parts.push(`${disposeCount} for disposal/redevelopment`);
+      if (repurposeCount > 0) parts.push(`${repurposeCount} for repurpose`);
+      if (catCount > 0) parts.push(`${catCount} for community transfer`);
+      points.push({
+        category: 'Property',
+        icon: 'BarChart3',
+        priority: 2,
+        text: `Green Book preferred options: ${parts.join(', ')} — evidence-based HM Treasury methodology.`,
+      });
+    }
+  }
+
   return points;
 }
 
@@ -342,6 +379,22 @@ export function generatePropertySummary(wardName, propertyAssets) {
       assetsWithComps: withComps.length,
       areaMedianPrice: areaMedian,
     } : null,
+    greenBook: (() => {
+      const withGb = wardAssets.filter(a => a.gb_market_value > 0);
+      if (withGb.length === 0) return null;
+      const prefCounts = {};
+      for (const a of withGb) {
+        const pref = a.gb_preferred_option || 'unknown';
+        prefCounts[pref] = (prefCounts[pref] || 0) + 1;
+      }
+      return {
+        totalMarketValue: withGb.reduce((s, a) => s + (a.gb_market_value || 0), 0),
+        totalHoldingCost: withGb.reduce((s, a) => s + (a.gb_holding_cost || 0), 0),
+        totalPreferredNpv: withGb.reduce((s, a) => s + (a.gb_preferred_npv || 0), 0),
+        preferredBreakdown: prefCounts,
+        assetsAppraised: withGb.length,
+      };
+    })(),
     assets: wardAssets.map(a => ({
       id: a.id, name: a.name, category: a.category,
       epc_rating: a.epc_rating, disposal_pathway: a.disposal_pathway,
@@ -351,6 +404,9 @@ export function generatePropertySummary(wardName, propertyAssets) {
       listed_building_grade: a.listed_building_grade || null,
       flood_zone: a.flood_zone || 0,
       lr_median_price: a.lr_median_price || null,
+      gb_market_value: a.gb_market_value || null,
+      gb_preferred_option: a.gb_preferred_option || null,
+      gb_preferred_npv: a.gb_preferred_npv || null,
     })),
   };
 }
