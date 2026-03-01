@@ -236,6 +236,7 @@ export default function PropertyPortfolio() {
   const [filterCategory, setFilterCategory] = useState(() => searchParams.get('cat') || '')
   const [filterDistrict, setFilterDistrict] = useState(() => searchParams.get('district') || '')
   const [filterOwnership, setFilterOwnership] = useState(() => searchParams.get('ownership') || '')
+  const [filterTier, setFilterTier] = useState(() => searchParams.get('tier') || '')
   const [filterDisposal, setFilterDisposal] = useState(() => searchParams.get('disposal') || '')
   const [filterCED, setFilterCED] = useState(() => searchParams.get('ced') || '')
   const [filterRecommendation, setFilterRecommendation] = useState(() => searchParams.get('rec') || '')
@@ -255,6 +256,7 @@ export default function PropertyPortfolio() {
     if (filterCategory) params.cat = filterCategory
     if (filterDistrict) params.district = filterDistrict
     if (filterOwnership) params.ownership = filterOwnership
+    if (filterTier) params.tier = filterTier
     if (filterDisposal) params.disposal = filterDisposal
     if (filterCED) params.ced = filterCED
     if (filterRecommendation) params.rec = filterRecommendation
@@ -267,7 +269,7 @@ export default function PropertyPortfolio() {
     if (viewMode !== 'table') params.view = viewMode
     if (mapOverlay !== 'category') params.overlay = mapOverlay
     setSearchParams(params, { replace: true })
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
 
   // --- Parse data ---
   const meta = data?.meta || {}
@@ -341,6 +343,10 @@ export default function PropertyPortfolio() {
       }
     }
 
+    if (filterTier) {
+      result = result.filter(a => (a.tier || 'county') === filterTier)
+    }
+
     if (filterDisposal) {
       result = result.filter(a => {
         const p = a.disposal?.priority
@@ -373,7 +379,7 @@ export default function PropertyPortfolio() {
     }
 
     return result
-  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
+  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
 
   // --- Map assets (geocoded + overlay colour) ---
   const mapAssets = useMemo(() => {
@@ -411,6 +417,12 @@ export default function PropertyPortfolio() {
               : a.flood_zone >= 3 ? CONSTRAINT_COLORS.flood3
               : a.flood_zone >= 2 ? CONSTRAINT_COLORS.flood2
               : '#8e8e93'
+            break
+          case 'ownership':
+            markerColor = a.tier === 'subsidiary' ? '#ff9f0a'
+              : a.tier === 'jv' ? '#bf5af2'
+              : a.tier === 'third_party' ? '#ff453a'
+              : '#0a84ff'  // county (direct LCC)
             break
           default:
             markerColor = CATEGORY_COLORS[a.category] || '#9E9E9E'
@@ -498,7 +510,7 @@ export default function PropertyPortfolio() {
 
   // --- CSV Export ---
   const exportCSV = useCallback(() => {
-    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'GB Market Value', 'GB Preferred Option', 'GB Preferred NPV', 'GB Holding Cost/yr', 'GB Confidence', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total', 'Listed Building Grade', 'Flood Zone', 'SSSI Nearby', 'AONB', 'Deprivation Level', 'IMD Decile']
+    const headers = ['Name', 'Address', 'Postcode', 'District', 'CED', 'Constituency', 'Category', 'Ownership', 'Land Only', 'Active', 'Lat', 'Lng', 'EPC', 'Floor Area (sqm)', 'Sell Score', 'Keep Score', 'Colocate Score', 'Primary Option', 'Disposal Pathway', 'Disposal Pathway (Secondary)', 'Occupancy Status', 'Disposal Complexity', 'Market Readiness', 'Revenue Potential', 'Smart Priority', 'Revenue Estimate Capital', 'Revenue Estimate Annual', 'GB Market Value', 'GB Preferred Option', 'GB Preferred NPV', 'GB Holding Cost/yr', 'GB Confidence', 'Disposal Band', 'Repurpose Band', 'Service Band', 'Net Zero Band', 'Resilience Band', 'Sales Signal Score', 'Sales Total Value', 'Innovative Use', 'Linked Spend', 'Linked Txns', 'Condition Spend', 'Nearby 500m', 'Nearby 1000m', 'Flood Areas 1km', 'Crime Total', 'Listed Building Grade', 'Flood Zone', 'SSSI Nearby', 'AONB', 'Deprivation Level', 'IMD Decile', 'RB Market Value', 'RB EUV', 'RB Basis', 'RB Confidence', 'RB Yield %', 'Owner Entity', 'Ownership Model', 'Ownership %', 'Tier']
     const rows = sortedAssets.map(a => [
       `"${(a.name || '').replace(/"/g, '""')}"`,
       `"${(a.address || '').replace(/"/g, '""')}"`,
@@ -553,6 +565,15 @@ export default function PropertyPortfolio() {
       `"${(a.aonb_name || '').replace(/"/g, '""')}"`,
       `"${(a.deprivation_level || '').replace(/_/g, ' ')}"`,
       a.imd_decile ?? '',
+      a.rb_market_value ?? '',
+      a.rb_euv ?? '',
+      a.rb_valuation_basis || '',
+      a.rb_confidence || '',
+      a.rb_yield_pct ?? '',
+      `"${(a.owner_entity || '').replace(/"/g, '""')}"`,
+      a.ownership_model || '',
+      a.ownership_pct ?? '',
+      a.tier || '',
     ].join(','))
 
     const csv = [headers.join(','), ...rows].join('\n')
@@ -573,6 +594,7 @@ export default function PropertyPortfolio() {
     setFilterOwnership('')
     setFilterDisposal('')
     setFilterCED('')
+    setFilterTier('')
     setFilterRecommendation('')
     setFilterOccupancy('')
     setFilterPathway('')
@@ -580,7 +602,7 @@ export default function PropertyPortfolio() {
     setPage(1)
   }, [])
 
-  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || quickWinsOnly
+  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterTier || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || quickWinsOnly
 
   // --- Access gate ---
   if (!hasAccess) {
@@ -656,6 +678,12 @@ export default function PropertyPortfolio() {
         <StatCard label="Disposal Candidates" value={formatNumber(meta.disposal_candidates)} icon={Home} />
         <StatCard label="Assessed" value={formatNumber(meta.has_assessment || 0)} subtitle={meta.has_sales_evidence ? `${meta.has_sales_evidence} with market evidence` : undefined} icon={Info} />
         <StatCard label="CEDs Mapped" value={formatNumber(meta.has_ced)} subtitle={`${cedCount} divisions`} icon={MapPin} />
+        {meta.red_book?.total_market_value > 0 && (
+          <StatCard label="Red Book MV" value={formatCurrency(meta.red_book.total_market_value)} subtitle="RICS Market Value" icon={TrendingUp} />
+        )}
+        {meta.ownership?.assets_by_tier && Object.keys(meta.ownership.assets_by_tier).length > 1 && (
+          <StatCard label="Subsidiaries" value={formatNumber((meta.ownership.assets_by_tier.subsidiary || 0) + (meta.ownership.assets_by_tier.jv || 0))} subtitle={`${Object.keys(meta.ownership.assets_by_entity || {}).length} entities`} icon={Landmark} />
+        )}
       </div>
 
       {/* Financial Summary Dashboard */}
@@ -1140,13 +1168,23 @@ export default function PropertyPortfolio() {
             ))}
           </select>
 
-          {/* Ownership */}
+          {/* Ownership (Freehold/Leasehold) */}
           <select value={filterOwnership} onChange={e => setFilterOwnership(e.target.value)} style={selectStyle}>
-            <option value="">All Ownership</option>
+            <option value="">All Tenure</option>
             <option value="Freehold">Freehold</option>
             <option value="Leasehold">Leasehold</option>
             <option value="Other">Other</option>
           </select>
+
+          {/* Tier (multi-entity ownership) */}
+          {meta.ownership?.assets_by_tier && Object.keys(meta.ownership.assets_by_tier).length > 1 && (
+            <select value={filterTier} onChange={e => setFilterTier(e.target.value)} style={selectStyle}>
+              <option value="">All Tiers</option>
+              {Object.entries(meta.ownership.assets_by_tier).map(([tier, count]) => (
+                <option key={tier} value={tier}>{tier.replace(/_/g, ' ')} ({count})</option>
+              ))}
+            </select>
+          )}
 
           {/* Disposal Priority */}
           <select value={filterDisposal} onChange={e => setFilterDisposal(e.target.value)} style={selectStyle}>
@@ -1455,6 +1493,7 @@ export default function PropertyPortfolio() {
               { id: 'epc', label: 'EPC Rating' },
               { id: 'heritage', label: 'Heritage' },
               { id: 'constraints', label: 'Constraints' },
+              { id: 'ownership', label: 'Ownership' },
             ].map(mode => (
               <button
                 key={mode.id}

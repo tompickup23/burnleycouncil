@@ -311,21 +311,35 @@ export function calculateTransitionRiskAdjustment(dogeFindings, integrityData) {
  * Estimate property rationalisation savings from asset portfolio data.
  * Used in LGR modelling to quantify estate consolidation potential.
  *
+ * Ownership-weighted: savings are scaled by ownership_pct. A 50% JV asset
+ * only contributes 50% of its saving. Subsidiary assets may need board
+ * approval for transfer under LGR.
+ *
  * @param {Array} propertyAssets - Array of asset objects from property_assets.json
- * @returns {{ disposalSaving: number, coLocationSaving: number, conditionSaving: number, factors: string[] }}
+ * @returns {{ disposalSaving: number, coLocationSaving: number, conditionSaving: number,
+ *             subsidiaryValue: number, subsidiaryCount: number, jvCount: number, factors: string[] }}
  */
 export function estimatePropertyRationalisationSavings(propertyAssets) {
   const factors = [];
   if (!propertyAssets?.length) {
-    return { disposalSaving: 0, coLocationSaving: 0, conditionSaving: 0, factors: ['No property data available'] };
+    return { disposalSaving: 0, coLocationSaving: 0, conditionSaving: 0,
+             subsidiaryValue: 0, subsidiaryCount: 0, jvCount: 0,
+             factors: ['No property data available'] };
   }
 
-  // Disposal savings: category A/B candidates × estimated annual holding cost
+  // Helper: effective ownership weight (default 1.0 for direct LCC assets)
+  const ownershipWeight = (a) => {
+    const pct = a.ownership_pct ?? 1.0;
+    return Math.max(0, Math.min(1, pct));
+  };
+
+  // Disposal savings: category A/B candidates × estimated annual holding cost, weighted by ownership
   const disposalCandidates = propertyAssets.filter(a => a.disposal?.category === 'A' || a.disposal?.category === 'B');
   const avgHoldingCost = 15000; // £15k average annual holding cost per property
-  const disposalSaving = disposalCandidates.length * avgHoldingCost * 0.75; // 75% realisation
+  const disposalSaving = disposalCandidates.reduce((s, a) =>
+    s + avgHoldingCost * 0.75 * ownershipWeight(a), 0);
   if (disposalCandidates.length > 0) {
-    factors.push(`${disposalCandidates.length} disposal candidates → £${Math.round(disposalSaving / 1000)}k annual saving (75% realisation)`);
+    factors.push(`${disposalCandidates.length} disposal candidates → £${Math.round(disposalSaving / 1000)}k annual saving (75% realisation, ownership-weighted)`);
   }
 
   // Co-location savings: properties within 500m that could be consolidated
@@ -335,12 +349,34 @@ export function estimatePropertyRationalisationSavings(propertyAssets) {
     factors.push(`${coLocatable.length} co-locatable assets (${Math.floor(coLocatable.length / 2)} pairs) → £${Math.round(coLocationSaving / 1000)}k potential`);
   }
 
-  // Condition spend reduction via better estate management
-  const totalCondition = propertyAssets.reduce((s, a) => s + (a.condition_spend || 0), 0);
+  // Condition spend reduction via better estate management, weighted by ownership
+  const totalCondition = propertyAssets.reduce((s, a) =>
+    s + (a.condition_spend || 0) * ownershipWeight(a), 0);
   const conditionSaving = totalCondition * 0.20; // 20% efficiency from consolidated management
   if (totalCondition > 0) {
-    factors.push(`£${Math.round(totalCondition / 1000)}k condition spend → £${Math.round(conditionSaving / 1000)}k saving (20% efficiency)`);
+    factors.push(`£${Math.round(totalCondition / 1000)}k condition spend → £${Math.round(conditionSaving / 1000)}k saving (20% efficiency, ownership-weighted)`);
   }
 
-  return { disposalSaving, coLocationSaving, conditionSaving, factors };
+  // Subsidiary/JV estate context for LGR planning
+  const subsidiaryAssets = propertyAssets.filter(a => a.tier === 'subsidiary');
+  const jvAssets = propertyAssets.filter(a => a.tier === 'jv');
+  const subsidiaryValue = subsidiaryAssets.reduce((s, a) => s + (a.rb_market_value || a.gb_market_value || 0), 0);
+  const jvValue = jvAssets.reduce((s, a) => s + ((a.rb_market_value || a.gb_market_value || 0) * ownershipWeight(a)), 0);
+
+  if (subsidiaryAssets.length > 0) {
+    const fmtVal = subsidiaryValue >= 1000000
+      ? `£${(subsidiaryValue / 1000000).toFixed(1)}M`
+      : `£${Math.round(subsidiaryValue / 1000)}k`;
+    factors.push(`${subsidiaryAssets.length} subsidiary assets worth ${fmtVal} — board approval required for LGR transfer`);
+  }
+  if (jvAssets.length > 0) {
+    const fmtJv = jvValue >= 1000000
+      ? `£${(jvValue / 1000000).toFixed(1)}M`
+      : `£${Math.round(jvValue / 1000)}k`;
+    factors.push(`${jvAssets.length} JV assets (LCC share: ${fmtJv}) — partner consent required for LGR restructuring`);
+  }
+
+  return { disposalSaving, coLocationSaving, conditionSaving,
+           subsidiaryValue, subsidiaryCount: subsidiaryAssets.length,
+           jvCount: jvAssets.length, factors };
 }

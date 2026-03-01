@@ -286,6 +286,27 @@ function OverviewTab({ asset }) {
             <span className="property-detail-label">Ownership Scope</span>
             <span className="property-detail-value">{asset.ownership_scope?.replace(/_/g, ' ') || '-'}</span>
           </div>
+          {asset.owner_entity && (
+            <div className="property-detail-row">
+              <span className="property-detail-label">Owner Entity</span>
+              <span className="property-detail-value" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {asset.owner_entity}
+                {asset.tier && (
+                  <Badge
+                    label={asset.tier.replace(/_/g, ' ')}
+                    color={asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}
+                    bg={`${asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}22`}
+                  />
+                )}
+              </span>
+            </div>
+          )}
+          {asset.ownership_pct != null && asset.ownership_pct < 1.0 && (
+            <div className="property-detail-row">
+              <span className="property-detail-label">LCC Stake</span>
+              <span className="property-detail-value">{Math.round(asset.ownership_pct * 100)}%</span>
+            </div>
+          )}
           <div className="property-detail-row">
             <span className="property-detail-label">Land Only</span>
             <span className="property-detail-value">{asset.land_only ? 'Yes' : 'No'}</span>
@@ -1035,14 +1056,124 @@ function ValuationTab({ asset }) {
         </div>
       )}
 
+      {/* Red Book (RICS) Valuation */}
+      {asset.red_book && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Scale size={16} style={{ color: '#bf5af2' }} /> Red Book (RICS) Valuation
+          </h3>
+          <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
+            <div style={{ flex: 1, minWidth: '120px' }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#bf5af2' }}>
+                {formatCurrency(asset.red_book.market_value)}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Market Value (MV)</div>
+            </div>
+            <div style={{ flex: 1, minWidth: '120px' }}>
+              <div style={{ fontSize: '1.2rem', fontWeight: 600, color: '#64d2ff' }}>
+                {formatCurrency(asset.red_book.existing_use_value)}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Existing Use Value (EUV)</div>
+            </div>
+            <div style={{ flex: 1, minWidth: '120px' }}>
+              <Badge
+                label={`${asset.red_book.confidence} confidence`}
+                color={GB_CONFIDENCE_COLORS[asset.red_book.confidence] || '#8e8e93'}
+                bg={`${GB_CONFIDENCE_COLORS[asset.red_book.confidence] || '#8e8e93'}22`}
+              />
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '4px' }}>
+                {asset.red_book.methodology}
+              </div>
+            </div>
+          </div>
+          <div className="property-detail-grid">
+            <div className="property-detail-row">
+              <span className="property-detail-label">Valuation Basis</span>
+              <span className="property-detail-value" style={{ textTransform: 'capitalize' }}>{asset.red_book.valuation_basis}</span>
+            </div>
+            {asset.red_book.yield_pct != null && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Capitalisation Yield</span>
+                <span className="property-detail-value">{asset.red_book.yield_pct}%</span>
+              </div>
+            )}
+            <div className="property-detail-row">
+              <span className="property-detail-label">Location Factor</span>
+              <span className="property-detail-value">{asset.red_book.location_factor}</span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">EPC Adjustment</span>
+              <span className="property-detail-value">{asset.red_book.epc_adjustment}</span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Condition</span>
+              <span className="property-detail-value" style={{ textTransform: 'capitalize' }}>{asset.red_book.condition_assessed}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Ownership Detail */}
+      {asset.ownership_detail && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Building size={16} style={{ color: '#ff9f0a' }} /> Ownership
+            <Badge
+              label={asset.tier || 'county'}
+              color={asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}
+              bg={`${asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}22`}
+            />
+          </h3>
+          <div className="property-detail-grid">
+            <div className="property-detail-row">
+              <span className="property-detail-label">Owner Entity</span>
+              <span className="property-detail-value">{asset.ownership_detail.entity_name || '-'}</span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Entity Type</span>
+              <span className="property-detail-value" style={{ textTransform: 'capitalize' }}>{(asset.ownership_detail.entity_type || '').replace(/_/g, ' ')}</span>
+            </div>
+            {asset.ownership_detail.ch_number && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Companies House</span>
+                <span className="property-detail-value">
+                  <a href={`https://find-and-update.company-information.service.gov.uk/company/${asset.ownership_detail.ch_number}`} target="_blank" rel="noopener noreferrer" style={{ color: '#0a84ff' }}>
+                    {asset.ownership_detail.ch_number}
+                  </a>
+                </span>
+              </div>
+            )}
+            <div className="property-detail-row">
+              <span className="property-detail-label">LCC Stake</span>
+              <span className="property-detail-value">{asset.ownership_detail.lcc_stake != null ? `${Math.round(asset.ownership_detail.lcc_stake * 100)}%` : '-'}</span>
+            </div>
+            <div className="property-detail-row">
+              <span className="property-detail-label">Governance</span>
+              <span className="property-detail-value" style={{ textTransform: 'capitalize' }}>{(asset.ownership_detail.governance || '').replace(/_/g, ' ')}</span>
+            </div>
+            {asset.ownership_detail.parent_entity && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Parent Entity</span>
+                <span className="property-detail-value">{asset.ownership_detail.parent_entity}</span>
+              </div>
+            )}
+            {asset.ownership_detail.notes && (
+              <div className="property-detail-row">
+                <span className="property-detail-label">Notes</span>
+                <span className="property-detail-value">{asset.ownership_detail.notes}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Methodology note */}
       <div className="glass-card" style={{ padding: 'var(--space-md)', background: 'rgba(255,255,255,0.03)' }}>
         <p style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.5 }}>
-          <strong>Methodology:</strong> HM Treasury Green Book 5-case options appraisal model.
-          10-year NPV at 3.5% Social Time Preference Rate (STPR).
+          <strong>Green Book:</strong> HM Treasury 5-case options appraisal, 10-year NPV at 3.5% STPR.{' '}
+          <strong>Red Book:</strong> RICS Red Book valuation — comparable, income (investment), or DRC method.{' '}
           Market values estimated from sales evidence, Land Registry comparables, and Lancashire benchmarks.
-          Social value based on HACT wellbeing proxies adjusted for ward deprivation.
-          All figures are indicative estimates for screening purposes — formal valuations should be commissioned for assets progressing to disposal.
+          All figures are indicative estimates for screening purposes — formal RICS valuations should be commissioned for disposal.
         </p>
       </div>
     </div>

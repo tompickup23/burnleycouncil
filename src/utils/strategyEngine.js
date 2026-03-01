@@ -310,6 +310,45 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
     }
   }
 
+  // Red Book (RICS) valuation highlights
+  const withRb = wardAssets.filter(a => (a.rb_market_value || 0) > 0);
+  if (withRb.length > 0) {
+    const rbTotalMv = withRb.reduce((s, a) => s + (a.rb_market_value || 0), 0);
+    const fmtRb = rbTotalMv >= 1000000 ? `£${(rbTotalMv / 1000000).toFixed(1)}M` : `£${Math.round(rbTotalMv / 1000)}k`;
+    points.push({
+      category: 'Property',
+      icon: 'Scale',
+      priority: 2,
+      text: `Red Book (RICS): ${fmtRb} market value across ${withRb.length} assets — basis for disposal pricing and balance sheet.`,
+    });
+  }
+
+  // Ownership: subsidiary/JV assets in ward
+  const subsidiaryAssets = wardAssets.filter(a => a.tier === 'subsidiary' || a.tier === 'jv');
+  if (subsidiaryAssets.length > 0) {
+    const entities = [...new Set(subsidiaryAssets.map(a => a.owner_entity).filter(Boolean))];
+    const subMv = subsidiaryAssets.reduce((s, a) => s + (a.rb_market_value || 0), 0);
+    const fmtSubMv = subMv >= 1000000 ? `£${(subMv / 1000000).toFixed(1)}M` : subMv > 0 ? `£${Math.round(subMv / 1000)}k` : '';
+    const valPart = fmtSubMv ? ` valued at ${fmtSubMv}` : '';
+    points.push({
+      category: 'Property',
+      icon: 'Building',
+      priority: 2,
+      text: `${subsidiaryAssets.length} subsidiary/JV asset${subsidiaryAssets.length !== 1 ? 's' : ''}${valPart} held by ${entities.join(', ')} — LGR transfer requires board approval.`,
+    });
+  }
+
+  // Third-party/partnership assets
+  const thirdPartyAssets = wardAssets.filter(a => a.ownership_model === 'third_party');
+  if (thirdPartyAssets.length > 0) {
+    points.push({
+      category: 'Property',
+      icon: 'Shield',
+      priority: 3,
+      text: `${thirdPartyAssets.length} third-party/partnership asset${thirdPartyAssets.length !== 1 ? 's' : ''} (NHS, police, foundation schools) — LCC freehold but not fully controlled.`,
+    });
+  }
+
   return points;
 }
 
@@ -395,6 +434,40 @@ export function generatePropertySummary(wardName, propertyAssets) {
         assetsAppraised: withGb.length,
       };
     })(),
+    redBook: (() => {
+      const withRb = wardAssets.filter(a => (a.rb_market_value || 0) > 0);
+      if (withRb.length === 0) return null;
+      const basisCounts = {};
+      for (const a of withRb) {
+        const b = a.rb_valuation_basis || 'unknown';
+        basisCounts[b] = (basisCounts[b] || 0) + 1;
+      }
+      return {
+        totalMarketValue: withRb.reduce((s, a) => s + (a.rb_market_value || 0), 0),
+        totalEUV: withRb.reduce((s, a) => s + (a.rb_euv || 0), 0),
+        basisBreakdown: basisCounts,
+        assetsValued: withRb.length,
+      };
+    })(),
+    ownership: (() => {
+      const byTier = {};
+      const byEntity = {};
+      for (const a of wardAssets) {
+        const t = a.tier || 'county';
+        byTier[t] = (byTier[t] || 0) + 1;
+        const e = a.owner_entity || 'LCC';
+        byEntity[e] = (byEntity[e] || 0) + 1;
+      }
+      const subsidiaryCount = wardAssets.filter(a => a.tier === 'subsidiary' || a.tier === 'jv').length;
+      const thirdPartyCount = wardAssets.filter(a => a.ownership_model === 'third_party').length;
+      return {
+        byTier,
+        byEntity,
+        subsidiaryCount,
+        thirdPartyCount,
+        directCount: wardAssets.filter(a => a.ownership_model === 'direct').length,
+      };
+    })(),
     assets: wardAssets.map(a => ({
       id: a.id, name: a.name, category: a.category,
       epc_rating: a.epc_rating, disposal_pathway: a.disposal_pathway,
@@ -407,6 +480,11 @@ export function generatePropertySummary(wardName, propertyAssets) {
       gb_market_value: a.gb_market_value || null,
       gb_preferred_option: a.gb_preferred_option || null,
       gb_preferred_npv: a.gb_preferred_npv || null,
+      rb_market_value: a.rb_market_value || null,
+      rb_valuation_basis: a.rb_valuation_basis || null,
+      owner_entity: a.owner_entity || null,
+      tier: a.tier || null,
+      ownership_pct: a.ownership_pct ?? null,
     })),
   };
 }

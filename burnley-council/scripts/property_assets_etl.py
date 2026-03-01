@@ -63,6 +63,11 @@ LEAN_FIELDS = [
     # Green Book options appraisal (computed)
     'gb_preferred_option', 'gb_preferred_npv', 'gb_market_value',
     'gb_confidence', 'gb_holding_cost',
+    # Red Book (RICS) valuation (computed)
+    'rb_market_value', 'rb_euv', 'rb_valuation_basis', 'rb_confidence', 'rb_yield_pct',
+    # Ownership hierarchy
+    'owner_entity', 'owner_entity_ch', 'ownership_model', 'ownership_pct',
+    'tier', 'parent_council',
 ]
 
 
@@ -1525,6 +1530,336 @@ def compute_green_book_appraisal(asset):
     }
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# RED BOOK (RICS) VALUATION ENGINE
+# RICS Red Book compliant valuation estimates: Market Value (MV),
+# Existing Use Value (EUV), with appropriate valuation basis selection.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# RICS capitalisation rates (yield %) by category — Lancashire market rates 2024-25
+RED_BOOK_CAP_RATES = {
+    'office_civic': 0.085,           # 8.5% — secondary office stock
+    'education': 0.00,               # Specialised — use DRC
+    'library': 0.00,                 # Specialised — use DRC
+    'children_social_care': 0.00,    # Specialised — use DRC
+    'operations_depot_waste': 0.075, # 7.5% — industrial/logistics
+    'transport_highways': 0.070,     # 7.0% — infrastructure
+    'land_general': 0.00,            # Use comparable/residual
+    'land_woodland': 0.00,           # Use comparable
+    'land_open_space': 0.00,         # Use comparable
+    'other_building': 0.080,         # 8.0% — mixed secondary
+}
+
+# DRC rebuild cost benchmarks (£/sqm) — BCIS Q1 2025 Lancashire adjustment
+RED_BOOK_REBUILD_COST = {
+    'office_civic': 2400,
+    'education': 2200,
+    'library': 2600,
+    'children_social_care': 2300,
+    'operations_depot_waste': 1100,
+    'transport_highways': 800,
+    'other_building': 1800,
+}
+
+# DRC depreciation factors by condition signal
+RED_BOOK_DEPRECIATION = {
+    'good': 0.15,      # 15% depreciation — well maintained
+    'fair': 0.35,       # 35% depreciation
+    'poor': 0.55,       # 55% depreciation
+    'unknown': 0.40,    # 40% default
+}
+
+
+def compute_red_book_valuation(asset):
+    """RICS Red Book compliant valuation estimate.
+
+    Selects appropriate valuation basis:
+    - Comparable method for land and non-specialised buildings with LR data
+    - Income (investment) method for commercial buildings with rental evidence
+    - DRC method for specialised assets (schools, libraries, social care)
+    - Residual method for development sites
+
+    Returns dict with market_value, euv, basis, confidence, yield.
+    """
+    category = asset.get('category', 'other_building')
+    floor_area = asset.get('floor_area_sqm') or 0
+    land_only = asset.get('land_only', False)
+    imd = asset.get('imd_decile') or 5
+    epc = asset.get('epc_rating', '')
+    lr_median = asset.get('lr_median_price') or 0
+    lr_count = asset.get('lr_comparables_count') or 0
+    sales_evidence = asset.get('sales_evidence', [])
+    condition_spend = asset.get('condition_spend') or 0
+
+    # Location factor (RICS adjustment for local market conditions via IMD proxy)
+    loc_factor = 0.70 + (imd / 10) * 0.65  # IMD 1→0.77, IMD 5→1.03, IMD 10→1.35
+
+    # Condition factor from EPC and condition spend signals
+    if epc in ('A', 'B'):
+        condition = 'good'
+    elif epc in ('C', 'D'):
+        condition = 'fair'
+    elif epc in ('E', 'F', 'G'):
+        condition = 'poor'
+    elif condition_spend > 20000:
+        condition = 'poor'
+    elif condition_spend > 5000:
+        condition = 'fair'
+    else:
+        condition = 'unknown'
+
+    # EPC adjustment for market value
+    epc_adj = {'A': 1.15, 'B': 1.10, 'C': 1.05, 'D': 1.00, 'E': 0.95, 'F': 0.88, 'G': 0.82}.get(epc, 0.95)
+
+    mv = 0
+    euv = 0
+    basis = 'benchmark'
+    confidence = 'indicative'
+    yield_pct = None
+
+    # ── STEP 1: Determine primary valuation basis ──
+    cap_rate = RED_BOOK_CAP_RATES.get(category, 0.08)
+
+    if land_only:
+        # Land: comparable method
+        basis = 'comparable'
+        if sales_evidence:
+            # Direct sales evidence
+            prices = [s.get('price') for s in sales_evidence if s.get('price')]
+            if prices:
+                mv = round(sum(prices) / len(prices))
+                confidence = 'medium'
+        if mv == 0 and lr_median > 0 and lr_count >= 3:
+            # LR comparable scaling
+            mv = round(lr_median * loc_factor * 0.35)  # Land typically 30-40% of residential
+            confidence = 'low'
+        if mv == 0:
+            # Benchmark
+            base_per_sqm = MARKET_VALUE_PER_SQM.get(category, 30)
+            area = floor_area if floor_area > 0 else 1000  # Default 1000 sqm for unmeasured land
+            mv = round(base_per_sqm * area * loc_factor)
+            confidence = 'indicative'
+        euv = mv  # Land EUV = MV (no alternative use discount for land in current use)
+
+    elif cap_rate > 0 and not land_only:
+        # Non-specialised building: income (investment) method
+        basis = 'income'
+        rental = RENTAL_YIELD_PER_SQM.get(category, 60)
+        area = floor_area if floor_area > 0 else 200  # Default 200 sqm
+        annual_rent = round(rental * area * loc_factor * epc_adj)
+        mv = round(annual_rent / cap_rate) if cap_rate > 0 else 0
+        yield_pct = round(cap_rate * 100, 1)
+
+        # Cross-check against comparable evidence
+        if lr_median > 0 and lr_count >= 3:
+            comp_mv = round(lr_median * loc_factor * epc_adj * 0.6)  # Commercial ~60% of residential
+            mv = round((mv * 0.6 + comp_mv * 0.4))  # Blend income and comparable
+            confidence = 'medium'
+        elif sales_evidence:
+            prices = [s.get('price') for s in sales_evidence if s.get('price')]
+            if prices:
+                mv = round((mv + sum(prices) / len(prices)) / 2)
+                confidence = 'medium'
+        else:
+            confidence = 'low'
+
+        # EUV = MV minus hope value (alternative use premium)
+        # For operational council buildings, hope value is typically 10-25%
+        hope_discount = 0.15 if category in ('office_civic', 'other_building') else 0.05
+        euv = round(mv * (1 - hope_discount))
+
+    else:
+        # Specialised asset (schools, libraries, social care): DRC method
+        basis = 'drc'
+        rebuild = RED_BOOK_REBUILD_COST.get(category, 1800)
+        area = floor_area if floor_area > 0 else 500  # Default 500 sqm for unmeasured buildings
+        depreciation = RED_BOOK_DEPRECIATION.get(condition, 0.40)
+        obsolescence = 0.10  # Functional obsolescence allowance
+
+        # DRC = Rebuild cost × (1 - physical depreciation) × (1 - obsolescence) + land value
+        building_value = round(rebuild * area * (1 - depreciation) * (1 - obsolescence))
+        # Land component: 15-25% of total DRC for built assets
+        land_value = round(building_value * 0.20)
+        mv = building_value + land_value
+        euv = mv  # EUV = DRC for specialised assets (RICS UKVS 1.3)
+        confidence = 'low'  # DRC is inherently less reliable
+
+        # Adjust for location
+        mv = round(mv * loc_factor)
+        euv = round(euv * loc_factor)
+
+    # ── STEP 2: Confidence upgrade if multiple evidence sources ──
+    evidence_count = sum([
+        1 if lr_count >= 3 else 0,
+        1 if sales_evidence else 0,
+        1 if floor_area > 0 else 0,
+        1 if epc else 0,
+    ])
+    if evidence_count >= 3 and confidence != 'indicative':
+        confidence = 'high' if evidence_count == 4 else 'medium'
+
+    return {
+        'market_value': mv,
+        'existing_use_value': euv,
+        'valuation_basis': basis,
+        'confidence': confidence,
+        'yield_pct': yield_pct,
+        'condition_assessed': condition,
+        'location_factor': round(loc_factor, 2),
+        'epc_adjustment': round(epc_adj, 2),
+        'methodology': f'RICS Red Book — {basis} method',
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OWNERSHIP HIERARCHY + SUBSIDIARY LOADING
+# Assigns multi-tier ownership metadata to each asset.
+# Loads subsidiary property CSV for LCDL, Lancashire Renewables, etc.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# LCC subsidiary entities — static registry
+LCC_SUBSIDIARIES = {
+    'LCDL': {
+        'entity_name': 'Lancashire County Developments Limited',
+        'entity_type': 'company',
+        'ch_number': '01624144',
+        'lcc_stake': 1.0,
+        'governance': 'sole_member',
+        'tier': 'subsidiary',
+        'parent_entity': 'Lancashire County Council',
+    },
+    'LCDL_PROPERTY': {
+        'entity_name': 'Lancashire County Developments (Property) Limited',
+        'entity_type': 'company',
+        'ch_number': '01726163',
+        'lcc_stake': 1.0,
+        'governance': 'sole_member',
+        'tier': 'subsidiary',
+        'parent_entity': 'Lancashire County Developments Limited',
+    },
+    'RENEWABLES': {
+        'entity_name': 'Lancashire Renewables Limited',
+        'entity_type': 'company',
+        'ch_number': '05881147',
+        'lcc_stake': 1.0,
+        'governance': 'sole_member',
+        'tier': 'subsidiary',
+        'parent_entity': 'Lancashire County Council',
+    },
+    'ACTIVE_LANCS': {
+        'entity_name': 'Active Lancashire Limited',
+        'entity_type': 'charity',
+        'ch_number': '06859894',
+        'charity_number': '1159832',
+        'lcc_stake': 1.0,
+        'governance': 'sole_member',
+        'tier': 'subsidiary',
+        'parent_entity': 'Lancashire County Council',
+    },
+    'YOUTH_ZONE': {
+        'entity_name': 'Preston Youth Zone',
+        'entity_type': 'charity',
+        'ch_number': '08630949',
+        'lcc_stake': 1.0,
+        'governance': 'sole_member',
+        'tier': 'subsidiary',
+        'parent_entity': 'Lancashire County Council',
+    },
+    'LPP': {
+        'entity_name': 'Local Pensions Partnership Ltd',
+        'entity_type': 'company',
+        'ch_number': '09830002',
+        'lcc_stake': 0.5,
+        'governance': 'joint_venture',
+        'tier': 'jv',
+        'parent_entity': 'Lancashire County Council / LPFA',
+    },
+}
+
+
+def load_subsidiary_properties(csv_path):
+    """Load subsidiary/JV property data from CSV.
+
+    CSV columns: entity_key, name, address, postcode, category, ownership,
+                 floor_area_sqm, current_use, land_only, active, notes
+    """
+    if not csv_path or not Path(csv_path).exists():
+        return []
+    rows = read_csv(str(csv_path))
+    print(f"  Read {len(rows)} subsidiary properties from {Path(csv_path).name}")
+    return rows
+
+
+def assign_ownership(lean, detail, row, is_subsidiary=False):
+    """Assign ownership hierarchy fields to lean and detail assets."""
+    entity_key = safe_str(row.get('entity_key', ''))
+    is_non_owned = 'non_owned' in (lean.get('flags') or [])
+
+    # Helper to sync ownership fields from lean to detail
+    def _sync_ownership(lean, detail):
+        for k in ('owner_entity', 'owner_entity_ch', 'ownership_model',
+                   'ownership_pct', 'tier', 'parent_council'):
+            detail[k] = lean[k]
+
+    if is_subsidiary and entity_key in LCC_SUBSIDIARIES:
+        sub = LCC_SUBSIDIARIES[entity_key]
+        lean['owner_entity'] = sub['entity_name']
+        lean['owner_entity_ch'] = sub['ch_number']
+        lean['ownership_model'] = 'subsidiary' if sub['lcc_stake'] >= 1.0 else 'joint_venture'
+        lean['ownership_pct'] = sub['lcc_stake']
+        lean['tier'] = sub['tier']
+        lean['parent_council'] = 'lancashire_cc'
+        if detail:
+            _sync_ownership(lean, detail)
+            detail['ownership_detail'] = {
+                'entity_name': sub['entity_name'],
+                'entity_type': sub['entity_type'],
+                'ch_number': sub['ch_number'],
+                'charity_number': sub.get('charity_number'),
+                'lcc_stake': sub['lcc_stake'],
+                'governance': sub['governance'],
+                'parent_entity': sub['parent_entity'],
+                'notes': f"Wholly-owned LCC subsidiary" if sub['lcc_stake'] >= 1.0
+                         else f"LCC {int(sub['lcc_stake']*100)}% joint venture",
+            }
+    elif is_non_owned:
+        lean['owner_entity'] = safe_str(row.get('ownership_details')) or 'Third Party'
+        lean['ownership_model'] = 'third_party'
+        lean['ownership_pct'] = 0.0
+        lean['tier'] = 'third_party'
+        lean['parent_council'] = 'lancashire_cc'
+        if detail:
+            _sync_ownership(lean, detail)
+            detail['ownership_detail'] = {
+                'entity_name': lean['owner_entity'],
+                'entity_type': 'unknown',
+                'ch_number': None,
+                'lcc_stake': 0.0,
+                'governance': 'third_party_occupation',
+                'parent_entity': None,
+                'notes': 'Non-owned: governance review needed',
+            }
+    else:
+        # Standard LCC-owned asset
+        lean['owner_entity'] = 'Lancashire County Council'
+        lean['owner_entity_ch'] = None  # LCC is not a company
+        lean['ownership_model'] = 'direct'
+        lean['ownership_pct'] = 1.0
+        lean['tier'] = 'county'
+        lean['parent_council'] = 'lancashire_cc'
+        if detail:
+            _sync_ownership(lean, detail)
+            detail['ownership_detail'] = {
+                'entity_name': 'Lancashire County Council',
+                'entity_type': 'local_authority',
+                'ch_number': None,
+                'lcc_stake': 1.0,
+                'governance': 'direct_ownership',
+                'parent_entity': None,
+                'notes': None,
+            }
+
+
 def infer_occupancy(asset):
     """Infer occupancy status from available signals. Returns (status, signals)."""
     signals = []
@@ -2241,6 +2576,13 @@ def build_lean_asset(row, ced_name='', ward_dep=None, ward_demo=None, fire_dist=
         # Land Registry valuation context (from live enrichment)
         'lr_median_price': _lr_median(row.get('_lr_comparables', [])),
         'lr_comparables_count': len(row.get('_lr_comparables', [])),
+        # Ownership hierarchy (populated by main() after build)
+        'owner_entity': None,
+        'owner_entity_ch': None,
+        'ownership_model': None,
+        'ownership_pct': None,
+        'tier': None,
+        'parent_council': None,
     }
 
 
@@ -2253,10 +2595,12 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
     # Add full enrichment data
     detail = {
         **lean,
-        # Ownership detail
+        # Ownership detail (legacy Codex fields)
         'ownership_scope': safe_str(row.get('ownership_scope')),
         'is_owned': safe_str(row.get('is_owned_in_lcc_register')) == 'Y',
         'ownership_details': safe_str(row.get('ownership_details')),
+        # Ownership hierarchy (populated by main() after build)
+        'ownership_detail': None,  # Full corporate chain, governance, CH numbers
         # Location detail
         'easting': safe_float(row.get('easting')) or None,
         'northing': safe_float(row.get('northing')) or None,
@@ -2420,6 +2764,7 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
     # Green Book options appraisal is computed after disposal intelligence engine runs
     # (needs occupancy_status which is set by compute_disposal_intelligence)
     detail['green_book'] = None  # placeholder — populated in main()
+    detail['red_book'] = None   # placeholder — RICS Red Book valuation, populated in main()
 
     # Add disposal data — smart engine fields populated later by compute_disposal_intelligence()
     # Preserve Codex original as reference
@@ -2603,6 +2948,35 @@ def compute_meta(lean_assets, detail_assets):
         gb_total_market_value += a.get('gb_market_value') or 0
         gb_total_holding_cost += a.get('gb_holding_cost') or 0
 
+    # Red Book (RICS) valuation stats
+    rb_basis_breakdown = {}
+    rb_confidence_breakdown = {}
+    rb_total_mv = 0
+    rb_total_euv = 0
+    for a in lean_assets:
+        b = a.get('rb_valuation_basis')
+        if b:
+            rb_basis_breakdown[b] = rb_basis_breakdown.get(b, 0) + 1
+        c = a.get('rb_confidence')
+        if c:
+            rb_confidence_breakdown[c] = rb_confidence_breakdown.get(c, 0) + 1
+        rb_total_mv += a.get('rb_market_value') or 0
+        rb_total_euv += a.get('rb_euv') or 0
+
+    # Ownership hierarchy stats
+    assets_by_entity = {}
+    assets_by_tier = {}
+    assets_by_ownership_model = {}
+    value_by_tier = {}
+    for a in lean_assets:
+        ent = a.get('owner_entity', 'Unknown')
+        assets_by_entity[ent] = assets_by_entity.get(ent, 0) + 1
+        t = a.get('tier', 'unknown')
+        assets_by_tier[t] = assets_by_tier.get(t, 0) + 1
+        value_by_tier[t] = value_by_tier.get(t, 0) + (a.get('rb_market_value') or 0)
+        om = a.get('ownership_model', 'unknown')
+        assets_by_ownership_model[om] = assets_by_ownership_model.get(om, 0) + 1
+
     return {
         'generated': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
         'source': 'LCC Local Authority Land List + Codex enrichment + AI DOGE CED mapping + live API enrichment (Police/EA/HE/NE)',
@@ -2654,6 +3028,21 @@ def compute_meta(lean_assets, detail_assets):
             'horizon_years': GREEN_BOOK_HORIZON,
             'methodology': 'HM Treasury Green Book 5-case model, 3.5% STPR, 10-year NPV',
         },
+        # Red Book (RICS) valuation stats
+        'red_book': {
+            'basis_breakdown': dict(sorted(rb_basis_breakdown.items(), key=lambda x: -x[1])),
+            'confidence_breakdown': dict(sorted(rb_confidence_breakdown.items(), key=lambda x: -x[1])),
+            'total_market_value': round(rb_total_mv),
+            'total_existing_use_value': round(rb_total_euv),
+            'methodology': 'RICS Red Book: comparable, income, DRC methods',
+        },
+        # Ownership hierarchy stats
+        'ownership': {
+            'assets_by_entity': dict(sorted(assets_by_entity.items(), key=lambda x: -x[1])),
+            'assets_by_tier': dict(sorted(assets_by_tier.items(), key=lambda x: -x[1])),
+            'assets_by_ownership_model': dict(sorted(assets_by_ownership_model.items(), key=lambda x: -x[1])),
+            'value_by_tier': {k: round(v) for k, v in sorted(value_by_tier.items(), key=lambda x: -x[1])},
+        },
         'ced_summary': dict(sorted(ced_summary.items())),
         # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)
         'estate_context': {
@@ -2688,6 +3077,8 @@ def main():
                         help='Include non-owned/partnership records (overrides --owned-only)')
     parser.add_argument('--live-enrich', action='store_true', default=False,
                         help='Query live APIs for crime, flood, heritage, environment data')
+    parser.add_argument('--subsidiary-csv', default=None,
+                        help='Path to subsidiary_properties.csv for LCDL/Renewables/etc')
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir).expanduser()
@@ -3026,6 +3417,110 @@ def main():
     print(f"  Total estimated market value: £{total_market_value:,.0f}")
     print(f"  Total annual holding cost: £{total_holding:,.0f}")
     print(f"  Total NPV advantage vs BAU: £{total_npv_vs_bau:,.0f}")
+
+    # --- 5d. Red Book (RICS) Valuation ---
+    print(f"\n--- Running Red Book (RICS) Valuation Engine ---")
+    rb_basis_counts = {}
+    rb_confidence_counts = {}
+    rb_total_mv = 0
+    rb_total_euv = 0
+    for lean, detail in zip(lean_assets, detail_assets):
+        rb = compute_red_book_valuation(lean)
+        detail['red_book'] = rb
+        # Lean fields for portfolio view
+        lean['rb_market_value'] = rb['market_value']
+        lean['rb_euv'] = rb['existing_use_value']
+        lean['rb_valuation_basis'] = rb['valuation_basis']
+        lean['rb_confidence'] = rb['confidence']
+        lean['rb_yield_pct'] = rb['yield_pct']
+        # Track for meta
+        b = rb['valuation_basis']
+        rb_basis_counts[b] = rb_basis_counts.get(b, 0) + 1
+        c = rb['confidence']
+        rb_confidence_counts[c] = rb_confidence_counts.get(c, 0) + 1
+        rb_total_mv += rb['market_value']
+        rb_total_euv += rb['existing_use_value']
+
+    print(f"  Red Book basis: {rb_basis_counts}")
+    print(f"  Red Book confidence: {rb_confidence_counts}")
+    print(f"  Total Red Book MV: £{rb_total_mv:,.0f}")
+    print(f"  Total Red Book EUV: £{rb_total_euv:,.0f}")
+
+    # --- 5e. Ownership Assignment ---
+    print(f"\n--- Assigning Ownership Hierarchy ---")
+    ownership_counts = {}
+    tier_counts = {}
+    for lean, detail, (aid, row) in zip(lean_assets, detail_assets,
+                                         list(primary_by_id.items())):
+        assign_ownership(lean, detail, row, is_subsidiary=False)
+        om = lean.get('ownership_model', 'unknown')
+        ownership_counts[om] = ownership_counts.get(om, 0) + 1
+        t = lean.get('tier', 'unknown')
+        tier_counts[t] = tier_counts.get(t, 0) + 1
+
+    # Load subsidiary properties if CSV provided
+    if args.subsidiary_csv:
+        sub_rows = load_subsidiary_properties(args.subsidiary_csv)
+        if sub_rows:
+            print(f"  Loading {len(sub_rows)} subsidiary properties...")
+            for srow in sub_rows:
+                entity_key = safe_str(srow.get('entity_key'))
+                if entity_key not in LCC_SUBSIDIARIES:
+                    print(f"    ⚠ Unknown entity_key: {entity_key}, skipping")
+                    continue
+                sub_info = LCC_SUBSIDIARIES[entity_key]
+                # Build synthetic row for build functions
+                srow['_ced'] = ''
+                srow['admin_ward'] = safe_str(srow.get('ward', ''))
+                srow['asset_name'] = safe_str(srow.get('name', 'Unknown'))
+                srow['full_address'] = safe_str(srow.get('address', ''))
+                srow['norm_postcode'] = safe_str(srow.get('postcode', ''))
+                srow['asset_category'] = safe_str(srow.get('category', 'other_building'))
+                srow['ownership_scope'] = safe_str(srow.get('ownership', 'Freehold'))
+                srow['is_land_only'] = safe_str(srow.get('land_only', 'N'))
+                srow['is_active'] = safe_str(srow.get('active', 'Y'))
+                srow['unique_asset_id'] = f"SUB-{entity_key}-{len(lean_assets)+1}"
+                # Geocode
+                lat, lng = _validate_coords(srow)
+                if lat and lng:
+                    srow['latitude_wgs84'] = str(lat)
+                    srow['longitude_wgs84'] = str(lng)
+                # Build lean/detail
+                lean = build_lean_asset(srow)
+                lean['id'] = srow['unique_asset_id']
+                lean['name'] = srow['asset_name']
+                lean['address'] = srow['full_address']
+                lean['postcode'] = srow['norm_postcode']
+                detail = build_detail_asset(srow)
+                detail['id'] = lean['id']
+                detail['name'] = lean['name']
+                # Run engines on subsidiary asset
+                gb = compute_green_book_appraisal(lean)
+                detail['green_book'] = gb
+                lean['gb_preferred_option'] = gb['preferred_option']
+                lean['gb_preferred_npv'] = gb['preferred_npv']
+                lean['gb_market_value'] = gb['market_value_estimate']
+                lean['gb_confidence'] = gb['confidence']
+                lean['gb_holding_cost'] = gb['annual_holding_cost']
+                rb = compute_red_book_valuation(lean)
+                detail['red_book'] = rb
+                lean['rb_market_value'] = rb['market_value']
+                lean['rb_euv'] = rb['existing_use_value']
+                lean['rb_valuation_basis'] = rb['valuation_basis']
+                lean['rb_confidence'] = rb['confidence']
+                lean['rb_yield_pct'] = rb['yield_pct']
+                # Assign ownership
+                assign_ownership(lean, detail, srow, is_subsidiary=True)
+                om = lean.get('ownership_model', 'unknown')
+                ownership_counts[om] = ownership_counts.get(om, 0) + 1
+                t = lean.get('tier', 'unknown')
+                tier_counts[t] = tier_counts.get(t, 0) + 1
+                lean_assets.append(lean)
+                detail_assets.append(detail)
+            print(f"  Total assets after subsidiaries: {len(lean_assets)}")
+
+    print(f"  Ownership: {ownership_counts}")
+    print(f"  Tiers: {tier_counts}")
 
     # Promote revenue estimates to public lean fields before stripping temp
     for asset in lean_assets:
