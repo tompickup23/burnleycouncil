@@ -2105,11 +2105,76 @@ def build_flags(row, fire_dist=None):
     return flags
 
 
+_POSTCODE_CACHE = {}
+
+def _geocode_postcode(postcode):
+    """Lookup postcode via postcodes.io (free, no key). Returns (lat, lng) or (None, None)."""
+    if not postcode:
+        return None, None
+    pc = postcode.strip().upper().replace(' ', '')
+    if pc in _POSTCODE_CACHE:
+        return _POSTCODE_CACHE[pc]
+    try:
+        url = f'https://api.postcodes.io/postcodes/{urllib.parse.quote(postcode.strip())}'
+        data = _api_get(url, timeout=10)
+        if data and data.get('status') == 200 and data.get('result'):
+            r = data['result']
+            lat, lng = r.get('latitude'), r.get('longitude')
+            _POSTCODE_CACHE[pc] = (lat, lng)
+            return lat, lng
+    except Exception:
+        pass
+    _POSTCODE_CACHE[pc] = (None, None)
+    return None, None
+
+
+def _validate_coords(row):
+    """Validate coordinates: use WGS84 if within extended Lancashire bbox AND
+    consistent with postcode coords (within 10km), otherwise fallback to postcode
+    coords from CSV, then geocode via postcodes.io.
+    Extended bbox covers Windermere (LCC outdoor centre) at lat~54.31."""
+    VALID_BBOX = (-3.20, 53.30, -1.90, 54.45)  # wider than LANCASHIRE_BBOX for out-of-area LCC assets
+    MAX_POSTCODE_DRIFT_DEG = 0.1  # ~11km — WGS84 must be within this of postcode coords
+    lat = safe_float(row.get('latitude_wgs84'))
+    lng = safe_float(row.get('longitude_wgs84'))
+    pc_lat = safe_float(row.get('postcode_latitude'))
+    pc_lng = safe_float(row.get('postcode_longitude'))
+    name = safe_str(row.get('asset_name'))
+
+    # Check if WGS84 is valid: in bbox AND (no postcode coords OR close to postcode coords)
+    if lat and lng and VALID_BBOX[1] <= lat <= VALID_BBOX[3] and VALID_BBOX[0] <= lng <= VALID_BBOX[2]:
+        if pc_lat and pc_lng:
+            drift = ((lat - pc_lat)**2 + (lng - pc_lng)**2)**0.5
+            if drift > MAX_POSTCODE_DRIFT_DEG:
+                # WGS84 is in bbox but far from postcode — likely bad geocode
+                print(f'  ⚠ Coord fix: {name} — WGS84 ({lat},{lng}) drifted {drift:.2f}° from postcode ({pc_lat},{pc_lng})')
+                return pc_lat, pc_lng
+        return lat, lng
+
+    # Fallback 1: postcode coordinates from CSV
+    if pc_lat and pc_lng and VALID_BBOX[1] <= pc_lat <= VALID_BBOX[3] and VALID_BBOX[0] <= pc_lng <= VALID_BBOX[2]:
+        if lat and lng:
+            print(f'  ⚠ Coord fix: {name} — WGS84 ({lat},{lng}) outside bbox, using postcode ({pc_lat},{pc_lng})')
+        else:
+            print(f'  ℹ Coord fill: {name} — no WGS84, using CSV postcode coords ({pc_lat},{pc_lng})')
+        return pc_lat, pc_lng
+
+    # Fallback 2: geocode postcode via postcodes.io
+    postcode = safe_str(row.get('norm_postcode') or row.get('postcode'))
+    if postcode:
+        gc_lat, gc_lng = _geocode_postcode(postcode)
+        if gc_lat and gc_lng:
+            print(f'  ℹ Geocoded: {name} — {postcode} → ({gc_lat},{gc_lng})')
+            return gc_lat, gc_lng
+    return None, None
+
+
 def build_lean_asset(row, ced_name='', ward_dep=None, ward_demo=None, fire_dist=None, fire_station=None, imd_dep=None):
     """Build lean asset dict for property_assets.json."""
     # Use ward-level deprivation if available, else derived from per-asset IMD
     dep_level = (ward_dep.get('deprivation_level') if ward_dep else None) or (imd_dep[0] if imd_dep else None)
     dep_score = (round(ward_dep.get('avg_imd_score', 0), 1) if ward_dep and ward_dep.get('avg_imd_score') else None) or (imd_dep[1] if imd_dep else None)
+    v_lat, v_lng = _validate_coords(row)
     return {
         'id': safe_str(row.get('unique_asset_id')),
         'name': safe_str(row.get('asset_name')),
@@ -2123,8 +2188,8 @@ def build_lean_asset(row, ced_name='', ward_dep=None, ward_demo=None, fire_dist=
         'ownership': safe_str(row.get('ownership')),
         'land_only': safe_str(row.get('land_only')) == 'Y',
         'active': safe_str(row.get('active', 'Y')) == 'Y',
-        'lat': safe_float(row.get('latitude_wgs84')) or None,
-        'lng': safe_float(row.get('longitude_wgs84')) or None,
+        'lat': v_lat,
+        'lng': v_lng,
         'imd_decile': safe_int(row.get('imd_decile_2025')) or None,
         'epc_rating': safe_str(row.get('epc_rating')) or None,
         'epc_potential': safe_str(row.get('epc_potential_rating')) or None,
@@ -2625,7 +2690,7 @@ def main():
                         help='Query live APIs for crime, flood, heritage, environment data')
     args = parser.parse_args()
 
-    input_dir = Path(args.input_dir)
+    input_dir = Path(args.input_dir).expanduser()
     council_dir = DATA_DIR / args.council
     boundaries_path = council_dir / 'ward_boundaries.json'
 
