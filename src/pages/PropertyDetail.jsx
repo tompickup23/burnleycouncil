@@ -1214,7 +1214,7 @@ function ValuationTab({ asset }) {
   )
 }
 
-function LocationTab({ asset }) {
+function LocationTab({ asset, nearbyPlanning = [] }) {
   const coloc = asset.co_location
   const flood = asset.flood
   const crime = asset.crime
@@ -1594,6 +1594,45 @@ function LocationTab({ asset }) {
           )}
         </div>
       )}
+
+      {/* Nearby Planning Applications */}
+      {nearbyPlanning.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Nearby Planning Activity</h3>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)' }}>
+            Recent applications in the {asset.postcode?.split(' ')[0]} postcode area — indicates development pressure and may affect disposal value.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {nearbyPlanning.map((app, i) => (
+              <div key={app.uid || i} style={{
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem',
+                fontSize: '0.8rem', padding: '6px 10px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px',
+              }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
+                    {app.description || app.address}
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
+                    {app.address} • {app.start_date || ''}
+                  </div>
+                </div>
+                <span style={{
+                  flexShrink: 0, fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px',
+                  background: (app.state || '').match(/Approved|Granted/i) ? 'rgba(48,209,88,0.15)' :
+                    (app.state || '').match(/Refused|Rejected/i) ? 'rgba(255,69,58,0.15)' : 'rgba(255,255,255,0.08)',
+                  color: (app.state || '').match(/Approved|Granted/i) ? '#30d158' :
+                    (app.state || '').match(/Refused|Rejected/i) ? '#ff453a' : 'var(--text-secondary)',
+                }}>
+                  {app.state || 'Pending'}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '8px' }}>
+            Source: PlanIt portal. Matched by outward postcode.
+          </p>
+        </div>
+      )}
     </div>
   )
 }
@@ -1802,11 +1841,22 @@ function PropertyDetail() {
   const [activeTab, setActiveTab] = useState('overview')
 
   const { data, loading, error } = useData('/data/property_assets_detail.json')
+  const { data: planningData } = useData('/data/planning.json')
 
   const asset = useMemo(() => {
     if (!data?.assets) return null
     return data.assets.find(a => a.id === propertyId) || null
   }, [data, propertyId])
+
+  // Find nearby planning applications by postcode sector (e.g. BB11 3)
+  const nearbyPlanning = useMemo(() => {
+    if (!asset?.postcode || !planningData?.applications) return []
+    const sector = asset.postcode.replace(/\s+/g, ' ').split(' ')[0] // outward code
+    return planningData.applications
+      .filter(a => a.postcode && a.postcode.startsWith(sector))
+      .sort((a, b) => (b.start_date || '').localeCompare(a.start_date || ''))
+      .slice(0, 10)
+  }, [asset, planningData])
 
   // Strategist gate (same pattern as ProtectedRoute)
   if (isFirebaseEnabled) {
@@ -1945,7 +1995,7 @@ function PropertyDetail() {
         {activeTab === 'disposal' && <DisposalTab asset={asset} />}
         {activeTab === 'assessment' && <AssessmentTab asset={asset} />}
         {activeTab === 'valuation' && <ValuationTab asset={asset} />}
-        {activeTab === 'location' && <LocationTab asset={asset} />}
+        {activeTab === 'location' && <LocationTab asset={asset} nearbyPlanning={nearbyPlanning} />}
       </div>
     </div>
   )

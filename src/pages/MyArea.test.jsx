@@ -54,18 +54,41 @@ const mockDeprivation = {
   },
 }
 
-function setupMocks(overrides = {}, deprivation = mockDeprivation) {
+const mockPlanning = {
+  meta: { years_back: 3 },
+  summary: {
+    total: 500,
+    by_ward: { 'Daneshouse': 120, 'Brunshaw': 45, 'Cliviger with Worsthorne': 15 },
+    approval_rate: 0.88,
+    avg_decision_days: 52,
+    decided_count: 420,
+  },
+  efficiency: { cost_per_application: 771, budget_year: '2024-25', apps_per_year: 167 },
+  applications: [
+    { uid: 'p1', ward: 'Daneshouse', description: 'Rear extension', state: 'Approved', start_date: '2025-01-10', address: '12 Colne Rd' },
+    { uid: 'p2', ward: 'Daneshouse', description: 'Change of use to HMO', state: 'Refused', start_date: '2025-02-05', address: '8 Smith St' },
+  ],
+}
+
+function setupMocks(overrides = {}, deprivation = mockDeprivation, planning = null) {
   useCouncilConfig.mockReturnValue(mockConfig)
   useData.mockImplementation((urls) => {
     if (Array.isArray(urls)) {
-      // Primary data: wards + councillors
+      // Primary data: wards + councillors + integrity
       return {
-        data: overrides.data !== undefined ? overrides.data : [mockWards, mockCouncillors],
+        data: overrides.data !== undefined ? overrides.data : [mockWards, mockCouncillors, null],
         loading: overrides.loading || false,
         error: overrides.error || null,
       }
     }
-    // Optional deprivation data
+    // URL-specific optional data
+    if (urls === '/data/planning.json') {
+      return { data: planning, loading: false, error: planning ? null : new Error('Not found') }
+    }
+    if (urls === '/data/property_assets.json') {
+      return { data: null, loading: false, error: new Error('Not found') }
+    }
+    // Default: deprivation
     return { data: deprivation, loading: false, error: deprivation ? null : new Error('Not found') }
   })
 }
@@ -413,5 +436,53 @@ describe('MyArea', () => {
     renderComponent()
     expect(screen.getByText('More Information')).toBeInTheDocument()
     expect(screen.getByText(/burnley.gov.uk/)).toBeInTheDocument()
+  })
+
+  // === Planning Data ===
+  it('shows planning activity when ward with planning data is selected', () => {
+    setupMocks({}, mockDeprivation, mockPlanning)
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.getByText('Planning Activity')).toBeInTheDocument()
+    expect(screen.getByText('120')).toBeInTheDocument() // ward apps count
+    expect(screen.getByText(/24% of total/)).toBeInTheDocument()
+    expect(screen.getByText('88%')).toBeInTheDocument() // approval rate
+    expect(screen.getByText('52')).toBeInTheDocument() // avg decision days
+  })
+
+  it('shows recent planning applications in ward detail', () => {
+    setupMocks({}, mockDeprivation, mockPlanning)
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.getByText('Rear extension')).toBeInTheDocument()
+    expect(screen.getByText('Change of use to HMO')).toBeInTheDocument()
+    expect(screen.getByText('Approved')).toBeInTheDocument()
+    expect(screen.getByText('Refused')).toBeInTheDocument()
+  })
+
+  it('shows planning app badges on ward cards when planning data available', () => {
+    setupMocks({}, mockDeprivation, mockPlanning)
+    renderComponent()
+    expect(screen.getByText('120 planning apps')).toBeInTheDocument()
+    expect(screen.getByText('45 planning apps')).toBeInTheDocument()
+    expect(screen.getByText('15 planning apps')).toBeInTheDocument()
+  })
+
+  it('does not show planning section when no planning data', () => {
+    setupMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.queryByText('Planning Activity')).not.toBeInTheDocument()
+  })
+
+  it('does not show planning section when ward has zero planning apps', () => {
+    setupMocks({}, mockDeprivation, { ...mockPlanning, summary: { ...mockPlanning.summary, by_ward: { 'Other Ward': 100 } } })
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.queryByText('Planning Activity')).not.toBeInTheDocument()
   })
 })

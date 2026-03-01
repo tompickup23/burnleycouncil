@@ -121,6 +121,8 @@ function DogeInvestigation() {
   const { data: integrityData } = useData('/data/integrity.json')
   // Property assets for portfolio savings section (optional)
   const { data: propertyAssetsRaw } = useData('/data/property_assets.json')
+  // Planning data for efficiency analysis (optional)
+  const { data: planningData } = useData('/data/planning.json')
 
   // Build supplier→councillor map from integrity data for cross-reference badges
   const supplierCouncillorMap = useMemo(() => {
@@ -1804,6 +1806,107 @@ function DogeInvestigation() {
                   View full property portfolio analysis →
                 </Link>
               </div>
+            </div>
+          </ExpandableSection>
+        )
+      })()}
+
+      {/* Planning Efficiency Analysis — when planning data is available */}
+      {planningData?.summary?.total > 0 && (() => {
+        const summary = planningData.summary
+        const efficiency = planningData.efficiency || {}
+        const approvalPct = summary.approval_rate != null ? Math.round(summary.approval_rate * 100) : null
+        const topWards = Object.entries(summary.by_ward || {}).sort((a, b) => b[1] - a[1]).slice(0, 5)
+        const byType = Object.entries(summary.by_type || {}).sort((a, b) => b[1] - a[1])
+        return (
+          <ExpandableSection
+            title="Planning Department Efficiency"
+            subtitle={`${summary.total.toLocaleString()} applications analysed, £${(efficiency.cost_per_application || 0).toLocaleString()}/app`}
+            severity={efficiency.cost_per_application > 2000 ? 'high' : efficiency.cost_per_application > 1000 ? 'warning' : 'info'}
+          >
+            <div className="forensic-section">
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+                Analysis of {summary.total.toLocaleString()} planning applications from the PlanIt portal,
+                cross-referenced with GOV.UK budget data to assess development control efficiency.
+              </p>
+              <div className="stat-grid">
+                <div className="stat-card">
+                  <span className="stat-value">{summary.total.toLocaleString()}</span>
+                  <span className="stat-label">Total Applications</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{efficiency.apps_per_year || '—'}</span>
+                  <span className="stat-label">Per Year</span>
+                </div>
+                <div className="stat-card">
+                  <span className={`stat-value ${efficiency.cost_per_application > 2000 ? 'text-red' : efficiency.cost_per_application > 1000 ? 'text-orange' : ''}`}>
+                    £{(efficiency.cost_per_application || 0).toLocaleString()}
+                  </span>
+                  <span className="stat-label">Cost per Application</span>
+                </div>
+                <div className="stat-card">
+                  <span className={`stat-value ${approvalPct < 70 ? 'text-red' : approvalPct < 85 ? 'text-orange' : ''}`}>
+                    {approvalPct != null ? `${approvalPct}%` : '—'}
+                  </span>
+                  <span className="stat-label">Approval Rate</span>
+                </div>
+                <div className="stat-card">
+                  <span className={`stat-value ${summary.avg_decision_days > 56 ? 'text-red' : summary.avg_decision_days > 42 ? 'text-orange' : ''}`}>
+                    {summary.avg_decision_days || '—'}
+                  </span>
+                  <span className="stat-label">Avg Days to Decision</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">£{Math.round((efficiency.development_control_spend || 0) / 1000)}k</span>
+                  <span className="stat-label">Dev Control Budget ({efficiency.budget_year || ''})</span>
+                </div>
+              </div>
+              {topWards.length > 0 && (
+                <div style={{ marginTop: '1rem' }}>
+                  <h4>Busiest Wards</h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    {topWards.map(([ward, count]) => (
+                      <span key={ward} className="technique-badge">
+                        {ward} ({count})
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {byType.length > 0 && (
+                <div style={{ marginTop: '1rem' }}>
+                  <h4>Application Types</h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    {byType.slice(0, 8).map(([type, count]) => (
+                      <span key={type} className="technique-badge">
+                        {type} ({count})
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {efficiency.cost_per_application > 1500 && (
+                <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'rgba(255,69,58,0.1)', borderRadius: '8px', border: '1px solid rgba(255,69,58,0.2)' }}>
+                  <p style={{ fontSize: '0.85rem', color: '#ff453a', margin: 0 }}>
+                    <strong>⚠ Efficiency concern:</strong> At £{efficiency.cost_per_application.toLocaleString()} per application,
+                    this council's planning costs are {efficiency.cost_per_application > 2000 ? 'significantly ' : ''}above the Lancashire median.
+                    Under LGR consolidation, planning departments could be merged to reduce overhead costs.
+                  </p>
+                </div>
+              )}
+              {approvalPct != null && approvalPct < 75 && (
+                <div style={{ marginTop: '0.5rem', padding: '0.75rem', background: 'rgba(255,149,0,0.1)', borderRadius: '8px', border: '1px solid rgba(255,149,0,0.2)' }}>
+                  <p style={{ fontSize: '0.85rem', color: '#ff9f0a', margin: 0 }}>
+                    <strong>⚠ Low approval rate ({approvalPct}%):</strong> A high refusal rate increases
+                    costs (appeal processing, re-submissions) and may indicate overly restrictive planning
+                    policies or poor pre-application advice services.
+                  </p>
+                </div>
+              )}
+              <p className="dep-note" style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                Source: PlanIt portal ({planningData.meta?.years_back || 3}-year history). Budget data from GOV.UK Revenue Outturn.
+                Cost per application = development control expenditure ÷ annual applications.
+              </p>
             </div>
           </ExpandableSection>
         )

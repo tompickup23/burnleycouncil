@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building } from 'lucide-react'
+import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -36,6 +36,9 @@ function MyArea() {
   // Property assets data (optional — only LCC has this currently)
   const { data: propertyRaw } = useData('/data/property_assets.json')
   const propertyAssets = propertyRaw?.assets || []
+  // Planning data (optional — councils with planning ETL data)
+  const { data: planningRaw } = useData('/data/planning.json')
+  const planningData = planningRaw || null
   const [selectedWard, setSelectedWard] = useState(null)
   const [postcode, setPostcode] = useState('')
   const [postcodeLoading, setPostcodeLoading] = useState(false)
@@ -308,6 +311,65 @@ function MyArea() {
             )
           })()}
 
+          {/* Planning activity in this ward */}
+          {(() => {
+            if (!planningData?.summary?.by_ward) return null
+            const wardApps = planningData.summary.by_ward[selectedWard] || 0
+            if (wardApps === 0) return null
+            const totalApps = planningData.summary.total || 1
+            const wardPct = Math.round((wardApps / totalApps) * 100)
+            const approvalRate = planningData.summary.approval_rate
+            const efficiency = planningData.efficiency
+            // Get recent applications for this ward
+            const wardRecent = (planningData.applications || [])
+              .filter(a => a.ward === selectedWard)
+              .sort((a, b) => (b.start_date || '').localeCompare(a.start_date || ''))
+              .slice(0, 5)
+            return (
+              <div className="deprivation-panel" style={{ marginTop: '1rem' }}>
+                <h3><FileText size={16} /> Planning Activity</h3>
+                <div className="deprivation-stats">
+                  <div className="dep-stat">
+                    <span className="dep-value">{wardApps.toLocaleString()}</span>
+                    <span className="dep-label">Applications ({wardPct}% of total)</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{approvalRate != null ? `${Math.round(approvalRate * 100)}%` : '—'}</span>
+                    <span className="dep-label">Council Approval Rate</span>
+                  </div>
+                  <div className="dep-stat">
+                    <span className="dep-value">{planningData.summary.avg_decision_days || '—'}</span>
+                    <span className="dep-label">Avg Days to Decision</span>
+                  </div>
+                  {efficiency?.cost_per_application > 0 && (
+                    <div className="dep-stat">
+                      <span className="dep-value">£{efficiency.cost_per_application.toLocaleString()}</span>
+                      <span className="dep-label">Cost per App ({efficiency.budget_year})</span>
+                    </div>
+                  )}
+                </div>
+                {wardRecent.length > 0 && (
+                  <div style={{ marginTop: '0.75rem' }}>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Recent applications:</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                      {wardRecent.map((app, i) => (
+                        <div key={app.uid || i} style={{ fontSize: '0.7rem', background: 'rgba(255,255,255,0.04)', padding: '0.35rem 0.5rem', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.description || app.address}</span>
+                          <span style={{ flexShrink: 0, color: app.state?.includes('Approved') || app.state?.includes('Granted') ? '#30d158' : app.state?.includes('Refused') || app.state?.includes('Rejected') ? '#ff453a' : 'var(--text-secondary)', fontSize: '0.65rem' }}>
+                            {app.state || 'Pending'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <p className="dep-note">
+                  Source: PlanIt planning portal. {planningData.meta?.years_back || 3}-year history.
+                </p>
+              </div>
+            )
+          })()}
+
           <div className="ward-councillors">
             {getWardCouncillors(selectedWard).map(councillor => (
               <div key={councillor.id} className="councillor-detail-card">
@@ -374,6 +436,7 @@ function MyArea() {
           {wardList.map(ward => {
             const wardCouncillors = getWardCouncillors(ward.name)
             const wardDep = getDeprivationForWard(ward.name)
+            const wardPlanningApps = planningData?.summary?.by_ward?.[ward.name] || 0
 
             return (
               <div
@@ -394,18 +457,32 @@ function MyArea() {
                   <p className="ward-parties text-secondary">
                     {ward.parties?.join(', ')}
                   </p>
-                  {wardDep && (
-                    <span
-                      className="ward-dep-badge"
-                      style={{
-                        background: getDeprivationColor(wardDep.deprivation_level) + '20',
-                        color: getDeprivationColor(wardDep.deprivation_level),
-                        borderColor: getDeprivationColor(wardDep.deprivation_level),
-                      }}
-                    >
-                      {wardDep.deprivation_level} deprivation
-                    </span>
-                  )}
+                  <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    {wardDep && (
+                      <span
+                        className="ward-dep-badge"
+                        style={{
+                          background: getDeprivationColor(wardDep.deprivation_level) + '20',
+                          color: getDeprivationColor(wardDep.deprivation_level),
+                          borderColor: getDeprivationColor(wardDep.deprivation_level),
+                        }}
+                      >
+                        {wardDep.deprivation_level} deprivation
+                      </span>
+                    )}
+                    {wardPlanningApps > 0 && (
+                      <span
+                        className="ward-dep-badge"
+                        style={{
+                          background: wardPlanningApps > 50 ? 'rgba(255,149,0,0.15)' : 'rgba(48,209,88,0.15)',
+                          color: wardPlanningApps > 50 ? '#ff9500' : '#30d158',
+                          borderColor: wardPlanningApps > 50 ? '#ff9500' : '#30d158',
+                        }}
+                      >
+                        {wardPlanningApps} planning apps
+                      </span>
+                    )}
+                  </div>
                   <div className="ward-councillor-names">
                     {wardCouncillors.map(c => (
                       <span key={c.id} className="councillor-name">
