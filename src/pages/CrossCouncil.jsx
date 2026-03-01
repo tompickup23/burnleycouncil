@@ -258,6 +258,25 @@ function CrossCouncil() {
     return councils.filter(c => !c.budget_summary?.net_revenue_expenditure)
   }, [councils])
 
+  // Planning efficiency comparison data
+  const planningData = useMemo(() => councils
+    .filter(c => c.planning?.total_applications > 0)
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      fullName: c.council_name,
+      appsPerYear: c.planning.apps_per_year || 0,
+      costPerApp: c.planning.cost_per_application || 0,
+      approvalRate: Math.round((c.planning.approval_rate || 0) * 100),
+      avgDays: c.planning.avg_decision_days || 0,
+      totalApps: c.planning.total_applications || 0,
+      totalPlanningSpend: c.planning.total_planning_spend || 0,
+      isCurrent: c.council_name === councilName,
+      population: c.population || 0,
+    }))
+    .sort((a, b) => b.appsPerYear - a.appsPerYear),
+    [councils, councilName]
+  )
+
   if (loading) return <LoadingState message="Loading comparison data..." />
   if (error) return (
     <div className="page-error">
@@ -446,6 +465,82 @@ function CrossCouncil() {
       </section>
       )}
 
+
+      {/* Planning Efficiency Comparison */}
+      {planningData.length >= 2 && (
+        <section className="cross-section">
+          <h2><Building size={22} /> Planning Efficiency Comparison</h2>
+          <p className="section-intro">
+            Planning application volumes and decision costs from PlanIt data ({planningData.length} of {councils.length} councils).
+            Cost per application = development control budget ÷ annual applications.
+            {planningData.length < councils.length && ` Data collection in progress for remaining ${councils.length - planningData.length} councils.`}
+          </p>
+
+          {/* Applications per year chart */}
+          <h3 style={{ fontSize: '0.85rem', color: '#8e8e93', marginBottom: 8 }}>Applications Per Year</h3>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing planning applications per year">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={planningData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v, name) => {
+                    if (name === 'appsPerYear') return [v.toLocaleString(), 'Applications/year']
+                    return [v, name]
+                  }}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="appsPerYear" name="Applications/year" radius={[4, 4, 0, 0]}>
+                  {planningData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Cost per application chart */}
+          {planningData.some(d => d.costPerApp > 0) && (
+            <>
+              <h3 style={{ fontSize: '0.85rem', color: '#8e8e93', marginTop: 16, marginBottom: 8 }}>Cost Per Application (Dev Control Budget ÷ Apps)</h3>
+              <div className="chart-container" role="img" aria-label="Bar chart comparing cost per planning application">
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={planningData.filter(d => d.costPerApp > 0).sort((a, b) => b.costPerApp - a.costPerApp)} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                    <YAxis tickFormatter={v => `£${v.toLocaleString()}`} tick={AXIS_TICK_STYLE} />
+                    <Tooltip
+                      formatter={(v) => [`£${v.toLocaleString()}`, 'Cost per application']}
+                      contentStyle={TOOLTIP_STYLE}
+                    />
+                    <Bar dataKey="costPerApp" name="Cost/app" radius={[4, 4, 0, 0]}>
+                      {planningData.filter(d => d.costPerApp > 0).sort((a, b) => b.costPerApp - a.costPerApp).map((entry, i) => (
+                        <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.costPerApp > 2000 ? '#ff453a' : entry.costPerApp > 1000 ? '#ff9f0a' : '#30d158'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </>
+          )}
+
+          {/* Stats grid */}
+          <div className="stats-grid" style={{ marginTop: 16 }}>
+            {planningData.map(d => (
+              <div key={d.name} className={`stat-card${d.isCurrent ? ' current' : ''}`}>
+                <div className="stat-card-header">{d.fullName}</div>
+                <div className="stat-value">{d.appsPerYear.toLocaleString()}</div>
+                <div className="stat-label">applications/year</div>
+                <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 6 }}>
+                  {d.approvalRate}% approval · {d.avgDays}d avg decision
+                  {d.costPerApp > 0 && ` · £${d.costPerApp.toLocaleString()}/app`}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Council Tax Band D Comparison */}
       {councilTaxData.length > 0 && (

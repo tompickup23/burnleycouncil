@@ -427,6 +427,33 @@ def build_council_entry(council_id):
     if isinstance(sc, dict):
         overall_hhi = sc.get("hhi")
 
+    # ── Planning data from planning.json ──
+    planning_data = load_json(DATA_DIR / council_id / "planning.json") or {}
+    planning_summary = {}
+    if planning_data:
+        p_summary = planning_data.get("summary", {})
+        p_efficiency = planning_data.get("efficiency", {})
+        p_meta = planning_data.get("meta", {})
+        planning_summary = {
+            "total_applications": p_summary.get("total", 0),
+            "by_year": p_summary.get("by_year", {}),
+            "by_type": p_summary.get("by_type", {}),
+            "by_decision": p_summary.get("by_decision", {}),
+            "by_size": p_summary.get("by_size", {}),
+            "approval_rate": p_summary.get("approval_rate", 0),
+            "avg_decision_days": p_summary.get("avg_decision_days", 0),
+            "median_decision_days": p_summary.get("median_decision_days", 0),
+            "decided_count": p_summary.get("decided_count", 0),
+            "apps_per_year": p_efficiency.get("apps_per_year", 0),
+            "development_control_spend": p_efficiency.get("development_control_spend", 0),
+            "cost_per_application": p_efficiency.get("cost_per_application", 0),
+            "total_planning_spend": p_efficiency.get("total_planning_spend", 0),
+            "total_cost_per_app": p_efficiency.get("total_cost_per_app", 0),
+            "budget_year": p_efficiency.get("budget_year", ""),
+            "years_back": p_meta.get("years_back", 0),
+            "fetched": p_meta.get("fetched", ""),
+        }
+
     # ── Political data from politics_summary.json ──
     party_seats = {}
     total_councillors = politics.get("total_councillors", politics.get("total_seats", 0))
@@ -500,6 +527,7 @@ def build_council_entry(council_id):
         "total_councillors": total_councillors,
         "majority_threshold": majority_threshold,
         "ruling_party": ruling_party,
+        "planning": planning_summary,
     }
 
 
@@ -791,6 +819,14 @@ def main():
         collection_rates = [c["collection_rate"] for c in tier_councils if c.get("collection_rate")]
         dep_ratios = [c["dependency_ratio"] for c in tier_councils if c.get("dependency_ratio", 0) > 0]
 
+        # Planning efficiency benchmarks
+        cost_per_apps = [c["planning"]["cost_per_application"] for c in tier_councils
+                         if c.get("planning", {}).get("cost_per_application", 0) > 0]
+        apps_per_years = [c["planning"]["apps_per_year"] for c in tier_councils
+                          if c.get("planning", {}).get("apps_per_year", 0) > 0]
+        approval_rates = [c["planning"]["approval_rate"] for c in tier_councils
+                          if c.get("planning", {}).get("approval_rate", 0) > 0]
+
         benchmarks[tier] = {
             "count": len(tier_councils),
             "median_per_capita_spend": round(_median(per_capitas), 2),
@@ -798,6 +834,10 @@ def main():
             "median_reserves_months": round(_median(reserves_m), 1),
             "median_collection_rate": round(_median(collection_rates), 2) if collection_rates else None,
             "median_dependency_ratio": round(_median(dep_ratios), 1) if dep_ratios else None,
+            "planning_councils_with_data": len(cost_per_apps),
+            "median_cost_per_planning_app": round(_median(cost_per_apps)) if cost_per_apps else None,
+            "median_apps_per_year": round(_median(apps_per_years)) if apps_per_years else None,
+            "median_planning_approval_rate": round(_median(approval_rates), 3) if approval_rates else None,
         }
 
     # ── Add peer percentile ranks ──
