@@ -480,6 +480,19 @@ def build_council_entry(council_id):
     asylum_seekers = projections.get("asylum", {}).get("seekers_supported", 0)
     resettlement_total = projections.get("resettlement", {}).get("total", 0)
 
+    # ── Demographic fiscal data (from demographic_fiscal.json) ──
+    demo_fiscal = load_json(DATA_DIR / council_id / "demographic_fiscal.json") or {}
+    fiscal_resilience_score = demo_fiscal.get("fiscal_resilience_score")
+    service_demand_score = demo_fiscal.get("service_demand_pressure_score")
+    demo_risk_category = demo_fiscal.get("risk_category", "")
+    demo_send_rate = demo_fiscal.get("send_risk", {}).get("estimated_send_rate_pct")
+    # Employment rate from demographics.json economic_activity
+    demo_econ = load_json(DATA_DIR / council_id / "demographics.json") or {}
+    econ_totals = demo_econ.get("council_totals", {}).get("economic_activity", {})
+    econ_total_pop = econ_totals.get("Total: All usual residents aged 16 years and over", 0)
+    econ_employed = econ_totals.get("Economically active (excluding full-time students):In employment", 0)
+    demo_employment = round(econ_employed / econ_total_pop * 100, 1) if econ_total_pop > 0 else None
+
     # ── Political data from politics_summary.json ──
     party_seats = {}
     total_councillors = politics.get("total_councillors", politics.get("total_seats", 0))
@@ -561,6 +574,11 @@ def build_council_entry(council_id):
         "projected_working_age_2032": proj_working_2032,
         "asylum_seekers_supported": asylum_seekers,
         "refugees_resettled": resettlement_total,
+        "fiscal_resilience_score": fiscal_resilience_score,
+        "service_demand_score": service_demand_score,
+        "demographic_risk_category": demo_risk_category,
+        "estimated_send_rate_pct": demo_send_rate,
+        "employment_rate_pct": demo_employment,
     }
 
 

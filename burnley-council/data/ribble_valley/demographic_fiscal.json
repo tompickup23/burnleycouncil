@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.087008",
+    "council_id": "ribble_valley",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 65,
+  "service_demand_pressure_score": 55,
+  "demographic_change_velocity": 4.2,
+  "risk_category": "Viable",
+  "ethnic_composition_summary": {
+    "white_british_pct": 94.1,
+    "muslim_pct": 1.3,
+    "pakistani_bangladeshi_pct": 1.0,
+    "grt_count": 7,
+    "roma_count": 15,
+    "eu8_eu2_born_pct": 0.7,
+    "black_african_caribbean_pct": 0.2
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.8,
+    "vs_national_avg_pp": -0.1,
+    "estimated_send_pupils": 1107,
+    "eal_estimate_pct": 4.2,
+    "grt_send_contribution": "7 GRT pupils at 35% SEND rate = ~0 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 28,
+    "per_1000_pop": 0.5,
+    "projected_2028": {
+      "low": 32,
+      "central": 39,
+      "high": 48
+    },
+    "projected_2032": {
+      "low": 36,
+      "central": 47,
+      "high": 70
+    },
+    "annual_cost_estimate": 581840,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 10
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 15
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 17
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 28
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 99.19,
+    "collection_trend": 0.35,
+    "arrears": 1541000.0
+  },
+  "pressure_zones": [],
+  "threats": [],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "North Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 31,
+      "demand_score": 68
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Pennine Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 38,
+      "demand_score": 74
+    },
+    {
+      "model": "four_unitary",
+      "authority": "North Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 32,
+      "demand_score": 63
+    },
+    {
+      "model": "five_unitary",
+      "authority": "Central Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 40,
+      "demand_score": 73
+    }
+  ],
+  "risk_factors": []
+}

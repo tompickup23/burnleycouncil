@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.087368",
+    "council_id": "south_ribble",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 50,
+  "service_demand_pressure_score": 65,
+  "demographic_change_velocity": 5.0,
+  "risk_category": "At Risk",
+  "ethnic_composition_summary": {
+    "white_british_pct": 92.8,
+    "muslim_pct": 0.9,
+    "pakistani_bangladeshi_pct": 0.4,
+    "grt_count": 25,
+    "roma_count": 56,
+    "eu8_eu2_born_pct": 1.2,
+    "black_african_caribbean_pct": 0.5
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.8,
+    "vs_national_avg_pp": -0.1,
+    "estimated_send_pupils": 2078,
+    "eal_estimate_pct": 5.0,
+    "grt_send_contribution": "25 GRT pupils at 35% SEND rate = ~2 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 312,
+    "per_1000_pop": 2.8,
+    "projected_2028": {
+      "low": 361,
+      "central": 438,
+      "high": 539
+    },
+    "projected_2032": {
+      "low": 406,
+      "central": 532,
+      "high": 789
+    },
+    "annual_cost_estimate": 6483360,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 73
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 283
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 275
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 312
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 96.62,
+    "collection_trend": -0.86,
+    "arrears": 7266000.0
+  },
+  "pressure_zones": [],
+  "threats": [
+    {
+      "type": "fiscal",
+      "severity": "high",
+      "description": "Declining council tax collection \u2014 revenue base eroding",
+      "evidence": "5-year trend: -0.86% per year"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (312 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 73 to 312 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 37,
+      "demand_score": 72
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Central Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 35,
+      "demand_score": 66
+    },
+    {
+      "model": "four_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 42,
+      "demand_score": 65
+    },
+    {
+      "model": "four_unitary_alt",
+      "authority": "Southern Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 42,
+      "demand_score": 65
+    },
+    {
+      "model": "five_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 42,
+      "demand_score": 65
+    }
+  ],
+  "risk_factors": [
+    "Declining collection rate (trend: -0.9%)",
+    "Significant asylum dispersal (312 seekers)"
+  ]
+}

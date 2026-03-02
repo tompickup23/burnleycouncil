@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
-import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home } from 'lucide-react'
+import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity } from 'lucide-react'
 import './Demographics.css'
 
 const fmt = (n) => typeof n === 'number' ? n.toLocaleString('en-GB') : '—'
@@ -15,6 +16,7 @@ function Demographics() {
   const councilName = config.council_name || 'Council'
   const { data: demographics, loading, error } = useData('/data/demographics.json')
   const { data: projections } = useData('/data/demographic_projections.json')
+  const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('census')
 
@@ -217,6 +219,7 @@ function Demographics() {
           { id: 'census', label: 'Census 2021' },
           ...(projections ? [{ id: 'projections', label: 'Projections' }] : []),
           ...(asylumData.seekers_supported > 0 ? [{ id: 'asylum', label: 'Asylum & Migration' }] : []),
+          ...(demoFiscalData?.fiscal_resilience_score != null ? [{ id: 'fiscal', label: 'Fiscal Outlook' }] : []),
         ].map(tab => (
           <button
             key={tab.id}
@@ -653,6 +656,145 @@ function Demographics() {
           <Info size={16} />
           <div>
             <p>Data from <strong>Home Office Immigration Statistics</strong>, year ending December 2025. Asylum support figures show people receiving Section 4 or Section 95 support.</p>
+          </div>
+        </div>
+      </>}
+
+      {/* ═══ FISCAL OUTLOOK TAB ═══ */}
+      {activeTab === 'fiscal' && demoFiscalData && <>
+        {/* Score cards */}
+        <div className="demo-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+          <div className="demo-stat-card" style={{ borderLeft: `3px solid ${demoFiscalData.fiscal_resilience_score < 30 ? '#ff453a' : demoFiscalData.fiscal_resilience_score < 50 ? '#ff9f0a' : '#30d158'}` }}>
+            <span className="demo-stat-label">Fiscal Resilience</span>
+            <span className="demo-stat-value" style={{ color: demoFiscalData.fiscal_resilience_score < 30 ? '#ff453a' : demoFiscalData.fiscal_resilience_score < 50 ? '#ff9f0a' : '#30d158' }}>
+              {demoFiscalData.fiscal_resilience_score}/100
+            </span>
+            <span className="demo-stat-desc">{demoFiscalData.risk_category}</span>
+          </div>
+          <div className="demo-stat-card" style={{ borderLeft: `3px solid ${demoFiscalData.service_demand_pressure_score > 70 ? '#ff453a' : '#ff9f0a'}` }}>
+            <span className="demo-stat-label">Service Demand Pressure</span>
+            <span className="demo-stat-value" style={{ color: demoFiscalData.service_demand_pressure_score > 70 ? '#ff453a' : '#ff9f0a' }}>
+              {demoFiscalData.service_demand_pressure_score}/100
+            </span>
+            <span className="demo-stat-desc">Higher = more costly services</span>
+          </div>
+          {demoFiscalData.demographic_change_velocity != null && (
+            <div className="demo-stat-card" style={{ borderLeft: '3px solid #0a84ff' }}>
+              <span className="demo-stat-label">Demographic Change</span>
+              <span className="demo-stat-value" style={{ color: '#0a84ff' }}>
+                {demoFiscalData.demographic_change_velocity.toFixed(1)}
+              </span>
+              <span className="demo-stat-desc">Velocity of composition shift</span>
+            </div>
+          )}
+        </div>
+
+        {/* SEND Risk */}
+        {demoFiscalData.send_risk && (
+          <div className="demo-section">
+            <h3><Activity size={18} /> Education &amp; SEND Exposure</h3>
+            <div className="demo-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+              <div className="demo-stat-card">
+                <span className="demo-stat-label">Estimated SEND Rate</span>
+                <span className="demo-stat-value">{pct(demoFiscalData.send_risk.estimated_send_rate_pct)}</span>
+              </div>
+              {demoFiscalData.send_risk.eal_pupil_estimate > 0 && (
+                <div className="demo-stat-card">
+                  <span className="demo-stat-label">EAL Pupils (est.)</span>
+                  <span className="demo-stat-value">{fmt(demoFiscalData.send_risk.eal_pupil_estimate)}</span>
+                </div>
+              )}
+              {demoFiscalData.send_risk.cost_premium_pct > 0 && (
+                <div className="demo-stat-card">
+                  <span className="demo-stat-label">Cost Premium</span>
+                  <span className="demo-stat-value" style={{ color: '#ff9f0a' }}>+{demoFiscalData.send_risk.cost_premium_pct.toFixed(1)}%</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Council Tax Risk */}
+        {demoFiscalData.council_tax_risk && (
+          <div className="demo-section">
+            <h3><Home size={18} /> Council Tax Risk</h3>
+            <div className="demo-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+              <div className="demo-stat-card">
+                <span className="demo-stat-label">Collection Rate</span>
+                <span className="demo-stat-value">{pct(demoFiscalData.council_tax_risk.collection_rate)}</span>
+              </div>
+              {demoFiscalData.council_tax_risk.trend != null && (
+                <div className="demo-stat-card">
+                  <span className="demo-stat-label">5-Year Trend</span>
+                  <span className="demo-stat-value" style={{ color: demoFiscalData.council_tax_risk.trend < 0 ? '#ff453a' : '#30d158' }}>
+                    {demoFiscalData.council_tax_risk.trend > 0 ? '+' : ''}{demoFiscalData.council_tax_risk.trend.toFixed(2)}%/yr
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Threats */}
+        {demoFiscalData.threats?.length > 0 && (
+          <div className="demo-section">
+            <h3><AlertTriangle size={18} /> Identified Threats</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {demoFiscalData.threats.map((t, i) => (
+                <div key={i} style={{ padding: '0.75rem', background: 'rgba(28,28,30,0.7)', borderRadius: '8px', borderLeft: `3px solid ${t.severity === 'critical' ? '#ff453a' : t.severity === 'high' ? '#ff9f0a' : '#ffd60a'}` }}>
+                  <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>{t.description}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{t.evidence}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Pressure Zones */}
+        {demoFiscalData.pressure_zones?.length > 0 && (
+          <div className="demo-section">
+            <h3><MapPin size={18} /> Pressure Zone Wards</h3>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+              Wards with both high deprivation and significant demographic pressure — where service costs are highest.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.5rem' }}>
+              {demoFiscalData.pressure_zones.map((z, i) => (
+                <div key={i} style={{ padding: '0.5rem 0.75rem', background: 'rgba(28,28,30,0.7)', borderRadius: '6px', borderLeft: `3px solid ${z.flag === 'CRITICAL' ? '#ff453a' : '#ff9f0a'}`, fontSize: '0.8125rem' }}>
+                  <strong>{z.ward}</strong>
+                  <span style={{ color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>
+                    IMD dec. {z.imd_decile}
+                    {z.muslim_pct > 0 && <> · Muslim {z.muslim_pct}%</>}
+                    {z.under_16_pct > 0 && <> · U16 {z.under_16_pct}%</>}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* LGR Implications */}
+        {demoFiscalData.lgr_threats?.length > 0 && (
+          <div className="demo-section">
+            <h3><Shield size={18} /> LGR Implications</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {demoFiscalData.lgr_threats.map((t, i) => (
+                <div key={i} style={{ padding: '0.5rem 0.75rem', background: 'rgba(28,28,30,0.7)', borderRadius: '6px', fontSize: '0.8125rem' }}>
+                  <strong>{t.model}</strong>: {t.threat}
+                </div>
+              ))}
+            </div>
+            <Link to="/lgr-tracker" style={{ display: 'inline-block', marginTop: '0.75rem', fontSize: '0.8125rem' }}>View full LGR analysis →</Link>
+          </div>
+        )}
+
+        <div className="demo-source">
+          <Info size={16} />
+          <div>
+            <p>
+              Fiscal analysis based on <strong>ONS Census 2021</strong>, <strong>DfE SEND Statistics 2023</strong>,
+              <strong> Home Office Immigration Statistics</strong>, <strong>GOV.UK Council Tax Collection Rates</strong>,
+              and <strong>MHCLG IMD 2019</strong>. Academic sources: Casey Review (2016), Cantle Report (2001).
+            </p>
           </div>
         </div>
       </>}

@@ -6,8 +6,14 @@ import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
-import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP } from '../utils/lgrModel'
+import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile } from '../utils/lgrModel'
 import { projectToLGRAuthority, normalizePartyName } from '../utils/electionModel'
+import LGRDemographicFiscalRisk from '../components/lgr/LGRDemographicFiscalRisk'
+import LGRTimelineChaos from '../components/lgr/LGRTimelineChaos'
+import LGRBoundaryMap from '../components/lgr/LGRBoundaryMap'
+import LGRDeprivationMap from '../components/lgr/LGRDeprivationMap'
+import LGRPropertyDivision from '../components/lgr/LGRPropertyDivision'
+import LGRCCAImpact from '../components/lgr/LGRCCAImpact'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
@@ -198,8 +204,8 @@ function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
-  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json'])
-  const [lgrData, crossCouncil, budgetModel, ccaData] = data || [null, null, null, null]
+  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json', '/data/shared/lgr_enhanced.json'])
+  const [lgrData, crossCouncil, budgetModel, ccaData, lgrEnhanced] = data || [null, null, null, null, null]
   const [selectedModel, setSelectedModel] = useState(null)
   const [expandedIssue, setExpandedIssue] = useState(null)
   const [expandedCritique, setExpandedCritique] = useState(null)
@@ -451,6 +457,17 @@ function LGRTracker() {
     })
   }, [budgetModel, lgrData, activeModel, userAssumptions])
 
+  // Computed fiscal profile for maps/deprivation (array form)
+  const activeFiscalProfile = useMemo(() => {
+    if (!lgrEnhanced?.demographic_fiscal_profile) return []
+    return computeDemographicFiscalProfile(lgrEnhanced.demographic_fiscal_profile, activeModel)
+  }, [lgrEnhanced, activeModel])
+
+  // Gross savings for the active model (for deprivation adjustment)
+  const activeGrossSavings = useMemo(() => {
+    return budgetModel?.per_service_savings?.[activeModel]?.total_annual_savings || 0
+  }, [budgetModel, activeModel])
+
   if (loading) {
     return <div className="lgr-page animate-fade-in"><div className="loading-state"><div className="spinner" /><p>Loading LGR Tracker...</p></div></div>
   }
@@ -477,7 +494,13 @@ function LGRTracker() {
     { id: 'politics', label: 'Politics', icon: Vote },
     { id: 'national', label: 'National Context', icon: Globe },
     { id: 'risks', label: 'Risks', icon: AlertTriangle },
-    { id: 'precedents', label: 'Precedents', icon: Shield }
+    { id: 'precedents', label: 'Precedents', icon: Shield },
+    { id: 'demographic-risk', label: 'Demographic Risk', icon: Users },
+    { id: 'timeline-risk', label: 'Timeline Risk', icon: Clock },
+    { id: 'boundary-maps', label: 'Maps', icon: MapPin },
+    { id: 'property-division', label: 'Property', icon: Building },
+    { id: 'cca-impact', label: 'CCA Adjust', icon: Globe },
+    { id: 'deprivation', label: 'Deprivation', icon: BarChart3 },
   ]
 
   return (
@@ -2277,6 +2300,82 @@ function LGRTracker() {
           ))}
         </div>
       </section>
+
+      {/* Demographic Fiscal Risk — centrepiece component */}
+      {lgrEnhanced?.demographic_fiscal_profile && (
+        <section className="lgr-section" id="lgr-demographic-risk">
+          <h2><Users size={20} /> Demographic Fiscal Risk</h2>
+          <p className="section-desc">How demographic composition drives radically different fiscal profiles across proposed authorities — ethnic diversity, SEND demand, asylum costs, council tax yield, and Bradford/Oldham precedent.</p>
+          <LGRDemographicFiscalRisk
+            fiscalProfile={lgrEnhanced.demographic_fiscal_profile}
+            sendExposure={lgrEnhanced.education_send_exposure}
+            asylumImpact={lgrEnhanced.asylum_cost_impact}
+            multipliers={lgrEnhanced.ethnic_fiscal_multipliers}
+            bradfordComparison={lgrEnhanced.bradford_oldham_comparison}
+            selectedModel={activeModel}
+          />
+        </section>
+      )}
+
+      {/* Timeline Risk — feasibility analysis */}
+      {lgrEnhanced?.timeline_analysis && (
+        <section className="lgr-section" id="lgr-timeline-risk">
+          <h2><Clock size={20} /> Timeline Feasibility</h2>
+          <p className="section-desc">Data-backed assessment of whether Lancashire&apos;s 22-month reorganisation timeline is achievable — based on every English precedent since 2009.</p>
+          <LGRTimelineChaos timeline={lgrEnhanced.timeline_analysis} selectedModel={activeModel} />
+        </section>
+      )}
+
+      {/* Boundary Maps */}
+      {activeFiscalProfile.length > 0 && activeModelData?.authorities && (
+        <section className="lgr-section" id="lgr-boundary-maps">
+          <h2><MapPin size={20} /> Boundary &amp; Overlay Maps</h2>
+          <p className="section-desc">Ward-level visualisation of proposed authority boundaries with deprivation heat, demographic pressure, and property overlays.</p>
+          <LGRBoundaryMap
+            boundaries={null}
+            authorities={activeModelData.authorities}
+            fiscalProfile={activeFiscalProfile}
+            propertyAssets={null}
+            deprivation={null}
+          />
+        </section>
+      )}
+
+      {/* Property Division */}
+      {lgrEnhanced?.property_division && (
+        <section className="lgr-section" id="lgr-property-division">
+          <h2><Building size={20} /> Property Estate Division</h2>
+          <p className="section-desc">How Lancashire County Council&apos;s 1,200 assets (valued at ~£2B) would be divided between new unitary authorities.</p>
+          <LGRPropertyDivision
+            propertyData={lgrEnhanced.property_division}
+            selectedModel={activeModel}
+            models={(lgrData?.proposed_models || []).map(m => ({ id: m.id, name: m.name }))}
+          />
+        </section>
+      )}
+
+      {/* CCA Impact / Double-Counting */}
+      {lgrEnhanced?.cca_impact && (
+        <section className="lgr-section" id="lgr-cca-impact">
+          <h2><Globe size={20} /> CCA Savings Adjustment</h2>
+          <p className="section-desc">Services already transferred to Lancashire&apos;s Combined County Authority cannot also be claimed as LGR savings — a critical double-counting risk in all proposals.</p>
+          <LGRCCAImpact ccaData={lgrEnhanced.cca_impact} />
+        </section>
+      )}
+
+      {/* Deprivation Analysis */}
+      {activeFiscalProfile.length > 0 && (
+        <section className="lgr-section" id="lgr-deprivation">
+          <h2><BarChart3 size={20} /> Deprivation &amp; Savings Adjustment</h2>
+          <p className="section-desc">Deprivation concentration by authority — areas with high deprivation have higher service complexity, reducing achievable savings.</p>
+          <LGRDeprivationMap
+            deprivation={null}
+            fiscalProfile={activeFiscalProfile}
+            selectedModel={activeModel}
+            grossSavings={activeGrossSavings}
+          />
+        </section>
+      )}
 
       {/* Sources */}
       <section className="lgr-section lgr-methodology">

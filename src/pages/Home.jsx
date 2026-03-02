@@ -66,6 +66,7 @@ function Home() {
   const wardBoundariesEnabled = !!dataSources.ward_boundaries
   const { data: wardBoundariesData } = useData(wardBoundariesEnabled ? '/data/ward_boundaries.json' : null)
   const { data: wardsData } = useData(dataSources.my_area ? '/data/wards.json' : null)
+  const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
 
   useEffect(() => {
     document.title = `Home | ${councilName} Council Transparency`
@@ -248,6 +249,28 @@ function Home() {
             </div>
           )}
         </div>
+
+        {/* Fiscal Resilience Banner */}
+        {demoFiscalData?.fiscal_resilience_score != null && (
+          <Link to="/doge" className="fiscal-threat-banner" style={{
+            display: 'flex', alignItems: 'center', gap: '0.75rem',
+            padding: '0.75rem 1rem', margin: '0.75rem 0',
+            background: demoFiscalData.fiscal_resilience_score < 30 ? 'rgba(255,69,58,0.08)' : 'rgba(255,159,10,0.08)',
+            border: `1px solid ${demoFiscalData.fiscal_resilience_score < 30 ? 'rgba(255,69,58,0.2)' : 'rgba(255,159,10,0.2)'}`,
+            borderRadius: '10px', textDecoration: 'none', color: 'inherit',
+          }}>
+            <AlertTriangle size={18} style={{ color: demoFiscalData.fiscal_resilience_score < 30 ? '#ff453a' : '#ff9f0a', flexShrink: 0 }} />
+            <div style={{ flex: 1 }}>
+              <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                Fiscal Resilience: <span style={{ color: demoFiscalData.fiscal_resilience_score < 30 ? '#ff453a' : '#ff9f0a' }}>{demoFiscalData.fiscal_resilience_score}/100</span>
+              </span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>
+                {demoFiscalData.threats?.length || 0} demographic fiscal pressures identified
+              </span>
+            </div>
+            <span style={{ fontSize: '0.75rem', color: 'var(--accent-blue)' }}>View analysis →</span>
+          </Link>
+        )}
 
         <div className="hero-actions">
           <Link to={spendingLink} className="btn-primary">

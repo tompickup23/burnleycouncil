@@ -1,0 +1,5158 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.081396",
+    "version": "1.0",
+    "description": "Comprehensive LGR demographic fiscal intelligence",
+    "academic_sources": [
+      {
+        "title": "SEND in England",
+        "year": 2023,
+        "author": "DfE",
+        "key_finding": "GRT SEND rate 35%, Roma 32%, Pakistani/Bangladeshi 18.2%, national avg 14.9%",
+        "used_for": "SEND cost modelling"
+      },
+      {
+        "title": "Births by parents' country of birth",
+        "year": 2023,
+        "author": "ONS",
+        "key_finding": "Pakistani/Bangladeshi TFR ~2.3 vs White British 1.55 \u2014 converging but still 48% higher",
+        "used_for": "Population projections"
+      },
+      {
+        "title": "Schools, Pupils and their Characteristics",
+        "year": 2023,
+        "author": "DfE",
+        "key_finding": "EAL pupils require ~\u00a31,200/pupil/year additional support",
+        "used_for": "Education cost premium"
+      },
+      {
+        "title": "Permanent Exclusions and Suspensions",
+        "year": 2023,
+        "author": "DfE",
+        "key_finding": "GRT permanent exclusion rate 2.8\u00d7 national average",
+        "used_for": "Service cost multiplier"
+      },
+      {
+        "title": "The Casey Review: Opportunity and Integration",
+        "year": 2016,
+        "author": "Dame Louise Casey",
+        "key_finding": "Social segregation, school governance issues in areas with high Muslim populations; Burnley, Blackburn, Bradford highlighted",
+        "used_for": "Governance risk assessment"
+      },
+      {
+        "title": "Community Cohesion: A Report of the Independent Review Team",
+        "year": 2001,
+        "author": "Ted Cantle",
+        "key_finding": "Northern towns living 'parallel lives' \u2014 Bradford, Oldham, Burnley. Lack of inter-community contact",
+        "used_for": "Historical context"
+      },
+      {
+        "title": "Integrated Communities Strategy Green Paper",
+        "year": 2018,
+        "author": "MHCLG",
+        "key_finding": "5 Integration Areas designated including Blackburn with Darwen, Burnley, Pendle",
+        "used_for": "Government recognition of integration challenges"
+      },
+      {
+        "title": "Electoral integrity in areas with diverse communities",
+        "year": 2014,
+        "author": "Electoral Commission",
+        "key_finding": "Targeted reports on electoral fraud risks \u2014 Tower Hamlets, Bradford, Birmingham",
+        "used_for": "Political representation risks"
+      },
+      {
+        "title": "Ethnic group inequalities in housing and neighbourhood quality",
+        "year": 2015,
+        "author": "Jivraj & Simpson, University of Manchester",
+        "key_finding": "Selective outmigration of higher-income White British from areas of rapid demographic change",
+        "used_for": "White flight modelling"
+      },
+      {
+        "title": "The Fiscal Impact of Immigration",
+        "year": 2022,
+        "author": "Migration Observatory, University of Oxford",
+        "key_finding": "Recent migrants contribute less in taxes initially; fiscal impact depends on age, skills, family size",
+        "used_for": "Asylum cost estimates"
+      },
+      {
+        "title": "LGR Cost Analysis Reports",
+        "year": "Various",
+        "author": "National Audit Office",
+        "key_finding": "Buckinghamshire 25% overrun, Dorset 4-month delay, North Yorkshire IT issues, Northamptonshire emergency",
+        "used_for": "Timeline feasibility"
+      },
+      {
+        "title": "Council Tax: The Case for Reform",
+        "year": 2020,
+        "author": "Institute for Fiscal Studies",
+        "key_finding": "Collection rate disparities linked to deprivation \u2014 deprived areas 2-4% lower collection",
+        "used_for": "Council tax modelling"
+      },
+      {
+        "title": "The Ties That Bind",
+        "year": 2014,
+        "author": "Demos",
+        "key_finding": "Integration challenges in northern towns with high South Asian populations; parallel institutions",
+        "used_for": "Social cohesion context"
+      },
+      {
+        "title": "Immigration Statistics: Asylum and Resettlement",
+        "year": 2025,
+        "author": "Home Office",
+        "key_finding": "Quarterly asylum dispersal by local authority; accommodation types; trend data",
+        "used_for": "Asylum projections"
+      }
+    ]
+  },
+  "ethnic_fiscal_multipliers": {
+    "send_prevalence_by_group": {
+      "grt": {
+        "rate_pct": 35.0,
+        "source": "DfE SEND Statistics 2023 \u2014 Gypsy/Roma/Traveller pupils"
+      },
+      "roma": {
+        "rate_pct": 32.0,
+        "source": "DfE SEND Statistics 2023 \u2014 Roma pupils"
+      },
+      "black_caribbean": {
+        "rate_pct": 19.1,
+        "source": "DfE SEND Statistics 2023"
+      },
+      "pakistani_bangladeshi": {
+        "rate_pct": 18.2,
+        "source": "DfE SEND Statistics 2023"
+      },
+      "mixed": {
+        "rate_pct": 16.8,
+        "source": "DfE SEND Statistics 2023"
+      },
+      "white_british": {
+        "rate_pct": 14.8,
+        "source": "DfE SEND Statistics 2023"
+      },
+      "indian": {
+        "rate_pct": 10.2,
+        "source": "DfE SEND Statistics 2023"
+      },
+      "chinese": {
+        "rate_pct": 8.4,
+        "source": "DfE SEND Statistics 2023"
+      },
+      "other": {
+        "rate_pct": 15.0,
+        "source": "DfE SEND Statistics 2023 \u2014 national average"
+      }
+    },
+    "fertility_rate_by_group": {
+      "pakistani_bangladeshi": {
+        "tfr": 2.3,
+        "source": "ONS Births by parents' country of birth 2023"
+      },
+      "black_african": {
+        "tfr": 2.1,
+        "source": "ONS Births by parents' country of birth 2023"
+      },
+      "eu8_eu2": {
+        "tfr": 1.9,
+        "source": "ONS Births by parents' country of birth 2023"
+      },
+      "grt_roma": {
+        "tfr": 2.8,
+        "source": "Estimated \u2014 Traveller Movement 2019 report"
+      },
+      "arab": {
+        "tfr": 2.2,
+        "source": "ONS Births by parents' country of birth 2023"
+      },
+      "white_british": {
+        "tfr": 1.55,
+        "source": "ONS Births by parents' country of birth 2023"
+      },
+      "other": {
+        "tfr": 1.7,
+        "source": "ONS national average"
+      }
+    },
+    "exclusion_rates_by_group": {
+      "grt": {
+        "permanent_per_1000": 0.28,
+        "source": "DfE Permanent Exclusions 2023"
+      },
+      "black_caribbean": {
+        "permanent_per_1000": 0.16,
+        "source": "DfE Permanent Exclusions 2023"
+      },
+      "mixed_white_black_caribbean": {
+        "permanent_per_1000": 0.13,
+        "source": "DfE Permanent Exclusions 2023"
+      },
+      "white_british": {
+        "permanent_per_1000": 0.1,
+        "source": "DfE Permanent Exclusions 2023"
+      }
+    },
+    "asylum_cost_breakdown": {
+      "nrpf_support": 8500,
+      "school_places": 6200,
+      "eal_support": 1200,
+      "health_access": 2800,
+      "housing_pressure": 3500,
+      "translation_services": 800,
+      "children_per_seeker": 0.7
+    }
+  },
+  "demographic_fiscal_profile": {
+    "two_unitary": {
+      "North Lancashire": {
+        "population": 686687,
+        "white_british_pct": 86.2,
+        "pakistani_bangladeshi_pct": 1.6,
+        "muslim_pct": 4.4,
+        "grt_count": 786,
+        "grt_pct": 0.11,
+        "roma_count": 646,
+        "roma_pct": 0.09,
+        "eu8_eu2_born_pct": 2.5,
+        "arab_count": 2103,
+        "black_african_caribbean_pct": 0.9,
+        "mixed_heritage_pct": 1.7,
+        "under_5_pct": 4.9,
+        "under_16_pct": 17.0,
+        "over_65_pct": 21.7,
+        "working_age_pct": 61.3,
+        "school_age_population": 83118,
+        "employment_rate_pct": 51.0,
+        "economically_inactive_pct": 43.8,
+        "no_qualifications_pct": 18.8,
+        "level_4_plus_pct": 30.4,
+        "social_rented_pct": 11.2,
+        "owner_occupied_pct": 65.5,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 12256,
+        "eal_estimate_pct": 9.5,
+        "population_projections": {
+          "2022": 699132,
+          "2027": 734828,
+          "2032": 759578,
+          "2037": 780270,
+          "2042": 798100,
+          "2047": 814714
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 118685,
+            "16-64": 427535,
+            "65+": 152912
+          },
+          "2027": {
+            "0-15": 118609,
+            "16-64": 446608,
+            "65+": 169601
+          },
+          "2032": {
+            "0-15": 114915,
+            "16-64": 454825,
+            "65+": 189846
+          },
+          "2037": {
+            "0-15": 112086,
+            "16-64": 462117,
+            "65+": 206061
+          },
+          "2042": {
+            "0-15": 111942,
+            "16-64": 474506,
+            "65+": 211643
+          },
+          "2047": {
+            "0-15": 112701,
+            "16-64": 483604,
+            "65+": 218401
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 63.5,
+          "2027": 64.5,
+          "2032": 67.0,
+          "2037": 68.8,
+          "2042": 68.2,
+          "2047": 68.5
+        },
+        "working_age_pct_projections": {
+          "2022": 61.2,
+          "2027": 60.8,
+          "2032": 59.9,
+          "2037": 59.2,
+          "2042": 59.5,
+          "2047": 59.4
+        },
+        "growth_rate_pct": 16.5,
+        "asylum_seekers_total": 1492,
+        "asylum_per_1000": 2.2,
+        "asylum_annual_cost_estimate": 31003760,
+        "avg_imd_score": 25.8,
+        "pct_wards_decile_1_2": 12.6,
+        "collection_rate_weighted": 93.51,
+        "collection_trend_weighted": -1.35,
+        "fiscal_sustainability_score": 31,
+        "service_demand_pressure_score": 68,
+        "risk_factors": [
+          "Below-average council tax collection (94.16%)",
+          "Declining collection rate (trend: -1.7%)",
+          "Significant asylum dispersal (186 seekers)",
+          "GRT/Roma population (399) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.7%)",
+          "Significant asylum dispersal (376 seekers)",
+          "GRT/Roma population (102) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.3%)",
+          "GRT/Roma population (104) \u2014 highest SEND prevalence group",
+          "Low employment rate (50.3%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Bloomfield",
+            "imd_decile": 1.0,
+            "imd_score": 87.19,
+            "national_percentile": 0.0,
+            "muslim_pct": 4.2,
+            "under_16_pct": 21.9,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Claremont",
+            "imd_decile": 1.0,
+            "imd_score": 78.51,
+            "national_percentile": 0.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Talbot",
+            "imd_decile": 1.2,
+            "imd_score": 66.42,
+            "national_percentile": 4.6,
+            "muslim_pct": 1.7,
+            "under_16_pct": 13.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Brunswick",
+            "imd_decile": 1.4,
+            "imd_score": 62.88,
+            "national_percentile": 5.9,
+            "muslim_pct": 2.6,
+            "under_16_pct": 22.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Pharos",
+            "imd_decile": 1.2,
+            "imd_score": 61.06,
+            "national_percentile": 4.0,
+            "muslim_pct": 1.3,
+            "under_16_pct": 16.2,
+            "flag": "HIGH",
+            "council": "wyre"
+          },
+          {
+            "ward": "Waterloo",
+            "imd_decile": 1.8,
+            "imd_score": 53.64,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "St Matthew's",
+            "imd_decile": 1.0,
+            "imd_score": 52.92,
+            "national_percentile": 5.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "preston"
+          },
+          {
+            "ward": "Victoria",
+            "imd_decile": 1.0,
+            "imd_score": 52.34,
+            "national_percentile": 5.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Poulton",
+            "imd_decile": 1.5,
+            "imd_score": 50.12,
+            "national_percentile": 9.2,
+            "muslim_pct": 1.3,
+            "under_16_pct": 18.8,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Clifton",
+            "imd_decile": 1.8,
+            "imd_score": 49.06,
+            "national_percentile": 10.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Heysham North",
+            "imd_decile": 2.0,
+            "imd_score": 47.89,
+            "national_percentile": 13.4,
+            "muslim_pct": 0.7,
+            "under_16_pct": 20.4,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Ribbleton",
+            "imd_decile": 1.6,
+            "imd_score": 47.87,
+            "national_percentile": 10.4,
+            "muslim_pct": 5.9,
+            "under_16_pct": 24.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "Tyldesley",
+            "imd_decile": 2.0,
+            "imd_score": 47.14,
+            "national_percentile": 12.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Harbour",
+            "imd_decile": 2.0,
+            "imd_score": 45.88,
+            "national_percentile": 14.8,
+            "muslim_pct": 0.6,
+            "under_16_pct": 19.6,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Hawes Side",
+            "imd_decile": 1.6,
+            "imd_score": 45.82,
+            "national_percentile": 10.1,
+            "muslim_pct": 1.2,
+            "under_16_pct": 20.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          }
+        ],
+        "councils": [
+          "lancaster",
+          "wyre",
+          "fylde",
+          "preston",
+          "ribble_valley",
+          "blackpool"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "South Lancashire": {
+        "population": 844449,
+        "white_british_pct": 80.1,
+        "pakistani_bangladeshi_pct": 9.8,
+        "muslim_pct": 13.1,
+        "grt_count": 506,
+        "grt_pct": 0.06,
+        "roma_count": 618,
+        "roma_pct": 0.07,
+        "eu8_eu2_born_pct": 2.2,
+        "arab_count": 1957,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 5.6,
+        "under_16_pct": 19.6,
+        "over_65_pct": 18.8,
+        "working_age_pct": 61.6,
+        "school_age_population": 118094,
+        "employment_rate_pct": 53.9,
+        "economically_inactive_pct": 41.4,
+        "no_qualifications_pct": 20.5,
+        "level_4_plus_pct": 28.6,
+        "social_rented_pct": 14.3,
+        "owner_occupied_pct": 66.9,
+        "estimated_send_rate_pct": 15.0,
+        "estimated_send_pupils": 17757,
+        "eal_estimate_pct": 10.2,
+        "population_projections": {
+          "2022": 852261,
+          "2027": 870418,
+          "2032": 883261,
+          "2037": 896076,
+          "2042": 909349,
+          "2047": 922770
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 166021,
+            "16-64": 523618,
+            "65+": 162622
+          },
+          "2027": {
+            "0-15": 157871,
+            "16-64": 536947,
+            "65+": 175595
+          },
+          "2032": {
+            "0-15": 148652,
+            "16-64": 543020,
+            "65+": 191587
+          },
+          "2037": {
+            "0-15": 143643,
+            "16-64": 547837,
+            "65+": 204593
+          },
+          "2042": {
+            "0-15": 143308,
+            "16-64": 558279,
+            "65+": 207774
+          },
+          "2047": {
+            "0-15": 144328,
+            "16-64": 565719,
+            "65+": 212716
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 62.8,
+          "2027": 62.1,
+          "2032": 62.7,
+          "2037": 63.6,
+          "2042": 62.9,
+          "2047": 63.1
+        },
+        "working_age_pct_projections": {
+          "2022": 61.4,
+          "2027": 61.7,
+          "2032": 61.5,
+          "2037": 61.1,
+          "2042": 61.4,
+          "2047": 61.3
+        },
+        "growth_rate_pct": 8.3,
+        "asylum_seekers_total": 3204,
+        "asylum_per_1000": 3.8,
+        "asylum_annual_cost_estimate": 66579120,
+        "avg_imd_score": 25.9,
+        "pct_wards_decile_1_2": 19.3,
+        "collection_rate_weighted": 95.28,
+        "collection_trend_weighted": -0.85,
+        "fiscal_sustainability_score": 37,
+        "service_demand_pressure_score": 72,
+        "risk_factors": [
+          "Declining collection rate (trend: -1.0%)",
+          "Significant asylum dispersal (199 seekers)",
+          "GRT/Roma population (115) \u2014 highest SEND prevalence group",
+          "Declining collection rate (trend: -0.9%)",
+          "Significant asylum dispersal (312 seekers)",
+          "Below-average council tax collection (93.82%)",
+          "Declining collection rate (trend: -2.7%)",
+          "Significant asylum dispersal (403 seekers)",
+          "Low employment rate (51.9%)",
+          "Below-average council tax collection (94.04%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Trinity",
+            "imd_decile": 1.0,
+            "imd_score": 63.14,
+            "national_percentile": 3.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Bank Hall",
+            "imd_decile": 1.0,
+            "imd_score": 62.31,
+            "national_percentile": 3.9,
+            "muslim_pct": 32.2,
+            "under_16_pct": 23.9,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Central",
+            "imd_decile": 1.0,
+            "imd_score": 61.18,
+            "national_percentile": 2.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Daneshouse with Stoneyholme",
+            "imd_decile": 1.0,
+            "imd_score": 59.13,
+            "national_percentile": 3.6,
+            "muslim_pct": 75.0,
+            "under_16_pct": 28.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Blackburn Central",
+            "imd_decile": 1.3,
+            "imd_score": 57.58,
+            "national_percentile": 6.4,
+            "muslim_pct": 47.9,
+            "under_16_pct": 23.5,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Spring Hill",
+            "imd_decile": 1.0,
+            "imd_score": 56.85,
+            "national_percentile": 4.0,
+            "muslim_pct": 40.6,
+            "under_16_pct": 27.6,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Church",
+            "imd_decile": 1.3,
+            "imd_score": 54.59,
+            "national_percentile": 6.2,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Blackburn South East",
+            "imd_decile": 1.6,
+            "imd_score": 53.44,
+            "national_percentile": 9.9,
+            "muslim_pct": 10.2,
+            "under_16_pct": 26.2,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Bradley",
+            "imd_decile": 1.0,
+            "imd_score": 51.63,
+            "national_percentile": 6.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Mill Hill & Moorgate",
+            "imd_decile": 1.2,
+            "imd_score": 50.85,
+            "national_percentile": 6.8,
+            "muslim_pct": 4.6,
+            "under_16_pct": 21.3,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Darwen East",
+            "imd_decile": 1.3,
+            "imd_score": 50.17,
+            "national_percentile": 7.7,
+            "muslim_pct": 8.9,
+            "under_16_pct": 20.0,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Peel",
+            "imd_decile": 1.3,
+            "imd_score": 49.9,
+            "national_percentile": 8.0,
+            "muslim_pct": 13.4,
+            "under_16_pct": 22.3,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Whitefield",
+            "imd_decile": 1.0,
+            "imd_score": 49.07,
+            "national_percentile": 7.1,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Digmoor",
+            "imd_decile": 2.0,
+            "imd_score": 48.32,
+            "national_percentile": 12.4,
+            "muslim_pct": 0.4,
+            "under_16_pct": 21.6,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Southfield",
+            "imd_decile": 1.8,
+            "imd_score": 47.64,
+            "national_percentile": 12.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          }
+        ],
+        "councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "rossendale",
+          "blackburn"
+        ],
+        "risk_category": "At Risk"
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "population": 477294,
+        "white_british_pct": 91.3,
+        "pakistani_bangladeshi_pct": 0.5,
+        "muslim_pct": 1.2,
+        "grt_count": 665,
+        "grt_pct": 0.14,
+        "roma_count": 383,
+        "roma_pct": 0.08,
+        "eu8_eu2_born_pct": 2.0,
+        "arab_count": 895,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.4,
+        "under_5_pct": 4.7,
+        "under_16_pct": 16.3,
+        "over_65_pct": 23.5,
+        "working_age_pct": 60.2,
+        "school_age_population": 55407,
+        "employment_rate_pct": 49.6,
+        "economically_inactive_pct": 45.5,
+        "no_qualifications_pct": 19.4,
+        "level_4_plus_pct": 28.8,
+        "social_rented_pct": 9.3,
+        "owner_occupied_pct": 66.5,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 8214,
+        "eal_estimate_pct": 7.1,
+        "population_projections": {
+          "2022": 484123,
+          "2027": 502329,
+          "2032": 515867,
+          "2037": 527259,
+          "2042": 537481,
+          "2047": 547496
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 78324,
+            "16-64": 290895,
+            "65+": 114904
+          },
+          "2027": {
+            "0-15": 76727,
+            "16-64": 298499,
+            "65+": 127090
+          },
+          "2032": {
+            "0-15": 73053,
+            "16-64": 300747,
+            "65+": 142075
+          },
+          "2037": {
+            "0-15": 70574,
+            "16-64": 302946,
+            "65+": 153736
+          },
+          "2042": {
+            "0-15": 70113,
+            "16-64": 310073,
+            "65+": 157285
+          },
+          "2047": {
+            "0-15": 70374,
+            "16-64": 315478,
+            "65+": 161637
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 66.4,
+          "2027": 68.3,
+          "2032": 71.5,
+          "2037": 74.0,
+          "2042": 73.3,
+          "2047": 73.5
+        },
+        "working_age_pct_projections": {
+          "2022": 60.1,
+          "2027": 59.4,
+          "2032": 58.3,
+          "2037": 57.5,
+          "2042": 57.7,
+          "2047": 57.6
+        },
+        "growth_rate_pct": 13.0,
+        "asylum_seekers_total": 1070,
+        "asylum_per_1000": 2.2,
+        "asylum_annual_cost_estimate": 22234600,
+        "avg_imd_score": 27.1,
+        "pct_wards_decile_1_2": 14.0,
+        "collection_rate_weighted": 93.81,
+        "collection_trend_weighted": -1.16,
+        "fiscal_sustainability_score": 30,
+        "service_demand_pressure_score": 70,
+        "risk_factors": [
+          "Below-average council tax collection (89.71%)",
+          "Declining collection rate (trend: -1.8%)",
+          "Significant asylum dispersal (450 seekers)",
+          "High deprivation (IMD avg: 44.4)",
+          "GRT/Roma population (443) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.5%)",
+          "GRT/Roma population (104) \u2014 highest SEND prevalence group",
+          "Low employment rate (50.3%)",
+          "Below-average council tax collection (94.16%)",
+          "Declining collection rate (trend: -1.7%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Bloomfield",
+            "imd_decile": 1.0,
+            "imd_score": 87.19,
+            "national_percentile": 0.0,
+            "muslim_pct": 4.2,
+            "under_16_pct": 21.9,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Claremont",
+            "imd_decile": 1.0,
+            "imd_score": 78.51,
+            "national_percentile": 0.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Talbot",
+            "imd_decile": 1.2,
+            "imd_score": 66.42,
+            "national_percentile": 4.6,
+            "muslim_pct": 1.7,
+            "under_16_pct": 13.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Brunswick",
+            "imd_decile": 1.4,
+            "imd_score": 62.88,
+            "national_percentile": 5.9,
+            "muslim_pct": 2.6,
+            "under_16_pct": 22.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Pharos",
+            "imd_decile": 1.2,
+            "imd_score": 61.06,
+            "national_percentile": 4.0,
+            "muslim_pct": 1.3,
+            "under_16_pct": 16.2,
+            "flag": "HIGH",
+            "council": "wyre"
+          },
+          {
+            "ward": "Waterloo",
+            "imd_decile": 1.8,
+            "imd_score": 53.64,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Victoria",
+            "imd_decile": 1.0,
+            "imd_score": 52.34,
+            "national_percentile": 5.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Poulton",
+            "imd_decile": 1.5,
+            "imd_score": 50.12,
+            "national_percentile": 9.2,
+            "muslim_pct": 1.3,
+            "under_16_pct": 18.8,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Clifton",
+            "imd_decile": 1.8,
+            "imd_score": 49.06,
+            "national_percentile": 10.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Heysham North",
+            "imd_decile": 2.0,
+            "imd_score": 47.89,
+            "national_percentile": 13.4,
+            "muslim_pct": 0.7,
+            "under_16_pct": 20.4,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Tyldesley",
+            "imd_decile": 2.0,
+            "imd_score": 47.14,
+            "national_percentile": 12.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Harbour",
+            "imd_decile": 2.0,
+            "imd_score": 45.88,
+            "national_percentile": 14.8,
+            "muslim_pct": 0.6,
+            "under_16_pct": 19.6,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Hawes Side",
+            "imd_decile": 1.6,
+            "imd_score": 45.82,
+            "national_percentile": 10.1,
+            "muslim_pct": 1.2,
+            "under_16_pct": 20.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          }
+        ],
+        "councils": [
+          "blackpool",
+          "fylde",
+          "lancaster",
+          "wyre"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "Central Lancashire": {
+        "population": 494035,
+        "white_british_pct": 84.9,
+        "pakistani_bangladeshi_pct": 2.0,
+        "muslim_pct": 5.5,
+        "grt_count": 225,
+        "grt_pct": 0.05,
+        "roma_count": 433,
+        "roma_pct": 0.09,
+        "eu8_eu2_born_pct": 2.6,
+        "arab_count": 1637,
+        "black_african_caribbean_pct": 1.0,
+        "mixed_heritage_pct": 1.9,
+        "under_5_pct": 5.2,
+        "under_16_pct": 18.0,
+        "over_65_pct": 19.4,
+        "working_age_pct": 62.6,
+        "school_age_population": 63431,
+        "employment_rate_pct": 55.1,
+        "economically_inactive_pct": 39.7,
+        "no_qualifications_pct": 17.4,
+        "level_4_plus_pct": 31.9,
+        "social_rented_pct": 14.4,
+        "owner_occupied_pct": 68.5,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 9335,
+        "eal_estimate_pct": 9.5,
+        "population_projections": {
+          "2022": 502053,
+          "2027": 525250,
+          "2032": 541291,
+          "2037": 554965,
+          "2042": 567185,
+          "2047": 578713
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 90262,
+            "16-64": 313497,
+            "65+": 98294
+          },
+          "2027": {
+            "0-15": 89672,
+            "16-64": 327901,
+            "65+": 107676
+          },
+          "2032": {
+            "0-15": 86817,
+            "16-64": 335201,
+            "65+": 119274
+          },
+          "2037": {
+            "0-15": 85067,
+            "16-64": 341332,
+            "65+": 128566
+          },
+          "2042": {
+            "0-15": 85286,
+            "16-64": 350347,
+            "65+": 131556
+          },
+          "2047": {
+            "0-15": 86254,
+            "16-64": 357294,
+            "65+": 135162
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 60.1,
+          "2027": 60.2,
+          "2032": 61.5,
+          "2037": 62.6,
+          "2042": 61.9,
+          "2047": 62.0
+        },
+        "working_age_pct_projections": {
+          "2022": 62.4,
+          "2027": 62.4,
+          "2032": 61.9,
+          "2037": 61.5,
+          "2042": 61.8,
+          "2047": 61.7
+        },
+        "growth_rate_pct": 15.2,
+        "asylum_seekers_total": 1308,
+        "asylum_per_1000": 2.6,
+        "asylum_annual_cost_estimate": 27180240,
+        "avg_imd_score": 19.9,
+        "pct_wards_decile_1_2": 9.5,
+        "collection_rate_weighted": 94.09,
+        "collection_trend_weighted": -1.86,
+        "fiscal_sustainability_score": 35,
+        "service_demand_pressure_score": 66,
+        "risk_factors": [
+          "Declining collection rate (trend: -1.0%)",
+          "Significant asylum dispersal (199 seekers)",
+          "GRT/Roma population (115) \u2014 highest SEND prevalence group",
+          "Below-average council tax collection (90.18%)",
+          "Declining collection rate (trend: -2.7%)",
+          "Significant asylum dispersal (394 seekers)",
+          "High service demand demographics (Muslim 16.1%)",
+          "GRT/Roma population (362) \u2014 highest SEND prevalence group",
+          "Low employment rate (52.8%)",
+          "Declining collection rate (trend: -0.9%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "St Matthew's",
+            "imd_decile": 1.0,
+            "imd_score": 52.92,
+            "national_percentile": 5.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "preston"
+          },
+          {
+            "ward": "Digmoor",
+            "imd_decile": 2.0,
+            "imd_score": 48.32,
+            "national_percentile": 12.4,
+            "muslim_pct": 0.4,
+            "under_16_pct": 21.6,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Ribbleton",
+            "imd_decile": 1.6,
+            "imd_score": 47.87,
+            "national_percentile": 10.4,
+            "muslim_pct": 5.9,
+            "under_16_pct": 24.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "Moorside",
+            "imd_decile": 2.0,
+            "imd_score": 44.03,
+            "national_percentile": 13.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Fishwick & Frenchwood",
+            "imd_decile": 1.8,
+            "imd_score": 43.8,
+            "national_percentile": 13.1,
+            "muslim_pct": 44.9,
+            "under_16_pct": 25.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "Birch Green",
+            "imd_decile": 1.7,
+            "imd_score": 43.37,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.8,
+            "under_16_pct": 22.9,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Tanhouse",
+            "imd_decile": 1.3,
+            "imd_score": 42.34,
+            "national_percentile": 12.1,
+            "muslim_pct": 0.8,
+            "under_16_pct": 24.2,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "City Centre",
+            "imd_decile": 2.0,
+            "imd_score": 38.43,
+            "national_percentile": 16.7,
+            "muslim_pct": 16.3,
+            "under_16_pct": 10.7,
+            "flag": "HIGH",
+            "council": "preston"
+          }
+        ],
+        "councils": [
+          "chorley",
+          "preston",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "risk_category": "At Risk"
+      },
+      "Pennine Lancashire": {
+        "population": 559807,
+        "white_british_pct": 73.7,
+        "pakistani_bangladeshi_pct": 14.6,
+        "muslim_pct": 19.4,
+        "grt_count": 402,
+        "grt_pct": 0.07,
+        "roma_count": 448,
+        "roma_pct": 0.08,
+        "eu8_eu2_born_pct": 2.4,
+        "arab_count": 1528,
+        "black_african_caribbean_pct": 0.4,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 5.9,
+        "under_16_pct": 20.6,
+        "over_65_pct": 17.9,
+        "working_age_pct": 61.5,
+        "school_age_population": 82374,
+        "employment_rate_pct": 53.0,
+        "economically_inactive_pct": 42.3,
+        "no_qualifications_pct": 22.2,
+        "level_4_plus_pct": 27.8,
+        "social_rented_pct": 14.6,
+        "owner_occupied_pct": 64.1,
+        "estimated_send_rate_pct": 15.1,
+        "estimated_send_pupils": 12464,
+        "eal_estimate_pct": 12.6,
+        "population_projections": {
+          "2022": 565217,
+          "2027": 577667,
+          "2032": 585681,
+          "2037": 594122,
+          "2042": 602783,
+          "2047": 611275
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 116120,
+            "16-64": 346761,
+            "65+": 102336
+          },
+          "2027": {
+            "0-15": 110081,
+            "16-64": 357155,
+            "65+": 110430
+          },
+          "2032": {
+            "0-15": 103697,
+            "16-64": 361897,
+            "65+": 120084
+          },
+          "2037": {
+            "0-15": 100088,
+            "16-64": 365676,
+            "65+": 128352
+          },
+          "2042": {
+            "0-15": 99851,
+            "16-64": 372365,
+            "65+": 130576
+          },
+          "2047": {
+            "0-15": 100401,
+            "16-64": 376551,
+            "65+": 134318
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 63.0,
+          "2027": 61.7,
+          "2032": 61.8,
+          "2037": 62.5,
+          "2042": 61.9,
+          "2047": 62.3
+        },
+        "working_age_pct_projections": {
+          "2022": 61.4,
+          "2027": 61.8,
+          "2032": 61.8,
+          "2037": 61.5,
+          "2042": 61.8,
+          "2047": 61.6
+        },
+        "growth_rate_pct": 8.1,
+        "asylum_seekers_total": 2318,
+        "asylum_per_1000": 4.1,
+        "asylum_annual_cost_estimate": 48168040,
+        "avg_imd_score": 30.1,
+        "pct_wards_decile_1_2": 23.1,
+        "collection_rate_weighted": 95.42,
+        "collection_trend_weighted": -0.3,
+        "fiscal_sustainability_score": 38,
+        "service_demand_pressure_score": 74,
+        "risk_factors": [
+          "Significant asylum dispersal (728 seekers)",
+          "High deprivation (IMD avg: 35.2)",
+          "High service demand demographics (Muslim 35.0%)",
+          "GRT/Roma population (244) \u2014 highest SEND prevalence group",
+          "Low employment rate (51.5%)",
+          "Below-average council tax collection (94.04%)",
+          "Declining collection rate (trend: -0.7%)",
+          "Significant asylum dispersal (464 seekers)",
+          "High deprivation (IMD avg: 37.3)",
+          "High service demand demographics (Muslim 14.0%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Trinity",
+            "imd_decile": 1.0,
+            "imd_score": 63.14,
+            "national_percentile": 3.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Bank Hall",
+            "imd_decile": 1.0,
+            "imd_score": 62.31,
+            "national_percentile": 3.9,
+            "muslim_pct": 32.2,
+            "under_16_pct": 23.9,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Central",
+            "imd_decile": 1.0,
+            "imd_score": 61.18,
+            "national_percentile": 2.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Daneshouse with Stoneyholme",
+            "imd_decile": 1.0,
+            "imd_score": 59.13,
+            "national_percentile": 3.6,
+            "muslim_pct": 75.0,
+            "under_16_pct": 28.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Blackburn Central",
+            "imd_decile": 1.3,
+            "imd_score": 57.58,
+            "national_percentile": 6.4,
+            "muslim_pct": 47.9,
+            "under_16_pct": 23.5,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Spring Hill",
+            "imd_decile": 1.0,
+            "imd_score": 56.85,
+            "national_percentile": 4.0,
+            "muslim_pct": 40.6,
+            "under_16_pct": 27.6,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Church",
+            "imd_decile": 1.3,
+            "imd_score": 54.59,
+            "national_percentile": 6.2,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Blackburn South East",
+            "imd_decile": 1.6,
+            "imd_score": 53.44,
+            "national_percentile": 9.9,
+            "muslim_pct": 10.2,
+            "under_16_pct": 26.2,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Bradley",
+            "imd_decile": 1.0,
+            "imd_score": 51.63,
+            "national_percentile": 6.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Mill Hill & Moorgate",
+            "imd_decile": 1.2,
+            "imd_score": 50.85,
+            "national_percentile": 6.8,
+            "muslim_pct": 4.6,
+            "under_16_pct": 21.3,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Darwen East",
+            "imd_decile": 1.3,
+            "imd_score": 50.17,
+            "national_percentile": 7.7,
+            "muslim_pct": 8.9,
+            "under_16_pct": 20.0,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Peel",
+            "imd_decile": 1.3,
+            "imd_score": 49.9,
+            "national_percentile": 8.0,
+            "muslim_pct": 13.4,
+            "under_16_pct": 22.3,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Whitefield",
+            "imd_decile": 1.0,
+            "imd_score": 49.07,
+            "national_percentile": 7.1,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Southfield",
+            "imd_decile": 1.8,
+            "imd_score": 47.64,
+            "national_percentile": 12.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          },
+          {
+            "ward": "Bastwell & Daisyfield",
+            "imd_decile": 1.4,
+            "imd_score": 45.68,
+            "national_percentile": 9.2,
+            "muslim_pct": 83.6,
+            "under_16_pct": 25.7,
+            "flag": "HIGH",
+            "council": "blackburn"
+          }
+        ],
+        "councils": [
+          "blackburn",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "ribble_valley",
+          "rossendale"
+        ],
+        "risk_category": "At Risk"
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "population": 352325,
+        "white_british_pct": 79.8,
+        "pakistani_bangladeshi_pct": 2.8,
+        "muslim_pct": 7.7,
+        "grt_count": 430,
+        "grt_pct": 0.12,
+        "roma_count": 353,
+        "roma_pct": 0.1,
+        "eu8_eu2_born_pct": 3.2,
+        "arab_count": 1685,
+        "black_african_caribbean_pct": 1.4,
+        "mixed_heritage_pct": 2.1,
+        "under_5_pct": 5.2,
+        "under_16_pct": 17.8,
+        "over_65_pct": 18.7,
+        "working_age_pct": 63.5,
+        "school_age_population": 44264,
+        "employment_rate_pct": 52.4,
+        "economically_inactive_pct": 41.9,
+        "no_qualifications_pct": 16.9,
+        "level_4_plus_pct": 33.3,
+        "social_rented_pct": 13.3,
+        "owner_occupied_pct": 64.9,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 6490,
+        "eal_estimate_pct": 12.7,
+        "population_projections": {
+          "2022": 359570,
+          "2027": 383749,
+          "2032": 398508,
+          "2037": 409930,
+          "2042": 419074,
+          "2047": 427498
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 63537,
+            "16-64": 228274,
+            "65+": 67759
+          },
+          "2027": {
+            "0-15": 65257,
+            "16-64": 243535,
+            "65+": 74957
+          },
+          "2032": {
+            "0-15": 64478,
+            "16-64": 250524,
+            "65+": 83507
+          },
+          "2037": {
+            "0-15": 63581,
+            "16-64": 255820,
+            "65+": 90525
+          },
+          "2042": {
+            "0-15": 63630,
+            "16-64": 262300,
+            "65+": 93142
+          },
+          "2047": {
+            "0-15": 64085,
+            "16-64": 266854,
+            "65+": 96556
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 57.5,
+          "2027": 57.6,
+          "2032": 59.1,
+          "2037": 60.2,
+          "2042": 59.8,
+          "2047": 60.2
+        },
+        "working_age_pct_projections": {
+          "2022": 63.5,
+          "2027": 63.5,
+          "2032": 62.9,
+          "2037": 62.4,
+          "2042": 62.6,
+          "2047": 62.4
+        },
+        "growth_rate_pct": 18.8,
+        "asylum_seekers_total": 608,
+        "asylum_per_1000": 1.7,
+        "asylum_annual_cost_estimate": 12634240,
+        "avg_imd_score": 22.6,
+        "pct_wards_decile_1_2": 10.1,
+        "collection_rate_weighted": 93.37,
+        "collection_trend_weighted": -1.76,
+        "fiscal_sustainability_score": 32,
+        "service_demand_pressure_score": 63,
+        "risk_factors": [
+          "Below-average council tax collection (94.16%)",
+          "Declining collection rate (trend: -1.7%)",
+          "Significant asylum dispersal (186 seekers)",
+          "GRT/Roma population (399) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.7%)",
+          "Below-average council tax collection (90.18%)",
+          "Declining collection rate (trend: -2.7%)",
+          "Significant asylum dispersal (394 seekers)",
+          "High service demand demographics (Muslim 16.1%)",
+          "GRT/Roma population (362) \u2014 highest SEND prevalence group"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "St Matthew's",
+            "imd_decile": 1.0,
+            "imd_score": 52.92,
+            "national_percentile": 5.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "preston"
+          },
+          {
+            "ward": "Poulton",
+            "imd_decile": 1.5,
+            "imd_score": 50.12,
+            "national_percentile": 9.2,
+            "muslim_pct": 1.3,
+            "under_16_pct": 18.8,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Heysham North",
+            "imd_decile": 2.0,
+            "imd_score": 47.89,
+            "national_percentile": 13.4,
+            "muslim_pct": 0.7,
+            "under_16_pct": 20.4,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Ribbleton",
+            "imd_decile": 1.6,
+            "imd_score": 47.87,
+            "national_percentile": 10.4,
+            "muslim_pct": 5.9,
+            "under_16_pct": 24.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "Harbour",
+            "imd_decile": 2.0,
+            "imd_score": 45.88,
+            "national_percentile": 14.8,
+            "muslim_pct": 0.6,
+            "under_16_pct": 19.6,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Fishwick & Frenchwood",
+            "imd_decile": 1.8,
+            "imd_score": 43.8,
+            "national_percentile": 13.1,
+            "muslim_pct": 44.9,
+            "under_16_pct": 25.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "City Centre",
+            "imd_decile": 2.0,
+            "imd_score": 38.43,
+            "national_percentile": 16.7,
+            "muslim_pct": 16.3,
+            "under_16_pct": 10.7,
+            "flag": "HIGH",
+            "council": "preston"
+          }
+        ],
+        "councils": [
+          "lancaster",
+          "preston",
+          "ribble_valley"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "Fylde Coast": {
+        "population": 334362,
+        "white_british_pct": 92.8,
+        "pakistani_bangladeshi_pct": 0.4,
+        "muslim_pct": 0.9,
+        "grt_count": 356,
+        "grt_pct": 0.11,
+        "roma_count": 293,
+        "roma_pct": 0.09,
+        "eu8_eu2_born_pct": 1.7,
+        "arab_count": 418,
+        "black_african_caribbean_pct": 0.4,
+        "mixed_heritage_pct": 1.3,
+        "under_5_pct": 4.7,
+        "under_16_pct": 16.3,
+        "over_65_pct": 24.8,
+        "working_age_pct": 58.9,
+        "school_age_population": 38854,
+        "employment_rate_pct": 49.6,
+        "economically_inactive_pct": 45.7,
+        "no_qualifications_pct": 20.9,
+        "level_4_plus_pct": 27.4,
+        "social_rented_pct": 8.9,
+        "owner_occupied_pct": 66.2,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 5766,
+        "eal_estimate_pct": 6.1,
+        "population_projections": {
+          "2022": 339562,
+          "2027": 351079,
+          "2032": 361070,
+          "2037": 370340,
+          "2042": 379026,
+          "2047": 387216
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 55148,
+            "16-64": 199261,
+            "65+": 85153
+          },
+          "2027": {
+            "0-15": 53352,
+            "16-64": 203073,
+            "65+": 94644
+          },
+          "2032": {
+            "0-15": 50437,
+            "16-64": 204301,
+            "65+": 106339
+          },
+          "2037": {
+            "0-15": 48505,
+            "16-64": 206297,
+            "65+": 115536
+          },
+          "2042": {
+            "0-15": 48312,
+            "16-64": 212206,
+            "65+": 118501
+          },
+          "2047": {
+            "0-15": 48616,
+            "16-64": 216750,
+            "65+": 121845
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 70.4,
+          "2027": 72.9,
+          "2032": 76.7,
+          "2037": 79.5,
+          "2042": 78.6,
+          "2047": 78.6
+        },
+        "working_age_pct_projections": {
+          "2022": 58.7,
+          "2027": 57.8,
+          "2032": 56.6,
+          "2037": 55.7,
+          "2042": 56.0,
+          "2047": 56.0
+        },
+        "growth_rate_pct": 13.9,
+        "asylum_seekers_total": 884,
+        "asylum_per_1000": 2.6,
+        "asylum_annual_cost_estimate": 18369520,
+        "avg_imd_score": 29.2,
+        "pct_wards_decile_1_2": 15.2,
+        "collection_rate_weighted": 93.67,
+        "collection_trend_weighted": -0.92,
+        "fiscal_sustainability_score": 29,
+        "service_demand_pressure_score": 74,
+        "risk_factors": [
+          "Below-average council tax collection (89.71%)",
+          "Declining collection rate (trend: -1.8%)",
+          "Significant asylum dispersal (450 seekers)",
+          "High deprivation (IMD avg: 44.4)",
+          "GRT/Roma population (443) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.5%)",
+          "GRT/Roma population (104) \u2014 highest SEND prevalence group",
+          "Low employment rate (50.3%)",
+          "Significant asylum dispersal (376 seekers)",
+          "GRT/Roma population (102) \u2014 highest SEND prevalence group"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Bloomfield",
+            "imd_decile": 1.0,
+            "imd_score": 87.19,
+            "national_percentile": 0.0,
+            "muslim_pct": 4.2,
+            "under_16_pct": 21.9,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Claremont",
+            "imd_decile": 1.0,
+            "imd_score": 78.51,
+            "national_percentile": 0.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Talbot",
+            "imd_decile": 1.2,
+            "imd_score": 66.42,
+            "national_percentile": 4.6,
+            "muslim_pct": 1.7,
+            "under_16_pct": 13.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Brunswick",
+            "imd_decile": 1.4,
+            "imd_score": 62.88,
+            "national_percentile": 5.9,
+            "muslim_pct": 2.6,
+            "under_16_pct": 22.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Pharos",
+            "imd_decile": 1.2,
+            "imd_score": 61.06,
+            "national_percentile": 4.0,
+            "muslim_pct": 1.3,
+            "under_16_pct": 16.2,
+            "flag": "HIGH",
+            "council": "wyre"
+          },
+          {
+            "ward": "Waterloo",
+            "imd_decile": 1.8,
+            "imd_score": 53.64,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Victoria",
+            "imd_decile": 1.0,
+            "imd_score": 52.34,
+            "national_percentile": 5.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Clifton",
+            "imd_decile": 1.8,
+            "imd_score": 49.06,
+            "national_percentile": 10.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Tyldesley",
+            "imd_decile": 2.0,
+            "imd_score": 47.14,
+            "national_percentile": 12.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Hawes Side",
+            "imd_decile": 1.6,
+            "imd_score": 45.82,
+            "national_percentile": 10.1,
+            "muslim_pct": 1.2,
+            "under_16_pct": 20.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          }
+        ],
+        "councils": [
+          "blackpool",
+          "fylde",
+          "wyre"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "Pennine Lancashire": {
+        "population": 498249,
+        "white_british_pct": 71.2,
+        "pakistani_bangladeshi_pct": 16.3,
+        "muslim_pct": 21.6,
+        "grt_count": 395,
+        "grt_pct": 0.08,
+        "roma_count": 433,
+        "roma_pct": 0.09,
+        "eu8_eu2_born_pct": 2.6,
+        "arab_count": 1477,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.6,
+        "under_5_pct": 6.1,
+        "under_16_pct": 21.2,
+        "over_65_pct": 17.1,
+        "working_age_pct": 61.7,
+        "school_age_population": 74908,
+        "employment_rate_pct": 52.4,
+        "economically_inactive_pct": 42.7,
+        "no_qualifications_pct": 23.3,
+        "level_4_plus_pct": 26.3,
+        "social_rented_pct": 15.4,
+        "owner_occupied_pct": 62.7,
+        "estimated_send_rate_pct": 15.2,
+        "estimated_send_pupils": 11357,
+        "eal_estimate_pct": 13.7,
+        "population_projections": {
+          "2022": 502077,
+          "2027": 510427,
+          "2032": 514891,
+          "2037": 520146,
+          "2042": 526025,
+          "2047": 531982
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 105677,
+            "16-64": 309600,
+            "65+": 86800
+          },
+          "2027": {
+            "0-15": 99534,
+            "16-64": 318163,
+            "65+": 92728
+          },
+          "2032": {
+            "0-15": 93117,
+            "16-64": 321834,
+            "65+": 99935
+          },
+          "2037": {
+            "0-15": 89574,
+            "16-64": 324508,
+            "65+": 106061
+          },
+          "2042": {
+            "0-15": 89150,
+            "16-64": 329463,
+            "65+": 107417
+          },
+          "2047": {
+            "0-15": 89470,
+            "16-64": 332242,
+            "65+": 110269
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 62.2,
+          "2027": 60.4,
+          "2032": 60.0,
+          "2037": 60.3,
+          "2042": 59.7,
+          "2047": 60.1
+        },
+        "working_age_pct_projections": {
+          "2022": 61.7,
+          "2027": 62.3,
+          "2032": 62.5,
+          "2037": 62.4,
+          "2042": 62.6,
+          "2047": 62.5
+        },
+        "growth_rate_pct": 6.0,
+        "asylum_seekers_total": 2290,
+        "asylum_per_1000": 4.6,
+        "asylum_annual_cost_estimate": 47586200,
+        "avg_imd_score": 32.5,
+        "pct_wards_decile_1_2": 30.5,
+        "collection_rate_weighted": 94.96,
+        "collection_trend_weighted": -0.38,
+        "fiscal_sustainability_score": 34,
+        "service_demand_pressure_score": 76,
+        "risk_factors": [
+          "Significant asylum dispersal (728 seekers)",
+          "High deprivation (IMD avg: 35.2)",
+          "High service demand demographics (Muslim 35.0%)",
+          "GRT/Roma population (244) \u2014 highest SEND prevalence group",
+          "Low employment rate (51.5%)",
+          "Below-average council tax collection (94.04%)",
+          "Declining collection rate (trend: -0.7%)",
+          "Significant asylum dispersal (464 seekers)",
+          "High deprivation (IMD avg: 37.3)",
+          "High service demand demographics (Muslim 14.0%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Trinity",
+            "imd_decile": 1.0,
+            "imd_score": 63.14,
+            "national_percentile": 3.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Bank Hall",
+            "imd_decile": 1.0,
+            "imd_score": 62.31,
+            "national_percentile": 3.9,
+            "muslim_pct": 32.2,
+            "under_16_pct": 23.9,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Central",
+            "imd_decile": 1.0,
+            "imd_score": 61.18,
+            "national_percentile": 2.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Daneshouse with Stoneyholme",
+            "imd_decile": 1.0,
+            "imd_score": 59.13,
+            "national_percentile": 3.6,
+            "muslim_pct": 75.0,
+            "under_16_pct": 28.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Blackburn Central",
+            "imd_decile": 1.3,
+            "imd_score": 57.58,
+            "national_percentile": 6.4,
+            "muslim_pct": 47.9,
+            "under_16_pct": 23.5,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Spring Hill",
+            "imd_decile": 1.0,
+            "imd_score": 56.85,
+            "national_percentile": 4.0,
+            "muslim_pct": 40.6,
+            "under_16_pct": 27.6,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Church",
+            "imd_decile": 1.3,
+            "imd_score": 54.59,
+            "national_percentile": 6.2,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Blackburn South East",
+            "imd_decile": 1.6,
+            "imd_score": 53.44,
+            "national_percentile": 9.9,
+            "muslim_pct": 10.2,
+            "under_16_pct": 26.2,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Bradley",
+            "imd_decile": 1.0,
+            "imd_score": 51.63,
+            "national_percentile": 6.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Mill Hill & Moorgate",
+            "imd_decile": 1.2,
+            "imd_score": 50.85,
+            "national_percentile": 6.8,
+            "muslim_pct": 4.6,
+            "under_16_pct": 21.3,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Darwen East",
+            "imd_decile": 1.3,
+            "imd_score": 50.17,
+            "national_percentile": 7.7,
+            "muslim_pct": 8.9,
+            "under_16_pct": 20.0,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Peel",
+            "imd_decile": 1.3,
+            "imd_score": 49.9,
+            "national_percentile": 8.0,
+            "muslim_pct": 13.4,
+            "under_16_pct": 22.3,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Whitefield",
+            "imd_decile": 1.0,
+            "imd_score": 49.07,
+            "national_percentile": 7.1,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Southfield",
+            "imd_decile": 1.8,
+            "imd_score": 47.64,
+            "national_percentile": 12.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          },
+          {
+            "ward": "Bastwell & Daisyfield",
+            "imd_decile": 1.4,
+            "imd_score": 45.68,
+            "national_percentile": 9.2,
+            "muslim_pct": 83.6,
+            "under_16_pct": 25.7,
+            "flag": "HIGH",
+            "council": "blackburn"
+          }
+        ],
+        "councils": [
+          "blackburn",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "rossendale"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "South Lancashire": {
+        "population": 346200,
+        "white_british_pct": 92.9,
+        "pakistani_bangladeshi_pct": 0.4,
+        "muslim_pct": 0.9,
+        "grt_count": 111,
+        "grt_pct": 0.03,
+        "roma_count": 185,
+        "roma_pct": 0.05,
+        "eu8_eu2_born_pct": 1.7,
+        "arab_count": 480,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 4.9,
+        "under_16_pct": 17.3,
+        "over_65_pct": 21.3,
+        "working_age_pct": 61.3,
+        "school_age_population": 43186,
+        "employment_rate_pct": 56.0,
+        "economically_inactive_pct": 39.6,
+        "no_qualifications_pct": 16.5,
+        "level_4_plus_pct": 31.9,
+        "social_rented_pct": 12.7,
+        "owner_occupied_pct": 72.9,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 6400,
+        "eal_estimate_pct": 5.3,
+        "population_projections": {
+          "2022": 350184,
+          "2027": 359991,
+          "2032": 368370,
+          "2037": 375930,
+          "2042": 383324,
+          "2047": 390788
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 60344,
+            "16-64": 214018,
+            "65+": 75822
+          },
+          "2027": {
+            "0-15": 58337,
+            "16-64": 218784,
+            "65+": 82867
+          },
+          "2032": {
+            "0-15": 55535,
+            "16-64": 221186,
+            "65+": 91652
+          },
+          "2037": {
+            "0-15": 54069,
+            "16-64": 223329,
+            "65+": 98532
+          },
+          "2042": {
+            "0-15": 54158,
+            "16-64": 228816,
+            "65+": 100357
+          },
+          "2047": {
+            "0-15": 54858,
+            "16-64": 233477,
+            "65+": 102447
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 63.6,
+          "2027": 64.5,
+          "2032": 66.5,
+          "2037": 68.3,
+          "2042": 67.5,
+          "2047": 67.4
+        },
+        "working_age_pct_projections": {
+          "2022": 61.1,
+          "2027": 60.8,
+          "2032": 60.0,
+          "2037": 59.4,
+          "2042": 59.7,
+          "2047": 59.7
+        },
+        "growth_rate_pct": 11.6,
+        "asylum_seekers_total": 914,
+        "asylum_per_1000": 2.6,
+        "asylum_annual_cost_estimate": 18992920,
+        "avg_imd_score": 16.5,
+        "pct_wards_decile_1_2": 5.9,
+        "collection_rate_weighted": 95.76,
+        "collection_trend_weighted": -1.52,
+        "fiscal_sustainability_score": 42,
+        "service_demand_pressure_score": 65,
+        "risk_factors": [
+          "Declining collection rate (trend: -1.0%)",
+          "Significant asylum dispersal (199 seekers)",
+          "GRT/Roma population (115) \u2014 highest SEND prevalence group",
+          "Declining collection rate (trend: -0.9%)",
+          "Significant asylum dispersal (312 seekers)",
+          "Below-average council tax collection (93.82%)",
+          "Declining collection rate (trend: -2.7%)",
+          "Significant asylum dispersal (403 seekers)",
+          "Low employment rate (51.9%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Digmoor",
+            "imd_decile": 2.0,
+            "imd_score": 48.32,
+            "national_percentile": 12.4,
+            "muslim_pct": 0.4,
+            "under_16_pct": 21.6,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Moorside",
+            "imd_decile": 2.0,
+            "imd_score": 44.03,
+            "national_percentile": 13.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Birch Green",
+            "imd_decile": 1.7,
+            "imd_score": 43.37,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.8,
+            "under_16_pct": 22.9,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Tanhouse",
+            "imd_decile": 1.3,
+            "imd_score": 42.34,
+            "national_percentile": 12.1,
+            "muslim_pct": 0.8,
+            "under_16_pct": 24.2,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          }
+        ],
+        "councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "risk_category": "At Risk"
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "population": 370248,
+        "white_british_pct": 81.3,
+        "pakistani_bangladeshi_pct": 2.6,
+        "muslim_pct": 7.1,
+        "grt_count": 399,
+        "grt_pct": 0.11,
+        "roma_count": 510,
+        "roma_pct": 0.14,
+        "eu8_eu2_born_pct": 3.3,
+        "arab_count": 1470,
+        "black_african_caribbean_pct": 1.2,
+        "mixed_heritage_pct": 2.1,
+        "under_5_pct": 5.3,
+        "under_16_pct": 17.8,
+        "over_65_pct": 19.9,
+        "working_age_pct": 62.3,
+        "school_age_population": 46394,
+        "employment_rate_pct": 51.0,
+        "economically_inactive_pct": 43.1,
+        "no_qualifications_pct": 20.7,
+        "level_4_plus_pct": 28.8,
+        "social_rented_pct": 13.1,
+        "owner_occupied_pct": 60.9,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 6818,
+        "eal_estimate_pct": 12.0,
+        "population_projections": {
+          "2022": 376507,
+          "2027": 395026,
+          "2032": 407137,
+          "2037": 417804,
+          "2042": 427236,
+          "2047": 435830
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 67167,
+            "16-64": 233845,
+            "65+": 75495
+          },
+          "2027": {
+            "0-15": 67079,
+            "16-64": 244756,
+            "65+": 83187
+          },
+          "2032": {
+            "0-15": 64838,
+            "16-64": 249680,
+            "65+": 92621
+          },
+          "2037": {
+            "0-15": 63160,
+            "16-64": 254503,
+            "65+": 100137
+          },
+          "2042": {
+            "0-15": 63111,
+            "16-64": 261482,
+            "65+": 102634
+          },
+          "2047": {
+            "0-15": 63547,
+            "16-64": 266387,
+            "65+": 105897
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 61.0,
+          "2027": 61.4,
+          "2032": 63.1,
+          "2037": 64.2,
+          "2042": 63.4,
+          "2047": 63.6
+        },
+        "working_age_pct_projections": {
+          "2022": 62.1,
+          "2027": 62.0,
+          "2032": 61.3,
+          "2037": 60.9,
+          "2042": 61.2,
+          "2047": 61.1
+        },
+        "growth_rate_pct": 15.6,
+        "asylum_seekers_total": 902,
+        "asylum_per_1000": 2.4,
+        "asylum_annual_cost_estimate": 18743560,
+        "avg_imd_score": 31.5,
+        "pct_wards_decile_1_2": 22.4,
+        "collection_rate_weighted": 91.42,
+        "collection_trend_weighted": -1.77,
+        "fiscal_sustainability_score": 21,
+        "service_demand_pressure_score": 72,
+        "risk_factors": [
+          "Below-average council tax collection (89.71%)",
+          "Declining collection rate (trend: -1.8%)",
+          "Significant asylum dispersal (450 seekers)",
+          "High deprivation (IMD avg: 44.4)",
+          "GRT/Roma population (443) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.5%)",
+          "GRT/Roma population (104) \u2014 highest SEND prevalence group",
+          "Low employment rate (50.3%)",
+          "Below-average council tax collection (90.18%)",
+          "Declining collection rate (trend: -2.7%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Bloomfield",
+            "imd_decile": 1.0,
+            "imd_score": 87.19,
+            "national_percentile": 0.0,
+            "muslim_pct": 4.2,
+            "under_16_pct": 21.9,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Claremont",
+            "imd_decile": 1.0,
+            "imd_score": 78.51,
+            "national_percentile": 0.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Talbot",
+            "imd_decile": 1.2,
+            "imd_score": 66.42,
+            "national_percentile": 4.6,
+            "muslim_pct": 1.7,
+            "under_16_pct": 13.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Brunswick",
+            "imd_decile": 1.4,
+            "imd_score": 62.88,
+            "national_percentile": 5.9,
+            "muslim_pct": 2.6,
+            "under_16_pct": 22.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Waterloo",
+            "imd_decile": 1.8,
+            "imd_score": 53.64,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "St Matthew's",
+            "imd_decile": 1.0,
+            "imd_score": 52.92,
+            "national_percentile": 5.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "preston"
+          },
+          {
+            "ward": "Victoria",
+            "imd_decile": 1.0,
+            "imd_score": 52.34,
+            "national_percentile": 5.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Clifton",
+            "imd_decile": 1.8,
+            "imd_score": 49.06,
+            "national_percentile": 10.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Ribbleton",
+            "imd_decile": 1.6,
+            "imd_score": 47.87,
+            "national_percentile": 10.4,
+            "muslim_pct": 5.9,
+            "under_16_pct": 24.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "Tyldesley",
+            "imd_decile": 2.0,
+            "imd_score": 47.14,
+            "national_percentile": 12.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Hawes Side",
+            "imd_decile": 1.6,
+            "imd_score": 45.82,
+            "national_percentile": 10.1,
+            "muslim_pct": 1.2,
+            "under_16_pct": 20.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Fishwick & Frenchwood",
+            "imd_decile": 1.8,
+            "imd_score": 43.8,
+            "national_percentile": 13.1,
+            "muslim_pct": 44.9,
+            "under_16_pct": 25.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "City Centre",
+            "imd_decile": 2.0,
+            "imd_score": 38.43,
+            "national_percentile": 16.7,
+            "muslim_pct": 16.3,
+            "under_16_pct": 10.7,
+            "flag": "HIGH",
+            "council": "preston"
+          }
+        ],
+        "councils": [
+          "blackpool",
+          "fylde",
+          "preston"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "Southern Lancashire": {
+        "population": 346200,
+        "white_british_pct": 92.9,
+        "pakistani_bangladeshi_pct": 0.4,
+        "muslim_pct": 0.9,
+        "grt_count": 111,
+        "grt_pct": 0.03,
+        "roma_count": 185,
+        "roma_pct": 0.05,
+        "eu8_eu2_born_pct": 1.7,
+        "arab_count": 480,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 4.9,
+        "under_16_pct": 17.3,
+        "over_65_pct": 21.3,
+        "working_age_pct": 61.3,
+        "school_age_population": 43186,
+        "employment_rate_pct": 56.0,
+        "economically_inactive_pct": 39.6,
+        "no_qualifications_pct": 16.5,
+        "level_4_plus_pct": 31.9,
+        "social_rented_pct": 12.7,
+        "owner_occupied_pct": 72.9,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 6400,
+        "eal_estimate_pct": 5.3,
+        "population_projections": {
+          "2022": 350184,
+          "2027": 359991,
+          "2032": 368370,
+          "2037": 375930,
+          "2042": 383324,
+          "2047": 390788
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 60344,
+            "16-64": 214018,
+            "65+": 75822
+          },
+          "2027": {
+            "0-15": 58337,
+            "16-64": 218784,
+            "65+": 82867
+          },
+          "2032": {
+            "0-15": 55535,
+            "16-64": 221186,
+            "65+": 91652
+          },
+          "2037": {
+            "0-15": 54069,
+            "16-64": 223329,
+            "65+": 98532
+          },
+          "2042": {
+            "0-15": 54158,
+            "16-64": 228816,
+            "65+": 100357
+          },
+          "2047": {
+            "0-15": 54858,
+            "16-64": 233477,
+            "65+": 102447
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 63.6,
+          "2027": 64.5,
+          "2032": 66.5,
+          "2037": 68.3,
+          "2042": 67.5,
+          "2047": 67.4
+        },
+        "working_age_pct_projections": {
+          "2022": 61.1,
+          "2027": 60.8,
+          "2032": 60.0,
+          "2037": 59.4,
+          "2042": 59.7,
+          "2047": 59.7
+        },
+        "growth_rate_pct": 11.6,
+        "asylum_seekers_total": 914,
+        "asylum_per_1000": 2.6,
+        "asylum_annual_cost_estimate": 18992920,
+        "avg_imd_score": 16.5,
+        "pct_wards_decile_1_2": 5.9,
+        "collection_rate_weighted": 95.76,
+        "collection_trend_weighted": -1.52,
+        "fiscal_sustainability_score": 42,
+        "service_demand_pressure_score": 65,
+        "risk_factors": [
+          "Declining collection rate (trend: -1.0%)",
+          "Significant asylum dispersal (199 seekers)",
+          "GRT/Roma population (115) \u2014 highest SEND prevalence group",
+          "Declining collection rate (trend: -0.9%)",
+          "Significant asylum dispersal (312 seekers)",
+          "Below-average council tax collection (93.82%)",
+          "Declining collection rate (trend: -2.7%)",
+          "Significant asylum dispersal (403 seekers)",
+          "Low employment rate (51.9%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Digmoor",
+            "imd_decile": 2.0,
+            "imd_score": 48.32,
+            "national_percentile": 12.4,
+            "muslim_pct": 0.4,
+            "under_16_pct": 21.6,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Moorside",
+            "imd_decile": 2.0,
+            "imd_score": 44.03,
+            "national_percentile": 13.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Birch Green",
+            "imd_decile": 1.7,
+            "imd_score": 43.37,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.8,
+            "under_16_pct": 22.9,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Tanhouse",
+            "imd_decile": 1.3,
+            "imd_score": 42.34,
+            "national_percentile": 12.1,
+            "muslim_pct": 0.8,
+            "under_16_pct": 24.2,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          }
+        ],
+        "councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "risk_category": "At Risk"
+      },
+      "Eastern Lancashire": {
+        "population": 498249,
+        "white_british_pct": 71.2,
+        "pakistani_bangladeshi_pct": 16.3,
+        "muslim_pct": 21.6,
+        "grt_count": 395,
+        "grt_pct": 0.08,
+        "roma_count": 433,
+        "roma_pct": 0.09,
+        "eu8_eu2_born_pct": 2.6,
+        "arab_count": 1477,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.6,
+        "under_5_pct": 6.1,
+        "under_16_pct": 21.2,
+        "over_65_pct": 17.1,
+        "working_age_pct": 61.7,
+        "school_age_population": 74908,
+        "employment_rate_pct": 52.4,
+        "economically_inactive_pct": 42.7,
+        "no_qualifications_pct": 23.3,
+        "level_4_plus_pct": 26.3,
+        "social_rented_pct": 15.4,
+        "owner_occupied_pct": 62.7,
+        "estimated_send_rate_pct": 15.2,
+        "estimated_send_pupils": 11357,
+        "eal_estimate_pct": 13.7,
+        "population_projections": {
+          "2022": 502077,
+          "2027": 510427,
+          "2032": 514891,
+          "2037": 520146,
+          "2042": 526025,
+          "2047": 531982
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 105677,
+            "16-64": 309600,
+            "65+": 86800
+          },
+          "2027": {
+            "0-15": 99534,
+            "16-64": 318163,
+            "65+": 92728
+          },
+          "2032": {
+            "0-15": 93117,
+            "16-64": 321834,
+            "65+": 99935
+          },
+          "2037": {
+            "0-15": 89574,
+            "16-64": 324508,
+            "65+": 106061
+          },
+          "2042": {
+            "0-15": 89150,
+            "16-64": 329463,
+            "65+": 107417
+          },
+          "2047": {
+            "0-15": 89470,
+            "16-64": 332242,
+            "65+": 110269
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 62.2,
+          "2027": 60.4,
+          "2032": 60.0,
+          "2037": 60.3,
+          "2042": 59.7,
+          "2047": 60.1
+        },
+        "working_age_pct_projections": {
+          "2022": 61.7,
+          "2027": 62.3,
+          "2032": 62.5,
+          "2037": 62.4,
+          "2042": 62.6,
+          "2047": 62.5
+        },
+        "growth_rate_pct": 6.0,
+        "asylum_seekers_total": 2290,
+        "asylum_per_1000": 4.6,
+        "asylum_annual_cost_estimate": 47586200,
+        "avg_imd_score": 32.5,
+        "pct_wards_decile_1_2": 30.5,
+        "collection_rate_weighted": 94.96,
+        "collection_trend_weighted": -0.38,
+        "fiscal_sustainability_score": 34,
+        "service_demand_pressure_score": 76,
+        "risk_factors": [
+          "Significant asylum dispersal (728 seekers)",
+          "High deprivation (IMD avg: 35.2)",
+          "High service demand demographics (Muslim 35.0%)",
+          "GRT/Roma population (244) \u2014 highest SEND prevalence group",
+          "Low employment rate (51.5%)",
+          "Below-average council tax collection (94.04%)",
+          "Declining collection rate (trend: -0.7%)",
+          "Significant asylum dispersal (464 seekers)",
+          "High deprivation (IMD avg: 37.3)",
+          "High service demand demographics (Muslim 14.0%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Trinity",
+            "imd_decile": 1.0,
+            "imd_score": 63.14,
+            "national_percentile": 3.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Bank Hall",
+            "imd_decile": 1.0,
+            "imd_score": 62.31,
+            "national_percentile": 3.9,
+            "muslim_pct": 32.2,
+            "under_16_pct": 23.9,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Central",
+            "imd_decile": 1.0,
+            "imd_score": 61.18,
+            "national_percentile": 2.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Daneshouse with Stoneyholme",
+            "imd_decile": 1.0,
+            "imd_score": 59.13,
+            "national_percentile": 3.6,
+            "muslim_pct": 75.0,
+            "under_16_pct": 28.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Blackburn Central",
+            "imd_decile": 1.3,
+            "imd_score": 57.58,
+            "national_percentile": 6.4,
+            "muslim_pct": 47.9,
+            "under_16_pct": 23.5,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Spring Hill",
+            "imd_decile": 1.0,
+            "imd_score": 56.85,
+            "national_percentile": 4.0,
+            "muslim_pct": 40.6,
+            "under_16_pct": 27.6,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Church",
+            "imd_decile": 1.3,
+            "imd_score": 54.59,
+            "national_percentile": 6.2,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Blackburn South East",
+            "imd_decile": 1.6,
+            "imd_score": 53.44,
+            "national_percentile": 9.9,
+            "muslim_pct": 10.2,
+            "under_16_pct": 26.2,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Bradley",
+            "imd_decile": 1.0,
+            "imd_score": 51.63,
+            "national_percentile": 6.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Mill Hill & Moorgate",
+            "imd_decile": 1.2,
+            "imd_score": 50.85,
+            "national_percentile": 6.8,
+            "muslim_pct": 4.6,
+            "under_16_pct": 21.3,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Darwen East",
+            "imd_decile": 1.3,
+            "imd_score": 50.17,
+            "national_percentile": 7.7,
+            "muslim_pct": 8.9,
+            "under_16_pct": 20.0,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Peel",
+            "imd_decile": 1.3,
+            "imd_score": 49.9,
+            "national_percentile": 8.0,
+            "muslim_pct": 13.4,
+            "under_16_pct": 22.3,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Whitefield",
+            "imd_decile": 1.0,
+            "imd_score": 49.07,
+            "national_percentile": 7.1,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Southfield",
+            "imd_decile": 1.8,
+            "imd_score": 47.64,
+            "national_percentile": 12.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          },
+          {
+            "ward": "Bastwell & Daisyfield",
+            "imd_decile": 1.4,
+            "imd_score": 45.68,
+            "national_percentile": 9.2,
+            "muslim_pct": 83.6,
+            "under_16_pct": 25.7,
+            "flag": "HIGH",
+            "council": "blackburn"
+          }
+        ],
+        "councils": [
+          "blackburn",
+          "burnley",
+          "hyndburn",
+          "pendle",
+          "rossendale"
+        ],
+        "risk_category": "Structurally Deficit"
+      },
+      "Northern Lancashire": {
+        "population": 142932,
+        "white_british_pct": 87.8,
+        "pakistani_bangladeshi_pct": 0.7,
+        "muslim_pct": 1.9,
+        "grt_count": 309,
+        "grt_pct": 0.22,
+        "roma_count": 90,
+        "roma_pct": 0.06,
+        "eu8_eu2_born_pct": 2.6,
+        "arab_count": 477,
+        "black_african_caribbean_pct": 0.9,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 4.7,
+        "under_16_pct": 16.3,
+        "over_65_pct": 20.5,
+        "working_age_pct": 63.2,
+        "school_age_population": 16553,
+        "employment_rate_pct": 49.7,
+        "economically_inactive_pct": 45.0,
+        "no_qualifications_pct": 15.8,
+        "level_4_plus_pct": 32.3,
+        "social_rented_pct": 10.3,
+        "owner_occupied_pct": 67.1,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 2448,
+        "eal_estimate_pct": 9.5,
+        "population_projections": {
+          "2022": 144561,
+          "2027": 151250,
+          "2032": 154797,
+          "2037": 156919,
+          "2042": 158455,
+          "2047": 160280
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 23176,
+            "16-64": 91634,
+            "65+": 29751
+          },
+          "2027": {
+            "0-15": 23375,
+            "16-64": 95426,
+            "65+": 32446
+          },
+          "2032": {
+            "0-15": 22616,
+            "16-64": 96446,
+            "65+": 35736
+          },
+          "2037": {
+            "0-15": 22069,
+            "16-64": 96649,
+            "65+": 38200
+          },
+          "2042": {
+            "0-15": 21801,
+            "16-64": 97867,
+            "65+": 38784
+          },
+          "2047": {
+            "0-15": 21758,
+            "16-64": 98728,
+            "65+": 39792
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 57.8,
+          "2027": 58.5,
+          "2032": 60.5,
+          "2037": 62.4,
+          "2042": 61.9,
+          "2047": 62.3
+        },
+        "working_age_pct_projections": {
+          "2022": 63.4,
+          "2027": 63.1,
+          "2032": 62.3,
+          "2037": 61.6,
+          "2042": 61.8,
+          "2047": 61.6
+        },
+        "growth_rate_pct": 10.9,
+        "asylum_seekers_total": 186,
+        "asylum_per_1000": 1.3,
+        "asylum_annual_cost_estimate": 3865080,
+        "avg_imd_score": 22.2,
+        "pct_wards_decile_1_2": 11.1,
+        "collection_rate_weighted": 94.16,
+        "collection_trend_weighted": -1.73,
+        "fiscal_sustainability_score": 30,
+        "service_demand_pressure_score": 60,
+        "risk_factors": [
+          "Below-average council tax collection (94.16%)",
+          "Declining collection rate (trend: -1.7%)",
+          "Significant asylum dispersal (186 seekers)",
+          "GRT/Roma population (399) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.7%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Poulton",
+            "imd_decile": 1.5,
+            "imd_score": 50.12,
+            "national_percentile": 9.2,
+            "muslim_pct": 1.3,
+            "under_16_pct": 18.8,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Heysham North",
+            "imd_decile": 2.0,
+            "imd_score": 47.89,
+            "national_percentile": 13.4,
+            "muslim_pct": 0.7,
+            "under_16_pct": 20.4,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Harbour",
+            "imd_decile": 2.0,
+            "imd_score": 45.88,
+            "national_percentile": 14.8,
+            "muslim_pct": 0.6,
+            "under_16_pct": 19.6,
+            "flag": "HIGH",
+            "council": "lancaster"
+          }
+        ],
+        "councils": [
+          "lancaster"
+        ],
+        "risk_category": "Structurally Deficit"
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "population": 261278,
+        "white_british_pct": 77.0,
+        "pakistani_bangladeshi_pct": 15.6,
+        "muslim_pct": 15.9,
+        "grt_count": 208,
+        "grt_pct": 0.08,
+        "roma_count": 246,
+        "roma_pct": 0.09,
+        "eu8_eu2_born_pct": 2.9,
+        "arab_count": 469,
+        "black_african_caribbean_pct": 0.3,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 5.9,
+        "under_16_pct": 20.5,
+        "over_65_pct": 18.3,
+        "working_age_pct": 61.2,
+        "school_age_population": 38061,
+        "employment_rate_pct": 52.9,
+        "economically_inactive_pct": 42.6,
+        "no_qualifications_pct": 23.0,
+        "level_4_plus_pct": 26.4,
+        "social_rented_pct": 14.0,
+        "owner_occupied_pct": 63.9,
+        "estimated_send_rate_pct": 15.4,
+        "estimated_send_pupils": 5855,
+        "eal_estimate_pct": 12.5,
+        "population_projections": {
+          "2022": 263039,
+          "2027": 268757,
+          "2032": 271969,
+          "2037": 275408,
+          "2042": 279120,
+          "2047": 282892
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 53638,
+            "16-64": 160636,
+            "65+": 48765
+          },
+          "2027": {
+            "0-15": 50658,
+            "16-64": 165607,
+            "65+": 52494
+          },
+          "2032": {
+            "0-15": 47382,
+            "16-64": 167879,
+            "65+": 56702
+          },
+          "2037": {
+            "0-15": 45571,
+            "16-64": 169818,
+            "65+": 60023
+          },
+          "2042": {
+            "0-15": 45421,
+            "16-64": 172918,
+            "65+": 60780
+          },
+          "2047": {
+            "0-15": 45680,
+            "16-64": 174941,
+            "65+": 62268
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 63.7,
+          "2027": 62.3,
+          "2032": 62.0,
+          "2037": 62.2,
+          "2042": 61.4,
+          "2047": 61.7
+        },
+        "working_age_pct_projections": {
+          "2022": 61.1,
+          "2027": 61.6,
+          "2032": 61.7,
+          "2037": 61.7,
+          "2042": 62.0,
+          "2047": 61.8
+        },
+        "growth_rate_pct": 7.6,
+        "asylum_seekers_total": 1170,
+        "asylum_per_1000": 4.5,
+        "asylum_annual_cost_estimate": 24312600,
+        "avg_imd_score": 30.2,
+        "pct_wards_decile_1_2": 26.5,
+        "collection_rate_weighted": 94.99,
+        "collection_trend_weighted": -0.75,
+        "fiscal_sustainability_score": 35,
+        "service_demand_pressure_score": 74,
+        "risk_factors": [
+          "Below-average council tax collection (94.04%)",
+          "Declining collection rate (trend: -0.7%)",
+          "Significant asylum dispersal (464 seekers)",
+          "High deprivation (IMD avg: 37.3)",
+          "High service demand demographics (Muslim 14.0%)",
+          "GRT/Roma population (189) \u2014 highest SEND prevalence group",
+          "Low employment rate (51.8%)",
+          "Significant asylum dispersal (454 seekers)",
+          "High service demand demographics (Muslim 26.0%)",
+          "GRT/Roma population (223) \u2014 highest SEND prevalence group"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Trinity",
+            "imd_decile": 1.0,
+            "imd_score": 63.14,
+            "national_percentile": 3.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Bank Hall",
+            "imd_decile": 1.0,
+            "imd_score": 62.31,
+            "national_percentile": 3.9,
+            "muslim_pct": 32.2,
+            "under_16_pct": 23.9,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Daneshouse with Stoneyholme",
+            "imd_decile": 1.0,
+            "imd_score": 59.13,
+            "national_percentile": 3.6,
+            "muslim_pct": 75.0,
+            "under_16_pct": 28.0,
+            "flag": "CRITICAL",
+            "council": "burnley"
+          },
+          {
+            "ward": "Bradley",
+            "imd_decile": 1.0,
+            "imd_score": 51.63,
+            "national_percentile": 6.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Whitefield",
+            "imd_decile": 1.0,
+            "imd_score": 49.07,
+            "national_percentile": 7.1,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "pendle"
+          },
+          {
+            "ward": "Southfield",
+            "imd_decile": 1.8,
+            "imd_score": 47.64,
+            "national_percentile": 12.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          },
+          {
+            "ward": "Queensgate",
+            "imd_decile": 2.0,
+            "imd_score": 44.17,
+            "national_percentile": 14.9,
+            "muslim_pct": 37.6,
+            "under_16_pct": 22.2,
+            "flag": "HIGH",
+            "council": "burnley"
+          },
+          {
+            "ward": "Clover Hill",
+            "imd_decile": 2.0,
+            "imd_score": 40.93,
+            "national_percentile": 16.2,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          },
+          {
+            "ward": "Gawthorpe",
+            "imd_decile": 1.8,
+            "imd_score": 40.48,
+            "national_percentile": 14.1,
+            "muslim_pct": 1.4,
+            "under_16_pct": 20.1,
+            "flag": "HIGH",
+            "council": "burnley"
+          },
+          {
+            "ward": "Stacksteads",
+            "imd_decile": 1.7,
+            "imd_score": 40.46,
+            "national_percentile": 14.1,
+            "muslim_pct": 0.7,
+            "under_16_pct": 18.4,
+            "flag": "HIGH",
+            "council": "rossendale"
+          },
+          {
+            "ward": "Brunshaw",
+            "imd_decile": 2.0,
+            "imd_score": 39.09,
+            "national_percentile": 16.2,
+            "muslim_pct": 1.5,
+            "under_16_pct": 18.3,
+            "flag": "HIGH",
+            "council": "burnley"
+          },
+          {
+            "ward": "Brierfield",
+            "imd_decile": 2.0,
+            "imd_score": 38.71,
+            "national_percentile": 16.4,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          },
+          {
+            "ward": "Walverden",
+            "imd_decile": 2.0,
+            "imd_score": 36.38,
+            "national_percentile": 19.1,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "pendle"
+          }
+        ],
+        "councils": [
+          "burnley",
+          "pendle",
+          "rossendale"
+        ],
+        "risk_category": "At Risk"
+      },
+      "Central Lancashire": {
+        "population": 298529,
+        "white_british_pct": 70.8,
+        "pakistani_bangladeshi_pct": 13.7,
+        "muslim_pct": 22.4,
+        "grt_count": 194,
+        "grt_pct": 0.06,
+        "roma_count": 202,
+        "roma_pct": 0.07,
+        "eu8_eu2_born_pct": 1.9,
+        "arab_count": 1059,
+        "black_african_caribbean_pct": 0.6,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 5.9,
+        "under_16_pct": 20.7,
+        "over_65_pct": 17.5,
+        "working_age_pct": 61.8,
+        "school_age_population": 44313,
+        "employment_rate_pct": 53.1,
+        "economically_inactive_pct": 42.0,
+        "no_qualifications_pct": 21.5,
+        "level_4_plus_pct": 29.0,
+        "social_rented_pct": 15.1,
+        "owner_occupied_pct": 64.3,
+        "estimated_send_rate_pct": 14.9,
+        "estimated_send_pupils": 6609,
+        "eal_estimate_pct": 12.7,
+        "population_projections": {
+          "2022": 302178,
+          "2027": 308910,
+          "2032": 313712,
+          "2037": 318714,
+          "2042": 323663,
+          "2047": 328383
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 62482,
+            "16-64": 186125,
+            "65+": 53571
+          },
+          "2027": {
+            "0-15": 59423,
+            "16-64": 191548,
+            "65+": 57936
+          },
+          "2032": {
+            "0-15": 56315,
+            "16-64": 194018,
+            "65+": 63382
+          },
+          "2037": {
+            "0-15": 54517,
+            "16-64": 195858,
+            "65+": 68329
+          },
+          "2042": {
+            "0-15": 54430,
+            "16-64": 199447,
+            "65+": 69796
+          },
+          "2047": {
+            "0-15": 54721,
+            "16-64": 201610,
+            "65+": 72050
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 62.4,
+          "2027": 61.3,
+          "2032": 61.7,
+          "2037": 62.7,
+          "2042": 62.3,
+          "2047": 62.9
+        },
+        "working_age_pct_projections": {
+          "2022": 61.6,
+          "2027": 62.0,
+          "2032": 61.8,
+          "2037": 61.5,
+          "2042": 61.6,
+          "2047": 61.4
+        },
+        "growth_rate_pct": 8.6,
+        "asylum_seekers_total": 1148,
+        "asylum_per_1000": 3.8,
+        "asylum_annual_cost_estimate": 23855440,
+        "avg_imd_score": 30.0,
+        "pct_wards_decile_1_2": 20.3,
+        "collection_rate_weighted": 95.8,
+        "collection_trend_weighted": 0.09,
+        "fiscal_sustainability_score": 40,
+        "service_demand_pressure_score": 73,
+        "risk_factors": [
+          "Significant asylum dispersal (728 seekers)",
+          "High deprivation (IMD avg: 35.2)",
+          "High service demand demographics (Muslim 35.0%)",
+          "GRT/Roma population (244) \u2014 highest SEND prevalence group",
+          "Low employment rate (51.5%)",
+          "Below-average council tax collection (94.36%)",
+          "Declining collection rate (trend: -0.5%)",
+          "Significant asylum dispersal (392 seekers)",
+          "High deprivation (IMD avg: 34.6)",
+          "High service demand demographics (Muslim 14.7%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Central",
+            "imd_decile": 1.0,
+            "imd_score": 61.18,
+            "national_percentile": 2.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Blackburn Central",
+            "imd_decile": 1.3,
+            "imd_score": 57.58,
+            "national_percentile": 6.4,
+            "muslim_pct": 47.9,
+            "under_16_pct": 23.5,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Spring Hill",
+            "imd_decile": 1.0,
+            "imd_score": 56.85,
+            "national_percentile": 4.0,
+            "muslim_pct": 40.6,
+            "under_16_pct": 27.6,
+            "flag": "CRITICAL",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Church",
+            "imd_decile": 1.3,
+            "imd_score": 54.59,
+            "national_percentile": 6.2,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Blackburn South East",
+            "imd_decile": 1.6,
+            "imd_score": 53.44,
+            "national_percentile": 9.9,
+            "muslim_pct": 10.2,
+            "under_16_pct": 26.2,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Mill Hill & Moorgate",
+            "imd_decile": 1.2,
+            "imd_score": 50.85,
+            "national_percentile": 6.8,
+            "muslim_pct": 4.6,
+            "under_16_pct": 21.3,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Darwen East",
+            "imd_decile": 1.3,
+            "imd_score": 50.17,
+            "national_percentile": 7.7,
+            "muslim_pct": 8.9,
+            "under_16_pct": 20.0,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Peel",
+            "imd_decile": 1.3,
+            "imd_score": 49.9,
+            "national_percentile": 8.0,
+            "muslim_pct": 13.4,
+            "under_16_pct": 22.3,
+            "flag": "HIGH",
+            "council": "hyndburn"
+          },
+          {
+            "ward": "Bastwell & Daisyfield",
+            "imd_decile": 1.4,
+            "imd_score": 45.68,
+            "national_percentile": 9.2,
+            "muslim_pct": 83.6,
+            "under_16_pct": 25.7,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Audley & Queen's Park",
+            "imd_decile": 1.7,
+            "imd_score": 45.56,
+            "national_percentile": 10.4,
+            "muslim_pct": 72.8,
+            "under_16_pct": 27.1,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Wensley Fold",
+            "imd_decile": 1.6,
+            "imd_score": 44.92,
+            "national_percentile": 11.0,
+            "muslim_pct": 64.7,
+            "under_16_pct": 26.2,
+            "flag": "HIGH",
+            "council": "blackburn"
+          },
+          {
+            "ward": "Little Harwood & Whitebirk",
+            "imd_decile": 2.0,
+            "imd_score": 42.87,
+            "national_percentile": 14.7,
+            "muslim_pct": 62.8,
+            "under_16_pct": 27.6,
+            "flag": "HIGH",
+            "council": "blackburn"
+          }
+        ],
+        "councils": [
+          "blackburn",
+          "hyndburn",
+          "ribble_valley"
+        ],
+        "risk_category": "At Risk"
+      },
+      "North Lancashire": {
+        "population": 254881,
+        "white_british_pct": 91.3,
+        "pakistani_bangladeshi_pct": 0.4,
+        "muslim_pct": 1.2,
+        "grt_count": 380,
+        "grt_pct": 0.15,
+        "roma_count": 121,
+        "roma_pct": 0.05,
+        "eu8_eu2_born_pct": 1.7,
+        "arab_count": 582,
+        "black_african_caribbean_pct": 0.6,
+        "mixed_heritage_pct": 1.3,
+        "under_5_pct": 4.6,
+        "under_16_pct": 16.0,
+        "over_65_pct": 23.7,
+        "working_age_pct": 60.3,
+        "school_age_population": 29258,
+        "employment_rate_pct": 49.5,
+        "economically_inactive_pct": 45.7,
+        "no_qualifications_pct": 17.6,
+        "level_4_plus_pct": 30.5,
+        "social_rented_pct": 9.1,
+        "owner_occupied_pct": 69.8,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 4331,
+        "eal_estimate_pct": 7.0,
+        "population_projections": {
+          "2022": 259485,
+          "2027": 272562,
+          "2032": 281651,
+          "2037": 288490,
+          "2042": 294106,
+          "2047": 299591
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 41075,
+            "16-64": 156529,
+            "65+": 61881
+          },
+          "2027": {
+            "0-15": 40983,
+            "16-64": 162860,
+            "65+": 68712
+          },
+          "2032": {
+            "0-15": 39497,
+            "16-64": 165082,
+            "65+": 77076
+          },
+          "2037": {
+            "0-15": 38412,
+            "16-64": 166446,
+            "65+": 83633
+          },
+          "2042": {
+            "0-15": 38130,
+            "16-64": 170122,
+            "65+": 85850
+          },
+          "2047": {
+            "0-15": 38223,
+            "16-64": 172908,
+            "65+": 88455
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 65.8,
+          "2027": 67.4,
+          "2032": 70.6,
+          "2037": 73.3,
+          "2042": 72.9,
+          "2047": 73.3
+        },
+        "working_age_pct_projections": {
+          "2022": 60.3,
+          "2027": 59.8,
+          "2032": 58.6,
+          "2037": 57.7,
+          "2042": 57.8,
+          "2047": 57.7
+        },
+        "growth_rate_pct": 15.4,
+        "asylum_seekers_total": 562,
+        "asylum_per_1000": 2.2,
+        "asylum_annual_cost_estimate": 11678360,
+        "avg_imd_score": 21.3,
+        "pct_wards_decile_1_2": 7.8,
+        "collection_rate_weighted": 95.18,
+        "collection_trend_weighted": -1.15,
+        "fiscal_sustainability_score": 37,
+        "service_demand_pressure_score": 67,
+        "risk_factors": [
+          "Below-average council tax collection (94.16%)",
+          "Declining collection rate (trend: -1.7%)",
+          "Significant asylum dispersal (186 seekers)",
+          "GRT/Roma population (399) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.7%)",
+          "Significant asylum dispersal (376 seekers)",
+          "GRT/Roma population (102) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.3%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Pharos",
+            "imd_decile": 1.2,
+            "imd_score": 61.06,
+            "national_percentile": 4.0,
+            "muslim_pct": 1.3,
+            "under_16_pct": 16.2,
+            "flag": "HIGH",
+            "council": "wyre"
+          },
+          {
+            "ward": "Poulton",
+            "imd_decile": 1.5,
+            "imd_score": 50.12,
+            "national_percentile": 9.2,
+            "muslim_pct": 1.3,
+            "under_16_pct": 18.8,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Heysham North",
+            "imd_decile": 2.0,
+            "imd_score": 47.89,
+            "national_percentile": 13.4,
+            "muslim_pct": 0.7,
+            "under_16_pct": 20.4,
+            "flag": "HIGH",
+            "council": "lancaster"
+          },
+          {
+            "ward": "Harbour",
+            "imd_decile": 2.0,
+            "imd_score": 45.88,
+            "national_percentile": 14.8,
+            "muslim_pct": 0.6,
+            "under_16_pct": 19.6,
+            "flag": "HIGH",
+            "council": "lancaster"
+          }
+        ],
+        "councils": [
+          "lancaster",
+          "wyre"
+        ],
+        "risk_category": "At Risk"
+      },
+      "South Lancashire": {
+        "population": 346200,
+        "white_british_pct": 92.9,
+        "pakistani_bangladeshi_pct": 0.4,
+        "muslim_pct": 0.9,
+        "grt_count": 111,
+        "grt_pct": 0.03,
+        "roma_count": 185,
+        "roma_pct": 0.05,
+        "eu8_eu2_born_pct": 1.7,
+        "arab_count": 480,
+        "black_african_caribbean_pct": 0.5,
+        "mixed_heritage_pct": 1.5,
+        "under_5_pct": 4.9,
+        "under_16_pct": 17.3,
+        "over_65_pct": 21.3,
+        "working_age_pct": 61.3,
+        "school_age_population": 43186,
+        "employment_rate_pct": 56.0,
+        "economically_inactive_pct": 39.6,
+        "no_qualifications_pct": 16.5,
+        "level_4_plus_pct": 31.9,
+        "social_rented_pct": 12.7,
+        "owner_occupied_pct": 72.9,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 6400,
+        "eal_estimate_pct": 5.3,
+        "population_projections": {
+          "2022": 350184,
+          "2027": 359991,
+          "2032": 368370,
+          "2037": 375930,
+          "2042": 383324,
+          "2047": 390788
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 60344,
+            "16-64": 214018,
+            "65+": 75822
+          },
+          "2027": {
+            "0-15": 58337,
+            "16-64": 218784,
+            "65+": 82867
+          },
+          "2032": {
+            "0-15": 55535,
+            "16-64": 221186,
+            "65+": 91652
+          },
+          "2037": {
+            "0-15": 54069,
+            "16-64": 223329,
+            "65+": 98532
+          },
+          "2042": {
+            "0-15": 54158,
+            "16-64": 228816,
+            "65+": 100357
+          },
+          "2047": {
+            "0-15": 54858,
+            "16-64": 233477,
+            "65+": 102447
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 63.6,
+          "2027": 64.5,
+          "2032": 66.5,
+          "2037": 68.3,
+          "2042": 67.5,
+          "2047": 67.4
+        },
+        "working_age_pct_projections": {
+          "2022": 61.1,
+          "2027": 60.8,
+          "2032": 60.0,
+          "2037": 59.4,
+          "2042": 59.7,
+          "2047": 59.7
+        },
+        "growth_rate_pct": 11.6,
+        "asylum_seekers_total": 914,
+        "asylum_per_1000": 2.6,
+        "asylum_annual_cost_estimate": 18992920,
+        "avg_imd_score": 16.5,
+        "pct_wards_decile_1_2": 5.9,
+        "collection_rate_weighted": 95.76,
+        "collection_trend_weighted": -1.52,
+        "fiscal_sustainability_score": 42,
+        "service_demand_pressure_score": 65,
+        "risk_factors": [
+          "Declining collection rate (trend: -1.0%)",
+          "Significant asylum dispersal (199 seekers)",
+          "GRT/Roma population (115) \u2014 highest SEND prevalence group",
+          "Declining collection rate (trend: -0.9%)",
+          "Significant asylum dispersal (312 seekers)",
+          "Below-average council tax collection (93.82%)",
+          "Declining collection rate (trend: -2.7%)",
+          "Significant asylum dispersal (403 seekers)",
+          "Low employment rate (51.9%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Digmoor",
+            "imd_decile": 2.0,
+            "imd_score": 48.32,
+            "national_percentile": 12.4,
+            "muslim_pct": 0.4,
+            "under_16_pct": 21.6,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Moorside",
+            "imd_decile": 2.0,
+            "imd_score": 44.03,
+            "national_percentile": 13.0,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Birch Green",
+            "imd_decile": 1.7,
+            "imd_score": 43.37,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.8,
+            "under_16_pct": 22.9,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          },
+          {
+            "ward": "Tanhouse",
+            "imd_decile": 1.3,
+            "imd_score": 42.34,
+            "national_percentile": 12.1,
+            "muslim_pct": 0.8,
+            "under_16_pct": 24.2,
+            "flag": "HIGH",
+            "council": "west_lancashire"
+          }
+        ],
+        "councils": [
+          "chorley",
+          "south_ribble",
+          "west_lancashire"
+        ],
+        "risk_category": "At Risk"
+      },
+      "West Lancashire": {
+        "population": 370248,
+        "white_british_pct": 81.3,
+        "pakistani_bangladeshi_pct": 2.6,
+        "muslim_pct": 7.1,
+        "grt_count": 399,
+        "grt_pct": 0.11,
+        "roma_count": 510,
+        "roma_pct": 0.14,
+        "eu8_eu2_born_pct": 3.3,
+        "arab_count": 1470,
+        "black_african_caribbean_pct": 1.2,
+        "mixed_heritage_pct": 2.1,
+        "under_5_pct": 5.3,
+        "under_16_pct": 17.8,
+        "over_65_pct": 19.9,
+        "working_age_pct": 62.3,
+        "school_age_population": 46394,
+        "employment_rate_pct": 51.0,
+        "economically_inactive_pct": 43.1,
+        "no_qualifications_pct": 20.7,
+        "level_4_plus_pct": 28.8,
+        "social_rented_pct": 13.1,
+        "owner_occupied_pct": 60.9,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 6818,
+        "eal_estimate_pct": 12.0,
+        "population_projections": {
+          "2022": 376507,
+          "2027": 395026,
+          "2032": 407137,
+          "2037": 417804,
+          "2042": 427236,
+          "2047": 435830
+        },
+        "age_projections": {
+          "2022": {
+            "0-15": 67167,
+            "16-64": 233845,
+            "65+": 75495
+          },
+          "2027": {
+            "0-15": 67079,
+            "16-64": 244756,
+            "65+": 83187
+          },
+          "2032": {
+            "0-15": 64838,
+            "16-64": 249680,
+            "65+": 92621
+          },
+          "2037": {
+            "0-15": 63160,
+            "16-64": 254503,
+            "65+": 100137
+          },
+          "2042": {
+            "0-15": 63111,
+            "16-64": 261482,
+            "65+": 102634
+          },
+          "2047": {
+            "0-15": 63547,
+            "16-64": 266387,
+            "65+": 105897
+          }
+        },
+        "dependency_ratio_projections": {
+          "2022": 61.0,
+          "2027": 61.4,
+          "2032": 63.1,
+          "2037": 64.2,
+          "2042": 63.4,
+          "2047": 63.6
+        },
+        "working_age_pct_projections": {
+          "2022": 62.1,
+          "2027": 62.0,
+          "2032": 61.3,
+          "2037": 60.9,
+          "2042": 61.2,
+          "2047": 61.1
+        },
+        "growth_rate_pct": 15.6,
+        "asylum_seekers_total": 902,
+        "asylum_per_1000": 2.4,
+        "asylum_annual_cost_estimate": 18743560,
+        "avg_imd_score": 31.5,
+        "pct_wards_decile_1_2": 22.4,
+        "collection_rate_weighted": 91.42,
+        "collection_trend_weighted": -1.77,
+        "fiscal_sustainability_score": 21,
+        "service_demand_pressure_score": 72,
+        "risk_factors": [
+          "Below-average council tax collection (89.71%)",
+          "Declining collection rate (trend: -1.8%)",
+          "Significant asylum dispersal (450 seekers)",
+          "High deprivation (IMD avg: 44.4)",
+          "GRT/Roma population (443) \u2014 highest SEND prevalence group",
+          "Low employment rate (49.5%)",
+          "GRT/Roma population (104) \u2014 highest SEND prevalence group",
+          "Low employment rate (50.3%)",
+          "Below-average council tax collection (90.18%)",
+          "Declining collection rate (trend: -2.7%)"
+        ],
+        "pressure_zones": [
+          {
+            "ward": "Bloomfield",
+            "imd_decile": 1.0,
+            "imd_score": 87.19,
+            "national_percentile": 0.0,
+            "muslim_pct": 4.2,
+            "under_16_pct": 21.9,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Claremont",
+            "imd_decile": 1.0,
+            "imd_score": 78.51,
+            "national_percentile": 0.6,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Talbot",
+            "imd_decile": 1.2,
+            "imd_score": 66.42,
+            "national_percentile": 4.6,
+            "muslim_pct": 1.7,
+            "under_16_pct": 13.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Brunswick",
+            "imd_decile": 1.4,
+            "imd_score": 62.88,
+            "national_percentile": 5.9,
+            "muslim_pct": 2.6,
+            "under_16_pct": 22.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Waterloo",
+            "imd_decile": 1.8,
+            "imd_score": 53.64,
+            "national_percentile": 11.7,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "St Matthew's",
+            "imd_decile": 1.0,
+            "imd_score": 52.92,
+            "national_percentile": 5.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "preston"
+          },
+          {
+            "ward": "Victoria",
+            "imd_decile": 1.0,
+            "imd_score": 52.34,
+            "national_percentile": 5.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "CRITICAL",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Clifton",
+            "imd_decile": 1.8,
+            "imd_score": 49.06,
+            "national_percentile": 10.5,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Ribbleton",
+            "imd_decile": 1.6,
+            "imd_score": 47.87,
+            "national_percentile": 10.4,
+            "muslim_pct": 5.9,
+            "under_16_pct": 24.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "Tyldesley",
+            "imd_decile": 2.0,
+            "imd_score": 47.14,
+            "national_percentile": 12.9,
+            "muslim_pct": 0.0,
+            "under_16_pct": 0.0,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Hawes Side",
+            "imd_decile": 1.6,
+            "imd_score": 45.82,
+            "national_percentile": 10.1,
+            "muslim_pct": 1.2,
+            "under_16_pct": 20.9,
+            "flag": "HIGH",
+            "council": "blackpool"
+          },
+          {
+            "ward": "Fishwick & Frenchwood",
+            "imd_decile": 1.8,
+            "imd_score": 43.8,
+            "national_percentile": 13.1,
+            "muslim_pct": 44.9,
+            "under_16_pct": 25.0,
+            "flag": "HIGH",
+            "council": "preston"
+          },
+          {
+            "ward": "City Centre",
+            "imd_decile": 2.0,
+            "imd_score": 38.43,
+            "national_percentile": 16.7,
+            "muslim_pct": 16.3,
+            "under_16_pct": 10.7,
+            "flag": "HIGH",
+            "council": "preston"
+          }
+        ],
+        "councils": [
+          "blackpool",
+          "fylde",
+          "preston"
+        ],
+        "risk_category": "Structurally Deficit"
+      }
+    }
+  },
+  "demographic_demand": {
+    "two_unitary": {
+      "North Lancashire": {
+        "children_demand_index": 0.93,
+        "adult_care_demand_index": 1.07,
+        "education_demand_index": 0.93,
+        "council_tax_base_risk": "LOW"
+      },
+      "South Lancashire": {
+        "children_demand_index": 1.07,
+        "adult_care_demand_index": 0.92,
+        "education_demand_index": 1.07,
+        "council_tax_base_risk": "LOW"
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "children_demand_index": 0.89,
+        "adult_care_demand_index": 1.15,
+        "education_demand_index": 0.89,
+        "council_tax_base_risk": "LOW"
+      },
+      "Central Lancashire": {
+        "children_demand_index": 0.99,
+        "adult_care_demand_index": 0.95,
+        "education_demand_index": 0.99,
+        "council_tax_base_risk": "LOW"
+      },
+      "Pennine Lancashire": {
+        "children_demand_index": 1.13,
+        "adult_care_demand_index": 0.88,
+        "education_demand_index": 1.13,
+        "council_tax_base_risk": "LOW"
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "children_demand_index": 0.98,
+        "adult_care_demand_index": 0.92,
+        "education_demand_index": 0.98,
+        "council_tax_base_risk": "LOW"
+      },
+      "Fylde Coast": {
+        "children_demand_index": 0.89,
+        "adult_care_demand_index": 1.22,
+        "education_demand_index": 0.89,
+        "council_tax_base_risk": "MEDIUM"
+      },
+      "Pennine Lancashire": {
+        "children_demand_index": 1.16,
+        "adult_care_demand_index": 0.84,
+        "education_demand_index": 1.16,
+        "council_tax_base_risk": "LOW"
+      },
+      "South Lancashire": {
+        "children_demand_index": 0.95,
+        "adult_care_demand_index": 1.05,
+        "education_demand_index": 0.95,
+        "council_tax_base_risk": "LOW"
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "children_demand_index": 0.98,
+        "adult_care_demand_index": 0.98,
+        "education_demand_index": 0.98,
+        "council_tax_base_risk": "LOW"
+      },
+      "Southern Lancashire": {
+        "children_demand_index": 0.95,
+        "adult_care_demand_index": 1.05,
+        "education_demand_index": 0.95,
+        "council_tax_base_risk": "LOW"
+      },
+      "Eastern Lancashire": {
+        "children_demand_index": 1.16,
+        "adult_care_demand_index": 0.84,
+        "education_demand_index": 1.16,
+        "council_tax_base_risk": "LOW"
+      },
+      "Northern Lancashire": {
+        "children_demand_index": 0.89,
+        "adult_care_demand_index": 1.01,
+        "education_demand_index": 0.89,
+        "council_tax_base_risk": "LOW"
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "children_demand_index": 1.12,
+        "adult_care_demand_index": 0.9,
+        "education_demand_index": 1.12,
+        "council_tax_base_risk": "LOW"
+      },
+      "Central Lancashire": {
+        "children_demand_index": 1.13,
+        "adult_care_demand_index": 0.86,
+        "education_demand_index": 1.13,
+        "council_tax_base_risk": "LOW"
+      },
+      "North Lancashire": {
+        "children_demand_index": 0.88,
+        "adult_care_demand_index": 1.16,
+        "education_demand_index": 0.88,
+        "council_tax_base_risk": "LOW"
+      },
+      "South Lancashire": {
+        "children_demand_index": 0.95,
+        "adult_care_demand_index": 1.05,
+        "education_demand_index": 0.95,
+        "council_tax_base_risk": "LOW"
+      },
+      "West Lancashire": {
+        "children_demand_index": 0.98,
+        "adult_care_demand_index": 0.98,
+        "education_demand_index": 0.98,
+        "council_tax_base_risk": "LOW"
+      }
+    }
+  },
+  "education_send_exposure": {
+    "two_unitary": {
+      "North Lancashire": {
+        "school_age_population": 83118,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 12256,
+        "estimated_eal_pupils": 7896,
+        "dsg_deficit_share": 96969999,
+        "dsg_deficit_per_capita": 141,
+        "education_cost_share": 292498837,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      },
+      "South Lancashire": {
+        "school_age_population": 118094,
+        "estimated_send_rate_pct": 15.0,
+        "estimated_send_pupils": 17757,
+        "estimated_eal_pupils": 12046,
+        "dsg_deficit_share": 137774912,
+        "dsg_deficit_per_capita": 163,
+        "education_cost_share": 415582156,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": 0.7
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "school_age_population": 55407,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 8214,
+        "estimated_eal_pupils": 3934,
+        "dsg_deficit_share": 64640833,
+        "dsg_deficit_per_capita": 135,
+        "education_cost_share": 194981629,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      },
+      "Central Lancashire": {
+        "school_age_population": 63431,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 9335,
+        "estimated_eal_pupils": 6026,
+        "dsg_deficit_share": 74002070,
+        "dsg_deficit_per_capita": 150,
+        "education_cost_share": 223218722,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -1.3
+      },
+      "Pennine Lancashire": {
+        "school_age_population": 82374,
+        "estimated_send_rate_pct": 15.1,
+        "estimated_send_pupils": 12464,
+        "estimated_eal_pupils": 10379,
+        "dsg_deficit_share": 96102008,
+        "dsg_deficit_per_capita": 172,
+        "education_cost_share": 289880642,
+        "send_risk_rating": "MEDIUM",
+        "cost_premium_vs_average_pct": 1.3
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "school_age_population": 44264,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 6490,
+        "estimated_eal_pupils": 5622,
+        "dsg_deficit_share": 51640800,
+        "dsg_deficit_per_capita": 147,
+        "education_cost_share": 155768528,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -1.3
+      },
+      "Fylde Coast": {
+        "school_age_population": 38854,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 5766,
+        "estimated_eal_pupils": 2370,
+        "dsg_deficit_share": 45329199,
+        "dsg_deficit_per_capita": 136,
+        "education_cost_share": 136730309,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      },
+      "Pennine Lancashire": {
+        "school_age_population": 74908,
+        "estimated_send_rate_pct": 15.2,
+        "estimated_send_pupils": 11357,
+        "estimated_eal_pupils": 10262,
+        "dsg_deficit_share": 87391765,
+        "dsg_deficit_per_capita": 175,
+        "education_cost_share": 263607196,
+        "send_risk_rating": "MEDIUM",
+        "cost_premium_vs_average_pct": 2.0
+      },
+      "South Lancashire": {
+        "school_age_population": 43186,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 6400,
+        "estimated_eal_pupils": 2289,
+        "dsg_deficit_share": 50383147,
+        "dsg_deficit_per_capita": 146,
+        "education_cost_share": 151974961,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "school_age_population": 46394,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 6818,
+        "estimated_eal_pupils": 5567,
+        "dsg_deficit_share": 54125775,
+        "dsg_deficit_per_capita": 146,
+        "education_cost_share": 163264167,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -1.3
+      },
+      "Southern Lancashire": {
+        "school_age_population": 43186,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 6400,
+        "estimated_eal_pupils": 2289,
+        "dsg_deficit_share": 50383147,
+        "dsg_deficit_per_capita": 146,
+        "education_cost_share": 151974961,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      },
+      "Eastern Lancashire": {
+        "school_age_population": 74908,
+        "estimated_send_rate_pct": 15.2,
+        "estimated_send_pupils": 11357,
+        "estimated_eal_pupils": 10262,
+        "dsg_deficit_share": 87391765,
+        "dsg_deficit_per_capita": 175,
+        "education_cost_share": 263607196,
+        "send_risk_rating": "MEDIUM",
+        "cost_premium_vs_average_pct": 2.0
+      },
+      "Northern Lancashire": {
+        "school_age_population": 16553,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 2448,
+        "estimated_eal_pupils": 1573,
+        "dsg_deficit_share": 19311634,
+        "dsg_deficit_per_capita": 135,
+        "education_cost_share": 58251320,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "school_age_population": 38061,
+        "estimated_send_rate_pct": 15.4,
+        "estimated_send_pupils": 5855,
+        "estimated_eal_pupils": 4758,
+        "dsg_deficit_share": 44404042,
+        "dsg_deficit_per_capita": 170,
+        "education_cost_share": 133939679,
+        "send_risk_rating": "MEDIUM",
+        "cost_premium_vs_average_pct": 3.4
+      },
+      "Central Lancashire": {
+        "school_age_population": 44313,
+        "estimated_send_rate_pct": 14.9,
+        "estimated_send_pupils": 6609,
+        "estimated_eal_pupils": 5628,
+        "dsg_deficit_share": 51697966,
+        "dsg_deficit_per_capita": 173,
+        "education_cost_share": 155940963,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": 0.0
+      },
+      "North Lancashire": {
+        "school_age_population": 29258,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 4331,
+        "estimated_eal_pupils": 2048,
+        "dsg_deficit_share": 34133981,
+        "dsg_deficit_per_capita": 134,
+        "education_cost_share": 102961224,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      },
+      "South Lancashire": {
+        "school_age_population": 43186,
+        "estimated_send_rate_pct": 14.8,
+        "estimated_send_pupils": 6400,
+        "estimated_eal_pupils": 2289,
+        "dsg_deficit_share": 50383147,
+        "dsg_deficit_per_capita": 146,
+        "education_cost_share": 151974961,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -0.7
+      },
+      "West Lancashire": {
+        "school_age_population": 46394,
+        "estimated_send_rate_pct": 14.7,
+        "estimated_send_pupils": 6818,
+        "estimated_eal_pupils": 5567,
+        "dsg_deficit_share": 54125775,
+        "dsg_deficit_per_capita": 146,
+        "education_cost_share": 163264167,
+        "send_risk_rating": "LOW",
+        "cost_premium_vs_average_pct": -1.3
+      }
+    }
+  },
+  "asylum_cost_impact": {
+    "two_unitary": {
+      "North Lancashire": {
+        "asylum_seekers_total": 1492,
+        "per_1000_pop": 2.2,
+        "estimated_annual_cost": 31003760,
+        "projected_2028_central": 2095,
+        "projected_2032_central": 2545
+      },
+      "South Lancashire": {
+        "asylum_seekers_total": 3204,
+        "per_1000_pop": 3.8,
+        "estimated_annual_cost": 66579120,
+        "projected_2028_central": 4502,
+        "projected_2032_central": 5471
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "asylum_seekers_total": 1070,
+        "per_1000_pop": 2.2,
+        "estimated_annual_cost": 22234600,
+        "projected_2028_central": 1502,
+        "projected_2032_central": 1825
+      },
+      "Central Lancashire": {
+        "asylum_seekers_total": 1308,
+        "per_1000_pop": 2.6,
+        "estimated_annual_cost": 27180240,
+        "projected_2028_central": 1838,
+        "projected_2032_central": 2233
+      },
+      "Pennine Lancashire": {
+        "asylum_seekers_total": 2318,
+        "per_1000_pop": 4.1,
+        "estimated_annual_cost": 48168040,
+        "projected_2028_central": 3257,
+        "projected_2032_central": 3958
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "asylum_seekers_total": 608,
+        "per_1000_pop": 1.7,
+        "estimated_annual_cost": 12634240,
+        "projected_2028_central": 854,
+        "projected_2032_central": 1037
+      },
+      "Fylde Coast": {
+        "asylum_seekers_total": 884,
+        "per_1000_pop": 2.6,
+        "estimated_annual_cost": 18369520,
+        "projected_2028_central": 1241,
+        "projected_2032_central": 1508
+      },
+      "Pennine Lancashire": {
+        "asylum_seekers_total": 2290,
+        "per_1000_pop": 4.6,
+        "estimated_annual_cost": 47586200,
+        "projected_2028_central": 3218,
+        "projected_2032_central": 3911
+      },
+      "South Lancashire": {
+        "asylum_seekers_total": 914,
+        "per_1000_pop": 2.6,
+        "estimated_annual_cost": 18992920,
+        "projected_2028_central": 1284,
+        "projected_2032_central": 1560
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "asylum_seekers_total": 902,
+        "per_1000_pop": 2.4,
+        "estimated_annual_cost": 18743560,
+        "projected_2028_central": 1267,
+        "projected_2032_central": 1539
+      },
+      "Southern Lancashire": {
+        "asylum_seekers_total": 914,
+        "per_1000_pop": 2.6,
+        "estimated_annual_cost": 18992920,
+        "projected_2028_central": 1284,
+        "projected_2032_central": 1560
+      },
+      "Eastern Lancashire": {
+        "asylum_seekers_total": 2290,
+        "per_1000_pop": 4.6,
+        "estimated_annual_cost": 47586200,
+        "projected_2028_central": 3218,
+        "projected_2032_central": 3911
+      },
+      "Northern Lancashire": {
+        "asylum_seekers_total": 186,
+        "per_1000_pop": 1.3,
+        "estimated_annual_cost": 3865080,
+        "projected_2028_central": 261,
+        "projected_2032_central": 317
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "asylum_seekers_total": 1170,
+        "per_1000_pop": 4.5,
+        "estimated_annual_cost": 24312600,
+        "projected_2028_central": 1644,
+        "projected_2032_central": 1998
+      },
+      "Central Lancashire": {
+        "asylum_seekers_total": 1148,
+        "per_1000_pop": 3.8,
+        "estimated_annual_cost": 23855440,
+        "projected_2028_central": 1613,
+        "projected_2032_central": 1960
+      },
+      "North Lancashire": {
+        "asylum_seekers_total": 562,
+        "per_1000_pop": 2.2,
+        "estimated_annual_cost": 11678360,
+        "projected_2028_central": 789,
+        "projected_2032_central": 959
+      },
+      "South Lancashire": {
+        "asylum_seekers_total": 914,
+        "per_1000_pop": 2.6,
+        "estimated_annual_cost": 18992920,
+        "projected_2028_central": 1284,
+        "projected_2032_central": 1560
+      },
+      "West Lancashire": {
+        "asylum_seekers_total": 902,
+        "per_1000_pop": 2.4,
+        "estimated_annual_cost": 18743560,
+        "projected_2028_central": 1267,
+        "projected_2032_central": 1539
+      }
+    }
+  },
+  "cca_impact": {
+    "total_cca_transferred": 166100000,
+    "transport_transferred": 86000000,
+    "skills_transferred": 41000000,
+    "double_count_risk": {
+      "transport_savings_at_risk": 12900000,
+      "skills_savings_at_risk": 4920000,
+      "total_at_risk": 17820000
+    },
+    "net_lgr_savings_after_cca": {
+      "two_unitary": -17820000,
+      "three_unitary": -17820000,
+      "four_unitary": -17820000,
+      "four_unitary_alt": -17820000,
+      "five_unitary": -17820000
+    }
+  },
+  "timeline_analysis": {
+    "feasibility_score": 0,
+    "verdict": "Very High Risk",
+    "months_shortfall": -10.2,
+    "months_available": 22,
+    "precedent_average_months": 32.2,
+    "lancashire_complexity": {
+      "proposed_months": 22,
+      "decision_date": "2026-09-01",
+      "vesting_date": "2028-04-01",
+      "shadow_elections": "2027-05-01",
+      "consultation_closes": "2026-03-26",
+      "councils_to_merge": 15,
+      "estimated_it_systems": 1200,
+      "staff_under_tupe": 30000,
+      "population": 1601555,
+      "county_wide_contracts": 450
+    },
+    "precedents": [
+      {
+        "area": "Buckinghamshire",
+        "year": 2020,
+        "months": 30,
+        "councils_merged": 5,
+        "population": 540000,
+        "it_systems_est": 400,
+        "staff": 7500,
+        "outcome": "On time but 25% cost overrun",
+        "cost_overrun_pct": 25
+      },
+      {
+        "area": "Dorset",
+        "year": 2019,
+        "months": 30,
+        "councils_merged": 9,
+        "population": 379000,
+        "it_systems_est": 720,
+        "staff": 8000,
+        "outcome": "4-month IT migration delay",
+        "cost_overrun_pct": 20
+      },
+      {
+        "area": "North Yorkshire",
+        "year": 2023,
+        "months": 33,
+        "councils_merged": 8,
+        "population": 618000,
+        "it_systems_est": 640,
+        "staff": 12000,
+        "outcome": "Significant IT integration issues persisting 18 months post-vesting",
+        "cost_overrun_pct": 30
+      },
+      {
+        "area": "Northamptonshire",
+        "year": 2021,
+        "months": 36,
+        "councils_merged": 8,
+        "population": 753000,
+        "it_systems_est": 640,
+        "staff": 10000,
+        "outcome": "Emergency government intervention; commissioners appointed pre-vesting",
+        "cost_overrun_pct": 40
+      }
+    ],
+    "risk_factors": [
+      "22 months \u2014 shortest UK LGR timeline ever attempted (precedent avg: 32 months)",
+      "15 councils \u2014 most councils ever merged in single LGR (precedent avg: 8)",
+      "1.6M population \u2014 largest LGR area ever (precedent avg: 572K)",
+      "~1,200 IT systems to integrate (24+ months typical migration timeline)",
+      "30,000+ staff requiring TUPE (6-month legal minimum consultation)",
+      "IT migration alone requires 24 months \u2014 exceeds 22-month total timeline",
+      "Service continuity gap probability estimated at 73% based on precedent data",
+      "Historical cost overrun median: 35% (range: 20-40%)"
+    ],
+    "cost_overrun_analysis": {
+      "historical_median_pct": 35,
+      "probability_on_time": 8,
+      "probability_cost_overrun": 92
+    }
+  },
+  "property_division": {
+    "two_unitary": {
+      "North Lancashire": {
+        "assets_count": 400,
+        "estimated_value": 290692239.0,
+        "condition_backlog": 34348.579999999994,
+        "disposal_candidates": 385,
+        "revenue_generating": 28,
+        "cost_centres": 372,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 118,
+          "land_open_space": 6,
+          "other_building": 32,
+          "land_woodland": 9,
+          "operations_depot_waste": 13,
+          "office_civic": 28,
+          "transport_highways": 5,
+          "children_social_care": 25,
+          "library": 28,
+          "education": 136
+        }
+      },
+      "South Lancashire": {
+        "assets_count": 523,
+        "estimated_value": 584942857,
+        "condition_backlog": 46658.47,
+        "disposal_candidates": 511,
+        "revenue_generating": 26,
+        "cost_centres": 497,
+        "contested_assets": 295,
+        "categories": {
+          "land_open_space": 8,
+          "land_general": 136,
+          "land_woodland": 13,
+          "operations_depot_waste": 13,
+          "office_civic": 32,
+          "children_social_care": 38,
+          "library": 35,
+          "other_building": 36,
+          "transport_highways": 6,
+          "education": 206
+        }
+      }
+    },
+    "three_unitary": {
+      "Coastal Lancashire": {
+        "assets_count": 235,
+        "estimated_value": 171775368.0,
+        "condition_backlog": 24588.510000000002,
+        "disposal_candidates": 224,
+        "revenue_generating": 18,
+        "cost_centres": 217,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 78,
+          "land_open_space": 2,
+          "land_woodland": 3,
+          "operations_depot_waste": 9,
+          "office_civic": 13,
+          "other_building": 18,
+          "children_social_care": 17,
+          "transport_highways": 3,
+          "library": 18,
+          "education": 74
+        }
+      },
+      "Central Lancashire": {
+        "assets_count": 338,
+        "estimated_value": 308067281,
+        "condition_backlog": 18551.750000000004,
+        "disposal_candidates": 331,
+        "revenue_generating": 17,
+        "cost_centres": 321,
+        "contested_assets": 295,
+        "categories": {
+          "land_open_space": 5,
+          "land_general": 95,
+          "land_woodland": 12,
+          "operations_depot_waste": 10,
+          "office_civic": 25,
+          "children_social_care": 19,
+          "library": 20,
+          "other_building": 23,
+          "transport_highways": 2,
+          "education": 127
+        }
+      },
+      "Pennine Lancashire": {
+        "assets_count": 350,
+        "estimated_value": 395792447,
+        "condition_backlog": 37866.79,
+        "disposal_candidates": 341,
+        "revenue_generating": 19,
+        "cost_centres": 331,
+        "contested_assets": 295,
+        "categories": {
+          "land_woodland": 7,
+          "land_general": 81,
+          "other_building": 27,
+          "office_civic": 22,
+          "library": 25,
+          "operations_depot_waste": 7,
+          "transport_highways": 6,
+          "land_open_space": 7,
+          "children_social_care": 27,
+          "education": 141
+        }
+      }
+    },
+    "four_unitary": {
+      "North Lancashire": {
+        "assets_count": 285,
+        "estimated_value": 195680533.0,
+        "condition_backlog": 33619.74,
+        "disposal_candidates": 275,
+        "revenue_generating": 16,
+        "cost_centres": 269,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 79,
+          "other_building": 27,
+          "land_woodland": 7,
+          "operations_depot_waste": 8,
+          "office_civic": 21,
+          "transport_highways": 3,
+          "children_social_care": 18,
+          "library": 17,
+          "education": 100,
+          "land_open_space": 5
+        }
+      },
+      "Fylde Coast": {
+        "assets_count": 115,
+        "estimated_value": 95011706.0,
+        "condition_backlog": 728.84,
+        "disposal_candidates": 110,
+        "revenue_generating": 12,
+        "cost_centres": 103,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 39,
+          "land_open_space": 1,
+          "operations_depot_waste": 5,
+          "office_civic": 7,
+          "transport_highways": 2,
+          "library": 11,
+          "other_building": 5,
+          "land_woodland": 2,
+          "children_social_care": 7,
+          "education": 36
+        }
+      },
+      "Pennine Lancashire": {
+        "assets_count": 283,
+        "estimated_value": 363473695,
+        "condition_backlog": 32974.24,
+        "disposal_candidates": 277,
+        "revenue_generating": 14,
+        "cost_centres": 269,
+        "contested_assets": 295,
+        "categories": {
+          "land_woodland": 7,
+          "land_general": 52,
+          "office_civic": 18,
+          "library": 20,
+          "other_building": 23,
+          "operations_depot_waste": 5,
+          "land_open_space": 6,
+          "children_social_care": 24,
+          "education": 123,
+          "transport_highways": 5
+        }
+      },
+      "South Lancashire": {
+        "assets_count": 240,
+        "estimated_value": 221469162,
+        "condition_backlog": 13684.23,
+        "disposal_candidates": 234,
+        "revenue_generating": 12,
+        "cost_centres": 228,
+        "contested_assets": 295,
+        "categories": {
+          "land_open_space": 2,
+          "land_general": 84,
+          "land_woodland": 6,
+          "operations_depot_waste": 8,
+          "office_civic": 14,
+          "children_social_care": 14,
+          "library": 15,
+          "other_building": 13,
+          "transport_highways": 1,
+          "education": 83
+        }
+      }
+    },
+    "four_unitary_alt": {
+      "Western Lancashire": {
+        "assets_count": 141,
+        "estimated_value": 108892117,
+        "condition_backlog": 5162.52,
+        "disposal_candidates": 139,
+        "revenue_generating": 8,
+        "cost_centres": 133,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 30,
+          "office_civic": 13,
+          "other_building": 11,
+          "operations_depot_waste": 4,
+          "library": 11,
+          "land_woodland": 6,
+          "children_social_care": 9,
+          "education": 53,
+          "land_open_space": 3,
+          "transport_highways": 1
+        }
+      },
+      "Southern Lancashire": {
+        "assets_count": 240,
+        "estimated_value": 221469162,
+        "condition_backlog": 13684.23,
+        "disposal_candidates": 234,
+        "revenue_generating": 12,
+        "cost_centres": 228,
+        "contested_assets": 295,
+        "categories": {
+          "land_open_space": 2,
+          "land_general": 84,
+          "land_woodland": 6,
+          "operations_depot_waste": 8,
+          "office_civic": 14,
+          "children_social_care": 14,
+          "library": 15,
+          "other_building": 13,
+          "transport_highways": 1,
+          "education": 83
+        }
+      },
+      "Eastern Lancashire": {
+        "assets_count": 283,
+        "estimated_value": 363473695,
+        "condition_backlog": 32974.24,
+        "disposal_candidates": 277,
+        "revenue_generating": 14,
+        "cost_centres": 269,
+        "contested_assets": 295,
+        "categories": {
+          "land_woodland": 7,
+          "land_general": 52,
+          "office_civic": 18,
+          "library": 20,
+          "other_building": 23,
+          "operations_depot_waste": 5,
+          "land_open_space": 6,
+          "children_social_care": 24,
+          "education": 123,
+          "transport_highways": 5
+        }
+      },
+      "Northern Lancashire": {
+        "assets_count": 120,
+        "estimated_value": 76763662.0,
+        "condition_backlog": 23859.670000000002,
+        "disposal_candidates": 114,
+        "revenue_generating": 6,
+        "cost_centres": 114,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 39,
+          "land_woodland": 1,
+          "operations_depot_waste": 4,
+          "office_civic": 6,
+          "other_building": 13,
+          "children_social_care": 10,
+          "education": 38,
+          "library": 7,
+          "land_open_space": 1,
+          "transport_highways": 1
+        }
+      }
+    },
+    "five_unitary": {
+      "East Lancashire": {
+        "assets_count": 216,
+        "estimated_value": 303095969,
+        "condition_backlog": 11618.42,
+        "disposal_candidates": 212,
+        "revenue_generating": 7,
+        "cost_centres": 209,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 34,
+          "office_civic": 14,
+          "land_woodland": 4,
+          "library": 16,
+          "other_building": 17,
+          "operations_depot_waste": 5,
+          "education": 101,
+          "land_open_space": 5,
+          "children_social_care": 17,
+          "transport_highways": 3
+        }
+      },
+      "Central Lancashire": {
+        "assets_count": 134,
+        "estimated_value": 92696478,
+        "condition_backlog": 26248.37,
+        "disposal_candidates": 129,
+        "revenue_generating": 12,
+        "cost_centres": 122,
+        "contested_assets": 295,
+        "categories": {
+          "land_woodland": 3,
+          "land_general": 47,
+          "other_building": 10,
+          "operations_depot_waste": 2,
+          "transport_highways": 3,
+          "land_open_space": 2,
+          "office_civic": 8,
+          "children_social_care": 10,
+          "library": 9,
+          "education": 40
+        }
+      },
+      "North Lancashire": {
+        "assets_count": 192,
+        "estimated_value": 149481370.0,
+        "condition_backlog": 24293.510000000002,
+        "disposal_candidates": 182,
+        "revenue_generating": 15,
+        "cost_centres": 177,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 59,
+          "land_open_space": 2,
+          "land_woodland": 3,
+          "operations_depot_waste": 7,
+          "office_civic": 11,
+          "other_building": 17,
+          "children_social_care": 13,
+          "transport_highways": 3,
+          "education": 65,
+          "library": 12
+        }
+      },
+      "South Lancashire": {
+        "assets_count": 240,
+        "estimated_value": 221469162,
+        "condition_backlog": 13684.23,
+        "disposal_candidates": 234,
+        "revenue_generating": 12,
+        "cost_centres": 228,
+        "contested_assets": 295,
+        "categories": {
+          "land_open_space": 2,
+          "land_general": 84,
+          "land_woodland": 6,
+          "operations_depot_waste": 8,
+          "office_civic": 14,
+          "children_social_care": 14,
+          "library": 15,
+          "other_building": 13,
+          "transport_highways": 1,
+          "education": 83
+        }
+      },
+      "West Lancashire": {
+        "assets_count": 141,
+        "estimated_value": 108892117,
+        "condition_backlog": 5162.52,
+        "disposal_candidates": 139,
+        "revenue_generating": 8,
+        "cost_centres": 133,
+        "contested_assets": 295,
+        "categories": {
+          "land_general": 30,
+          "office_civic": 13,
+          "other_building": 11,
+          "operations_depot_waste": 4,
+          "library": 11,
+          "land_woodland": 6,
+          "children_social_care": 9,
+          "education": 53,
+          "land_open_space": 3,
+          "transport_highways": 1
+        }
+      }
+    }
+  },
+  "bradford_oldham_comparison": {
+    "bradford": {
+      "population": 546400,
+      "muslim_pct": 30.5,
+      "pakistani_pct": 26.8,
+      "bangladeshi_pct": 2.1,
+      "grt_pct": 0.1,
+      "under_16_pct": 23.8,
+      "over_65_pct": 14.2,
+      "band_d": 1738,
+      "collection_rate_pct": 93.2,
+      "imd_avg": 34.2,
+      "pct_wards_decile_1_2": 35,
+      "dsg_deficit_millions": 64,
+      "children_services_ofsted": "Requires Improvement",
+      "section_114_risk": "Elevated \u2014 issued s114 warning 2024",
+      "employment_rate_pct": 62.1,
+      "no_qualifications_pct": 28.2
+    },
+    "oldham": {
+      "population": 242100,
+      "muslim_pct": 24.3,
+      "pakistani_pct": 13.2,
+      "bangladeshi_pct": 5.8,
+      "grt_pct": 0.1,
+      "under_16_pct": 22.1,
+      "over_65_pct": 15.8,
+      "band_d": 1836,
+      "collection_rate_pct": 94.1,
+      "imd_avg": 32.8,
+      "pct_wards_decile_1_2": 30,
+      "dsg_deficit_millions": 28,
+      "children_services_ofsted": "Requires Improvement",
+      "section_114_risk": "Moderate",
+      "employment_rate_pct": 65.3,
+      "no_qualifications_pct": 25.6
+    },
+    "east_lancs_by_model": {
+      "two_unitary": {
+        "authority_name": "South Lancashire",
+        "population": 844449,
+        "muslim_pct": 13.1,
+        "pakistani_bangladeshi_pct": 9.8,
+        "under_16_pct": 19.6,
+        "over_65_pct": 18.8,
+        "collection_rate_pct": 95.28,
+        "avg_imd": 25.9,
+        "fiscal_sustainability_score": 37,
+        "risk_category": "At Risk"
+      },
+      "three_unitary": {
+        "authority_name": "Pennine Lancashire",
+        "population": 559807,
+        "muslim_pct": 19.4,
+        "pakistani_bangladeshi_pct": 14.6,
+        "under_16_pct": 20.6,
+        "over_65_pct": 17.9,
+        "collection_rate_pct": 95.42,
+        "avg_imd": 30.1,
+        "fiscal_sustainability_score": 38,
+        "risk_category": "At Risk"
+      },
+      "four_unitary": {
+        "authority_name": "Pennine Lancashire",
+        "population": 498249,
+        "muslim_pct": 21.6,
+        "pakistani_bangladeshi_pct": 16.3,
+        "under_16_pct": 21.2,
+        "over_65_pct": 17.1,
+        "collection_rate_pct": 94.96,
+        "avg_imd": 32.5,
+        "fiscal_sustainability_score": 34,
+        "risk_category": "Structurally Deficit"
+      },
+      "four_unitary_alt": {
+        "authority_name": "Eastern Lancashire",
+        "population": 498249,
+        "muslim_pct": 21.6,
+        "pakistani_bangladeshi_pct": 16.3,
+        "under_16_pct": 21.2,
+        "over_65_pct": 17.1,
+        "collection_rate_pct": 94.96,
+        "avg_imd": 32.5,
+        "fiscal_sustainability_score": 34,
+        "risk_category": "Structurally Deficit"
+      },
+      "five_unitary": {
+        "authority_name": "East Lancashire",
+        "population": 261278,
+        "muslim_pct": 15.9,
+        "pakistani_bangladeshi_pct": 15.6,
+        "under_16_pct": 20.5,
+        "over_65_pct": 18.3,
+        "collection_rate_pct": 94.99,
+        "avg_imd": 30.2,
+        "fiscal_sustainability_score": 35,
+        "risk_category": "At Risk"
+      }
+    },
+    "trajectory_narrative": "East Lancashire's demographic, fiscal, and deprivation profile mirrors Bradford circa 2010. Bradford: 30.5% Muslim, IMD 34.2, collection rate 93.2%, DSG deficit \u00a364M, s114 warning 2024. Oldham: 24.3% Muslim, IMD 32.8, collection rate 94.1%, children's services 'Requires Improvement'. An East Lancashire unitary (Pennine Lancashire in 3/4-unitary models) would concentrate similar demographics with even weaker fiscal foundations \u2014 fewer resources, higher dependency, declining tax base. Without sustained investment, the Bradford/Oldham fiscal decline trajectory is the most likely outcome within 10-15 years."
+  }
+}

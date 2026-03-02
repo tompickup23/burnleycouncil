@@ -451,3 +451,348 @@ export function estimatePlanningConsolidationSavings(planningDataMap) {
     factors,
   };
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Demographic Fiscal Intelligence Functions
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Compute demographic-driven service demand per authority from lgr_enhanced.json.
+ *
+ * @param {Object} demandData - demographic_demand from lgr_enhanced.json
+ * @param {string} modelId - e.g. 'two_unitary'
+ * @param {string} [targetYear='2032'] - Projection year
+ * @returns {Object[]} Array of { authority, population, dependency_ratio, demand_index, ... }
+ */
+export function computeDemographicDemand(demandData, modelId, targetYear = '2032') {
+  if (!demandData?.[modelId]) return []
+  const modelDemand = demandData[modelId]
+  return Object.entries(modelDemand).map(([authName, d]) => ({
+    authority: authName,
+    population: d.population || 0,
+    population_projected: d.population_projected?.[targetYear] || d.population || 0,
+    dependency_ratio: d.dependency_ratio || 0,
+    dependency_projected: d.dependency_projected?.[targetYear] || d.dependency_ratio || 0,
+    under_16_pct: d.under_16_pct || 0,
+    over_65_pct: d.over_65_pct || 0,
+    working_age_pct: d.working_age_pct || 0,
+    demand_index: d.service_demand_pressure_score || 0,
+  }))
+}
+
+/**
+ * Extract demographic fiscal profile for a given LGR model.
+ * Returns per-authority fiscal sustainability data including ethnic composition,
+ * SEND exposure, employment, collection rates, deprivation.
+ *
+ * @param {Object} fiscalData - demographic_fiscal_profile from lgr_enhanced.json
+ * @param {string} modelId - e.g. 'three_unitary'
+ * @returns {Object[]} Array of authority fiscal profiles
+ */
+export function computeDemographicFiscalProfile(fiscalData, modelId) {
+  if (!fiscalData?.[modelId]) return []
+  return Object.entries(fiscalData[modelId]).map(([authName, d]) => ({
+    authority: authName,
+    population: d.population || 0,
+    // Scores
+    fiscal_sustainability_score: d.fiscal_sustainability_score || 0,
+    service_demand_pressure_score: d.service_demand_pressure_score || 0,
+    risk_category: d.risk_category || 'Unknown',
+    risk_factors: d.risk_factors || [],
+    // Ethnic composition
+    white_british_pct: d.white_british_pct || 0,
+    pakistani_bangladeshi_pct: d.pakistani_bangladeshi_pct || 0,
+    muslim_pct: d.muslim_pct || 0,
+    grt_count: d.grt_count || 0,
+    roma_count: d.roma_count || 0,
+    eu8_eu2_born_pct: d.eu8_eu2_born_pct || 0,
+    black_african_caribbean_pct: d.black_african_caribbean_pct || 0,
+    mixed_heritage_pct: d.mixed_heritage_pct || 0,
+    arab_count: d.arab_count || 0,
+    // Economic
+    employment_rate_pct: d.employment_rate_pct || 0,
+    economically_inactive_pct: d.economically_inactive_pct || 0,
+    no_qualifications_pct: d.no_qualifications_pct || 0,
+    social_rented_pct: d.social_rented_pct || 0,
+    // Council tax
+    collection_rate_weighted: d.collection_rate_weighted || 0,
+    band_d_weighted: d.band_d_weighted || 0,
+    // SEND
+    estimated_send_rate_pct: d.estimated_send_rate_pct || 0,
+    estimated_send_pupils: d.estimated_send_pupils || 0,
+    eal_estimate_pct: d.eal_estimate_pct || 0,
+    // Deprivation
+    avg_imd_score: d.avg_imd_score || 0,
+    wards_in_decile_1_2_pct: d.pct_wards_decile_1_2 || 0,
+    // Age structure
+    under_16_pct: d.under_16_pct || 0,
+    over_65_pct: d.over_65_pct || 0,
+    dependency_ratio: d.dependency_ratio || 0,
+  }))
+}
+
+/**
+ * Compute education/SEND exposure per authority for a given LGR model.
+ *
+ * @param {Object} sendData - education_send_exposure from lgr_enhanced.json
+ * @param {Object} multipliers - ethnic_fiscal_multipliers from lgr_enhanced.json
+ * @param {string} modelId
+ * @returns {Object[]}
+ */
+export function computeEducationSENDExposure(sendData, multipliers, modelId) {
+  if (!sendData?.[modelId]) return []
+  return Object.entries(sendData[modelId]).map(([authName, d]) => ({
+    authority: authName,
+    school_age_pop: d.school_age_pop || 0,
+    estimated_send_rate_pct: d.estimated_send_rate_pct || 0,
+    estimated_send_pupils: d.estimated_send_pupils || 0,
+    estimated_eal_pupils: d.estimated_eal_pupils || 0,
+    dsg_deficit_share: d.dsg_deficit_share || 0,
+    dsg_deficit_per_capita: d.dsg_deficit_per_capita || 0,
+    education_cost_share: d.education_cost_share || 0,
+    send_risk_rating: d.send_risk_rating || 'LOW',
+    cost_premium_vs_average: d.cost_premium_vs_average || 0,
+    // Pass through multipliers for display
+    _multipliers: multipliers || null,
+  }))
+}
+
+/**
+ * Compute asylum cost impact per authority for a given LGR model.
+ *
+ * @param {Object} asylumData - asylum_cost_impact from lgr_enhanced.json
+ * @param {string} modelId
+ * @returns {Object[]}
+ */
+export function computeAsylumCostImpact(asylumData, modelId) {
+  if (!asylumData?.[modelId]) return []
+  return Object.entries(asylumData[modelId]).map(([authName, d]) => ({
+    authority: authName,
+    current_seekers: d.asylum_seekers_current || 0,
+    per_1000_pop: d.per_1000_pop || 0,
+    projected_2028: d.projected_2028 || {},
+    projected_2032: d.projected_2032 || {},
+    annual_cost_estimate: d.estimated_annual_cost || 0,
+    cost_breakdown: d.cost_breakdown || {},
+    trend: d.trend || [],
+  }))
+}
+
+/**
+ * Compute white flight velocity — rate of White British population change
+ * from census 2011→2021 data, indicating demographic acceleration.
+ *
+ * @param {Object} fiscalData - demographic_fiscal_profile from lgr_enhanced.json
+ * @param {string} modelId
+ * @returns {Object[]} Per-authority white flight signals
+ */
+export function computeWhiteFlightVelocity(fiscalData, modelId) {
+  if (!fiscalData?.[modelId]) return []
+  return Object.entries(fiscalData[modelId]).map(([authName, d]) => ({
+    authority: authName,
+    white_british_pct: d.white_british_pct || 0,
+    white_british_change_pp: d.white_british_change_2011_2021 || 0,
+    demographic_change_velocity: d.demographic_change_velocity || 0,
+    muslim_pct: d.muslim_pct || 0,
+    pakistani_bangladeshi_pct: d.pakistani_bangladeshi_pct || 0,
+  }))
+}
+
+/**
+ * Adjust gross LGR savings for deprivation complexity.
+ * More deprived areas have higher service complexity → lower realisation.
+ *
+ * @param {Object} deprivation - deprivation data from lgr_enhanced.json or deprivation.json
+ * @param {number} grossSavings - Gross annual savings before adjustment
+ * @returns {{ adjustedSavings: number, deprivationMultiplier: number, factors: string[] }}
+ */
+export function adjustSavingsForDeprivation(deprivation, grossSavings) {
+  const factors = []
+  if (!deprivation || !grossSavings) {
+    return { adjustedSavings: grossSavings || 0, deprivationMultiplier: 1.0, factors: ['No deprivation data'] }
+  }
+
+  const avgIMD = deprivation.avg_imd_score || deprivation.summary?.avg_imd_score || 20
+  // Higher IMD = more deprived = harder to extract savings
+  let multiplier = 1.0
+  if (avgIMD > 40) {
+    multiplier = 0.65
+    factors.push(`Very high deprivation (IMD ${avgIMD.toFixed(1)}) → 35% savings reduction`)
+  } else if (avgIMD > 30) {
+    multiplier = 0.75
+    factors.push(`High deprivation (IMD ${avgIMD.toFixed(1)}) → 25% savings reduction`)
+  } else if (avgIMD > 20) {
+    multiplier = 0.85
+    factors.push(`Moderate deprivation (IMD ${avgIMD.toFixed(1)}) → 15% savings reduction`)
+  } else {
+    multiplier = 0.95
+    factors.push(`Low deprivation (IMD ${avgIMD.toFixed(1)}) → 5% savings reduction`)
+  }
+
+  return {
+    adjustedSavings: Math.round(grossSavings * multiplier),
+    deprivationMultiplier: multiplier,
+    factors,
+  }
+}
+
+/**
+ * Adjust savings for CCA (Combined County Authority) service transfers.
+ * Services already transferred to CCA should not be counted as LGR savings.
+ *
+ * @param {Object} ccaImpact - cca_impact from lgr_enhanced.json
+ * @param {Object} params - { grossSavings }
+ * @returns {{ adjustedSavings: number, ccaDeduction: number, transfers: Object[], factors: string[] }}
+ */
+export function adjustForCCATransfers(ccaImpact, params) {
+  const factors = []
+  const grossSavings = params?.grossSavings || 0
+  if (!ccaImpact) {
+    return { adjustedSavings: grossSavings, ccaDeduction: 0, transfers: [], factors: ['No CCA data'] }
+  }
+
+  const transfers = ccaImpact.transfers || []
+  const totalTransferred = transfers.reduce((s, t) => s + (t.amount || 0), 0)
+  // CCA-transferred services can't be double-counted as LGR savings
+  // Estimate ~15% of transferred amount would have been LGR savings
+  const ccaDeduction = Math.round(totalTransferred * 0.15)
+  const adjustedSavings = Math.max(0, grossSavings - ccaDeduction)
+
+  if (transfers.length > 0) {
+    factors.push(`${transfers.length} services (£${Math.round(totalTransferred / 1000000)}M) already transferred to CCA`)
+    factors.push(`CCA deduction: £${Math.round(ccaDeduction / 1000000)}M (15% of transferred amount)`)
+  }
+
+  return { adjustedSavings, ccaDeduction, transfers, factors }
+}
+
+/**
+ * Compute timeline feasibility score from lgr_enhanced.json timeline data.
+ * Score 0-100: 0 = impossible, 100 = highly feasible.
+ *
+ * @param {Object} timeline - timeline_analysis from lgr_enhanced.json
+ * @returns {{ score: number, verdict: string, riskFactors: string[], precedents: Object[],
+ *             costOverrun: Object, monthsAvailable: number, monthsShortfall: number }}
+ */
+export function computeTimelineFeasibility(timeline) {
+  if (!timeline) return { score: 0, verdict: 'No Data', riskFactors: [], precedents: [],
+    costOverrun: {}, monthsAvailable: 0, monthsShortfall: 0 }
+
+  return {
+    score: timeline.feasibility_score || 0,
+    verdict: timeline.verdict || 'Unknown',
+    riskFactors: timeline.risk_factors || [],
+    precedents: timeline.precedents || [],
+    costOverrun: timeline.cost_overrun_analysis || {},
+    monthsAvailable: timeline.months_available || 0,
+    monthsShortfall: timeline.months_shortfall || 0,
+    lancashireComplexity: timeline.lancashire_complexity || {},
+    precedentAvgMonths: timeline.precedent_average_months || 0,
+  }
+}
+
+/**
+ * Compute property division per authority for a given LGR model.
+ *
+ * @param {Object} propertyData - property_division from lgr_enhanced.json
+ * @param {string} [modelId] - Optional model filter
+ * @returns {Object} Per-model/authority property allocations
+ */
+export function computePropertyDivision(propertyData, modelId) {
+  if (!propertyData) return {}
+  if (modelId) {
+    return propertyData[modelId] || {}
+  }
+  return propertyData
+}
+
+/**
+ * Assess a single property asset's LGR outcome across all models.
+ *
+ * @param {Object} asset - Single asset from property_assets.json
+ * @param {Object} lgrModels - LGR model definitions from lgr_tracker.json
+ * @returns {Object[]} Per-model assessment: { model, authority, outcome, risk }
+ */
+export function assessPropertyForLGR(asset, lgrModels) {
+  if (!asset || !lgrModels) return []
+
+  const district = asset.district || ''
+  const results = []
+
+  for (const [modelId, model] of Object.entries(lgrModels)) {
+    const authorities = model.authorities || []
+    let assignedAuth = null
+
+    for (const auth of authorities) {
+      const councils = auth.councils || []
+      // Match by council_id or district name
+      const distLower = district.toLowerCase().replace(/\s+/g, '_')
+      if (councils.some(c => c === distLower ||
+          c.replace(/_/g, ' ').toLowerCase() === district.toLowerCase())) {
+        assignedAuth = auth.name || auth.authority_name || 'Unknown'
+        break
+      }
+    }
+
+    // Determine outcome
+    let outcome = 'retained'
+    let risk = 'low'
+    if (!assignedAuth) {
+      outcome = 'contested'
+      risk = 'high'
+      assignedAuth = 'Unallocated'
+    } else if (asset.disposal?.category === 'A' || asset.disposal?.category === 'B') {
+      outcome = 'disposal_candidate'
+      risk = 'medium'
+    } else if (asset.tier === 'subsidiary' || asset.tier === 'jv') {
+      outcome = 'requires_negotiation'
+      risk = 'medium'
+    }
+
+    results.push({
+      model: modelId,
+      model_name: model.model_name || modelId,
+      authority: assignedAuth,
+      outcome,
+      risk,
+    })
+  }
+
+  return results
+}
+
+/**
+ * Compute threat assessment for a council or authority from demographic fiscal data.
+ * Produces severity-ranked threat cards for DOGE / borough intelligence pages.
+ *
+ * @param {Object} fiscalData - demographic_fiscal.json for a council
+ * @returns {{ threats: Object[], fiscalScore: number, demandScore: number, riskCategory: string }}
+ */
+export function computeThreatAssessment(fiscalData) {
+  if (!fiscalData) return { threats: [], fiscalScore: 0, demandScore: 0, riskCategory: 'Unknown' }
+
+  const threats = [...(fiscalData.threats || [])]
+
+  // Add LGR-specific threats
+  const lgrThreats = fiscalData.lgr_threats || []
+  for (const lt of lgrThreats) {
+    threats.push({
+      type: 'lgr',
+      severity: lt.severity || 'medium',
+      description: lt.threat || lt.description || '',
+      model: lt.model || '',
+    })
+  }
+
+  // Sort by severity: critical > high > medium > low
+  const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
+  threats.sort((a, b) => (severityOrder[a.severity] ?? 3) - (severityOrder[b.severity] ?? 3))
+
+  return {
+    threats,
+    fiscalScore: fiscalData.fiscal_resilience_score || 0,
+    demandScore: fiscalData.service_demand_pressure_score || 0,
+    riskCategory: fiscalData.risk_category || 'Unknown',
+  }
+}

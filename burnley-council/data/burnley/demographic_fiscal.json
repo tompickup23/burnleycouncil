@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.085513",
+    "council_id": "burnley",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 20,
+  "service_demand_pressure_score": 80,
+  "demographic_change_velocity": 12.8,
+  "risk_category": "Structurally Deficit",
+  "ethnic_composition_summary": {
+    "white_british_pct": 77.9,
+    "muslim_pct": 14.0,
+    "pakistani_bangladeshi_pct": 13.6,
+    "grt_count": 83,
+    "roma_count": 106,
+    "eu8_eu2_born_pct": 3.6,
+    "black_african_caribbean_pct": 0.3
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 15.3,
+    "vs_national_avg_pp": 0.4,
+    "estimated_send_pupils": 2095,
+    "eal_estimate_pct": 12.8,
+    "grt_send_contribution": "83 GRT pupils at 35% SEND rate = ~6 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 464,
+    "per_1000_pop": 4.9,
+    "projected_2028": {
+      "low": 537,
+      "central": 652,
+      "high": 802
+    },
+    "projected_2032": {
+      "low": 604,
+      "central": 793,
+      "high": 1174
+    },
+    "annual_cost_estimate": 9641920,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 178
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 245
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 431
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 464
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 94.04,
+    "collection_trend": -0.65,
+    "arrears": 9226000.0
+  },
+  "pressure_zones": [
+    {
+      "ward": "Trinity",
+      "imd_decile": 1.0,
+      "imd_score": 63.14,
+      "national_percentile": 3.5,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Bank Hall",
+      "imd_decile": 1.0,
+      "imd_score": 62.31,
+      "national_percentile": 3.9,
+      "muslim_pct": 32.2,
+      "under_16_pct": 23.9,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Daneshouse with Stoneyholme",
+      "imd_decile": 1.0,
+      "imd_score": 59.13,
+      "national_percentile": 3.6,
+      "muslim_pct": 75.0,
+      "under_16_pct": 28.0,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Queensgate",
+      "imd_decile": 2.0,
+      "imd_score": 44.17,
+      "national_percentile": 14.9,
+      "muslim_pct": 37.6,
+      "under_16_pct": 22.2,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Gawthorpe",
+      "imd_decile": 1.8,
+      "imd_score": 40.48,
+      "national_percentile": 14.1,
+      "muslim_pct": 1.4,
+      "under_16_pct": 20.1,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Brunshaw",
+      "imd_decile": 2.0,
+      "imd_score": 39.09,
+      "national_percentile": 16.2,
+      "muslim_pct": 1.5,
+      "under_16_pct": 18.3,
+      "flag": "HIGH"
+    }
+  ],
+  "threats": [
+    {
+      "type": "fiscal",
+      "severity": "critical",
+      "description": "Fiscal sustainability score 20/100 \u2014 structural deficit risk",
+      "evidence": "Collection rate 94.04%, IMD 37.3, employment 51.8%"
+    },
+    {
+      "type": "demographic",
+      "severity": "high",
+      "description": "Service demand pressure 80/100 \u2014 above-average service costs",
+      "evidence": "SEND rate 15.3%, under-16 20.5%, asylum seekers 464"
+    },
+    {
+      "type": "fiscal",
+      "severity": "high",
+      "description": "Declining council tax collection \u2014 revenue base eroding",
+      "evidence": "5-year trend: -0.65% per year"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (464 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 178 to 464 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 37,
+      "demand_score": 72
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Pennine Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 38,
+      "demand_score": 74
+    },
+    {
+      "model": "four_unitary",
+      "authority": "Pennine Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 34,
+      "demand_score": 76
+    },
+    {
+      "model": "four_unitary_alt",
+      "authority": "Eastern Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 34,
+      "demand_score": 76
+    },
+    {
+      "model": "five_unitary",
+      "authority": "East Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 35,
+      "demand_score": 74
+    }
+  ],
+  "risk_factors": [
+    "Below-average council tax collection (94.04%)",
+    "Declining collection rate (trend: -0.7%)",
+    "Significant asylum dispersal (464 seekers)",
+    "High deprivation (IMD avg: 37.3)",
+    "High service demand demographics (Muslim 14.0%)",
+    "GRT/Roma population (189) \u2014 highest SEND prevalence group",
+    "Low employment rate (51.8%)"
+  ]
+}

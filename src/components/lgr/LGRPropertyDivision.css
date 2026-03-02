@@ -1,0 +1,188 @@
+.lgr-property-division {
+  margin-bottom: 2.5rem;
+}
+
+.lgr-property-division h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.lgr-prop-desc {
+  color: #8e8e93;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* Summary stats grid */
+.lgr-prop-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.lgr-prop-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.lgr-prop-stat-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lgr-prop-stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.lgr-prop-stat-label {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lgr-prop-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.lgr-prop-stat-sub {
+  font-size: 0.75rem;
+  color: #636366;
+}
+
+/* Chart cards */
+.lgr-prop-chart-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.lgr-prop-chart-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.lgr-prop-chart-desc {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin: 0 0 1rem;
+  line-height: 1.4;
+}
+
+/* Disposal grid */
+.lgr-prop-disposal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.lgr-prop-disposal-item {
+  position: relative;
+}
+
+.lgr-prop-disposal-bar {
+  height: 32px;
+  border-radius: 6px;
+  min-width: 4px;
+  transition: width 0.4s ease;
+}
+
+.lgr-prop-disposal-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.lgr-prop-disposal-auth {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+}
+
+.lgr-prop-disposal-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Contested assets warning panel */
+.lgr-prop-contested-panel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.lgr-prop-contested-panel > svg {
+  color: #ff9f0a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lgr-prop-contested-content {
+  flex: 1;
+}
+
+.lgr-prop-contested-content strong {
+  color: #ff9f0a;
+  font-size: 0.95rem;
+}
+
+.lgr-prop-contested-content p {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  margin: 0.25rem 0 0;
+  line-height: 1.5;
+}
+
+.lgr-prop-contested-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
+  color: #e5e5e7;
+  line-height: 1.6;
+}
+
+.lgr-prop-contested-more {
+  color: #8e8e93;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .lgr-prop-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .lgr-prop-stat-value {
+    font-size: 1.25rem;
+  }
+}

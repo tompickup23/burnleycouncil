@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.086567",
+    "council_id": "rossendale",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 50,
+  "service_demand_pressure_score": 65,
+  "demographic_change_velocity": 5.0,
+  "risk_category": "At Risk",
+  "ethnic_composition_summary": {
+    "white_british_pct": 90.4,
+    "muslim_pct": 4.9,
+    "pakistani_bangladeshi_pct": 4.5,
+    "grt_count": 28,
+    "roma_count": 14,
+    "eu8_eu2_born_pct": 0.6,
+    "black_african_caribbean_pct": 0.2
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 15.0,
+    "vs_national_avg_pp": 0.1,
+    "estimated_send_pupils": 1465,
+    "eal_estimate_pct": 5.0,
+    "grt_send_contribution": "28 GRT pupils at 35% SEND rate = ~2 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 252,
+    "per_1000_pop": 3.6,
+    "projected_2028": {
+      "low": 292,
+      "central": 354,
+      "high": 435
+    },
+    "projected_2032": {
+      "low": 329,
+      "central": 430,
+      "high": 637
+    },
+    "annual_cost_estimate": 5236560,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 139
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 138
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 223
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 252
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 95.31,
+    "collection_trend": -1.01,
+    "arrears": 7411000.0
+  },
+  "pressure_zones": [
+    {
+      "ward": "Stacksteads",
+      "imd_decile": 1.7,
+      "imd_score": 40.46,
+      "national_percentile": 14.1,
+      "muslim_pct": 0.7,
+      "under_16_pct": 18.4,
+      "flag": "HIGH"
+    }
+  ],
+  "threats": [
+    {
+      "type": "fiscal",
+      "severity": "high",
+      "description": "Declining council tax collection \u2014 revenue base eroding",
+      "evidence": "5-year trend: -1.01% per year"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (252 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 139 to 252 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 37,
+      "demand_score": 72
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Pennine Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 38,
+      "demand_score": 74
+    },
+    {
+      "model": "four_unitary",
+      "authority": "Pennine Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 34,
+      "demand_score": 76
+    },
+    {
+      "model": "four_unitary_alt",
+      "authority": "Eastern Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 34,
+      "demand_score": 76
+    },
+    {
+      "model": "five_unitary",
+      "authority": "East Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 35,
+      "demand_score": 74
+    }
+  ],
+  "risk_factors": [
+    "Declining collection rate (trend: -1.0%)",
+    "Significant asylum dispersal (252 seekers)"
+  ]
+}

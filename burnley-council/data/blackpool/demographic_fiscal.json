@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.087694",
+    "council_id": "blackpool",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 5,
+  "service_demand_pressure_score": 75,
+  "demographic_change_velocity": 7.9,
+  "risk_category": "Structurally Deficit",
+  "ethnic_composition_summary": {
+    "white_british_pct": 90.4,
+    "muslim_pct": 1.4,
+    "pakistani_bangladeshi_pct": 0.7,
+    "grt_count": 236,
+    "roma_count": 207,
+    "eu8_eu2_born_pct": 2.8,
+    "black_african_caribbean_pct": 0.5
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.9,
+    "vs_national_avg_pp": 0.0,
+    "estimated_send_pupils": 2577,
+    "eal_estimate_pct": 7.9,
+    "grt_send_contribution": "236 GRT pupils at 35% SEND rate = ~17 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 450,
+    "per_1000_pop": 3.2,
+    "projected_2028": {
+      "low": 521,
+      "central": 632,
+      "high": 778
+    },
+    "projected_2032": {
+      "low": 586,
+      "central": 768,
+      "high": 1139
+    },
+    "annual_cost_estimate": 9351000,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 110
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 705
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 257
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 450
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 89.71,
+    "collection_trend": -1.78,
+    "arrears": 19474000.0
+  },
+  "pressure_zones": [
+    {
+      "ward": "Bloomfield",
+      "imd_decile": 1.0,
+      "imd_score": 87.19,
+      "national_percentile": 0.0,
+      "muslim_pct": 4.2,
+      "under_16_pct": 21.9,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Claremont",
+      "imd_decile": 1.0,
+      "imd_score": 78.51,
+      "national_percentile": 0.6,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Talbot",
+      "imd_decile": 1.2,
+      "imd_score": 66.42,
+      "national_percentile": 4.6,
+      "muslim_pct": 1.7,
+      "under_16_pct": 13.9,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Brunswick",
+      "imd_decile": 1.4,
+      "imd_score": 62.88,
+      "national_percentile": 5.9,
+      "muslim_pct": 2.6,
+      "under_16_pct": 22.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Waterloo",
+      "imd_decile": 1.8,
+      "imd_score": 53.64,
+      "national_percentile": 11.7,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Victoria",
+      "imd_decile": 1.0,
+      "imd_score": 52.34,
+      "national_percentile": 5.9,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Clifton",
+      "imd_decile": 1.8,
+      "imd_score": 49.06,
+      "national_percentile": 10.5,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Tyldesley",
+      "imd_decile": 2.0,
+      "imd_score": 47.14,
+      "national_percentile": 12.9,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Hawes Side",
+      "imd_decile": 1.6,
+      "imd_score": 45.82,
+      "national_percentile": 10.1,
+      "muslim_pct": 1.2,
+      "under_16_pct": 20.9,
+      "flag": "HIGH"
+    }
+  ],
+  "threats": [
+    {
+      "type": "fiscal",
+      "severity": "critical",
+      "description": "Fiscal sustainability score 5/100 \u2014 structural deficit risk",
+      "evidence": "Collection rate 89.71%, IMD 44.43, employment 49.5%"
+    },
+    {
+      "type": "demographic",
+      "severity": "high",
+      "description": "Service demand pressure 75/100 \u2014 above-average service costs",
+      "evidence": "SEND rate 14.9%, under-16 17.5%, asylum seekers 450"
+    },
+    {
+      "type": "fiscal",
+      "severity": "high",
+      "description": "Declining council tax collection \u2014 revenue base eroding",
+      "evidence": "5-year trend: -1.78% per year"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (450 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 110 to 450 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "North Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 31,
+      "demand_score": 68
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Coastal Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 30,
+      "demand_score": 70
+    },
+    {
+      "model": "four_unitary",
+      "authority": "Fylde Coast",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 29,
+      "demand_score": 74
+    },
+    {
+      "model": "four_unitary_alt",
+      "authority": "Western Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 21,
+      "demand_score": 72
+    },
+    {
+      "model": "five_unitary",
+      "authority": "West Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 21,
+      "demand_score": 72
+    }
+  ],
+  "risk_factors": [
+    "Below-average council tax collection (89.71%)",
+    "Declining collection rate (trend: -1.8%)",
+    "Significant asylum dispersal (450 seekers)",
+    "High deprivation (IMD avg: 44.4)",
+    "GRT/Roma population (443) \u2014 highest SEND prevalence group",
+    "Low employment rate (49.5%)"
+  ]
+}

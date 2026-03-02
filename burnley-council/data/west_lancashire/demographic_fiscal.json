@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.088001",
+    "council_id": "west_lancashire",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 25,
+  "service_demand_pressure_score": 65,
+  "demographic_change_velocity": 6.0,
+  "risk_category": "Structurally Deficit",
+  "ethnic_composition_summary": {
+    "white_british_pct": 92.8,
+    "muslim_pct": 0.4,
+    "pakistani_bangladeshi_pct": 0.1,
+    "grt_count": 29,
+    "roma_count": 71,
+    "eu8_eu2_born_pct": 2.5,
+    "black_african_caribbean_pct": 0.3
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.8,
+    "vs_national_avg_pp": -0.1,
+    "estimated_send_pupils": 2052,
+    "eal_estimate_pct": 6.0,
+    "grt_send_contribution": "29 GRT pupils at 35% SEND rate = ~2 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 403,
+    "per_1000_pop": 3.4,
+    "projected_2028": {
+      "low": 467,
+      "central": 566,
+      "high": 696
+    },
+    "projected_2032": {
+      "low": 526,
+      "central": 688,
+      "high": 1019
+    },
+    "annual_cost_estimate": 8374340,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 151
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 136
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 240
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 403
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 93.82,
+    "collection_trend": -2.66,
+    "arrears": 17752000.0
+  },
+  "pressure_zones": [
+    {
+      "ward": "Digmoor",
+      "imd_decile": 2.0,
+      "imd_score": 48.32,
+      "national_percentile": 12.4,
+      "muslim_pct": 0.4,
+      "under_16_pct": 21.6,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Moorside",
+      "imd_decile": 2.0,
+      "imd_score": 44.03,
+      "national_percentile": 13.0,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Birch Green",
+      "imd_decile": 1.7,
+      "imd_score": 43.37,
+      "national_percentile": 11.7,
+      "muslim_pct": 0.8,
+      "under_16_pct": 22.9,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Tanhouse",
+      "imd_decile": 1.3,
+      "imd_score": 42.34,
+      "national_percentile": 12.1,
+      "muslim_pct": 0.8,
+      "under_16_pct": 24.2,
+      "flag": "HIGH"
+    }
+  ],
+  "threats": [
+    {
+      "type": "fiscal",
+      "severity": "critical",
+      "description": "Fiscal sustainability score 25/100 \u2014 structural deficit risk",
+      "evidence": "Collection rate 93.82%, IMD 18.53, employment 51.9%"
+    },
+    {
+      "type": "fiscal",
+      "severity": "high",
+      "description": "Declining council tax collection \u2014 revenue base eroding",
+      "evidence": "5-year trend: -2.66% per year"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (403 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 151 to 403 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 37,
+      "demand_score": 72
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Central Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 35,
+      "demand_score": 66
+    },
+    {
+      "model": "four_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 42,
+      "demand_score": 65
+    },
+    {
+      "model": "four_unitary_alt",
+      "authority": "Southern Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 42,
+      "demand_score": 65
+    },
+    {
+      "model": "five_unitary",
+      "authority": "South Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 42,
+      "demand_score": 65
+    }
+  ],
+  "risk_factors": [
+    "Below-average council tax collection (93.82%)",
+    "Declining collection rate (trend: -2.7%)",
+    "Significant asylum dispersal (403 seekers)",
+    "Low employment rate (51.9%)"
+  ]
+}

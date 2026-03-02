@@ -3,7 +3,7 @@
  *
  * Route: /property/:propertyId
  *
- * Strategist-only page with 7 tabs:
+ * Strategist-only page with 8 tabs:
  *   1. Overview -- Ownership, category, deprivation, Google Maps link
  *   2. Financials -- Linked spend, supplier breakdown
  *   3. Energy -- EPC rating, heating, floor area
@@ -11,6 +11,7 @@
  *   5. Assessment -- World-class scores, innovative uses, sales evidence
  *   6. Valuation -- Green Book options appraisal, market value, LR comparables
  *   7. Location -- District, constituency, co-location, flood, crime
+ *   8. LGR -- Per-model authority assignment, outcome, risk
  *
  * Data: /data/property_assets_detail.json
  */
@@ -20,7 +21,7 @@ import {
   Building, MapPin, Zap, Trash2, Navigation, ArrowLeft,
   ExternalLink, AlertTriangle, Shield, Thermometer,
   ClipboardCheck, Tag, Lightbulb, TrendingUp, DollarSign,
-  BarChart3, Scale,
+  BarChart3, Scale, Landmark,
 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -28,6 +29,7 @@ import { useAuth } from '../context/AuthContext'
 import { isFirebaseEnabled } from '../firebase'
 import { LoadingState } from '../components/ui'
 import { formatCurrency, formatNumber } from '../utils/format'
+import { assessPropertyForLGR } from '../utils/lgrModel'
 import './PropertyDetail.css'
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -82,6 +84,7 @@ const TABS = [
   { id: 'assessment', label: 'Assessment', icon: ClipboardCheck },
   { id: 'valuation', label: 'Valuation', icon: Scale },
   { id: 'location', label: 'Location', icon: Navigation },
+  { id: 'lgr', label: 'LGR', icon: Landmark },
 ]
 
 const RECOMMENDATION_COLORS = {
@@ -1831,6 +1834,135 @@ function AssessmentTab({ asset }) {
   )
 }
 
+// ── LGR Tab ───────────────────────────────────────────────────────────────────
+
+const OUTCOME_LABELS = {
+  retained: 'Retained',
+  disposal_candidate: 'Disposal Candidate',
+  requires_negotiation: 'Requires Negotiation',
+  contested: 'Contested / Unallocated',
+}
+const OUTCOME_COLORS = {
+  retained: '#30d158',
+  disposal_candidate: '#ff9f0a',
+  requires_negotiation: '#ffd60a',
+  contested: '#ff453a',
+}
+const RISK_COLORS = { low: '#30d158', medium: '#ff9f0a', high: '#ff453a' }
+
+function LGRTab({ asset, lgrData }) {
+  if (!lgrData?.proposed_models) {
+    return (
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+        LGR model data not available.
+      </div>
+    )
+  }
+
+  // Build model map: { model_id: { model_name, authorities } }
+  const modelMap = {}
+  for (const m of lgrData.proposed_models) {
+    modelMap[m.id] = { model_name: m.name, authorities: m.authorities || [] }
+  }
+
+  const results = assessPropertyForLGR(asset, modelMap)
+
+  if (!results.length) {
+    return (
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+        No LGR assessment available for this asset.
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+        <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Landmark size={16} style={{ color: '#0a84ff' }} /> LGR Authority Assignment
+        </h3>
+        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
+          How this asset would be allocated under each proposed LGR model. {asset.district && <>District: <strong>{asset.district}</strong></>}
+        </p>
+
+        <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          {results.map(r => {
+            const outcomeColor = OUTCOME_COLORS[r.outcome] || '#8e8e93'
+            const riskColor = RISK_COLORS[r.risk] || '#8e8e93'
+            return (
+              <div key={r.model} style={{
+                background: 'rgba(255,255,255,0.03)',
+                borderRadius: '8px',
+                padding: 'var(--space-md)',
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{r.model_name}</span>
+                  <span style={{
+                    fontSize: '0.7rem',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    background: `${riskColor}20`,
+                    color: riskColor,
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                  }}>
+                    {r.risk} risk
+                  </span>
+                </div>
+                <div className="property-detail-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                  <div>
+                    <div className="detail-label">Authority</div>
+                    <div className="detail-value">{r.authority}</div>
+                  </div>
+                  <div>
+                    <div className="detail-label">Outcome</div>
+                    <div className="detail-value" style={{ color: outcomeColor }}>
+                      {OUTCOME_LABELS[r.outcome] || r.outcome}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Summary insight */}
+      <div className="glass-card" style={{ padding: 'var(--space-lg)' }}>
+        <h3 style={{ fontSize: '0.9rem', marginBottom: 'var(--space-sm)' }}>LGR Impact Summary</h3>
+        {(() => {
+          const contested = results.filter(r => r.outcome === 'contested').length
+          const uniqueAuthorities = new Set(results.map(r => r.authority)).size
+          const highRisk = results.filter(r => r.risk === 'high').length
+          return (
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <p>This asset is assigned to <strong>{uniqueAuthorities}</strong> different {uniqueAuthorities === 1 ? 'authority' : 'authorities'} across {results.length} models.</p>
+              {contested > 0 && (
+                <p style={{ color: '#ff453a', marginTop: '4px' }}>
+                  <AlertTriangle size={12} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                  <strong>{contested}</strong> model{contested > 1 ? 's' : ''} cannot allocate this asset — it falls outside defined authority boundaries.
+                </p>
+              )}
+              {highRisk > 0 && contested === 0 && (
+                <p style={{ color: '#ff9f0a', marginTop: '4px' }}>
+                  <AlertTriangle size={12} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                  <strong>{highRisk}</strong> model{highRisk > 1 ? 's' : ''} flag this asset as high risk during LGR transition.
+                </p>
+              )}
+              {highRisk === 0 && contested === 0 && (
+                <p style={{ color: '#30d158', marginTop: '4px' }}>
+                  This asset has a clear allocation path across all LGR models.
+                </p>
+              )}
+            </div>
+          )
+        })()}
+      </div>
+    </div>
+  )
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────────
 
 function PropertyDetail() {
@@ -1842,6 +1974,7 @@ function PropertyDetail() {
 
   const { data, loading, error } = useData('/data/property_assets_detail.json')
   const { data: planningData } = useData('/data/planning.json')
+  const { data: lgrTrackerData } = useData('/data/shared/lgr_tracker.json')
 
   const asset = useMemo(() => {
     if (!data?.assets) return null
@@ -1996,6 +2129,7 @@ function PropertyDetail() {
         {activeTab === 'assessment' && <AssessmentTab asset={asset} />}
         {activeTab === 'valuation' && <ValuationTab asset={asset} />}
         {activeTab === 'location' && <LocationTab asset={asset} nearbyPlanning={nearbyPlanning} />}
+        {activeTab === 'lgr' && <LGRTab asset={asset} lgrData={lgrTrackerData} />}
       </div>
     </div>
   )

@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.088738",
+    "council_id": "preston",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 20,
+  "service_demand_pressure_score": 70,
+  "demographic_change_velocity": 19.3,
+  "risk_category": "Structurally Deficit",
+  "ethnic_composition_summary": {
+    "white_british_pct": 66.1,
+    "muslim_pct": 16.1,
+    "pakistani_bangladeshi_pct": 5.6,
+    "grt_count": 114,
+    "roma_count": 248,
+    "eu8_eu2_born_pct": 4.7,
+    "black_african_caribbean_pct": 2.4
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.5,
+    "vs_national_avg_pp": -0.4,
+    "estimated_send_pupils": 2935,
+    "eal_estimate_pct": 19.3,
+    "grt_send_contribution": "114 GRT pupils at 35% SEND rate = ~8 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 394,
+    "per_1000_pop": 2.7,
+    "projected_2028": {
+      "low": 456,
+      "central": 554,
+      "high": 681
+    },
+    "projected_2032": {
+      "low": 513,
+      "central": 673,
+      "high": 997
+    },
+    "annual_cost_estimate": 8187320,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 228
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 226
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 407
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 394
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 90.18,
+    "collection_trend": -2.67,
+    "arrears": 33045000.0
+  },
+  "pressure_zones": [
+    {
+      "ward": "St Matthew's",
+      "imd_decile": 1.0,
+      "imd_score": 52.92,
+      "national_percentile": 5.5,
+      "muslim_pct": 0.0,
+      "under_16_pct": 0.0,
+      "flag": "CRITICAL"
+    },
+    {
+      "ward": "Ribbleton",
+      "imd_decile": 1.6,
+      "imd_score": 47.87,
+      "national_percentile": 10.4,
+      "muslim_pct": 5.9,
+      "under_16_pct": 24.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "Fishwick & Frenchwood",
+      "imd_decile": 1.8,
+      "imd_score": 43.8,
+      "national_percentile": 13.1,
+      "muslim_pct": 44.9,
+      "under_16_pct": 25.0,
+      "flag": "HIGH"
+    },
+    {
+      "ward": "City Centre",
+      "imd_decile": 2.0,
+      "imd_score": 38.43,
+      "national_percentile": 16.7,
+      "muslim_pct": 16.3,
+      "under_16_pct": 10.7,
+      "flag": "HIGH"
+    }
+  ],
+  "threats": [
+    {
+      "type": "fiscal",
+      "severity": "critical",
+      "description": "Fiscal sustainability score 20/100 \u2014 structural deficit risk",
+      "evidence": "Collection rate 90.18%, IMD 27.93, employment 52.8%"
+    },
+    {
+      "type": "fiscal",
+      "severity": "high",
+      "description": "Declining council tax collection \u2014 revenue base eroding",
+      "evidence": "5-year trend: -2.67% per year"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (394 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 228 to 394 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "North Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 31,
+      "demand_score": 68
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Central Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 35,
+      "demand_score": 66
+    },
+    {
+      "model": "four_unitary",
+      "authority": "North Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 32,
+      "demand_score": 63
+    },
+    {
+      "model": "four_unitary_alt",
+      "authority": "Western Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 21,
+      "demand_score": 72
+    },
+    {
+      "model": "five_unitary",
+      "authority": "West Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 21,
+      "demand_score": 72
+    }
+  ],
+  "risk_factors": [
+    "Below-average council tax collection (90.18%)",
+    "Declining collection rate (trend: -2.7%)",
+    "Significant asylum dispersal (394 seekers)",
+    "High service demand demographics (Muslim 16.1%)",
+    "GRT/Roma population (362) \u2014 highest SEND prevalence group",
+    "Low employment rate (52.8%)"
+  ]
+}

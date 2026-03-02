@@ -337,6 +337,28 @@ function CrossCouncil() {
     }))
     .sort((a, b) => b.seekers - a.seekers), [councils, councilName])
 
+  // Fiscal resilience comparison (from demographic_fiscal.json via cross_council)
+  const fiscalData = useMemo(() => councils
+    .filter(c => c.fiscal_resilience_score != null)
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      score: c.fiscal_resilience_score,
+      demand: c.service_demand_score || 0,
+      risk: c.demographic_risk_category || '',
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => a.score - b.score), [councils, councilName])
+
+  // Employment rate comparison
+  const employmentData = useMemo(() => councils
+    .filter(c => c.employment_rate_pct != null && c.employment_rate_pct > 0)
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      rate: c.employment_rate_pct,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => a.rate - b.rate), [councils, councilName])
+
   if (loading) return <LoadingState message="Loading comparison data..." />
   if (error) return (
     <div className="page-error">
@@ -1204,6 +1226,94 @@ function CrossCouncil() {
               const currentEntry = asylumData.find(d => d.isCurrent)
               return currentEntry ? ` ${councilName}: ${currentEntry.seekers.toLocaleString()} (${Math.round(currentEntry.seekers / totalSeekers * 100)}% of Lancashire total).` : ''
             })()}
+          </p>
+        </section>
+      )}
+
+      {/* Demographic Fiscal Profile */}
+      {fiscalData.length > 0 && (
+        <section className="cross-section">
+          <h2><AlertTriangle size={22} /> Demographic Fiscal Profile</h2>
+          <p className="section-intro">
+            Composite fiscal sustainability scores based on demographic composition, council tax yield, deprivation, employment, and service demand.
+            Lower scores indicate higher structural deficit risk.
+          </p>
+
+          {/* Fiscal Resilience Scores */}
+          <div className="chart-container" role="img" aria-label="Bar chart comparing fiscal resilience scores">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={fiscalData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis domain={[0, 100]} tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v) => [`${v}/100`, 'Fiscal Resilience']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="score" name="Fiscal Resilience" radius={[4, 4, 0, 0]}>
+                  {fiscalData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.score < 30 ? '#ff453a' : entry.score < 50 ? '#ff9f0a' : '#30d158'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Service Demand Pressure */}
+          <h3 style={{ fontSize: '0.85rem', marginTop: 'var(--space-md)', color: 'var(--text-secondary)' }}>Service Demand Pressure (higher = more costly)</h3>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing service demand pressure">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={fiscalData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis domain={[0, 100]} tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v) => [`${v}/100`, 'Service Demand']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="demand" name="Service Demand" radius={[4, 4, 0, 0]}>
+                  {fiscalData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.demand > 70 ? '#ff453a' : entry.demand > 50 ? '#ff9f0a' : '#30d158'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: Census 2021 demographics, DfE SEND Statistics 2023, GOV.UK Council Tax Collection Rates, MHCLG IMD 2019.
+            Academic: Casey Review (2016), ONS Births by Country of Birth (2023).
+          </p>
+        </section>
+      )}
+
+      {/* Employment Rate Comparison */}
+      {employmentData.length > 0 && (
+        <section className="cross-section">
+          <h2><Users size={22} /> Employment Rate Comparison</h2>
+          <p className="section-intro">
+            Percentage of working-age (16+) population in employment (Census 2021). Lower rates correlate with reduced council tax yield and higher benefit demand.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing employment rates">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={employmentData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis domain={[40, 70]} tickFormatter={v => `${v}%`} tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v) => [`${v}%`, 'Employment Rate']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="rate" name="Employment Rate" radius={[4, 4, 0, 0]}>
+                  {employmentData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.rate < 50 ? '#ff453a' : entry.rate < 55 ? '#ff9f0a' : '#30d158'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: ONS Census 2021 via Nomis API. Economic activity data for all usual residents aged 16+.
           </p>
         </section>
       )}

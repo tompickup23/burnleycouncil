@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.087553",
+    "council_id": "lancashire_cc",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 45,
+  "service_demand_pressure_score": 55,
+  "demographic_change_velocity": 9.1,
+  "risk_category": "At Risk",
+  "ethnic_composition_summary": {
+    "white_british_pct": 85.2,
+    "muslim_pct": 6.9,
+    "pakistani_bangladeshi_pct": 5.2,
+    "grt_count": 956,
+    "roma_count": 912,
+    "eu8_eu2_born_pct": 2.3,
+    "black_african_caribbean_pct": 0.6
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.9,
+    "vs_national_avg_pp": 0.0,
+    "estimated_send_pupils": 23688,
+    "eal_estimate_pct": 9.1,
+    "grt_send_contribution": "956 GRT pupils at 35% SEND rate = ~67 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 0,
+    "per_1000_pop": 0.0,
+    "projected_2028": {
+      "low": 0,
+      "central": 0,
+      "high": 0
+    },
+    "projected_2032": {
+      "low": 0,
+      "central": 0,
+      "high": 0
+    },
+    "annual_cost_estimate": 0,
+    "trend": []
+  },
+  "council_tax_risk": {
+    "collection_rate": 0,
+    "collection_trend": 0,
+    "arrears": 0
+  },
+  "pressure_zones": [],
+  "threats": [],
+  "lgr_threats": [],
+  "risk_factors": [
+    "GRT/Roma population (1868) \u2014 highest SEND prevalence group",
+    "Low employment rate (53.1%)"
+  ]
+}

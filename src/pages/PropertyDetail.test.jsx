@@ -569,4 +569,119 @@ describe('PropertyDetail', () => {
       expect(screen.queryByText('Sales Evidence')).not.toBeInTheDocument()
     })
   })
+
+  // --- LGR Tab ---
+
+  describe('LGR tab', () => {
+    const mockLgrData = {
+      proposed_models: [
+        {
+          id: 'two_unitary',
+          name: 'Two Unitary',
+          authorities: [
+            { name: 'East Lancashire', councils: ['burnley', 'pendle', 'hyndburn', 'rossendale'] },
+            { name: 'West & Central Lancashire', councils: ['preston', 'chorley', 'south_ribble', 'west_lancashire', 'lancaster', 'wyre', 'fylde', 'ribble_valley'] },
+          ],
+        },
+        {
+          id: 'three_unitary',
+          name: 'Three Unitary',
+          authorities: [
+            { name: 'Pennine Lancashire', councils: ['burnley', 'pendle', 'hyndburn', 'rossendale'] },
+            { name: 'Central Lancashire', councils: ['preston', 'chorley', 'south_ribble'] },
+            { name: 'Bay & Rural', councils: ['lancaster', 'wyre', 'fylde', 'ribble_valley', 'west_lancashire'] },
+          ],
+        },
+      ],
+    }
+
+    function mockUseDataForLGR(assetOverride) {
+      const detailData = { meta: {}, assets: [assetOverride || baseAsset] }
+      useData.mockImplementation((url) => {
+        if (typeof url === 'string' && url.includes('lgr_tracker')) {
+          return { data: mockLgrData, loading: false, error: null }
+        }
+        return { data: detailData, loading: false, error: null }
+      })
+    }
+
+    it('renders LGR tab button', () => {
+      mockUseDataForLGR()
+      renderComponent()
+      expect(screen.getByText('LGR')).toBeInTheDocument()
+    })
+
+    it('shows per-model authority assignment on LGR tab', () => {
+      mockUseDataForLGR()
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      expect(screen.getByText('LGR Authority Assignment')).toBeInTheDocument()
+      expect(screen.getByText('Two Unitary')).toBeInTheDocument()
+      expect(screen.getByText('Three Unitary')).toBeInTheDocument()
+    })
+
+    it('shows correct authority for asset district', () => {
+      mockUseDataForLGR()
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      // baseAsset.district = 'Preston' → West & Central Lancashire / Central Lancashire
+      expect(screen.getByText('West & Central Lancashire')).toBeInTheDocument()
+      expect(screen.getByText('Central Lancashire')).toBeInTheDocument()
+    })
+
+    it('shows Retained outcome for normal asset', () => {
+      mockUseDataForLGR()
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      expect(screen.getAllByText('Retained').length).toBeGreaterThanOrEqual(2)
+    })
+
+    it('shows contested for asset without matching district', () => {
+      const noDistrictAsset = { ...baseAsset, district: '' }
+      mockUseDataForLGR(noDistrictAsset)
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      expect(screen.getAllByText('Contested / Unallocated').length).toBe(2)
+      expect(screen.getAllByText('Unallocated').length).toBe(2)
+    })
+
+    it('shows disposal candidate for disposal category A asset', () => {
+      const disposalAsset = { ...baseAsset, disposal: { ...baseAsset.disposal, category: 'A' } }
+      mockUseDataForLGR(disposalAsset)
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      expect(screen.getAllByText('Disposal Candidate').length).toBe(2)
+    })
+
+    it('shows LGR Impact Summary', () => {
+      mockUseDataForLGR()
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      expect(screen.getByText('LGR Impact Summary')).toBeInTheDocument()
+      expect(screen.getByText(/clear allocation path/)).toBeInTheDocument()
+    })
+
+    it('shows fallback when lgr data is missing', () => {
+      useData.mockImplementation((url) => {
+        if (typeof url === 'string' && url.includes('lgr_tracker')) {
+          return { data: null, loading: false, error: null }
+        }
+        return { data: mockDetailData, loading: false, error: null }
+      })
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      expect(screen.getByText('LGR model data not available.')).toBeInTheDocument()
+    })
+
+    it('handles land assets correctly', () => {
+      const landAsset = { ...baseAsset, id: 'lcc-land-001', category: 'land_general', name: 'Woodland near Burnley', district: 'Burnley' }
+      mockUseDataForLGR(landAsset)
+      useParams.mockReturnValue({ propertyId: 'lcc-land-001' })
+      renderComponent()
+      fireEvent.click(screen.getByText('LGR'))
+      // Burnley → East Lancashire / Pennine Lancashire
+      expect(screen.getByText('East Lancashire')).toBeInTheDocument()
+      expect(screen.getByText('Pennine Lancashire')).toBeInTheDocument()
+    })
+  })
 })

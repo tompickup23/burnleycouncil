@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "generated": "2026-03-02T19:59:36.088544",
+    "council_id": "wyre",
+    "sources": [
+      "Census 2021",
+      "ONS SNPP 2022",
+      "IMD 2019",
+      "GOV.UK QRC4",
+      "DfE SEND Statistics 2023",
+      "Home Office Immigration Statistics 2025"
+    ]
+  },
+  "fiscal_resilience_score": 45,
+  "service_demand_pressure_score": 75,
+  "demographic_change_velocity": 3.8,
+  "risk_category": "At Risk",
+  "ethnic_composition_summary": {
+    "white_british_pct": 95.7,
+    "muslim_pct": 0.4,
+    "pakistani_bangladeshi_pct": 0.1,
+    "grt_count": 71,
+    "roma_count": 31,
+    "eu8_eu2_born_pct": 0.6,
+    "black_african_caribbean_pct": 0.2
+  },
+  "send_risk": {
+    "estimated_send_rate_pct": 14.8,
+    "vs_national_avg_pp": -0.1,
+    "estimated_send_pupils": 1883,
+    "eal_estimate_pct": 3.8,
+    "grt_send_contribution": "71 GRT pupils at 35% SEND rate = ~5 additional SEND cases"
+  },
+  "asylum_impact": {
+    "current_seekers": 376,
+    "per_1000_pop": 3.4,
+    "projected_2028": {
+      "low": 435,
+      "central": 528,
+      "high": 650
+    },
+    "projected_2032": {
+      "low": 490,
+      "central": 642,
+      "high": 952
+    },
+    "annual_cost_estimate": 7813280,
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 41
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 72
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 209
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 376
+      }
+    ]
+  },
+  "council_tax_risk": {
+    "collection_rate": 96.48,
+    "collection_trend": -0.41,
+    "arrears": 9557000.0
+  },
+  "pressure_zones": [
+    {
+      "ward": "Pharos",
+      "imd_decile": 1.2,
+      "imd_score": 61.06,
+      "national_percentile": 4.0,
+      "muslim_pct": 1.3,
+      "under_16_pct": 16.2,
+      "flag": "HIGH"
+    }
+  ],
+  "threats": [
+    {
+      "type": "demographic",
+      "severity": "high",
+      "description": "Service demand pressure 75/100 \u2014 above-average service costs",
+      "evidence": "SEND rate 14.8%, under-16 15.7%, asylum seekers 376"
+    },
+    {
+      "type": "service",
+      "severity": "high",
+      "description": "Concentrated asylum dispersal (376 seekers) \u2014 growing pressure on housing, schools, health",
+      "evidence": "Growth from 41 to 376 in 4 years"
+    }
+  ],
+  "lgr_threats": [
+    {
+      "model": "two_unitary",
+      "authority": "North Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 31,
+      "demand_score": 68
+    },
+    {
+      "model": "three_unitary",
+      "authority": "Coastal Lancashire",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 30,
+      "demand_score": 70
+    },
+    {
+      "model": "four_unitary",
+      "authority": "Fylde Coast",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
+      "fiscal_score": 29,
+      "demand_score": 74
+    },
+    {
+      "model": "five_unitary",
+      "authority": "North Lancashire",
+      "severity": "high",
+      "risk_category": "At Risk",
+      "fiscal_score": 37,
+      "demand_score": 67
+    }
+  ],
+  "risk_factors": [
+    "Significant asylum dispersal (376 seekers)",
+    "GRT/Roma population (102) \u2014 highest SEND prevalence group",
+    "Low employment rate (49.3%)"
+  ]
+}

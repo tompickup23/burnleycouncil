@@ -1,0 +1,202 @@
+.lgr-cca-impact {
+  margin-bottom: 2.5rem;
+}
+
+/* Warning banner */
+.lgr-cca-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255, 69, 58, 0.08);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.lgr-cca-warning > svg {
+  color: #ff453a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lgr-cca-warning-content strong {
+  color: #ff453a;
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.lgr-cca-warning-content p {
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Section heading */
+.lgr-cca-impact h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.lgr-cca-desc {
+  color: #8e8e93;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* Transfer table */
+.lgr-cca-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lgr-cca-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  font-size: 0.85rem;
+}
+
+.lgr-cca-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  color: #8e8e93;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+
+.lgr-cca-table td {
+  padding: 0.65rem 1rem;
+  color: #e5e5e7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.lgr-cca-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lgr-cca-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lgr-cca-service-name {
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.lgr-cca-col-amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.lgr-cca-description {
+  color: #8e8e93;
+  font-size: 0.8rem;
+  max-width: 300px;
+}
+
+/* Chart card */
+.lgr-cca-chart-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Totals */
+.lgr-cca-totals {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.lgr-cca-total-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.lgr-cca-total-label {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.lgr-cca-total-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Deduction card */
+.lgr-cca-deduction {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  border-color: rgba(255, 69, 58, 0.3);
+  background: rgba(255, 69, 58, 0.05);
+}
+
+.lgr-cca-deduction > svg {
+  color: #ff453a;
+  flex-shrink: 0;
+}
+
+.lgr-cca-deduction > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.lgr-cca-deduction-value {
+  color: #ff453a !important;
+}
+
+/* Footnote */
+.lgr-cca-footnote {
+  font-size: 0.8rem;
+  color: #636366;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .lgr-cca-totals {
+    flex-direction: column;
+  }
+
+  .lgr-cca-total-value {
+    font-size: 1.25rem;
+  }
+
+  .lgr-cca-description {
+    max-width: 150px;
+  }
+}
