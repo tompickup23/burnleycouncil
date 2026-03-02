@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
 import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -7,6 +7,8 @@ import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
 import { slugify } from '../utils/format'
 import './MyArea.css'
+
+const WardMap = lazy(() => import('../components/WardMap'))
 
 // Pure helper — no component deps, safe at module scope
 const getDeprivationColor = (level) => {
@@ -42,6 +44,25 @@ function MyArea() {
   // HMO data (optional — councils with hmo ETL data)
   const { data: hmoRaw } = useData('/data/hmo.json')
   const hmoData = hmoRaw || null
+  // Ward boundaries for map (optional — not all councils have this)
+  const { data: boundariesData } = useData(config.data_sources?.ward_boundaries ? '/data/ward_boundaries.json' : null)
+
+  const wardMapData = useMemo(() => {
+    if (!wards || typeof wards !== 'object') return {}
+    const map = {}
+    Object.entries(wards).forEach(([wardName, ward]) => {
+      const councillors = ward.councillors || []
+      const dep = deprivation[wardName]
+      map[wardName] = {
+        color: councillors[0]?.color || '#666',
+        winner: councillors[0]?.party,
+        partyColor: councillors[0]?.color || '#666',
+        classLabel: dep?.deprivation_level ? `${dep.deprivation_level} deprivation` : null,
+      }
+    })
+    return map
+  }, [wards, deprivation])
+
   const [selectedWard, setSelectedWard] = useState(null)
   const [postcode, setPostcode] = useState('')
   const [postcodeLoading, setPostcodeLoading] = useState(false)
@@ -233,6 +254,40 @@ function MyArea() {
               <p className="text-secondary">Your local councillors</p>
             </div>
           </div>
+
+          {/* Ward Impact Statement — emotional narrative card */}
+          {(() => {
+            const depData = getDeprivationForWard(selectedWard)
+            const wardCouncillors = getWardCouncillors(selectedWard)
+            const wardIntegrity = integrityData?.councillors
+              ? wardCouncillors.map(c => integrityData.councillors.find(ic => ic.name === c.name)).filter(Boolean)
+              : []
+            const flagged = wardIntegrity.filter(ic => (ic.total_flags || ic.flags || 0) > 0)
+            const wardHmo = hmoData?.summary?.by_ward?.[selectedWard]
+            const wardPlanning = planningData?.summary?.by_ward?.[selectedWard] || 0
+
+            // Only show if we have at least deprivation data
+            if (!depData && flagged.length === 0) return null
+
+            return (
+              <div className="deprivation-panel" style={{ marginTop: 0, borderLeft: '3px solid #12b6cf' }}>
+                <h3 style={{ color: '#12b6cf' }}><AlertCircle size={16} /> What This Means For You</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0.5rem 0' }}>
+                  {depData && depData.national_percentile <= 20
+                    ? `${selectedWard} ranks in the most deprived ${depData.national_percentile}% of wards in England (IMD score: ${depData.avg_imd_score}). That means residents here face harder pressures on income, employment, health and housing than most of the country — yet council spending decisions are made with almost no public scrutiny.`
+                    : depData && depData.national_percentile <= 40
+                    ? `${selectedWard} faces above-average deprivation (national percentile: ${depData.national_percentile}%, IMD score: ${depData.avg_imd_score}). Residents here deserve to know exactly where their council tax goes and whether it's being spent wisely.`
+                    : depData
+                    ? `${selectedWard} has an IMD score of ${depData.avg_imd_score} (national percentile: ${depData.national_percentile}%). Every ward deserves transparency about how public money is spent.`
+                    : `Your ward deserves full transparency about how public money is spent on your behalf.`
+                  }
+                  {flagged.length > 0 && ` ${flagged.length} of your ${wardCouncillors.length} local councillor${wardCouncillors.length > 1 ? 's' : ''} ha${flagged.length > 1 ? 've' : 's'} integrity flags — check their profiles below.`}
+                  {wardPlanning > 30 && ` There have been ${wardPlanning} planning applications in this area recently — is your neighbourhood changing faster than you think?`}
+                  {wardHmo?.total > 10 && ` This ward has ${wardHmo.total} HMOs registered${wardHmo.density_per_1000 > 5 ? ` — a density of ${wardHmo.density_per_1000} per 1,000 people, well above average` : ''}.`}
+                </p>
+              </div>
+            )
+          })()}
 
           {(() => {
             const depData = getDeprivationForWard(selectedWard)
@@ -474,6 +529,35 @@ function MyArea() {
               </div>
             ))}
           </div>
+        </section>
+      )}
+
+      {/* ===== WARD MAP ===== */}
+      {boundariesData?.features?.length > 0 && Object.keys(wardMapData).length > 0 && (
+        <section className="ward-map-section" style={{ margin: '2rem 0' }}>
+          <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <MapPin size={22} /> Ward Map
+          </h2>
+          <p style={{ color: 'var(--text-secondary, #a1a1aa)', fontSize: '0.9rem', marginBottom: '1rem' }}>
+            Click a ward to see your councillors and local data. Coloured by party.
+          </p>
+          <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading map...</div>}>
+            <WardMap
+              boundaries={boundariesData}
+              wardData={wardMapData}
+              wardsUp={Object.keys(wardMapData)}
+              overlayMode="party"
+              selectedWard={selectedWard}
+              onWardClick={(name) => {
+                setSelectedWard(name)
+                // Scroll to ward details
+                setTimeout(() => {
+                  document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }, 100)
+              }}
+              height="400px"
+            />
+          </Suspense>
         </section>
       )}
 

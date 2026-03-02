@@ -4,6 +4,7 @@ import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, Trendi
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { useData } from '../hooks/useData'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate, slugify } from '../utils/format'
 import { CHART_COLORS, SPENDING_TYPE_LABELS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
@@ -39,6 +40,7 @@ function Spending() {
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || 'council'
   const hasSpending = !!(config.data_sources || {}).spending
+  const { data: dogeFindings } = useData('/data/doge_findings.json')
 
   // Web Worker handles all heavy computation off the main thread
   const {
@@ -295,6 +297,30 @@ function Spending() {
           </button>
         </div>
       </header>
+
+      {/* "Did you know?" callout from DOGE findings */}
+      {dogeFindings && !dogeRef && (() => {
+        const facts = []
+        if (dogeFindings.duplicates?.total_amount > 0)
+          facts.push(`${councilName} has £${Math.round(dogeFindings.duplicates.total_amount / 1000).toLocaleString()}k in suspected duplicate payments — money that may have been paid twice.`)
+        if (dogeFindings.split_payments?.total_amount > 0)
+          facts.push(`£${(dogeFindings.split_payments.total_amount / 1000000).toFixed(1)}M in bills were split into smaller amounts — a pattern that can dodge oversight thresholds.`)
+        if (dogeFindings.weak_competition?.count > 0)
+          facts.push(`${dogeFindings.weak_competition.count} contracts were awarded with limited competition — were taxpayers getting the best deal?`)
+        if (dogeFindings.round_numbers?.total_amount > 0)
+          facts.push(`£${(dogeFindings.round_numbers.total_amount / 1000000).toFixed(1)}M in suspiciously round payments were found — round numbers can indicate estimates rather than actual costs.`)
+        if (facts.length === 0) return null
+        const fact = facts[Math.floor((Date.now() / 86400000) % facts.length)]
+        return (
+          <div className="doge-evidence-banner" style={{ background: 'rgba(255,159,10,0.08)', borderColor: 'rgba(255,159,10,0.25)' }}>
+            <AlertTriangle size={16} style={{ color: '#ff9f0a', flexShrink: 0 }} />
+            <div className="doge-evidence-content">
+              <span><strong>Did you know?</strong> {fact}</span>
+            </div>
+            <Link to="/doge" className="evidence-back-link" style={{ color: '#ff9f0a' }}>See the evidence →</Link>
+          </div>
+        )
+      })()}
 
       {/* Limited Data Warning */}
       {!loading && totalRecords > 0 && totalRecords < 5000 && (

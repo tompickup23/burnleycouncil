@@ -1,17 +1,17 @@
-import { useEffect, useMemo } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText,
   Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion,
   Calendar, Repeat, GitCompareArrows, Zap, Scale, BarChart3, Target,
-  ArrowDown, HelpCircle, ExternalLink
+  ArrowDown, HelpCircle, ExternalLink, MapPin
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell
 } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, PARTY_COLORS } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
@@ -19,6 +19,9 @@ import ReformShowcase from '../components/ReformShowcase'
 import { useCountUp } from '../hooks/useCountUp'
 import { useReveal } from '../hooks/useReveal'
 import './Home.css'
+
+const LancashireMap = lazy(() => import('../components/LancashireMap'))
+const WardMap = lazy(() => import('../components/WardMap'))
 
 // Map icon names from doge_findings.json to Lucide components
 const iconMap = {
@@ -31,20 +34,8 @@ const iconMap = {
   'git-compare-arrows': GitCompareArrows,
 }
 
-// Party colors — static, safe at module scope
-const partyColors = {
-  'Independent': '#800080',
-  'Labour': '#DC241F',
-  'Labour & Co-operative Party': '#DC241F',
-  'Lab & Co-op': '#DC241F',
-  'Liberal Democrats': '#FAA61A',
-  'Conservative': '#0087DC',
-  'Green Party': '#6AB023',
-  'Green': '#6AB023',
-  'Reform UK': '#12B6CF',
-  'Our West Lancs': '#8B4DAB',
-  'Labour and Co-operative': '#DC241F',
-}
+// Use canonical party colors from constants
+const partyColors = PARTY_COLORS
 
 function Home() {
   const config = useCouncilConfig()
@@ -68,6 +59,13 @@ function Home() {
   if (hasReformShowcase) dataUrls.push('/data/reform_transformation.json')
 
   const { data, loading, error } = useData(dataUrls)
+
+  // Map data
+  const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
+  const { data: crossCouncilData } = useData('/data/cross_council.json')
+  const wardBoundariesEnabled = !!dataSources.ward_boundaries
+  const { data: wardBoundariesData } = useData(wardBoundariesEnabled ? '/data/ward_boundaries.json' : null)
+  const { data: wardsData } = useData(dataSources.my_area ? '/data/wards.json' : null)
 
   useEffect(() => {
     document.title = `Home | ${councilName} Council Transparency`
@@ -161,6 +159,24 @@ function Home() {
   const [chartsRef, chartsVisible] = useReveal()
   const [sourcesRef, sourcesVisible] = useReveal()
 
+  const [mapMode, setMapMode] = useState('tier')
+
+  const wardMapData = useMemo(() => {
+    if (!wardsData) return {}
+    const map = {}
+    const wardEntries = typeof wardsData === 'object' && !Array.isArray(wardsData) ? Object.entries(wardsData) : []
+    wardEntries.forEach(([wardName, ward]) => {
+      const councillors = ward.councillors || []
+      const mainParty = councillors[0]?.party
+      map[wardName] = {
+        color: councillors[0]?.color || '#666',
+        winner: mainParty,
+        partyColor: councillors[0]?.color || '#666',
+      }
+    })
+    return map
+  }, [wardsData])
+
   if (loading) {
     return <LoadingState message="Loading dashboard data..." />
   }
@@ -196,10 +212,10 @@ function Home() {
             <Shield size={16} />
             <span>AI DOGE — Department of Government Efficiency</span>
           </div>
-          <h1>We Audited Every Pound<br /><span className="highlight">{councilFullName} Spent.</span></h1>
+          <h1>Your Council Spent {animatedSpend}.<br /><span className="highlight">Do You Know Where It Went?</span></h1>
           <p className="hero-subtitle">
-            Every payment your council makes with public money is published by law.
-            We collected it all, ran 12 automated forensic checks, and here&apos;s what we found.
+            Every payment {councilFullName} makes is published by law. We collected every one,
+            ran 35+ forensic checks, and found patterns they never told you about.
           </p>
         </div>
 
@@ -253,6 +269,91 @@ function Home() {
         </div>
         <DataFreshness source="Spending data" />
       </header>
+
+      {/* ===== LANCASHIRE OVERVIEW MAP ===== */}
+      {councilBoundaries?.features?.length > 0 && (
+        <section className="lancashire-map-section">
+          <h2><MapPin size={22} /> Lancashire at a Glance</h2>
+          <p className="section-intro">
+            AI DOGE tracks all 15 Lancashire councils. Click any council on the map to explore its data.
+          </p>
+          <div className="lancashire-map-controls">
+            {[
+              { id: 'tier', label: 'By Tier' },
+              { id: 'spend', label: 'By Spending' },
+              { id: 'politics', label: 'By Politics' },
+            ].map(mode => (
+              <button
+                key={mode.id}
+                className={mapMode === mode.id ? 'active' : ''}
+                onClick={() => setMapMode(mode.id)}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
+          <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading map...</div>}>
+            <LancashireMap
+              councilBoundaries={councilBoundaries}
+              councilData={crossCouncilData?.councils || []}
+              currentCouncilId={config.council_id}
+              colorMode={mapMode}
+              onCouncilClick={(id) => {
+                const slug = COUNCIL_SLUG_MAP[id]
+                if (slug) window.location.href = '/' + slug + '/'
+              }}
+              height="420px"
+            />
+          </Suspense>
+          <div className="lancashire-map-legend">
+            {mapMode === 'tier' && (
+              <>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#0a84ff' }} />District (12)</span>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#ff9f0a' }} />County (1)</span>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#bf5af2' }} />Unitary (2)</span>
+              </>
+            )}
+            {mapMode === 'spend' && (
+              <div className="lancashire-map-legend-gradient">
+                <span>Lower</span>
+                <div className="lancashire-map-legend-gradient-bar" />
+                <span>Higher spend/head</span>
+              </div>
+            )}
+            {mapMode === 'politics' && (
+              <div className="lancashire-map-legend-party">
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#DC241F' }} />Labour</span>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#0087DC' }} />Conservative</span>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#12B6CF' }} />Reform UK</span>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#FAA61A' }} />Lib Dem</span>
+                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#888' }} />NOC</span>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ===== WARD MAP — Current Council ===== */}
+      {wardBoundariesData?.features?.length > 0 && Object.keys(wardMapData).length > 0 && (
+        <section className="lancashire-map-section">
+          <h2><MapPin size={22} /> {councilName} Wards</h2>
+          <p className="section-intro">
+            Explore the wards that make up {councilName}. Coloured by the party of the current councillor.
+          </p>
+          <Suspense fallback={<div style={{ height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading ward map...</div>}>
+            <WardMap
+              boundaries={wardBoundariesData}
+              wardData={wardMapData}
+              wardsUp={Object.keys(wardMapData)}
+              overlayMode="party"
+              height="380px"
+              onWardClick={(name) => {
+                window.location.href = import.meta.env.BASE_URL + 'my-area?ward=' + encodeURIComponent(name)
+              }}
+            />
+          </Suspense>
+        </section>
+      )}
 
       {/* ===== WHAT IS THIS? — For complete novices ===== */}
       <section ref={explainerRef} className={`explainer-section reveal ${explainerVisible ? "is-visible" : ""}`}>

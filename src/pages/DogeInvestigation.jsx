@@ -484,7 +484,7 @@ function DogeInvestigation() {
         {/* Split Payments */}
         {verifiedFindings.split_payments && (
           <ExpandableSection
-            title="Suspected Split Payments"
+            title="Bills Broken Up to Avoid Checks"
             subtitle={verifiedFindings.split_payments.value}
             severity="warning"
           >
@@ -527,7 +527,7 @@ function DogeInvestigation() {
         {/* Year-End Pattern */}
         {verifiedFindings.year_end_pattern && (
           <ExpandableSection
-            title="Year-End Spending Patterns"
+            title="The March Spending Frenzy"
             subtitle={verifiedFindings.year_end_pattern.value}
             severity={verifiedFindings.year_end_pattern.confidence === 'retired' ? 'info' : 'warning'}
           >
@@ -681,7 +681,7 @@ function DogeInvestigation() {
         {/* Supplier Concentration */}
         {dogeFindings.supplier_concentration && (
           <ExpandableSection
-            title="Supplier Concentration"
+            title="Too Much Money, Too Few Suppliers"
             subtitle={`HHI: ${dogeFindings.supplier_concentration.hhi} (${dogeFindings.supplier_concentration.concentration_level})`}
             severity="info"
           >
@@ -752,7 +752,7 @@ function DogeInvestigation() {
         {/* Procurement Compliance */}
         {dogeFindings.procurement_compliance && (
           <ExpandableSection
-            title="Procurement Compliance"
+            title="Contracts Without Proper Competition"
             subtitle={`${dogeFindings.procurement_compliance.awarded_contracts} contracts analysed`}
             severity={dogeFindings.procurement_compliance.threshold_suspect_count > 3 ? 'warning' : 'info'}
           >
@@ -784,7 +784,7 @@ function DogeInvestigation() {
                   {dogeFindings.procurement_compliance.weak_competition_count > 0 && (
                     <div className="proc-stat" style={{ borderLeft: '2px solid #ff9f0a' }}>
                       <span className="proc-stat-value" style={{ color: '#ff9f0a' }}>{dogeFindings.procurement_compliance.weak_competition_count}</span>
-                      <span className="proc-stat-label">Weak Competition</span>
+                      <span className="proc-stat-label">Limited Competition</span>
                     </div>
                   )}
                   {dogeFindings.procurement_compliance.monopoly_category_count > 0 && (
@@ -911,7 +911,7 @@ function DogeInvestigation() {
                 )}
                 {dogeFindings.procurement_compliance.weak_competition?.length > 0 && (
                   <div className="velocity-table-section">
-                    <h4><ShieldAlert size={16} /> Weak Competition Indicators</h4>
+                    <h4><ShieldAlert size={16} /> Contracts That Raise Questions</h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-sm)' }}>
                       Contracts with short tender periods (&lt;14 days) or rapid award after deadline (&lt;7 days)
                       may indicate limited competitive bidding. Contracts Finder does not publish bid counts directly.
@@ -1016,7 +1016,7 @@ function DogeInvestigation() {
       {/* Fraud Triangle Risk Assessment */}
       {dogeFindings.fraud_triangle && (
         <ExpandableSection
-          title="Risk Assessment: Fraud Triangle"
+          title="Where the Risk Is Highest"
           subtitle={`Overall: ${dogeFindings.fraud_triangle.overall_score}/100 (${dogeFindings.fraud_triangle.risk_level})`}
           severity={dogeFindings.fraud_triangle.risk_level === 'elevated' ? 'critical' : dogeFindings.fraud_triangle.risk_level === 'moderate' ? 'warning' : 'info'}
         >
@@ -1118,7 +1118,7 @@ function DogeInvestigation() {
       {/* Supplier Risk Intelligence */}
       {dogeFindings.supplier_risk?.top_20_risk?.length > 0 && (
         <ExpandableSection
-          title="Supplier Risk Intelligence"
+          title="Suppliers That Raise Questions"
           subtitle={`${dogeFindings.supplier_risk.high_risk || 0} high-risk, ${dogeFindings.supplier_risk.elevated_risk || 0} elevated-risk suppliers`}
           severity={dogeFindings.supplier_risk.high_risk > 0 ? 'warning' : 'info'}
         >
@@ -1183,7 +1183,7 @@ function DogeInvestigation() {
       {/* Advanced Benford's Analysis */}
       {dogeFindings.benfords_advanced && (
         <ExpandableSection
-          title="Advanced Benford's Law Analysis"
+          title="The Numbers Don't Add Up"
           subtitle={`4 tests: first-two digits, last-two digits, summation, per-supplier MAD`}
           severity={
             dogeFindings.benfords_advanced.first_two_digits?.conformity === 'non_conforming' ? 'warning' : 'info'
@@ -1297,7 +1297,7 @@ function DogeInvestigation() {
       {/* Forensic Accounting Classics */}
       {dogeFindings.forensic_classics && (
         <ExpandableSection
-          title="Forensic Accounting Analysis"
+          title="Following the Money"
           subtitle="Same-same-different, vendor integrity, credit patterns, description quality"
           severity={
             (dogeFindings.forensic_classics.vendor_integrity?.total_suspect_pairs > 5 ||
@@ -1434,7 +1434,7 @@ function DogeInvestigation() {
       {/* Temporal Intelligence */}
       {dogeFindings.temporal_intelligence && (
         <ExpandableSection
-          title="Temporal Intelligence"
+          title="When the Money Moves"
           subtitle={`Year-end acceleration, change-points, statistical process control`}
           severity={dogeFindings.temporal_intelligence.dept_acceleration?.length > 5 ? 'warning' : 'info'}
         >
@@ -1530,7 +1530,7 @@ function DogeInvestigation() {
       {/* Procurement Intelligence */}
       {dogeFindings.procurement_intelligence && (
         <ExpandableSection
-          title="Procurement Intelligence"
+          title="Who Gets the Contracts?"
           subtitle="Maverick spend, price escalation, cross-department splitting"
           severity={dogeFindings.procurement_intelligence.maverick_spend?.overall_maverick_pct > 30 ? 'warning' : 'info'}
         >
@@ -1707,7 +1707,7 @@ function DogeInvestigation() {
       {/* Supplier Lifecycle */}
       {dogeFindings.supplier_lifecycle?.total_pump_dump > 0 && (
         <ExpandableSection
-          title="Supplier Lifecycle Analysis"
+          title="The Supplier Story"
           subtitle={`${dogeFindings.supplier_lifecycle.total_pump_dump} pump-and-dump flags, ${dogeFindings.supplier_lifecycle.total_escalations} escalation alerts`}
           severity={dogeFindings.supplier_lifecycle.total_pump_dump > 3 ? 'warning' : 'info'}
         >

@@ -4,7 +4,7 @@ const WardMap = lazy(() => import('../components/WardMap'))
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import {
   DEFAULT_ASSUMPTIONS,
   predictCouncil,
@@ -38,13 +38,7 @@ import {
 } from 'lucide-react'
 import './Strategy.css'
 
-// Party colours (same as Elections)
-const PARTY_COLORS = {
-  Labour: '#DC241F', Conservative: '#0087DC', 'Liberal Democrats': '#FAA61A',
-  'Lib Dem': '#FAA61A', Green: '#6AB023', 'Reform UK': '#12B6CF',
-  Independent: '#888888', UKIP: '#70147A', 'Lab & Co-op': '#DC241F',
-  BNP: '#2D2D86', 'Our West Lancs': '#5DADE2', Other: '#999999',
-}
+// Party colours from canonical constants
 
 const CONFIDENCE_COLORS = { high: '#30d158', medium: '#ff9f0a', low: '#ff453a', none: '#8e8e93' }
 

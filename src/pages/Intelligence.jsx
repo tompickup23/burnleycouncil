@@ -23,15 +23,8 @@ import {
   Calendar, MapPin, Star, Search, ArrowLeft, Swords, Award,
   BarChart3, BookOpen, UserCheck, AlertCircle, ExternalLink,
 } from 'lucide-react'
+import { PARTY_COLORS } from '../utils/constants'
 import './Intelligence.css'
-
-// Party colours
-const PARTY_COLORS = {
-  Labour: '#DC241F', Conservative: '#0087DC', 'Liberal Democrats': '#FAA61A',
-  'Lib Dem': '#FAA61A', 'Green Party': '#6AB023', 'Reform UK': '#12B6CF',
-  Independent: '#888888', 'Labour & Co-operative': '#DC241F',
-  'Our West Lancashire': '#5DADE2', Other: '#999999',
-}
 
 const SEVERITY_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#8e8e93' }
 const RISK_COLORS = { high: '#ff453a', elevated: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }

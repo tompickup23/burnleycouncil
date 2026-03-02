@@ -91,6 +91,9 @@ function setupMocks(overrides = {}, deprivation = mockDeprivation, planning = nu
     if (urls === '/data/property_assets.json') {
       return { data: null, loading: false, error: new Error('Not found') }
     }
+    if (urls === '/data/ward_boundaries.json' || urls === null) {
+      return { data: null, loading: false, error: null }
+    }
     // Default: deprivation
     return { data: deprivation, loading: false, error: deprivation ? null : new Error('Not found') }
   })

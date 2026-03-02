@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP } from '../utils/lgrModel'
@@ -142,10 +142,7 @@ function FinancialHealthScorecard({ financials }) {
   )
 }
 
-const PARTY_COLORS = {
-  'Labour': '#DC241F', 'Conservative': '#0087DC', 'Liberal Democrats': '#FAA61A',
-  'Green Party': '#6AB023', 'Reform UK': '#12B6CF', 'Independent': '#808080',
-}
+// PARTY_COLORS imported from constants
 
 function PoliticalBalanceBar({ projection }) {
   if (!projection || projection.totalSeats === 0) return null

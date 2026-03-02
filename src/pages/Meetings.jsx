@@ -195,6 +195,33 @@ function Meetings() {
         </label>
       </div>
 
+      {/* Spending-Relevant Meetings Highlight */}
+      {(() => {
+        const spendingMeetings = meetings.filter(m => !m.cancelled && detectDogeRelevance(m))
+        if (spendingMeetings.length === 0 || showPast) return null
+        return (
+          <div className="spending-meetings-highlight" style={{ background: 'rgba(255,159,10,0.06)', border: '1px solid rgba(255,159,10,0.2)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1rem' }}>
+            <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ff9f0a', margin: '0 0 0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <AlertTriangle size={16} /> Meetings About Your Money
+            </h3>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0 0 0.75rem', lineHeight: 1.5 }}>
+              {spendingMeetings.length} upcoming meeting{spendingMeetings.length > 1 ? 's' : ''} will discuss spending, budgets, or contracts.
+              Your council is making decisions about your money — here&rsquo;s how to have your say.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+              {spendingMeetings.slice(0, 3).map(m => (
+                <div key={m.id} style={{ fontSize: '0.8rem', background: 'rgba(255,255,255,0.04)', padding: '0.5rem 0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                  onClick={() => setExpandedId(expandedId === m.id ? null : m.id)}
+                >
+                  <span><strong>{m.committee}</strong> — {formatMeetingDate(m.date)}</span>
+                  <span style={{ color: '#ff9f0a', fontSize: '0.75rem' }}>{daysUntil(m.date)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()}
+
       {/* Meetings List */}
       <div className="meetings-list" aria-label="Meeting calendar">
         {meetings.length === 0 && (

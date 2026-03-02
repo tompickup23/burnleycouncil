@@ -56,6 +56,22 @@ const mockInsights = {
   },
 }
 
+function setupMocks(config = mockConfig) {
+  useCouncilConfig.mockReturnValue(config)
+  useData.mockImplementation((urls) => {
+    if (Array.isArray(urls)) {
+      // Primary data array
+      return {
+        data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
+        loading: false,
+        error: null,
+      }
+    }
+    // Individual useData calls for map data — return null so maps don't render in JSDOM
+    return { data: null, loading: false, error: null }
+  })
+}
+
 function renderComponent(config = mockConfig) {
   useCouncilConfig.mockReturnValue(config)
   return render(
@@ -72,47 +88,41 @@ describe('Home', () => {
   })
 
   it('shows loading state while data loads', () => {
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) return { data: null, loading: true, error: null }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/loading dashboard data/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('network error') })
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) return { data: null, loading: false, error: new Error('network error') }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/unable to load data/i)).toBeInTheDocument()
   })
 
   it('renders hero section with council data', () => {
-    useData.mockReturnValue({
-      data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
-      loading: false,
-      error: null,
-    })
+    setupMocks()
     renderComponent()
-    expect(screen.getAllByText(/your money/i).length).toBeGreaterThan(0)
-    expect(screen.getByText(/we audited every pound/i)).toBeInTheDocument()
+    expect(screen.getByText(/Do You Know Where It Went/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/forensic checks/i).length).toBeGreaterThan(0)
   })
 
   it('renders disclaimer banner', () => {
-    useData.mockReturnValue({
-      data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
-      loading: false,
-      error: null,
-    })
+    setupMocks()
     renderComponent()
     expect(screen.getByText(/independent transparency tool/i)).toBeInTheDocument()
   })
 
   it('shows formatted total spend', () => {
-    useData.mockReturnValue({
-      data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
-      loading: false,
-      error: null,
-    })
+    setupMocks()
     renderComponent()
-    // £150M should be formatted in some way
-    expect(screen.getByText(/£150/)).toBeInTheDocument()
+    // £150M should appear in multiple places (hero h1 + impact card)
+    expect(screen.getAllByText(/£150/).length).toBeGreaterThan(0)
   })
 
   it('renders with minimal config (no optional data sources)', () => {
@@ -120,12 +130,19 @@ describe('Home', () => {
       ...mockConfig,
       data_sources: {},
     }
-    useData.mockReturnValue({
-      data: [mockInsights],
-      loading: false,
-      error: null,
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) return { data: [mockInsights], loading: false, error: null }
+      return { data: null, loading: false, error: null }
     })
     renderComponent(minimalConfig)
     expect(screen.getAllByText(/your money/i).length).toBeGreaterThan(0)
+  })
+
+  it('does not crash when map data is null (JSDOM)', () => {
+    setupMocks()
+    renderComponent()
+    // Maps should not render since map data is null
+    expect(screen.queryByTestId('lancashire-map')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('ward-map')).not.toBeInTheDocument()
   })
 })

@@ -1,11 +1,12 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, Search } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search } from 'lucide-react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
 import { useAuth as useAuthHook } from '../context/AuthContext'
 import { preloadData, useData } from '../hooks/useData'
 import GlobalSearch from './GlobalSearch'
+import CouncilPicker from './CouncilPicker'
 import DataFreshnessStamp from './DataFreshnessStamp'
 import './Layout.css'
 
@@ -71,6 +72,7 @@ const navSections = [
 function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [councilPickerOpen, setCouncilPickerOpen] = useState(false)
   const [collapsedSections, setCollapsedSections] = useState({})
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
@@ -168,16 +170,23 @@ function Layout({ children }) {
             </button>
           </div>
 
-          {/* Hub link — back to all councils directory */}
-          <div className="nav-section">
-            <a
-              href={import.meta.env.BASE_URL?.replace(/\/lancashire\/[^/]+\/$/, '/') || '/'}
+          {/* Hub link — council picker dropdown */}
+          <div className="nav-section" style={{ position: 'relative' }}>
+            <button
               className="nav-item nav-hub-link"
-              onClick={() => setSidebarOpen(false)}
+              onClick={() => setCouncilPickerOpen(prev => !prev)}
+              style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', color: 'inherit' }}
             >
               <LayoutGrid size={20} />
               <span>All Councils</span>
-            </a>
+              {councilPickerOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+            {councilPickerOpen && (
+              <CouncilPicker
+                currentCouncilId={config.council_id}
+                onClose={() => setCouncilPickerOpen(false)}
+              />
+            )}
             <div className="nav-divider" />
           </div>
           {visibleSections.map((section, si) => (

@@ -13,26 +13,10 @@ import { collection, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { Users, Shield, ChevronDown, ChevronUp, Save, Check, X, Loader2, Search } from 'lucide-react'
 import { db } from '../firebase'
 import { useAuth } from '../context/AuthContext'
+import { LANCASHIRE_COUNCILS } from '../utils/constants'
 import './AdminPanel.css'
 
-// All 15 Lancashire council IDs
-const COUNCILS = [
-  { id: 'burnley', name: 'Burnley' },
-  { id: 'hyndburn', name: 'Hyndburn' },
-  { id: 'pendle', name: 'Pendle' },
-  { id: 'rossendale', name: 'Rossendale' },
-  { id: 'lancaster', name: 'Lancaster' },
-  { id: 'ribble_valley', name: 'Ribble Valley' },
-  { id: 'chorley', name: 'Chorley' },
-  { id: 'south_ribble', name: 'South Ribble' },
-  { id: 'lancashire_cc', name: 'Lancashire CC' },
-  { id: 'blackpool', name: 'Blackpool' },
-  { id: 'blackburn', name: 'Blackburn w/ Darwen' },
-  { id: 'west_lancashire', name: 'West Lancashire' },
-  { id: 'wyre', name: 'Wyre' },
-  { id: 'preston', name: 'Preston' },
-  { id: 'fylde', name: 'Fylde' },
-]
+const COUNCILS = LANCASHIRE_COUNCILS
 
 // Available page slugs
 const PAGES = [

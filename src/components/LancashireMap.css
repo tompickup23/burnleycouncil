@@ -1,0 +1,150 @@
+/* LancashireMap tooltip styling */
+.lancashire-map-tooltip {
+  background: rgba(20, 20, 22, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  color: #fafafa !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  max-width: 240px !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+.lancashire-map-tooltip::before {
+  border-top-color: rgba(20, 20, 22, 0.96) !important;
+}
+
+/* Map container */
+.lancashire-map-container {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Council name labels on map */
+.lancashire-map-label {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.lancashire-map-label span {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.9),
+    0 0 6px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 0.2px;
+  text-align: center;
+  display: block;
+}
+
+.lancashire-map-label-current {
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.9),
+    0 0 8px rgba(10, 132, 255, 0.4) !important;
+}
+
+/* Map section wrapper */
+.lancashire-map-section {
+  margin: var(--space-xl, 2rem) 0;
+}
+
+.lancashire-map-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.lancashire-map-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.lancashire-map-controls button {
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.lancashire-map-controls button:hover {
+  border-color: rgba(10, 132, 255, 0.3);
+  color: var(--text-primary, #fafafa);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lancashire-map-controls button.active {
+  border-color: var(--accent-blue, #0a84ff);
+  color: var(--accent-blue, #0a84ff);
+  background: rgba(10, 132, 255, 0.12);
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.15);
+}
+
+.lancashire-map-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0;
+  align-items: center;
+}
+
+.lancashire-map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #a1a1aa);
+}
+
+.lancashire-map-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Gradient legend bar for spend mode */
+.lancashire-map-legend-gradient {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary, #a1a1aa);
+}
+
+.lancashire-map-legend-gradient-bar {
+  width: 120px;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, rgb(48, 209, 88), rgb(255, 214, 10), rgb(255, 159, 10), rgb(255, 69, 58));
+  flex-shrink: 0;
+}
+
+/* Politics legend party dots */
+.lancashire-map-legend-party {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}

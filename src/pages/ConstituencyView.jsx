@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber, formatDate, formatPercent } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS as FALLBACK_PARTY_COLORS, getPartyColor as getPartyColorFromConstants } from '../utils/constants'
 import { LoadingState } from '../components/ui'
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -16,31 +16,9 @@ import {
 } from 'lucide-react'
 import './ConstituencyView.css'
 
-// --- Fallback party colours ---
-const FALLBACK_PARTY_COLORS = {
-  Labour: '#DC241F', 'Labour (Co-op)': '#DC241F', 'Lab & Co-op': '#DC241F',
-  Conservative: '#0087DC', 'Liberal Democrats': '#FAA61A', 'Lib Dem': '#FAA61A',
-  Green: '#6AB023', 'Reform UK': '#12B6CF', Independent: '#888888',
-  UKIP: '#70147A', 'Workers Party': '#b71c1c', Other: '#999999',
-}
+// FALLBACK_PARTY_COLORS + getPartyColor imported from constants
 
-// --- Council ID to slug mapping (matches deploy.yml) ---
-const COUNCIL_SLUG_MAP = {
-  burnley: 'burnleycouncil', hyndburn: 'hyndburncouncil', pendle: 'pendlecouncil',
-  rossendale: 'rossendalecouncil', lancaster: 'lancastercouncil', ribble_valley: 'ribblevalleycouncil',
-  chorley: 'chorleycouncil', south_ribble: 'southribblecouncil', lancashire_cc: 'lancashirecc',
-  blackpool: 'blackpoolcouncil', west_lancashire: 'westlancashirecouncil', blackburn: 'blackburncouncil',
-  wyre: 'wyrecouncil', preston: 'prestoncouncil', fylde: 'fyldecouncil',
-}
-
-// --- Council display names ---
-const COUNCIL_NAMES = {
-  burnley: 'Burnley', hyndburn: 'Hyndburn', pendle: 'Pendle', rossendale: 'Rossendale',
-  lancaster: 'Lancaster', ribble_valley: 'Ribble Valley', chorley: 'Chorley',
-  south_ribble: 'South Ribble', lancashire_cc: 'Lancashire CC', blackpool: 'Blackpool',
-  west_lancashire: 'West Lancs', blackburn: 'Blackburn',
-  wyre: 'Wyre', preston: 'Preston', fylde: 'Fylde',
-}
+const COUNCIL_NAMES = COUNCIL_SHORT_NAMES
 
 // --- Section definitions ---
 const SECTIONS = [
@@ -60,14 +38,8 @@ function getPartyColor(party, partyColors) {
   if (!party) return '#888'
   // Try exact match from elections_reference first
   if (partyColors?.[party]) return partyColors[party]
-  // Try fallback map
-  if (FALLBACK_PARTY_COLORS[party]) return FALLBACK_PARTY_COLORS[party]
-  // Try partial match
-  const lp = party.toLowerCase()
-  for (const [key, color] of Object.entries(FALLBACK_PARTY_COLORS)) {
-    if (lp.includes(key.toLowerCase())) return color
-  }
-  return '#888'
+  // Delegate to canonical constants
+  return getPartyColorFromConstants(party)
 }
 
 function formatMoney(value) {

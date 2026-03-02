@@ -648,7 +648,7 @@ describe('CrossCouncil', () => {
 
     it('renders the council tax heading', () => {
       renderComponent()
-      expect(screen.getByText(/Council Tax Band D/)).toBeInTheDocument()
+      expect(screen.getAllByText(/Council Tax Band D/).length).toBeGreaterThan(0)
     })
 
     it('renders the council tax chart with aria-label', () => {

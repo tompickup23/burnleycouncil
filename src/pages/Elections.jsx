@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS } from '../utils/constants'
 import {
   DEFAULT_ASSUMPTIONS,
   predictWard,
@@ -28,29 +28,10 @@ import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
 import './Elections.css'
 
-// --- Council ID to slug mapping (for cross-council links) ---
-const COUNCIL_SLUG_MAP = {
-  burnley: 'burnleycouncil', hyndburn: 'hyndburncouncil', pendle: 'pendlecouncil',
-  rossendale: 'rossendalecouncil', lancaster: 'lancastercouncil', ribble_valley: 'ribblevalleycouncil',
-  chorley: 'chorleycouncil', south_ribble: 'southribblecouncil', lancashire_cc: 'lancashirecc',
-  blackpool: 'blackpoolcouncil', west_lancashire: 'westlancashirecouncil', blackburn: 'blackburncouncil',
-  wyre: 'wyrecouncil', preston: 'prestoncouncil', fylde: 'fyldecouncil',
-}
-const COUNCIL_NAME_MAP = {
-  burnley: 'Burnley', hyndburn: 'Hyndburn', pendle: 'Pendle', rossendale: 'Rossendale',
-  lancaster: 'Lancaster', ribble_valley: 'Ribble Valley', chorley: 'Chorley',
-  south_ribble: 'South Ribble', lancashire_cc: 'Lancashire CC', blackpool: 'Blackpool',
-  west_lancashire: 'West Lancs', blackburn: 'Blackburn', wyre: 'Wyre',
-  preston: 'Preston', fylde: 'Fylde',
-}
+const COUNCIL_NAME_MAP = COUNCIL_SHORT_NAMES
 
-// --- Fallback party colours ---
-const FALLBACK_PARTY_COLORS = {
-  Labour: '#DC241F', Conservative: '#0087DC', 'Liberal Democrats': '#FAA61A',
-  'Lib Dem': '#FAA61A', Green: '#6AB023', 'Reform UK': '#12B6CF',
-  Independent: '#888888', UKIP: '#70147A', 'Lab & Co-op': '#DC241F',
-  BNP: '#2D2D86', 'Our West Lancs': '#5DADE2', Other: '#999999',
-}
+// Fallback uses canonical PARTY_COLORS from constants — elections_reference.json can override
+const FALLBACK_PARTY_COLORS = PARTY_COLORS
 
 // --- Confidence colours ---
 const CONFIDENCE_COLORS = { high: '#30d158', medium: '#ff9f0a', low: '#ff453a', none: '#8e8e93' }
@@ -635,6 +616,31 @@ export default function Elections() {
             </div>
           </div>
         )}
+
+        {/* "What's at Stake" banner — loss-frame messaging */}
+        {nextElection && politicsSummary && (() => {
+          const controlParty = currentComposition[0]?.party || 'The largest group'
+          const controlSeats = currentComposition[0]?.seats || 0
+          const majority = controlSeats - majorityThreshold
+          const isCoalition = politicsSummary.coalition || politicsSummary.control_type === 'coalition'
+          const latestTurnout = turnoutTrend.length > 0 ? turnoutTrend[turnoutTrend.length - 1] : null
+          return (
+            <div style={{ background: 'rgba(255,69,58,0.06)', border: '1px solid rgba(255,69,58,0.2)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ff453a', margin: '0 0 0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <AlertTriangle size={16} /> What&rsquo;s at Stake
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
+                {isCoalition
+                  ? `${meta.council_name || councilName} is run by a coalition${majority <= 2 ? ` with a majority of just ${Math.max(majority, 1)}` : ''}. One seat could change everything.`
+                  : majority <= 3
+                  ? `${controlParty} controls ${meta.council_name || councilName} with a majority of just ${Math.max(majority, 1)}. A handful of results could shift the balance of power.`
+                  : `${controlParty} holds ${controlSeats} of ${totalSeats} seats. ${wardsUp.length} seats are up for election — enough to reshape the council.`
+                }
+                {latestTurnout && latestTurnout.turnout < 35 && ` Last time, only ${latestTurnout.turnout}% turned out to vote. The people who didn\u2019t show up could have changed every result.`}
+              </p>
+            </div>
+          )
+        })()}
 
         {/* Election calendar timeline */}
         {referenceData?.election_calendar?.length > 0 && (

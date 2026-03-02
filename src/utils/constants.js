@@ -37,6 +37,61 @@ export const COUNCIL_COLORS = {
   fylde: '#ac8e68',
 }
 
+// ── Political Party Colours ──
+
+/**
+ * Canonical party colour map — single source of truth for all charts, maps, badges.
+ * Includes all name variants found in councillors.json, elections.json, constituencies.json.
+ * elections_reference.json can override these via party_colors field.
+ */
+export const PARTY_COLORS = {
+  // Major parties — current UK standard brand colours
+  Labour: '#DC241F',
+  Conservative: '#0087DC',
+  'Liberal Democrats': '#FAA61A',
+  'Reform UK': '#12B6CF',
+  Green: '#6AB023',
+  'Green Party': '#6AB023',
+  Independent: '#888888',
+
+  // Labour aliases (councillors data uses various forms)
+  'Labour & Co-operative Party': '#DC241F',
+  'Labour & Co-operative': '#DC241F',
+  'Labour and Co-operative': '#DC241F',
+  'Labour (Co-op)': '#DC241F',
+  'Lab & Co-op': '#DC241F',
+
+  // Lib Dem alias
+  'Lib Dem': '#FAA61A',
+
+  // Lancashire-specific local parties
+  'Our West Lancs': '#5DADE2',
+  'Our West Lancashire': '#5DADE2',
+
+  // Historical / minor parties
+  UKIP: '#70147A',
+  BNP: '#2D2D86',
+  'Workers Party': '#b71c1c',
+
+  // Parliamentary
+  Speaker: '#333333',
+
+  // Meta
+  'No Overall Control': '#888888',
+  Other: '#999999',
+}
+
+/** Look up party color with fuzzy matching for unknown party name variants */
+export function getPartyColor(party) {
+  if (!party) return '#888'
+  if (PARTY_COLORS[party]) return PARTY_COLORS[party]
+  const lp = party.toLowerCase()
+  for (const [key, color] of Object.entries(PARTY_COLORS)) {
+    if (lp.includes(key.toLowerCase())) return color
+  }
+  return '#888'
+}
+
 // ── Severity / Risk Colours ──
 
 /** DOGE finding severity colours — canonical palette */
@@ -109,6 +164,46 @@ export const AXIS_TICK_STYLE = { fill: '#8e8e93', fontSize: 12 }
 export const AXIS_TICK_STYLE_SM = { fill: '#8e8e93', fontSize: 11 }
 
 // ── Council Display Names ──
+
+// ── Council Slug & Structure Mappings ──
+
+/** Council ID → deploy slug mapping (matches deploy.yml paths) */
+export const COUNCIL_SLUG_MAP = {
+  burnley: 'burnleycouncil',
+  hyndburn: 'hyndburncouncil',
+  pendle: 'pendlecouncil',
+  rossendale: 'rossendalecouncil',
+  lancaster: 'lancastercouncil',
+  ribble_valley: 'ribblevalleycouncil',
+  chorley: 'chorleycouncil',
+  south_ribble: 'southribblecouncil',
+  lancashire_cc: 'lancashirecc',
+  blackpool: 'blackpoolcouncil',
+  west_lancashire: 'westlancashirecouncil',
+  blackburn: 'blackburncouncil',
+  wyre: 'wyrecouncil',
+  preston: 'prestoncouncil',
+  fylde: 'fyldecouncil',
+}
+
+/** Structured council list with tier — used by CouncilPicker, AdminPanel, LancashireMap */
+export const LANCASHIRE_COUNCILS = [
+  { id: 'burnley', name: 'Burnley', tier: 'district' },
+  { id: 'hyndburn', name: 'Hyndburn', tier: 'district' },
+  { id: 'pendle', name: 'Pendle', tier: 'district' },
+  { id: 'rossendale', name: 'Rossendale', tier: 'district' },
+  { id: 'lancaster', name: 'Lancaster', tier: 'district' },
+  { id: 'ribble_valley', name: 'Ribble Valley', tier: 'district' },
+  { id: 'chorley', name: 'Chorley', tier: 'district' },
+  { id: 'south_ribble', name: 'South Ribble', tier: 'district' },
+  { id: 'wyre', name: 'Wyre', tier: 'district' },
+  { id: 'fylde', name: 'Fylde', tier: 'district' },
+  { id: 'preston', name: 'Preston', tier: 'district' },
+  { id: 'west_lancashire', name: 'West Lancashire', tier: 'district' },
+  { id: 'lancashire_cc', name: 'Lancashire CC', tier: 'county' },
+  { id: 'blackpool', name: 'Blackpool', tier: 'unitary' },
+  { id: 'blackburn', name: 'Blackburn w/ Darwen', tier: 'unitary' },
+]
 
 /** Short names for charts/tables where space is limited */
 export const COUNCIL_SHORT_NAMES = {

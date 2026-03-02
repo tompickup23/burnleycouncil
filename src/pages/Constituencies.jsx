@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { LoadingState } from '../components/ui'
 import { Users, TrendingUp, TrendingDown, ArrowUpDown, Search, Landmark, ExternalLink } from 'lucide-react'
+import { PARTY_COLORS } from '../utils/constants'
 import './Constituencies.css'
-
-// Party colours matching Elections.jsx + ConstituencyView.jsx
-const PARTY_COLORS = {
-  Labour: '#DC241F', 'Labour (Co-op)': '#DC241F', Conservative: '#0087DC',
-  'Liberal Democrats': '#FAA61A', 'Reform UK': '#12B6CF', 'Green Party': '#6AB023',
-  Independent: '#888888', Speaker: '#333333', Other: '#999999',
-}
 
 const SORT_OPTIONS = [
   { value: 'alpha', label: 'A–Z' },

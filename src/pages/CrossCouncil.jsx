@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2, Home } from 'lucide-react'
+import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2, Home, MapPin } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName } from '../utils/constants'
+import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP } from '../utils/constants'
 import './CrossCouncil.css'
+
+const LancashireMap = lazy(() => import('../components/LancashireMap'))
 
 // Service categories by tier — upper-tier services only shown for county/unitary
 const DISTRICT_SERVICE_CATEGORIES = ['housing', 'cultural', 'environmental', 'planning', 'central', 'other']
@@ -45,6 +47,7 @@ function CrossCouncil() {
   const councilTier = config.council_tier || 'district'
 
   const { data, loading, error } = useData('/data/cross_council.json')
+  const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
   const comparison = data
   const allCouncils = comparison?.councils || []
   // For county/unitary tiers with very few peer councils, default to showing all
@@ -52,6 +55,7 @@ function CrossCouncil() {
   const hasEnoughPeers = sameTierCouncils.length >= 3
   const [showAllTiers, setShowAllTiers] = useState(true) // true until data loads
   const [tierInitialized, setTierInitialized] = useState(false)
+  const [mapColorMode, setMapColorMode] = useState('tier')
   const councils = showAllTiers ? allCouncils : sameTierCouncils
   const otherTierCount = allCouncils.length - sameTierCouncils.length
 
@@ -395,6 +399,121 @@ function CrossCouncil() {
           </div>
         </div>
       )}
+
+      {/* ===== LANCASHIRE MAP ===== */}
+      {councilBoundaries?.features?.length > 0 && (
+        <section style={{ marginBottom: 'var(--space-xl, 2rem)' }}>
+          <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <MapPin size={22} /> Lancashire Councils
+          </h2>
+          <p className="section-intro" style={{ marginBottom: '1rem' }}>
+            Geographic view of all {allCouncils.length} Lancashire councils. Click any council to visit its dashboard.
+            {!showAllTiers && ` Showing ${TIER_LABELS[councilTier] || 'councils'} only.`}
+          </p>
+          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+            {['tier', 'spend', 'politics'].map(mode => (
+              <button
+                key={mode}
+                onClick={() => setMapColorMode(mode)}
+                style={{
+                  padding: '0.4rem 1rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600,
+                  border: mapColorMode === mode ? '1px solid var(--accent-blue, #0a84ff)' : '1px solid rgba(255,255,255,0.1)',
+                  background: mapColorMode === mode ? 'rgba(10,132,255,0.1)' : 'rgba(255,255,255,0.04)',
+                  color: mapColorMode === mode ? 'var(--accent-blue, #0a84ff)' : 'var(--text-secondary, #a1a1aa)',
+                  cursor: 'pointer', fontFamily: 'inherit',
+                }}
+              >
+                {mode === 'tier' ? 'By Tier' : mode === 'spend' ? 'By Spending' : 'By Politics'}
+              </button>
+            ))}
+          </div>
+          <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading map...</div>}>
+            <LancashireMap
+              councilBoundaries={councilBoundaries}
+              councilData={allCouncils}
+              currentCouncilId={councilId}
+              colorMode={mapColorMode}
+              onCouncilClick={(id) => {
+                const slug = COUNCIL_SLUG_MAP[id]
+                if (slug) window.location.href = '/' + slug + '/'
+              }}
+              height="420px"
+            />
+          </Suspense>
+        </section>
+      )}
+
+      {/* "How Your Council Stacks Up" Scorecard */}
+      {current && (() => {
+        const rank = (arr, key, lower) => {
+          if (!arr || arr.length === 0) return null
+          const sorted = [...arr].sort((a, b) => lower ? a[key] - b[key] : b[key] - a[key])
+          const idx = sorted.findIndex(c => c.isCurrent)
+          return idx >= 0 ? { pos: idx + 1, total: sorted.length } : null
+        }
+        const collRank = rank(collectionRateData, 'rate', false)
+        const spendRank = rank(spendPerHead, 'spend', true) // lower spend = better
+        const taxRank = rank(councilTaxData, 'bandD', true) // lower tax = better
+        const hhi = current.overall_hhi || 0
+        const color = (pos, total) => {
+          if (!pos) return '#86868b'
+          const pct = pos / total
+          return pct <= 0.33 ? '#30d158' : pct <= 0.66 ? '#ff9f0a' : '#ff453a'
+        }
+        return (
+          <div style={{ background: 'rgba(18,182,207,0.06)', border: '1px solid rgba(18,182,207,0.2)', borderRadius: '12px', padding: '1.25rem 1.5rem', marginBottom: '1.5rem' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#12b6cf', margin: '0 0 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <BarChart3 size={18} /> How {councilName} Stacks Up
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
+              {collRank && (
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '0.75rem', textAlign: 'center' }}>
+                  <span style={{ display: 'block', fontSize: '1.5rem', fontWeight: 800, color: color(collRank.pos, collRank.total) }}>
+                    #{collRank.pos}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                    of {collRank.total} — Collection Rate
+                  </span>
+                </div>
+              )}
+              {spendRank && (
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '0.75rem', textAlign: 'center' }}>
+                  <span style={{ display: 'block', fontSize: '1.5rem', fontWeight: 800, color: color(spendRank.pos, spendRank.total) }}>
+                    #{spendRank.pos}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                    of {spendRank.total} — Spend per Head
+                  </span>
+                </div>
+              )}
+              {taxRank && (
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '0.75rem', textAlign: 'center' }}>
+                  <span style={{ display: 'block', fontSize: '1.5rem', fontWeight: 800, color: color(taxRank.pos, taxRank.total) }}>
+                    #{taxRank.pos}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                    of {taxRank.total} — Council Tax Band D
+                  </span>
+                </div>
+              )}
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '0.75rem', textAlign: 'center' }}>
+                <span style={{ display: 'block', fontSize: '1.5rem', fontWeight: 800, color: hhi > 2500 ? '#ff453a' : hhi > 1500 ? '#ff9f0a' : '#30d158' }}>
+                  {hhi > 0 ? hhi.toLocaleString() : '—'}
+                </span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                  Supplier HHI{hhi > 2500 ? ' — High risk' : hhi > 1500 ? ' — Moderate' : hhi > 0 ? ' — Diverse' : ''}
+                </span>
+              </div>
+            </div>
+            {(collRank && collRank.pos > collRank.total * 0.66) && (
+              <p style={{ fontSize: '0.8rem', color: '#ff453a', margin: '0.75rem 0 0', lineHeight: 1.5 }}>
+                {councilName}&rsquo;s collection rate ranks in the bottom third of Lancashire councils.
+                Lower collection means less money for services — and more burden on those who do pay.
+              </p>
+            )}
+          </div>
+        )
+      })()}
 
       {/* Overview Cards */}
       <section className="cross-overview">

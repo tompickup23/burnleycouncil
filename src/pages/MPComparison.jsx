@@ -10,15 +10,8 @@ import {
   PoundSterling, Users, BarChart3, AlertTriangle, TrendingUp, TrendingDown,
   Search, ArrowUpDown, ExternalLink, Landmark, Vote, Scale,
 } from 'lucide-react'
-import { TOOLTIP_STYLE, CHART_COLORS, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
+import { TOOLTIP_STYLE, CHART_COLORS, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import './MPComparison.css'
-
-// Party colours
-const PARTY_COLORS = {
-  Labour: '#DC241F', 'Labour (Co-op)': '#DC241F', Conservative: '#0087DC',
-  'Liberal Democrats': '#FAA61A', 'Reform UK': '#12B6CF', 'Green Party': '#6AB023',
-  Independent: '#888888', Speaker: '#333333', Other: '#999999',
-}
 
 const EXPENSE_CATEGORIES = [
   { key: 'staffing', label: 'Staffing', color: '#0a84ff' },
