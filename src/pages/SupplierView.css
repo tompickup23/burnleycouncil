@@ -78,13 +78,9 @@
 
 .hero-titles h1 {
   font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   margin-bottom: var(--space-xs);
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
   line-height: 1.2;
 }
 
@@ -199,19 +195,20 @@
 }
 
 .supplier-stat-card.highlight {
-  border-color: rgba(10, 132, 255, 0.25);
-  background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(28, 28, 30, 0.7));
+  border-color: rgba(228, 0, 43, 0.25);
+  background: linear-gradient(135deg, rgba(228, 0, 43, 0.08), rgba(28, 28, 30, 0.7));
 }
 
 .supplier-stat-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
 }
 
 .supplier-stat-card.highlight .supplier-stat-value {
-  color: #0a84ff;
+  color: #e4002b;
 }
 
 .supplier-stat-label {
@@ -239,18 +236,39 @@
   padding: var(--space-lg);
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.supplier-chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #e4002b;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.supplier-chart-card:hover::before {
+  transform: scaleY(1);
 }
 
 .supplier-chart-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  border-color: rgba(228, 0, 43, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 .supplier-chart-card h3 {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--text-primary);
   margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 /* ============================================ */
@@ -269,8 +287,12 @@
   font-weight: 600;
 }
 
+.supplier-section h2 {
+  font-weight: 700;
+}
+
 .supplier-section h2 svg {
-  color: var(--accent-blue);
+  color: #e4002b;
   flex-shrink: 0;
 }
 
@@ -291,19 +313,22 @@
   background: rgba(28, 28, 30, 0.7);
 }
 
+.supplier-table thead {
+  border-bottom: 3px solid #e4002b;
+}
+
 .supplier-table th {
-  padding: var(--space-sm) var(--space-md);
+  padding: 10px var(--space-md);
   text-align: left;
-  font-weight: 600;
-  font-size: 0.75rem;
+  font-weight: 700;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--text-secondary);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   white-space: nowrap;
   position: sticky;
   top: 0;
-  background: rgba(28, 28, 30, 0.95);
+  background: rgba(44, 44, 46, 0.7);
 }
 
 .supplier-table td {
@@ -312,8 +337,12 @@
   color: var(--text-secondary);
 }
 
+.supplier-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .supplier-table tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(228, 0, 43, 0.04);
 }
 
 .supplier-table tr:last-child td {
@@ -616,7 +645,7 @@
 }
 
 .governance-stat svg {
-  color: var(--accent-blue);
+  color: #e4002b;
 }
 
 .governance-subsection {
@@ -649,12 +678,12 @@
   background: rgba(255, 255, 255, 0.02);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  border-left: 3px solid rgba(10, 132, 255, 0.3);
+  border-left: 3px solid rgba(228, 0, 43, 0.3);
   transition: all 0.2s ease;
 }
 
 .director-card:hover {
-  border-color: rgba(10, 132, 255, 0.2);
+  border-color: rgba(228, 0, 43, 0.2);
   background: rgba(255, 255, 255, 0.04);
 }
 
@@ -1120,8 +1149,8 @@
 .supplier-cta {
   text-align: center;
   padding: var(--space-2xl) var(--space-lg);
-  background: linear-gradient(135deg, rgba(10, 132, 255, 0.08), rgba(191, 90, 242, 0.08));
-  border: 1px solid rgba(10, 132, 255, 0.15);
+  background: linear-gradient(135deg, rgba(228, 0, 43, 0.06), rgba(191, 90, 242, 0.04));
+  border: 1px solid rgba(228, 0, 43, 0.15);
   border-radius: var(--radius-lg);
   margin-top: var(--space-xl);
 }

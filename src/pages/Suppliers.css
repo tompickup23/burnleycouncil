@@ -18,10 +18,8 @@
 
 .suppliers-header .header-content h1 {
   margin-bottom: var(--space-xs);
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-weight: 900;
+  letter-spacing: -0.03em;
 }
 
 .suppliers-subtitle {
@@ -72,8 +70,8 @@
 }
 
 .suppliers-stat-icon.stat-icon-blue {
-  background: rgba(10, 132, 255, 0.15);
-  color: var(--accent-blue);
+  background: rgba(228, 0, 43, 0.15);
+  color: #e4002b;
 }
 
 .suppliers-stat-icon.stat-icon-orange {
@@ -93,10 +91,11 @@
 }
 
 .suppliers-stat-value {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 
 .suppliers-stat-label {
@@ -141,8 +140,8 @@
 }
 
 .suppliers-search-bar input:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15), 0 0 30px rgba(10, 132, 255, 0.1);
+  border-color: rgba(228, 0, 43, 0.4);
+  box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.1), 0 0 20px rgba(228, 0, 43, 0.05);
 }
 
 .suppliers-search-clear {
@@ -206,8 +205,8 @@
 }
 
 .suppliers-filter-group select:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
+  border-color: rgba(228, 0, 43, 0.4);
+  box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.1);
 }
 
 .suppliers-filter-results {
@@ -236,8 +235,12 @@
   min-width: 900px;
 }
 
+.suppliers-table thead {
+  border-bottom: 3px solid #e4002b;
+}
+
 .suppliers-table thead th {
-  background: rgba(44, 44, 46, 0.5);
+  background: rgba(44, 44, 46, 0.7);
   position: sticky;
   top: 0;
   white-space: nowrap;
@@ -245,10 +248,29 @@
   user-select: none;
   z-index: 2;
   transition: background 0.15s ease;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  padding: 10px 12px;
 }
 
 .suppliers-table thead th:hover {
-  background: rgba(58, 58, 60, 0.7);
+  background: rgba(58, 58, 60, 0.8);
+  color: var(--text-primary);
+}
+
+.suppliers-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.suppliers-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.suppliers-table tbody tr:hover {
+  background: rgba(228, 0, 43, 0.04);
 }
 
 /* Sort Header */
@@ -268,12 +290,12 @@
 
 .sort-icon.sort-active {
   opacity: 1;
-  color: var(--accent-blue);
+  color: #e4002b;
 }
 
 .sort-direction {
   font-size: 0.625rem;
-  color: var(--accent-blue);
+  color: #e4002b;
   margin-left: 2px;
 }
 
@@ -331,37 +353,43 @@
 /* ============================================ */
 .risk-badge {
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 700;
   white-space: nowrap;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .risk-badge.clean {
-  background: rgba(48, 209, 88, 0.15);
+  background: rgba(48, 209, 88, 0.18);
   color: #30d158;
+  border-left: 3px solid #30d158;
 }
 
 .risk-badge.low {
-  background: rgba(10, 132, 255, 0.15);
+  background: rgba(10, 132, 255, 0.18);
   color: #0a84ff;
+  border-left: 3px solid #0a84ff;
 }
 
 .risk-badge.medium {
-  background: rgba(255, 214, 10, 0.15);
+  background: rgba(255, 214, 10, 0.18);
   color: #ffd60a;
+  border-left: 3px solid #ffd60a;
 }
 
 .risk-badge.high {
-  background: rgba(255, 159, 10, 0.15);
+  background: rgba(255, 159, 10, 0.18);
   color: #ff9f0a;
+  border-left: 3px solid #ff9f0a;
 }
 
 .risk-badge.critical {
-  background: rgba(255, 69, 58, 0.15);
+  background: rgba(255, 69, 58, 0.18);
   color: #ff453a;
+  border-left: 3px solid #ff453a;
 }
 
 /* ============================================ */
@@ -369,11 +397,13 @@
 /* ============================================ */
 .ch-badge {
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 700;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .ch-badge.matched {
@@ -423,8 +453,9 @@
 }
 
 .suppliers-page-btn:hover:not(:disabled) {
-  background: rgba(44, 44, 46, 0.8);
-  border-color: rgba(10, 132, 255, 0.3);
+  background: rgba(228, 0, 43, 0.08);
+  border-color: rgba(228, 0, 43, 0.3);
+  color: #e4002b;
 }
 
 .suppliers-page-btn:disabled {
@@ -494,11 +525,11 @@
 
 .share-bar {
   height: 6px;
-  background: var(--accent-blue);
+  background: #e4002b;
   border-radius: 3px;
   min-width: 2px;
   transition: width 0.3s ease;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .share-value {
