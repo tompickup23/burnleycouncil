@@ -14,6 +14,12 @@
 .about-hero h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #ffffff 0%, #e4002b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-tagline {
@@ -35,6 +41,14 @@
   border-radius: 12px;
   padding: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+.intro-content::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #e4002b, transparent 80%);
 }
 
 .intro-content p {
@@ -49,8 +63,8 @@
 }
 
 .highlight-text {
-  font-weight: 600;
-  color: var(--accent-blue) !important;
+  font-weight: 700;
+  color: #e4002b !important;
 }
 
 /* Creator Section */

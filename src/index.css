@@ -979,6 +979,276 @@ tr:hover td {
 }
 
 /* ============================================ */
+/* GLOBAL BROADCAST DESIGN SYSTEM              */
+/* Sky News/Sports broadcast-bold styling       */
+/* Transforms ALL pages to premium broadcast UX */
+/* ============================================ */
+
+/* --- HERO HEADINGS — Bold red gradient everywhere --- */
+.page-header h1,
+.demo-hero .hero-content h1,
+.pay-hero .hero-content h1,
+.legal-page .page-header h1,
+.foi-page .page-header h1,
+.meetings-page h1,
+.councillor-dossier-header h1,
+.constituency-view-header h1,
+.lgr-page h1,
+.strategy-page h1,
+.integrity-page h1,
+.procurement-page h1,
+.intelligence-page h1,
+.doge-page h1,
+.elections-page h1 {
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+}
+
+/* --- GLASS CARDS — Universal red accent strip --- */
+.metric-card,
+.demo-card,
+.pay-stat-card,
+.mp-stat-card,
+.election-stat-card,
+.lgr-stat-card,
+.integrity-stat-card,
+.meeting-card,
+.contract-card,
+.doge-finding-card,
+.intel-card,
+.strategy-metric-card,
+.procurement-stat-card,
+.lgr-cost-card,
+.finding-card,
+.procurement-summary-card,
+.legal-content,
+.councillor-overview-card,
+.constituency-stat-card,
+.supplier-stat-card,
+.doge-hero-stat,
+.intel-score-card,
+.election-ward-card,
+.strategy-ward-card,
+.procurement-award-card,
+.councillor-stat-card,
+.constituency-card,
+.article-card,
+.foi-category-card,
+.supplier-detail-card,
+.news-hero-card,
+.property-card {
+  position: relative;
+  overflow: hidden;
+}
+.metric-card::before,
+.demo-card::before,
+.pay-stat-card::before,
+.mp-stat-card::before,
+.election-stat-card::before,
+.lgr-stat-card::before,
+.integrity-stat-card::before,
+.meeting-card::before,
+.contract-card::before,
+.doge-finding-card::before,
+.intel-card::before,
+.strategy-metric-card::before,
+.procurement-stat-card::before,
+.lgr-cost-card::before,
+.finding-card::before,
+.procurement-summary-card::before,
+.legal-content::before,
+.councillor-overview-card::before,
+.constituency-stat-card::before,
+.supplier-stat-card::before,
+.doge-hero-stat::before,
+.intel-score-card::before,
+.election-ward-card::before,
+.strategy-ward-card::before,
+.procurement-award-card::before,
+.councillor-stat-card::before,
+.foi-category-card::before,
+.supplier-detail-card::before,
+.property-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--broadcast-red);
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+.metric-card:hover::before,
+.demo-card:hover::before,
+.pay-stat-card:hover::before,
+.mp-stat-card:hover::before,
+.election-stat-card:hover::before,
+.lgr-stat-card:hover::before,
+.integrity-stat-card:hover::before,
+.meeting-card:hover::before,
+.contract-card:hover::before,
+.doge-finding-card:hover::before,
+.intel-card:hover::before,
+.strategy-metric-card:hover::before,
+.procurement-stat-card:hover::before,
+.lgr-cost-card:hover::before,
+.finding-card:hover::before,
+.procurement-summary-card:hover::before,
+.councillor-overview-card:hover::before,
+.constituency-stat-card:hover::before,
+.supplier-stat-card:hover::before,
+.doge-hero-stat:hover::before,
+.intel-score-card:hover::before,
+.election-ward-card:hover::before,
+.strategy-ward-card:hover::before,
+.procurement-award-card:hover::before,
+.councillor-stat-card:hover::before,
+.foi-category-card:hover::before,
+.supplier-detail-card:hover::before,
+.property-card:hover::before {
+  opacity: 1;
+}
+
+/* --- STAT VALUES — Bolder, larger, broadcast weight --- */
+.metric-value,
+.demo-card-value,
+.stat-value,
+.mp-stat-value,
+.election-stat-value,
+.lgr-stat-value,
+.integrity-stat-value,
+.doge-stat-value,
+.procurement-stat-value,
+.constituency-stat-value,
+.supplier-stat-value,
+.doge-hero-value,
+.intel-score-value,
+.strategy-metric-value {
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+}
+
+/* --- TABLE HEADERS — Broadcast scoreboard style --- */
+table th,
+.budget-table th,
+.mp-comparison-table th,
+.election-table th,
+.integrity-table th,
+.meeting-table th,
+.spending-table th,
+.procurement-table th,
+.strategy-table th,
+.pay-table th,
+.councillor-table th,
+.contract-table th,
+.supplier-table th,
+.lgr-table th,
+.doge-table th {
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 800 !important;
+  font-size: 0.7rem !important;
+  border-bottom: 2px solid var(--broadcast-red) !important;
+}
+
+/* Table striped rows — subtle broadcast feel */
+table tbody tr:nth-child(even) {
+  background: rgba(228, 0, 43, 0.015);
+}
+table tbody tr:hover {
+  background: rgba(228, 0, 43, 0.04) !important;
+}
+
+/* --- ACTIVE TABS — Red instead of blue --- */
+.legal-tab.active,
+.budget-tab.active,
+.demo-tab.active,
+.election-tab.active,
+.integrity-tab.active,
+.dossier-tab.active,
+.constituency-tab.active,
+.procurement-tab.active,
+.news-tab.active,
+.doge-tab.active,
+.strategy-tab.active,
+.supplier-tab.active,
+[class*="-tab"].active {
+  background: var(--broadcast-red) !important;
+  border-color: var(--broadcast-red) !important;
+  color: #fff !important;
+}
+
+/* --- SECTION DIVIDERS --- */
+.section-divider,
+.section-accent {
+  background: var(--broadcast-red) !important;
+}
+
+/* --- BADGES & TAGS — Broadcast squared labels --- */
+[class*="badge"],
+[class*="tag"],
+[class*="chip"],
+[class*="label-badge"] {
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* --- RECHARTS — Red reference line defaults --- */
+.recharts-reference-line line {
+  stroke: var(--broadcast-red);
+  stroke-opacity: 0.6;
+}
+
+/* --- SCROLLBAR — Dark broadcast themed --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(228, 0, 43, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(228, 0, 43, 0.5);
+}
+
+/* --- SELECTION — Broadcast red highlight --- */
+::selection {
+  background: rgba(228, 0, 43, 0.3);
+  color: #fff;
+}
+
+/* --- FOCUS STATES — Red glow --- */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(228, 0, 43, 0.4);
+}
+
+/* --- BROADCAST GRADIENT UTILITY --- */
+.broadcast-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #e4002b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- PAGE LOADING PULSE --- */
+@keyframes broadcastPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.loading-pulse {
+  animation: broadcastPulse 1.5s ease-in-out infinite;
+}
+
+/* ============================================ */
 /* PREMIUM MAP — Responsive                    */
 /* ============================================ */
 @media (max-width: 768px) {

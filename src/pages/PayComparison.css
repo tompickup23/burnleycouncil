@@ -11,10 +11,12 @@
 
 .hero-content h1 {
   margin-bottom: var(--space-sm);
-  background: linear-gradient(135deg, #ffffff 0%, #ff9f0a 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e4002b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 900;
+  letter-spacing: -0.03em;
 }
 
 .hero-subtitle {
@@ -42,28 +44,38 @@
   flex-direction: column;
   gap: var(--space-xs);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.pay-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: #e4002b;
+  opacity: 0.4;
 }
 
 .pay-stat-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(228, 0, 43, 0.25);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(228, 0, 43, 0.06);
 }
+.pay-stat-card:hover::before { opacity: 1; }
 
 .pay-stat-card.highlight {
-  border-color: rgba(255, 159, 10, 0.25);
-  background: linear-gradient(135deg, rgba(255, 159, 10, 0.1), rgba(28, 28, 30, 0.7));
+  border-color: rgba(228, 0, 43, 0.25);
+  background: linear-gradient(135deg, rgba(228, 0, 43, 0.06), rgba(28, 28, 30, 0.7));
 }
 
 .stat-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
 }
 
 .pay-stat-card.highlight .stat-value {
-  color: #ff9f0a;
+  color: #e4002b;
 }
 
 .stat-label {

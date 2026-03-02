@@ -9,10 +9,12 @@
 
 .page-header h1 {
   margin-bottom: var(--space-sm);
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-green) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e4002b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 900;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {
@@ -134,17 +136,31 @@
   gap: var(--space-md);
   border: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #e4002b;
+  opacity: 0.5;
 }
 
 .metric-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(228, 0, 43, 0.3);
   transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(228, 0, 43, 0.08);
 }
+.metric-card:hover::before { opacity: 1; }
 
 .metric-card.highlight {
-  border-color: rgba(10, 132, 255, 0.2);
-  background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(28, 28, 30, 0.7));
+  border-color: rgba(228, 0, 43, 0.2);
+  background: linear-gradient(135deg, rgba(228, 0, 43, 0.06), rgba(28, 28, 30, 0.7));
 }
 
 .metric-icon {
@@ -170,9 +186,9 @@
 }
 
 .metric-value {
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
 }
 
@@ -431,10 +447,12 @@
 .budget-table th {
   padding: var(--space-sm) var(--space-md);
   text-align: right;
-  font-weight: 600;
-  font-size: 0.75rem;
+  font-weight: 800;
+  font-size: 0.7rem;
   color: var(--text-secondary);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid #e4002b;
   white-space: nowrap;
   position: sticky;
   top: 0;

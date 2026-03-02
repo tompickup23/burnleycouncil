@@ -15,11 +15,12 @@
 }
 .mp-comparison-header h1 {
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 900;
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 .mp-comparison-subtitle {
   color: #888;
@@ -53,11 +54,20 @@
   border-radius: 10px;
   padding: 14px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.mp-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: #e4002b;
+  opacity: 0.5;
 }
 .mp-stat-value {
   display: block;
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 900;
   color: #fff;
 }
 .mp-stat-label {
@@ -178,9 +188,12 @@
 .mp-comparison-table th {
   text-align: left;
   padding: 8px 10px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid #e4002b;
   color: #888;
-  font-weight: 500;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   white-space: nowrap;
 }
 .mp-comparison-table td {
