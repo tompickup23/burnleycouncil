@@ -149,7 +149,7 @@ jobs:
             COUNCIL_ID="${entry%%:*}"
             COUNCIL_SLUG="${entry##*:}"
             echo "::group::Building ${COUNCIL_ID}"
-            VITE_COUNCIL="${COUNCIL_ID}" VITE_BASE="/lancashire/${COUNCIL_SLUG}/" npx vite build --outDir "/tmp/lancashire-deploy/${COUNCIL_SLUG}"
+            VITE_COUNCIL="${COUNCIL_ID}" VITE_BASE="/${COUNCIL_SLUG}/" npx vite build --outDir "/tmp/lancashire-deploy/${COUNCIL_SLUG}"
             echo "::endgroup::"
           done
 
@@ -192,7 +192,7 @@ jobs:
             echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
             for entry in $COUNCILS; do
               COUNCIL_SLUG="${entry##*:}"
-              echo "  <sitemap><loc>https://aidoge.co.uk/lancashire/${COUNCIL_SLUG}/sitemap.xml</loc></sitemap>"
+              echo "  <sitemap><loc>https://aidoge.co.uk/${COUNCIL_SLUG}/sitemap.xml</loc></sitemap>"
             done
             echo '</sitemapindex>'
           } > /tmp/lancashire-deploy/sitemap.xml
@@ -205,8 +205,8 @@ jobs:
             --no-history \
             --user "AI DOGE Deploy <deploy@aidoge.co.uk>"
 
-      # The root domain aidoge.co.uk is served by tompickup23.github.io (user pages).
-      # The lancashire repo only serves /lancashire/* paths. Keep hub in sync.
+      # The lancashire repo serves aidoge.co.uk via its own CNAME (custom domain).
+      # Council SPAs are at /<slug>/ (e.g. /burnleycouncil/). Hub pages synced to github.io for redundancy.
       - name: Sync hub to tompickup23.github.io
         env:
           DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
@@ -240,8 +240,8 @@ jobs:
           # Check each council
           for entry in $COUNCILS; do
             COUNCIL_SLUG="${entry##*:}"
-            CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://aidoge.co.uk/lancashire/${COUNCIL_SLUG}/")
-            echo "https://aidoge.co.uk/lancashire/${COUNCIL_SLUG}/ → HTTP ${CODE}"
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://aidoge.co.uk/${COUNCIL_SLUG}/")
+            echo "https://aidoge.co.uk/${COUNCIL_SLUG}/ → HTTP ${CODE}"
             if [ "$CODE" != "200" ]; then FAIL=1; fi
           done
           if [ "$FAIL" = "1" ]; then

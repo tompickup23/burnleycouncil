@@ -8,7 +8,7 @@
   <meta property="og:title" content="AI DOGE — Lancashire Council Transparency">
   <meta property="og:description" content="AI-powered public spending transparency for all 15 Lancashire councils. 2.3M+ transactions, £12B+ tracked.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://aidoge.co.uk/lancashire/">
+  <meta property="og:url" content="https://aidoge.co.uk/">
   <meta property="og:site_name" content="AI DOGE">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
       var path = window.location.pathname;
       var councils = ['burnleycouncil','hyndburncouncil','pendlecouncil','rossendalecouncil','lancastercouncil','ribblevalleycouncil','chorleycouncil','southribblecouncil','lancashirecc','blackpoolcouncil','westlancashirecouncil','blackburncouncil','wyrecouncil','prestoncouncil','fyldecouncil','lancashirepcc','lancashirefire'];
       for (var i = 0; i < councils.length; i++) {
-        var base = '/lancashire/' + councils[i] + '/';
+        var base = '/' + councils[i] + '/';
         if (path.indexOf(base) === 0) {
           var subRoute = path.substring(base.length);
           if (subRoute) { window.location.replace(base + '?p=/' + subRoute); return; }
@@ -58,8 +58,8 @@
     <h1>Page Not Found</h1>
     <p>The page you're looking for doesn't exist or may have moved. Choose a council below to explore spending data and transparency tools.</p>
     <div class="actions">
-      <a href="/lancashire/" class="btn btn-primary">Back to Home</a>
-      <a href="/lancashire/lancashirecc/" class="btn btn-secondary">Lancashire CC</a>
+      <a href="/" class="btn btn-primary">Back to Home</a>
+      <a href="/lancashirecc/" class="btn btn-secondary">Lancashire CC</a>
     </div>
   </div>
 </body>
