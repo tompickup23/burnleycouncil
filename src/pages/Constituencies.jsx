@@ -1,10 +1,12 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { LoadingState } from '../components/ui'
-import { Users, TrendingUp, TrendingDown, ArrowUpDown, Search, Landmark, ExternalLink } from 'lucide-react'
+import { Users, TrendingUp, TrendingDown, ArrowUpDown, Search, Landmark, ExternalLink, MapPin } from 'lucide-react'
 import { PARTY_COLORS } from '../utils/constants'
 import './Constituencies.css'
+
+const LancashireMap = lazy(() => import('../components/LancashireMap'))
 
 const SORT_OPTIONS = [
   { value: 'alpha', label: 'A–Z' },
@@ -19,6 +21,9 @@ const SORT_OPTIONS = [
 function Constituencies() {
   const { data: constData, loading, error } = useData('/data/shared/constituencies.json')
   const { data: pollingData } = useData('/data/shared/polling.json')
+  const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
+  const { data: crossCouncilData } = useData('/data/cross_council.json')
+  const [mapMode, setMapMode] = useState('politics')
   const [sortBy, setSortBy] = useState('alpha')
   const [filterParty, setFilterParty] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
@@ -130,6 +135,79 @@ function Constituencies() {
           </div>
         </div>
       </header>
+
+      {councilBoundaries && (
+        <section className="premium-map-section">
+          <div className="premium-map-header">
+            <h2><MapPin size={22} /> Lancashire Political Map</h2>
+            <p className="section-intro">{totalMPs} constituencies across 15 council areas. Coloured by political control.</p>
+          </div>
+          <div className="premium-map-toggles">
+            {[
+              { value: 'politics', label: 'Political Control' },
+              { value: 'tier', label: 'Council Tier' },
+              { value: 'spend', label: 'Spend/Head' },
+            ].map(m => (
+              <button
+                key={m.value}
+                className={mapMode === m.value ? 'active' : ''}
+                onClick={() => setMapMode(m.value)}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+          <div className="premium-map-3d">
+            <div className="premium-map-orb premium-map-orb--red" />
+            <div className="premium-map-orb premium-map-orb--blue" />
+            <div className="premium-map-frame premium-map-frame--lancashire">
+              <Suspense fallback={<div className="premium-map-loading">Loading map…</div>}>
+                <LancashireMap
+                  councilBoundaries={councilBoundaries}
+                  councilData={crossCouncilData?.councils || []}
+                  colorMode={mapMode}
+                  onCouncilClick={() => {}}
+                  height="480px"
+                />
+              </Suspense>
+            </div>
+          </div>
+          <div className="premium-map-legend">
+            <div className="premium-map-legend-items">
+              {mapMode === 'politics' && (
+                <>
+                  <span className="premium-map-legend-label">Party Control</span>
+                  {Object.entries(partyBreakdown).sort((a, b) => b[1] - a[1]).map(([party]) => (
+                    <span key={party} className="premium-map-legend-item">
+                      <span className="premium-map-legend-dot" style={{ background: PARTY_COLORS[party] || '#888' }} />
+                      {party}
+                    </span>
+                  ))}
+                </>
+              )}
+              {mapMode === 'tier' && (
+                <>
+                  <span className="premium-map-legend-label">Council Tier</span>
+                  <span className="premium-map-legend-item"><span className="premium-map-legend-dot" style={{ background: '#0a84ff' }} />District</span>
+                  <span className="premium-map-legend-item"><span className="premium-map-legend-dot" style={{ background: '#ff9f0a' }} />County</span>
+                  <span className="premium-map-legend-item"><span className="premium-map-legend-dot" style={{ background: '#bf5af2' }} />Unitary</span>
+                </>
+              )}
+              {mapMode === 'spend' && (
+                <>
+                  <span className="premium-map-legend-label">Per-Capita Spend</span>
+                  <div className="premium-map-legend-gradient">
+                    <div className="premium-map-legend-gradient-bar" style={{ background: 'linear-gradient(to right, rgb(48,209,88), rgb(255,214,10), rgb(255,159,10), rgb(255,69,58))' }} />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#8e8e93' }}>
+                      <span>Low</span><span>High</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       <div className="constituencies-compare-link">
         <Link to="/constituencies/compare" className="compare-mps-btn">

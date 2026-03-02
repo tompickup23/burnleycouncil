@@ -580,30 +580,35 @@ function MyArea() {
 
       {/* ===== WARD MAP ===== */}
       {boundariesData?.features?.length > 0 && Object.keys(wardMapData).length > 0 && (
-        <section className="ward-map-section" style={{ margin: '2rem 0' }}>
-          <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <MapPin size={22} /> Ward Map
-          </h2>
-          <p style={{ color: 'var(--text-secondary, #a1a1aa)', fontSize: '0.9rem', marginBottom: '1rem' }}>
-            Click a ward to see your councillors and local data. Coloured by party.
-          </p>
-          <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading map...</div>}>
-            <WardMap
-              boundaries={boundariesData}
-              wardData={wardMapData}
-              wardsUp={Object.keys(wardMapData)}
-              overlayMode="party"
-              selectedWard={selectedWard}
-              onWardClick={(name) => {
-                setSelectedWard(name)
-                // Scroll to ward details
-                setTimeout(() => {
-                  document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                }, 100)
-              }}
-              height="400px"
-            />
-          </Suspense>
+        <section className="premium-map-section">
+          <div className="premium-map-header">
+            <h2><MapPin size={22} /> Ward Map</h2>
+            <p className="section-intro">
+              Click a ward to see your councillors and local data. Coloured by party control.
+            </p>
+          </div>
+          <div className="premium-map-3d">
+            <div className="premium-map-orb premium-map-orb--red" />
+            <div className="premium-map-orb premium-map-orb--blue" />
+            <div className="premium-map-frame premium-map-frame--compact">
+              <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
+                <WardMap
+                  boundaries={boundariesData}
+                  wardData={wardMapData}
+                  wardsUp={Object.keys(wardMapData)}
+                  overlayMode="party"
+                  selectedWard={selectedWard}
+                  onWardClick={(name) => {
+                    setSelectedWard(name)
+                    setTimeout(() => {
+                      document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }, 100)
+                  }}
+                  height="420px"
+                />
+              </Suspense>
+            </div>
+          </div>
         </section>
       )}
 

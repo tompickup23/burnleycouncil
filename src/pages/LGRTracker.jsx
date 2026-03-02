@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
@@ -6,6 +6,8 @@ import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
+
+const LancashireMap = lazy(() => import('../components/LancashireMap'))
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile } from '../utils/lgrModel'
 import { projectToLGRAuthority, normalizePartyName } from '../utils/electionModel'
 import LGRDemographicFiscalRisk from '../components/lgr/LGRDemographicFiscalRisk'
@@ -204,8 +206,8 @@ function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
-  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json', '/data/shared/lgr_enhanced.json'])
-  const [lgrData, crossCouncil, budgetModel, ccaData, lgrEnhanced] = data || [null, null, null, null, null]
+  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json', '/data/shared/lgr_enhanced.json', '/data/shared/council_boundaries.json'])
+  const [lgrData, crossCouncil, budgetModel, ccaData, lgrEnhanced, councilBoundaries] = data || [null, null, null, null, null, null]
   const [selectedModel, setSelectedModel] = useState(null)
   const [expandedIssue, setExpandedIssue] = useState(null)
   const [expandedCritique, setExpandedCritique] = useState(null)
@@ -2327,17 +2329,55 @@ function LGRTracker() {
       )}
 
       {/* Boundary Maps */}
-      {activeFiscalProfile.length > 0 && activeModelData?.authorities && (
+      {activeModelData?.authorities && (
         <section className="lgr-section" id="lgr-boundary-maps">
-          <h2><MapPin size={20} /> Boundary &amp; Overlay Maps</h2>
-          <p className="section-desc">Ward-level visualisation of proposed authority boundaries with deprivation heat, demographic pressure, and property overlays.</p>
-          <LGRBoundaryMap
-            boundaries={null}
-            authorities={activeModelData.authorities}
-            fiscalProfile={activeFiscalProfile}
-            propertyAssets={null}
-            deprivation={null}
-          />
+          <h2><MapPin size={20} /> Proposed Authority Boundaries</h2>
+          <p className="section-desc">Geographic view of how Lancashire&apos;s 15 councils would merge under the <strong>{activeModelData.name || 'selected'}</strong> model. Each colour represents a proposed new unitary authority.</p>
+
+          {councilBoundaries?.features?.length > 0 && (
+            <div className="premium-map-section" style={{ marginBottom: 'var(--space-lg)' }}>
+              <div className="premium-map-3d">
+                <div className="premium-map-orb premium-map-orb--red" />
+                <div className="premium-map-orb premium-map-orb--blue" />
+                <div className="premium-map-frame premium-map-frame--lancashire">
+                  <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
+                    <LancashireMap
+                      councilBoundaries={councilBoundaries}
+                      councilData={[]}
+                      currentCouncilId={councilId}
+                      colorMode="lgr"
+                      lgrAuthorities={activeModelData.authorities}
+                      height="520px"
+                    />
+                  </Suspense>
+                </div>
+              </div>
+              <div className="premium-map-legend">
+                <div className="premium-map-legend-items">
+                  <span className="premium-map-legend-label">Proposed Authorities</span>
+                  {activeModelData.authorities.map((auth, i) => (
+                    <span key={auth.name} className="premium-map-legend-item">
+                      <span className="premium-map-legend-dot" style={{ background: ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f'][i % 8] }} />
+                      {auth.name} ({formatNumber(auth.population || 0)})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeFiscalProfile.length > 0 && (
+            <>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-lg)', marginBottom: 'var(--space-sm)' }}>Ward-Level Overlays</h3>
+              <LGRBoundaryMap
+                boundaries={null}
+                authorities={activeModelData.authorities}
+                fiscalProfile={activeFiscalProfile}
+                propertyAssets={null}
+                deprivation={null}
+              />
+            </>
+          )}
         </section>
       )}
 

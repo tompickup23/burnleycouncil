@@ -972,8 +972,8 @@ export default function Strategy() {
               <p>No ward boundary data available. Run <code>ward_boundaries_etl.py</code> to generate boundary data for this council.</p>
             </div>
           ) : (
-            <>
-              <div className="map-overlay-controls">
+            <div className="premium-map-section">
+              <div className="premium-map-toggles">
                 {[
                   { id: 'classification', label: 'Classification' },
                   { id: 'swing', label: 'Swing Trend' },
@@ -981,7 +981,7 @@ export default function Strategy() {
                 ].map(mode => (
                   <button
                     key={mode.id}
-                    className={`map-overlay-btn ${mapOverlay === mode.id ? 'active' : ''}`}
+                    className={mapOverlay === mode.id ? 'active' : ''}
                     onClick={() => setMapOverlay(mode.id)}
                   >
                     {mode.label}
@@ -989,45 +989,53 @@ export default function Strategy() {
                 ))}
               </div>
 
-              <Suspense fallback={<div className="map-loading">Loading map...</div>}>
-                <WardMap
-                  boundaries={boundariesData}
-                  wardData={wardMapData}
-                  wardsUp={wardsUp}
-                  overlayMode={mapOverlay}
-                  selectedWard={selectedDossierWard}
-                  onWardClick={openDossier}
-                  height="500px"
-                />
-              </Suspense>
-
-              <div className="map-legend">
-                {mapOverlay === 'classification' && Object.entries(WARD_CLASSES).map(([key, cls]) => (
-                  <div key={key} className="legend-item">
-                    <span className="legend-swatch" style={{ background: cls.color }} />
-                    <span>{cls.label}</span>
-                  </div>
-                ))}
-                {mapOverlay === 'swing' && Object.entries(TREND_CONFIG).filter(([k]) => k !== 'unknown').map(([key, cfg]) => (
-                  <div key={key} className="legend-item">
-                    <span className="legend-swatch" style={{ background: cfg.color }} />
-                    <span>{cfg.label}</span>
-                  </div>
-                ))}
-                {mapOverlay === 'party' && Object.entries(PARTY_COLORS).slice(0, 8).map(([party, color]) => (
-                  <div key={party} className="legend-item">
-                    <span className="legend-swatch" style={{ background: color }} />
-                    <span>{party}</span>
-                  </div>
-                ))}
+              <div className="premium-map-3d">
+                <div className="premium-map-orb premium-map-orb--red" />
+                <div className="premium-map-orb premium-map-orb--blue" />
+                <div className="premium-map-frame premium-map-frame--compact">
+                  <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
+                    <WardMap
+                      boundaries={boundariesData}
+                      wardData={wardMapData}
+                      wardsUp={wardsUp}
+                      overlayMode={mapOverlay}
+                      selectedWard={selectedDossierWard}
+                      onWardClick={openDossier}
+                      height="500px"
+                    />
+                  </Suspense>
+                </div>
               </div>
 
-              <div className="map-summary-bar">
+              <div className="premium-map-legend">
+                <div className="premium-map-legend-items">
+                  {mapOverlay === 'classification' && Object.entries(WARD_CLASSES).map(([key, cls]) => (
+                    <span key={key} className="premium-map-legend-item">
+                      <span className="premium-map-legend-dot" style={{ background: cls.color }} />
+                      {cls.label}
+                    </span>
+                  ))}
+                  {mapOverlay === 'swing' && Object.entries(TREND_CONFIG).filter(([k]) => k !== 'unknown').map(([key, cfg]) => (
+                    <span key={key} className="premium-map-legend-item">
+                      <span className="premium-map-legend-dot" style={{ background: cfg.color }} />
+                      {cfg.label}
+                    </span>
+                  ))}
+                  {mapOverlay === 'party' && Object.entries(PARTY_COLORS).slice(0, 8).map(([party, color]) => (
+                    <span key={party} className="premium-map-legend-item">
+                      <span className="premium-map-legend-dot" style={{ background: color }} />
+                      {party}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="premium-map-summary">
                 <span>{wardsUp.length} contested {wardLabel.toLowerCase()}s</span>
                 {summary && <span>{summary.predictedGains} predicted gains</span>}
                 {summary && <span>{summary.predictedLosses} predicted losses</span>}
               </div>
-            </>
+            </div>
           )}
         </section>
       )}
@@ -1055,22 +1063,28 @@ export default function Strategy() {
             </div>
           ) : (
             <>
-              <Suspense fallback={<div className="map-loading">Loading map...</div>}>
-                <WardMap
-                  boundaries={boundariesData}
-                  wardData={wardMapData}
-                  wardsUp={wardsUp}
-                  overlayMode="route"
-                  selectedWard={selectedDossierWard}
-                  onWardClick={openDossier}
-                  routeLines={canvassingData.routeLines}
-                  routeClusters={canvassingData.sessions.map(s => ({
-                    wards: s.wards.map(w => w.ward),
-                    color: s.color,
-                  }))}
-                  height="500px"
-                />
-              </Suspense>
+              <div className="premium-map-3d">
+                <div className="premium-map-orb premium-map-orb--red" />
+                <div className="premium-map-orb premium-map-orb--blue" />
+                <div className="premium-map-frame premium-map-frame--compact">
+                  <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
+                    <WardMap
+                      boundaries={boundariesData}
+                      wardData={wardMapData}
+                      wardsUp={wardsUp}
+                      overlayMode="route"
+                      selectedWard={selectedDossierWard}
+                      onWardClick={openDossier}
+                      routeLines={canvassingData.routeLines}
+                      routeClusters={canvassingData.sessions.map(s => ({
+                        wards: s.wards.map(w => w.ward),
+                        color: s.color,
+                      }))}
+                      height="500px"
+                    />
+                  </Suspense>
+                </div>
+              </div>
 
               <div className="canvassing-summary">
                 <div className="canvassing-stat">{canvassingData.sessions.length} sessions</div>

@@ -64,7 +64,9 @@ function lerpColor(a, b, t) {
   return `rgb(${r},${g},${bl})`
 }
 
-function getCouncilColor(feature, councilData, colorMode, allPerCapita) {
+const LGR_AUTH_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f']
+
+function getCouncilColor(feature, councilData, colorMode, allPerCapita, lgrAuthorities) {
   const id = feature.properties?.council_id
   if (colorMode === 'tier') {
     return TIER_COLORS[feature.properties?.council_tier] || '#666'
@@ -76,6 +78,10 @@ function getCouncilColor(feature, councilData, colorMode, allPerCapita) {
     const council = councilData?.find(c => c.council_id === id || c.council_name?.toLowerCase().includes(id?.replace(/_/g, ' ')))
     const party = council?.controlling_party || council?.largest_party
     return PARTY_COLORS[party] || '#888'
+  }
+  if (colorMode === 'lgr' && lgrAuthorities?.length) {
+    const authIdx = lgrAuthorities.findIndex(a => a.councils?.includes(id))
+    return authIdx >= 0 ? LGR_AUTH_COLORS[authIdx % LGR_AUTH_COLORS.length] : '#333'
   }
   return COUNCIL_COLORS[id] || '#666'
 }
@@ -121,6 +127,7 @@ export default function LancashireMap({
   councilData = [],
   currentCouncilId,
   colorMode = 'tier',
+  lgrAuthorities,
   onCouncilClick,
   height = '500px',
 }) {
@@ -252,7 +259,7 @@ export default function LancashireMap({
       const isCurrent = id === currentCouncilId
 
       featureLayer.setStyle({
-        fillColor: getCouncilColor(feature, councilData, colorMode, allPerCapita),
+        fillColor: getCouncilColor(feature, councilData, colorMode, allPerCapita, lgrAuthorities),
         fillOpacity: isCurrent ? 0.8 : 0.45,
         color: isCurrent ? '#ffffff' : '#555',
         weight: isCurrent ? 3 : 1.5,
@@ -272,7 +279,7 @@ export default function LancashireMap({
         // We can't easily check council_id from the label, so just leave them
       })
     }
-  }, [colorMode, currentCouncilId, councilData, allPerCapita])
+  }, [colorMode, currentCouncilId, councilData, allPerCapita, lgrAuthorities])
 
   return (
     <div

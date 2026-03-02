@@ -474,44 +474,44 @@ function CrossCouncil() {
 
       {/* ===== LANCASHIRE MAP ===== */}
       {councilBoundaries?.features?.length > 0 && (
-        <section style={{ marginBottom: 'var(--space-xl, 2rem)' }}>
-          <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <MapPin size={22} /> Lancashire Councils
-          </h2>
-          <p className="section-intro" style={{ marginBottom: '1rem' }}>
-            Geographic view of all {allCouncils.length} Lancashire councils. Click any council to visit its dashboard.
-            {!showAllTiers && ` Showing ${TIER_LABELS[councilTier] || 'councils'} only.`}
-          </p>
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-            {['tier', 'spend', 'politics'].map(mode => (
-              <button
-                key={mode}
-                onClick={() => setMapColorMode(mode)}
-                style={{
-                  padding: '0.4rem 1rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600,
-                  border: mapColorMode === mode ? '1px solid var(--accent-blue, #0a84ff)' : '1px solid rgba(255,255,255,0.1)',
-                  background: mapColorMode === mode ? 'rgba(10,132,255,0.1)' : 'rgba(255,255,255,0.04)',
-                  color: mapColorMode === mode ? 'var(--accent-blue, #0a84ff)' : 'var(--text-secondary, #a1a1aa)',
-                  cursor: 'pointer', fontFamily: 'inherit',
-                }}
-              >
-                {mode === 'tier' ? 'By Tier' : mode === 'spend' ? 'By Spending' : 'By Politics'}
-              </button>
-            ))}
+        <section className="premium-map-section">
+          <div className="premium-map-header">
+            <h2><MapPin size={22} /> Lancashire Councils</h2>
+            <p className="section-intro">
+              Geographic view of all {allCouncils.length} Lancashire councils. Click any council to visit its dashboard.
+              {!showAllTiers && ` Showing ${TIER_LABELS[councilTier] || 'councils'} only.`}
+            </p>
+            <div className="premium-map-toggles">
+              {['tier', 'spend', 'politics'].map(mode => (
+                <button
+                  key={mode}
+                  className={mapColorMode === mode ? 'active' : ''}
+                  onClick={() => setMapColorMode(mode)}
+                >
+                  {mode === 'tier' ? 'By Tier' : mode === 'spend' ? 'By Spending' : 'By Politics'}
+                </button>
+              ))}
+            </div>
           </div>
-          <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading map...</div>}>
-            <LancashireMap
-              councilBoundaries={councilBoundaries}
-              councilData={allCouncils}
-              currentCouncilId={councilId}
-              colorMode={mapColorMode}
-              onCouncilClick={(id) => {
-                const slug = COUNCIL_SLUG_MAP[id]
-                if (slug) window.location.href = '/' + slug + '/'
-              }}
-              height="420px"
-            />
-          </Suspense>
+          <div className="premium-map-3d">
+            <div className="premium-map-orb premium-map-orb--red" />
+            <div className="premium-map-orb premium-map-orb--blue" />
+            <div className="premium-map-frame premium-map-frame--lancashire">
+              <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
+                <LancashireMap
+                  councilBoundaries={councilBoundaries}
+                  councilData={allCouncils}
+                  currentCouncilId={councilId}
+                  colorMode={mapColorMode}
+                  onCouncilClick={(id) => {
+                    const slug = COUNCIL_SLUG_MAP[id]
+                    if (slug) window.location.href = '/' + slug + '/'
+                  }}
+                  height="420px"
+                />
+              </Suspense>
+            </div>
+          </div>
         </section>
       )}
 

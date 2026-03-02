@@ -11,7 +11,7 @@ import {
   PieChart, Pie, Cell
 } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, PARTY_COLORS } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, PARTY_COLORS } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
@@ -20,7 +20,6 @@ import { useCountUp } from '../hooks/useCountUp'
 import { useReveal } from '../hooks/useReveal'
 import './Home.css'
 
-const LancashireMap = lazy(() => import('../components/LancashireMap'))
 const WardMap = lazy(() => import('../components/WardMap'))
 
 // Map icon names from doge_findings.json to Lucide components
@@ -61,11 +60,10 @@ function Home() {
   const { data, loading, error } = useData(dataUrls)
 
   // Map data
-  const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
-  const { data: crossCouncilData } = useData('/data/cross_council.json')
   const wardBoundariesEnabled = !!dataSources.ward_boundaries
   const { data: wardBoundariesData } = useData(wardBoundariesEnabled ? '/data/ward_boundaries.json' : null)
   const { data: wardsData } = useData(dataSources.my_area ? '/data/wards.json' : null)
+  const { data: deprivationData } = useData(dataSources.deprivation ? '/data/deprivation.json' : null)
   const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
 
   useEffect(() => {
@@ -160,7 +158,7 @@ function Home() {
   const [chartsRef, chartsVisible] = useReveal()
   const [sourcesRef, sourcesVisible] = useReveal()
 
-  const [mapMode, setMapMode] = useState('tier')
+  const [wardMapMode, setWardMapMode] = useState('party')
 
   const wardMapData = useMemo(() => {
     if (!wardsData) return {}
@@ -177,6 +175,32 @@ function Home() {
     })
     return map
   }, [wardsData])
+
+  // Deprivation-based ward colouring (IMD 2019 heat map)
+  const deprivationWardData = useMemo(() => {
+    if (!deprivationData) return {}
+    const wards = typeof deprivationData === 'object' && !Array.isArray(deprivationData) ? deprivationData : {}
+    const entries = Object.entries(wards)
+    if (entries.length === 0) return {}
+    const scores = entries.map(([, w]) => w.imd_score || w.average_score || 0).filter(Boolean)
+    if (scores.length === 0) return {}
+    const min = Math.min(...scores)
+    const range = (Math.max(...scores) - min) || 1
+    const map = {}
+    entries.forEach(([wardName, ward]) => {
+      const score = ward.imd_score || ward.average_score || 0
+      if (!score) return
+      const t = (score - min) / range
+      const r = t < 0.5 ? Math.round(48 + 207 * t * 2) : 255
+      const g = t < 0.5 ? 209 : Math.round(209 - 140 * (t - 0.5) * 2)
+      const b = t < 0.5 ? Math.round(88 - 78 * t * 2) : Math.round(10 + 48 * (t - 0.5) * 2)
+      map[wardName] = { color: `rgb(${r},${g},${b})`, winner: `IMD ${score.toFixed(1)}`, partyColor: `rgb(${r},${g},${b})` }
+    })
+    return map
+  }, [deprivationData])
+
+  const activeWardMapData = wardMapMode === 'deprivation' && Object.keys(deprivationWardData).length > 0
+    ? deprivationWardData : wardMapData
 
   if (loading) {
     return <LoadingState message="Loading dashboard data..." />
@@ -293,63 +317,65 @@ function Home() {
         <DataFreshness source="Spending data" />
       </header>
 
-      {/* ===== LANCASHIRE OVERVIEW MAP ===== */}
-      {councilBoundaries?.features?.length > 0 && (
-        <section className="lancashire-map-section">
-          <h2><MapPin size={22} /> Lancashire at a Glance</h2>
-          <p className="section-intro">
-            AI DOGE tracks all 15 Lancashire councils. Click any council on the map to explore its data.
-          </p>
-          <div className="lancashire-map-controls">
-            {[
-              { id: 'tier', label: 'By Tier' },
-              { id: 'spend', label: 'By Spending' },
-              { id: 'politics', label: 'By Politics' },
-            ].map(mode => (
+      {/* ===== COUNCIL WARD MAP — Premium 3D Hero ===== */}
+      {wardBoundariesData?.features?.length > 0 && Object.keys(wardMapData).length > 0 && (
+        <section className="premium-map-section premium-map-section--hero">
+          <div className="premium-map-header">
+            <h2><MapPin size={22} /> {councilName} Ward Map</h2>
+            <p className="section-intro">
+              Interactive ward-level intelligence. Click any ward to explore councillors, spending, and demographics.
+            </p>
+            <div className="premium-map-toggles">
               <button
-                key={mode.id}
-                className={mapMode === mode.id ? 'active' : ''}
-                onClick={() => setMapMode(mode.id)}
+                className={wardMapMode === 'party' ? 'active' : ''}
+                onClick={() => setWardMapMode('party')}
               >
-                {mode.label}
+                Party Control
               </button>
-            ))}
+              {deprivationData && Object.keys(deprivationWardData).length > 0 && (
+                <button
+                  className={wardMapMode === 'deprivation' ? 'active' : ''}
+                  onClick={() => setWardMapMode('deprivation')}
+                >
+                  Deprivation
+                </button>
+              )}
+            </div>
           </div>
-          <Suspense fallback={<div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading map...</div>}>
-            <LancashireMap
-              councilBoundaries={councilBoundaries}
-              councilData={crossCouncilData?.councils || []}
-              currentCouncilId={config.council_id}
-              colorMode={mapMode}
-              onCouncilClick={(id) => {
-                const slug = COUNCIL_SLUG_MAP[id]
-                if (slug) window.location.href = '/' + slug + '/'
-              }}
-              height="420px"
-            />
-          </Suspense>
-          <div className="lancashire-map-legend">
-            {mapMode === 'tier' && (
-              <>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#0a84ff' }} />District (12)</span>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#ff9f0a' }} />County (1)</span>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#bf5af2' }} />Unitary (2)</span>
-              </>
-            )}
-            {mapMode === 'spend' && (
-              <div className="lancashire-map-legend-gradient">
-                <span>Lower</span>
-                <div className="lancashire-map-legend-gradient-bar" />
-                <span>Higher spend/head</span>
+          <div className="premium-map-3d">
+            <div className="premium-map-orb premium-map-orb--red" />
+            <div className="premium-map-orb premium-map-orb--blue" />
+            <div className="premium-map-frame">
+              <Suspense fallback={<div className="premium-map-loading" style={{ minHeight: '480px' }}>Loading map...</div>}>
+                <WardMap
+                  boundaries={wardBoundariesData}
+                  wardData={activeWardMapData}
+                  wardsUp={Object.keys(activeWardMapData)}
+                  overlayMode="party"
+                  height="480px"
+                  onWardClick={(name) => {
+                    window.location.href = import.meta.env.BASE_URL + 'my-area?ward=' + encodeURIComponent(name)
+                  }}
+                />
+              </Suspense>
+            </div>
+          </div>
+          <div className="premium-map-legend">
+            {wardMapMode === 'party' && partyData.length > 0 && (
+              <div className="premium-map-legend-items">
+                {partyData.map(p => (
+                  <span key={p.name} className="premium-map-legend-item">
+                    <span className="premium-map-legend-dot" style={{ background: p.color }} />
+                    {p.name} <strong>{p.value}</strong>
+                  </span>
+                ))}
               </div>
             )}
-            {mapMode === 'politics' && (
-              <div className="lancashire-map-legend-party">
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#DC241F' }} />Labour</span>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#0087DC' }} />Conservative</span>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#12B6CF' }} />Reform UK</span>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#FAA61A' }} />Lib Dem</span>
-                <span className="lancashire-map-legend-item"><span className="lancashire-map-legend-dot" style={{ background: '#888' }} />NOC</span>
+            {wardMapMode === 'deprivation' && (
+              <div className="premium-map-legend-gradient">
+                <span>Least deprived</span>
+                <div className="premium-map-legend-gradient-bar" />
+                <span>Most deprived</span>
               </div>
             )}
           </div>
@@ -357,7 +383,7 @@ function Home() {
       )}
 
       {/* ===== CCA CONTEXT — Lancashire Combined County Authority ===== */}
-      {councilBoundaries?.features?.length > 0 && (
+      {dataSources.lgr_tracker && (
         <div className="cca-context-banner">
           <div className="cca-context-content">
             <div className="cca-context-icon">
@@ -372,28 +398,6 @@ function Home() {
             </Link>
           </div>
         </div>
-      )}
-
-      {/* ===== WARD MAP — Current Council ===== */}
-      {wardBoundariesData?.features?.length > 0 && Object.keys(wardMapData).length > 0 && (
-        <section className="lancashire-map-section">
-          <h2><MapPin size={22} /> {councilName} Wards</h2>
-          <p className="section-intro">
-            Explore the wards that make up {councilName}. Coloured by the party of the current councillor.
-          </p>
-          <Suspense fallback={<div style={{ height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#636370' }}>Loading ward map...</div>}>
-            <WardMap
-              boundaries={wardBoundariesData}
-              wardData={wardMapData}
-              wardsUp={Object.keys(wardMapData)}
-              overlayMode="party"
-              height="380px"
-              onWardClick={(name) => {
-                window.location.href = import.meta.env.BASE_URL + 'my-area?ward=' + encodeURIComponent(name)
-              }}
-            />
-          </Suspense>
-        </section>
       )}
 
       {/* ===== WHAT IS THIS? — For complete novices ===== */}

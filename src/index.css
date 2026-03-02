@@ -656,6 +656,387 @@ tr:hover td {
   background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
 }
 
+/* ============================================ */
+/* PREMIUM MAP SYSTEM                          */
+/* Reusable 3D broadcast map frames            */
+/* Usage: .premium-map-section > header + frame */
+/* Variants: --hero (Home), --compact (pages)  */
+/* ============================================ */
+
+/* --- Section Container --- */
+.premium-map-section {
+  position: relative;
+  margin-bottom: var(--space-xl);
+}
+
+/* --- Section Header --- */
+.premium-map-header {
+  margin-bottom: var(--space-md);
+}
+
+.premium-map-header h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-xs);
+}
+
+.premium-map-header h2 svg {
+  color: var(--broadcast-red);
+}
+
+.premium-map-header .section-intro {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Hero variant — larger header for homepage */
+.premium-map-section--hero .premium-map-header h2 {
+  font-size: 1.5rem;
+}
+
+.premium-map-section--hero {
+  margin-bottom: var(--space-2xl);
+}
+
+/* --- Toggle Bar (broadcast style) --- */
+.premium-map-toggles {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+  margin-top: var(--space-sm);
+}
+
+.premium-map-toggles button {
+  padding: 7px 18px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.premium-map-toggles button:last-child {
+  border-right: none;
+}
+
+.premium-map-toggles button:hover {
+  background: rgba(228, 0, 43, 0.08);
+  color: var(--text-primary);
+}
+
+.premium-map-toggles button.active {
+  background: rgba(228, 0, 43, 0.15);
+  color: var(--broadcast-red);
+  font-weight: 700;
+}
+
+/* Multi-row toggles — wraps nicely for PropertyPortfolio's 11 buttons */
+.premium-map-toggles--wrap {
+  flex-wrap: wrap;
+  border: none;
+  border-radius: 0;
+  gap: 4px;
+}
+
+.premium-map-toggles--wrap button {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 0.7rem;
+}
+
+.premium-map-toggles--wrap button.active {
+  border-color: rgba(228, 0, 43, 0.4);
+}
+
+/* --- 3D Perspective Wrapper --- */
+.premium-map-3d {
+  position: relative;
+  perspective: 1200px;
+  padding: var(--space-sm) 0;
+}
+
+/* --- Ambient Glow Orbs --- */
+.premium-map-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: premiumMapOrbFloat 8s ease-in-out infinite alternate;
+}
+
+@keyframes premiumMapOrbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(20px, -15px) scale(1.1); }
+}
+
+.premium-map-orb--red {
+  width: 280px;
+  height: 280px;
+  background: rgba(228, 0, 43, 0.1);
+  top: -40px;
+  left: -80px;
+}
+
+.premium-map-orb--blue {
+  width: 220px;
+  height: 220px;
+  background: rgba(10, 132, 255, 0.07);
+  bottom: -40px;
+  right: -60px;
+  animation-delay: -4s;
+}
+
+/* Hero variant — bigger orbs */
+.premium-map-section--hero .premium-map-orb--red {
+  width: 300px;
+  height: 300px;
+  background: rgba(228, 0, 43, 0.12);
+  top: -50px;
+  left: -100px;
+}
+
+.premium-map-section--hero .premium-map-orb--blue {
+  width: 250px;
+  height: 250px;
+  background: rgba(10, 132, 255, 0.08);
+  bottom: -50px;
+  right: -80px;
+}
+
+/* --- Premium Frame (the 3D tilted glass card) --- */
+.premium-map-frame {
+  position: relative;
+  z-index: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(228, 0, 43, 0.08),
+    0 16px 48px rgba(0, 0, 0, 0.45),
+    0 0 80px rgba(228, 0, 43, 0.04);
+  transform: rotateX(2deg);
+  transform-origin: center bottom;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+}
+
+/* Red accent bar at top */
+.premium-map-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--broadcast-red), #ff453a, var(--broadcast-red));
+  z-index: 10;
+}
+
+.premium-map-frame:hover {
+  transform: rotateX(0deg);
+  box-shadow:
+    0 0 0 1px rgba(228, 0, 43, 0.15),
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(228, 0, 43, 0.06);
+}
+
+/* Compact variant — subtler tilt for data-dense pages */
+.premium-map-frame--compact {
+  border-radius: 12px;
+  transform: rotateX(1.5deg);
+}
+
+/* Hero variant — maximum drama */
+.premium-map-section--hero .premium-map-frame {
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(228, 0, 43, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(228, 0, 43, 0.05);
+}
+
+.premium-map-section--hero .premium-map-frame:hover {
+  box-shadow:
+    0 0 0 1px rgba(228, 0, 43, 0.2),
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 120px rgba(228, 0, 43, 0.08);
+}
+
+/* Lancashire-wide variant — blue accent for multi-council view */
+.premium-map-frame--lancashire::before {
+  background: linear-gradient(90deg, var(--broadcast-red), var(--accent-blue), var(--broadcast-red));
+}
+
+/* --- Map Loading State --- */
+.premium-map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  background: rgba(28, 28, 30, 0.5);
+  min-height: 350px;
+}
+
+/* --- Map Meta Bar (counts, info below toggles) --- */
+.premium-map-meta {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-xs);
+}
+
+/* --- Legend --- */
+.premium-map-legend {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(28, 28, 30, 0.5);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.premium-map-legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  align-items: center;
+}
+
+.premium-map-legend-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  margin-right: var(--space-xs);
+}
+
+.premium-map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.premium-map-legend-item strong {
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.premium-map-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.premium-map-legend-gradient {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.premium-map-legend-gradient-bar {
+  flex: 1;
+  max-width: 200px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #30d158, #ffd60a, #ff9f0a, #ff453a);
+}
+
+/* --- Summary Bar (Strategy page) --- */
+.premium-map-summary {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: var(--space-sm);
+}
+
+.premium-map-summary span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================ */
+/* PREMIUM MAP — Responsive                    */
+/* ============================================ */
+@media (max-width: 768px) {
+  .premium-map-frame {
+    transform: none;
+    border-radius: 10px;
+  }
+
+  .premium-map-frame--compact {
+    transform: none;
+  }
+
+  .premium-map-orb {
+    display: none;
+  }
+
+  .premium-map-toggles {
+    flex-wrap: wrap;
+    gap: 4px;
+    border: none;
+  }
+
+  .premium-map-toggles button {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.68rem;
+    padding: 5px 12px;
+  }
+
+  .premium-map-toggles button.active {
+    border-color: rgba(228, 0, 43, 0.4);
+  }
+
+  .premium-map-legend-items {
+    gap: var(--space-xs) var(--space-sm);
+  }
+
+  .premium-map-summary {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .premium-map-loading {
+    min-height: 250px;
+  }
+
+  .premium-map-header h2 {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-map-toggles--wrap button {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   h1 { font-size: 1.75rem; }

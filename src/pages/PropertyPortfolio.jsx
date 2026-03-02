@@ -1511,10 +1511,9 @@ export default function PropertyPortfolio() {
 
       {/* Map View */}
       {viewMode === 'map' && (
-        <div>
+        <div className="premium-map-section">
           {/* Overlay Mode Toggles */}
-          <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary, #aaa)', marginRight: '4px' }}>Colour by:</span>
+          <div className="premium-map-toggles premium-map-toggles--wrap">
             {[
               { id: 'category', label: 'Category' },
               { id: 'complexity', label: 'Complexity' },
@@ -1530,17 +1529,8 @@ export default function PropertyPortfolio() {
             ].map(mode => (
               <button
                 key={mode.id}
+                className={mapOverlay === mode.id ? 'active' : ''}
                 onClick={() => setMapOverlay(mode.id)}
-                style={{
-                  padding: '4px 12px',
-                  borderRadius: '6px',
-                  border: mapOverlay === mode.id ? '1px solid rgba(10,132,255,0.4)' : '1px solid rgba(255,255,255,0.1)',
-                  background: mapOverlay === mode.id ? 'rgba(10,132,255,0.2)' : 'rgba(255,255,255,0.05)',
-                  color: mapOverlay === mode.id ? '#0a84ff' : '#aaa',
-                  fontSize: '0.78rem',
-                  cursor: 'pointer',
-                  fontWeight: mapOverlay === mode.id ? 600 : 400,
-                }}
               >
                 {mode.label}
               </button>
@@ -1548,33 +1538,34 @@ export default function PropertyPortfolio() {
           </div>
 
           {/* Asset count */}
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary, #aaa)', marginBottom: '8px' }}>
+          <div className="premium-map-meta">
             Showing {formatNumber(mapAssets.length)} of {formatNumber(filteredAssets.length)} assets on map
             {filteredAssets.length > mapAssets.length && ` (${filteredAssets.length - mapAssets.length} missing coordinates)`}
           </div>
 
           {/* Leaflet Map */}
-          <Suspense fallback={
-            <div className="glass-card" style={{ padding: '60px 20px', textAlign: 'center' }}>
-              <MapPin size={32} style={{ color: '#8e8e93', marginBottom: '8px' }} />
-              <p style={{ color: 'var(--text-secondary, #aaa)' }}>Loading map...</p>
+          <div className="premium-map-3d">
+            <div className="premium-map-orb premium-map-orb--red" />
+            <div className="premium-map-orb premium-map-orb--blue" />
+            <div className="premium-map-frame premium-map-frame--compact">
+              <Suspense fallback={<div className="premium-map-loading" style={{ minHeight: '600px' }}>Loading map...</div>}>
+                <WardMap
+                  boundaries={boundariesData}
+                  assets={mapAssets}
+                  onAssetClick={(id) => navigate(`/property/${id}`)}
+                  height="600px"
+                />
+              </Suspense>
             </div>
-          }>
-            <WardMap
-              boundaries={boundariesData}
-              assets={mapAssets}
-              onAssetClick={(id) => navigate(`/property/${id}`)}
-              height="600px"
-            />
-          </Suspense>
+          </div>
 
           {/* Legend */}
-          <div className="glass-card" style={{ padding: '12px 16px', marginTop: '8px' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary, #666)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Legend</span>
+          <div className="premium-map-legend">
+            <div className="premium-map-legend-items">
+              <span className="premium-map-legend-label">Legend</span>
               {mapOverlay === 'category' && Object.entries(CATEGORY_COLORS).map(([cat, color]) => (
-                <span key={cat} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                <span key={cat} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: color }} />
                   {CATEGORY_LABELS[cat] || cat.replace(/_/g, ' ')}
                 </span>
               ))}
@@ -1584,8 +1575,8 @@ export default function PropertyPortfolio() {
                 { label: 'Low priority', color: '#30d158' },
                 { label: 'No data', color: '#8e8e93' },
               ].map(item => (
-                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                <span key={item.label} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: item.color }} />
                   {item.label}
                 </span>
               ))}
@@ -1595,14 +1586,14 @@ export default function PropertyPortfolio() {
                 { label: 'Low priority', color: '#30d158' },
                 { label: 'No data', color: '#8e8e93' },
               ].map(item => (
-                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                <span key={item.label} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: item.color }} />
                   {item.label}
                 </span>
               ))}
               {mapOverlay === 'epc' && ['A', 'B', 'C', 'D', 'E', 'F', 'G'].map(rating => (
-                <span key={rating} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: EPC_COLORS[rating], flexShrink: 0 }} />
+                <span key={rating} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: EPC_COLORS[rating] }} />
                   {rating}
                 </span>
               ))}
@@ -1611,30 +1602,30 @@ export default function PropertyPortfolio() {
                 { label: 'Medium (30-59)', color: '#ff9f0a' },
                 { label: 'High (60+)', color: '#ff453a' },
               ].map(item => (
-                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                <span key={item.label} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: item.color }} />
                   {item.label}
                 </span>
               ))}
               {mapOverlay === 'pathway' && Object.entries(PATHWAY_MAP_COLORS)
                 .filter(([pw]) => meta.pathway_breakdown?.[pw])
                 .map(([pw, color]) => (
-                  <span key={pw} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  <span key={pw} className="premium-map-legend-item">
+                    <span className="premium-map-legend-dot" style={{ background: color }} />
                     {PATHWAY_LABELS[pw] || pw.replace(/_/g, ' ')}
                   </span>
                 ))}
               {mapOverlay === 'occupancy' && Object.entries(OCCUPANCY_MAP_COLORS)
                 .filter(([occ]) => meta.occupancy_breakdown?.[occ])
                 .map(([occ, color]) => (
-                  <span key={occ} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  <span key={occ} className="premium-map-legend-item">
+                    <span className="premium-map-legend-dot" style={{ background: color }} />
                     {OCCUPANCY_LABELS[occ] || occ.replace(/_/g, ' ')}
                   </span>
                 ))}
               {mapOverlay === 'heritage' && Object.entries(HERITAGE_COLORS).map(([grade, color]) => (
-                <span key={grade} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                <span key={grade} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: color }} />
                   {HERITAGE_LABELS[grade] || grade}
                 </span>
               ))}
@@ -1643,14 +1634,14 @@ export default function PropertyPortfolio() {
                 { label: 'Not sellable', color: '#ff453a' },
                 { label: 'Unknown', color: '#8e8e93' },
               ].map(item => (
-                <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                <span key={item.label} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: item.color }} />
                   {item.label}
                 </span>
               ))}
               {mapOverlay === 'constraints' && Object.entries(CONSTRAINT_COLORS).map(([key, color]) => (
-                <span key={key} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#ccc' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                <span key={key} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: color }} />
                   {CONSTRAINT_LABELS[key] || key}
                 </span>
               ))}
