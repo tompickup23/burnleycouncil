@@ -471,6 +471,15 @@ def build_council_entry(council_id):
             "source": h_meta.get("source", ""),
         }
 
+    # ── Demographic projections from demographic_projections.json ──
+    projections = load_json(DATA_DIR / council_id / "demographic_projections.json") or {}
+    proj_pop_2032 = projections.get("population_projections", {}).get("2032", 0)
+    proj_growth = projections.get("growth_rate_pct", 0)
+    proj_dep_2032 = projections.get("dependency_ratio_projection", {}).get("2032", 0)
+    proj_working_2032 = projections.get("working_age_pct_projection", {}).get("2032", 0)
+    asylum_seekers = projections.get("asylum", {}).get("seekers_supported", 0)
+    resettlement_total = projections.get("resettlement", {}).get("total", 0)
+
     # ── Political data from politics_summary.json ──
     party_seats = {}
     total_councillors = politics.get("total_councillors", politics.get("total_seats", 0))
@@ -546,6 +555,12 @@ def build_council_entry(council_id):
         "ruling_party": ruling_party,
         "planning": planning_summary,
         "hmo": hmo_summary,
+        "projected_population_2032": proj_pop_2032,
+        "projected_growth_pct": proj_growth,
+        "projected_dependency_2032": proj_dep_2032,
+        "projected_working_age_2032": proj_working_2032,
+        "asylum_seekers_supported": asylum_seekers,
+        "refugees_resettled": resettlement_total,
     }
 
 

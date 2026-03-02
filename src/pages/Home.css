@@ -28,6 +28,72 @@
   text-decoration: underline;
 }
 
+/* CCA Context Banner */
+.cca-context-banner {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.08), rgba(191, 90, 242, 0.06));
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.cca-context-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cca-context-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 132, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--accent-blue);
+}
+
+.cca-context-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cca-context-text strong {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.cca-context-text span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.cca-context-link {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--accent-blue);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background-image: none;
+}
+
+@media (max-width: 600px) {
+  .cca-context-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  .cca-context-icon { display: none; }
+}
+
 /* Service Scope Badges */
 .service-scope {
   padding: var(--space-sm) var(--space-md);

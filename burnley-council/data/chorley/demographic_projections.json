@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "chorley",
+    "council_name": "Chorley",
+    "ons_code": "E07000118",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 118623,
+    "2027": 123386,
+    "2032": 127235,
+    "2037": 130715,
+    "2042": 134181,
+    "2047": 137527
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 21218,
+      "16-64": 72629,
+      "65+": 24776
+    },
+    "2027": {
+      "0-15": 20526,
+      "16-64": 75598,
+      "65+": 27261
+    },
+    "2032": {
+      "0-15": 19384,
+      "16-64": 77680,
+      "65+": 30176
+    },
+    "2037": {
+      "0-15": 18929,
+      "16-64": 79113,
+      "65+": 32672
+    },
+    "2042": {
+      "0-15": 19165,
+      "16-64": 81446,
+      "65+": 33576
+    },
+    "2047": {
+      "0-15": 19512,
+      "16-64": 83364,
+      "65+": 34648
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 63.3,
+    "2027": 63.2,
+    "2032": 63.8,
+    "2037": 65.2,
+    "2042": 64.8,
+    "2047": 65.0
+  },
+  "working_age_pct_projection": {
+    "2022": 61.2,
+    "2027": 61.3,
+    "2032": 61.1,
+    "2037": 60.5,
+    "2042": 60.7,
+    "2047": 60.6
+  },
+  "growth_rate_pct": 15.9,
+  "asylum": {
+    "seekers_supported": 199,
+    "by_accommodation": {
+      "Dispersal Accommodation": 199
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 74
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 70
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 130
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 199
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

@@ -4,7 +4,7 @@ import {
   TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText,
   Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion,
   Calendar, Repeat, GitCompareArrows, Zap, Scale, BarChart3, Target,
-  ArrowDown, HelpCircle, ExternalLink, MapPin
+  ArrowDown, HelpCircle, ExternalLink, MapPin, Landmark
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -331,6 +331,24 @@ function Home() {
             )}
           </div>
         </section>
+      )}
+
+      {/* ===== CCA CONTEXT — Lancashire Combined County Authority ===== */}
+      {councilBoundaries?.features?.length > 0 && (
+        <div className="cca-context-banner">
+          <div className="cca-context-content">
+            <div className="cca-context-icon">
+              <Landmark size={20} />
+            </div>
+            <div className="cca-context-text">
+              <strong>Lancashire Combined County Authority</strong>
+              <span>£166M devolved from Westminster — transport, skills, housing &amp; economic powers now managed locally across Lancashire.</span>
+            </div>
+            <Link to="/lgr#lgr-cca" className="cca-context-link">
+              Track the CCA <ChevronRight size={16} />
+            </Link>
+          </div>
+        </div>
       )}
 
       {/* ===== WARD MAP — Current Council ===== */}

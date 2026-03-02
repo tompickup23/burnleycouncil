@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
-import { Users, MapPin, Globe, Briefcase, Church, Info } from 'lucide-react'
+import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home } from 'lucide-react'
 import './Demographics.css'
 
 const fmt = (n) => typeof n === 'number' ? n.toLocaleString('en-GB') : '—'
@@ -14,7 +14,9 @@ function Demographics() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const { data: demographics, loading, error } = useData('/data/demographics.json')
+  const { data: projections } = useData('/data/demographic_projections.json')
   const [selectedWard, setSelectedWard] = useState('')
+  const [activeTab, setActiveTab] = useState('census')
 
   useEffect(() => {
     document.title = `Demographics | ${councilName} Council Transparency`
@@ -162,6 +164,37 @@ function Demographics() {
     }
   }, [selectedWard, wards])
 
+  // Projection chart data
+  const popTrajectory = useMemo(() => {
+    const pp = projections?.population_projections || {}
+    return Object.entries(pp).map(([year, pop]) => ({ year, population: pop }))
+  }, [projections])
+
+  const ageShiftData = useMemo(() => {
+    const ap = projections?.age_projections || {}
+    return Object.entries(ap).map(([year, ages]) => ({
+      year,
+      '0-15': ages['0-15'] || 0,
+      '16-64': ages['16-64'] || 0,
+      '65+': ages['65+'] || 0,
+    }))
+  }, [projections])
+
+  const depRatioTrajectory = useMemo(() => {
+    const dr = projections?.dependency_ratio_projection || {}
+    return Object.entries(dr).map(([year, ratio]) => ({ year, ratio }))
+  }, [projections])
+
+  const asylumData = projections?.asylum || {}
+  const asylumTrend = asylumData.trend || []
+  const asylumAccommodation = useMemo(() => {
+    const acc = asylumData.by_accommodation || {}
+    return Object.entries(acc).map(([type, count]) => ({
+      name: type.replace('Accommodation', '').trim(),
+      value: count,
+    }))
+  }, [asylumData])
+
   if (loading) return <LoadingState />
   if (error) return <div className="demo-error">Error loading demographics: {error.message}</div>
   if (!demographics) return <div className="demo-error">No demographics data available</div>
@@ -173,10 +206,32 @@ function Demographics() {
         <div className="hero-content">
           <h1>Demographics</h1>
           <p className="hero-subtitle">
-            Census 2021 ward-level population data for {councilName}
+            Population data, projections, and migration for {councilName}
           </p>
         </div>
       </section>
+
+      {/* Tab Navigation */}
+      <div className="demo-tabs" role="tablist">
+        {[
+          { id: 'census', label: 'Census 2021' },
+          ...(projections ? [{ id: 'projections', label: 'Projections' }] : []),
+          ...(asylumData.seekers_supported > 0 ? [{ id: 'asylum', label: 'Asylum & Migration' }] : []),
+        ].map(tab => (
+          <button
+            key={tab.id}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            className={`demo-tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ===== CENSUS 2021 TAB ===== */}
+      {activeTab === 'census' && <>
 
       {/* Summary Cards */}
       <div className="demo-summary-grid" role="region" aria-label="Population summary statistics">
@@ -405,7 +460,205 @@ function Demographics() {
         </section>
       )}
 
-      {/* Source Note */}
+      </>}
+
+      {/* ===== PROJECTIONS TAB ===== */}
+      {activeTab === 'projections' && projections && <>
+        <div className="demo-summary-grid">
+          <div className="demo-card">
+            <div className="demo-card-icon"><TrendingUp size={20} /></div>
+            <div className="demo-card-value" style={{ color: projections.growth_rate_pct > 0 ? '#30d158' : '#ff453a' }}>
+              {projections.growth_rate_pct > 0 ? '+' : ''}{projections.growth_rate_pct}%
+            </div>
+            <div className="demo-card-label">Projected Growth</div>
+            <div className="demo-card-detail">2022 to 2047</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Users size={20} /></div>
+            <div className="demo-card-value">{fmt(projections.population_projections?.['2032'])}</div>
+            <div className="demo-card-label">Population 2032</div>
+            <div className="demo-card-detail">vs {fmt(projections.population_projections?.['2022'])} in 2022</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon" style={{ color: (projections.dependency_ratio_projection?.['2032'] || 0) >= 65 ? '#ff9f0a' : '#30d158' }}>
+              <Users size={20} />
+            </div>
+            <div className="demo-card-value">{projections.dependency_ratio_projection?.['2032'] || '—'}%</div>
+            <div className="demo-card-label">Dependency Ratio 2032</div>
+            <div className="demo-card-detail">
+              vs {projections.dependency_ratio_projection?.['2022'] || '—'}% in 2022
+            </div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Briefcase size={20} /></div>
+            <div className="demo-card-value">{projections.working_age_pct_projection?.['2032'] || '—'}%</div>
+            <div className="demo-card-label">Working Age 2032</div>
+            <div className="demo-card-detail">16-64 year olds</div>
+          </div>
+        </div>
+
+        {/* Population Trajectory */}
+        {popTrajectory.length > 0 && (
+          <section className="demo-section">
+            <h2><TrendingUp size={22} /> Population Trajectory</h2>
+            <p className="section-intro">
+              ONS 2022-based projected population for {councilName} out to 2047.
+            </p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={popTrajectory} margin={{ left: 20, right: 20, top: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                  <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} domain={['dataMin - 2000', 'dataMax + 2000']} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Population']} />
+                  <Line type="monotone" dataKey="population" stroke="var(--accent-blue)" strokeWidth={2} dot={{ r: 4, fill: 'var(--accent-blue)' }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* Age Structure Shift */}
+        {ageShiftData.length > 0 && (
+          <section className="demo-section">
+            <h2><Users size={22} /> Age Structure Shift</h2>
+            <p className="section-intro">
+              How the age composition of {councilName} is projected to change. The growing 65+ population will increase demand for social care.
+            </p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={300}>
+                <AreaChart data={ageShiftData} margin={{ left: 20, right: 20, top: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                  <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), '']} />
+                  <Legend wrapperStyle={{ color: '#e5e5e7', fontSize: '0.8rem' }} />
+                  <Area type="monotone" dataKey="0-15" stackId="1" stroke="#0a84ff" fill="rgba(10,132,255,0.3)" name="Youth (0-15)" />
+                  <Area type="monotone" dataKey="16-64" stackId="1" stroke="#30d158" fill="rgba(48,209,88,0.3)" name="Working (16-64)" />
+                  <Area type="monotone" dataKey="65+" stackId="1" stroke="#ff9f0a" fill="rgba(255,159,10,0.3)" name="Elderly (65+)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* Dependency Ratio Trajectory */}
+        {depRatioTrajectory.length > 0 && (
+          <section className="demo-section">
+            <h2><Shield size={22} /> Dependency Ratio Trajectory</h2>
+            <p className="section-intro">
+              The dependency ratio measures how many dependents (under 16 + over 65) each 100 working-age residents support.
+              Higher ratios mean more pressure on council services and budgets.
+            </p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={250}>
+                <AreaChart data={depRatioTrajectory} margin={{ left: 20, right: 20, top: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                  <YAxis tick={AXIS_TICK_STYLE} domain={[50, 75]} tickFormatter={v => `${v}%`} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`${v}%`, 'Dependency Ratio']} />
+                  <defs>
+                    <linearGradient id="depGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#ff9f0a" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#ff9f0a" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="ratio" stroke="#ff9f0a" fill="url(#depGrad)" strokeWidth={2} dot={{ r: 4 }} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        <div className="demo-source">
+          <Info size={16} />
+          <div>
+            <p>Data from <strong>ONS 2022-based Sub-National Population Projections</strong> via Nomis API. Projections are trend-based and assume no major policy changes.</p>
+          </div>
+        </div>
+      </>}
+
+      {/* ===== ASYLUM & MIGRATION TAB ===== */}
+      {activeTab === 'asylum' && asylumData.seekers_supported > 0 && <>
+        <div className="demo-summary-grid">
+          <div className="demo-card">
+            <div className="demo-card-icon"><Home size={20} /></div>
+            <div className="demo-card-value">{fmt(asylumData.seekers_supported)}</div>
+            <div className="demo-card-label">Asylum Seekers Supported</div>
+            <div className="demo-card-detail">As at {asylumData.latest_date || 'latest'}</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Globe size={20} /></div>
+            <div className="demo-card-value">{fmt(projections?.resettlement?.total || 0)}</div>
+            <div className="demo-card-label">Refugees Resettled</div>
+            <div className="demo-card-detail">Cumulative total</div>
+          </div>
+          {summary.population > 0 && (
+            <div className="demo-card">
+              <div className="demo-card-icon"><Users size={20} /></div>
+              <div className="demo-card-value">
+                {Math.round(asylumData.seekers_supported / summary.population * 10000) / 10}
+              </div>
+              <div className="demo-card-label">Per 1,000 Population</div>
+              <div className="demo-card-detail">Local dispersal rate</div>
+            </div>
+          )}
+        </div>
+
+        {/* Accommodation Type Breakdown */}
+        {asylumAccommodation.length > 0 && (
+          <section className="demo-section">
+            <h2><Home size={22} /> Accommodation Type</h2>
+            <p className="section-intro">
+              How asylum seekers in {councilName} are housed. Dispersal accommodation is provided by private contractors under Home Office contracts.
+            </p>
+            <div className="demo-chart-container" style={{ maxWidth: '400px' }}>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie data={asylumAccommodation} cx="50%" cy="50%" innerRadius={50} outerRadius={90} dataKey="value"
+                    label={({ name, value }) => `${name}: ${fmt(value)}`} labelLine={false}>
+                    {asylumAccommodation.map((_, i) => (
+                      <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={TOOLTIP_STYLE} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* Trend */}
+        {asylumTrend.length > 1 && (
+          <section className="demo-section">
+            <h2><TrendingUp size={22} /> Asylum Support Trend</h2>
+            <p className="section-intro">
+              Number of asylum seekers receiving Home Office support in {councilName} over recent years.
+            </p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={asylumTrend.map(t => ({ ...t, date: t.date?.replace(/\d+ \w+ /, '') || t.date }))} margin={{ left: 20, right: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="date" tick={AXIS_TICK_STYLE} />
+                  <YAxis tick={AXIS_TICK_STYLE} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'People supported']} />
+                  <Bar dataKey="people" fill="var(--accent-orange)" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        <div className="demo-source">
+          <Info size={16} />
+          <div>
+            <p>Data from <strong>Home Office Immigration Statistics</strong>, year ending December 2025. Asylum support figures show people receiving Section 4 or Section 95 support.</p>
+          </div>
+        </div>
+      </>}
+
+      {/* Source Note (shown on census tab) */}
+      {activeTab === 'census' && (
       <div className="demo-source">
         <Info size={16} />
         <div>
@@ -418,6 +671,7 @@ function Demographics() {
           </p>
         </div>
       </div>
+      )}
     </div>
   )
 }

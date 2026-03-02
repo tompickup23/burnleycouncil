@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "burnley",
+    "council_name": "Burnley",
+    "ons_code": "E07000117",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 95655,
+    "2027": 98520,
+    "2032": 100138,
+    "2037": 101671,
+    "2042": 103148,
+    "2047": 104519
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 19577,
+      "16-64": 58845,
+      "65+": 17233
+    },
+    "2027": {
+      "0-15": 18735,
+      "16-64": 61033,
+      "65+": 18750
+    },
+    "2032": {
+      "0-15": 17633,
+      "16-64": 62152,
+      "65+": 20351
+    },
+    "2037": {
+      "0-15": 16985,
+      "16-64": 63083,
+      "65+": 21603
+    },
+    "2042": {
+      "0-15": 16931,
+      "16-64": 64293,
+      "65+": 21922
+    },
+    "2047": {
+      "0-15": 16986,
+      "16-64": 65100,
+      "65+": 22434
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 62.6,
+    "2027": 61.4,
+    "2032": 61.1,
+    "2037": 61.2,
+    "2042": 60.4,
+    "2047": 60.6
+  },
+  "working_age_pct_projection": {
+    "2022": 61.5,
+    "2027": 61.9,
+    "2032": 62.1,
+    "2037": 62.0,
+    "2042": 62.3,
+    "2047": 62.3
+  },
+  "growth_rate_pct": 9.3,
+  "asylum": {
+    "seekers_supported": 464,
+    "by_accommodation": {
+      "Dispersal Accommodation": 462,
+      "Subsistence Only": 2
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 178
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 245
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 431
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 464
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

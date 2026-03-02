@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "fylde",
+    "council_name": "Fylde",
+    "ons_code": "E07000119",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 82990,
+    "2027": 87604,
+    "2032": 91510,
+    "2037": 94967,
+    "2042": 98114,
+    "2047": 100993
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 12234,
+      "16-64": 47198,
+      "65+": 23558
+    },
+    "2027": {
+      "0-15": 11682,
+      "16-64": 48916,
+      "65+": 27002
+    },
+    "2032": {
+      "0-15": 10998,
+      "16-64": 49691,
+      "65+": 30824
+    },
+    "2037": {
+      "0-15": 10670,
+      "16-64": 50378,
+      "65+": 33918
+    },
+    "2042": {
+      "0-15": 10757,
+      "16-64": 52176,
+      "65+": 35176
+    },
+    "2047": {
+      "0-15": 10931,
+      "16-64": 53599,
+      "65+": 36459
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 75.8,
+    "2027": 79.1,
+    "2032": 84.2,
+    "2037": 88.5,
+    "2042": 88.0,
+    "2047": 88.4
+  },
+  "working_age_pct_projection": {
+    "2022": 56.9,
+    "2027": 55.8,
+    "2032": 54.3,
+    "2037": 53.0,
+    "2042": 53.2,
+    "2047": 53.1
+  },
+  "growth_rate_pct": 21.7,
+  "asylum": {
+    "seekers_supported": 58,
+    "by_accommodation": {
+      "Dispersal Accommodation": 58
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 34
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 35
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 61
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 58
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

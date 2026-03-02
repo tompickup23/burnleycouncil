@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "lancashire_cc",
+    "council_name": "Lancashire",
+    "ons_code": "E10000017",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 1253922,
+    "2027": 1305757,
+    "2032": 1342399,
+    "2037": 1373979,
+    "2042": 1402521,
+    "2047": 1429718
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 224329,
+      "16-64": 766274,
+      "65+": 263319
+    },
+    "2027": {
+      "0-15": 219416,
+      "16-64": 796599,
+      "65+": 289732
+    },
+    "2032": {
+      "0-15": 210287,
+      "16-64": 810706,
+      "65+": 321412
+    },
+    "2037": {
+      "0-15": 204767,
+      "16-64": 822268,
+      "65+": 346939
+    },
+    "2042": {
+      "0-15": 204766,
+      "16-64": 842597,
+      "65+": 355159
+    },
+    "2047": {
+      "0-15": 206515,
+      "16-64": 857777,
+      "65+": 365410
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 63.6,
+    "2027": 63.9,
+    "2032": 65.6,
+    "2037": 67.1,
+    "2042": 66.5,
+    "2047": 66.7
+  },
+  "working_age_pct_projection": {
+    "2022": 61.1,
+    "2027": 61.0,
+    "2032": 60.4,
+    "2037": 59.8,
+    "2042": 60.1,
+    "2047": 60.0
+  },
+  "growth_rate_pct": 14.0,
+  "asylum": {
+    "seekers_supported": 0
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "rossendale",
+    "council_name": "Rossendale",
+    "ons_code": "E07000125",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 71187,
+    "2027": 72207,
+    "2032": 73090,
+    "2037": 74082,
+    "2042": 75259,
+    "2047": 76524
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 13574,
+      "16-64": 43734,
+      "65+": 13879
+    },
+    "2027": {
+      "0-15": 12938,
+      "16-64": 44440,
+      "65+": 14831
+    },
+    "2032": {
+      "0-15": 12172,
+      "16-64": 44960,
+      "65+": 15955
+    },
+    "2037": {
+      "0-15": 11762,
+      "16-64": 45529,
+      "65+": 16795
+    },
+    "2042": {
+      "0-15": 11789,
+      "16-64": 46595,
+      "65+": 16878
+    },
+    "2047": {
+      "0-15": 11937,
+      "16-64": 47440,
+      "65+": 17145
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 62.8,
+    "2027": 62.5,
+    "2032": 62.6,
+    "2037": 62.7,
+    "2042": 61.5,
+    "2047": 61.3
+  },
+  "working_age_pct_projection": {
+    "2022": 61.4,
+    "2027": 61.5,
+    "2032": 61.5,
+    "2037": 61.5,
+    "2042": 61.9,
+    "2047": 62.0
+  },
+  "growth_rate_pct": 7.5,
+  "asylum": {
+    "seekers_supported": 252,
+    "by_accommodation": {
+      "Dispersal Accommodation": 251,
+      "Subsistence Only": 1
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 139
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 138
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 223
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 252
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

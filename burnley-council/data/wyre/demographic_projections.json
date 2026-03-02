@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "wyre",
+    "council_name": "Wyre",
+    "ons_code": "E07000128",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 114924,
+    "2027": 121312,
+    "2032": 126854,
+    "2037": 131571,
+    "2042": 135651,
+    "2047": 139311
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 17899,
+      "16-64": 64895,
+      "65+": 32130
+    },
+    "2027": {
+      "0-15": 17608,
+      "16-64": 67434,
+      "65+": 36266
+    },
+    "2032": {
+      "0-15": 16881,
+      "16-64": 68636,
+      "65+": 41340
+    },
+    "2037": {
+      "0-15": 16343,
+      "16-64": 69797,
+      "65+": 45433
+    },
+    "2042": {
+      "0-15": 16329,
+      "16-64": 72255,
+      "65+": 47066
+    },
+    "2047": {
+      "0-15": 16465,
+      "16-64": 74180,
+      "65+": 48663
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 77.1,
+    "2027": 79.9,
+    "2032": 84.8,
+    "2037": 88.5,
+    "2042": 87.7,
+    "2047": 87.8
+  },
+  "working_age_pct_projection": {
+    "2022": 56.5,
+    "2027": 55.6,
+    "2032": 54.1,
+    "2037": 53.0,
+    "2042": 53.3,
+    "2047": 53.2
+  },
+  "growth_rate_pct": 21.2,
+  "asylum": {
+    "seekers_supported": 376,
+    "by_accommodation": {
+      "Dispersal Accommodation": 375,
+      "Subsistence Only": 1
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 41
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 72
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 209
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 376
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

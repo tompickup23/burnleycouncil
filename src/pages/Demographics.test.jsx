@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Demographics from './Demographics'
 
@@ -58,6 +58,38 @@ const mockDemographics = {
   },
 }
 
+const mockProjections = {
+  meta: { source: 'ONS 2022-based Sub-National Population Projections', council_id: 'burnley' },
+  population_projections: { '2022': 95655, '2027': 98520, '2032': 100138, '2037': 101200, '2042': 101900, '2047': 102300 },
+  age_projections: {
+    '2022': { '0-15': 19577, '16-64': 58845, '65+': 17233 },
+    '2032': { '0-15': 18200, '16-64': 59300, '65+': 22638 },
+  },
+  dependency_ratio_projection: { '2022': 62.6, '2027': 61.4, '2032': 64.3, '2037': 65.8 },
+  working_age_pct_projection: { '2022': 61.5, '2032': 59.2 },
+  growth_rate_pct: 6.9,
+  asylum: {
+    seekers_supported: 464,
+    by_accommodation: { 'Dispersal Accommodation': 440, 'Contingency Accommodation - Hotel': 24 },
+    trend: [
+      { date: '31 Mar 2022', people: 85 },
+      { date: '31 Mar 2023', people: 150 },
+      { date: '31 Mar 2024', people: 320 },
+      { date: '31 Mar 2025', people: 464 },
+    ],
+    latest_date: '31 Mar 2025',
+  },
+  resettlement: { total: 0 },
+}
+
+function setupMocks({ demographics = mockDemographics, projections = null } = {}) {
+  useData.mockImplementation((url) => {
+    if (url === '/data/demographics.json') return { data: demographics, loading: !demographics, error: null }
+    if (url === '/data/demographic_projections.json') return { data: projections, loading: false, error: null }
+    return { data: null, loading: false, error: null }
+  })
+}
+
 function renderComponent() {
   return render(
     <MemoryRouter>
@@ -73,26 +105,79 @@ describe('Demographics', () => {
   })
 
   it('shows loading state while data loads', () => {
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    useData.mockImplementation((url) => {
+      if (url === '/data/demographics.json') return { data: null, loading: true, error: null }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/loading/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('fail') })
+    useData.mockImplementation((url) => {
+      if (url === '/data/demographics.json') return { data: null, loading: false, error: new Error('fail') }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/error loading demographics/i)).toBeInTheDocument()
   })
 
   it('shows no-data message when demographics is null', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: null })
+    useData.mockImplementation(() => ({ data: null, loading: false, error: null }))
     renderComponent()
     expect(screen.getByText(/no demographics data available/i)).toBeInTheDocument()
   })
 
   it('renders the page heading with data', () => {
-    useData.mockReturnValue({ data: mockDemographics, loading: false, error: null })
+    setupMocks()
     renderComponent()
     expect(screen.getByText('Demographics')).toBeInTheDocument()
+  })
+
+  it('shows Census 2021 tab by default', () => {
+    setupMocks()
+    renderComponent()
+    expect(screen.getByRole('tab', { name: 'Census 2021' })).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('shows Projections tab when projection data available', () => {
+    setupMocks({ projections: mockProjections })
+    renderComponent()
+    expect(screen.getByRole('tab', { name: 'Projections' })).toBeInTheDocument()
+  })
+
+  it('shows Asylum tab when asylum data available', () => {
+    setupMocks({ projections: mockProjections })
+    renderComponent()
+    expect(screen.getByRole('tab', { name: 'Asylum & Migration' })).toBeInTheDocument()
+  })
+
+  it('does not show Projections tab without projection data', () => {
+    setupMocks()
+    renderComponent()
+    expect(screen.queryByRole('tab', { name: 'Projections' })).not.toBeInTheDocument()
+  })
+
+  it('switches to Projections tab on click', () => {
+    setupMocks({ projections: mockProjections })
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Projections' }))
+    expect(screen.getByText('Population Trajectory')).toBeInTheDocument()
+    expect(screen.getByText('Age Structure Shift')).toBeInTheDocument()
+  })
+
+  it('shows growth rate stat on Projections tab', () => {
+    setupMocks({ projections: mockProjections })
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Projections' }))
+    expect(screen.getByText('+6.9%')).toBeInTheDocument()
+  })
+
+  it('switches to Asylum tab on click', () => {
+    setupMocks({ projections: mockProjections })
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Asylum & Migration' }))
+    expect(screen.getByText('Asylum Seekers Supported')).toBeInTheDocument()
+    expect(screen.getByText('464')).toBeInTheDocument()
   })
 })

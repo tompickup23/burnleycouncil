@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "blackpool",
+    "council_name": "Blackpool",
+    "ons_code": "E06000009",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 141648,
+    "2027": 142163,
+    "2032": 142706,
+    "2037": 143802,
+    "2042": 145261,
+    "2047": 146912
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 25015,
+      "16-64": 87168,
+      "65+": 29465
+    },
+    "2027": {
+      "0-15": 24062,
+      "16-64": 86723,
+      "65+": 31376
+    },
+    "2032": {
+      "0-15": 22558,
+      "16-64": 85974,
+      "65+": 34175
+    },
+    "2037": {
+      "0-15": 21492,
+      "16-64": 86122,
+      "65+": 36185
+    },
+    "2042": {
+      "0-15": 21226,
+      "16-64": 87775,
+      "65+": 36259
+    },
+    "2047": {
+      "0-15": 21220,
+      "16-64": 88971,
+      "65+": 36723
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 62.5,
+    "2027": 63.9,
+    "2032": 66.0,
+    "2037": 67.0,
+    "2042": 65.5,
+    "2047": 65.1
+  },
+  "working_age_pct_projection": {
+    "2022": 61.5,
+    "2027": 61.0,
+    "2032": 60.2,
+    "2037": 59.9,
+    "2042": 60.4,
+    "2047": 60.6
+  },
+  "growth_rate_pct": 3.7,
+  "asylum": {
+    "seekers_supported": 450,
+    "by_accommodation": {
+      "Dispersal Accommodation": 230,
+      "Contingency Accommodation - Hotel": 218,
+      "Subsistence Only": 2
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 110
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 705
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 257
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 450
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

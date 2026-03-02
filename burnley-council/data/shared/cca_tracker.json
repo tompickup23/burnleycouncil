@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "title": "Lancashire Combined County Authority",
+    "official_name": "Lancashire Combined County Authority",
+    "abbreviation": "LCCA",
+    "type": "Non-mayoral Combined County Authority",
+    "established": "2025-02-05",
+    "inaugural_meeting": "2025-03-11",
+    "last_updated": "2026-03-02",
+    "version": "1.0",
+    "website": "https://lancashire-cca.gov.uk",
+    "democracy_portal": "https://council.lancashire.gov.uk/mgCommitteeDetails.aspx?ID=1988",
+    "legislation": "The Lancashire Combined County Authority Regulations 2025",
+    "legislation_date": "2024-11-26",
+    "source_urls": {
+      "governance": "https://lancashire-cca.gov.uk/governance",
+      "members": "https://lancashire-cca.gov.uk/governance/our-members",
+      "devolution_deal": "https://www.gov.uk/government/publications/lancashire-devolution-deal",
+      "meetings": "https://council.lancashire.gov.uk/mgCommitteeDetails.aspx?ID=1988"
+    }
+  },
+  "overview": {
+    "summary": "Lancashire's Combined County Authority brings together the three upper-tier councils to exercise devolved powers from central government. It manages transport, adult skills, housing, and economic development across Lancashire — powers previously held by Westminster, not transferred from local councils.",
+    "member_councils": [
+      { "council_id": "lancashire_cc", "name": "Lancashire County Council", "type": "constituent", "seats": 2 },
+      { "council_id": "blackpool", "name": "Blackpool Council", "type": "constituent", "seats": 1 },
+      { "council_id": "blackburn", "name": "Blackburn with Darwen Council", "type": "constituent", "seats": 1 }
+    ],
+    "non_constituent": [
+      { "name": "Chorley Council", "council_id": "chorley", "representative": "Cllr Alistair Bradley", "party": "Labour", "role": "District Council Leaders Group" },
+      { "name": "Wyre Council", "council_id": "wyre", "representative": "Cllr Michael Vincent", "party": "Conservative", "role": "District Council Leaders Group" }
+    ],
+    "devolved_powers": [
+      "Transport — integrated planning and delivery, bus services, active travel",
+      "Adult Education & Skills — Adult Skills Fund (£41M/yr), Local Skills Improvement Plans",
+      "Housing — strategic coordination of improvement, regeneration, new development",
+      "Economic Development — business investment, growth coordination, innovation",
+      "Environmental Policy — sustainability initiatives, low-carbon development"
+    ],
+    "total_voting_members": 7,
+    "total_devolved_funding": 166100000
+  },
+  "governance": {
+    "chair": {
+      "name": "Cllr Stephen Atkinson",
+      "council": "Lancashire County Council",
+      "party": "Reform UK",
+      "role": "CCA Chair & LCC Leader",
+      "elected_chair": "2025-06-17",
+      "notes": "Former Ribble Valley BC leader. Defected from Conservatives before May 2025 election. Also vice-chair of LGA and leader of Reform UK LGA group."
+    },
+    "vice_chair": {
+      "name": "Cllr Phil Riley",
+      "council": "Blackburn with Darwen",
+      "party": "Labour",
+      "role": "CCA Vice Chair & BwD Leader"
+    },
+    "constituent_members": [
+      { "name": "Cllr Stephen Atkinson", "council": "Lancashire CC", "party": "Reform UK", "role": "Chair" },
+      { "name": "Cllr Simon Evans", "council": "Lancashire CC", "party": "Reform UK", "role": "Member, Skills Advisory Board Chair" },
+      { "name": "Cllr Phil Riley", "council": "Blackburn with Darwen", "party": "Labour", "role": "Vice Chair, Transport Advisory Board Chair" },
+      { "name": "Cllr Lynn Williams", "council": "Blackpool", "party": "Labour", "role": "Member, Economy Advisory Board Chair" }
+    ],
+    "non_constituent_members": [
+      { "name": "Cllr Alistair Bradley", "council": "Chorley", "party": "Labour", "role": "District Leaders Group" },
+      { "name": "Cllr Michael Vincent", "council": "Wyre", "party": "Conservative", "role": "District Leaders Group" }
+    ],
+    "associate_members": [
+      { "name": "Mo Isap", "role": "Lancashire Business Board Chair", "notes": "Advocates strongly for elected mayor" }
+    ],
+    "observers": [
+      { "name": "Clive Grunshaw", "role": "Lancashire Police and Crime Commissioner" }
+    ],
+    "reserves": [
+      { "name": "Cllr Ged Mirfin", "council": "Lancashire CC", "party": "Reform UK" },
+      { "name": "Cllr David Dwyer", "council": "Lancashire CC", "party": "Reform UK" }
+    ],
+    "key_officers": [
+      { "name": "Denise Park", "role": "Interim Chief Operating Officer / Head of Paid Service" },
+      { "name": "Mark Davies", "role": "Statutory Scrutiny Officer", "notes": "Lancaster City Council Chief Executive" },
+      { "name": "Peter Clements", "role": "Independent Person (Standards)" },
+      { "name": "Andy Milroy", "role": "Support Officer", "contact": "governance@lancashire-cca.gov.uk" }
+    ],
+    "advisory_boards": [
+      { "name": "Transport Advisory Board", "chair": "Cllr Phil Riley", "party": "Labour", "focus": "Integrated transport, bus services, active travel, Local Transport Plan" },
+      { "name": "Economy Advisory Board", "chair": "Cllr Lynn Williams", "party": "Labour", "focus": "Growth plan, investment, innovation, regeneration" },
+      { "name": "Skills Advisory Board", "chair": "Cllr Simon Evans", "party": "Reform UK", "focus": "Adult Skills Fund, workforce development, Get Lancashire Working" }
+    ],
+    "lancashire_business_board": {
+      "chair": "Mo Isap",
+      "members": 17,
+      "role": "Private sector advisory body providing business perspective"
+    }
+  },
+  "finances": {
+    "total_devolved_2025_26": 166100000,
+    "revenue_budget_2025_26": 19100000,
+    "capital_funding": 20000000,
+    "transport_funding_2025_26": 86000000,
+    "adult_skills_fund_annual": 41000000,
+    "revenue_breakdown": [
+      { "name": "UK Shared Prosperity Fund", "amount": 18400000, "source": "DLUHC" },
+      { "name": "Government capacity funding", "amount": 750000, "source": "DLUHC" },
+      { "name": "Growing Places Fund interest", "amount": 750000, "source": "LEP legacy" }
+    ],
+    "capital_projects": [
+      { "name": "Silicon Sands Low Carbon Data Centre", "amount": 2000000, "location": "Blackpool Enterprise Zone", "status": "approved" },
+      { "name": "Innovation Quarter", "amount": 6000000, "location": "Blackburn Town Centre", "status": "approved" },
+      { "name": "New DWP Offices", "amount": 4000000, "location": "Blackpool Town Centre", "status": "approved" },
+      { "name": "Cosy Homes in Lancashire", "amount": 2000000, "location": "County-wide", "status": "approved", "notes": "Energy efficiency home upgrade grant scheme" },
+      { "name": "Unallocated capital", "amount": 6000000, "location": "TBC", "status": "pipeline" }
+    ],
+    "transport_breakdown": [
+      { "name": "Bus Service Improvement Programme (BSIP)", "source": "DfT" },
+      { "name": "Consolidated Active Travel Funding (CATF)", "source": "DfT" },
+      { "name": "Integrated Transport Block", "source": "DfT" },
+      { "name": "Local Transport Grant", "source": "DfT" }
+    ],
+    "capacity_funding_profile": {
+      "2024_25": 250000,
+      "2025_26": 500000,
+      "2026_27": 250000
+    },
+    "rural_prosperity_funding": 653065,
+    "courses_for_jobs": 3000000,
+    "growing_places_fund": 19400000,
+    "future_funding": {
+      "local_transport_authority": {
+        "amount_over_4_years": 640000000,
+        "target_date": "2026-04-01",
+        "status": "pending",
+        "notes": "Requires Local Transport Authority status"
+      },
+      "local_innovation_partnership": {
+        "bid_amount": 20000000,
+        "focus": "Defence, security, critical infrastructure",
+        "status": "bid planned for 2026"
+      },
+      "mayoral_additional_funding": {
+        "estimated": 1000000000,
+        "period": "30 years",
+        "condition": "Requires elected mayor",
+        "status": "contested — Reform UK opposes"
+      }
+    }
+  },
+  "political_dynamics": {
+    "mayoral_question": {
+      "status": "contested",
+      "summary": "The dominant political tension. Reform UK opposes an elected mayor; Labour strongly favours one. Government can impose a mayor after 18 months of CCA existence (August 2026).",
+      "positions": [
+        { "party": "Reform UK", "stance": "Oppose", "representative": "Stephen Atkinson", "detail": "Initially sought binding referendum (£2.5M). Government refused. Now requesting detailed list of funding/powers a mayor would bring before any commitment. Requested deferral of mayoral election from 2026 to 2027." },
+        { "party": "Labour", "stance": "Favour", "representative": "Phil Riley / Alistair Bradley", "detail": "Riley argues Lancashire will be 'nowhere' without a mayor, citing £1bn+ additional funding. Bradley accuses Reform of deliberately slowing the process." },
+        { "party": "Business", "stance": "Strongly favour", "representative": "Mo Isap", "detail": "Argues Lancashire is already 'losing companies' to Greater Manchester which has a mayor." }
+      ],
+      "government_position": "Angela Rayner stated by May 2026 the whole North would have mayors. Legislation allows imposition after 18 months. Government has softened language to 'whether' rather than mandating.",
+      "key_deadline": "2026-08-05",
+      "key_deadline_detail": "18 months from CCA establishment — government power to impose mayor triggers"
+    },
+    "lgr_relationship": {
+      "summary": "CCA and LGR are separate but linked. CCA exercises devolved powers from Westminster; LGR restructures local councils into unitaries. The CCA continues regardless of LGR outcome — any new unitary councils would become CCA constituents.",
+      "reform_position": "Backs a two-authority solution for LGR. Opposes wholesale single-authority reorganisation.",
+      "timeline": "Government consultation expected early 2026, preferred option summer 2026, shadow elections May 2027, new councils April 2028."
+    },
+    "party_balance": {
+      "Reform UK": 2,
+      "Labour": 3,
+      "Conservative": 1,
+      "Business": 1
+    }
+  },
+  "timeline": [
+    { "date": "2023-05-01", "event": "CCA negotiations begin", "detail": "Three upper-tier councils begin exploring combined authority options" },
+    { "date": "2023-11-01", "event": "Level 2 devolution deal announced", "detail": "Chancellor announces Lancashire devolution deal; deal signed" },
+    { "date": "2024-09-19", "event": "Government approves non-mayoral CCA", "detail": "Labour Government formally approves the non-mayoral combined county authority proposal" },
+    { "date": "2024-11-26", "event": "Statutory instruments laid before Parliament", "detail": "The Lancashire Combined County Authority Regulations 2025 passes through Parliament" },
+    { "date": "2024-11-27", "event": "First shadow authority meeting", "detail": "Shadow CCA meets at Preston County Hall" },
+    { "date": "2025-02-05", "event": "LCCA officially launched", "detail": "Lancashire Combined County Authority formally established", "milestone": true },
+    { "date": "2025-03-11", "event": "Inaugural CCA meeting", "detail": "Constitution adopted. No member allowances for CCA duties agreed." },
+    { "date": "2025-04-24", "event": "CCA regular meeting", "detail": "Second formal meeting of the authority" },
+    { "date": "2025-05-01", "event": "Reform UK wins LCC elections", "detail": "Reform wins 52 of 84 seats — takes control of Lancashire County Council. Phillippa Williamson loses seat.", "milestone": true },
+    { "date": "2025-06-17", "event": "CCA AGM — Atkinson elected chair", "detail": "Stephen Atkinson (Reform UK) elected CCA Chair, Phil Riley Vice Chair. Revenue budget and capital programme approved. £19.4M Growing Places Fund accepted. Get Lancashire Working plan agreed.", "milestone": true },
+    { "date": "2025-06-01", "event": "Atkinson requests mayoral referendum", "detail": "Reform UK asks government for £2.5M binding referendum on elected mayor" },
+    { "date": "2025-07-01", "event": "Government refuses binding referendum", "detail": "Government says non-binding referendum possible but won't fund binding one" },
+    { "date": "2025-09-09", "event": "CCA regular meeting", "detail": "Quarterly meeting" },
+    { "date": "2025-10-21", "event": "CCA regular meeting", "detail": "Quarterly meeting" },
+    { "date": "2025-11-01", "event": "Lancashire requests clarity on mayoral powers", "detail": "Atkinson asks government for detailed list of funding and powers a mayor would bring" },
+    { "date": "2025-11-30", "event": "Local Transport Plan consultation closes", "detail": "Public consultation on Lancashire's first integrated Local Transport Plan" },
+    { "date": "2025-12-16", "event": "CCA regular meeting", "detail": "Quarterly meeting" },
+    { "date": "2026-02-17", "event": "CCA regular meeting + budget", "detail": "2026-27 budget discussion" },
+    { "date": "2026-04-01", "event": "Local Transport Authority target", "detail": "Target date for LCCA to become Local Transport Authority — £640M+ funding over 4 years", "milestone": true },
+    { "date": "2026-04-14", "event": "CCA regular meeting", "detail": "Upcoming" },
+    { "date": "2026-06-23", "event": "CCA AGM", "detail": "Upcoming — annual general meeting" },
+    { "date": "2026-08-05", "event": "18-month power trigger", "detail": "Government power to impose elected mayor triggers 18 months after CCA establishment", "milestone": true }
+  ],
+  "achievements_first_year": [
+    "Lancashire Growth Plan adopted — £20bn investment pipeline identified",
+    "£20M devolution capital funding received and allocated to 4 projects",
+    "£86M transport grants secured for 2025-26",
+    "£41M/year Adult Skills Fund operational",
+    "Get Lancashire Working employment plan adopted",
+    "Local Transport Plan consultation completed",
+    "Innovation Hub at Samlesbury Enterprise Zone",
+    "Silicon Sands digital infrastructure (Blackpool)",
+    "Cyber Campus and Innovation Quarter (Blackburn)"
+  ],
+  "ambitions_2026": [
+    "£20M Local Innovation Partnership bid (defence, security, critical infrastructure)",
+    "Local Transport Authority status (£640M+ over 4 years)",
+    "UK Real Estate Investment and Infrastructure Forum (May 2026)",
+    "Final Lancashire Local Transport Plan submitted for approval"
+  ],
+  "impact_by_council": {
+    "lancashire_cc": { "role": "constituent", "seats": 2, "impact": "Largest constituent. Growing Places Fund transferred (£19.4M). LCC leader chairs CCA. Transport powers moving to CCA Apr 2026." },
+    "blackpool": { "role": "constituent", "seats": 1, "impact": "Silicon Sands £2M + DWP offices £4M capital projects. Lynn Williams chairs Economy Advisory Board." },
+    "blackburn": { "role": "constituent", "seats": 1, "impact": "Innovation Quarter £6M capital project. Phil Riley is Vice Chair and chairs Transport Advisory Board." },
+    "burnley": { "role": "district", "seats": 0, "impact": "Benefits from county-wide transport improvements, adult skills funding, and Cosy Homes energy efficiency scheme." },
+    "hyndburn": { "role": "district", "seats": 0, "impact": "Benefits from transport integration, skills funding. Part of East Lancashire regeneration focus." },
+    "pendle": { "role": "district", "seats": 0, "impact": "Benefits from transport links, skills funding, housing improvement coordination." },
+    "rossendale": { "role": "district", "seats": 0, "impact": "Benefits from transport connectivity, skills funding, environmental initiatives." },
+    "lancaster": { "role": "district", "seats": 0, "impact": "Mark Davies (Lancaster CEO) is CCA Statutory Scrutiny Officer. Benefits from transport, skills, housing powers." },
+    "ribble_valley": { "role": "district", "seats": 0, "impact": "Atkinson's home council (former RV leader). Benefits from rural prosperity funding (£653K)." },
+    "chorley": { "role": "district", "seats": 0, "impact": "Cllr Alistair Bradley represents district leaders on CCA. Benefits from transport, skills, innovation." },
+    "south_ribble": { "role": "district", "seats": 0, "impact": "Benefits from transport improvements, skills funding, Samlesbury Enterprise Zone proximity." },
+    "west_lancashire": { "role": "district", "seats": 0, "impact": "Benefits from transport links, skills funding, housing coordination." },
+    "wyre": { "role": "district", "seats": 0, "impact": "Cllr Michael Vincent represents district leaders on CCA. Benefits from transport, skills." },
+    "preston": { "role": "district", "seats": 0, "impact": "County Hall (CCA meeting venue) located in Preston. Benefits from city deal synergies, transport hub." },
+    "fylde": { "role": "district", "seats": 0, "impact": "Benefits from transport improvements, skills funding, Warton Enterprise Zone." }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "pendle",
+    "council_name": "Pendle",
+    "ons_code": "E07000122",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 96197,
+    "2027": 98030,
+    "2032": 98741,
+    "2037": 99655,
+    "2042": 100713,
+    "2047": 101849
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 20487,
+      "16-64": 58057,
+      "65+": 17653
+    },
+    "2027": {
+      "0-15": 18985,
+      "16-64": 60134,
+      "65+": 18913
+    },
+    "2032": {
+      "0-15": 17577,
+      "16-64": 60767,
+      "65+": 20396
+    },
+    "2037": {
+      "0-15": 16824,
+      "16-64": 61206,
+      "65+": 21625
+    },
+    "2042": {
+      "0-15": 16701,
+      "16-64": 62030,
+      "65+": 21980
+    },
+    "2047": {
+      "0-15": 16757,
+      "16-64": 62401,
+      "65+": 22689
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 65.7,
+    "2027": 63.0,
+    "2032": 62.5,
+    "2037": 62.8,
+    "2042": 62.4,
+    "2047": 63.2
+  },
+  "working_age_pct_projection": {
+    "2022": 60.4,
+    "2027": 61.3,
+    "2032": 61.5,
+    "2037": 61.4,
+    "2042": 61.6,
+    "2047": 61.3
+  },
+  "growth_rate_pct": 5.9,
+  "asylum": {
+    "seekers_supported": 454,
+    "by_accommodation": {
+      "Dispersal Accommodation": 453,
+      "Subsistence Only": 1
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 191
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 222
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 525
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 454
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

@@ -79,6 +79,12 @@ const mockRichData = {
       youth_ratio: 22.1,
       elderly_ratio: 46.4,
       working_age_pct: 59.4,
+      projected_population_2032: 100138,
+      projected_growth_pct: 6.9,
+      projected_dependency_2032: 64.3,
+      projected_working_age_2032: 59.2,
+      asylum_seekers_supported: 464,
+      refugees_resettled: 0,
       pay: {
         ceo_midpoint: 125000,
         ceo_to_median_ratio: 5.2,
@@ -133,6 +139,12 @@ const mockRichData = {
       youth_ratio: 20.5,
       elderly_ratio: 41.8,
       working_age_pct: 61.7,
+      projected_population_2032: 83400,
+      projected_growth_pct: 8.2,
+      projected_dependency_2032: 63.8,
+      projected_working_age_2032: 61.0,
+      asylum_seekers_supported: 220,
+      refugees_resettled: 0,
       pay: {
         ceo_midpoint: 115000,
         ceo_to_median_ratio: 4.8,
@@ -187,6 +199,12 @@ const mockRichData = {
       youth_ratio: 24.8,
       elderly_ratio: 46.4,
       working_age_pct: 58.4,
+      projected_population_2032: 94200,
+      projected_growth_pct: 5.1,
+      projected_dependency_2032: 72.5,
+      projected_working_age_2032: 57.9,
+      asylum_seekers_supported: 310,
+      refugees_resettled: 0,
       pay: {
         ceo_midpoint: 105000,
         ceo_to_median_ratio: 4.5,
@@ -241,6 +259,12 @@ const mockRichData = {
       youth_ratio: 19.2,
       elderly_ratio: 40.6,
       working_age_pct: 62.6,
+      projected_population_2032: 73100,
+      projected_growth_pct: 3.8,
+      projected_dependency_2032: 61.5,
+      projected_working_age_2032: 62.0,
+      asylum_seekers_supported: 95,
+      refugees_resettled: 0,
       pay: {
         ceo_midpoint: 98000,
         ceo_to_median_ratio: 4.1,
@@ -1226,6 +1250,76 @@ describe('CrossCouncil', () => {
       expect(methodology).not.toBeNull()
       expect(methodology.textContent).toContain('2019-20')
       expect(methodology.textContent).toContain('2023-24')
+    })
+  })
+
+  // --- Population Outlook Sections ---
+  describe('Population outlook sections', () => {
+    beforeEach(() => {
+      useData.mockReturnValue({ data: mockRichData, loading: false, error: null })
+    })
+
+    it('renders the population outlook heading', () => {
+      renderComponent()
+      expect(screen.getByText(/Population Outlook/)).toBeInTheDocument()
+    })
+
+    it('renders the growth rate chart with aria-label', () => {
+      renderComponent()
+      const chart = screen.getByRole('img', { name: /bar chart comparing projected population growth rates/i })
+      expect(chart).toBeInTheDocument()
+    })
+
+    it('renders the projected dependency ratio heading', () => {
+      renderComponent()
+      expect(screen.getByText(/Projected Dependency Ratio \(2032\)/)).toBeInTheDocument()
+    })
+
+    it('renders the projected dependency chart with aria-label', () => {
+      renderComponent()
+      const chart = screen.getByRole('img', { name: /bar chart comparing projected 2032 dependency ratios/i })
+      expect(chart).toBeInTheDocument()
+    })
+
+    it('renders the asylum dispersal heading', () => {
+      renderComponent()
+      expect(screen.getByText('Asylum Dispersal Across Lancashire')).toBeInTheDocument()
+    })
+
+    it('renders the asylum chart with aria-label', () => {
+      renderComponent()
+      const chart = screen.getByRole('img', { name: /bar chart comparing asylum seekers supported/i })
+      expect(chart).toBeInTheDocument()
+    })
+
+    it('shows ONS source attribution for projections', () => {
+      renderComponent()
+      expect(screen.getByText(/ONS 2022-based Sub-National Population Projections via Nomis/)).toBeInTheDocument()
+    })
+
+    it('shows Home Office source attribution for asylum', () => {
+      renderComponent()
+      expect(screen.getByText(/Home Office Immigration Statistics/)).toBeInTheDocument()
+    })
+
+    it('does not render population outlook when no councils have projection data', () => {
+      const noProjData = {
+        councils: mockRichData.councils.map(c => ({ ...c, projected_growth_pct: 0 })),
+        generated: '2025-02-01',
+      }
+      useData.mockReturnValue({ data: noProjData, loading: false, error: null })
+      renderComponent()
+      expect(screen.queryByText(/Population Outlook/)).not.toBeInTheDocument()
+    })
+
+    it('does not render asylum section when no councils have asylum data', () => {
+      const noAsylumData = {
+        councils: mockRichData.councils.map(c => ({ ...c, asylum_seekers_supported: 0 })),
+        generated: '2025-02-01',
+      }
+      useData.mockReturnValue({ data: noAsylumData, loading: false, error: null })
+      renderComponent()
+      expect(screen.queryByText('Asylum Dispersal Across Lancashire')).not.toBeInTheDocument()
     })
   })
 

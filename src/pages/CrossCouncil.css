@@ -88,6 +88,33 @@
   color: #ff453a;
 }
 
+/* CCA Funding Context Banner */
+.cross-cca-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.08), rgba(191, 90, 242, 0.06));
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cross-cca-banner svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cross-cca-banner a {
+  color: var(--accent-blue);
+  font-weight: 600;
+  background-image: none;
+}
+
 /* Overview Grid */
 .cross-overview {
   margin-bottom: var(--space-2xl);

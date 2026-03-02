@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "south_ribble",
+    "council_name": "South Ribble",
+    "ons_code": "E07000126",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 112201,
+    "2027": 114620,
+    "2032": 116903,
+    "2037": 119228,
+    "2042": 121647,
+    "2047": 124006
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 19646,
+      "16-64": 67925,
+      "65+": 24630
+    },
+    "2027": {
+      "0-15": 18715,
+      "16-64": 69218,
+      "65+": 26685
+    },
+    "2032": {
+      "0-15": 17678,
+      "16-64": 69724,
+      "65+": 29498
+    },
+    "2037": {
+      "0-15": 17230,
+      "16-64": 70414,
+      "65+": 31580
+    },
+    "2042": {
+      "0-15": 17360,
+      "16-64": 72151,
+      "65+": 32135
+    },
+    "2047": {
+      "0-15": 17620,
+      "16-64": 73714,
+      "65+": 32673
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 65.2,
+    "2027": 65.6,
+    "2032": 67.7,
+    "2037": 69.3,
+    "2042": 68.6,
+    "2047": 68.2
+  },
+  "working_age_pct_projection": {
+    "2022": 60.5,
+    "2027": 60.4,
+    "2032": 59.6,
+    "2037": 59.1,
+    "2042": 59.3,
+    "2047": 59.4
+  },
+  "growth_rate_pct": 10.5,
+  "asylum": {
+    "seekers_supported": 312,
+    "by_accommodation": {
+      "Dispersal Accommodation": 204,
+      "Contingency Accommodation - Hotel": 108
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 73
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 283
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 275
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 312
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

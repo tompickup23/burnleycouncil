@@ -6,7 +6,7 @@ import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP } from '../utils/constants'
+import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP, PARTY_COLORS } from '../utils/constants'
 import './CrossCouncil.css'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
@@ -48,6 +48,7 @@ function CrossCouncil() {
 
   const { data, loading, error } = useData('/data/cross_council.json')
   const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
+  const { data: ccaData } = useData('/data/shared/cca_tracker.json')
   const comparison = data
   const allCouncils = comparison?.councils || []
   // For county/unitary tiers with very few peer councils, default to showing all
@@ -303,6 +304,39 @@ function CrossCouncil() {
     [councils, councilName]
   )
 
+  // Population outlook — projected growth rate comparison
+  const growthData = useMemo(() => councils
+    .filter(c => c.projected_growth_pct != null && c.projected_growth_pct !== 0)
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      growth: c.projected_growth_pct,
+      pop2032: c.projected_population_2032 || 0,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.growth - a.growth), [councils, councilName])
+
+  // Projected dependency ratio comparison (2032)
+  const projDepData = useMemo(() => councils
+    .filter(c => c.projected_dependency_2032 > 0)
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      ratio: c.projected_dependency_2032,
+      working: c.projected_working_age_2032 || 0,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.ratio - a.ratio), [councils, councilName])
+
+  // Asylum dispersal across councils
+  const asylumData = useMemo(() => councils
+    .filter(c => c.asylum_seekers_supported > 0)
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      seekers: c.asylum_seekers_supported,
+      per1000: c.population > 0 ? Math.round(c.asylum_seekers_supported / c.population * 10000) / 10 : 0,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.seekers - a.seekers), [councils, councilName])
+
   if (loading) return <LoadingState message="Loading comparison data..." />
   if (error) return (
     <div className="page-error">
@@ -396,6 +430,22 @@ function CrossCouncil() {
                 GOV.UK budget summary data.
               </span>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ===== CCA FUNDING CONTEXT ===== */}
+      {ccaData && (
+        <div className="cross-cca-banner">
+          <Landmark size={18} />
+          <div>
+            <strong>Lancashire Combined County Authority — {formatCurrency(ccaData.finances?.total_devolved_2025_26, true)} devolved from Westminster</strong>
+            <p style={{ margin: '0.3rem 0 0', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              On top of individual council budgets, the CCA manages devolved transport ({formatCurrency(ccaData.finances?.transport_funding_2025_26, true)}),
+              adult skills ({formatCurrency(ccaData.finances?.adult_skills_fund_annual, true)}), and capital investment ({formatCurrency(ccaData.finances?.capital_funding, true)}) across Lancashire.
+              Chaired by {ccaData.governance?.chair?.name} (<span style={{ color: PARTY_COLORS[ccaData.governance?.chair?.party] || '#888' }}>{ccaData.governance?.chair?.party}</span>).
+              {' '}<Link to="/lgr#lgr-cca">Full CCA tracker →</Link>
+            </p>
           </div>
         </div>
       )}
@@ -1027,6 +1077,133 @@ function CrossCouncil() {
             {current?.dependency_ratio > 0 && (
               <> {councilName}: {current.dependency_ratio.toFixed(1)}% ({current.elderly_ratio?.toFixed(1)}% elderly, {current.youth_ratio?.toFixed(1)}% youth).</>
             )}
+          </p>
+        </section>
+      )}
+
+      {/* ===== POPULATION OUTLOOK ===== */}
+      {growthData.length >= 2 && (
+        <section className="cross-section">
+          <h2><TrendingUp size={22} /> Population Outlook (2022→2047)</h2>
+          <p className="section-intro">
+            ONS 2022-based Sub-National Population Projections. Growth rates show projected change from 2022 to 2047.
+            Councils with declining or stagnant populations face shrinking tax bases and rising per-capita service costs.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing projected population growth rates">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={growthData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tickFormatter={v => `${v > 0 ? '+' : ''}${v}%`} tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v) => [`${v > 0 ? '+' : ''}${v}%`, 'Projected growth']}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="growth" name="Projected growth" radius={[4, 4, 0, 0]}>
+                  {growthData.map((entry, i) => (
+                    <Cell
+                      key={i}
+                      fill={entry.isCurrent ? '#0a84ff'
+                        : entry.growth > 10 ? '#30d158'
+                        : entry.growth > 0 ? '#48484a'
+                        : '#ff453a'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      )}
+
+      {/* Projected Dependency Ratio 2032 */}
+      {projDepData.length >= 2 && (
+        <section className="cross-section">
+          <h2><Users size={22} /> Projected Dependency Ratio (2032)</h2>
+          <p className="section-intro">
+            Where each council's dependency ratio is heading by 2032. Compare with the Census 2021 ratios above to see which councils face the steepest increases.
+            Higher ratios mean more pressure on services and smaller working-age tax bases.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing projected 2032 dependency ratios">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={projDepData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis
+                  domain={[50, Math.ceil(Math.max(...projDepData.map(d => d.ratio)) / 5) * 5 + 5]}
+                  tickFormatter={v => `${v}%`}
+                  tick={AXIS_TICK_STYLE}
+                />
+                <Tooltip
+                  formatter={(v) => [`${v.toFixed(1)}%`, 'Dependency ratio 2032']}
+                  contentStyle={TOOLTIP_STYLE}
+                  labelFormatter={(label) => {
+                    const entry = projDepData.find(d => d.name === label)
+                    return entry ? `${label} — Working age: ${entry.working.toFixed(1)}%` : label
+                  }}
+                />
+                <Bar dataKey="ratio" name="Dependency ratio 2032" radius={[4, 4, 0, 0]}>
+                  {projDepData.map((entry, i) => (
+                    <Cell
+                      key={i}
+                      fill={entry.isCurrent ? '#0a84ff'
+                        : entry.ratio >= 80 ? '#ff453a'
+                        : entry.ratio >= 65 ? '#ff9f0a'
+                        : '#48484a'
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: ONS 2022-based Sub-National Population Projections via Nomis.
+          </p>
+        </section>
+      )}
+
+      {/* Asylum Dispersal */}
+      {asylumData.length >= 2 && (
+        <section className="cross-section">
+          <h2><Home size={22} /> Asylum Dispersal Across Lancashire</h2>
+          <p className="section-intro">
+            Home Office asylum seekers receiving support by local authority (March 2025).
+            Dispersal is managed nationally by the Home Office — councils have limited control over placement numbers.
+          </p>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing asylum seekers supported by council">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={asylumData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v, name) => {
+                    if (name === 'seekers') return [v.toLocaleString(), 'People supported']
+                    return [`${v} per 1,000`, 'Per 1,000 population']
+                  }}
+                  contentStyle={TOOLTIP_STYLE}
+                  labelFormatter={(label) => {
+                    const entry = asylumData.find(d => d.name === label)
+                    return entry ? `${label} — ${entry.per1000} per 1,000 pop` : label
+                  }}
+                />
+                <Bar dataKey="seekers" name="seekers" radius={[4, 4, 0, 0]}>
+                  {asylumData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: Home Office Immigration Statistics, year ending December 2025. Section 4/95 support only.
+            {(() => {
+              const totalSeekers = asylumData.reduce((sum, d) => sum + d.seekers, 0)
+              const currentEntry = asylumData.find(d => d.isCurrent)
+              return currentEntry ? ` ${councilName}: ${currentEntry.seekers.toLocaleString()} (${Math.round(currentEntry.seekers / totalSeekers * 100)}% of Lancashire total).` : ''
+            })()}
           </p>
         </section>
       )}

@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "west_lancashire",
+    "council_name": "West Lancashire",
+    "ons_code": "E07000127",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 119360,
+    "2027": 121985,
+    "2032": 124232,
+    "2037": 125987,
+    "2042": 127496,
+    "2047": 129255
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 19480,
+      "16-64": 73464,
+      "65+": 26416
+    },
+    "2027": {
+      "0-15": 19096,
+      "16-64": 73968,
+      "65+": 28921
+    },
+    "2032": {
+      "0-15": 18473,
+      "16-64": 73782,
+      "65+": 31978
+    },
+    "2037": {
+      "0-15": 17910,
+      "16-64": 73802,
+      "65+": 34280
+    },
+    "2042": {
+      "0-15": 17633,
+      "16-64": 75219,
+      "65+": 34646
+    },
+    "2047": {
+      "0-15": 17726,
+      "16-64": 76399,
+      "65+": 35126
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 62.5,
+    "2027": 64.9,
+    "2032": 68.4,
+    "2037": 70.7,
+    "2042": 69.5,
+    "2047": 69.2
+  },
+  "working_age_pct_projection": {
+    "2022": 61.5,
+    "2027": 60.6,
+    "2032": 59.4,
+    "2037": 58.6,
+    "2042": 59.0,
+    "2047": 59.1
+  },
+  "growth_rate_pct": 8.3,
+  "asylum": {
+    "seekers_supported": 403,
+    "by_accommodation": {
+      "Dispersal Accommodation": 403
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 151
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 136
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 240
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 403
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

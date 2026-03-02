@@ -198,8 +198,8 @@ function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
-  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json'])
-  const [lgrData, crossCouncil, budgetModel] = data || [null, null, null]
+  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json'])
+  const [lgrData, crossCouncil, budgetModel, ccaData] = data || [null, null, null, null]
   const [selectedModel, setSelectedModel] = useState(null)
   const [expandedIssue, setExpandedIssue] = useState(null)
   const [expandedCritique, setExpandedCritique] = useState(null)
@@ -464,6 +464,7 @@ function LGRTracker() {
   const dogeAssessment = lgrData.ai_doge_analysis?.assessments?.find(a => a.model_id === activeModel)
 
   const sectionNav = [
+    { id: 'cca', label: 'Lancashire CCA', icon: Globe },
     { id: 'proposals', label: 'Proposals', icon: Building },
     { id: 'independent', label: 'AI DOGE Model', icon: Brain },
     { id: 'cashflow', label: 'Cashflow', icon: TrendingUp },
@@ -541,6 +542,190 @@ function LGRTracker() {
           ))}
         </div>
       </section>
+
+      {/* Lancashire CCA */}
+      {ccaData && (
+        <section className="lgr-section" id="lgr-cca">
+          <h2><Globe size={20} /> Lancashire Combined County Authority</h2>
+          <p className="section-desc">{ccaData.overview?.summary}</p>
+
+          {/* CCA Overview Cards */}
+          <div className="lgr-model-grid" style={{ marginBottom: '1.5rem' }}>
+            <div className="lgr-stat-card">
+              <span className="stat-label">Established</span>
+              <span className="stat-value">{new Date(ccaData.meta?.established).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            </div>
+            <div className="lgr-stat-card">
+              <span className="stat-label">Total Devolved Funding</span>
+              <span className="stat-value">{formatCurrency(ccaData.finances?.total_devolved_2025_26, true)}</span>
+            </div>
+            <div className="lgr-stat-card">
+              <span className="stat-label">Type</span>
+              <span className="stat-value" style={{ fontSize: '1rem' }}>{ccaData.meta?.type}</span>
+            </div>
+            <div className="lgr-stat-card">
+              <span className="stat-label">Chair</span>
+              <span className="stat-value" style={{ fontSize: '1rem' }}>{ccaData.governance?.chair?.name}</span>
+              <span className="stat-sublabel" style={{ color: PARTY_COLORS[ccaData.governance?.chair?.party] || '#888' }}>{ccaData.governance?.chair?.party}</span>
+            </div>
+          </div>
+
+          {/* CCA Budget Breakdown */}
+          {ccaData.finances && (
+            <div className="lgr-chart-card">
+              <h3><PoundSterling size={16} /> Devolved Funding 2025-26</h3>
+              <p className="chart-desc">Powers and funding devolved from Westminster — not transferred from local councils</p>
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={[
+                  { name: 'Transport', amount: (ccaData.finances.transport_funding_2025_26 || 0) / 1e6 },
+                  { name: 'Adult Skills', amount: (ccaData.finances.adult_skills_fund_annual || 0) / 1e6 },
+                  { name: 'Capital Projects', amount: (ccaData.finances.capital_funding || 0) / 1e6 },
+                  { name: 'Revenue', amount: (ccaData.finances.revenue_budget_2025_26 || 0) / 1e6 },
+                ]} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                  <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, 'Funding']} />
+                  <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
+                    {[0, 1, 2, 3].map(i => (
+                      <Cell key={i} fill={['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2'][i]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+
+          {/* Capital Projects */}
+          {ccaData.finances?.capital_projects?.length > 0 && (
+            <div className="lgr-chart-card" style={{ marginTop: '1rem' }}>
+              <h3>Capital Projects (£20M)</h3>
+              <div className="lgr-model-grid">
+                {ccaData.finances.capital_projects.filter(p => p.status === 'approved').map((project, i) => (
+                  <div key={i} className="lgr-stat-card">
+                    <span className="stat-label">{project.name}</span>
+                    <span className="stat-value">{formatCurrency(project.amount, true)}</span>
+                    <span className="stat-sublabel">{project.location}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Governance */}
+          <div className="lgr-chart-card" style={{ marginTop: '1rem' }}>
+            <h3><Users size={16} /> Governance</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '0.75rem' }}>
+              {ccaData.governance?.constituent_members?.map((m, i) => (
+                <div key={i} className="lgr-stat-card" style={{ padding: '0.75rem' }}>
+                  <span className="stat-label" style={{ color: PARTY_COLORS[m.party] || '#888', fontWeight: 600 }}>{m.party}</span>
+                  <span className="stat-value" style={{ fontSize: '0.95rem' }}>{m.name}</span>
+                  <span className="stat-sublabel">{m.council} — {m.role}</span>
+                </div>
+              ))}
+              {ccaData.governance?.non_constituent_members?.map((m, i) => (
+                <div key={`nc-${i}`} className="lgr-stat-card" style={{ padding: '0.75rem', opacity: 0.8 }}>
+                  <span className="stat-label" style={{ color: PARTY_COLORS[m.party] || '#888', fontWeight: 600 }}>{m.party}</span>
+                  <span className="stat-value" style={{ fontSize: '0.95rem' }}>{m.name}</span>
+                  <span className="stat-sublabel">{m.council} — {m.role}</span>
+                </div>
+              ))}
+            </div>
+            {ccaData.governance?.advisory_boards?.length > 0 && (
+              <div style={{ marginTop: '1rem' }}>
+                <h4 style={{ color: '#d1d1d6', marginBottom: '0.5rem', fontSize: '0.85rem', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Advisory Boards</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {ccaData.governance.advisory_boards.map((b, i) => (
+                    <span key={i} className="tier-badge" style={{ background: `${PARTY_COLORS[b.party] || '#888'}22`, color: PARTY_COLORS[b.party] || '#888' }}>
+                      {b.name}: {b.chair}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Mayoral Question */}
+          {ccaData.political_dynamics?.mayoral_question && (
+            <div className="lgr-chart-card" style={{ marginTop: '1rem', borderLeft: '3px solid #ff9f0a' }}>
+              <h3><AlertTriangle size={16} /> The Mayoral Question</h3>
+              <p style={{ color: '#aeaeb2', marginBottom: '0.75rem' }}>{ccaData.political_dynamics.mayoral_question.summary}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {ccaData.political_dynamics.mayoral_question.positions?.map((pos, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.5rem 0', borderBottom: '1px solid #2c2c2e' }}>
+                    <span style={{
+                      padding: '2px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 700,
+                      background: pos.stance === 'Oppose' ? '#ff453a22' : pos.stance === 'Favour' ? '#30d15822' : '#0a84ff22',
+                      color: pos.stance === 'Oppose' ? '#ff453a' : pos.stance === 'Favour' ? '#30d158' : '#0a84ff',
+                      flexShrink: 0
+                    }}>{pos.stance}</span>
+                    <div>
+                      <span style={{ fontWeight: 600, color: '#fff' }}>{pos.party}</span>
+                      <span style={{ color: '#8e8e93', marginLeft: '0.5rem', fontSize: '0.85rem' }}>({pos.representative})</span>
+                      <p style={{ color: '#aeaeb2', margin: '0.25rem 0 0', fontSize: '0.85rem' }}>{pos.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {ccaData.political_dynamics.mayoral_question.key_deadline && (
+                <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.75rem', background: '#ff9f0a11', borderRadius: '8px', fontSize: '0.85rem' }}>
+                  <strong style={{ color: '#ff9f0a' }}>Key deadline: {new Date(ccaData.political_dynamics.mayoral_question.key_deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                  <span style={{ color: '#aeaeb2' }}> — {ccaData.political_dynamics.mayoral_question.key_deadline_detail}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* CCA vs LGR */}
+          {ccaData.political_dynamics?.lgr_relationship && (
+            <div className="lgr-chart-card" style={{ marginTop: '1rem' }}>
+              <h3><ArrowRight size={16} /> CCA vs LGR — How They Connect</h3>
+              <p style={{ color: '#aeaeb2' }}>{ccaData.political_dynamics.lgr_relationship.summary}</p>
+              <p style={{ color: '#8e8e93', marginTop: '0.5rem', fontSize: '0.85rem' }}>
+                <strong>Reform UK position:</strong> {ccaData.political_dynamics.lgr_relationship.reform_position}
+              </p>
+              <p style={{ color: '#8e8e93', fontSize: '0.85rem' }}>
+                <strong>Expected timeline:</strong> {ccaData.political_dynamics.lgr_relationship.timeline}
+              </p>
+            </div>
+          )}
+
+          {/* CCA Impact on this council */}
+          {ccaData.impact_by_council?.[councilId] && (
+            <div className="lgr-chart-card" style={{ marginTop: '1rem', borderLeft: '3px solid #0a84ff' }}>
+              <h3><MapPin size={16} /> Impact on {councilName}</h3>
+              <p style={{ color: '#aeaeb2' }}>{ccaData.impact_by_council[councilId].impact}</p>
+              <span className="tier-badge" style={{ marginTop: '0.5rem', display: 'inline-block' }}>
+                {ccaData.impact_by_council[councilId].role === 'constituent' ? `Constituent member — ${ccaData.impact_by_council[councilId].seats} seat(s)` : 'District council — no direct CCA seats'}
+              </span>
+            </div>
+          )}
+
+          {/* CCA Timeline */}
+          {ccaData.timeline?.length > 0 && (
+            <div style={{ marginTop: '1rem' }}>
+              <h3 style={{ color: '#d1d1d6', marginBottom: '0.75rem' }}><Calendar size={16} /> CCA Timeline</h3>
+              <div className="lgr-timeline">
+                {ccaData.timeline.filter(e => e.milestone).map((event, i) => (
+                  <div key={i} className={`timeline-item ${new Date(event.date) > new Date() ? 'upcoming' : 'past'}`}>
+                    <div className="timeline-marker" />
+                    <div className="timeline-content">
+                      <span className="timeline-date">{new Date(event.date).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}</span>
+                      <h3>{event.event}</h3>
+                      <p>{event.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: '#636366' }}>
+            Source: <a href={ccaData.meta?.website} target="_blank" rel="noopener noreferrer" style={{ color: '#0a84ff' }}>lancashire-cca.gov.uk</a>
+            {' · '}Last updated: {ccaData.meta?.last_updated}
+          </div>
+        </section>
+      )}
 
       {/* AI DOGE Independent Model */}
       <section className="lgr-section" id="lgr-independent">

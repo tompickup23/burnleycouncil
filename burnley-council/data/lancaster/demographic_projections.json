@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "lancaster",
+    "council_name": "Lancaster",
+    "ons_code": "E07000121",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 144561,
+    "2027": 151250,
+    "2032": 154797,
+    "2037": 156919,
+    "2042": 158455,
+    "2047": 160280
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 23176,
+      "16-64": 91634,
+      "65+": 29751
+    },
+    "2027": {
+      "0-15": 23375,
+      "16-64": 95426,
+      "65+": 32446
+    },
+    "2032": {
+      "0-15": 22616,
+      "16-64": 96446,
+      "65+": 35736
+    },
+    "2037": {
+      "0-15": 22069,
+      "16-64": 96649,
+      "65+": 38200
+    },
+    "2042": {
+      "0-15": 21801,
+      "16-64": 97867,
+      "65+": 38784
+    },
+    "2047": {
+      "0-15": 21758,
+      "16-64": 98728,
+      "65+": 39792
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 57.8,
+    "2027": 58.5,
+    "2032": 60.5,
+    "2037": 62.4,
+    "2042": 61.9,
+    "2047": 62.3
+  },
+  "working_age_pct_projection": {
+    "2022": 63.4,
+    "2027": 63.1,
+    "2032": 62.3,
+    "2037": 61.6,
+    "2042": 61.8,
+    "2047": 61.6
+  },
+  "growth_rate_pct": 10.9,
+  "asylum": {
+    "seekers_supported": 186,
+    "by_accommodation": {
+      "Dispersal Accommodation": 185,
+      "Subsistence Only": 1
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 132
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 352
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 228
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 186
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

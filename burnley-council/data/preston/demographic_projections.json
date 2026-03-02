@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "preston",
+    "council_name": "Preston",
+    "ons_code": "E07000123",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 151869,
+    "2027": 165259,
+    "2032": 172921,
+    "2037": 179035,
+    "2042": 183861,
+    "2047": 187925
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 29918,
+      "16-64": 99479,
+      "65+": 22472
+    },
+    "2027": {
+      "0-15": 31335,
+      "16-64": 109117,
+      "65+": 24809
+    },
+    "2032": {
+      "0-15": 31282,
+      "16-64": 114015,
+      "65+": 27622
+    },
+    "2037": {
+      "0-15": 30998,
+      "16-64": 118003,
+      "65+": 30034
+    },
+    "2042": {
+      "0-15": 31128,
+      "16-64": 121531,
+      "65+": 31199
+    },
+    "2047": {
+      "0-15": 31396,
+      "16-64": 123817,
+      "65+": 32715
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 52.7,
+    "2027": 51.5,
+    "2032": 51.7,
+    "2037": 51.7,
+    "2042": 51.3,
+    "2047": 51.8
+  },
+  "working_age_pct_projection": {
+    "2022": 65.5,
+    "2027": 66.0,
+    "2032": 65.9,
+    "2037": 65.9,
+    "2042": 66.1,
+    "2047": 65.9
+  },
+  "growth_rate_pct": 23.7,
+  "asylum": {
+    "seekers_supported": 394,
+    "by_accommodation": {
+      "Dispersal Accommodation": 385,
+      "Subsistence Only": 9
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 228
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 226
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 407
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 394
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}

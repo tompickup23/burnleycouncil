@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "source": "ONS 2022-based Sub-National Population Projections via Nomis API",
+    "asylum_source": "Home Office Immigration Statistics, year ending December 2025",
+    "council_id": "hyndburn",
+    "council_name": "Hyndburn",
+    "ons_code": "E07000120",
+    "projection_base_year": "2022",
+    "last_updated": "2026-03-02"
+  },
+  "population_projections": {
+    "2022": 83215,
+    "2027": 84344,
+    "2032": 85188,
+    "2037": 86173,
+    "2042": 87238,
+    "2047": 88236
+  },
+  "age_projections": {
+    "2022": {
+      "0-15": 16677,
+      "16-64": 51253,
+      "65+": 15285
+    },
+    "2027": {
+      "0-15": 15874,
+      "16-64": 52323,
+      "65+": 16146
+    },
+    "2032": {
+      "0-15": 15013,
+      "16-64": 52790,
+      "65+": 17387
+    },
+    "2037": {
+      "0-15": 14533,
+      "16-64": 53126,
+      "65+": 18508
+    },
+    "2042": {
+      "0-15": 14471,
+      "16-64": 54132,
+      "65+": 18638
+    },
+    "2047": {
+      "0-15": 14496,
+      "16-64": 54726,
+      "65+": 19017
+    }
+  },
+  "dependency_ratio_projection": {
+    "2022": 62.4,
+    "2027": 61.2,
+    "2032": 61.4,
+    "2037": 62.2,
+    "2042": 61.2,
+    "2047": 61.2
+  },
+  "working_age_pct_projection": {
+    "2022": 61.6,
+    "2027": 62.0,
+    "2032": 62.0,
+    "2037": 61.7,
+    "2042": 62.1,
+    "2047": 62.0
+  },
+  "growth_rate_pct": 6.0,
+  "asylum": {
+    "seekers_supported": 392,
+    "by_accommodation": {
+      "Dispersal Accommodation": 390,
+      "Subsistence Only": 2
+    },
+    "trend": [
+      {
+        "date": "31 Mar 2022",
+        "people": 223
+      },
+      {
+        "date": "31 Mar 2023",
+        "people": 261
+      },
+      {
+        "date": "31 Mar 2024",
+        "people": 440
+      },
+      {
+        "date": "31 Mar 2025",
+        "people": 392
+      }
+    ],
+    "latest_date": "31 Mar 2025"
+  },
+  "resettlement": {
+    "total": 0
+  }
+}
