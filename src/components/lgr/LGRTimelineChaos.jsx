@@ -167,7 +167,7 @@ export default function LGRTimelineChaos({ timeline, selectedModel }) {
       <h2 className="ltc-title">
         <Clock size={20} />
         Timeline Feasibility Analysis
-        {selectedModel && <span className="ltc-model-tag">{selectedModel}</span>}
+        {selectedModel && <span className="ltc-model-tag">{selectedModel.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>}
       </h2>
       <p className="ltc-subtitle">
         Can Lancashire deliver LGR in the proposed timeframe? Analysis based on UK reorganisation precedents.

@@ -145,4 +145,35 @@ describe('Home', () => {
     expect(screen.queryByTestId('lancashire-map')).not.toBeInTheDocument()
     expect(screen.queryByTestId('ward-map')).not.toBeInTheDocument()
   })
+
+  it('renders fiscal resilience banner when demographic_fiscal data is available', () => {
+    useCouncilConfig.mockReturnValue(mockConfig)
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) {
+        return {
+          data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
+          loading: false,
+          error: null,
+        }
+      }
+      if (urls === '/data/demographic_fiscal.json') {
+        return {
+          data: { fiscal_resilience_score: 20, threats: [{ type: 'fiscal' }, { type: 'demographic' }] },
+          loading: false,
+          error: null,
+        }
+      }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    expect(screen.getByText(/Fiscal Resilience/)).toBeInTheDocument()
+    expect(screen.getByText(/20\/100/)).toBeInTheDocument()
+    expect(screen.getByText(/2 demographic fiscal pressures/)).toBeInTheDocument()
+  })
+
+  it('does not render fiscal banner when demographic_fiscal data is null', () => {
+    setupMocks()
+    renderComponent()
+    expect(screen.queryByText(/Fiscal Resilience/)).not.toBeInTheDocument()
+  })
 })

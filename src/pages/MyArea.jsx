@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
-import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home } from 'lucide-react'
+import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'

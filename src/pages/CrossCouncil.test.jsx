@@ -92,6 +92,9 @@ const mockRichData = {
       },
       duplicate_value: 1500000,
       duplicate_count: 45,
+      fiscal_resilience_score: 20,
+      service_demand_score: 80,
+      demographic_risk_category: 'Structurally Deficit',
       service_hhi: {
         'Housing': { hhi: 2100 },
         'Environmental': { hhi: 900 },
@@ -152,6 +155,9 @@ const mockRichData = {
       },
       duplicate_value: 800000,
       duplicate_count: 22,
+      fiscal_resilience_score: 35,
+      service_demand_score: 65,
+      demographic_risk_category: 'At Risk',
       service_hhi: {
         'Housing': { hhi: 1400 },
         'Environmental': { hhi: 750 },
@@ -212,6 +218,9 @@ const mockRichData = {
       },
       duplicate_value: 2200000,
       duplicate_count: 67,
+      fiscal_resilience_score: 15,
+      service_demand_score: 85,
+      demographic_risk_category: 'Structurally Deficit',
       service_hhi: {
         'Housing': { hhi: 2900 },
         'Environmental': { hhi: 1600 },
@@ -272,6 +281,9 @@ const mockRichData = {
       },
       duplicate_value: 350000,
       duplicate_count: 11,
+      fiscal_resilience_score: 55,
+      service_demand_score: 45,
+      demographic_risk_category: 'Viable',
       service_hhi: {
         'Housing': { hhi: 800 },
         'Environmental': { hhi: 650 },
@@ -1346,6 +1358,40 @@ describe('CrossCouncil', () => {
       renderComponent()
       const subtitle = document.querySelector('.hero-subtitle')
       expect(subtitle.textContent).toMatch(/4 district councils/)
+    })
+  })
+
+  // --- Demographic Fiscal Profile Section ---
+  describe('Demographic Fiscal Profile section', () => {
+    beforeEach(() => {
+      useData.mockReturnValue({ data: mockRichData, loading: false, error: null })
+    })
+
+    it('renders the fiscal profile heading when councils have fiscal data', () => {
+      renderComponent()
+      expect(screen.getByText('Demographic Fiscal Profile')).toBeInTheDocument()
+    })
+
+    it('renders fiscal resilience chart', () => {
+      renderComponent()
+      const chart = screen.getByRole('img', { name: /bar chart comparing fiscal resilience scores/i })
+      expect(chart).toBeInTheDocument()
+    })
+
+    it('renders service demand chart', () => {
+      renderComponent()
+      const chart = screen.getByRole('img', { name: /bar chart comparing service demand pressure/i })
+      expect(chart).toBeInTheDocument()
+    })
+
+    it('does not render when no councils have fiscal data', () => {
+      const noFiscalData = {
+        councils: mockRichData.councils.map(c => ({ ...c, fiscal_resilience_score: undefined })),
+        generated: '2025-02-01',
+      }
+      useData.mockReturnValue({ data: noFiscalData, loading: false, error: null })
+      renderComponent()
+      expect(screen.queryByText('Demographic Fiscal Profile')).not.toBeInTheDocument()
     })
   })
 })

@@ -58,11 +58,14 @@ function fetchWithRetry(url, attempt = 0) {
  * @returns {{ data: any, loading: boolean, error: Error|null }}
  */
 export function useData(urls) {
+  // Handle null/undefined URLs (disabled features)
+  const isNull = urls === null || urls === undefined
   const isMultiple = Array.isArray(urls)
-  const urlList = isMultiple ? urls : [urls]
-  const keyStr = urlList.join('|')
+  const urlList = isNull ? [] : (isMultiple ? urls : [urls])
+  const keyStr = isNull ? '__null__' : urlList.join('|')
 
   const [data, setData] = useState(() => {
+    if (isNull) return null
     const allCached = urlList.every(u => {
       const entry = cache.get(u)
       return entry && isFresh(entry)
@@ -75,6 +78,7 @@ export function useData(urls) {
   })
 
   const [loading, setLoading] = useState(() => {
+    if (isNull) return false
     return !urlList.every(u => {
       const entry = cache.get(u)
       return entry && isFresh(entry)
@@ -86,6 +90,8 @@ export function useData(urls) {
 
   useEffect(() => {
     mountedRef.current = true
+
+    if (isNull) return
 
     const allFresh = urlList.every(u => {
       const entry = cache.get(u)

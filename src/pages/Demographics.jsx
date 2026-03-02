@@ -779,7 +779,7 @@ function Demographics() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {demoFiscalData.lgr_threats.map((t, i) => (
                 <div key={i} style={{ padding: '0.5rem 0.75rem', background: 'rgba(28,28,30,0.7)', borderRadius: '6px', fontSize: '0.8125rem' }}>
-                  <strong>{t.model}</strong>: {t.threat}
+                  <strong>{t.model?.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</strong>: {t.threat}
                 </div>
               ))}
             </div>
