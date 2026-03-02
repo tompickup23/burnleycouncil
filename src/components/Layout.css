@@ -34,7 +34,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.5), rgba(191, 90, 242, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(228, 0, 43, 0.6), rgba(10, 132, 255, 0.5), transparent);
 }
 
 .site-title {
@@ -95,7 +95,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: var(--accent-blue);
+  background: #e4002b;
   border-radius: 0 2px 2px 0;
   transform: scaleY(0);
   transition: transform 0.3s var(--ease-bounce);
@@ -112,10 +112,10 @@
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, rgba(10, 132, 255, 0.2), rgba(10, 132, 255, 0.1));
+  background: linear-gradient(135deg, rgba(228, 0, 43, 0.15), rgba(228, 0, 43, 0.08));
   color: white;
-  border: 1px solid rgba(10, 132, 255, 0.2);
-  box-shadow: 0 0 20px rgba(10, 132, 255, 0.1), inset 0 0 12px rgba(10, 132, 255, 0.03);
+  border: 1px solid rgba(228, 0, 43, 0.2);
+  box-shadow: 0 0 20px rgba(228, 0, 43, 0.08), inset 0 0 12px rgba(228, 0, 43, 0.03);
 }
 
 .nav-item.active::before {
@@ -123,7 +123,7 @@
 }
 
 .nav-item.active:hover {
-  background: linear-gradient(135deg, rgba(10, 132, 255, 0.25), rgba(10, 132, 255, 0.15));
+  background: linear-gradient(135deg, rgba(228, 0, 43, 0.2), rgba(228, 0, 43, 0.12));
 }
 
 .nav-item span {

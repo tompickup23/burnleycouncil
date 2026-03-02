@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Calendar, Clock, ChevronRight, ChevronLeft, AlertCircle, TrendingUp, Users, Search, X, FileText } from 'lucide-react'
+import { Calendar, Clock, ChevronRight, ChevronLeft, Search, X, FileText } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -8,6 +8,24 @@ import { formatDate, estimateReadingTime } from '../utils/format'
 import './News.css'
 
 const ARTICLES_PER_PAGE = 12
+
+const getCategoryLabel = (category) => {
+  const map = {
+    'Investigation': 'broadcast-label-investigation',
+    'Analysis': 'broadcast-label-analysis',
+    'Democracy': 'broadcast-label-democracy',
+    'Governance Failure': 'broadcast-label-governance',
+    'Financial Mismanagement': 'broadcast-label-financial',
+    'DOGE Finding': 'broadcast-label-breaking',
+  }
+  return map[category] || 'broadcast-label-analysis'
+}
+
+const isRecent = (dateStr) => {
+  if (!dateStr) return false
+  const diff = Date.now() - new Date(dateStr).getTime()
+  return diff < 7 * 24 * 60 * 60 * 1000
+}
 
 function News() {
   const { council_name: councilName = 'Council' } = useCouncilConfig()
@@ -67,17 +85,6 @@ function News() {
     )
   }
 
-  const getCategoryIcon = (category) => {
-    switch (category) {
-      case 'Analysis':
-        return <TrendingUp size={16} />
-      case 'Democracy':
-        return <Users size={16} />
-      default:
-        return <AlertCircle size={16} />
-    }
-  }
-
   return (
     <div className="news-page animate-fade-in">
       <header className="page-header" aria-label="News and findings">
@@ -127,50 +134,55 @@ function News() {
 
       {/* Article List */}
       <div className="articles-list">
-        {pagedArticles.map((article, i) => (
-          <Link
-            key={article.id}
-            to={`/news/${article.id}`}
-            className={`article-card ${i === 0 && page === 1 ? 'featured' : ''}`}
-            style={{ animationDelay: `${i * 0.05}s` }}
-          >
-            <div className="article-card-image">
-              {article.image ? (
-                <img
-                  src={article.image}
-                  alt={article.title || 'Article image'}
-                  loading="lazy"
-                  onError={(e) => { e.target.closest('.article-card-image').classList.add('placeholder'); e.target.style.display = 'none' }}
-                />
-              ) : (
-                <div className="article-image-placeholder">
-                  <FileText size={32} />
+        {pagedArticles.map((article, i) => {
+          const isHero = i === 0 && page === 1
+          return (
+            <Link
+              key={article.id}
+              to={`/news/${article.id}`}
+              className={`article-card${isHero ? ' article-hero-card' : ''}`}
+              style={{ animationDelay: `${i * 0.05}s` }}
+            >
+              <div className="article-card-image">
+                {article.image ? (
+                  <img
+                    src={article.image}
+                    alt={article.title || 'Article image'}
+                    loading="lazy"
+                    onError={(e) => { e.target.closest('.article-card-image').classList.add('placeholder'); e.target.style.display = 'none' }}
+                  />
+                ) : (
+                  <div className="article-image-placeholder">
+                    <FileText size={32} />
+                  </div>
+                )}
+                {isRecent(article.date) && (
+                  <span className="broadcast-label broadcast-label-latest article-latest-badge">LATEST</span>
+                )}
+              </div>
+              <div className="article-card-body">
+                <div className="article-meta">
+                  <span className={`broadcast-label ${getCategoryLabel(article.category)}`}>
+                    {article.category}
+                  </span>
+                  <span className="article-date">
+                    <Calendar size={14} />
+                    {formatDate(article.date)}
+                  </span>
+                  <span className="article-reading-time">
+                    <Clock size={14} />
+                    {estimateReadingTime(article.summary)}
+                  </span>
                 </div>
-              )}
-            </div>
-            <div className="article-card-content">
-              <div className="article-card-meta">
-                <span className={`category-badge ${article.category?.toLowerCase()}`}>
-                  {getCategoryIcon(article.category)}
-                  {article.category}
-                </span>
-                <span className="article-date">
-                  <Calendar size={14} />
-                  {formatDate(article.date)}
-                </span>
-                <span className="article-reading-time">
-                  <Clock size={14} />
-                  {estimateReadingTime(article.summary)}
+                <h3 className="article-title">{article.title}</h3>
+                <p className="article-summary">{article.summary}</p>
+                <span className="read-more">
+                  Read more <ChevronRight size={14} />
                 </span>
               </div>
-              <h3>{article.title}</h3>
-              <p className="article-summary">{article.summary}</p>
-              <span className="read-more">
-                Read more <ChevronRight size={14} />
-              </span>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          )
+        })}
       </div>
 
       {filteredArticles.length === 0 && (

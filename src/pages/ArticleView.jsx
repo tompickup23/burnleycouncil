@@ -1,12 +1,24 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Calendar, Clock, ArrowLeft, Tag, Share2, Link2, ChevronRight, FileText } from 'lucide-react'
+import { Calendar, Clock, ArrowLeft, Tag, Link2, ChevronRight, FileText } from 'lucide-react'
 import DOMPurify from 'dompurify'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { formatDate, estimateReadingTime } from '../utils/format'
 import './News.css'
+
+const getCategoryLabel = (category) => {
+  const map = {
+    'Investigation': 'broadcast-label-investigation',
+    'Analysis': 'broadcast-label-analysis',
+    'Democracy': 'broadcast-label-democracy',
+    'Governance Failure': 'broadcast-label-governance',
+    'Financial Mismanagement': 'broadcast-label-financial',
+    'DOGE Finding': 'broadcast-label-breaking',
+  }
+  return map[category] || 'broadcast-label-analysis'
+}
 
 function ArticleView() {
   const config = useCouncilConfig()
@@ -19,11 +31,23 @@ function ArticleView() {
   const [content, setContent] = useState(null)
   const [contentLoading, setContentLoading] = useState(true)
   const [copiedLink, setCopiedLink] = useState(false)
+  const [readProgress, setReadProgress] = useState(0)
   const copyTimerRef = useRef(null)
 
   const article = index?.find(a => a.id === articleId)
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+
+  // Reading progress bar
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      setReadProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Auto-generate table of contents from h2 headings
   const headings = useMemo(() => {
@@ -241,7 +265,7 @@ function ArticleView() {
         </Link>
         <div className="article-not-found">
           <h2>Article not found</h2>
-          <p>The article you're looking for doesn't exist or has been removed.</p>
+          <p>The article you are looking for does not exist or has been removed.</p>
         </div>
       </div>
     )
@@ -253,6 +277,9 @@ function ArticleView() {
 
   return (
     <div className="news-page animate-fade-in">
+      {/* Reading progress bar */}
+      <div className="reading-progress" style={{ width: `${readProgress}%` }} />
+
       <Link to="/news" className="back-button">
         <ArrowLeft size={18} /> Back to News
       </Link>
@@ -262,33 +289,35 @@ function ArticleView() {
         <meta itemProp="datePublished" content={article.date} />
 
         <header className="article-header">
-          <span className={`category-badge ${article.category?.toLowerCase()}`}>
+          <span className={`broadcast-label ${getCategoryLabel(article.category)}`}>
             {article.category}
           </span>
           <h1 itemProp="headline">{article.title}</h1>
-          <div className="article-meta">
+          <div className="article-header-meta">
             <span className="meta-item">
-              <Calendar size={16} />
+              <Calendar size={14} />
               {formatDate(article.date, 'long')}
             </span>
+            <span className="meta-separator">/</span>
             <span className="meta-item">
               {article.author || siteName}
             </span>
-            <span className="meta-item reading-time">
-              <Clock size={16} />
+            <span className="meta-separator">/</span>
+            <span className="meta-item">
+              <Clock size={14} />
               {estimateReadingTime(content || article.summary)}
             </span>
           </div>
         </header>
 
-        <div className="article-sharing">
-          <span className="share-label"><Share2 size={16} /> Share</span>
+        {/* Share bar */}
+        <div className="article-share-bar">
           <div className="share-buttons">
-            <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="share-btn twitter" aria-label="Share on X">{'\uD835\uDD4F'}</a>
-            <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="share-btn facebook" aria-label="Share on Facebook">f</a>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="share-btn whatsapp" aria-label="Share on WhatsApp">w</a>
-            <button onClick={copyLink} className="share-btn link" aria-label="Copy link">
-              <Link2 size={16} /> {copiedLink ? 'Copied!' : 'Copy'}
+            <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="share-btn share-x" aria-label="Share on X">Share on X</a>
+            <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="share-btn share-fb" aria-label="Share on Facebook">Facebook</a>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="share-btn share-wa" aria-label="Share on WhatsApp">WhatsApp</a>
+            <button onClick={copyLink} className="share-btn share-copy" aria-label="Copy link">
+              <Link2 size={14} /> {copiedLink ? 'Copied!' : 'Copy Link'}
             </button>
           </div>
         </div>
@@ -327,11 +356,13 @@ function ArticleView() {
         )}
 
         {article.tags?.length > 0 && (
-          <div className="article-tags">
-            <Tag size={16} />
-            {article.tags.map(tag => (
-              <span key={tag} className="tag">{tag}</span>
-            ))}
+          <div className="article-footer">
+            <div className="article-tags">
+              <Tag size={16} />
+              {article.tags.map(tag => (
+                <span key={tag} className="tag">{tag}</span>
+              ))}
+            </div>
           </div>
         )}
       </article>

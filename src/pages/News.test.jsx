@@ -257,11 +257,11 @@ describe('News', () => {
   })
 
   // === Featured article ===
-  it('applies featured class to first article on page 1', () => {
+  it('applies hero class to first article on page 1', () => {
     setupMocks()
     renderComponent()
     const links = document.querySelectorAll('.article-card')
-    expect(links[0].classList.contains('featured')).toBe(true)
+    expect(links[0].classList.contains('article-hero-card')).toBe(true)
   })
 
   // === No pagination when few articles ===
