@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-03-01
+> Last updated: 2026-03-02
 
-**Summary**: 7 open issues | 1 auto-resolved this run | Critical: 0 | High: 3 | Medium: 4 | Low: 0
+**Summary**: 8 open issues | 1 auto-resolved this run | Critical: 0 | High: 5 | Medium: 3 | Low: 0
 
 ---
 
@@ -17,11 +17,13 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
+| D2 | High | `budget_summary` fields all zeros [auto] | Councils with zero `council_tax_band_d`: Lancashire PCC, Lancashire Fire. Real data exists in `budgets_summary.json`. | open |
 
 ## Process Efficiency
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
+| P1 | High | ETL doesn't populate derived fields [auto] | Zero-value fields in cross_council.json: council_tax_band_d, reserves_total. Calculate from source data. | open |
 | P2 | High | cross_council.json maintained in multiple places [auto] | 5 copies found. Single source of truth should generate and copy to all locations. | open |
 
 ## App Development
@@ -30,11 +32,10 @@
 |----|----------|-------|--------|--------|
 | A1 | High | 1 pages have no `useData` error handling [auto] | Pages: SupplierView. Add error fallback UI. | open |
 | A2 | High | 1 pages have zero tests [auto] | Untested: MPComparison (609L). | open |
-| A17 | Medium | Unguarded chained property access (144 instances) [auto] | At Budgets:452, Budgets:647, Budgets:1485, Budgets:1513, Budgets:1626.... Use optional chaining or `|| {}` defaults. | open |
-| A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (4 data transforms, 1 useMemo). | open |
+| A17 | Medium | Unguarded chained property access (149 instances) [auto] | At Budgets:452, Budgets:647, Budgets:1485, Budgets:1513, Budgets:1626.... Use optional chaining or `|| {}` defaults. | open |
 | A4 | Medium | Accessibility gaps in 6 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView, CouncillorDossier, MPComparison, PropertyDetail, PropertyPortfolio. | open |
-| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:101`, `src/pages/Strategy.jsx:405`, `src/pages/Strategy.jsx:417`. Add clearTimeout in useEffect cleanup. | open |
-| A15 | Critical | React hooks after early return (Rules of Hooks violation) [auto] | Violations: DogeInvestigation:156 (useMemo). Move ALL hooks before any `return` statements. | fixed |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:101`, `src/pages/Strategy.jsx:406`, `src/pages/Strategy.jsx:418`. Add clearTimeout in useEffect cleanup. | open |
+| A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (4 data transforms, 1 useMemo). | fixed |
 
 ---
 
@@ -60,3 +61,4 @@
 - **2026-02-27** — Auto-scan: 6 issues found
 - **2026-02-28** — Auto-scan: 7 issues found
 - **2026-03-01** — Auto-scan: 7 issues found, 1 resolved
+- **2026-03-02** — Auto-scan: 8 issues found, 1 resolved
