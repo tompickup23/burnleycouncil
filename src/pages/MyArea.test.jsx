@@ -70,7 +70,7 @@ const mockPlanning = {
   ],
 }
 
-function setupMocks(overrides = {}, deprivation = mockDeprivation, planning = null) {
+function setupMocks(overrides = {}, deprivation = mockDeprivation, planning = null, hmo = null) {
   useCouncilConfig.mockReturnValue(mockConfig)
   useData.mockImplementation((urls) => {
     if (Array.isArray(urls)) {
@@ -84,6 +84,9 @@ function setupMocks(overrides = {}, deprivation = mockDeprivation, planning = nu
     // URL-specific optional data
     if (urls === '/data/planning.json') {
       return { data: planning, loading: false, error: planning ? null : new Error('Not found') }
+    }
+    if (urls === '/data/hmo.json') {
+      return { data: hmo, loading: false, error: hmo ? null : new Error('Not found') }
     }
     if (urls === '/data/property_assets.json') {
       return { data: null, loading: false, error: new Error('Not found') }
@@ -484,5 +487,62 @@ describe('MyArea', () => {
     const select = screen.getByLabelText(/select your ward/i)
     fireEvent.change(select, { target: { value: 'Daneshouse' } })
     expect(screen.queryByText('Planning Activity')).not.toBeInTheDocument()
+  })
+
+  // === HMO Data ===
+  const mockHmo = {
+    meta: { register_name: 'Test Council HMO Register', coverage: 'register+planning' },
+    summary: {
+      total_licensed: 100,
+      total_planning_apps: 5,
+      total_bed_spaces: 800,
+      by_ward: {
+        'Daneshouse': { licensed_hmos: 25, planning_applications: 2, total: 27, density_per_1000: 4.5, population: 6000 },
+        'Brunshaw': { licensed_hmos: 3, planning_applications: 0, total: 3 },
+      },
+      top_ward: 'Daneshouse',
+    },
+  }
+
+  it('shows HMO data when ward with HMO data is selected', () => {
+    setupMocks({}, mockDeprivation, null, mockHmo)
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.getByText('Houses in Multiple Occupation')).toBeInTheDocument()
+    expect(screen.getByText('25')).toBeInTheDocument()  // licensed count
+    expect(screen.getByText('Licensed HMOs')).toBeInTheDocument()
+  })
+
+  it('shows HMO density when available', () => {
+    setupMocks({}, mockDeprivation, null, mockHmo)
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.getByText('4.5')).toBeInTheDocument()
+    expect(screen.getByText('HMOs per 1,000 pop')).toBeInTheDocument()
+  })
+
+  it('shows HMO badges on ward cards', () => {
+    setupMocks({}, mockDeprivation, null, mockHmo)
+    renderComponent()
+    expect(screen.getByText('27 HMOs')).toBeInTheDocument()
+    expect(screen.getByText('3 HMOs')).toBeInTheDocument()
+  })
+
+  it('does not show HMO section when no HMO data', () => {
+    setupMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.queryByText('Houses in Multiple Occupation')).not.toBeInTheDocument()
+  })
+
+  it('does not show HMO section when ward has zero HMOs', () => {
+    setupMocks({}, mockDeprivation, null, { ...mockHmo, summary: { ...mockHmo.summary, by_ward: { 'Other Ward': { total: 5 } } } })
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Daneshouse' } })
+    expect(screen.queryByText('Houses in Multiple Occupation')).not.toBeInTheDocument()
   })
 })

@@ -454,6 +454,23 @@ def build_council_entry(council_id):
             "fetched": p_meta.get("fetched", ""),
         }
 
+    # ── HMO data from hmo.json ──
+    hmo_data = load_json(DATA_DIR / council_id / "hmo.json") or {}
+    hmo_summary = {}
+    if hmo_data:
+        h_summary = hmo_data.get("summary", {})
+        h_meta = hmo_data.get("meta", {})
+        hmo_summary = {
+            "total_licensed": h_summary.get("total_licensed", 0),
+            "total_planning_apps": h_summary.get("total_planning_apps", 0),
+            "total_combined": h_summary.get("total_combined", 0),
+            "total_bed_spaces": h_summary.get("total_bed_spaces", 0),
+            "avg_occupants": h_summary.get("avg_occupants", 0),
+            "top_ward": h_summary.get("top_ward", ""),
+            "coverage": h_meta.get("coverage", "none"),
+            "source": h_meta.get("source", ""),
+        }
+
     # ── Political data from politics_summary.json ──
     party_seats = {}
     total_councillors = politics.get("total_councillors", politics.get("total_seats", 0))
@@ -528,6 +545,7 @@ def build_council_entry(council_id):
         "majority_threshold": majority_threshold,
         "ruling_party": ruling_party,
         "planning": planning_summary,
+        "hmo": hmo_summary,
     }
 
 

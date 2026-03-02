@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2 } from 'lucide-react'
+import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2, Home } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
@@ -274,6 +274,28 @@ function CrossCouncil() {
       population: c.population || 0,
     }))
     .sort((a, b) => b.appsPerYear - a.appsPerYear),
+    [councils, councilName]
+  )
+
+  // HMO (Houses in Multiple Occupation) comparison data
+  const hmoData = useMemo(() => councils
+    .filter(c => c.hmo && (c.hmo.total_licensed > 0 || c.hmo.total_planning_apps > 0))
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      fullName: c.council_name,
+      licensed: c.hmo.total_licensed || 0,
+      planningApps: c.hmo.total_planning_apps || 0,
+      totalCombined: (c.hmo.total_licensed || 0) + (c.hmo.total_planning_apps || 0),
+      bedSpaces: c.hmo.total_bed_spaces || 0,
+      avgOccupants: c.hmo.avg_occupants || 0,
+      topWard: c.hmo.top_ward || '',
+      coverage: c.hmo.coverage || 'none',
+      source: c.hmo.source || '',
+      isCurrent: c.council_name === councilName,
+      population: c.population || 0,
+      per1000: c.population > 0 ? Math.round(((c.hmo.total_licensed || 0) / c.population) * 10000) / 10 : 0,
+    }))
+    .sort((a, b) => b.licensed - a.licensed || b.totalCombined - a.totalCombined),
     [councils, councilName]
   )
 
@@ -581,6 +603,98 @@ function CrossCouncil() {
               </div>
             )
           })()}
+        </section>
+      )}
+
+      {/* HMO Comparison */}
+      {hmoData.length >= 2 && (
+        <section className="cross-section">
+          <h2><Home size={22} /> Houses in Multiple Occupation (HMOs)</h2>
+          <p className="section-intro">
+            Licensed HMOs from council public registers ({hmoData.length} of {councils.length} councils with data).
+            HMO density per 1,000 population highlights areas with high shared-housing concentrations.
+            {hmoData.length < councils.length && ` ${councils.length - hmoData.length} councils require FOI requests or have no public register.`}
+          </p>
+
+          {/* Licensed HMOs chart */}
+          <h3 style={{ fontSize: '0.85rem', color: '#8e8e93', marginBottom: 8 }}>Licensed HMOs by Council</h3>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing licensed HMOs across councils">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={hmoData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v, name) => {
+                    if (name === 'licensed') return [v.toLocaleString(), 'Licensed HMOs']
+                    if (name === 'planningApps') return [v.toLocaleString(), 'Planning applications']
+                    return [v, name]
+                  }}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="licensed" name="licensed" stackId="hmo" radius={[0, 0, 0, 0]}>
+                  {hmoData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                  ))}
+                </Bar>
+                <Bar dataKey="planningApps" name="planningApps" stackId="hmo" radius={[4, 4, 0, 0]}>
+                  {hmoData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? 'rgba(10,132,255,0.5)' : 'rgba(72,72,74,0.5)'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* HMO density per 1,000 population */}
+          {hmoData.some(d => d.per1000 > 0) && (
+            <>
+              <h3 style={{ fontSize: '0.85rem', color: '#8e8e93', marginTop: 16, marginBottom: 8 }}>HMO Density (Licensed per 1,000 Population)</h3>
+              <div className="chart-container" role="img" aria-label="Bar chart comparing HMO density per 1000 population">
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={hmoData.filter(d => d.per1000 > 0).sort((a, b) => b.per1000 - a.per1000)} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} />
+                    <Tooltip
+                      formatter={(v) => [`${v.toFixed(1)} per 1,000`, 'HMO density']}
+                      contentStyle={TOOLTIP_STYLE}
+                    />
+                    <Bar dataKey="per1000" name="per 1,000 pop" radius={[4, 4, 0, 0]}>
+                      {hmoData.filter(d => d.per1000 > 0).sort((a, b) => b.per1000 - a.per1000).map((entry, i) => (
+                        <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.per1000 > 3 ? '#ff453a' : entry.per1000 > 1 ? '#ff9f0a' : '#30d158'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </>
+          )}
+
+          {/* Stats grid */}
+          <div className="stats-grid" style={{ marginTop: 16 }}>
+            {hmoData.map(d => (
+              <div key={d.name} className={`stat-card${d.isCurrent ? ' current' : ''}`}>
+                <div className="stat-card-header">{d.fullName}</div>
+                <div className="stat-value">{d.licensed > 0 ? d.licensed.toLocaleString() : d.planningApps.toLocaleString()}</div>
+                <div className="stat-label">{d.licensed > 0 ? 'licensed HMOs' : 'HMO planning apps'}</div>
+                <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 6 }}>
+                  {d.bedSpaces > 0 && `${d.bedSpaces.toLocaleString()} bed spaces · `}
+                  {d.per1000 > 0 && `${d.per1000.toFixed(1)}/1k pop · `}
+                  {d.topWard && `Top: ${d.topWard}`}
+                  {d.coverage === 'register+planning' ? ' · Register + planning' : d.coverage === 'register' ? ' · Register only' : d.coverage === 'planning_only' ? ' · Planning apps only' : ''}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: Council HMO public registers (Housing Act 2004 s232) and PlanIt planning applications.
+            Mandatory licensing applies to HMOs with 5+ occupiers from 2+ households. Some councils operate additional licensing schemes.
+            {hmoData.filter(d => d.coverage === 'planning_only').length > 0 && (
+              <> {hmoData.filter(d => d.coverage === 'planning_only').map(d => d.fullName).join(', ')} — planning data only (no public register).</>
+            )}
+          </p>
         </section>
       )}
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText } from 'lucide-react'
+import { MapPin, User, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -39,6 +39,9 @@ function MyArea() {
   // Planning data (optional — councils with planning ETL data)
   const { data: planningRaw } = useData('/data/planning.json')
   const planningData = planningRaw || null
+  // HMO data (optional — councils with hmo ETL data)
+  const { data: hmoRaw } = useData('/data/hmo.json')
+  const hmoData = hmoRaw || null
   const [selectedWard, setSelectedWard] = useState(null)
   const [postcode, setPostcode] = useState('')
   const [postcodeLoading, setPostcodeLoading] = useState(false)
@@ -370,6 +373,51 @@ function MyArea() {
             )
           })()}
 
+          {/* HMO data for this ward */}
+          {(() => {
+            if (!hmoData?.summary?.by_ward) return null
+            const wardHmo = hmoData.summary.by_ward[selectedWard]
+            if (!wardHmo || wardHmo.total === 0) return null
+            return (
+              <div className="deprivation-panel" style={{ marginTop: '1rem' }}>
+                <h3><Home size={16} /> Houses in Multiple Occupation</h3>
+                <div className="deprivation-stats">
+                  {wardHmo.licensed_hmos > 0 && (
+                    <div className="dep-stat">
+                      <span className="dep-value">{wardHmo.licensed_hmos}</span>
+                      <span className="dep-label">Licensed HMOs</span>
+                    </div>
+                  )}
+                  {wardHmo.planning_applications > 0 && (
+                    <div className="dep-stat">
+                      <span className="dep-value">{wardHmo.planning_applications}</span>
+                      <span className="dep-label">HMO Planning Apps</span>
+                    </div>
+                  )}
+                  {wardHmo.density_per_1000 > 0 && (
+                    <div className="dep-stat">
+                      <span className="dep-value" style={{ color: wardHmo.density_per_1000 > 5 ? '#ff453a' : wardHmo.density_per_1000 > 2 ? '#ff9500' : '#30d158' }}>
+                        {wardHmo.density_per_1000}
+                      </span>
+                      <span className="dep-label">HMOs per 1,000 pop</span>
+                    </div>
+                  )}
+                  {wardHmo.population > 0 && (
+                    <div className="dep-stat">
+                      <span className="dep-value">{wardHmo.population.toLocaleString()}</span>
+                      <span className="dep-label">Ward Population</span>
+                    </div>
+                  )}
+                </div>
+                <p className="dep-note">
+                  Source: {hmoData.meta?.register_name || 'Council HMO register'}.
+                  {hmoData.meta?.coverage === 'planning_only' ? ' Planning applications only — register data via FOI.' : ''}
+                  {hmoData.summary?.total_bed_spaces > 0 ? ` ${hmoData.summary.total_bed_spaces.toLocaleString()} bed spaces across ${hmoData.summary.total_licensed} licensed HMOs district-wide.` : ''}
+                </p>
+              </div>
+            )
+          })()}
+
           <div className="ward-councillors">
             {getWardCouncillors(selectedWard).map(councillor => (
               <div key={councillor.id} className="councillor-detail-card">
@@ -437,6 +485,7 @@ function MyArea() {
             const wardCouncillors = getWardCouncillors(ward.name)
             const wardDep = getDeprivationForWard(ward.name)
             const wardPlanningApps = planningData?.summary?.by_ward?.[ward.name] || 0
+            const wardHmoCount = hmoData?.summary?.by_ward?.[ward.name]?.total || 0
 
             return (
               <div
@@ -480,6 +529,18 @@ function MyArea() {
                         }}
                       >
                         {wardPlanningApps} planning apps
+                      </span>
+                    )}
+                    {wardHmoCount > 0 && (
+                      <span
+                        className="ward-dep-badge"
+                        style={{
+                          background: wardHmoCount > 20 ? 'rgba(255,69,58,0.15)' : wardHmoCount > 5 ? 'rgba(255,149,0,0.15)' : 'rgba(175,130,255,0.15)',
+                          color: wardHmoCount > 20 ? '#ff453a' : wardHmoCount > 5 ? '#ff9500' : '#af82ff',
+                          borderColor: wardHmoCount > 20 ? '#ff453a' : wardHmoCount > 5 ? '#ff9500' : '#af82ff',
+                        }}
+                      >
+                        {wardHmoCount} HMOs
                       </span>
                     )}
                   </div>
