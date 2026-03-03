@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-03-02
+> Last updated: 2026-03-03
 
-**Summary**: 8 open issues | 1 auto-resolved this run | Critical: 0 | High: 5 | Medium: 3 | Low: 0
+**Summary**: 9 open issues | Critical: 0 | High: 5 | Medium: 4 | Low: 0
 
 ---
 
@@ -31,11 +31,11 @@
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
 | A1 | High | 1 pages have no `useData` error handling [auto] | Pages: SupplierView. Add error fallback UI. | open |
-| A2 | High | 1 pages have zero tests [auto] | Untested: MPComparison (609L). | open |
-| A17 | Medium | Unguarded chained property access (149 instances) [auto] | At Budgets:452, Budgets:647, Budgets:1485, Budgets:1513, Budgets:1626.... Use optional chaining or `|| {}` defaults. | open |
+| A2 | High | 1 pages have zero tests [auto] | Untested: MPComparison (602L). | open |
+| A17 | Medium | Unguarded chained property access (183 instances) [auto] | At Budgets:452, Budgets:647, Budgets:1485, Budgets:1513, Budgets:1626.... Use optional chaining or `|| {}` defaults. | open |
+| A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (6 data transforms, 2 useMemo). | open |
 | A4 | Medium | Accessibility gaps in 6 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView, CouncillorDossier, MPComparison, PropertyDetail, PropertyPortfolio. | open |
-| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:101`, `src/pages/Strategy.jsx:406`, `src/pages/Strategy.jsx:418`. Add clearTimeout in useEffect cleanup. | open |
-| A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (4 data transforms, 1 useMemo). | fixed |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Intelligence.jsx:94`, `src/pages/Strategy.jsx:400`, `src/pages/Strategy.jsx:412`. Add clearTimeout in useEffect cleanup. | open |
 
 ---
 
@@ -62,3 +62,4 @@
 - **2026-02-28** — Auto-scan: 7 issues found
 - **2026-03-01** — Auto-scan: 7 issues found, 1 resolved
 - **2026-03-02** — Auto-scan: 8 issues found, 1 resolved
+- **2026-03-03** — Auto-scan: 9 issues found
