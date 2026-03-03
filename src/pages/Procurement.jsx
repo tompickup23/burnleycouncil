@@ -8,6 +8,7 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { ChartCard } from '../components/ui/ChartCard'
+import CollapsibleSection from '../components/CollapsibleSection'
 import './Procurement.css'
 
 const ITEMS_PER_PAGE = 25
@@ -547,8 +548,7 @@ function Procurement() {
 
       {/* Competition Intelligence */}
       {competitionStats.hasBidData && (
-        <div className="procurement-competition-section">
-          <h2><Shield size={18} /> Competition Intelligence</h2>
+        <CollapsibleSection title="Competition Intelligence" icon={<Shield size={18} />} defaultOpen>
           <div className="procurement-stats-grid" style={{ marginBottom: 16 }}>
             <div className="procurement-stat-card">
               <div className="procurement-stat-icon stat-icon-orange">
@@ -631,13 +631,12 @@ function Procurement() {
               </div>
             </div>
           )}
-        </div>
+        </CollapsibleSection>
       )}
 
       {/* Expiring Contracts */}
       {expiringContracts.length > 0 && (
-        <div className="procurement-expiring-section">
-          <h2><Clock size={18} /> Expiring Soon</h2>
+        <CollapsibleSection title="Expiring Soon" icon={<Clock size={18} />}>
           <p className="competition-desc">{expiringContracts.length} contract{expiringContracts.length !== 1 ? 's' : ''} expiring within 6 months — potential upcoming procurement opportunities.</p>
           <div className="procurement-table-container">
             <table className="procurement-table" role="table">
@@ -670,13 +669,12 @@ function Procurement() {
               </tbody>
             </table>
           </div>
-        </div>
+        </CollapsibleSection>
       )}
 
       {/* Top Suppliers */}
       {topSuppliers.length > 0 && (
-        <div className="procurement-top-suppliers">
-          <h2>Top Suppliers</h2>
+        <CollapsibleSection title="Top Suppliers" icon={<Building size={18} />}>
           <div className="procurement-supplier-cards">
             {topSuppliers.slice(0, 6).map((s, i) => (
               <div key={i} className="procurement-supplier-card">
@@ -690,7 +688,7 @@ function Procurement() {
               </div>
             ))}
           </div>
-        </div>
+        </CollapsibleSection>
       )}
 
       {/* Search + Filters */}

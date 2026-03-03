@@ -216,9 +216,9 @@ const mockProcurementData = {
 function getMainTable() {
   const tables = document.querySelectorAll('.procurement-table')
   // The main table has sortable headers; find the one within .procurement-table-container
-  // that's NOT inside .procurement-expiring-section
+  // that's NOT inside a CollapsibleSection (.cs-section)
   for (const table of tables) {
-    if (!table.closest('.procurement-expiring-section')) {
+    if (!table.closest('.cs-section')) {
       return table
     }
   }
@@ -785,13 +785,13 @@ describe('Procurement', () => {
 
     it('excludes NOT AWARDED TO SUPPLIER from top suppliers list', () => {
       renderComponent()
-      const topSuppliersSection = screen.getByText('Top Suppliers').closest('.procurement-top-suppliers')
+      const topSuppliersSection = screen.getByText('Top Suppliers').closest('.cs-section')
       expect(within(topSuppliersSection).queryByText('NOT AWARDED TO SUPPLIER')).not.toBeInTheDocument()
     })
 
     it('shows supplier rank numbers', () => {
       renderComponent()
-      const topSuppliersSection = screen.getByText('Top Suppliers').closest('.procurement-top-suppliers')
+      const topSuppliersSection = screen.getByText('Top Suppliers').closest('.cs-section')
       expect(within(topSuppliersSection).getByText('#1')).toBeInTheDocument()
       expect(within(topSuppliersSection).getByText('#2')).toBeInTheDocument()
     })
@@ -833,7 +833,7 @@ describe('Procurement', () => {
     it('calculates correct average bids', () => {
       renderComponent()
       // Avg of [4, 1, 3, 2, 1, 5] = 16/6 = 2.7
-      const compSection = screen.getByText('Competition Intelligence').closest('.procurement-competition-section')
+      const compSection = screen.getByText('Competition Intelligence').closest('.cs-section')
       expect(within(compSection).getByText('2.7')).toBeInTheDocument()
     })
 
@@ -841,7 +841,7 @@ describe('Procurement', () => {
       renderComponent()
       expect(screen.getByText('Single Bidder Rate')).toBeInTheDocument()
       // 2 single-bid out of 6 with bid data = 33%
-      const compSection = screen.getByText('Competition Intelligence').closest('.procurement-competition-section')
+      const compSection = screen.getByText('Competition Intelligence').closest('.cs-section')
       expect(within(compSection).getByText('33%')).toBeInTheDocument()
     })
 
@@ -908,14 +908,14 @@ describe('Procurement', () => {
 
     it('shows contract titles in expiring section', () => {
       renderComponent()
-      const expiringSection = screen.getByText('Expiring Soon').closest('.procurement-expiring-section')
+      const expiringSection = screen.getByText('Expiring Soon').closest('.cs-section')
       // contract-1 (in 15 days) should be there
       expect(within(expiringSection).getByText('Office Cleaning Services')).toBeInTheDocument()
     })
 
     it('shows supplier names in expiring section', () => {
       renderComponent()
-      const expiringSection = screen.getByText('Expiring Soon').closest('.procurement-expiring-section')
+      const expiringSection = screen.getByText('Expiring Soon').closest('.cs-section')
       expect(within(expiringSection).getAllByText('ACME Services Ltd').length).toBeGreaterThanOrEqual(1)
     })
 
@@ -939,13 +939,13 @@ describe('Procurement', () => {
 
     it('excludes past-date contracts from expiring section', () => {
       renderComponent()
-      const expiringSection = screen.getByText('Expiring Soon').closest('.procurement-expiring-section')
+      const expiringSection = screen.getByText('Expiring Soon').closest('.cs-section')
       expect(within(expiringSection).queryByText(/Gardens/)).not.toBeInTheDocument()
     })
 
     it('excludes contracts beyond 6 months from expiring section', () => {
       renderComponent()
-      const expiringSection = screen.getByText('Expiring Soon').closest('.procurement-expiring-section')
+      const expiringSection = screen.getByText('Expiring Soon').closest('.cs-section')
       expect(within(expiringSection).queryByText('Leisure Centre Management')).not.toBeInTheDocument()
     })
 
@@ -961,7 +961,7 @@ describe('Procurement', () => {
 
     it('shows days remaining in expiry badge', () => {
       renderComponent()
-      const expiringSection = screen.getByText('Expiring Soon').closest('.procurement-expiring-section')
+      const expiringSection = screen.getByText('Expiring Soon').closest('.cs-section')
       const badges = expiringSection.querySelectorAll('.expiry-badge')
       badges.forEach(badge => {
         expect(badge.textContent).toMatch(/\d+d\)/)

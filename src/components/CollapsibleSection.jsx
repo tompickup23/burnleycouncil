@@ -22,12 +22,13 @@ export default function CollapsibleSection({
   icon,
   count,
   countLabel,
+  id,
   children,
 }) {
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div className={`cs-section ${open ? 'cs-open' : ''} cs-${severity}`}>
+    <div className={`cs-section ${open ? 'cs-open' : ''} cs-${severity}`} id={id}>
       <button className="cs-header" onClick={() => setOpen(o => !o)} aria-expanded={open}>
         <div className="cs-title-row">
           {icon && <span className="cs-icon">{icon}</span>}

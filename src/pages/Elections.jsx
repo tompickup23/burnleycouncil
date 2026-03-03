@@ -26,6 +26,7 @@ import {
 import { slugify } from '../utils/format'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
+import CollapsibleSection from '../components/CollapsibleSection'
 import './Elections.css'
 
 const COUNCIL_NAME_MAP = COUNCIL_SHORT_NAMES
@@ -547,8 +548,7 @@ export default function Elections() {
       {/* ================================================================ */}
       {/* SECTION 1: Overview                                              */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-overview">
-        <h2><Calendar size={20} /> Overview</h2>
+      <CollapsibleSection id="elec-overview" title="Overview" icon={<Calendar size={20} />} defaultOpen>
 
         {/* No upcoming election — link to other councils */}
         {!nextElection && referenceData?.election_calendar?.length > 0 && (() => {
@@ -731,16 +731,12 @@ export default function Elections() {
             </div>
           )}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION: Polling Dashboard                                       */}
       {/* ================================================================ */}
-      <section id="elec-polling" className="elec-section">
-        <h2 className="elec-section-title">
-          <TrendingUp size={22} className="elec-section-icon" />
-          National Polling
-        </h2>
+      <CollapsibleSection id="elec-polling" title="National Polling" icon={<TrendingUp size={20} />} defaultOpen>
 
         {pollingData?.aggregate ? (
           <div className="elec-polling-dashboard">
@@ -830,13 +826,12 @@ export default function Elections() {
             <p style={{ color: '#8e8e93' }}>Polling data not available. Run poll_aggregator.py to generate polling.json.</p>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 2: Council History                                       */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-history">
-        <h2><BarChart3 size={20} /> Council History</h2>
+      <CollapsibleSection id="elec-history" title="Council History" icon={<BarChart3 size={20} />} defaultOpen>
 
         {councilHistoryData.seats.length > 0 ? (
           <>
@@ -951,13 +946,12 @@ export default function Elections() {
         ) : (
           <p className="elec-no-data">No council-level election history available.</p>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 3: Ward Explorer                                        */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-wards">
-        <h2><MapPin size={20} /> {wardLabelCap} Explorer</h2>
+      <CollapsibleSection id="elec-wards" title={`${wardLabelCap} Explorer`} icon={<MapPin size={20} />} defaultOpen>
 
         <div className="elec-ward-selector">
           <label htmlFor="ward-select">Select {wardLabel}:</label>
@@ -1114,13 +1108,12 @@ export default function Elections() {
         ) : (
           <p className="elec-no-data">Select a {wardLabel} above to explore its election history.</p>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 4: May 2026 Predictions                                 */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-predictions">
-        <h2><Target size={20} /> {nextElection?.date ? formatElectionDate(nextElection.date) : 'Next Election'} Predictions</h2>
+      <CollapsibleSection id="elec-predictions" title={`${nextElection?.date ? formatElectionDate(nextElection.date) : 'Next Election'} Predictions`} icon={<Target size={20} />} defaultOpen>
 
         {/* 1B.5: Explain thirds rotation system if applicable */}
         {nextElection && electionsData?.meta?.election_cycle === 'thirds' && (
@@ -1335,13 +1328,12 @@ export default function Elections() {
             </div>
           </>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 5: Ward Builder                                         */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-builder">
-        <h2><Vote size={20} /> {wardLabelCap} Builder</h2>
+      <CollapsibleSection id="elec-builder" title={`${wardLabelCap} Builder`} icon={<Vote size={20} />}>
         <p className="elec-section-desc">
           Click a party name to override the predicted winner for each {wardLabel}. Running seat totals update in real time.
         </p>
@@ -1436,13 +1428,12 @@ export default function Elections() {
             </div>
           </>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 6: Coalition Modeller                                   */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-coalitions">
-        <h2><Handshake size={20} /> Coalition Modeller</h2>
+      <CollapsibleSection id="elec-coalitions" title="Coalition Modeller" icon={<Handshake size={20} />}>
         <p className="elec-section-desc">
           Based on {Object.keys(overrides).length > 0 ? 'your Ward Builder scenario' : 'the predicted results'}.
           Majority threshold: {majorityThreshold} of {totalSeats} seats.
@@ -1516,13 +1507,12 @@ export default function Elections() {
             })}
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 7: LGR Projections                                      */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-lgr">
-        <h2><Map size={20} /> LGR Projections</h2>
+      <CollapsibleSection id="elec-lgr" title="LGR Projections" icon={<Map size={20} />}>
         <p className="elec-section-desc">
           How predicted election results might map onto proposed Local Government Reorganisation boundaries.
           Note: These projections use only {councilName} data.
@@ -1584,13 +1574,12 @@ export default function Elections() {
             })}
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION 8: Demographics & Voting                                */}
       {/* ================================================================ */}
-      <section className="elec-section" id="elec-demographics">
-        <h2><Users size={20} /> Demographics &amp; Voting</h2>
+      <CollapsibleSection id="elec-demographics" title="Demographics & Voting" icon={<Users size={20} />}>
 
         {demoScatterData.length === 0 ? (
           <div className="elec-info-banner">
@@ -1725,16 +1714,12 @@ export default function Elections() {
             })()}
           </>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* SECTION: Constituency Predictions                                */}
       {/* ================================================================ */}
-      <section id="elec-constituencies" className="elec-section">
-        <h2 className="elec-section-title">
-          <Landmark size={22} className="elec-section-icon" />
-          Lancashire MPs
-        </h2>
+      <CollapsibleSection id="elec-constituencies" title="Lancashire MPs" icon={<Landmark size={20} />}>
 
         {constData?.constituencies?.length > 0 ? (
           <div className="elec-constituency-predictions">
@@ -1805,7 +1790,7 @@ export default function Elections() {
             <p style={{ color: '#8e8e93' }}>Constituency data not available.</p>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* Footer */}
       <div className="elec-footer">

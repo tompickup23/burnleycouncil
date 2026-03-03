@@ -16,6 +16,7 @@ import LGRBoundaryMap from '../components/lgr/LGRBoundaryMap'
 import LGRDeprivationMap from '../components/lgr/LGRDeprivationMap'
 import LGRPropertyDivision from '../components/lgr/LGRPropertyDivision'
 import LGRCCAImpact from '../components/lgr/LGRCCAImpact'
+import CollapsibleSection from '../components/CollapsibleSection'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
@@ -552,8 +553,7 @@ function LGRTracker() {
       </nav>
 
       {/* Timeline */}
-      <section className="lgr-section">
-        <h2><Calendar size={20} /> Timeline</h2>
+      <CollapsibleSection title="Timeline" icon={<Calendar size={20} />} defaultOpen>
         <div className="lgr-timeline">
           {lgrData.timeline.map((event, i) => (
             <div key={i} className={`timeline-item ${event.upcoming ? 'upcoming' : 'past'}`}>
@@ -566,7 +566,7 @@ function LGRTracker() {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Lancashire CCA */}
       {ccaData && (
@@ -753,8 +753,7 @@ function LGRTracker() {
       )}
 
       {/* AI DOGE Independent Model */}
-      <section className="lgr-section" id="lgr-independent">
-        <h2><Brain size={20} /> AI DOGE Independent Financial Model</h2>
+      <CollapsibleSection id="lgr-independent" title="AI DOGE Independent Financial Model" icon={<Brain size={20} />} defaultOpen>
         <p className="section-desc">{lgrData.independent_model?.subtitle}</p>
 
         {dogeComparisonData.length > 0 && (
@@ -946,7 +945,7 @@ function LGRTracker() {
             </ul>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ========== Cashflow Section ========== */}
       {cashflowData && (
@@ -1721,8 +1720,7 @@ function LGRTracker() {
       )}
 
       {/* Proposed Models */}
-      <section className="lgr-section" id="lgr-proposals">
-        <h2><Building size={20} /> The Five Proposals</h2>
+      <CollapsibleSection id="lgr-proposals" title="The Five Proposals" icon={<Building size={20} />} defaultOpen>
         <p className="section-desc">Five proposals submitted in November 2025. Each was submitted by a council with something to gain or lose. Select a proposal to explore.</p>
 
         <div className="model-tabs" role="tablist" aria-label="LGR proposal models">
@@ -1911,7 +1909,7 @@ function LGRTracker() {
             )}
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* Financial Comparison Charts */}
       {activeFinancials.length > 0 && activeFinancials.some(f => f.annualSpend > 0) && (
@@ -2250,8 +2248,7 @@ function LGRTracker() {
       )}
 
       {/* Key Issues */}
-      <section className="lgr-section" id="lgr-risks">
-        <h2><AlertTriangle size={20} /> Key Risks</h2>
+      <CollapsibleSection id="lgr-risks" title="Key Risks" icon={<AlertTriangle size={20} />}>
         <p className="section-desc">The biggest financial and operational risks facing the reorganisation, regardless of which model is chosen.</p>
         <div className="issues-list">
           {lgrData.key_issues.map(issue => (
@@ -2276,11 +2273,10 @@ function LGRTracker() {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Precedents */}
-      <section className="lgr-section" id="lgr-precedents">
-        <h2><Shield size={20} /> UK Precedents</h2>
+      <CollapsibleSection id="lgr-precedents" title="UK Precedents" icon={<Shield size={20} />}>
         <p className="section-desc">Recent English reorganisations — what actually happened, not just what was projected.</p>
         <div className="precedents-grid">
           {lgrData.precedents.map(p => (
@@ -2301,12 +2297,11 @@ function LGRTracker() {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Demographic Fiscal Risk — centrepiece component */}
       {lgrEnhanced?.demographic_fiscal_profile && (
-        <section className="lgr-section" id="lgr-demographic-risk">
-          <h2><Users size={20} /> Demographic Fiscal Risk</h2>
+        <CollapsibleSection id="lgr-demographic-risk" title="Demographic Fiscal Risk" icon={<Users size={20} />}>
           <p className="section-desc">How demographic composition drives radically different fiscal profiles across proposed authorities — ethnic diversity, SEND demand, asylum costs, council tax yield, and Bradford/Oldham precedent.</p>
           <LGRDemographicFiscalRisk
             fiscalProfile={lgrEnhanced.demographic_fiscal_profile}
@@ -2316,22 +2311,20 @@ function LGRTracker() {
             bradfordComparison={lgrEnhanced.bradford_oldham_comparison}
             selectedModel={activeModel}
           />
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Timeline Risk — feasibility analysis */}
       {lgrEnhanced?.timeline_analysis && (
-        <section className="lgr-section" id="lgr-timeline-risk">
-          <h2><Clock size={20} /> Timeline Feasibility</h2>
+        <CollapsibleSection id="lgr-timeline-risk" title="Timeline Feasibility" icon={<Clock size={20} />}>
           <p className="section-desc">Data-backed assessment of whether Lancashire&apos;s 22-month reorganisation timeline is achievable — based on every English precedent since 2009.</p>
           <LGRTimelineChaos timeline={lgrEnhanced.timeline_analysis} selectedModel={activeModel} />
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Boundary Maps */}
       {activeModelData?.authorities && (
-        <section className="lgr-section" id="lgr-boundary-maps">
-          <h2><MapPin size={20} /> Proposed Authority Boundaries</h2>
+        <CollapsibleSection id="lgr-boundary-maps" title="Proposed Authority Boundaries" icon={<MapPin size={20} />}>
           <p className="section-desc">Geographic view of how Lancashire&apos;s 15 councils would merge under the <strong>{activeModelData.name || 'selected'}</strong> model. Each colour represents a proposed new unitary authority.</p>
 
           {councilBoundaries?.features?.length > 0 && (
@@ -2378,35 +2371,32 @@ function LGRTracker() {
               />
             </>
           )}
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Property Division */}
       {lgrEnhanced?.property_division && (
-        <section className="lgr-section" id="lgr-property-division">
-          <h2><Building size={20} /> Property Estate Division</h2>
+        <CollapsibleSection id="lgr-property-division" title="Property Estate Division" icon={<Building size={20} />}>
           <p className="section-desc">How Lancashire County Council&apos;s 1,200 assets (valued at ~£2B) would be divided between new unitary authorities.</p>
           <LGRPropertyDivision
             propertyData={lgrEnhanced.property_division}
             selectedModel={activeModel}
             models={(lgrData?.proposed_models || []).map(m => ({ id: m.id, name: m.name }))}
           />
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* CCA Impact / Double-Counting */}
       {lgrEnhanced?.cca_impact && (
-        <section className="lgr-section" id="lgr-cca-impact">
-          <h2><Globe size={20} /> CCA Savings Adjustment</h2>
+        <CollapsibleSection id="lgr-cca-impact" title="CCA Savings Adjustment" icon={<Globe size={20} />}>
           <p className="section-desc">Services already transferred to Lancashire&apos;s Combined County Authority cannot also be claimed as LGR savings — a critical double-counting risk in all proposals.</p>
           <LGRCCAImpact ccaData={lgrEnhanced.cca_impact} />
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Deprivation Analysis */}
       {activeFiscalProfile.length > 0 && (
-        <section className="lgr-section" id="lgr-deprivation">
-          <h2><BarChart3 size={20} /> Deprivation &amp; Savings Adjustment</h2>
+        <CollapsibleSection id="lgr-deprivation" title="Deprivation & Savings Adjustment" icon={<BarChart3 size={20} />}>
           <p className="section-desc">Deprivation concentration by authority — areas with high deprivation have higher service complexity, reducing achievable savings.</p>
           <LGRDeprivationMap
             deprivation={null}
@@ -2414,7 +2404,7 @@ function LGRTracker() {
             selectedModel={activeModel}
             grossSavings={activeGrossSavings}
           />
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Sources */}

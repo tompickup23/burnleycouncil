@@ -557,7 +557,7 @@ describe('LGRTracker', () => {
     it('renders timeline events', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByRole('heading', { level: 2, name: /Timeline/ })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { level: 3, name: /Timeline/ })).toBeInTheDocument()
       expect(screen.getByText('Proposals submitted')).toBeInTheDocument()
       expect(screen.getByText('Consultation opens')).toBeInTheDocument()
       expect(screen.getByText('Consultation closes')).toBeInTheDocument()
