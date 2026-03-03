@@ -17,14 +17,11 @@ import './LGRAlternativeTimeline.css'
 
 function LGRAlternativeTimeline({ alternativeTimeline, serviceRisks }) {
   const [expandedPrecedent, setExpandedPrecedent] = useState(null)
-  if (!alternativeTimeline) return null
 
-  const { government, alternative, workstreams, criticalPath, shortfall,
-          precedentAvgMonths, riskComparison, factors } = alternativeTimeline
-
-  // Gantt chart data — workstreams with start/duration bars
+  // All hooks must be called before conditional returns (React rules of hooks)
   const ganttData = useMemo(() => {
-    return workstreams.map(w => ({
+    if (!alternativeTimeline) return []
+    return alternativeTimeline.workstreams.map(w => ({
       name: w.name.replace(/&/g, '&').length > 20 ? w.name.slice(0, 18) + '...' : w.name,
       fullName: w.name,
       minMonths: w.minMonths,
@@ -32,18 +29,23 @@ function LGRAlternativeTimeline({ alternativeTimeline, serviceRisks }) {
       gap: w.idealMonths - w.minMonths,
       evidence: w.evidence,
     }))
-  }, [workstreams])
+  }, [alternativeTimeline])
 
-  // Precedent comparison data
   const precedentCompare = useMemo(() => {
-    const entries = [
+    if (!alternativeTimeline) return []
+    const { government, alternative, precedentAvgMonths, criticalPath } = alternativeTimeline
+    return [
       { name: 'Govt Plan', months: government.months, fill: '#ff453a' },
       { name: 'AI DOGE', months: alternative.months, fill: '#30d158' },
       { name: 'Precedent Avg', months: Math.round(precedentAvgMonths), fill: '#0a84ff' },
       { name: 'Critical Path', months: criticalPath, fill: '#ff9f0a' },
     ]
-    return entries
-  }, [government.months, alternative.months, precedentAvgMonths, criticalPath])
+  }, [alternativeTimeline])
+
+  if (!alternativeTimeline) return null
+
+  const { government, alternative, workstreams, criticalPath, shortfall,
+          precedentAvgMonths, riskComparison, factors } = alternativeTimeline
 
   const govRiskColor = government.riskRating === 'critical' ? '#ff453a'
     : government.riskRating === 'high' ? '#ff9f0a' : '#ffd60a'
