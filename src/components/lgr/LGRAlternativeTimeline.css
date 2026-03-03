@@ -1,0 +1,458 @@
+.lgr-alt {
+  margin-bottom: 2.5rem;
+}
+
+.lgr-alt h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.lgr-alt-intro {
+  color: #8e8e93;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* Side-by-side comparison */
+.lgr-alt-compare {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.lgr-alt-arrow {
+  display: flex;
+  align-items: center;
+  color: #636366;
+  flex-shrink: 0;
+}
+
+.lgr-alt-card {
+  flex: 1;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.lgr-alt-card-govt {
+  border-top: 3px solid #ff453a;
+}
+
+.lgr-alt-card-proposed {
+  border-top: 3px solid #30d158;
+}
+
+.lgr-alt-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.lgr-alt-card-body {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lgr-alt-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.lgr-alt-stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.lgr-alt-stat-label {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  margin-top: 0.15rem;
+}
+
+.lgr-alt-dates {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  line-height: 1.6;
+}
+
+.lgr-alt-dates strong {
+  color: #8e8e93;
+  font-weight: 500;
+}
+
+.lgr-alt-probability {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.lgr-alt-prob-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.lgr-alt-prob-label {
+  font-size: 0.8rem;
+  color: #8e8e93;
+}
+
+.lgr-alt-risk-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  align-self: flex-start;
+}
+
+.lgr-alt-risk-critical {
+  background: rgba(255, 69, 58, 0.12);
+  color: #ff453a;
+}
+
+.lgr-alt-risk-high {
+  background: rgba(255, 159, 10, 0.12);
+  color: #ff9f0a;
+}
+
+.lgr-alt-risk-medium {
+  background: rgba(255, 214, 10, 0.12);
+  color: #ffd60a;
+}
+
+.lgr-alt-risk-low {
+  background: rgba(48, 209, 88, 0.12);
+  color: #30d158;
+}
+
+/* Sections */
+.lgr-alt-section {
+  margin-bottom: 2rem;
+}
+
+.lgr-alt-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.lgr-alt-section-desc {
+  color: #8e8e93;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.lgr-alt-chart-wrap {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 0.5rem 0.75rem;
+}
+
+/* Cost comparison cards */
+.lgr-alt-cost-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.lgr-alt-cost-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+}
+
+.lgr-alt-cost-rush {
+  border-top: 2px solid #ff453a;
+}
+
+.lgr-alt-cost-label {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.lgr-alt-cost-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.lgr-alt-cost-desc {
+  font-size: 0.78rem;
+  color: #e5e5e7;
+}
+
+.lgr-alt-cost-source {
+  font-size: 0.7rem;
+  color: #636366;
+  margin-top: 0.25rem;
+}
+
+/* Evidence factors */
+.lgr-alt-evidence {
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.lgr-alt-factor {
+  font-size: 0.78rem;
+  color: #636366;
+  margin: 0.2rem 0;
+  line-height: 1.5;
+}
+
+.lgr-alt-factor::before {
+  content: '\2022 ';
+  color: #0a84ff;
+}
+
+/* LGA Letter stats */
+.lgr-alt-lga-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.lgr-alt-lga-stat {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+}
+
+.lgr-alt-lga-stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.lgr-alt-lga-stat-label {
+  font-size: 0.72rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 500;
+}
+
+/* LGA arguments */
+.lgr-alt-lga-arguments,
+.lgr-alt-lga-requests {
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.lgr-alt-lga-arguments strong,
+.lgr-alt-lga-requests strong {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.lgr-alt-lga-arguments ul,
+.lgr-alt-lga-requests ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.lgr-alt-lga-arguments li,
+.lgr-alt-lga-requests li {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  line-height: 1.6;
+  margin-bottom: 0.15rem;
+}
+
+.lgr-alt-lga-source {
+  font-size: 0.72rem;
+  color: #636366;
+  margin-top: 0.5rem;
+}
+
+.lgr-alt-lga-source a {
+  color: #0a84ff;
+}
+
+/* Precedent experience cards */
+.lgr-alt-precedents {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lgr-alt-precedent-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.lgr-alt-precedent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: transparent;
+  border: none;
+  color: #e5e5e7;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.lgr-alt-precedent-header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lgr-alt-precedent-header > svg {
+  color: #636366;
+  flex-shrink: 0;
+}
+
+.lgr-alt-precedent-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lgr-alt-precedent-title strong {
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.lgr-alt-precedent-meta {
+  font-size: 0.75rem;
+  color: #8e8e93;
+}
+
+.lgr-alt-precedent-outcome {
+  padding: 0 1.25rem 0.65rem;
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+}
+
+.lgr-alt-precedent-detail {
+  padding: 0 1.25rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  animation: lgr-alt-expand 0.2s ease-out;
+}
+
+@keyframes lgr-alt-expand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lgr-alt-precedent-detail strong {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.lgr-alt-precedent-detail ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.lgr-alt-precedent-detail li {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  line-height: 1.6;
+  margin-bottom: 0.1rem;
+}
+
+.lgr-alt-precedent-relevance {
+  background: rgba(10, 132, 255, 0.06);
+  border: 1px solid rgba(10, 132, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  color: #e5e5e7;
+  line-height: 1.6;
+}
+
+.lgr-alt-precedent-relevance strong {
+  display: inline;
+  color: #0a84ff;
+  margin: 0;
+}
+
+.lgr-alt-precedent-source {
+  display: block;
+  font-size: 0.7rem;
+  color: #636366;
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lgr-alt-compare {
+    flex-direction: column;
+  }
+
+  .lgr-alt-arrow {
+    transform: rotate(90deg);
+    justify-content: center;
+  }
+
+  .lgr-alt-cost-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .lgr-alt-lga-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lgr-alt-precedent-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}

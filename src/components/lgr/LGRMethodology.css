@@ -1,0 +1,321 @@
+.lgr-meth {
+  margin-bottom: 2.5rem;
+}
+
+.lgr-meth h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.lgr-meth-intro {
+  color: #8e8e93;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* Expandable sections */
+.lgr-meth-section {
+  margin-bottom: 0.5rem;
+}
+
+.lgr-meth-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  color: #e5e5e7;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  text-align: left;
+  font-family: inherit;
+}
+
+.lgr-meth-toggle:hover {
+  background: rgba(38, 38, 40, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.lgr-meth-toggle > svg:first-child {
+  color: #0a84ff;
+  flex-shrink: 0;
+}
+
+.lgr-meth-toggle > span {
+  flex: 1;
+}
+
+.lgr-meth-toggle > svg:last-child {
+  color: #636366;
+  flex-shrink: 0;
+}
+
+.lgr-meth-panel {
+  padding: 1rem 0.5rem 0.5rem;
+  animation: lgr-meth-expand 0.2s ease-out;
+}
+
+@keyframes lgr-meth-expand {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Data sources table */
+.lgr-meth-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lgr-meth-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.lgr-meth-table th {
+  text-align: left;
+  padding: 0.75rem 0.75rem;
+  background: rgba(28, 28, 30, 0.9);
+  color: #8e8e93;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+
+.lgr-meth-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e5e5e7;
+}
+
+.lgr-meth-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lgr-meth-source-name {
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.lgr-meth-source-name a {
+  color: #0a84ff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.lgr-meth-source-name a:hover {
+  text-decoration: underline;
+}
+
+.lgr-meth-type-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lgr-meth-type-government {
+  background: rgba(10, 132, 255, 0.12);
+  color: #0a84ff;
+}
+
+.lgr-meth-type-professional {
+  background: rgba(191, 90, 242, 0.12);
+  color: #bf5af2;
+}
+
+.lgr-meth-freshness {
+  color: #8e8e93;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.lgr-meth-desc-cell {
+  color: #8e8e93;
+  font-size: 0.8rem;
+  max-width: 300px;
+}
+
+/* Computation steps */
+.lgr-meth-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lgr-meth-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
+.lgr-meth-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lgr-meth-step strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.lgr-meth-step p {
+  font-size: 0.82rem;
+  color: #8e8e93;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Citation cards */
+.lgr-meth-citations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lgr-meth-citation-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid #bf5af2;
+}
+
+.lgr-meth-citation-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.lgr-meth-citation-authors {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #fff;
+}
+
+.lgr-meth-citation-journal {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  font-style: italic;
+}
+
+.lgr-meth-citation-title {
+  font-size: 0.85rem;
+  color: #bf5af2;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.lgr-meth-citation-finding,
+.lgr-meth-citation-impact {
+  font-size: 0.82rem;
+  color: #8e8e93;
+  margin: 0.2rem 0;
+  line-height: 1.5;
+}
+
+.lgr-meth-citation-finding strong,
+.lgr-meth-citation-impact strong {
+  color: #e5e5e7;
+}
+
+/* Comparison table */
+.lgr-meth-compare-table .lgr-meth-col-doge {
+  background: rgba(48, 209, 88, 0.04);
+  color: #30d158;
+  font-weight: 500;
+}
+
+.lgr-meth-compare-table th.lgr-meth-col-doge {
+  color: #30d158;
+}
+
+.lgr-meth-dim-cell {
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Limitations */
+.lgr-meth-limitations {
+  margin-top: 1.5rem;
+  background: rgba(255, 159, 10, 0.05);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.lgr-meth-limitations h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  color: #ff9f0a;
+  margin-bottom: 0.5rem;
+}
+
+.lgr-meth-limitations ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.lgr-meth-limitations li {
+  font-size: 0.82rem;
+  color: #8e8e93;
+  line-height: 1.6;
+  margin-bottom: 0.15rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .lgr-meth-desc-cell {
+    max-width: 150px;
+  }
+
+  .lgr-meth-citation-header {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}

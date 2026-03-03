@@ -8,7 +8,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
-import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile } from '../utils/lgrModel'
+import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile,
+  computeServiceLineSavings, computeAuthorityBudgetComposition, computeCouncilTaxHarmonisationTimeline,
+  computeStaffTransitionCosts, computeITIntegrationCosts, computePrecedentBenchmark,
+  computeAlternativeTimeline, computeServiceContinuityRisk, computeNorthernMillTownComparison,
+  computeEqualPayRisk, computeCollectionRateImpact, SERVICE_LINE_SAVINGS_RATES, PRECEDENT_DATA, NORTHERN_MILL_TOWN_DATA } from '../utils/lgrModel'
 import { projectToLGRAuthority, normalizePartyName } from '../utils/electionModel'
 import LGRDemographicFiscalRisk from '../components/lgr/LGRDemographicFiscalRisk'
 import LGRTimelineChaos from '../components/lgr/LGRTimelineChaos'
@@ -16,6 +20,9 @@ import LGRBoundaryMap from '../components/lgr/LGRBoundaryMap'
 import LGRDeprivationMap from '../components/lgr/LGRDeprivationMap'
 import LGRPropertyDivision from '../components/lgr/LGRPropertyDivision'
 import LGRCCAImpact from '../components/lgr/LGRCCAImpact'
+import LGRMethodology from '../components/lgr/LGRMethodology'
+import LGRAlternativeTimeline from '../components/lgr/LGRAlternativeTimeline'
+import LGRNorthernPrecedents from '../components/lgr/LGRNorthernPrecedents'
 import CollapsibleSection from '../components/CollapsibleSection'
 import './LGRTracker.css'
 
@@ -471,6 +478,51 @@ function LGRTracker() {
     return budgetModel?.per_service_savings?.[activeModel]?.total_annual_savings || 0
   }, [budgetModel, activeModel])
 
+  // V7: Service-line savings for active model
+  const serviceLineSavings = useMemo(() => {
+    if (!budgetModel?.authority_composition?.[activeModel]) return null
+    const authorities = budgetModel.authority_composition[activeModel]
+    const firstAuth = Object.values(authorities || {})[0]
+    if (!firstAuth?.services) return null
+    return computeServiceLineSavings(firstAuth.services)
+  }, [budgetModel, activeModel])
+
+  // V7: Alternative timeline analysis
+  const alternativeTimeline = useMemo(() => {
+    const timeline = lgrEnhanced?.timeline_analysis
+    return computeAlternativeTimeline(
+      timeline ? { shadow_elections: '2027-05', vesting_day: '2028-04-01' } : undefined,
+      { numCouncils: 15, population: 1601555, numTiers: 3 }
+    )
+  }, [lgrEnhanced])
+
+  // V7: Service continuity risk
+  const serviceRisks = useMemo(() => {
+    return computeServiceContinuityRisk(22, 15)
+  }, [])
+
+  // V7: Precedent benchmark
+  const precedentBenchmark = useMemo(() => {
+    return computePrecedentBenchmark({ population: 1601555, numCouncils: 15, numTiers: 3 })
+  }, [])
+
+  // V7: Northern mill town comparison
+  const northernComparison = useMemo(() => {
+    if (!activeFiscalProfile?.length) return computeNorthernMillTownComparison([])
+    return computeNorthernMillTownComparison(activeFiscalProfile)
+  }, [activeFiscalProfile])
+
+  // V7: Staff transition costs
+  const staffCosts = useMemo(() => {
+    const numAuth = lgrData?.proposed_models?.find(m => m.id === activeModel)?.authorities?.length || 2
+    return computeStaffTransitionCosts({ totalStaff: 30000, numAuthorities: numAuth })
+  }, [lgrData, activeModel])
+
+  // V7: IT integration costs
+  const itCosts = useMemo(() => {
+    return computeITIntegrationCosts({ numCouncils: 15 })
+  }, [])
+
   if (loading) {
     return <div className="lgr-page animate-fade-in"><div className="loading-state"><div className="spinner" /><p>Loading LGR Tracker...</p></div></div>
   }
@@ -498,12 +550,15 @@ function LGRTracker() {
     { id: 'national', label: 'National Context', icon: Globe },
     { id: 'risks', label: 'Risks', icon: AlertTriangle },
     { id: 'precedents', label: 'Precedents', icon: Shield },
+    { id: 'northern-precedents', label: 'Northern Towns', icon: MapPin },
+    { id: 'alternative-timeline', label: 'Our Timeline', icon: Clock },
     { id: 'demographic-risk', label: 'Demographic Risk', icon: Users },
     { id: 'timeline-risk', label: 'Timeline Risk', icon: Clock },
     { id: 'boundary-maps', label: 'Maps', icon: MapPin },
     { id: 'property-division', label: 'Property', icon: Building },
     { id: 'cca-impact', label: 'CCA Adjust', icon: Globe },
     { id: 'deprivation', label: 'Deprivation', icon: BarChart3 },
+    { id: 'methodology', label: 'Methodology', icon: BookOpen },
   ]
 
   return (
@@ -2407,26 +2462,32 @@ function LGRTracker() {
         </CollapsibleSection>
       )}
 
-      {/* Sources */}
-      <section className="lgr-section lgr-methodology">
-        <h2>Sources &amp; Methodology</h2>
-        <p>
-          Proposals from <a href="https://lancashirelgr.co.uk/proposals" target="_blank" rel="noopener noreferrer">lancashirelgr.co.uk</a> and{' '}
-          <a href={lgrData.meta.source_urls.consultation} target="_blank" rel="noopener noreferrer">GOV.UK</a>.
-          Population: ONS Census 2021. Financial model: computed from GOV.UK MHCLG Revenue Outturn 2024-25 (forms RS, RSX, RO2, RO4, RO5, RO6) with peer-reviewed academic savings benchmarks.
-          Spending data: {formatNumber(2286000)}+ transactions, £12B+ across all 15 Lancashire councils.
-          Demographics: ONS Census 2021 via Nomis API. Newton Europe comparison data from Lancashire LGR People Services Analysis (2025).
-          Academic evidence: Andrews &amp; Boyne (2009), Cheshire (2004), Dollery &amp; Fleming (2006), Slack &amp; Bird (2012).
-        </p>
-        <p>
-          AI DOGE assessments are independent analytical opinions based on financial data patterns, academic evidence, and demographic analysis.
-          All model assumptions are published above for scrutiny. All underlying data is public and verifiable.
-          Savings figures represent <strong>realistic estimates</strong>: gross savings minus ongoing costs of new authorities,
-          at 75% realisation rate (based on E&amp;Y 2016 evidence from Durham, Wiltshire and Buckinghamshire reorganisations).
-          Transition costs include a 1.25× overrun factor based on NAO evidence.
-          These are independent estimates — not commissioned by any council, lobby group or political party.
-        </p>
-      </section>
+      {/* V7: Northern Mill Town Precedents */}
+      <CollapsibleSection id="lgr-northern-precedents" title="Northern Mill Town Precedents" icon={<MapPin size={20} />}>
+        <p className="section-desc">Lancashire&apos;s Pennine authorities compared against Bradford, Oldham, Rochdale, Bolton and Bury — fiscal trajectory risk, deprivation persistence, and LGR precedent benchmarks.</p>
+        <LGRNorthernPrecedents
+          northernComparison={northernComparison}
+          precedentBenchmark={precedentBenchmark}
+        />
+      </CollapsibleSection>
+
+      {/* V7: Alternative Timeline */}
+      <CollapsibleSection id="lgr-alternative-timeline" title="Alternative Timeline Proposal" icon={<Clock size={20} />}>
+        <p className="section-desc">Evidence-based timeline analysis — critical path analysis, cost of rushing vs delay, and precedent-calibrated delivery probability.</p>
+        <LGRAlternativeTimeline
+          alternativeTimeline={alternativeTimeline}
+          serviceRisks={serviceRisks}
+        />
+      </CollapsibleSection>
+
+      {/* V7: Methodology & Data Sources */}
+      <CollapsibleSection id="lgr-methodology" title="Methodology & Data Sources" icon={<BookOpen size={20} />}>
+        <p className="section-desc">Full transparency on data sources, computation methodology, academic evidence, and how AI DOGE compares to PwC/CCN and government approaches.</p>
+        <LGRMethodology
+          budgetModel={budgetModel}
+          lgrData={lgrData}
+        />
+      </CollapsibleSection>
     </div>
   )
 }
