@@ -20,12 +20,14 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: #1c1c1e;
-  border: 1px solid #ff9f0a;
-  border-radius: 12px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  border-radius: 16px;
   padding: 0.75rem 1.25rem;
   color: #ff9f0a;
   white-space: nowrap;
+  box-shadow: 0 0 16px rgba(255, 159, 10, 0.08);
 }
 
 .countdown-number {
@@ -146,8 +148,8 @@
 }
 
 .timeline-content {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 0.75rem 1rem;
 }
@@ -183,8 +185,8 @@
 }
 
 .model-tab {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   padding: 0.5rem 1.25rem;
   color: #8e8e93;
@@ -234,18 +236,24 @@
 }
 
 .authority-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
-  border-radius: 12px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
   padding: 1.25rem;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.authority-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 .authority-card.my-authority {
-  border-color: #0a84ff;
-  box-shadow: 0 0 12px rgba(10, 132, 255, 0.15);
+  border-color: rgba(10, 132, 255, 0.4);
+  box-shadow: 0 0 20px rgba(10, 132, 255, 0.15), inset 0 1px 0 rgba(10, 132, 255, 0.1);
 }
 
 .authority-color-bar {
@@ -321,8 +329,9 @@
 }
 
 .lgr-chart-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
 }
@@ -340,8 +349,9 @@
 
 /* Revenue Risk Analysis */
 .lgr-risk-analysis {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
   margin-top: 1rem;
@@ -364,8 +374,8 @@
 }
 
 .risk-card {
-  background: rgba(44, 44, 46, 0.5);
-  border: 1px solid #2c2c2e;
+  background: rgba(44, 44, 46, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 0.75rem;
   position: relative;
@@ -458,8 +468,9 @@
 }
 
 .issue-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -532,8 +543,9 @@
 }
 
 .precedent-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
 }
@@ -655,8 +667,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
@@ -753,8 +765,9 @@
 }
 
 .sw-column {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 1rem;
 }
@@ -877,10 +890,17 @@
 }
 
 .doge-score-card {
-  background: rgba(28, 28, 30, 0.8);
-  border: 1px solid #2c2c2e;
-  border-radius: 10px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
   padding: 0.75rem 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.doge-score-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }
 
 .doge-score-name {
@@ -939,9 +959,10 @@
 
 /* Methodology */
 .lgr-methodology {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
-  border-radius: 12px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
   padding: 1.5rem;
 }
 
@@ -972,9 +993,10 @@
   gap: 0.35rem;
   margin-bottom: 2rem;
   padding: 0.5rem;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
-  border-radius: 12px;
+  background: rgba(28, 28, 30, 0.85);
+  backdrop-filter: blur(20px) saturate(1.3) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
   flex-wrap: wrap;
   position: sticky;
   top: 0;
@@ -998,7 +1020,7 @@
 }
 
 .section-nav-btn:hover {
-  background: #2c2c2e;
+  background: rgba(255, 255, 255, 0.06);
   color: #e5e5e7;
 }
 
@@ -1030,8 +1052,8 @@
 
 /* Model Assumptions */
 .lgr-assumptions {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
   margin-top: 1rem;
@@ -1124,8 +1146,9 @@
 }
 
 .critique-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -1534,8 +1557,9 @@
 }
 
 .doge-proposal-card {
-  background: rgba(28, 28, 30, 0.8);
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1rem;
@@ -1670,8 +1694,9 @@
 }
 
 .dynamic-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 0.75rem;
@@ -1715,8 +1740,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
@@ -1790,8 +1815,8 @@
 }
 
 .interest-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 0.5rem;
@@ -1895,8 +1920,9 @@
 .nat-stat {
   flex: 1;
   min-width: 140px;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
   text-align: center;
@@ -1925,8 +1951,8 @@
 }
 
 .nat-fact {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 1rem;
 }
@@ -2454,9 +2480,9 @@
 
 .handover-tab {
   padding: 0.5rem 1rem;
-  border: 1px solid #48484a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
   color: #8e8e93;
   font-size: 0.85rem;
   font-weight: 600;
@@ -2465,7 +2491,7 @@
 }
 
 .handover-tab:hover {
-  background: #2c2c2e;
+  background: rgba(255, 255, 255, 0.06);
   color: #e5e5e7;
 }
 
@@ -2483,8 +2509,9 @@
 }
 
 .handover-stat {
-  background: #1c1c1e;
-  border: 1px solid #333;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1rem;
   text-align: center;
@@ -2514,9 +2541,10 @@
 }
 
 .handover-card {
-  background: #1c1c1e;
-  border: 1px solid #333;
-  border-radius: 14px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
   padding: 1.25rem;
   transition: border-color 0.2s;
 }
@@ -2617,9 +2645,10 @@
 }
 
 .handover-chart {
-  background: #1c1c1e;
-  border: 1px solid #333;
-  border-radius: 14px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
   padding: 1.25rem;
 }
 
@@ -2658,10 +2687,11 @@
 }
 
 .ct-authority-card {
-  background: #1c1c1e;
-  border-radius: 12px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border-radius: 16px;
   padding: 1.25rem;
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .ct-authority-card.mine {
@@ -2794,10 +2824,10 @@
 }
 
 .ct-explainer {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
   border-radius: 12px;
   padding: 1rem 1.25rem;
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .ct-explainer h4 {
@@ -2839,8 +2869,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 0.75rem 1rem;
 }
@@ -2941,8 +2971,9 @@
 .cashflow-stat {
   flex: 1;
   min-width: 160px;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1rem;
   text-align: center;
@@ -2974,8 +3005,9 @@
 }
 
 .authority-financial-card {
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 1.25rem;
   position: relative;
@@ -3010,8 +3042,9 @@
   width: 100%;
   border-collapse: collapse;
   margin: 1rem 0;
-  background: #1c1c1e;
-  border: 1px solid #2c2c2e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -3019,19 +3052,29 @@
 .sensitivity-table th {
   padding: 0.75rem 1rem;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: #8e8e93;
-  background: #2c2c2e;
-  border-bottom: 1px solid #3a3a3c;
+  background: rgba(28, 28, 30, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
 }
 
 .sensitivity-table td {
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
   font-size: 0.85rem;
   color: #e5e5e7;
-  border-bottom: 1px solid rgba(44, 44, 46, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sensitivity-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sensitivity-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.01);
 }
 
 .sensitivity-table .scenario-best { border-top: 2px solid #30d158; }
@@ -3105,10 +3148,16 @@
 
 /* Individual slider */
 .assumption-slider {
-  background: rgba(28, 28, 30, 0.8);
-  border: 1px solid #2c2c2e;
-  border-radius: 10px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
   padding: 1rem;
+  transition: border-color 0.2s;
+}
+
+.assumption-slider:hover {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .slider-header {
@@ -3119,7 +3168,12 @@
 }
 
 .slider-label { font-size: 0.85rem; font-weight: 500; color: #e5e5e7; }
-.slider-value { font-size: 0.9rem; font-weight: 700; color: #0a84ff; }
+.slider-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0a84ff;
+  text-shadow: 0 0 12px rgba(10, 132, 255, 0.3);
+}
 
 .slider-desc {
   display: block;
@@ -3132,19 +3186,46 @@
   -webkit-appearance: none;
   width: 100%;
   height: 6px;
-  background: #2c2c2e;
+  background: linear-gradient(90deg, #30d158 0%, #0a84ff 50%, #bf5af2 100%);
   border-radius: 3px;
   outline: none;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.slider-input:hover {
+  opacity: 0.6;
+}
+
+.slider-input:active {
+  opacity: 1;
 }
 
 .slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background: #0a84ff;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid #0a0a0a;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 20px rgba(10, 132, 255, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
+}
+
+.slider-input::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: #0a84ff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.4);
 }
 
 .slider-range {
