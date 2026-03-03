@@ -23,7 +23,8 @@ import {
   Calendar, MapPin, Star, Search, ArrowLeft, Swords, Award,
   BarChart3, BookOpen, UserCheck, AlertCircle, ExternalLink,
 } from 'lucide-react'
-import { PARTY_COLORS } from '../utils/constants'
+import { PARTY_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts'
 import './Intelligence.css'
 
 const SEVERITY_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#8e8e93' }
@@ -1181,6 +1182,42 @@ function DossierVotingTab({ dossier }) {
         )}
       </div>
 
+      {/* Policy positions chart */}
+      {dossier.policyPositions && Object.keys(dossier.policyPositions).length > 0 && (() => {
+        const chartData = Object.entries(dossier.policyPositions).map(([area, counts]) => ({
+          area: (POLICY_AREAS[area] || area).length > 12
+            ? (POLICY_AREAS[area] || area).slice(0, 10) + '…'
+            : (POLICY_AREAS[area] || area),
+          fullArea: POLICY_AREAS[area] || area,
+          for: counts.for || 0,
+          against: counts.against || 0,
+          abstain: counts.abstain || 0,
+        })).filter(d => d.for + d.against + d.abstain > 0)
+
+        return chartData.length > 0 ? (
+          <div className="dossier-subsection">
+            <h4><BarChart3 size={14} /> Voting by Policy Area</h4>
+            <div className="intel-chart-wrap">
+              <ResponsiveContainer width="100%" height={Math.max(200, chartData.length * 36)}>
+                <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis type="number" tick={AXIS_TICK_STYLE} allowDecimals={false} />
+                  <YAxis dataKey="area" type="category" tick={AXIS_TICK_STYLE} width={100} />
+                  <Tooltip
+                    contentStyle={TOOLTIP_STYLE}
+                    formatter={(v, name) => [v, name === 'for' ? 'For' : name === 'against' ? 'Against' : 'Abstain']}
+                    labelFormatter={(label, payload) => payload?.[0]?.payload?.fullArea || label}
+                  />
+                  <Bar dataKey="for" fill="#30d158" radius={[0, 4, 4, 0]} stackId="votes" />
+                  <Bar dataKey="against" fill="#ff453a" radius={[0, 4, 4, 0]} stackId="votes" />
+                  <Bar dataKey="abstain" fill="#ffd60a" radius={[0, 4, 4, 0]} stackId="votes" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        ) : null
+      })()}
+
       {/* Policy positions grid */}
       {dossier.policyPositions && Object.keys(dossier.policyPositions).length > 0 && (
         <div className="dossier-subsection">
@@ -1310,6 +1347,36 @@ function DossierAttacksTab({ dossier }) {
         {dossier.attackLines.length} attack lines sorted by severity.
         Click the copy icon to copy individual lines to clipboard.
       </p>
+
+      {/* Attack severity distribution chart */}
+      {(() => {
+        const severityCounts = ['high', 'medium', 'low'].map(sev => ({
+          severity: sev.charAt(0).toUpperCase() + sev.slice(1),
+          count: dossier.attackLines.filter(l => l.severity === sev).length,
+          fill: SEVERITY_COLORS[sev] || '#888',
+        })).filter(d => d.count > 0)
+
+        return severityCounts.length > 0 ? (
+          <div className="intel-chart-wrap intel-severity-chart">
+            <ResponsiveContainer width="100%" height={120}>
+              <BarChart data={severityCounts} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" tick={AXIS_TICK_STYLE} allowDecimals={false} />
+                <YAxis dataKey="severity" type="category" tick={AXIS_TICK_STYLE} width={70} />
+                <Tooltip
+                  contentStyle={TOOLTIP_STYLE}
+                  formatter={(v) => [`${v} attack line${v !== 1 ? 's' : ''}`, 'Count']}
+                />
+                <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+                  {severityCounts.map((entry, i) => (
+                    <Cell key={i} fill={entry.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : null
+      })()}
 
       {/* Group by severity */}
       {['high', 'medium', 'low'].map(sev => {

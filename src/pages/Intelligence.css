@@ -78,7 +78,7 @@
 }
 
 .intel-nav-btn:hover {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
   color: #ccc;
 }
 
@@ -173,7 +173,9 @@
   padding: 1px 6px;
   border-radius: 3px;
   font-size: 0.68rem;
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   color: #888;
   border: 1px solid #333;
 }
@@ -189,7 +191,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 12px;
   padding: 12px 16px;
@@ -205,7 +209,9 @@
 .intel-meeting-selector select {
   flex: 1;
   min-width: 200px;
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   color: #fff;
   border: 1px solid #333;
   border-radius: 8px;
@@ -242,7 +248,9 @@
 /* --- Meeting Card --- */
 
 .intel-meeting-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 12px;
   padding: 20px;
@@ -360,7 +368,9 @@
 /* --- Member Cards --- */
 
 .member-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   overflow: hidden;
@@ -396,7 +406,7 @@
 }
 
 .member-card-header:hover {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
 }
 
 .member-name-row {
@@ -571,7 +581,9 @@
 }
 
 .agenda-intel-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   margin-bottom: 8px;
@@ -588,7 +600,7 @@
 }
 
 .agenda-intel-header:hover {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
 }
 
 .agenda-intel-title {
@@ -628,7 +640,9 @@
   gap: 10px;
   align-items: center;
   padding: 6px 10px;
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 6px;
   margin-bottom: 4px;
   font-size: 0.82rem;
@@ -668,7 +682,9 @@
 
 .agenda-rebuttal {
   padding: 8px 10px;
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 6px;
   font-size: 0.82rem;
   color: #ccc;
@@ -699,7 +715,9 @@
 }
 
 .battleground-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #ff453a44;
   border-left: 3px solid #ff453a;
   border-radius: 10px;
@@ -762,7 +780,9 @@
 .intel-wargame-section > p { margin-bottom: 12px; }
 
 .wargame-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #333;
   border-radius: 10px;
   margin-bottom: 8px;
@@ -831,7 +851,9 @@
 
 /* Attacker cards */
 .wargame-attacker {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 8px;
@@ -854,7 +876,9 @@
   border-left: 2px solid;
   font-size: 0.78rem;
   color: #ccc;
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border-radius: 0 6px 6px 0;
 }
 .wargame-predicted-args {
@@ -934,7 +958,9 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border-radius: 8px;
   font-size: 0.82rem;
 }
@@ -986,7 +1012,7 @@
 }
 
 .party-filter-btn:hover {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
   color: #ccc;
 }
 
@@ -1002,7 +1028,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 8px;
   padding: 8px 14px;
@@ -1040,7 +1068,9 @@
 }
 
 .leader-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #333;
   border-radius: 12px;
   padding: 14px;
@@ -1105,7 +1135,9 @@
 }
 
 .intel-councillor-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   padding: 12px 14px;
@@ -1237,7 +1269,7 @@
 }
 
 .dossier-view-tab:hover {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
   color: #ccc;
 }
 
@@ -1254,7 +1286,9 @@
 }
 
 .dossier-tab-panel {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 12px;
   padding: 20px;
@@ -1293,7 +1327,9 @@
 }
 
 .dossier-profile-item {
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 8px;
   padding: 10px 14px;
 }
@@ -1321,7 +1357,9 @@
 
 .dossier-facts-list li {
   padding: 6px 12px;
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 6px;
   margin-bottom: 4px;
   font-size: 0.85rem;
@@ -1340,7 +1378,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 6px;
   font-size: 0.85rem;
 }
@@ -1371,7 +1411,9 @@
 }
 
 .voting-stat {
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 10px;
   padding: 14px 20px;
   text-align: center;
@@ -1403,7 +1445,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 6px;
 }
 
@@ -1432,7 +1476,9 @@
 }
 
 .dossier-vote-item {
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 8px;
   padding: 10px 14px;
   border-left: 3px solid #333;
@@ -1564,7 +1610,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 6px;
   font-size: 0.85rem;
   gap: 10px;
@@ -1626,7 +1674,9 @@
 }
 
 .rebuttal-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   padding: 16px;
@@ -1672,7 +1722,9 @@
 }
 
 .achievement-category {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   padding: 16px;
@@ -1734,7 +1786,9 @@
 }
 
 .intel-comparison-table thead th {
-  background: #0d0d1a;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   color: #888;
   font-weight: 600;
   font-size: 0.78rem;
@@ -1743,10 +1797,22 @@
   padding: 10px 14px;
   text-align: left;
   border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .intel-comparison-table tbody tr {
-  border-bottom: 1px solid #1a1a2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s;
+}
+
+.intel-comparison-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.intel-comparison-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .intel-comparison-table tbody td {
@@ -1809,7 +1875,9 @@
 }
 
 .defence-area-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   padding: 16px;
@@ -1910,6 +1978,20 @@
   color: #666;
   font-size: 0.78rem;
   line-height: 1.5;
+}
+
+/* --- Chart Wrappers --- */
+
+.intel-chart-wrap {
+  background: rgba(13, 13, 26, 0.4);
+  border-radius: 10px;
+  padding: 12px 8px;
+  margin: 12px 0;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.intel-severity-chart {
+  margin-bottom: 20px;
 }
 
 /* --- Print Styles --- */

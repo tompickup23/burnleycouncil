@@ -49,7 +49,9 @@
   margin-bottom: 20px;
 }
 .mp-stat-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 10px;
   padding: 14px;
@@ -116,7 +118,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #333;
   border-radius: 8px;
   padding: 6px 12px;
@@ -132,7 +136,9 @@
   font-size: 0.85rem;
 }
 .mp-comparison-controls select {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #333;
   border-radius: 8px;
   color: #fff;
@@ -146,7 +152,9 @@
 
 /* Chart cards */
 .mp-chart-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 12px;
   padding: 20px;
@@ -163,7 +171,9 @@
 
 /* Table cards */
 .mp-table-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 12px;
   padding: 20px;
@@ -196,13 +206,20 @@
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
+.mp-comparison-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(13, 13, 26, 0.9);
+}
 .mp-comparison-table td {
   padding: 8px 10px;
-  border-bottom: 1px solid #1a1a2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   color: #ddd;
   white-space: nowrap;
 }
-.mp-comparison-table tr:hover td { background: #ffffff06; }
+.mp-comparison-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+.mp-comparison-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
 .mp-table-name {
   color: #0a84ff;
   text-decoration: none;
@@ -221,7 +238,9 @@
 
 /* Analysis cards */
 .mp-analysis-card {
-  background: #12121f;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #222;
   border-radius: 12px;
   padding: 20px;
@@ -283,7 +302,9 @@
   align-items: center;
   gap: 12px;
   padding: 8px 12px;
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 8px;
   font-size: 0.82rem;
 }
@@ -312,7 +333,9 @@
 /* Rebel section */
 .mp-rebel-list { display: flex; flex-direction: column; gap: 10px; }
 .mp-rebel-card {
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border-radius: 8px;
   padding: 12px;
   border: 1px solid #ff453a22;

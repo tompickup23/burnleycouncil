@@ -12,7 +12,9 @@
 }
 
 .constituencies-header-content {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.5rem;
@@ -149,7 +151,9 @@
 
 /* Card */
 .constituency-card {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;

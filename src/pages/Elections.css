@@ -382,7 +382,9 @@
 
 /* ===================== Chart Cards ===================== */
 .elec-chart-card {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;
@@ -502,7 +504,9 @@
   width: 100%;
   max-width: 400px;
   padding: 0.75rem 1rem;
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #3a3a3c;
   border-radius: 8px;
   color: #e5e5e7;
@@ -516,7 +520,9 @@
 }
 
 .elec-ward-detail {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.5rem;
@@ -561,7 +567,9 @@
 
 /* ===================== Predictions — Assumptions ===================== */
 .elec-assumptions-panel {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;
@@ -852,7 +860,9 @@
 
 /* ===================== Ward Builder ===================== */
 .elec-builder-totals {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;
@@ -949,7 +959,9 @@
 }
 
 .elec-builder-ward {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 10px;
   padding: 0.85rem 1rem;
@@ -1034,7 +1046,9 @@
 }
 
 .elec-coalition-card {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;
@@ -1120,7 +1134,9 @@
 }
 
 .elec-lgr-card {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;
@@ -1250,7 +1266,9 @@
 
 /* ===================== Generic card ===================== */
 .elec-card {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 12px;
   padding: 1.25rem;
@@ -1269,7 +1287,9 @@
 }
 
 .elec-stat-card {
-  background: #1c1c1e;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   border: 1px solid #2c2c2e;
   border-radius: 10px;
   padding: 0.85rem 1rem;
@@ -1302,6 +1322,57 @@
   color: #636366;
   font-size: 0.75rem;
   font-style: italic;
+}
+
+
+/* --- Premium Slider Styling --- */
+.elec-slider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: linear-gradient(90deg, #30d158 0%, #0a84ff 50%, #bf5af2 100%);
+  border-radius: 3px;
+  outline: none;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.elec-slider-input:hover {
+  opacity: 1;
+}
+
+.elec-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.elec-slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 16px rgba(10, 132, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.elec-slider-input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.elec-slider-input::-moz-range-track {
+  height: 6px;
+  background: linear-gradient(90deg, #30d158 0%, #0a84ff 50%, #bf5af2 100%);
+  border-radius: 3px;
+  border: none;
 }
 
 /* ===================== Responsive ===================== */
