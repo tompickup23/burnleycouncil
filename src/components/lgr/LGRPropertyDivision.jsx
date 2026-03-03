@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { formatCurrency, formatNumber } from '../../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_COLORS } from '../../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts'
@@ -37,9 +37,25 @@ const TIER_COLORS = {
 }
 
 function LGRPropertyDivision({ propertyData, selectedModel, models }) {
+  const [internalModel, setInternalModel] = useState(null)
+
   if (!propertyData) return null
 
-  const modelData = propertyData[selectedModel]
+  // Use internal model selection if set, otherwise fall back to parent's selectedModel
+  const activeModel = internalModel || selectedModel
+
+  // Find all available models from propertyData keys (exclude meta keys like 'contested_assets')
+  const availableModels = useMemo(() => {
+    if (!models?.length) {
+      return Object.keys(propertyData)
+        .filter(k => k !== 'contested_assets' && typeof propertyData[k] === 'object')
+        .map(k => ({ id: k, name: k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) }))
+    }
+    // Filter to models that exist in propertyData
+    return models.filter(m => propertyData[m.id])
+  }, [models, propertyData])
+
+  const modelData = propertyData[activeModel]
   if (!modelData) return null
 
   const authorities = Object.keys(modelData)
@@ -148,7 +164,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
   const contestedAssets = propertyData.contested_assets
   const hasContested = contestedAssets && (Array.isArray(contestedAssets) ? contestedAssets.length > 0 : contestedAssets.count > 0)
 
-  const modelName = models?.find(m => m.id === selectedModel)?.name || selectedModel?.replace(/_/g, ' ')
+  const modelName = availableModels.find(m => m.id === activeModel)?.name || activeModel?.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 
   const hasValuations = totalEstValue > 0 || totalRBValue > 0
 
@@ -159,12 +175,29 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
         Property Estate Division
       </h2>
       <p className="lgr-prop-desc">
-        How Lancashire CC's {formatNumber(totalAssets)} assets would be distributed
+        How Lancashire CC&apos;s {formatNumber(totalAssets)} assets would be distributed
         under the <strong>{modelName}</strong> model.
         {hasValuations && (
           <> Total estate valued at {formatCurrency(totalRBValue || totalEstValue)} (RICS Red Book).</>
         )}
       </p>
+
+      {/* Model tab selector */}
+      {availableModels.length > 1 && (
+        <div className="lgr-prop-model-tabs" role="tablist" aria-label="Select LGR model for property division">
+          {availableModels.map(m => (
+            <button
+              key={m.id}
+              role="tab"
+              aria-selected={activeModel === m.id}
+              className={`lgr-prop-model-tab${activeModel === m.id ? ' lgr-prop-model-tab--active' : ''}`}
+              onClick={() => setInternalModel(m.id)}
+            >
+              {m.name}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Summary stats — expanded with valuations */}
       <div className="lgr-prop-stats-grid">

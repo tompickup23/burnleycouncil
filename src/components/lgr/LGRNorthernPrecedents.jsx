@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
-import { MapPin, AlertTriangle, TrendingDown, Users, ChevronDown, ChevronUp, Factory, Pickaxe, Building } from 'lucide-react'
+import { MapPin, AlertTriangle, TrendingDown, Users, ChevronDown, ChevronUp, Factory, Pickaxe, Building, Calendar, ArrowRight, Check, X as XIcon, BookOpen } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../../utils/constants'
+import { PRECEDENT_DATA, LGR_PRECEDENT_EXPERIENCES } from '../../utils/lgrModel'
 import './LGRNorthernPrecedents.css'
 
 /**
@@ -39,6 +40,7 @@ const RISK_COLORS = {
 
 function LGRNorthernPrecedents({ northernComparison, precedentBenchmark }) {
   const [expandedTown, setExpandedTown] = useState(null)
+  const [expandedPrecedent, setExpandedPrecedent] = useState(null)
 
   if (!northernComparison) return null
 
@@ -56,15 +58,10 @@ function LGRNorthernPrecedents({ northernComparison, precedentBenchmark }) {
     }))
   }, [lancashireAuthorities])
 
-  // LGR precedent comparison data
-  const precedentData = useMemo(() => {
+  // LGR precedent comparison data (kept for potential reuse)
+  const precedentComparables = useMemo(() => {
     if (!precedentBenchmark?.comparables) return []
-    return precedentBenchmark.comparables.map(p => ({
-      name: p.name,
-      savingsPct: p.savingsPct || 0,
-      months: p.monthsTaken || 0,
-      population: Math.round((p.population || 0) / 1000),
-    }))
+    return precedentBenchmark.comparables
   }, [precedentBenchmark])
 
   return (
@@ -350,13 +347,17 @@ function LGRNorthernPrecedents({ northernComparison, precedentBenchmark }) {
         </div>
       )}
 
-      {/* English LGR Precedent Benchmarks */}
-      {precedentBenchmark && (
-        <div className="lgr-np-section">
-          <h3>English LGR Precedent Benchmarks</h3>
-          <p className="lgr-np-section-desc">
-            8 completed English reorganisations provide the evidence base for savings estimates.
-          </p>
+      {/* English LGR Precedent Benchmarks — ALL 8 reorganisations */}
+      <div className="lgr-np-section">
+        <h3><BookOpen size={18} /> English LGR Reorganisation Precedents</h3>
+        <p className="lgr-np-section-desc">
+          All {PRECEDENT_DATA.length} completed English reorganisations since 2009, providing the evidence base for
+          savings estimates and implementation risk. {precedentBenchmark && <>Lancashire-adjusted central estimate:
+          <strong> {precedentBenchmark.savingsPctRange?.central}%</strong> savings.</>}
+        </p>
+
+        {/* Summary benchmark cards */}
+        {precedentBenchmark && (
           <div className="lgr-np-benchmark-cards">
             <div className="lgr-np-bench-card">
               <span className="lgr-np-bench-label">Savings Range</span>
@@ -386,34 +387,131 @@ function LGRNorthernPrecedents({ northernComparison, precedentBenchmark }) {
               </span>
             </div>
           </div>
+        )}
 
-          {/* Comparables table */}
-          {precedentData.length > 0 && (
-            <div className="lgr-np-table-wrap" style={{ marginTop: '1rem' }}>
-              <table className="lgr-np-table">
-                <thead>
-                  <tr>
-                    <th>Precedent</th>
-                    <th>Population</th>
-                    <th>Savings %</th>
-                    <th>Duration</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {precedentData.map((p, i) => (
-                    <tr key={i}>
-                      <td className="lgr-np-auth-name">{p.name}</td>
-                      <td>{p.population}K</td>
-                      <td>{p.savingsPct}%</td>
-                      <td>{p.months} months</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+        {/* Full precedent cards — ALL 8 reorganisations */}
+        <div className="lgr-np-precedent-cards">
+          {PRECEDENT_DATA.map(p => {
+            const experience = LGR_PRECEDENT_EXPERIENCES[p.name]
+            const isExpanded = expandedPrecedent === p.name
+            return (
+              <div key={p.name} className={`lgr-np-prec-card${p.onBudget === false ? ' lgr-np-prec-card--warning' : ''}`}>
+                <button
+                  className="lgr-np-prec-header"
+                  onClick={() => setExpandedPrecedent(prev => prev === p.name ? null : p.name)}
+                  aria-expanded={isExpanded}
+                >
+                  <div className="lgr-np-prec-title-row">
+                    <strong className="lgr-np-prec-name">{p.name}</strong>
+                    <span className="lgr-np-prec-year"><Calendar size={12} /> {p.year}</span>
+                    <span className="lgr-np-prec-merge">
+                      {p.before} <ArrowRight size={10} /> {p.after} {p.after === 1 ? 'council' : 'councils'}
+                    </span>
+                    {p.onBudget != null && (
+                      <span className={`lgr-np-prec-budget-badge ${p.onBudget ? 'on-budget' : 'over-budget'}`}>
+                        {p.onBudget ? <Check size={10} /> : <XIcon size={10} />}
+                        {p.onBudget ? 'On budget' : 'Over budget'}
+                      </span>
+                    )}
+                  </div>
+                  <div className="lgr-np-prec-stats-mini">
+                    <span>{(p.population / 1000).toFixed(0)}K pop</span>
+                    {p.savingsPct != null && <span>{p.savingsPct}% savings</span>}
+                    {p.annualSavingsM != null && <span>£{p.annualSavingsM}M/yr</span>}
+                    <span>{p.monthsTaken} months</span>
+                    <span className={`lgr-np-complexity-badge lgr-np-complexity-${p.complexity}`}>
+                      {p.complexity}
+                    </span>
+                  </div>
+                  {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                </button>
+
+                {isExpanded && (
+                  <div className="lgr-np-prec-detail">
+                    {/* Key stats grid */}
+                    <div className="lgr-np-prec-stats-grid">
+                      <div className="lgr-np-metric">
+                        <span className="lgr-np-metric-label">Councils Merged</span>
+                        <span className="lgr-np-metric-value">{p.before} → {p.after}</span>
+                      </div>
+                      <div className="lgr-np-metric">
+                        <span className="lgr-np-metric-label">Population</span>
+                        <span className="lgr-np-metric-value">{(p.population / 1000).toFixed(0)}K</span>
+                      </div>
+                      {p.transitionCostM != null && (
+                        <div className="lgr-np-metric">
+                          <span className="lgr-np-metric-label">Transition Cost</span>
+                          <span className="lgr-np-metric-value">£{p.transitionCostM}M</span>
+                        </div>
+                      )}
+                      {p.fiveYearSavingsM != null && (
+                        <div className="lgr-np-metric">
+                          <span className="lgr-np-metric-label">5-Year Savings</span>
+                          <span className="lgr-np-metric-value" style={{ color: '#30d158' }}>£{p.fiveYearSavingsM}M</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Notes */}
+                    {p.notes && <p className="lgr-np-prec-notes">{p.notes}</p>}
+                    {p.source && <p className="lgr-np-prec-source">Source: {p.source}</p>}
+
+                    {/* Detailed experience (if available) */}
+                    {experience && (
+                      <div className="lgr-np-prec-experience">
+                        <div className="lgr-np-detail-section-label">Financial Outcome</div>
+                        <p className="lgr-np-prec-outcome">{experience.financialOutcome}</p>
+
+                        <div className="lgr-np-detail-section-label">Key Findings</div>
+                        <ul className="lgr-np-prec-findings">
+                          {experience.keyFindings.map((f, i) => <li key={i}>{f}</li>)}
+                        </ul>
+
+                        <div className="lgr-np-detail-section-label">Relevance to Lancashire</div>
+                        <p className="lgr-np-prec-relevance">{experience.relevanceToLancashire}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
-      )}
+
+        {/* Comparison table — all 8 at a glance */}
+        <div className="lgr-np-table-wrap" style={{ marginTop: '1rem' }}>
+          <table className="lgr-np-table">
+            <thead>
+              <tr>
+                <th>Reorganisation</th>
+                <th>Year</th>
+                <th>Merged</th>
+                <th>Population</th>
+                <th>Savings</th>
+                <th>Duration</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PRECEDENT_DATA.map((p, i) => (
+                <tr key={i} className={p.onBudget === false ? 'lgr-np-row-highlight' : ''}>
+                  <td className="lgr-np-auth-name">{p.name}</td>
+                  <td>{p.year}</td>
+                  <td>{p.before} → {p.after}</td>
+                  <td>{(p.population / 1000).toFixed(0)}K</td>
+                  <td>{p.savingsPct != null ? `${p.savingsPct}%` : p.annualSavingsM != null ? `£${p.annualSavingsM}M/yr` : '—'}</td>
+                  <td>{p.monthsTaken} months</td>
+                  <td>
+                    {p.onBudget === true && <span style={{ color: '#30d158' }}>✓</span>}
+                    {p.onBudget === false && <span style={{ color: '#ff453a' }}>✗</span>}
+                    {p.onBudget == null && <span style={{ color: '#8e8e93' }}>—</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       {/* Evidence factors */}
       {factors?.length > 0 && (

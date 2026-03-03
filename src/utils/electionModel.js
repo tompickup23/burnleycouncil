@@ -229,6 +229,96 @@ export function calculateDemographicAdjustments(demographics, deprivation, param
 }
 
 /**
+ * Calculate fiscal stress adjustments from LGR demographic fiscal data.
+ *
+ * Uses council-level fiscal resilience scores to model protest voting
+ * patterns: low fiscal resilience → anti-incumbent sentiment, higher
+ * Reform UK performance, and reduced turnout in pressured areas.
+ *
+ * Backward-compatible: returns zero adjustments if no fiscal data.
+ *
+ * @param {Object|null} fiscalData - demographic_fiscal.json for this council
+ * @param {string|null} wardName - Ward name for pressure zone lookup
+ * @returns {{ adjustments: Object<string, number>, methodology: Object }}
+ */
+export function calculateFiscalStressAdjustment(fiscalData, wardName) {
+  const adjustments = {};
+  const factors = [];
+
+  if (!fiscalData) {
+    return {
+      adjustments,
+      methodology: {
+        step: 3.5, name: 'Fiscal Stress',
+        description: 'No fiscal stress data available',
+        factors: [],
+      },
+    };
+  }
+
+  const fiscalScore = fiscalData.fiscal_resilience_score;
+  const serviceScore = fiscalData.service_demand_pressure_score;
+  const riskCategory = fiscalData.risk_category;
+
+  // 1. Severe fiscal stress (score ≤ 30) → anti-incumbent protest voting
+  if (fiscalScore != null && fiscalScore <= 30) {
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + 0.02;
+    adjustments['Labour'] = (adjustments['Labour'] || 0) + 0.01;
+    adjustments['Conservative'] = (adjustments['Conservative'] || 0) - 0.02;
+    factors.push(`Severe fiscal stress (score ${fiscalScore}/100): Reform +2pp, Labour +1pp, Conservative -2pp — anti-incumbent protest pattern`);
+  } else if (fiscalScore != null && fiscalScore <= 50) {
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + 0.01;
+    adjustments['Conservative'] = (adjustments['Conservative'] || 0) - 0.01;
+    factors.push(`Moderate fiscal stress (score ${fiscalScore}/100): Reform +1pp, Conservative -1pp`);
+  }
+
+  // 2. High service demand pressure → Reform UK boost (anti-establishment)
+  if (serviceScore != null && serviceScore >= 80) {
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + 0.015;
+    factors.push(`High service demand (score ${serviceScore}/100): Reform +1.5pp — services under strain drives protest voting`);
+  }
+
+  // 3. "Structurally Deficit" risk category → strong anti-incumbent signal
+  if (riskCategory === 'Structurally Deficit') {
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + 0.01;
+    adjustments['Labour'] = (adjustments['Labour'] || 0) - 0.01;
+    adjustments['Conservative'] = (adjustments['Conservative'] || 0) - 0.01;
+    factors.push(`Structurally deficit authority: Reform +1pp — systemic fiscal failure drives establishment rejection`);
+  }
+
+  // 4. Ward in pressure zones — hyper-deprived micro-climate amplification
+  if (wardName && fiscalData.pressure_zones?.length) {
+    const wardPressure = fiscalData.pressure_zones.find(
+      pz => pz.ward?.toLowerCase() === wardName.toLowerCase()
+    );
+    if (wardPressure && wardPressure.imd_decile <= 1) {
+      adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + 0.015;
+      adjustments['Labour'] = (adjustments['Labour'] || 0) + 0.01;
+      factors.push(`Ward "${wardName}" in fiscal pressure zone (IMD decile ${wardPressure.imd_decile}): Reform +1.5pp, Labour +1pp`);
+    }
+  }
+
+  // 5. High critical/high threat count → disengagement + protest
+  const criticalThreats = (fiscalData.threats || []).filter(t => t.severity === 'critical').length;
+  if (criticalThreats >= 3) {
+    adjustments['Reform UK'] = (adjustments['Reform UK'] || 0) + 0.01;
+    factors.push(`${criticalThreats} critical fiscal threats: Reform +1pp — multiple cascading risks amplify protest signal`);
+  }
+
+  return {
+    adjustments,
+    methodology: {
+      step: 3.5,
+      name: 'Fiscal Stress',
+      description: factors.length > 0
+        ? `${factors.length} fiscal stress factor(s) applied (resilience: ${fiscalScore ?? '?'}/100)`
+        : 'No significant fiscal stress adjustments for this council',
+      factors,
+    },
+  };
+}
+
+/**
  * Calculate incumbency adjustment.
  * @param {Object} wardData - Ward object with current_holders
  * @param {Object} assumptions - Model assumptions
@@ -449,6 +539,7 @@ export function predictWard(
   constituencyResult = null,
   lcc2025 = null,
   modelParams = null,
+  fiscalData = null,
 ) {
   const methodology = [];
 
@@ -513,6 +604,15 @@ export function predictWard(
   methodology.push(demo.methodology);
   for (const [party, adj] of Object.entries(demo.adjustments)) {
     shares[party] = (shares[party] || 0) + adj;
+  }
+
+  // Step 3.5: Fiscal Stress (LGR demographic fiscal data)
+  if (fiscalData) {
+    const fiscal = calculateFiscalStressAdjustment(fiscalData, wardData.ward_name || wardData.name);
+    methodology.push(fiscal.methodology);
+    for (const [party, adj] of Object.entries(fiscal.adjustments)) {
+      shares[party] = (shares[party] || 0) + adj;
+    }
   }
 
   // Step 4: Incumbency (with staleness awareness)
@@ -593,7 +693,7 @@ export function predictWard(
  * Predict all wards up for election in a council.
  * @returns {{ wards: Object, seatTotals: Object, totalSeats: number }}
  */
-export function predictCouncil(electionsData, wardsUp, assumptions, nationalPolling, ge2024Result, demographicsMap, deprivationMap, constituencyMap, lcc2025, modelParams) {
+export function predictCouncil(electionsData, wardsUp, assumptions, nationalPolling, ge2024Result, demographicsMap, deprivationMap, constituencyMap, lcc2025, modelParams, fiscalData) {
   const wardResults = {};
   const seatTotals = {};
 
@@ -638,6 +738,7 @@ export function predictCouncil(electionsData, wardsUp, assumptions, nationalPoll
       constituencyMap?.[wardName] || null,
       lcc2025,
       modelParams,
+      fiscalData || null,
     );
 
     wardResults[wardName] = result;

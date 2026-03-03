@@ -24,6 +24,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Elections:** `elections.json` per council — ward-level history, predictions, coalition modelling. `elections_reference.json` shared national polling data. `electionModel.js` with demographics-weighted swing model + LGR political projections
 - **Constituencies:** `constituency_etl.py` → `constituencies.json` — GE2024 results, MP expenses (IPSA), voting records (TWFY), claimant count, activity topics. `ward_constituency_map.json` links wards to constituencies
 - **Analytics:** `src/utils/analytics.js` — CPI-H deflation, z-scores, Gini coefficient, Benford's 2nd digit, reserves adequacy, peer benchmarking, integrity-weighted HHI, Benford→election signal (16 functions, 44 tests)
+- **LGR Demographic Fiscal Intelligence:** `generate_lgr_enhanced.py` → `lgr_enhanced.json` (shared) + `demographic_fiscal.json` (per council). Fiscal resilience scoring, SEND exposure by ethnic composition, asylum cost projections, white flight analysis, Bradford/Oldham comparison. 6 LGR sub-components + 11 model functions. Flows through LGR Tracker, DOGE, Demographics, MyArea, CrossCouncil, Home, PropertyDetail.
 - **Councillor Profiling:** `councillor_research_etl.py` → `councillor_profiles.json` — DOB, occupation, biography, structured employment/land/securities, committee memberships, electoral history (NOT YET RUN)
 - **FOI Generation:** `foi_generator.py` — auto-generate FOI requests from DOGE anomalies + integrity findings (NOT YET RUN)
 - **Auth:** Firebase Auth (free tier, 50K MAUs) + Firestore RBAC. Dual-mode: Firebase in production (`VITE_FIREBASE_API_KEY` set), PasswordGate for local dev. 4 roles: unassigned, viewer, strategist, admin. Per-council/page/constituency permissions.
@@ -64,7 +65,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | File | Purpose |
 |------|---------|
 | `src/App.jsx` | Router with 33 lazy-loaded routes, 36 routes total |
-| `src/pages/` | 31 page components + 40 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, etc.) |
+| `src/pages/` | 31 page components + 43 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
@@ -80,13 +81,14 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/workers/spending.worker.js` | Web Worker: filter, sort, paginate, stats, charts, CSV export |
 | `src/utils/constants.js` | Shared constants: CHART_COLORS, TYPE_LABELS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, SEVERITY_COLORS, COUNCIL_COLORS |
 | `src/utils/analytics.js` | Shared analytics engine: CPI-H deflation, z-scores, Gini, Benford's 2nd digit, reserves adequacy, integrity-weighted HHI |
-| `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV calculations |
+| `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV, demographic fiscal risk, SEND exposure, asylum impact, timeline feasibility, property division (22 functions, 53 tests) |
 | `src/utils/electionModel.js` | Election prediction model: ward-level swing, national polling, demographics-weighted |
 | `src/workers/spending.utils.js` | Pure utility functions shared by worker and tests |
 | `vite.config.js` | Build config with councilDataPlugin() for multi-council parameterisation |
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
+| `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 1,955 tests across 39 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,102 tests across 43 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -122,6 +124,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/calibrate_model.py` | Election model calibration using LCC 2025 results |
 | `burnley-council/scripts/lgr_financial_model.py` | LGR financial modelling + savings calculations |
 | `burnley-council/scripts/lgr_budget_model.py` | LGR budget model: council tax harmonisation per LGR proposal |
+| `scripts/generate_lgr_enhanced.py` | LGR demographic fiscal intelligence: lgr_enhanced.json + 15× demographic_fiscal.json |
 | `burnley-council/scripts/llm_router.py` | Multi-LLM router: Mistral → Cerebras → Groq → Ollama failover |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (collection rates, dependency ratio, reserves, HHI) |
 | `scripts/generate_service_gaps.py` | Service gap analysis for LGR |
@@ -182,6 +185,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `hmo.json` | hmo_etl.py | HMO register data (licensed HMOs, planning apps, ward-level density) — 7 councils |
 | `property_assets.json` | property_assets_etl.py | Lean property listing (1,200 assets, 28 core fields each) — LCC only |
 | `property_assets_detail.json` | property_assets_etl.py | Full enriched property data (EPC, deprivation, spend, disposal, co-location) — LCC only |
+| `demographic_fiscal.json` | generate_lgr_enhanced.py | Per-council fiscal resilience score, service demand, SEND risk, asylum impact, threats, pressure zones |
 
 ### Shared Data (`burnley-council/data/shared/`)
 | File | Purpose |
@@ -193,6 +197,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `elections_reference.json` | National polling data, LCC 2025 results, model parameters for election predictions |
 | `polling.json` | National polling aggregation (latest polls, weighted averages) |
 | `integrity_cross_council.json` | Cross-council councillor integrity comparison (conflict type classification) |
+| `lgr_enhanced.json` | generate_lgr_enhanced.py | LGR demographic fiscal intelligence: per-model authority profiles, SEND exposure, asylum impact, timeline analysis, property division (~150KB) |
 
 ## Critical Rules
 
@@ -348,5 +353,6 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **v6 Master Overhaul** (done, 27-28 Feb): "Leave No Stone Unturned" — 29 files, 5,991 lines. CouncillorDossier page, 8 shared components, election/LGR/analytics model upgrades, collapsible nav, 10 page upgrades with cross-references. Backend: legal_framework +11 laws, councillor_integrity_etl +791 lines (13 new detections), councillor_research_etl NEW, foi_generator NEW. 1,808 tests (37 files).
 - **LCC Property Estate** (done, 28 Feb): 1,200 LCC-owned assets. PropertyPortfolio + PropertyDetail pages (strategist-only), WardMap property overlay, 6-page cross-system integration (Strategy/MyArea/DOGE/LGR/Elections/Budgets), property_assets_etl.py with CED point-in-polygon mapping, multi-tier ownership + Red Book valuation + sellability scoring. 73 new tests.
 - **Planning + HMO Data** (done, 2 Mar): PlanIt planning applications for 12 councils (14,000+ apps), HMO register data for 7 councils (830 licensed, 17,260 bed spaces). planning_etl.py + hmo_etl.py (multi-source: ASP.NET, XLSX, PDF, planning extraction). MyArea/CrossCouncil integration. 1,955 tests (39 files).
+- **LGR Demographic Fiscal Intelligence** (done, 2 Mar): Comprehensive demographic fiscal risk layer across entire platform. generate_lgr_enhanced.py ETL → lgr_enhanced.json + 15× demographic_fiscal.json. 11 new lgrModel.js functions. 6 new LGR sub-components (DemographicFiscalRisk, TimelineChaos, BoundaryMap, DeprivationMap, PropertyDivision, CCAImpact). Integrated into LGRTracker (6 new sections), DOGE (fiscal risk section), Demographics (fiscal outlook tab), MyArea (ward pressure), CrossCouncil (fiscal comparison), Home (fiscal banner), PropertyDetail (LGR tab). useData null URL safety fix. 2,102 tests (43 files).
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

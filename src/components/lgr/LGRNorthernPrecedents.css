@@ -470,13 +470,219 @@
   margin-bottom: 0;
 }
 
+/* Precedent reorganisation cards */
+.lgr-np-precedent-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.lgr-np-prec-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.lgr-np-prec-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.lgr-np-prec-card--warning {
+  border-left: 3px solid #ff9f0a;
+}
+
+.lgr-np-prec-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: transparent;
+  border: none;
+  color: #e5e5e7;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.lgr-np-prec-header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lgr-np-prec-header > svg {
+  color: #636366;
+  flex-shrink: 0;
+}
+
+.lgr-np-prec-title-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.lgr-np-prec-name {
+  font-size: 1rem;
+  color: #fff;
+}
+
+.lgr-np-prec-year {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  color: #8e8e93;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+}
+
+.lgr-np-prec-merge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  color: #0a84ff;
+  font-weight: 600;
+}
+
+.lgr-np-prec-budget-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lgr-np-prec-budget-badge.on-budget {
+  background: rgba(48, 209, 88, 0.12);
+  color: #30d158;
+}
+
+.lgr-np-prec-budget-badge.over-budget {
+  background: rgba(255, 159, 10, 0.12);
+  color: #ff9f0a;
+}
+
+.lgr-np-prec-stats-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  color: #8e8e93;
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+
+/* Complexity badge */
+.lgr-np-complexity-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.lgr-np-complexity-medium {
+  background: rgba(255, 214, 10, 0.12);
+  color: #ffd60a;
+}
+
+.lgr-np-complexity-high {
+  background: rgba(255, 159, 10, 0.12);
+  color: #ff9f0a;
+}
+
+.lgr-np-complexity-very_high {
+  background: rgba(255, 69, 58, 0.12);
+  color: #ff453a;
+}
+
+/* Precedent detail */
+.lgr-np-prec-detail {
+  padding: 0 1.25rem 1rem;
+  animation: lgr-np-expand 0.2s ease-out;
+}
+
+.lgr-np-prec-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.lgr-np-prec-notes {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border-left: 2px solid rgba(10, 132, 255, 0.4);
+}
+
+.lgr-np-prec-source {
+  font-size: 0.72rem;
+  color: #636366;
+  margin: 0.25rem 0;
+}
+
+.lgr-np-prec-experience {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: rgba(10, 132, 255, 0.04);
+  border: 1px solid rgba(10, 132, 255, 0.1);
+  border-radius: 10px;
+}
+
+.lgr-np-prec-outcome {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  line-height: 1.5;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.lgr-np-prec-findings {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.lgr-np-prec-findings li {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  line-height: 1.6;
+  margin-bottom: 0.15rem;
+}
+
+.lgr-np-prec-relevance {
+  font-size: 0.82rem;
+  color: #0a84ff;
+  line-height: 1.5;
+  margin: 0.25rem 0 0;
+  font-style: italic;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
-  .lgr-np-town-grid {
+  .lgr-np-town-grid,
+  .lgr-np-prec-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .lgr-np-town-stats-mini {
+  .lgr-np-town-stats-mini,
+  .lgr-np-prec-stats-mini {
     display: none;
   }
 
@@ -484,10 +690,15 @@
   .lgr-np-benchmark-cards {
     grid-template-columns: 1fr;
   }
+
+  .lgr-np-prec-title-row {
+    gap: 0.3rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .lgr-np-town-grid {
+  .lgr-np-town-grid,
+  .lgr-np-prec-stats-grid {
     grid-template-columns: 1fr 1fr;
   }
 }

@@ -182,6 +182,7 @@ export default function Elections() {
   const { data: constData } = useData('/data/shared/constituencies.json')
   const { data: modelCoeffs } = useData('/data/shared/model_coefficients.json')
   const { data: integrityData } = useData('/data/integrity.json')
+  const { data: fiscalData } = useData('/data/demographic_fiscal.json')
 
   // Property assets (optional — for ward asset context)
   const { data: propertyAssetsRaw } = useData('/data/property_assets.json')
@@ -418,9 +419,10 @@ export default function Elections() {
       nationalPolling, ge2024Result,
       demographicsMap, deprivationMap,
       constituencyMap, // Now properly built from GE2024 data
-      lcc2025, modelParams
+      lcc2025, modelParams,
+      fiscalData || null
     )
-  }, [electionsData, wardsUp, assumptions, referenceData, demographicsMap, deprivationMap, constituencyMap, pollingData])
+  }, [electionsData, wardsUp, assumptions, referenceData, demographicsMap, deprivationMap, constituencyMap, pollingData, fiscalData])
 
   // Seat totals after user overrides (for Ward Builder)
   const builderSeatTotals = useMemo(() => {

@@ -2402,11 +2402,15 @@ function LGRTracker() {
               </div>
               <div className="premium-map-legend">
                 <div className="premium-map-legend-items">
-                  <span className="premium-map-legend-label">Proposed Authorities</span>
+                  <span className="premium-map-legend-label">
+                    {activeModelData.name || 'Proposed'} — {activeModelData.authorities.length} Authorities
+                    {activeModelData.submitted_by && <span style={{ fontWeight: 400, color: '#636366', fontSize: '0.72rem', marginLeft: '0.5rem' }}>Submitted by: {activeModelData.submitted_by}</span>}
+                  </span>
                   {activeModelData.authorities.map((auth, i) => (
                     <span key={auth.name} className="premium-map-legend-item">
                       <span className="premium-map-legend-dot" style={{ background: ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f'][i % 8] }} />
-                      {auth.name} ({formatNumber(auth.population || 0)})
+                      <span style={{ flex: 1 }}>{auth.name}</span>
+                      <span style={{ color: '#8e8e93', fontSize: '0.75rem' }}>{auth.councils?.length || 0} councils · {formatNumber(auth.population || 0)} pop</span>
                     </span>
                   ))}
                 </div>
