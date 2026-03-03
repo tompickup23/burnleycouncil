@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb, TrendingUp, Clock, DollarSign, PoundSterling } from 'lucide-react'
+import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb, TrendingUp, Clock, DollarSign, PoundSterling, Gavel, BarChart3, Calendar } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useAuth } from '../context/AuthContext'
@@ -131,6 +131,33 @@ const OCCUPANCY_LABELS = {
   third_party: 'Third-Party Occupied',
   unknown: 'Unknown',
 }
+
+// Historic auction records from Barnard Marcus (LCC disposals 2025-2026)
+const SALES_HISTORY = [
+  { date: '2025-04-15', status: 'Sold', price: 6000, title: 'Land at London Road, Preston', method: 'Auction' },
+  { date: '2025-04-15', status: 'Unsold', price: 500000, title: '155 St Andrews Road, Preston', method: 'Auction' },
+  { date: '2025-04-15', status: 'Unsold', price: 550000, title: 'Willow Lane Residential Home, Lancaster', method: 'Auction' },
+  { date: '2025-05-20', status: 'Unsold', price: 550000, title: 'Willow Lane Residential Home, Lancaster', method: 'Auction' },
+  { date: '2025-06-24', status: 'Sold', price: 650000, title: 'Former Mansfield School, Brierfield', method: 'Auction' },
+  { date: '2025-06-24', status: 'Sold', price: 300000, title: '44 Union Street, Accrington', method: 'Auction' },
+  { date: '2025-06-24', status: 'Unsold', price: 450000, title: 'Willow Lane Residential Home, Lancaster', method: 'Auction' },
+  { date: '2025-09-09', status: 'Sold', price: 5000, title: 'Land Adjacent to Morecambe Road', method: 'Auction' },
+  { date: '2025-09-09', status: 'Sold', price: 5000, title: 'Land at Pleasant Retreat, Lancaster', method: 'Auction' },
+  { date: '2025-11-18', status: 'Sold', price: 2000, title: 'Land at Colne Road, Trawden', method: 'Auction' },
+  { date: '2025-11-18', status: 'Sold', price: 9500, title: 'Site at Burnley Road, Colne', method: 'Auction' },
+  { date: '2025-11-18', status: 'Sold', price: 116000, title: 'Former Council Building, Thornton-Cleveleys', method: 'Auction' },
+  { date: '2026-02-03', status: 'Unsold', price: 40000, title: 'Land at Hole House Farm, Clayton-le-Woods', method: 'Auction' },
+  { date: '2026-02-03', status: 'Sold', price: 30000, title: 'Land at Lea Gate, Preston', method: 'Auction' },
+  { date: '2026-02-03', status: 'Withdrawn', price: 70000, title: 'Former Council Building, Longridge', method: 'Auction' },
+]
+const CURRENT_LISTINGS = [
+  { date: '2026-03-10', status: 'Listed', price: 300000, title: 'Willow Lane Residential Home, Lancaster' },
+  { date: '2026-03-10', status: 'Listed', price: 38000, title: 'Hole House Farm Woodlands, Clayton-le-Woods' },
+  { date: '2026-03-10', status: 'Listed', price: 3000, title: 'Land off Whalley Road, Wilpshire' },
+  { date: '2026-03-10', status: 'Listed', price: 40000, title: 'Horncliffe Quarry Woodland, Rawtenstall' },
+  { date: '2026-03-10', status: 'Listed', price: 25000, title: 'Land at Todmorden Road, Bacup' },
+  { date: 'Spring 2026', status: 'Coming Soon', price: null, title: 'Winewall Mill Woodland, Trawden' },
+]
 
 function CategoryBadge({ category }) {
   const color = CATEGORY_COLORS[category] || '#9E9E9E'
@@ -618,6 +645,48 @@ export default function PropertyPortfolio() {
     })
     return sorted
   }, [filteredAssets, sortField, sortDir])
+
+  // --- Disposals data (precomputed for the disposals view) ---
+  const disposalsData = useMemo(() => {
+    const ctx = meta.estate_context || {}
+    const totalDisposals = ctx.disposals_since_2016 || 272
+    const disposalValue = ctx.disposals_value_since_2016 || '£63.2 million'
+    const communityTransfers = ctx.community_transfers_since_2016 || 10
+    const yearsSince2016 = new Date().getFullYear() - 2016
+    const avgPerYear = Math.round(totalDisposals / yearsSince2016)
+    const gbTotal = assets.reduce((s, a) => s + (a.gb_market_value || 0), 0)
+    const rbTotal = assets.reduce((s, a) => s + (a.rb_market_value || 0), 0)
+    const quarterMap = {}
+    for (const sale of SALES_HISTORY) {
+      const d = new Date(sale.date)
+      const q = `${d.getFullYear()} Q${Math.ceil((d.getMonth() + 1) / 3)}`
+      if (!quarterMap[q]) quarterMap[q] = { sold: 0, unsold: 0, withdrawn: 0, soldValue: 0 }
+      const key = sale.status.toLowerCase()
+      if (key === 'sold') { quarterMap[q].sold++; quarterMap[q].soldValue += sale.price || 0 }
+      else if (key === 'withdrawn') quarterMap[q].withdrawn++
+      else quarterMap[q].unsold++
+    }
+    const quarters = Object.entries(quarterMap).sort((a, b) => a[0].localeCompare(b[0]))
+    const pipeline = {}
+    let pipelineCapital = 0
+    let pipelineAnnual = 0
+    for (const a of assets) {
+      const pw = a.disposal_pathway
+      if (!pw || pw === 'strategic_hold') continue
+      if (!pipeline[pw]) pipeline[pw] = { count: 0, capital: 0, annual: 0 }
+      pipeline[pw].count++
+      pipeline[pw].capital += a.revenue_estimate_capital || 0
+      pipeline[pw].annual += a.revenue_estimate_annual || 0
+      pipelineCapital += a.revenue_estimate_capital || 0
+      pipelineAnnual += a.revenue_estimate_annual || 0
+    }
+    const pipelineEntries = Object.entries(pipeline).sort((a, b) => b[1].count - a[1].count)
+    const maxPipelineCount = Math.max(...pipelineEntries.map(([, v]) => v.count), 1)
+    const soldCount = SALES_HISTORY.filter(s => s.status === 'Sold').length
+    const soldValue = SALES_HISTORY.filter(s => s.status === 'Sold').reduce((s, r) => s + (r.price || 0), 0)
+    const listedValue = CURRENT_LISTINGS.reduce((s, r) => s + (r.price || 0), 0)
+    return { ctx, totalDisposals, disposalValue, communityTransfers, avgPerYear, gbTotal, rbTotal, quarters, pipelineEntries, maxPipelineCount, pipelineCapital, pipelineAnnual, soldCount, soldValue, listedValue }
+  }, [meta, assets])
 
   // --- Pagination ---
   const totalPages = Math.max(1, Math.ceil(sortedAssets.length / PAGE_SIZE))
@@ -1463,6 +1532,21 @@ export default function PropertyPortfolio() {
             >
               Map
             </button>
+            <button
+              onClick={() => setViewMode('disposals')}
+              style={{
+                padding: '6px 14px',
+                border: 'none',
+                borderLeft: '1px solid rgba(255,255,255,0.1)',
+                background: viewMode === 'disposals' ? 'rgba(10,132,255,0.3)' : 'rgba(255,255,255,0.05)',
+                color: viewMode === 'disposals' ? '#0a84ff' : '#aaa',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                fontWeight: viewMode === 'disposals' ? 600 : 400,
+              }}
+            >
+              Disposals
+            </button>
           </div>
 
           <button
@@ -1853,6 +1937,235 @@ export default function PropertyPortfolio() {
           </div>
         </div>
       )}
+
+      {/* Disposals Tracker View */}
+      {viewMode === 'disposals' && (() => {
+        const { ctx, totalDisposals, disposalValue, communityTransfers, avgPerYear, gbTotal, rbTotal, quarters, pipelineEntries, maxPipelineCount, pipelineCapital, pipelineAnnual, soldCount, soldValue, listedValue } = disposalsData
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* Estate Valuation Overview */}
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <PoundSterling size={18} style={{ color: '#0a84ff' }} />
+                <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Estate Valuation</h3>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+                <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)' }}>
+                  <div style={{ fontSize: '0.68rem', color: '#0a84ff', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>Red Book Market Value</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#0a84ff' }}>{formatCurrency(rbTotal)}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #aaa)', marginTop: '2px' }}>RICS valuation — {formatNumber(assets.filter(a => a.rb_market_value).length)} assets</div>
+                </div>
+                <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.15)' }}>
+                  <div style={{ fontSize: '0.68rem', color: '#30d158', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>Green Book NPV</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#30d158' }}>{formatCurrency(gbTotal)}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #aaa)', marginTop: '2px' }}>HM Treasury options appraisal</div>
+                </div>
+                <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(255,159,10,0.08)', border: '1px solid rgba(255,159,10,0.15)' }}>
+                  <div style={{ fontSize: '0.68rem', color: '#ff9f0a', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>Portfolio (Strategy)</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#ff9f0a' }}>{ctx.portfolio_value || '£2B'}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #aaa)', marginTop: '2px' }}>Per 2020 Asset Management Strategy</div>
+                </div>
+                <div style={{ padding: '16px', borderRadius: '10px', background: 'rgba(255,69,58,0.08)', border: '1px solid rgba(255,69,58,0.15)' }}>
+                  <div style={{ fontSize: '0.68rem', color: '#ff453a', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>Condition Backlog</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#ff453a' }}>{ctx.condition_backlog || '£56.6M'}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #aaa)', marginTop: '2px' }}>Priority 1-4 maintenance liability</div>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', marginTop: '12px' }}>
+                <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-secondary, #aaa)', fontWeight: 600 }}>Running Cost</div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>{ctx.running_cost_annual || '£21M/yr'}</div>
+                </div>
+                <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-secondary, #aaa)', fontWeight: 600 }}>R&M Budget</div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>{ctx.rm_budget || '£4.7M'}</div>
+                </div>
+                <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-secondary, #aaa)', fontWeight: 600 }}>Gross Internal Area</div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>{ctx.gia_sqm ? formatNumber(ctx.gia_sqm) + ' m²' : '332,516 m²'}</div>
+                </div>
+                <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-secondary, #aaa)', fontWeight: 600 }}>Carbon Emissions</div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>{ctx.carbon_tonnes_co2 ? formatNumber(ctx.carbon_tonnes_co2) + ' tCO₂' : '5,581 tCO₂'}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Historic Disposals Summary */}
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <Gavel size={18} style={{ color: '#ff9f0a' }} />
+                <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Historic Disposals (Since 2016)</h3>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px', marginBottom: '20px' }}>
+                <div style={{ textAlign: 'center', padding: '16px', borderRadius: '10px', background: 'rgba(255,159,10,0.08)', border: '1px solid rgba(255,159,10,0.15)' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: '#ff9f0a' }}>{totalDisposals}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>Total Disposals</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '16px', borderRadius: '10px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.15)' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: '#30d158' }}>{disposalValue}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>Total Receipts</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '16px', borderRadius: '10px', background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: '#0a84ff' }}>{avgPerYear}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>Average Per Year</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '16px', borderRadius: '10px', background: 'rgba(191,90,242,0.08)', border: '1px solid rgba(191,90,242,0.15)' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: '#bf5af2' }}>{communityTransfers}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>Community Transfers</div>
+                </div>
+              </div>
+
+              {/* Quarterly Auction Activity Chart */}
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary, #aaa)', marginBottom: '10px', fontWeight: 600 }}>
+                Barnard Marcus Auction Activity by Quarter
+              </div>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end', height: '120px', padding: '0 4px', marginBottom: '8px' }}>
+                {quarters.map(([q, data]) => {
+                  const total = data.sold + data.unsold + data.withdrawn
+                  const maxTotal = Math.max(...quarters.map(([, d]) => d.sold + d.unsold + d.withdrawn), 1)
+                  const h = (total / maxTotal) * 100
+                  const soldPct = total ? (data.sold / total) * 100 : 0
+                  const unsoldPct = total ? (data.unsold / total) * 100 : 0
+                  return (
+                    <div key={q} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ fontSize: '0.65rem', color: '#fff', fontWeight: 600 }}>{total}</span>
+                      <div style={{ width: '100%', height: `${h}%`, minHeight: '8px', borderRadius: '4px 4px 0 0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ flex: `${soldPct} 0 0`, background: '#30d158', minHeight: data.sold ? '2px' : 0 }} />
+                        <div style={{ flex: `${unsoldPct} 0 0`, background: '#ff9f0a', minHeight: data.unsold ? '2px' : 0 }} />
+                        <div style={{ flex: `${100 - soldPct - unsoldPct} 0 0`, background: '#ff453a', minHeight: data.withdrawn ? '2px' : 0 }} />
+                      </div>
+                      <span style={{ fontSize: '0.6rem', color: 'var(--text-secondary, #aaa)', whiteSpace: 'nowrap' }}>{q}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', fontSize: '0.68rem' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#30d158', display: 'inline-block' }} /> Sold ({soldCount})</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ff9f0a', display: 'inline-block' }} /> Unsold</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ff453a', display: 'inline-block' }} /> Withdrawn</span>
+              </div>
+            </div>
+
+            {/* Recent Auction Results Table */}
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                <Calendar size={18} style={{ color: '#64d2ff' }} />
+                <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Recent Auction Results</h3>
+                <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(48,209,88,0.12)', color: '#30d158', fontWeight: 600 }}>
+                  £{formatNumber(soldValue)} realised
+                </span>
+              </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.78rem' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                      <th style={{ textAlign: 'left', padding: '8px', color: 'var(--text-secondary, #aaa)', fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase' }}>Date</th>
+                      <th style={{ textAlign: 'left', padding: '8px', color: 'var(--text-secondary, #aaa)', fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase' }}>Property</th>
+                      <th style={{ textAlign: 'right', padding: '8px', color: 'var(--text-secondary, #aaa)', fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase' }}>Guide/Price</th>
+                      <th style={{ textAlign: 'center', padding: '8px', color: 'var(--text-secondary, #aaa)', fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase' }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {SALES_HISTORY.slice().reverse().map((sale, i) => (
+                      <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                        <td style={{ padding: '8px', color: 'var(--text-secondary, #aaa)', whiteSpace: 'nowrap' }}>{new Date(sale.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                        <td style={{ padding: '8px', color: '#fff' }}>{sale.title}</td>
+                        <td style={{ padding: '8px', textAlign: 'right', color: '#fff', fontWeight: 600 }}>{sale.price ? formatCurrency(sale.price) : '—'}</td>
+                        <td style={{ padding: '8px', textAlign: 'center' }}>
+                          <span style={{
+                            padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 600,
+                            background: sale.status === 'Sold' ? 'rgba(48,209,88,0.15)' : sale.status === 'Withdrawn' ? 'rgba(255,69,58,0.15)' : 'rgba(255,159,10,0.15)',
+                            color: sale.status === 'Sold' ? '#30d158' : sale.status === 'Withdrawn' ? '#ff453a' : '#ff9f0a',
+                          }}>{sale.status}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Current Listings */}
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                <TrendingUp size={18} style={{ color: '#30d158' }} />
+                <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Currently Listed for Sale</h3>
+                <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(10,132,255,0.12)', color: '#0a84ff', fontWeight: 600 }}>
+                  £{formatNumber(listedValue)} guide total
+                </span>
+              </div>
+              <div style={{ display: 'grid', gap: '8px' }}>
+                {CURRENT_LISTINGS.map((listing, i) => (
+                  <div key={i} style={{
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    padding: '10px 14px', borderRadius: '8px', background: 'rgba(48,209,88,0.05)', border: '1px solid rgba(48,209,88,0.1)',
+                  }}>
+                    <div>
+                      <div style={{ color: '#fff', fontSize: '0.82rem', fontWeight: 500 }}>{listing.title}</div>
+                      <div style={{ color: 'var(--text-secondary, #aaa)', fontSize: '0.7rem' }}>{listing.date} — {listing.status}</div>
+                    </div>
+                    <div style={{ color: '#30d158', fontWeight: 700, fontSize: '0.95rem' }}>
+                      {listing.price ? formatCurrency(listing.price) : 'TBC'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Disposal Pipeline */}
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <BarChart3 size={18} style={{ color: '#bf5af2' }} />
+                <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Forward Disposal Pipeline</h3>
+                <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(191,90,242,0.12)', color: '#bf5af2', fontWeight: 600 }}>
+                  {pipelineEntries.reduce((s, [, v]) => s + v.count, 0)} assets
+                </span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+                <div style={{ padding: '14px', borderRadius: '10px', background: 'rgba(48,209,88,0.08)', border: '1px solid rgba(48,209,88,0.15)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#30d158' }}>{formatCurrency(pipelineCapital)}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>Estimated Capital Receipts</div>
+                </div>
+                <div style={{ padding: '14px', borderRadius: '10px', background: 'rgba(10,132,255,0.08)', border: '1px solid rgba(10,132,255,0.15)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0a84ff' }}>{formatCurrency(pipelineAnnual)}<span style={{ fontSize: '0.8rem', fontWeight: 400 }}>/yr</span></div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>Estimated Annual Income</div>
+                </div>
+              </div>
+              {pipelineEntries.map(([pw, data]) => {
+                const pct = (data.count / maxPipelineCount) * 100
+                const color = PATHWAY_MAP_COLORS[pw] || '#8e8e93'
+                const timeline = PATHWAY_TIMELINES[pw]
+                return (
+                  <div key={pw} style={{ marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3px' }}>
+                      <span style={{ fontSize: '0.78rem', color: '#fff' }}>
+                        {PATHWAY_LABELS[pw] || pw.replace(/_/g, ' ')}
+                        {timeline && <span style={{ color: 'var(--text-secondary, #aaa)', fontSize: '0.68rem', marginLeft: '8px' }}>{timeline.label}</span>}
+                      </span>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#fff' }}>
+                        {data.count}
+                        {data.capital > 0 && <span style={{ color: '#30d158', marginLeft: '8px', fontSize: '0.7rem' }}>£{formatNumber(data.capital)}</span>}
+                        {data.annual > 0 && <span style={{ color: '#0a84ff', marginLeft: '8px', fontSize: '0.7rem' }}>£{formatNumber(data.annual)}/yr</span>}
+                      </span>
+                    </div>
+                    <div style={{ height: '6px', borderRadius: '3px', background: 'rgba(255,255,255,0.05)' }}>
+                      <div style={{ width: `${pct}%`, height: '100%', borderRadius: '3px', background: color }} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Sources */}
+            <div className="glass-card" style={{ padding: '16px' }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #aaa)' }}>
+                <strong style={{ color: '#fff' }}>Sources:</strong> {(ctx.sources || []).join('; ') || 'LCC Property Asset Management Strategy (Feb 2020), Council Estate Use & Occupancy Report (Sep 2023), LCC Local Authority Land Register (Transparency Code)'}. Auction data from Barnard Marcus (2025-2026). Register coverage: {ctx.register_coverage_pct || 61}% of estimated ~{formatNumber(ctx.strategy_total_assets || 2000)} total estate.
+              </div>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Category Breakdown */}
       {meta.category_breakdown && (
