@@ -43,6 +43,7 @@ const CouncillorDossier = lazy(() => import('./pages/CouncillorDossier'))
 const PropertyPortfolio = lazy(() => import('./pages/PropertyPortfolio'))
 const PropertyDetail = lazy(() => import('./pages/PropertyDetail'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
+const AuthGate = lazy(() => import('./components/AuthGate'))
 
 // Preload commonly needed data
 preloadData(['/data/config.json', '/data/insights.json'])
@@ -64,9 +65,6 @@ function Guarded({ children }) {
  */
 function FirebaseAuthGate({ children }) {
   const { user, role, loading } = useAuth()
-
-  // Import AuthGate lazily since it's only needed in Firebase mode
-  const AuthGate = lazy(() => import('./components/AuthGate'))
 
   if (loading) {
     return <LoadingState message="Authenticating..." />

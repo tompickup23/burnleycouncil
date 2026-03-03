@@ -17,6 +17,12 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.auth.uid == userId
         && request.resource.data.role == 'unassigned';
+
+      // Allow users to update their own document (profile completion)
+      // but prevent self-promotion (role must stay the same)
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.role == resource.data.role;
     }
 
     // Admin config — only admins can read/write

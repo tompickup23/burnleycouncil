@@ -11,7 +11,7 @@
 import { useState, useRef, useEffect } from 'react'
 import {
   Lock, Mail, Eye, EyeOff, LogIn, UserPlus, Loader2, AlertCircle,
-  Users, MapPin, ChevronRight, CheckCircle
+  Users, MapPin, CheckCircle, Shield, Clock
 } from 'lucide-react'
 import {
   signInWithEmailAndPassword,
@@ -27,6 +27,7 @@ import {
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { useAuth } from '../context/AuthContext'
+import AIDogeLogo from './AIDogeLogo'
 import './AuthGate.css'
 
 const googleProvider = new GoogleAuthProvider()
@@ -94,7 +95,7 @@ async function ensureUserDoc(user) {
 
 export default function AuthGate() {
   const { user, role, loading: authLoading, signOut } = useAuth()
-  const [mode, setMode] = useState('login') // 'login' | 'register' | 'reset' | 'profile'
+  const [mode, setMode] = useState('login') // 'login' | 'register' | 'reset'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -110,6 +111,7 @@ export default function AuthGate() {
   const [constituency, setConstituency] = useState('')
   const [profileSaving, setProfileSaving] = useState(false)
   const [profileComplete, setProfileComplete] = useState(false)
+  const [profileChecked, setProfileChecked] = useState(false)
 
   useEffect(() => {
     emailRef.current?.focus()
@@ -121,7 +123,7 @@ export default function AuthGate() {
     getRedirectResult(auth)
       .then(async (result) => {
         if (cancelled || !result?.user) return
-        try { await ensureUserDoc(result.user) } catch (e) { console.error('Firestore error:', e) }
+        try { await ensureUserDoc(result.user) } catch (err) { console.error('Firestore error:', err) }
       })
       .catch((err) => {
         if (cancelled) return
@@ -136,9 +138,11 @@ export default function AuthGate() {
   // Check if profile is already complete when user is unassigned
   useEffect(() => {
     if (!user || !db || role !== 'unassigned') return
+    let cancelled = false
     const checkProfile = async () => {
       try {
         const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (cancelled) return
         if (userDoc.exists()) {
           const data = userDoc.data()
           if (data.profile_complete) {
@@ -150,11 +154,14 @@ export default function AuthGate() {
             setConstituency(data.constituency || '')
           }
         }
-      } catch (e) {
-        console.error('Profile check error:', e)
+      } catch (err) {
+        console.error('Profile check error:', err)
+      } finally {
+        if (!cancelled) setProfileChecked(true)
       }
     }
     checkProfile()
+    return () => { cancelled = true }
   }, [user, role])
 
   const clearMessages = () => { setError(''); setSuccess('') }
@@ -166,7 +173,7 @@ export default function AuthGate() {
     setLoading(true)
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password)
-      try { await ensureUserDoc(cred.user) } catch (e) { console.error('Firestore error:', e) }
+      try { await ensureUserDoc(cred.user) } catch (err) { console.error('Firestore error:', err) }
     } catch (err) {
       console.error('Email login error:', err.code, err.message)
       setError(friendlyError(err.code))
@@ -189,7 +196,7 @@ export default function AuthGate() {
       if (name) {
         await updateProfile(cred.user, { displayName: name })
       }
-      try { await ensureUserDoc(cred.user) } catch (e) { console.error('Firestore error:', e) }
+      try { await ensureUserDoc(cred.user) } catch (err) { console.error('Firestore error:', err) }
     } catch (err) {
       console.error('Email register error:', err.code, err.message)
       setError(friendlyError(err.code))
@@ -261,6 +268,20 @@ export default function AuthGate() {
     }
   }
 
+  // Loading state — shown while checking auth or profile
+  if (authLoading || (user && role === 'unassigned' && !profileChecked)) {
+    return (
+      <div className="auth-gate">
+        <div className="auth-gate-card">
+          <div className="auth-gate-icon">
+            <Loader2 size={40} className="spin" />
+          </div>
+          <p style={{ marginBottom: 0 }}>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   // Authenticated but unassigned — show profile completion or waiting screen
   if (user && role === 'unassigned') {
     // Profile not yet completed — show profile form
@@ -269,7 +290,7 @@ export default function AuthGate() {
         <div className="auth-gate">
           <div className="auth-gate-card auth-gate-wide">
             <div className="auth-gate-icon">
-              <Users size={48} />
+              <Users size={40} />
             </div>
             <h1>Complete Your Profile</h1>
             <p>Help us give you the best experience. This takes 30 seconds.</p>
@@ -313,7 +334,7 @@ export default function AuthGate() {
             {/* Constituency */}
             <div className="profile-section">
               <label className="profile-label">
-                <MapPin size={14} style={{ marginRight: '0.3rem', verticalAlign: 'middle' }} />
+                <MapPin size={14} style={{ marginRight: '0.3rem' }} />
                 Your constituency <span className="profile-optional">(optional)</span>
               </label>
               <div className="profile-select-wrap">
@@ -356,7 +377,7 @@ export default function AuthGate() {
       <div className="auth-gate">
         <div className="auth-gate-card">
           <div className="auth-gate-icon awaiting">
-            <Loader2 size={48} className="spin" />
+            <Clock size={40} />
           </div>
           <h1>Awaiting Access</h1>
           <p>
@@ -364,25 +385,12 @@ export default function AuthGate() {
             your access shortly. You&rsquo;ll be able to explore once approved.
           </p>
           <div className="auth-user-info">
+            <Shield size={14} />
             <span>{user.displayName || user.email}</span>
           </div>
           <button className="auth-btn auth-btn-secondary" onClick={signOut}>
             Sign Out
           </button>
-        </div>
-      </div>
-    )
-  }
-
-  // Loading state
-  if (authLoading) {
-    return (
-      <div className="auth-gate">
-        <div className="auth-gate-card">
-          <div className="auth-gate-icon">
-            <Loader2 size={48} className="spin" />
-          </div>
-          <p>Loading...</p>
         </div>
       </div>
     )
@@ -394,7 +402,7 @@ export default function AuthGate() {
       <div className="auth-gate">
         <div className="auth-gate-card">
           <div className="auth-gate-icon">
-            <Mail size={48} />
+            <Mail size={40} />
           </div>
           <h1>Reset Password</h1>
           <p>Enter your email and we&rsquo;ll send a reset link.</p>
@@ -438,9 +446,7 @@ export default function AuthGate() {
     <div className="auth-gate">
       <div className="auth-gate-card">
         <div className="auth-gate-header">
-          <div className="auth-gate-icon">
-            <Lock size={40} />
-          </div>
+          <AIDogeLogo size={80} />
           <h1>AI DOGE</h1>
           <p className="auth-gate-tagline">Lancashire Council Transparency Platform</p>
         </div>
@@ -468,7 +474,7 @@ export default function AuthGate() {
             onClick={() => handleSocial(facebookProvider)}
             disabled={loading}
           >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             Continue with Facebook
           </button>
         </div>

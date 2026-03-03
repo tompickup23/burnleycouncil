@@ -28,7 +28,7 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useAuth } from '../context/AuthContext'
 import { isFirebaseEnabled } from '../firebase'
 import { LoadingState } from '../components/ui'
-import { formatCurrency, formatNumber } from '../utils/format'
+import { formatCurrency, formatNumber, slugify } from '../utils/format'
 import { assessPropertyForLGR } from '../utils/lgrModel'
 import './PropertyDetail.css'
 
@@ -445,7 +445,7 @@ function FinancialsTab({ asset }) {
                   <tr key={i}>
                     <td>
                       <Link
-                        to={`/supplier/${encodeURIComponent(s.supplier)}`}
+                        to={`/supplier/${slugify(s.supplier)}`}
                         className="property-internal-link"
                         style={{ padding: 0, background: 'none' }}
                       >

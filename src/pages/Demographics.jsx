@@ -1020,7 +1020,7 @@ function Demographics() {
                 </div>
               ))}
             </div>
-            <Link to="/lgr-tracker" style={{ display: 'inline-block', marginTop: '0.75rem', fontSize: '0.8125rem' }}>View full LGR analysis →</Link>
+            <Link to="/lgr" style={{ display: 'inline-block', marginTop: '0.75rem', fontSize: '0.8125rem' }}>View full LGR analysis →</Link>
           </div>
         )}
 
