@@ -5,6 +5,7 @@ import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber, formatDate, formatPercent } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS as FALLBACK_PARTY_COLORS, getPartyColor as getPartyColorFromConstants } from '../utils/constants'
 import { LoadingState } from '../components/ui'
+import CollapsibleSection from '../components/CollapsibleSection'
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line,
@@ -279,8 +280,7 @@ export default function ConstituencyView() {
       {/* ================================================================ */}
       {/* 1. Overview Section                                              */}
       {/* ================================================================ */}
-      <section id="cv-overview" className="cv-section">
-        <h2><User size={20} /> Overview</h2>
+      <CollapsibleSection title="Overview" icon={<User size={18} />} defaultOpen id="cv-overview">
         <div className="cv-hero">
           <div className="cv-hero-photo-col">
             {mp.photo_url ? (
@@ -335,13 +335,12 @@ export default function ConstituencyView() {
             )}
           </div>
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 2. Election Results Section                                      */}
       {/* ================================================================ */}
-      <section id="cv-election" className="cv-section">
-        <h2><Vote size={20} /> General Election 2024</h2>
+      <CollapsibleSection title="General Election 2024" icon={<Vote size={18} />} defaultOpen id="cv-election">
         <p className="cv-section-desc">
           Full results from the 4 July 2024 general election in {constituency.name}.
         </p>
@@ -414,16 +413,14 @@ export default function ConstituencyView() {
             </div>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 3. Voting Record Section                                         */}
       {/* ================================================================ */}
-      <section id="cv-voting" className="cv-section">
-        <h2><CheckSquare size={20} /> Voting Record</h2>
-        <p className="cv-section-desc">
-          Parliamentary division voting record for {mp.name || 'this MP'}.
-        </p>
+      <CollapsibleSection title="Voting Record" icon={<CheckSquare size={18} />} id="cv-voting"
+        subtitle={voting.voted_in != null ? `${formatNumber(voting.voted_in)} divisions` : undefined}
+      >
 
         <div className="cv-voting-summary">
           <StatBox
@@ -485,16 +482,14 @@ export default function ConstituencyView() {
             )}
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 4. Parliamentary Activity Section                                */}
       {/* ================================================================ */}
-      <section id="cv-activity" className="cv-section">
-        <h2><MessageSquare size={20} /> Parliamentary Activity</h2>
-        <p className="cv-section-desc">
-          Questions, motions, and engagement metrics for {mp.name || 'this MP'} since election.
-        </p>
+      <CollapsibleSection title="Parliamentary Activity" icon={<MessageSquare size={18} />} id="cv-activity"
+        subtitle={activity.written_questions != null ? `${activity.written_questions} written questions` : undefined}
+      >
 
         <div className="cv-activity-grid">
           <div className="cv-activity-card">
@@ -532,16 +527,14 @@ export default function ConstituencyView() {
         <div className="cv-activity-hint">
           Data sourced from written and oral parliamentary questions tabled since the MP's election.
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 5. Expenses Section                                              */}
       {/* ================================================================ */}
-      <section id="cv-expenses" className="cv-section">
-        <h2><PoundSterling size={20} /> Expenses</h2>
-        <p className="cv-section-desc">
-          IPSA expenses data for {mp.name || 'this MP'}{expenses.year ? ` (${expenses.year})` : ''}.
-        </p>
+      <CollapsibleSection title="Expenses" icon={<PoundSterling size={18} />} id="cv-expenses"
+        subtitle={expenses.total_claimed != null ? formatMoney(expenses.total_claimed) : undefined}
+      >
 
         {expenses.total_claimed != null ? (
           <>
@@ -583,16 +576,14 @@ export default function ConstituencyView() {
             <p>Expenses data not yet available for this MP.</p>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 6. Claimant Count Section                                        */}
       {/* ================================================================ */}
-      <section id="cv-claimants" className="cv-section">
-        <h2><TrendingDown size={20} /> Claimant Count</h2>
-        <p className="cv-section-desc">
-          Monthly DWP Claimant Count (JSA + Universal Credit) for {constituency.name} constituency.
-        </p>
+      <CollapsibleSection title="Claimant Count" icon={<TrendingDown size={18} />} id="cv-claimants"
+        subtitle={latestClaimant ? `${formatNumber(latestClaimant.claimant_count)} claimants` : undefined}
+      >
 
         {claimantChartData.length > 0 ? (
           <>
@@ -652,16 +643,14 @@ export default function ConstituencyView() {
             <p>Claimant count data not yet available for this constituency.</p>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 7. Local Councils Section                                        */}
       {/* ================================================================ */}
-      <section id="cv-councils" className="cv-section">
-        <h2><Building size={20} /> Local Councils</h2>
-        <p className="cv-section-desc">
-          Local authorities that overlap with the {constituency.name} parliamentary constituency.
-        </p>
+      <CollapsibleSection title="Local Councils" icon={<Building size={18} />} defaultOpen id="cv-councils"
+        count={constituency.overlapping_councils?.length || 0} countLabel="councils"
+      >
 
         {constituency.overlapping_councils?.length > 0 ? (
           <div className="cv-councils-grid">
@@ -692,16 +681,14 @@ export default function ConstituencyView() {
             <p>No overlapping council data available.</p>
           </div>
         )}
-      </section>
+      </CollapsibleSection>
 
       {/* ================================================================ */}
       {/* 8. Data Sources Section                                          */}
       {/* ================================================================ */}
-      <section id="cv-sources" className="cv-section">
-        <h2><Database size={20} /> Data Sources</h2>
-        <p className="cv-section-desc">
-          All data on this page is sourced from official public APIs and datasets.
-        </p>
+      <CollapsibleSection title="Data Sources" icon={<Database size={18} />} id="cv-sources"
+        count={4} countLabel="sources"
+      >
 
         <div className="cv-sources-list">
           <div className="cv-source-item">
@@ -751,7 +738,7 @@ export default function ConstituencyView() {
           Election results are from the 4 July 2024 general election. Expenses data is from IPSA published figures.
           Claimant count data is from ONS Nomis (Jobseekers Allowance + Universal Credit).
         </div>
-      </section>
+      </CollapsibleSection>
     </div>
   )
 }

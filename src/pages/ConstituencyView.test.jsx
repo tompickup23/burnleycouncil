@@ -274,8 +274,9 @@ describe('ConstituencyView', () => {
     mockDataLoaded()
     renderWithRouter()
     expect(screen.getByText('Total Claimed')).toBeInTheDocument()
-    // formatMoney(198543) = "£198,543.00"
-    expect(screen.getByText(/198,543/)).toBeInTheDocument()
+    // formatMoney(198543) = "£198,543.00" — appears in CollapsibleSection subtitle + stat box
+    const expenseValues = screen.getAllByText(/198,543/)
+    expect(expenseValues.length).toBeGreaterThanOrEqual(1)
   })
 
   // 13. Expenses: rank
@@ -317,13 +318,15 @@ describe('ConstituencyView', () => {
     expect(screen.getByText('Electoral Commission')).toBeInTheDocument()
   })
 
-  // 17. Section nav: 8 buttons
+  // 17. Section nav: 8 buttons (+ CollapsibleSection header buttons)
   it('renders all 8 section navigation buttons', () => {
     mockDataLoaded()
     renderWithRouter()
     const navLabels = ['Overview', 'Election', 'Voting', 'Activity', 'Expenses', 'Claimants', 'Councils', 'Sources']
     navLabels.forEach(label => {
-      expect(screen.getByRole('button', { name: new RegExp(label) })).toBeInTheDocument()
+      // Each label appears as nav button + CollapsibleSection header button
+      const buttons = screen.getAllByRole('button', { name: new RegExp(label) })
+      expect(buttons.length).toBeGreaterThanOrEqual(1)
     })
   })
 

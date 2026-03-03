@@ -35,10 +35,23 @@ function evictIfNeeded() {
 /** Fetch with retry + exponential backoff */
 function fetchWithRetry(url, attempt = 0) {
   return fetch(resolveUrl(url)).then(r => {
-    if (!r.ok) throw new Error(`Failed to fetch ${url}: ${r.status}`)
+    if (!r.ok) {
+      const err = new Error(`Failed to fetch ${url}: ${r.status}`)
+      // Don't retry 404s — file genuinely doesn't exist
+      if (r.status === 404) err.noRetry = true
+      throw err
+    }
+    // Guard against SPA fallback: Vite serves HTML for missing files instead of 404
+    const ct = r.headers.get('content-type') || ''
+    if (ct.includes('text/html')) {
+      const err = new Error(`Expected JSON but got HTML for ${url} (likely missing file)`)
+      err.noRetry = true
+      err.silent = true  // suppress console.error — expected for optional data
+      throw err
+    }
     return r.json()
   }).catch(err => {
-    if (attempt < MAX_RETRIES) {
+    if (!err.noRetry && attempt < MAX_RETRIES) {
       const delay = RETRY_BASE_MS * Math.pow(2, attempt)
       return new Promise(resolve => setTimeout(resolve, delay))
         .then(() => fetchWithRetry(url, attempt + 1))
@@ -135,7 +148,7 @@ export function useData(urls) {
       })
       .catch(err => {
         if (!mountedRef.current) return
-        console.error('Failed to load data:', err)
+        if (!err.silent) console.error('Failed to load data:', err)
         setError(err)
         setLoading(false)
       })

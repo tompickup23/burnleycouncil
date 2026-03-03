@@ -354,6 +354,67 @@
   color: var(--text-tertiary);
 }
 
+/* Fiscal Threat Banner */
+.fiscal-threat-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s ease;
+  background-image: none;
+}
+
+.fiscal-threat-banner:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background-size: 0 0;
+}
+
+.fiscal-threat-banner--warning {
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+}
+
+.fiscal-threat-banner--critical {
+  background: rgba(255, 69, 58, 0.08);
+  border: 1px solid rgba(255, 69, 58, 0.2);
+}
+
+.fiscal-threat-icon {
+  flex-shrink: 0;
+}
+
+.fiscal-threat-icon--warning { color: #ff9f0a; }
+.fiscal-threat-icon--critical { color: #ff453a; }
+
+.fiscal-threat-content {
+  flex: 1;
+}
+
+.fiscal-threat-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.fiscal-threat-score--warning { color: #ff9f0a; }
+.fiscal-threat-score--critical { color: #ff453a; }
+
+.fiscal-threat-detail {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: 0.5rem;
+}
+
+.fiscal-threat-link {
+  font-size: 0.75rem;
+  color: var(--accent-blue);
+  white-space: nowrap;
+}
+
 /* Hero Actions */
 .hero-actions {
   display: flex;

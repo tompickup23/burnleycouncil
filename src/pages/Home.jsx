@@ -276,23 +276,17 @@ function Home() {
 
         {/* Fiscal Resilience Banner */}
         {demoFiscalData?.fiscal_resilience_score != null && (
-          <Link to="/doge" className="fiscal-threat-banner" style={{
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-            padding: '0.75rem 1rem', margin: '0.75rem 0',
-            background: demoFiscalData.fiscal_resilience_score < 30 ? 'rgba(255,69,58,0.08)' : 'rgba(255,159,10,0.08)',
-            border: `1px solid ${demoFiscalData.fiscal_resilience_score < 30 ? 'rgba(255,69,58,0.2)' : 'rgba(255,159,10,0.2)'}`,
-            borderRadius: '10px', textDecoration: 'none', color: 'inherit',
-          }}>
-            <AlertTriangle size={18} style={{ color: demoFiscalData.fiscal_resilience_score < 30 ? '#ff453a' : '#ff9f0a', flexShrink: 0 }} />
-            <div style={{ flex: 1 }}>
-              <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                Fiscal Resilience: <span style={{ color: demoFiscalData.fiscal_resilience_score < 30 ? '#ff453a' : '#ff9f0a' }}>{demoFiscalData.fiscal_resilience_score}/100</span>
+          <Link to="/doge" className={`fiscal-threat-banner fiscal-threat-banner--${demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'}`}>
+            <AlertTriangle size={18} className={`fiscal-threat-icon fiscal-threat-icon--${demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'}`} />
+            <div className="fiscal-threat-content">
+              <span className="fiscal-threat-title">
+                Fiscal Resilience: <span className={`fiscal-threat-score--${demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'}`}>{demoFiscalData.fiscal_resilience_score}/100</span>
               </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>
+              <span className="fiscal-threat-detail">
                 {demoFiscalData.threats?.length || 0} demographic fiscal pressures identified
               </span>
             </div>
-            <span style={{ fontSize: '0.75rem', color: 'var(--accent-blue)' }}>View analysis →</span>
+            <span className="fiscal-threat-link">View analysis →</span>
           </Link>
         )}
 
