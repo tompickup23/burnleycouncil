@@ -113,7 +113,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
 }
 
 .timeline-item {
@@ -450,7 +450,7 @@
 .risk-methodology {
   margin-top: 0.75rem;
   padding-top: 0.5rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .risk-methodology p {
@@ -518,7 +518,7 @@
 
 .issue-detail {
   padding: 0 1rem 1rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   margin-top: 0;
 }
 
@@ -621,7 +621,7 @@
 .score-bar-track {
   flex: 1;
   height: 8px;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -799,7 +799,7 @@
   color: #e5e5e7;
   line-height: 1.5;
   padding: 0.35rem 0;
-  border-bottom: 1px solid #2c2c2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sw-column ul li:last-child {
@@ -1178,7 +1178,7 @@
 
 .critique-detail {
   padding: 0 1rem 1rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .critique-detail p {
@@ -1597,7 +1597,7 @@
 
 .doge-prop-auth {
   background: rgba(44, 44, 46, 0.6);
-  border: 1px solid #3a3a3c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1rem;
   position: relative;
@@ -2002,7 +2002,7 @@
 .comp-bar-track {
   flex: 1;
   height: 24px;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -2155,7 +2155,7 @@
 /* ========== Back-Office Discovery Card ========== */
 .lgr-discovery-card {
   background: var(--bg-secondary, rgba(28, 28, 30, 0.7));
-  border: 1px solid var(--border-color, #2c2c2e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   border-radius: 12px;
   padding: 1.5rem;
   margin-top: 1rem;
@@ -2243,7 +2243,7 @@
 /* ========== Savings Explainer ========== */
 .lgr-savings-explainer {
   background: var(--bg-secondary, rgba(28, 28, 30, 0.7));
-  border: 1px solid var(--border-color, #2c2c2e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   border-left: 4px solid #ff9f0a;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
@@ -2271,7 +2271,7 @@
 /* ========== Net Savings Grid ========== */
 .lgr-net-savings {
   background: var(--bg-secondary, rgba(28, 28, 30, 0.7));
-  border: 1px solid var(--border-color, #2c2c2e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   border-radius: 12px;
   padding: 1.5rem;
   margin-top: 1rem;
@@ -2290,7 +2290,7 @@
 .net-savings-item {
   padding: 1rem;
   border-radius: 8px;
-  background: var(--bg-tertiary, #2c2c2e);
+  background: var(--bg-tertiary, rgba(44, 44, 46, 0.7));
 }
 
 .net-savings-item.positive {
@@ -2330,7 +2330,7 @@
 
 .asset-principle-card {
   background: var(--bg-secondary, rgba(28, 28, 30, 0.7));
-  border: 1px solid var(--border-color, #2c2c2e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   border-radius: 12px;
   padding: 1.25rem;
 }
@@ -2415,7 +2415,7 @@
   color: #ff9f0a;
   margin-top: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--border-color, #2c2c2e);
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
 }
 
 /* Critical asset issues */
@@ -2433,7 +2433,7 @@
 
 .asset-issue-card {
   background: var(--bg-secondary, rgba(28, 28, 30, 0.7));
-  border: 1px solid var(--border-color, #2c2c2e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 0.75rem;
@@ -2630,7 +2630,7 @@
   align-items: center;
   gap: 0.2rem;
   padding: 0.2rem 0.5rem;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border: 1px solid #48484a;
   border-radius: 6px;
   font-size: 0.75rem;
@@ -2755,7 +2755,7 @@
 .ct-bar-track {
   flex: 1;
   height: 20px;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border-radius: 4px;
   position: relative;
   overflow: visible;
@@ -2791,7 +2791,7 @@
   gap: 1.25rem;
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .ct-legend-item {
@@ -2921,7 +2921,7 @@
 .budget-composition {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .composition-bar {
@@ -3242,8 +3242,8 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 1rem;
-  background: #2c2c2e;
-  border: 1px solid #3a3a3c;
+  background: rgba(44, 44, 46, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   color: #8e8e93;
   font-size: 0.85rem;
@@ -3251,7 +3251,7 @@
   transition: all 0.2s;
 }
 
-.whatif-reset:hover { background: #3a3a3c; color: #e5e5e7; }
+.whatif-reset:hover { background: rgba(58, 58, 60, 0.7); color: #e5e5e7; }
 
 /* Mobile responsive additions */
 @media (max-width: 768px) {

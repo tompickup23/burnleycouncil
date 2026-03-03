@@ -15,7 +15,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -56,7 +56,7 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.3rem 0.7rem;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border: 1px solid;
   border-radius: 20px;
   font-size: 0.78rem;
@@ -105,8 +105,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #2c2c2e;
-  border: 1px solid #3a3a3c;
+  background: rgba(44, 44, 46, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   flex: 1;
@@ -132,8 +132,8 @@
 }
 
 .constituencies-controls select {
-  background: #2c2c2e;
-  border: 1px solid #3a3a3c;
+  background: rgba(44, 44, 46, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   color: #e5e5e7;
@@ -154,7 +154,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.25rem;
   text-decoration: none;
@@ -193,7 +193,7 @@
   height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #3a3a3c;
+  border: 2px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
 }
 
@@ -229,7 +229,7 @@
   grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
   gap: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .constituency-card-stat {
@@ -265,7 +265,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #3a3a3c;
+  background: rgba(58, 58, 60, 0.7);
   color: #a1a1a6;
   font-size: 0.65rem;
   padding: 0.15rem 0.5rem;
@@ -309,7 +309,7 @@
 .constituencies-footer {
   margin-top: 2rem;
   padding-top: 1rem;
-  border-top: 1px solid #2c2c2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
 }
 

@@ -72,7 +72,7 @@
   background: rgba(28, 28, 30, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   flex-wrap: wrap;
   position: sticky;
@@ -97,7 +97,7 @@
 }
 
 .cv-section-nav .section-nav-btn:hover {
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   color: #e5e5e7;
 }
 
@@ -145,7 +145,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 2rem;
   align-items: flex-start;
@@ -164,7 +164,7 @@
   height: 200px;
   object-fit: cover;
   border-radius: 12px;
-  border: 2px solid #3a3a3c;
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .cv-mp-photo-placeholder {
@@ -173,7 +173,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border-radius: 12px;
   color: #636366;
 }
@@ -225,7 +225,7 @@
 .cv-stat-box {
   display: flex;
   flex-direction: column;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border-radius: 10px;
   padding: 0.75rem 1rem;
 }
@@ -287,7 +287,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1.25rem;
@@ -332,7 +332,7 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid #2c2c2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   font-weight: 600;
 }
 
@@ -400,7 +400,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 2rem 1.5rem;
   text-align: center;
@@ -432,7 +432,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.25rem 1rem;
   text-align: center;
@@ -507,7 +507,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.25rem;
@@ -556,7 +556,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   text-decoration: none;
@@ -611,7 +611,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   align-items: flex-start;

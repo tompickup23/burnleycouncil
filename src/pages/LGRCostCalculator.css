@@ -72,7 +72,7 @@
 .cost-input-wrapper input {
   width: 100%;
   padding: 0.7rem 0.75rem 0.7rem 2.5rem;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border: 1px solid #48484a;
   border-radius: 10px;
   color: #fff;
@@ -110,7 +110,7 @@
 .band-select {
   width: 100%;
   padding: 0.7rem 0.75rem;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border: 1px solid #48484a;
   border-radius: 10px;
   color: #fff;
@@ -410,7 +410,7 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.6rem;
-  background: #2c2c2e;
+  background: rgba(44, 44, 46, 0.7);
   border: 1px solid #48484a;
   border-radius: 8px;
   font-size: 0.8rem;
@@ -492,7 +492,7 @@
 }
 .prompt-card {
   background: var(--bg-secondary, #1c1c1e);
-  border: 1px solid var(--border-color, #2c2c2e);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   border-radius: 14px;
   padding: 2rem;
   text-align: center;
