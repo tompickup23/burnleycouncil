@@ -143,7 +143,7 @@ describe('Demographics', () => {
   it('shows Projections tab when projection data available', () => {
     setupMocks({ projections: mockProjections })
     renderComponent()
-    expect(screen.getByRole('tab', { name: 'Projections' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Population' })).toBeInTheDocument()
   })
 
   it('shows Asylum tab when asylum data available', () => {
@@ -155,13 +155,13 @@ describe('Demographics', () => {
   it('does not show Projections tab without projection data', () => {
     setupMocks()
     renderComponent()
-    expect(screen.queryByRole('tab', { name: 'Projections' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('tab', { name: 'Population' })).not.toBeInTheDocument()
   })
 
   it('switches to Projections tab on click', () => {
     setupMocks({ projections: mockProjections })
     renderComponent()
-    fireEvent.click(screen.getByRole('tab', { name: 'Projections' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Population' }))
     expect(screen.getByText('Population Trajectory')).toBeInTheDocument()
     expect(screen.getByText('Age Structure Shift')).toBeInTheDocument()
   })
@@ -169,7 +169,7 @@ describe('Demographics', () => {
   it('shows growth rate stat on Projections tab', () => {
     setupMocks({ projections: mockProjections })
     renderComponent()
-    fireEvent.click(screen.getByRole('tab', { name: 'Projections' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Population' }))
     expect(screen.getByText('+6.9%')).toBeInTheDocument()
   })
 

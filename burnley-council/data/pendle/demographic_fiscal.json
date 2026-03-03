@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.086266",
+    "generated": "2026-03-03T00:24:45.383003",
     "council_id": "pendle",
     "sources": [
       "Census 2021",
@@ -12,9 +12,42 @@
     ]
   },
   "fiscal_resilience_score": 40,
-  "service_demand_pressure_score": 75,
+  "service_demand_pressure_score": 80,
   "demographic_change_velocity": 17.7,
-  "risk_category": "At Risk",
+  "ethnic_composition_acceleration": {
+    "White": -0.2,
+    "Asian": 0.2
+  },
+  "religion_composition_acceleration": {
+    "Christian": -11.6,
+    "No religion": 2.9,
+    "Muslim": 9.2,
+    "Not answered": -0.5
+  },
+  "diversity_index_2021": 0.4303,
+  "diversity_index_2032": 0.4322,
+  "diversity_change": 0.0019,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 9.2,
+      "desc": "Muslim projected to grow by 9.2pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 2.9,
+      "desc": "No religion projected to grow by 2.9pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Marsden & Southfield",
+      "diversity_index": 0.7841,
+      "desc": "Marsden & Southfield projected as most ethnically diverse ward by 2032 (index: 0.784)"
+    }
+  ],
+  "risk_category": "Structurally Deficit",
   "ethnic_composition_summary": {
     "white_british_pct": 66.1,
     "muslim_pct": 26.0,
@@ -127,9 +160,15 @@
   ],
   "threats": [
     {
+      "type": "fiscal",
+      "severity": "critical",
+      "description": "Fiscal sustainability score 40/100 \u2014 structural deficit risk",
+      "evidence": "Collection rate 95.68%, IMD 27.65, employment 51.2%"
+    },
+    {
       "type": "demographic",
       "severity": "high",
-      "description": "Service demand pressure 75/100 \u2014 above-average service costs",
+      "description": "Service demand pressure 80/100 \u2014 above-average service costs",
       "evidence": "SEND rate 15.7%, under-16 21.4%, asylum seekers 454"
     },
     {
@@ -143,6 +182,12 @@
       "severity": "high",
       "description": "Concentrated asylum dispersal (454 seekers) \u2014 growing pressure on housing, schools, health",
       "evidence": "Growth from 191 to 454 in 4 years"
+    },
+    {
+      "type": "demographic_acceleration",
+      "severity": "high",
+      "description": "Projected Muslim population growth of +9.2pp by 2032 \u2014 accelerating SEND/EAL demand",
+      "evidence": "Driven by higher TFR (2.3 vs 1.52 national). Projected school-age cohort expansion."
     }
   ],
   "lgr_threats": [
@@ -152,15 +197,15 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 37,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "three_unitary",
       "authority": "Pennine Lancashire",
-      "severity": "high",
-      "risk_category": "At Risk",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
       "fiscal_score": 38,
-      "demand_score": 74
+      "demand_score": 78
     },
     {
       "model": "four_unitary",
@@ -168,7 +213,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 34,
-      "demand_score": 76
+      "demand_score": 81
     },
     {
       "model": "four_unitary_alt",
@@ -176,15 +221,15 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 34,
-      "demand_score": 76
+      "demand_score": 81
     },
     {
       "model": "five_unitary",
       "authority": "East Lancashire",
-      "severity": "high",
-      "risk_category": "At Risk",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
       "fiscal_score": 35,
-      "demand_score": 74
+      "demand_score": 78
     }
   ],
   "risk_factors": [

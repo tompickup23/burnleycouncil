@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.087368",
+    "generated": "2026-03-03T00:24:45.385105",
     "council_id": "south_ribble",
     "sources": [
       "Census 2021",
@@ -14,6 +14,39 @@
   "fiscal_resilience_score": 50,
   "service_demand_pressure_score": 65,
   "demographic_change_velocity": 5.0,
+  "ethnic_composition_acceleration": {},
+  "religion_composition_acceleration": {
+    "Christian": -10.4,
+    "No religion": 9.3,
+    "Not answered": 0.4,
+    "Muslim": 0.6,
+    "Hindu": 0.2,
+    "Other religion": 0.1,
+    "Jewish": -0.1
+  },
+  "diversity_index_2021": 0.0893,
+  "diversity_index_2032": 0.0899,
+  "diversity_change": 0.0006,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 0.6,
+      "desc": "Muslim projected to grow by 0.6pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 9.3,
+      "desc": "No religion projected to grow by 9.3pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Charnock",
+      "diversity_index": 0.5926,
+      "desc": "Charnock projected as most ethnically diverse ward by 2032 (index: 0.593)"
+    }
+  ],
   "risk_category": "At Risk",
   "ethnic_composition_summary": {
     "white_british_pct": 92.8,
@@ -91,7 +124,7 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 37,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "three_unitary",
@@ -99,7 +132,7 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 35,
-      "demand_score": 66
+      "demand_score": 68
     },
     {
       "model": "four_unitary",

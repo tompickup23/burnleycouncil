@@ -147,15 +147,18 @@ export default function LancashireMap({
 
     const map = L.map(containerRef.current, {
       zoomControl: true,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       attributionControl: true,
       preferCanvas: true,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
     })
 
     L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,
       maxZoom: 14,
       subdomains: 'abcd',
+      opacity: 0.4,
     }).addTo(map)
 
     map.setView([53.82, -2.65], 9)
@@ -178,16 +181,39 @@ export default function LancashireMap({
       labelsLayerRef.current = null
     }
 
-    const layer = L.geoJSON(councilBoundaries, {
+    // Sort features so county boundary renders first (behind districts/unitaries)
+    const sortedBoundaries = {
+      ...councilBoundaries,
+      features: [...(councilBoundaries.features || [])].sort((a, b) => {
+        const tierOrder = { county: 0, unitary: 1, district: 2 }
+        return (tierOrder[a.properties?.council_tier] ?? 1) - (tierOrder[b.properties?.council_tier] ?? 1)
+      }),
+    }
+
+    const layer = L.geoJSON(sortedBoundaries, {
       style: () => ({
         fillColor: '#666',
-        fillOpacity: 0.3,
-        color: '#444',
-        weight: 1.5,
-        opacity: 0.6,
+        fillOpacity: 0.5,
+        color: 'rgba(255,255,255,0.3)',
+        weight: 2,
+        opacity: 0.8,
       }),
       onEachFeature: (feature, featureLayer) => {
         const id = feature.properties?.council_id
+        const isCounty = feature.properties?.council_tier === 'county'
+
+        // County boundary covers all districts — render it underneath with reduced interaction
+        if (isCounty) {
+          featureLayer.setStyle({ fillOpacity: 0.08, weight: 2, dashArray: '6 4', opacity: 0.4 })
+          featureLayer.bindTooltip(buildTooltip(feature, councilData, colorMode), {
+            sticky: false,
+            direction: 'center',
+            className: 'lancashire-map-tooltip lancashire-map-tooltip--county',
+            permanent: false,
+          })
+          featureLayer.on('click', () => onClickRef.current?.(id))
+          return
+        }
 
         featureLayer.bindTooltip(buildTooltip(feature, councilData, colorMode), {
           sticky: true,
@@ -199,9 +225,9 @@ export default function LancashireMap({
         featureLayer.on('click', () => onClickRef.current?.(id))
         featureLayer.on('mouseover', (e) => {
           e.target.setStyle({
-            weight: 3,
+            weight: 3.5,
             color: '#fff',
-            fillOpacity: 0.8,
+            fillOpacity: 0.85,
           })
           e.target.bringToFront()
         })
@@ -257,14 +283,26 @@ export default function LancashireMap({
       const feature = featureLayer.feature
       const id = feature?.properties?.council_id
       const isCurrent = id === currentCouncilId
+      const isCounty = feature?.properties?.council_tier === 'county'
 
-      featureLayer.setStyle({
-        fillColor: getCouncilColor(feature, councilData, colorMode, allPerCapita, lgrAuthorities),
-        fillOpacity: isCurrent ? 0.8 : 0.45,
-        color: isCurrent ? '#ffffff' : '#555',
-        weight: isCurrent ? 3 : 1.5,
-        opacity: isCurrent ? 1 : 0.6,
-      })
+      if (isCounty) {
+        featureLayer.setStyle({
+          fillColor: getCouncilColor(feature, councilData, colorMode, allPerCapita, lgrAuthorities),
+          fillOpacity: 0.08,
+          color: '#666',
+          weight: 2,
+          dashArray: '6 4',
+          opacity: 0.4,
+        })
+      } else {
+        featureLayer.setStyle({
+          fillColor: getCouncilColor(feature, councilData, colorMode, allPerCapita, lgrAuthorities),
+          fillOpacity: isCurrent ? 0.85 : 0.5,
+          color: isCurrent ? '#ffffff' : 'rgba(255,255,255,0.25)',
+          weight: isCurrent ? 3 : 2,
+          opacity: isCurrent ? 1 : 0.8,
+        })
+      }
 
       featureLayer.setTooltipContent(buildTooltip(feature, councilData, colorMode))
     })
@@ -282,11 +320,14 @@ export default function LancashireMap({
   }, [colorMode, currentCouncilId, councilData, allPerCapita, lgrAuthorities])
 
   return (
-    <div
-      ref={containerRef}
-      className="lancashire-map-container"
-      style={{ height, borderRadius: '12px', overflow: 'hidden' }}
-      data-testid="lancashire-map"
-    />
+    <div className="lancashire-map-premium-wrapper" style={{ height: `calc(${height} + 40px)` }}>
+      <div className="lancashire-map-glow" />
+      <div
+        ref={containerRef}
+        className="lancashire-map-container"
+        style={{ height, borderRadius: '16px', overflow: 'hidden' }}
+        data-testid="lancashire-map"
+      />
+    </div>
   )
 }

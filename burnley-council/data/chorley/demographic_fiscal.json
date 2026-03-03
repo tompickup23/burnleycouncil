@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.087182",
+    "generated": "2026-03-03T00:24:45.384732",
     "council_id": "chorley",
     "sources": [
       "Census 2021",
@@ -14,6 +14,40 @@
   "fiscal_resilience_score": 50,
   "service_demand_pressure_score": 65,
   "demographic_change_velocity": 5.0,
+  "ethnic_composition_acceleration": {},
+  "religion_composition_acceleration": {
+    "Christian": -10.4,
+    "No religion": 9.2,
+    "Not answered": 0.3,
+    "Muslim": 0.8,
+    "Hindu": 0.1,
+    "Buddhist": 0.1,
+    "Jewish": -0.1,
+    "Sikh": -0.1
+  },
+  "diversity_index_2021": 0.0849,
+  "diversity_index_2032": 0.0854,
+  "diversity_change": 0.0005,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 0.8,
+      "desc": "Muslim projected to grow by 0.8pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 9.2,
+      "desc": "No religion projected to grow by 9.2pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Chorley East",
+      "diversity_index": 0.6168,
+      "desc": "Chorley East projected as most ethnically diverse ward by 2032 (index: 0.617)"
+    }
+  ],
   "risk_category": "At Risk",
   "ethnic_composition_summary": {
     "white_british_pct": 93.0,
@@ -85,7 +119,7 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 37,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "three_unitary",
@@ -93,7 +127,7 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 35,
-      "demand_score": 66
+      "demand_score": 68
     },
     {
       "model": "four_unitary",

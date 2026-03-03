@@ -5,11 +5,13 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
-import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity } from 'lucide-react'
+import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers } from 'lucide-react'
+import CollapsibleSection from '../components/CollapsibleSection'
 import './Demographics.css'
 
 const fmt = (n) => typeof n === 'number' ? n.toLocaleString('en-GB') : '—'
 const pct = (n) => typeof n === 'number' ? `${n}%` : '—'
+const PROJECTION_YEARS = [2027, 2032, 2037, 2042]
 
 function Demographics() {
   const config = useCouncilConfig()
@@ -17,6 +19,7 @@ function Demographics() {
   const { data: demographics, loading, error } = useData('/data/demographics.json')
   const { data: projections } = useData('/data/demographic_projections.json')
   const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
+  const { data: compositionProj } = useData('/data/composition_projections.json')
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('census')
 
@@ -217,7 +220,8 @@ function Demographics() {
       <div className="demo-tabs" role="tablist">
         {[
           { id: 'census', label: 'Census 2021' },
-          ...(projections ? [{ id: 'projections', label: 'Projections' }] : []),
+          ...(projections ? [{ id: 'projections', label: 'Population' }] : []),
+          ...(compositionProj ? [{ id: 'composition', label: 'Ethnic & Religion' }] : []),
           ...(asylumData.seekers_supported > 0 ? [{ id: 'asylum', label: 'Asylum & Migration' }] : []),
           ...(demoFiscalData?.fiscal_resilience_score != null ? [{ id: 'fiscal', label: 'Fiscal Outlook' }] : []),
         ].map(tab => (
@@ -577,6 +581,239 @@ function Demographics() {
           <Info size={16} />
           <div>
             <p>Data from <strong>ONS 2022-based Sub-National Population Projections</strong> via Nomis API. Projections are trend-based and assume no major policy changes.</p>
+          </div>
+        </div>
+      </>}
+
+      {/* ===== ETHNIC & RELIGION PROJECTIONS TAB ===== */}
+      {activeTab === 'composition' && compositionProj && <>
+        <p className="section-intro">
+          Projected ethnic, religious, and sex composition changes based on Census 2021 base data,
+          ONS SNPP population envelope, and differential fertility modelling.
+        </p>
+
+        {/* Key insights */}
+        {compositionProj.insights?.length > 0 && (
+          <div className="demo-summary-grid">
+            {compositionProj.insights.map((insight, i) => (
+              <div key={i} className="demo-card">
+                <div className="demo-card-icon">
+                  {insight.type === 'ethnic_growth' ? <Globe size={20} /> :
+                   insight.type === 'religion_shift' ? <Church size={20} /> :
+                   insight.type === 'diversity_increase' ? <Layers size={20} /> :
+                   <MapPin size={20} />}
+                </div>
+                <div className="demo-card-value" style={{ fontSize: '1.25rem' }}>
+                  {insight.change_pp ? `${insight.change_pp > 0 ? '+' : ''}${insight.change_pp}pp` :
+                   insight.diversity_index ? insight.diversity_index.toFixed(3) :
+                   insight.change ? `+${insight.change.toFixed(3)}` : '—'}
+                </div>
+                <div className="demo-card-label">{insight.group || insight.ward || 'Diversity'}</div>
+                <div className="demo-card-detail">{insight.desc}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Ethnicity Projection Chart */}
+        <CollapsibleSection
+          title="Ethnicity Composition Projections"
+          subtitle={`${councilName} 2021→2042`}
+          icon={<Globe size={18} />}
+          defaultOpen
+        >
+          {(() => {
+            const ethProj = compositionProj.ethnicity_projections || {}
+            const years = ['2021', ...PROJECTION_YEARS.map(String)].filter(y => ethProj[y])
+            const groups = Object.keys(ethProj['2021'] || {})
+            const chartData = years.map(y => {
+              const row = { year: y }
+              groups.forEach(g => { row[g] = ethProj[y]?.[g]?.pct || 0 })
+              return row
+            })
+            const ethColors = { White: '#64748b', Asian: '#f59e0b', Black: '#8b5cf6', Mixed: '#06b6d4', Other: '#ef4444' }
+            return (
+              <div className="demo-chart-container" style={{ marginBottom: 0 }}>
+                <ResponsiveContainer width="100%" height={320}>
+                  <AreaChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                    <CartesianGrid stroke={GRID_STROKE} strokeDasharray="3 3" />
+                    <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} domain={[0, 100]} unit="%" />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v.toFixed(1)}%`} />
+                    <Legend />
+                    {groups.map(g => (
+                      <Area key={g} type="monotone" dataKey={g} stackId="1"
+                        fill={ethColors[g] || CHART_COLORS[groups.indexOf(g) % CHART_COLORS.length]}
+                        stroke={ethColors[g] || CHART_COLORS[groups.indexOf(g) % CHART_COLORS.length]}
+                        fillOpacity={0.7} />
+                    ))}
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            )
+          })()}
+        </CollapsibleSection>
+
+        {/* Religion Projection Chart */}
+        <CollapsibleSection
+          title="Religion Composition Projections"
+          subtitle={`${councilName} 2021→2042`}
+          icon={<Church size={18} />}
+          defaultOpen
+        >
+          {(() => {
+            const relProj = compositionProj.religion_projections || {}
+            const years = ['2021', ...PROJECTION_YEARS.map(String)].filter(y => relProj[y])
+            const groups = Object.keys(relProj['2021'] || {}).filter(g => {
+              const maxPct = Math.max(...years.map(y => relProj[y]?.[g]?.pct || 0))
+              return maxPct >= 1 // Only show groups >= 1%
+            })
+            const chartData = years.map(y => {
+              const row = { year: y }
+              groups.forEach(g => { row[g] = relProj[y]?.[g]?.pct || 0 })
+              return row
+            })
+            const relColors = {
+              Christian: '#3b82f6', Muslim: '#22c55e', 'No religion': '#94a3b8',
+              Hindu: '#f97316', Sikh: '#a855f7', Buddhist: '#eab308',
+              Jewish: '#06b6d4', 'Other religion': '#ec4899', 'Not answered': '#6b7280'
+            }
+            return (
+              <div className="demo-chart-container" style={{ marginBottom: 0 }}>
+                <ResponsiveContainer width="100%" height={320}>
+                  <BarChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                    <CartesianGrid stroke={GRID_STROKE} strokeDasharray="3 3" />
+                    <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} unit="%" />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v.toFixed(1)}%`} />
+                    <Legend />
+                    {groups.map(g => (
+                      <Bar key={g} dataKey={g}
+                        fill={relColors[g] || CHART_COLORS[groups.indexOf(g) % CHART_COLORS.length]}
+                        radius={[2, 2, 0, 0]} />
+                    ))}
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )
+          })()}
+        </CollapsibleSection>
+
+        {/* Sex Ratio Projection */}
+        {compositionProj.sex_projections && (
+          <CollapsibleSection
+            title="Sex Ratio Projections"
+            subtitle="Male/Female balance shift over time"
+            icon={<Users size={18} />}
+            defaultOpen
+          >
+            {(() => {
+              const sexProj = compositionProj.sex_projections
+              const years = Object.keys(sexProj).sort()
+              const chartData = years.map(y => ({
+                year: y,
+                Male: sexProj[y]?.male?.pct || 0,
+                Female: sexProj[y]?.female?.pct || 0,
+              }))
+              return (
+                <div className="demo-chart-container" style={{ marginBottom: 0 }}>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={chartData} layout="vertical" margin={{ top: 10, right: 20, left: 40, bottom: 0 }}>
+                      <CartesianGrid stroke={GRID_STROKE} strokeDasharray="3 3" />
+                      <XAxis type="number" tick={AXIS_TICK_STYLE} domain={[0, 100]} unit="%" />
+                      <YAxis type="category" dataKey="year" tick={AXIS_TICK_STYLE} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v.toFixed(1)}%`} />
+                      <Legend />
+                      <Bar dataKey="Male" fill="#3b82f6" stackId="sex" radius={[0, 0, 0, 0]} />
+                      <Bar dataKey="Female" fill="#ec4899" stackId="sex" radius={[0, 2, 2, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )
+            })()}
+          </CollapsibleSection>
+        )}
+
+        {/* Diversity Trajectory */}
+        {compositionProj.diversity_trajectory && (
+          <CollapsibleSection
+            title="Diversity Index Trajectory"
+            subtitle="Simpson's Diversity Index (0 = homogeneous, 1 = maximally diverse)"
+            icon={<Layers size={18} />}
+          >
+            {(() => {
+              const traj = compositionProj.diversity_trajectory
+              const chartData = Object.entries(traj).map(([y, v]) => ({ year: y, index: v }))
+              return (
+                <div className="demo-chart-container" style={{ marginBottom: 0 }}>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                      <CartesianGrid stroke={GRID_STROKE} strokeDasharray="3 3" />
+                      <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                      <YAxis tick={AXIS_TICK_STYLE} domain={['auto', 'auto']} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => v.toFixed(4)} />
+                      <Line type="monotone" dataKey="index" stroke="#e4002b" strokeWidth={2} dot={{ r: 4, fill: '#e4002b' }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              )
+            })()}
+          </CollapsibleSection>
+        )}
+
+        {/* Ward-level ethnic diversity projections */}
+        {compositionProj.ward_projections && Object.keys(compositionProj.ward_projections).length > 0 && (
+          <CollapsibleSection
+            title="Ward-Level Diversity Projections"
+            subtitle={`${Object.keys(compositionProj.ward_projections).length} wards projected to 2042`}
+            icon={<MapPin size={18} />}
+            count={Object.keys(compositionProj.ward_projections).length}
+            countLabel="wards"
+          >
+            <div className="demo-table-wrapper">
+              <table className="demo-table">
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left' }}>Ward</th>
+                    <th>Diversity 2021</th>
+                    <th>Diversity 2032</th>
+                    <th>Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(compositionProj.ward_projections)
+                    .filter(([, w]) => w.diversity_index?.['2021'] != null)
+                    .sort((a, b) => (b[1].diversity_index?.['2032'] || 0) - (a[1].diversity_index?.['2032'] || 0))
+                    .map(([code, w]) => {
+                      const d21 = w.diversity_index?.['2021'] || 0
+                      const d32 = w.diversity_index?.['2032'] || 0
+                      const change = d32 - d21
+                      return (
+                        <tr key={code}>
+                          <td className="ward-name">{w.name}</td>
+                          <td>{d21.toFixed(3)}</td>
+                          <td>{d32.toFixed(3)}</td>
+                          <td style={{ color: change > 0.005 ? '#30d158' : change < -0.005 ? '#ff453a' : '#8e8e93' }}>
+                            {change > 0 ? '+' : ''}{change.toFixed(3)}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </CollapsibleSection>
+        )}
+
+        <div className="demo-source">
+          <Info size={16} />
+          <div>
+            <p>
+              Composition projections are <strong>modelled estimates</strong> based on Census 2021 base data
+              constrained to ONS SNPP population totals. Ethnicity projections use group-specific fertility
+              rate differentials. Religion projections apply observed 2011–2021 national trends.
+              Ward-level projections carry higher uncertainty.
+            </p>
           </div>
         </div>
       </>}

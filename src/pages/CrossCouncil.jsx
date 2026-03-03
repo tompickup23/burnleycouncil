@@ -7,6 +7,7 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP, PARTY_COLORS } from '../utils/constants'
+import CollapsibleSection from '../components/CollapsibleSection'
 import './CrossCouncil.css'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
@@ -533,10 +534,11 @@ function CrossCouncil() {
           return pct <= 0.33 ? '#30d158' : pct <= 0.66 ? '#ff9f0a' : '#ff453a'
         }
         return (
-          <div style={{ background: 'rgba(18,182,207,0.06)', border: '1px solid rgba(18,182,207,0.2)', borderRadius: '12px', padding: '1.25rem 1.5rem', marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#12b6cf', margin: '0 0 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <BarChart3 size={18} /> How {councilName} Stacks Up
-            </h3>
+          <CollapsibleSection
+            title={`How ${councilName} Stacks Up`}
+            icon={<BarChart3 size={18} />}
+            defaultOpen={true}
+          >
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
               {collRank && (
                 <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '0.75rem', textAlign: 'center' }}>
@@ -583,13 +585,16 @@ function CrossCouncil() {
                 Lower collection means less money for services — and more burden on those who do pay.
               </p>
             )}
-          </div>
+          </CollapsibleSection>
         )
       })()}
 
       {/* Overview Cards */}
-      <section className="cross-overview">
-        <h2><Building size={22} /> Council Overview</h2>
+      <CollapsibleSection
+        title="Council Overview"
+        icon={<Building size={18} />}
+        defaultOpen={true}
+      >
         <div className="overview-grid">
           {councils.map(c => (
             <div key={c.council_id} className={`overview-card ${c.council_name === councilName ? 'current' : ''}`}>
@@ -618,11 +623,14 @@ function CrossCouncil() {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Spend Per Head */}
-      <section className="cross-section">
-        <h2><PoundSterling size={22} /> Annual Spend Per Head of Population</h2>
+      <CollapsibleSection
+        title="Annual Spend Per Head of Population"
+        icon={<PoundSterling size={18} />}
+        defaultOpen={true}
+      >
         <p className="section-intro">
           Average annual external payments divided by population. Figures are annualized to allow fair comparison
           across councils with different data periods. Higher isn't necessarily worse — it depends on what services are provided.
@@ -645,12 +653,15 @@ function CrossCouncil() {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Service Expenditure Per Head */}
       {serviceData.length > 0 && (
-      <section className="cross-section">
-        <h2><BarChart3 size={22} /> Service Expenditure Per Head</h2>
+      <CollapsibleSection
+        title="Service Expenditure Per Head"
+        icon={<BarChart3 size={18} />}
+        defaultOpen={false}
+      >
         <p className="section-intro">
           GOV.UK revenue outturn data (2024-25) divided by population, showing how each council allocates spending per resident across service categories.
           {showAllTiers && ' District councils show zero for upper-tier services (education, social care) as these are provided by the county council.'}
@@ -675,14 +686,17 @@ function CrossCouncil() {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </section>
+      </CollapsibleSection>
       )}
 
 
       {/* Planning Efficiency Comparison */}
       {planningData.length >= 2 && (
-        <section className="cross-section">
-          <h2><Building size={22} /> Planning Efficiency Comparison</h2>
+        <CollapsibleSection
+          title="Planning Efficiency Comparison"
+          icon={<Building size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Planning application volumes and decision costs from PlanIt data ({planningData.length} of {councils.length} councils).
             Cost per application = development control budget ÷ annual applications.
@@ -794,13 +808,16 @@ function CrossCouncil() {
               </div>
             )
           })()}
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* HMO Comparison */}
       {hmoData.length >= 2 && (
-        <section className="cross-section">
-          <h2><Home size={22} /> Houses in Multiple Occupation (HMOs)</h2>
+        <CollapsibleSection
+          title="Houses in Multiple Occupation (HMOs)"
+          icon={<Home size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Licensed HMOs from council public registers ({hmoData.length} of {councils.length} councils with data).
             HMO density per 1,000 population highlights areas with high shared-housing concentrations.
@@ -886,13 +903,16 @@ function CrossCouncil() {
               <> {hmoData.filter(d => d.coverage === 'planning_only').map(d => d.fullName).join(', ')} — planning data only (no public register).</>
             )}
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Council Tax Band D Comparison */}
       {councilTaxData.length > 0 && (
-        <section className="cross-section">
-          <h2><Wallet size={22} /> Council Tax Band D {councilTier === 'county' ? '(County Precept)' : ''}</h2>
+        <CollapsibleSection
+          title={`Council Tax Band D${councilTier === 'county' ? ' (County Precept)' : ''}`}
+          icon={<Wallet size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             {councilTier === 'county'
               ? 'The county council precept element of Band D council tax (2025-26). This is added to district council and police/fire precepts to give the total bill.'
@@ -918,13 +938,16 @@ function CrossCouncil() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Council Tax Collection Rate */}
       {collectionRateData.length > 0 && (
-        <section className="cross-section">
-          <h2><TrendingUp size={22} /> Council Tax Collection Rate</h2>
+        <CollapsibleSection
+          title="Council Tax Collection Rate"
+          icon={<TrendingUp size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             In-year council tax collection rate — the percentage collected within the financial year it's due.
             Only billing authorities (districts and unitaries) collect council tax; Lancashire CC is excluded.
@@ -977,13 +1000,16 @@ function CrossCouncil() {
               }).</>
             )}
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Net Revenue Expenditure Per Head */}
       {nreData.length > 0 && (
-        <section className="cross-section">
-          <h2><Landmark size={22} /> Net Revenue Expenditure Per Head</h2>
+        <CollapsibleSection
+          title="Net Revenue Expenditure Per Head"
+          icon={<Landmark size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             NRE is the total cost of running the council after fees and grants but before council tax.
             This is the key comparator for council financial size — the amount that must be funded from
@@ -1007,13 +1033,16 @@ function CrossCouncil() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Reserves Comparison */}
       {reservesData.length > 0 && (
-        <section className="cross-section">
-          <h2><TrendingUp size={22} /> Reserves Per Head (Closing Balance)</h2>
+        <CollapsibleSection
+          title="Reserves Per Head (Closing Balance)"
+          icon={<TrendingUp size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Reserves are a council's financial safety net — earmarked reserves are committed to specific projects
             while unallocated reserves provide a general buffer. Higher reserves per head indicate greater financial resilience.
@@ -1049,13 +1078,16 @@ function CrossCouncil() {
               </div>
             ))}
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Dependency Ratio */}
       {dependencyData.length > 0 && (
-        <section className="cross-section">
-          <h2><Users size={22} /> Dependency Ratio (Census 2021)</h2>
+        <CollapsibleSection
+          title="Dependency Ratio (Census 2021)"
+          icon={<Users size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             The dependency ratio measures dependents (under 16 + over 65) per 100 working-age residents (16-64).
             Higher ratios mean more demand for services like social care and education relative to the tax base.
@@ -1100,13 +1132,16 @@ function CrossCouncil() {
               <> {councilName}: {current.dependency_ratio.toFixed(1)}% ({current.elderly_ratio?.toFixed(1)}% elderly, {current.youth_ratio?.toFixed(1)}% youth).</>
             )}
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* ===== POPULATION OUTLOOK ===== */}
       {growthData.length >= 2 && (
-        <section className="cross-section">
-          <h2><TrendingUp size={22} /> Population Outlook (2022→2047)</h2>
+        <CollapsibleSection
+          title="Population Outlook (2022\u21922047)"
+          icon={<TrendingUp size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             ONS 2022-based Sub-National Population Projections. Growth rates show projected change from 2022 to 2047.
             Councils with declining or stagnant populations face shrinking tax bases and rising per-capita service costs.
@@ -1136,13 +1171,16 @@ function CrossCouncil() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Projected Dependency Ratio 2032 */}
       {projDepData.length >= 2 && (
-        <section className="cross-section">
-          <h2><Users size={22} /> Projected Dependency Ratio (2032)</h2>
+        <CollapsibleSection
+          title="Projected Dependency Ratio (2032)"
+          icon={<Users size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Where each council's dependency ratio is heading by 2032. Compare with the Census 2021 ratios above to see which councils face the steepest increases.
             Higher ratios mean more pressure on services and smaller working-age tax bases.
@@ -1183,13 +1221,16 @@ function CrossCouncil() {
           <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
             Source: ONS 2022-based Sub-National Population Projections via Nomis.
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Asylum Dispersal */}
       {asylumData.length >= 2 && (
-        <section className="cross-section">
-          <h2><Home size={22} /> Asylum Dispersal Across Lancashire</h2>
+        <CollapsibleSection
+          title="Asylum Dispersal Across Lancashire"
+          icon={<Home size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Home Office asylum seekers receiving support by local authority (March 2025).
             Dispersal is managed nationally by the Home Office — councils have limited control over placement numbers.
@@ -1227,13 +1268,17 @@ function CrossCouncil() {
               return currentEntry ? ` ${councilName}: ${currentEntry.seekers.toLocaleString()} (${Math.round(currentEntry.seekers / totalSeekers * 100)}% of Lancashire total).` : ''
             })()}
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Demographic Fiscal Profile */}
       {fiscalData.length > 0 && (
-        <section className="cross-section">
-          <h2><AlertTriangle size={22} /> Demographic Fiscal Profile</h2>
+        <CollapsibleSection
+          title="Demographic Fiscal Profile"
+          icon={<AlertTriangle size={18} />}
+          defaultOpen={false}
+          severity="warning"
+        >
           <p className="section-intro">
             Composite fiscal sustainability scores based on demographic composition, council tax yield, deprivation, employment, and service demand.
             Lower scores indicate higher structural deficit risk.
@@ -1284,13 +1329,16 @@ function CrossCouncil() {
             Source: Census 2021 demographics, DfE SEND Statistics 2023, GOV.UK Council Tax Collection Rates, MHCLG IMD 2019.
             Academic: Casey Review (2016), ONS Births by Country of Birth (2023).
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Employment Rate Comparison */}
       {employmentData.length > 0 && (
-        <section className="cross-section">
-          <h2><Users size={22} /> Employment Rate Comparison</h2>
+        <CollapsibleSection
+          title="Employment Rate Comparison"
+          icon={<Users size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Percentage of working-age (16+) population in employment (Census 2021). Lower rates correlate with reduced council tax yield and higher benefit demand.
           </p>
@@ -1315,12 +1363,15 @@ function CrossCouncil() {
           <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
             Source: ONS Census 2021 via Nomis API. Economic activity data for all usual residents aged 16+.
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Transparency Scorecard */}
-      <section className="cross-section">
-        <h2><Shield size={22} /> Transparency Scorecard</h2>
+      <CollapsibleSection
+        title="Transparency Scorecard"
+        icon={<Shield size={18} />}
+        defaultOpen={false}
+      >
         <p className="section-intro">
           Percentage of spending records that include key fields. 100% means every transaction has the field populated.
         </p>
@@ -1339,12 +1390,15 @@ function CrossCouncil() {
             )
           })}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Per-Service Supplier Concentration (HHI) */}
       {hhiHeatmapData.councils.length > 0 && hhiHeatmapData.categories.length > 0 && (
-        <section className="cross-section">
-          <h2><BarChart3 size={22} /> Supplier Concentration by Service</h2>
+        <CollapsibleSection
+          title="Supplier Concentration by Service"
+          icon={<BarChart3 size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Herfindahl-Hirschman Index (HHI) per budget category. Measures how concentrated spending is among suppliers.
             <strong> &lt;1,500</strong> = competitive, <strong>1,500-2,500</strong> = moderate, <strong>&gt;2,500</strong> = highly concentrated.
@@ -1387,13 +1441,16 @@ function CrossCouncil() {
             HHI calculated from AI DOGE spending data mapped to GOV.UK SeRCOP budget categories via budget_mapping.json.
             Empty cells indicate no spending data mapped to that category.
           </p>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* CEO Pay Comparison */}
       {payData.length > 0 && (
-        <section className="cross-section">
-          <h2><Users size={22} /> Chief Executive Pay</h2>
+        <CollapsibleSection
+          title="Chief Executive Pay"
+          icon={<Users size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             CEO salary midpoints and pay ratios from published Pay Policy Statements.
           </p>
@@ -1419,12 +1476,16 @@ function CrossCouncil() {
               </tbody>
             </table>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Duplicate Payments Flagged */}
-      <section className="cross-section">
-        <h2><AlertTriangle size={22} /> Potential Duplicate Payments (Annualized)</h2>
+      <CollapsibleSection
+        title="Potential Duplicate Payments (Annualized)"
+        icon={<AlertTriangle size={18} />}
+        defaultOpen={false}
+        severity="critical"
+      >
         <p className="section-intro">
           Same-day payments to the same supplier for the same amount, annualized for fair comparison.
           These are flagged for investigation — not all are errors.
@@ -1456,12 +1517,15 @@ function CrossCouncil() {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Shared Suppliers Across Councils */}
       {sharedSuppliers.length > 0 && (
-        <section className="cross-section">
-          <h2><Building2 size={22} /> Shared Suppliers Across Councils</h2>
+        <CollapsibleSection
+          title="Shared Suppliers Across Councils"
+          icon={<Building2 size={18} />}
+          defaultOpen={false}
+        >
           <p className="section-intro">
             Suppliers operating across multiple Lancashire councils. Cross-council suppliers may benefit from
             economies of scale — or may indicate concentration risk.
@@ -1501,7 +1565,7 @@ function CrossCouncil() {
               </tbody>
             </table>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Methodology Note */}

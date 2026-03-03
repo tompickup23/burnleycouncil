@@ -963,7 +963,7 @@ describe('Integrity', () => {
 
     it('renders supplier names with links', () => {
       renderWithRichData()
-      const section = document.querySelector('.supplier-investigation-section')
+      const section = document.querySelector('.supplier-investigation-grid')
       const links = section.querySelectorAll('.supplier-investigation-link')
       expect(links.length).toBeGreaterThan(0)
     })
@@ -1087,7 +1087,7 @@ describe('Integrity', () => {
 
     it('renders affected councils list', () => {
       renderWithRichData()
-      const section = document.querySelector('.cross-council-summary-section')
+      const section = document.querySelector('.cross-council-summary-stats').parentElement
       expect(within(section).getByText(/Affected councils:/)).toBeInTheDocument()
     })
 
@@ -1122,19 +1122,19 @@ describe('Integrity', () => {
 
     it('renders surname header', () => {
       renderWithRichData()
-      const familialSection = document.querySelector('.familial-overview')
+      const familialSection = document.querySelector('.familial-grid')
       expect(within(familialSection).getByText('Hargreaves')).toBeInTheDocument()
     })
 
     it('renders cluster member count', () => {
       renderWithRichData()
-      const familialSection = document.querySelector('.familial-overview')
+      const familialSection = document.querySelector('.familial-grid')
       expect(within(familialSection).getByText('2 councillors')).toBeInTheDocument()
     })
 
     it('renders cluster members with party and ward', () => {
       renderWithRichData()
-      const familialSection = document.querySelector('.familial-overview')
+      const familialSection = document.querySelector('.familial-grid')
       const members = familialSection.querySelectorAll('.familial-member')
       expect(members.length).toBe(2)
     })

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.088738",
+    "generated": "2026-03-03T00:24:45.387247",
     "council_id": "preston",
     "sources": [
       "Census 2021",
@@ -12,8 +12,43 @@
     ]
   },
   "fiscal_resilience_score": 20,
-  "service_demand_pressure_score": 70,
+  "service_demand_pressure_score": 75,
   "demographic_change_velocity": 19.3,
+  "ethnic_composition_acceleration": {
+    "White": -0.2,
+    "Asian": 0.1
+  },
+  "religion_composition_acceleration": {
+    "Christian": -11.8,
+    "No religion": 4.6,
+    "Muslim": 7.2,
+    "Not answered": -0.2,
+    "Hindu": 0.3,
+    "Jewish": -0.1
+  },
+  "diversity_index_2021": 0.4305,
+  "diversity_index_2032": 0.4325,
+  "diversity_change": 0.002,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 7.2,
+      "desc": "Muslim projected to grow by 7.2pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 4.6,
+      "desc": "No religion projected to grow by 4.6pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Fishwick & Frenchwood",
+      "diversity_index": 0.8443,
+      "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)"
+    }
+  ],
   "risk_category": "Structurally Deficit",
   "ethnic_composition_summary": {
     "white_british_pct": 66.1,
@@ -115,6 +150,12 @@
       "evidence": "Collection rate 90.18%, IMD 27.93, employment 52.8%"
     },
     {
+      "type": "demographic",
+      "severity": "high",
+      "description": "Service demand pressure 75/100 \u2014 above-average service costs",
+      "evidence": "SEND rate 14.5%, under-16 19.7%, asylum seekers 394"
+    },
+    {
       "type": "fiscal",
       "severity": "high",
       "description": "Declining council tax collection \u2014 revenue base eroding",
@@ -125,6 +166,12 @@
       "severity": "high",
       "description": "Concentrated asylum dispersal (394 seekers) \u2014 growing pressure on housing, schools, health",
       "evidence": "Growth from 228 to 394 in 4 years"
+    },
+    {
+      "type": "demographic_acceleration",
+      "severity": "high",
+      "description": "Projected Muslim population growth of +7.2pp by 2032 \u2014 accelerating SEND/EAL demand",
+      "evidence": "Driven by higher TFR (2.3 vs 1.52 national). Projected school-age cohort expansion."
     }
   ],
   "lgr_threats": [
@@ -134,7 +181,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 31,
-      "demand_score": 68
+      "demand_score": 69
     },
     {
       "model": "three_unitary",
@@ -142,7 +189,7 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 35,
-      "demand_score": 66
+      "demand_score": 68
     },
     {
       "model": "four_unitary",
@@ -150,7 +197,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 32,
-      "demand_score": 63
+      "demand_score": 65
     },
     {
       "model": "four_unitary_alt",
@@ -158,7 +205,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 21,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "five_unitary",
@@ -166,7 +213,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 21,
-      "demand_score": 72
+      "demand_score": 74
     }
   ],
   "risk_factors": [

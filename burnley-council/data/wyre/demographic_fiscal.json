@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.088544",
+    "generated": "2026-03-03T00:24:45.386915",
     "council_id": "wyre",
     "sources": [
       "Census 2021",
@@ -14,6 +14,31 @@
   "fiscal_resilience_score": 45,
   "service_demand_pressure_score": 75,
   "demographic_change_velocity": 3.8,
+  "ethnic_composition_acceleration": {},
+  "religion_composition_acceleration": {
+    "Christian": -10.4,
+    "No religion": 9.8,
+    "Not answered": 0.3,
+    "Other religion": 0.1,
+    "Muslim": 0.2
+  },
+  "diversity_index_2021": 0.0493,
+  "diversity_index_2032": 0.0496,
+  "diversity_change": 0.0003,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 9.8,
+      "desc": "No religion projected to grow by 9.8pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Pharos",
+      "diversity_index": 0.5629,
+      "desc": "Pharos projected as most ethnically diverse ward by 2032 (index: 0.563)"
+    }
+  ],
   "risk_category": "At Risk",
   "ethnic_composition_summary": {
     "white_british_pct": 95.7,
@@ -101,7 +126,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 31,
-      "demand_score": 68
+      "demand_score": 69
     },
     {
       "model": "three_unitary",

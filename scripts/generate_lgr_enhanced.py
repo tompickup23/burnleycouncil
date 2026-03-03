@@ -174,6 +174,7 @@ def extract_council_demographics(council_id):
     proj = load_json(DATA_DIR / council_id / "demographic_projections.json")
     dep = load_json(DATA_DIR / council_id / "deprivation.json")
     coll = load_json(DATA_DIR / council_id / "collection_rates.json")
+    comp = load_json(DATA_DIR / council_id / "composition_projections.json")
 
     if not demo:
         return None
@@ -436,6 +437,19 @@ def extract_council_demographics(council_id):
 
     demand_score = max(0, min(100, demand_score))
 
+    # Composition-based demand adjustment
+    # (ethnic_acceleration / religion_acceleration computed below, but need early pass for demand)
+    if comp:
+        rel_proj = comp.get("religion_projections", {})
+        if "2021" in rel_proj and "2032" in rel_proj:
+            m_base = rel_proj["2021"].get("Muslim", {}).get("pct", 0)
+            m_proj = rel_proj["2032"].get("Muslim", {}).get("pct", 0)
+            muslim_accel_pp = round(m_proj - m_base, 2)
+            if muslim_accel_pp > 5:
+                demand_score = min(100, demand_score + 5)
+            elif muslim_accel_pp > 2:
+                demand_score = min(100, demand_score + 2)
+
     # Risk category
     if fiscal_score < 35 or demand_score > 75:
         risk_category = "Structurally Deficit"
@@ -471,6 +485,38 @@ def extract_council_demographics(council_id):
     # Use non-UK-born % as proxy for demographic change
     demographic_change_velocity = round(non_uk_born / population * 100, 1) if population > 0 else 0
 
+    # ── Composition change velocity (from projections) ──
+    ethnic_acceleration = {}
+    religion_acceleration = {}
+    diversity_change = 0.0
+    if comp:
+        eth_proj = comp.get("ethnicity_projections", {})
+        rel_proj = comp.get("religion_projections", {})
+        div_traj = comp.get("diversity_trajectory", {})
+
+        # Ethnic group acceleration: 2021→2032 change in pp
+        if "2021" in eth_proj and "2032" in eth_proj:
+            for group in eth_proj["2021"]:
+                base_pct = eth_proj["2021"][group].get("pct", 0)
+                proj_pct = eth_proj["2032"][group].get("pct", 0) if group in eth_proj.get("2032", {}) else base_pct
+                change = round(proj_pct - base_pct, 2)
+                if abs(change) >= 0.1:
+                    ethnic_acceleration[group] = change
+
+        # Religion acceleration: 2021→2032 change in pp
+        if "2021" in rel_proj and "2032" in rel_proj:
+            for group in rel_proj["2021"]:
+                base_pct = rel_proj["2021"][group].get("pct", 0)
+                proj_pct = rel_proj["2032"][group].get("pct", 0) if group in rel_proj.get("2032", {}) else base_pct
+                change = round(proj_pct - base_pct, 2)
+                if abs(change) >= 0.1:
+                    religion_acceleration[group] = change
+
+        # Diversity index change
+        d_2021 = div_traj.get("2021", 0)
+        d_2032 = div_traj.get("2032", 0)
+        diversity_change = round(d_2032 - d_2021, 4) if d_2021 > 0 else 0
+
     # ── Threats ──
     threats = []
     if risk_category == "Structurally Deficit":
@@ -481,6 +527,19 @@ def extract_council_demographics(council_id):
         threats.append({"type": "fiscal", "severity": "high", "description": "Declining council tax collection — revenue base eroding", "evidence": f"5-year trend: {collection_trend:+.2f}% per year"})
     if asylum_current > 200:
         threats.append({"type": "service", "severity": "high", "description": f"Concentrated asylum dispersal ({asylum_current} seekers) — growing pressure on housing, schools, health", "evidence": f"Growth from {asylum_trend[0]['people'] if asylum_trend else 'N/A'} to {asylum_current} in {len(asylum_trend)} years"})
+
+    if comp:
+        # High Muslim growth → SEND/EAL cost acceleration
+        muslim_accel = religion_acceleration.get("Muslim", 0)
+        if muslim_accel > 3:
+            threats.append({"type": "demographic_acceleration", "severity": "high",
+                "description": f"Projected Muslim population growth of +{muslim_accel}pp by 2032 — accelerating SEND/EAL demand",
+                "evidence": f"Driven by higher TFR (2.3 vs 1.52 national). Projected school-age cohort expansion."})
+        # Rapid diversity increase
+        if diversity_change > 0.01:
+            threats.append({"type": "composition_shift", "severity": "medium",
+                "description": f"Rising diversity index (+{diversity_change:.3f} by 2032) — growing service complexity",
+                "evidence": f"Simpson's Index: {comp.get('diversity_trajectory', {}).get('2021', 0):.3f} → {comp.get('diversity_trajectory', {}).get('2032', 0):.3f}. More translation, cultural competency, and targeted service needs."})
 
     return {
         "council_id": council_id,
@@ -560,6 +619,12 @@ def extract_council_demographics(council_id):
         "fiscal_sustainability_score": fiscal_score,
         "service_demand_pressure_score": demand_score,
         "demographic_change_velocity": demographic_change_velocity,
+        "ethnic_composition_acceleration": ethnic_acceleration,
+        "religion_composition_acceleration": religion_acceleration,
+        "diversity_index_2021": comp.get("diversity_trajectory", {}).get("2021", 0) if comp else 0,
+        "diversity_index_2032": comp.get("diversity_trajectory", {}).get("2032", 0) if comp else 0,
+        "diversity_change": diversity_change,
+        "composition_insights": comp.get("insights", []) if comp else [],
         "risk_category": risk_category,
         "risk_factors": risk_factors,
         "pressure_zones": pressure_zones[:10],  # Top 10 most deprived wards
@@ -644,6 +709,46 @@ def aggregate_for_authority(council_data_list):
             all_pressure.append(pz_copy)
     all_pressure.sort(key=lambda x: x.get("imd_score", 0), reverse=True)
 
+    # Composition projections — population-weighted aggregation
+    agg_diversity_2021 = weighted_avg("diversity_index_2021")
+    agg_diversity_2032 = weighted_avg("diversity_index_2032")
+    agg_diversity_change = weighted_avg("diversity_change")
+
+    # Ethnic composition acceleration: population-weighted average of pp changes
+    all_eth_groups = set()
+    for c in council_data_list:
+        all_eth_groups.update(c.get("ethnic_composition_acceleration", {}).keys())
+    agg_ethnic_accel = {}
+    for group in all_eth_groups:
+        weighted_sum = sum(c.get("ethnic_composition_acceleration", {}).get(group, 0) * c["population"] for c in council_data_list)
+        # Only average across councils that have this group in their acceleration data
+        pop_with_group = sum(c["population"] for c in council_data_list if group in c.get("ethnic_composition_acceleration", {}))
+        if pop_with_group > 0:
+            val = round(weighted_sum / pop_with_group, 2)
+            if abs(val) >= 0.1:
+                agg_ethnic_accel[group] = val
+
+    # Religion composition acceleration: population-weighted average of pp changes
+    all_rel_groups = set()
+    for c in council_data_list:
+        all_rel_groups.update(c.get("religion_composition_acceleration", {}).keys())
+    agg_religion_accel = {}
+    for group in all_rel_groups:
+        weighted_sum = sum(c.get("religion_composition_acceleration", {}).get(group, 0) * c["population"] for c in council_data_list)
+        pop_with_group = sum(c["population"] for c in council_data_list if group in c.get("religion_composition_acceleration", {}))
+        if pop_with_group > 0:
+            val = round(weighted_sum / pop_with_group, 2)
+            if abs(val) >= 0.1:
+                agg_religion_accel[group] = val
+
+    # Composition insights — collect all from member councils
+    all_comp_insights = []
+    for c in council_data_list:
+        for insight in c.get("composition_insights", []):
+            insight_copy = dict(insight)
+            insight_copy["council"] = c["council_id"]
+            all_comp_insights.append(insight_copy)
+
     return {
         "population": total_pop,
         "white_british_pct": round(total("white_british") / total_pop * 100, 1),
@@ -687,6 +792,12 @@ def aggregate_for_authority(council_data_list):
         "service_demand_pressure_score": round(weighted_avg("service_demand_pressure_score")),
         "risk_factors": all_risk_factors[:10],
         "pressure_zones": all_pressure[:15],
+        "diversity_index_2021": round(agg_diversity_2021, 4),
+        "diversity_index_2032": round(agg_diversity_2032, 4),
+        "diversity_change": round(agg_diversity_change, 4),
+        "ethnic_composition_acceleration": agg_ethnic_accel,
+        "religion_composition_acceleration": agg_religion_accel,
+        "composition_insights": all_comp_insights,
         "councils": [c["council_id"] for c in council_data_list],
     }
 
@@ -1111,6 +1222,12 @@ def main():
             "fiscal_resilience_score": data["fiscal_sustainability_score"],
             "service_demand_pressure_score": data["service_demand_pressure_score"],
             "demographic_change_velocity": data["demographic_change_velocity"],
+            "ethnic_composition_acceleration": data.get("ethnic_composition_acceleration", {}),
+            "religion_composition_acceleration": data.get("religion_composition_acceleration", {}),
+            "diversity_index_2021": data.get("diversity_index_2021", 0),
+            "diversity_index_2032": data.get("diversity_index_2032", 0),
+            "diversity_change": data.get("diversity_change", 0),
+            "composition_insights": data.get("composition_insights", []),
             "risk_category": data["risk_category"],
             "ethnic_composition_summary": {
                 "white_british_pct": data["white_british_pct"],

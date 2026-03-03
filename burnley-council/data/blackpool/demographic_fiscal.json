@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.087694",
+    "generated": "2026-03-03T00:24:45.385684",
     "council_id": "blackpool",
     "sources": [
       "Census 2021",
@@ -14,6 +14,38 @@
   "fiscal_resilience_score": 5,
   "service_demand_pressure_score": 75,
   "demographic_change_velocity": 7.9,
+  "ethnic_composition_acceleration": {},
+  "religion_composition_acceleration": {
+    "Christian": -10.6,
+    "No religion": 9.7,
+    "Not answered": 0.1,
+    "Muslim": 0.8,
+    "Other religion": 0.1,
+    "Jewish": -0.1
+  },
+  "diversity_index_2021": 0.1024,
+  "diversity_index_2032": 0.1031,
+  "diversity_change": 0.0007,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 0.8,
+      "desc": "Muslim projected to grow by 0.8pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 9.7,
+      "desc": "No religion projected to grow by 9.7pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Bloomfield",
+      "diversity_index": 0.6309,
+      "desc": "Bloomfield projected as most ethnically diverse ward by 2032 (index: 0.631)"
+    }
+  ],
   "risk_category": "Structurally Deficit",
   "ethnic_composition_summary": {
     "white_british_pct": 90.4,
@@ -185,7 +217,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 31,
-      "demand_score": 68
+      "demand_score": 69
     },
     {
       "model": "three_unitary",
@@ -209,7 +241,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 21,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "five_unitary",
@@ -217,7 +249,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 21,
-      "demand_score": 72
+      "demand_score": 74
     }
   ],
   "risk_factors": [

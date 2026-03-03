@@ -526,7 +526,7 @@ describe('CrossCouncil', () => {
 
     it('renders a card for each council', () => {
       renderComponent()
-      const overviewSection = document.querySelector('.cross-overview')
+      const overviewSection = document.querySelector('.overview-grid').closest('.cs-section')
       const overview = within(overviewSection)
       expect(overview.getByText('Burnley')).toBeInTheDocument()
       expect(overview.getByText('Hyndburn')).toBeInTheDocument()
@@ -545,7 +545,7 @@ describe('CrossCouncil', () => {
 
     it('shows unique suppliers count for each council', () => {
       renderComponent()
-      const overviewSection = document.querySelector('.cross-overview')
+      const overviewSection = document.querySelector('.overview-grid').closest('.cs-section')
       const overview = within(overviewSection)
       expect(overview.getByText('1,200')).toBeInTheDocument()
       expect(overview.getByText('950')).toBeInTheDocument()

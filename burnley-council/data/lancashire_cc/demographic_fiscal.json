@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.087553",
+    "generated": "2026-03-03T00:24:45.385392",
     "council_id": "lancashire_cc",
     "sources": [
       "Census 2021",
@@ -12,8 +12,43 @@
     ]
   },
   "fiscal_resilience_score": 45,
-  "service_demand_pressure_score": 55,
+  "service_demand_pressure_score": 57,
   "demographic_change_velocity": 9.1,
+  "ethnic_composition_acceleration": {
+    "White": -0.1,
+    "Asian": 0.1
+  },
+  "religion_composition_acceleration": {
+    "Christian": -11.4,
+    "No religion": 7.5,
+    "Muslim": 3.6,
+    "Not answered": 0.1,
+    "Hindu": 0.1,
+    "Other religion": 0.1
+  },
+  "diversity_index_2021": 0.2022,
+  "diversity_index_2032": 0.2037,
+  "diversity_change": 0.0015,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 3.6,
+      "desc": "Muslim projected to grow by 3.6pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 7.5,
+      "desc": "No religion projected to grow by 7.5pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Fishwick & Frenchwood",
+      "diversity_index": 0.8443,
+      "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)"
+    }
+  ],
   "risk_category": "At Risk",
   "ethnic_composition_summary": {
     "white_british_pct": 85.2,
@@ -53,7 +88,14 @@
     "arrears": 0
   },
   "pressure_zones": [],
-  "threats": [],
+  "threats": [
+    {
+      "type": "demographic_acceleration",
+      "severity": "high",
+      "description": "Projected Muslim population growth of +3.6pp by 2032 \u2014 accelerating SEND/EAL demand",
+      "evidence": "Driven by higher TFR (2.3 vs 1.52 national). Projected school-age cohort expansion."
+    }
+  ],
   "lgr_threats": [],
   "risk_factors": [
     "GRT/Roma population (1868) \u2014 highest SEND prevalence group",

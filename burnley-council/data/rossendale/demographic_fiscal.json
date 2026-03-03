@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.086567",
+    "generated": "2026-03-03T00:24:45.383382",
     "council_id": "rossendale",
     "sources": [
       "Census 2021",
@@ -12,8 +12,39 @@
     ]
   },
   "fiscal_resilience_score": 50,
-  "service_demand_pressure_score": 65,
+  "service_demand_pressure_score": 67,
   "demographic_change_velocity": 5.0,
+  "ethnic_composition_acceleration": {},
+  "religion_composition_acceleration": {
+    "Christian": -10.9,
+    "No religion": 8.5,
+    "Not answered": -0.1,
+    "Muslim": 2.4,
+    "Hindu": 0.1
+  },
+  "diversity_index_2021": 0.1423,
+  "diversity_index_2032": 0.1434,
+  "diversity_change": 0.0011,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 2.4,
+      "desc": "Muslim projected to grow by 2.4pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 8.5,
+      "desc": "No religion projected to grow by 8.5pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Worsley",
+      "diversity_index": 0.7036,
+      "desc": "Worsley projected as most ethnically diverse ward by 2032 (index: 0.704)"
+    }
+  ],
   "risk_category": "At Risk",
   "ethnic_composition_summary": {
     "white_british_pct": 90.4,
@@ -101,15 +132,15 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 37,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "three_unitary",
       "authority": "Pennine Lancashire",
-      "severity": "high",
-      "risk_category": "At Risk",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
       "fiscal_score": 38,
-      "demand_score": 74
+      "demand_score": 78
     },
     {
       "model": "four_unitary",
@@ -117,7 +148,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 34,
-      "demand_score": 76
+      "demand_score": 81
     },
     {
       "model": "four_unitary_alt",
@@ -125,15 +156,15 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 34,
-      "demand_score": 76
+      "demand_score": 81
     },
     {
       "model": "five_unitary",
       "authority": "East Lancashire",
-      "severity": "high",
-      "risk_category": "At Risk",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
       "fiscal_score": 35,
-      "demand_score": 74
+      "demand_score": 78
     }
   ],
   "risk_factors": [

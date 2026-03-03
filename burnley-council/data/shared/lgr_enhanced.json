@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.081396",
+    "generated": "2026-03-03T00:24:45.373079",
     "version": "1.0",
     "description": "Comprehensive LGR demographic fiscal intelligence",
     "academic_sources": [
@@ -295,7 +295,7 @@
         "collection_rate_weighted": 93.51,
         "collection_trend_weighted": -1.35,
         "fiscal_sustainability_score": 31,
-        "service_demand_pressure_score": 68,
+        "service_demand_pressure_score": 69,
         "risk_factors": [
           "Below-average council tax collection (94.16%)",
           "Declining collection rate (trend: -1.7%)",
@@ -460,6 +460,137 @@
             "council": "blackpool"
           }
         ],
+        "diversity_index_2021": 0.1643,
+        "diversity_index_2032": 0.1653,
+        "diversity_change": 0.0009,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.13
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.12,
+          "No religion": 8.4,
+          "Christian": -10.72,
+          "Muslim": 2.07,
+          "Hindu": 0.17,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 1.0,
+            "desc": "Muslim projected to grow by 1.0pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "University & Scotforth Rural",
+            "diversity_index": 0.7427,
+            "desc": "University & Scotforth Rural projected as most ethnically diverse ward by 2032 (index: 0.743)",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.8,
+            "desc": "No religion projected to grow by 9.8pp by 2032",
+            "council": "wyre"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Pharos",
+            "diversity_index": 0.5629,
+            "desc": "Pharos projected as most ethnically diverse ward by 2032 (index: 0.563)",
+            "council": "wyre"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.4,
+            "desc": "No religion projected to grow by 9.4pp by 2032",
+            "council": "fylde"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Kirkham South",
+            "diversity_index": 0.5879,
+            "desc": "Kirkham South projected as most ethnically diverse ward by 2032 (index: 0.588)",
+            "council": "fylde"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 7.2,
+            "desc": "Muslim projected to grow by 7.2pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 4.6,
+            "desc": "No religion projected to grow by 4.6pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Fishwick & Frenchwood",
+            "diversity_index": 0.8443,
+            "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.6,
+            "desc": "No religion projected to grow by 8.6pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Wilpshire & Ramsgreave",
+            "diversity_index": 0.5921,
+            "desc": "Wilpshire & Ramsgreave projected as most ethnically diverse ward by 2032 (index: 0.592)",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.7,
+            "desc": "No religion projected to grow by 9.7pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Bloomfield",
+            "diversity_index": 0.6309,
+            "desc": "Bloomfield projected as most ethnically diverse ward by 2032 (index: 0.631)",
+            "council": "blackpool"
+          }
+        ],
         "councils": [
           "lancaster",
           "wyre",
@@ -562,7 +693,7 @@
         "collection_rate_weighted": 95.28,
         "collection_trend_weighted": -0.85,
         "fiscal_sustainability_score": 37,
-        "service_demand_pressure_score": 72,
+        "service_demand_pressure_score": 74,
         "risk_factors": [
           "Declining collection rate (trend: -1.0%)",
           "Significant asylum dispersal (199 seekers)",
@@ -725,6 +856,186 @@
             "under_16_pct": 0.0,
             "flag": "HIGH",
             "council": "pendle"
+          }
+        ],
+        "diversity_index_2021": 0.2477,
+        "diversity_index_2032": 0.2488,
+        "diversity_change": 0.0011,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.15,
+          "White": -0.21
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "No religion": 6.3,
+          "Christian": -11.17,
+          "Sikh": -0.1,
+          "Muslim": 4.88,
+          "Hindu": 0.13,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.2,
+            "desc": "No religion projected to grow by 9.2pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Chorley East",
+            "diversity_index": 0.6168,
+            "desc": "Chorley East projected as most ethnically diverse ward by 2032 (index: 0.617)",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.6,
+            "desc": "Muslim projected to grow by 0.6pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Charnock",
+            "diversity_index": 0.5926,
+            "desc": "Charnock projected as most ethnically diverse ward by 2032 (index: 0.593)",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.5,
+            "desc": "No religion projected to grow by 9.5pp by 2032",
+            "council": "west_lancashire"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Digmoor",
+            "diversity_index": 0.586,
+            "desc": "Digmoor projected as most ethnically diverse ward by 2032 (index: 0.586)",
+            "council": "west_lancashire"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.3,
+            "desc": "Muslim projected to grow by 6.3pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.6,
+            "desc": "No religion projected to grow by 5.6pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Queensgate",
+            "diversity_index": 0.8012,
+            "desc": "Queensgate projected as most ethnically diverse ward by 2032 (index: 0.801)",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.8,
+            "desc": "Muslim projected to grow by 6.8pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.4,
+            "desc": "No religion projected to grow by 5.4pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Spring Hill",
+            "diversity_index": 0.7833,
+            "desc": "Spring Hill projected as most ethnically diverse ward by 2032 (index: 0.783)",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 9.2,
+            "desc": "Muslim projected to grow by 9.2pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 2.9,
+            "desc": "No religion projected to grow by 2.9pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Marsden & Southfield",
+            "diversity_index": 0.7841,
+            "desc": "Marsden & Southfield projected as most ethnically diverse ward by 2032 (index: 0.784)",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 2.4,
+            "desc": "Muslim projected to grow by 2.4pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.5,
+            "desc": "No religion projected to grow by 8.5pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Worsley",
+            "diversity_index": 0.7036,
+            "desc": "Worsley projected as most ethnically diverse ward by 2032 (index: 0.704)",
+            "council": "rossendale"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 11.1,
+            "desc": "Muslim projected to grow by 11.1pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 1.5,
+            "desc": "No religion projected to grow by 1.5pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Blackburn Central",
+            "diversity_index": 0.8374,
+            "desc": "Blackburn Central projected as most ethnically diverse ward by 2032 (index: 0.837)",
+            "council": "blackburn"
           }
         ],
         "councils": [
@@ -978,6 +1289,95 @@
             "council": "blackpool"
           }
         ],
+        "diversity_index_2021": 0.0937,
+        "diversity_index_2032": 0.0943,
+        "diversity_change": 0.0006,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.18,
+          "No religion": 9.55,
+          "Christian": -10.47,
+          "Muslim": 0.65,
+          "Hindu": 0.1,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.7,
+            "desc": "No religion projected to grow by 9.7pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Bloomfield",
+            "diversity_index": 0.6309,
+            "desc": "Bloomfield projected as most ethnically diverse ward by 2032 (index: 0.631)",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.4,
+            "desc": "No religion projected to grow by 9.4pp by 2032",
+            "council": "fylde"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Kirkham South",
+            "diversity_index": 0.5879,
+            "desc": "Kirkham South projected as most ethnically diverse ward by 2032 (index: 0.588)",
+            "council": "fylde"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 1.0,
+            "desc": "Muslim projected to grow by 1.0pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "University & Scotforth Rural",
+            "diversity_index": 0.7427,
+            "desc": "University & Scotforth Rural projected as most ethnically diverse ward by 2032 (index: 0.743)",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.8,
+            "desc": "No religion projected to grow by 9.8pp by 2032",
+            "council": "wyre"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Pharos",
+            "diversity_index": 0.5629,
+            "desc": "Pharos projected as most ethnically diverse ward by 2032 (index: 0.563)",
+            "council": "wyre"
+          }
+        ],
         "councils": [
           "blackpool",
           "fylde",
@@ -1078,7 +1478,7 @@
         "collection_rate_weighted": 94.09,
         "collection_trend_weighted": -1.86,
         "fiscal_sustainability_score": 35,
-        "service_demand_pressure_score": 66,
+        "service_demand_pressure_score": 68,
         "risk_factors": [
           "Declining collection rate (trend: -1.0%)",
           "Significant asylum dispersal (199 seekers)",
@@ -1171,6 +1571,103 @@
             "under_16_pct": 10.7,
             "flag": "HIGH",
             "council": "preston"
+          }
+        ],
+        "diversity_index_2021": 0.1835,
+        "diversity_index_2032": 0.1845,
+        "diversity_change": 0.0009,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.2
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.2,
+          "No religion": 7.92,
+          "Christian": -10.77,
+          "Sikh": -0.1,
+          "Muslim": 2.55,
+          "Hindu": 0.18,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.2,
+            "desc": "No religion projected to grow by 9.2pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Chorley East",
+            "diversity_index": 0.6168,
+            "desc": "Chorley East projected as most ethnically diverse ward by 2032 (index: 0.617)",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 7.2,
+            "desc": "Muslim projected to grow by 7.2pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 4.6,
+            "desc": "No religion projected to grow by 4.6pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Fishwick & Frenchwood",
+            "diversity_index": 0.8443,
+            "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.6,
+            "desc": "Muslim projected to grow by 0.6pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Charnock",
+            "diversity_index": 0.5926,
+            "desc": "Charnock projected as most ethnically diverse ward by 2032 (index: 0.593)",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.5,
+            "desc": "No religion projected to grow by 9.5pp by 2032",
+            "council": "west_lancashire"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Digmoor",
+            "diversity_index": 0.586,
+            "desc": "Digmoor projected as most ethnically diverse ward by 2032 (index: 0.586)",
+            "council": "west_lancashire"
           }
         ],
         "councils": [
@@ -1273,7 +1770,7 @@
         "collection_rate_weighted": 95.42,
         "collection_trend_weighted": -0.3,
         "fiscal_sustainability_score": 38,
-        "service_demand_pressure_score": 74,
+        "service_demand_pressure_score": 78,
         "risk_factors": [
           "Significant asylum dispersal (728 seekers)",
           "High deprivation (IMD avg: 35.2)",
@@ -1438,6 +1935,149 @@
             "council": "blackburn"
           }
         ],
+        "diversity_index_2021": 0.3334,
+        "diversity_index_2032": 0.3349,
+        "diversity_change": 0.0015,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.16,
+          "White": -0.2
+        },
+        "religion_composition_acceleration": {
+          "Not answered": -0.28,
+          "No religion": 4.67,
+          "Christian": -11.55,
+          "Muslim": 7.1,
+          "Hindu": 0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 11.1,
+            "desc": "Muslim projected to grow by 11.1pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 1.5,
+            "desc": "No religion projected to grow by 1.5pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Blackburn Central",
+            "diversity_index": 0.8374,
+            "desc": "Blackburn Central projected as most ethnically diverse ward by 2032 (index: 0.837)",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.3,
+            "desc": "Muslim projected to grow by 6.3pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.6,
+            "desc": "No religion projected to grow by 5.6pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Queensgate",
+            "diversity_index": 0.8012,
+            "desc": "Queensgate projected as most ethnically diverse ward by 2032 (index: 0.801)",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.8,
+            "desc": "Muslim projected to grow by 6.8pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.4,
+            "desc": "No religion projected to grow by 5.4pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Spring Hill",
+            "diversity_index": 0.7833,
+            "desc": "Spring Hill projected as most ethnically diverse ward by 2032 (index: 0.783)",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 9.2,
+            "desc": "Muslim projected to grow by 9.2pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 2.9,
+            "desc": "No religion projected to grow by 2.9pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Marsden & Southfield",
+            "diversity_index": 0.7841,
+            "desc": "Marsden & Southfield projected as most ethnically diverse ward by 2032 (index: 0.784)",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.6,
+            "desc": "No religion projected to grow by 8.6pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Wilpshire & Ramsgreave",
+            "diversity_index": 0.5921,
+            "desc": "Wilpshire & Ramsgreave projected as most ethnically diverse ward by 2032 (index: 0.592)",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 2.4,
+            "desc": "Muslim projected to grow by 2.4pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.5,
+            "desc": "No religion projected to grow by 8.5pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Worsley",
+            "diversity_index": 0.7036,
+            "desc": "Worsley projected as most ethnically diverse ward by 2032 (index: 0.704)",
+            "council": "rossendale"
+          }
+        ],
         "councils": [
           "blackburn",
           "burnley",
@@ -1446,7 +2086,7 @@
           "ribble_valley",
           "rossendale"
         ],
-        "risk_category": "At Risk"
+        "risk_category": "Structurally Deficit"
       }
     },
     "four_unitary": {
@@ -1542,7 +2182,7 @@
         "collection_rate_weighted": 93.37,
         "collection_trend_weighted": -1.76,
         "fiscal_sustainability_score": 32,
-        "service_demand_pressure_score": 63,
+        "service_demand_pressure_score": 65,
         "risk_factors": [
           "Below-average council tax collection (94.16%)",
           "Declining collection rate (trend: -1.7%)",
@@ -1625,6 +2265,86 @@
             "under_16_pct": 10.7,
             "flag": "HIGH",
             "council": "preston"
+          }
+        ],
+        "diversity_index_2021": 0.2468,
+        "diversity_index_2032": 0.2481,
+        "diversity_change": 0.0013,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.14
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "No religion": 7.21,
+          "Christian": -10.96,
+          "Muslim": 3.57,
+          "Hindu": 0.18,
+          "Jewish": -0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 1.0,
+            "desc": "Muslim projected to grow by 1.0pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "University & Scotforth Rural",
+            "diversity_index": 0.7427,
+            "desc": "University & Scotforth Rural projected as most ethnically diverse ward by 2032 (index: 0.743)",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 7.2,
+            "desc": "Muslim projected to grow by 7.2pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 4.6,
+            "desc": "No religion projected to grow by 4.6pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Fishwick & Frenchwood",
+            "diversity_index": 0.8443,
+            "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.6,
+            "desc": "No religion projected to grow by 8.6pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Wilpshire & Ramsgreave",
+            "diversity_index": 0.5921,
+            "desc": "Wilpshire & Ramsgreave projected as most ethnically diverse ward by 2032 (index: 0.592)",
+            "council": "ribble_valley"
           }
         ],
         "councils": [
@@ -1841,6 +2561,74 @@
             "council": "blackpool"
           }
         ],
+        "diversity_index_2021": 0.0774,
+        "diversity_index_2032": 0.078,
+        "diversity_change": 0.0005,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.22,
+          "No religion": 9.66,
+          "Christian": -10.46,
+          "Muslim": 0.5,
+          "Hindu": 0.1,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.7,
+            "desc": "No religion projected to grow by 9.7pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Bloomfield",
+            "diversity_index": 0.6309,
+            "desc": "Bloomfield projected as most ethnically diverse ward by 2032 (index: 0.631)",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.4,
+            "desc": "No religion projected to grow by 9.4pp by 2032",
+            "council": "fylde"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Kirkham South",
+            "diversity_index": 0.5879,
+            "desc": "Kirkham South projected as most ethnically diverse ward by 2032 (index: 0.588)",
+            "council": "fylde"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.8,
+            "desc": "No religion projected to grow by 9.8pp by 2032",
+            "council": "wyre"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Pharos",
+            "diversity_index": 0.5629,
+            "desc": "Pharos projected as most ethnically diverse ward by 2032 (index: 0.563)",
+            "council": "wyre"
+          }
+        ],
         "councils": [
           "blackpool",
           "fylde",
@@ -1940,7 +2728,7 @@
         "collection_rate_weighted": 94.96,
         "collection_trend_weighted": -0.38,
         "fiscal_sustainability_score": 34,
-        "service_demand_pressure_score": 76,
+        "service_demand_pressure_score": 81,
         "risk_factors": [
           "Significant asylum dispersal (728 seekers)",
           "High deprivation (IMD avg: 35.2)",
@@ -2105,6 +2893,128 @@
             "council": "blackburn"
           }
         ],
+        "diversity_index_2021": 0.3656,
+        "diversity_index_2032": 0.3671,
+        "diversity_change": 0.0016,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.16,
+          "White": -0.21
+        },
+        "religion_composition_acceleration": {
+          "Not answered": -0.37,
+          "No religion": 4.19,
+          "Christian": -11.75,
+          "Muslim": 7.88,
+          "Hindu": 0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 11.1,
+            "desc": "Muslim projected to grow by 11.1pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 1.5,
+            "desc": "No religion projected to grow by 1.5pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Blackburn Central",
+            "diversity_index": 0.8374,
+            "desc": "Blackburn Central projected as most ethnically diverse ward by 2032 (index: 0.837)",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.3,
+            "desc": "Muslim projected to grow by 6.3pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.6,
+            "desc": "No religion projected to grow by 5.6pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Queensgate",
+            "diversity_index": 0.8012,
+            "desc": "Queensgate projected as most ethnically diverse ward by 2032 (index: 0.801)",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.8,
+            "desc": "Muslim projected to grow by 6.8pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.4,
+            "desc": "No religion projected to grow by 5.4pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Spring Hill",
+            "diversity_index": 0.7833,
+            "desc": "Spring Hill projected as most ethnically diverse ward by 2032 (index: 0.783)",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 9.2,
+            "desc": "Muslim projected to grow by 9.2pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 2.9,
+            "desc": "No religion projected to grow by 2.9pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Marsden & Southfield",
+            "diversity_index": 0.7841,
+            "desc": "Marsden & Southfield projected as most ethnically diverse ward by 2032 (index: 0.784)",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 2.4,
+            "desc": "Muslim projected to grow by 2.4pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.5,
+            "desc": "No religion projected to grow by 8.5pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Worsley",
+            "diversity_index": 0.7036,
+            "desc": "Worsley projected as most ethnically diverse ward by 2032 (index: 0.704)",
+            "council": "rossendale"
+          }
+        ],
         "councils": [
           "blackburn",
           "burnley",
@@ -2260,6 +3170,81 @@
             "council": "west_lancashire"
           }
         ],
+        "diversity_index_2021": 0.0781,
+        "diversity_index_2032": 0.0786,
+        "diversity_change": 0.0005,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.37,
+          "No religion": 9.33,
+          "Christian": -10.33,
+          "Sikh": -0.1,
+          "Muslim": 0.57,
+          "Hindu": 0.13,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.2,
+            "desc": "No religion projected to grow by 9.2pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Chorley East",
+            "diversity_index": 0.6168,
+            "desc": "Chorley East projected as most ethnically diverse ward by 2032 (index: 0.617)",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.6,
+            "desc": "Muslim projected to grow by 0.6pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Charnock",
+            "diversity_index": 0.5926,
+            "desc": "Charnock projected as most ethnically diverse ward by 2032 (index: 0.593)",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.5,
+            "desc": "No religion projected to grow by 9.5pp by 2032",
+            "council": "west_lancashire"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Digmoor",
+            "diversity_index": 0.586,
+            "desc": "Digmoor projected as most ethnically diverse ward by 2032 (index: 0.586)",
+            "council": "west_lancashire"
+          }
+        ],
         "councils": [
           "chorley",
           "south_ribble",
@@ -2361,7 +3346,7 @@
         "collection_rate_weighted": 91.42,
         "collection_trend_weighted": -1.77,
         "fiscal_sustainability_score": 21,
-        "service_demand_pressure_score": 72,
+        "service_demand_pressure_score": 74,
         "risk_factors": [
           "Below-average council tax collection (89.71%)",
           "Declining collection rate (trend: -1.8%)",
@@ -2503,6 +3488,80 @@
             "muslim_pct": 16.3,
             "under_16_pct": 10.7,
             "flag": "HIGH",
+            "council": "preston"
+          }
+        ],
+        "diversity_index_2021": 0.2269,
+        "diversity_index_2032": 0.2281,
+        "diversity_change": 0.0012,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.16
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "No religion": 7.6,
+          "Christian": -11.01,
+          "Muslim": 3.27,
+          "Hindu": 0.23,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.7,
+            "desc": "No religion projected to grow by 9.7pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Bloomfield",
+            "diversity_index": 0.6309,
+            "desc": "Bloomfield projected as most ethnically diverse ward by 2032 (index: 0.631)",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.4,
+            "desc": "No religion projected to grow by 9.4pp by 2032",
+            "council": "fylde"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Kirkham South",
+            "diversity_index": 0.5879,
+            "desc": "Kirkham South projected as most ethnically diverse ward by 2032 (index: 0.588)",
+            "council": "fylde"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 7.2,
+            "desc": "Muslim projected to grow by 7.2pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 4.6,
+            "desc": "No religion projected to grow by 4.6pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Fishwick & Frenchwood",
+            "diversity_index": 0.8443,
+            "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)",
             "council": "preston"
           }
         ],
@@ -2659,6 +3718,81 @@
             "council": "west_lancashire"
           }
         ],
+        "diversity_index_2021": 0.0781,
+        "diversity_index_2032": 0.0786,
+        "diversity_change": 0.0005,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.37,
+          "No religion": 9.33,
+          "Christian": -10.33,
+          "Sikh": -0.1,
+          "Muslim": 0.57,
+          "Hindu": 0.13,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.2,
+            "desc": "No religion projected to grow by 9.2pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Chorley East",
+            "diversity_index": 0.6168,
+            "desc": "Chorley East projected as most ethnically diverse ward by 2032 (index: 0.617)",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.6,
+            "desc": "Muslim projected to grow by 0.6pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Charnock",
+            "diversity_index": 0.5926,
+            "desc": "Charnock projected as most ethnically diverse ward by 2032 (index: 0.593)",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.5,
+            "desc": "No religion projected to grow by 9.5pp by 2032",
+            "council": "west_lancashire"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Digmoor",
+            "diversity_index": 0.586,
+            "desc": "Digmoor projected as most ethnically diverse ward by 2032 (index: 0.586)",
+            "council": "west_lancashire"
+          }
+        ],
         "councils": [
           "chorley",
           "south_ribble",
@@ -2758,7 +3892,7 @@
         "collection_rate_weighted": 94.96,
         "collection_trend_weighted": -0.38,
         "fiscal_sustainability_score": 34,
-        "service_demand_pressure_score": 76,
+        "service_demand_pressure_score": 81,
         "risk_factors": [
           "Significant asylum dispersal (728 seekers)",
           "High deprivation (IMD avg: 35.2)",
@@ -2923,6 +4057,128 @@
             "council": "blackburn"
           }
         ],
+        "diversity_index_2021": 0.3656,
+        "diversity_index_2032": 0.3671,
+        "diversity_change": 0.0016,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.16,
+          "White": -0.21
+        },
+        "religion_composition_acceleration": {
+          "Not answered": -0.37,
+          "No religion": 4.19,
+          "Christian": -11.75,
+          "Muslim": 7.88,
+          "Hindu": 0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 11.1,
+            "desc": "Muslim projected to grow by 11.1pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 1.5,
+            "desc": "No religion projected to grow by 1.5pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Blackburn Central",
+            "diversity_index": 0.8374,
+            "desc": "Blackburn Central projected as most ethnically diverse ward by 2032 (index: 0.837)",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.3,
+            "desc": "Muslim projected to grow by 6.3pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.6,
+            "desc": "No religion projected to grow by 5.6pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Queensgate",
+            "diversity_index": 0.8012,
+            "desc": "Queensgate projected as most ethnically diverse ward by 2032 (index: 0.801)",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.8,
+            "desc": "Muslim projected to grow by 6.8pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.4,
+            "desc": "No religion projected to grow by 5.4pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Spring Hill",
+            "diversity_index": 0.7833,
+            "desc": "Spring Hill projected as most ethnically diverse ward by 2032 (index: 0.783)",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 9.2,
+            "desc": "Muslim projected to grow by 9.2pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 2.9,
+            "desc": "No religion projected to grow by 2.9pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Marsden & Southfield",
+            "diversity_index": 0.7841,
+            "desc": "Marsden & Southfield projected as most ethnically diverse ward by 2032 (index: 0.784)",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 2.4,
+            "desc": "Muslim projected to grow by 2.4pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.5,
+            "desc": "No religion projected to grow by 8.5pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Worsley",
+            "diversity_index": 0.7036,
+            "desc": "Worsley projected as most ethnically diverse ward by 2032 (index: 0.704)",
+            "council": "rossendale"
+          }
+        ],
         "councils": [
           "blackburn",
           "burnley",
@@ -3064,6 +4320,43 @@
             "council": "lancaster"
           }
         ],
+        "diversity_index_2021": 0.1317,
+        "diversity_index_2032": 0.1326,
+        "diversity_change": 0.0009,
+        "ethnic_composition_acceleration": {
+          "White": -0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.1,
+          "No religion": 9.3,
+          "Christian": -10.5,
+          "Muslim": 1.0,
+          "Hindu": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 1.0,
+            "desc": "Muslim projected to grow by 1.0pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "University & Scotforth Rural",
+            "diversity_index": 0.7427,
+            "desc": "University & Scotforth Rural projected as most ethnically diverse ward by 2032 (index: 0.743)",
+            "council": "lancaster"
+          }
+        ],
         "councils": [
           "lancaster"
         ],
@@ -3163,7 +4456,7 @@
         "collection_rate_weighted": 94.99,
         "collection_trend_weighted": -0.75,
         "fiscal_sustainability_score": 35,
-        "service_demand_pressure_score": 74,
+        "service_demand_pressure_score": 78,
         "risk_factors": [
           "Below-average council tax collection (94.04%)",
           "Declining collection rate (trend: -0.7%)",
@@ -3308,12 +4601,91 @@
             "council": "pendle"
           }
         ],
+        "diversity_index_2021": 0.3039,
+        "diversity_index_2032": 0.3056,
+        "diversity_change": 0.0017,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.15,
+          "White": -0.15
+        },
+        "religion_composition_acceleration": {
+          "Not answered": -0.28,
+          "No religion": 5.4,
+          "Christian": -11.48,
+          "Muslim": 6.3,
+          "Hindu": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.3,
+            "desc": "Muslim projected to grow by 6.3pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.6,
+            "desc": "No religion projected to grow by 5.6pp by 2032",
+            "council": "burnley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Queensgate",
+            "diversity_index": 0.8012,
+            "desc": "Queensgate projected as most ethnically diverse ward by 2032 (index: 0.801)",
+            "council": "burnley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 9.2,
+            "desc": "Muslim projected to grow by 9.2pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 2.9,
+            "desc": "No religion projected to grow by 2.9pp by 2032",
+            "council": "pendle"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Marsden & Southfield",
+            "diversity_index": 0.7841,
+            "desc": "Marsden & Southfield projected as most ethnically diverse ward by 2032 (index: 0.784)",
+            "council": "pendle"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 2.4,
+            "desc": "Muslim projected to grow by 2.4pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.5,
+            "desc": "No religion projected to grow by 8.5pp by 2032",
+            "council": "rossendale"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Worsley",
+            "diversity_index": 0.7036,
+            "desc": "Worsley projected as most ethnically diverse ward by 2032 (index: 0.704)",
+            "council": "rossendale"
+          }
+        ],
         "councils": [
           "burnley",
           "pendle",
           "rossendale"
         ],
-        "risk_category": "At Risk"
+        "risk_category": "Structurally Deficit"
       },
       "Central Lancashire": {
         "population": 298529,
@@ -3407,7 +4779,7 @@
         "collection_rate_weighted": 95.8,
         "collection_trend_weighted": 0.09,
         "fiscal_sustainability_score": 40,
-        "service_demand_pressure_score": 73,
+        "service_demand_pressure_score": 77,
         "risk_factors": [
           "Significant asylum dispersal (728 seekers)",
           "High deprivation (IMD avg: 35.2)",
@@ -3542,12 +4914,92 @@
             "council": "blackburn"
           }
         ],
+        "diversity_index_2021": 0.3592,
+        "diversity_index_2032": 0.3605,
+        "diversity_change": 0.0013,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.17,
+          "White": -0.23
+        },
+        "religion_composition_acceleration": {
+          "Not answered": -0.28,
+          "No religion": 4.04,
+          "Christian": -11.62,
+          "Muslim": 7.79,
+          "Hindu": 0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 11.1,
+            "desc": "Muslim projected to grow by 11.1pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 1.5,
+            "desc": "No religion projected to grow by 1.5pp by 2032",
+            "council": "blackburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Blackburn Central",
+            "diversity_index": 0.8374,
+            "desc": "Blackburn Central projected as most ethnically diverse ward by 2032 (index: 0.837)",
+            "council": "blackburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 6.8,
+            "desc": "Muslim projected to grow by 6.8pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 5.4,
+            "desc": "No religion projected to grow by 5.4pp by 2032",
+            "council": "hyndburn"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Spring Hill",
+            "diversity_index": 0.7833,
+            "desc": "Spring Hill projected as most ethnically diverse ward by 2032 (index: 0.783)",
+            "council": "hyndburn"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 8.6,
+            "desc": "No religion projected to grow by 8.6pp by 2032",
+            "council": "ribble_valley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Wilpshire & Ramsgreave",
+            "diversity_index": 0.5921,
+            "desc": "Wilpshire & Ramsgreave projected as most ethnically diverse ward by 2032 (index: 0.592)",
+            "council": "ribble_valley"
+          }
+        ],
         "councils": [
           "blackburn",
           "hyndburn",
           "ribble_valley"
         ],
-        "risk_category": "At Risk"
+        "risk_category": "Structurally Deficit"
       },
       "North Lancashire": {
         "population": 254881,
@@ -3692,6 +5144,58 @@
             "under_16_pct": 19.6,
             "flag": "HIGH",
             "council": "lancaster"
+          }
+        ],
+        "diversity_index_2021": 0.0955,
+        "diversity_index_2032": 0.0961,
+        "diversity_change": 0.0006,
+        "ethnic_composition_acceleration": {
+          "White": -0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.19,
+          "No religion": 9.52,
+          "Christian": -10.46,
+          "Muslim": 0.65,
+          "Hindu": 0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 1.0,
+            "desc": "Muslim projected to grow by 1.0pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "lancaster"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "University & Scotforth Rural",
+            "diversity_index": 0.7427,
+            "desc": "University & Scotforth Rural projected as most ethnically diverse ward by 2032 (index: 0.743)",
+            "council": "lancaster"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.8,
+            "desc": "No religion projected to grow by 9.8pp by 2032",
+            "council": "wyre"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Pharos",
+            "diversity_index": 0.5629,
+            "desc": "Pharos projected as most ethnically diverse ward by 2032 (index: 0.563)",
+            "council": "wyre"
           }
         ],
         "councils": [
@@ -3846,6 +5350,81 @@
             "council": "west_lancashire"
           }
         ],
+        "diversity_index_2021": 0.0781,
+        "diversity_index_2032": 0.0786,
+        "diversity_change": 0.0005,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "Not answered": 0.37,
+          "No religion": 9.33,
+          "Christian": -10.33,
+          "Sikh": -0.1,
+          "Muslim": 0.57,
+          "Hindu": 0.13,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.2,
+            "desc": "No religion projected to grow by 9.2pp by 2032",
+            "council": "chorley"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Chorley East",
+            "diversity_index": 0.6168,
+            "desc": "Chorley East projected as most ethnically diverse ward by 2032 (index: 0.617)",
+            "council": "chorley"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.6,
+            "desc": "Muslim projected to grow by 0.6pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.3,
+            "desc": "No religion projected to grow by 9.3pp by 2032",
+            "council": "south_ribble"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Charnock",
+            "diversity_index": 0.5926,
+            "desc": "Charnock projected as most ethnically diverse ward by 2032 (index: 0.593)",
+            "council": "south_ribble"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.5,
+            "desc": "No religion projected to grow by 9.5pp by 2032",
+            "council": "west_lancashire"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Digmoor",
+            "diversity_index": 0.586,
+            "desc": "Digmoor projected as most ethnically diverse ward by 2032 (index: 0.586)",
+            "council": "west_lancashire"
+          }
+        ],
         "councils": [
           "chorley",
           "south_ribble",
@@ -3945,7 +5524,7 @@
         "collection_rate_weighted": 91.42,
         "collection_trend_weighted": -1.77,
         "fiscal_sustainability_score": 21,
-        "service_demand_pressure_score": 72,
+        "service_demand_pressure_score": 74,
         "risk_factors": [
           "Below-average council tax collection (89.71%)",
           "Declining collection rate (trend: -1.8%)",
@@ -4087,6 +5666,80 @@
             "muslim_pct": 16.3,
             "under_16_pct": 10.7,
             "flag": "HIGH",
+            "council": "preston"
+          }
+        ],
+        "diversity_index_2021": 0.2269,
+        "diversity_index_2032": 0.2281,
+        "diversity_change": 0.0012,
+        "ethnic_composition_acceleration": {
+          "Asian": 0.1,
+          "White": -0.16
+        },
+        "religion_composition_acceleration": {
+          "Buddhist": 0.1,
+          "No religion": 7.6,
+          "Christian": -11.01,
+          "Muslim": 3.27,
+          "Hindu": 0.23,
+          "Jewish": -0.1,
+          "Other religion": 0.1
+        },
+        "composition_insights": [
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 0.8,
+            "desc": "Muslim projected to grow by 0.8pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.7,
+            "desc": "No religion projected to grow by 9.7pp by 2032",
+            "council": "blackpool"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Bloomfield",
+            "diversity_index": 0.6309,
+            "desc": "Bloomfield projected as most ethnically diverse ward by 2032 (index: 0.631)",
+            "council": "blackpool"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 9.4,
+            "desc": "No religion projected to grow by 9.4pp by 2032",
+            "council": "fylde"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Kirkham South",
+            "diversity_index": 0.5879,
+            "desc": "Kirkham South projected as most ethnically diverse ward by 2032 (index: 0.588)",
+            "council": "fylde"
+          },
+          {
+            "type": "religion_shift",
+            "group": "Muslim",
+            "change_pp": 7.2,
+            "desc": "Muslim projected to grow by 7.2pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "religion_shift",
+            "group": "No religion",
+            "change_pp": 4.6,
+            "desc": "No religion projected to grow by 4.6pp by 2032",
+            "council": "preston"
+          },
+          {
+            "type": "most_diverse_ward",
+            "ward": "Fishwick & Frenchwood",
+            "diversity_index": 0.8443,
+            "desc": "Fishwick & Frenchwood projected as most ethnically diverse ward by 2032 (index: 0.844)",
             "council": "preston"
           }
         ],
@@ -5114,7 +6767,7 @@
         "collection_rate_pct": 95.42,
         "avg_imd": 30.1,
         "fiscal_sustainability_score": 38,
-        "risk_category": "At Risk"
+        "risk_category": "Structurally Deficit"
       },
       "four_unitary": {
         "authority_name": "Pennine Lancashire",
@@ -5150,7 +6803,7 @@
         "collection_rate_pct": 94.99,
         "avg_imd": 30.2,
         "fiscal_sustainability_score": 35,
-        "risk_category": "At Risk"
+        "risk_category": "Structurally Deficit"
       }
     },
     "trajectory_narrative": "East Lancashire's demographic, fiscal, and deprivation profile mirrors Bradford circa 2010. Bradford: 30.5% Muslim, IMD 34.2, collection rate 93.2%, DSG deficit \u00a364M, s114 warning 2024. Oldham: 24.3% Muslim, IMD 32.8, collection rate 94.1%, children's services 'Requires Improvement'. An East Lancashire unitary (Pennine Lancashire in 3/4-unitary models) would concentrate similar demographics with even weaker fiscal foundations \u2014 fewer resources, higher dependency, declining tax base. Without sustained investment, the Bradford/Oldham fiscal decline trajectory is the most likely outcome within 10-15 years."

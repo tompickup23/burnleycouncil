@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.085513",
+    "generated": "2026-03-03T00:24:45.381819",
     "council_id": "burnley",
     "sources": [
       "Census 2021",
@@ -12,8 +12,41 @@
     ]
   },
   "fiscal_resilience_score": 20,
-  "service_demand_pressure_score": 80,
+  "service_demand_pressure_score": 85,
   "demographic_change_velocity": 12.8,
+  "ethnic_composition_acceleration": {
+    "White": -0.1,
+    "Asian": 0.1
+  },
+  "religion_composition_acceleration": {
+    "Christian": -11.8,
+    "No religion": 5.6,
+    "Muslim": 6.3,
+    "Not answered": -0.2
+  },
+  "diversity_index_2021": 0.2969,
+  "diversity_index_2032": 0.2989,
+  "diversity_change": 0.002,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "Muslim",
+      "change_pp": 6.3,
+      "desc": "Muslim projected to grow by 6.3pp by 2032"
+    },
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 5.6,
+      "desc": "No religion projected to grow by 5.6pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Queensgate",
+      "diversity_index": 0.8012,
+      "desc": "Queensgate projected as most ethnically diverse ward by 2032 (index: 0.801)"
+    }
+  ],
   "risk_category": "Structurally Deficit",
   "ethnic_composition_summary": {
     "white_british_pct": 77.9,
@@ -135,7 +168,7 @@
     {
       "type": "demographic",
       "severity": "high",
-      "description": "Service demand pressure 80/100 \u2014 above-average service costs",
+      "description": "Service demand pressure 85/100 \u2014 above-average service costs",
       "evidence": "SEND rate 15.3%, under-16 20.5%, asylum seekers 464"
     },
     {
@@ -149,6 +182,12 @@
       "severity": "high",
       "description": "Concentrated asylum dispersal (464 seekers) \u2014 growing pressure on housing, schools, health",
       "evidence": "Growth from 178 to 464 in 4 years"
+    },
+    {
+      "type": "demographic_acceleration",
+      "severity": "high",
+      "description": "Projected Muslim population growth of +6.3pp by 2032 \u2014 accelerating SEND/EAL demand",
+      "evidence": "Driven by higher TFR (2.3 vs 1.52 national). Projected school-age cohort expansion."
     }
   ],
   "lgr_threats": [
@@ -158,15 +197,15 @@
       "severity": "high",
       "risk_category": "At Risk",
       "fiscal_score": 37,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "three_unitary",
       "authority": "Pennine Lancashire",
-      "severity": "high",
-      "risk_category": "At Risk",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
       "fiscal_score": 38,
-      "demand_score": 74
+      "demand_score": 78
     },
     {
       "model": "four_unitary",
@@ -174,7 +213,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 34,
-      "demand_score": 76
+      "demand_score": 81
     },
     {
       "model": "four_unitary_alt",
@@ -182,15 +221,15 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 34,
-      "demand_score": 76
+      "demand_score": 81
     },
     {
       "model": "five_unitary",
       "authority": "East Lancashire",
-      "severity": "high",
-      "risk_category": "At Risk",
+      "severity": "critical",
+      "risk_category": "Structurally Deficit",
       "fiscal_score": 35,
-      "demand_score": 74
+      "demand_score": 78
     }
   ],
   "risk_factors": [

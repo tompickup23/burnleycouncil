@@ -730,3 +730,112 @@
     gap: var(--space-sm);
   }
 }
+
+/* ===== Premium Map Wrapper ===== */
+.lancashire-map-premium-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: visible;
+  background: radial-gradient(ellipse at center, rgba(10,132,255,0.08) 0%, transparent 70%);
+}
+
+.lancashire-map-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 32px;
+  background: radial-gradient(ellipse at center, rgba(228,0,43,0.12) 0%, rgba(10,132,255,0.06) 40%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 0;
+  animation: mapGlowPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes mapGlowPulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.lancashire-map-container {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 0 40px rgba(10,132,255,0.1),
+    0 0 80px rgba(228,0,43,0.05),
+    0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* Tooltip premium styling */
+.lancashire-map-tooltip {
+  background: rgba(28,28,30,0.95) !important;
+  backdrop-filter: blur(20px) saturate(1.3) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(10,132,255,0.1) !important;
+  color: #e5e5e7 !important;
+  max-width: 260px !important;
+}
+
+.lancashire-map-tooltip--county {
+  opacity: 0.8 !important;
+  border-color: rgba(255,159,10,0.2) !important;
+}
+
+.lancashire-map-tooltip::before {
+  display: none !important;
+}
+
+/* Map labels */
+.lancashire-map-label {
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 10px !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,0.7) !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6) !important;
+  text-align: center !important;
+  pointer-events: none !important;
+  background: none !important;
+  border: none !important;
+}
+
+.lancashire-map-label-current {
+  color: #fff !important;
+  text-shadow: 0 0 12px rgba(228,0,43,0.6), 0 1px 4px rgba(0,0,0,0.8) !important;
+}
+
+/* Leaflet overrides for premium feel */
+.lancashire-map-container .leaflet-control-zoom {
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+}
+
+.lancashire-map-container .leaflet-control-zoom a {
+  background: rgba(28,28,30,0.9) !important;
+  color: #e5e5e7 !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  font-size: 16px !important;
+}
+
+.lancashire-map-container .leaflet-control-zoom a:hover {
+  background: rgba(228,0,43,0.3) !important;
+  color: #fff !important;
+}
+
+.lancashire-map-container .leaflet-control-attribution {
+  background: rgba(28,28,30,0.6) !important;
+  color: rgba(255,255,255,0.3) !important;
+  font-size: 9px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.lancashire-map-container .leaflet-control-attribution a {
+  color: rgba(255,255,255,0.4) !important;
+}

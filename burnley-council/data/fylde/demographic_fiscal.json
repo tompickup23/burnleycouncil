@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-02T19:59:36.089001",
+    "generated": "2026-03-03T00:24:45.387599",
     "council_id": "fylde",
     "sources": [
       "Census 2021",
@@ -14,6 +14,37 @@
   "fiscal_resilience_score": 50,
   "service_demand_pressure_score": 70,
   "demographic_change_velocity": 6.0,
+  "ethnic_composition_acceleration": {
+    "White": -0.1,
+    "Asian": 0.1
+  },
+  "religion_composition_acceleration": {
+    "Christian": -10.3,
+    "No religion": 9.4,
+    "Not answered": 0.3,
+    "Muslim": 0.4,
+    "Other religion": 0.1,
+    "Jewish": -0.1,
+    "Buddhist": 0.1,
+    "Hindu": 0.1
+  },
+  "diversity_index_2021": 0.0729,
+  "diversity_index_2032": 0.0734,
+  "diversity_change": 0.0005,
+  "composition_insights": [
+    {
+      "type": "religion_shift",
+      "group": "No religion",
+      "change_pp": 9.4,
+      "desc": "No religion projected to grow by 9.4pp by 2032"
+    },
+    {
+      "type": "most_diverse_ward",
+      "ward": "Kirkham South",
+      "diversity_index": 0.5879,
+      "desc": "Kirkham South projected as most ethnically diverse ward by 2032 (index: 0.588)"
+    }
+  ],
   "risk_category": "At Risk",
   "ethnic_composition_summary": {
     "white_british_pct": 93.1,
@@ -78,7 +109,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 31,
-      "demand_score": 68
+      "demand_score": 69
     },
     {
       "model": "three_unitary",
@@ -102,7 +133,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 21,
-      "demand_score": 72
+      "demand_score": 74
     },
     {
       "model": "five_unitary",
@@ -110,7 +141,7 @@
       "severity": "critical",
       "risk_category": "Structurally Deficit",
       "fiscal_score": 21,
-      "demand_score": 72
+      "demand_score": 74
     }
   ],
   "risk_factors": [
