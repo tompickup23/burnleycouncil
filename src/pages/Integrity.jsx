@@ -4,6 +4,7 @@ import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTria
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CollapsibleSection from '../components/CollapsibleSection'
 import CouncillorLink from '../components/CouncillorLink'
 import { formatCurrency, slugify } from '../utils/format'
 import { SEVERITY_COLORS } from '../utils/constants'
@@ -342,32 +343,40 @@ function Integrity() {
         </div>
       </header>
 
-      {/* Methodology Banner */}
-      <section className="methodology-banner">
-        <Info size={18} />
-        <div>
-          <strong>{integrity?.data_sources?.length || 31}-source political fraud detection (v5.1):</strong> Each councillor&apos;s{' '}
-          <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer">
-            Companies House
-          </a>{' '}
-          record is verified using their public register of interests as an anchor.
-          DOB verification eliminates false positives.
-          {integrity?.register_available && (
-            <> Register of interests data is available for this council. </>
-          )}
-          {!integrity?.register_available && (
-            <> Register of interests is not available — verification relies on name + geographic proximity. </>
-          )}
-          {' '}Cross-referenced against: co-director networks,
-          Electoral Commission bulk donations, FCA prohibition orders, cross-council supplier matching (17 bodies),
-          familial connections, MP Register of Financial Interests, revolving door detection,
-          beneficial ownership chains (3-layer PSC), donation-to-contract correlation, network centrality scoring,
-          shell company detection, threshold manipulation, contract splitting, phantom companies,
-          bid rigging indicators, temporal donation clustering, parliamentary Hansard cross-reference,
-          undeclared interest detection, company formation timing analysis, and seasonal spending anomaly detection.
-          {stats?.network_centrality_applied && <> Network centrality amplification applied.</>}
+      {/* Methodology */}
+      <CollapsibleSection
+        title="Methodology"
+        subtitle={`${integrity?.data_sources?.length || 31}-source political fraud detection (v5.1)`}
+        icon={<Info size={18} />}
+        severity="info"
+      >
+        <div className="methodology-content">
+          <p>
+            Each councillor&apos;s{' '}
+            <a href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noopener noreferrer">
+              Companies House
+            </a>{' '}
+            record is verified using their public register of interests as an anchor.
+            DOB verification eliminates false positives.
+            {integrity?.register_available && (
+              <> Register of interests data is available for this council. </>
+            )}
+            {!integrity?.register_available && (
+              <> Register of interests is not available — verification relies on name + geographic proximity. </>
+            )}
+          </p>
+          <p>
+            Cross-referenced against: co-director networks,
+            Electoral Commission bulk donations, FCA prohibition orders, cross-council supplier matching (17 bodies),
+            familial connections, MP Register of Financial Interests, revolving door detection,
+            beneficial ownership chains (3-layer PSC), donation-to-contract correlation, network centrality scoring,
+            shell company detection, threshold manipulation, contract splitting, phantom companies,
+            bid rigging indicators, temporal donation clustering, parliamentary Hansard cross-reference,
+            undeclared interest detection, company formation timing analysis, and seasonal spending anomaly detection.
+            {stats?.network_centrality_applied && <> Network centrality amplification applied.</>}
+          </p>
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Summary Dashboard */}
       {stats && (
@@ -980,12 +989,15 @@ function Integrity() {
 
       {/* Surname Clusters & Shared Addresses */}
       {scanComplete && (integrity.surname_clusters?.length > 0 || integrity.shared_address_councillors?.length > 0) && (
-        <section className="familial-overview">
-          <h3><Heart size={18} /> Familial Connection Analysis</h3>
-          <p className="familial-desc">
-            Under the Localism Act 2011, family members' financial interests are Disclosable
-            Pecuniary Interests (DPIs). Failure to declare can be a criminal offence (s.34).
-          </p>
+        <CollapsibleSection
+          title="Familial Connection Analysis"
+          subtitle="Localism Act 2011 — family financial interests are DPIs"
+          icon={<Heart size={18} />}
+          severity="warning"
+          count={(integrity.surname_clusters?.length || 0) + (integrity.shared_address_councillors?.length || 0)}
+          countLabel="clusters"
+          defaultOpen
+        >
           <div className="familial-grid">
             {integrity.surname_clusters?.map((cluster, i) => (
               <div key={i} className={`familial-card ${cluster.severity}`}>
@@ -1028,17 +1040,19 @@ function Integrity() {
               </div>
             ))}
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Supplier Political Donations */}
       {integrity?.supplier_political_donations?.length > 0 && (
-        <section className="supplier-donations-section">
-          <h3><Banknote size={18} /> Supplier Political Donations</h3>
-          <p className="section-desc">
-            Council suppliers identified as having made political donations to local party associations
-            (source: Electoral Commission). This does not imply wrongdoing but is disclosed for transparency.
-          </p>
+        <CollapsibleSection
+          title="Supplier Political Donations"
+          subtitle="Electoral Commission donation records cross-referenced with council suppliers"
+          icon={<Banknote size={18} />}
+          severity="warning"
+          count={integrity.supplier_political_donations.length}
+          countLabel="donations"
+        >
           <div className="supplier-donations-grid">
             {integrity.supplier_political_donations.map((donation, i) => {
               const dateMs = donation.date ? parseInt(donation.date.replace(/\/Date\((\d+)\)\//, '$1'), 10) : null
@@ -1074,18 +1088,19 @@ function Integrity() {
               )
             })}
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Supplier Investigation — Reverse Lookup */}
       {supplierInvestigation.length > 0 && (
-        <section className="supplier-investigation-section">
-          <h3><Scale size={18} /> Supplier Investigation</h3>
-          <p className="section-desc">
-            Reverse lookup: starting from council suppliers, showing which councillors are connected and how.
-            Includes direct conflicts (councillor directs a matching company), network crossovers
-            (councillor&apos;s co-director linked to supplier), and cross-council conflicts.
-          </p>
+        <CollapsibleSection
+          title="Supplier Investigation"
+          subtitle="Reverse lookup: council suppliers → connected councillors"
+          icon={<Scale size={18} />}
+          severity="critical"
+          count={supplierInvestigation.length}
+          countLabel="suppliers"
+        >
           <div className="supplier-investigation-grid">
             {supplierInvestigation.map((item, i) => (
               <div key={i} className="supplier-investigation-card">
@@ -1157,16 +1172,19 @@ function Integrity() {
               </div>
             ))}
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Cross-Council Summary */}
       {integrity?.cross_council_summary?.councillor_companies_in_other_councils > 0 && (
-        <section className="cross-council-summary-section">
-          <h3><Globe size={18} /> Cross-Council Summary</h3>
-          <p className="section-desc">
-            Councillors whose company directorships appear as suppliers in other Lancashire councils.
-          </p>
+        <CollapsibleSection
+          title="Cross-Council Summary"
+          subtitle="Councillor companies found as suppliers in other Lancashire councils"
+          icon={<Globe size={18} />}
+          severity="critical"
+          count={integrity.cross_council_summary.councillor_companies_in_other_councils}
+          countLabel="companies"
+        >
           <div className="cross-council-summary-stats">
             <div className="dashboard-card accent-critical">
               <span className="dashboard-number">{integrity.cross_council_summary.councillor_companies_in_other_councils}</span>
@@ -1179,7 +1197,7 @@ function Integrity() {
               {integrity.cross_council_summary.affected_councils.join(', ')}
             </div>
           )}
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Councillor Cards */}

@@ -1249,6 +1249,199 @@ button:focus-visible {
 }
 
 /* ============================================ */
+/* COLLAPSIBLE SECTION — Premium broadcast     */
+/* Shared dropdown component for all pages     */
+/* ============================================ */
+.cs-section {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg, 12px);
+  margin-bottom: var(--space-md, 12px);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.cs-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--broadcast-red, #e4002b), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cs-open {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.cs-open::before {
+  opacity: 1;
+}
+
+/* Severity accents */
+.cs-critical {
+  border-left: 3px solid #ff453a;
+}
+.cs-warning {
+  border-left: 3px solid #ff9f0a;
+}
+.cs-info {
+  border-left: 3px solid var(--accent-blue, #0a84ff);
+}
+.cs-neutral {
+  /* No left border accent */
+}
+
+/* Header button */
+.cs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-lg, 16px) var(--space-lg, 16px);
+  background: none;
+  border: none;
+  color: var(--text-primary, #fff);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+  gap: var(--space-md, 12px);
+}
+
+.cs-header:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.cs-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-icon {
+  color: var(--accent-blue, #0a84ff);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cs-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cs-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-subtitle {
+  font-size: 0.8125rem;
+  color: var(--text-secondary, #8e8e93);
+  line-height: 1.3;
+}
+
+.cs-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  flex-shrink: 0;
+}
+
+.cs-count {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: rgba(228, 0, 43, 0.12);
+  color: var(--broadcast-red, #e4002b);
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cs-chevron {
+  color: var(--text-tertiary, #636366);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.cs-chevron-open {
+  transform: rotate(180deg);
+}
+
+/* Content area with smooth expand/collapse */
+.cs-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cs-content-open {
+  grid-template-rows: 1fr;
+}
+
+.cs-content-inner {
+  overflow: hidden;
+  padding: 0 var(--space-lg, 16px);
+}
+
+.cs-content-open .cs-content-inner {
+  padding-bottom: var(--space-lg, 16px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cs-header {
+    padding: var(--space-md, 12px);
+  }
+  .cs-title {
+    font-size: 0.95rem;
+  }
+  .cs-content-inner {
+    padding: 0 var(--space-md, 12px);
+  }
+  .cs-content-open .cs-content-inner {
+    padding-bottom: var(--space-md, 12px);
+  }
+}
+
+/* ============================================ */
+/* SIDEBAR — Premium broadcast upgrade         */
+/* ============================================ */
+
+/* Live indicator dot for sidebar */
+.sidebar-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--broadcast-red, #e4002b);
+  animation: livePulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(228, 0, 43, 0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 6px 2px rgba(228, 0, 43, 0.2); }
+}
+
+/* ============================================ */
 /* PREMIUM MAP — Responsive                    */
 /* ============================================ */
 @media (max-width: 768px) {

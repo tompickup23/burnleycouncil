@@ -201,18 +201,19 @@ function Layout({ children }) {
                     style={{
                       background: 'none', border: 'none', width: '100%',
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      padding: '6px 16px 2px', cursor: section.collapsible ? 'pointer' : 'default',
-                      color: 'var(--text-secondary, #94a3b8)', fontSize: '0.6rem',
-                      fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
+                      padding: '8px 16px 3px', cursor: section.collapsible ? 'pointer' : 'default',
+                      color: 'rgba(228, 0, 43, 0.55)', fontSize: '0.55rem',
+                      fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em',
                     }}
                   >
                     {section.title}
                     {section.collapsible && (
                       <ChevronDown
-                        size={12}
+                        size={10}
                         style={{
                           transform: collapsedSections[section.title] ? 'rotate(-90deg)' : 'rotate(0deg)',
                           transition: 'transform 0.2s ease',
+                          opacity: 0.5,
                         }}
                       />
                     )}
