@@ -277,6 +277,44 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
         </div>
       )}
 
+      {/* Related public body estates context */}
+      <div className="lgr-prop-chart-card lgr-prop-related-estates">
+        <h3><Layers size={16} /> Related Public Body Estates</h3>
+        <p className="lgr-prop-chart-desc">
+          LGR will also require coordination with other public body property estates not included in this analysis
+        </p>
+        <div className="lgr-prop-related-grid">
+          <div className="lgr-prop-related-item">
+            <span className="lgr-prop-related-badge" style={{ background: '#ff453a' }}>Fire</span>
+            <div>
+              <strong>Lancashire Fire & Rescue Service</strong>
+              <span>~40 fire stations + training centres + HQ. Separate authority — may be affected by CCA transfer.</span>
+            </div>
+          </div>
+          <div className="lgr-prop-related-item">
+            <span className="lgr-prop-related-badge" style={{ background: '#0a84ff' }}>Police</span>
+            <div>
+              <strong>Lancashire Constabulary</strong>
+              <span>~30 police stations + custody suites + HQ complex. Under PCC — estate unchanged by LGR.</span>
+            </div>
+          </div>
+          <div className="lgr-prop-related-item">
+            <span className="lgr-prop-related-badge" style={{ background: '#bf5af2' }}>CCA</span>
+            <div>
+              <strong>Lancashire Combined County Authority</strong>
+              <span>New combined authority inheriting transport, skills and economic development assets from LCC.</span>
+            </div>
+          </div>
+          <div className="lgr-prop-related-item">
+            <span className="lgr-prop-related-badge" style={{ background: '#ff9f0a' }}>Districts</span>
+            <div>
+              <strong>12 District Council Estates</strong>
+              <span>Housing, leisure centres, civic buildings. District estates merge into new unitaries under LGR.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Stacked bar chart — assets by category per authority */}
       {stackedData.length > 0 && allCategories.length > 0 && (
         <div className="lgr-prop-chart-card">
