@@ -526,8 +526,8 @@ describe('Politics', () => {
     // "Opposition Groups" appears as both nav pill and section h2
     const matches = screen.getAllByText('Opposition Groups')
     expect(matches.length).toBeGreaterThanOrEqual(1)
-    // Verify the section itself exists
-    expect(document.querySelector('.opposition-section')).toBeInTheDocument()
+    // Verify the section itself exists (now a CollapsibleSection with id="opposition")
+    expect(document.getElementById('opposition')).toBeInTheDocument()
   })
 
   it('does not render opposition groups when no data', () => {
@@ -602,18 +602,16 @@ describe('Politics', () => {
   it('renders attendance section when voting data has attendance', () => {
     setupMocks({}, mockConfigWithVoting, mockVotingData)
     renderComponent()
-    // "Attendance" appears in nav pill and section h2
-    expect(document.querySelector('.attendance-section')).toBeInTheDocument()
-    expect(document.querySelector('.attendance-section h2').textContent).toBe('Attendance')
+    // "Attendance" appears in nav pill and CollapsibleSection h3
+    expect(document.getElementById('attendance')).toBeInTheDocument()
+    expect(document.querySelector('#attendance .cs-title').textContent).toBe('Attendance')
   })
 
   it('does not render attendance section without voting data', () => {
     setupMocks()
     renderComponent()
     // "Attendance" as a section heading should not exist
-    const h2s = document.querySelectorAll('h2')
-    const attendanceH2 = Array.from(h2s).find(h => h.textContent === 'Attendance')
-    expect(attendanceH2).toBeUndefined()
+    expect(document.getElementById('attendance')).toBeNull()
   })
 
   it('renders attendance date range', () => {
@@ -674,10 +672,9 @@ describe('Politics', () => {
   it('renders recorded votes section when voting data has votes', () => {
     setupMocks({}, mockConfigWithVoting, mockVotingData)
     renderComponent()
-    // "Recorded Votes" appears in nav pill and section h2
-    expect(document.querySelector('.votes-section')).toBeInTheDocument()
-    expect(document.querySelector('.votes-section h2').textContent).toBe('Recorded Votes')
-    expect(screen.getByText('3 recorded divisions since 2015')).toBeInTheDocument()
+    // "Recorded Votes" appears in nav pill and CollapsibleSection h3
+    expect(document.getElementById('votes')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: /Recorded Votes/ })).toBeInTheDocument()
   })
 
   it('does not render votes section without voting data', () => {

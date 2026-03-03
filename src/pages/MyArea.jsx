@@ -3,6 +3,7 @@ import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCi
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import CollapsibleSection from '../components/CollapsibleSection'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
 import { slugify } from '../utils/format'
@@ -580,41 +581,36 @@ function MyArea() {
 
       {/* ===== WARD MAP ===== */}
       {boundariesData?.features?.length > 0 && Object.keys(wardMapData).length > 0 && (
-        <section className="premium-map-section">
-          <div className="premium-map-header">
-            <h2><MapPin size={22} /> Ward Map</h2>
-            <p className="section-intro">
-              Click a ward to see your councillors and local data. Coloured by party control.
-            </p>
-          </div>
-          <div className="premium-map-3d">
-            <div className="premium-map-orb premium-map-orb--red" />
-            <div className="premium-map-orb premium-map-orb--blue" />
-            <div className="premium-map-frame premium-map-frame--compact">
-              <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
-                <WardMap
-                  boundaries={boundariesData}
-                  wardData={wardMapData}
-                  wardsUp={Object.keys(wardMapData)}
-                  overlayMode="party"
-                  selectedWard={selectedWard}
-                  onWardClick={(name) => {
-                    setSelectedWard(name)
-                    setTimeout(() => {
-                      document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                    }, 100)
-                  }}
-                  height="420px"
-                />
-              </Suspense>
+        <CollapsibleSection title="Ward Map" icon={<MapPin size={18} />} defaultOpen subtitle="Click a ward to see your councillors and local data. Coloured by party control." id="ward-map">
+          <div className="premium-map-section">
+            <div className="premium-map-3d">
+              <div className="premium-map-orb premium-map-orb--red" />
+              <div className="premium-map-orb premium-map-orb--blue" />
+              <div className="premium-map-frame premium-map-frame--compact">
+                <Suspense fallback={<div className="premium-map-loading">Loading map...</div>}>
+                  <WardMap
+                    boundaries={boundariesData}
+                    wardData={wardMapData}
+                    wardsUp={Object.keys(wardMapData)}
+                    overlayMode="party"
+                    selectedWard={selectedWard}
+                    onWardClick={(name) => {
+                      setSelectedWard(name)
+                      setTimeout(() => {
+                        document.querySelector('.ward-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }, 100)
+                    }}
+                    height="420px"
+                  />
+                </Suspense>
+              </div>
             </div>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* All Wards Grid */}
-      <section className="all-wards">
-        <h2>All Wards</h2>
+      <CollapsibleSection title="All Wards" icon={<Users size={18} />} defaultOpen count={wardList.length} countLabel="wards" id="all-wards">
         <div className="wards-grid">
           {wardList.map(ward => {
             const wardCouncillors = getWardCouncillors(ward.name)
@@ -691,11 +687,10 @@ function MyArea() {
             )
           })}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Official Council Link */}
-      <section className="find-ward">
-        <h2>More Information</h2>
+      <CollapsibleSection title="More Information" icon={<AlertCircle size={18} />} id="more-info">
         <div className="find-ward-card">
           <p>
             For full councillor details and meeting schedules, visit the official {councilName} Council website.
@@ -709,7 +704,7 @@ function MyArea() {
             Find Your Councillor on {(config.official_website || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} →
           </a>
         </div>
-      </section>
+      </CollapsibleSection>
     </div>
   )
 }

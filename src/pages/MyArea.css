@@ -452,6 +452,12 @@
   color: var(--text-secondary);
 }
 
+/* CollapsibleSection spacing */
+.myarea-page .cs-section {
+  scroll-margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
 @media (max-width: 768px) {
   .ward-councillors {
     grid-template-columns: 1fr;

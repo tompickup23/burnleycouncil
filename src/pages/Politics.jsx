@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Search, User, Mail, Phone, MapPin, ChevronDown, ChevronUp, ExternalLink, FileText } from 'lucide-react'
+import { Search, User, Mail, Phone, MapPin, ChevronDown, ChevronUp, ExternalLink, FileText, Building2, LayoutGrid, Crown, Users, ClipboardCheck, Vote } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -8,6 +8,7 @@ import { TOOLTIP_STYLE } from '../utils/constants'
 import { slugify } from '../utils/format'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
+import CollapsibleSection from '../components/CollapsibleSection'
 import './Politics.css'
 
 const ATTENDANCE_COLORS = { good: '#30d158', amber: '#ff9f0a', poor: '#ff453a' }
@@ -183,8 +184,7 @@ function Politics() {
 
       {/* Council Composition — data-driven from politics_summary.json */}
       {summary?.coalition && (
-        <section id="composition" className="composition-section">
-          <h2>Council Composition</h2>
+        <CollapsibleSection title="Council Composition" icon={<Building2 size={18} />} defaultOpen id="composition">
           <div className="composition-grid">
             <div className="composition-card coalition">
               <h3>{summary.coalition.type === 'majority' ? 'Ruling Party' : 'Ruling Coalition'}</h3>
@@ -229,12 +229,11 @@ function Politics() {
               </div>
             </div>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Seat Diagram */}
-      <section className="seats-section">
-        <h2>Seat Diagram</h2>
+      <CollapsibleSection title="Seat Diagram" icon={<LayoutGrid size={18} />} defaultOpen>
         <div className="seats-diagram">
           {seatsByParty.map(party => (
             <div key={party.party} className="party-seats">
@@ -254,11 +253,10 @@ function Politics() {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Key Figures */}
-      <section className="key-figures">
-        <h2>Key Figures</h2>
+      <CollapsibleSection title="Key Figures" icon={<Crown size={18} />} defaultOpen>
         <div className="figures-grid">
           {summary?.council_leader && (
             <div className="figure-card">
@@ -291,12 +289,11 @@ function Politics() {
             </div>
           )}
         </div>
-      </section>
+      </CollapsibleSection>
 
       {/* Opposition Groups */}
       {summary?.opposition_groups?.length > 0 && (
-        <section id="opposition" className="opposition-section">
-          <h2>Opposition Groups</h2>
+        <CollapsibleSection title="Opposition Groups" icon={<Users size={18} />} id="opposition" count={summary.opposition_groups.length} countLabel="groups">
           <div className="opposition-groups-grid">
             {summary.opposition_groups.map(group => (
               <div key={group.name} className="opposition-group-card" style={{ borderLeftColor: group.color }}>
@@ -335,14 +332,12 @@ function Politics() {
               </div>
             ))}
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Attendance Dashboard */}
       {votingData?.attendance?.councillors?.length > 0 && (
-        <section id="attendance" className="attendance-section">
-          <h2>Attendance</h2>
-          <p className="section-subtitle">{votingData.attendance.date_range}</p>
+        <CollapsibleSection title="Attendance" icon={<ClipboardCheck size={18} />} id="attendance" subtitle={votingData.attendance.date_range}>
 
           <div className="attendance-stats">
             {avgAttendance !== null && (
@@ -395,14 +390,12 @@ function Politics() {
               </ResponsiveContainer>
             </div>
           )}
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Recorded Votes */}
       {sortedVotes.length > 0 && (
-        <section id="votes" className="votes-section">
-          <h2>Recorded Votes</h2>
-          <p className="section-subtitle">{sortedVotes.length} recorded divisions since 2015</p>
+        <CollapsibleSection title="Recorded Votes" icon={<Vote size={18} />} id="votes" count={sortedVotes.length} countLabel="divisions">
 
           <div className="votes-list">
             {sortedVotes.map(vote => {
@@ -534,13 +527,11 @@ function Politics() {
               )
             })}
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {/* Councillor Directory */}
-      <section id="councillors" className="directory-section">
-        <h2>All Councillors</h2>
-
+      <CollapsibleSection title="All Councillors" icon={<User size={18} />} id="councillors" count={councillors.length} countLabel="councillors">
         <div className="directory-filters">
           <div className="search-bar">
             <Search size={18} className="search-icon" />
@@ -678,7 +669,7 @@ function Politics() {
         {filteredCouncillors.length === 0 && (
           <p className="no-results">No councillors found matching your search.</p>
         )}
-      </section>
+      </CollapsibleSection>
     </div>
   )
 }
