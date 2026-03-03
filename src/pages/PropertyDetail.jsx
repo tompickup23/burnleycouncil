@@ -1910,7 +1910,7 @@ function LGRTab({ asset, lgrData }) {
                     {r.risk} risk
                   </span>
                 </div>
-                <div className="property-detail-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                <div className="property-detail-grid" style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
                   <div>
                     <div className="detail-label">Authority</div>
                     <div className="detail-value">{r.authority}</div>
@@ -1919,6 +1919,15 @@ function LGRTab({ asset, lgrData }) {
                     <div className="detail-label">Outcome</div>
                     <div className="detail-value" style={{ color: outcomeColor }}>
                       {OUTCOME_LABELS[r.outcome] || r.outcome}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="detail-label">Transfer Mechanism</div>
+                    <div className="detail-value" style={{ fontSize: '0.8rem' }}>
+                      {asset.sale_mechanism === 'board_resolution' ? 'Board Resolution' :
+                       asset.sale_mechanism === 'partner_consent' ? 'Partner Consent' :
+                       asset.ownership_model === 'subsidiary' ? 'Corporate Transfer' :
+                       'Statutory Transfer'}
                     </div>
                   </div>
                 </div>

@@ -19,15 +19,33 @@ const mockPropertyData = {
   two_unitary: {
     'North Lancashire': {
       assets_count: 520,
+      estimated_value: 290000000,
+      rb_market_value: 494000000,
+      rb_euv: 487000000,
       categories: { 'Office': 80, 'School': 200, 'Depot': 40, 'Leisure': 50, 'Other': 150 },
       condition_backlog: 28000000,
       disposal_candidates: 145,
+      revenue_generating: 48,
+      cost_centres: 472,
+      ownership_tiers: { county: 517, third_party: 3 },
+      ownership_tier_values: { county: 289850000, third_party: 150000 },
+      subsidiaries: { 'Lancashire County Developments (Property) Limited': 8 },
+      subsidiary_values: { 'Lancashire County Developments (Property) Limited': 4500000 },
     },
     'South Lancashire': {
       assets_count: 680,
+      estimated_value: 585000000,
+      rb_market_value: 935000000,
+      rb_euv: 913000000,
       categories: { 'Office': 110, 'School': 280, 'Depot': 55, 'Leisure': 70, 'Other': 165 },
       condition_backlog: 28600000,
       disposal_candidates: 199,
+      revenue_generating: 62,
+      cost_centres: 618,
+      ownership_tiers: { county: 678, third_party: 2 },
+      ownership_tier_values: { county: 584900000, third_party: 100000 },
+      subsidiaries: { 'Lancashire County Developments (Property) Limited': 5, 'Lancashire Renewables Limited': 2 },
+      subsidiary_values: { 'Lancashire County Developments (Property) Limited': 2800000, 'Lancashire Renewables Limited': 1200000 },
     },
   },
   contested_assets: [
@@ -145,6 +163,55 @@ describe('LGRPropertyDivision', () => {
     )
     expect(screen.getByText('Assets by Category')).toBeInTheDocument()
     expect(screen.getByText('Condition Backlog by Authority')).toBeInTheDocument()
+  })
+
+  it('shows estate valuations section', () => {
+    render(
+      <LGRPropertyDivision
+        propertyData={mockPropertyData}
+        selectedModel="two_unitary"
+        models={mockModels}
+      />
+    )
+    expect(screen.getByText('Estate Valuations by Authority')).toBeInTheDocument()
+    expect(screen.getAllByText(/Red Book/).length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('shows ownership tier breakdown', () => {
+    render(
+      <LGRPropertyDivision
+        propertyData={mockPropertyData}
+        selectedModel="two_unitary"
+        models={mockModels}
+      />
+    )
+    expect(screen.getByText('Ownership Tier Breakdown')).toBeInTheDocument()
+  })
+
+  it('shows subsidiary assets', () => {
+    render(
+      <LGRPropertyDivision
+        propertyData={mockPropertyData}
+        selectedModel="two_unitary"
+        models={mockModels}
+      />
+    )
+    expect(screen.getAllByText(/Subsidiary/).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/Lancashire County Developments/).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/Lancashire Renewables/).length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('shows revenue-generating count', () => {
+    render(
+      <LGRPropertyDivision
+        propertyData={mockPropertyData}
+        selectedModel="two_unitary"
+        models={mockModels}
+      />
+    )
+    // 48 + 62 = 110 revenue-generating assets
+    expect(screen.getByText(/48 revenue/)).toBeInTheDocument()
+    expect(screen.getByText(/62 revenue/)).toBeInTheDocument()
   })
 })
 

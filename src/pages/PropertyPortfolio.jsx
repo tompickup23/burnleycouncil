@@ -490,9 +490,10 @@ export default function PropertyPortfolio() {
     const stats = {}
     assets.forEach(a => {
       if (!a.ced) return
-      if (!stats[a.ced]) stats[a.ced] = { assetCount: 0, totalSpend: 0, categories: {} }
+      if (!stats[a.ced]) stats[a.ced] = { assetCount: 0, totalSpend: 0, totalValue: 0, categories: {} }
       stats[a.ced].assetCount++
       stats[a.ced].totalSpend += (a.linked_supplier_spend_total || a.linked_spend || 0)
+      stats[a.ced].totalValue += (a.rb_market_value || a.gb_market_value || 0)
       const cat = a.category || 'unknown'
       stats[a.ced].categories[cat] = (stats[a.ced].categories[cat] || 0) + 1
     })

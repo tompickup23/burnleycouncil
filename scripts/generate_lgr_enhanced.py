@@ -924,15 +924,42 @@ def allocate_properties(property_assets, lgr_models, council_data_map):
                 cat = a.get("category", "unknown")
                 categories[cat] = categories.get(cat, 0) + 1
 
+            # Red Book valuation totals
+            rb_market_value = sum(a.get("rb_market_value", 0) or 0 for a in auth_assets)
+            rb_euv = sum(a.get("rb_euv", 0) or 0 for a in auth_assets)
+
+            # Ownership tier breakdown
+            tier_counts = {}
+            tier_values = {}
+            for a in auth_assets:
+                t = a.get("tier", "county")
+                tier_counts[t] = tier_counts.get(t, 0) + 1
+                tier_values[t] = tier_values.get(t, 0) + (a.get("gb_market_value", 0) or 0)
+
+            # Subsidiary breakdown
+            subsidiary_counts = {}
+            subsidiary_values = {}
+            for a in auth_assets:
+                entity = a.get("owner_entity", "")
+                if entity and entity != "Lancashire County Council":
+                    subsidiary_counts[entity] = subsidiary_counts.get(entity, 0) + 1
+                    subsidiary_values[entity] = subsidiary_values.get(entity, 0) + (a.get("gb_market_value", 0) or 0)
+
             model_result[auth_name] = {
                 "assets_count": len(auth_assets),
                 "estimated_value": total_value,
+                "rb_market_value": rb_market_value,
+                "rb_euv": rb_euv,
                 "condition_backlog": condition_backlog,
                 "disposal_candidates": disposal_candidates,
                 "revenue_generating": revenue_generating,
                 "cost_centres": len(auth_assets) - revenue_generating,
                 "contested_assets": len(contested),
                 "categories": categories,
+                "ownership_tiers": tier_counts,
+                "ownership_tier_values": tier_values,
+                "subsidiaries": subsidiary_counts,
+                "subsidiary_values": subsidiary_values,
             }
 
         result[model_id] = model_result

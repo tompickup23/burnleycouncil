@@ -176,6 +176,65 @@
   font-style: italic;
 }
 
+/* Expanded stat card with valuation */
+.lgr-prop-stat-card--expanded .lgr-prop-stat-content {
+  gap: 0.15rem;
+}
+
+.lgr-prop-stat-valuation {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #30d158;
+  margin-top: 0.15rem;
+}
+
+.lgr-prop-stat-revenue {
+  font-size: 0.75rem;
+  color: #8e8e93;
+}
+
+/* Subsidiary grid */
+.lgr-prop-subsidiary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.lgr-prop-subsidiary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(48, 209, 88, 0.06);
+  border: 1px solid rgba(48, 209, 88, 0.15);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+.lgr-prop-subsidiary-name {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lgr-prop-subsidiary-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #30d158;
+  white-space: nowrap;
+}
+
+.lgr-prop-subsidiary-note {
+  font-size: 0.75rem;
+  color: #636366;
+  margin: 0.75rem 0 0;
+  line-height: 1.4;
+  font-style: italic;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .lgr-prop-stats-grid {
