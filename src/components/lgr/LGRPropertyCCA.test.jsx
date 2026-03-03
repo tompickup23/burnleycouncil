@@ -18,13 +18,13 @@ vi.mock('recharts', () => {
 const mockPropertyData = {
   two_unitary: {
     'North Lancashire': {
-      total_assets: 520,
+      assets_count: 520,
       categories: { 'Office': 80, 'School': 200, 'Depot': 40, 'Leisure': 50, 'Other': 150 },
       condition_backlog: 28000000,
       disposal_candidates: 145,
     },
     'South Lancashire': {
-      total_assets: 680,
+      assets_count: 680,
       categories: { 'Office': 110, 'School': 280, 'Depot': 55, 'Leisure': 70, 'Other': 165 },
       condition_backlog: 28600000,
       disposal_candidates: 199,

@@ -59,27 +59,67 @@ function pressureToColor(pressure) {
   return `rgb(${255},${Math.round(159 - 114 * p)},${Math.round(10 + 48 * p)})`
 }
 
-/** Build ward → authority lookup from authorities array. */
-function buildWardAuthorityMap(authorities) {
+// District name → council_id mapping for LCC property assets
+const DISTRICT_TO_COUNCIL = {
+  'Blackpool': 'blackpool', 'Burnley': 'burnley', 'Chorley': 'chorley',
+  'Fylde': 'fylde', 'Hyndburn': 'hyndburn', 'Lancaster': 'lancaster',
+  'Pendle': 'pendle', 'Preston': 'preston', 'Ribble Valley': 'ribble_valley',
+  'Rossendale': 'rossendale', 'South Ribble': 'south_ribble',
+  'West Lancashire': 'west_lancashire', 'Wyre': 'wyre',
+}
+
+/**
+ * Build CED → authority lookup using asset-based CED→district→council→authority chain.
+ * lgr_tracker.json has empty wards[] for all authorities, so we derive ward assignments
+ * from property asset district data instead.
+ */
+function buildWardAuthorityMap(authorities, propertyAssets) {
   const map = {}
   if (!authorities?.length) return map
+
+  // Build council → authority lookup
+  const councilToAuth = {}
   authorities.forEach((auth, idx) => {
     const name = auth.name || auth.authority_name || `Authority ${idx + 1}`
     const color = AUTH_COLORS[idx % AUTH_COLORS.length]
-    const wards = auth.wards || []
     const councils = auth.councils || []
-    wards.forEach(w => { map[w] = { authority: name, color, idx } })
-    // Also store council-level assignment for fallback
-    councils.forEach(c => { map[`__council__${c}`] = { authority: name, color, idx } })
+    councils.forEach(c => {
+      councilToAuth[c] = { authority: name, color, idx }
+    })
   })
+
+  // Build CED → majority district from asset data
+  if (propertyAssets?.length) {
+    const cedDistrictCounts = {}
+    propertyAssets.forEach(a => {
+      const ced = a.ced
+      const district = a.district
+      if (!ced || !district) return
+      if (!cedDistrictCounts[ced]) cedDistrictCounts[ced] = {}
+      cedDistrictCounts[ced][district] = (cedDistrictCounts[ced][district] || 0) + 1
+    })
+
+    // For each CED, pick majority district → council → authority
+    Object.entries(cedDistrictCounts).forEach(([ced, districts]) => {
+      const majorityDistrict = Object.entries(districts).sort((a, b) => b[1] - a[1])[0]?.[0]
+      if (!majorityDistrict) return
+      const councilId = DISTRICT_TO_COUNCIL[majorityDistrict]
+      if (!councilId) return
+      const authInfo = councilToAuth[councilId]
+      if (authInfo) {
+        map[ced] = { ...authInfo }
+      }
+    })
+  }
+
   return map
 }
 
 export default function LGRBoundaryMap({ boundaries, authorities, fiscalProfile, propertyAssets, deprivation }) {
   const [overlayMode, setOverlayMode] = useState('authority')
 
-  // Build authority assignment map
-  const authorityMap = useMemo(() => buildWardAuthorityMap(authorities), [authorities])
+  // Build authority assignment map (CED → district → council → authority chain)
+  const authorityMap = useMemo(() => buildWardAuthorityMap(authorities, propertyAssets), [authorities, propertyAssets])
 
   // Build deprivation ward map
   const deprivationMap = useMemo(() => {

@@ -13,6 +13,25 @@ const WardMap = lazy(() => import('../components/WardMap'))
 
 const PAGE_SIZE = 50
 
+// District name → council_id mapping (LCC CEDs span all 14 districts)
+const DISTRICT_TO_COUNCIL = {
+  'Blackpool': 'blackpool', 'Burnley': 'burnley', 'Chorley': 'chorley',
+  'Fylde': 'fylde', 'Hyndburn': 'hyndburn', 'Lancaster': 'lancaster',
+  'Pendle': 'pendle', 'Preston': 'preston', 'Ribble Valley': 'ribble_valley',
+  'Rossendale': 'rossendale', 'South Ribble': 'south_ribble',
+  'West Lancashire': 'west_lancashire', 'Wyre': 'wyre',
+}
+
+const DISTRICT_COLORS = {
+  'Blackpool': '#ff453a', 'Burnley': '#ff9f0a', 'Chorley': '#30d158',
+  'Fylde': '#0a84ff', 'Hyndburn': '#bf5af2', 'Lancaster': '#64d2ff',
+  'Pendle': '#ffd60a', 'Preston': '#5e5ce6', 'Ribble Valley': '#ff6482',
+  'Rossendale': '#ac8e68', 'South Ribble': '#34c759',
+  'West Lancashire': '#ff375f', 'Wyre': '#00c7be',
+}
+
+const LGR_AUTH_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff6482']
+
 const CATEGORY_COLORS = {
   education: '#2196F3',
   library: '#9C27B0',
@@ -221,6 +240,7 @@ export default function PropertyPortfolio() {
 
   const { data, loading, error } = useData('/data/property_assets.json')
   const { data: boundariesData } = useData('/data/ward_boundaries.json')
+  const { data: lgrTrackerData } = useData('/data/shared/lgr_tracker.json')
 
   // --- Page title ---
   useEffect(() => {
@@ -249,6 +269,8 @@ export default function PropertyPortfolio() {
   const [page, setPage] = useState(() => parseInt(searchParams.get('page'), 10) || 1)
   const [viewMode, setViewMode] = useState(() => searchParams.get('view') || 'table')
   const [mapOverlay, setMapOverlay] = useState(() => searchParams.get('overlay') || 'category')
+  const [lgrModel, setLgrModel] = useState(() => searchParams.get('lgrModel') || 'two_unitary')
+  const [hiddenDistricts, setHiddenDistricts] = useState(() => new Set())
 
   // --- Sync state → URL params (replace, not push — avoids back-button clutter) ---
   useEffect(() => {
@@ -270,8 +292,9 @@ export default function PropertyPortfolio() {
     if (page > 1) params.page = String(page)
     if (viewMode !== 'table') params.view = viewMode
     if (mapOverlay !== 'category') params.overlay = mapOverlay
+    if (lgrModel !== 'two_unitary' && mapOverlay === 'lgr_authority') params.lgrModel = lgrModel
     setSearchParams(params, { replace: true })
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sellableOnly, sortField, sortDir, page, viewMode, mapOverlay, setSearchParams])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sellableOnly, sortField, sortDir, page, viewMode, mapOverlay, lgrModel, setSearchParams])
 
   // --- Parse data ---
   const meta = data?.meta || {}
@@ -446,6 +469,103 @@ export default function PropertyPortfolio() {
         }
       })
   }, [filteredAssets, mapOverlay])
+
+  // --- CED → district mapping (majority district per CED from asset data) ---
+  const cedDistrictMap = useMemo(() => {
+    const counts = {}
+    assets.forEach(a => {
+      if (!a.ced || !a.district) return
+      if (!counts[a.ced]) counts[a.ced] = {}
+      counts[a.ced][a.district] = (counts[a.ced][a.district] || 0) + 1
+    })
+    const map = {}
+    Object.entries(counts).forEach(([ced, districts]) => {
+      map[ced] = Object.entries(districts).sort((a, b) => b[1] - a[1])[0]?.[0]
+    })
+    return map
+  }, [assets])
+
+  // --- Per-CED stats for enhanced tooltips ---
+  const cedStats = useMemo(() => {
+    const stats = {}
+    assets.forEach(a => {
+      if (!a.ced) return
+      if (!stats[a.ced]) stats[a.ced] = { assetCount: 0, totalSpend: 0, categories: {} }
+      stats[a.ced].assetCount++
+      stats[a.ced].totalSpend += (a.linked_supplier_spend_total || a.linked_spend || 0)
+      const cat = a.category || 'unknown'
+      stats[a.ced].categories[cat] = (stats[a.ced].categories[cat] || 0) + 1
+    })
+    return stats
+  }, [assets])
+
+  // --- LGR authority mapping for current model ---
+  const lgrModels = lgrTrackerData?.proposed_models || []
+  const currentLgrModel = lgrModels.find(m => m.id === lgrModel)
+  const lgrAuthorities = currentLgrModel?.authorities || []
+
+  const lgrAuthorityMap = useMemo(() => {
+    const map = {}
+    lgrAuthorities.forEach((auth, idx) => {
+      const councils = auth.councils || []
+      councils.forEach(c => {
+        map[c] = { authority: auth.name, color: LGR_AUTH_COLORS[idx % LGR_AUTH_COLORS.length], idx }
+      })
+    })
+    return map
+  }, [lgrAuthorities])
+
+  // --- Ward overlay data for district/LGR modes ---
+  const wardMapOverlayData = useMemo(() => {
+    if (mapOverlay !== 'district' && mapOverlay !== 'lgr_authority') return {}
+    if (!boundariesData?.features?.length) return {}
+
+    const data = {}
+    boundariesData.features.forEach(f => {
+      const cedName = f.properties?.name
+      if (!cedName) return
+      const district = cedDistrictMap[cedName]
+      const stats = cedStats[cedName]
+
+      if (mapOverlay === 'district') {
+        if (!district || hiddenDistricts.has(district)) return
+        data[cedName] = {
+          color: DISTRICT_COLORS[district] || '#8e8e93',
+          classLabel: district,
+          district,
+          assetCount: stats?.assetCount || 0,
+          totalSpend: stats?.totalSpend || 0,
+        }
+      } else if (mapOverlay === 'lgr_authority') {
+        if (!district) return
+        const councilId = DISTRICT_TO_COUNCIL[district]
+        if (!councilId) return
+        const authInfo = lgrAuthorityMap[councilId]
+        if (!authInfo) return
+        data[cedName] = {
+          color: authInfo.color,
+          classLabel: authInfo.authority,
+          district,
+          assetCount: stats?.assetCount || 0,
+          totalSpend: stats?.totalSpend || 0,
+        }
+      }
+    })
+    return data
+  }, [mapOverlay, boundariesData, cedDistrictMap, cedStats, hiddenDistricts, lgrAuthorityMap])
+
+  // --- Wards to highlight (all CEDs) for boundary coloring modes ---
+  const wardsUp = useMemo(() => {
+    if (mapOverlay !== 'district' && mapOverlay !== 'lgr_authority') return []
+    if (!boundariesData?.features?.length) return []
+    return boundariesData.features.map(f => f.properties?.name).filter(Boolean)
+  }, [mapOverlay, boundariesData])
+
+  // --- Filter map assets by hidden districts ---
+  const visibleMapAssets = useMemo(() => {
+    if (mapOverlay !== 'district' || hiddenDistricts.size === 0) return mapAssets
+    return mapAssets.filter(a => !hiddenDistricts.has(a.district))
+  }, [mapAssets, mapOverlay, hiddenDistricts])
 
   // --- Sort ---
   const sortedAssets = useMemo(() => {
@@ -1526,6 +1646,8 @@ export default function PropertyPortfolio() {
               { id: 'constraints', label: 'Constraints' },
               { id: 'ownership', label: 'Ownership' },
               { id: 'sellability', label: 'Sellability' },
+              { id: 'district', label: 'District' },
+              { id: 'lgr_authority', label: 'LGR Authority' },
             ].map(mode => (
               <button
                 key={mode.id}
@@ -1537,10 +1659,74 @@ export default function PropertyPortfolio() {
             ))}
           </div>
 
+          {/* LGR model selector (only in lgr_authority mode) */}
+          {mapOverlay === 'lgr_authority' && lgrModels.length > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+              <span style={{ fontSize: '0.8rem', color: '#aaa' }}>Model:</span>
+              <select
+                value={lgrModel}
+                onChange={(e) => setLgrModel(e.target.value)}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  borderRadius: '6px',
+                  padding: '6px 10px',
+                  fontSize: '0.8rem',
+                }}
+              >
+                {lgrModels.map(m => (
+                  <option key={m.id} value={m.id}>{m.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* District toggle chips (only in district mode) */}
+          {mapOverlay === 'district' && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+              {Object.entries(DISTRICT_COLORS).map(([district, color]) => {
+                const hidden = hiddenDistricts.has(district)
+                return (
+                  <button
+                    key={district}
+                    onClick={() => setHiddenDistricts(prev => {
+                      const next = new Set(prev)
+                      if (next.has(district)) next.delete(district)
+                      else next.add(district)
+                      return next
+                    })}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      padding: '4px 10px',
+                      borderRadius: '14px',
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      border: `1px solid ${hidden ? 'rgba(255,255,255,0.08)' : color}`,
+                      background: hidden ? 'transparent' : `${color}22`,
+                      color: hidden ? '#666' : color,
+                      cursor: 'pointer',
+                      opacity: hidden ? 0.5 : 1,
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    <span style={{
+                      width: '8px', height: '8px', borderRadius: '50%',
+                      background: hidden ? '#444' : color,
+                    }} />
+                    {district}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+
           {/* Asset count */}
           <div className="premium-map-meta">
-            Showing {formatNumber(mapAssets.length)} of {formatNumber(filteredAssets.length)} assets on map
-            {filteredAssets.length > mapAssets.length && ` (${filteredAssets.length - mapAssets.length} missing coordinates)`}
+            Showing {formatNumber(visibleMapAssets.length)} of {formatNumber(filteredAssets.length)} assets on map
+            {filteredAssets.length > visibleMapAssets.length && ` (${filteredAssets.length - visibleMapAssets.length} hidden/missing coordinates)`}
           </div>
 
           {/* Leaflet Map */}
@@ -1551,7 +1737,10 @@ export default function PropertyPortfolio() {
               <Suspense fallback={<div className="premium-map-loading" style={{ minHeight: '600px' }}>Loading map...</div>}>
                 <WardMap
                   boundaries={boundariesData}
-                  assets={mapAssets}
+                  wardData={wardMapOverlayData}
+                  wardsUp={wardsUp}
+                  overlayMode="classification"
+                  assets={visibleMapAssets}
                   onAssetClick={(id) => navigate(`/property/${id}`)}
                   height="600px"
                 />
@@ -1643,6 +1832,20 @@ export default function PropertyPortfolio() {
                 <span key={key} className="premium-map-legend-item">
                   <span className="premium-map-legend-dot" style={{ background: color }} />
                   {CONSTRAINT_LABELS[key] || key}
+                </span>
+              ))}
+              {mapOverlay === 'district' && Object.entries(DISTRICT_COLORS)
+                .filter(([d]) => !hiddenDistricts.has(d))
+                .map(([district, color]) => (
+                <span key={district} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: color }} />
+                  {district}
+                </span>
+              ))}
+              {mapOverlay === 'lgr_authority' && lgrAuthorities.map((auth, i) => (
+                <span key={auth.name} className="premium-map-legend-item">
+                  <span className="premium-map-legend-dot" style={{ background: LGR_AUTH_COLORS[i % LGR_AUTH_COLORS.length] }} />
+                  {auth.name}
                 </span>
               ))}
             </div>

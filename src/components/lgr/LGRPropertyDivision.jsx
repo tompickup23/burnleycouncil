@@ -42,7 +42,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
       cats.forEach(c => {
         entry[c] = cats_data[c] || 0
       })
-      entry.total = modelData[auth]?.total_assets || 0
+      entry.total = modelData[auth]?.assets_count || 0
       return entry
     })
 
@@ -67,7 +67,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
 
   // Total assets across all authorities
   const totalAssets = useMemo(() => {
-    return authorities.reduce((sum, auth) => sum + (modelData[auth]?.total_assets || 0), 0)
+    return authorities.reduce((sum, auth) => sum + (modelData[auth]?.assets_count || 0), 0)
   }, [modelData, authorities])
 
   // Total disposal candidates
@@ -99,7 +99,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
             <div className="lgr-prop-stat-dot" style={{ background: AUTHORITY_COLORS[i % AUTHORITY_COLORS.length] }} />
             <div className="lgr-prop-stat-content">
               <span className="lgr-prop-stat-label">{auth}</span>
-              <span className="lgr-prop-stat-value">{formatNumber(modelData[auth]?.total_assets || 0)}</span>
+              <span className="lgr-prop-stat-value">{formatNumber(modelData[auth]?.assets_count || 0)}</span>
               <span className="lgr-prop-stat-sub">assets</span>
             </div>
           </div>

@@ -235,7 +235,7 @@ function Layout({ children }) {
           ))}
 
           {/* Strategy link — visible to strategist and admin roles, requires elections data */}
-          {authCtx?.isStrategist && dataSources.elections && (
+          {(authCtx?.isStrategist || !isFirebaseEnabled) && dataSources.elections && (
             <div className="nav-section">
               <div className="nav-divider" />
               <NavLink
@@ -250,7 +250,7 @@ function Layout({ children }) {
           )}
 
           {/* Intelligence link — visible to strategist and admin roles, requires intelligence data */}
-          {authCtx?.isStrategist && dataSources.intelligence && (
+          {(authCtx?.isStrategist || !isFirebaseEnabled) && dataSources.intelligence && (
             <div className="nav-section">
               <NavLink
                 to="/intelligence"
@@ -264,7 +264,7 @@ function Layout({ children }) {
           )}
 
           {/* Property Estate — strategist-only, requires property_assets data */}
-          {authCtx?.isStrategist && dataSources.property_assets && (
+          {(authCtx?.isStrategist || !isFirebaseEnabled) && dataSources.property_assets && (
             <div className="nav-section">
               <NavLink
                 to="/properties"

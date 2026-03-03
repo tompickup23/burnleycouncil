@@ -55,10 +55,13 @@ function buildTooltipHTML(wardName, data) {
   const safeName = esc(wardName || '')
   if (!data) return `<strong>${safeName}</strong>`
   const lines = [`<strong>${safeName}</strong>`]
+  if (data.district) lines.push(`District: ${esc(data.district)}`)
   if (data.winner) lines.push(`<span style="color:${esc(data.partyColor || '#ccc')}">${esc(data.winner)}</span>`)
   if (data.predPct != null) lines.push(`Predicted: ${esc(String(data.predPct))}%`)
   if (data.swingTrend) lines.push(`Swing: ${esc(data.swingTrend)}`)
   if (data.hours) lines.push(`Hours: ${esc(String(data.hours))}`)
+  if (data.assetCount != null) lines.push(`Assets: ${esc(String(data.assetCount))}`)
+  if (data.totalSpend) lines.push(`Spend: £${esc(Number(data.totalSpend).toLocaleString())}`)
   if (data.classLabel) lines.push(esc(data.classLabel))
   return lines.join('<br/>')
 }
