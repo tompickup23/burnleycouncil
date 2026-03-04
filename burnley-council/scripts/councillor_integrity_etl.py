@@ -2725,6 +2725,9 @@ DETECTION_MULTIPLIERS = {
     "post_election_directorship": 1.2,
     "directorship_precedes_contract": 1.3,
     "hidden_network_3_hop": 1.4,
+    # v7.1 additions
+    "shared_codirector_network": 1.3,
+    "formation_agent_address": 1.2,
 }
 
 
@@ -4786,6 +4789,18 @@ def _build_company_entry(company_number, company_name, officer_match, profile,
         entry["accounts_overdue"] = profile.get("has_overdue_accounts", False)
         entry["confirmation_overdue"] = profile.get("has_overdue_confirmation_statement", False)
 
+        # v7.1: Formation agent / virtual office address detection
+        addr_lower = entry["registered_address_snippet"].lower()
+        for agent_addr in FORMATION_AGENT_ADDRESSES:
+            if agent_addr in addr_lower:
+                entry["formation_agent_address"] = True
+                entry["red_flags"].append({
+                    "type": "formation_agent_address",
+                    "detail": "Registered at known formation agent/virtual office address: {}".format(
+                        entry["registered_address_snippet"]),
+                })
+                break
+
     return entry
 
 
@@ -4835,6 +4850,60 @@ COMMUNITY_SIC_CODES = {
     "94110", "94120", "94200", "94910", "94920", "94990",  # Membership orgs
 }
 
+# SIC codes that indicate public administration / government body (v7.1)
+# Companies with these SIC codes are almost certainly council-related, not personal conflicts
+PUBLIC_ADMIN_SIC_CODES = {
+    "84110",  # General public administration activities
+    "84120",  # Regulation of health care, education, cultural services
+    "84130",  # Regulation of and contribution to more efficient operation of businesses
+    "84210",  # Foreign affairs
+    "84220",  # Defence activities
+    "84230",  # Justice and judicial activities
+    "84240",  # Public order and safety activities
+    "84250",  # Fire service activities
+    "84300",  # Compulsory social security activities
+}
+
+# Known formation agent / virtual office addresses (v7.1)
+# Companies registered at these addresses are likely using paid nominee services —
+# not necessarily fraudulent, but a red flag when a councillor's company uses one
+FORMATION_AGENT_ADDRESSES = [
+    "20-22 wenlock road",  # Rapid Formations, London N1
+    "71-75 shelton street",  # Covent Garden address service
+    "128 city road",  # London EC1V — 1st Formations
+    "kemp house, 152-160 city road",  # London EC1V — Companies MadeSimple
+    "suite 1, 3rd floor, 11-12 st james's square",  # London SW1 — nominee address
+    "86-90 paul street",  # London EC2A — Hoxton address service
+    "7 bell yard",  # London WC2A — premium formation agents
+    "27 old gloucester street",  # London WC1N — PO Box / virtual office
+    "4th floor, silverstream house",  # 45 Fitzroy Street
+    "145-157 st john street",  # London EC1V — formation agent hub
+    "2 angel square, london",  # EC1V — formation agents
+    "flat/suite, 43 bedford street",  # London WC2E — virtual office
+    "167-169 great portland street",  # London W1 — virtual office
+    "unit 4, enterprise court",  # Various business centres
+    "c/o",  # Care-of addresses indicate nominee/agent
+]
+
+# Known council office addresses — companies registered here are almost certainly council entities (v7.1)
+COUNCIL_OFFICE_ADDRESSES = [
+    "county hall, preston",
+    "town hall, burnley",
+    "town hall, nelson",
+    "town hall, rawtenstall",
+    "scaitcliffe house, accrington",
+    "town hall, lancaster",
+    "council offices, clitheroe",
+    "civic centre, chorley",
+    "civic centre, leyland",
+    "town hall, preston",
+    "town hall, blackpool",
+    "king george's hall, blackburn",
+    "civic centre, wyre",
+    "town hall, lytham",
+    "52 derby street, ormskirk",  # West Lancs council offices
+]
+
 
 def _classify_conflict_type(company_entry):
     """Classify a supplier conflict based on company type, SIC codes, and name patterns.
@@ -4842,12 +4911,16 @@ def _classify_conflict_type(company_entry):
     Returns (conflict_type, severity_modifier) where:
     - conflict_type: 'commercial', 'community_trustee', 'council_appointed', 'arms_length_body'
     - severity_modifier: adjusted severity string
+
+    v7.1: Fixed unused council_appointed_keywords, added public admin SIC codes,
+    council office address detection, and multi-councillor board signal.
     """
     company_name = company_entry.get("company_name", "").lower()
     company_type = company_entry.get("company_type", "")
     sic_codes = company_entry.get("sic_codes", [])
     nature_of_business = company_entry.get("nature_of_business_sic", "")
     officer_role = company_entry.get("role", "")
+    registered_address = company_entry.get("registered_address_snippet", "").lower()
 
     # Check for arm's-length bodies first (highest priority)
     name_normalised = company_name.strip()
@@ -4863,15 +4936,47 @@ def _classify_conflict_type(company_entry):
         if alb in name_normalised or name_normalised in alb:
             return "arms_length_body", "info"
 
-    # Council-appointed directorships (e.g. housing associations, trusts where council nominates directors)
-    council_appointed_keywords = [
-        "council", "borough", "civic", "municipal",
-        "housing association", "homes association",
-    ]
+    # Council-appointed directorships — officer role signals
     if officer_role and officer_role.lower() in (
         "nominee-director", "corporate-nominee-director",
         "corporate-director", "nominee-secretary",
     ):
+        return "council_appointed", "info"
+
+    # v7.1: Council-appointed via company name keywords
+    # These indicate the directorship is a council-nominated role, not a personal conflict
+    council_appointed_keywords = [
+        "council", "borough", "civic", "municipal",
+        "housing association", "homes association",
+        # v7.1 expansions: common council-appointed vehicle names
+        "growth company", "growth lancashire", "growth board",
+        "regeneration", "development corporation",
+        "economic partnership", "enterprise partnership",
+        "local enterprise", "combined authority",
+        "transport authority", "waste authority", "fire authority",
+        "police and crime", "joint committee",
+        "pension fund", "pension board",
+        "town deal", "levelling up board",
+        "place board", "skills board",
+    ]
+    for keyword in council_appointed_keywords:
+        if keyword in company_name:
+            return "council_appointed", "info"
+
+    # v7.1: Public administration SIC codes → council_appointed
+    if sic_codes:
+        sic_set = set(str(s).strip() for s in sic_codes if s)
+        if sic_set & PUBLIC_ADMIN_SIC_CODES:
+            return "council_appointed", "info"
+
+    # v7.1: Company registered at council office address → council_appointed
+    if registered_address:
+        for council_addr in COUNCIL_OFFICE_ADDRESSES:
+            if council_addr in registered_address:
+                return "council_appointed", "info"
+
+    # v7.1: Multi-councillor board signal (set by post-processing in process_council)
+    if company_entry.get("council_appointment_signal"):
         return "council_appointed", "info"
 
     # Community/charity classification via company type
@@ -5136,6 +5241,10 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     # Use full name search with increased page size for better coverage of common names
     officers = search_officers(name, items_per_page=50)
 
+    # v7.1: Common surname penalty — if too many CH officer hits, require stronger evidence
+    total_raw_name_matches = len([o for o in officers if name_match_score(name, o.get("title", "")) >= 90])
+    common_surname_penalty = total_raw_name_matches > 10  # e.g. "John Smith" will hit hundreds
+
     officer_matches_raw = []
     for officer in officers:
         title = officer.get("title", "")
@@ -5187,6 +5296,18 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             confidence = 35
             verification = "name_match_only"
 
+        # v7.1: Common surname penalty — reduce confidence for names with many CH matches
+        # If there are >10 officer matches for this name, require DOB or strong proximity
+        if common_surname_penalty and dob_match_result is not True:
+            if proximity < 15:
+                # Common name, no DOB match, not in Lancashire — almost certainly not them
+                confidence = min(confidence, 30)
+                verification = "common_surname_no_evidence"
+            elif proximity < 25:
+                # Common name, vaguely near Lancashire but no DOB — lower confidence
+                confidence = min(confidence, 45)
+                verification = "common_surname_weak_proximity"
+
         officer_matches_raw.append({
             "officer_id": officer_id,
             "title": title,
@@ -5197,6 +5318,7 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             "dob_match": dob_match_result,
             "confidence": confidence,
             "verification": verification,
+            "common_surname_flag": common_surname_penalty,
         })
 
     # Sort by confidence, then match_score
@@ -5285,6 +5407,18 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
                 company_entry["accounts_overdue"] = profile.get("has_overdue_accounts", False)
                 company_entry["confirmation_overdue"] = profile.get("has_overdue_confirmation_statement", False)
 
+                # v7.1: Formation agent / virtual office address detection
+                addr_lower = company_entry["registered_address_snippet"].lower()
+                for agent_addr in FORMATION_AGENT_ADDRESSES:
+                    if agent_addr in addr_lower:
+                        company_entry["formation_agent_address"] = True
+                        company_entry["red_flags"].append({
+                            "type": "formation_agent_address",
+                            "detail": "Registered at known formation agent/virtual office address: {}".format(
+                                company_entry["registered_address_snippet"]),
+                        })
+                        break
+
             _cross_ref_suppliers(company_entry, result, supplier_data, all_supplier_data, councillor)
             companies.append(company_entry)
 
@@ -5306,6 +5440,9 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     result["false_positives_eliminated"] = len([
         m for m in officer_matches_raw if m["confidence"] < MIN_CONFIDENCE_FOR_INVESTIGATION
     ]) + len([o for o in officers if name_match_score(name, o.get("title", "")) < 90])
+    if common_surname_penalty:
+        result["common_surname_flag"] = True
+        result["total_name_matches_on_ch"] = total_raw_name_matches
 
     # ── 3. PSC Analysis (for active companies only) ──
     if active:
@@ -5980,7 +6117,7 @@ def process_council(council_id, all_supplier_data=None,
         return None
 
     print("\n" + "=" * 70)
-    print("INTEGRITY SCAN: {} (v5.1 — 31-Source Political Fraud Detection)".format(council_id.upper()))
+    print("INTEGRITY SCAN: {} (v7.1 — 40-Source Intelligence-Grade Detection)".format(council_id.upper()))
     print("=" * 70)
 
     with open(councillors_path) as f:
@@ -6066,15 +6203,21 @@ def process_council(council_id, all_supplier_data=None,
     sources.append("Hansard parliamentary debate cross-reference")
     sources.append("Undeclared interest detection (CH vs register)")
     sources.append("Company formation timing analysis (PPE VIP Lane pattern)")
+    # v7.1 sources
+    sources.append("Multi-councillor board analysis (council appointment detection)")
+    sources.append("Cross-councillor co-director network bridges")
+    sources.append("Formation agent / virtual office address detection")
+    sources.append("Common surname false positive elimination")
+    sources.append("Public administration SIC code classification (84xxx)")
     print("  Data sources: {}".format(len(sources)))
     for s in sources:
         print("    → {}".format(s))
 
     results = {
         "council_id": council_id,
-        "version": "7.0",
+        "version": "7.1",
         "generated_at": datetime.utcnow().isoformat() + "Z",
-        "methodology": "40_source_intelligence_grade_detection",
+        "methodology": "45_source_intelligence_grade_detection",
         "data_sources": sources,
         "register_available": bool(register_data),
         "total_councillors": len(councillors),
@@ -6134,6 +6277,11 @@ def process_council(council_id, all_supplier_data=None,
             "supplier_profile_match_flags": 0,
             "committee_contract_correlation_flags": 0,
             "former_councillor_link_flags": 0,
+            # v7.1 additions
+            "council_appointed_boards": 0,
+            "conflicts_reclassified": 0,
+            "shared_codirector_bridges": 0,
+            "formation_agent_addresses": 0,
         },
         "register_compliance": register_compliance,
         "supplier_political_donations": [],
@@ -6285,6 +6433,11 @@ def process_council(council_id, all_supplier_data=None,
                 results["summary"]["former_councillor_link_flags"] += len(
                     result.get("former_councillor_links", []))
 
+                # v7.1: Formation agent address flags
+                for co in result.get("companies_house", {}).get("companies", []):
+                    if co.get("formation_agent_address"):
+                        results["summary"]["formation_agent_addresses"] += 1
+
                 risk = result.get("risk_level", "low")
                 if risk in results["summary"]["risk_distribution"]:
                     results["summary"]["risk_distribution"][risk] += 1
@@ -6320,6 +6473,184 @@ def process_council(council_id, all_supplier_data=None,
             print("    [{}/{}] ✗ Error: {} — {}".format(
                 i + 1, len(councillors), councillor.get("name", "?"), e))
             traceback.print_exc()
+
+    # ── v7.1 Post-Processing: Multi-Councillor Board Analysis ──
+    # If 3+ councillors from 2+ parties sit on the same company board,
+    # it's almost certainly a council-appointed role, not a personal conflict.
+    if len(results["councillors"]) >= 3:
+        print("\n  Running v7.1 multi-councillor board analysis...")
+        # Build company_number → {councillor_names, parties} lookup
+        company_councillor_map = {}  # company_number → {"councillors": [...], "parties": set()}
+        for r in results["councillors"]:
+            party = r.get("party", "")
+            cname = r.get("name", "")
+            for co in r.get("companies_house", {}).get("companies", []):
+                cn = co.get("company_number", "")
+                if not cn or co.get("resigned_on"):
+                    continue  # Only active directorships
+                if cn not in company_councillor_map:
+                    company_councillor_map[cn] = {
+                        "company_name": co.get("company_name", ""),
+                        "councillors": [],
+                        "parties": set(),
+                    }
+                company_councillor_map[cn]["councillors"].append(cname)
+                if party:
+                    company_councillor_map[cn]["parties"].add(party)
+
+        # Identify council-appointed companies (3+ councillors from 2+ parties)
+        council_appointed_companies = {}
+        for cn, info in company_councillor_map.items():
+            if len(info["councillors"]) >= 3 and len(info["parties"]) >= 2:
+                council_appointed_companies[cn] = info
+                print("    [COUNCIL APPOINTED] {} — {} councillors from {} parties: {}".format(
+                    info["company_name"], len(info["councillors"]),
+                    len(info["parties"]), ", ".join(info["councillors"][:5])))
+
+        # Also flag companies with 2+ councillors as "multi-councillor" (weaker signal)
+        multi_councillor_companies = {}
+        for cn, info in company_councillor_map.items():
+            if cn not in council_appointed_companies and len(info["councillors"]) >= 2:
+                multi_councillor_companies[cn] = info
+
+        # Apply council_appointment_signal to company entries and reclassify conflicts
+        reclassified_count = 0
+        for r in results["councillors"]:
+            for co in r.get("companies_house", {}).get("companies", []):
+                cn = co.get("company_number", "")
+                if cn in council_appointed_companies:
+                    co["council_appointment_signal"] = True
+                    co["multi_councillor_board"] = council_appointed_companies[cn]["councillors"]
+                    co["multi_councillor_parties"] = sorted(council_appointed_companies[cn]["parties"])
+                elif cn in multi_councillor_companies:
+                    co["multi_councillor_board"] = multi_councillor_companies[cn]["councillors"]
+                    co["multi_councillor_parties"] = sorted(multi_councillor_companies[cn]["parties"])
+
+            # Reclassify supplier conflicts that are now identified as council appointments
+            for sc in r.get("supplier_conflicts", []):
+                sc_cn = sc.get("company_number", "")
+                if sc_cn in council_appointed_companies and sc.get("conflict_type") != "council_appointed":
+                    old_type = sc.get("conflict_type", "commercial")
+                    sc["conflict_type"] = "council_appointed"
+                    sc["severity"] = "info"
+                    sc["reclassified_from"] = old_type
+                    sc["council_appointment_signal"] = True
+                    reclassified_count += 1
+                    # Update summary counts
+                    if old_type in results["summary"]["supplier_conflicts_by_type"]:
+                        results["summary"]["supplier_conflicts_by_type"][old_type] -= 1
+                    results["summary"]["supplier_conflicts_by_type"]["council_appointed"] += 1
+
+            for cc in r.get("cross_council_conflicts", []):
+                cc_cn = cc.get("company_number", "")
+                if cc_cn in council_appointed_companies and cc.get("conflict_type") != "council_appointed":
+                    old_type = cc.get("conflict_type", "commercial")
+                    cc["conflict_type"] = "council_appointed"
+                    cc["severity"] = "info"
+                    cc["reclassified_from"] = old_type
+                    cc["council_appointment_signal"] = True
+
+        results["multi_councillor_boards"] = {
+            "council_appointed": {cn: {
+                "company_name": info["company_name"],
+                "councillor_count": len(info["councillors"]),
+                "councillors": info["councillors"],
+                "parties": sorted(info["parties"]),
+            } for cn, info in council_appointed_companies.items()},
+            "multi_councillor": {cn: {
+                "company_name": info["company_name"],
+                "councillor_count": len(info["councillors"]),
+                "councillors": info["councillors"],
+                "parties": sorted(info["parties"]),
+            } for cn, info in multi_councillor_companies.items()},
+        }
+        results["summary"]["multi_councillor_boards_found"] = len(company_councillor_map)
+        results["summary"]["council_appointed_boards"] = len(council_appointed_companies)
+        results["summary"]["conflicts_reclassified"] = reclassified_count
+        print("  Multi-councillor boards: {} total, {} council-appointed, {} reclassified".format(
+            len([v for v in company_councillor_map.values() if len(v["councillors"]) >= 2]),
+            len(council_appointed_companies), reclassified_count))
+
+    # ── v7.1 Post-Processing: Cross-Councillor Co-Director Network Analysis ──
+    # Detect when different councillors share co-directors (hidden network links)
+    if len(results["councillors"]) >= 2:
+        print("\n  Running v7.1 cross-councillor co-director analysis...")
+        # Build co-director → councillors map
+        codirector_councillor_map = {}  # co-director name → [councillor names]
+        for r in results["councillors"]:
+            cname = r.get("name", "")
+            co_net = r.get("co_director_network", {})
+            for assoc in co_net.get("associates", []):
+                aname = assoc.get("name", "").lower().strip()
+                if not aname:
+                    continue
+                if aname not in codirector_councillor_map:
+                    codirector_councillor_map[aname] = {
+                        "name": assoc.get("name", ""),
+                        "councillors": [],
+                        "shared_companies": [],
+                    }
+                codirector_councillor_map[aname]["councillors"].append(cname)
+                for sc in assoc.get("shared_companies", []):
+                    codirector_councillor_map[aname]["shared_companies"].append(sc)
+
+        # Identify co-directors shared between multiple councillors (network bridges)
+        shared_codirectors = {}
+        for aname, info in codirector_councillor_map.items():
+            if len(set(info["councillors"])) >= 2:
+                shared_codirectors[aname] = {
+                    "name": info["name"],
+                    "linked_councillors": sorted(set(info["councillors"])),
+                    "councillor_count": len(set(info["councillors"])),
+                    "company_count": len(info["shared_companies"]),
+                    "companies": info["shared_companies"][:10],  # Cap for output size
+                }
+
+        # Inject findings into councillor results
+        shared_codirector_flags = 0
+        for r in results["councillors"]:
+            cname = r.get("name", "")
+            r["shared_codirectors"] = []
+            co_net = r.get("co_director_network", {})
+            for assoc in co_net.get("associates", []):
+                aname = assoc.get("name", "").lower().strip()
+                if aname in shared_codirectors:
+                    entry = shared_codirectors[aname]
+                    other_councillors = [c for c in entry["linked_councillors"] if c != cname]
+                    if other_councillors:
+                        r["shared_codirectors"].append({
+                            "co_director_name": entry["name"],
+                            "also_linked_to": other_councillors,
+                            "company_count": entry["company_count"],
+                        })
+                        # Add red flag if this is a network bridge with supplier conflict
+                        has_supplier = any(
+                            sc.get("conflict_type") == "commercial"
+                            for sc in r.get("supplier_conflicts", [])
+                        )
+                        if has_supplier and len(other_councillors) >= 2:
+                            r["red_flags"].append({
+                                "type": "shared_codirector_network",
+                                "severity": "warning",
+                                "detail": "Co-director '{}' bridges councillor to {} other councillor(s): {} — potential coordinated network".format(
+                                    entry["name"], len(other_councillors),
+                                    ", ".join(other_councillors[:3]))
+                            })
+                            shared_codirector_flags += 1
+
+        results["shared_codirector_network"] = {
+            "bridges_found": len(shared_codirectors),
+            "bridges": [v for v in shared_codirectors.values()][:20],  # Top 20
+        }
+        results["summary"]["shared_codirector_bridges"] = len(shared_codirectors)
+        if shared_codirectors:
+            print("  Co-director bridges: {} people link multiple councillors".format(
+                len(shared_codirectors)))
+            for aname, info in sorted(shared_codirectors.items(),
+                                       key=lambda x: x[1]["councillor_count"], reverse=True)[:5]:
+                print("    → '{}' links {} councillors: {}".format(
+                    info["name"], info["councillor_count"],
+                    ", ".join(info["linked_councillors"][:4])))
 
     # ── v5 Post-Processing: Social Network Triangulation + Reciprocal Appointments ──
     # These need all_results, so run after all councillors processed
@@ -6487,6 +6818,9 @@ def process_council(council_id, all_supplier_data=None,
     print("  Surname clusters: {} | Shared addresses: {}".format(
         len(results.get("surname_clusters", [])),
         len(results.get("shared_address_councillors", []))))
+    print("  v7.1: council_appointed_boards={} reclassified={} co-director_bridges={} formation_agents={}".format(
+        s.get("council_appointed_boards", 0), s.get("conflicts_reclassified", 0),
+        s.get("shared_codirector_bridges", 0), s.get("formation_agent_addresses", 0)))
     print("  Network investigations advisable: {} ({} high priority)".format(
         s["network_investigations_advisable"], s["network_investigation_high_priority"]))
     print("  Network centrality: {}".format(

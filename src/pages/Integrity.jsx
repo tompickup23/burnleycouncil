@@ -426,6 +426,8 @@ function Integrity() {
                 <span className="dashboard-breakdown">
                   {stats.supplier_conflicts_by_type.commercial > 0 && <span className="breakdown-commercial">{stats.supplier_conflicts_by_type.commercial} commercial</span>}
                   {stats.supplier_conflicts_by_type.community_trustee > 0 && <span className="breakdown-community">{stats.supplier_conflicts_by_type.community_trustee} community</span>}
+                  {stats.supplier_conflicts_by_type.council_appointed > 0 && <span className="breakdown-appointed">{stats.supplier_conflicts_by_type.council_appointed} council appointed</span>}
+                  {stats.supplier_conflicts_by_type.arms_length_body > 0 && <span className="breakdown-armslength">{stats.supplier_conflicts_by_type.arms_length_body} arm&apos;s-length</span>}
                 </span>
               )}
             </div>
@@ -554,6 +556,31 @@ function Integrity() {
               <div className="dashboard-card">
                 <span className="dashboard-number">{(stats.graphCentralityHubs || 0) + (stats.graphCentralityBridges || 0)}</span>
                 <span className="dashboard-label">Network Hubs &amp; Bridges</span>
+              </div>
+            )}
+            {/* v7.1 stat cards */}
+            {(stats.council_appointed_boards || 0) > 0 && (
+              <div className="dashboard-card" title="Companies where 3+ councillors from 2+ parties sit on the board — almost certainly council-appointed roles">
+                <span className="dashboard-number">{stats.council_appointed_boards}</span>
+                <span className="dashboard-label">Council Boards Identified</span>
+              </div>
+            )}
+            {(stats.conflicts_reclassified || 0) > 0 && (
+              <div className="dashboard-card" title="Supplier conflicts reclassified from commercial to council-appointed after multi-councillor board analysis">
+                <span className="dashboard-number">{stats.conflicts_reclassified}</span>
+                <span className="dashboard-label">Conflicts Reclassified</span>
+              </div>
+            )}
+            {(stats.shared_codirector_bridges || 0) > 0 && (
+              <div className="dashboard-card accent-warning" title="Co-directors who sit on boards with multiple different councillors — potential network bridges">
+                <span className="dashboard-number">{stats.shared_codirector_bridges}</span>
+                <span className="dashboard-label">Co-Director Bridges</span>
+              </div>
+            )}
+            {(stats.formation_agent_addresses || 0) > 0 && (
+              <div className="dashboard-card accent-warning" title="Companies registered at known formation agent or virtual office addresses">
+                <span className="dashboard-number">{stats.formation_agent_addresses}</span>
+                <span className="dashboard-label">Formation Agent Addresses</span>
               </div>
             )}
           </div>
@@ -1570,9 +1597,18 @@ function Integrity() {
                             council_appointed: 'conflict-type-appointed',
                             arms_length_body: 'conflict-type-armslength',
                           }[ctype] || 'conflict-type-commercial'
+                          const typeTooltip = {
+                            commercial: 'Personal commercial interest — genuine conflict of interest',
+                            community_trustee: 'Community organisation or charity — informational only',
+                            council_appointed: 'Council-nominated directorship — not a personal conflict. This role is likely appointed by the council.',
+                            arms_length_body: "Arm's-length body or outsourcing partner — standard council relationship",
+                          }[ctype] || ''
                           return (
                           <div key={i} className={`conflict-row ${typeClass}`}>
-                            <span className={`conflict-type-badge ${typeClass}`}>{typeLabel}</span>
+                            <span className={`conflict-type-badge ${typeClass}`} title={typeTooltip}>
+                              {typeLabel}
+                              {conflict.council_appointment_signal && ' ✓'}
+                            </span>
                             <span className="conflict-company">{conflict.company_name}</span>
                             <span className="conflict-arrow">→</span>
                             <Link
@@ -1621,9 +1657,18 @@ function Integrity() {
                             council_appointed: 'conflict-type-appointed',
                             arms_length_body: 'conflict-type-armslength',
                           }[ctype] || 'conflict-type-commercial'
+                          const typeTooltip = {
+                            commercial: 'Personal commercial interest — genuine conflict of interest',
+                            community_trustee: 'Community organisation or charity — informational only',
+                            council_appointed: 'Council-nominated directorship — not a personal conflict',
+                            arms_length_body: "Arm's-length body or outsourcing partner — standard council relationship",
+                          }[ctype] || ''
                           return (
                           <div key={i} className={`conflict-row ${typeClass}`}>
-                            <span className={`conflict-type-badge ${typeClass}`}>{typeLabel}</span>
+                            <span className={`conflict-type-badge ${typeClass}`} title={typeTooltip}>
+                              {typeLabel}
+                              {conflict.council_appointment_signal && ' ✓'}
+                            </span>
                             <span className="conflict-company">{conflict.company_name}</span>
                             <span className="conflict-arrow">→</span>
                             <Link
