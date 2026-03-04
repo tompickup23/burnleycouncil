@@ -1307,6 +1307,255 @@ def detect_familial_psc_connections(psc_entries, councillor_last_name):
     return family_pscs
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# v7: Candidate Registry + Cross-Council Family Supplier Detection
+# ═══════════════════════════════════════════════════════════════════════════
+
+_candidate_registry = None  # Lazy-loaded cache
+
+
+def build_candidate_registry():
+    """Build a registry of ALL election candidates and former councillors
+    from elections.json across all councils. Returns dict keyed by
+    normalised surname -> list of candidate records.
+
+    This enables cross-referencing CH officer names against known political figures.
+    """
+    global _candidate_registry
+    if _candidate_registry is not None:
+        return _candidate_registry
+
+    registry = defaultdict(list)
+    council_dirs = [d for d in DATA_DIR.iterdir()
+                    if d.is_dir() and (d / "elections.json").exists()]
+
+    for council_dir in council_dirs:
+        council_id = council_dir.name
+        try:
+            with open(council_dir / "elections.json", 'r', encoding='utf-8') as f:
+                elections = json.load(f)
+        except Exception:
+            continue
+
+        wards = elections.get("wards", {})
+        for ward_name, ward_data in wards.items():
+            for election in ward_data.get("history", []):
+                year = election.get("year", 0)
+                for cand in election.get("candidates", []):
+                    cand_name = cand.get("name", "").strip()
+                    if not cand_name:
+                        continue
+                    parts = cand_name.split()
+                    surname = parts[-1].lower() if parts else ""
+                    if len(surname) < 3:
+                        continue
+                    registry[surname].append({
+                        "name": cand_name,
+                        "party": cand.get("party", ""),
+                        "council": council_id,
+                        "ward": ward_name,
+                        "year": year,
+                        "elected": cand.get("elected", False),
+                        "votes": cand.get("votes", 0),
+                    })
+
+    _candidate_registry = dict(registry)
+    total = sum(len(v) for v in _candidate_registry.values())
+    print("  [CANDIDATE REGISTRY] {} surnames, {} candidate records loaded".format(
+        len(_candidate_registry), total))
+    return _candidate_registry
+
+
+def detect_family_cross_council_suppliers(councillor_name, councillor_last_name,
+                                          supplier_data, all_supplier_data):
+    """Enhanced familial detection: search for same-surname CH officers whose companies
+    supply ANY Lancashire council (not just the councillor's own council).
+
+    This catches cases like: Cllr X in Burnley has brother Y who runs Company Z
+    that supplies LCC — the existing detection only checks own-council suppliers.
+
+    Uses the candidate registry to boost confidence when a surname match is also
+    a known political candidate/former councillor.
+
+    Returns list of cross-council family supplier findings.
+    """
+    if not councillor_last_name or not all_supplier_data:
+        return []
+
+    findings = []
+    candidate_registry = build_candidate_registry()
+
+    # Get councillor's own known officer IDs to exclude themselves
+    # (passed in via result but we don't have it here — caller can filter)
+
+    # Search CH for the surname (broader net than address-matched search)
+    officers = search_officers(councillor_last_name, items_per_page=20)
+
+    councillor_first = councillor_name.split()[0].lower() if councillor_name else ""
+
+    for officer in officers:
+        officer_name = officer.get("title", "")
+        # Parse surname
+        name_parts = officer_name.lower().replace(",", "").split()
+        if not name_parts:
+            continue
+        # CH format: "SURNAME, Firstname" or "Firstname SURNAME"
+        if "," in officer.get("title", ""):
+            officer_surname = name_parts[0]
+            officer_first = name_parts[1] if len(name_parts) > 1 else ""
+        else:
+            officer_surname = name_parts[-1]
+            officer_first = name_parts[0] if len(name_parts) > 1 else ""
+
+        officer_surname_clean = re.sub(r'\b(obe|mbe|cbe|jp|qc|kc)\b', '', officer_surname).strip()
+        if officer_surname_clean != councillor_last_name.lower():
+            continue
+
+        # Skip if this is likely the councillor themselves
+        if officer_first and councillor_first and officer_first[:3] == councillor_first[:3]:
+            continue
+
+        # Get their appointments
+        officer_id = extract_officer_id(officer)
+        if not officer_id:
+            continue
+
+        appointments = get_officer_appointments(officer_id, items_per_page=20)
+        if not appointments:
+            continue
+
+        # Check each company against ALL council suppliers
+        for appt in appointments:
+            if appt.get("resigned_on"):
+                continue  # Only active directorships
+            appointed_to = appt.get("appointed_to", {})
+            company_name = appointed_to.get("company_name", "Unknown")
+            company_number = appointed_to.get("company_number", "")
+            company_status = appointed_to.get("company_status", "")
+            if company_status in ("dissolved", "struck-off", "converted-closed"):
+                continue
+
+            # Check against all council suppliers
+            for other_council, other_suppliers in all_supplier_data.items():
+                matches = cross_reference_suppliers(company_name, other_suppliers)
+                if not matches:
+                    continue
+
+                match = matches[0]
+                spend = match.get("total_spend", 0)
+                if spend < 1000:
+                    continue  # Skip trivial amounts
+
+                # Boost confidence if the officer is a known candidate
+                is_known_candidate = False
+                if officer_surname_clean in candidate_registry:
+                    for cand in candidate_registry[officer_surname_clean]:
+                        if _v6_names_match(officer_name.lower(), cand["name"].lower()):
+                            is_known_candidate = True
+                            break
+
+                severity = "critical" if spend > 50000 else "high" if spend > 10000 else "warning"
+
+                findings.append({
+                    "type": "family_cross_council_supplier",
+                    "severity": severity,
+                    "family_member": officer_name,
+                    "relationship": "same surname (possible family)",
+                    "company_name": company_name,
+                    "company_number": company_number,
+                    "supplier_council": other_council,
+                    "supplier_spend": spend,
+                    "supplier_canonical": match.get("supplier", ""),
+                    "is_known_candidate": is_known_candidate,
+                    "detail": "Family member '{}' directs '{}' which supplies {} ({}{}spend)".format(
+                        officer_name, company_name, other_council,
+                        "former candidate, " if is_known_candidate else "",
+                        "£{:,.0f} ".format(spend)),
+                })
+
+    return findings
+
+
+def detect_former_councillor_supplier_links(result, council_id, all_supplier_data):
+    """Check if former councillors or defeated candidates from this ward now
+    direct companies that supply the council. Uses elections.json history.
+
+    Catches: revolving door from politics → supplier, and family members who
+    stood for election and now profit from council contracts.
+    """
+    findings = []
+    elections = _load_council_cache(council_id, 'elections.json', _elections_cache)
+    if not elections:
+        return findings
+
+    ward = result.get("ward", "")
+    ward_data = elections.get("wards", {}).get(ward, {})
+    history = ward_data.get("history", [])
+    if not history:
+        return findings
+
+    # Collect all past candidates in this ward (except current councillor)
+    councillor_name = result.get("name", "").lower()
+    past_candidates = set()
+
+    for election in history:
+        for cand in election.get("candidates", []):
+            cand_name = cand.get("name", "").strip()
+            if cand_name.lower() != councillor_name and cand_name:
+                past_candidates.add(cand_name)
+
+    if not past_candidates:
+        return findings
+
+    # For each past candidate, check if they're now CH officers of council suppliers
+    all_suppliers = {}
+    if all_supplier_data:
+        all_suppliers = all_supplier_data
+    supplier_data_own = all_suppliers.get(council_id, {})
+
+    for cand_name in list(past_candidates)[:20]:  # Cap to avoid API overuse
+        # Quick CH search
+        officers = search_officers(cand_name, items_per_page=5)
+        for officer in officers:
+            officer_name = officer.get("title", "")
+            score = name_match_score(cand_name, officer_name)
+            if score < 80:
+                continue
+
+            officer_id = extract_officer_id(officer)
+            if not officer_id:
+                continue
+
+            appts = get_officer_appointments(officer_id, items_per_page=10)
+            for appt in appts:
+                if appt.get("resigned_on"):
+                    continue
+                appointed_to = appt.get("appointed_to", {})
+                company_name = appointed_to.get("company_name", "Unknown")
+                if appointed_to.get("company_status") in ("dissolved", "struck-off"):
+                    continue
+
+                # Check own council suppliers
+                matches = cross_reference_suppliers(company_name, supplier_data_own)
+                if matches:
+                    match = matches[0]
+                    spend = match.get("total_spend", 0)
+                    if spend >= 5000:
+                        findings.append({
+                            "type": "former_candidate_supplier",
+                            "severity": "high" if spend > 50000 else "warning",
+                            "candidate_name": cand_name,
+                            "company_name": company_name,
+                            "company_number": appointed_to.get("company_number", ""),
+                            "supplier_spend": spend,
+                            "detail": "Former ward candidate '{}' now directs '{}' — council supplier (£{:,.0f})".format(
+                                cand_name, company_name, spend),
+                        })
+                        break  # One finding per candidate is enough
+
+    return findings
+
+
 def detect_cross_council_family_clusters(all_councillors):
     """Find family members serving on different councils.
     Same surname councillors across different councils could be family networks
@@ -2469,6 +2718,8 @@ DETECTION_MULTIPLIERS = {
     "hidden_ownership_supplier": 1.5,
     "psc_supplier_link": 1.3,
     "network_clique": 1.2,
+    "family_cross_council_supplier": 1.5,
+    "former_candidate_supplier": 1.3,
     "committee_decision_conflict": 1.5,
     "former_councillor_company_still_receiving": 1.2,
     "post_election_directorship": 1.2,
@@ -4551,6 +4802,13 @@ ARMS_LENGTH_BODIES = {
     "lancashire care nhs foundation trust", "lancashire teaching hospitals",
     "east lancashire hospitals", "blackpool teaching hospitals",
     "lancashire and south cumbria nhs",
+    # Council-owned companies (arm's-length management organisations)
+    "lancashire renewables", "lancashire county council",
+    "blackpool coastal housing", "burnley leisure", "burnley leisure and culture",
+    "burnley pendle and rossendale council for voluntary service",
+    "calico homes", "liberata uk",
+    "blackpool entertainment company", "blackpool operating company",
+    "blackpool housing company",
 }
 
 # Company types that indicate community/charitable purpose (from CH API)
@@ -4757,8 +5015,10 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         "familial_connections": {
             "family_member_companies": [],
             "family_psc_connections": [],
+            "cross_council_family_suppliers": [],
             "has_family_supplier_conflict": False,
         },
+        "former_candidate_suppliers": [],
         "supplier_conflicts": [],
         "cross_council_conflicts": [],
         "network_crossover": {"total_links": 0, "links": []},
@@ -5111,6 +5371,26 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             conflicts = sum(1 for fm in family_companies if fm.get("has_supplier_conflict"))
             print("      → {} family member(s) found with companies{}".format(
                 count, " ({} supplier conflict(s)!)".format(conflicts) if conflicts else ""))
+
+    # ── 5b. Cross-Council Family Supplier Detection (v7) ──
+    if last_name and not skip_network and all_supplier_data:
+        cross_family = detect_family_cross_council_suppliers(
+            name, last_name, supplier_data, all_supplier_data)
+        result["familial_connections"]["cross_council_family_suppliers"] = cross_family
+        if cross_family:
+            result["data_sources_checked"].append("cross_council_family_suppliers")
+            # Upgrade family conflict flag if cross-council matches found
+            if any(f.get("supplier_spend", 0) > 10000 for f in cross_family):
+                result["familial_connections"]["has_family_supplier_conflict"] = True
+            print("      → {} cross-council family supplier link(s)!".format(len(cross_family)))
+
+    # ── 5c. Former Candidate Supplier Links (v7) ──
+    if not skip_network and all_supplier_data:
+        council_id = councillor.get("_council_id", "")
+        former_cand = detect_former_councillor_supplier_links(result, council_id, all_supplier_data)
+        result.setdefault("former_candidate_suppliers", []).extend(former_cand)
+        if former_cand:
+            print("    [FORMER CANDIDATES] {} supplier link(s)".format(len(former_cand)))
 
     # ── 6. Disqualification Register ──
     disqualified = search_disqualified(name)
@@ -5476,6 +5756,14 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             "detail": "Possible undeclared Disclosable Pecuniary Interest (family member's company is council supplier)"
         })
 
+    # Cross-council family supplier flags (v7)
+    for cf in familial.get("cross_council_family_suppliers", []):
+        all_flags.append({
+            "type": "family_cross_council_supplier",
+            "severity": cf.get("severity", "warning"),
+            "detail": cf.get("detail", ""),
+        })
+
     # Network crossover flags (co-director → supplier links)
     nc = result.get("network_crossover", {})
     for link in nc.get("links", []):
@@ -5576,6 +5864,7 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         "former_councillor_links",
         # v7 deep network additions
         "temporal_spend_patterns",
+        "former_candidate_suppliers",
     ]
     for field in v5_fields:
         for finding in result.get(field, []):
