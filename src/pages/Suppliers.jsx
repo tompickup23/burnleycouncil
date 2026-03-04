@@ -572,19 +572,47 @@ function Suppliers() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
 
-  // Always call both hooks (React rules of hooks — no conditional calls)
+  // Always call all hooks (React rules of hooks — no conditional calls)
   const { data: profilesData, loading: profilesLoading, error: profilesError } = useData('/data/supplier_profiles.json')
+  const { data: indexData, loading: indexLoading, error: indexError } = useData('/data/supplier_index.json')
   const { data: insightsData, loading: insightsLoading, error: insightsError } = useData('/data/insights.json')
 
-  const profiles = profilesData?.profiles || []
+  // Map lightweight index profiles to full profile shape for FullSuppliersView
+  const profiles = useMemo(() => {
+    if (profilesData?.profiles?.length > 0) return profilesData.profiles
+    if (!indexData?.profiles?.length) return []
+    return indexData.profiles.map(p => ({
+      id: p.id,
+      name: p.name,
+      canonical: p.canonical,
+      spending: {
+        total_all_councils: p.total_spend,
+        transaction_count: p.transaction_count,
+        councils_count: p.councils_count,
+        first_payment_date: p.first_date,
+        last_payment_date: p.last_date,
+      },
+      companies_house: p.ch_number ? {
+        company_number: p.ch_number,
+        status: p.ch_status,
+        url: p.ch_url,
+        sic_codes: p.ch_sic_codes,
+        company_type: p.ch_type,
+        incorporated: p.ch_incorporated,
+      } : null,
+      compliance: p.risk_level ? { risk_level: p.risk_level, violation_count: (p.integrity_flags || []).length } : null,
+      governance: null,
+    }))
+  }, [profilesData, indexData])
+
   const supplierAnalysis = insightsData?.supplier_analysis || null
 
   // Determine which mode we are in
-  const hasProfiles = !profilesError && profiles.length > 0
+  const hasProfiles = profiles.length > 0
   const hasFallback = !insightsError && supplierAnalysis && (supplierAnalysis.top_20_suppliers?.length || 0) > 0
 
-  // Still loading if profiles is loading, or if profiles failed and insights is still loading
-  const isLoading = profilesLoading || (!hasProfiles && insightsLoading)
+  // Still loading if profiles is loading, or if profiles failed and index is loading, or if both failed and insights still loading
+  const isLoading = profilesLoading || (!hasProfiles && indexLoading) || (!hasProfiles && !indexError && insightsLoading)
 
   useEffect(() => {
     const pageTitle = hasProfiles ? 'Supplier Directory' : 'Top Suppliers'

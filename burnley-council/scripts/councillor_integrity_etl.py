@@ -1795,6 +1795,552 @@ def trace_beneficial_ownership_simple(result):
     return findings
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# v7: Deep Network Mapping — 5 new detection layers
+# ═══════════════════════════════════════════════════════════════════════════
+
+def cascade_co_directors(associates, councillor_companies, supplier_data, councillor_name):
+    """3-hop cascading: Councillor → Co-Director → Co-Director's Co-Directors → Supplier.
+
+    For the top 3 most-connected associates, fetch THEIR other companies,
+    then check the officers of those companies against council suppliers.
+    This catches hidden intermediary networks.
+
+    Returns extended network crossover links with degrees_of_separation=3.
+    """
+    if not associates or not supplier_data:
+        return {"total_links": 0, "links": [], "intermediaries_checked": 0}
+
+    councillor_company_numbers = set(
+        c.get("company_number", "") for c in councillor_companies if c.get("company_number")
+    )
+    # Also track all known associate companies to avoid loops
+    known_companies = set(councillor_company_numbers)
+    for assoc in associates:
+        for sc in assoc.get("shared_companies", []):
+            known_companies.add(sc.get("company_number", ""))
+
+    links = []
+    intermediaries_checked = 0
+
+    # Only cascade top 3 associates (API budget)
+    for assoc in associates[:3]:
+        assoc_name = assoc.get("name", "")
+        officer_id = assoc.get("officer_id", "")
+        if not officer_id or not assoc_name:
+            continue
+
+        # Get this associate's OTHER companies (not shared with councillor)
+        appointments = get_officer_appointments(officer_id, items_per_page=50)
+        other_companies = []
+        for appt in appointments:
+            cn = appt.get("appointed_to", {}).get("company_number", "")
+            if cn and cn not in known_companies and not appt.get("resigned_on"):
+                other_companies.append({
+                    "company_number": cn,
+                    "company_name": appt.get("appointed_to", {}).get("company_name", ""),
+                })
+
+        # For each of their other companies, check the officers (hop 3)
+        for oc in other_companies[:5]:  # Cap at 5 companies per associate
+            cn = oc["company_number"]
+            officers = get_company_officers(cn)
+            intermediaries_checked += 1
+
+            for officer in officers:
+                oname = officer.get("name", "")
+                if not oname or officer.get("resigned_on"):
+                    continue
+                # Skip if it's the original councillor or the intermediate associate
+                if name_match_score(councillor_name, oname) >= 70:
+                    continue
+                if name_match_score(assoc_name, oname) >= 70:
+                    continue
+                # Skip corporate officers
+                role = officer.get("officer_role", "")
+                if "corporate" in role:
+                    continue
+
+                # Check if this 3rd-hop person is a council supplier
+                supplier_matches = cross_reference_suppliers(oname, supplier_data)
+                for sm in supplier_matches:
+                    if sm["confidence"] >= 85:
+                        links.append({
+                            "councillor_company": assoc.get("shared_companies", [{}])[0].get("company_name", "unknown"),
+                            "hop1_associate": assoc_name,
+                            "hop2_company": oc["company_name"],
+                            "hop2_person": oname,
+                            "supplier_company": sm["supplier"],
+                            "supplier_canonical": sm["supplier"].upper(),
+                            "supplier_spend": sm.get("total_spend", 0),
+                            "link_type": "cascading_3hop_supplier",
+                            "degrees_of_separation": 3,
+                            "confidence": int(sm["confidence"] * 0.9),  # Discount for extra hop
+                            "severity": "high" if sm.get("total_spend", 0) >= 50000 else "warning",
+                        })
+                        break
+
+                # Also check this person's own companies against suppliers
+                hop3_officer_id = extract_officer_id(officer)
+                if hop3_officer_id:
+                    hop3_appts = get_officer_appointments(hop3_officer_id, items_per_page=20)
+                    for h3a in hop3_appts[:10]:
+                        h3_cn = h3a.get("appointed_to", {}).get("company_number", "")
+                        h3_name = h3a.get("appointed_to", {}).get("company_name", "")
+                        if not h3_cn or not h3_name or h3a.get("resigned_on"):
+                            continue
+                        h3_matches = cross_reference_suppliers(h3_name, supplier_data)
+                        for sm in h3_matches:
+                            if sm["confidence"] >= 85:
+                                links.append({
+                                    "councillor_company": assoc.get("shared_companies", [{}])[0].get("company_name", "unknown"),
+                                    "hop1_associate": assoc_name,
+                                    "hop2_company": oc["company_name"],
+                                    "hop2_person": oname,
+                                    "hop3_company": h3_name,
+                                    "supplier_company": sm["supplier"],
+                                    "supplier_canonical": sm["supplier"].upper(),
+                                    "supplier_spend": sm.get("total_spend", 0),
+                                    "link_type": "cascading_3hop_company_supplier",
+                                    "degrees_of_separation": 3,
+                                    "confidence": int(sm["confidence"] * 0.85),
+                                    "severity": "high" if sm.get("total_spend", 0) >= 100000 else "warning",
+                                })
+                                break
+                    break  # One hop3 officer match per company is enough
+
+    # Deduplicate
+    seen = set()
+    unique = []
+    for link in links:
+        key = (link.get("hop2_person", "").lower(), link["supplier_canonical"])
+        if key not in seen:
+            seen.add(key)
+            unique.append(link)
+
+    unique.sort(key=lambda x: x.get("supplier_spend", 0), reverse=True)
+    return {
+        "total_links": len(unique),
+        "links": unique[:15],
+        "intermediaries_checked": intermediaries_checked,
+    }
+
+
+def compute_graph_centrality(result, all_results):
+    """PageRank-inspired centrality scoring using betweenness heuristic.
+
+    Measures how many distinct network paths pass through this councillor:
+    - Direct company connections (weight 1)
+    - Co-director connections (weight 2 — bridges networks)
+    - Cross-council connections (weight 3 — multi-authority exposure)
+    - Supplier conflicts (weight 5 — financial nexus)
+    - Cascading 3-hop links (weight 4 — hidden intermediary)
+    - MP connections (weight 3)
+
+    Returns PageRank-style score normalised against council peers,
+    plus hub/authority classification.
+    """
+    ch = result.get("companies_house", {})
+    co_net = result.get("co_director_network", {})
+    cascade = result.get("cascading_network", {})
+
+    # Weighted connection score
+    companies = ch.get("active_directorships", 0)
+    associates = co_net.get("total_unique_associates", 0)
+    cross_council = len(result.get("cross_council_conflicts", []))
+    supplier_conflicts = len(result.get("supplier_conflicts", []))
+    cascade_links = cascade.get("total_links", 0)
+    mp_findings = len(result.get("mp_findings", []))
+    network_crossover = result.get("network_crossover", {}).get("total_links", 0)
+
+    weighted_score = (
+        companies * 1 +
+        associates * 2 +
+        cross_council * 3 +
+        supplier_conflicts * 5 +
+        cascade_links * 4 +
+        mp_findings * 3 +
+        network_crossover * 4
+    )
+
+    # Betweenness heuristic: councillors who bridge multiple networks are more central
+    distinct_networks = 0
+    if companies > 0: distinct_networks += 1
+    if associates > 0: distinct_networks += 1
+    if cross_council > 0: distinct_networks += 1
+    if supplier_conflicts > 0: distinct_networks += 1
+    if cascade_links > 0: distinct_networks += 1
+    if mp_findings > 0: distinct_networks += 1
+
+    betweenness_bonus = distinct_networks * 5  # Bridge bonus
+    raw_score = weighted_score + betweenness_bonus
+
+    # Normalise against all councillors in this council
+    max_score = 1
+    for r in all_results:
+        r_ch = r.get("companies_house", {})
+        r_co = r.get("co_director_network", {})
+        r_casc = r.get("cascading_network", {})
+        r_raw = (
+            r_ch.get("active_directorships", 0) * 1 +
+            r_co.get("total_unique_associates", 0) * 2 +
+            len(r.get("cross_council_conflicts", [])) * 3 +
+            len(r.get("supplier_conflicts", [])) * 5 +
+            r_casc.get("total_links", 0) * 4 +
+            len(r.get("mp_findings", [])) * 3 +
+            r.get("network_crossover", {}).get("total_links", 0) * 4
+        )
+        r_nets = sum(1 for v in [
+            r_ch.get("active_directorships", 0),
+            r_co.get("total_unique_associates", 0),
+            len(r.get("cross_council_conflicts", [])),
+            len(r.get("supplier_conflicts", [])),
+            r_casc.get("total_links", 0),
+            len(r.get("mp_findings", [])),
+        ] if v > 0) * 5
+        max_score = max(max_score, r_raw + r_nets)
+
+    pagerank = raw_score / max_score if max_score > 0 else 0
+
+    # Classification
+    if pagerank > 0.8:
+        classification = "hub"  # Central node connecting many networks
+        amplifier = 1.5
+    elif pagerank > 0.5:
+        classification = "bridge"  # Connects distinct sub-networks
+        amplifier = 1.3
+    elif pagerank > 0.3:
+        classification = "connector"  # Multiple connections
+        amplifier = 1.15
+    else:
+        classification = "peripheral"
+        amplifier = 1.0
+
+    return {
+        "pagerank": round(pagerank, 4),
+        "weighted_score": weighted_score,
+        "betweenness_bonus": betweenness_bonus,
+        "raw_score": raw_score,
+        "max_in_council": max_score,
+        "classification": classification,
+        "amplifier": amplifier,
+        "distinct_networks": distinct_networks,
+        "components": {
+            "companies": companies,
+            "associates": associates,
+            "cross_council_links": cross_council,
+            "supplier_conflicts": supplier_conflicts,
+            "cascade_links": cascade_links,
+            "mp_connections": mp_findings,
+            "network_crossover": network_crossover,
+        },
+    }
+
+
+def detect_temporal_spend_patterns(result, supplier_data, councillor):
+    """Temporal spending analysis: detect contract value spikes around councillor events.
+
+    Checks:
+    1. Appointment-to-contract: spending increases after councillor's election date
+    2. Contract value jumps: 3x+ increase in supplier payments year-on-year
+    3. Speed-to-contract: time between councillor appointment and first supplier payment
+
+    Args:
+        result: councillor's integrity result dict
+        supplier_data: list of supplier dicts with {supplier, total, first_date, last_date, ...}
+        councillor: raw councillor dict (may have election_date, elected_on, etc.)
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+    companies = ch.get("companies", [])
+
+    # Get councillor's election/appointment date
+    election_date = councillor.get("elected_on") or councillor.get("election_date") or ""
+    if not election_date:
+        return findings
+
+    try:
+        from datetime import datetime
+        elect_dt = datetime.strptime(election_date[:10], "%Y-%m-%d")
+    except (ValueError, TypeError):
+        return findings
+
+    # Check each supplier conflict for temporal patterns
+    for sc in result.get("supplier_conflicts", []):
+        sm = sc.get("supplier_match", {})
+        supplier_name = sm.get("supplier", "")
+        if not supplier_name:
+            continue
+
+        # Find this supplier in spending data to get payment dates
+        for sd in supplier_data:
+            if sd.get("supplier", "").upper() != supplier_name.upper():
+                continue
+
+            first_payment = sd.get("first_date") or sd.get("first_payment_date", "")
+            last_payment = sd.get("last_date") or sd.get("last_payment_date", "")
+
+            if first_payment:
+                try:
+                    first_dt = datetime.strptime(first_payment[:10], "%Y-%m-%d")
+                    days_to_contract = (first_dt - elect_dt).days
+
+                    if 0 < days_to_contract <= 180:
+                        findings.append({
+                            "type": "speed_to_contract",
+                            "severity": "high" if days_to_contract <= 90 else "warning",
+                            "supplier": supplier_name,
+                            "days_after_election": days_to_contract,
+                            "spend": sm.get("total_spend", 0),
+                            "detail": "Supplier '{}' received first payment {} days after councillor's election (spend: {})".format(
+                                supplier_name, days_to_contract,
+                                "£{:,.0f}".format(sm.get("total_spend", 0))),
+                        })
+                except (ValueError, TypeError):
+                    pass
+            break
+
+    # Check co-director company appointments for timing
+    for company in companies:
+        appointed = company.get("appointed_on", "")
+        if not appointed:
+            continue
+        try:
+            appt_dt = datetime.strptime(appointed[:10], "%Y-%m-%d")
+            # Flag directorships appointed within 6 months of election
+            days_diff = abs((appt_dt - elect_dt).days)
+            if days_diff <= 180 and company.get("supplier_match"):
+                sm = company["supplier_match"]
+                findings.append({
+                    "type": "appointment_timing",
+                    "severity": "high",
+                    "company": company.get("company_name", ""),
+                    "days_from_election": days_diff,
+                    "spend": sm.get("total_spend", 0),
+                    "detail": "Directorship at '{}' appointed {} days {} councillor election, company is council supplier (spend: {})".format(
+                        company.get("company_name", ""), days_diff,
+                        "after" if (appt_dt - elect_dt).days >= 0 else "before",
+                        "£{:,.0f}".format(sm.get("total_spend", 0))),
+                })
+        except (ValueError, TypeError):
+            pass
+
+    return findings
+
+
+def trace_beneficial_ownership_recursive(result, supplier_data, max_depth=3):
+    """Recursive PSC traversal: follow ownership chains through intermediary companies.
+
+    Walks: Company A → PSC B (if corporate) → Company B → PSC C → ...
+    Detects hidden councillor connections through layered ownership structures.
+
+    Args:
+        result: councillor's integrity result dict
+        supplier_data: list of supplier dicts
+        max_depth: maximum chain depth (default 3 to limit API calls)
+    """
+    findings = []
+    ch = result.get("companies_house", {})
+    companies = ch.get("companies", [])
+    councillor_name = result.get("name", "")
+
+    if not companies:
+        return {"chains": [], "findings": findings, "max_depth_reached": False}
+
+    visited = set()  # Prevent loops
+    chains = []
+    max_depth_reached = False
+
+    def trace_chain(company_number, company_name, chain, depth):
+        nonlocal max_depth_reached
+        if depth >= max_depth or company_number in visited:
+            if depth >= max_depth:
+                max_depth_reached = True
+            return
+        visited.add(company_number)
+
+        pscs = get_company_psc(company_number)
+        for psc in pscs:
+            if psc.get("ceased_on"):
+                continue
+
+            psc_name = psc.get("name", "")
+            psc_kind = psc.get("kind", "")
+            natures = psc.get("natures_of_control", [])
+
+            # Corporate PSC — follow the chain
+            if psc_kind in ("corporate-entity-person-with-significant-control",
+                            "legal-person-person-with-significant-control"):
+                # This is a company controlling another company
+                psc_id = psc.get("identification", {})
+                psc_company = psc_id.get("registration_number", "")
+                psc_company_name = psc_name
+
+                if psc_company and psc_company not in visited:
+                    new_chain = chain + [{
+                        "company": company_name,
+                        "company_number": company_number,
+                        "controlled_by": psc_company_name,
+                        "controlled_by_number": psc_company,
+                        "psc_type": "corporate",
+                        "natures": natures,
+                        "depth": depth,
+                    }]
+
+                    # Check if corporate PSC is a council supplier
+                    sm = cross_reference_suppliers(psc_company_name, supplier_data)
+                    if sm and sm[0]["confidence"] >= 80:
+                        chains.append(new_chain)
+                        findings.append({
+                            "type": "hidden_ownership_supplier",
+                            "severity": "critical" if sm[0].get("total_spend", 0) >= 50000 else "high",
+                            "chain_length": len(new_chain),
+                            "ultimate_supplier": sm[0]["supplier"],
+                            "spend": sm[0].get("total_spend", 0),
+                            "detail": "Hidden ownership: {} → {} → supplier '{}' (chain depth {}, spend: {})".format(
+                                company_name, psc_company_name, sm[0]["supplier"],
+                                len(new_chain),
+                                "£{:,.0f}".format(sm[0].get("total_spend", 0))),
+                        })
+
+                    # Recurse deeper
+                    trace_chain(psc_company, psc_company_name, new_chain, depth + 1)
+
+            else:
+                # Individual PSC — check if they appear on other supplier companies
+                if psc_name and name_match_score(councillor_name, psc_name) < 70:
+                    # This is someone else who controls this company
+                    sm = cross_reference_suppliers(psc_name, supplier_data)
+                    if sm and sm[0]["confidence"] >= 80:
+                        findings.append({
+                            "type": "psc_supplier_link",
+                            "severity": "high",
+                            "psc_name": psc_name,
+                            "company": company_name,
+                            "supplier": sm[0]["supplier"],
+                            "spend": sm[0].get("total_spend", 0),
+                            "detail": "PSC '{}' of councillor's company '{}' is also supplier '{}' (spend: {})".format(
+                                psc_name, company_name, sm[0]["supplier"],
+                                "£{:,.0f}".format(sm[0].get("total_spend", 0))),
+                        })
+
+    # Start tracing from each of the councillor's active companies
+    for company in companies[:5]:
+        cn = company.get("company_number", "")
+        if cn and not company.get("resigned_on"):
+            trace_chain(cn, company.get("company_name", ""), [], 0)
+
+    return {
+        "chains": chains[:10],
+        "findings": findings,
+        "max_depth_reached": max_depth_reached,
+        "companies_traversed": len(visited),
+    }
+
+
+def detect_network_cliques(result, all_results):
+    """Clique detection: find tight clusters of councillors sharing companies/co-directors/suppliers.
+
+    A clique is 3+ councillors who all share connections (companies, co-directors, or suppliers).
+    These represent coordinated groups with potential for collusion.
+
+    Args:
+        result: current councillor's result
+        all_results: list of all councillor results in this council
+    """
+    findings = []
+    name = result.get("name", "")
+    my_associates = set()
+    my_suppliers = set()
+    my_companies = set()
+
+    # Build this councillor's connection sets
+    co_net = result.get("co_director_network", {})
+    for assoc in co_net.get("associates", []):
+        my_associates.add(assoc.get("name", "").lower().strip())
+
+    for sc in result.get("supplier_conflicts", []):
+        sm = sc.get("supplier_match", {})
+        my_suppliers.add(sm.get("supplier", "").upper())
+
+    ch = result.get("companies_house", {})
+    for comp in ch.get("companies", []):
+        my_companies.add(comp.get("company_number", ""))
+
+    if not (my_associates or my_suppliers or my_companies):
+        return findings
+
+    # Find other councillors who share connections
+    shared_connections = []
+    for other in all_results:
+        other_name = other.get("name", "")
+        if other_name == name:
+            continue
+
+        other_associates = set()
+        other_suppliers = set()
+        other_companies = set()
+
+        o_co = other.get("co_director_network", {})
+        for assoc in o_co.get("associates", []):
+            other_associates.add(assoc.get("name", "").lower().strip())
+
+        for sc in other.get("supplier_conflicts", []):
+            sm = sc.get("supplier_match", {})
+            other_suppliers.add(sm.get("supplier", "").upper())
+
+        o_ch = other.get("companies_house", {})
+        for comp in o_ch.get("companies", []):
+            other_companies.add(comp.get("company_number", ""))
+
+        # Calculate overlap
+        shared_assoc = my_associates & other_associates
+        shared_supp = my_suppliers & other_suppliers
+        shared_comp = my_companies & other_companies
+
+        overlap_score = len(shared_assoc) * 2 + len(shared_supp) * 3 + len(shared_comp) * 5
+        if overlap_score > 0:
+            shared_connections.append({
+                "councillor": other_name,
+                "party": other.get("party", ""),
+                "ward": other.get("ward", ""),
+                "shared_associates": list(shared_assoc)[:5],
+                "shared_suppliers": list(shared_supp)[:5],
+                "shared_companies": list(shared_comp)[:3],
+                "overlap_score": overlap_score,
+            })
+
+    # Sort by overlap score and find cliques (3+ councillors with mutual connections)
+    shared_connections.sort(key=lambda x: x["overlap_score"], reverse=True)
+
+    if len(shared_connections) >= 2:
+        # Top connections form a potential clique
+        clique_members = [name] + [sc["councillor"] for sc in shared_connections[:4]]
+        total_overlap = sum(sc["overlap_score"] for sc in shared_connections[:4])
+
+        # Classify by shared connection types
+        all_shared_suppliers = set()
+        all_shared_companies = set()
+        for sc in shared_connections[:4]:
+            all_shared_suppliers.update(sc["shared_suppliers"])
+            all_shared_companies.update(sc["shared_companies"])
+
+        if all_shared_suppliers or all_shared_companies:
+            findings.append({
+                "type": "network_clique",
+                "severity": "high" if total_overlap >= 10 else "warning",
+                "clique_size": len(clique_members),
+                "members": clique_members,
+                "shared_suppliers": list(all_shared_suppliers)[:5],
+                "shared_companies": list(all_shared_companies)[:3],
+                "overlap_score": total_overlap,
+                "detail": "Network clique: {} councillors share {} supplier(s) and {} company(ies)".format(
+                    len(clique_members), len(all_shared_suppliers), len(all_shared_companies)),
+            })
+
+    return findings
+
+
 def correlate_donations_to_contracts(result, supplier_data, council_id):
     """Donation-to-contract correlation — delegates to v5 implementation.
 
@@ -1916,6 +2462,13 @@ DETECTION_MULTIPLIERS = {
     "doge_benford_anomaly_link": 1.3,
     "supplier_officer_councillor_match": 1.5,
     "supplier_psc_councillor_match": 1.5,
+    # v7 deep network additions
+    "cascading_3hop_supplier": 1.3,
+    "speed_to_contract": 1.3,
+    "appointment_timing": 1.3,
+    "hidden_ownership_supplier": 1.5,
+    "psc_supplier_link": 1.3,
+    "network_clique": 1.2,
     "committee_decision_conflict": 1.5,
     "former_councillor_company_still_receiving": 1.2,
     "post_election_directorship": 1.2,
@@ -4209,6 +4762,11 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         "supplier_conflicts": [],
         "cross_council_conflicts": [],
         "network_crossover": {"total_links": 0, "links": []},
+        "cascade_network": {"total_links": 0, "links": [], "intermediaries_checked": 0},
+        "temporal_spend_patterns": [],
+        "recursive_ownership": {"chains": [], "findings": [], "max_depth_reached": 0, "companies_traversed": 0},
+        "graph_centrality": {},
+        "network_cliques": [],
         "misconduct_patterns": [],
         "red_flags": [],
         "integrity_score": None,
@@ -4511,6 +5069,18 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
             count = network_crossover["total_links"]
             print("      → {} network crossover link(s) detected!".format(count))
 
+    # ── 4c. Cascading Co-Director Network (3-hop) ──
+    if not skip_network and result.get("co_director_network", {}).get("associates"):
+        cascade = cascade_co_directors(
+            result["co_director_network"]["associates"],
+            result.get("companies_house", {}).get("companies", []),
+            supplier_data, name
+        )
+        result["cascade_network"] = cascade
+        if cascade.get("total_links", 0) > 0:
+            print("      → {} 3-hop cascade link(s) via {} intermediaries".format(
+                cascade["total_links"], cascade["intermediaries_checked"]))
+
     # ── 5. Familial Connection Detection ──
     last_name = councillor.get("last_name", "")
     if not last_name:
@@ -4616,6 +5186,20 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
     result["beneficial_ownership"] = ownership_findings
     if ownership_findings:
         print("    [OWNERSHIP] {} finding(s)".format(len(ownership_findings)))
+
+    # ── 9d2. Recursive Beneficial Ownership (v7) ──
+    if not skip_network:
+        recursive_ownership = trace_beneficial_ownership_recursive(result, supplier_data, max_depth=3)
+        result["recursive_ownership"] = recursive_ownership
+        if recursive_ownership.get("findings"):
+            print("    [RECURSIVE PSC] {} finding(s), {} companies traversed".format(
+                len(recursive_ownership["findings"]), recursive_ownership["companies_traversed"]))
+
+    # ── 9d3. Temporal Spend Patterns (v7) ──
+    temporal_spend = detect_temporal_spend_patterns(result, supplier_data, councillor)
+    result["temporal_spend_patterns"] = temporal_spend
+    if temporal_spend:
+        print("    [TEMPORAL SPEND] {} finding(s)".format(len(temporal_spend)))
 
     # ── 9e. Donation-to-Contract Correlation (v5 — real time-windowed) ──
     result["_council_id_v5"] = councillor.get("_council_id", "")
@@ -4903,6 +5487,35 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
                 spend_str, link.get("councillor_company", "?"))
         })
 
+    # Cascade network flags (3-hop co-director → supplier links)
+    cascade = result.get("cascade_network", {})
+    for link in cascade.get("links", []):
+        spend_str = "£{:,.0f}".format(link.get("supplier_spend", 0)) if link.get("supplier_spend") else "unknown"
+        all_flags.append({
+            "type": "cascading_3hop_supplier", "severity": link.get("severity", "warning"),
+            "detail": "3-hop link: councillor → '{}' → '{}' → supplier '{}' (spend: {})".format(
+                link.get("hop2_person", "?"), link.get("via_company", "?"),
+                link.get("supplier_canonical", "?"), spend_str)
+        })
+
+    # Recursive ownership flags (hidden beneficial ownership chains)
+    rec_own = result.get("recursive_ownership", {})
+    for finding in rec_own.get("findings", []):
+        all_flags.append({
+            "type": finding.get("type", "hidden_ownership_supplier"),
+            "severity": finding.get("severity", "warning"),
+            "detail": finding.get("detail", "Hidden ownership chain detected")
+        })
+
+    # Network clique flags
+    for clique in result.get("network_cliques", []):
+        all_flags.append({
+            "type": "network_clique", "severity": "warning",
+            "detail": "Part of tight cluster with {} (overlap score: {}, shared: {})".format(
+                ", ".join(clique.get("members", [])), clique.get("overlap_score", 0),
+                clique.get("shared_summary", ""))
+        })
+
     # Register compliance flags
     reg = result.get("register_of_interests", {})
     if reg.get("register_empty"):
@@ -4961,6 +5574,8 @@ def process_councillor(councillor, supplier_data, all_supplier_data=None,
         "temporal_patterns", "doge_integration",
         "supplier_profile_matches", "committee_contract_correlation",
         "former_councillor_links",
+        # v7 deep network additions
+        "temporal_spend_patterns",
     ]
     for field in v5_fields:
         for finding in result.get(field, []):
@@ -5449,24 +6064,33 @@ def process_council(council_id, all_supplier_data=None,
             sum(len(r.get("social_network", [])) + len(r.get("reciprocal_appointments", []))
                 for r in all_results)))
 
-    # ── Network Centrality Post-Processing (v4/v5) ──
+    # ── Network Centrality Post-Processing (v4/v5 + v7 enhanced) ──
     # Apply network centrality amplifier: councillors who are highly connected
     # AND have red flags get disproportionately penalised (catching "spider in the web")
     if len(results["councillors"]) >= 3:
-        print("\n  Applying network centrality scoring...")
+        print("\n  Applying network centrality scoring (v7 enhanced)...")
         all_results = results["councillors"]
 
         for r in all_results:
+            # v4/v5 basic centrality
             centrality = calculate_network_centrality(r, all_results)
             r["network_centrality"] = centrality
 
-            # Amplify score if centrality is high AND they have flags
-            if centrality["score"] > 0.5 and len(r.get("red_flags", [])) > 0:
-                multiplier = 1.3 if centrality["score"] <= 0.8 else 1.5
+            # v7 enhanced graph centrality (PageRank-inspired)
+            graph_cent = compute_graph_centrality(r, all_results)
+            r["graph_centrality"] = graph_cent
+
+            # Use v7 amplifier if available, fall back to basic
+            amplifier = graph_cent.get("amplifier", 1.0) if graph_cent else 1.0
+            effective_multiplier = max(amplifier,
+                1.3 if centrality["score"] > 0.5 and centrality["score"] <= 0.8 else
+                1.5 if centrality["score"] > 0.8 else 1.0)
+
+            # Amplify score if centrality warrants it AND they have flags
+            if effective_multiplier > 1.0 and len(r.get("red_flags", [])) > 0:
                 old_score = r["integrity_score"]
-                # Recalculate with amplified penalties
                 penalty = 100 - old_score
-                amplified_penalty = penalty * multiplier
+                amplified_penalty = penalty * effective_multiplier
                 new_score = max(0, int(100 - amplified_penalty))
                 r["integrity_score"] = new_score
 
@@ -5481,8 +6105,29 @@ def process_council(council_id, all_supplier_data=None,
                     r["risk_level"] = "high"
 
                 if new_score != old_score:
-                    print("    {} — centrality {:.2f} → score {} → {} (×{})".format(
-                        r["name"], centrality["score"], old_score, new_score, multiplier))
+                    classification = graph_cent.get("classification", "unknown")
+                    print("    {} — centrality {:.2f} ({}) → score {} → {} (×{:.2f})".format(
+                        r["name"], centrality["score"], classification,
+                        old_score, new_score, effective_multiplier))
+
+        # v7: Clique detection (needs all results)
+        print("  Detecting network cliques...")
+        clique_count = 0
+        for r in all_results:
+            cliques = detect_network_cliques(r, all_results)
+            r["network_cliques"] = cliques
+            if cliques:
+                clique_count += len(cliques)
+                for clique in cliques:
+                    r["red_flags"].append({
+                        "type": "network_clique", "severity": "warning",
+                        "detail": "Part of tight cluster with {} (overlap score: {}, shared: {})".format(
+                            ", ".join(clique.get("members", [])),
+                            clique.get("overlap_score", 0),
+                            clique.get("shared_summary", ""))
+                    })
+        if clique_count:
+            print("    {} clique memberships detected".format(clique_count))
 
         # Recalculate risk distribution after centrality adjustment
         results["summary"]["risk_distribution"] = {"low": 0, "medium": 0, "elevated": 0, "high": 0}
