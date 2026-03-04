@@ -793,7 +793,7 @@ def export_codebook(output_path):
 Generated: {date}
 Project: AI DOGE Lancashire — Public Spending Transparency Platform
 URL: https://aidoge.co.uk
-Data coverage: 15 Lancashire councils, 2,286,000+ transactions, £12B+ tracked
+Data coverage: 15 Lancashire councils, 2,361,000+ transactions, £12.9B+ tracked
 
 ================================================================================
 DATASET 1: panel_dataset.csv

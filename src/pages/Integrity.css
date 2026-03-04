@@ -94,12 +94,28 @@
   color: var(--text-tertiary);
 }
 
+.dashboard-card.accent-warning {
+  border-top: 2px solid rgba(255, 214, 10, 0.4);
+}
+
 .dashboard-card.accent-warning .dashboard-number {
   color: #ffd60a;
 }
 
+.dashboard-card.accent-warning:hover {
+  box-shadow: 0 8px 24px rgba(255, 214, 10, 0.12);
+}
+
+.dashboard-card.accent-critical {
+  border-top: 2px solid rgba(255, 69, 58, 0.4);
+}
+
 .dashboard-card.accent-critical .dashboard-number {
   color: #ff453a;
+}
+
+.dashboard-card.accent-critical:hover {
+  box-shadow: 0 8px 24px rgba(255, 69, 58, 0.12);
 }
 
 /* Risk Distribution */
@@ -470,39 +486,57 @@
 }
 
 /* Network Investigation Flag */
-.network-investigation-flag {
-  display: flex;
-  gap: var(--space-md);
+/* Network Investigation — Collapsible */
+.network-investigation-collapsible {
   background: rgba(255, 159, 10, 0.08);
   border: 1px solid rgba(255, 159, 10, 0.2);
   border-radius: var(--radius-md);
-  padding: var(--space-md);
   margin: var(--space-md) 0;
+  overflow: hidden;
 }
 
-.network-investigation-flag svg {
-  color: #ff9f0a;
-  flex-shrink: 0;
-  margin-top: 2px;
+.network-investigation-collapsible.priority-high {
+  border-color: rgba(255, 69, 58, 0.3);
+  background: linear-gradient(135deg, rgba(255, 69, 58, 0.08), rgba(255, 159, 10, 0.05));
 }
 
-.network-investigation-flag strong {
+.network-investigation-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.network-investigation-summary::-webkit-details-marker { display: none; }
+
+.network-investigation-summary svg { color: #ff9f0a; flex-shrink: 0; }
+
+.network-investigation-summary strong {
   color: #ff9f0a;
-  display: block;
-  margin-bottom: 4px;
   font-size: 0.8125rem;
 }
 
-.network-investigation-flag p {
+.network-reasons-count {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  background: rgba(255, 159, 10, 0.15);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.network-investigation-body {
+  padding: 0 var(--space-md) var(--space-md) calc(var(--space-md) + 24px);
+}
+
+.network-investigation-body p {
   font-size: 0.75rem;
   color: var(--text-secondary);
   line-height: 1.5;
   margin: 0;
-}
-
-.network-investigation-flag.priority-high {
-  border-color: rgba(255, 69, 58, 0.3);
-  background: linear-gradient(135deg, rgba(255, 69, 58, 0.08), rgba(255, 159, 10, 0.05));
 }
 
 .priority-badge {
@@ -982,19 +1016,57 @@
   color: var(--accent-blue);
 }
 
-/* Data Sources */
-.data-sources-list {
+/* Data Sources — Collapsible */
+.data-sources-collapsible {
   background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
   border: 1px solid rgba(255, 255, 255, 0.06);
   margin-bottom: var(--space-xl);
 }
 
-.data-sources-list h4 {
-  font-size: 0.8125rem;
+.data-sources-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.data-sources-summary::-webkit-details-marker { display: none; }
+
+.data-sources-summary::after {
+  content: '+';
+  font-size: 1.25rem;
+  font-weight: 300;
   color: var(--text-tertiary);
-  margin-bottom: var(--space-sm);
+  transition: transform 0.2s ease;
+}
+
+details[open].data-sources-collapsible > .data-sources-summary::after {
+  content: '\2212';
+}
+
+.data-sources-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.data-sources-count {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  background: rgba(10, 132, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  margin-right: var(--space-md);
+}
+
+.data-sources-collapsible .source-tags {
+  padding: 0 var(--space-lg) var(--space-lg);
 }
 
 .source-tags {
@@ -2512,4 +2584,89 @@
   font-size: 0.8125rem;
   color: var(--text-primary);
   margin-bottom: var(--space-sm);
+}
+
+/* ══════ v7: Detection Sections ══════ */
+.v7-findings-section {
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) 0;
+}
+
+.v7-findings-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  margin-bottom: var(--space-sm);
+}
+
+.v7-findings-section.securities h4 { color: #ff453a; }
+.v7-findings-section.electoral h4 { color: #ffd60a; }
+.v7-findings-section.former-candidates h4 { color: #ff9f0a; }
+
+/* Clickable finding links */
+.flag-links {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.flag-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  background: rgba(10, 132, 255, 0.12);
+  color: #0a84ff;
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.flag-link:hover {
+  background: rgba(10, 132, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.flag-spend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ff453a;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* Graph Centrality Badges */
+.badge-centrality {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.badge-centrality:hover { transform: scale(1.05); }
+
+.badge-centrality-hub {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+}
+
+.badge-centrality-bridge {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+
+.badge-centrality-connector {
+  background: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
 }

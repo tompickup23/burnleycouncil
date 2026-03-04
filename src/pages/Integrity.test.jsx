@@ -211,6 +211,30 @@ const richCouncillors = [
       available: true,
       declared_companies: ['Pemberton Consulting Ltd'],
     },
+    // v7 fields
+    securities_conflicts: [
+      { detail: 'Declared securities in ACME PLC which received £120K council pension fund allocation', severity: 'high' },
+    ],
+    electoral_vulnerability: [
+      { detail: 'Marginal ward (majority 45 votes) with active supplier conflict', severity: 'critical' },
+    ],
+    former_candidate_suppliers: [
+      {
+        detail: 'Former council candidate now supplies via Pemberton Consulting Ltd',
+        company_name: 'Pemberton Consulting Ltd',
+        company_number: '12345678',
+        supplier_spend: 45000,
+        severity: 'warning',
+      },
+    ],
+    committee_conflicts: [],
+    employment_conflicts: [],
+    graph_centrality: {
+      classification: 'hub',
+      weighted_score: 0.85,
+      degree_centrality: 0.72,
+      betweenness_centrality: 0.65,
+    },
   },
   {
     councillor_id: 'c2',
@@ -320,7 +344,7 @@ const richCouncillorsFull = [
 const richIntegrity = {
   generated: '2026-02-16',
   methodology: 'AI-assisted',
-  version: '3.0',
+  version: '7.0',
   register_available: true,
   total_councillors: 5,
   councillors_checked: 5,
@@ -336,6 +360,9 @@ const richIntegrity = {
     co_directors_mapped: 2,
     family_connections_found: 1,
     risk_distribution: { low: 2, medium: 1, elevated: 1, high: 1 },
+    // v7 summary stats
+    securities_conflict_flags: 1,
+    electoral_vulnerability_flags: 1,
   },
   councillors: richCouncillors,
   surname_clusters: [
@@ -461,16 +488,23 @@ describe('Integrity', () => {
       expect(counts).toContain('1')  // medium, elevated, high
     })
 
-    it('renders data sources checked', () => {
+    it('renders data sources checked as collapsible', () => {
       renderWithRichData()
       expect(screen.getByText('Data Sources Checked')).toBeInTheDocument()
-      const sourceSection = document.querySelector('.data-sources-list')
+      const sourceSection = document.querySelector('.data-sources-collapsible')
+      expect(sourceSection).toBeInTheDocument()
+      expect(sourceSection.tagName).toBe('DETAILS')
       const tags = sourceSection.querySelectorAll('.source-tag')
       const tagTexts = [...tags].map(t => t.textContent)
       expect(tagTexts).toContain('Companies House')
       expect(tagTexts).toContain('Electoral Commission')
       expect(tagTexts).toContain('FCA Register')
       expect(tagTexts).toContain('Council Spending')
+    })
+
+    it('shows source count badge on collapsed data sources', () => {
+      renderWithRichData()
+      expect(screen.getByText('4 sources')).toBeInTheDocument()
     })
 
     it('renders co-directors mapped and family connections', () => {
@@ -1962,7 +1996,133 @@ describe('Integrity', () => {
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
-      expect(screen.getByText(/shell company detection/)).toBeInTheDocument()
+      const matches = screen.getAllByText(/shell company detection/)
+      expect(matches.length).toBeGreaterThan(0)
+    })
+  })
+
+  // ══════ v7: Collapsible Sections ══════
+
+  describe('v7 collapsible sections', () => {
+    it('renders network investigation as collapsible details element', () => {
+      renderWithRichData()
+      const grid = getCardsSection()
+      const header = within(grid).getByText('Alice Pemberton').closest('.integrity-card-header')
+      fireEvent.click(header)
+      const collapsible = document.querySelector('.network-investigation-collapsible')
+      expect(collapsible).toBeInTheDocument()
+      expect(collapsible.tagName).toBe('DETAILS')
+    })
+
+    it('shows reason count in network investigation summary', () => {
+      renderWithRichData()
+      const grid = getCardsSection()
+      const header = within(grid).getByText('Alice Pemberton').closest('.integrity-card-header')
+      fireEvent.click(header)
+      expect(screen.getByText('3 reasons')).toBeInTheDocument()
+    })
+  })
+
+  // ══════ v7: Detection Sections ══════
+
+  describe('v7 detection sections in councillor detail', () => {
+    beforeEach(() => {
+      renderWithRichData()
+      const grid = getCardsSection()
+      const header = within(grid).getByText('Alice Pemberton').closest('.integrity-card-header')
+      fireEvent.click(header)
+    })
+
+    it('renders securities conflicts section', () => {
+      const detail = document.querySelector('.integrity-detail')
+      expect(within(detail).getByText(/Securities Conflicts/)).toBeInTheDocument()
+    })
+
+    it('renders securities conflict detail', () => {
+      expect(screen.getByText(/ACME PLC/)).toBeInTheDocument()
+    })
+
+    it('renders electoral vulnerability section', () => {
+      const detail = document.querySelector('.integrity-detail')
+      expect(within(detail).getByText(/Electoral Vulnerability/)).toBeInTheDocument()
+    })
+
+    it('renders electoral vulnerability detail', () => {
+      expect(screen.getByText(/Marginal ward/)).toBeInTheDocument()
+    })
+
+    it('renders former candidate suppliers section', () => {
+      const detail = document.querySelector('.integrity-detail')
+      const heading = detail.querySelector('h4')
+      const h4Texts = [...detail.querySelectorAll('h4')].map(h => h.textContent)
+      expect(h4Texts.some(t => t.includes('Former Candidate Suppliers'))).toBe(true)
+    })
+
+    it('renders former candidate supplier with Companies House link', () => {
+      const detail = document.querySelector('.integrity-detail')
+      const chLink = detail.querySelector('a[href*="company-information.service.gov.uk/company/12345678"]')
+      expect(chLink).toBeTruthy()
+    })
+
+    it('renders former candidate supplier with spending link', () => {
+      const detail = document.querySelector('.integrity-detail')
+      const spendLink = detail.querySelector('a[href*="/spending"]')
+      expect(spendLink).toBeTruthy()
+    })
+
+    it('does not render empty committee conflicts section', () => {
+      expect(screen.queryByText(/Committee Conflicts \(0\)/)).not.toBeInTheDocument()
+    })
+
+    it('does not render empty employment conflicts section', () => {
+      expect(screen.queryByText(/Employment Conflicts \(0\)/)).not.toBeInTheDocument()
+    })
+  })
+
+  // ══════ v7: Graph Centrality Badge ══════
+
+  describe('v7 graph centrality badge', () => {
+    it('renders hub badge on high-centrality councillor', () => {
+      renderWithRichData()
+      const badge = document.querySelector('.badge-centrality-hub')
+      expect(badge).toBeInTheDocument()
+      expect(badge.textContent).toContain('Hub')
+    })
+
+    it('does not render badge for councillors without graph_centrality', () => {
+      renderWithRichData()
+      // Marcus Thornton (c2) has no graph_centrality
+      const badges = document.querySelectorAll('.badge-centrality')
+      // Only Alice should have a badge
+      expect(badges).toHaveLength(1)
+    })
+  })
+
+  // ══════ v7: Dashboard Stat Cards ══════
+
+  describe('v7 dashboard stat cards', () => {
+    it('renders securities conflicts stat card', () => {
+      renderWithRichData()
+      const dashboard = document.querySelector('.integrity-dashboard')
+      expect(within(dashboard).getByText('Securities Conflicts')).toBeInTheDocument()
+    })
+
+    it('renders electoral vulnerability stat card', () => {
+      renderWithRichData()
+      const dashboard = document.querySelector('.integrity-dashboard')
+      expect(within(dashboard).getByText('Electoral Vulnerability')).toBeInTheDocument()
+    })
+
+    it('renders former candidate suppliers stat card', () => {
+      renderWithRichData()
+      const dashboard = document.querySelector('.integrity-dashboard')
+      expect(within(dashboard).getByText('Former Candidate Suppliers')).toBeInTheDocument()
+    })
+
+    it('renders network hubs & bridges stat card', () => {
+      renderWithRichData()
+      const dashboard = document.querySelector('.integrity-dashboard')
+      expect(within(dashboard).getByText('Network Hubs & Bridges')).toBeInTheDocument()
     })
   })
 })

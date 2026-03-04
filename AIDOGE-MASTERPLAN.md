@@ -7,7 +7,7 @@
 
 ### Platform Summary
 - **15 Lancashire councils** across 3 tiers — ALL LIVE
-- **2,286,000+ transactions** — £12 billion+ tracked
+- **2,361,000+ transactions** — £12.9 billion+ tracked
 - **648 councillors** — full politics data for all 15
 - **25 page components** across 28 routes — lazy-loaded with ErrorBoundary + Suspense
 - **446 unit tests** (32 files) + **49 E2E tests** (6 files) — all passing
@@ -180,7 +180,7 @@ council_tier in configs, tier-aware hub, CrossCouncil tier filtering, service sc
 753K txns, £3.6B. V4 monthly chunking. County council live. Spending page via monthly chunks.
 
 ### Phase 14: All 15 Councils ✅ (15 Feb)
-4 districts (Preston, West Lancs, Fylde, Wyre) + 2 unitaries (Blackpool, Blackburn). All councillors_etl.py scraped. 2,286,000+ txns total.
+4 districts (Preston, West Lancs, Fylde, Wyre) + 2 unitaries (Blackpool, Blackburn). All councillors_etl.py scraped. 2,361,000+ txns total.
 
 ### Phase 15: LGR & Financial Analysis ✅ (15-16 Feb)
 LGR Tracker V3 (independent financial model, CCN critique, demographics, political analysis). LGR Cost Calculator. Financial Handover Dashboard. Budget-aware DOGE analysis. Councillor Integrity Checker. Academic export. Data freshness sprint. Comprehensive audit.
@@ -467,5 +467,5 @@ e2e/                          ← 6 Playwright E2E test files (49 tests)
 ---
 
 *Plan v15.0 updated: 19 February 2026*
-*Phases 1-17 complete: 15 Lancashire councils live, 2,286,000+ transactions, £12B+ tracked*
+*Phases 1-17 complete: 15 Lancashire councils live, 2,361,000+ transactions, £12.9B+ tracked*
 *446 unit tests + 49 E2E tests pass, 25 page components, 40 Python scripts, zero critical bugs*

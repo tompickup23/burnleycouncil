@@ -6072,7 +6072,7 @@ def process_council(council_id, all_supplier_data=None,
 
     results = {
         "council_id": council_id,
-        "version": "6.0",
+        "version": "7.0",
         "generated_at": datetime.utcnow().isoformat() + "Z",
         "methodology": "40_source_intelligence_grade_detection",
         "data_sources": sources,

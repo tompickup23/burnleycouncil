@@ -6,8 +6,8 @@ import './Press.css'
 const PLATFORM_STATS = {
   councils: 15,
   county: 'Lancashire',
-  totalSpend: '£12 billion+',
-  totalTransactions: '2,286,000+',
+  totalSpend: '£12.9 billion+',
+  totalTransactions: '2,361,000+',
   dataYears: '10+ years',
   dogeChecks: '12 automated checks',
   articles: '140+ investigations',

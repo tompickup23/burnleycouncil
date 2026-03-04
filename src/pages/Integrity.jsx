@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home, FileText, PoundSterling } from 'lucide-react'
+import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home, FileText, PoundSterling, TrendingDown, Vote } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -149,6 +149,19 @@ function Integrity() {
       formation_timing: c.formation_timing,
       social_network: c.social_network,
       reciprocal_appointments: c.reciprocal_appointments,
+      // v7 fields
+      electoral_vulnerability: c.electoral_vulnerability,
+      securities_conflicts: c.securities_conflicts,
+      former_candidate_suppliers: c.former_candidate_suppliers,
+      committee_conflicts: c.committee_conflicts,
+      employment_conflicts: c.employment_conflicts,
+      committee_contract_correlation: c.committee_contract_correlation,
+      doge_integration: c.doge_integration,
+      supplier_profile_matches: c.supplier_profile_matches,
+      former_councillor_links: c.former_councillor_links,
+      graph_centrality: c.graph_centrality,
+      cascade_network: c.cascade_network,
+      network_cliques: c.network_cliques,
     }))
   }, [integrity, councillorsFull])
 
@@ -198,7 +211,11 @@ function Integrity() {
     return {
       ...s,
       networkInvestigationCandidates: networkCandidates.length,
-      networkCandidateNames: networkCandidates.map(c => c.name)
+      networkCandidateNames: networkCandidates.map(c => c.name),
+      // v7 computed stats
+      formerCandidateSuppliers: councillors.reduce((sum, c) => sum + (c.former_candidate_suppliers?.length || 0), 0),
+      graphCentralityHubs: councillors.filter(c => c.graph_centrality?.classification === 'hub').length,
+      graphCentralityBridges: councillors.filter(c => c.graph_centrality?.classification === 'bridge').length,
     }
   }, [integrity, councillors])
 
@@ -346,7 +363,7 @@ function Integrity() {
       {/* Methodology */}
       <CollapsibleSection
         title="Methodology"
-        subtitle={`${integrity?.data_sources?.length || 31}-source political fraud detection (v5.1)`}
+        subtitle={`${integrity?.data_sources?.length || 31}-source political fraud detection (v${integrity?.version || '6.0'})`}
         icon={<Info size={18} />}
         severity="info"
       >
@@ -372,7 +389,11 @@ function Integrity() {
             beneficial ownership chains (3-layer PSC), donation-to-contract correlation, network centrality scoring,
             shell company detection, threshold manipulation, contract splitting, phantom companies,
             bid rigging indicators, temporal donation clustering, parliamentary Hansard cross-reference,
-            undeclared interest detection, company formation timing analysis, and seasonal spending anomaly detection.
+            undeclared interest detection, company formation timing analysis, seasonal spending anomaly detection,
+            securities conflict detection (shareholdings in council suppliers),
+            electoral vulnerability analysis (safe seat entrenchment scoring),
+            former candidate supplier detection, and graph centrality network classification
+            (hub/bridge/connector/peripheral scoring with PageRank).
             {stats?.network_centrality_applied && <> Network centrality amplification applied.</>}
           </p>
         </div>
@@ -510,18 +531,46 @@ function Integrity() {
                 <span className="dashboard-label">Formation Timing</span>
               </div>
             )}
+            {/* v7 stat cards */}
+            {(stats.securities_conflict_flags || 0) > 0 && (
+              <div className="dashboard-card accent-critical">
+                <span className="dashboard-number">{stats.securities_conflict_flags}</span>
+                <span className="dashboard-label">Securities Conflicts</span>
+              </div>
+            )}
+            {(stats.electoral_vulnerability_flags || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.electoral_vulnerability_flags}</span>
+                <span className="dashboard-label">Electoral Vulnerability</span>
+              </div>
+            )}
+            {(stats.formerCandidateSuppliers || 0) > 0 && (
+              <div className="dashboard-card accent-warning">
+                <span className="dashboard-number">{stats.formerCandidateSuppliers}</span>
+                <span className="dashboard-label">Former Candidate Suppliers</span>
+              </div>
+            )}
+            {(stats.graphCentralityHubs || 0) + (stats.graphCentralityBridges || 0) > 0 && (
+              <div className="dashboard-card">
+                <span className="dashboard-number">{(stats.graphCentralityHubs || 0) + (stats.graphCentralityBridges || 0)}</span>
+                <span className="dashboard-label">Network Hubs &amp; Bridges</span>
+              </div>
+            )}
           </div>
 
-          {/* Data Sources */}
+          {/* Data Sources — Collapsible */}
           {integrity.data_sources?.length > 0 && (
-            <div className="data-sources-list">
-              <h4>Data Sources Checked</h4>
+            <details className="data-sources-collapsible">
+              <summary className="data-sources-summary">
+                <span className="data-sources-title">Data Sources Checked</span>
+                <span className="data-sources-count">{integrity.data_sources.length} sources</span>
+              </summary>
               <div className="source-tags">
                 {integrity.data_sources.map((source, i) => (
                   <span key={i} className="source-tag">{source}</span>
                 ))}
               </div>
-            </div>
+            </details>
           )}
 
           {/* Risk Distribution */}
@@ -1281,6 +1330,13 @@ function Integrity() {
                         Network
                       </span>
                     )}
+                    {councillor.graph_centrality?.classification && councillor.graph_centrality.classification !== 'peripheral' && (
+                      <span className={`badge-centrality badge-centrality-${councillor.graph_centrality.classification}`}
+                            title={`Graph centrality: ${councillor.graph_centrality.classification} (score: ${councillor.graph_centrality.weighted_score || 0})`}>
+                        <Fingerprint size={12} />
+                        {councillor.graph_centrality.classification.charAt(0).toUpperCase() + councillor.graph_centrality.classification.slice(1)}
+                      </span>
+                    )}
                   </div>
                   <div className="risk-badge" style={{ color: riskCfg.color, background: riskCfg.bg }}>
                     <RiskIcon size={14} />
@@ -1331,15 +1387,18 @@ function Integrity() {
                     </div>
                   )}
 
-                  {/* Network Investigation Advisory */}
+                  {/* Network Investigation Advisory — Collapsible */}
                   {needsNetworkInvestigation && (
-                    <div className={`network-investigation-flag ${networkPriority === 'high' ? 'priority-high' : ''}`}>
-                      <Users size={16} />
-                      <div>
+                    <details className={`network-investigation-collapsible ${networkPriority === 'high' ? 'priority-high' : ''}`}>
+                      <summary className="network-investigation-summary">
+                        <Users size={16} />
                         <strong>
                           Network investigation advisable
                           {networkPriority === 'high' && <span className="priority-badge">HIGH PRIORITY</span>}
                         </strong>
+                        <span className="network-reasons-count">{networkReasons.length || '?'} reason{networkReasons.length !== 1 ? 's' : ''}</span>
+                      </summary>
+                      <div className="network-investigation-body">
                         {networkReasons.length > 0 ? (
                           <ul className="network-reasons">
                             {networkReasons.map((reason, i) => (
@@ -1359,7 +1418,7 @@ function Integrity() {
                           hidden connections to council spending or shell company networks.
                         </p>
                       </div>
-                    </div>
+                    </details>
                   )}
 
                   {/* Companies */}
@@ -1828,6 +1887,15 @@ function Integrity() {
                               {finding.severity?.toUpperCase()}
                             </span>
                             <span className="flag-detail">{finding.detail}</span>
+                            {finding.supplier_name && (
+                              <span className="flag-links">
+                                {hasSpending && (
+                                  <Link to={`/spending?supplier=${encodeURIComponent(finding.supplier_name)}`} className="flag-link" onClick={e => e.stopPropagation()}>
+                                    <PoundSterling size={10} /> Spending
+                                  </Link>
+                                )}
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -1900,6 +1968,13 @@ function Integrity() {
                               {finding.severity?.toUpperCase()}
                             </span>
                             <span className="flag-detail">{finding.detail}</span>
+                            {finding.company_number && (
+                              <span className="flag-links">
+                                <a href={`https://find-and-update.company-information.service.gov.uk/company/${finding.company_number}`} target="_blank" rel="noopener noreferrer" className="flag-link" onClick={e => e.stopPropagation()}>
+                                  <Building2 size={10} /> Companies House
+                                </a>
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -1951,6 +2026,13 @@ function Integrity() {
                               {finding.severity?.toUpperCase()}
                             </span>
                             <span className="flag-detail">{finding.detail}</span>
+                            {finding.donor_name && (
+                              <span className="flag-links">
+                                <a href={`https://search.electoralcommission.org.uk/Search/Donations?searchTerm=${encodeURIComponent(finding.donor_name)}`} target="_blank" rel="noopener noreferrer" className="flag-link" onClick={e => e.stopPropagation()}>
+                                  <Landmark size={10} /> EC Register
+                                </a>
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -2076,7 +2158,7 @@ function Integrity() {
                     </div>
                   )}
 
-                  {/* v5.1: Hansard Parliamentary Mentions */}
+                  {/* v5.1+: Hansard Parliamentary Mentions */}
                   {councillor.hansard_mentions?.length > 0 && (
                     <div className="v5-findings-section">
                       <h4><Landmark size={16} /> Hansard Parliamentary Mentions</h4>
@@ -2093,7 +2175,7 @@ function Integrity() {
                     </div>
                   )}
 
-                  {/* v5.1: Undeclared Interests */}
+                  {/* v5.1+: Undeclared Interests */}
                   {councillor.undeclared_interests?.length > 0 && (
                     <div className="v5-findings-section">
                       <h4><Eye size={16} /> Undeclared Interests</h4>
@@ -2110,7 +2192,7 @@ function Integrity() {
                     </div>
                   )}
 
-                  {/* v5.1: Company Formation Timing */}
+                  {/* v5.1+: Company Formation Timing */}
                   {councillor.formation_timing?.length > 0 && (
                     <div className="v5-findings-section">
                       <h4><FileText size={16} /> Company Formation Timing</h4>
@@ -2121,6 +2203,102 @@ function Integrity() {
                               {finding.severity?.toUpperCase()}
                             </span>
                             <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v7: Securities Conflicts */}
+                  {councillor.securities_conflicts?.length > 0 && (
+                    <div className="v7-findings-section securities">
+                      <h4><TrendingDown size={16} /> Securities Conflicts ({councillor.securities_conflicts.length})</h4>
+                      <div className="flags-list">
+                        {councillor.securities_conflicts.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v7: Electoral Vulnerability */}
+                  {councillor.electoral_vulnerability?.length > 0 && (
+                    <div className="v7-findings-section electoral">
+                      <h4><Vote size={16} /> Electoral Vulnerability ({councillor.electoral_vulnerability.length})</h4>
+                      <div className="flags-list">
+                        {councillor.electoral_vulnerability.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.info }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v7: Former Candidate Suppliers */}
+                  {councillor.former_candidate_suppliers?.length > 0 && (
+                    <div className="v7-findings-section former-candidates">
+                      <h4><Users size={16} /> Former Candidate Suppliers ({councillor.former_candidate_suppliers.length})</h4>
+                      <div className="flags-list">
+                        {councillor.former_candidate_suppliers.map((finding, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[finding.severity] }}>
+                              {finding.severity?.toUpperCase()}
+                            </span>
+                            <span className="flag-detail">{finding.detail}</span>
+                            <span className="flag-links">
+                              {finding.company_number && (
+                                <a href={`https://find-and-update.company-information.service.gov.uk/company/${finding.company_number}`} target="_blank" rel="noopener noreferrer" className="flag-link" onClick={e => e.stopPropagation()}>
+                                  <Building2 size={10} /> CH
+                                </a>
+                              )}
+                              {hasSpending && finding.company_name && (
+                                <Link to={`/spending?supplier=${encodeURIComponent(finding.company_name)}`} className="flag-link" onClick={e => e.stopPropagation()}>
+                                  <PoundSterling size={10} /> Spending
+                                </Link>
+                              )}
+                            </span>
+                            {finding.supplier_spend > 0 && (
+                              <span className="flag-spend">{formatCurrency(finding.supplier_spend)}</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v7: Committee Conflicts */}
+                  {councillor.committee_conflicts?.length > 0 && (
+                    <div className="v7-findings-section">
+                      <h4><Scale size={16} /> Committee Conflicts ({councillor.committee_conflicts.length})</h4>
+                      <div className="flags-list">
+                        {councillor.committee_conflicts.map((f, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[f.severity] || '#666' }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[f.severity] }}>{f.severity?.toUpperCase()}</span>
+                            <span className="flag-detail">{f.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* v7: Employment Conflicts */}
+                  {councillor.employment_conflicts?.length > 0 && (
+                    <div className="v7-findings-section">
+                      <h4><Building2 size={16} /> Employment Conflicts ({councillor.employment_conflicts.length})</h4>
+                      <div className="flags-list">
+                        {councillor.employment_conflicts.map((f, i) => (
+                          <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[f.severity] || '#666' }}>
+                            <span className="flag-severity" style={{ color: SEVERITY_COLORS[f.severity] }}>{f.severity?.toUpperCase()}</span>
+                            <span className="flag-detail">{f.detail}</span>
                           </div>
                         ))}
                       </div>
@@ -2162,7 +2340,18 @@ function Integrity() {
           <strong>Important:</strong> This tool uses publicly available data from {integrity?.data_sources?.length || 28} sources
           including Companies House, Electoral Commission (bulk CSV), FCA Register, UK Parliament Register of Members&apos; Financial Interests,
           Hansard parliamentary records, council registers of interests, and spending records from 17 Lancashire public bodies.
-          {integrity?.version?.startsWith('5') ? (
+          {(integrity?.version?.startsWith('7') || integrity?.version?.startsWith('6')) ? (
+            <> Directorships are DOB-verified with register-anchored identity confirmation.
+            {integrity.data_sources?.length || 40}+ detection algorithms include securities conflict detection,
+            electoral vulnerability analysis, former candidate supplier matching,
+            graph centrality network classification (hub/bridge/connector scoring),
+            shell company detection, threshold manipulation, contract splitting,
+            bid rigging indicators, temporal donation clustering, social network triangulation,
+            reciprocal cross-council appointments, parliamentary mention cross-referencing,
+            beneficial ownership chains (3-layer PSC), donation-to-contract correlation,
+            undeclared interest detection (CH vs register), and company formation timing analysis.
+            Network centrality scoring amplifies risk for highly-connected individuals. </>
+          ) : integrity?.version?.startsWith('5') ? (
             <> Directorships are DOB-verified with register-anchored identity confirmation.
             31 detection algorithms include shell company detection, threshold manipulation, contract splitting,
             bid rigging indicators, temporal donation clustering, social network triangulation,

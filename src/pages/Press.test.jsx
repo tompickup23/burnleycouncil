@@ -57,8 +57,8 @@ describe('Press', () => {
   it('renders platform stats', () => {
     renderComponent()
     expect(screen.getByText('15')).toBeInTheDocument()
-    expect(screen.getByText('£12 billion+')).toBeInTheDocument()
-    expect(screen.getByText('2,286,000+')).toBeInTheDocument()
+    expect(screen.getByText('£12.9 billion+')).toBeInTheDocument()
+    expect(screen.getByText('2,361,000+')).toBeInTheDocument()
   })
 
   it('renders coverage section with council names', () => {

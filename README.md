@@ -2,7 +2,7 @@
 
 Multi-council public spending transparency platform for Lancashire. React SPA deployed per-council via GitHub Pages at [aidoge.co.uk](https://aidoge.co.uk).
 
-**2,286,000+ transactions | £12 billion+ tracked | 15 Lancashire councils | 648 councillors**
+**2,361,000+ transactions | £12.9 billion+ tracked | 15 Lancashire councils | 648 councillors**
 
 ## Live Councils
 

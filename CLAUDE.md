@@ -11,7 +11,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - County: Lancashire CC (753,220 txns, £3.6B — spending via v4 monthly chunks)
 - Unitary: Blackpool (630,914 txns, £4.1B — spending via v4 monthly chunks), Blackburn with Darwen (492,973 txns, £1.7B — spending via v4 monthly chunks)
 
-**Total: 2,286,000+ transactions, £12 billion+ tracked**
+**Total: 2,361,000+ transactions, £12.9 billion+ tracked**
 
 ## Architecture
 
