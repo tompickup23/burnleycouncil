@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import {
@@ -88,11 +88,14 @@ function SeverityBadge({ severity }) {
 
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false)
+  const timerRef = useRef(null)
+  useEffect(() => () => clearTimeout(timerRef.current), [])
   const handleCopy = (e) => {
     e.stopPropagation()
     navigator.clipboard?.writeText(text).then(() => {
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => setCopied(false), 2000)
     })
   }
   return (

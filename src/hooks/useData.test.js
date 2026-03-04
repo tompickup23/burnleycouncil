@@ -11,6 +11,7 @@ function mockFetchSuccess(data) {
   return vi.fn(() =>
     Promise.resolve({
       ok: true,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: () => Promise.resolve(data),
     })
   )
@@ -21,6 +22,7 @@ function mockFetchFailure(status = 500) {
     Promise.resolve({
       ok: false,
       status,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: () => Promise.resolve({}),
     })
   )
@@ -124,6 +126,7 @@ describe('useData', () => {
       const body = url.includes('one') ? data1 : data2
       return Promise.resolve({
         ok: true,
+        headers: new Headers({ 'content-type': 'application/json' }),
         json: () => Promise.resolve(body),
       })
     })

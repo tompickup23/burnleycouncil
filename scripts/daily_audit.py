@@ -45,7 +45,12 @@ SRC_DIR = ROOT / "src"
 PUBLIC_DATA = ROOT / "public" / "data"
 REPORT_DIR = ROOT / "burnley-council" / "reports"
 
-COUNCILS = ["burnley", "hyndburn", "pendle", "rossendale"]
+COUNCILS = [
+    "burnley", "hyndburn", "pendle", "rossendale",
+    "lancaster", "ribble_valley", "chorley", "south_ribble",
+    "preston", "west_lancashire", "wyre", "fylde",
+    "lancashire_cc", "blackpool", "blackburn",
+]
 REFERENCE_COUNCIL = "burnley"  # Most complete council, used as schema reference
 
 # Expected data files per council (filename → required)
@@ -563,7 +568,7 @@ def check_live_site(audit):
     """Verify the deployed site at aidoge.co.uk has correct data and pages load.
 
     Checks:
-    1. All 4 council root pages return 200
+    1. All 15 council root pages return 200
     2. Key data files are accessible and non-empty
     3. Article counts match source data
     4. FOI template counts match source data
@@ -572,12 +577,23 @@ def check_live_site(audit):
     import urllib.request
     import urllib.error
 
-    BASE_URL = "https://aidoge.co.uk/lancashire"
+    BASE_URL = "https://aidoge.co.uk"
     COUNCIL_SLUGS = {
         "burnley": "burnleycouncil",
         "hyndburn": "hyndburncouncil",
         "pendle": "pendlecouncil",
         "rossendale": "rossendalecouncil",
+        "lancaster": "lancastercouncil",
+        "ribble_valley": "ribblevalleycouncil",
+        "chorley": "chorleycouncil",
+        "south_ribble": "southribblecouncil",
+        "preston": "prestoncouncil",
+        "west_lancashire": "westlancashirecouncil",
+        "wyre": "wyrecouncil",
+        "fylde": "fyldecouncil",
+        "lancashire_cc": "lancashirecc",
+        "blackpool": "blackpoolcouncil",
+        "blackburn": "blackburncouncil",
     }
 
     # Critical data files that must be present and non-empty
@@ -753,8 +769,11 @@ def check_spending_data_quality(audit):
         except Exception:
             continue
 
-        if not isinstance(data, list):
-            audit.error("quality", f"{council}/spending.json: root is not an array")
+        # v2 format: { meta, filterOptions, records }
+        if isinstance(data, dict) and "records" in data:
+            data = data["records"]
+        elif not isinstance(data, list):
+            audit.error("quality", f"{council}/spending.json: root is not an array or v2 object")
             continue
 
         count = len(data)
