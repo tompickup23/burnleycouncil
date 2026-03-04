@@ -176,6 +176,24 @@ export default defineConfig({
     }),
   ],
   base: process.env.VITE_BASE || '/burnleycouncil/',
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
+  optimizeDeps: {
+    // Pre-bundle all major deps upfront to prevent Vite re-optimization mid-session
+    // which causes React chunk hash mismatches and "invalid hook call" errors
+    include: [
+      'react',
+      'react-dom',
+      'react-dom/client',
+      'react/jsx-dev-runtime',
+      'react/jsx-runtime',
+      'react-router-dom',
+      'recharts',
+      'lucide-react',
+      '@tanstack/react-virtual',
+    ],
+  },
   build: {
     // Enable source maps for debugging in production
     sourcemap: false,

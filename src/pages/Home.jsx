@@ -53,11 +53,12 @@ function Home() {
   if (dataSources.politics) dataUrls.push('/data/politics_summary.json')
   if (dataSources.news) dataUrls.push('/data/articles-index.json')
   if (dataSources.budget_trends) dataUrls.push('/data/revenue_trends.json')
-  // Reform transformation showcase (only LCC currently)
+  // Reform transformation showcase (only LCC currently) — loaded separately so failure doesn't break the page
   const hasReformShowcase = config.council_id === 'lancashire_cc'
-  if (hasReformShowcase) dataUrls.push('/data/reform_transformation.json')
 
   const { data, loading, error } = useData(dataUrls)
+
+  const { data: reformTransformationData } = useData(hasReformShowcase ? '/data/reform_transformation.json' : null)
 
   // Map data
   const wardBoundariesEnabled = !!dataSources.ward_boundaries
@@ -102,7 +103,7 @@ function Home() {
   // Guard against both plain array and {articles: [...]} wrapper formats
   const articlesIndex = Array.isArray(articlesRaw) ? articlesRaw : articlesRaw?.articles || articlesRaw || []
   const revenueTrends = dataSources.budget_trends ? data?.[idx++] : null
-  const reformTransformation = hasReformShowcase ? data?.[idx++] : null
+  const reformTransformation = reformTransformationData || null
 
   // Summary stats — handle both field name variants
   const totalSpend = insights?.summary?.total_spend || insights?.summary?.total_transaction_spend || 0

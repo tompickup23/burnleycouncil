@@ -528,7 +528,7 @@ export default function Elections() {
         <p className="elec-subtitle">
           {wardLabelCap}-level election history, predictions and coalition modelling for {meta.council_name || councilName}.
           {meta.total_seats ? ` ${meta.total_seats} seats across ${meta.total_wards || wardNames.length} ${wardsLabel}.` : ''}
-          {meta.election_cycle ? ` Elections by ${meta.election_cycle === 'thirds' ? 'thirds (one-third of seats each year)' : meta.election_cycle === 'halves' ? 'halves (half the seats each cycle)' : meta.election_cycle}.` : ''}
+          {meta.election_cycle ? ` Elections by ${meta.election_cycle === 'thirds' ? 'thirds (one-third of seats each year)' : meta.election_cycle === 'halves' ? 'halves (half the seats each cycle)' : meta.election_cycle === 'all_out' ? 'all-out (all seats contested together)' : meta.election_cycle}.` : ''}
         </p>
       </div>
 
