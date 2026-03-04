@@ -241,6 +241,12 @@ SECTION 3 — What You Can Do
 SECTION 4 — Methodology Note
 <em>This article is based on [council name]'s published spending data covering [date range]. All figures are drawn directly from transactions published under the Local Government Transparency Code. Analysis by AI DOGE.</em>
 
+STYLE RULES:
+- NEVER use em dashes (—) or en dashes (–). Use commas, colons, full stops, or hyphens instead
+- NEVER use semicolons. Use full stops or commas instead
+- Write in short, direct sentences. Prefer active voice
+- UK English spelling (organisation, analyse, colour, programme, defence)
+
 DATA RULES (CRITICAL):
 - Every £ figure MUST come from the DATA BRIEF section of the prompt
 - Every percentage MUST come from the PRE-CALCULATED ANALYSIS section
@@ -1164,6 +1170,14 @@ def clean_llm_output(content):
         # Only strip if preamble is short and looks like intro text
         if len(preamble) < 200 and '<' not in preamble:
             text = text[first_tag.start():]
+    # Strip em dashes, en dashes, and semicolons (house style)
+    text = text.replace('\u2014', ', ')   # em dash → comma
+    text = text.replace('\u2013', '-')    # en dash → hyphen
+    text = text.replace(';', '.')         # semicolons → full stops
+    # Clean up double spaces/commas from replacements
+    text = re.sub(r',\s*,', ',', text)
+    text = re.sub(r'\.\s*\.', '.', text)
+    text = re.sub(r'  +', ' ', text)
     return text
 
 
