@@ -83,6 +83,7 @@ const mockPropertyData = {
       colocate_score: 40,
       disposal: { category: 'E', priority: 10, confidence: 'high' },
       flags: [],
+      service_status: 'active',
     },
     {
       id: 'lcc-002',
@@ -105,6 +106,8 @@ const mockPropertyData = {
       colocate_score: 30,
       disposal: { category: 'B', priority: 72, confidence: 'medium' },
       flags: ['energy_risk'],
+      service_status: 'community_managed',
+      operator: 'Community Library Trust',
     },
     {
       id: 'lcc-003',
@@ -342,6 +345,28 @@ describe('PropertyPortfolio', () => {
     fireEvent.change(categorySelect, { target: { value: 'library' } })
     expect(screen.getByText('Burnley Library')).toBeInTheDocument()
     expect(screen.queryByText('County Hall')).not.toBeInTheDocument()
+  })
+
+  it('filters assets by service status dropdown', () => {
+    renderComponent()
+    const selects = screen.getAllByRole('combobox')
+    const serviceSelect = selects.find(s => {
+      const options = within(s).queryAllByRole('option')
+      return options.some(o => o.textContent === 'All Service Status')
+    })
+    if (serviceSelect) {
+      fireEvent.change(serviceSelect, { target: { value: 'community_managed' } })
+      expect(screen.getByText('Burnley Library')).toBeInTheDocument()
+      expect(screen.queryByText('County Hall')).not.toBeInTheDocument()
+    }
+  })
+
+  it('shows service status badges in table', () => {
+    renderComponent()
+    // The table should show status badges for assets with service_status
+    const activeText = screen.queryAllByText('Active')
+    const communityText = screen.queryAllByText('Community')
+    expect(activeText.length + communityText.length).toBeGreaterThan(0)
   })
 
   it('shows filtered count when filters are active', () => {

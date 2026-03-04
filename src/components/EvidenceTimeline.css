@@ -1,0 +1,145 @@
+.evidence-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.evidence-timeline-empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.evidence-timeline-empty-icon {
+  font-size: 1.2rem;
+}
+
+.evidence-timeline-group {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.evidence-timeline-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid;
+  font-size: 0.8rem;
+}
+
+.evidence-timeline-source-icon {
+  font-size: 1rem;
+}
+
+.evidence-timeline-source-info {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.evidence-timeline-source-label {
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.evidence-timeline-source-label a {
+  text-decoration: none;
+}
+
+.evidence-timeline-source-label a:hover {
+  text-decoration: underline;
+}
+
+.evidence-timeline-source-date {
+  font-size: 0.7rem;
+  color: var(--text-secondary, #94a3b8);
+  font-variant-numeric: tabular-nums;
+}
+
+.evidence-timeline-entries {
+  padding: 4px 10px 8px 16px;
+  border-left: 3px solid rgba(255, 255, 255, 0.06);
+  margin-left: 0;
+}
+
+.evidence-timeline-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.evidence-timeline-field {
+  color: var(--text-secondary, #94a3b8);
+  min-width: 100px;
+  text-transform: capitalize;
+}
+
+.evidence-timeline-value {
+  color: var(--text-primary, #e2e8f0);
+  flex: 1;
+  word-break: break-word;
+}
+
+.evidence-timeline-confidence {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Collapsible wrapper used in PropertyDetail */
+.evidence-trail-collapsible {
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.evidence-trail-collapsible summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-primary, #e2e8f0);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.evidence-trail-collapsible summary::before {
+  content: '▶';
+  font-size: 0.65rem;
+  transition: transform 0.2s;
+}
+
+.evidence-trail-collapsible[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.evidence-trail-collapsible summary .trail-count {
+  font-size: 0.7rem;
+  background: var(--accent, #0a84ff);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .evidence-timeline-entry {
+    flex-wrap: wrap;
+  }
+  .evidence-timeline-field {
+    min-width: 80px;
+  }
+}

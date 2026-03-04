@@ -17,6 +17,7 @@ import sys
 import time
 import urllib.request
 import urllib.parse
+from datetime import datetime
 from pathlib import Path
 
 # CED mapping via shapely point-in-polygon
@@ -70,6 +71,9 @@ LEAN_FIELDS = [
     'tier', 'parent_council',
     # Sellability (LCC as shareholder can direct subsidiaries to sell)
     'sellable_by_lcc', 'sale_mechanism',
+    # Facility enrichment (from LCC website scraping)
+    'service_status', 'service_type', 'operator', 'community_managed',
+    'lcc_web_url', 'community_value_score',
 ]
 
 
@@ -223,6 +227,119 @@ def find_ced(lat, lng, ced_polygons):
     except Exception:
         pass
     return ''
+
+
+def load_facility_enrichment(council_dir):
+    """Load facility_enrichment.json for service intelligence."""
+    fac_path = Path(council_dir) / 'facility_enrichment.json'
+    if not fac_path.exists():
+        print(f"  facility_enrichment.json not found — skipping facility enrichment")
+        return {}
+    try:
+        with open(fac_path) as f:
+            fac_data = json.load(f)
+        facilities = fac_data.get('facilities', {})
+        meta = fac_data.get('meta', {})
+        print(f"  Loaded facility enrichment: {len(facilities)} matched facilities "
+              f"({meta.get('community_managed_count', 0)} community-managed)")
+        return facilities
+    except Exception as e:
+        print(f"  Error loading facility_enrichment.json: {e}")
+        return {}
+
+
+def build_supplier_department_lookup(council_dir):
+    """Build supplier→department lookup from spending data for department breakdown.
+
+    Reads spending-index.json to discover month files, then scans all spending
+    records to build a mapping of supplier_canonical → {department: {spend, txns}}.
+    This is then joined to property supplier links to produce per-property
+    department breakdowns.
+    """
+    index_path = Path(council_dir) / 'spending-index.json'
+    if not index_path.exists():
+        print(f"  spending-index.json not found — skipping department breakdown")
+        return {}
+    try:
+        with open(index_path) as f:
+            index = json.load(f)
+    except Exception as e:
+        print(f"  Error loading spending-index.json: {e}")
+        return {}
+
+    # Discover spending chunk files
+    chunk_files = []
+    years = index.get('years', {})
+    for year_key, year_data in years.items():
+        if isinstance(year_data, dict) and 'months' in year_data:
+            # v4 monthly
+            for month_key in year_data['months']:
+                chunk_files.append(f'spending-{month_key}.json')
+        else:
+            # v3 yearly
+            chunk_files.append(f'spending-{year_key.replace("/", "-")}.json')
+
+    # Build lookup: supplier_canonical → {service_division: {spend, txns}}
+    supplier_dept = {}
+    records_scanned = 0
+    for chunk_file in chunk_files:
+        chunk_path = Path(council_dir) / chunk_file
+        if not chunk_path.exists():
+            continue
+        try:
+            with open(chunk_path) as f:
+                records = json.load(f)
+            if not isinstance(records, list):
+                continue
+            for rec in records:
+                sup = rec.get('supplier_canonical') or rec.get('supplier', '')
+                dept = rec.get('service_division') or rec.get('department', '')
+                amt = rec.get('amount', 0)
+                if not sup or not dept:
+                    continue
+                sup_lower = sup.lower().strip()
+                if sup_lower not in supplier_dept:
+                    supplier_dept[sup_lower] = {}
+                if dept not in supplier_dept[sup_lower]:
+                    supplier_dept[sup_lower][dept] = {'spend': 0, 'txns': 0}
+                supplier_dept[sup_lower][dept]['spend'] += float(amt) if amt else 0
+                supplier_dept[sup_lower][dept]['txns'] += 1
+                records_scanned += 1
+        except Exception:
+            continue
+
+    print(f"  Department lookup: {len(supplier_dept)} suppliers from {records_scanned:,} records")
+    return supplier_dept
+
+
+def build_department_breakdown(supplier_links, supplier_dept_lookup):
+    """Build department breakdown for a property from its supplier links.
+
+    Returns list of {department, spend, txns} sorted by spend desc.
+    """
+    if not supplier_links or not supplier_dept_lookup:
+        return []
+
+    dept_totals = {}
+    for sl in supplier_links:
+        sup_name = (sl.get('supplier') or '').lower().strip()
+        if not sup_name or sup_name not in supplier_dept_lookup:
+            continue
+        for dept, vals in supplier_dept_lookup[sup_name].items():
+            if dept not in dept_totals:
+                dept_totals[dept] = {'spend': 0, 'txns': 0}
+            dept_totals[dept]['spend'] += vals['spend']
+            dept_totals[dept]['txns'] += vals['txns']
+
+    if not dept_totals:
+        return []
+
+    breakdown = [
+        {'department': dept, 'spend': round(vals['spend'], 2), 'txns': vals['txns']}
+        for dept, vals in dept_totals.items()
+    ]
+    breakdown.sort(key=lambda x: x['spend'], reverse=True)
+    return breakdown
 
 
 def load_ward_deprivation(council_dir):
@@ -1895,6 +2012,20 @@ def infer_occupancy(asset):
 
     category = (asset.get('category') or '').lower()
 
+    # --- Facility enrichment check (most accurate, from LCC website) ---
+    fac_status = asset.get('_facility_service_status')
+    if fac_status:
+        fac_operator = asset.get('_facility_operator') or 'community group'
+        if fac_status == 'community_managed':
+            signals.append(f'LCC website: community-managed by {fac_operator}')
+            return 'community_managed', signals
+        elif fac_status == 'active':
+            signals.append(f'LCC website: active LCC-operated facility')
+            return 'occupied', signals
+        elif fac_status == 'closed':
+            signals.append(f'LCC website: facility marked as closed')
+            # Don't force — let algorithmic inference continue but with this signal
+
     # Non-owned / unclear → third party
     if 'non_owned' in flags:
         signals.append('Non-owned or partnership asset')
@@ -1981,6 +2112,9 @@ def compute_complexity(asset, occupancy):
     if occupancy == 'school_grounds':
         score += 30
         breakdown.append(('School grounds — disposal requires school closure/relocation', 30))
+    elif occupancy == 'community_managed':
+        score += 25
+        breakdown.append(('Community-managed — community consultation required', 25))
     elif occupancy == 'occupied':
         score += 25
         breakdown.append(('Service-occupied — needs relocation plan', 25))
@@ -2267,6 +2401,13 @@ def determine_pathway(asset, occupancy, complexity, readiness, revenue):
         return 'governance_review', secondary, \
             'Non-owned or partnership asset — ownership and governance must be clarified before any disposal action'
 
+    # --- Community-managed: property in active community use ---
+    if occupancy == 'community_managed':
+        operator = asset.get('operator') or 'community group'
+        return 'community_asset_transfer', 'strategic_hold', \
+            f'Currently community-managed by {operator} — community asset transfer would formalise arrangement. ' \
+            f'All other options remain available for consideration'
+
     # --- School grounds: land/buildings serving active educational institutions ---
     if occupancy == 'school_grounds':
         return 'strategic_hold', 'long_lease_income', \
@@ -2432,6 +2573,129 @@ def compute_disposal_intelligence(lean_assets):
         'estimated_capital_receipts': total_capital,
         'estimated_annual_income': total_annual,
     }
+
+
+def compute_community_value(asset, enrichment):
+    """Compute community value score (0-100) from facility enrichment + deprivation.
+    Higher = greater community significance. Used as additional context, not to
+    block or restrict any disposal options."""
+    if not enrichment:
+        return None
+    score = 0
+    # Deprivation bonus
+    imd = asset.get('imd_decile') or 5
+    if imd <= 2:
+        score += 30
+    elif imd <= 4:
+        score += 20
+    elif imd <= 6:
+        score += 10
+    # Service type bonus
+    stype = enrichment.get('service_type', '')
+    type_bonuses = {
+        'central_library': 25, 'branch_library': 20, 'community_library': 20,
+        'campus_library': 15, 'children_centre': 25, 'fire_station': 15,
+    }
+    score += type_bonuses.get(stype, 10)
+    # Services count
+    services = enrichment.get('services_provided', [])
+    score += min(len(services) * 3, 15)
+    # Community managed bonus
+    if enrichment.get('community_managed'):
+        score += 15
+    # Ward population bonus
+    pop = asset.get('ward_population') or 0
+    if pop > 10000:
+        score += 5
+    return min(score, 100)
+
+
+def build_evidence_trail(row, enrichment, etl_date):
+    """Build provenance trail recording source and date for every significant field.
+    Returns list of {field, value, source, source_label, date, confidence, source_url}."""
+    trail = []
+    csv_date = etl_date  # Use ETL run date as proxy for CSV generation
+
+    # Core identity from Codex CSV
+    for field in ['name', 'address', 'postcode', 'category', 'ownership']:
+        val = row.get(field) or row.get(f'asset_{field}') or row.get(f'full_{field}')
+        if val:
+            trail.append({
+                'field': field, 'value': str(val),
+                'source': 'codex_csv', 'source_label': 'Codex Property Register',
+                'date': csv_date, 'confidence': 'high',
+            })
+
+    # EPC data
+    epc = row.get('epc_rating')
+    if epc:
+        epc_date = row.get('epc_lodgement_date') or csv_date
+        trail.append({
+            'field': 'epc_rating', 'value': str(epc),
+            'source': 'epc_register', 'source_label': 'EPC Register',
+            'date': str(epc_date), 'confidence': 'high',
+        })
+
+    # Facility enrichment (from LCC website)
+    if enrichment:
+        scraped_at = enrichment.get('scraped_at', etl_date)
+        web_url = enrichment.get('web_url')
+        for field in ['service_status', 'operator', 'service_type', 'community_managed']:
+            val = enrichment.get(field)
+            if val is not None:
+                entry = {
+                    'field': field, 'value': str(val),
+                    'source': 'lcc_website', 'source_label': 'LCC Website',
+                    'date': scraped_at, 'confidence': 'high',
+                }
+                if web_url:
+                    entry['source_url'] = web_url
+                trail.append(entry)
+        services = enrichment.get('services_provided', [])
+        if services:
+            entry = {
+                'field': 'services_provided', 'value': ', '.join(services),
+                'source': 'lcc_website', 'source_label': 'LCC Website',
+                'date': scraped_at, 'confidence': 'high',
+            }
+            if web_url:
+                entry['source_url'] = web_url
+            trail.append(entry)
+        # Record if facility enrichment corrected a misclassification
+        if enrichment.get('service_status') == 'community_managed':
+            trail.append({
+                'field': 'occupancy_override', 'value': 'community_managed (was: likely_vacant)',
+                'source': 'facility_enrichment_override',
+                'source_label': 'Facility Enrichment Override',
+                'date': scraped_at, 'confidence': 'high',
+            })
+
+    # Live enrichment data
+    for field, source, label in [
+        ('_flood_zone', 'environment_agency_api', 'Environment Agency'),
+        ('_listed_building_grade', 'historic_england_api', 'Historic England'),
+        ('_sssi_nearby', 'natural_england_api', 'Natural England'),
+    ]:
+        val = row.get(field)
+        if val:
+            trail.append({
+                'field': field.lstrip('_'), 'value': str(val),
+                'source': source, 'source_label': label,
+                'date': etl_date, 'confidence': 'medium',
+            })
+
+    # Spending data
+    spend = row.get('linked_supplier_spend_total') or row.get('linked_spend')
+    if spend:
+        trail.append({
+            'field': 'linked_spend', 'value': f'£{float(spend):,.0f}',
+            'source': 'lcc_spending_data', 'source_label': 'LCC Spending Data',
+            'date': etl_date, 'confidence': 'high',
+        })
+
+    # Sort newest first
+    trail.sort(key=lambda e: e.get('date', ''), reverse=True)
+    return trail
 
 
 def build_flags(row, fire_dist=None):
@@ -2606,6 +2870,13 @@ def build_lean_asset(row, ced_name='', ward_dep=None, ward_demo=None, fire_dist=
         'ownership_pct': None,
         'tier': None,
         'parent_council': None,
+        # Facility enrichment (populated by main() after build)
+        'service_status': None,
+        'service_type': None,
+        'operator': None,
+        'community_managed': False,
+        'lcc_web_url': None,
+        'community_value_score': None,
     }
 
 
@@ -2730,6 +3001,10 @@ def build_detail_asset(row, ced_name='', disposal_info=None, supplier_links=None
             'awarded_total': safe_float(row.get('procurement_awarded_total')),
             'sample_contracts': safe_str(row.get('procurement_sample_contracts')),
         },
+        # Facility enrichment (populated by main() after build)
+        'facility': None,
+        # Evidence trail (populated by main() after build)
+        'evidence_trail': [],
     }
 
     # World-class assessment scores (from full assessment)
@@ -3009,7 +3284,7 @@ def compute_meta(lean_assets, detail_assets):
         sale_mechanisms[sm] = sale_mechanisms.get(sm, 0) + 1
 
     return {
-        'generated': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
+        'generated': datetime.now().isoformat(),
         'source': 'LCC Local Authority Land List + Codex enrichment + AI DOGE CED mapping + live API enrichment (Police/EA/HE/NE)',
         'total_assets': total,
         'owned_assets': owned,
@@ -3076,6 +3351,16 @@ def compute_meta(lean_assets, detail_assets):
             'sellable_by_lcc': sellable_count,
             'sellable_value': round(sellable_value),
             'sale_mechanisms': dict(sorted(sale_mechanisms.items(), key=lambda x: -x[1])),
+        },
+        # Facility enrichment stats
+        'facility_enrichment': {
+            'has_facility_data': sum(1 for a in lean_assets if a.get('service_status')),
+            'service_status_breakdown': {
+                s: sum(1 for a in lean_assets if a.get('service_status') == s)
+                for s in ['active', 'community_managed', 'closed', 'transferred']
+                if sum(1 for a in lean_assets if a.get('service_status') == s) > 0
+            },
+            'community_managed_count': sum(1 for a in lean_assets if a.get('community_managed')),
         },
         'ced_summary': dict(sorted(ced_summary.items())),
         # Estate strategy context (from LCC Property Asset Management Strategy 2020 + Council Estate Report 2023)
@@ -3255,6 +3540,14 @@ def main():
     ward_demo_improved = load_ward_demographics_improved(council_dir)
     ward_demo_data = ward_demo_improved.get('by_name', {}) if ward_demo_improved else {}
 
+    # --- 2d. Load facility enrichment data ---
+    print(f"\n--- Loading facility enrichment data ---")
+    facility_enrichment = load_facility_enrichment(council_dir)
+
+    # --- 2e. Build supplier→department lookup for department breakdown ---
+    print(f"\n--- Building supplier department lookup ---")
+    supplier_dept_lookup = build_supplier_department_lookup(council_dir)
+
     # --- 3. Build CED lookup ---
     print(f"\n--- Building CED lookup ---")
     ced_polygons = build_ced_lookup(str(boundaries_path))
@@ -3330,6 +3623,19 @@ def main():
             fire_enriched += 1
 
         lean = build_lean_asset(row, ced_name, ward_dep, ward_demo, fire_dist, fire_station, imd_dep)
+
+        # Inject facility enrichment into lean asset (for occupancy inference + frontend)
+        fac_data = facility_enrichment.get(lean['id'])
+        if fac_data:
+            lean['service_status'] = fac_data.get('service_status')
+            lean['service_type'] = fac_data.get('service_type')
+            lean['operator'] = fac_data.get('operator')
+            lean['community_managed'] = fac_data.get('community_managed', False)
+            lean['lcc_web_url'] = fac_data.get('web_url')
+            lean['community_value_score'] = compute_community_value(lean, fac_data)
+            # Temp fields for occupancy inference (read by infer_occupancy via compute_disposal_intelligence)
+            lean['_facility_service_status'] = fac_data.get('service_status')
+            lean['_facility_operator'] = fac_data.get('operator')
 
         # Merge supplier spend from separate CSV if primary has 0
         if lean['linked_spend'] == 0 and supplier_links:
@@ -3426,6 +3732,46 @@ def main():
         detail['revenue_potential'] = lean.get('revenue_potential')
         detail['disposal_pathway'] = lean.get('disposal_pathway')
         detail['disposal_pathway_secondary'] = lean.get('disposal_pathway_secondary')
+
+    # --- 5b2. Facility enrichment + evidence trails ---
+    print(f"\n--- Applying facility enrichment + evidence trails ---")
+    etl_date = datetime.now().strftime('%Y-%m-%d')
+    fac_enriched = 0
+    for lean, detail, (aid, row) in zip(lean_assets, detail_assets,
+                                         list(primary_by_id.items())):
+        fac_data = facility_enrichment.get(aid)
+        if fac_data:
+            detail['facility'] = {
+                'service_status': fac_data.get('service_status'),
+                'service_type': fac_data.get('service_type'),
+                'operator': fac_data.get('operator'),
+                'operator_type': fac_data.get('operator_type'),
+                'community_managed': fac_data.get('community_managed', False),
+                'services_provided': fac_data.get('services_provided', []),
+                'contact': {
+                    'phone': fac_data.get('phone'),
+                    'email': fac_data.get('email'),
+                    'web_url': fac_data.get('web_url'),
+                },
+                'match_method': fac_data.get('match_method'),
+                'match_confidence': fac_data.get('match_confidence'),
+                'community_value_score': lean.get('community_value_score'),
+            }
+            fac_enriched += 1
+        # Build evidence trail for every asset (even without facility enrichment)
+        detail['evidence_trail'] = build_evidence_trail(row, fac_data, etl_date)
+        # Sync service fields to detail top-level
+        detail['service_status'] = lean.get('service_status')
+        detail['service_type'] = lean.get('service_type')
+        detail['operator'] = lean.get('operator')
+        detail['community_managed'] = lean.get('community_managed', False)
+
+        # Department spend breakdown from supplier→department lookup
+        supplier_links = detail.get('supplier_links', [])
+        dept_breakdown = build_department_breakdown(supplier_links, supplier_dept_lookup)
+        if dept_breakdown:
+            detail['spending']['department_breakdown'] = dept_breakdown
+    print(f"  Facility enriched: {fac_enriched}/{len(lean_assets)} assets")
 
     # --- 5c. Green Book Options Appraisal ---
     print(f"\n--- Running Green Book Options Appraisal Engine ---")
@@ -3565,7 +3911,8 @@ def main():
     for asset in lean_assets:
         for key in ['_occupancy_signals', '_complexity_breakdown', '_readiness_breakdown',
                      '_revenue_breakdown', '_smart_priority', '_pathway_reasoning', '_quick_win', '_timeline',
-                     '_revenue_estimate_capital', '_revenue_estimate_annual', '_revenue_method']:
+                     '_revenue_estimate_capital', '_revenue_estimate_annual', '_revenue_method',
+                     '_facility_service_status', '_facility_operator']:
             asset.pop(key, None)
 
     print(f"  Pathways: {intel_stats['pathway_breakdown']}")

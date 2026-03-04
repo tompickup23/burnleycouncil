@@ -30,6 +30,7 @@ import { isFirebaseEnabled } from '../firebase'
 import { LoadingState } from '../components/ui'
 import { formatCurrency, formatNumber, slugify } from '../utils/format'
 import { assessPropertyForLGR } from '../utils/lgrModel'
+import EvidenceTimeline from '../components/EvidenceTimeline'
 import './PropertyDetail.css'
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -78,6 +79,7 @@ const DEPRIVATION_DOMAINS = [
 
 const TABS = [
   { id: 'overview', label: 'Overview', icon: Building },
+  { id: 'services', label: 'Services', icon: Tag },
   { id: 'financials', label: 'Financials', icon: Shield },
   { id: 'energy', label: 'Energy', icon: Zap },
   { id: 'disposal', label: 'Disposal', icon: Trash2 },
@@ -391,6 +393,183 @@ function OverviewTab({ asset }) {
   )
 }
 
+// ── Services Tab ────────────────────────────────────────────────────────
+const SERVICE_STATUS_BADGES = {
+  active:             { label: 'Active',             color: '#30d158', bg: 'rgba(48, 209, 88, 0.15)' },
+  community_managed:  { label: 'Community Managed',  color: '#bf5af2', bg: 'rgba(191, 90, 242, 0.15)' },
+  closed:             { label: 'Closed',             color: '#ff453a', bg: 'rgba(255, 69, 58, 0.15)' },
+  transferred:        { label: 'Transferred',        color: '#ff9f0a', bg: 'rgba(255, 159, 10, 0.15)' },
+  unknown:            { label: 'Unknown',            color: '#8e8e93', bg: 'rgba(142, 142, 147, 0.15)' },
+}
+
+const SERVICE_TYPE_LABELS = {
+  central_library: 'Central Library',
+  branch_library: 'Branch Library',
+  community_library: 'Community Library',
+  campus_library: 'Campus Library',
+  children_centre: "Children's Centre",
+  fire_station: 'Fire Station',
+}
+
+function ServicesTab({ asset }) {
+  const fac = asset.facility
+  const status = asset.service_status || (fac?.service_status) || null
+  const badge = SERVICE_STATUS_BADGES[status] || SERVICE_STATUS_BADGES.unknown
+
+  if (!fac && !status) {
+    return (
+      <div className="property-tab-section">
+        <div className="property-empty-state">
+          <span style={{ fontSize: '2rem' }}>🔍</span>
+          <p>No service information available for this property.</p>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+            Service data is gathered from the LCC website for library facilities.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  const services = fac?.services_provided || []
+  const contact = fac?.contact || {}
+  const communityScore = fac?.community_value_score ?? asset.community_value_score
+
+  return (
+    <div>
+      {/* Service Status Banner */}
+      <div className="property-tab-section" style={{
+        background: badge.bg,
+        border: `1px solid ${badge.color}40`,
+        borderRadius: '10px',
+        padding: '16px',
+        marginBottom: '16px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{
+            padding: '4px 12px',
+            borderRadius: '12px',
+            background: badge.color,
+            color: '#fff',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+          }}>
+            {badge.label}
+          </span>
+          {asset.operator && asset.operator !== 'Lancashire County Council' && (
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+              Operated by <strong>{asset.operator}</strong>
+            </span>
+          )}
+          {asset.operator === 'Lancashire County Council' && (
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+              LCC-operated
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Service Details */}
+      <div className="property-tab-section">
+        <h3>Service Details</h3>
+        <div className="property-detail-grid">
+          {fac?.service_type && (
+            <div className="property-detail-item">
+              <span className="property-detail-label">Service Type</span>
+              <span className="property-detail-value">
+                {SERVICE_TYPE_LABELS[fac.service_type] || fac.service_type}
+              </span>
+            </div>
+          )}
+          {fac?.operator_type && (
+            <div className="property-detail-item">
+              <span className="property-detail-label">Operator Type</span>
+              <span className="property-detail-value" style={{ textTransform: 'capitalize' }}>
+                {fac.operator_type.replace(/_/g, ' ')}
+              </span>
+            </div>
+          )}
+          {communityScore != null && (
+            <div className="property-detail-item">
+              <span className="property-detail-label">Community Value</span>
+              <span className="property-detail-value">
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}>
+                  <span style={{
+                    fontWeight: 700,
+                    color: communityScore >= 70 ? '#30d158' : communityScore >= 40 ? '#ff9f0a' : '#8e8e93',
+                  }}>
+                    {communityScore}/100
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                    {communityScore >= 70 ? 'High' : communityScore >= 40 ? 'Medium' : 'Low'}
+                  </span>
+                </span>
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Services Provided */}
+      {services.length > 0 && (
+        <div className="property-tab-section">
+          <h3>Services Provided</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            {services.map(s => (
+              <span key={s} style={{
+                padding: '3px 10px',
+                borderRadius: '12px',
+                background: 'rgba(10, 132, 255, 0.12)',
+                color: '#0a84ff',
+                fontSize: '0.75rem',
+                textTransform: 'capitalize',
+              }}>
+                ✓ {s.replace(/_/g, ' ')}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Contact Details */}
+      {(contact.phone || contact.email || contact.web_url) && (
+        <div className="property-tab-section">
+          <h3>Contact</h3>
+          <div className="property-detail-grid">
+            {contact.phone && (
+              <div className="property-detail-item">
+                <span className="property-detail-label">Phone</span>
+                <span className="property-detail-value">{contact.phone}</span>
+              </div>
+            )}
+            {contact.email && (
+              <div className="property-detail-item">
+                <span className="property-detail-label">Email</span>
+                <span className="property-detail-value">{contact.email}</span>
+              </div>
+            )}
+            {contact.web_url && (
+              <div className="property-detail-item">
+                <span className="property-detail-label">LCC Website</span>
+                <span className="property-detail-value">
+                  <a href={contact.web_url} target="_blank" rel="noopener noreferrer"
+                     style={{ color: 'var(--accent)', fontSize: '0.8rem' }}>
+                    View on lancashire.gov.uk <ExternalLink size={12} style={{ verticalAlign: 'middle' }} />
+                  </a>
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Financials Tab ──────────────────────────────────────────────────────
 function FinancialsTab({ asset }) {
   const spending = asset.spending
   const suppliers = asset.supplier_links || []
@@ -454,6 +633,36 @@ function FinancialsTab({ asset }) {
                     </td>
                     <td style={{ textAlign: 'right' }}>{formatCurrency(s.spend)}</td>
                     <td style={{ textAlign: 'right' }}>{formatNumber(s.transactions)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Department spend breakdown */}
+      {spending.department_breakdown?.length > 0 && (
+        <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Department Breakdown</h3>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
+            Which LCC service areas are spending on this property
+          </p>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="property-table">
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th style={{ textAlign: 'right' }}>Spend</th>
+                  <th style={{ textAlign: 'right' }}>Transactions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {spending.department_breakdown.map((d, i) => (
+                  <tr key={i}>
+                    <td style={{ fontSize: '0.8rem' }}>{d.department}</td>
+                    <td style={{ textAlign: 'right' }}>{formatCurrency(d.spend)}</td>
+                    <td style={{ textAlign: 'right' }}>{formatNumber(d.txns)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -2083,6 +2292,13 @@ function PropertyDetail() {
             color={asset.active ? '#30d158' : '#ff453a'}
             bg={asset.active ? 'rgba(48,209,88,0.15)' : 'rgba(255,69,58,0.15)'}
           />
+          {asset.service_status && (() => {
+            const sb = SERVICE_STATUS_BADGES[asset.service_status]
+            return sb ? <Badge label={sb.label} color={sb.color} bg={sb.bg} /> : null
+          })()}
+          {asset.operator && asset.operator !== 'Lancashire County Council' && (
+            <Badge label={asset.operator} color="#bf5af2" bg="rgba(191,90,242,0.15)" />
+          )}
         </div>
       </div>
 
@@ -2132,6 +2348,7 @@ function PropertyDetail() {
       {/* Tab content */}
       <div className="property-tab-content">
         {activeTab === 'overview' && <OverviewTab asset={asset} />}
+        {activeTab === 'services' && <ServicesTab asset={asset} />}
         {activeTab === 'financials' && <FinancialsTab asset={asset} />}
         {activeTab === 'energy' && <EnergyTab asset={asset} />}
         {activeTab === 'disposal' && <DisposalTab asset={asset} />}
@@ -2140,6 +2357,23 @@ function PropertyDetail() {
         {activeTab === 'location' && <LocationTab asset={asset} nearbyPlanning={nearbyPlanning} />}
         {activeTab === 'lgr' && <LGRTab asset={asset} lgrData={lgrTrackerData} />}
       </div>
+
+      {/* Evidence Timeline (collapsible, visible on all tabs) */}
+      {asset.evidence_trail?.length > 0 && (
+        <details className="glass-card evidence-trail-collapsible">
+          <summary>
+            📋 Evidence Timeline
+            <span className="trail-count">
+              {asset.evidence_trail.length} data points
+              {(() => {
+                const sources = new Set(asset.evidence_trail.map(e => e.source))
+                return ` from ${sources.size} source${sources.size > 1 ? 's' : ''}`
+              })()}
+            </span>
+          </summary>
+          <EvidenceTimeline trail={asset.evidence_trail} />
+        </details>
+      )}
     </div>
   )
 }

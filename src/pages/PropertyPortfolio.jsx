@@ -289,6 +289,7 @@ export default function PropertyPortfolio() {
   const [filterRecommendation, setFilterRecommendation] = useState(() => searchParams.get('rec') || '')
   const [filterOccupancy, setFilterOccupancy] = useState(() => searchParams.get('occ') || '')
   const [filterPathway, setFilterPathway] = useState(() => searchParams.get('pw') || '')
+  const [filterServiceStatus, setFilterServiceStatus] = useState(() => searchParams.get('svc') || '')
   const [quickWinsOnly, setQuickWinsOnly] = useState(() => searchParams.get('qw') === '1')
   const [sellableOnly, setSellableOnly] = useState(() => searchParams.get('sell') === '1')
   const [sortField, setSortField] = useState(() => searchParams.get('sort') || 'name')
@@ -312,6 +313,7 @@ export default function PropertyPortfolio() {
     if (filterRecommendation) params.rec = filterRecommendation
     if (filterOccupancy) params.occ = filterOccupancy
     if (filterPathway) params.pw = filterPathway
+    if (filterServiceStatus) params.svc = filterServiceStatus
     if (quickWinsOnly) params.qw = '1'
     if (sellableOnly) params.sell = '1'
     if (sortField && sortField !== 'name') params.sort = sortField
@@ -321,7 +323,7 @@ export default function PropertyPortfolio() {
     if (mapOverlay !== 'category') params.overlay = mapOverlay
     if (lgrModel !== 'two_unitary' && mapOverlay === 'lgr_authority') params.lgrModel = lgrModel
     setSearchParams(params, { replace: true })
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sellableOnly, sortField, sortDir, page, viewMode, mapOverlay, lgrModel, setSearchParams])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, filterServiceStatus, quickWinsOnly, sellableOnly, sortField, sortDir, page, viewMode, mapOverlay, lgrModel, setSearchParams])
 
   // --- Parse data ---
   const meta = data?.meta || {}
@@ -426,6 +428,10 @@ export default function PropertyPortfolio() {
       result = result.filter(a => a.disposal_pathway === filterPathway)
     }
 
+    if (filterServiceStatus) {
+      result = result.filter(a => a.service_status === filterServiceStatus)
+    }
+
     if (quickWinsOnly) {
       result = result.filter(isQuickWin)
     }
@@ -435,7 +441,7 @@ export default function PropertyPortfolio() {
     }
 
     return result
-  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly, sellableOnly])
+  }, [assets, searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, filterServiceStatus, quickWinsOnly, sellableOnly])
 
   // --- Map assets (geocoded + overlay colour) ---
   const mapAssets = useMemo(() => {
@@ -799,12 +805,13 @@ export default function PropertyPortfolio() {
     setFilterRecommendation('')
     setFilterOccupancy('')
     setFilterPathway('')
+    setFilterServiceStatus('')
     setQuickWinsOnly(false)
     setSellableOnly(false)
     setPage(1)
   }, [])
 
-  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterTier || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || quickWinsOnly || sellableOnly
+  const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterTier || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || filterServiceStatus || quickWinsOnly || sellableOnly
 
   // --- Access gate ---
   if (!hasAccess) {
@@ -1425,6 +1432,15 @@ export default function PropertyPortfolio() {
             </select>
           )}
 
+          {/* Service Status */}
+          <select value={filterServiceStatus} onChange={e => setFilterServiceStatus(e.target.value)} style={selectStyle}>
+            <option value="">All Service Status</option>
+            <option value="active">Active (LCC)</option>
+            <option value="community_managed">Community Managed</option>
+            <option value="closed">Closed</option>
+            <option value="transferred">Transferred</option>
+          </select>
+
           {/* Quick Wins toggle */}
           <button
             onClick={() => setQuickWinsOnly(!quickWinsOnly)}
@@ -1579,6 +1595,17 @@ export default function PropertyPortfolio() {
                 <tr>
                   <SortHeader label="Name" field="name" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
                   <SortHeader label="Category" field="category" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+                  <th style={{
+                    padding: '10px 12px',
+                    textAlign: 'left',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary, #aaa)',
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    Status
+                  </th>
                   <SortHeader label="District" field="district" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
                   <SortHeader label="CED" field="ced" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
                   <SortHeader label="EPC" field="epc" sortField={sortField} sortDir={sortDir} onSort={handleSort} />
@@ -1602,7 +1629,7 @@ export default function PropertyPortfolio() {
               <tbody>
                 {pageAssets.length === 0 && (
                   <tr>
-                    <td colSpan={9} style={{ padding: '40px', textAlign: 'center', color: '#8e8e93' }}>
+                    <td colSpan={10} style={{ padding: '40px', textAlign: 'center', color: '#8e8e93' }}>
                       No assets match your filters.
                     </td>
                   </tr>
@@ -1627,6 +1654,29 @@ export default function PropertyPortfolio() {
                     </td>
                     <td style={{ padding: '10px 12px' }}>
                       <CategoryBadge category={asset.category} />
+                    </td>
+                    <td style={{ padding: '10px 12px' }}>
+                      {asset.service_status ? (
+                        <span style={{
+                          fontSize: '0.7rem',
+                          padding: '2px 8px',
+                          borderRadius: '8px',
+                          fontWeight: 500,
+                          background: asset.service_status === 'active' ? 'rgba(48,209,88,0.15)' :
+                                     asset.service_status === 'community_managed' ? 'rgba(191,90,242,0.15)' :
+                                     asset.service_status === 'closed' ? 'rgba(255,69,58,0.15)' :
+                                     'rgba(142,142,147,0.15)',
+                          color: asset.service_status === 'active' ? '#30d158' :
+                                 asset.service_status === 'community_managed' ? '#bf5af2' :
+                                 asset.service_status === 'closed' ? '#ff453a' :
+                                 '#8e8e93',
+                        }}>
+                          {asset.service_status === 'community_managed' ? 'Community' :
+                           asset.service_status.charAt(0).toUpperCase() + asset.service_status.slice(1)}
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.75rem', color: '#8e8e93' }}>-</span>
+                      )}
                     </td>
                     <td style={{ padding: '10px 12px', fontSize: '0.85rem', color: 'var(--text-secondary, #aaa)' }}>
                       {asset.district || '-'}

@@ -32,6 +32,7 @@ vi.mock('../components/ui', () => ({
 }))
 
 vi.mock('./PropertyDetail.css', () => ({}))
+vi.mock('../components/EvidenceTimeline.css', () => ({}))
 
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -79,7 +80,7 @@ const baseAsset = {
   google_maps_url: 'https://maps.google.com/?q=53.7632,-2.7051',
   deprivation: { imd_decile: 4, income_decile: 3, employment_decile: 5, education_decile: 6, health_decile: 4, crime_decile: 2, housing_decile: 7, living_env_decile: 5, imd_rank: 5000 },
   energy: { rating: 'C', potential_rating: 'B', property_type: 'Non-Domestic', floor_area_sqm: 5000, main_heating: 'Gas boiler', valid_until: '2028-06-15', match_status: 'exact', certificate_url: 'https://epc.example.com/cert/1234' },
-  spending: { total: 150000, transactions: 45, unique_suppliers: 8, condition_spend: 12000, condition_samples: 'Roof repair, window sealing' },
+  spending: { total: 150000, transactions: 45, unique_suppliers: 8, condition_spend: 12000, condition_samples: 'Roof repair, window sealing', department_breakdown: [{ department: 'Libraries, Museums, Culture & Registrars', spend: 95000, txns: 28 }, { department: 'Property Group - Estates', spend: 55000, txns: 17 }] },
   supplier_links: [
     { supplier: 'Supplier A', spend: 80000, transactions: 20 },
     { supplier: 'Supplier B', spend: 70000, transactions: 25 },
@@ -87,6 +88,25 @@ const baseAsset = {
   co_location: { same_postcode: 2, nearby_500m: 5, nearby_1000m: 12, nearest_name: 'Preston Bus Station', nearest_distance_m: 350 },
   flood: { areas_1km: 3, areas_3km: 8, nearest_label: 'River Ribble Flood Zone', nearest_distance_km: 0.8 },
   crime: { total_1mi: 245, violent_1mi: 87, antisocial_1mi: 63, density_band: 'high', snapshot_month: '2025-12' },
+  service_status: 'community_managed',
+  service_type: 'community_library',
+  operator: 'Crawshawbooth Community Association',
+  community_managed: true,
+  facility: {
+    service_status: 'community_managed',
+    service_type: 'community_library',
+    operator: 'Crawshawbooth Community Association',
+    operator_type: 'community_association',
+    community_managed: true,
+    services_provided: ['children_lending', 'computers', 'wifi'],
+    contact: { phone: '01onal 507167', email: null, web_url: 'https://lancashire.gov.uk/libraries/crawshawbooth' },
+    community_value_score: 72,
+  },
+  evidence_trail: [
+    { field: 'name', value: 'County Hall', source: 'codex_csv', source_label: 'Codex Property Register', date: '2025-01-15', confidence: 'high' },
+    { field: 'epc_rating', value: 'C', source: 'epc_register', source_label: 'EPC Register', date: '2025-06-20', confidence: 'high' },
+    { field: 'service_status', value: 'community_managed', source: 'lcc_website', source_label: 'LCC Website', date: '2026-03-04', confidence: 'high', source_url: 'https://lancashire.gov.uk/libraries/crawshawbooth' },
+  ],
 }
 
 const mockDetailData = {
@@ -173,14 +193,14 @@ describe('PropertyDetail', () => {
     useAuth.mockReturnValue({ isStrategist: false, isAdmin: false })
     renderComponent()
     expect(screen.queryByText('Access Restricted')).not.toBeInTheDocument()
-    expect(screen.getByText('County Hall')).toBeInTheDocument()
+    expect(screen.getAllByText('County Hall').length).toBeGreaterThanOrEqual(1)
   })
 
   // --- Header ---
 
   it('renders header with property name', () => {
     renderComponent()
-    expect(screen.getByText('County Hall')).toBeInTheDocument()
+    expect(screen.getAllByText('County Hall').length).toBeGreaterThanOrEqual(1)
   })
 
   it('renders address and postcode in header', () => {
@@ -275,10 +295,75 @@ describe('PropertyDetail', () => {
     expect(screen.getByText('Recommended Pathway')).toBeInTheDocument()
   })
 
+  it('switches to services tab', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Services'))
+    expect(screen.getByText('Service Status')).toBeInTheDocument()
+  })
+
   it('switches to location tab', () => {
     renderComponent()
     fireEvent.click(screen.getByText('Location'))
     expect(screen.getByText('Administrative Geography')).toBeInTheDocument()
+  })
+
+  // --- Services tab ---
+
+  it('shows service status and operator in services tab', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Services'))
+    // Community Managed badge appears in both header and services tab
+    expect(screen.getAllByText('Community Managed').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/Crawshawbooth Community Association/).length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('shows services provided in services tab', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Services'))
+    expect(screen.getByText(/children.lending/i)).toBeInTheDocument()
+    expect(screen.getByText(/computers/i)).toBeInTheDocument()
+    expect(screen.getByText(/wifi/i)).toBeInTheDocument()
+  })
+
+  it('shows community value score in services tab', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Services'))
+    expect(screen.getByText('72/100')).toBeInTheDocument()
+  })
+
+  it('shows no service info message when facility data is missing', () => {
+    const assetNoFacility = { ...baseAsset, facility: null, service_status: null }
+    useData.mockReturnValue({ data: { meta: {}, assets: [assetNoFacility] }, loading: false, error: null })
+    renderComponent()
+    fireEvent.click(screen.getByText('Services'))
+    expect(screen.getByText(/No service information available/)).toBeInTheDocument()
+  })
+
+  // --- Service status badge in header ---
+
+  it('shows service status badge in header', () => {
+    renderComponent()
+    // Community Managed badge should appear in the header area
+    const badges = screen.getAllByText('Community Managed')
+    expect(badges.length).toBeGreaterThanOrEqual(1)
+  })
+
+  // --- Evidence Timeline ---
+
+  it('shows evidence timeline collapsible section', () => {
+    renderComponent()
+    expect(screen.getByText(/Evidence Timeline/)).toBeInTheDocument()
+    expect(screen.getByText(/3 data points/)).toBeInTheDocument()
+  })
+
+  it('renders evidence trail entries when expanded', () => {
+    renderComponent()
+    // The collapsible <details> element should contain the entries
+    const details = document.querySelector('.evidence-trail-collapsible')
+    if (details) details.open = true
+    expect(screen.getByText('Codex Property Register')).toBeInTheDocument()
+    expect(screen.getByText('EPC Register')).toBeInTheDocument()
+    expect(screen.getByText('LCC Website')).toBeInTheDocument()
   })
 
   // --- Financials tab ---
@@ -289,6 +374,14 @@ describe('PropertyDetail', () => {
     expect(screen.getByText('Supplier Breakdown')).toBeInTheDocument()
     expect(screen.getByText('Supplier A')).toBeInTheDocument()
     expect(screen.getByText('Supplier B')).toBeInTheDocument()
+  })
+
+  it('shows department breakdown in financials', () => {
+    renderComponent()
+    fireEvent.click(screen.getByText('Financials'))
+    expect(screen.getByText('Department Breakdown')).toBeInTheDocument()
+    expect(screen.getByText('Libraries, Museums, Culture & Registrars')).toBeInTheDocument()
+    expect(screen.getByText('Property Group - Estates')).toBeInTheDocument()
   })
 
   it('shows no spending message when no data', () => {
