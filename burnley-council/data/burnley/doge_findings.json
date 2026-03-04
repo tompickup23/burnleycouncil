@@ -139,7 +139,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "13 suppliers shared with neighbouring councils \u2014 \u00a365.2M total",
+      "title": "13 suppliers shared with neighbouring councils \u2014 \u00a363.9M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -160,7 +160,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:00.409620",
+  "generated": "2026-03-04T01:19:11.718058",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -1239,11 +1239,11 @@
   },
   "integrity_summary": {
     "councillors_checked": 45,
-    "high_risk": 5,
-    "elevated_risk": 5,
-    "supplier_conflicts": 6,
+    "high_risk": 30,
+    "elevated_risk": 2,
+    "supplier_conflicts": 0,
     "network_crossover_links": 0,
-    "red_flags_total": 151
+    "red_flags_total": 1202
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -3006,8 +3006,8 @@
             "unique_dates": 7,
             "total_value": 4173360.66,
             "departments": [
-              "",
-              "Planning & Transportation"
+              "Planning & Transportation",
+              ""
             ]
           },
           {
@@ -3116,8 +3116,8 @@
             "unique_dates": 18,
             "total_value": 1416300.0,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           },
           {
@@ -3127,8 +3127,8 @@
             "unique_dates": 3,
             "total_value": 1401120.45,
             "departments": [
-              "",
-              "Planning & Transportation"
+              "Planning & Transportation",
+              ""
             ]
           },
           {
@@ -3148,8 +3148,8 @@
             "unique_dates": 18,
             "total_value": 1301360.0,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           },
           {
@@ -3159,8 +3159,8 @@
             "unique_dates": 20,
             "total_value": 1226160.0,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           },
           {
@@ -3170,8 +3170,8 @@
             "unique_dates": 20,
             "total_value": 1134000.0,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           },
           {
@@ -3203,8 +3203,8 @@
             "unique_dates": 18,
             "total_value": 993880.0,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           },
           {
@@ -3214,8 +3214,8 @@
             "unique_dates": 13,
             "total_value": 887194.0,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           }
         ],
@@ -3248,8 +3248,8 @@
             "supplier": "Liberata UK Ltd",
             "date": "2025-02-18",
             "departments": [
-              "Regeneration & Housing",
-              "Other"
+              "Other",
+              "Regeneration & Housing"
             ],
             "payments": 6,
             "total_value": 749377.52
@@ -3268,9 +3268,9 @@
             "supplier": "Liberata UK Ltd",
             "date": "2021-08-17",
             "departments": [
+              "Environmental Services",
               "Resources & Finance",
-              "Other",
-              "Environmental Services"
+              "Other"
             ],
             "payments": 7,
             "total_value": 709477.98
@@ -3310,8 +3310,8 @@
             "supplier": "TOTAL POOL CHEMICALS LTD",
             "date": null,
             "departments": [
-              "Leisure & Culture",
-              "Legal & Democratic"
+              "Legal & Democratic",
+              "Leisure & Culture"
             ],
             "payments": 3,
             "total_value": 492838.4
@@ -3340,8 +3340,8 @@
             "supplier": "Liberata UK Ltd",
             "date": "2021-07-20",
             "departments": [
-              "Resources & Finance",
               "Regeneration & Housing",
+              "Resources & Finance",
               "Other"
             ],
             "payments": 4,
@@ -3351,9 +3351,9 @@
             "supplier": "Liberata UK Ltd",
             "date": "2022-07-19",
             "departments": [
-              "Regeneration & Housing",
               "Planning & Transportation",
-              "Other"
+              "Other",
+              "Regeneration & Housing"
             ],
             "payments": 6,
             "total_value": 344493.3
@@ -3372,8 +3372,8 @@
             "supplier": "LANCASHIRE CC - PRESTON COUNTY HALL",
             "date": "2024-07-10",
             "departments": [
-              "Regeneration & Housing",
-              "Planning & Transportation"
+              "Planning & Transportation",
+              "Regeneration & Housing"
             ],
             "payments": 2,
             "total_value": 251818.0
@@ -3392,8 +3392,8 @@
             "supplier": "PENYARD LTD",
             "date": "2022-03-23",
             "departments": [
-              "Environmental Services",
-              "Resources & Finance"
+              "Resources & Finance",
+              "Environmental Services"
             ],
             "payments": 4,
             "total_value": 164686.95
@@ -3402,9 +3402,9 @@
             "supplier": "ZURICH MUNICIPAL",
             "date": null,
             "departments": [
+              "Planning & Transportation",
               "Resources & Finance",
-              "Legal & Democratic",
-              "Planning & Transportation"
+              "Legal & Democratic"
             ],
             "payments": 9,
             "total_value": 164437.44
@@ -3449,16 +3449,16 @@
             "amount": 8000.0,
             "date": "2021-04-23",
             "suppliers": [
-              "LINKBRIDGE",
-              "MRS MARIE MARKS ITS MY PARTY",
-              "MS CLAIRE SPENCER",
-              "MRS LYNDA FIELDING T/A SUNTASTIC 49",
-              "MISS RACHEL HEAP",
-              "BLISS TRAINING ACADEMY LTD",
-              "MRS SUSAN LINCOLN",
-              "MISZEL KUREK T A MK STUDIO",
-              "MS PANDORA STUTTARD",
-              "JL LEISURE (NORTH WEST) LTD"
+              "MS EMMA HILL T/A EMMA B`S",
+              "GRAYCO ENTERTAINMENT",
+              "MISS CHLOE EGAN",
+              "MISS NICOLA WHITEHEAD",
+              "MR JAMSHAD ALI",
+              "MISS CHERYL JACKSON",
+              "MR SIMON DEWAR",
+              "MS IRMA SUMSKIENE",
+              "MRS BEVERLEY LORRAINE BYWATER",
+              "MISS LISA DANIELS"
             ],
             "count": 201,
             "total_value": 1640000.0
@@ -3477,16 +3477,16 @@
             "amount": 8000.0,
             "date": "2021-04-27",
             "suppliers": [
-              "MS ANNETTE SHUTTLEWORTH",
-              "PADIHAM WORKING MENS CLUB",
-              "MS JULIE HOLMES T/A JULIES CAFE",
-              "MR MICHAEL HUGHES",
-              "JON CICCONI",
-              "PANAMAS LOUNGE LTD",
-              "MISS ELIZABETH WILSON",
-              "JESSICA RILEY",
-              "MS KIMBERLEY HOBBS",
-              "BACK OAK LTD"
+              "MR ANDRES SOFOCLEOUS",
+              "GEORGIA TAYLOR",
+              "KNIGHTS OF ST COLUMBA,KSC 110 CLUB",
+              "MISS VIKKI SMITH T/A THE SALON",
+              "MS J PACKER MISS LOUISA HARGREAVES T/A J-LO`S HAIR",
+              "MR NIKOLAOS KROUMPOUZOS",
+              "MR ROBERT SCOTT",
+              "CANALSIDE COMMUNITY ASSOCIATION",
+              "MR RAYMOND ALAN GREEN",
+              "MR CAIN BRAMLEY"
             ],
             "count": 67,
             "total_value": 536000.0
@@ -3495,16 +3495,16 @@
             "amount": 12000.0,
             "date": "2021-04-23",
             "suppliers": [
-              "ASTORIA BURNLEY LTD",
-              "MR RUSSELL F CURWEN",
-              "MR ALI AWAIS",
-              "GRINDER COFFEE 72 LTD T/A LITTLE BARISTA",
+              "TSB DESSERTS LTD",
               "REMEDY BURNLEY LTD",
-              "CICHETTI LTD T/A THE PALAZZO",
-              "SWJ ENTERTAINMENT LTD",
-              "MR NEIL WILKINSON",
-              "FX FITNESS EXPERIENCE LTD",
-              "NEW WAGGONERS LTD"
+              "LANCASHIRE COFFEE LTD",
+              "AJP PUB GROUP LTD",
+              "BURNLEY ENTERPRISE OF SPORT AND TRAINING CIC",
+              "N & K FOODS LTD T/A SUBWAY",
+              "ROSEHILL HOUSE HOTEL LTD",
+              "ENTEXOL LTD",
+              "BLIND TIGER INNS LTD",
+              "AROMA ASIAN RESTAURANT LTD"
             ],
             "count": 35,
             "total_value": 444000.0
@@ -3513,16 +3513,16 @@
             "amount": 8000.0,
             "date": "2021-05-05",
             "suppliers": [
+              "STEVEN MCDONALD",
+              "FRENCH KISS AESTHETICS LTD",
               "MR JAMIE AINSWORTH MS HOLLY HARKER T/A TINY TOTS T",
-              "MRS SUSAN JACKSON",
-              "MS GEORGINA DAY",
-              "MR ANTHONY BENSON TA STARVIN MARVIN",
-              "MRS NICOLA BROXUP",
-              "LAURA ROBERTS T/A NO 81 BAR AND PIZZERIA LTD",
-              "MR EMRAH YILDIZ",
-              "MR RICK BYNERT T/A SANDERSON DANCE & FITNESS CENTR",
+              "DANIEL BARNES",
+              "BURNLEY LEISURE",
               "MR DAVID ROGERS",
-              "STEVEN MCDONALD"
+              "DEBONHAIR LTD",
+              "MR STANLEY RILEY MRS MARLENE RILEY",
+              "MR STEPHEN WIGNALL",
+              "MRS SUSAN JACKSON"
             ],
             "count": 39,
             "total_value": 312000.0
@@ -3551,16 +3551,16 @@
             "amount": 8000.0,
             "date": "2021-05-11",
             "suppliers": [
-              "MR STEPHEN DITCH",
-              "MR STEPHEN HINDLEY",
-              "MRS K MORELAND,LINZI HAIR DEZINE",
-              "JOSEPH LANZANTE TRAINING LTD",
-              "MR KYLE ELLIS T/A ELLISS MILKSHAKE AND SMOOTHIE BA",
-              "MR ASFANDIAR KHAN",
-              "GEMMA FISHER",
-              "MASONIC ASSEMBLY ROOMS PADIHAM LTD",
               "BURNLEY MINERS SOCIAL CLUB",
-              "MR ATTIQ AZAM"
+              "MR STEPHEN HINDLEY",
+              "DRAGO RESTAURANTS LTD T A VETRANO RESTAURANT",
+              "MASONIC ASSEMBLY ROOMS PADIHAM LTD",
+              "THE SECRETARY ROSEGROVE UNITY",
+              "MR KENNETH BARKER GRAHAM",
+              "MISS SARAH BROWN T/A SENSUOUS",
+              "JOSEPH LANZANTE TRAINING LTD",
+              "GEMMA FISHER",
+              "MISS CLAIRE TOMLINSON"
             ],
             "count": 22,
             "total_value": 176000.0
@@ -3569,16 +3569,16 @@
             "amount": 8000.0,
             "date": "2021-05-18",
             "suppliers": [
-              "APRIL HAIR SALON LTD",
-              "A & K PUBS LTD",
-              "BLACK ROSE INNS LTD-THE BRIDGE INN",
-              "MR STEVEN P GWILT",
-              "SNOWDROP DOULA COMMUNITY INTEREST COMPANY",
+              "MR ASHLEY BALLINGER",
+              "WEAVERS TRIANGLE TRUST",
+              "MR JOHN PARKER",
               "MR SIMON TOWNLEY",
-              "MS ELIZABETH UTTLEY",
               "MR WILLIAM MARK TURNER",
-              "MS JESSICA NOBLE",
-              "LONDON MIDLAND RAILWAY CLUB ROSEGROVE BRANCH"
+              "A & K PUBS LTD",
+              "MR WEN SENG FENG T/A NEW SUMMER PALACE RESTAURANT",
+              "LONDON MIDLAND RAILWAY CLUB ROSEGROVE BRANCH",
+              "APRIL HAIR SALON LTD",
+              "MR ANTHONY J WIACZEK"
             ],
             "count": 21,
             "total_value": 168000.0
@@ -3587,12 +3587,12 @@
             "amount": 18000.0,
             "date": "2021-05-05",
             "suppliers": [
-              "WHITBREAD GROUP PLC",
               "J D WETHERSPOON PLC",
+              "AMBER TAVERNS LTD",
+              "WHITBREAD GROUP PLC",
               "BURNLEY LEISURE",
               "STARBOARD HOTELS ONE LLP",
               "STONEGATE PUB COMPANY LTD",
-              "AMBER TAVERNS LTD",
               "CROW WOOD LEISURE LTD"
             ],
             "count": 7,
@@ -3602,14 +3602,14 @@
             "amount": 12000.0,
             "date": "2021-05-05",
             "suppliers": [
-              "BURNLEY LEISURE",
-              "MR M S MASSARELLA",
-              "LOIZOU LEISURE LTD,T/A BLUE LAGOON",
-              "BURNLEY BOYS AND GIRLS CLUB",
               "ACTION FOR ASD",
               "PENNY BLACK BURNLEY LTD",
+              "BURNLEY LEISURE",
+              "CLASSIC CUISINE",
+              "MR M S MASSARELLA",
               "IGHTEN LEE SOCIAL CLUB",
-              "CLASSIC CUISINE"
+              "BURNLEY BOYS AND GIRLS CLUB",
+              "LOIZOU LEISURE LTD,T/A BLUE LAGOON"
             ],
             "count": 8,
             "total_value": 132000.0
@@ -3618,14 +3618,14 @@
             "amount": 12000.0,
             "date": "2021-04-27",
             "suppliers": [
-              "LUCA & GABRIELE LTD",
-              "MR STEVE DRIVER  MS GEORGIA WALSH",
-              "DELICACY123 LTD",
-              "MRS HELEN BILLINGTON",
               "FUTURES LEISURE BURNLEY LTD",
-              "RHODE ISLAND COFFEE LTD",
               "GENESIS LOUNGE LTD",
-              "MS SAENGKAEW KABRNA"
+              "RHODE ISLAND COFFEE LTD",
+              "MRS HELEN BILLINGTON",
+              "DELICACY123 LTD",
+              "MS SAENGKAEW KABRNA",
+              "MR STEVE DRIVER  MS GEORGIA WALSH",
+              "LUCA & GABRIELE LTD"
             ],
             "count": 8,
             "total_value": 96000.0
@@ -3634,11 +3634,11 @@
             "amount": 18000.0,
             "date": "2021-04-23",
             "suppliers": [
-              "ANDREW MACDONALD",
-              "CHICKEN CABINS LTD",
               "REEL CINEMAS LTD",
-              "ROAD ENGINEERING LTD",
-              "MFA PROPERTIES LTD"
+              "CHICKEN CABINS LTD",
+              "ANDREW MACDONALD",
+              "MFA PROPERTIES LTD",
+              "ROAD ENGINEERING LTD"
             ],
             "count": 5,
             "total_value": 90000.0
@@ -3647,8 +3647,8 @@
             "amount": 43873.0,
             "date": "2022-03-25",
             "suppliers": [
-              "AJH CONSTRUCTION LTD",
-              "URBASER LTD"
+              "URBASER LTD",
+              "AJH CONSTRUCTION LTD"
             ],
             "count": 2,
             "total_value": 87746.0
@@ -3667,16 +3667,16 @@
             "amount": 6000.0,
             "date": "2021-04-27",
             "suppliers": [
-              "CHORLEY NISSAN LTD",
-              "C D BRAMALL LTD",
               "SDL INCENTIVES UK LTD",
-              "G R & M M BLACKLEDGE PLC T A BODYCARE",
-              "PRIMARK STORES LTD",
-              "MOTORPOINT OF BURNLEY",
+              "NEXT RETAIL PLC",
+              "TJX UK STORE NO 202",
+              "C D BRAMALL LTD",
               "COURTESY SHOES LTD T/A WYNSORS WORLD OF SHOES",
-              "SPORTSDIRECT COM RETAIL LTD",
+              "PRIMARK STORES LTD",
               "RIVER ISLAND CLOTHING CO LTD",
-              "THE ENTERTAINER AMERSHAM LTD"
+              "MOTORPOINT OF BURNLEY",
+              "CHORLEY NISSAN LTD",
+              "G R & M M BLACKLEDGE PLC T A BODYCARE"
             ],
             "count": 12,
             "total_value": 72000.0
@@ -3705,11 +3705,11 @@
             "amount": 12000.0,
             "date": "2021-05-11",
             "suppliers": [
-              "MR FRANK OWEN",
-              "TRAVELODGE HOTELS LTD",
+              "SMITH PUBS LTD",
               "MS MICHELLE NAYLOR",
               "SUMMIT LEISURE KC LTD",
-              "SMITH PUBS LTD"
+              "TRAVELODGE HOTELS LTD",
+              "MR FRANK OWEN"
             ],
             "count": 5,
             "total_value": 60000.0
@@ -4073,9 +4073,9 @@
           "total_spend": 36731554.22,
           "transactions": 488,
           "departments": [
-            "Environmental Services",
             "Resources & Finance",
-            "Regeneration & Housing",
+            "Environmental Services",
+            "Other",
             "Planning & Transportation",
             "Legal & Democratic"
           ]
@@ -4085,9 +4085,9 @@
           "total_spend": 20293226.43,
           "transactions": 24,
           "departments": [
+            "Planning & Transportation",
             "Resources & Finance",
-            "Legal & Democratic",
-            "Planning & Transportation"
+            "Legal & Democratic"
           ]
         },
         {
@@ -4095,8 +4095,8 @@
           "total_spend": 19477800.45,
           "transactions": 959,
           "departments": [
-            "Environmental Services",
-            "Resources & Finance"
+            "Resources & Finance",
+            "Environmental Services"
           ]
         },
         {
@@ -4106,9 +4106,9 @@
           "departments": [
             "Environmental Services",
             "Resources & Finance",
-            "Regeneration & Housing",
-            "Chief Executive & Corporate",
-            "Planning & Transportation"
+            "Planning & Transportation",
+            "Legal & Democratic",
+            "Chief Executive & Corporate"
           ]
         },
         {
@@ -4118,9 +4118,9 @@
           "departments": [
             "Environmental Services",
             "Resources & Finance",
-            "Leisure & Culture",
-            "Chief Executive & Corporate",
-            "Regeneration & Housing"
+            "Other",
+            "Planning & Transportation",
+            "Legal & Democratic"
           ]
         },
         {
@@ -4154,9 +4154,9 @@
           "departments": [
             "Environmental Services",
             "Resources & Finance",
+            "Other",
             "Leisure & Culture",
-            "Regeneration & Housing",
-            "Other"
+            "Regeneration & Housing"
           ]
         },
         {
@@ -4164,8 +4164,8 @@
           "total_spend": 3064438.55,
           "transactions": 277,
           "departments": [
-            "Regeneration & Housing",
-            "Planning & Transportation"
+            "Planning & Transportation",
+            "Regeneration & Housing"
           ]
         },
         {
@@ -4174,8 +4174,8 @@
           "transactions": 94,
           "departments": [
             "Resources & Finance",
-            "Regeneration & Housing",
-            "Chief Executive & Corporate"
+            "Chief Executive & Corporate",
+            "Regeneration & Housing"
           ]
         },
         {
@@ -4199,8 +4199,8 @@
           "total_spend": 2471163.44,
           "transactions": 80,
           "departments": [
-            "Resources & Finance",
             "Regeneration & Housing",
+            "Resources & Finance",
             "Legal & Democratic",
             "Other"
           ]
@@ -4210,9 +4210,9 @@
           "total_spend": 2224808.3,
           "transactions": 62,
           "departments": [
+            "Planning & Transportation",
             "Environmental Services",
-            "Regeneration & Housing",
-            "Planning & Transportation"
+            "Regeneration & Housing"
           ]
         },
         {
@@ -4220,10 +4220,10 @@
           "total_spend": 2121797.66,
           "transactions": 159,
           "departments": [
-            "Resources & Finance",
-            "Regeneration & Housing",
             "Planning & Transportation",
-            "Other"
+            "Other",
+            "Resources & Finance",
+            "Regeneration & Housing"
           ]
         },
         {
@@ -4240,8 +4240,8 @@
           "total_spend": 1709489.9,
           "transactions": 222,
           "departments": [
-            "Regeneration & Housing",
-            "Planning & Transportation"
+            "Planning & Transportation",
+            "Regeneration & Housing"
           ]
         },
         {
@@ -7398,9 +7398,9 @@
       "overall": 46.7
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 14,
-      "fraud_triangle_percentile": 93.3,
-      "total_councils": 15,
+      "fraud_triangle_rank": 16,
+      "fraud_triangle_percentile": 94.1,
+      "total_councils": 17,
       "own_score": 71.3
     }
   },

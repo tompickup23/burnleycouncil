@@ -86,9 +86,9 @@
       "link": "/spending"
     },
     {
-      "value": "5",
+      "value": "31",
       "label": "High-Risk Councillors",
-      "detail": "5 councillors scored 'high risk' in integrity assessment across 8 data sources. Most common flags: undeclared interests, supplier conflicts, and company compliance issues.",
+      "detail": "31 councillors scored 'high risk' in integrity assessment across 31 data sources. Most common flags: undeclared interests, supplier conflicts, and company compliance issues.",
       "severity": "warning",
       "confidence": "high",
       "link": "/integrity"
@@ -118,7 +118,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "8 suppliers shared with neighbouring councils \u2014 \u00a33.8M total",
+      "title": "8 suppliers shared with neighbouring councils \u2014 \u00a33.4M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -139,7 +139,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:01.986861",
+  "generated": "2026-03-04T01:19:11.810113",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -752,11 +752,11 @@
   },
   "integrity_summary": {
     "councillors_checked": 40,
-    "high_risk": 5,
-    "elevated_risk": 4,
-    "supplier_conflicts": 3,
+    "high_risk": 31,
+    "elevated_risk": 3,
+    "supplier_conflicts": 0,
     "network_crossover_links": 0,
-    "red_flags_total": 132
+    "red_flags_total": 1406
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -2571,8 +2571,8 @@
             "unique_dates": 4,
             "total_value": 84852.4,
             "departments": [
-              "Housing General Fund",
-              "Central Services to the Public"
+              "Central Services to the Public",
+              "Housing General Fund"
             ]
           },
           {
@@ -2696,11 +2696,11 @@
             "supplier": "ZURICH INSURANCE COMPANY",
             "date": "2025-01-03",
             "departments": [
-              "Cultural and Related Services",
               "Central Services to the Public",
               "Trading Operations",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Departments recharged out",
               "Corporate and Democratic Core"
@@ -2712,11 +2712,11 @@
             "supplier": "ZURICH INSURANCE COMPANY",
             "date": "2025-08-01",
             "departments": [
-              "Cultural and Related Services",
               "Central Services to the Public",
               "Trading Operations",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Departments recharged out",
               "Corporate and Democratic Core"
@@ -2728,12 +2728,12 @@
             "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
             "date": "2025-04-03",
             "departments": [
-              "Cultural and Related Services",
-              "Trading Operations",
-              "Highways and Transport",
-              "Planning and Development Servi",
-              "Environmental and Regulatory",
               "Housing General Fund",
+              "Trading Operations",
+              "Cultural and Related Services",
+              "Planning and Development Servi",
+              "Highways and Transport",
+              "Environmental and Regulatory",
               "Corporate and Democratic Core"
             ],
             "payments": 29,
@@ -2743,10 +2743,10 @@
             "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
             "date": "2024-04-09",
             "departments": [
-              "Cultural and Related Services",
               "Trading Operations",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Corporate and Democratic Core"
             ],
@@ -2757,11 +2757,11 @@
             "supplier": "ZURICH INSURANCE COMPANY",
             "date": "2023-11-22",
             "departments": [
-              "Cultural and Related Services",
               "Central Services to the Public",
               "Trading Operations",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Departments recharged out",
               "Corporate and Democratic Core"
@@ -2773,10 +2773,10 @@
             "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
             "date": "2023-04-03",
             "departments": [
-              "Cultural and Related Services",
               "Trading Operations",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Corporate and Democratic Core"
             ],
@@ -2787,8 +2787,8 @@
             "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
             "date": "2021-04-20",
             "departments": [
-              "Cultural and Related Services",
               "Trading Operations",
+              "Cultural and Related Services",
               "Highways and Transport",
               "Environmental and Regulatory",
               "Corporate and Democratic Core"
@@ -2800,10 +2800,10 @@
             "supplier": "ZURICH INSURANCE COMPANY",
             "date": "2022-08-17",
             "departments": [
-              "Cultural and Related Services",
               "Central Services to the Public",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Departments recharged out",
               "Corporate and Democratic Core"
@@ -2825,10 +2825,10 @@
             "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
             "date": "2022-04-26",
             "departments": [
-              "Cultural and Related Services",
               "Trading Operations",
-              "Highways and Transport",
+              "Cultural and Related Services",
               "Planning and Development Servi",
+              "Highways and Transport",
               "Environmental and Regulatory",
               "Corporate and Democratic Core"
             ],
@@ -2839,8 +2839,8 @@
             "supplier": "ZURICH INSURANCE COMPANY",
             "date": "2021-09-27",
             "departments": [
-              "Cultural and Related Services",
               "Central Services to the Public",
+              "Cultural and Related Services",
               "Highways and Transport",
               "Environmental and Regulatory",
               "Departments recharged out",
@@ -2863,9 +2863,9 @@
             "supplier": "Lancashire County Council",
             "date": "2025-06-02",
             "departments": [
+              "Environmental and Regulatory",
               "Central Services to the Public",
-              "Departments recharged out",
-              "Environmental and Regulatory"
+              "Departments recharged out"
             ],
             "payments": 6,
             "total_value": 69357.23
@@ -2874,8 +2874,8 @@
             "supplier": "RIBBLE VALLEY BOROUGH COUNCIL",
             "date": "2022-04-19",
             "departments": [
-              "Highways and Transport",
-              "Environmental and Regulatory"
+              "Environmental and Regulatory",
+              "Highways and Transport"
             ],
             "payments": 16,
             "total_value": 68600.03
@@ -2894,8 +2894,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2024-11-20",
             "departments": [
-              "Policy & Finance Capital",
-              "Departments recharged out"
+              "Departments recharged out",
+              "Policy & Finance Capital"
             ],
             "payments": 8,
             "total_value": 48031.0
@@ -2904,8 +2904,8 @@
             "supplier": "NEC SOFTWARE SOLUTIONS UK LTD",
             "date": "2024-02-21",
             "departments": [
-              "Housing General Fund",
-              "Central Services to the Public"
+              "Central Services to the Public",
+              "Housing General Fund"
             ],
             "payments": 7,
             "total_value": 47255.32
@@ -2914,8 +2914,8 @@
             "supplier": "NEC SOFTWARE SOLUTIONS UK LTD",
             "date": "2023-02-21",
             "departments": [
-              "Housing General Fund",
-              "Central Services to the Public"
+              "Central Services to the Public",
+              "Housing General Fund"
             ],
             "payments": 7,
             "total_value": 46912.97
@@ -2934,8 +2934,8 @@
             "supplier": "NEC SOFTWARE SOLUTIONS UK LTD",
             "date": "2022-02-22",
             "departments": [
-              "Housing General Fund",
-              "Central Services to the Public"
+              "Central Services to the Public",
+              "Housing General Fund"
             ],
             "payments": 7,
             "total_value": 46619.45
@@ -2960,8 +2960,8 @@
             "amount": 5975.0,
             "date": "2025-10-09",
             "suppliers": [
-              "HYNDBURN PLUMBING & HEATING SERVICES LTD",
-              "D BLACKBURN CONTRACTORS LTD"
+              "D BLACKBURN CONTRACTORS LTD",
+              "HYNDBURN PLUMBING & HEATING SERVICES LTD"
             ],
             "count": 2,
             "total_value": 11950.0
@@ -2990,8 +2990,8 @@
             "amount": 5000.0,
             "date": "2025-04-09",
             "suppliers": [
-              "HOME-START IN EAST LANCASHIRE",
-              "BOWLAND PENNINE MOUNTAIN RESCUE TEAM"
+              "BOWLAND PENNINE MOUNTAIN RESCUE TEAM",
+              "HOME-START IN EAST LANCASHIRE"
             ],
             "count": 2,
             "total_value": 10000.0
@@ -3205,11 +3205,11 @@
           "total_spend": 2846797.47,
           "transactions": 113,
           "departments": [
-            "Cultural and Related Services",
             "Central Services to the Public",
-            "Highways and Transport",
+            "Community Capital",
+            "Cultural and Related Services",
             "Planning and Development Servi",
-            "Housing General Fund Capital"
+            "Highways and Transport"
           ]
         },
         {
@@ -3225,10 +3225,10 @@
           "total_spend": 1594434.94,
           "transactions": 621,
           "departments": [
-            "Cultural and Related Services",
             "Central Services to the Public",
+            "Housing General Fund",
             "Trading Operations",
-            "Highways and Transport",
+            "Cultural and Related Services",
             "Planning and Development Servi"
           ]
         },
@@ -3237,10 +3237,10 @@
           "total_spend": 1538543.97,
           "transactions": 512,
           "departments": [
-            "Cultural and Related Services",
-            "Trading Operations",
             "Central Services to the Public",
-            "Highways and Transport",
+            "Housing General Fund",
+            "Trading Operations",
+            "Cultural and Related Services",
             "Planning and Development Servi"
           ]
         },
@@ -3249,11 +3249,11 @@
           "total_spend": 991266.33,
           "transactions": 625,
           "departments": [
-            "Cultural and Related Services",
+            "Housing General Fund",
             "Trading Operations",
-            "Highways and Transport",
+            "Cultural and Related Services",
             "Planning and Development Servi",
-            "Environmental and Regulatory"
+            "Highways and Transport"
           ]
         },
         {
@@ -3261,11 +3261,11 @@
           "total_spend": 790241.64,
           "transactions": 1145,
           "departments": [
-            "Cultural and Related Services",
             "Central Services to the Public",
-            "Highways and Transport",
+            "Housing General Fund",
+            "Cultural and Related Services",
             "Planning and Development Servi",
-            "Housing General Fund Capital"
+            "Highways and Transport"
           ]
         },
         {
@@ -3290,11 +3290,11 @@
           "total_spend": 547432.79,
           "transactions": 371,
           "departments": [
-            "Cultural and Related Services",
+            "Housing General Fund",
             "Trading Operations",
-            "Highways and Transport",
+            "Cultural and Related Services",
             "Planning and Development Servi",
-            "Environmental and Regulatory"
+            "Highways and Transport"
           ]
         },
         {
@@ -3310,8 +3310,8 @@
           "total_spend": 465525.86,
           "transactions": 110,
           "departments": [
-            "Central Services to the Public",
-            "Environmental and Regulatory"
+            "Environmental and Regulatory",
+            "Central Services to the Public"
           ]
         },
         {
@@ -3319,9 +3319,9 @@
           "total_spend": 429090.89,
           "transactions": 16,
           "departments": [
-            "Community Capital",
             "Cultural and Related Services",
             "Central Services to the Public",
+            "Community Capital",
             "Corporate and Democratic Core"
           ]
         },
@@ -3338,8 +3338,8 @@
           "total_spend": 390838.22,
           "transactions": 244,
           "departments": [
-            "Other Operating Inc and Exp",
-            "Central Services to the Public"
+            "Central Services to the Public",
+            "Other Operating Inc and Exp"
           ]
         },
         {
@@ -7028,8 +7028,8 @@
     },
     "peer_benchmark": {
       "fraud_triangle_rank": 1,
-      "fraud_triangle_percentile": 6.7,
-      "total_councils": 15,
+      "fraud_triangle_percentile": 5.9,
+      "total_councils": 17,
       "own_score": 34.4
     }
   },

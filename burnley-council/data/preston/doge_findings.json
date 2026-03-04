@@ -119,7 +119,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "15 suppliers shared with neighbouring councils \u2014 \u00a337.9M total",
+      "title": "12 suppliers shared with neighbouring councils \u2014 \u00a330.5M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -160,7 +160,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:02.103843",
+  "generated": "2026-03-04T01:19:12.130937",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -1147,11 +1147,11 @@
   },
   "integrity_summary": {
     "councillors_checked": 48,
-    "high_risk": 3,
+    "high_risk": 47,
     "elevated_risk": 0,
-    "supplier_conflicts": 9,
+    "supplier_conflicts": 0,
     "network_crossover_links": 0,
-    "red_flags_total": 107
+    "red_flags_total": 1899
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -2886,9 +2886,9 @@
             "unique_dates": 23,
             "total_value": 660000.0,
             "departments": [
+              "CAP DEVELOPMENT",
               "CAP ENVIRONMENT",
-              "CAP OBSOLETE",
-              "CAP DEVELOPMENT"
+              "CAP OBSOLETE"
             ]
           },
           {
@@ -2929,8 +2929,8 @@
             "unique_dates": 3,
             "total_value": 198075.81,
             "departments": [
-              "REV DEVELOPMENT",
-              "BALANCE SHEET"
+              "BALANCE SHEET",
+              "REV DEVELOPMENT"
             ]
           },
           {
@@ -2960,8 +2960,8 @@
             "unique_dates": 18,
             "total_value": 178227.0,
             "departments": [
-              "CAP ENVIRONMENT",
-              "REV DEVELOPMENT"
+              "REV DEVELOPMENT",
+              "CAP ENVIRONMENT"
             ]
           },
           {
@@ -3001,8 +3001,8 @@
             "unique_dates": 18,
             "total_value": 133599.0,
             "departments": [
-              "CAP CUSTOMER SERVICES",
-              "CAP DEVELOPMENT"
+              "CAP DEVELOPMENT",
+              "CAP CUSTOMER SERVICES"
             ]
           },
           {
@@ -3107,8 +3107,8 @@
             "date": "2025-08-13",
             "departments": [
               "REV CUSTOMER SERVICES",
-              "BALANCE SHEET",
-              "CAP DEVELOPMENT"
+              "CAP DEVELOPMENT",
+              "BALANCE SHEET"
             ],
             "payments": 3,
             "total_value": 1765185.14
@@ -3117,9 +3117,9 @@
             "supplier": "Lancashire County Council",
             "date": "2025-07-23",
             "departments": [
-              "BALANCE SHEET",
+              "REV ENVIRONMENT",
               "CAP CHIEF EXECUTIVE",
-              "REV ENVIRONMENT"
+              "BALANCE SHEET"
             ],
             "payments": 7,
             "total_value": 1341839.42
@@ -3128,8 +3128,8 @@
             "supplier": "Lancashire County Council",
             "date": "2020-02-19",
             "departments": [
-              "REV DEVELOPMENT",
-              "CAP CHIEF EXECUTIVE"
+              "CAP CHIEF EXECUTIVE",
+              "REV DEVELOPMENT"
             ],
             "payments": 4,
             "total_value": 1265932.0
@@ -3138,8 +3138,8 @@
             "supplier": "Lancashire County Council",
             "date": "2019-09-25",
             "departments": [
-              "REV DEVELOPMENT",
               "CAP CHIEF EXECUTIVE",
+              "REV DEVELOPMENT",
               "CAP DEVELOPMENT"
             ],
             "payments": 3,
@@ -3150,9 +3150,9 @@
             "date": "2025-04-23",
             "departments": [
               "REV MISCELLANEOUS FINANCE",
-              "REV DEVELOPMENT",
               "REV CUSTOMER SERVICES",
-              "REV ENVIRONMENT"
+              "REV ENVIRONMENT",
+              "REV DEVELOPMENT"
             ],
             "payments": 9,
             "total_value": 1168679.51
@@ -3172,8 +3172,8 @@
             "supplier": "Lancashire County Council",
             "date": "2023-02-01",
             "departments": [
-              "CAP ENVIRONMENT",
-              "BALANCE SHEET"
+              "BALANCE SHEET",
+              "CAP ENVIRONMENT"
             ],
             "payments": 2,
             "total_value": 981092.93
@@ -3202,8 +3202,8 @@
             "supplier": "Lancashire County Council",
             "date": "2024-06-19",
             "departments": [
-              "REV DEVELOPMENT",
-              "REV ENVIRONMENT"
+              "REV ENVIRONMENT",
+              "REV DEVELOPMENT"
             ],
             "payments": 3,
             "total_value": 910757.62
@@ -3252,8 +3252,8 @@
             "supplier": "SOFTCAT LTD",
             "date": "2024-05-15",
             "departments": [
-              "REV CORPORATE SERVICES",
-              "REV CUSTOMER SERVICES"
+              "REV CUSTOMER SERVICES",
+              "REV CORPORATE SERVICES"
             ],
             "payments": 2,
             "total_value": 386043.79
@@ -3262,8 +3262,8 @@
             "supplier": "Lancashire County Council",
             "date": "2019-07-24",
             "departments": [
-              "BALANCE SHEET",
-              "CAP CHIEF EXECUTIVE"
+              "CAP CHIEF EXECUTIVE",
+              "BALANCE SHEET"
             ],
             "payments": 3,
             "total_value": 368291.03
@@ -3282,8 +3282,8 @@
             "supplier": "Lancashire County Council",
             "date": "2019-05-15",
             "departments": [
-              "REV DEVELOPMENT",
-              "CAP CHIEF EXECUTIVE"
+              "CAP CHIEF EXECUTIVE",
+              "REV DEVELOPMENT"
             ],
             "payments": 2,
             "total_value": 304392.12
@@ -3292,8 +3292,8 @@
             "supplier": "COMMUNITY GATEWAY ASSOCIATION LTD",
             "date": "2024-05-01",
             "departments": [
-              "CAP DEVELOPMENT",
-              "REV ENVIRONMENT"
+              "REV ENVIRONMENT",
+              "CAP DEVELOPMENT"
             ],
             "payments": 4,
             "total_value": 277997.0
@@ -3308,8 +3308,8 @@
             "amount": 45000.0,
             "date": "2025-04-30",
             "suppliers": [
-              "GRIMSARGH PARISH COUNCIL",
-              "BROUGHTON IN AMOUNDERNESS PARISH COUNCIL"
+              "BROUGHTON IN AMOUNDERNESS PARISH COUNCIL",
+              "GRIMSARGH PARISH COUNCIL"
             ],
             "count": 2,
             "total_value": 90000.0
@@ -3318,8 +3318,8 @@
             "amount": 36636.5,
             "date": "2025-03-05",
             "suppliers": [
-              "SELNET LTD",
-              "ACTIVE LANCASHIRE LTD"
+              "ACTIVE LANCASHIRE LTD",
+              "SELNET LTD"
             ],
             "count": 2,
             "total_value": 73273.0
@@ -3328,8 +3328,8 @@
             "amount": 36636.5,
             "date": "2024-11-20",
             "suppliers": [
-              "SELNET LTD",
-              "ACTIVE LANCASHIRE LTD"
+              "ACTIVE LANCASHIRE LTD",
+              "SELNET LTD"
             ],
             "count": 2,
             "total_value": 73273.0
@@ -3358,9 +3358,9 @@
             "amount": 10090.88,
             "date": "2019-05-15",
             "suppliers": [
-              "MRS A WEBSTER",
+              "MR R SHINE",
               "MR J A BOYDELL",
-              "MR R SHINE"
+              "MRS A WEBSTER"
             ],
             "count": 3,
             "total_value": 30272.64
@@ -3379,8 +3379,8 @@
             "amount": 15000.0,
             "date": "2019-12-04",
             "suppliers": [
-              "COMMUNITY GATEWAY ASSOCIATION LTD",
-              "PRESTON NORTH END COMMUNITY AND EDUCATION TRUST"
+              "PRESTON NORTH END COMMUNITY AND EDUCATION TRUST",
+              "COMMUNITY GATEWAY ASSOCIATION LTD"
             ],
             "count": 2,
             "total_value": 30000.0
@@ -3401,8 +3401,8 @@
             "suppliers": [
               "BROOKFIELD SPACEPLACE",
               "ACTIVE LANCASHIRE LTD",
-              "QUWWAT EDUCATION CENTRE",
-              "SAHARA IN PRESTON"
+              "SAHARA IN PRESTON",
+              "QUWWAT EDUCATION CENTRE"
             ],
             "count": 4,
             "total_value": 28000.0
@@ -3411,10 +3411,10 @@
             "amount": 7000.0,
             "date": "2025-02-12",
             "suppliers": [
-              "PRESTON COMMUNUITY HUB",
+              "BEANSTALK BUSINESS CENTRE",
               "DISABILITY EQUALITY (NW) LTD",
-              "LANCASHIRE COMMUNITY FINANCE (IPS) LTD",
-              "BEANSTALK BUSINESS CENTRE"
+              "PRESTON COMMUNUITY HUB",
+              "LANCASHIRE COMMUNITY FINANCE (IPS) LTD"
             ],
             "count": 4,
             "total_value": 28000.0
@@ -3423,8 +3423,8 @@
             "amount": 5280.0,
             "date": "2025-06-04",
             "suppliers": [
-              "SPECIALIST FLEET SERVICES LTD",
-              "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE"
+              "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
+              "SPECIALIST FLEET SERVICES LTD"
             ],
             "count": 2,
             "total_value": 21120.0
@@ -3433,8 +3433,8 @@
             "amount": 10000.0,
             "date": "2020-02-26",
             "suppliers": [
-              "UNIVERSITY OF CENTRAL LANCASHIRE",
-              "PRESTON COMMUNITY TRANSPORT LTD"
+              "PRESTON COMMUNITY TRANSPORT LTD",
+              "UNIVERSITY OF CENTRAL LANCASHIRE"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3453,8 +3453,8 @@
             "amount": 10000.0,
             "date": "2025-01-29",
             "suppliers": [
-              "KIND COMMUNITIES",
-              "BUILDING BRIDGES"
+              "BUILDING BRIDGES",
+              "KIND COMMUNITIES"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3463,8 +3463,8 @@
             "amount": 5000.0,
             "date": "2025-02-26",
             "suppliers": [
-              "PRESTON SPORTS FORUM",
-              "SHOWPLANR LTD"
+              "SHOWPLANR LTD",
+              "PRESTON SPORTS FORUM"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3473,8 +3473,8 @@
             "amount": 10000.0,
             "date": "2025-03-05",
             "suppliers": [
-              "PRESTON MUSLIM FORUM",
-              "PRESTON PARTNERSHIP"
+              "PRESTON PARTNERSHIP",
+              "PRESTON MUSLIM FORUM"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3798,8 +3798,8 @@
           "total_spend": 31542129.13,
           "transactions": 92,
           "departments": [
-            "REV DEVELOPMENT",
             "CAP CUSTOMER SERVICES",
+            "REV DEVELOPMENT",
             "CAP DEVELOPMENT"
           ]
         },
@@ -3808,11 +3808,11 @@
           "total_spend": 27977314.61,
           "transactions": 450,
           "departments": [
-            "REV CHIEF EXECUTIVE",
-            "REV DEVELOPMENT",
-            "REV ENVIRONMENT",
             "REV CORPORATE SERVICES",
-            "REV CUSTOMER SERVICES"
+            "REV DEVELOPMENT",
+            "REV CUSTOMER SERVICES",
+            "CAP ENVIRONMENT",
+            "REV ENVIRONMENT"
           ]
         },
         {
@@ -3829,11 +3829,11 @@
           "total_spend": 5293404.55,
           "transactions": 119,
           "departments": [
-            "REV DEVELOPMENT",
-            "REV ENVIRONMENT",
-            "REV CORPORATE SERVICES",
             "REV MISCELLANEOUS FINANCE",
-            "REV CUSTOMER SERVICES"
+            "REV CORPORATE SERVICES",
+            "REV DEVELOPMENT",
+            "REV CUSTOMER SERVICES",
+            "REV ENVIRONMENT"
           ]
         },
         {
@@ -3841,10 +3841,10 @@
           "total_spend": 4620335.57,
           "transactions": 5445,
           "departments": [
-            "REV CORPORATE SERVICES",
             "REV CUSTOMER SERVICES",
+            "REV ENVIRONMENT",
             "REV CHIEF EXECUTIVE",
-            "REV ENVIRONMENT"
+            "REV CORPORATE SERVICES"
           ]
         },
         {
@@ -3852,11 +3852,11 @@
           "total_spend": 4163094.75,
           "transactions": 226,
           "departments": [
-            "REV DEVELOPMENT",
-            "REV ENVIRONMENT",
             "REV CORPORATE SERVICES",
+            "REV DEVELOPMENT",
             "REV CUSTOMER SERVICES",
-            "CAP CUSTOMER SERVICES"
+            "CAP ENVIRONMENT",
+            "REV ENVIRONMENT"
           ]
         },
         {
@@ -3872,8 +3872,8 @@
           "total_spend": 3208732.97,
           "transactions": 19,
           "departments": [
-            "CAP ENVIRONMENT",
-            "REV ENVIRONMENT"
+            "REV ENVIRONMENT",
+            "CAP ENVIRONMENT"
           ]
         },
         {
@@ -3890,9 +3890,9 @@
           "transactions": 97,
           "departments": [
             "REV CUSTOMER SERVICES",
-            "REV DEVELOPMENT",
             "BALANCE SHEET",
-            "REV ENVIRONMENT"
+            "REV ENVIRONMENT",
+            "REV DEVELOPMENT"
           ]
         },
         {
@@ -3900,11 +3900,11 @@
           "total_spend": 2762942.8,
           "transactions": 319,
           "departments": [
-            "REV ENVIRONMENT",
+            "CAP OBSOLETE",
             "REV CUSTOMER SERVICES",
-            "BALANCE SHEET",
+            "CAP ENVIRONMENT",
             "CAP CHIEF EXECUTIVE",
-            "CAP ENVIRONMENT"
+            "REV ENVIRONMENT"
           ]
         },
         {
@@ -3912,8 +3912,8 @@
           "total_spend": 2039757.89,
           "transactions": 46,
           "departments": [
-            "CAP CUSTOMER SERVICES",
-            "CAP DEVELOPMENT"
+            "CAP DEVELOPMENT",
+            "CAP CUSTOMER SERVICES"
           ]
         },
         {
@@ -3923,8 +3923,8 @@
           "departments": [
             "UPDATE LOOKUP",
             "REV CUSTOMER SERVICES",
-            "REV CHIEF EXECUTIVE",
-            "REV ENVIRONMENT"
+            "REV ENVIRONMENT",
+            "REV CHIEF EXECUTIVE"
           ]
         },
         {
@@ -3932,10 +3932,10 @@
           "total_spend": 1545227.2,
           "transactions": 859,
           "departments": [
-            "REV CORPORATE SERVICES",
             "REV CUSTOMER SERVICES",
-            "REV DEVELOPMENT",
-            "REV ENVIRONMENT"
+            "REV CORPORATE SERVICES",
+            "REV ENVIRONMENT",
+            "REV DEVELOPMENT"
           ]
         },
         {
@@ -3943,10 +3943,10 @@
           "total_spend": 1458226.47,
           "transactions": 215,
           "departments": [
-            "REV CORPORATE SERVICES",
             "REV CUSTOMER SERVICES",
+            "REV ENVIRONMENT",
             "CAP CUSTOMER SERVICES",
-            "REV ENVIRONMENT"
+            "REV CORPORATE SERVICES"
           ]
         },
         {
@@ -3964,9 +3964,9 @@
           "transactions": 1353,
           "departments": [
             "REV CUSTOMER SERVICES",
+            "REV ENVIRONMENT",
             "REV DEVELOPMENT",
-            "REV CHIEF EXECUTIVE",
-            "REV ENVIRONMENT"
+            "REV CHIEF EXECUTIVE"
           ]
         },
         {
@@ -3974,8 +3974,8 @@
           "total_spend": 1162989.2,
           "transactions": 13,
           "departments": [
-            "COLLECTION FUND",
-            "BALANCE SHEET"
+            "BALANCE SHEET",
+            "COLLECTION FUND"
           ]
         },
         {
@@ -3992,8 +3992,8 @@
           "transactions": 287,
           "departments": [
             "REV CUSTOMER SERVICES",
-            "REV DEVELOPMENT",
-            "REV ENVIRONMENT"
+            "REV ENVIRONMENT",
+            "REV DEVELOPMENT"
           ]
         }
       ],
@@ -7698,9 +7698,9 @@
       "overall": 38.3
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 6,
-      "fraud_triangle_percentile": 40.0,
-      "total_councils": 15,
+      "fraud_triangle_rank": 8,
+      "fraud_triangle_percentile": 47.1,
+      "total_councils": 17,
       "own_score": 57.2
     }
   },

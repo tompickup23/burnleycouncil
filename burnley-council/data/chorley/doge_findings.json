@@ -119,7 +119,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "16 suppliers shared with neighbouring councils \u2014 \u00a337.5M total",
+      "title": "17 suppliers shared with neighbouring councils \u2014 \u00a337.7M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -129,10 +129,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "SPROUT SOCIAL: 7493% price gap between councils",
-      "description": "Chorley pays \u00a312.2K avg vs Burnley \u00a3161 (both with 3+ transactions). Compared using 3 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "TRAINLINE: 7449% price gap between councils",
+      "description": "Lancashire_Fire pays \u00a3795 avg vs Chorley \u00a311 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=SPROUT SOCIAL",
+      "link": "/spending?supplier=TRAINLINE",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -150,7 +150,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:01.996792",
+  "generated": "2026-03-04T01:19:11.946847",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -1091,11 +1091,11 @@
   },
   "integrity_summary": {
     "councillors_checked": 42,
-    "high_risk": 1,
+    "high_risk": 40,
     "elevated_risk": 0,
     "supplier_conflicts": 0,
     "network_crossover_links": 0,
-    "red_flags_total": 45
+    "red_flags_total": 1509
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -3051,8 +3051,8 @@
             "supplier": "SOUTH RIBBLE BOROUGH COUNCIL",
             "date": "2025-02-05",
             "departments": [
-              "CUST - Customer & Digital",
-              "GOVN - Policy & Governance"
+              "GOVN - Policy & Governance",
+              "CUST - Customer & Digital"
             ],
             "payments": 3,
             "total_value": 931598.11
@@ -3061,8 +3061,8 @@
             "supplier": "NAME REDACTED",
             "date": "2021-06-02",
             "departments": [
-              "Policy & Governance",
-              "Customer & Digital"
+              "Customer & Digital",
+              "Policy & Governance"
             ],
             "payments": 4,
             "total_value": 484442.12
@@ -3091,8 +3091,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2025-04-02",
             "departments": [
-              "CUST - Customer & Digital",
-              "GOVN - Policy & Governance"
+              "GOVN - Policy & Governance",
+              "CUST - Customer & Digital"
             ],
             "payments": 2,
             "total_value": 106680.0
@@ -3101,8 +3101,8 @@
             "supplier": "Lancashire County Council",
             "date": "2025-02-26",
             "departments": [
-              "GROW - Commercial Services",
-              "GOVN - Policy & Governance"
+              "GOVN - Policy & Governance",
+              "GROW - Commercial Services"
             ],
             "payments": 2,
             "total_value": 100637.14
@@ -3152,8 +3152,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2024-11-06",
             "departments": [
-              "CUST - Customer & Digital",
-              "GOVN - Policy & Governance"
+              "GOVN - Policy & Governance",
+              "CUST - Customer & Digital"
             ],
             "payments": 2,
             "total_value": 56912.0
@@ -3182,8 +3182,8 @@
             "supplier": "JOHN WADE GROUNDWORKS LTD",
             "date": "2025-12-10",
             "departments": [
-              "GROW - Commercial Services",
-              "PLAN - Planning & Development"
+              "PLAN - Planning & Development",
+              "GROW - Commercial Services"
             ],
             "payments": 2,
             "total_value": 38902.86
@@ -3202,8 +3202,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2022-02-02",
             "departments": [
-              "CUST - Customer & Digital",
-              "GOVN - Policy & Governance"
+              "GOVN - Policy & Governance",
+              "CUST - Customer & Digital"
             ],
             "payments": 3,
             "total_value": 32650.0
@@ -3212,8 +3212,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2023-07-05",
             "departments": [
-              "CUST - Customer & Digital",
-              "EARL - Communities"
+              "EARL - Communities",
+              "CUST - Customer & Digital"
             ],
             "payments": 3,
             "total_value": 30679.42
@@ -3222,8 +3222,8 @@
             "supplier": "BLACKBURN WITH DARWEN BOROUGH COUNCIL",
             "date": "2025-09-03",
             "departments": [
-              "GOVN - Policy & Governance",
-              "PLAN - Planning & Development"
+              "PLAN - Planning & Development",
+              "GOVN - Policy & Governance"
             ],
             "payments": 2,
             "total_value": 29209.16
@@ -3232,8 +3232,8 @@
             "supplier": "VIVID RESOURCING LTD",
             "date": "2023-01-25",
             "departments": [
-              "EARL - Communities",
               "PLAN - Planning & Development",
+              "EARL - Communities",
               "GROW - Commercial & Property"
             ],
             "payments": 14,
@@ -3249,16 +3249,16 @@
             "amount": 5000.0,
             "date": "2025-03-26",
             "suppliers": [
-              "FEET FIRST",
-              "FIRST CALL COMMUNICATIONS",
-              "CHIC HAPPENS LTD",
-              "KRISHAN JEWELLERS",
-              "CHORLEY PLUMBING, HEATING & BATHROOMS LTD",
-              "ANISE / MR N D HART",
+              "NORTHSTAR CREATIVE DESIGN AND ADVERTISING LLP",
               "PET`S INN / KARA LEWIS",
-              "CAKE BY HANNAH JONES LTD",
+              "CHIC HAPPENS LTD",
               "MO`S NEWS LTD",
-              "NORTHSTAR CREATIVE DESIGN AND ADVERTISING LLP"
+              "CAKE BY HANNAH JONES LTD",
+              "ANISE / MR N D HART",
+              "FEET FIRST",
+              "CHORLEY PLUMBING, HEATING & BATHROOMS LTD",
+              "FIRST CALL COMMUNICATIONS",
+              "KRISHAN JEWELLERS"
             ],
             "count": 10,
             "total_value": 50000.0
@@ -3267,8 +3267,8 @@
             "amount": 25000.0,
             "date": "2025-09-03",
             "suppliers": [
-              "GROUP 55 LTD",
-              "BLACKBURN WITH DARWEN BOROUGH COUNCIL"
+              "BLACKBURN WITH DARWEN BOROUGH COUNCIL",
+              "GROUP 55 LTD"
             ],
             "count": 2,
             "total_value": 50000.0
@@ -3277,10 +3277,10 @@
             "amount": 10000.0,
             "date": "2025-03-26",
             "suppliers": [
-              "ECCLESTON EQUESTRIAN CENTRE",
               "KERAX LTD",
+              "EBB AND FLO BOOKSHOP",
               "NORTHCOTES HAIR LTD",
-              "EBB AND FLO BOOKSHOP"
+              "ECCLESTON EQUESTRIAN CENTRE"
             ],
             "count": 4,
             "total_value": 40000.0
@@ -3289,14 +3289,14 @@
             "amount": 5000.0,
             "date": "2023-03-29",
             "suppliers": [
-              "WHEELTON PARISH COUNCIL",
-              "LANCASHIRE TAAG",
-              "AGE UK",
-              "SVP CHORLEY BUDDIES",
-              "GENESIS CARE (NORTH WEST) LTD",
-              "CHORLEY SCHOOL SPORT PARTNERSHIP",
               "ABDULHAKIM KASSAB AND JUMANA AL JUMAA",
-              "COPPULL PARISH COUNCIL"
+              "CHORLEY SCHOOL SPORT PARTNERSHIP",
+              "GENESIS CARE (NORTH WEST) LTD",
+              "AGE UK",
+              "COPPULL PARISH COUNCIL",
+              "SVP CHORLEY BUDDIES",
+              "WHEELTON PARISH COUNCIL",
+              "LANCASHIRE TAAG"
             ],
             "count": 8,
             "total_value": 40000.0
@@ -3305,8 +3305,8 @@
             "amount": 20000.0,
             "date": "2023-03-29",
             "suppliers": [
-              "EUXTON PARISH COUNCIL",
-              "ECCLESTON RECREATIONAL PARKS"
+              "ECCLESTON RECREATIONAL PARKS",
+              "EUXTON PARISH COUNCIL"
             ],
             "count": 2,
             "total_value": 40000.0
@@ -3315,10 +3315,10 @@
             "amount": 10000.0,
             "date": "2022-04-12",
             "suppliers": [
-              "CHORLEY SCHOOL SPORT PARTNERSHIP",
-              "HOME-START CENTRAL LANCASHIRE LTD",
               "SVP CHORLEY BUDDIES",
-              "LIVING WATERS STOREHOUSE"
+              "LIVING WATERS STOREHOUSE",
+              "CHORLEY SCHOOL SPORT PARTNERSHIP",
+              "HOME-START CENTRAL LANCASHIRE LTD"
             ],
             "count": 4,
             "total_value": 40000.0
@@ -3327,12 +3327,12 @@
             "amount": 5000.0,
             "date": "2023-04-05",
             "suppliers": [
-              "UDEVELOP CIC",
               "WILDWOOD DAYS",
               "NEW FRIENDS FOR YOU",
+              "UDEVELOP CIC",
+              "SHOOTING STARS FAN CLUB",
               "LANCASHIRE MIND LTD",
-              "OUTDOORS4ALL TOGETHER CIC",
-              "SHOOTING STARS FAN CLUB"
+              "OUTDOORS4ALL TOGETHER CIC"
             ],
             "count": 6,
             "total_value": 30000.0
@@ -3341,8 +3341,8 @@
             "amount": 15000.0,
             "date": "2023-12-13",
             "suppliers": [
-              "BLACKPOOL BOROUGH COUNCIL",
-              "KEY UNLOCKING FUTURES LTD"
+              "KEY UNLOCKING FUTURES LTD",
+              "BLACKPOOL BOROUGH COUNCIL"
             ],
             "count": 2,
             "total_value": 30000.0
@@ -3351,8 +3351,8 @@
             "amount": 10000.0,
             "date": "2024-10-30",
             "suppliers": [
-              "ST VINCENT DE PAUL SOCIETY (SVP CHORLEY BUDDIES)",
-              "SAHELIYAAN ASIAN WOMENS FORUM"
+              "SAHELIYAAN ASIAN WOMENS FORUM",
+              "ST VINCENT DE PAUL SOCIETY (SVP CHORLEY BUDDIES)"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3371,10 +3371,10 @@
             "amount": 5000.0,
             "date": "2025-04-02",
             "suppliers": [
+              "BAAA 38 LTD",
               "NEL!POTS LTD",
-              "PAUL KERFOOT PTK HOLDINGS",
               "C MOSS",
-              "BAAA 38 LTD"
+              "PAUL KERFOOT PTK HOLDINGS"
             ],
             "count": 4,
             "total_value": 20000.0
@@ -3383,8 +3383,8 @@
             "amount": 10000.0,
             "date": "2025-04-02",
             "suppliers": [
-              "MY PET PHYSIO & HYDRO",
-              "THE HARMONY HUB CIC"
+              "THE HARMONY HUB CIC",
+              "MY PET PHYSIO & HYDRO"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3403,9 +3403,9 @@
             "amount": 6000.0,
             "date": "2023-03-29",
             "suppliers": [
+              "WHITTLE WANDERERS",
               "HEARTBEAT NWCC",
-              "BRINSCALL CRICKET CLUB",
-              "WHITTLE WANDERERS"
+              "BRINSCALL CRICKET CLUB"
             ],
             "count": 3,
             "total_value": 18000.0
@@ -3414,8 +3414,8 @@
             "amount": 8000.0,
             "date": "2023-09-13",
             "suppliers": [
-              "CHORLEY WOMENS CENTRE",
-              "FAIRVIEW YOUTH & COMMUNITY ASSOCIATION"
+              "FAIRVIEW YOUTH & COMMUNITY ASSOCIATION",
+              "CHORLEY WOMENS CENTRE"
             ],
             "count": 2,
             "total_value": 16000.0
@@ -3434,9 +3434,9 @@
             "amount": 5000.0,
             "date": "2023-03-08",
             "suppliers": [
-              "HOME-START CENTRAL LANCASHIRE LTD",
               "HELP THE HOMELESS (CHORLEY)",
-              "LIVING WATERS STOREHOUSE"
+              "LIVING WATERS STOREHOUSE",
+              "HOME-START CENTRAL LANCASHIRE LTD"
             ],
             "count": 3,
             "total_value": 15000.0
@@ -3445,9 +3445,9 @@
             "amount": 5000.0,
             "date": "2022-04-12",
             "suppliers": [
-              "OUTDOORS4ALL TOGETHER CIC",
+              "NEW FRIENDS FOR YOU",
               "GENESIS CARE (NORTH WEST) LTD",
-              "NEW FRIENDS FOR YOU"
+              "OUTDOORS4ALL TOGETHER CIC"
             ],
             "count": 3,
             "total_value": 15000.0
@@ -3456,8 +3456,8 @@
             "amount": 7500.0,
             "date": "2022-08-05",
             "suppliers": [
-              "CHORLEY SCHOOL SPORT PARTNERSHIP",
-              "Lancashire County Council"
+              "Lancashire County Council",
+              "CHORLEY SCHOOL SPORT PARTNERSHIP"
             ],
             "count": 2,
             "total_value": 15000.0
@@ -3466,8 +3466,8 @@
             "amount": 6250.0,
             "date": "2023-08-23",
             "suppliers": [
-              "PRESTON CARE AND REPAIR",
-              "RIJO 42 MACHINES LTD"
+              "RIJO 42 MACHINES LTD",
+              "PRESTON CARE AND REPAIR"
             ],
             "count": 2,
             "total_value": 12500.0
@@ -3681,11 +3681,11 @@
           "total_spend": 149000186.8,
           "transactions": 194,
           "departments": [
+            "PLAN - Planning & Development",
+            "GROW - Commercial Services",
             "Policy & Governance",
-            "Communities",
             "GROW - Commercial & Property",
-            "CUST - Customer & Digital",
-            "GROW - Commercial Services"
+            "CUST - Customer & Digital"
           ]
         },
         {
@@ -3702,11 +3702,11 @@
           "total_spend": 21769249.32,
           "transactions": 33,
           "departments": [
-            "Chief Executive",
             "Policy & Governance",
-            "GROW - Commercial Services",
+            "Chief Executive",
+            "EARL - Communities",
             "GOVN - Policy & Governance",
-            "EARL - Communities"
+            "GROW - Commercial Services"
           ]
         },
         {
@@ -3723,11 +3723,11 @@
           "total_spend": 12208079.3,
           "transactions": 40,
           "departments": [
+            "PLAN - Planning & Development",
             "Policy & Governance",
             "GROW - Commercial & Property",
             "CUST - Customer & Digital",
-            "GROW - Commercial Services",
-            "GOVN - Policy & Governance"
+            "EARL - Communities"
           ]
         },
         {
@@ -3762,9 +3762,9 @@
           "total_spend": 7193054.17,
           "transactions": 23,
           "departments": [
-            "GROW - Commercial Services",
+            "GROW - Commercial & Property",
             "Commercial & Property",
-            "GROW - Commercial & Property"
+            "GROW - Commercial Services"
           ]
         },
         {
@@ -3772,8 +3772,8 @@
           "total_spend": 5564677.95,
           "transactions": 33,
           "departments": [
-            "CUST - Customer & Digital",
-            "Customer & Digital"
+            "Customer & Digital",
+            "CUST - Customer & Digital"
           ]
         },
         {
@@ -3781,10 +3781,10 @@
           "total_spend": 3509877.71,
           "transactions": 42,
           "departments": [
-            "Policy & Governance",
-            "GROW - Commercial Services",
             "EARL - Communities",
-            "GOVN - Policy & Governance"
+            "Policy & Governance",
+            "GOVN - Policy & Governance",
+            "GROW - Commercial Services"
           ]
         },
         {
@@ -3801,10 +3801,10 @@
           "total_spend": 2652129.88,
           "transactions": 1064,
           "departments": [
-            "GROW - Commercial Services",
+            "GROW - Commercial & Property",
             "Commercial & Property",
-            "GOVN - Policy & Governance",
-            "GROW - Commercial & Property"
+            "GROW - Commercial Services",
+            "GOVN - Policy & Governance"
           ]
         },
         {
@@ -3821,10 +3821,10 @@
           "total_spend": 1791579.79,
           "transactions": 498,
           "departments": [
-            "GROW - Commercial Services",
+            "GROW - Commercial & Property",
             "Commercial & Property",
             "GOVN - Policy & Governance",
-            "GROW - Commercial & Property"
+            "GROW - Commercial Services"
           ]
         },
         {
@@ -3849,8 +3849,8 @@
           "total_spend": 1457241.73,
           "transactions": 82,
           "departments": [
-            "Communities",
             "EARL - Communities",
+            "Communities",
             "GOVN - Policy & Governance"
           ]
         },
@@ -3868,9 +3868,9 @@
           "total_spend": 1250219.04,
           "transactions": 34,
           "departments": [
+            "GROW - Commercial & Property",
             "Commercial & Property",
-            "GOVN - Policy & Governance",
-            "GROW - Commercial & Property"
+            "GOVN - Policy & Governance"
           ]
         }
       ],
@@ -5815,7 +5815,7 @@
           "first_year": "2021/22",
           "last_year": "2025/26",
           "first_avg": 461.32,
-          "last_avg": 8325.93,
+          "last_avg": 8325.92,
           "nominal_growth_pct": 1704.8,
           "real_growth_pct": 1692.3,
           "total_spend": 100818.3
@@ -6270,9 +6270,9 @@
       "overall": 36.7
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 5,
-      "fraud_triangle_percentile": 33.3,
-      "total_councils": 15,
+      "fraud_triangle_rank": 7,
+      "fraud_triangle_percentile": 41.2,
+      "total_councils": 17,
       "own_score": 55.7
     }
   },

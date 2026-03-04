@@ -119,7 +119,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "13 suppliers shared with neighbouring councils \u2014 \u00a316.3M total",
+      "title": "13 suppliers shared with neighbouring councils \u2014 \u00a317.0M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -129,10 +129,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "CHUBB FIRE & SECURITY LTD: 7066% price gap between councils",
-      "description": "Blackpool pays \u00a328.1K avg vs Rossendale \u00a3392 (both with 3+ transactions). Compared using 2 common financial years. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "SEDDON CONSTRUCTION LTD: 9429% price gap between councils",
+      "description": "Blackburn pays \u00a390.9K avg vs Lancashire_Fire \u00a3953 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=CHUBB FIRE & SECURITY LTD",
+      "link": "/spending?supplier=SEDDON CONSTRUCTION LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -140,7 +140,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:01.973584",
+  "generated": "2026-03-04T01:19:11.792622",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -953,12 +953,12 @@
     ]
   },
   "integrity_summary": {
-    "councillors_checked": 61,
-    "high_risk": 5,
-    "elevated_risk": 7,
-    "supplier_conflicts": 9,
+    "councillors_checked": 60,
+    "high_risk": 36,
+    "elevated_risk": 6,
+    "supplier_conflicts": 0,
     "network_crossover_links": 0,
-    "red_flags_total": 221
+    "red_flags_total": 1516
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -2721,8 +2721,8 @@
             "unique_dates": 12,
             "total_value": 1244400.0,
             "departments": [
-              "Resources",
-              "RESOURCES"
+              "RESOURCES",
+              "Resources"
             ]
           },
           {
@@ -2742,8 +2742,8 @@
             "unique_dates": 12,
             "total_value": 944250.0,
             "departments": [
-              "Resources",
-              "RESOURCES"
+              "RESOURCES",
+              "Resources"
             ]
           },
           {
@@ -2784,8 +2784,8 @@
             "unique_dates": 50,
             "total_value": 615074.01,
             "departments": [
-              "Environmental Services",
               "ENVIRONMENT AND PLACE",
+              "Environmental Services",
               "HOUSING AND PROPERTY",
               "Environment & Place"
             ]
@@ -2849,8 +2849,8 @@
             "unique_dates": 12,
             "total_value": 336180.0,
             "departments": [
-              "Resources",
-              "RESOURCES"
+              "RESOURCES",
+              "Resources"
             ]
           },
           {
@@ -2881,9 +2881,9 @@
             "unique_dates": 4,
             "total_value": 242070.0,
             "departments": [
+              "RESOURCES",
               "Financial Services OBS",
-              "Resources",
-              "RESOURCES"
+              "Resources"
             ]
           },
           {
@@ -2904,8 +2904,8 @@
             "unique_dates": 4,
             "total_value": 221060.0,
             "departments": [
-              "Resources",
-              "RESOURCES"
+              "RESOURCES",
+              "Resources"
             ]
           },
           {
@@ -2941,8 +2941,8 @@
             "date": "2025-02-19",
             "departments": [
               "ENVIRONMENT AND PLACE",
-              "GOVERNANCE",
-              "RESOURCES"
+              "RESOURCES",
+              "GOVERNANCE"
             ],
             "payments": 10,
             "total_value": 282096.8
@@ -3001,8 +3001,8 @@
             "supplier": "Lancashire County Council",
             "date": "2023-07-24",
             "departments": [
-              "Resources",
-              "Governance"
+              "Governance",
+              "Resources"
             ],
             "payments": 2,
             "total_value": 118586.12
@@ -3011,8 +3011,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2024-02-16",
             "departments": [
-              "GOVERNANCE",
-              "RESOURCES"
+              "RESOURCES",
+              "GOVERNANCE"
             ],
             "payments": 2,
             "total_value": 113364.07
@@ -3021,8 +3021,8 @@
             "supplier": "BAY CAMERA & COMMUNICATIONS LTD",
             "date": "2023-03-31",
             "departments": [
-              "Health & Housing",
-              "Governance"
+              "Governance",
+              "Health & Housing"
             ],
             "payments": 3,
             "total_value": 95233.8
@@ -3031,8 +3031,8 @@
             "supplier": "LANCASTER MUSICIANS CO-OPERATIVE LTD",
             "date": "2025-03-20",
             "departments": [
-              "PEOPLE AND POLICY",
-              "PLANNING AND CLIMATE CHANGE"
+              "PLANNING AND CLIMATE CHANGE",
+              "PEOPLE AND POLICY"
             ],
             "payments": 4,
             "total_value": 94379.46
@@ -3051,8 +3051,8 @@
             "supplier": "THE NETWORKING PEOPLE (NORTH WEST) LTD",
             "date": "2025-03-05",
             "departments": [
-              "Information Services OBS",
-              "RESOURCES"
+              "RESOURCES",
+              "Information Services OBS"
             ],
             "payments": 12,
             "total_value": 83025.08
@@ -3061,9 +3061,9 @@
             "supplier": "NPOWER COMMERCIAL GAS LTD",
             "date": "2024-08-20",
             "departments": [
+              "Environment & Place",
               "Housing & Property",
-              "Sustainable Growth",
-              "Environment & Place"
+              "Sustainable Growth"
             ],
             "payments": 25,
             "total_value": 81277.57
@@ -3072,9 +3072,9 @@
             "supplier": "THE NETWORKING PEOPLE (NORTH WEST) LTD",
             "date": "2025-02-11",
             "departments": [
-              "Information Services OBS",
               "ENVIRONMENT AND PLACE",
-              "RESOURCES"
+              "RESOURCES",
+              "Information Services OBS"
             ],
             "payments": 10,
             "total_value": 80541.2
@@ -3093,9 +3093,9 @@
             "supplier": "NPOWER COMMERCIAL GAS LTD",
             "date": "2024-07-13",
             "departments": [
+              "Environment & Place",
               "Housing & Property",
-              "Sustainable Growth",
-              "Environment & Place"
+              "Sustainable Growth"
             ],
             "payments": 14,
             "total_value": 62462.99
@@ -3114,8 +3114,8 @@
             "supplier": "CIVICA UK LTD",
             "date": "2022-08-30",
             "departments": [
-              "Resources",
-              "Governance"
+              "Governance",
+              "Resources"
             ],
             "payments": 2,
             "total_value": 57765.0
@@ -3124,8 +3124,8 @@
             "supplier": "CALICO ENTERPRISE LTD",
             "date": "2024-09-04",
             "departments": [
-              "Other Items",
-              "Environment & Place"
+              "Environment & Place",
+              "Other Items"
             ],
             "payments": 4,
             "total_value": 56448.59
@@ -3134,8 +3134,8 @@
             "supplier": "NEC SOFTWARE SOLUTIONS UK LTD",
             "date": "2024-02-21",
             "departments": [
-              "GOVERNANCE",
-              "HOUSING & PROPERTY"
+              "HOUSING & PROPERTY",
+              "GOVERNANCE"
             ],
             "payments": 2,
             "total_value": 49874.72
@@ -3150,8 +3150,8 @@
             "amount": 10000.0,
             "date": "2022-07-19",
             "suppliers": [
-              "SCOTFORTH AFTER SCHOOL CLUB",
-              "UNIQUE KIDZ AND CO"
+              "UNIQUE KIDZ AND CO",
+              "SCOTFORTH AFTER SCHOOL CLUB"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -3170,8 +3170,8 @@
             "amount": 8100.0,
             "date": "2025-06-05",
             "suppliers": [
-              "SHARED FUTURE CIC",
-              "COMPENSATION TO AN INDIVIDUAL"
+              "COMPENSATION TO AN INDIVIDUAL",
+              "SHARED FUTURE CIC"
             ],
             "count": 2,
             "total_value": 16200.0
@@ -3190,8 +3190,8 @@
             "amount": 7500.0,
             "date": "2025-06-05",
             "suppliers": [
-              "GRANT PAID TO AN INDIVIDUAL",
-              "THOMAS ANDERSON TDA BUILDING SOLUTIONS"
+              "THOMAS ANDERSON TDA BUILDING SOLUTIONS",
+              "GRANT PAID TO AN INDIVIDUAL"
             ],
             "count": 2,
             "total_value": 15000.0
@@ -3210,8 +3210,8 @@
             "amount": 5000.0,
             "date": "2023-01-25",
             "suppliers": [
-              "BTB JOINERY LTD",
-              "BLACKPOOL COUNCIL"
+              "BLACKPOOL COUNCIL",
+              "BTB JOINERY LTD"
             ],
             "count": 2,
             "total_value": 10000.0
@@ -3220,8 +3220,8 @@
             "amount": 5000.0,
             "date": "2023-02-28",
             "suppliers": [
-              "MAPLE GROVE DEVELOPMENTS LTD",
-              "SYZYGY RENEWABLES LTD TA SYZYGY CONSULTING"
+              "SYZYGY RENEWABLES LTD TA SYZYGY CONSULTING",
+              "MAPLE GROVE DEVELOPMENTS LTD"
             ],
             "count": 2,
             "total_value": 10000.0
@@ -3230,8 +3230,8 @@
             "amount": 5000.0,
             "date": "2024-12-12",
             "suppliers": [
-              "LANCASTER BOYS & GIRLS CLUB",
-              "P & L BARTON LTD"
+              "P & L BARTON LTD",
+              "LANCASTER BOYS & GIRLS CLUB"
             ],
             "count": 2,
             "total_value": 10000.0
@@ -3485,11 +3485,11 @@
           "total_spend": 9977696.79,
           "transactions": 251,
           "departments": [
-            "Environmental Services",
-            "Resources",
             "RESOURCES",
-            "PROPERTY",
-            "HOUSING & PROPERTY"
+            "Environmental Services",
+            "Governance",
+            "Environment & Place",
+            "Resources"
           ]
         },
         {
@@ -3497,10 +3497,10 @@
           "total_spend": 6102322.36,
           "transactions": 1736,
           "departments": [
+            "Environment & Place",
             "Resources",
-            "PROPERTY",
+            "Sustainable Growth",
             "Housing & Property",
-            "HOUSING & PROPERTY",
             "Health & Housing"
           ]
         },
@@ -3518,10 +3518,10 @@
           "transactions": 78,
           "departments": [
             "Environmental Services",
-            "Housing & Property",
+            "HOUSING",
             "ENVIRONMENT AND PLACE",
-            "HOUSING AND PROPERTY",
-            "HOUSING"
+            "Housing & Property",
+            "HOUSING AND PROPERTY"
           ]
         },
         {
@@ -3529,11 +3529,11 @@
           "total_spend": 4083247.08,
           "transactions": 477,
           "departments": [
-            "SUSTAINABLE GROWTH",
-            "Regeneration and Planning",
+            "Information Services",
             "Sustainable Growth",
-            "GOVERNANCE",
-            "PLANNING AND CLIMATE CHANGE"
+            "Housing & Property",
+            "Regeneration and Planning",
+            "PROPERTY"
           ]
         },
         {
@@ -3541,9 +3541,9 @@
           "total_spend": 3506759.95,
           "transactions": 13,
           "departments": [
+            "PLANNING AND CLIMATE CHANGE",
             "Other Items",
-            "SUSTAINABLE GROWTH",
-            "PLANNING AND CLIMATE CHANGE"
+            "SUSTAINABLE GROWTH"
           ]
         },
         {
@@ -3551,11 +3551,11 @@
           "total_spend": 3503724.44,
           "transactions": 112,
           "departments": [
-            "SUSTAINABLE GROWTH",
-            "PROPERTY",
-            "Housing & Property",
+            "Governance",
+            "Sustainable Growth",
+            "HOUSING",
             "ENVIRONMENT AND PLACE",
-            "HOUSING AND PROPERTY"
+            "Housing & Property"
           ]
         },
         {
@@ -3573,10 +3573,10 @@
           "transactions": 68,
           "departments": [
             "Environmental Services",
-            "Housing & Property",
+            "HOUSING",
             "ENVIRONMENT AND PLACE",
-            "HOUSING AND PROPERTY",
-            "HOUSING"
+            "Housing & Property",
+            "HOUSING AND PROPERTY"
           ]
         },
         {
@@ -3586,9 +3586,9 @@
           "departments": [
             "Environmental Services",
             "Resources",
-            "PROPERTY",
-            "Housing & Property",
-            "HOUSING & PROPERTY"
+            "HOUSING",
+            "ENVIRONMENT AND PLACE",
+            "Housing & Property"
           ]
         },
         {
@@ -3596,9 +3596,9 @@
           "total_spend": 2366170.42,
           "transactions": 124,
           "departments": [
-            "Environmental Services",
             "ENVIRONMENT AND PLACE",
-            "Environment & Place"
+            "Environment & Place",
+            "Environmental Services"
           ]
         },
         {
@@ -3606,8 +3606,8 @@
           "total_spend": 2365222.58,
           "transactions": 18,
           "departments": [
-            "Resources",
-            "RESOURCES"
+            "RESOURCES",
+            "Resources"
           ]
         },
         {
@@ -3615,11 +3615,11 @@
           "total_spend": 2269170.3,
           "transactions": 332,
           "departments": [
+            "Environment & Place",
             "Environmental Services",
-            "PROPERTY",
             "Resources",
-            "Housing & Property",
-            "ENVIRONMENT AND PLACE"
+            "ENVIRONMENT AND PLACE",
+            "Housing & Property"
           ]
         },
         {
@@ -3627,11 +3627,11 @@
           "total_spend": 2197101.98,
           "transactions": 25,
           "departments": [
-            "PROPERTY",
+            "Environment & Place",
             "Resources",
-            "HOUSING AND PROPERTY",
             "Regeneration and Planning",
-            "Environment & Place"
+            "PROPERTY",
+            "HOUSING AND PROPERTY"
           ]
         },
         {
@@ -3641,9 +3641,9 @@
           "departments": [
             "Environmental Services",
             "Resources",
-            "Housing & Property",
+            "HOUSING",
             "ENVIRONMENT AND PLACE",
-            "HOUSING"
+            "Housing & Property"
           ]
         },
         {
@@ -3669,11 +3669,11 @@
           "total_spend": 2092646.86,
           "transactions": 873,
           "departments": [
+            "Environment & Place",
             "Resources",
-            "PROPERTY",
+            "Sustainable Growth",
             "Housing & Property",
-            "HOUSING & PROPERTY",
-            "HOUSING AND PROPERTY"
+            "PROPERTY"
           ]
         },
         {
@@ -3682,10 +3682,10 @@
           "transactions": 91,
           "departments": [
             "Environmental Services",
-            "Housing & Property",
-            "Health & Housing",
+            "HOUSING",
             "ENVIRONMENT AND PLACE",
-            "HOUSING AND PROPERTY"
+            "Health & Housing",
+            "Housing & Property"
           ]
         },
         {
@@ -3693,11 +3693,11 @@
           "total_spend": 1735913.19,
           "transactions": 157,
           "departments": [
-            "PROPERTY",
-            "Information Services",
-            "Information Services OBS",
             "RESOURCES",
-            "Resources"
+            "Information Services",
+            "Resources",
+            "Information Services OBS",
+            "ENVIRONMENT AND PLACE"
           ]
         }
       ],
@@ -6456,7 +6456,7 @@
           "supplier": "ZELLIS UK LTD",
           "first_year": "2021/22",
           "last_year": "2025/26",
-          "first_avg": 4260.41,
+          "first_avg": 4260.4,
           "last_avg": 79400.0,
           "nominal_growth_pct": 1763.7,
           "real_growth_pct": 1754.4,
@@ -6934,9 +6934,9 @@
       "overall": 38.3
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 9,
-      "fraud_triangle_percentile": 60.0,
-      "total_councils": 15,
+      "fraud_triangle_rank": 11,
+      "fraud_triangle_percentile": 64.7,
+      "total_councils": 17,
       "own_score": 62.5
     }
   },

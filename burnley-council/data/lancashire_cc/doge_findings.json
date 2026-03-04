@@ -119,7 +119,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "33 suppliers shared with neighbouring councils \u2014 \u00a3666.0M total",
+      "title": "33 suppliers shared with neighbouring councils \u2014 \u00a3710.7M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -160,7 +160,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:02.031800",
+  "generated": "2026-03-04T01:19:12.005125",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -1481,11 +1481,11 @@
   },
   "integrity_summary": {
     "councillors_checked": 84,
-    "high_risk": 41,
-    "elevated_risk": 5,
-    "supplier_conflicts": 20,
+    "high_risk": 58,
+    "elevated_risk": 12,
+    "supplier_conflicts": 3,
     "network_crossover_links": 0,
-    "red_flags_total": 2143
+    "red_flags_total": 4364
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -3406,19 +3406,19 @@
             "date": "2024-05-13",
             "departments": [
               "LD-Residential Long Term Placements",
+              "Digitising Social Care Records",
+              "OP-Loan Store Equip costs",
               "LD Pool-Other Pool Payment to PCT",
               "CWD Agency Family Support - NORTH",
+              "Fylde & Wyre BCF",
+              "CWD Agency Family Support - SOUTH",
+              "East Lancs BCF",
+              "Community Equipment - Central",
               "Greater Preston BCF",
               "Chorley & South Ribble BCF",
-              "OP-Loan Store Equip costs",
-              "West Lancashire BCF",
-              "Fylde & Wyre BCF",
-              "East Lancs BCF",
               "Morecambe Bay BCF",
-              "CWD Agency Family Support - SOUTH",
-              "OP-Nursing Long Term Placements",
-              "Community Equipment - Central",
-              "Digitising Social Care Records"
+              "West Lancashire BCF",
+              "OP-Nursing Long Term Placements"
             ],
             "payments": 54,
             "total_value": 21013785.64
@@ -3427,12 +3427,12 @@
             "supplier": "NHS LANCASHIRE & SOUTH CUMBRIA ICB",
             "date": "2024-05-22",
             "departments": [
+              "Fylde & Wyre BCF",
+              "East Lancs BCF",
               "Greater Preston BCF",
               "Chorley & South Ribble BCF",
-              "West Lancashire BCF",
               "Morecambe Bay BCF",
-              "Fylde & Wyre BCF",
-              "East Lancs BCF"
+              "West Lancashire BCF"
             ],
             "payments": 6,
             "total_value": 13007344.0
@@ -3451,10 +3451,10 @@
             "supplier": "NHS LANCASHIRE & SOUTH CUMBRIA ICB",
             "date": "2024-10-21",
             "departments": [
+              "PDSI-Nursing Long Term Placements",
               "LD Pool-Other Pool Payment to PCT",
-              "Chorley & South Ribble BCF",
               "MH1-Residential Care",
-              "PDSI-Nursing Long Term Placements"
+              "Chorley & South Ribble BCF"
             ],
             "payments": 18,
             "total_value": 6975097.95
@@ -3483,9 +3483,9 @@
             "supplier": "SUEZ RECYCLING & RECOVERY UK LTD",
             "date": "2024-06-05",
             "departments": [
-              "Landfill Whinney Hill",
+              "Hazardous Waste",
               "Pendle WTS",
-              "Hazardous Waste"
+              "Landfill Whinney Hill"
             ],
             "payments": 7,
             "total_value": 5876946.41
@@ -3494,9 +3494,9 @@
             "supplier": "SUEZ RECYCLING & RECOVERY UK LTD",
             "date": "2025-06-04",
             "departments": [
+              "Hazardous Waste",
               "Landfill Whinney Hill",
-              "Grange Road, Singleton Office",
-              "Hazardous Waste"
+              "Grange Road, Singleton Office"
             ],
             "payments": 4,
             "total_value": 5681551.71
@@ -3505,49 +3505,49 @@
             "supplier": "REDACT",
             "date": "2024-04-04",
             "departments": [
-              "Out County - Lancaster",
-              "CLA Support - Family Safeguarding Fylde & Wyre",
-              "OP-Direct Payments SU Agent / Rep",
-              "CWD Agency Direct Payments - NORTH",
-              "Staying Put - Leaving Care D2 East (BPR & HRV)",
-              "Assistance to Families - Central",
-              "Eldon Primary",
-              "PDSI-Direct Payments Direct Cash",
-              "PDSI-Direct Payments SU Agent / Rep",
-              "Staying Put - Children in Our Care D3 Burnley",
-              "MH1-Direct Cash to Service User",
-              "AONB FiPL(Farming in Protected Landscapes)",
               "Staying Put - Leaving Care D1 Fylde & Wyre",
-              "Out County - Rossendale",
-              "Assistance to Families - East",
-              "Garstang St Thomas' CE",
-              "Out County - West Lancs",
-              "Out County - Chorley",
-              "Out County - Burnley",
-              "Out County - Fylde",
               "CYP SEN Home To School",
-              "Out County - Wyre",
-              "MH2-Direct Cash to Service User",
-              "Family Support SGO - D&A East (BPR HRV)",
+              "Assistance to Families - East",
+              "OP-Direct Payments SU Agent / Rep",
               "Burnley Fostering LCC",
-              "MH2-SU Agent/Rep",
-              "OP-Direct Payments SU Income",
+              "CLA Support - Family Safeguarding Fylde & Wyre",
+              "CWD Agency Direct Payments -EAST",
+              "Family Support SGO - D&A East (BPR HRV)",
               "CLA Work Placements",
+              "Out County - Fylde",
+              "Out County - Pendle",
+              "PDSI-Direct Payments Direct Cash",
+              "Out County - Wyre",
+              "AONB FiPL(Farming in Protected Landscapes)",
               "Assistance to Families - D&A Fylde & Bay (F&W Lancaster)",
-              "MH3-Direct Cash to Service User",
+              "Garstang St Thomas' CE",
+              "MH2-Direct Cash to Service User",
+              "MH2-SU Agent/Rep",
+              "OP-Direct Payments Direct Cash",
+              "OP-Direct Payments SU Income",
+              "Assistance to Families - Central",
+              "Out County - West Lancs",
+              "Eldon Primary",
+              "LD-Direct Payments Direct Cash",
+              "PVI Providers 3 & 4 yr olds",
+              "Out County - Ribble Valley",
+              "CWD Agency Direct Payments - NORTH",
+              "Out County - Rossendale",
+              "Out County - Lancaster",
+              "Out County - Chorley",
+              "MH1-Direct Cash to Service User",
+              "Family Support SGO -North",
               "CWD Agency Direct Payments - SOUTH",
               "Family Support SGO - Chorley",
+              "PDSI-Direct Payments SU Agent / Rep",
+              "MH3-Direct Cash to Service User",
+              "Out County - Preston",
               "LD-Direct Payments SU Agent / Rep",
-              "Out County - Pendle",
-              "OP-Direct Payments Direct Cash",
-              "Out County - Ribble Valley",
-              "Completion Penwortham Bypass",
-              "PVI Providers 3 & 4 yr olds",
-              "LD-Direct Payments Direct Cash",
-              "CWD Agency Direct Payments -EAST",
-              "Family Support SGO -North",
               "Chorley Fostering LCC",
-              "Out County - Preston"
+              "Staying Put - Children in Our Care D3 Burnley",
+              "Out County - Burnley",
+              "Staying Put - Leaving Care D2 East (BPR & HRV)",
+              "Completion Penwortham Bypass"
             ],
             "payments": 2167,
             "total_value": 5215918.76
@@ -3556,33 +3556,33 @@
             "supplier": "REDACT",
             "date": "2024-07-25",
             "departments": [
-              "Externally Funded non S106/S278",
-              "OP-Direct Payments SU Agent / Rep",
-              "CWD Agency Direct Payments - NORTH",
-              "Assistance to Families - Central",
-              "PDSI-Direct Payments Direct Cash",
-              "PDSI-Direct Payments SU Agent / Rep",
-              "Staying Put - Children in Our Care D3 Burnley",
-              "MH1-Direct Cash to Service User",
-              "CIN, CP &LAC - Countywide Legal Costs",
-              "Reg Payments - Family Safeguarding Burnley",
-              "Heysham M6 11/12 - 14/15",
               "Assistance to Families - East",
-              "LAC Leaving Care Allowances - Leaving Care D1 Preston CSR",
+              "Personal Travel Budgets",
               "LD-Sup Acc Adult Placements",
-              "School Min Cost",
+              "CWD Agency Direct Payments -EAST",
+              "Reg Payments - Family Safeguarding Burnley",
+              "PDSI-Direct Payments Direct Cash",
+              "CIN, CP &LAC - Countywide Legal Costs",
               "MH2-Direct Cash to Service User",
               "MH2-SU Agent/Rep",
-              "OP-Direct Payments SU Income",
-              "Outdoor Education Central",
-              "MH3-Direct Cash to Service User",
-              "CWD Agency Direct Payments - SOUTH",
-              "Staying Put - Children in Our Care D2 HRV & Rossendale",
-              "Personal Travel Budgets",
-              "LD-Direct Payments SU Agent / Rep",
               "OP-Direct Payments Direct Cash",
+              "OP-Direct Payments SU Income",
+              "Assistance to Families - Central",
+              "Externally Funded non S106/S278",
               "LD-Direct Payments Direct Cash",
-              "CWD Agency Direct Payments -EAST"
+              "CWD Agency Direct Payments - NORTH",
+              "MH1-Direct Cash to Service User",
+              "Staying Put - Children in Our Care D2 HRV & Rossendale",
+              "CWD Agency Direct Payments - SOUTH",
+              "PDSI-Direct Payments SU Agent / Rep",
+              "MH3-Direct Cash to Service User",
+              "Heysham M6 11/12 - 14/15",
+              "Outdoor Education Central",
+              "LD-Direct Payments SU Agent / Rep",
+              "Staying Put - Children in Our Care D3 Burnley",
+              "School Min Cost",
+              "LAC Leaving Care Allowances - Leaving Care D1 Preston CSR",
+              "OP-Direct Payments SU Agent / Rep"
             ],
             "payments": 2187,
             "total_value": 5067392.98
@@ -3591,25 +3591,25 @@
             "supplier": "REDACT",
             "date": "2024-05-01",
             "departments": [
-              "OP-Direct Payments SU Agent / Rep",
-              "CWD Agency Direct Payments - NORTH",
-              "Lancaster Fostering LCC",
-              "Assistance to Families - Central",
-              "PDSI-Direct Payments Direct Cash",
-              "PDSI-Direct Payments SU Agent / Rep",
-              "AONB FiPL(Farming in Protected Landscapes)",
-              "MH1-Direct Cash to Service User",
-              "CIN, CP &LAC - Countywide Legal Costs",
               "Assistance to Families - East",
+              "CWD Agency Direct Payments -EAST",
+              "Lancaster Fostering LCC",
+              "PDSI-Direct Payments Direct Cash",
+              "AONB FiPL(Farming in Protected Landscapes)",
+              "CIN, CP &LAC - Countywide Legal Costs",
               "MH2-Direct Cash to Service User",
               "MH2-SU Agent/Rep",
-              "MH3-Direct Cash to Service User",
-              "CWD Agency Direct Payments - SOUTH",
-              "LD-Direct Payments SU Agent / Rep",
-              "OP-Direct Payments Direct Cash",
-              "LD-Direct Payments Direct Cash",
               "Severe Weather",
-              "CWD Agency Direct Payments -EAST"
+              "OP-Direct Payments Direct Cash",
+              "Assistance to Families - Central",
+              "LD-Direct Payments Direct Cash",
+              "CWD Agency Direct Payments - NORTH",
+              "MH1-Direct Cash to Service User",
+              "CWD Agency Direct Payments - SOUTH",
+              "PDSI-Direct Payments SU Agent / Rep",
+              "MH3-Direct Cash to Service User",
+              "LD-Direct Payments SU Agent / Rep",
+              "OP-Direct Payments SU Agent / Rep"
             ],
             "payments": 2146,
             "total_value": 5057043.01
@@ -3619,31 +3619,31 @@
             "date": "2024-05-30",
             "departments": [
               "Staying Put - Children in Our Care D2 Preston",
-              "Direct Payments - Duty & Assessment / MASH / Contextual Safeguarding",
-              "OP-Direct Payments SU Agent / Rep",
-              "Staying Put - Leaving Care D1 Preston CSR",
-              "CWD Agency Direct Payments - NORTH",
-              "Assistance to Families - Central",
-              "PDSI-Direct Payments Direct Cash",
-              "Staying Put - Children in Our Care D3 Burnley",
-              "PDSI-Direct Payments SU Agent / Rep",
-              "MH1-Direct Cash to Service User",
-              "Assistance to Families - East",
-              "LAC Leaving Care Allowances - Leaving Care D1 West Lancs",
-              "Preston Fostering LCC",
-              "Add'nl Inclusion Support (AIS)",
               "CYP SEN Home To School",
-              "MH2-Direct Cash to Service User",
-              "Burnley Fostering LCC",
+              "Assistance to Families - East",
               "IDSS Management Team",
+              "Burnley Fostering LCC",
+              "CWD Agency Direct Payments -EAST",
+              "LAC Leaving Care Allowances - Leaving Care D1 West Lancs",
+              "PDSI-Direct Payments Direct Cash",
+              "Staying Put - Leaving Care D1 Preston CSR",
+              "MH2-Direct Cash to Service User",
               "MH2-SU Agent/Rep",
-              "OP-Direct Payments SU Income",
-              "MH3-Direct Cash to Service User",
-              "CWD Agency Direct Payments - SOUTH",
-              "LD-Direct Payments SU Agent / Rep",
               "OP-Direct Payments Direct Cash",
+              "OP-Direct Payments SU Income",
+              "Assistance to Families - Central",
+              "Add'nl Inclusion Support (AIS)",
               "LD-Direct Payments Direct Cash",
-              "CWD Agency Direct Payments -EAST"
+              "CWD Agency Direct Payments - NORTH",
+              "Preston Fostering LCC",
+              "Direct Payments - Duty & Assessment / MASH / Contextual Safeguarding",
+              "MH1-Direct Cash to Service User",
+              "CWD Agency Direct Payments - SOUTH",
+              "PDSI-Direct Payments SU Agent / Rep",
+              "MH3-Direct Cash to Service User",
+              "LD-Direct Payments SU Agent / Rep",
+              "Staying Put - Children in Our Care D3 Burnley",
+              "OP-Direct Payments SU Agent / Rep"
             ],
             "payments": 2142,
             "total_value": 5037196.68
@@ -3652,29 +3652,29 @@
             "supplier": "REDACT",
             "date": "2024-06-27",
             "departments": [
-              "CWD Agency Direct Payments - Pendle",
-              "OP-Direct Payments SU Agent / Rep",
-              "CWD Agency Direct Payments - NORTH",
-              "Family Support SGO - Central",
-              "Assistance to Families - Central",
-              "PDSI-Direct Payments Direct Cash",
-              "PDSI-Direct Payments SU Agent / Rep",
-              "MH1-Direct Cash to Service User",
-              "CIN, CP &LAC - Countywide Legal Costs",
-              "Assistance to Families - East",
-              "Preston Fostering LCC",
-              "LAC Leaving Care Allowances - Leaving Care D1 Preston CSR",
               "CYP SEN Home To School",
+              "Family Support SGO - Central",
+              "Assistance to Families - East",
+              "Personal Travel Budgets",
+              "Dir - Adult Services",
+              "CWD Agency Direct Payments -EAST",
+              "PDSI-Direct Payments Direct Cash",
+              "CIN, CP &LAC - Countywide Legal Costs",
               "MH2-Direct Cash to Service User",
               "MH2-SU Agent/Rep",
-              "Dir - Adult Services",
-              "MH3-Direct Cash to Service User",
-              "CWD Agency Direct Payments - SOUTH",
-              "Personal Travel Budgets",
-              "LD-Direct Payments SU Agent / Rep",
               "OP-Direct Payments Direct Cash",
+              "Assistance to Families - Central",
               "LD-Direct Payments Direct Cash",
-              "CWD Agency Direct Payments -EAST"
+              "CWD Agency Direct Payments - NORTH",
+              "Preston Fostering LCC",
+              "MH1-Direct Cash to Service User",
+              "CWD Agency Direct Payments - SOUTH",
+              "CWD Agency Direct Payments - Pendle",
+              "PDSI-Direct Payments SU Agent / Rep",
+              "MH3-Direct Cash to Service User",
+              "LD-Direct Payments SU Agent / Rep",
+              "LAC Leaving Care Allowances - Leaving Care D1 Preston CSR",
+              "OP-Direct Payments SU Agent / Rep"
             ],
             "payments": 2145,
             "total_value": 4983235.99
@@ -3683,8 +3683,8 @@
             "supplier": "PRESTON CITY COUNCIL",
             "date": "2025-02-12",
             "departments": [
-              "Further Community Infrastructure",
-              "Clinical Waste"
+              "Clinical Waste",
+              "Further Community Infrastructure"
             ],
             "payments": 2,
             "total_value": 4255527.06
@@ -3693,8 +3693,8 @@
             "supplier": "SUEZ RECYCLING & RECOVERY UK LTD",
             "date": "2025-10-27",
             "departments": [
-              "Landfill Whinney Hill",
-              "Hazardous Waste"
+              "Hazardous Waste",
+              "Landfill Whinney Hill"
             ],
             "payments": 5,
             "total_value": 3634169.87
@@ -3703,8 +3703,8 @@
             "supplier": "CGL SERVICES LTD",
             "date": "2025-12-10",
             "departments": [
-              "DATRIG Housing Support Grant",
               "DATRIG Drug Alcohol Treatment Recovery Improvement",
+              "DATRIG Housing Support Grant",
               "DATRIG Rough Sleeping Drug & Alcohol Treatment Grant"
             ],
             "payments": 10,
@@ -3725,8 +3725,8 @@
             "supplier": "Burnley Borough Council",
             "date": "2024-07-16",
             "departments": [
-              "Disabled Facilities Grant 2015/16",
-              "UK Resettlement Scheme (UKRS)"
+              "UK Resettlement Scheme (UKRS)",
+              "Disabled Facilities Grant 2015/16"
             ],
             "payments": 2,
             "total_value": 3000101.18
@@ -3735,21 +3735,21 @@
             "supplier": "LCCG INTERNAL CARE SUPPLIER",
             "date": "2025-08-11",
             "departments": [
-              "Favordale - Residential",
-              "FAVORDALE",
-              "OP - Residential Short Term Beds Block Contract",
-              "CASTLEFORD HOME FOR THE ELDERLY",
-              "OP-Residential LCCG",
-              "OP - Residential Short Term Beds Spot",
-              "Grove House - Residential",
-              "Dolphinlee - Residential",
               "Beaconview - Residential",
-              "CRAVENSIDE HOME FOR THE ELDERLY",
-              "Castleford - Residential",
-              "BOWGREAVE RISE",
               "Bowgreave Rise - Residential",
+              "OP - Residential Short Term Beds Block Contract",
+              "CRAVENSIDE HOME FOR THE ELDERLY",
+              "Dolphinlee - Residential",
+              "OP-Residential LCCG",
+              "CASTLEFORD HOME FOR THE ELDERLY",
+              "FAVORDALE",
+              "Favordale - Residential",
+              "Grove House - Residential",
+              "BOWGREAVE RISE",
               "Cravenside - Residential",
-              "Lady Elsie Finney House - Residential"
+              "OP - Residential Short Term Beds Spot",
+              "Lady Elsie Finney House - Residential",
+              "Castleford - Residential"
             ],
             "payments": 70,
             "total_value": 2678315.2
@@ -3759,8 +3759,8 @@
             "date": "2025-08-15",
             "departments": [
               "LAC Leaving Care Allowances East",
-              "LAC Leaving Care Allowances - Leaving Care D2 East (BPR & HRV)",
-              "OCE Property General"
+              "OCE Property General",
+              "LAC Leaving Care Allowances - Leaving Care D2 East (BPR & HRV)"
             ],
             "payments": 6,
             "total_value": 2547469.5
@@ -3775,10 +3775,10 @@
             "amount": 31993.26,
             "date": "2025-03-13",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
               "PONTVILLE SCHOOL LTD",
+              "CUMBERLAND SCHOOL",
               "WITHERSLACK HALL SCHOOL LTD",
-              "CUMBERLAND SCHOOL"
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 4,
             "total_value": 767838.24
@@ -3817,8 +3817,8 @@
             "amount": 34712.8,
             "date": "2025-03-13",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
-              "CUMBERLAND SCHOOL"
+              "CUMBERLAND SCHOOL",
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 2,
             "total_value": 659543.2
@@ -3837,9 +3837,9 @@
             "amount": 26661.05,
             "date": "2024-11-26",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
               "PONTVILLE SCHOOL LTD",
-              "CUMBERLAND SCHOOL"
+              "CUMBERLAND SCHOOL",
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 3,
             "total_value": 533221.0
@@ -3858,9 +3858,9 @@
             "amount": 28927.33,
             "date": "2024-11-26",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
               "PONTVILLE SCHOOL LTD",
-              "CUMBERLAND SCHOOL"
+              "CUMBERLAND SCHOOL",
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 3,
             "total_value": 491764.61
@@ -3869,8 +3869,8 @@
             "amount": 24884.15,
             "date": "2025-04-22",
             "suppliers": [
-              "ROSELYN HOUSE SCHOOL",
-              "KS EDUCATION LTD"
+              "KS EDUCATION LTD",
+              "ROSELYN HOUSE SCHOOL"
             ],
             "count": 2,
             "total_value": 373262.25
@@ -3879,8 +3879,8 @@
             "amount": 20736.79,
             "date": "2025-07-23",
             "suppliers": [
-              "ROSELYN HOUSE SCHOOL",
-              "KS EDUCATION LTD"
+              "KS EDUCATION LTD",
+              "ROSELYN HOUSE SCHOOL"
             ],
             "count": 2,
             "total_value": 311051.85
@@ -3909,8 +3909,8 @@
             "amount": 9006.34,
             "date": "2025-04-29",
             "suppliers": [
-              "ST JAMES ALTERNATIVE SCHOOL LTD",
-              "BARNOLDSWICK ALTERNATIVE SCHOOL LTD"
+              "BARNOLDSWICK ALTERNATIVE SCHOOL LTD",
+              "ST JAMES ALTERNATIVE SCHOOL LTD"
             ],
             "count": 2,
             "total_value": 297209.22
@@ -3919,8 +3919,8 @@
             "amount": 28927.33,
             "date": "2024-09-11",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
-              "CUMBERLAND SCHOOL"
+              "CUMBERLAND SCHOOL",
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 2,
             "total_value": 260345.97
@@ -3929,10 +3929,10 @@
             "amount": 31462.8,
             "date": "2025-03-13",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
               "PONTVILLE SCHOOL LTD",
+              "CUMBERLAND SCHOOL",
               "WITHERSLACK HALL SCHOOL LTD",
-              "CUMBERLAND SCHOOL"
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 4,
             "total_value": 251702.4
@@ -3941,8 +3941,8 @@
             "amount": 30778.66,
             "date": "2025-01-28",
             "suppliers": [
-              "THERAPEUTIC CARE LTD",
-              "APPLETREE TREATMENT CENTRE"
+              "APPLETREE TREATMENT CENTRE",
+              "THERAPEUTIC CARE LTD"
             ],
             "count": 2,
             "total_value": 246229.28
@@ -3951,8 +3951,8 @@
             "amount": 34712.4,
             "date": "2025-03-13",
             "suppliers": [
-              "CEDAR HOUSE SCHOOL",
-              "WITHERSLACK HALL SCHOOL LTD"
+              "WITHERSLACK HALL SCHOOL LTD",
+              "CEDAR HOUSE SCHOOL"
             ],
             "count": 2,
             "total_value": 242986.8
@@ -3961,8 +3961,8 @@
             "amount": 12171.89,
             "date": "2025-07-23",
             "suppliers": [
-              "ROSELYN HOUSE SCHOOL",
-              "KS EDUCATION LTD"
+              "KS EDUCATION LTD",
+              "ROSELYN HOUSE SCHOOL"
             ],
             "count": 2,
             "total_value": 231265.91
@@ -4337,10 +4337,10 @@
           "transactions": 292,
           "departments": [
             "LD-Residential Long Term Placements",
-            "PDSI - Non LWH Home Care",
-            "OP-Nursing Long Term Placements",
-            "CWD Agency Family Support-EAST",
-            "Digitising Social Care Records"
+            "Locally Enhanced Services",
+            "Adoption Lancashire & Blackpool",
+            "PDSI-Nursing Long Term Placements",
+            "East Lancs BCF"
           ]
         },
         {
@@ -4348,8 +4348,8 @@
           "total_spend": 71162536.77,
           "transactions": 40,
           "departments": [
-            "Corporate Accounting General (BS)",
-            "LRL (Old GRLOL PFI)"
+            "LRL (Old GRLOL PFI)",
+            "Corporate Accounting General (BS)"
           ]
         },
         {
@@ -4357,11 +4357,11 @@
           "total_spend": 58806324.55,
           "transactions": 774,
           "departments": [
-            "St Gregory's. Chorley",
-            "Woodside - Residential",
+            "Church. St Nicholas CE",
+            "Red Marsh",
             "Haslingden Primary",
-            "St John's Cofe Cliviger",
-            "HWRC Operations"
+            "Burnley Building costs",
+            "Whinney Hill Green"
           ]
         },
         {
@@ -4369,11 +4369,11 @@
           "total_spend": 51935953.24,
           "transactions": 37853,
           "departments": [
-            "CLA PPG High Needs",
-            "Complaints",
-            "Condition 24/25 starts Secondary",
-            "Clayton Brook Primary",
-            "HoS -Adoption & Fostering, Residential And Yot"
+            "CYP College",
+            "CLA Support - Children in Our Care D2 HRV & Rossendale",
+            "LD-Sup Acc Adult Placements",
+            "BSF/ Schools Capital Finance Strategy",
+            "CPG PROP - St Annes On Sea St Thomas' Church Of England Primary School"
           ]
         },
         {
@@ -4381,11 +4381,11 @@
           "total_spend": 51652084.97,
           "transactions": 1805,
           "departments": [
-            "OP - Residential Short Term Beds Block Contract",
-            "Woodside - Residential",
-            "FAVORDALE",
-            "CASTLEFORD HOME FOR THE ELDERLY",
-            "OP-Nursing Discharge Support"
+            "Thornton House - Residential",
+            "MILBANKE HFE",
+            "WOODHILL HOUSE HFE",
+            "OP-Nursing Discharge Support",
+            "Meadowfield - Residential"
           ]
         },
         {
@@ -4402,11 +4402,11 @@
           "total_spend": 37979817.44,
           "transactions": 1625,
           "departments": [
+            "LD-LWH Home Care",
             "Prevention Short Term Care at Home Spot",
-            "OP-Domiciliary Crisis",
-            "LD-Direct Payments Provider Broker",
-            "LD-Domiciliary Care",
-            "OP-LWH Home Care"
+            "MH- APL Supported Living",
+            "PDSI-LWH Home Care",
+            "MH3-LWH Home Care"
           ]
         },
         {
@@ -4414,8 +4414,8 @@
           "total_spend": 36894341.57,
           "transactions": 295,
           "departments": [
-            "Corporate Accounting General (BS)",
             "Energy Recharge",
+            "Corporate Accounting General (BS)",
             "HoS -Asset Management",
             "Highways Lighting Energy"
           ]
@@ -4425,11 +4425,11 @@
           "total_spend": 35791075.54,
           "transactions": 129,
           "departments": [
-            "Corporate Accounting General (BS)",
-            "Stop Smoking Services Grant",
-            "Individual Placement and Support (IPS)",
-            "Adult Workers",
-            "Local stop smoking services"
+            "Local stop smoking services",
+            "DATRIG Housing Support Grant",
+            "DATRIG Drug Alcohol Treatment Recovery Improvement",
+            "DATRIG Individual Placement and Support (IPS)",
+            "SSMTRG Housing Support Grant"
           ]
         },
         {
@@ -4447,10 +4447,10 @@
           "transactions": 1510,
           "departments": [
             "LD-Residential Long Term Placements",
+            "MH1-Domiciliary Care",
+            "LD - APL Supported Living",
             "LD-Domiciliary Care",
-            "Corporate Accounting General (BS)",
-            "PD - APL Supported Living",
-            "MH3-Domiciliary Care"
+            "Community Discharge Grant"
           ]
         },
         {
@@ -4458,11 +4458,11 @@
           "total_spend": 24839859.51,
           "transactions": 14179,
           "departments": [
-            "MH3-Direct Cash to Service User",
-            "CWD Agency Direct Payments - SOUTH",
-            "PDSI-Direct Payments Direct Cash",
+            "LD-Direct Payments SU Income",
+            "MH3-Direct Payment Service User Income",
+            "Direct Payments - Duty & Assessment / MASH / Contextual Safeguarding",
             "PDSI-Direct Payments SU Agent / Rep",
-            "LD-Direct Payments SU Income"
+            "MH3-Direct Cash to Service User"
           ]
         },
         {
@@ -4470,11 +4470,11 @@
           "total_spend": 23684998.26,
           "transactions": 1443,
           "departments": [
-            "LD-Domiciliary Care",
-            "PD - APL Supported Living",
-            "MH- APL Supported Living",
-            "LD - APL Supported Living Voids",
-            "LD - APL Supported Living"
+            "Digitising Social Care Records",
+            "PDSI-Day Care External",
+            "LD - APL Supported Living",
+            "LD-Direct Payments Provider Broker",
+            "LD - APL Supported Living ISF"
           ]
         },
         {
@@ -4491,8 +4491,8 @@
           "total_spend": 22285257.75,
           "transactions": 29,
           "departments": [
-            "Corporate Accounting General (BS)",
             "Health Visiting 0-5",
+            "Corporate Accounting General (BS)",
             "GUM - Out of Area"
           ]
         },
@@ -4510,11 +4510,11 @@
           "total_spend": 21774434.1,
           "transactions": 83,
           "departments": [
-            "Corporate Accounting General (BS)",
             "Lancs Teaching Agency Supply Agency",
-            "Out County - Wyre",
             "Sacred Heart RC. Church",
-            "St Wulstan's RC"
+            "St Wulstan's RC",
+            "Lancs Teaching Agency Associated Costs",
+            "Corporate Accounting General (BS)"
           ]
         },
         {
@@ -4522,11 +4522,11 @@
           "total_spend": 21118770.0,
           "transactions": 781,
           "departments": [
-            "Borwick Outdoor Education",
-            "Oswaldtwistle White Ash",
-            "Preston Building Costs",
-            "Helmshore Textile Mills Cafe",
-            "Stoneyholme Community"
+            "Burnley Building costs",
+            "Tower Wood",
+            "Chorley Day Services",
+            "Corporate Accounting General (BS)",
+            "South Ribble Building Costs (Premises)"
           ]
         },
         {
@@ -20962,9 +20962,9 @@
       "overall": 38.3
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 15,
+      "fraud_triangle_rank": 17,
       "fraud_triangle_percentile": 100.0,
-      "total_councils": 15,
+      "total_councils": 17,
       "own_score": 77.1
     }
   },

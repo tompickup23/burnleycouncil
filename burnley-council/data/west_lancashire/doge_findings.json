@@ -119,7 +119,7 @@
     {
       "icon": "users",
       "badge": "Cross-Council",
-      "title": "14 suppliers shared with neighbouring councils \u2014 \u00a319.1M total",
+      "title": "13 suppliers shared with neighbouring councils \u2014 \u00a318.5M total",
       "description": "Compare what each council pays the same suppliers for similar services",
       "link": "/spending",
       "link_text": "Compare prices \u2192",
@@ -129,10 +129,10 @@
     {
       "icon": "trending-up",
       "badge": "Price Gap",
-      "title": "WORLD PAY: 8440% price gap between councils",
-      "description": "West_Lancashire pays \u00a31.7K avg vs Blackburn \u00a320 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "title": "SEDDON CONSTRUCTION LTD: 9429% price gap between councils",
+      "description": "Blackburn pays \u00a390.9K avg vs Lancashire_Fire \u00a3953 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
       "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
-      "link": "/spending?supplier=WORLD PAY",
+      "link": "/spending?supplier=SEDDON CONSTRUCTION LTD",
       "link_text": "Investigate \u2192",
       "severity": "info",
       "confidence": "low"
@@ -140,7 +140,7 @@
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-23T08:47:02.070798",
+  "generated": "2026-03-04T01:19:12.068540",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -1068,11 +1068,11 @@
   },
   "integrity_summary": {
     "councillors_checked": 45,
-    "high_risk": 7,
-    "elevated_risk": 7,
-    "supplier_conflicts": 11,
+    "high_risk": 43,
+    "elevated_risk": 0,
+    "supplier_conflicts": 0,
     "network_crossover_links": 0,
-    "red_flags_total": 225
+    "red_flags_total": 1973
   },
   "benfords_advanced": {
     "first_two_digits": {
@@ -2835,8 +2835,8 @@
             "unique_dates": 6,
             "total_value": 9170960.58,
             "departments": [
-              "Non Service Items",
-              "Corporate Services"
+              "Corporate Services",
+              "Non Service Items"
             ]
           },
           {
@@ -2846,8 +2846,8 @@
             "unique_dates": 3,
             "total_value": 4585480.29,
             "departments": [
-              "Non Service Items",
-              "Corporate Services"
+              "Corporate Services",
+              "Non Service Items"
             ]
           },
           {
@@ -2898,8 +2898,8 @@
             "unique_dates": 15,
             "total_value": 1494809.23,
             "departments": [
-              "Housing and Inclusion",
-              "Transformation"
+              "Transformation",
+              "Housing and Inclusion"
             ]
           },
           {
@@ -2939,8 +2939,8 @@
             "unique_dates": 15,
             "total_value": 1130246.73,
             "departments": [
-              "Housing and Inclusion",
-              "Transformation"
+              "Transformation",
+              "Housing and Inclusion"
             ]
           },
           {
@@ -2960,8 +2960,8 @@
             "unique_dates": 15,
             "total_value": 896673.27,
             "departments": [
-              "Housing and Inclusion",
-              "Transformation"
+              "Transformation",
+              "Housing and Inclusion"
             ]
           },
           {
@@ -3031,8 +3031,8 @@
             "unique_dates": 7,
             "total_value": 552682.34,
             "departments": [
-              "Environmental Services",
-              ""
+              "",
+              "Environmental Services"
             ]
           }
         ],
@@ -3045,8 +3045,8 @@
             "supplier": "TAWD VALLEY DEVELOPMENTS LTD",
             "date": "2025-06-12",
             "departments": [
-              "Housing Public Sector",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing Public Sector"
             ],
             "payments": 5,
             "total_value": 553195.01
@@ -3055,8 +3055,8 @@
             "supplier": "WATES PROPERTY SERVICES LTD",
             "date": "2025-10-24",
             "departments": [
-              "Housing and Regulatory",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing and Regulatory"
             ],
             "payments": 22,
             "total_value": 441068.14
@@ -3065,8 +3065,8 @@
             "supplier": "WATES PROPERTY SERVICES LTD",
             "date": "2022-12-22",
             "departments": [
-              "Housing Public Sector",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing Public Sector"
             ],
             "payments": 8,
             "total_value": 424040.82
@@ -3075,8 +3075,8 @@
             "supplier": "WATES PROPERTY SERVICES LTD",
             "date": "2021-12-09",
             "departments": [
-              "Housing Public Sector",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing Public Sector"
             ],
             "payments": 3,
             "total_value": 275323.52
@@ -3085,8 +3085,8 @@
             "supplier": "WATES PROPERTY SERVICES LTD",
             "date": "2021-12-08",
             "departments": [
-              "Housing Public Sector",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing Public Sector"
             ],
             "payments": 6,
             "total_value": 271870.39
@@ -3095,8 +3095,8 @@
             "supplier": "Lancashire County Council",
             "date": "2018-10-01",
             "departments": [
-              "Housing and Inclusion",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing and Inclusion"
             ],
             "payments": 12,
             "total_value": 265817.97
@@ -3135,9 +3135,9 @@
             "supplier": "MATRIX SCM LTD",
             "date": "2025-12-16",
             "departments": [
+              "Housing Revenue Account",
               "Environmental Services",
-              "Housing and Regulatory",
-              "Housing Revenue Account"
+              "Housing and Regulatory"
             ],
             "payments": 15,
             "total_value": 161673.48
@@ -3146,8 +3146,8 @@
             "supplier": "TAWD VALLEY DEVELOPMENTS LTD",
             "date": "2025-04-24",
             "departments": [
-              "Housing Public Sector",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing Public Sector"
             ],
             "payments": 5,
             "total_value": 152757.23
@@ -3156,8 +3156,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2023-11-06",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 9,
             "total_value": 150518.8
@@ -3166,9 +3166,9 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2023-09-19",
             "departments": [
+              "Housing Revenue Account",
               "Environmental Services",
-              "Wellbeing and Place",
-              "Housing Revenue Account"
+              "Wellbeing and Place"
             ],
             "payments": 11,
             "total_value": 147801.66
@@ -3177,8 +3177,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2025-06-19",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 5,
             "total_value": 147014.75
@@ -3187,8 +3187,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2024-01-29",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 5,
             "total_value": 143770.13
@@ -3197,8 +3197,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2025-04-10",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 6,
             "total_value": 143236.1
@@ -3207,8 +3207,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2024-03-19",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 3,
             "total_value": 141629.75
@@ -3217,8 +3217,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2025-05-12",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 4,
             "total_value": 141138.75
@@ -3227,8 +3227,8 @@
             "supplier": "RIVERSIDE TRUCK RENTAL LTD T/A NRG RIVERSIDE",
             "date": "2025-03-12",
             "departments": [
-              "Environmental Services",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Environmental Services"
             ],
             "payments": 4,
             "total_value": 140566.75
@@ -3237,8 +3237,8 @@
             "supplier": "A CONNOLLY LTD",
             "date": "2021-11-18",
             "departments": [
-              "Housing Public Sector",
-              "Housing Revenue Account"
+              "Housing Revenue Account",
+              "Housing Public Sector"
             ],
             "payments": 3,
             "total_value": 134727.19
@@ -3253,16 +3253,16 @@
             "amount": 10000.0,
             "date": "2020-04-14",
             "suppliers": [
-              "FASTTURNLOG",
-              "MHALL",
-              "MCGRATHS",
-              "PREMIERTYRE",
-              "NNJNETTING",
-              "MOORGATEGUIDES",
-              "RISEWELLBEING",
-              "RGLMARTIAL",
-              "PRIMROSEB&B",
-              "MCKINSTRY"
+              "MEREBROWDELI",
+              "YEWTREE",
+              "MSCPRESTIGE",
+              "JOHNSONSBUTCHER",
+              "KKUTS",
+              "LANCSEVENTS",
+              "PAYLESSFURNITU",
+              "HATHERTON",
+              "RUFFORDMARINA",
+              "ROWLAND1NL"
             ],
             "count": 122,
             "total_value": 1220000.0
@@ -3271,16 +3271,16 @@
             "amount": 10000.0,
             "date": "2020-04-20",
             "suppliers": [
-              "GEMDIGITAL",
-              "BURSCMARKET",
-              "BURSGARAGE",
-              "HOODSUK",
-              "BEACONELECTRICS",
-              "BURSDISCOUNTRUG",
-              "MRARASHID",
-              "ALEXANDRINE",
-              "BANTAM",
-              "LAUNDRYCOTTAGE"
+              "JWKLTD",
+              "AUGHTONCCSCOUT",
+              "AMORHAIR",
+              "BURSFELLOWS",
+              "PDGPUBLIC",
+              "JEFFLONGHORNE",
+              "MRTJ&MSHBURT",
+              "BURSCHPHYSIO",
+              "BURSCOUGHFC",
+              "EASHCROFT"
             ],
             "count": 108,
             "total_value": 1080000.0
@@ -3289,16 +3289,16 @@
             "amount": 6239.21,
             "date": "2021-01-22",
             "suppliers": [
-              "ORMSKIRKPILATESA",
-              "KCCOMPUTERSNWLT",
+              "ORMSKIRKCIVICHAL",
+              "UNITYSTRENGTHLTD",
               "PAYLESSFURNITURE",
-              "INKHAIRLTD",
-              "THARALDRCOFFEELI",
-              "MAJESTICLASHES",
-              "INKBEAUTYLTD",
-              "IKOVENTURES",
+              "PHOENIXFIREPLACE",
+              "LOCKDOWNESCAPELT",
+              "PWFITNESSACADEMY",
+              "DANOLISOLUTIONSL",
               "MOCHI",
-              "AMORHAIRANDBEAU"
+              "KEEPINGYOUMOBILE",
+              "HESKETHBOWLINGCL"
             ],
             "count": 170,
             "total_value": 1079383.33
@@ -3307,16 +3307,16 @@
             "amount": 9357.15,
             "date": "2021-01-22",
             "suppliers": [
-              "LOVETOEATORMSKI",
-              "GREENCRABLTD",
+              "HOLLANDHALLWEDDI",
+              "GOLFSPORTSMANAGE",
+              "REDLIONCARAVANC -",
+              "ASHTONPUBCOMPANY",
+              "MERENULUG",
+              "OPTIMUMCOFFEESER",
+              "ARTZFORALLCIC",
+              "SILVERMOONTAVERNS",
               "POLISHANDINTERNA",
-              "PUNCHTAVERNSBRAN",
-              "MARJWINENTST/AH",
-              "PAPARIMALTD",
-              "IKOVENTURES",
-              "CEXLTD",
-              "SOUNDAFFECTSMUSI",
-              "SILVERMOONTAVERNS"
+              "DISCOUNTFURNITURE"
             ],
             "count": 97,
             "total_value": 926357.85
@@ -3325,16 +3325,16 @@
             "amount": 10000.0,
             "date": "2020-04-06",
             "suppliers": [
-              "PJSELECTRIC",
               "TARLETONACCT",
-              "SKEMCAR&COM",
+              "THOUGHTSTHAT",
+              "KOIAQUATIC",
+              "MCDONALDDANCE",
+              "RBOND",
+              "DBCARS",
               "NATIONWIDE",
-              "SKEMWARDEN",
-              "METALFLOOR",
-              "LJELITE",
-              "YOURDESIGN",
-              "M&THOOPER",
-              "TOMLAING"
+              "SKEMCARPET",
+              "FARRELLHEYWORTH",
+              "SKIVES"
             ],
             "count": 87,
             "total_value": 890000.0
@@ -3343,16 +3343,16 @@
             "amount": 10000.0,
             "date": "2020-04-16",
             "suppliers": [
-              "RADIANTLIVING",
-              "REALLYSOLID",
-              "UPHOLLANDSHOP",
-              "NATIONALTYRE",
-              "T&T TREATMENT",
-              "AVIARYFUNCTION",
-              "LAVENDERSCOVE",
-              "PRINCIPALHYGIENE",
-              "SUNRISEVET",
-              "FROSTKOOL"
+              "L&HDECOR",
+              "P&AROWLEY",
+              "HQHAIR",
+              "MALPASTRACTOR",
+              "STSTEPHENSINST",
+              "ELEMENTARY",
+              "LATOMPHTSIO",
+              "MHAMER",
+              "LOROMEUROPE",
+              "INNOXTRADING"
             ],
             "count": 60,
             "total_value": 600000.0
@@ -3361,16 +3361,16 @@
             "amount": 10000.0,
             "date": "2020-06-04",
             "suppliers": [
-              "TOPTROPHIES",
-              "UPHOLLANDCON",
-              "CJACKSON",
-              "CJICECREAM",
               "MAYOR&CO",
-              "FISHLOVESCHIPS",
-              "COCARELTD",
+              "CLASSICGARDEN",
+              "ELECT&ENVIRON",
               "CLEARVIEW",
-              "BLOWFISHTECH",
-              "ZOEASHTON"
+              "CMAACCOUNT",
+              "CLAIMS4U",
+              "CMEINCOM",
+              "UKTDC",
+              "UPHOLLANDMOTORS",
+              "WWEDDINGBELLES"
             ],
             "count": 50,
             "total_value": 500000.0
@@ -3379,16 +3379,16 @@
             "amount": 10000.0,
             "date": "2020-04-09",
             "suppliers": [
-              "OLDDOGBARBER",
+              "NJHODGSON",
+              "PINBALLHEAVEN",
+              "OLIVETREE",
+              "PRECISION",
+              "PARAGONBUS",
+              "KOOKEEBROWNLTD",
               "PDELECTRIC",
-              "SPRINGACRES",
-              "FURRY DOG",
-              "RJANDERTON",
-              "LPOOLRDCOMM",
-              "FALLBACKSYS",
-              "BURSAFCSOCIAL",
-              "KERRYSHOME",
-              "ROOCROFTS"
+              "FETTLERSWHARF",
+              "PENTHOUSE",
+              "LGCOMCLEAN"
             ],
             "count": 48,
             "total_value": 480000.0
@@ -3397,8 +3397,8 @@
             "amount": 231093.04,
             "date": "2019-01-28",
             "suppliers": [
-              "CRUDEN CONSTRUCTION",
-              "CRUDEN CONSTRUCTION LTD"
+              "CRUDEN CONSTRUCTION LTD",
+              "CRUDEN CONSTRUCTION"
             ],
             "count": 2,
             "total_value": 462186.08
@@ -3407,16 +3407,16 @@
             "amount": 10000.0,
             "date": "2020-04-22",
             "suppliers": [
+              "MARTINBATES",
+              "ARTHURS",
+              "PRESTIGEIRON",
+              "PPYATES",
               "MENSROOM",
-              "MILANINTERIOR",
-              "JPCENGINEERING",
-              "KOREANMARTIAL",
-              "MARTLANDMILL",
-              "MANSIONDENTAL",
-              "LEESAYERS",
-              "MISSIONNUTRI",
-              "HAREANDHOUNDS",
-              "ARMISTEADLLP"
+              "PALAMININW",
+              "HASKAYNEENG",
+              "FFIELDANIMAL",
+              "MOTIONGRAPHIX",
+              "ARMANNTRADING"
             ],
             "count": 46,
             "total_value": 460000.0
@@ -3425,16 +3425,16 @@
             "amount": 10000.0,
             "date": "2020-04-08",
             "suppliers": [
+              "PATRICIAROLLINSON",
               "MRJBLOOD",
-              "LYNDENEGARDEN",
-              "IANDOBSON",
-              "GOODCATCH",
-              "MOORGANPROP",
-              "TARLETONRUGBY",
-              "ANNIEBS",
+              "LINDONSGARAGE",
               "VICTORIAHOTEL",
+              "WRIGHTFARM",
+              "WILLODELI",
+              "MOSSYLEAMOTOR",
+              "GOODCATCH",
               "ROSCOEANDJENK",
-              "FJHALLIWELL"
+              "HAIRBYLISA"
             ],
             "count": 45,
             "total_value": 450000.0
@@ -3443,16 +3443,16 @@
             "amount": 10000.0,
             "date": "2020-05-04",
             "suppliers": [
-              "A&ITRAILERS",
-              "DHIGHAM",
-              "QUALCOKENNELS",
-              "CAPITALIAPRIVATE",
-              "FORTCHINESE",
-              "ACORNCATTERY",
+              "CARBERRYSCAFF",
+              "CARRLIVERY",
+              "CARRMOSS",
+              "ESQUIREBARBER",
+              "ROWLANDS6UJ",
+              "CARDSGIFTSLTD",
+              "PCSLTD",
               "COUNTRYFLORIST",
-              "JLD",
-              "CAPITALIALTD",
-              "KURDISHBARBER"
+              "CAPITALIAPRIVATE",
+              "ETECHCOMPONENTS"
             ],
             "count": 44,
             "total_value": 440000.0
@@ -3461,16 +3461,16 @@
             "amount": 10000.0,
             "date": "2020-04-07",
             "suppliers": [
-              "NELSONNURSERIES",
-              "INNOXINNOV",
-              "PJCAUSER",
-              "PARBOLDCOMMUNITY",
-              "WLFLOORING",
+              "MILLHOUSE",
+              "NEWSUIWAH",
+              "UKHAIRDRESSER",
+              "BARRYMATTHEWS",
+              "HOPEHOUSEPROJECT",
               "PEELHOUSECO",
-              "LANCASHIREBREADH",
-              "ORMSKIRKMOTORS",
-              "PRESTONPANTHERS",
-              "WARISSA"
+              "AUGHTONINST",
+              "BARNARDOS",
+              "WARISSA",
+              "HESKETHBSTORE"
             ],
             "count": 43,
             "total_value": 430000.0
@@ -3479,16 +3479,16 @@
             "amount": 10000.0,
             "date": "2020-04-21",
             "suppliers": [
-              "S&CFOSTER",
+              "HESKETH WITH BECCONSALL PARISH COUNCIL",
+              "DELSBY",
+              "RBRIDGE&SON",
+              "J&MJOINERY",
               "WCHAM",
-              "FITNESSWORLD",
               "KTAYLOR",
-              "VNITYBEAUTY",
-              "G3CONCEPTS",
-              "KMANDEEP",
-              "HUNGNGUYEN",
-              "GENTLEMANSLOU",
-              "GWATERWORTH"
+              "NADINEINTERIOR",
+              "LANSAFE",
+              "KIRKBYDISCCARPET",
+              "RAFALAUK"
             ],
             "count": 41,
             "total_value": 410000.0
@@ -3497,16 +3497,16 @@
             "amount": 10000.0,
             "date": "2020-04-15",
             "suppliers": [
-              "FEMOMENS",
-              "MEDTHERMAL",
-              "BCRITCHLEY",
-              "MARIACOSTELLO",
-              "ABACUSCAR",
-              "STRAPHAELS",
-              "KARMENALVES",
-              "STARTLEDFX",
-              "STANLEYCONSULTS",
-              "BANGLISH"
+              "BOBCAUSER",
+              "MGGREGORY",
+              "ABECKSMITH",
+              "PURCELLESTATES",
+              "STATUS",
+              "BANKSPRINTERS",
+              "MILLERCARE",
+              "NRGHEALTH",
+              "BLUSHHAIR",
+              "BEAUTYCLUBB"
             ],
             "count": 36,
             "total_value": 370000.0
@@ -3515,16 +3515,16 @@
             "amount": 8000.0,
             "date": "2021-04-20",
             "suppliers": [
-              "CROOKHALLFARMLE",
-              "HESKETHBANKAFCL",
-              "STAFFORDFISHAND",
-              "ABIGAILGREENOP",
-              "DANHEAVICAN",
-              "THEKINGSARMS",
-              "WATERWAYSPUBS",
+              "1STORMSKIRKSCOUT",
+              "HUGOS",
+              "40THORMSKIRKSCOU",
+              "THETANNERPUBLTD",
               "ELAINEFRANCESCLI",
               "INKHAIR",
-              "NTIMSON"
+              "ABIGAILGREENOP",
+              "QUANVANPHAN",
+              "JPUMFORDHUGHES",
+              "ELEMENTARYORMSKIR"
             ],
             "count": 44,
             "total_value": 352000.0
@@ -3533,15 +3533,15 @@
             "amount": 25000.0,
             "date": "2020-04-14",
             "suppliers": [
-              "HYPE",
-              "PANGEA",
-              "J&COMEARA",
-              "FLAVOURSFISHBAR",
+              "GR&MMBLACK",
               "YASSERALI",
-              "PFMCMAHON",
-              "QUATTROS",
+              "FATITALORMS",
               "PENMARKCARDS",
-              "GREENTOMS",
+              "PFMCMAHON",
+              "HARPERS",
+              "FLAVOURSFISHBAR",
+              "PAWESTHEAD",
+              "QUATTROS",
               "JOLLIESBARN"
             ],
             "count": 14,
@@ -3551,16 +3551,16 @@
             "amount": 14035.71,
             "date": "2021-01-22",
             "suppliers": [
-              "LANCASHIREFORD",
-              "ALLSTARSELFSTOR",
-              "HARRISONLEISUREU",
-              "WRIGHTINGTONPROPE",
-              "ACTIVENATIONUKL",
-              "HURLSTONHALLTRAD",
+              "BRIARSHALLLTD",
+              "ATTERMYRELTD",
               "PESTORESTAURANTS",
-              "PULLMARSHLTD",
+              "06ORMSKIRKLTD",
+              "MOORHALLRESTAURA",
+              "LANGTREEPROPERTY",
               "ORMSKIRKGOLFCLUB",
-              "BANNATYNEFITNESS"
+              "JDWETHERSPOONPL",
+              "WESTLANCSCOMMUNI",
+              "HARRISONLEISUREU"
             ],
             "count": 22,
             "total_value": 336857.04
@@ -3569,16 +3569,16 @@
             "amount": 25000.0,
             "date": "2020-04-06",
             "suppliers": [
-              "SPITROAST",
-              "REDLIONCARAVAN",
-              "PUNCHTAVERN",
-              "THEDUCK",
-              "KELLYSHIRLEY",
-              "OLDHAMMUMPS",
-              "WATERWAYSPUB",
               "RIBREWERYNW",
+              "REDLIONCARAVAN",
+              "WATERWAYSPUB",
+              "PUNCHTAVERN",
+              "OLDHAMMUMPS",
+              "SOUNDAFFECTS",
               "GREENTOMS",
-              "ROYCASTLE"
+              "NEWLANDS",
+              "ROYCASTLE",
+              "THEDUCK"
             ],
             "count": 13,
             "total_value": 325000.0
@@ -3587,16 +3587,16 @@
             "amount": 10000.0,
             "date": "2020-04-01",
             "suppliers": [
-              "BABYCURLS",
-              "QUEENSCOURTTAR",
-              "WINDOWBOX",
-              "RICHLANDHOME",
-              "EXPRESSHIRE",
+              "LAURELLTD",
+              "MALPASTRACTOR",
+              "AORMESHER",
+              "REPAIRIT",
               "HOLLOWS&HESK",
-              "WOODBINE",
-              "ROOTE66",
-              "RJPSURVEYING",
-              "RUFFORDCC"
+              "REDDRAGON",
+              "BABYCURLS",
+              "WINDOWBOX",
+              "EXPRESSHIRE",
+              "ROYALOAKCAT"
             ],
             "count": 32,
             "total_value": 320000.0
@@ -3960,9 +3960,9 @@
           "total_spend": 29395838.39,
           "transactions": 449,
           "departments": [
-            "Housing Public Sector",
+            "Housing Revenue Account",
             "Housing and Regulatory",
-            "Housing Revenue Account"
+            "Housing Public Sector"
           ]
         },
         {
@@ -3970,8 +3970,8 @@
           "total_spend": 21010185.73,
           "transactions": 125,
           "departments": [
-            "Wellbeing and Place",
             "Housing Revenue Account",
+            "Wellbeing and Place",
             "Planning and Regulatory",
             "Housing Public Sector"
           ]
@@ -3981,11 +3981,11 @@
           "total_spend": 16472343.43,
           "transactions": 750,
           "departments": [
-            "Development and Regeneration",
+            "Street Scene",
             "Housing and Inclusion",
-            "Other Service Items",
-            "Finance Procurement & Property Svs",
-            "Leisure and Wellbeing"
+            "Leisure and Wellbeing",
+            "Finance and Human Resources",
+            "Transformation"
           ]
         },
         {
@@ -3993,8 +3993,8 @@
           "total_spend": 13168431.82,
           "transactions": 143,
           "departments": [
-            "Housing Public Sector",
-            "Housing Revenue Account"
+            "Housing Revenue Account",
+            "Housing Public Sector"
           ]
         },
         {
@@ -4002,8 +4002,8 @@
           "total_spend": 9200195.08,
           "transactions": 7,
           "departments": [
-            "Non Service Items",
-            "Corporate Services"
+            "Corporate Services",
+            "Non Service Items"
           ]
         },
         {
@@ -4011,9 +4011,9 @@
           "total_spend": 8096600.72,
           "transactions": 13,
           "departments": [
-            "Growth and Development",
             "Planning and Regulatory",
-            "Development and Regen"
+            "Development and Regen",
+            "Growth and Development"
           ]
         },
         {
@@ -4021,9 +4021,9 @@
           "total_spend": 6648381.55,
           "transactions": 18,
           "departments": [
+            "Housing Revenue Account",
             "Corporate Services",
             "Finance Procurement & Property Svs",
-            "Housing Revenue Account",
             "Other Service Items"
           ]
         },
@@ -4032,8 +4032,8 @@
           "total_spend": 5247248.12,
           "transactions": 653,
           "departments": [
-            "Finance & Human Resources",
             "Housing Revenue Account",
+            "Finance & Human Resources",
             "Finance and Human Resources"
           ]
         },
@@ -4059,10 +4059,10 @@
           "total_spend": 4793447.35,
           "transactions": 451,
           "departments": [
-            "Environmental Services",
-            "Other Service Items",
             "Housing Revenue Account",
-            "Street Scene"
+            "Environmental Services",
+            "Street Scene",
+            "Other Service Items"
           ]
         },
         {
@@ -4070,8 +4070,8 @@
           "total_spend": 4585480.29,
           "transactions": 3,
           "departments": [
-            "Non Service Items",
-            "Corporate Services"
+            "Corporate Services",
+            "Non Service Items"
           ]
         },
         {
@@ -4079,11 +4079,11 @@
           "total_spend": 4166138.56,
           "transactions": 5648,
           "departments": [
+            "Legal  and Democracy",
+            "Finance & Human Resources",
             "Environmental Services",
-            "Transformation",
-            "Housing Revenue Account",
-            "Leisure and Wellbeing",
-            "Growth and Development"
+            "Street Scene",
+            "Housing and Inclusion"
           ]
         },
         {
@@ -4091,11 +4091,11 @@
           "total_spend": 4048989.22,
           "transactions": 63,
           "departments": [
-            "Housing Revenue Account",
-            "Development and Regeneration",
             "Finance & Human Resources",
+            "Housing Revenue Account",
+            "Finance and Human Resources",
             "Development and Regen",
-            "Finance and Human Resources"
+            "Finance Procurement & Property Svs"
           ]
         },
         {
@@ -4103,10 +4103,10 @@
           "total_spend": 4013625.95,
           "transactions": 829,
           "departments": [
-            "Housing and Inclusion",
-            "Development and Regeneration",
+            "Housing Revenue Account",
             "Finance & Human Resources",
-            "Housing Revenue Account"
+            "Development and Regeneration",
+            "Housing and Inclusion"
           ]
         },
         {
@@ -4115,10 +4115,10 @@
           "transactions": 337,
           "departments": [
             "Environmental Services",
-            "Housing Revenue Account",
-            "Growth and Development",
+            "Corporate and Customer Services",
+            "Planning and Regulatory",
             "Housing and Regulatory",
-            "Corporate and Customer Services"
+            "Other Service Items"
           ]
         },
         {
@@ -4134,9 +4134,9 @@
           "total_spend": 3332610.46,
           "transactions": 147,
           "departments": [
+            "Housing Revenue Account",
             "Housing and Inclusion",
-            "Finance Procurement & Property Svs",
-            "Housing Revenue Account"
+            "Finance Procurement & Property Svs"
           ]
         },
         {
@@ -7807,9 +7807,9 @@
       "overall": 38.3
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 7,
-      "fraud_triangle_percentile": 46.7,
-      "total_councils": 15,
+      "fraud_triangle_rank": 9,
+      "fraud_triangle_percentile": 52.9,
+      "total_councils": 17,
       "own_score": 57.8
     }
   },

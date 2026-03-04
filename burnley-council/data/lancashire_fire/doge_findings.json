@@ -98,11 +98,32 @@
       "link_text": "See all transactions \u2192",
       "severity": "info",
       "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "14 suppliers shared with neighbouring councils \u2014 \u00a37.9M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "SEDDON CONSTRUCTION LTD: 9429% price gap between councils",
+      "description": "Blackburn pays \u00a390.9K avg vs Lancashire_Fire \u00a3953 (both with 3+ transactions). Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=SEDDON CONSTRUCTION LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-27T03:20:59.327724",
+  "generated": "2026-03-04T01:19:12.174204",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -2167,8 +2188,8 @@
             "unique_dates": 11,
             "total_value": 734991.18,
             "departments": [
-              "lfrs",
-              "facilities & management services"
+              "facilities & management services",
+              "lfrs"
             ]
           },
           {
@@ -2178,8 +2199,8 @@
             "unique_dates": 8,
             "total_value": 698020.95,
             "departments": [
-              "Pfi - Capital Charge",
-              "facilities & management services"
+              "facilities & management services",
+              "Pfi - Capital Charge"
             ]
           },
           {
@@ -2189,8 +2210,8 @@
             "unique_dates": 9,
             "total_value": 471414.24,
             "departments": [
-              "lfrs",
-              "fire & rescue"
+              "fire & rescue",
+              "lfrs"
             ]
           },
           {
@@ -2200,8 +2221,8 @@
             "unique_dates": 12,
             "total_value": 457505.88,
             "departments": [
-              "cleaning & janitorial",
-              "CLEANING & JANITORIAL"
+              "CLEANING & JANITORIAL",
+              "cleaning & janitorial"
             ]
           },
           {
@@ -2242,8 +2263,8 @@
             "unique_dates": 6,
             "total_value": 327257.91,
             "departments": [
-              "animals",
-              "Fire Mobs Airwave Costs"
+              "Fire Mobs Airwave Costs",
+              "animals"
             ]
           },
           {
@@ -2306,8 +2327,8 @@
             "supplier": "NORTH WEST FIRE CONTROL LTD",
             "date": "2023-06-22",
             "departments": [
-              "human resources",
-              "legal services"
+              "legal services",
+              "human resources"
             ],
             "payments": 2,
             "total_value": 422607.47
@@ -2356,8 +2377,8 @@
             "supplier": "MERSEYSIDE FIRE & RESCUE AUTHORITY",
             "date": "2024-01-03",
             "departments": [
-              "human resources",
-              "facilities & management services"
+              "facilities & management services",
+              "human resources"
             ],
             "payments": 4,
             "total_value": 180871.45
@@ -2366,8 +2387,8 @@
             "supplier": "MERSEYSIDE FIRE & RESCUE AUTHORITY",
             "date": "2024-06-12",
             "departments": [
-              "lfrs",
-              "human resources"
+              "human resources",
+              "lfrs"
             ],
             "payments": 4,
             "total_value": 176439.15
@@ -2376,8 +2397,8 @@
             "supplier": "MERSEYSIDE FIRE & RESCUE AUTHORITY",
             "date": "2023-08-18",
             "departments": [
-              "human resources",
-              "facilities & management services"
+              "facilities & management services",
+              "human resources"
             ],
             "payments": 3,
             "total_value": 169188.14
@@ -2386,8 +2407,8 @@
             "supplier": "MERSEYSIDE FIRE & RESCUE AUTHORITY",
             "date": "2022-11-11",
             "departments": [
-              "Pfi - Capital Charge",
-              "Professional Services"
+              "Professional Services",
+              "Pfi - Capital Charge"
             ],
             "payments": 2,
             "total_value": 163407.57
@@ -2416,9 +2437,9 @@
             "supplier": "GODIVA LTD",
             "date": "2022-07-15",
             "departments": [
+              "Fire - Op Equip R&D",
               "Vehicle Purchase",
-              "Fire - Operational Equipment",
-              "Fire - Op Equip R&D"
+              "Fire - Operational Equipment"
             ],
             "payments": 8,
             "total_value": 95362.0
@@ -2427,8 +2448,8 @@
             "supplier": "HAYS SPECIALIST RECRUITMENT LTD",
             "date": "2025-07-30",
             "departments": [
-              "LFRS",
-              "HUMAN RESOURCES"
+              "HUMAN RESOURCES",
+              "LFRS"
             ],
             "payments": 4,
             "total_value": 92219.27
@@ -2447,8 +2468,8 @@
             "supplier": "WH BENCE (COACHWORKS) LTD",
             "date": "2024-05-28",
             "departments": [
-              "lfrs",
-              "information communication technology"
+              "information communication technology",
+              "lfrs"
             ],
             "payments": 18,
             "total_value": 87140.0
@@ -2467,8 +2488,8 @@
             "supplier": "CDW UK LTD",
             "date": "2024-10-01",
             "departments": [
-              "lfrs",
-              "information communication technology"
+              "information communication technology",
+              "lfrs"
             ],
             "payments": 4,
             "total_value": 64798.44
@@ -2477,9 +2498,9 @@
             "supplier": "3TC SOFTWARE LTD",
             "date": "2022-04-04",
             "departments": [
-              "Computer Software",
               "Fire Mobs Network Maint",
-              "Ict Support Services (External)"
+              "Ict Support Services (External)",
+              "Computer Software"
             ],
             "payments": 5,
             "total_value": 64292.99
@@ -2514,8 +2535,8 @@
             "amount": 7485.0,
             "date": "2022-04-08",
             "suppliers": [
-              "Burnley Borough Council",
-              "FYLDE BOROUGH COUNCIL"
+              "FYLDE BOROUGH COUNCIL",
+              "Burnley Borough Council"
             ],
             "count": 2,
             "total_value": 14970.0
@@ -2524,8 +2545,8 @@
             "amount": 6000.0,
             "date": "2024-02-08",
             "suppliers": [
-              "A & A TECHNICAL RESCUE",
-              "IGNIS TECHNOLOGIES LTD"
+              "IGNIS TECHNOLOGIES LTD",
+              "A & A TECHNICAL RESCUE"
             ],
             "count": 2,
             "total_value": 12000.0
@@ -2699,11 +2720,11 @@
           "total_spend": 7237037.44,
           "transactions": 148,
           "departments": [
-            "facilities & management services",
-            "LFRS",
             "Professional Services",
-            "Other Local Authorities",
-            "lfrs"
+            "human resources",
+            "Pfi - Capital Charge",
+            "Course Providers",
+            "Other Local Authorities"
           ]
         },
         {
@@ -2711,11 +2732,11 @@
           "total_spend": 6884993.01,
           "transactions": 24,
           "departments": [
-            "LFRS",
-            "cemetery & crematorium",
+            "human resources",
             "legal services",
-            "Other Expenses",
-            "lfrs"
+            "cemetery & crematorium",
+            "LFRS",
+            "Other Expenses"
           ]
         },
         {
@@ -2723,11 +2744,11 @@
           "total_spend": 5158127.53,
           "transactions": 281,
           "departments": [
-            "VEHICLE MANAGEMENT",
-            "Equipment",
-            "fire & rescue",
+            "Vehicle & Plant Insurance Below Excess",
             "vehicle management",
-            "internal"
+            "internal",
+            "VEHICLE MANAGEMENT",
+            "fire & rescue"
           ]
         },
         {
@@ -2735,10 +2756,10 @@
           "total_spend": 3136868.68,
           "transactions": 54,
           "departments": [
-            "lfrs",
+            "facilities & management services",
             "Pfi - Capital Charge",
-            "LFRS",
-            "facilities & management services"
+            "lfrs",
+            "LFRS"
           ]
         },
         {
@@ -2746,11 +2767,11 @@
           "total_spend": 2451049.65,
           "transactions": 328,
           "departments": [
-            "Chg - Audit Fees (Internal)",
-            "Financial Services Sla",
+            "Professional Services",
+            "General Fees & Charges",
             "human resources",
-            "Vehicle R&M",
-            "INFORMATION COMMUNICATION TECHNOLOGY"
+            "financial services",
+            "Design Work - External"
           ]
         },
         {
@@ -2758,10 +2779,10 @@
           "total_spend": 2249348.15,
           "transactions": 37,
           "departments": [
-            "LFRS",
             "Ext\u00a0 Adapt\u00a0 Improv\u00a0 Etc",
-            "WORKS - CONSTRUCTION, REPAIR & MAINT",
-            "works - construction, repair & maint"
+            "works - construction, repair & maint",
+            "LFRS",
+            "WORKS - CONSTRUCTION, REPAIR & MAINT"
           ]
         },
         {
@@ -2769,11 +2790,11 @@
           "total_spend": 1968639.91,
           "transactions": 47,
           "departments": [
-            "Insurances General",
-            "Transport Insurance",
-            "LFRS",
             "Vehicle & Plant Insurance Below Excess",
-            "lfrs"
+            "Insurances General",
+            "financial services",
+            "Project Work General",
+            "Transport Insurance"
           ]
         },
         {
@@ -2781,11 +2802,11 @@
           "total_spend": 1938654.58,
           "transactions": 36,
           "departments": [
+            "Fire Mobs Airwave Costs",
             "fire & rescue",
             "LFRS",
             "animals",
-            "lfrs",
-            "Fire Mobs Airwave Costs"
+            "lfrs"
           ]
         },
         {
@@ -2793,9 +2814,9 @@
           "total_spend": 1890834.83,
           "transactions": 49,
           "departments": [
-            "information communication technology",
-            "INFORMATION COMMUNICATION TECHNOLOGY",
+            "human resources",
             "Computer Software",
+            "INFORMATION COMMUNICATION TECHNOLOGY",
             "cemetery & crematorium",
             "LFRS"
           ]
@@ -2805,11 +2826,11 @@
           "total_spend": 1734767.24,
           "transactions": 211,
           "departments": [
-            "Consumable Materials",
+            "human resources",
+            "Fire - Op Equip R&D",
+            "Course Providers",
             "mail services",
-            "fire & rescue",
-            "internal",
-            "LFRS"
+            "internal"
           ]
         },
         {
@@ -2817,10 +2838,10 @@
           "total_spend": 1716443.29,
           "transactions": 774,
           "departments": [
-            "LFRS",
             "utilities",
-            "Electricity",
-            "UTILITIES"
+            "LFRS",
+            "UTILITIES",
+            "Electricity"
           ]
         },
         {
@@ -2828,9 +2849,9 @@
           "total_spend": 1197229.11,
           "transactions": 70,
           "departments": [
-            "Vehicle Purchase",
-            "Road Fund Licences",
             "vehicle management",
+            "Road Fund Licences",
+            "Vehicle Purchase",
             "LFRS",
             "animals"
           ]
@@ -2840,9 +2861,9 @@
           "total_spend": 1193647.51,
           "transactions": 44,
           "departments": [
-            "Water",
-            "LFRS",
             "utilities",
+            "LFRS",
+            "Water",
             "UTILITIES"
           ]
         },
@@ -2851,10 +2872,10 @@
           "total_spend": 1190615.91,
           "transactions": 53,
           "departments": [
+            "information communication technology",
             "lfrs",
             "vehicle management",
-            "LFRS",
-            "information communication technology"
+            "LFRS"
           ]
         },
         {
@@ -2862,11 +2883,11 @@
           "total_spend": 1158963.77,
           "transactions": 87,
           "departments": [
+            "human resources",
             "vehicle management",
-            "LFRS",
+            "Petrol",
             "Diesel",
-            "lfrs",
-            "Petrol"
+            "LFRS"
           ]
         },
         {
@@ -2874,9 +2895,9 @@
           "total_spend": 1069930.0,
           "transactions": 4,
           "departments": [
-            "FINANCIAL SERVICES",
+            "Rates",
             "financial services",
-            "Rates"
+            "FINANCIAL SERVICES"
           ]
         },
         {
@@ -2884,9 +2905,9 @@
           "total_spend": 1025958.37,
           "transactions": 555,
           "departments": [
-            "LFRS",
             "utilities",
             "Gas",
+            "LFRS",
             "UTILITIES"
           ]
         },
@@ -2895,10 +2916,10 @@
           "total_spend": 997386.22,
           "transactions": 325,
           "departments": [
-            "Vehicle Purchase",
-            "Consumable Materials",
             "vehicle management",
             "internal",
+            "Consumable Materials",
+            "Vehicle Purchase",
             "LFRS"
           ]
         },
@@ -2907,9 +2928,9 @@
           "total_spend": 965214.0,
           "transactions": 28,
           "departments": [
-            "cleaning & janitorial",
             "CLEANING & JANITORIAL",
-            "LFRS"
+            "LFRS",
+            "cleaning & janitorial"
           ]
         },
         {
@@ -2918,10 +2939,10 @@
           "transactions": 88,
           "departments": [
             "works - construction, repair & maint",
-            "arts & leisure services",
+            "ARTS & LEISURE SERVICES",
             "Delegated Grounds Maintenance",
-            "lfrs",
-            "ARTS & LEISURE SERVICES"
+            "arts & leisure services",
+            "lfrs"
           ]
         }
       ],
@@ -5777,9 +5798,9 @@
       "overall": 31.7
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 0,
-      "fraud_triangle_percentile": 0,
-      "total_councils": 1,
+      "fraud_triangle_rank": 3,
+      "fraud_triangle_percentile": 17.6,
+      "total_councils": 17,
       "own_score": 36.3
     }
   },

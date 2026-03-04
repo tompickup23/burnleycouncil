@@ -33,16 +33,22 @@
       "detail": "No confirmed payments during active breach periods after filtering enrichment errors and undated violations."
     },
     {
+      "label": "Cross-council price comparison",
+      "status": "pass",
+      "detail": "14 shared suppliers found. 2 with >200% price gap (requiring 3+ transactions each side). Extreme disparities (>10,000%) filtered as different service scopes."
+    },
+    {
       "label": "Benford's Law forensic screening",
       "status": "warning",
       "detail": "Significant deviation from Benford's Law (p < 0.001). \u03c7\u00b2=795.75 on 13653 amounts >\u00a3100. Largest deviation: digit 3 (5.0% off expected)."
     }
   ],
   "warnings": [
+    "2 suppliers show >200% price disparity after filtering. These are more likely genuine value concerns than extreme outliers.",
     "Benford's Law analysis shows significant deviation (\u03c7\u00b2=795.75). Digit 3 deviates 5.0% from expected. This warrants investigation but can also occur with legitimate round-number grants or threshold-based payments."
   ],
-  "score": 83,
-  "total_checks": 6,
-  "passed": 5,
-  "generated": "2026-02-27T03:20:59.375429"
+  "score": 86,
+  "total_checks": 7,
+  "passed": 6,
+  "generated": "2026-03-04T01:19:14.411130"
 }

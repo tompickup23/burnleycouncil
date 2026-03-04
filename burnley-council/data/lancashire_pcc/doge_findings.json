@@ -97,11 +97,32 @@
       "link_text": "See all transactions \u2192",
       "severity": "info",
       "confidence": "high"
+    },
+    {
+      "icon": "users",
+      "badge": "Cross-Council",
+      "title": "18 suppliers shared with neighbouring councils \u2014 \u00a382.3M total",
+      "description": "Compare what each council pays the same suppliers for similar services",
+      "link": "/spending",
+      "link_text": "Compare prices \u2192",
+      "severity": "info",
+      "confidence": "high"
+    },
+    {
+      "icon": "trending-up",
+      "badge": "Price Gap",
+      "title": "CLARITY TRAVEL LTD: 9338% price gap between councils",
+      "description": "Lancashire_Pcc pays \u00a329.7K avg vs Blackburn \u00a3315 (both with 3+ transactions). Compared using 1 common financial year. Price differences may reflect different service scope, contract terms, or volumes rather than overcharging \u2014 manual review recommended.",
+      "context_note": "Cross-council price comparisons use common financial years only (where both councils have data for the same supplier). This prevents unfair comparisons between councils with different data periods. Differences may still reflect different service levels or contract terms.",
+      "link": "/spending?supplier=CLARITY TRAVEL LTD",
+      "link_text": "Investigate \u2192",
+      "severity": "info",
+      "confidence": "low"
     }
   ],
   "cta_link": "/spending",
   "cta_text": "Explore all spending data",
-  "generated": "2026-02-27T03:20:58.442882",
+  "generated": "2026-03-04T01:19:12.161732",
   "analyses_run": [
     "duplicates",
     "cross_council_pricing",
@@ -2283,8 +2304,8 @@
             "unique_dates": 5,
             "total_value": 1094096.82,
             "departments": [
-              "Equipment General",
-              "PCC Commissioning - Public Protection"
+              "PCC Commissioning - Public Protection",
+              "Equipment General"
             ]
           },
           {
@@ -2347,8 +2368,8 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2024-04-23",
             "departments": [
-              "Transport Insurance",
-              "Building & Contents Insurance"
+              "Building & Contents Insurance",
+              "Transport Insurance"
             ],
             "payments": 2,
             "total_value": 2412618.05
@@ -2357,11 +2378,11 @@
             "supplier": "LANCASHIRE COUNTY COUNCIL (200398)",
             "date": "2024-04-16",
             "departments": [
+              "Police\u00a0 - Additional Cleaning",
               "Building Cleaning Contract (External)",
               "Police - Vehicle Cleaning",
               "Laundry",
-              "Police - Other Third Party Payments",
-              "Police\u00a0 - Additional Cleaning"
+              "Police - Other Third Party Payments"
             ],
             "payments": 30,
             "total_value": 2407213.02
@@ -2390,12 +2411,12 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2023-07-14",
             "departments": [
-              "Police - Personal Accident",
-              "Police - Employers / Public Liability",
               "Building & Contents Insurance",
+              "Insurances General",
               "Police - Terrorism",
+              "Police - Employers / Public Liability",
               "Transport Insurance",
-              "Insurances General"
+              "Police - Personal Accident"
             ],
             "payments": 10,
             "total_value": 2255166.46
@@ -2404,27 +2425,27 @@
             "supplier": "HOME OFFICE - AFU CASH MANAGEMENT",
             "date": "2019-08-29",
             "departments": [
-              "PND",
               "SIS II",
-              "Police - National ANPR",
-              "Police - IAM",
-              "Microfiche",
-              "Police - ANPR",
-              "Police - IDIOM",
+              "Police - IDENT 1",
+              "Minerva",
+              "PND",
+              "Police - Police Cloud Gateway",
               "Police - Child Abuse Image Database (CAID)",
               "Police.UK",
-              "Police - NMAT2\u00a0 CASWEB & MIRWEB",
-              "Police - IDENT 1",
-              "101",
-              "Biometric Services Gateway (BSG)",
-              "Police - Police Cloud Gateway",
               "PNC",
-              "Police - PentiP",
+              "Police - IDIOM",
+              "Biometric Services Gateway (BSG)",
+              "101",
               "Prisons Recalls & Licences",
-              "FINDS",
               "Police - National Policing Risk Management Team",
               "Police - NABIS",
-              "Minerva"
+              "FINDS",
+              "Police - ANPR",
+              "Police - National ANPR",
+              "Police - NMAT2\u00a0 CASWEB & MIRWEB",
+              "Microfiche",
+              "Police - PentiP",
+              "Police - IAM"
             ],
             "payments": 26,
             "total_value": 1890345.0
@@ -2433,8 +2454,8 @@
             "supplier": "SCC",
             "date": "2023-04-06",
             "departments": [
-              "Computer Licences",
-              "Computer Hardware"
+              "Computer Hardware",
+              "Computer Licences"
             ],
             "payments": 2,
             "total_value": 1883191.56
@@ -2443,12 +2464,12 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2022-07-13",
             "departments": [
-              "Police - Personal Accident",
-              "Police - Employers / Public Liability",
               "Building & Contents Insurance",
+              "Insurances General",
               "Police - Terrorism",
               "Transport Insurance",
-              "Insurances General"
+              "Police - Personal Accident",
+              "Police - Employers / Public Liability"
             ],
             "payments": 7,
             "total_value": 1839380.92
@@ -2457,8 +2478,8 @@
             "supplier": "ALLSTAR BUSINESS SOLUTIONS LTD [ARVAL PHH BUSINESS SOLUTIONS LTD]",
             "date": "2024-04-16",
             "departments": [
-              "Late Payment Costs",
-              "Petrol"
+              "Petrol",
+              "Late Payment Costs"
             ],
             "payments": 47,
             "total_value": 1733186.57
@@ -2477,13 +2498,13 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2021-05-12",
             "departments": [
-              "Police - Personal Accident",
-              "Police - Employers / Public Liability",
               "Building & Contents Insurance",
-              "Engineering Insurance",
+              "Insurances General",
               "Police - Terrorism",
+              "Police - Employers / Public Liability",
               "Transport Insurance",
-              "Insurances General"
+              "Police - Personal Accident",
+              "Engineering Insurance"
             ],
             "payments": 8,
             "total_value": 1335259.86
@@ -2502,12 +2523,12 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2024-04-25",
             "departments": [
-              "Police - Personal Accident",
-              "Police - Employers / Public Liability",
-              "Engineering Insurance",
               "Building & Contents Insurance",
+              "Insurances General",
               "Police - Terrorism",
-              "Insurances General"
+              "Police - Employers / Public Liability",
+              "Police - Personal Accident",
+              "Engineering Insurance"
             ],
             "payments": 10,
             "total_value": 1016077.85
@@ -2516,8 +2537,8 @@
             "supplier": "INSIGHT DIRECT (UK) LTD",
             "date": "2022-03-15",
             "departments": [
-              "Equipment General",
-              "Computer Software"
+              "Computer Software",
+              "Equipment General"
             ],
             "payments": 2,
             "total_value": 1000008.66
@@ -2526,12 +2547,12 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2020-04-23",
             "departments": [
-              "Police - Personal Accident",
-              "Police - Employers / Public Liability",
-              "Engineering Insurance",
+              "Insurances General",
               "Police - Terrorism",
               "Transport Insurance",
-              "Insurances General"
+              "Police - Personal Accident",
+              "Police - Employers / Public Liability",
+              "Engineering Insurance"
             ],
             "payments": 6,
             "total_value": 940882.19
@@ -2540,8 +2561,8 @@
             "supplier": "INSIGHT DIRECT (UK) LTD",
             "date": "2019-09-26",
             "departments": [
-              "Computer Equipment (Hardware)",
-              "Computer Maintenance"
+              "Computer Maintenance",
+              "Computer Equipment (Hardware)"
             ],
             "payments": 7,
             "total_value": 937562.3
@@ -2560,13 +2581,13 @@
             "supplier": "ARTHUR J GALLAGHER (UK)",
             "date": "2019-04-16",
             "departments": [
-              "Police - Cash Fidelity Guarantee",
-              "Police - Employers / Public Liability",
               "Building & Contents Insurance",
-              "Engineering Insurance",
+              "Police - Cash Fidelity Guarantee",
+              "Insurances General",
               "Police - Terrorism",
               "Transport Insurance",
-              "Insurances General"
+              "Police - Employers / Public Liability",
+              "Engineering Insurance"
             ],
             "payments": 10,
             "total_value": 855709.42
@@ -2586,13 +2607,13 @@
             "date": "2018-04-19",
             "departments": [
               "Police - Cash Fidelity Guarantee",
-              "Police - Personal Accident",
-              "Police - Employers / Public Liability",
-              "Engineering Insurance",
               "Building & Contents Insurance",
+              "Insurances General",
               "Police - Terrorism",
               "Transport Insurance",
-              "Insurances General"
+              "Police - Employers / Public Liability",
+              "Police - Personal Accident",
+              "Engineering Insurance"
             ],
             "payments": 10,
             "total_value": 828399.68
@@ -2607,8 +2628,8 @@
             "amount": 45824.0,
             "date": "2022-04-11",
             "suppliers": [
-              "LANCASTER CITY COUNCIL [17340]",
-              "WYRE BOROUGH COUNCIL"
+              "WYRE BOROUGH COUNCIL",
+              "LANCASTER CITY COUNCIL [17340]"
             ],
             "count": 2,
             "total_value": 91648.0
@@ -2617,12 +2638,12 @@
             "amount": 10000.0,
             "date": "2024-04-25",
             "suppliers": [
-              "BODIES IN MOTION (PENDLE) LTD",
-              "THIRD PARTY",
               "CLAYTON AMATEUR BOXING AND COMMUNITY CLUB",
-              "FISHWICK RANGERS YOUTH DEVELOPMENT SCHEME",
-              "LANCASHIRE YOUTH CHALLENGE",
               "SOUTH RIBBLE BOROUGH COUNCIL",
+              "FISHWICK RANGERS YOUTH DEVELOPMENT SCHEME",
+              "BODIES IN MOTION (PENDLE) LTD",
+              "LANCASHIRE YOUTH CHALLENGE",
+              "THIRD PARTY",
               "ST GEORGE THE MARTYR CHURCH"
             ],
             "count": 7,
@@ -2632,8 +2653,8 @@
             "amount": 25000.0,
             "date": "2019-09-06",
             "suppliers": [
-              "THE PRINCES TRUST",
-              "RED ROSE RECOVERY"
+              "RED ROSE RECOVERY",
+              "THE PRINCES TRUST"
             ],
             "count": 2,
             "total_value": 50000.0
@@ -2664,9 +2685,9 @@
             "amount": 10000.0,
             "date": "2023-01-09",
             "suppliers": [
-              "FYLDE BOROUGH COUNCIL",
               "BLACKPOOL & FYLDE STREET ANGLES",
-              "CHORLEY STREET PASTORS"
+              "CHORLEY STREET PASTORS",
+              "FYLDE BOROUGH COUNCIL"
             ],
             "count": 3,
             "total_value": 30000.0
@@ -2685,9 +2706,9 @@
             "amount": 10000.0,
             "date": "2023-10-04",
             "suppliers": [
+              "PARTICIPATION WORKS NORTH WEST",
               "BURNLEY LEISURE TRUST",
-              "BLUELIGHT COMMERCIAL LTD",
-              "PARTICIPATION WORKS NORTH WEST"
+              "BLUELIGHT COMMERCIAL LTD"
             ],
             "count": 3,
             "total_value": 30000.0
@@ -2696,9 +2717,9 @@
             "amount": 10000.0,
             "date": "2023-11-07",
             "suppliers": [
-              "THE 180 PROGRAMME CIC",
+              "BLACKPOOL COUNCIL",
               "THE FLOWHESION FOUNDATION",
-              "BLACKPOOL COUNCIL"
+              "THE 180 PROGRAMME CIC"
             ],
             "count": 3,
             "total_value": 30000.0
@@ -2707,12 +2728,12 @@
             "amount": 5000.0,
             "date": "2024-11-28",
             "suppliers": [
-              "ROSSCON TRAINING LTD",
+              "CHORLEY YOUTH ZONE T/A INSPIRE",
               "BURNLEY BOYS & GIRLS CLUB",
               "MILL BANK WELLBEING CENTRE",
-              "COMMUNITY NETWORK & OUTREACH SERVICE CIC",
               "THE BILLY PROJECT PERSONAL TRAINING",
-              "CHORLEY YOUTH ZONE T/A INSPIRE"
+              "COMMUNITY NETWORK & OUTREACH SERVICE CIC",
+              "ROSSCON TRAINING LTD"
             ],
             "count": 6,
             "total_value": 30000.0
@@ -2721,8 +2742,8 @@
             "amount": 14000.0,
             "date": "2023-04-25",
             "suppliers": [
-              "THIRD PARTY SUPPLIER",
-              "SCC"
+              "SCC",
+              "THIRD PARTY SUPPLIER"
             ],
             "count": 2,
             "total_value": 28000.0
@@ -2761,8 +2782,8 @@
             "amount": 10000.0,
             "date": "2022-02-28",
             "suppliers": [
-              "PENDLE BOROUGH COUNCIL",
-              "WYRE BOROUGH COUNCIL"
+              "WYRE BOROUGH COUNCIL",
+              "PENDLE BOROUGH COUNCIL"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -2771,8 +2792,8 @@
             "amount": 10000.0,
             "date": "2022-06-23",
             "suppliers": [
-              "BACUP FAMILY CENTRE LTD",
-              "COLNE YOUTH ACTION GROUP"
+              "COLNE YOUTH ACTION GROUP",
+              "BACUP FAMILY CENTRE LTD"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -2781,8 +2802,8 @@
             "amount": 10000.0,
             "date": "2024-01-25",
             "suppliers": [
-              "LANCASTER CITY COUNCIL [17340]",
-              "COMMUNITY NETWORK & OUTREACH SERVICE CIC"
+              "COMMUNITY NETWORK & OUTREACH SERVICE CIC",
+              "LANCASTER CITY COUNCIL [17340]"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -2791,8 +2812,8 @@
             "amount": 10000.0,
             "date": "2024-05-21",
             "suppliers": [
-              "KIRKHAM TOWN COUNCIL",
-              "SPRING INTO ACTION CIC"
+              "SPRING INTO ACTION CIC",
+              "KIRKHAM TOWN COUNCIL"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -2801,8 +2822,8 @@
             "amount": 10000.0,
             "date": "2024-06-04",
             "suppliers": [
-              "BRAKE",
-              "LANCASTER CITY COUNCIL [17340]"
+              "LANCASTER CITY COUNCIL [17340]",
+              "BRAKE"
             ],
             "count": 2,
             "total_value": 20000.0
@@ -2811,8 +2832,8 @@
             "amount": 9106.75,
             "date": "2021-04-13",
             "suppliers": [
-              "Burnley Borough Council",
-              "RIBBLE VALLEY BOROUGH COUNCIL"
+              "RIBBLE VALLEY BOROUGH COUNCIL",
+              "Burnley Borough Council"
             ],
             "count": 2,
             "total_value": 18213.5
@@ -3127,11 +3148,11 @@
           "total_spend": 41663803.61,
           "transactions": 1495,
           "departments": [
-            "Police - Other Investigative Expenses",
-            "Computer Equipment (Hardware)",
-            "Other Expenses",
-            "Computer Expenditure - H&S",
-            "Mobile Phone Costs"
+            "Computer Expenditure General",
+            "Telecommunications Equipment",
+            "Computer Hardware",
+            "Road Safety Initiatives",
+            "Radio Costs"
           ]
         },
         {
@@ -3139,11 +3160,11 @@
           "total_spend": 24969245.36,
           "transactions": 890,
           "departments": [
-            "Stationery",
-            "Catering Service (External)",
-            "Police - Financial Services - VAT",
-            "Computer Equipment (Hardware)",
-            "Other Expenses"
+            "Computer Expenditure General",
+            "Computer Hardware",
+            "Police- Collaboration - CDSE",
+            "Computer Licences",
+            "Building Cleaning Contract (External)"
           ]
         },
         {
@@ -3151,10 +3172,10 @@
           "total_spend": 19707850.11,
           "transactions": 1899,
           "departments": [
-            "Late Payment Costs",
-            "Travelling Expenses General",
             "Training Expenses (External)",
-            "Petrol"
+            "Travelling Expenses General",
+            "Petrol",
+            "Late Payment Costs"
           ]
         },
         {
@@ -3162,9 +3183,9 @@
           "total_spend": 17664876.17,
           "transactions": 224,
           "departments": [
-            "Equipment General",
             "PCC Commissioning - Public Protection",
-            "Consultant Fees"
+            "Consultant Fees",
+            "Equipment General"
           ]
         },
         {
@@ -3172,11 +3193,11 @@
           "total_spend": 15882825.98,
           "transactions": 862,
           "departments": [
-            "Programmed Service Contracts",
-            "Computer Equipment (Hardware)",
-            "Site Investigations",
-            "Expenses On Sale Of Property",
-            "Computer Expenditure - H&S"
+            "Computer Expenditure General",
+            "Telecommunications Equipment",
+            "Computer Hardware",
+            "Police Reactive Maintenance - Building Services",
+            "Radio Costs"
           ]
         },
         {
@@ -3184,10 +3205,10 @@
           "total_spend": 13779136.72,
           "transactions": 54,
           "departments": [
-            "Biometric Services Gateway (BSG)",
-            "Police - Scientific Support Equipment",
-            "Prisons Recalls & Licences",
             "Police - National ANPR",
+            "Police - NMAT2\u00a0 CASWEB & MIRWEB",
+            "Computer Software",
+            "NDQIS",
             "Police - Firearms Ammunition"
           ]
         },
@@ -3196,11 +3217,11 @@
           "total_spend": 13697274.0,
           "transactions": 142,
           "departments": [
-            "Police - Qualification Training",
-            "Police - Protected Persons Service- Collaboration",
-            "Police - Other Investigative Expenses",
-            "Other Expenses",
-            "Police - Collaboration Regional Toxicology Service"
+            "Computer Licences",
+            "Equipment",
+            "Police - Other Third Party Payments",
+            "Police - Collaboration Regional Toxicology Service",
+            "Police - Collaboration Regional Courier Service"
           ]
         },
         {
@@ -3208,11 +3229,11 @@
           "total_spend": 13159777.79,
           "transactions": 980,
           "departments": [
-            "Catering Service (External)",
-            "Police - Settlements - Staff",
-            "Publications for Office Use",
-            "Police - Qualification Training",
-            "Programmed Service Contracts"
+            "Telecommunications Equipment",
+            "Computer Expenditure General",
+            "Computer Hardware",
+            "Police - Counsel Fees",
+            "Computer Licences"
           ]
         },
         {
@@ -3220,8 +3241,8 @@
           "total_spend": 13079494.0,
           "transactions": 84,
           "departments": [
-            "Police - Other Third Party Payments",
-            "Training Expenses (External)"
+            "Training Expenses (External)",
+            "Police - Other Third Party Payments"
           ]
         },
         {
@@ -3230,10 +3251,10 @@
           "transactions": 91,
           "departments": [
             "Police - Cash Fidelity Guarantee",
-            "Police - Personal Accident",
-            "Police - Employers / Public Liability",
             "Building & Contents Insurance",
-            "Engineering Insurance"
+            "Insurances General",
+            "Police - Terrorism",
+            "Transport Insurance"
           ]
         },
         {
@@ -3241,11 +3262,11 @@
           "total_spend": 11378857.53,
           "transactions": 1003,
           "departments": [
-            "Programmed Service Contracts",
-            "Recruitment - Expenses",
-            "Works Fees (External)",
-            "Police - Media Campaigns",
-            "Recruitment - Advertising"
+            "Police - Other Third Party Payments",
+            "Consolidated invoice suspense",
+            "Equipment",
+            "Agency Staff",
+            "Police - Property External Fees"
           ]
         },
         {
@@ -3253,9 +3274,9 @@
           "total_spend": 10172385.31,
           "transactions": 48,
           "departments": [
-            "Site Investigations",
             "Ext\u00a0 Adapt\u00a0 Improv\u00a0 Etc",
-            "Works Fees (External)"
+            "Works Fees (External)",
+            "Site Investigations"
           ]
         },
         {
@@ -3272,9 +3293,9 @@
           "total_spend": 8212090.94,
           "transactions": 238,
           "departments": [
-            "Consolidated invoice suspense",
             "IT Consultancy",
             "Agency Staff",
+            "Consolidated invoice suspense",
             "Consultant Fees"
           ]
         },
@@ -3292,10 +3313,10 @@
           "total_spend": 6800378.42,
           "transactions": 395,
           "departments": [
-            "Computer Maintenance",
+            "Police - Mobile Data",
+            "Telecommunications Equipment",
             "Equipment General",
-            "Police - Exchanges Phones - Call Charges",
-            "Computer Data Network",
+            "Equipment",
             "Mobile Phone Costs"
           ]
         },
@@ -3304,11 +3325,11 @@
           "total_spend": 6688630.04,
           "transactions": 61,
           "departments": [
-            "Police - VIPER",
-            "Police - PNLD",
-            "Police - Collaboration - Regional Air Support Unit",
+            "Training Expenses (External)",
+            "Computer Licences",
+            "Police - Dog Expenses",
             "Police - Other Investigative Expenses",
-            "Computer Licences"
+            "Police - Mutual assistance"
           ]
         },
         {
@@ -3316,11 +3337,11 @@
           "total_spend": 5816203.14,
           "transactions": 711,
           "departments": [
-            "Computer Maintenance",
-            "Equipment General",
+            "Training Expenses (External)",
             "Computer Licences",
+            "Forensic Environmental Monitoring",
             "Police - Other Investigative Expenses",
-            "Forensic Environmental Monitoring"
+            "Equipment General"
           ]
         },
         {
@@ -3328,11 +3349,11 @@
           "total_spend": 5791011.21,
           "transactions": 111,
           "departments": [
-            "Stationery",
-            "Delegated Grounds Maintenance",
-            "Waste Collection Charges",
             "PCC Commissioning - Community Liason",
-            "Building Cleaning Contract (External)"
+            "Cleaning & Domestic General",
+            "Works Fees (External)",
+            "Building Cleaning Contract (External)",
+            "Programmed Work"
           ]
         },
         {
@@ -3340,11 +3361,11 @@
           "total_spend": 5640954.69,
           "transactions": 27,
           "departments": [
-            "IT Consultancy",
-            "Equipment General",
+            "Computer Software",
             "Computer Licences",
-            "Computer Equipment (Hardware)",
-            "Police - Airwave"
+            "General Rents",
+            "Site Investigations",
+            "Computer Equipment (Hardware)"
           ]
         }
       ],
@@ -6367,7 +6388,7 @@
         "supplier": "TLT LLP",
         "change_month": "2023-07",
         "shift_magnitude": 3210258.83,
-        "mean_monthly": 118634.37,
+        "mean_monthly": 118634.38,
         "shift_ratio": 27.1,
         "total_spend": 3559031.25
       },
@@ -9894,9 +9915,9 @@
       "overall": 30.0
     },
     "peer_benchmark": {
-      "fraud_triangle_rank": 0,
-      "fraud_triangle_percentile": 0,
-      "total_councils": 1,
+      "fraud_triangle_rank": 2,
+      "fraud_triangle_percentile": 11.8,
+      "total_councils": 17,
       "own_score": 34.7
     }
   },
