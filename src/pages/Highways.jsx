@@ -19,6 +19,16 @@ const PAGE_SIZE = 30
 // Severity ordering for sorting
 const SEVERITY_ORDER = { high: 0, medium: 1, low: 2 }
 
+// Sort options
+const SORT_OPTIONS = [
+  { value: 'severity', label: 'Severity' },
+  { value: 'road_az', label: 'Road A-Z' },
+  { value: 'road_za', label: 'Road Z-A' },
+  { value: 'start_date', label: 'Start date' },
+  { value: 'end_date', label: 'End date' },
+  { value: 'operator', label: 'Operator' },
+]
+
 // Restriction classification
 function classifyRestriction(rw) {
   const r = (rw.restrictions || rw.management_type || '').toLowerCase()
@@ -27,6 +37,14 @@ function classifyRestriction(rw) {
   if (r.includes('lane closure') || r.includes('contraflow') || r.includes('traffic control')
     || r.includes('two-way signals') || r.includes('multi-way signals') || r.includes('priority')) return 'lane_restriction'
   return 'minor'
+}
+
+/** Capacity loss percentage based on restriction type */
+function capacityLoss(rw) {
+  const rc = classifyRestriction(rw)
+  if (rc === 'full_closure') return 100
+  if (rc === 'lane_restriction') return 50
+  return 15
 }
 
 function restrictionBadge(rw) {
@@ -41,7 +59,42 @@ function statusBadge(status) {
   return { cls: 'hw-badge-planned', label: 'Planned' }
 }
 
-/** Confidence dots display (●●●●○) */
+/** Compute human-readable duration between start and end dates */
+function computeDuration(startDate, endDate) {
+  if (!startDate || !endDate) return null
+  try {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    if (isNaN(start) || isNaN(end) || end <= start) return null
+    const diffMs = end - start
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24))
+    if (diffDays < 1) return '< 1 day'
+    if (diffDays === 1) return '1 day'
+    if (diffDays < 14) return `${diffDays} days`
+    const weeks = Math.round(diffDays / 7)
+    if (weeks < 8) return `${weeks} weeks`
+    const months = Math.round(diffDays / 30)
+    return months === 1 ? '1 month' : `${months} months`
+  } catch {
+    return null
+  }
+}
+
+/** Build page number array with ellipses */
+function buildPageNumbers(current, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const pages = []
+  pages.push(1)
+  if (current > 3) pages.push('...')
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+    pages.push(i)
+  }
+  if (current < total - 2) pages.push('...')
+  pages.push(total)
+  return pages
+}
+
+/** Confidence dots display */
 function ConfidenceDots({ value }) {
   const filled = Math.round((value || 0) * 5)
   const empty = 5 - filled
@@ -79,6 +132,13 @@ export default function Highways() {
   const [showCorridors, setShowCorridors] = useState(false)
   const [showJunctions, setShowJunctions] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [sortBy, setSortBy] = useState('severity')
+
+  // "Show all" expander toggles
+  const [showAllDeferrals, setShowAllDeferrals] = useState(false)
+  const [showAllJunctions, setShowAllJunctions] = useState(false)
+  const [showAllCoordinations, setShowAllCoordinations] = useState(false)
+  const [showAllMonitors, setShowAllMonitors] = useState(false)
 
   // Parse URL params
   const severity = searchParams.get('severity') || ''
@@ -156,17 +216,39 @@ export default function Highways() {
     )
   }
 
-  // Sort: severity (high first), then road name
-  filtered.sort((a, b) => {
-    const sa = SEVERITY_ORDER[a.severity] ?? 9
-    const sb = SEVERITY_ORDER[b.severity] ?? 9
-    if (sa !== sb) return sa - sb
-    return (a.road || '').localeCompare(b.road || '')
-  })
+  // Sort
+  const sortedFiltered = [...filtered]
+  switch (sortBy) {
+    case 'severity':
+      sortedFiltered.sort((a, b) => {
+        const sa = SEVERITY_ORDER[a.severity] ?? 9
+        const sb = SEVERITY_ORDER[b.severity] ?? 9
+        if (sa !== sb) return sa - sb
+        return (a.road || '').localeCompare(b.road || '')
+      })
+      break
+    case 'road_az':
+      sortedFiltered.sort((a, b) => (a.road || '').localeCompare(b.road || ''))
+      break
+    case 'road_za':
+      sortedFiltered.sort((a, b) => (b.road || '').localeCompare(a.road || ''))
+      break
+    case 'start_date':
+      sortedFiltered.sort((a, b) => (a.start_date || '').localeCompare(b.start_date || ''))
+      break
+    case 'end_date':
+      sortedFiltered.sort((a, b) => (a.end_date || '').localeCompare(b.end_date || ''))
+      break
+    case 'operator':
+      sortedFiltered.sort((a, b) => (a.operator || '').localeCompare(b.operator || ''))
+      break
+    default:
+      break
+  }
 
   // Pagination
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
-  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const totalPages = Math.ceil(sortedFiltered.length / PAGE_SIZE)
+  const paginated = sortedFiltered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
   const setPage = (p) => setSearchParams(prev => {
     const next = new URLSearchParams(prev)
     if (p > 1) next.set('page', String(p))
@@ -199,16 +281,39 @@ export default function Highways() {
   const coordinations = clashes.filter(c => c.s59_coordination_needed && !c.s59_breach)
   const monitors = clashes.filter(c => c.s59_monitor && !c.s59_breach && !c.s59_coordination_needed)
 
+  // Check if ANY strategic data exists
+  const hasStrategicData = immediateActions.length > 0 || matchPreps.length > 0 || eventPreps.length > 0
+
   // Operator breakdown for chart
   const operatorData = Object.entries(stats.by_operator || {})
     .slice(0, 10)
-    .map(([name, count], i) => ({ name: name.length > 20 ? name.slice(0, 18) + '…' : name, count, fill: CHART_COLORS[i % CHART_COLORS.length] }))
+    .map(([name, count], i) => ({ name: name.length > 20 ? name.slice(0, 18) + '...' : name, count, fill: CHART_COLORS[i % CHART_COLORS.length] }))
 
   // District breakdown
   const districtData = Object.entries(stats.by_district || {})
     .map(([name, data]) => ({ name, total: data.total, started: data.works_started, planned: data.planned_works }))
     .sort((a, b) => b.total - a.total)
     .slice(0, 12)
+
+  // Sorted junctions for traffic intelligence
+  const sortedJunctions = [...junctions].sort((a, b) => (b.jci || b.jci_score || 0) - (a.jci || a.jci_score || 0))
+  const displayedJunctions = showAllJunctions ? sortedJunctions : sortedJunctions.slice(0, 15)
+
+  // Corridor data sorted by severity
+  const sortedCorridors = [...corridors].sort((a, b) => (b.jci || b.severity_score || b.congestion_score || 0) - (a.jci || a.severity_score || a.congestion_score || 0))
+
+  // Displayed lists with "show all" toggles
+  const displayedDeferrals = showAllDeferrals ? deferrals : deferrals.slice(0, 8)
+  const displayedCoordinations = showAllCoordinations ? coordinations : coordinations.slice(0, 5)
+  const displayedMonitors = showAllMonitors ? monitors : monitors.slice(0, 3)
+
+  // Page numbers for pagination
+  const pageNumbers = buildPageNumbers(page, totalPages)
+
+  // Determine strategic section count and severity
+  const strategicCount = immediateActions.length + matchPreps.length + eventPreps.length
+  const strategicSeverity = immediateActions.some(a => a.priority === 'critical') ? 'critical'
+    : immediateActions.length > 0 ? 'warning' : 'info'
 
   return (
     <div className="highways-page">
@@ -222,6 +327,42 @@ export default function Highways() {
           Live roadworks data across {meta.scope || 'Lancashire'} — {formatNumber(roadworks.length)} active and planned works
         </p>
         {meta.generated && <DataFreshnessStamp lastUpdated={meta.generated} label="Roadworks data" />}
+
+        {/* Network Summary stat bar */}
+        {(junctions.length > 0 || corridors.length > 0 || breaches.length > 0) && (
+          <div className="hw-network-summary">
+            {junctions.length > 0 && (
+              <div className="hw-network-stat">
+                <span className="hw-network-stat-value" style={{ color: '#0a84ff' }}>{junctions.length}</span>
+                <span className="hw-network-stat-label">JCI Points</span>
+              </div>
+            )}
+            {corridors.length > 0 && (
+              <div className="hw-network-stat">
+                <span className="hw-network-stat-value" style={{ color: '#bf5af2' }}>{corridors.length}</span>
+                <span className="hw-network-stat-label">Corridors</span>
+              </div>
+            )}
+            {breaches.length > 0 && (
+              <div className="hw-network-stat">
+                <span className="hw-network-stat-value" style={{ color: '#ff453a' }}>{breaches.length}</span>
+                <span className="hw-network-stat-label">s59 Breaches</span>
+              </div>
+            )}
+            {coordinations.length > 0 && (
+              <div className="hw-network-stat">
+                <span className="hw-network-stat-value" style={{ color: '#ff9f0a' }}>{coordinations.length}</span>
+                <span className="hw-network-stat-label">Coordinations</span>
+              </div>
+            )}
+            {deferrals.length > 0 && (
+              <div className="hw-network-stat">
+                <span className="hw-network-stat-value" style={{ color: '#30d158' }}>{deferrals.length}</span>
+                <span className="hw-network-stat-label">Deferrals</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Stat cards */}
@@ -286,7 +427,7 @@ export default function Highways() {
             {showJunctions ? 'Hide' : 'Show'} JCI Points
           </button>
         </div>
-        <Suspense fallback={<div style={{ height: '500px', background: 'rgba(28,28,30,0.7)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8e8e93' }}>Loading map…</div>}>
+        <Suspense fallback={<div className="hw-map-fallback">Loading map...</div>}>
           <HighwaysMap
             roadworks={filtered}
             traffic={traffic}
@@ -297,27 +438,27 @@ export default function Highways() {
             filters={filters}
             showCorridors={showCorridors}
             showJunctions={showJunctions}
-            height="500px"
+            height="min(500px, 65vh)"
           />
         </Suspense>
       </div>
 
       {/* Collapsible analysis sections */}
       <div className="hw-sections">
-        {/* Strategic Recommendations — what LCC can do NOW */}
-        {immediateActions.length > 0 && (
+        {/* Strategic Recommendations — shows when ANY strategic data exists */}
+        {hasStrategicData && (
           <CollapsibleSection
             title="Strategic Recommendations"
             subtitle="Actions LCC can take now to ease congestion — based on all current data"
-            severity={immediateActions.some(a => a.priority === 'critical') ? 'critical' : 'warning'}
+            severity={strategicSeverity}
             icon={<TrendingUp size={18} />}
-            count={immediateActions.length}
+            count={strategicCount}
             countLabel="actions"
             defaultOpen
           >
             {/* Network summary */}
             {strategicSummary.total_works > 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 8, marginBottom: 16 }}>
+              <div className="hw-strategic-summary-grid">
                 {[
                   { label: 'Active Works', value: strategicSummary.active_works, color: '#ff9f0a' },
                   { label: 'Road Closures', value: strategicSummary.road_closures, color: '#ff453a' },
@@ -325,9 +466,9 @@ export default function Highways() {
                   { label: 's59 Breaches', value: strategicSummary.s59_breaches, color: strategicSummary.s59_breaches > 0 ? '#ff453a' : '#30d158' },
                   { label: 'Actionable Deferrals', value: strategicSummary.actionable_deferrals, color: '#ff9f0a' },
                 ].map(({ label, value, color }) => (
-                  <div key={label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '8px 10px', border: '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 700, color }}>{value || 0}</div>
-                    <div style={{ fontSize: '0.7rem', color: '#8e8e93' }}>{label}</div>
+                  <div key={label} className="hw-strategic-summary-cell">
+                    <div className="hw-strategic-summary-value" style={{ color }}>{value || 0}</div>
+                    <div className="hw-strategic-summary-label">{label}</div>
                   </div>
                 ))}
               </div>
@@ -337,16 +478,16 @@ export default function Highways() {
             {['critical', 'high'].map(priority => {
               const actions = immediateActions.filter(a => a.priority === priority)
               if (!actions.length) return null
-              const color = priority === 'critical' ? '#ff453a' : '#ff9f0a'
-              const label = priority === 'critical' ? '🔴 Critical — Action Required Today' : '🟠 High Priority'
+              const isCritical = priority === 'critical'
+              const label = isCritical ? 'Critical — Action Required Today' : 'High Priority'
               return (
-                <div key={priority} style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: '0.8rem', color, fontWeight: 600, marginBottom: 8 }}>{label}</div>
-                  {actions.slice(0, priority === 'critical' ? 10 : 5).map((a, i) => (
-                    <div key={i} className="hw-clash-card" style={{ borderLeft: `3px solid ${color}` }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: 4 }}>{a.action}</div>
-                      {a.detail && <div style={{ fontSize: '0.8rem', color: '#c7c7cc' }}>{a.detail}</div>}
-                      {a.legal_basis && <div style={{ fontSize: '0.7rem', color: '#636366', marginTop: 4 }}>Legal basis: {a.legal_basis}</div>}
+                <div key={priority} className="hw-priority-group">
+                  <div className={`hw-priority-heading hw-priority-heading--${priority}`}>{label}</div>
+                  {actions.slice(0, isCritical ? 10 : 5).map((a, i) => (
+                    <div key={i} className={`hw-action-card hw-action-card--${priority}`}>
+                      <div className="hw-action-title">{a.action}</div>
+                      {a.detail && <div className="hw-action-detail">{a.detail}</div>}
+                      {a.legal_basis && <div className="hw-action-legal">Legal basis: {a.legal_basis}</div>}
                     </div>
                   ))}
                 </div>
@@ -355,17 +496,17 @@ export default function Highways() {
 
             {/* Upcoming match day preparations */}
             {matchPreps.length > 0 && (
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: '0.8rem', color: '#0a84ff', fontWeight: 600, marginBottom: 8 }}>⚽ Match Day Preparations (next 14 days)</div>
+              <div className="hw-priority-group">
+                <div className="hw-priority-heading hw-priority-heading--match">Match Day Preparations (next 14 days)</div>
                 {matchPreps.map((m, i) => (
-                  <div key={i} className="hw-clash-card" style={{ borderLeft: m.nearby_works > 0 ? '3px solid #ff9f0a' : '3px solid rgba(255,255,255,0.1)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 500, fontSize: '0.9rem' }}>{m.venue} — {m.opponent}</span>
-                      <span style={{ fontSize: '0.75rem', color: '#8e8e93' }}>{m.date} ({m.days_away}d)</span>
+                  <div key={i} className={`hw-action-card ${m.nearby_works > 0 ? 'hw-action-card--match-warn' : ''}`}>
+                    <div className="hw-prep-card-header">
+                      <span className="hw-prep-card-title">{m.venue} — {m.opponent}</span>
+                      <span className="hw-prep-card-date">{m.date} ({m.days_away}d)</span>
                     </div>
                     {m.nearby_works > 0 && (
-                      <div style={{ fontSize: '0.8rem', color: '#ff9f0a', marginTop: 4 }}>
-                        ⚠ {m.nearby_works} works within 2km — issue timing directions
+                      <div className="hw-prep-card-warning">
+                        {m.nearby_works} works within 2km — issue timing directions
                       </div>
                     )}
                   </div>
@@ -375,21 +516,21 @@ export default function Highways() {
 
             {/* Upcoming event preparations */}
             {eventPreps.length > 0 && (
-              <div>
-                <div style={{ fontSize: '0.8rem', color: '#bf5af2', fontWeight: 600, marginBottom: 8 }}>🎪 Major Event Preparations</div>
+              <div className="hw-priority-group">
+                <div className="hw-priority-heading hw-priority-heading--event">Major Event Preparations</div>
                 {eventPreps.map((e, i) => (
-                  <div key={i} className="hw-clash-card" style={{ borderLeft: e.clashing_works > 0 ? '3px solid #ff9f0a' : '3px solid rgba(255,255,255,0.1)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 500, fontSize: '0.9rem' }}>{e.event}</span>
-                      <span style={{ fontSize: '0.75rem', color: '#8e8e93' }}>{e.date} ({e.days_away}d away, ~{(e.crowd || 0).toLocaleString()} crowd)</span>
+                  <div key={i} className={`hw-action-card ${e.clashing_works > 0 ? 'hw-action-card--event-warn' : ''}`}>
+                    <div className="hw-prep-card-header">
+                      <span className="hw-prep-card-title">{e.event}</span>
+                      <span className="hw-prep-card-date">{e.date} ({e.days_away}d away, ~{(e.crowd || 0).toLocaleString()} crowd)</span>
                     </div>
                     {e.clashing_works > 0 && (
-                      <div style={{ fontSize: '0.8rem', color: '#ff9f0a', marginTop: 4 }}>
-                        ⚠ {e.clashing_works} works within impact zone — {e.action}
+                      <div className="hw-prep-card-warning">
+                        {e.clashing_works} works within impact zone — {e.action}
                       </div>
                     )}
                     {e.roads_affected?.length > 0 && (
-                      <div style={{ fontSize: '0.75rem', color: '#636366', marginTop: 2 }}>
+                      <div className="hw-prep-card-roads">
                         Roads: {e.roads_affected.join(', ')}
                       </div>
                     )}
@@ -397,6 +538,47 @@ export default function Highways() {
                 ))}
               </div>
             )}
+          </CollapsibleSection>
+        )}
+
+        {/* Corridor Analysis */}
+        {corridors.length > 0 && (
+          <CollapsibleSection
+            title="Corridor Analysis"
+            subtitle="Top corridors by congestion severity and JCI scoring"
+            severity={sortedCorridors[0]?.jci >= 70 || sortedCorridors[0]?.severity_score >= 70 ? 'warning' : 'neutral'}
+            icon={<Route size={18} />}
+            count={corridors.length}
+            countLabel="corridors"
+          >
+            <div className="hw-corridor-list">
+              {sortedCorridors.slice(0, 10).map((c, i) => {
+                const score = c.jci || c.severity_score || c.congestion_score || 0
+                const jciClass = score >= 70 ? 'high' : score >= 40 ? 'medium' : 'low'
+                const barColor = score >= 70 ? '#ff453a' : score >= 40 ? '#ff9f0a' : '#30d158'
+                return (
+                  <div key={i} className="hw-corridor-card">
+                    <div className="hw-corridor-header">
+                      <span className="hw-corridor-name">{c.name || c.corridor || `Corridor ${i + 1}`}</span>
+                      <span className={`hw-corridor-jci hw-corridor-jci--${jciClass}`}>
+                        JCI {score.toFixed(0)}
+                      </span>
+                    </div>
+                    <div className="hw-corridor-meta">
+                      {c.works_count != null && <span>{c.works_count} works</span>}
+                      {c.length_km != null && <span>{c.length_km.toFixed(1)} km</span>}
+                      {c.traffic_volume != null && <span>{formatNumber(c.traffic_volume)} vehicles/day</span>}
+                      {c.capacity_reduction != null && <span>{Math.round(c.capacity_reduction * 100)}% capacity loss</span>}
+                    </div>
+                    <div className="hw-corridor-bar-wrap">
+                      <div className="hw-corridor-bar">
+                        <div className="hw-corridor-bar-fill" style={{ width: `${Math.min(score, 100)}%`, background: barColor }} />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </CollapsibleSection>
         )}
 
@@ -412,43 +594,48 @@ export default function Highways() {
             defaultOpen={breaches.length > 0}
           >
             {breaches.length > 0 && (
-              <div style={{ marginBottom: 12 }}>
-                <div style={{ fontSize: '0.8rem', color: '#ff453a', fontWeight: 600, marginBottom: 8 }}>
-                  ⚠️ s59 Breaches — {breaches.length} road sections exceed 30% capacity loss
+              <div className="hw-s59-group">
+                <div className="hw-s59-heading hw-s59-heading--breach">
+                  s59 Breaches — {breaches.length} road sections exceed 30% capacity loss
                 </div>
                 {breaches.map((clash, i) => (
                   <div key={i} className="hw-clash-card">
                     <div className="hw-clash-road">{clash.road || clash.corridor || 'Unknown road'}</div>
                     <div className="hw-clash-meta">
                       {clash.concurrent_works} concurrent works · {clash.total_capacity_reduction ? `${Math.round(clash.total_capacity_reduction * 100)}%` : '>30%'} capacity loss
-                      {clash.recommendation && <div style={{ marginTop: 4, color: '#c7c7cc' }}>{clash.recommendation}</div>}
+                      {clash.recommendation && <div className="hw-clash-recommendation">{clash.recommendation}</div>}
                     </div>
                   </div>
                 ))}
               </div>
             )}
             {coordinations.length > 0 && (
-              <div style={{ marginBottom: 12 }}>
-                <div style={{ fontSize: '0.8rem', color: '#ff9f0a', fontWeight: 600, marginBottom: 8 }}>
+              <div className="hw-s59-group">
+                <div className="hw-s59-heading hw-s59-heading--coordination">
                   Co-ordination Required — {coordinations.length} sections
                 </div>
-                {coordinations.slice(0, 5).map((clash, i) => (
+                {displayedCoordinations.map((clash, i) => (
                   <div key={i} className="hw-clash-card coordination">
                     <div className="hw-clash-road">{clash.road || clash.corridor || 'Unknown road'}</div>
                     <div className="hw-clash-meta">
                       {clash.concurrent_works} concurrent works
-                      {clash.recommendation && <div style={{ marginTop: 4, color: '#c7c7cc' }}>{clash.recommendation}</div>}
+                      {clash.recommendation && <div className="hw-clash-recommendation">{clash.recommendation}</div>}
                     </div>
                   </div>
                 ))}
+                {coordinations.length > 5 && (
+                  <button className="hw-show-all-btn" onClick={() => setShowAllCoordinations(v => !v)}>
+                    {showAllCoordinations ? 'Show fewer' : `Show all ${coordinations.length} coordinations`}
+                  </button>
+                )}
               </div>
             )}
             {monitors.length > 0 && (
-              <div>
-                <div style={{ fontSize: '0.8rem', color: '#0a84ff', fontWeight: 600, marginBottom: 8 }}>
+              <div className="hw-s59-group">
+                <div className="hw-s59-heading hw-s59-heading--monitor">
                   Monitoring — {monitors.length} developing situations
                 </div>
-                {monitors.slice(0, 3).map((clash, i) => (
+                {displayedMonitors.map((clash, i) => (
                   <div key={i} className="hw-clash-card monitor">
                     <div className="hw-clash-road">{clash.road || clash.corridor || 'Unknown road'}</div>
                     <div className="hw-clash-meta">
@@ -456,6 +643,11 @@ export default function Highways() {
                     </div>
                   </div>
                 ))}
+                {monitors.length > 3 && (
+                  <button className="hw-show-all-btn" onClick={() => setShowAllMonitors(v => !v)}>
+                    {showAllMonitors ? 'Show fewer' : `Show all ${monitors.length} monitors`}
+                  </button>
+                )}
               </div>
             )}
           </CollapsibleSection>
@@ -471,24 +663,24 @@ export default function Highways() {
             count={deferrals.length}
             countLabel="recommendations"
           >
-            {deferrals.slice(0, 8).map((def, i) => (
+            {displayedDeferrals.map((def, i) => (
               <div key={i} className="hw-deferral-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div className="hw-deferral-header">
                   <div className="hw-deferral-road">{def.road || 'Unknown road'}</div>
                   {def.confidence != null && <ConfidenceDots value={def.confidence} />}
                 </div>
                 <div className="hw-deferral-reason">{def.reason || def.recommendation || ''}</div>
                 {def.confidence_flags && def.confidence_flags.length > 0 && (
-                  <div style={{ fontSize: '0.7rem', color: '#636366' }}>
+                  <div className="hw-deferral-flags">
                     Flags: {def.confidence_flags.join(', ')}
                   </div>
                 )}
               </div>
             ))}
             {deferrals.length > 8 && (
-              <div style={{ fontSize: '0.85rem', color: '#8e8e93', textAlign: 'center', marginTop: 8 }}>
-                + {deferrals.length - 8} more recommendations
-              </div>
+              <button className="hw-show-all-btn" onClick={() => setShowAllDeferrals(v => !v)}>
+                {showAllDeferrals ? 'Show fewer' : `Show all ${deferrals.length} recommendations`}
+              </button>
             )}
           </CollapsibleSection>
         )}
@@ -503,7 +695,7 @@ export default function Highways() {
             count={junctions.length}
             countLabel="junctions"
           >
-            <div style={{ overflowX: 'auto' }}>
+            <div className="hw-table-overflow">
               <table className="hw-legal-table">
                 <thead>
                   <tr>
@@ -515,32 +707,35 @@ export default function Highways() {
                   </tr>
                 </thead>
                 <tbody>
-                  {junctions
-                    .sort((a, b) => (b.jci || b.jci_score || 0) - (a.jci || a.jci_score || 0))
-                    .slice(0, 15)
-                    .map((jn, i) => {
-                      const score = jn.jci || jn.jci_score || 0
-                      const scoreColor = score >= 80 ? '#ff453a' : score >= 60 ? '#ff6d3b' : score >= 40 ? '#ff9f0a' : '#30d158'
-                      return (
-                        <tr key={i}>
-                          <td style={{ fontWeight: 500 }}>{jn.name || `Junction ${i + 1}`}</td>
-                          <td><span style={{ color: scoreColor, fontWeight: 700 }}>{score.toFixed(0)}</span>/100</td>
-                          <td>{jn.traffic_volume ? formatNumber(jn.traffic_volume) : '-'}</td>
-                          <td>{jn.works_count || 0}</td>
-                          <td>
-                            <span style={{
-                              color: jn.data_quality === 'high' ? '#30d158' : jn.data_quality === 'medium' ? '#ff9f0a' : '#ff453a',
-                              fontSize: '0.8rem'
-                            }}>
-                              {jn.data_quality || 'unknown'}
-                            </span>
-                          </td>
-                        </tr>
-                      )
-                    })}
+                  {displayedJunctions.map((jn, i) => {
+                    const score = jn.jci || jn.jci_score || 0
+                    const qualityClass = jn.data_quality === 'high' ? 'high' : jn.data_quality === 'medium' ? 'medium' : 'low'
+                    return (
+                      <tr key={i}>
+                        <td className="hw-td-bold">{jn.name || `Junction ${i + 1}`}</td>
+                        <td>
+                          <span className="hw-jci-score" style={{ color: score >= 80 ? '#ff453a' : score >= 60 ? '#ff6d3b' : score >= 40 ? '#ff9f0a' : '#30d158' }}>
+                            {score.toFixed(0)}
+                          </span>/100
+                        </td>
+                        <td>{jn.traffic_volume ? formatNumber(jn.traffic_volume) : '-'}</td>
+                        <td>{jn.works_count || 0}</td>
+                        <td>
+                          <span className={`hw-data-quality hw-data-quality--${qualityClass}`}>
+                            {jn.data_quality || 'unknown'}
+                          </span>
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
+            {junctions.length > 15 && (
+              <button className="hw-show-all-btn" onClick={() => setShowAllJunctions(v => !v)}>
+                {showAllJunctions ? 'Show top 15 only' : `Show all ${junctions.length} junctions`}
+              </button>
+            )}
           </CollapsibleSection>
         )}
 
@@ -554,7 +749,7 @@ export default function Highways() {
             count={districtData.length}
             countLabel="districts"
           >
-            <div style={{ overflowX: 'auto' }}>
+            <div className="hw-table-overflow">
               <table className="hw-legal-table">
                 <thead>
                   <tr>
@@ -570,16 +765,16 @@ export default function Highways() {
                     const pct = roadworks.length ? ((d.total / roadworks.length) * 100).toFixed(1) : 0
                     return (
                       <tr key={i} style={{ cursor: 'pointer' }} onClick={() => setFilter('district', d.name)}>
-                        <td style={{ fontWeight: 500 }}>{d.name}</td>
+                        <td className="hw-td-bold">{d.name}</td>
                         <td>{formatNumber(d.total)}</td>
                         <td>{formatNumber(d.started)}</td>
                         <td>{formatNumber(d.planned)}</td>
                         <td>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <div style={{ width: 60, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
-                              <div style={{ width: `${pct}%`, height: '100%', background: CHART_COLORS[i % CHART_COLORS.length], borderRadius: 3 }} />
+                          <div className="hw-district-share">
+                            <div className="hw-district-bar">
+                              <div className="hw-district-bar-fill" style={{ width: `${pct}%`, background: CHART_COLORS[i % CHART_COLORS.length] }} />
                             </div>
-                            <span style={{ fontSize: '0.8rem' }}>{pct}%</span>
+                            <span className="hw-district-pct">{pct}%</span>
                           </div>
                         </td>
                       </tr>
@@ -602,8 +797,8 @@ export default function Highways() {
             countLabel="statutes"
           >
             {legal.legislation?.map((law, i) => (
-              <div key={i} style={{ marginBottom: 16 }}>
-                <div style={{ fontWeight: 600, marginBottom: 6, fontSize: '0.95rem' }}>{law.title}</div>
+              <div key={i} className="hw-law-block">
+                <div className="hw-law-title">{law.title}</div>
                 <table className="hw-legal-table">
                   <thead>
                     <tr>
@@ -615,7 +810,7 @@ export default function Highways() {
                   <tbody>
                     {law.sections.map((s, j) => (
                       <tr key={j}>
-                        <td style={{ fontWeight: 500, color: '#0a84ff' }}>{s.section}</td>
+                        <td className="hw-td-blue">{s.section}</td>
                         <td>{s.title}</td>
                         <td>{s.desc}</td>
                       </tr>
@@ -627,18 +822,13 @@ export default function Highways() {
 
             {/* Key thresholds */}
             {legal.key_thresholds && (
-              <div style={{ marginTop: 16 }}>
-                <div style={{ fontWeight: 600, marginBottom: 8, fontSize: '0.95rem' }}>Key Thresholds</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 8 }}>
+              <div>
+                <div className="hw-thresholds-heading">Key Thresholds</div>
+                <div className="hw-thresholds-grid">
                   {Object.entries(legal.key_thresholds).map(([key, val]) => (
-                    <div key={key} style={{
-                      background: 'rgba(255,255,255,0.03)',
-                      borderRadius: 8,
-                      padding: '10px 14px',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                    }}>
-                      <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: 2 }}>{val.label}</div>
-                      <div style={{ fontSize: '0.8rem', color: '#8e8e93' }}>{val.desc}</div>
+                    <div key={key} className="hw-threshold-card">
+                      <div className="hw-threshold-label">{val.label}</div>
+                      <div className="hw-threshold-desc">{val.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -669,16 +859,16 @@ export default function Highways() {
               <tbody>
                 {Object.entries(dataFreshness).map(([key, src]) => (
                   <tr key={key}>
-                    <td style={{ fontWeight: 500 }}>{src.source || key}</td>
+                    <td className="hw-td-bold">{src.source || key}</td>
                     <td>{src.records != null ? formatNumber(src.records) : '-'}</td>
                     <td style={{ fontSize: '0.8rem', color: '#8e8e93' }}>{src.update_cycle || '-'}</td>
                     <td>
                       {src.stale === true ? (
-                        <span style={{ color: '#ff453a', fontSize: '0.8rem' }}>⚠ Stale ({src.stale_hours ? `${Math.round(src.stale_hours)}h` : ''})</span>
+                        <span className="hw-freshness-stale">Stale ({src.stale_hours ? `${Math.round(src.stale_hours)}h` : ''})</span>
                       ) : src.stale === false ? (
-                        <span style={{ color: '#30d158', fontSize: '0.8rem' }}>✓ Fresh</span>
+                        <span className="hw-freshness-fresh">Fresh</span>
                       ) : (
-                        <span style={{ color: '#8e8e93', fontSize: '0.8rem' }}>—</span>
+                        <span className="hw-freshness-unknown">—</span>
                       )}
                     </td>
                   </tr>
@@ -695,19 +885,31 @@ export default function Highways() {
           <div>
             <h2>Roadworks</h2>
             <span className="hw-list-count">
-              {filtered.length === roadworks.length
+              {sortedFiltered.length === roadworks.length
                 ? `${formatNumber(roadworks.length)} works`
-                : `${formatNumber(filtered.length)} of ${formatNumber(roadworks.length)} works`
+                : `${formatNumber(sortedFiltered.length)} of ${formatNumber(roadworks.length)} works`
               }
             </span>
           </div>
-          <input
-            type="text"
-            className="hw-search-input"
-            placeholder="Search roads, operators, wards…"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
+          <div className="hw-list-controls">
+            <input
+              type="text"
+              className="hw-search-input"
+              placeholder="Search roads, operators, wards…"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+            <select
+              className="hw-sort-select"
+              value={sortBy}
+              onChange={e => setSortBy(e.target.value)}
+              aria-label="Sort roadworks"
+            >
+              {SORT_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>Sort: {opt.label}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="hw-card-list">
@@ -715,6 +917,9 @@ export default function Highways() {
             const rb = restrictionBadge(rw)
             const sb = statusBadge(rw.status)
             const sevColor = rw.severity === 'high' ? '#ff453a' : rw.severity === 'medium' ? '#ff9f0a' : '#8e8e93'
+            const cap = capacityLoss(rw)
+            const capClass = cap >= 80 ? 'high' : cap >= 40 ? 'medium' : 'low'
+            const duration = computeDuration(rw.start_date, rw.end_date)
             return (
               <div
                 key={rw.id}
@@ -730,6 +935,18 @@ export default function Highways() {
                     {rw.district && <span>{rw.district}</span>}
                     {rw.start_date && <span>From {formatDate(rw.start_date)}</span>}
                     {rw.end_date && <span>To {formatDate(rw.end_date)}</span>}
+                    {duration && (
+                      <span className="hw-card-duration">
+                        <Clock size={10} /> {duration}
+                      </span>
+                    )}
+                  </div>
+                  {/* Capacity bar */}
+                  <div className="hw-capacity-bar-wrap">
+                    <div className="hw-capacity-bar">
+                      <div className={`hw-capacity-bar-fill hw-capacity-bar-fill--${capClass}`} style={{ width: `${cap}%` }} />
+                    </div>
+                    <span className="hw-capacity-label">{cap}% capacity loss</span>
                   </div>
                 </div>
                 <div className="hw-card-badges">
@@ -742,23 +959,42 @@ export default function Highways() {
           })}
         </div>
 
-        {filtered.length === 0 && (
-          <div className="hw-empty">
+        {/* Styled empty state */}
+        {sortedFiltered.length === 0 && (
+          <div className="hw-empty hw-empty--styled">
             <div className="hw-empty-icon">🔍</div>
-            <h3>No roadworks found</h3>
-            <p>Try adjusting your filters or search term.</p>
+            <h3>No roadworks match your filters</h3>
+            <p>
+              {searchTerm
+                ? `No results for "${searchTerm}". Try a different search term or adjust your filters.`
+                : 'Try removing some filters to see more results.'
+              }
+            </p>
+            {(severity || status || district || operator || searchTerm) && (
+              <button className="hw-clear-btn" onClick={clearFilters}>Clear all filters</button>
+            )}
           </div>
         )}
 
-        {/* Pagination */}
+        {/* Pagination with page numbers */}
         {totalPages > 1 && (
           <div className="hw-pagination">
             <button disabled={page <= 1} onClick={() => setPage(page - 1)}>
-              <ChevronLeft size={16} style={{ verticalAlign: 'middle' }} /> Previous
+              <ChevronLeft size={16} style={{ verticalAlign: 'middle' }} /> Prev
             </button>
-            <span className="hw-pagination-info">
-              Page {page} of {totalPages}
-            </span>
+            {pageNumbers.map((p, i) =>
+              p === '...' ? (
+                <span key={`e${i}`} className="hw-page-ellipsis">...</span>
+              ) : (
+                <button
+                  key={p}
+                  className={`hw-page-btn ${p === page ? 'active' : ''}`}
+                  onClick={() => setPage(p)}
+                >
+                  {p}
+                </button>
+              )
+            )}
             <button disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
               Next <ChevronRight size={16} style={{ verticalAlign: 'middle' }} />
             </button>

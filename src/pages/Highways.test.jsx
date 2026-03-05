@@ -109,26 +109,38 @@ const mockRoadworksData = {
 }
 
 const mockTrafficData = {
-  junctions: [
-    { name: 'M65 J10 / Cavalry Way', jci_score: 82, traffic_volume: 42000, works_count: 3, lat: 53.78, lng: -2.25, data_quality: 'high' },
-    { name: 'A682 / A646 Todmorden Road', jci_score: 55, traffic_volume: 15000, works_count: 2, lat: 53.77, lng: -2.21, data_quality: 'medium' },
-    { name: 'B6238 / Rossendale Rd', jci_score: 25, traffic_volume: 5000, works_count: 1, lat: 53.79, lng: -2.23, data_quality: 'estimated' },
-  ],
-  corridors: [
-    { name: 'M65 Corridor (J8-J12)', polyline: [[-2.3, 53.78], [-2.2, 53.78]], avg_jci: 72 },
-  ],
-  s59_clashes: [
-    { road: 'A682 Todmorden Road', works_count: 3, total_capacity_reduction: 0.85, s59_breach: true, recommendation: 'Emergency co-ordination required. Total capacity loss exceeds NRSWA s59 threshold.' },
-    { road: 'B6238 Padiham Road', works_count: 2, total_capacity_reduction: 0.45, s59_coordination: true, s59_breach: false, recommendation: 'Schedule co-ordination meeting with promoters.' },
-    { road: 'Manchester Road', works_count: 2, total_capacity_reduction: 0.5, s59_monitor: true, s59_breach: false, s59_coordination: false, recommendation: 'Monitor — developing situation.' },
-  ],
-  deferral_recommendations: [
-    { road: 'Colne Road', reason: 'School term overlap with nearby primary school', confidence: 0.85, confidence_flags: [] },
-    { road: 'Manchester Road', reason: 'Corridor clash with major LUF project', confidence: 0.6, confidence_flags: ['estimated_traffic_volume', 'auto_corridor_no_verified_data'] },
-  ],
-  data_freshness: {
-    dft_count_points: { source: 'DfT Road Traffic Statistics API', records: 1011, update_cycle: 'Annual (Oct/Nov)', stale: false },
-    roadworks: { source: 'LCC MARIO ArcGIS', records: 1722, update_cycle: '2-hour ETL', stale: false, stale_hours: 1.5 },
+  congestion_model: {
+    junctions: [
+      { name: 'M65 J10 / Cavalry Way', jci_score: 82, traffic_volume: 42000, works_count: 3, lat: 53.78, lng: -2.25, data_quality: 'high' },
+      { name: 'A682 / A646 Todmorden Road', jci_score: 55, traffic_volume: 15000, works_count: 2, lat: 53.77, lng: -2.21, data_quality: 'medium' },
+      { name: 'B6238 / Rossendale Rd', jci_score: 25, traffic_volume: 5000, works_count: 1, lat: 53.79, lng: -2.23, data_quality: 'estimated' },
+    ],
+    corridors: [
+      { name: 'M65 Corridor (J8-J12)', polyline: [[-2.3, 53.78], [-2.2, 53.78]], jci: 72, works_count: 4, traffic_volume: 38000, capacity_reduction: 0.35 },
+    ],
+  },
+  operational_intelligence: {
+    corridor_clashes: [
+      { road: 'A682 Todmorden Road', concurrent_works: 3, total_capacity_reduction: 0.85, s59_breach: true, recommendation: 'Emergency co-ordination required. Total capacity loss exceeds NRSWA s59 threshold.' },
+      { road: 'B6238 Padiham Road', concurrent_works: 2, total_capacity_reduction: 0.45, s59_coordination_needed: true, s59_breach: false, recommendation: 'Schedule co-ordination meeting with promoters.' },
+      { road: 'Manchester Road', concurrent_works: 2, total_capacity_reduction: 0.5, s59_monitor: true, s59_breach: false, s59_coordination_needed: false, recommendation: 'Monitor — developing situation.' },
+    ],
+    deferral_recommendations: [
+      { road: 'Colne Road', reason: 'School term overlap with nearby primary school', confidence: 0.85, confidence_flags: [] },
+      { road: 'Manchester Road', reason: 'Corridor clash with major LUF project', confidence: 0.6, confidence_flags: ['estimated_traffic_volume', 'auto_corridor_no_verified_data'] },
+    ],
+  },
+  meta: {
+    data_freshness: {
+      dft_count_points: { source: 'DfT Road Traffic Statistics API', records: 1011, update_cycle: 'Annual (Oct/Nov)', stale: false },
+      roadworks: { source: 'LCC MARIO ArcGIS', records: 1722, update_cycle: '2-hour ETL', stale: false, stale_hours: 1.5 },
+    },
+  },
+  strategic_recommendations: {
+    immediate_actions: [],
+    match_preparations: [],
+    event_preparations: [],
+    summary: {},
   },
 }
 
@@ -256,12 +268,18 @@ describe('Highways', () => {
 
   it('renders corridor toggle button', () => {
     renderComponent()
-    expect(screen.getByText(/Corridors/)).toBeInTheDocument()
+    const toggles = screen.getAllByText(/Corridors/)
+    // Should have both: network summary stat + toggle button
+    expect(toggles.length).toBeGreaterThanOrEqual(1)
+    // The toggle button specifically
+    const toggleBtn = screen.getByText(/Show Corridors|Hide Corridors/)
+    expect(toggleBtn).toBeInTheDocument()
   })
 
   it('renders JCI toggle button', () => {
     renderComponent()
-    expect(screen.getByText(/JCI Points/)).toBeInTheDocument()
+    const toggleBtn = screen.getByText(/Show JCI Points|Hide JCI Points/)
+    expect(toggleBtn).toBeInTheDocument()
   })
 
   // --- Filters ---
@@ -392,13 +410,17 @@ describe('Highways', () => {
 
   it('shows breach count', () => {
     renderComponent()
-    expect(screen.getByText(/s59 Breaches/)).toBeInTheDocument()
+    // "s59 Breaches" appears in both network summary and clash section heading
+    const breachTexts = screen.getAllByText(/s59 Breaches/)
+    expect(breachTexts.length).toBeGreaterThanOrEqual(1)
   })
 
   it('renders breach road name', () => {
     renderComponent()
-    // The breach card should show the road name
-    const clashSection = screen.getByText(/s59 Breaches/).closest('div')
+    // The breach card should show the road name within the clashes section
+    const breachTexts = screen.getAllByText(/s59 Breaches/)
+    expect(breachTexts.length).toBeGreaterThanOrEqual(1)
+    const clashSection = breachTexts[breachTexts.length - 1].closest('div')
     expect(clashSection).toBeInTheDocument()
   })
 
@@ -514,7 +536,7 @@ describe('Highways', () => {
     renderComponent()
     const searchInput = screen.getByPlaceholderText('Search roads, operators, wards…')
     fireEvent.change(searchInput, { target: { value: 'zzz_nonexistent_road_zzz' } })
-    expect(screen.getByText('No roadworks found')).toBeInTheDocument()
+    expect(screen.getByText('No roadworks match your filters')).toBeInTheDocument()
   })
 
   // --- Edge cases ---
