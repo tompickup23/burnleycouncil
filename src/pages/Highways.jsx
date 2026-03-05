@@ -181,32 +181,7 @@ export default function Highways() {
     setSearchTerm('')
   }, [setSearchParams])
 
-  // Guard: feature not enabled
-  if (!dataSources.highways) {
-    return (
-      <div className="highways-page">
-        <div className="hw-empty">
-          <div className="hw-empty-icon">🚧</div>
-          <h2>Highways data not available</h2>
-          <p>Highways monitoring is not enabled for {config.council_name || 'this council'}.</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (loading) return <LoadingState message="Loading highways data..." />
-  if (error) {
-    return (
-      <div className="highways-page">
-        <div className="hw-empty">
-          <div className="hw-empty-icon">⚠️</div>
-          <h2>Failed to load highways data</h2>
-          <p>Please try refreshing the page.</p>
-        </div>
-      </div>
-    )
-  }
-
+  // Destructure data (safe even when null/loading)
   const [roadworksData, trafficData, boundariesData, legalData] = allData || [null, null, null, null]
   const roadworks = roadworksData?.roadworks || []
   const stats = roadworksData?.stats || {}
@@ -318,6 +293,32 @@ export default function Highways() {
     setTimelineMode('date')
     setSelectedDay(prev => Math.max(0, Math.min(dateRange.totalDays, prev + delta)))
   }, [dateRange.totalDays])
+
+  // Guard: feature not enabled
+  if (!dataSources.highways) {
+    return (
+      <div className="highways-page">
+        <div className="hw-empty">
+          <div className="hw-empty-icon">🚧</div>
+          <h2>Highways data not available</h2>
+          <p>Highways monitoring is not enabled for {config.council_name || 'this council'}.</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (loading) return <LoadingState message="Loading highways data..." />
+  if (error) {
+    return (
+      <div className="highways-page">
+        <div className="hw-empty">
+          <div className="hw-empty-icon">⚠️</div>
+          <h2>Failed to load highways data</h2>
+          <p>Please try refreshing the page.</p>
+        </div>
+      </div>
+    )
+  }
 
   // Filter options
   const districts = [...new Set(roadworks.map(r => r.district).filter(Boolean))].sort()
