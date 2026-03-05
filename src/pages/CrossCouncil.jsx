@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2, Home, MapPin } from 'lucide-react'
+import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2, Home, MapPin, Construction } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
 import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
@@ -302,6 +302,24 @@ function CrossCouncil() {
       per1000: c.population > 0 ? Math.round(((c.hmo.total_licensed || 0) / c.population) * 10000) / 10 : 0,
     }))
     .sort((a, b) => b.licensed - a.licensed || b.totalCombined - a.totalCombined),
+    [councils, councilName]
+  )
+
+  // Highways comparison — only county/unitary highway authorities have data
+  const highwaysData = useMemo(() => councils
+    .filter(c => c.highways && (c.highways.active_roadworks > 0 || c.highways.total_roadworks > 0))
+    .map(c => ({
+      name: shortenCouncilName(c.council_name),
+      fullName: c.council_name,
+      active: c.highways.active_roadworks || 0,
+      closures: c.highways.road_closures || 0,
+      laneRestrictions: c.highways.lane_restrictions || 0,
+      total: c.highways.total_roadworks || 0,
+      avgJci: c.highways.avg_jci || 0,
+      s59Breaches: c.highways.s59_breaches || 0,
+      isCurrent: c.council_name === councilName,
+    }))
+    .sort((a, b) => b.active - a.active),
     [councils, councilName]
   )
 
@@ -902,6 +920,73 @@ function CrossCouncil() {
             {hmoData.filter(d => d.coverage === 'planning_only').length > 0 && (
               <> {hmoData.filter(d => d.coverage === 'planning_only').map(d => d.fullName).join(', ')} — planning data only (no public register).</>
             )}
+          </p>
+        </CollapsibleSection>
+      )}
+
+      {/* Highways & Roadworks — county/unitary highway authorities only */}
+      {highwaysData.length >= 2 && (
+        <CollapsibleSection
+          title="Highways & Roadworks"
+          icon={<Construction size={18} />}
+          defaultOpen={false}
+        >
+          <p className="section-intro">
+            Roadworks activity across Lancashire&apos;s highway authorities.
+            Only county and unitary councils manage roads — districts do not have highways powers.
+            {highwaysData.length < councils.length && ` Showing ${highwaysData.length} highway authorities.`}
+          </p>
+
+          {/* Active roadworks chart */}
+          <h3 style={{ fontSize: '0.85rem', color: '#8e8e93', marginBottom: 8 }}>Active Roadworks</h3>
+          <div className="chart-container" role="img" aria-label="Bar chart comparing active roadworks">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={highwaysData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} />
+                <Tooltip
+                  formatter={(v, name) => {
+                    if (name === 'closures') return [v.toLocaleString(), 'Road closures']
+                    if (name === 'laneRestrictions') return [v.toLocaleString(), 'Lane restrictions']
+                    return [v.toLocaleString(), name]
+                  }}
+                  contentStyle={TOOLTIP_STYLE}
+                />
+                <Bar dataKey="closures" name="closures" stackId="hw" radius={[0, 0, 0, 0]}>
+                  {highwaysData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#ff453a' : '#8b2020'} />
+                  ))}
+                </Bar>
+                <Bar dataKey="laneRestrictions" name="laneRestrictions" stackId="hw" radius={[4, 4, 0, 0]}>
+                  {highwaysData.map((entry, i) => (
+                    <Cell key={i} fill={entry.isCurrent ? '#ff9f0a' : '#48484a'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Stats grid */}
+          <div className="stats-grid" style={{ marginTop: 16 }}>
+            {highwaysData.map(d => (
+              <div key={d.name} className={`stat-card${d.isCurrent ? ' current' : ''}`}>
+                <div className="stat-card-header">{d.fullName}</div>
+                <div className="stat-value">{d.active.toLocaleString()}</div>
+                <div className="stat-label">active roadworks</div>
+                <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 6 }}>
+                  {d.closures} closures · {d.laneRestrictions} lane restrictions
+                  {d.s59Breaches > 0 && ` · ${d.s59Breaches} s59 breaches`}
+                  {d.avgJci > 0 && ` · Avg JCI: ${d.avgJci.toFixed(0)}`}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Source: LCC MARIO ArcGIS (county), council highways data (unitaries).
+            Only county and unitary councils are highway authorities under the Highways Act 1980.
+            District councils do not manage roads.
           </p>
         </CollapsibleSection>
       )}

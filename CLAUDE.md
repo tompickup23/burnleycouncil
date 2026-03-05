@@ -25,6 +25,7 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Constituencies:** `constituency_etl.py` → `constituencies.json` — GE2024 results, MP expenses (IPSA), voting records (TWFY), claimant count, activity topics. `ward_constituency_map.json` links wards to constituencies
 - **Analytics:** `src/utils/analytics.js` — CPI-H deflation, z-scores, Gini coefficient, Benford's 2nd digit, reserves adequacy, peer benchmarking, integrity-weighted HHI, Benford→election signal (16 functions, 44 tests)
 - **LGR Demographic Fiscal Intelligence:** `generate_lgr_enhanced.py` → `lgr_enhanced.json` (shared) + `demographic_fiscal.json` (per council). Fiscal resilience scoring, SEND exposure by ethnic composition, asylum cost projections, white flight analysis, Bradford/Oldham comparison. 6 LGR sub-components + 11 model functions. Flows through LGR Tracker, DOGE, Demographics, MyArea, CrossCouncil, Home, PropertyDetail.
+- **Highways:** `roadworks_etl.py` + `traffic_etl.py` → `roadworks.json` + `traffic.json`. LCC MARIO ArcGIS roadworks, DfT traffic counts, JCI model, deferral recommendations, s59 clash detection. `HighwaysMap.jsx` (direct Leaflet) + `Highways.jsx` page with legal framework from `highways_legal.json`
 - **Councillor Profiling:** `councillor_research_etl.py` → `councillor_profiles.json` — DOB, occupation, biography, structured employment/land/securities, committee memberships, electoral history (NOT YET RUN)
 - **FOI Generation:** `foi_generator.py` — auto-generate FOI requests from DOGE anomalies + integrity findings (NOT YET RUN)
 - **Auth:** Firebase Auth (free tier, 50K MAUs) + Firestore RBAC. Dual-mode: Firebase in production (`VITE_FIREBASE_API_KEY` set), PasswordGate for local dev. 4 roles: unassigned, viewer, strategist, admin. Per-council/page/constituency permissions.
@@ -64,9 +65,9 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 33 lazy-loaded routes, 36 routes total |
-| `src/pages/` | 31 page components + 43 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, etc.) |
-| `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
+| `src/App.jsx` | Router with 34 lazy-loaded routes, 37 routes total |
+| `src/pages/` | 32 page components + 44 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, etc.) |
+| `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, HighwaysMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
 | `src/firebase.js` | Firebase app init (only when VITE_FIREBASE_API_KEY set) |
@@ -88,7 +89,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 2,102 tests across 43 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,200 tests across 45 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -135,6 +136,14 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/build_council.sh` | Shell wrapper for building a specific council |
 | `scripts/setup_uptimerobot.sh` | Create UptimeRobot monitors for all council sites (requires API key) |
 | `scripts/vps_backup.sh` | Weekly rsync backup of vps-main + vps-news to local machine |
+
+### Highways ETL Scripts (on tompickup.co.uk repo: `/Users/tompickup/tompickup.co.uk/scripts/`)
+| File | Purpose |
+|------|---------|
+| `highways_config.json` | Config-driven parameters for all 12 Lancashire districts (bbox, sport venues, schools, corridors, junctions) |
+| `roadworks_etl.py` | Lancashire-wide roadworks from LCC MARIO ArcGIS → roadworks.json (1,722 works, 12 districts, dedup, severity sort) |
+| `traffic_etl.py` | Traffic intelligence: DfT AADF, OSM signals, JCI model, deferral recommendations, s59 clash detection → traffic.json |
+| `lcc_highways_etl.py` | LCC road status, road works lines, planning applications from ArcGIS → lcc_highways.json |
 
 ### News Lancashire Scripts (on vps-news: `/home/ubuntu/newslancashire/scripts/`)
 | File | Purpose |
@@ -186,6 +195,15 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `property_assets.json` | property_assets_etl.py | Lean property listing (1,200 assets, 28 core fields each) — LCC only |
 | `property_assets_detail.json` | property_assets_etl.py | Full enriched property data (EPC, deprivation, spend, disposal, co-location) — LCC only |
 | `demographic_fiscal.json` | generate_lgr_enhanced.py | Per-council fiscal resilience score, service demand, SEND risk, asylum impact, threats, pressure zones |
+| `roadworks.json` | roadworks_etl.py | Lancashire-wide roadworks (used by AI DOGE Highways page when highways:true in config) |
+| `traffic.json` | traffic_etl.py | Traffic intelligence: JCI model, deferrals, s59 clashes (used by AI DOGE Highways page) |
+
+### Highways Data (on tompickup.co.uk: `public/data/`)
+| File | Generated By | Notes |
+|------|-------------|-------|
+| `roadworks.json` | roadworks_etl.py | Lancashire-wide roadworks: 1,722 works, 12 districts, dedup, per-district stats (1.5MB) |
+| `traffic.json` | traffic_etl.py | Traffic intelligence: 1,011 DfT count points, 2,001 junctions, JCI model, deferrals, s59 clashes, heatmap (1.5MB) |
+| `lcc_highways.json` | lcc_highways_etl.py | Road status + planning apps from LCC ArcGIS |
 
 ### Shared Data (`burnley-council/data/shared/`)
 | File | Purpose |
@@ -198,6 +216,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `polling.json` | National polling aggregation (latest polls, weighted averages) |
 | `integrity_cross_council.json` | Cross-council councillor integrity comparison (conflict type classification) |
 | `lgr_enhanced.json` | generate_lgr_enhanced.py | LGR demographic fiscal intelligence: per-model authority profiles, SEND exposure, asylum impact, timeline analysis, property division (~150KB) |
+| `highways_legal.json` | Manual | NRSWA 1991, TMA 2004, Highways Act 1980, SI 2025/1074, CoP 6th Ed — restriction classifications, s59 thresholds |
 
 ## Critical Rules
 
@@ -354,5 +373,6 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **LCC Property Estate** (done, 28 Feb): 1,200 LCC-owned assets. PropertyPortfolio + PropertyDetail pages (strategist-only), WardMap property overlay, 6-page cross-system integration (Strategy/MyArea/DOGE/LGR/Elections/Budgets), property_assets_etl.py with CED point-in-polygon mapping, multi-tier ownership + Red Book valuation + sellability scoring. 73 new tests.
 - **Planning + HMO Data** (done, 2 Mar): PlanIt planning applications for 12 councils (14,000+ apps), HMO register data for 7 councils (830 licensed, 17,260 bed spaces). planning_etl.py + hmo_etl.py (multi-source: ASP.NET, XLSX, PDF, planning extraction). MyArea/CrossCouncil integration. 1,955 tests (39 files).
 - **LGR Demographic Fiscal Intelligence** (done, 2 Mar): Comprehensive demographic fiscal risk layer across entire platform. generate_lgr_enhanced.py ETL → lgr_enhanced.json + 15× demographic_fiscal.json. 11 new lgrModel.js functions. 6 new LGR sub-components (DemographicFiscalRisk, TimelineChaos, BoundaryMap, DeprivationMap, PropertyDivision, CCAImpact). Integrated into LGRTracker (6 new sections), DOGE (fiscal risk section), Demographics (fiscal outlook tab), MyArea (ward pressure), CrossCouncil (fiscal comparison), Home (fiscal banner), PropertyDetail (LGR tab). useData null URL safety fix. 2,102 tests (43 files).
+- **Highways Feature** (done, 5 Mar): Lancashire-wide roadworks map + analytics system. Phases A-C: config-driven ETL refactoring (highways_config.json, 12 districts), roadworks_etl.py Lancashire-wide (1,722 works), traffic_etl.py (1,011 DfT count points, 2,001 junctions, JCI model with data_quality + confidence scoring + data freshness + s59 monitoring tier), lcc_highways_etl.py Lancashire-wide bbox. Visual: Leaflet.markercluster (severity-coloured), capacity bar popups, district filter + flyTo, speed controls, keyboard shortcuts, loading skeleton, mobile responsive. Phase D: AI DOGE React integration — HighwaysMap.jsx (direct Leaflet, severity markers, ward boundaries, JCI junctions, corridor overlays), Highways.jsx page (hero→map→analytics, s59 clashes, deferrals, traffic intelligence, legal framework from highways_legal.json), 51 new tests. 2,200 tests (45 files).
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

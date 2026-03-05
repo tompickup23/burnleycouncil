@@ -4,7 +4,7 @@ import {
   TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText,
   Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion,
   Calendar, Repeat, GitCompareArrows, Zap, Scale, BarChart3, Target,
-  ArrowDown, HelpCircle, ExternalLink, MapPin, Landmark
+  ArrowDown, HelpCircle, ExternalLink, MapPin, Landmark, Construction
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -756,6 +756,31 @@ function Home() {
         </section>
       )}
 
+      {/* ===== HIGHWAYS — Roadworks overview ===== */}
+      {dataSources.highways && (
+        <section className="highways-preview-section">
+          <h2><Construction size={24} /> Highways &amp; Roadworks</h2>
+          <p className="section-intro">
+            Live roadworks data, traffic intelligence, and infrastructure disruption analysis.
+            See what&apos;s being dug up, where capacity is being lost, and which schemes clash.
+          </p>
+          <div className="meetings-preview-grid">
+            <Link to="/highways" className="meetings-preview-card highlight">
+              <span className="meeting-preview-label">Live Map</span>
+              <h4>Current Roadworks</h4>
+              <p>Interactive map of all active and planned roadworks with severity classification, capacity loss estimates, and ward boundaries.</p>
+              <span className="read-more">View roadworks map <ChevronRight size={14} /></span>
+            </Link>
+            <Link to="/highways" className="meetings-preview-card">
+              <span className="meeting-preview-label">Intelligence</span>
+              <h4>Traffic &amp; Deferral Analysis</h4>
+              <p>Junction congestion index, corridor clash detection under NRSWA s59, and evidence-based deferral recommendations.</p>
+              <span className="read-more">See traffic intelligence <ChevronRight size={14} /></span>
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* ===== DATA SOURCES — Trust and credibility ===== */}
       <section ref={sourcesRef} className={`sources-section reveal ${sourcesVisible ? "is-visible" : ""}`}>
         <h2><Eye size={22} /> About the Data</h2>
@@ -845,6 +870,12 @@ function Home() {
               <Link to="/lgr" className="btn-secondary">
                 <GitCompareArrows size={18} />
                 LGR Tracker
+              </Link>
+            )}
+            {dataSources.highways && (
+              <Link to="/highways" className="btn-secondary">
+                <Construction size={18} />
+                Roadworks
               </Link>
             )}
           </div>

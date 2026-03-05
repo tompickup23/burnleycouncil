@@ -471,6 +471,30 @@ def build_council_entry(council_id):
             "source": h_meta.get("source", ""),
         }
 
+    # ── Highways data from roadworks.json + traffic.json ──
+    highways_summary = {}
+    roadworks_data = load_json(DATA_DIR / council_id / "roadworks.json") or {}
+    traffic_data = load_json(DATA_DIR / council_id / "traffic.json") or {}
+    if roadworks_data:
+        rw_works = roadworks_data.get("roadworks", [])
+        active = [w for w in rw_works if w.get("status") in ("In progress", "started", "active")]
+        closures = [w for w in rw_works if "closure" in (w.get("restrictions") or w.get("management_type") or "").lower()]
+        lane = [w for w in rw_works if any(k in (w.get("restrictions") or w.get("management_type") or "").lower()
+                for k in ("lane", "contraflow", "signal", "priority"))]
+        highways_summary = {
+            "total_roadworks": len(rw_works),
+            "active_roadworks": len(active),
+            "road_closures": len(closures),
+            "lane_restrictions": len(lane),
+        }
+        # Add traffic intelligence if available
+        if traffic_data:
+            junctions = traffic_data.get("junctions", [])
+            clashes = traffic_data.get("s59_clashes", {})
+            avg_jci = sum(j.get("jci", 0) for j in junctions) / len(junctions) if junctions else 0
+            highways_summary["avg_jci"] = round(avg_jci, 1)
+            highways_summary["s59_breaches"] = len(clashes.get("breaches", []))
+
     # ── Demographic projections from demographic_projections.json ──
     projections = load_json(DATA_DIR / council_id / "demographic_projections.json") or {}
     proj_pop_2032 = projections.get("population_projections", {}).get("2032", 0)
@@ -568,6 +592,7 @@ def build_council_entry(council_id):
         "ruling_party": ruling_party,
         "planning": planning_summary,
         "hmo": hmo_summary,
+        "highways": highways_summary,
         "projected_population_2032": proj_pop_2032,
         "projected_growth_pct": proj_growth,
         "projected_dependency_2032": proj_dep_2032,

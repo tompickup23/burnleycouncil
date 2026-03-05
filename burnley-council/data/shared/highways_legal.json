@@ -1,0 +1,106 @@
+{
+  "legislation": [
+    {
+      "id": "nrswa_1991",
+      "title": "New Roads and Street Works Act 1991",
+      "short": "NRSWA 1991",
+      "sections": [
+        { "section": "s54", "title": "Advance Notice", "desc": "Utility companies must give advance notice before starting street works" },
+        { "section": "s55", "title": "Notice of Starting", "desc": "At least 7 working days notice before starting works (3 for minor works)" },
+        { "section": "s56", "title": "Power to Direct Timing", "desc": "Highway authority can direct timing of proposed works to avoid disruption" },
+        { "section": "s58", "title": "Restriction on Works Following Reinstatement", "desc": "No further works within 12 months of substantial road reinstatement" },
+        { "section": "s59", "title": "Co-ordination of Works", "desc": "Duty to co-ordinate all works on highway. Multiple works creating >30% capacity loss require co-ordination." },
+        { "section": "s66", "title": "Avoidance of Unnecessary Delay", "desc": "Undertakers must avoid unnecessary delay and clear site when works complete" },
+        { "section": "s74", "title": "Charges for Occupation", "desc": "Overrun charges: £250/day (non-traffic-sensitive) to £2,500/day (traffic-sensitive) per direction affected" }
+      ]
+    },
+    {
+      "id": "tma_2004",
+      "title": "Traffic Management Act 2004",
+      "short": "TMA 2004",
+      "sections": [
+        { "section": "s16", "title": "Network Management Duty", "desc": "Highway authorities must manage road network to secure expeditious movement of traffic" },
+        { "section": "s17", "title": "Arrangements", "desc": "Traffic Manager appointment required to deliver network management duty" },
+        { "section": "s32", "title": "Permit Schemes", "desc": "Permit scheme allows highway authority to regulate works through permits" },
+        { "section": "s40", "title": "FPN for Works Offences", "desc": "Fixed Penalty Notices for non-compliance with permit conditions" },
+        { "section": "s41", "title": "Increased FPN Level", "desc": "FPN doubled under SI 2025/1074 from £120 to £240 (non-discounted) for permit breaches" }
+      ]
+    },
+    {
+      "id": "highways_act_1980",
+      "title": "Highways Act 1980",
+      "short": "HA 1980",
+      "sections": [
+        { "section": "s130", "title": "Protection of Public Rights", "desc": "Duty to assert and protect public rights of passage over highways" },
+        { "section": "s137", "title": "Penalty for Obstruction", "desc": "Offence to wilfully obstruct free passage along a highway" },
+        { "section": "s171", "title": "Control of Deposit of Building Materials", "desc": "Consent needed to deposit building materials on highway" },
+        { "section": "s174", "title": "Precautions During Works", "desc": "Fencing, lighting and watching requirements during works adjacent to highway" }
+      ]
+    },
+    {
+      "id": "si_2025_1074",
+      "title": "SI 2025/1074 — Street Works FPN Increase",
+      "short": "SI 2025/1074",
+      "sections": [
+        { "section": "reg 2", "title": "FPN Amount Doubled", "desc": "Fixed Penalty Notice for permit scheme offences doubled from £120 to £240 (non-discounted: £80 to £160 discounted)" }
+      ]
+    },
+    {
+      "id": "coord_code_6th",
+      "title": "Co-ordination Code of Practice (6th Edition)",
+      "short": "CoP 6th Ed",
+      "sections": [
+        { "section": "4.1", "title": "Principles of Co-ordination", "desc": "Works promoters and highway authorities must co-ordinate to minimise disruption" },
+        { "section": "5.2", "title": "Co-ordination Meetings", "desc": "Regular co-ordination meetings required between highway authority and statutory undertakers" },
+        { "section": "6.3", "title": "National Register (EToN/USRN)", "desc": "All works must be registered on the national Street Works Register" }
+      ]
+    }
+  ],
+  "key_thresholds": {
+    "s59_breach": {
+      "capacity_loss_pct": 30,
+      "label": "s59 NRSWA breach threshold",
+      "desc": "Multiple concurrent works creating >30% capacity reduction on a road section"
+    },
+    "s74_overrun": {
+      "daily_charge_non_ts": 250,
+      "daily_charge_ts": 2500,
+      "label": "s74 overrun charges",
+      "desc": "Charges per day per direction for exceeding agreed works duration"
+    },
+    "fpn_doubled": {
+      "old_amount": 120,
+      "new_amount": 240,
+      "discounted_old": 80,
+      "discounted_new": 160,
+      "effective_date": "2025-04-01",
+      "label": "FPN doubled under SI 2025/1074"
+    },
+    "advance_notice_days": {
+      "major": 90,
+      "standard": 10,
+      "minor": 3,
+      "label": "Advance notice periods by works type"
+    }
+  },
+  "restriction_classifications": {
+    "full_closure": {
+      "label": "Full Road Closure",
+      "capacity_loss": 100,
+      "requires_tro": true,
+      "advance_notice_days": 12
+    },
+    "lane_restriction": {
+      "label": "Lane Closure / Traffic Signals",
+      "capacity_loss": 50,
+      "requires_tro": false,
+      "advance_notice_days": 7
+    },
+    "minor": {
+      "label": "Minor Works (footway, verge)",
+      "capacity_loss": 15,
+      "requires_tro": false,
+      "advance_notice_days": 3
+    }
+  }
+}

@@ -33,7 +33,8 @@
     "councillor_profiles": true,
     "foi_templates": true,
     "ward_boundaries": true,
-    "supplier_profiles": true
+    "supplier_profiles": true,
+    "highways": true
   },
   "spending_data_period": "April 2020 \u2013 December 2025",
   "hero_subtitle": "Explore how Blackburn with Darwen Borough Council spends public money. As a unitary authority managing all local services, Blackburn with Darwen has nearly 500,000 transactions totalling \u00a31.7 billion tracked \u2014 covering social care, education, housing, and waste for 150,000 residents. Note: spending data is too large for interactive browsing but powers the DOGE analysis.",
@@ -75,6 +76,10 @@
   ],
   "foi_url": "https://www.blackburn.gov.uk/council-and-democracy/information-requests/freedom-of-information",
   "theme_accent": "#003087",
+  "highways_context": {
+    "center": [53.748, -2.482],
+    "zoom": 13
+  },
   "doge_context": {
     "total_spend": "\u00a31.7B",
     "transactions": 492973,
