@@ -187,6 +187,12 @@ export default function Highways() {
   const clashes = traffic?.operational_intelligence?.corridor_clashes || []
   const deferrals = traffic?.operational_intelligence?.deferral_recommendations || []
   const dataFreshness = traffic?.meta?.data_freshness || {}
+  const strategic = traffic?.strategic_recommendations || {}
+  const majorEvents = traffic?.major_events || []
+  const matchPreps = strategic?.match_preparations || []
+  const eventPreps = strategic?.event_preparations || []
+  const immediateActions = strategic?.immediate_actions || []
+  const strategicSummary = strategic?.summary || {}
 
   // s59 categorisation
   const breaches = clashes.filter(c => c.s59_breach)
@@ -298,6 +304,102 @@ export default function Highways() {
 
       {/* Collapsible analysis sections */}
       <div className="hw-sections">
+        {/* Strategic Recommendations — what LCC can do NOW */}
+        {immediateActions.length > 0 && (
+          <CollapsibleSection
+            title="Strategic Recommendations"
+            subtitle="Actions LCC can take now to ease congestion — based on all current data"
+            severity={immediateActions.some(a => a.priority === 'critical') ? 'critical' : 'warning'}
+            icon={<TrendingUp size={18} />}
+            count={immediateActions.length}
+            countLabel="actions"
+            defaultOpen
+          >
+            {/* Network summary */}
+            {strategicSummary.total_works > 0 && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 8, marginBottom: 16 }}>
+                {[
+                  { label: 'Active Works', value: strategicSummary.active_works, color: '#ff9f0a' },
+                  { label: 'Road Closures', value: strategicSummary.road_closures, color: '#ff453a' },
+                  { label: 'LCC Controlled', value: strategicSummary.lcc_controlled, color: '#0a84ff' },
+                  { label: 's59 Breaches', value: strategicSummary.s59_breaches, color: strategicSummary.s59_breaches > 0 ? '#ff453a' : '#30d158' },
+                  { label: 'Actionable Deferrals', value: strategicSummary.actionable_deferrals, color: '#ff9f0a' },
+                ].map(({ label, value, color }) => (
+                  <div key={label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '8px 10px', border: '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 700, color }}>{value || 0}</div>
+                    <div style={{ fontSize: '0.7rem', color: '#8e8e93' }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Immediate actions grouped by priority */}
+            {['critical', 'high'].map(priority => {
+              const actions = immediateActions.filter(a => a.priority === priority)
+              if (!actions.length) return null
+              const color = priority === 'critical' ? '#ff453a' : '#ff9f0a'
+              const label = priority === 'critical' ? '🔴 Critical — Action Required Today' : '🟠 High Priority'
+              return (
+                <div key={priority} style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: '0.8rem', color, fontWeight: 600, marginBottom: 8 }}>{label}</div>
+                  {actions.slice(0, priority === 'critical' ? 10 : 5).map((a, i) => (
+                    <div key={i} className="hw-clash-card" style={{ borderLeft: `3px solid ${color}` }}>
+                      <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: 4 }}>{a.action}</div>
+                      {a.detail && <div style={{ fontSize: '0.8rem', color: '#c7c7cc' }}>{a.detail}</div>}
+                      {a.legal_basis && <div style={{ fontSize: '0.7rem', color: '#636366', marginTop: 4 }}>Legal basis: {a.legal_basis}</div>}
+                    </div>
+                  ))}
+                </div>
+              )
+            })}
+
+            {/* Upcoming match day preparations */}
+            {matchPreps.length > 0 && (
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: '0.8rem', color: '#0a84ff', fontWeight: 600, marginBottom: 8 }}>⚽ Match Day Preparations (next 14 days)</div>
+                {matchPreps.map((m, i) => (
+                  <div key={i} className="hw-clash-card" style={{ borderLeft: m.nearby_works > 0 ? '3px solid #ff9f0a' : '3px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 500, fontSize: '0.9rem' }}>{m.venue} — {m.opponent}</span>
+                      <span style={{ fontSize: '0.75rem', color: '#8e8e93' }}>{m.date} ({m.days_away}d)</span>
+                    </div>
+                    {m.nearby_works > 0 && (
+                      <div style={{ fontSize: '0.8rem', color: '#ff9f0a', marginTop: 4 }}>
+                        ⚠ {m.nearby_works} works within 2km — issue timing directions
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upcoming event preparations */}
+            {eventPreps.length > 0 && (
+              <div>
+                <div style={{ fontSize: '0.8rem', color: '#bf5af2', fontWeight: 600, marginBottom: 8 }}>🎪 Major Event Preparations</div>
+                {eventPreps.map((e, i) => (
+                  <div key={i} className="hw-clash-card" style={{ borderLeft: e.clashing_works > 0 ? '3px solid #ff9f0a' : '3px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 500, fontSize: '0.9rem' }}>{e.event}</span>
+                      <span style={{ fontSize: '0.75rem', color: '#8e8e93' }}>{e.date} ({e.days_away}d away, ~{(e.crowd || 0).toLocaleString()} crowd)</span>
+                    </div>
+                    {e.clashing_works > 0 && (
+                      <div style={{ fontSize: '0.8rem', color: '#ff9f0a', marginTop: 4 }}>
+                        ⚠ {e.clashing_works} works within impact zone — {e.action}
+                      </div>
+                    )}
+                    {e.roads_affected?.length > 0 && (
+                      <div style={{ fontSize: '0.75rem', color: '#636366', marginTop: 2 }}>
+                        Roads: {e.roads_affected.join(', ')}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </CollapsibleSection>
+        )}
+
         {/* s59 Clashes */}
         {clashes.length > 0 && (
           <CollapsibleSection
@@ -414,10 +516,10 @@ export default function Highways() {
                 </thead>
                 <tbody>
                   {junctions
-                    .sort((a, b) => (b.jci_score || 0) - (a.jci_score || 0))
+                    .sort((a, b) => (b.jci || b.jci_score || 0) - (a.jci || a.jci_score || 0))
                     .slice(0, 15)
                     .map((jn, i) => {
-                      const score = jn.jci_score || 0
+                      const score = jn.jci || jn.jci_score || 0
                       const scoreColor = score >= 80 ? '#ff453a' : score >= 60 ? '#ff6d3b' : score >= 40 ? '#ff9f0a' : '#30d158'
                       return (
                         <tr key={i}>
