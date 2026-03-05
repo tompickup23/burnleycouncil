@@ -29,6 +29,22 @@ const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyrigh
 const DEFAULT_CENTER = [53.85, -2.40]
 const DEFAULT_ZOOM = 10
 
+// District centers for flyTo on region selection
+const DISTRICT_CENTERS = {
+  Burnley:          { center: [53.789, -2.248], zoom: 13 },
+  Hyndburn:         { center: [53.761, -2.390], zoom: 13 },
+  Pendle:           { center: [53.879, -2.190], zoom: 12 },
+  Rossendale:       { center: [53.685, -2.278], zoom: 12 },
+  Lancaster:        { center: [54.047, -2.801], zoom: 11 },
+  'Ribble Valley':  { center: [53.903, -2.418], zoom: 11 },
+  Chorley:          { center: [53.653, -2.632], zoom: 12 },
+  'South Ribble':   { center: [53.727, -2.706], zoom: 13 },
+  Preston:          { center: [53.763, -2.703], zoom: 13 },
+  'West Lancashire': { center: [53.608, -2.868], zoom: 11 },
+  Wyre:             { center: [53.900, -2.832], zoom: 11 },
+  Fylde:            { center: [53.798, -2.919], zoom: 12 },
+}
+
 // Severity → marker colours
 const SEVERITY_MARKER_COLORS = {
   high: '#ff453a',
@@ -244,6 +260,19 @@ export default function HighwaysMap({
     if (!mapRef.current) return
     mapRef.current.setView(mapCenter, mapZoom, { animate: true })
   }, [mapCenter, mapZoom])
+
+  // Fly to district when district filter changes
+  useEffect(() => {
+    if (!mapRef.current) return
+    const d = filters.district
+    if (d && DISTRICT_CENTERS[d]) {
+      const dc = DISTRICT_CENTERS[d]
+      mapRef.current.flyTo(dc.center, dc.zoom, { duration: 1 })
+    } else if (!d) {
+      // Reset to default Lancashire-wide view
+      mapRef.current.flyTo(mapCenter, mapZoom, { duration: 1 })
+    }
+  }, [filters.district, mapCenter, mapZoom])
 
   // Render ward boundaries
   useEffect(() => {

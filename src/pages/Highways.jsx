@@ -510,6 +510,31 @@ export default function Highways() {
         <StatCard value={formatNumber(districtCount)} label="Districts" icon={MapPin} />
       </div>
 
+      {/* Regional toggle */}
+      {districts.length > 1 && (
+        <div className="hw-region-toggle" role="tablist" aria-label="Select region">
+          <button
+            className={`hw-region-pill ${!district ? 'active' : ''}`}
+            onClick={() => setFilter('district', '')}
+            role="tab"
+            aria-selected={!district}
+          >
+            All Lancashire
+          </button>
+          {districts.map(d => (
+            <button
+              key={d}
+              className={`hw-region-pill ${district === d ? 'active' : ''}`}
+              onClick={() => setFilter('district', d)}
+              role="tab"
+              aria-selected={district === d}
+            >
+              {d}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Filters */}
       <div className="hw-filters">
         <span className="hw-filter-label">Filter:</span>
@@ -526,12 +551,6 @@ export default function Highways() {
             <option value="">All statuses</option>
             <option value="Works started">Works started</option>
             <option value="Planned works">Planned works</option>
-          </select>
-        </div>
-        <div className="hw-filter-group">
-          <select className="hw-filter-select" value={district} onChange={e => setFilter('district', e.target.value)}>
-            <option value="">All districts</option>
-            {districts.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
         </div>
         <div className="hw-filter-group">
@@ -771,6 +790,7 @@ export default function Highways() {
           <CollapsibleSection
             title="Corridor Analysis"
             subtitle="Top corridors by congestion severity and JCI scoring"
+            defaultOpen
             severity={sortedCorridors[0]?.jci >= 70 || sortedCorridors[0]?.severity_score >= 70 ? 'warning' : 'neutral'}
             icon={<Route size={18} />}
             count={corridors.length}
@@ -816,7 +836,7 @@ export default function Highways() {
             icon={<AlertTriangle size={18} />}
             count={clashes.length}
             countLabel="clashes"
-            defaultOpen={breaches.length > 0}
+            defaultOpen
           >
             {breaches.length > 0 && (
               <div className="hw-s59-group">
@@ -887,6 +907,7 @@ export default function Highways() {
             icon={<Clock size={18} />}
             count={deferrals.length}
             countLabel="recommendations"
+            defaultOpen
           >
             {displayedDeferrals.map((def, i) => (
               <div key={i} className="hw-deferral-card">
@@ -919,6 +940,7 @@ export default function Highways() {
             icon={<TrendingUp size={18} />}
             count={junctions.length}
             countLabel="junctions"
+            defaultOpen
           >
             <div className="hw-table-overflow">
               <table className="hw-legal-table">
@@ -971,6 +993,7 @@ export default function Highways() {
           severity="neutral"
           icon={<Layers size={18} />}
           count={infrastructure?.summary?.total_features || null}
+          defaultOpen
           countLabel="features"
         >
           {infrastructure ? (
@@ -1092,6 +1115,7 @@ export default function Highways() {
             icon={<MapPin size={18} />}
             count={districtData.length}
             countLabel="districts"
+            defaultOpen
           >
             <div className="hw-table-overflow">
               <table className="hw-legal-table">
@@ -1139,6 +1163,7 @@ export default function Highways() {
             icon={<Gavel size={18} />}
             count={legal.legislation?.length || 0}
             countLabel="statutes"
+            defaultOpen
           >
             {legal.legislation?.map((law, i) => (
               <div key={i} className="hw-law-block">
@@ -1190,6 +1215,7 @@ export default function Highways() {
             icon={<BarChart3 size={18} />}
             count={Object.keys(dataFreshness).length}
             countLabel="sources"
+            defaultOpen
           >
             <table className="hw-legal-table">
               <thead>
