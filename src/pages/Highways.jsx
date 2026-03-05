@@ -182,16 +182,16 @@ export default function Highways() {
   const districtCount = stats.district_count || districts.length
 
   // Traffic intelligence
-  const junctions = traffic?.junctions || []
-  const corridors = traffic?.corridors || []
-  const clashes = traffic?.s59_clashes || []
-  const deferrals = traffic?.deferral_recommendations || []
-  const dataFreshness = traffic?.data_freshness || {}
+  const junctions = traffic?.congestion_model?.junctions || []
+  const corridors = traffic?.congestion_model?.corridors || []
+  const clashes = traffic?.operational_intelligence?.corridor_clashes || []
+  const deferrals = traffic?.operational_intelligence?.deferral_recommendations || []
+  const dataFreshness = traffic?.meta?.data_freshness || {}
 
   // s59 categorisation
   const breaches = clashes.filter(c => c.s59_breach)
-  const coordinations = clashes.filter(c => c.s59_coordination && !c.s59_breach)
-  const monitors = clashes.filter(c => c.s59_monitor && !c.s59_breach && !c.s59_coordination)
+  const coordinations = clashes.filter(c => c.s59_coordination_needed && !c.s59_breach)
+  const monitors = clashes.filter(c => c.s59_monitor && !c.s59_breach && !c.s59_coordination_needed)
 
   // Operator breakdown for chart
   const operatorData = Object.entries(stats.by_operator || {})
@@ -316,9 +316,9 @@ export default function Highways() {
                 </div>
                 {breaches.map((clash, i) => (
                   <div key={i} className="hw-clash-card">
-                    <div className="hw-clash-road">{clash.road || clash.section || 'Unknown road'}</div>
+                    <div className="hw-clash-road">{clash.road || clash.corridor || 'Unknown road'}</div>
                     <div className="hw-clash-meta">
-                      {clash.works_count} concurrent works · {clash.total_capacity_reduction ? `${Math.round(clash.total_capacity_reduction * 100)}%` : '>30%'} capacity loss
+                      {clash.concurrent_works} concurrent works · {clash.total_capacity_reduction ? `${Math.round(clash.total_capacity_reduction * 100)}%` : '>30%'} capacity loss
                       {clash.recommendation && <div style={{ marginTop: 4, color: '#c7c7cc' }}>{clash.recommendation}</div>}
                     </div>
                   </div>
@@ -332,9 +332,9 @@ export default function Highways() {
                 </div>
                 {coordinations.slice(0, 5).map((clash, i) => (
                   <div key={i} className="hw-clash-card coordination">
-                    <div className="hw-clash-road">{clash.road || clash.section || 'Unknown road'}</div>
+                    <div className="hw-clash-road">{clash.road || clash.corridor || 'Unknown road'}</div>
                     <div className="hw-clash-meta">
-                      {clash.works_count} concurrent works
+                      {clash.concurrent_works} concurrent works
                       {clash.recommendation && <div style={{ marginTop: 4, color: '#c7c7cc' }}>{clash.recommendation}</div>}
                     </div>
                   </div>
@@ -348,9 +348,9 @@ export default function Highways() {
                 </div>
                 {monitors.slice(0, 3).map((clash, i) => (
                   <div key={i} className="hw-clash-card monitor">
-                    <div className="hw-clash-road">{clash.road || clash.section || 'Unknown road'}</div>
+                    <div className="hw-clash-road">{clash.road || clash.corridor || 'Unknown road'}</div>
                     <div className="hw-clash-meta">
-                      {clash.works_count} concurrent works
+                      {clash.concurrent_works} concurrent works
                     </div>
                   </div>
                 ))}

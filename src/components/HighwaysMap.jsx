@@ -332,15 +332,15 @@ export default function HighwaysMap({
       corridorLayerRef.current = null
     }
 
-    if (!showCorridors || !traffic?.corridors) return
+    if (!showCorridors || !traffic?.congestion_model?.corridors) return
 
     const corridorGroup = L.layerGroup()
 
-    traffic.corridors.forEach(cor => {
-      if (!cor.polyline || cor.polyline.length < 2) return
+    traffic.congestion_model.corridors.forEach(cor => {
+      if (!cor.coords || cor.coords.length < 2) return
 
-      const latLngs = cor.polyline.map(p => [p[1], p[0]]) // [lng,lat] → [lat,lng]
-      const jciScore = cor.avg_jci || 0
+      const latLngs = cor.coords // Already [lat, lng] format
+      const jciScore = cor.severity ? cor.severity * 100 : 0  // severity is 0-1, scale to 0-100
       const color = jciColor(jciScore)
 
       const line = L.polyline(latLngs, {
@@ -371,14 +371,14 @@ export default function HighwaysMap({
       junctionLayerRef.current = null
     }
 
-    if (!showJunctions || !traffic?.junctions) return
+    if (!showJunctions || !traffic?.congestion_model?.junctions) return
 
     const junctionGroup = L.layerGroup()
 
-    traffic.junctions.forEach(jn => {
+    traffic.congestion_model.junctions.forEach(jn => {
       if (!jn.lat || !jn.lng) return
 
-      const score = jn.jci_score || 0
+      const score = jn.jci || 0
       const color = jciColor(score)
       const size = score > 60 ? 10 : score > 30 ? 8 : 6
 
