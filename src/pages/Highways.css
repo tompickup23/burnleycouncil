@@ -1005,33 +1005,176 @@
   font-size: 0.8rem;
 }
 
-/* Leaflet popup overrides */
+/* ══════════════════════════════════
+   Leaflet popup + map overlays
+   ══════════════════════════════════ */
+
 .hw-popup .leaflet-popup-content-wrapper {
-  background: rgba(28, 28, 30, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: rgba(20, 20, 22, 0.96);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.04);
   color: #fff;
 }
 
+.hw-popup .leaflet-popup-content {
+  margin: 14px 16px;
+}
+
 .hw-popup .leaflet-popup-tip {
-  background: rgba(28, 28, 30, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(20, 20, 22, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .hw-popup .leaflet-popup-close-button {
-  color: #8e8e93;
+  color: #636366;
+  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  padding: 0;
+  top: 6px;
+  right: 6px;
+  transition: color 0.2s;
+}
+
+.hw-popup .leaflet-popup-close-button:hover {
+  color: #fff;
 }
 
 .hw-ward-tooltip {
-  background: rgba(28, 28, 30, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 6px !important;
+  background: rgba(20, 20, 22, 0.92) !important;
+  border: 1px solid rgba(10, 132, 255, 0.2) !important;
+  border-radius: 8px !important;
   color: #fff !important;
-  font-size: 0.8rem !important;
-  padding: 4px 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  padding: 5px 10px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ── Map wrapper & fullscreen ── */
+.hw-map-wrapper {
+  position: relative;
+  border-radius: 12px;
+}
+
+.hw-map-fullscreen {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  border-radius: 0 !important;
+}
+
+/* ── Map toolbar (fit + fullscreen) ── */
+.hw-map-toolbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 1000;
+}
+
+.hw-map-btn {
+  width: 34px;
+  height: 34px;
+  background: rgba(20, 20, 22, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #c7c7cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hw-map-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Marker count badge ── */
+.hw-map-count {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(20, 20, 22, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  padding: 5px 14px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.hw-map-count-number {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.hw-map-count-label {
+  font-size: 0.7rem;
+  color: #8e8e93;
+  font-weight: 500;
+}
+
+/* ── Pulse animation for selected marker ── */
+.hw-pulse-marker {
+  animation: hwPulse 2s ease-in-out infinite;
+}
+
+@keyframes hwPulse {
+  0% { stroke-opacity: 0.6; stroke-width: 2; }
+  50% { stroke-opacity: 0.2; stroke-width: 4; }
+  100% { stroke-opacity: 0.6; stroke-width: 2; }
+}
+
+/* ── Cluster icon overrides ── */
+.hw-cluster-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background: none !important;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background: none !important;
+}
+
+/* ── Legend count badges ── */
+.hw-legend-count {
+  font-size: 0.6rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 2px;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Empty state (styled) ── */

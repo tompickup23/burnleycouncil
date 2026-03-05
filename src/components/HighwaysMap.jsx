@@ -3,7 +3,7 @@
  *
  * Uses direct Leaflet integration (not react-leaflet) with CartoDB Dark Matter tiles.
  * Renders roadwork markers with severity-based colouring, ward boundary overlays,
- * and optional marker clustering for large datasets.
+ * marker clustering, and optional corridor/junction overlays.
  *
  * Props:
  *   roadworks {array}     — Array of roadwork records from roadworks.json
@@ -15,15 +15,18 @@
  *   filters {object}      — { severity, status, district, operator } active filter values
  *   showCorridors {bool}  — Whether to show traffic corridor overlays
  *   showJunctions {bool}  — Whether to show JCI junction markers
- *   height {string}       — CSS height (default '500px')
+ *   height {string}       — CSS height (default '600px')
  */
-import { useRef, useEffect, useCallback, useMemo } from 'react'
+import { useRef, useEffect, useCallback, useMemo, useState } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import 'leaflet.markercluster'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 // CartoDB Dark Matter tiles — free, no API key, matches dark UI
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
 
 // Lancashire default center + zoom (used if no config provided)
 const DEFAULT_CENTER = [53.85, -2.40]
@@ -96,10 +99,10 @@ function capacityBar(pct) {
   const filled = Math.round(pct / 10)
   const empty = 10 - filled
   const color = pct >= 80 ? '#ff453a' : pct >= 40 ? '#ff9f0a' : '#22c55e'
-  return `<span style="font-family:monospace;font-size:11px;letter-spacing:1px">`
-    + `<span style="color:${color}">${'\u2588'.repeat(filled)}</span>`
-    + `<span style="color:rgba(255,255,255,0.1)">${'\u2591'.repeat(empty)}</span>`
-    + `</span> <span style="color:${color};font-size:11px;font-weight:600">${pct}% loss</span>`
+  return `<div style="display:flex;align-items:center;gap:6px;margin:4px 0">`
+    + `<div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">`
+    + `<div style="width:${pct}%;height:100%;background:${color};border-radius:3px;transition:width 0.4s ease"></div></div>`
+    + `<span style="color:${color};font-size:11px;font-weight:700;white-space:nowrap">${pct}%</span></div>`
 }
 
 /** Format date for popup display */
@@ -110,53 +113,67 @@ function fmtDate(isoStr) {
   } catch { return '' }
 }
 
-/** Build roadwork popup HTML */
+/** Build roadwork popup HTML — enhanced glass-morphism design */
 function buildPopupHTML(rw) {
   const rc = classifyRestriction(rw)
   const style = RESTRICTION_STYLES[rc]
   const cap = style.capacity
   const lines = []
 
-  lines.push(`<div style="min-width:240px;max-width:320px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif">`)
-  lines.push(`<div style="font-size:14px;font-weight:700;margin-bottom:6px;color:#fff">${esc(rw.road || 'Unknown Road')}</div>`)
+  lines.push(`<div style="min-width:260px;max-width:340px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif">`)
 
-  // Status badge
+  // Header with road name and restriction icon
+  lines.push(`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">`)
+  lines.push(`<span style="font-size:18px">${style.icon}</span>`)
+  lines.push(`<div style="flex:1;min-width:0">`)
+  lines.push(`<div style="font-size:15px;font-weight:700;color:#fff;line-height:1.3">${esc(rw.road || 'Unknown Road')}</div>`)
+  if (rw.district) {
+    lines.push(`<div style="font-size:11px;color:#8e8e93;margin-top:1px">${esc(rw.district)}</div>`)
+  }
+  lines.push(`</div></div>`)
+
+  // Status + severity badges
+  lines.push(`<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">`)
   const statusColor = rw.status === 'Works started' ? '#ff9f0a' : '#0a84ff'
-  lines.push(`<div style="margin-bottom:8px"><span style="background:${statusColor};color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">${esc(rw.status || 'Unknown')}</span>`)
+  lines.push(`<span style="background:${statusColor}20;color:${statusColor};padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid ${statusColor}30">${esc(rw.status || 'Unknown')}</span>`)
   if (rw.severity) {
     const sevColor = SEVERITY_MARKER_COLORS[rw.severity] || '#8e8e93'
-    lines.push(` <span style="background:${sevColor};color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">${esc(rw.severity.charAt(0).toUpperCase() + rw.severity.slice(1))}</span>`)
+    lines.push(`<span style="background:${sevColor}20;color:${sevColor};padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid ${sevColor}30">${esc(rw.severity.charAt(0).toUpperCase() + rw.severity.slice(1))}</span>`)
   }
+  lines.push(`<span style="background:${style.color}20;color:${style.color};padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid ${style.color}30">${esc(style.label)}</span>`)
   lines.push(`</div>`)
 
-  // Capacity impact
-  lines.push(`<div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:8px;margin-bottom:8px">`)
-  lines.push(`<div style="font-size:11px;color:#8e8e93;margin-bottom:4px">Capacity Impact</div>`)
+  // Capacity impact bar
+  lines.push(`<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;margin-bottom:10px;border:1px solid rgba(255,255,255,0.04)">`)
+  lines.push(`<div style="font-size:10px;font-weight:600;color:#636366;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Capacity Impact</div>`)
   lines.push(capacityBar(cap))
-  lines.push(`<div style="font-size:11px;color:#8e8e93;margin-top:2px">${style.icon} ${esc(style.label)}</div>`)
   lines.push(`</div>`)
 
-  // Details
+  // Description
   if (rw.description) {
-    lines.push(`<div style="font-size:12px;color:#c7c7cc;margin-bottom:6px">${esc(rw.description.slice(0, 200))}</div>`)
-  }
-  if (rw.operator) {
-    lines.push(`<div style="font-size:11px;color:#8e8e93">Operator: <span style="color:#c7c7cc">${esc(rw.operator)}</span></div>`)
-  }
-  if (rw.district) {
-    lines.push(`<div style="font-size:11px;color:#8e8e93">District: <span style="color:#c7c7cc">${esc(rw.district)}</span></div>`)
+    lines.push(`<div style="font-size:12px;color:#c7c7cc;margin-bottom:8px;line-height:1.5">${esc(rw.description.slice(0, 200))}${rw.description.length > 200 ? '…' : ''}</div>`)
   }
 
-  // Dates
+  // Operator
+  if (rw.operator) {
+    lines.push(`<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#8e8e93;margin-bottom:4px">`)
+    lines.push(`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>`)
+    lines.push(`<span>${esc(rw.operator)}</span></div>`)
+  }
+
+  // Dates with calendar icon
   const start = fmtDate(rw.start_date)
   const end = fmtDate(rw.end_date)
   if (start || end) {
-    lines.push(`<div style="font-size:11px;color:#8e8e93;margin-top:4px">${start ? 'From: ' + esc(start) : ''}${start && end ? ' — ' : ''}${end ? 'To: ' + esc(end) : ''}</div>`)
+    lines.push(`<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#8e8e93;margin-top:6px">`)
+    lines.push(`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`)
+    lines.push(`<span>${start ? start : ''}${start && end ? ' → ' : ''}${end ? end : ''}</span>`)
+    lines.push(`</div>`)
   }
 
   // Reference
   if (rw.reference) {
-    lines.push(`<div style="font-size:10px;color:#636366;margin-top:6px">Ref: ${esc(rw.reference)}</div>`)
+    lines.push(`<div style="font-size:10px;color:#48484a;margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.04)">Ref: ${esc(rw.reference)}</div>`)
   }
 
   lines.push(`</div>`)
@@ -168,13 +185,23 @@ function buildJunctionPopupHTML(jn) {
   const score = jn.jci_score || 0
   const color = jciColor(score)
   const lines = []
-  lines.push(`<div style="min-width:200px;font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif">`)
-  lines.push(`<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px">${esc(jn.name || 'Junction')}</div>`)
-  lines.push(`<div style="font-size:24px;font-weight:800;color:${color};margin-bottom:4px">${score.toFixed(0)}<span style="font-size:12px;font-weight:400;color:#8e8e93">/100</span></div>`)
-  lines.push(`<div style="font-size:11px;color:#8e8e93">Junction Congestion Index</div>`)
+  lines.push(`<div style="min-width:220px;font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif">`)
+  lines.push(`<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px">${esc(jn.name || 'Junction')}</div>`)
+
+  // Score ring visual
+  lines.push(`<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">`)
+  lines.push(`<div style="width:52px;height:52px;border-radius:50%;border:3px solid ${color};display:flex;align-items:center;justify-content:center;background:${color}15">`)
+  lines.push(`<span style="font-size:20px;font-weight:800;color:${color}">${score.toFixed(0)}</span>`)
+  lines.push(`</div>`)
+  lines.push(`<div>`)
+  lines.push(`<div style="font-size:11px;color:#8e8e93">Junction Congestion</div>`)
+  lines.push(`<div style="font-size:11px;color:#8e8e93">Index (JCI)</div>`)
+  lines.push(`</div>`)
+  lines.push(`</div>`)
+
   if (jn.data_quality) {
     const dqColor = jn.data_quality === 'high' ? '#30d158' : jn.data_quality === 'medium' ? '#ff9f0a' : '#ff453a'
-    lines.push(`<div style="font-size:10px;color:${dqColor};margin-top:4px">Data quality: ${esc(jn.data_quality)}</div>`)
+    lines.push(`<div style="font-size:10px;color:${dqColor}">● Data quality: ${esc(jn.data_quality)}</div>`)
   }
   if (jn.works_count) {
     lines.push(`<div style="font-size:11px;color:#c7c7cc;margin-top:4px">${jn.works_count} nearby works</div>`)
@@ -196,7 +223,7 @@ export default function HighwaysMap({
   filters = {},
   showCorridors = false,
   showJunctions = false,
-  height = '500px',
+  height = '600px',
 }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
@@ -204,6 +231,9 @@ export default function HighwaysMap({
   const boundaryLayerRef = useRef(null)
   const corridorLayerRef = useRef(null)
   const junctionLayerRef = useRef(null)
+  const pulseLayerRef = useRef(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const wrapperRef = useRef(null)
 
   // Derive map center + zoom from config
   const mapCenter = useMemo(() => {
@@ -229,16 +259,33 @@ export default function HighwaysMap({
     return items.filter(r => r.lat && r.lng)
   }, [roadworks, filters])
 
+  // Severity counts for legend
+  const severityCounts = useMemo(() => {
+    const counts = { closure: 0, lane: 0, minor: 0 }
+    filtered.forEach(rw => {
+      const rc = classifyRestriction(rw)
+      if (rc === 'full_closure') counts.closure++
+      else if (rc === 'lane_restriction') counts.lane++
+      else counts.minor++
+    })
+    return counts
+  }, [filtered])
+
   // Initialise map on mount
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
 
     const map = L.map(containerRef.current, {
-      zoomControl: true,
+      zoomControl: false, // We'll add custom position
       scrollWheelZoom: true,
       attributionControl: true,
       preferCanvas: true,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
     })
+
+    // Custom zoom control position
+    L.control.zoom({ position: 'topright' }).addTo(map)
 
     L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,
@@ -286,10 +333,11 @@ export default function HighwaysMap({
 
     const geoLayer = L.geoJSON(boundaries, {
       style: () => ({
-        color: 'rgba(255,255,255,0.15)',
-        weight: 1,
-        fillColor: 'rgba(255,255,255,0.02)',
+        color: 'rgba(10, 132, 255, 0.2)',
+        weight: 1.5,
+        fillColor: 'rgba(10, 132, 255, 0.03)',
         fillOpacity: 1,
+        dashArray: '4 3',
       }),
       onEachFeature: (feature, layer) => {
         const name = feature.properties?.WD24NM || feature.properties?.CEDNM || feature.properties?.name || ''
@@ -299,6 +347,20 @@ export default function HighwaysMap({
             direction: 'center',
             permanent: false,
           })
+          layer.on('mouseover', () => {
+            layer.setStyle({
+              color: 'rgba(10, 132, 255, 0.5)',
+              weight: 2.5,
+              fillColor: 'rgba(10, 132, 255, 0.08)',
+            })
+          })
+          layer.on('mouseout', () => {
+            layer.setStyle({
+              color: 'rgba(10, 132, 255, 0.2)',
+              weight: 1.5,
+              fillColor: 'rgba(10, 132, 255, 0.03)',
+            })
+          })
         }
       },
     }).addTo(mapRef.current)
@@ -306,7 +368,7 @@ export default function HighwaysMap({
     boundaryLayerRef.current = geoLayer
   }, [boundaries])
 
-  // Render roadwork markers
+  // Render roadwork markers with clustering
   useEffect(() => {
     if (!mapRef.current) return
 
@@ -318,26 +380,61 @@ export default function HighwaysMap({
 
     if (!filtered.length) return
 
-    const markerGroup = L.layerGroup()
+    // Use MarkerClusterGroup for performance and visual clarity
+    const clusterGroup = L.markerClusterGroup({
+      maxClusterRadius: 45,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      disableClusteringAtZoom: 15,
+      chunkedLoading: true,
+      iconCreateFunction: (cluster) => {
+        const count = cluster.getChildCount()
+        // Count severities in cluster
+        let hasHigh = false
+        let hasMedium = false
+        cluster.getAllChildMarkers().forEach(m => {
+          if (m.rwData?.severity === 'high' || classifyRestriction(m.rwData || {}) === 'full_closure') hasHigh = true
+          if (m.rwData?.severity === 'medium' || classifyRestriction(m.rwData || {}) === 'lane_restriction') hasMedium = true
+        })
+        const bgColor = hasHigh ? '#ff453a' : hasMedium ? '#ff9f0a' : '#6b7280'
+        const size = count > 50 ? 48 : count > 20 ? 42 : count > 5 ? 36 : 30
+
+        return L.divIcon({
+          html: `<div style="
+            width:${size}px;height:${size}px;
+            background:${bgColor};
+            border:2px solid rgba(255,255,255,0.3);
+            border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-size:${size > 42 ? 14 : 12}px;font-weight:700;color:#fff;
+            box-shadow:0 2px 12px ${bgColor}60, 0 0 0 4px ${bgColor}20;
+            font-family:-apple-system,system-ui,sans-serif;
+          ">${count}</div>`,
+          className: 'hw-cluster-icon',
+          iconSize: [size, size],
+        })
+      },
+    })
 
     filtered.forEach(rw => {
       const rc = classifyRestriction(rw)
       const style = RESTRICTION_STYLES[rc]
-      const sevColor = SEVERITY_MARKER_COLORS[rw.severity] || '#8e8e93'
       const isSelected = rw.id === selectedId
 
       const marker = L.circleMarker([rw.lat, rw.lng], {
-        radius: isSelected ? 9 : rc === 'full_closure' ? 7 : 5,
+        radius: isSelected ? 10 : rc === 'full_closure' ? 8 : rc === 'lane_restriction' ? 6 : 5,
         fillColor: style.color,
-        color: isSelected ? '#fff' : sevColor,
+        color: isSelected ? '#fff' : 'rgba(255,255,255,0.3)',
         weight: isSelected ? 3 : 1.5,
-        fillOpacity: 0.85,
+        fillOpacity: isSelected ? 1 : 0.85,
         opacity: 1,
       })
 
       marker.bindPopup(buildPopupHTML(rw), {
-        maxWidth: 340,
+        maxWidth: 360,
         className: 'hw-popup',
+        closeButton: true,
       })
 
       if (onRoadworkClick) {
@@ -345,12 +442,41 @@ export default function HighwaysMap({
       }
 
       marker.rwData = rw
-      markerGroup.addLayer(marker)
+      clusterGroup.addLayer(marker)
     })
 
-    markerGroup.addTo(mapRef.current)
-    markersRef.current = markerGroup
+    clusterGroup.addTo(mapRef.current)
+    markersRef.current = clusterGroup
   }, [filtered, selectedId, onRoadworkClick])
+
+  // Pulse animation for selected marker
+  useEffect(() => {
+    if (!mapRef.current) return
+
+    // Remove old pulse
+    if (pulseLayerRef.current) {
+      mapRef.current.removeLayer(pulseLayerRef.current)
+      pulseLayerRef.current = null
+    }
+
+    if (!selectedId) return
+    const rw = filtered.find(r => r.id === selectedId)
+    if (!rw?.lat || !rw?.lng) return
+
+    const rc = classifyRestriction(rw)
+    const color = RESTRICTION_STYLES[rc].color
+
+    const pulse = L.circleMarker([rw.lat, rw.lng], {
+      radius: 16,
+      fillColor: 'transparent',
+      color: color,
+      weight: 2,
+      opacity: 0.6,
+      className: 'hw-pulse-marker',
+    }).addTo(mapRef.current)
+
+    pulseLayerRef.current = pulse
+  }, [selectedId, filtered])
 
   // Render traffic corridors
   useEffect(() => {
@@ -369,15 +495,21 @@ export default function HighwaysMap({
       if (!cor.coords || cor.coords.length < 2) return
 
       const latLngs = cor.coords // Already [lat, lng] format
-      const jciScore = cor.severity ? cor.severity * 100 : 0  // severity is 0-1, scale to 0-100
+      const jciScore = cor.severity ? cor.severity * 100 : 0
       const color = jciColor(jciScore)
 
       const line = L.polyline(latLngs, {
         color,
-        weight: 4,
+        weight: 5,
         opacity: 0.7,
         dashArray: jciScore > 60 ? null : '8 4',
+        lineCap: 'round',
+        lineJoin: 'round',
       })
+
+      // Highlight on hover
+      line.on('mouseover', () => line.setStyle({ weight: 8, opacity: 1 }))
+      line.on('mouseout', () => line.setStyle({ weight: 5, opacity: 0.7 }))
 
       line.bindTooltip(`<strong>${esc(cor.name || 'Corridor')}</strong><br/>JCI: ${jciScore.toFixed(0)}/100`, {
         className: 'hw-ward-tooltip',
@@ -409,18 +541,19 @@ export default function HighwaysMap({
 
       const score = jn.jci || 0
       const color = jciColor(score)
-      const size = score > 60 ? 10 : score > 30 ? 8 : 6
+      const size = score > 60 ? 11 : score > 30 ? 9 : 7
 
+      // Diamond-shaped marker for junctions (rotated square)
       const marker = L.circleMarker([jn.lat, jn.lng], {
         radius: size,
         fillColor: color,
-        color: 'rgba(255,255,255,0.3)',
-        weight: 1,
+        color: 'rgba(255,255,255,0.4)',
+        weight: 1.5,
         fillOpacity: 0.9,
       })
 
       marker.bindPopup(buildJunctionPopupHTML(jn), {
-        maxWidth: 280,
+        maxWidth: 300,
         className: 'hw-popup',
       })
 
@@ -440,36 +573,99 @@ export default function HighwaysMap({
     }
   }, [selectedId, filtered])
 
+  // Fullscreen toggle handler
+  const toggleFullscreen = useCallback(() => {
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+    if (!document.fullscreenElement) {
+      wrapper.requestFullscreen?.() || wrapper.webkitRequestFullscreen?.()
+      setIsFullscreen(true)
+    } else {
+      document.exitFullscreen?.() || document.webkitExitFullscreen?.()
+      setIsFullscreen(false)
+    }
+  }, [])
+
+  // Listen for fullscreen exit
+  useEffect(() => {
+    const handler = () => {
+      if (!document.fullscreenElement) setIsFullscreen(false)
+    }
+    document.addEventListener('fullscreenchange', handler)
+    return () => document.removeEventListener('fullscreenchange', handler)
+  }, [])
+
+  // Invalidate map size on fullscreen change
+  useEffect(() => {
+    if (mapRef.current) {
+      setTimeout(() => mapRef.current?.invalidateSize(), 100)
+    }
+  }, [isFullscreen])
+
+  // Fit to markers
+  const fitToMarkers = useCallback(() => {
+    if (!mapRef.current || !filtered.length) return
+    const bounds = L.latLngBounds(filtered.map(rw => [rw.lat, rw.lng]))
+    mapRef.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 })
+  }, [filtered])
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div ref={wrapperRef} className={`hw-map-wrapper ${isFullscreen ? 'hw-map-fullscreen' : ''}`} style={{ position: 'relative' }}>
       <div
         ref={containerRef}
         style={{
-          height,
+          height: isFullscreen ? '100vh' : height,
           width: '100%',
-          borderRadius: '12px',
+          borderRadius: isFullscreen ? 0 : '12px',
           overflow: 'hidden',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: isFullscreen ? 'none' : '1px solid rgba(255,255,255,0.06)',
         }}
       />
-      {/* Legend */}
+
+      {/* Map controls overlay */}
+      <div className="hw-map-toolbar">
+        <button className="hw-map-btn" onClick={fitToMarkers} title="Fit to all markers" aria-label="Fit to markers">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+          </svg>
+        </button>
+        <button className="hw-map-btn" onClick={toggleFullscreen} title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'} aria-label="Toggle fullscreen">
+          {isFullscreen ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          )}
+        </button>
+      </div>
+
+      {/* Marker count badge */}
+      <div className="hw-map-count">
+        <span className="hw-map-count-number">{filtered.length}</span>
+        <span className="hw-map-count-label">works</span>
+      </div>
+
+      {/* Enhanced legend */}
       <div className="hw-map-legend">
         <div className="hw-legend-item">
-          <span className="hw-legend-dot" style={{ background: '#ff453a' }} />
-          <span>Closure</span>
+          <span className="hw-legend-dot" style={{ background: '#ff453a', boxShadow: '0 0 6px rgba(255,69,58,0.4)' }} />
+          <span>Closure <span className="hw-legend-count">{severityCounts.closure}</span></span>
         </div>
         <div className="hw-legend-item">
-          <span className="hw-legend-dot" style={{ background: '#ff9f0a' }} />
-          <span>Lane restriction</span>
+          <span className="hw-legend-dot" style={{ background: '#ff9f0a', boxShadow: '0 0 6px rgba(255,159,10,0.4)' }} />
+          <span>Lane <span className="hw-legend-count">{severityCounts.lane}</span></span>
         </div>
         <div className="hw-legend-item">
-          <span className="hw-legend-dot" style={{ background: '#6b7280' }} />
-          <span>Minor works</span>
+          <span className="hw-legend-dot" style={{ background: '#6b7280', boxShadow: '0 0 6px rgba(107,114,128,0.3)' }} />
+          <span>Minor <span className="hw-legend-count">{severityCounts.minor}</span></span>
         </div>
         {showJunctions && (
           <div className="hw-legend-item">
-            <span className="hw-legend-dot" style={{ background: '#0a84ff', border: '1px solid rgba(255,255,255,0.3)' }} />
-            <span>JCI point</span>
+            <span className="hw-legend-dot" style={{ background: '#0a84ff', boxShadow: '0 0 6px rgba(10,132,255,0.4)' }} />
+            <span>JCI</span>
           </div>
         )}
       </div>

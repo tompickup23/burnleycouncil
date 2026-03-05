@@ -328,8 +328,12 @@ function ArticleView() {
               src={article.image}
               alt={article.title}
               loading="lazy"
+              decoding="async"
               itemProp="image"
-              onError={(e) => { e.target.parentElement.style.display = 'none' }}
+              onError={(e) => {
+                e.target.style.display = 'none'
+                e.target.parentElement.classList.add('placeholder')
+              }}
             />
           </div>
         )}
@@ -375,10 +379,9 @@ function ArticleView() {
               <Link key={ra.id} to={`/news/${ra.id}`} className="related-card">
                 <div className="related-card-image">
                   {ra.image ? (
-                    <img src={ra.image} alt={ra.title} loading="lazy" onError={(e) => { e.target.style.display = 'none' }} />
-                  ) : (
-                    <div className="article-image-placeholder"><FileText size={24} /></div>
-                  )}
+                    <img src={ra.image} alt={ra.title} loading="lazy" decoding="async" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling && (e.target.nextSibling.style.display = 'flex') }} />
+                  ) : null}
+                  <div className="article-image-placeholder" style={ra.image ? { display: 'none' } : undefined}><FileText size={24} /></div>
                 </div>
                 <div className="related-card-body">
                   <span className="article-date"><Calendar size={12} /> {formatDate(ra.date)}</span>

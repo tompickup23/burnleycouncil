@@ -149,6 +149,7 @@ function News() {
                     src={article.image}
                     alt={article.title || 'Article image'}
                     loading="lazy"
+                    decoding="async"
                     onError={(e) => { e.target.closest('.article-card-image').classList.add('placeholder'); e.target.style.display = 'none' }}
                   />
                 ) : (
