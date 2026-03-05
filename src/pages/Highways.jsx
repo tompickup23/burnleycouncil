@@ -1,6 +1,6 @@
-import { useState, useMemo, useCallback, lazy, Suspense } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp } from 'lucide-react'
+import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -94,6 +94,18 @@ function buildPageNumbers(current, total) {
   return pages
 }
 
+/** Format a Date object as "5 Mar 2026" */
+function fmtDay(d) {
+  if (!d) return ''
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+}
+
+/** Days between two Date objects */
+function daysBetween(a, b) {
+  return Math.round((b - a) / (1000 * 60 * 60 * 24))
+}
+
 /** Confidence dots display */
 function ConfidenceDots({ value }) {
   const filled = Math.round((value || 0) * 5)
@@ -139,6 +151,13 @@ export default function Highways() {
   const [showAllJunctions, setShowAllJunctions] = useState(false)
   const [showAllCoordinations, setShowAllCoordinations] = useState(false)
   const [showAllMonitors, setShowAllMonitors] = useState(false)
+
+  // Timeline state
+  const [timelineMode, setTimelineMode] = useState('all') // 'all' | 'date'
+  const [selectedDay, setSelectedDay] = useState(0) // index into date range
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [playSpeed, setPlaySpeed] = useState(1)
+  const playRef = useRef(null)
 
   // Parse URL params
   const severity = searchParams.get('severity') || ''
@@ -194,6 +213,111 @@ export default function Highways() {
   const meta = roadworksData?.meta || {}
   const traffic = trafficData || null
   const legal = legalData || null
+  const infrastructure = traffic?.road_infrastructure || null
+
+  // Timeline date range computation
+  const dateRange = useMemo(() => {
+    if (!roadworks.length) return { start: null, end: null, totalDays: 0, dates: [] }
+    const allStarts = []
+    const allEnds = []
+    for (const rw of roadworks) {
+      if (rw.start_date) { const d = new Date(rw.start_date); if (!isNaN(d)) allStarts.push(d) }
+      if (rw.end_date) { const d = new Date(rw.end_date); if (!isNaN(d)) allEnds.push(d) }
+    }
+    if (!allStarts.length) return { start: null, end: null, totalDays: 0, dates: [] }
+    allStarts.sort((a, b) => a - b)
+    allEnds.sort((a, b) => a - b)
+    const start = allStarts[0]
+    // Use 95th percentile end date to avoid outlier long-running works
+    const endIdx = Math.min(Math.floor(allEnds.length * 0.95), allEnds.length - 1)
+    const end = allEnds.length ? allEnds[endIdx] : allStarts[allStarts.length - 1]
+    const totalDays = Math.max(1, daysBetween(start, end))
+    return { start, end, totalDays }
+  }, [roadworks])
+
+  // Heatmap: density per day bucket (60 buckets max)
+  const heatmapData = useMemo(() => {
+    if (!dateRange.start || !dateRange.totalDays) return []
+    const bucketCount = Math.min(60, dateRange.totalDays)
+    const bucketSize = dateRange.totalDays / bucketCount
+    const buckets = new Array(bucketCount).fill(0)
+    for (const rw of roadworks) {
+      const s = rw.start_date ? new Date(rw.start_date) : null
+      const e = rw.end_date ? new Date(rw.end_date) : null
+      if (!s || isNaN(s)) continue
+      const startDay = Math.max(0, daysBetween(dateRange.start, s))
+      const endDay = e && !isNaN(e) ? Math.min(dateRange.totalDays, daysBetween(dateRange.start, e)) : startDay + 1
+      for (let b = 0; b < bucketCount; b++) {
+        const bStart = b * bucketSize
+        const bEnd = (b + 1) * bucketSize
+        if (startDay < bEnd && endDay > bStart) buckets[b]++
+      }
+    }
+    const maxVal = Math.max(1, ...buckets)
+    return buckets.map(v => v / maxVal)
+  }, [roadworks, dateRange])
+
+  // Current selected date
+  const selectedDate = useMemo(() => {
+    if (!dateRange.start) return null
+    const d = new Date(dateRange.start)
+    d.setDate(d.getDate() + selectedDay)
+    return d
+  }, [dateRange.start, selectedDay])
+
+  // Count active works on selected date
+  const activeOnDate = useMemo(() => {
+    if (timelineMode !== 'date' || !selectedDate) return 0
+    const sd = selectedDate.getTime()
+    return roadworks.filter(rw => {
+      const s = rw.start_date ? new Date(rw.start_date).getTime() : null
+      const e = rw.end_date ? new Date(rw.end_date).getTime() : null
+      if (!s) return false
+      return s <= sd && (!e || e >= sd)
+    }).length
+  }, [roadworks, selectedDate, timelineMode])
+
+  // Today index in the range
+  const todayIndex = useMemo(() => {
+    if (!dateRange.start) return 0
+    const idx = daysBetween(dateRange.start, new Date())
+    return Math.max(0, Math.min(dateRange.totalDays, idx))
+  }, [dateRange])
+
+  // Play/pause effect
+  useEffect(() => {
+    if (!isPlaying) {
+      if (playRef.current) clearInterval(playRef.current)
+      return
+    }
+    const interval = Math.round(300 / playSpeed)
+    playRef.current = setInterval(() => {
+      setSelectedDay(prev => {
+        if (prev >= dateRange.totalDays) {
+          setIsPlaying(false)
+          return prev
+        }
+        return prev + 1
+      })
+    }, interval)
+    return () => clearInterval(playRef.current)
+  }, [isPlaying, playSpeed, dateRange.totalDays])
+
+  // Timeline navigation callbacks
+  const goToToday = useCallback(() => {
+    setSelectedDay(todayIndex)
+    setTimelineMode('date')
+  }, [todayIndex])
+
+  const toggleTimelineMode = useCallback(() => {
+    setTimelineMode(prev => prev === 'all' ? 'date' : 'all')
+    setIsPlaying(false)
+  }, [])
+
+  const stepDay = useCallback((delta) => {
+    setTimelineMode('date')
+    setSelectedDay(prev => Math.max(0, Math.min(dateRange.totalDays, prev + delta)))
+  }, [dateRange.totalDays])
 
   // Filter options
   const districts = [...new Set(roadworks.map(r => r.district).filter(Boolean))].sort()
@@ -214,6 +338,17 @@ export default function Highways() {
       (r.operator || '').toLowerCase().includes(term) ||
       (r.ward || '').toLowerCase().includes(term)
     )
+  }
+
+  // Timeline date filter — apply after other filters, only in date mode
+  if (timelineMode === 'date' && selectedDate) {
+    const sd = selectedDate.getTime()
+    filtered = filtered.filter(rw => {
+      const s = rw.start_date ? new Date(rw.start_date).getTime() : null
+      const e = rw.end_date ? new Date(rw.end_date).getTime() : null
+      if (!s) return false
+      return s <= sd && (!e || e >= sd)
+    })
   }
 
   // Sort
@@ -442,6 +577,95 @@ export default function Highways() {
           />
         </Suspense>
       </div>
+
+      {/* Timeline */}
+      {dateRange.start && dateRange.totalDays > 1 && (
+        <div className="hw-timeline">
+          <div className="hw-timeline-top">
+            <div className="hw-timeline-nav">
+              <button className="hw-timeline-nav-btn" onClick={() => stepDay(-1)} disabled={timelineMode === 'all' || selectedDay <= 0} aria-label="Previous day">
+                <ChevronLeft size={16} />
+              </button>
+              <span className="hw-timeline-date-label">
+                {timelineMode === 'all'
+                  ? `${fmtDay(dateRange.start)} — ${fmtDay(dateRange.end)}`
+                  : fmtDay(selectedDate)
+                }
+              </span>
+              <button className="hw-timeline-nav-btn" onClick={() => stepDay(1)} disabled={timelineMode === 'all' || selectedDay >= dateRange.totalDays} aria-label="Next day">
+                <ChevronRight size={16} />
+              </button>
+            </div>
+            <div className="hw-timeline-actions">
+              <button className="hw-timeline-action-btn" onClick={goToToday}>
+                <Calendar size={13} /> Today
+              </button>
+              <button className={`hw-timeline-action-btn ${timelineMode === 'date' ? 'active' : ''}`} onClick={toggleTimelineMode}>
+                {timelineMode === 'all' ? 'Date mode' : 'All dates'}
+              </button>
+            </div>
+          </div>
+
+          <div className="hw-timeline-track">
+            <div className="hw-heatmap">
+              {heatmapData.map((intensity, i) => (
+                <div
+                  key={i}
+                  className="hw-heatmap-bar"
+                  style={{
+                    background: intensity > 0.7 ? `rgba(255, 69, 58, ${0.3 + intensity * 0.7})`
+                      : intensity > 0.4 ? `rgba(255, 159, 10, ${0.2 + intensity * 0.6})`
+                      : `rgba(48, 209, 88, ${0.1 + intensity * 0.4})`,
+                  }}
+                  title={`${Math.round(intensity * 100)}% density`}
+                />
+              ))}
+            </div>
+            <input
+              type="range"
+              className="hw-timeline-slider"
+              min={0}
+              max={dateRange.totalDays}
+              value={timelineMode === 'date' ? selectedDay : todayIndex}
+              onChange={(e) => {
+                setTimelineMode('date')
+                setSelectedDay(parseInt(e.target.value, 10))
+              }}
+              aria-label="Timeline date slider"
+            />
+          </div>
+
+          <div className="hw-play-row">
+            <button
+              className={`hw-play-btn ${isPlaying ? 'playing' : ''}`}
+              onClick={() => {
+                if (timelineMode === 'all') setTimelineMode('date')
+                setIsPlaying(prev => !prev)
+              }}
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+              {isPlaying ? ' Pause' : ' Play'}
+            </button>
+            <div className="hw-speed-controls">
+              {[0.5, 1, 2].map(speed => (
+                <button
+                  key={speed}
+                  className={`hw-speed-btn ${playSpeed === speed ? 'active' : ''}`}
+                  onClick={() => setPlaySpeed(speed)}
+                >
+                  {speed}x
+                </button>
+              ))}
+            </div>
+            {timelineMode === 'date' && (
+              <span className="hw-timeline-status">
+                Day {selectedDay + 1} of {dateRange.totalDays} — <strong>{activeOnDate}</strong> active
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Collapsible analysis sections */}
       <div className="hw-sections">
@@ -738,6 +962,125 @@ export default function Highways() {
             )}
           </CollapsibleSection>
         )}
+
+        {/* Road Infrastructure */}
+        <CollapsibleSection
+          title="Road Infrastructure"
+          subtitle="Traffic signals, crossings, restrictions and infrastructure hotspots"
+          severity="neutral"
+          icon={<Layers size={18} />}
+          count={infrastructure?.summary?.total_features || null}
+          countLabel="features"
+        >
+          {infrastructure ? (
+            <>
+              {/* Summary grid */}
+              <div className="hw-infra-summary-grid">
+                {[
+                  { label: 'Traffic Signals', value: infrastructure.summary?.traffic_signals, color: '#0a84ff' },
+                  { label: 'Roundabouts', value: infrastructure.summary?.roundabouts, color: '#bf5af2' },
+                  { label: 'Mini Roundabouts', value: infrastructure.summary?.mini_roundabouts, color: '#af52de' },
+                  { label: 'Level Crossings', value: infrastructure.summary?.level_crossings, color: '#ff453a' },
+                  { label: 'Narrow Roads', value: infrastructure.summary?.narrow_roads, color: '#ff9f0a' },
+                  { label: 'Bridges', value: infrastructure.summary?.bridges, color: '#30d158' },
+                  { label: 'Weight Restrictions', value: infrastructure.summary?.weight_restrictions, color: '#ff6d3b' },
+                  { label: 'Height Restrictions', value: infrastructure.summary?.height_restrictions, color: '#ffd60a' },
+                ].filter(item => item.value != null).map(({ label, value, color }) => (
+                  <div key={label} className="hw-infra-summary-cell">
+                    <div className="hw-infra-summary-value" style={{ color }}>{formatNumber(value)}</div>
+                    <div className="hw-infra-summary-label">{label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Speed limit breakdown */}
+              {infrastructure.speed_zones && Object.keys(infrastructure.speed_zones).length > 0 && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: 8 }}>Speed Limit Distribution</div>
+                  <div className="hw-speed-bar-container">
+                    {Object.entries(infrastructure.speed_zones)
+                      .sort(([a], [b]) => parseInt(a) - parseInt(b))
+                      .map(([limit, data]) => {
+                        const count = typeof data === 'number' ? data : data?.count || 0
+                        const total = Object.values(infrastructure.speed_zones).reduce((sum, v) => sum + (typeof v === 'number' ? v : v?.count || 0), 0)
+                        const pct = total > 0 ? (count / total) * 100 : 0
+                        const colors = { '20': '#30d158', '30': '#0a84ff', '40': '#bf5af2', '50': '#ff9f0a', '60': '#ff6d3b', '70': '#ff453a' }
+                        const barColor = colors[limit] || '#8e8e93'
+                        return (
+                          <div key={limit} className="hw-speed-bar-row">
+                            <span className="hw-speed-bar-label">{limit}mph</span>
+                            <div className="hw-speed-bar">
+                              <div className="hw-speed-bar-fill" style={{ width: `${pct}%`, background: barColor }} />
+                            </div>
+                            <span className="hw-speed-bar-value">{formatNumber(count)} ({pct.toFixed(1)}%)</span>
+                          </div>
+                        )
+                      })}
+                  </div>
+                </div>
+              )}
+
+              {/* Infrastructure hotspots */}
+              {infrastructure.hotspots && infrastructure.hotspots.length > 0 && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: 8 }}>Infrastructure Hotspots</div>
+                  {infrastructure.hotspots.slice(0, 10).map((hs, i) => {
+                    const sevClass = hs.severity === 'high' ? 'high' : hs.severity === 'medium' ? 'medium' : 'low'
+                    return (
+                      <div key={i} className="hw-hotspot-card">
+                        <div className="hw-hotspot-header">
+                          <span className="hw-hotspot-name">{hs.name || hs.location || `Hotspot ${i + 1}`}</span>
+                          <span className={`hw-hotspot-severity hw-hotspot-severity--${sevClass}`}>
+                            {hs.severity || 'unknown'}
+                          </span>
+                        </div>
+                        {hs.detail && <div className="hw-hotspot-detail">{hs.detail}</div>}
+                        <div className="hw-hotspot-meta">
+                          {hs.nearby_works != null && <span>{hs.nearby_works} nearby works</span>}
+                          {hs.feature_count != null && <span>{hs.feature_count} features</span>}
+                          {hs.type && <span>{hs.type}</span>}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* Level crossings table */}
+              {infrastructure.level_crossings_detail && infrastructure.level_crossings_detail.length > 0 && (
+                <div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: 8 }}>Level Crossings</div>
+                  <div className="hw-table-overflow">
+                    <table className="hw-legal-table">
+                      <thead>
+                        <tr>
+                          <th>Name / Location</th>
+                          <th>Barrier Type</th>
+                          <th>Nearby Works</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {infrastructure.level_crossings_detail.map((lc, i) => (
+                          <tr key={i}>
+                            <td className="hw-td-bold">{lc.name || lc.location || `Crossing ${i + 1}`}</td>
+                            <td>{lc.barrier_type || lc.type || '-'}</td>
+                            <td>{lc.nearby_works != null ? lc.nearby_works : '-'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="hw-empty hw-empty--styled" style={{ padding: '24px 16px' }}>
+              <div className="hw-empty-icon" style={{ fontSize: '2rem' }}>🔧</div>
+              <h3>Infrastructure data being collected</h3>
+              <p>Road infrastructure intelligence (traffic signals, crossings, restrictions) is currently being gathered for this area. Check back soon.</p>
+            </div>
+          )}
+        </CollapsibleSection>
 
         {/* District breakdown */}
         {districtData.length > 1 && (
