@@ -169,6 +169,78 @@ const mockLegal = {
   },
 }
 
+const mockAssetsData = {
+  meta: {
+    data_quality_note: 'Capital programme figures are budgeted, not confirmed outturn.',
+    generated: '2026-03-05T00:00:00Z',
+  },
+  network_summary: {
+    total_length_km: 7142,
+    total_length_miles: 4437,
+    gross_replacement_cost: 10000000000,
+    structures_count: 2009,
+    traffic_signals_count: 5778,
+  },
+  asset_categories: [
+    { category: 'Carriageways', grc_estimate: 7500000000, grc_pct: 75, fill: '#ff9f0a' },
+    { category: 'Footways & Cycleways', grc_estimate: 1200000000, grc_pct: 12, fill: '#0a84ff' },
+    { category: 'Structures (Bridges & Retaining Walls)', grc_estimate: 800000000, grc_pct: 8, fill: '#bf5af2' },
+  ],
+  road_condition: {
+    current_year: '2024/25',
+    survey_method: 'Detailed Video Survey (DVS)',
+    transition_note: 'PAS 2161 transition from 2026/27.',
+    key_insight: 'Unclassified network has been ~27-28% red for 5 consecutive years.',
+    a_roads: { red_pct: 3.9, note: 'Below national average.' },
+    bc_roads: { red_pct: 6.49, note: 'Jumped from 4.59% in one year.' },
+    unclassified: { red_pct: 27.56, note: 'Over 1-in-4 roads need structural maintenance.' },
+    trend: [
+      { year: '2021/22', a_red: 1.43, bc_red: 3.59, uc_red: 26.39 },
+      { year: '2024/25', a_red: 3.0, bc_red: 4.59, uc_red: 27.67 },
+      { year: '2025/26 (survey)', a_red: 3.9, bc_red: 6.49, uc_red: 27.56 },
+    ],
+  },
+  budget_trend: {
+    years: [
+      { year: '2021/22', data_type: 'confirmed_outturn', net_revenue: 54355000, total_expenditure: 102979000, capital_programme: null },
+      { year: '2023/24', data_type: 'confirmed_outturn', net_revenue: 71138000, total_expenditure: 124848000, capital_programme: null },
+      { year: '2025/26', data_type: 'budget_estimate', net_revenue: null, capital_programme: 72000000, capital_dft: 48500000, capital_council: 18500000 },
+    ],
+  },
+  investment_analysis: {
+    lcc_maintenance_backlog: 650000000,
+    lcc_backlog_source: 'Cabinet Member Warren Goldsworthy, March 2026',
+    steady_state_estimate: 400000000,
+    current_best_annual_capital: 72000000,
+    capital_as_pct_steady_state: 18,
+    key_insight: 'LCC faces a structural £650M backlog at 18% of steady-state investment.',
+  },
+  lifecycle_models: [
+    { treatment: 'Surface Dressing', lifespan_years: 10, cost_per_km: 37500, cost_per_km_per_year: 3750, effectiveness: 'best_value', suitable_for: 'Preventive on A/B roads' },
+    { treatment: 'Micro-asphalt', lifespan_years: 7, cost_per_km: 50000, cost_per_km_per_year: 7143, effectiveness: 'good_value', suitable_for: 'Residential streets' },
+    { treatment: 'Full Reconstruction', lifespan_years: 40, cost_per_km: 750000, cost_per_km_per_year: 18750, effectiveness: 'most_expensive', suitable_for: 'Severely deteriorated roads' },
+  ],
+  valuation_questions: {
+    intro: 'Are road assets valued correctly?',
+    questions: [
+      { id: 'heritage_setts', title: 'Cobblestones: Hidden Heritage Asset?', question: 'Are sett streets valued as standard carriageway?', analysis: 'Sett relaying is more expensive than asphalt.', implication: 'GRC may be understated for heritage sett streets.' },
+    ],
+  },
+  innovation_opportunities: [
+    { id: 'led_lighting', title: 'LED Street Lighting Conversion', category: 'Energy & Carbon', status: 'Partially implemented', payback_years: 5.5, value_summary: '50–70% energy saving per column.', lancashire_angle: 'Full conversion = significant energy saving.', risk_note: 'Upfront capital cost.', policy_driver: 'Net Zero 2050' },
+    { id: 'heritage_setts', title: 'Heritage Cobblestone & Sett Recovery', category: 'Heritage & Placemaking', status: 'Emerging opportunity', payback_years: null, value_summary: 'Heritage and tourism value.', lancashire_angle: 'Lancashire mill towns have setts under tarmac.', risk_note: null, policy_driver: 'NPPF Heritage Assets' },
+  ],
+  asset_management_framework: {
+    legislation: [
+      { act: 'Highways Act 1980', section: 's41', duty: 'Duty to maintain adopted highways' },
+    ],
+    standards: [
+      { standard: 'CIPFA Transport Infrastructure Code', version: '2nd Ed 2016', purpose: 'GRC/DRC asset valuation methodology' },
+      { standard: 'BSI PAS 2161', version: '2021', purpose: 'New 5-category road condition standard' },
+    ],
+  },
+}
+
 // --- Test setup ---
 
 function renderComponent(initialEntries = ['/highways']) {
@@ -184,7 +256,7 @@ beforeEach(() => {
   useCouncilConfig.mockReturnValue(mockConfig)
   useAuth.mockReturnValue({ isStrategist: false, isAdmin: false })
   useData.mockReturnValue({
-    data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal],
+    data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, mockAssetsData],
     loading: false,
     error: null,
   })
@@ -543,7 +615,7 @@ describe('Highways', () => {
 
   it('handles null traffic data gracefully', () => {
     useData.mockReturnValue({
-      data: [mockRoadworksData, null, mockBoundaries, mockLegal],
+      data: [mockRoadworksData, null, mockBoundaries, mockLegal, mockAssetsData],
       loading: false,
       error: null,
     })
@@ -555,7 +627,7 @@ describe('Highways', () => {
 
   it('handles empty roadworks array', () => {
     useData.mockReturnValue({
-      data: [{ ...mockRoadworksData, roadworks: [] }, null, null, null],
+      data: [{ ...mockRoadworksData, roadworks: [] }, null, null, null, null],
       loading: false,
       error: null,
     })
@@ -565,12 +637,206 @@ describe('Highways', () => {
 
   it('handles null legal data gracefully', () => {
     useData.mockReturnValue({
-      data: [mockRoadworksData, mockTrafficData, null, null],
+      data: [mockRoadworksData, mockTrafficData, null, null, null],
       loading: false,
       error: null,
     })
     renderComponent()
     expect(screen.getByText(/Highways & Roadworks/)).toBeInTheDocument()
     expect(screen.queryByText('Legal Framework')).not.toBeInTheDocument()
+  })
+
+  // --- Assets & Investment ---
+
+  describe('Assets & Investment section', () => {
+    it('renders Assets & Investment section when data present', () => {
+      renderComponent()
+      expect(screen.getByText('Assets & Investment')).toBeInTheDocument()
+    })
+
+    it('shows gross replacement cost', () => {
+      renderComponent()
+      expect(screen.getByText('£10B')).toBeInTheDocument()
+    })
+
+    it('shows Gross Replacement Cost label', () => {
+      renderComponent()
+      expect(screen.getByText('Gross Replacement Cost')).toBeInTheDocument()
+    })
+
+    it('shows network length', () => {
+      renderComponent()
+      expect(screen.getByText('7,142km')).toBeInTheDocument()
+    })
+
+    it('shows structures count', () => {
+      renderComponent()
+      expect(screen.getByText('2,009')).toBeInTheDocument()
+    })
+
+    it('shows traffic signals count', () => {
+      renderComponent()
+      expect(screen.getByText('5,778')).toBeInTheDocument()
+    })
+
+    it('shows road condition section heading', () => {
+      renderComponent()
+      expect(screen.getAllByText(/Road Condition/).length).toBeGreaterThan(0)
+    })
+
+    it('shows A roads red percentage', () => {
+      renderComponent()
+      expect(screen.getByText('3.9% red')).toBeInTheDocument()
+    })
+
+    it('shows B&C roads red percentage', () => {
+      renderComponent()
+      expect(screen.getByText('6.5% red')).toBeInTheDocument()
+    })
+
+    it('shows unclassified roads red percentage', () => {
+      renderComponent()
+      expect(screen.getByText('27.6% red')).toBeInTheDocument()
+    })
+
+    it('shows road condition key insight', () => {
+      renderComponent()
+      expect(screen.getByText(/Unclassified network has been ~27-28% red for 5 consecutive years/)).toBeInTheDocument()
+    })
+
+    it('shows True Cost of Getting Roads Right heading', () => {
+      renderComponent()
+      expect(screen.getByText('True Cost of Getting Roads Right')).toBeInTheDocument()
+    })
+
+    it('shows maintenance backlog value', () => {
+      renderComponent()
+      expect(screen.getByText('£650M')).toBeInTheDocument()
+    })
+
+    it('shows steady-state estimate', () => {
+      renderComponent()
+      expect(screen.getByText('£400M')).toBeInTheDocument()
+    })
+
+    it('shows years to clear backlog', () => {
+      renderComponent()
+      expect(screen.getByText('~9yr')).toBeInTheDocument()
+    })
+
+    it('shows lifecycle economics section', () => {
+      renderComponent()
+      expect(screen.getByText(/Lifecycle Economics/)).toBeInTheDocument()
+    })
+
+    it('shows all lifecycle treatment names', () => {
+      renderComponent()
+      expect(screen.getByText('Surface Dressing')).toBeInTheDocument()
+      expect(screen.getByText('Full Reconstruction')).toBeInTheDocument()
+    })
+
+    it('shows best value badge on surface dressing', () => {
+      renderComponent()
+      expect(screen.getByText('Best value')).toBeInTheDocument()
+    })
+
+    it('shows most expensive badge on reconstruction', () => {
+      renderComponent()
+      expect(screen.getByText('Most expensive')).toBeInTheDocument()
+    })
+
+    it('shows valuation questions section', () => {
+      renderComponent()
+      expect(screen.getByText(/Valuation Questions/)).toBeInTheDocument()
+    })
+
+    it('shows heritage setts valuation question', () => {
+      renderComponent()
+      expect(screen.getByText('Cobblestones: Hidden Heritage Asset?')).toBeInTheDocument()
+    })
+
+    it('shows innovation opportunities section', () => {
+      renderComponent()
+      expect(screen.getByText(/Innovation Opportunities/)).toBeInTheDocument()
+    })
+
+    it('shows innovation card titles', () => {
+      renderComponent()
+      expect(screen.getByText('LED Street Lighting Conversion')).toBeInTheDocument()
+      expect(screen.getByText('Heritage Cobblestone & Sett Recovery')).toBeInTheDocument()
+    })
+
+    it('shows asset management framework section', () => {
+      renderComponent()
+      expect(screen.getByText('Asset Management Framework')).toBeInTheDocument()
+    })
+
+    it('shows legislation in framework', () => {
+      renderComponent()
+      expect(screen.getByText('Highways Act 1980')).toBeInTheDocument()
+    })
+
+    it('shows standards in framework', () => {
+      renderComponent()
+      expect(screen.getAllByText('CIPFA Transport Infrastructure Code').length).toBeGreaterThan(0)
+    })
+
+    it('shows data quality notice', () => {
+      renderComponent()
+      expect(screen.getByText(/Capital programme figures are budgeted, not confirmed outturn/)).toBeInTheDocument()
+    })
+
+    it('hides Assets section gracefully when assets data is null', () => {
+      useData.mockReturnValue({
+        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, null],
+        loading: false,
+        error: null,
+      })
+      renderComponent()
+      expect(screen.queryByText('Assets & Investment')).not.toBeInTheDocument()
+    })
+
+    it('still renders page normally when assets data is null', () => {
+      useData.mockReturnValue({
+        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, null],
+        loading: false,
+        error: null,
+      })
+      renderComponent()
+      expect(screen.getByText(/Highways & Roadworks/)).toBeInTheDocument()
+    })
+
+    it('handles empty asset_categories gracefully', () => {
+      const noCategories = { ...mockAssetsData, asset_categories: [] }
+      useData.mockReturnValue({
+        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, noCategories],
+        loading: false,
+        error: null,
+      })
+      renderComponent()
+      expect(screen.getByText('Assets & Investment')).toBeInTheDocument()
+    })
+
+    it('handles empty lifecycle_models gracefully', () => {
+      const noLifecycle = { ...mockAssetsData, lifecycle_models: [] }
+      useData.mockReturnValue({
+        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, noLifecycle],
+        loading: false,
+        error: null,
+      })
+      renderComponent()
+      expect(screen.getByText('Assets & Investment')).toBeInTheDocument()
+    })
+
+    it('handles empty innovation_opportunities gracefully', () => {
+      const noInnovation = { ...mockAssetsData, innovation_opportunities: [] }
+      useData.mockReturnValue({
+        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, noInnovation],
+        loading: false,
+        error: null,
+      })
+      renderComponent()
+      expect(screen.queryByText(/Innovation Opportunities/)).not.toBeInTheDocument()
+    })
   })
 })

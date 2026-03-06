@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers } from 'lucide-react'
+import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers, Building2, Lightbulb, TrendingDown, DollarSign, Wrench } from 'lucide-react'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -134,7 +135,7 @@ export default function Highways() {
   // Load data
   const { data: allData, loading, error } = useData(
     dataSources.highways
-      ? ['/data/roadworks.json', '/data/traffic.json', '/data/ward_boundaries.json', '/data/shared/highways_legal.json']
+      ? ['/data/roadworks.json', '/data/traffic.json', '/data/ward_boundaries.json', '/data/shared/highways_legal.json', '/data/shared/highways_assets.json']
       : null
   )
 
@@ -182,12 +183,13 @@ export default function Highways() {
   }, [setSearchParams])
 
   // Destructure data (safe even when null/loading)
-  const [roadworksData, trafficData, boundariesData, legalData] = allData || [null, null, null, null]
+  const [roadworksData, trafficData, boundariesData, legalData, assetsData] = allData || [null, null, null, null, null]
   const roadworks = roadworksData?.roadworks || []
   const stats = roadworksData?.stats || {}
   const meta = roadworksData?.meta || {}
   const traffic = trafficData || null
   const legal = legalData || null
+  const assets = assetsData || null
   const infrastructure = traffic?.road_infrastructure || null
 
   // Timeline date range computation
@@ -293,6 +295,39 @@ export default function Highways() {
     setTimelineMode('date')
     setSelectedDay(prev => Math.max(0, Math.min(dateRange.totalDays, prev + delta)))
   }, [dateRange.totalDays])
+
+  // Assets — derived chart data (all useMemo hooks MUST be before conditional returns)
+  const assetChartData = useMemo(() => {
+    if (!assets?.asset_categories) return []
+    return assets.asset_categories
+      .filter(c => c.grc_estimate != null)
+      .map(c => ({ name: c.category.replace(' & ', ' &\n').replace(' (', '\n('), fullName: c.category, value: Math.round(c.grc_estimate / 1e6), fill: c.fill || '#8e8e93' }))
+  }, [assets])
+
+  const lifecycleData = useMemo(() => {
+    if (!assets?.lifecycle_models) return []
+    return assets.lifecycle_models.map(m => ({
+      name: m.treatment,
+      costKm: m.cost_per_km,
+      lifespanYrs: m.lifespan_years,
+      costPerYr: m.cost_per_km_per_year,
+      effectiveness: m.effectiveness,
+    }))
+  }, [assets])
+
+  const budgetTrendData = useMemo(() => {
+    if (!assets?.budget_trend?.years) return []
+    return assets.budget_trend.years
+      .filter(y => y.net_revenue != null || y.capital_programme != null)
+      .map(y => ({
+        year: y.year.replace('/2', '/').replace('20', ''),
+        fullYear: y.year,
+        net: y.net_revenue ? Math.round(y.net_revenue / 1e6) : null,
+        gross: y.total_expenditure ? Math.round(y.total_expenditure / 1e6) : null,
+        capital: y.capital_programme ? Math.round(y.capital_programme / 1e6) : null,
+        isBudget: y.data_type === 'budget_estimate',
+      }))
+  }, [assets])
 
   // Guard: feature not enabled
   if (!dataSources.highways) {
@@ -1105,6 +1140,294 @@ export default function Highways() {
             </div>
           )}
         </CollapsibleSection>
+
+        {/* Assets & Investment */}
+        {assets && (
+          <CollapsibleSection
+            title="Assets &amp; Investment"
+            subtitle={`£${(assets.network_summary?.gross_replacement_cost / 1e9).toFixed(0)}B asset base — road condition, true maintenance cost, lifecycle economics`}
+            severity="neutral"
+            icon={<Building2 size={18} />}
+            defaultOpen
+          >
+            {/* Data quality notice */}
+            <div className="hw-asset-notice">
+              <AlertTriangle size={14} style={{ flexShrink: 0, color: '#ff9f0a' }} />
+              <span>{assets.meta?.data_quality_note}</span>
+            </div>
+
+            {/* A. Asset Valuation Overview */}
+            <div className="hw-assets-sub-heading">Network Asset Valuation</div>
+            <div className="hw-asset-stat-row">
+              <div className="hw-asset-stat">
+                <div className="hw-asset-stat-value">£{(assets.network_summary?.gross_replacement_cost / 1e9).toFixed(0)}B</div>
+                <div className="hw-asset-stat-label">Gross Replacement Cost</div>
+                <div className="hw-asset-stat-note">CIPFA Transport Infrastructure Code</div>
+              </div>
+              <div className="hw-asset-stat">
+                <div className="hw-asset-stat-value">{assets.network_summary?.total_length_km?.toLocaleString()}km</div>
+                <div className="hw-asset-stat-label">Road Network</div>
+                <div className="hw-asset-stat-note">{assets.network_summary?.total_length_miles?.toLocaleString()} miles managed by LCC</div>
+              </div>
+              <div className="hw-asset-stat">
+                <div className="hw-asset-stat-value">{assets.network_summary?.structures_count?.toLocaleString()}</div>
+                <div className="hw-asset-stat-label">Bridges &amp; Structures</div>
+                <div className="hw-asset-stat-note">Each requiring periodic inspection</div>
+              </div>
+              <div className="hw-asset-stat">
+                <div className="hw-asset-stat-value">{assets.network_summary?.traffic_signals_count?.toLocaleString()}</div>
+                <div className="hw-asset-stat-label">Traffic Signals</div>
+                <div className="hw-asset-stat-note">From OSM Overpass data</div>
+              </div>
+            </div>
+            {assetChartData.length > 0 && (
+              <ChartCard title="GRC by Asset Category (£M)" subtitle="Carriageways dominate at ~75% of total network replacement cost">
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={assetChartData} layout="vertical" margin={{ top: 0, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
+                    <YAxis type="category" dataKey="name" tick={{ ...AXIS_TICK_STYLE, fontSize: 11 }} width={120} />
+                    <RechartsTooltip
+                      {...CHART_TOOLTIP_STYLE}
+                      formatter={(v, _, p) => [`£${Number(v).toLocaleString()}M`, p.payload.fullName]}
+                    />
+                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                      {assetChartData.map((entry, i) => (
+                        <Cell key={i} fill={entry.fill} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            )}
+
+            {/* B. Road Condition Reality */}
+            <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>Road Condition — {assets.road_condition?.current_year}</div>
+            <div className="hw-condition-note">{assets.road_condition?.survey_method}</div>
+            {['a_roads', 'bc_roads', 'unclassified'].map(key => {
+              const labels = { a_roads: 'A Roads', bc_roads: 'B &amp; C Roads', unclassified: 'Unclassified (residential)' }
+              const rc = assets.road_condition?.[key]
+              if (!rc) return null
+              const pct = rc.red_pct || 0
+              const isCritical = key === 'unclassified' && pct > 20
+              const isWarning = pct > 6
+              const barColor = isCritical ? '#ff453a' : isWarning ? '#ff9f0a' : '#30d158'
+              return (
+                <div key={key} className="hw-condition-row">
+                  <div className="hw-condition-label" dangerouslySetInnerHTML={{ __html: labels[key] }} />
+                  <div className="hw-condition-bar-track">
+                    <div className="hw-condition-bar-fill" style={{ width: `${Math.min(pct, 100)}%`, background: barColor }} />
+                  </div>
+                  <div className="hw-condition-pct" style={{ color: barColor }}>{pct.toFixed(1)}% red</div>
+                  {rc.note && <div className="hw-condition-sub">{rc.note}</div>}
+                </div>
+              )
+            })}
+            <div className="hw-condition-insight">{assets.road_condition?.key_insight}</div>
+
+            {/* Condition trend chart */}
+            {assets.road_condition?.trend?.some(t => t.a_red != null || t.bc_red != null || t.uc_red != null) && (
+              <ChartCard title="Road Condition Trend — % in Red Category" subtitle="Higher = worse. Note: unclassified roads on different scale to classified.">
+                <ResponsiveContainer width="100%" height={220}>
+                  <LineChart data={assets.road_condition.trend.filter(t => t.a_red != null || t.bc_red != null || t.uc_red != null)} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="year" tick={{ ...AXIS_TICK_STYLE, fontSize: 11 }} tickFormatter={y => y.replace('/2', '/')} />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${v}%`} />
+                    <RechartsTooltip {...CHART_TOOLTIP_STYLE} formatter={(v, n) => [`${v}%`, n === 'a_red' ? 'A Roads' : n === 'bc_red' ? 'B&C Roads' : 'Unclassified']} />
+                    <Legend formatter={v => ({ a_red: 'A Roads', bc_red: 'B&C Roads', uc_red: 'Unclassified' }[v] || v)} />
+                    <Line type="monotone" dataKey="a_red" stroke="#30d158" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+                    <Line type="monotone" dataKey="bc_red" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+                    <Line type="monotone" dataKey="uc_red" stroke="#ff453a" strokeWidth={2} dot={{ r: 3 }} strokeDasharray="none" connectNulls />
+                  </LineChart>
+                </ResponsiveContainer>
+                <div className="hw-condition-transition">{assets.road_condition?.transition_note}</div>
+              </ChartCard>
+            )}
+
+            {/* C. True Cost of Getting Roads Right */}
+            <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>True Cost of Getting Roads Right</div>
+            <div className="hw-cost-analysis">
+              <div className="hw-cost-grid">
+                <div className="hw-cost-card hw-cost-card--backlog">
+                  <div className="hw-cost-card-label">LCC Maintenance Backlog</div>
+                  <div className="hw-cost-card-value">£{(assets.investment_analysis?.lcc_maintenance_backlog / 1e6).toFixed(0)}M</div>
+                  <div className="hw-cost-card-note">{assets.investment_analysis?.lcc_backlog_source}</div>
+                </div>
+                <div className="hw-cost-card hw-cost-card--steadystate">
+                  <div className="hw-cost-card-label">Est. Steady-State Need/year</div>
+                  <div className="hw-cost-card-value">£{(assets.investment_analysis?.steady_state_estimate / 1e6).toFixed(0)}M</div>
+                  <div className="hw-cost-card-note">£10B GRC ÷ ~25yr avg life. Illustrative only — different asset classes have very different lifespans.</div>
+                </div>
+                <div className="hw-cost-card hw-cost-card--actual">
+                  <div className="hw-cost-card-label">2026/27 Capital Programme</div>
+                  <div className="hw-cost-card-value">£{(assets.investment_analysis?.current_best_annual_capital / 1e6).toFixed(0)}M</div>
+                  <div className="hw-cost-card-note">Budgeted — not confirmed outturn. {assets.investment_analysis?.capital_as_pct_steady_state}% of estimated steady-state need.</div>
+                </div>
+                <div className="hw-cost-card hw-cost-card--gap">
+                  <div className="hw-cost-card-label">Years to Clear Backlog</div>
+                  <div className="hw-cost-card-value">~{Math.round(assets.investment_analysis?.lcc_maintenance_backlog / assets.investment_analysis?.current_best_annual_capital)}yr</div>
+                  <div className="hw-cost-card-note">At current capital spend, assuming zero new deterioration — which is impossible in practice.</div>
+                </div>
+              </div>
+              <div className="hw-cost-insight">{assets.investment_analysis?.key_insight}</div>
+            </div>
+
+            {/* Budget trend chart */}
+            {budgetTrendData.length > 0 && (
+              <ChartCard title="Highways Revenue Expenditure Trend (£M)" subtitle="Confirmed outturn (GOV.UK MHCLG) shown solid. Budgeted/estimated shown with note.">
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={budgetTrendData} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
+                    <RechartsTooltip
+                      {...CHART_TOOLTIP_STYLE}
+                      formatter={(v, n, p) => {
+                        const label = n === 'net' ? 'Net Revenue' : n === 'gross' ? 'Gross Expenditure' : 'Capital Programme'
+                        const suffix = p.payload.isBudget ? ' (budgeted)' : ' (confirmed outturn)'
+                        return [`£${v}M${suffix}`, label]
+                      }}
+                    />
+                    <Legend formatter={v => ({ net: 'Net Revenue', gross: 'Gross Expenditure', capital: 'Capital Programme' }[v] || v)} />
+                    <Bar dataKey="gross" fill="#0a84ff" radius={[2, 2, 0, 0]} name="gross" />
+                    <Bar dataKey="net" fill="#30d158" radius={[2, 2, 0, 0]} name="net" />
+                    <Bar dataKey="capital" fill="#ff9f0a" radius={[2, 2, 0, 0]} name="capital" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            )}
+
+            {/* D. Lifecycle Economics */}
+            <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
+              <Wrench size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#bf5af2' }} />
+              Lifecycle Economics — Which Treatment is Best Value?
+            </div>
+            <div className="hw-lifecycle-intro">Cost per km per year of life is the key metric. Surface dressing (£3,750/yr) is 5× cheaper than full reconstruction (£18,750/yr) — the case for preventative maintenance.</div>
+            <div className="hw-table-overflow">
+              <table className="hw-legal-table">
+                <thead>
+                  <tr>
+                    <th>Treatment</th>
+                    <th>Cost/km</th>
+                    <th>Lifespan</th>
+                    <th className="hw-th-highlight">£/km/year</th>
+                    <th>Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {lifecycleData.map((m, i) => {
+                    const isBest = m.effectiveness === 'best_value'
+                    const isWorst = m.effectiveness === 'most_expensive'
+                    return (
+                      <tr key={i} className={isBest ? 'hw-tr-best' : isWorst ? 'hw-tr-worst' : ''}>
+                        <td className="hw-td-bold">
+                          {m.name}
+                          {isBest && <span className="hw-lifecycle-badge hw-lifecycle-best">Best value</span>}
+                          {isWorst && <span className="hw-lifecycle-badge hw-lifecycle-worst">Most expensive</span>}
+                        </td>
+                        <td>£{m.costKm?.toLocaleString()}</td>
+                        <td>{m.lifespanYrs} years</td>
+                        <td className="hw-td-cost" style={{ color: isBest ? '#30d158' : isWorst ? '#ff453a' : 'inherit' }}>
+                          £{m.costPerYr?.toLocaleString()}
+                        </td>
+                        <td className="hw-td-secondary">{assets.lifecycle_models?.[i]?.suitable_for}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* E. Valuation Questions */}
+            {assets.valuation_questions?.questions?.length > 0 && (
+              <>
+                <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
+                  <Lightbulb size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#ffd60a' }} />
+                  Valuation Questions — Is the £10B Figure Right?
+                </div>
+                <div className="hw-valuation-intro">{assets.valuation_questions.intro}</div>
+                <div className="hw-valuation-grid">
+                  {assets.valuation_questions.questions.map((q, i) => (
+                    <div key={i} className="hw-valuation-card">
+                      <div className="hw-valuation-title">{q.title}</div>
+                      <div className="hw-valuation-question">{q.question}</div>
+                      <div className="hw-valuation-analysis">{q.analysis}</div>
+                      <div className="hw-valuation-implication">
+                        <span className="hw-valuation-imp-label">Implication: </span>
+                        {q.implication}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* F. Innovation Opportunities */}
+            {assets.innovation_opportunities?.length > 0 && (
+              <>
+                <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
+                  <Lightbulb size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#30d158' }} />
+                  Innovation Opportunities
+                </div>
+                <div className="hw-innovation-grid">
+                  {assets.innovation_opportunities.map((opp, i) => (
+                    <div key={i} className="hw-innovation-card">
+                      <div className="hw-innovation-header">
+                        <span className="hw-innovation-title">{opp.title}</span>
+                        <span className="hw-innovation-cat">{opp.category}</span>
+                      </div>
+                      <div className="hw-innovation-status-row">
+                        <span className={`hw-innovation-status hw-innovation-status--${opp.status.toLowerCase().includes('implement') ? 'active' : opp.status.toLowerCase().includes('mandatory') ? 'warning' : 'opportunity'}`}>
+                          {opp.status}
+                        </span>
+                        {opp.payback_years && <span className="hw-innovation-payback">{opp.payback_years}yr payback</span>}
+                      </div>
+                      <div className="hw-innovation-value">{opp.value_summary}</div>
+                      <div className="hw-innovation-lancashire">{opp.lancashire_angle}</div>
+                      {opp.risk_note && <div className="hw-innovation-risk">⚠️ {opp.risk_note}</div>}
+                      <div className="hw-innovation-policy">{opp.policy_driver}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* G. Asset Management Framework */}
+            {assets.asset_management_framework && (
+              <>
+                <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>Asset Management Framework</div>
+                <div className="hw-table-overflow" style={{ marginBottom: 12 }}>
+                  <table className="hw-legal-table">
+                    <thead><tr><th>Legislation</th><th>Section</th><th>Duty</th></tr></thead>
+                    <tbody>
+                      {assets.asset_management_framework.legislation?.map((l, i) => (
+                        <tr key={i}>
+                          <td className="hw-td-blue">{l.act}</td>
+                          <td>{l.section}</td>
+                          <td>{l.duty}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="hw-table-overflow">
+                  <table className="hw-legal-table">
+                    <thead><tr><th>Standard</th><th>Version</th><th>Purpose</th></tr></thead>
+                    <tbody>
+                      {assets.asset_management_framework.standards?.map((s, i) => (
+                        <tr key={i}>
+                          <td className="hw-td-bold">{s.standard}</td>
+                          <td style={{ color: '#8e8e93', fontSize: '0.8rem' }}>{s.version}</td>
+                          <td>{s.purpose}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+          </CollapsibleSection>
+        )}
 
         {/* District breakdown */}
         {districtData.length > 1 && (

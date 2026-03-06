@@ -1919,3 +1919,449 @@
     flex-shrink: 0;
   }
 }
+
+/* ─────────────────────────────────────────
+   Assets & Investment Section
+   ───────────────────────────────────────── */
+
+/* Data quality notice banner */
+.hw-asset-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-size: 0.78rem;
+  color: #aeaeb2;
+  line-height: 1.5;
+}
+
+/* Sub-section headings */
+.hw-assets-sub-heading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Asset stat row */
+.hw-asset-stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.hw-asset-stat {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.hw-asset-stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+
+.hw-asset-stat-label {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hw-asset-stat-note {
+  font-size: 0.72rem;
+  color: #636366;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+/* Road condition bars */
+.hw-condition-note {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.hw-condition-row {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0 12px;
+  margin-bottom: 10px;
+}
+
+.hw-condition-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c7c7cc;
+}
+
+.hw-condition-bar-track {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.hw-condition-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+
+.hw-condition-pct {
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.hw-condition-sub {
+  grid-column: 2 / 4;
+  font-size: 0.75rem;
+  color: #636366;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.hw-condition-insight {
+  background: rgba(255, 69, 58, 0.07);
+  border-left: 3px solid #ff453a;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  color: #aeaeb2;
+  margin: 12px 0 0;
+  line-height: 1.5;
+}
+
+.hw-condition-transition {
+  font-size: 0.75rem;
+  color: #636366;
+  margin-top: 8px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* True Cost analysis */
+.hw-cost-analysis {
+  margin-bottom: 16px;
+}
+
+.hw-cost-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.hw-cost-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.hw-cost-card--backlog {
+  border-color: rgba(255, 69, 58, 0.25);
+  background: rgba(255, 69, 58, 0.06);
+}
+.hw-cost-card--steadystate {
+  border-color: rgba(191, 90, 242, 0.25);
+  background: rgba(191, 90, 242, 0.06);
+}
+.hw-cost-card--actual {
+  border-color: rgba(255, 159, 10, 0.25);
+  background: rgba(255, 159, 10, 0.06);
+}
+.hw-cost-card--gap {
+  border-color: rgba(48, 209, 88, 0.25);
+  background: rgba(48, 209, 88, 0.06);
+}
+
+.hw-cost-card-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #8e8e93;
+  margin-bottom: 6px;
+}
+
+.hw-cost-card-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.hw-cost-card-note {
+  font-size: 0.73rem;
+  color: #636366;
+  line-height: 1.4;
+}
+
+.hw-cost-insight {
+  background: rgba(48, 209, 88, 0.06);
+  border-left: 3px solid #30d158;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  color: #aeaeb2;
+  line-height: 1.5;
+}
+
+/* Lifecycle table */
+.hw-lifecycle-intro {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.hw-th-highlight {
+  color: #30d158 !important;
+}
+
+.hw-tr-best td {
+  background: rgba(48, 209, 88, 0.05);
+}
+
+.hw-tr-worst td {
+  background: rgba(255, 69, 58, 0.05);
+}
+
+.hw-td-cost {
+  font-weight: 700;
+}
+
+.hw-td-secondary {
+  color: #8e8e93;
+  font-size: 0.78rem;
+}
+
+.hw-lifecycle-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.hw-lifecycle-best {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+
+.hw-lifecycle-worst {
+  background: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+  border: 1px solid rgba(255, 69, 58, 0.3);
+}
+
+/* Valuation questions */
+.hw-valuation-intro {
+  font-size: 0.8rem;
+  color: #8e8e93;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.hw-valuation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.hw-valuation-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.hw-valuation-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffd60a;
+  margin-bottom: 6px;
+}
+
+.hw-valuation-question {
+  font-size: 0.78rem;
+  color: #c7c7cc;
+  margin-bottom: 8px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.hw-valuation-analysis {
+  font-size: 0.77rem;
+  color: #8e8e93;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.hw-valuation-implication {
+  font-size: 0.75rem;
+  color: #aeaeb2;
+  background: rgba(255, 215, 0, 0.06);
+  border-radius: 6px;
+  padding: 7px 10px;
+  line-height: 1.4;
+}
+
+.hw-valuation-imp-label {
+  font-weight: 700;
+  color: #ffd60a;
+}
+
+/* Innovation cards */
+.hw-innovation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.hw-innovation-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hw-innovation-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hw-innovation-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+}
+
+.hw-innovation-cat {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+.hw-innovation-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hw-innovation-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.hw-innovation-status--active {
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+
+.hw-innovation-status--warning {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+  border: 1px solid rgba(255, 159, 10, 0.3);
+}
+
+.hw-innovation-status--opportunity {
+  background: rgba(191, 90, 242, 0.15);
+  color: #bf5af2;
+  border: 1px solid rgba(191, 90, 242, 0.3);
+}
+
+.hw-innovation-payback {
+  font-size: 0.7rem;
+  color: #636366;
+}
+
+.hw-innovation-value {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #c7c7cc;
+  line-height: 1.4;
+}
+
+.hw-innovation-lancashire {
+  font-size: 0.76rem;
+  color: #8e8e93;
+  line-height: 1.45;
+}
+
+.hw-innovation-risk {
+  font-size: 0.73rem;
+  color: #ff9f0a;
+  background: rgba(255, 159, 10, 0.06);
+  border-radius: 5px;
+  padding: 5px 8px;
+  line-height: 1.35;
+}
+
+.hw-innovation-policy {
+  font-size: 0.7rem;
+  color: #48484a;
+  line-height: 1.35;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hw-asset-stat-row { grid-template-columns: 1fr 1fr; }
+  .hw-cost-grid { grid-template-columns: 1fr 1fr; }
+  .hw-condition-row { grid-template-columns: 130px 1fr auto; }
+  .hw-innovation-grid { grid-template-columns: 1fr; }
+  .hw-valuation-grid { grid-template-columns: 1fr; }
+}
