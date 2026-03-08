@@ -57,7 +57,7 @@
 }
 
 .hw-network-stat-label {
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   color: #8e8e93;
   white-space: nowrap;
 }
@@ -2428,7 +2428,7 @@
 }
 
 .hw-scenario-stat-label {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: #636366;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -2463,10 +2463,19 @@
   color: #0a84ff;
 }
 
+/* Budget note */
+.hw-budget-note {
+  font-size: 0.72rem;
+  color: var(--text-tertiary, #8e8e93);
+  text-align: center;
+  margin-top: 4px;
+  font-style: italic;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .hw-asset-stat-row { grid-template-columns: 1fr 1fr; }
-  .hw-cost-grid { grid-template-columns: 1fr 1fr; }
+  .hw-cost-grid { grid-template-columns: 1fr; }
   .hw-condition-row { grid-template-columns: 130px 1fr auto; }
   .hw-innovation-grid { grid-template-columns: 1fr; }
   .hw-valuation-grid { grid-template-columns: 1fr; }

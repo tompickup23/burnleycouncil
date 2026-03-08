@@ -1245,7 +1245,7 @@ export default function Highways() {
               const barColor = isCritical ? '#ff453a' : isWarning ? '#ff9f0a' : '#30d158'
               return (
                 <div key={key} className="hw-condition-row">
-                  <div className="hw-condition-label" dangerouslySetInnerHTML={{ __html: labels[key] }} />
+                  <div className="hw-condition-label">{labels[key]}</div>
                   <div className="hw-condition-bar-track">
                     <div className="hw-condition-bar-fill" style={{ width: `${Math.min(pct, 100)}%`, background: barColor }} />
                   </div>
@@ -1459,6 +1459,7 @@ export default function Highways() {
                   </BarChart>
                 </ResponsiveContainer>
               </ChartCard>
+              <p className="hw-budget-note">* 2025/26 and 2026/27 figures are budgeted allocations, not confirmed outturn</p>
             )}
 
             {/* Maintenance contract performance */}
@@ -1679,6 +1680,7 @@ export default function Highways() {
             {legal.legislation?.map((law, i) => (
               <div key={i} className="hw-law-block">
                 <div className="hw-law-title">{law.title}</div>
+                <div className="hw-table-overflow">
                 <table className="hw-legal-table">
                   <thead>
                     <tr>
@@ -1697,6 +1699,7 @@ export default function Highways() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             ))}
 
@@ -1728,6 +1731,7 @@ export default function Highways() {
             countLabel="sources"
             defaultOpen
           >
+            <div className="hw-table-overflow">
             <table className="hw-legal-table">
               <thead>
                 <tr>
@@ -1756,6 +1760,7 @@ export default function Highways() {
                 ))}
               </tbody>
             </table>
+            </div>
           </CollapsibleSection>
         )}
       </div>
