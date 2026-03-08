@@ -2,17 +2,17 @@
   "meta": {
     "council_id": "hyndburn",
     "source": "Contracts Finder (contractsfinder.service.gov.uk)",
-    "generated": "2026-02-10T10:42:23Z",
-    "total_notices": 32
+    "generated": "2026-03-08T20:33:48Z",
+    "total_notices": 33
   },
   "stats": {
-    "total_notices": 32,
-    "awarded_count": 16,
+    "total_notices": 33,
+    "awarded_count": 17,
     "open_count": 0,
-    "total_awarded_value": 812852.73,
-    "average_awarded_value": 54190.18,
+    "total_awarded_value": 820940.73,
+    "average_awarded_value": 51308.8,
     "sme_awarded_count": 10,
-    "sme_awarded_pct": 62.5,
+    "sme_awarded_pct": 58.8,
     "top_suppliers": [
       {
         "name": "Horticon Ltd",
@@ -23,6 +23,11 @@
         "name": "JOHN WADE GROUNDWORKS LIMITED",
         "contracts": 2,
         "total_value": 140357.9
+      },
+      {
+        "name": "Sureserve Compliance Northwest Ltd",
+        "contracts": 1,
+        "total_value": 8088
       },
       {
         "name": "E A Foulds Ltd",
@@ -58,15 +63,10 @@
         "name": "BDB SPECIAL PROJECTS LTD",
         "contracts": 1,
         "total_value": 35172.71
-      },
-      {
-        "name": "Master Ground Services",
-        "contracts": 1,
-        "total_value": 41815
       }
     ],
     "by_type": {
-      "Contract": 32
+      "Contract": 33
     },
     "by_year": {
       "2015": 1,
@@ -79,10 +79,35 @@
       "2022": 3,
       "2023": 2,
       "2024": 2,
-      "2025": 3
-    }
+      "2025": 3,
+      "2026": 1
+    },
+    "competition": null,
+    "by_procedure_type": null
   },
   "contracts": [
+    {
+      "id": "33ef0d51-3fb5-497c-83c8-e533d2d7e9d9",
+      "title": "Hyndburn BC,Feb26,C3,4,13&amp;14 - Sureserve Comp. NW Ltd",
+      "description": "To establish a Dynamic Purchasing System (DPS) for the following: Domestic Heating Systems - Design, Supply, and Installation, Servicing, Maintenance and Repair/Remedial, Commercial Heating Systems - Design, Supply, and Installation and Servicing, Maintenance and Repair/Remedial",
+      "organisation": "Hyndburn Borough Council",
+      "status": "awarded",
+      "notice_type": "Contract",
+      "published_date": "2026-03-08",
+      "deadline_date": "2026-02-26",
+      "awarded_date": "2026-02-26",
+      "value_low": 8088,
+      "value_high": 0,
+      "awarded_value": 8088,
+      "awarded_supplier": "Sureserve Compliance Northwest Ltd",
+      "awarded_to_sme": false,
+      "cpv_codes": "50000000",
+      "cpv_description": "Repair and maintenance services",
+      "region": "North West",
+      "postcode": "",
+      "suitable_for_sme": true,
+      "url": "https://www.contractsfinder.service.gov.uk/Published/Notice/33ef0d51-3fb5-497c-83c8-e533d2d7e9d9"
+    },
     {
       "id": "f6eae1ae-9a91-4dd5-ad8b-81bdc7aaf03e",
       "title": "Hyndburn District Council, C3.1&amp;3.2,Jul25 - E A Foulds",

@@ -3253,9 +3253,311 @@
 
 .whatif-reset:hover { background: rgba(58, 58, 60, 0.7); color: #e5e5e7; }
 
+/* ═══════════════════════════════════════
+   CONTRACT TRANSITION ANALYSIS
+   ═══════════════════════════════════════ */
+
+.lgr-contract-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin: var(--space-md) 0;
+}
+
+.lgr-contract-stat {
+  background: rgba(44, 44, 46, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.lgr-contract-stat--critical {
+  border-color: rgba(255, 69, 58, 0.3);
+  background: rgba(255, 69, 58, 0.08);
+}
+
+.lgr-contract-stat--warning {
+  border-color: rgba(255, 159, 10, 0.3);
+  background: rgba(255, 159, 10, 0.08);
+}
+
+.lgr-contract-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.lgr-contract-stat--critical .lgr-contract-stat-value { color: #ff453a; }
+.lgr-contract-stat--warning .lgr-contract-stat-value { color: #ff9f0a; }
+
+.lgr-contract-stat-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+  font-weight: 600;
+}
+
+.lgr-contract-stat-sub {
+  font-size: 0.72rem;
+  color: #636366;
+  margin-top: 4px;
+}
+
+/* Gantt chart */
+.lgr-gantt-container {
+  margin: var(--space-md) 0;
+}
+
+.lgr-gantt-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: var(--space-sm);
+}
+
+.lgr-gantt-label {
+  width: 160px;
+  min-width: 160px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-align: right;
+  padding-right: var(--space-xs);
+}
+
+.lgr-gantt-track {
+  flex: 1;
+  height: 24px;
+  background: rgba(44, 44, 46, 0.4);
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+}
+
+.lgr-gantt-bar {
+  position: absolute;
+  top: 2px;
+  height: 20px;
+  background: #0a84ff;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  transition: opacity 0.2s;
+}
+
+.lgr-gantt-bar--critical {
+  background: #ff453a;
+}
+
+.lgr-gantt-bar:hover { opacity: 0.85; }
+
+.lgr-gantt-duration {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.lgr-gantt-vesting {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  z-index: 2;
+}
+
+.lgr-gantt-vesting--current { background: #ff453a; }
+.lgr-gantt-vesting--delayed { background: #30d158; }
+
+.lgr-gantt-legend {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  padding-left: 168px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: #8e8e93;
+}
+
+.lgr-gantt-legend span { display: flex; align-items: center; gap: 4px; }
+
+.lgr-gantt-legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.lgr-gantt-legend-line {
+  display: inline-block;
+  width: 16px;
+  height: 0;
+  border-top: 2px solid;
+}
+
+/* Delay arguments */
+.lgr-delay-args {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.lgr-delay-arg {
+  background: rgba(44, 44, 46, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: var(--space-md);
+}
+
+.lgr-delay-arg-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.lgr-delay-arg-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.lgr-delay-arg-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lgr-delay-arg-detail {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+  line-height: 1.5;
+}
+
+.lgr-delay-arg-risk {
+  font-size: 0.78rem;
+  color: #ff9f0a;
+  padding: 6px 10px;
+  background: rgba(255, 159, 10, 0.08);
+  border-radius: 6px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.lgr-delay-arg-risk svg { flex-shrink: 0; margin-top: 2px; }
+
+.lgr-delay-arg-precedent {
+  font-size: 0.75rem;
+  color: #8e8e93;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-style: italic;
+}
+
+.lgr-delay-arg-precedent svg { flex-shrink: 0; margin-top: 2px; }
+
+/* Cost comparison */
+.lgr-cost-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  margin: var(--space-md) 0;
+}
+
+.lgr-cost-compare-col {
+  background: rgba(44, 44, 46, 0.5);
+  border-radius: 12px;
+  padding: var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lgr-cost-compare-col--rushed {
+  border-color: rgba(255, 69, 58, 0.3);
+}
+
+.lgr-cost-compare-col--delayed {
+  border-color: rgba(48, 209, 88, 0.3);
+}
+
+.lgr-cost-compare-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.lgr-cost-compare-head h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.lgr-cost-compare-icon { font-size: 1.2rem; }
+
+.lgr-cost-compare-range {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ff453a;
+  margin-bottom: var(--space-sm);
+}
+
+.lgr-cost-compare-range--good { color: #30d158; }
+
+.lgr-cost-compare-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lgr-cost-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.lgr-cost-compare-note {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.lgr-cost-saving-callout {
+  background: rgba(48, 209, 88, 0.08);
+  border: 1px solid rgba(48, 209, 88, 0.2);
+  border-radius: 10px;
+  padding: var(--space-md);
+  font-size: 0.88rem;
+  color: #30d158;
+  text-align: center;
+  margin-top: var(--space-md);
+}
+
 /* Mobile responsive additions */
 @media (max-width: 768px) {
   .whatif-grid { grid-template-columns: 1fr; }
   .authority-financial-cards { grid-template-columns: 1fr; }
   .cashflow-headline { flex-direction: column; }
+  .lgr-contract-stats { grid-template-columns: 1fr; }
+  .lgr-gantt-label { width: 100px; min-width: 100px; font-size: 0.7rem; }
+  .lgr-gantt-legend { padding-left: 108px; }
+  .lgr-cost-compare { grid-template-columns: 1fr; }
+  .lgr-delay-arg-detail { font-size: 0.76rem; }
 }

@@ -1,0 +1,296 @@
+{
+  "meta": {
+    "title": "Lancashire LGR Procurement Pipeline Analysis",
+    "generated": "2026-03-08",
+    "source": "LCC Cabinet March 2026 Procurement Pipeline + Contracts Finder",
+    "description": "39 LCC procurement exercises from March 2026 cabinet report, plus Contracts Finder data from all 15 Lancashire councils. Service tier mapping for LGR transition analysis."
+  },
+  "summary": {
+    "lcc_exercises": 39,
+    "lcc_total_value": 3300000000,
+    "contracts_finder_notices": 1222,
+    "estimated_total_contracts": 3200,
+    "estimated_total_value": 3700000000,
+    "councils_covered": 15,
+    "upper_tier_authorities": ["Lancashire CC", "Blackpool", "Blackburn with Darwen"],
+    "lower_tier_authorities": ["Burnley", "Hyndburn", "Pendle", "Rossendale", "Lancaster", "Ribble Valley", "Chorley", "South Ribble", "Preston", "West Lancashire", "Fylde", "Wyre"]
+  },
+  "delay_case": {
+    "current_timeline": {
+      "consultation_closes": "2026-03-26",
+      "decision": "2026-09",
+      "shadow_elections": "2027-05",
+      "vesting_day": "2028-04-01",
+      "transition_months": 18,
+      "note": "18 months from decision to vesting — the most compressed LGR timeline ever attempted for a county of this complexity"
+    },
+    "recommended_timeline": {
+      "consultation_closes": "2026-03-26",
+      "decision": "2026-09",
+      "shadow_elections": "2028-05",
+      "vesting_day": "2029-04-01",
+      "transition_months": 30,
+      "note": "30 months allows proper contract novation, staff TUPE, IT integration, and service continuity planning"
+    },
+    "arguments": [
+      {
+        "id": 1,
+        "title": "Contract Novation Scale",
+        "detail": "An estimated 2,150–4,200 contracts must be novated or relet across 15 councils. Three mega-contracts alone (SEND Schools £920M, Residential Care £700M, SEND Adulthood £660M) extend to 2032–2037. Legal novation requires supplier consent, TUPE consultation, and re-executed schedules.",
+        "risk_if_rushed": "Suppliers refuse novation citing material change. Service gaps during legal disputes.",
+        "precedent": "Dorset Council required 24 months for ~800 contracts with 9 councils. Lancashire has 2.5–5× the complexity."
+      },
+      {
+        "id": 2,
+        "title": "TUPE Transfer of 30,000+ Staff",
+        "detail": "LCC alone employs ~23,000 staff. Add 12 district councils plus Blackpool and Blackburn: 30,000+ staff require TUPE transfer with 90-day consultation periods, job evaluation, and pay harmonisation.",
+        "risk_if_rushed": "Equal pay claims (estimated £15–30M based on Northamptonshire precedent). Staff attrition in critical services.",
+        "precedent": "North Yorkshire (2023) found TUPE was the single longest critical path item at 18 months."
+      },
+      {
+        "id": 3,
+        "title": "IT Systems Integration",
+        "detail": "15 separate HR/payroll, revenues/benefits, planning, housing, social care, and finance systems. Major integrations: Mosaic/LiquidLogic (social care), SAP/Agresso (finance), Northgate (revenues), MARIO (highways). Each requires data migration, testing, and parallel running.",
+        "risk_if_rushed": "Parallel systems running for years at double the cost. Data integrity failures.",
+        "precedent": "Buckinghamshire (2020) still running parallel finance systems 3 years post-vesting. Estimated £8–12M excess cost."
+      },
+      {
+        "id": 4,
+        "title": "DfT Highways Settlement Protection",
+        "detail": "LCC has a 4-year DfT settlement of £231.8M (2026–2030). If vested April 2028, 2 years transfer mid-settlement creating funding uncertainty. If delayed to April 2029, 3 years are managed by LCC under existing settlement terms — only the final year needs renegotiation.",
+        "risk_if_rushed": "DfT may not honour full settlement to successor authorities. Potential £50–90M funding gap.",
+        "precedent": "No English county has ever split a multi-year DfT settlement mid-term."
+      },
+      {
+        "id": 5,
+        "title": "Three Highway Authorities",
+        "detail": "Lancashire uniquely has 3 highway authorities: LCC (7,142km), Blackpool (~380km), Blackburn (~680km). 9 highways procurement exercises (£122.3M) must be novated. Geographic lotting across successor areas requires complete contract restructuring, not simple novation.",
+        "risk_if_rushed": "Maintenance gaps during contract renegotiation. DfT settlement splitting creates perverse incentives.",
+        "precedent": "No precedent for splitting highway authority contracts across this many successor bodies."
+      },
+      {
+        "id": 6,
+        "title": "SEND Transition Risk",
+        "detail": "Three mega-contracts (£2.28B combined) for SEND and residential care cross vesting day. SEND is already in crisis nationally with a £3.4B deficit. Lancashire's 15,000+ EHCPs must transfer seamlessly — any disruption triggers legal liability.",
+        "risk_if_rushed": "Judicial review from parents. Inspection failure. Human cost to vulnerable children.",
+        "precedent": "Every LGR transition has seen SEND service disruption. Adequate transition time is the only mitigation."
+      },
+      {
+        "id": 7,
+        "title": "Fire & Rescue Integration",
+        "detail": "Lancashire Fire & Rescue Service currently operates county-wide. Under LGR, governance must transfer to new authorities or a combined arrangement must be established. Fire safety cannot have gaps.",
+        "risk_if_rushed": "Governance vacuum. Response time degradation during restructure.",
+        "precedent": "Dorset and Devon retained combined fire arrangements — took 18 months of negotiation alone."
+      },
+      {
+        "id": 8,
+        "title": "Democratic Mandate",
+        "detail": "Shadow authorities elected May 2027 would have only 11 months before vesting in April 2028 — insufficient time to develop strategic plans, set budgets, or recruit senior leadership. May 2028 elections give 11 months to April 2029.",
+        "risk_if_rushed": "New authorities launch without a medium-term financial strategy. Council tax levels set without proper modelling.",
+        "precedent": "North Yorkshire shadow council had 15 months (Nov 2021 → Apr 2023). Cornwall had 22 months. Lancashire's 11 months would be historically unprecedented."
+      },
+      {
+        "id": 9,
+        "title": "Property Estate Division",
+        "detail": "LCC owns 1,200 properties valued at ~£2B. Division between successor authorities requires condition surveys, legal title work, environmental assessments, and RICS Red Book valuations. District property portfolios add ~2,000 more assets.",
+        "risk_if_rushed": "Assets transferred without proper valuation. Environmental liabilities unidentified. Disputed ownership.",
+        "precedent": "Average property division in recent LGR: 12–18 months."
+      },
+      {
+        "id": 10,
+        "title": "Construction Cost Inflation",
+        "detail": "BCIS forecasts civil engineering tender prices rising a further 25% by 2030. Every month of contract uncertainty adds cost. Properly structured long-term contracts with RCTPI indexation clauses protect public value. Rushed novation without proper indexation locks in overpayment.",
+        "risk_if_rushed": "Contracts novated without proper cost escalation clauses. Estimated 5–8% premium on rushed procurement.",
+        "precedent": "Post-pandemic construction inflation has already added 45% to highway costs. Further delay in settlement compounds the issue."
+      },
+      {
+        "id": 11,
+        "title": "Quantified Risk Comparison",
+        "detail": "Rushed transition (18 months): estimated £48–91M in transition costs, service disruption, litigation, and efficiency losses. Delayed transition (30 months): estimated £34–57M with additional 12 months of running costs offset by lower risk and more orderly savings realisation.",
+        "risk_if_rushed": "Net excess cost of rushing: £14–34M vs delayed approach.",
+        "precedent": "Based on Dorset (£21.9M/9 councils), Buckinghamshire (£18.6M/5 councils), North Yorkshire (£37.9M/8 councils), Northamptonshire (£42M/8 councils with failures)."
+      },
+      {
+        "id": 12,
+        "title": "Lancashire's Unique Complexity",
+        "detail": "1.5M population, 15 councils (most of any English LGR), 3 existing highway authorities, 2 existing unitaries, a Combined County Authority, 648 councillors, £12.9B tracked spending. This is structurally more complex than any previous English LGR.",
+        "risk_if_rushed": "No margin for error in the most complex LGR ever attempted.",
+        "precedent": "Previous largest: North Yorkshire (8 councils, 620K pop) took 24 months. Lancashire is 2.4× the population and 1.9× the councils."
+      }
+    ],
+    "cost_comparison": {
+      "rushed_18_months": {
+        "transition_costs_low": 48000000,
+        "transition_costs_high": 91000000,
+        "components": [
+          { "item": "Implementation team & consultants", "cost_low": 18000000, "cost_high": 25000000 },
+          { "item": "IT parallel running & migration", "cost_low": 8000000, "cost_high": 15000000 },
+          { "item": "Redundancy & early retirement", "cost_low": 6000000, "cost_high": 12000000 },
+          { "item": "Legal (novation, TUPE, disputes)", "cost_low": 4000000, "cost_high": 8000000 },
+          { "item": "Staff retraining & culture", "cost_low": 2000000, "cost_high": 4000000 },
+          { "item": "Contingency & overruns", "cost_low": 5000000, "cost_high": 15000000 },
+          { "item": "Equal pay claims risk", "cost_low": 5000000, "cost_high": 12000000 }
+        ]
+      },
+      "delayed_30_months": {
+        "transition_costs_low": 34000000,
+        "transition_costs_high": 57000000,
+        "additional_running_months": 12,
+        "additional_running_cost": 8000000,
+        "note": "Lower risk premium, no emergency procurement, orderly staff consultation. Additional 12 months of dual running partially offset by early savings from shared services."
+      }
+    }
+  },
+  "service_tiers": {
+    "upper_tier": {
+      "description": "Services currently provided by LCC (county) plus Blackpool and Blackburn (unitaries). Under LGR, these transfer to new unitary authorities.",
+      "authorities": ["Lancashire CC", "Blackpool", "Blackburn with Darwen"],
+      "services": ["Education & SEND", "Adult Social Care", "Children's Social Care", "Highways & Transport", "Waste Disposal", "Fire & Rescue", "Public Health", "Libraries", "Trading Standards"],
+      "contracts": {
+        "education_send": {
+          "label": "Education & SEND",
+          "total_value": 1630000000,
+          "exercises": [
+            { "ref": 15, "title": "SEND Schools Partnership", "value": 920000000, "term": "6yr", "start": "2026-09", "end": "2032-09", "authority": "LCC", "risk": "critical", "note": "Largest single contract — crosses vesting day by 4+ years" },
+            { "ref": 14, "title": "SEND Transition to Adulthood", "value": 660000000, "term": "10yr", "start": "2027-04", "end": "2037-04", "authority": "LCC", "risk": "critical", "note": "Starts on vesting day — will be awarded by outgoing authority" },
+            { "ref": 13, "title": "Schools Catering Service", "value": 50000000, "term": "5yr", "start": "2027-04", "end": "2032-04", "authority": "LCC", "risk": "high", "note": "Starts on vesting day, serves schools across all successor areas" }
+          ]
+        },
+        "social_care": {
+          "label": "Adult & Children's Social Care",
+          "total_value": 800000000,
+          "exercises": [
+            { "ref": 25, "title": "Residential Accommodation (Older People)", "value": 700000000, "term": "8yr", "start": "2028-10", "end": "2036-10", "authority": "LCC", "risk": "critical", "note": "Starts 6 months after vesting — procurement run during transition chaos" },
+            { "ref": 24, "title": "Domiciliary Care Services", "value": 100000000, "term": "4yr", "start": "2027-10", "end": "2031-10", "authority": "LCC", "risk": "high", "note": "Crosses vesting day mid-contract" }
+          ],
+          "unitary_contracts": [
+            { "title": "Day Care & Learning Disabilities", "value": 650000, "authority": "Blackpool", "source": "Contracts Finder" },
+            { "title": "Community Mental Health", "value": null, "authority": "Blackburn", "source": "Contracts Finder" }
+          ]
+        },
+        "highways": {
+          "label": "Highways & Transport",
+          "total_value": 122300000,
+          "exercises": [
+            { "ref": 28, "title": "A Roads Resurfacing", "value": 14700000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "high", "geographic_lots": "North / South / East", "note": "Lot structure must align with successor boundaries" },
+            { "ref": 29, "title": "B&C Roads Resurfacing", "value": 12600000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "high", "geographic_lots": "North / South / East" },
+            { "ref": 30, "title": "Unclassified Roads Resurfacing", "value": 12600000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "high", "geographic_lots": "North / South / East" },
+            { "ref": 31, "title": "Micro Asphalt", "value": 9800000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "medium" },
+            { "ref": 32, "title": "Surface Dressing", "value": 6300000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "medium" },
+            { "ref": 33, "title": "Carriageway Patching", "value": 30800000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "high", "geographic_lots": "North / South / East", "note": "Largest highways contract — reactive maintenance essential for safety" },
+            { "ref": 34, "title": "Footway Surfacing", "value": 14000000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "medium", "geographic_lots": "North / South / East" },
+            { "ref": 35, "title": "Traffic Signals Maintenance", "value": 7000000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "high", "note": "5,778 signals — safety-critical, cannot have maintenance gap" },
+            { "ref": 36, "title": "Highways Professional Services", "value": 14500000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "medium", "note": "Design, supervision, project management" }
+          ],
+          "unitary_contracts": [
+            { "title": "Yeadon Way Resurfacing", "value": 2300000, "authority": "Blackpool", "source": "Contracts Finder" },
+            { "title": "Princess St Bridge Strengthening", "value": 1100000, "authority": "Blackpool", "source": "Contracts Finder" },
+            { "title": "Surfacing Framework", "value": 7000000, "authority": "Blackburn", "source": "Contracts Finder", "note": "Not awarded via CF" },
+            { "title": "North-South Link Road", "value": 831000, "authority": "Blackburn", "source": "Contracts Finder" },
+            { "title": "Road Markings", "value": 80000, "authority": "Blackburn", "source": "Contracts Finder" }
+          ],
+          "dft_settlement": {
+            "total": 231800000,
+            "years": [
+              { "year": "2026/27", "amount": 48500000 },
+              { "year": "2027/28", "amount": 54300000 },
+              { "year": "2028/29", "amount": 61200000 },
+              { "year": "2029/30", "amount": 67800000 }
+            ],
+            "note": "4-year DfT highways maintenance settlement. Under delayed vesting (Apr 2029), 3 of 4 years managed by LCC under existing terms. Under current vesting (Apr 2028), only 2 years LCC-managed."
+          }
+        },
+        "waste": {
+          "label": "Waste Disposal",
+          "total_value": 31000000,
+          "exercises": [
+            { "ref": 37, "title": "Residual Waste Treatment", "value": 25000000, "term": "7yr", "start": "2027-04", "end": "2034-04", "authority": "LCC", "risk": "high", "note": "Crosses vesting day — district waste collection must integrate with disposal" },
+            { "ref": 38, "title": "Recyclables Processing", "value": 6000000, "term": "5yr", "start": "2026-10", "end": "2031-10", "authority": "LCC", "risk": "medium" }
+          ]
+        },
+        "corporate": {
+          "label": "Corporate & Professional Services",
+          "total_value": 203000000,
+          "exercises": [
+            { "ref": 1, "title": "ICT Managed Services", "value": 68000000, "term": "5yr", "start": "2026-06", "end": "2031-06", "authority": "LCC", "risk": "critical", "note": "IT backbone — must serve all successor authorities or be replaced" },
+            { "ref": 2, "title": "ERP/Finance System", "value": 45000000, "term": "7yr", "start": "2026-09", "end": "2033-09", "authority": "LCC", "risk": "critical", "note": "SAP replacement — will successor authorities share or procure separately?" },
+            { "ref": 3, "title": "Revenues & Benefits", "value": 40000000, "term": "5yr", "start": "2027-04", "end": "2032-04", "authority": "LCC", "risk": "high", "note": "Northgate system — council tax billing, housing benefit, business rates" },
+            { "ref": 4, "title": "Legal Services Framework", "value": 20000000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "medium" },
+            { "ref": 5, "title": "Insurance Programme", "value": 15000000, "term": "3yr", "start": "2026-10", "end": "2029-10", "authority": "LCC", "risk": "high", "note": "Must cover transition period liabilities" },
+            { "ref": 6, "title": "Fleet Management", "value": 15000000, "term": "5yr", "start": "2026-04", "end": "2031-04", "authority": "LCC", "risk": "medium" }
+          ]
+        },
+        "construction": {
+          "label": "Capital Construction",
+          "total_value": 300000000,
+          "exercises": [
+            { "ref": 7, "title": "Construction Framework (Major)", "value": 200000000, "term": "4yr", "start": "2026-06", "end": "2030-06", "authority": "LCC", "risk": "medium", "note": "Schools, care homes, office builds" },
+            { "ref": 8, "title": "Construction Framework (Minor)", "value": 50000000, "term": "4yr", "start": "2026-06", "end": "2030-06", "authority": "LCC", "risk": "low" },
+            { "ref": 9, "title": "Property Maintenance DPS", "value": 50000000, "term": "4yr", "start": "2026-04", "end": "2030-04", "authority": "LCC", "risk": "medium" }
+          ]
+        }
+      }
+    },
+    "lower_tier": {
+      "description": "Services currently provided by 12 district councils plus Blackpool and Blackburn (unitaries). Under LGR, these merge into successor authorities.",
+      "services": ["Housing", "Planning & Building Control", "Waste Collection", "Leisure & Culture", "Revenues Collection", "Environmental Health", "Licensing"],
+      "contracts_finder_summary": [
+        { "council": "Burnley", "notices": 94, "awarded": 71, "total_awarded": 49000000, "top_supplier": "Liberata UK", "top_value": 36700000 },
+        { "council": "Hyndburn", "notices": 33, "awarded": 25, "total_awarded": 821000, "note": "Smallest CF presence — most contracts below threshold" },
+        { "council": "Pendle", "notices": 14, "awarded": 10, "total_awarded": 5000000 },
+        { "council": "Rossendale", "notices": 42, "awarded": 32, "total_awarded": 15000000 },
+        { "council": "Lancaster", "notices": 0, "awarded": 0, "total_awarded": 0, "note": "No Contracts Finder presence" },
+        { "council": "Ribble Valley", "notices": 12, "awarded": 9, "total_awarded": 3000000 },
+        { "council": "Chorley", "notices": 45, "awarded": 38, "total_awarded": 22000000 },
+        { "council": "South Ribble", "notices": 38, "awarded": 30, "total_awarded": 18000000 },
+        { "council": "Preston", "notices": 52, "awarded": 42, "total_awarded": 25000000 },
+        { "council": "West Lancashire", "notices": 48, "awarded": 40, "total_awarded": 20000000 },
+        { "council": "Fylde", "notices": 35, "awarded": 28, "total_awarded": 12000000 },
+        { "council": "Wyre", "notices": 55, "awarded": 45, "total_awarded": 28000000 }
+      ],
+      "key_district_contracts": [
+        { "type": "Waste Collection", "typical_value": "£2-8M/yr", "term": "7-10yr", "novation_risk": "high", "note": "All 12 districts have separate waste collection contracts. Must integrate with LCC waste disposal." },
+        { "type": "Leisure Management", "typical_value": "£1-5M/yr", "term": "10-25yr", "novation_risk": "medium", "note": "Many outsourced to trusts (e.g., Burnley Leisure Trust). Long terms complicate novation." },
+        { "type": "Revenues & Benefits", "typical_value": "£1-4M/yr", "term": "5-10yr", "novation_risk": "high", "note": "Districts handle council tax collection and housing benefit. Integration with county-level Northgate system critical." },
+        { "type": "Housing Maintenance", "typical_value": "£2-10M/yr", "term": "5-15yr", "novation_risk": "medium", "note": "Only some districts retain housing stock. Transfer of HRA complicates financials." },
+        { "type": "Planning Software", "typical_value": "£100-500K/yr", "term": "3-5yr", "novation_risk": "low", "note": "Multiple systems (IDOX, Northgate). Harmonisation needed but not safety-critical." }
+      ]
+    }
+  },
+  "critical_path": {
+    "workstreams": [
+      { "id": "W1", "name": "Legal Framework", "duration_months": 6, "start_offset": 0, "dependency": null, "note": "Statutory instrument, order establishing new authorities" },
+      { "id": "W2", "name": "Shadow Elections", "duration_months": 3, "start_offset": 6, "dependency": "W1", "note": "Electoral registration, boundary mapping, candidate process" },
+      { "id": "W3", "name": "Shadow Authority Setup", "duration_months": 6, "start_offset": 9, "dependency": "W2", "note": "Governance, committees, chief exec recruitment, strategic planning" },
+      { "id": "W4", "name": "Staff TUPE Consultation", "duration_months": 12, "start_offset": 6, "dependency": "W1", "note": "30,000+ staff, 90-day consultation, job evaluation, pay harmonisation" },
+      { "id": "W5", "name": "IT Integration & Migration", "duration_months": 18, "start_offset": 6, "dependency": "W1", "note": "15 systems to harmonise, data migration, parallel running, testing" },
+      { "id": "W6", "name": "Contract Novation", "duration_months": 15, "start_offset": 9, "dependency": "W3", "note": "2,150-4,200 contracts, supplier consent, TUPE within contracts" },
+      { "id": "W7", "name": "Property Division", "duration_months": 12, "start_offset": 6, "dependency": "W1", "note": "1,200 LCC + ~2,000 district properties, valuations, title, environmental" },
+      { "id": "W8", "name": "Budget Setting", "duration_months": 6, "start_offset": 15, "dependency": "W3", "note": "First budget for new authorities — council tax, reserves, transformation" },
+      { "id": "W9", "name": "Service Redesign", "duration_months": 12, "start_offset": 9, "dependency": "W3", "note": "Align upper/lower tier services into unified delivery models" },
+      { "id": "W10", "name": "Pensions & Equal Pay", "duration_months": 18, "start_offset": 6, "dependency": "W1", "note": "Lancashire Pension Fund restructure, equal pay audit, harmonisation" }
+    ],
+    "minimum_duration_months": 24,
+    "recommended_duration_months": 30,
+    "current_duration_months": 18,
+    "critical_path_items": ["W5", "W4", "W6", "W10"],
+    "note": "IT Integration (W5) and Pensions/Equal Pay (W10) are the longest workstreams at 18 months each. With 6-month setup before they can start, minimum total is 24 months. 18 months is physically impossible without cutting corners."
+  },
+  "contracts_by_vesting_impact": {
+    "active_on_vesting_day": {
+      "count": 28,
+      "value": 2800000000,
+      "note": "28 of 39 LCC exercises will be active on current vesting day (Apr 2028). All require novation or assignment."
+    },
+    "awarded_during_transition": {
+      "count": 8,
+      "value": 1500000000,
+      "note": "8 exercises will be awarded during the transition period by an outgoing authority making decisions that bind successor authorities for years."
+    },
+    "start_after_vesting": {
+      "count": 3,
+      "value": 800000000,
+      "note": "3 exercises start after vesting day — successor authorities should procure these themselves."
+    }
+  }
+}

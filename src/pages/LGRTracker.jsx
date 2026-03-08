@@ -5,7 +5,7 @@ import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
-import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw } from 'lucide-react'
+import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw, Briefcase, FileWarning } from 'lucide-react'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile,
@@ -214,8 +214,8 @@ function LGRTracker() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const councilId = config.council_id || ''
-  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json', '/data/shared/lgr_enhanced.json', '/data/shared/council_boundaries.json'])
-  const [lgrData, crossCouncil, budgetModel, ccaData, lgrEnhanced, councilBoundaries] = data || [null, null, null, null, null, null]
+  const { data, loading, error } = useData(['/data/shared/lgr_tracker.json', '/data/cross_council.json', '/data/shared/lgr_budget_model.json', '/data/shared/cca_tracker.json', '/data/shared/lgr_enhanced.json', '/data/shared/council_boundaries.json', '/data/shared/procurement_pipeline.json'])
+  const [lgrData, crossCouncil, budgetModel, ccaData, lgrEnhanced, councilBoundaries, procurementPipeline] = data || [null, null, null, null, null, null, null]
   const [selectedModel, setSelectedModel] = useState(null)
   const [expandedIssue, setExpandedIssue] = useState(null)
   const [expandedCritique, setExpandedCritique] = useState(null)
@@ -2474,6 +2474,326 @@ function LGRTracker() {
           precedentBenchmark={precedentBenchmark}
         />
       </CollapsibleSection>
+
+      {/* Contract Transition Analysis */}
+      {procurementPipeline && (
+        <CollapsibleSection
+          id="lgr-contract-transition"
+          title="Contract Transition Analysis"
+          icon={<Briefcase size={20} />}
+          subtitle={`${procurementPipeline.summary?.lcc_exercises || 39} LCC procurement exercises worth £${((procurementPipeline.summary?.lcc_total_value || 3300000000) / 1e9).toFixed(1)}B+ crossing vesting day`}
+          severity="critical"
+        >
+          <p className="section-desc">
+            LCC&apos;s March 2026 cabinet procurement pipeline reveals {procurementPipeline.summary?.lcc_exercises || 39} major
+            exercises worth over £{((procurementPipeline.summary?.lcc_total_value || 3300000000) / 1e9).toFixed(1)}B. Combined with
+            {' '}{procurementPipeline.summary?.contracts_finder_notices?.toLocaleString() || '1,222'} Contracts Finder notices across
+            all 15 councils, an estimated {procurementPipeline.summary?.estimated_total_contracts?.toLocaleString() || '3,200'} contracts
+            must be novated, assigned, or relet during transition.
+          </p>
+
+          {/* Vesting impact stats */}
+          {procurementPipeline.contracts_by_vesting_impact && (
+            <div className="lgr-contract-stats">
+              <div className="lgr-contract-stat lgr-contract-stat--critical">
+                <div className="lgr-contract-stat-value">{procurementPipeline.contracts_by_vesting_impact.active_on_vesting_day?.count || 28}</div>
+                <div className="lgr-contract-stat-label">Active on vesting day</div>
+                <div className="lgr-contract-stat-sub">£{((procurementPipeline.contracts_by_vesting_impact.active_on_vesting_day?.value || 0) / 1e9).toFixed(1)}B value</div>
+              </div>
+              <div className="lgr-contract-stat lgr-contract-stat--warning">
+                <div className="lgr-contract-stat-value">{procurementPipeline.contracts_by_vesting_impact.awarded_during_transition?.count || 8}</div>
+                <div className="lgr-contract-stat-label">Awarded during transition</div>
+                <div className="lgr-contract-stat-sub">Outgoing authority binding successors</div>
+              </div>
+              <div className="lgr-contract-stat">
+                <div className="lgr-contract-stat-value">{procurementPipeline.contracts_by_vesting_impact.start_after_vesting?.count || 3}</div>
+                <div className="lgr-contract-stat-label">Start after vesting</div>
+                <div className="lgr-contract-stat-sub">Should be procured by successors</div>
+              </div>
+            </div>
+          )}
+
+          {/* Service tier breakdown chart */}
+          {procurementPipeline.service_tiers?.upper_tier?.contracts && (() => {
+            const cats = Object.entries(procurementPipeline.service_tiers.upper_tier.contracts).map(([key, cat]) => ({
+              name: cat.label,
+              value: cat.total_value / 1e6,
+              count: cat.exercises?.length || 0,
+              fill: key === 'education_send' ? '#ff453a' : key === 'social_care' ? '#ff9f0a' : key === 'highways' ? '#0a84ff' : key === 'corporate' ? '#bf5af2' : key === 'construction' ? '#30d158' : '#ffd60a'
+            }))
+            return (
+              <>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-lg)', marginBottom: 'var(--space-sm)' }}>
+                  <FileWarning size={15} style={{ verticalAlign: 'middle', marginRight: 6 }} />
+                  Upper Tier Contracts by Service Area
+                </h3>
+                <div style={{ width: '100%', height: 300, marginBottom: 'var(--space-md)' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={cats} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v + 'M'}`} />
+                      <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={160} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v.toFixed(0) + 'M'}`, 'Total value']} />
+                      <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                        {cats.map((c, i) => (
+                          <Cell key={i} fill={c.fill} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </>
+            )
+          })()}
+
+          {/* Contract detail tables by service */}
+          {procurementPipeline.service_tiers?.upper_tier?.contracts && Object.entries(procurementPipeline.service_tiers.upper_tier.contracts).map(([key, cat]) => (
+            <div key={key} style={{ marginBottom: 'var(--space-lg)' }}>
+              <h4 style={{ fontSize: '0.9rem', fontWeight: 700, marginBottom: 'var(--space-xs)', color: 'var(--text-primary)' }}>
+                {cat.label} — £{(cat.total_value / 1e6).toFixed(0)}M
+              </h4>
+              <div className="table-overflow">
+                <table className="lgr-comparison-table">
+                  <thead>
+                    <tr>
+                      <th>Exercise</th>
+                      <th>Value</th>
+                      <th>Term</th>
+                      <th>Start</th>
+                      <th>Risk</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(cat.exercises || []).map((ex, i) => (
+                      <tr key={i}>
+                        <td>
+                          <strong>{ex.title}</strong>
+                          {ex.note && <div style={{ fontSize: '0.75rem', color: '#8e8e93', marginTop: 2 }}>{ex.note}</div>}
+                          {ex.geographic_lots && <div style={{ fontSize: '0.72rem', color: '#0a84ff', marginTop: 2 }}>Lots: {ex.geographic_lots}</div>}
+                        </td>
+                        <td style={{ fontWeight: 600 }}>£{(ex.value / 1e6).toFixed(0)}M</td>
+                        <td>{ex.term}</td>
+                        <td>{ex.start}</td>
+                        <td>
+                          <span style={{
+                            display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: '0.72rem', fontWeight: 600,
+                            background: ex.risk === 'critical' ? 'rgba(255,69,58,0.15)' : ex.risk === 'high' ? 'rgba(255,159,10,0.15)' : 'rgba(48,209,88,0.15)',
+                            color: ex.risk === 'critical' ? '#ff453a' : ex.risk === 'high' ? '#ff9f0a' : '#30d158'
+                          }}>
+                            {ex.risk}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                    {(cat.unitary_contracts || []).map((uc, i) => (
+                      <tr key={`u${i}`} style={{ opacity: 0.85 }}>
+                        <td>
+                          <span style={{ fontSize: '0.72rem', color: '#0a84ff', marginRight: 6 }}>{uc.authority}</span>
+                          {uc.title}
+                          {uc.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{uc.note}</div>}
+                        </td>
+                        <td style={{ fontWeight: 600 }}>{uc.value ? `£${(uc.value / 1e6).toFixed(1)}M` : '—'}</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><span style={{ fontSize: '0.72rem', color: '#8e8e93' }}>CF</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+
+          {/* DfT Settlement */}
+          {procurementPipeline.service_tiers?.upper_tier?.contracts?.highways?.dft_settlement && (() => {
+            const dft = procurementPipeline.service_tiers.upper_tier.contracts.highways.dft_settlement
+            return (
+              <>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-lg)', marginBottom: 'var(--space-sm)' }}>
+                  DfT 4-Year Highway Settlement — £{(dft.total / 1e6).toFixed(0)}M
+                </h3>
+                <div style={{ width: '100%', height: 220, marginBottom: 'var(--space-sm)' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={dft.years.map(y => ({
+                      year: y.year,
+                      amount: y.amount / 1e6,
+                      managed: y.year <= '2027/28' ? 'LCC managed' : 'Transition risk'
+                    }))}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                      <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, 'Settlement']} />
+                      <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+                        {dft.years.map((y, i) => (
+                          <Cell key={i} fill={y.year <= '2027/28' ? '#30d158' : '#ff9f0a'} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <p className="section-desc" style={{ fontSize: '0.8rem' }}>{dft.note}</p>
+              </>
+            )
+          })()}
+
+          {/* Critical Path Gantt */}
+          {procurementPipeline.critical_path?.workstreams?.length > 0 && (
+            <>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>
+                <Clock size={15} style={{ verticalAlign: 'middle', marginRight: 6 }} />
+                Critical Path Workstreams
+              </h3>
+              <p className="section-desc" style={{ fontSize: '0.8rem', marginBottom: 'var(--space-sm)' }}>
+                Current timeline allows {procurementPipeline.critical_path.current_duration_months} months. Minimum feasible duration
+                is {procurementPipeline.critical_path.minimum_duration_months} months. Recommended: {procurementPipeline.critical_path.recommended_duration_months} months.
+              </p>
+              <div className="lgr-gantt-container">
+                {procurementPipeline.critical_path.workstreams.map(ws => {
+                  const maxMonths = procurementPipeline.critical_path.recommended_duration_months || 30
+                  const leftPct = (ws.start_offset / maxMonths) * 100
+                  const widthPct = (ws.duration_months / maxMonths) * 100
+                  const isCritical = procurementPipeline.critical_path.critical_path_items?.includes(ws.id)
+                  return (
+                    <div key={ws.id} className="lgr-gantt-row">
+                      <div className="lgr-gantt-label">{ws.name}</div>
+                      <div className="lgr-gantt-track">
+                        <div
+                          className={`lgr-gantt-bar ${isCritical ? 'lgr-gantt-bar--critical' : ''}`}
+                          style={{ left: `${leftPct}%`, width: `${widthPct}%` }}
+                          title={`${ws.name}: ${ws.duration_months} months (start month ${ws.start_offset})`}
+                        >
+                          <span className="lgr-gantt-duration">{ws.duration_months}m</span>
+                        </div>
+                        {/* Vesting day markers */}
+                        <div className="lgr-gantt-vesting lgr-gantt-vesting--current" style={{ left: `${(18 / maxMonths) * 100}%` }} title="Current vesting: Apr 2028" />
+                        <div className="lgr-gantt-vesting lgr-gantt-vesting--delayed" style={{ left: `${(30 / maxMonths) * 100}%` }} title="Recommended vesting: Apr 2029" />
+                      </div>
+                    </div>
+                  )
+                })}
+                <div className="lgr-gantt-legend">
+                  <span><span className="lgr-gantt-legend-dot" style={{ background: '#ff453a' }} /> Critical path</span>
+                  <span><span className="lgr-gantt-legend-dot" style={{ background: '#0a84ff' }} /> Standard</span>
+                  <span className="lgr-gantt-legend-vesting"><span className="lgr-gantt-legend-line" style={{ borderColor: '#ff453a' }} /> Apr 2028 (current)</span>
+                  <span className="lgr-gantt-legend-vesting"><span className="lgr-gantt-legend-line" style={{ borderColor: '#30d158' }} /> Apr 2029 (recommended)</span>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Delay case arguments */}
+          {procurementPipeline.delay_case?.arguments?.length > 0 && (
+            <>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>
+                The Case for Delay: 12 Evidence-Based Arguments
+              </h3>
+              <div className="lgr-delay-args">
+                {procurementPipeline.delay_case.arguments.map(arg => (
+                  <div key={arg.id} className="lgr-delay-arg">
+                    <div className="lgr-delay-arg-header">
+                      <span className="lgr-delay-arg-num">{arg.id}</span>
+                      <span className="lgr-delay-arg-title">{arg.title}</span>
+                    </div>
+                    <p className="lgr-delay-arg-detail">{arg.detail}</p>
+                    <div className="lgr-delay-arg-risk">
+                      <AlertTriangle size={12} /> <strong>If rushed:</strong> {arg.risk_if_rushed}
+                    </div>
+                    {arg.precedent && (
+                      <div className="lgr-delay-arg-precedent">
+                        <BookOpen size={12} /> {arg.precedent}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Cost comparison */}
+          {procurementPipeline.delay_case?.cost_comparison && (() => {
+            const cc = procurementPipeline.delay_case.cost_comparison
+            return (
+              <>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>
+                  Quantified Risk: Rushed vs Delayed Transition
+                </h3>
+                <div className="lgr-cost-compare">
+                  <div className="lgr-cost-compare-col lgr-cost-compare-col--rushed">
+                    <div className="lgr-cost-compare-head">
+                      <span className="lgr-cost-compare-icon">⚡</span>
+                      <h4>Rushed (18 months)</h4>
+                    </div>
+                    <div className="lgr-cost-compare-range">
+                      £{(cc.rushed_18_months.transition_costs_low / 1e6).toFixed(0)}M – £{(cc.rushed_18_months.transition_costs_high / 1e6).toFixed(0)}M
+                    </div>
+                    <div className="lgr-cost-compare-items">
+                      {cc.rushed_18_months.components.map((c, i) => (
+                        <div key={i} className="lgr-cost-item">
+                          <span>{c.item}</span>
+                          <span>£{(c.cost_low / 1e6).toFixed(0)}–{(c.cost_high / 1e6).toFixed(0)}M</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="lgr-cost-compare-col lgr-cost-compare-col--delayed">
+                    <div className="lgr-cost-compare-head">
+                      <span className="lgr-cost-compare-icon">🎯</span>
+                      <h4>Delayed (30 months)</h4>
+                    </div>
+                    <div className="lgr-cost-compare-range lgr-cost-compare-range--good">
+                      £{(cc.delayed_30_months.transition_costs_low / 1e6).toFixed(0)}M – £{(cc.delayed_30_months.transition_costs_high / 1e6).toFixed(0)}M
+                    </div>
+                    <p className="lgr-cost-compare-note">{cc.delayed_30_months.note}</p>
+                  </div>
+                </div>
+                <div className="lgr-cost-saving-callout">
+                  <strong>Net saving from delay:</strong> £{((cc.rushed_18_months.transition_costs_low - cc.delayed_30_months.transition_costs_high) / 1e6).toFixed(0)}M – £{((cc.rushed_18_months.transition_costs_high - cc.delayed_30_months.transition_costs_low) / 1e6).toFixed(0)}M
+                  <span style={{ display: 'block', fontSize: '0.78rem', color: '#8e8e93', marginTop: 4 }}>Based on Dorset, Buckinghamshire, North Yorkshire, and Northamptonshire precedent costs, adjusted for Lancashire&apos;s scale.</span>
+                </div>
+              </>
+            )
+          })()}
+
+          {/* District contracts summary */}
+          {procurementPipeline.service_tiers?.lower_tier?.contracts_finder_summary?.length > 0 && (
+            <>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>
+                District Council Contracts (Lower Tier)
+              </h3>
+              <p className="section-desc" style={{ fontSize: '0.8rem', marginBottom: 'var(--space-sm)' }}>
+                Contracts Finder notices from 12 district councils. Many smaller contracts are below the CF reporting threshold — actual contract counts are significantly higher.
+              </p>
+              <div className="table-overflow">
+                <table className="lgr-comparison-table">
+                  <thead>
+                    <tr>
+                      <th>Council</th>
+                      <th>Notices</th>
+                      <th>Awarded</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {procurementPipeline.service_tiers.lower_tier.contracts_finder_summary.map((c, i) => (
+                      <tr key={i}>
+                        <td><strong>{c.council}</strong>{c.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93' }}>{c.note}</div>}</td>
+                        <td>{c.notices}</td>
+                        <td>{c.awarded}</td>
+                        <td>{c.total_awarded > 0 ? `£${(c.total_awarded / 1e6).toFixed(1)}M` : '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+
+          <p className="data-source-note" style={{ marginTop: 'var(--space-lg)', fontSize: '0.75rem', color: '#636366' }}>
+            Source: LCC Cabinet March 2026 Procurement Pipeline Report, Contracts Finder API ({procurementPipeline.meta?.generated}).
+            Upper tier contracts from LCC cabinet papers. Lower tier from Contracts Finder. Estimated totals include contracts below CF threshold.
+          </p>
+        </CollapsibleSection>
+      )}
 
       {/* V7: Alternative Timeline */}
       <CollapsibleSection id="lgr-alternative-timeline" title="Alternative Timeline Proposal" icon={<Clock size={20} />}>

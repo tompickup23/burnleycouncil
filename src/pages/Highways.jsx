@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers, Building2, Lightbulb, TrendingDown, DollarSign, Wrench } from 'lucide-react'
+import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers, Building2, Lightbulb, TrendingDown, DollarSign, Wrench, Briefcase, FileText } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, ComposedChart } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -183,6 +184,10 @@ export default function Highways() {
   }, [setSearchParams])
 
   // Destructure data (safe even when null/loading)
+  // Load procurement pipeline data (separate useData to avoid conditional hook issues)
+  const { data: procPipelineData } = useData('/data/shared/procurement_pipeline.json')
+  const procPipeline = procPipelineData || null
+
   const [roadworksData, trafficData, boundariesData, legalData, assetsData] = allData || [null, null, null, null, null]
   const allRoadworks = roadworksData?.roadworks || []
   // Filter to only show roadworks since 1 Feb 2026
@@ -1880,6 +1885,165 @@ export default function Highways() {
             <p className="hw-muted-note">{assets.spending_integration.cross_reference_note}</p>
           </CollapsibleSection>
         )}
+
+        {/* Highways Procurement Pipeline (LGR Contract Analysis) */}
+        {procPipeline?.service_tiers?.upper_tier?.contracts?.highways && (() => {
+          const hw = procPipeline.service_tiers.upper_tier.contracts.highways
+          const dft = hw.dft_settlement
+          return (
+            <CollapsibleSection
+              title="Highways Procurement Pipeline"
+              subtitle={`${hw.exercises?.length || 9} LCC exercises worth £${(hw.total_value / 1e6).toFixed(0)}M + 3 highway authority contracts — all crossing LGR vesting day`}
+              severity="warning"
+              icon={<Briefcase size={18} />}
+            >
+              <p className="hw-muted-note" style={{ marginBottom: 16 }}>
+                LCC&apos;s March 2026 cabinet procurement pipeline includes {hw.exercises?.length || 9} highways exercises
+                totalling £{(hw.total_value / 1e6).toFixed(0)}M. All are 4-year contracts crossing the proposed LGR vesting day.
+                Additionally, Blackpool and Blackburn (as separate highway authorities) have their own active contracts.
+              </p>
+
+              {/* Stat cards */}
+              <StatBar>
+                <StatCard value={`£${(hw.total_value / 1e6).toFixed(0)}M`} label="LCC highways pipeline" icon="📋" />
+                <StatCard value={hw.exercises?.length || 9} label="Procurement exercises" icon="📄" />
+                <StatCard value="3" label="Highway authorities" icon="🛣️" highlight />
+                {dft && <StatCard value={`£${(dft.total / 1e6).toFixed(0)}M`} label="DfT 4-year settlement" icon="💰" />}
+              </StatBar>
+
+              {/* LCC exercises table */}
+              <div className="hw-assets-sub-heading" style={{ marginTop: 20 }}>
+                <FileText size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#0a84ff' }} />
+                LCC Highways Exercises (March 2026 Pipeline)
+              </div>
+              <div className="hw-table-overflow">
+                <table className="hw-legal-table">
+                  <thead>
+                    <tr>
+                      <th>Exercise</th>
+                      <th>Value</th>
+                      <th>Term</th>
+                      <th>Geographic Lots</th>
+                      <th>Risk</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(hw.exercises || []).map((ex, i) => (
+                      <tr key={i}>
+                        <td>
+                          <strong>{ex.title}</strong>
+                          {ex.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{ex.note}</div>}
+                        </td>
+                        <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>£{(ex.value / 1e6).toFixed(1)}M</td>
+                        <td>{ex.term}</td>
+                        <td>{ex.geographic_lots || '—'}</td>
+                        <td>
+                          <span style={{
+                            display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: '0.72rem', fontWeight: 600,
+                            background: ex.risk === 'critical' ? 'rgba(255,69,58,0.15)' : ex.risk === 'high' ? 'rgba(255,159,10,0.15)' : 'rgba(48,209,88,0.15)',
+                            color: ex.risk === 'critical' ? '#ff453a' : ex.risk === 'high' ? '#ff9f0a' : '#30d158'
+                          }}>
+                            {ex.risk}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Unitary highway authority contracts */}
+              {hw.unitary_contracts?.length > 0 && (
+                <>
+                  <div className="hw-assets-sub-heading" style={{ marginTop: 20 }}>
+                    Blackpool &amp; Blackburn Highway Authority Contracts
+                  </div>
+                  <p className="hw-muted-note" style={{ marginBottom: 10 }}>
+                    As separate highway authorities, Blackpool and Blackburn with Darwen have their own highways contracts
+                    that must also be integrated under LGR.
+                  </p>
+                  <div className="hw-table-overflow">
+                    <table className="hw-legal-table">
+                      <thead>
+                        <tr>
+                          <th>Contract</th>
+                          <th>Authority</th>
+                          <th>Value</th>
+                          <th>Source</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {hw.unitary_contracts.map((uc, i) => (
+                          <tr key={i}>
+                            <td><strong>{uc.title}</strong>{uc.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{uc.note}</div>}</td>
+                            <td style={{ color: '#0a84ff' }}>{uc.authority}</td>
+                            <td style={{ fontWeight: 600 }}>{uc.value ? `£${(uc.value / 1e6).toFixed(1)}M` : '—'}</td>
+                            <td style={{ fontSize: '0.78rem', color: '#8e8e93' }}>{uc.source}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+
+              {/* DfT Settlement bar chart */}
+              {dft && (
+                <>
+                  <div className="hw-assets-sub-heading" style={{ marginTop: 20 }}>
+                    DfT 4-Year Highway Settlement — £{(dft.total / 1e6).toFixed(0)}M
+                  </div>
+                  <ChartCard title="" note={dft.note}>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={dft.years.map(y => ({
+                        year: y.year,
+                        amount: y.amount / 1e6,
+                      }))}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                        <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
+                        <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, 'Settlement']} />
+                        <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+                          {dft.years.map((y, i) => (
+                            <Cell key={i} fill={y.year <= '2027/28' ? '#30d158' : '#ff9f0a'} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </>
+              )}
+
+              {/* Geographic lotting insight */}
+              <div className="hw-concentration-note" style={{ marginTop: 16 }}>
+                <AlertTriangle size={14} style={{ verticalAlign: 'middle', marginRight: 6 }} />
+                <strong>Geographic Lotting Risk:</strong> Current A/B&amp;C/Unclassified road contracts use North/South/East lots.
+                Under LGR, successor authority boundaries will not align with existing lot boundaries — requiring complete
+                contract restructuring, not simple novation. The 7,142km network must be re-lotted across 2–5 successor authorities.
+              </div>
+
+              {/* LGR delay impact */}
+              {procPipeline.delay_case && (
+                <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(10,132,255,0.06)', border: '1px solid rgba(10,132,255,0.2)', borderRadius: 10 }}>
+                  <strong style={{ color: '#0a84ff', fontSize: '0.88rem' }}>LGR Delay Impact on Highways:</strong>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
+                    Delaying vesting from April 2028 to April 2029 means 3 of 4 DfT settlement years would be managed by LCC
+                    under existing contractual arrangements, with only the final year requiring renegotiation. Under the current
+                    timeline, 2 years transfer mid-contract creating funding uncertainty.
+                  </p>
+                  <Link to="/lgr" style={{ display: 'inline-block', marginTop: 8, fontSize: '0.78rem', color: '#0a84ff', textDecoration: 'none' }}>
+                    Full delay case analysis on LGR Tracker →
+                  </Link>
+                </div>
+              )}
+
+              <p className="hw-source-note" style={{ marginTop: 16 }}>
+                Source: LCC Cabinet March 2026 Procurement Pipeline Report, Contracts Finder API, DfT Highway Maintenance
+                Funding Allocations 2026–2030.
+              </p>
+            </CollapsibleSection>
+          )
+        })()}
 
         {/* District breakdown */}
         {districtData.length > 1 && (

@@ -2,17 +2,17 @@
   "meta": {
     "council_id": "wyre",
     "source": "Contracts Finder (contractsfinder.service.gov.uk)",
-    "generated": "2026-02-15T10:04:40Z",
-    "total_notices": 90
+    "generated": "2026-03-08T20:43:22Z",
+    "total_notices": 91
   },
   "stats": {
-    "total_notices": 90,
-    "awarded_count": 64,
+    "total_notices": 91,
+    "awarded_count": 65,
     "open_count": 0,
-    "total_awarded_value": 763679833.77,
-    "average_awarded_value": 11932497.4,
+    "total_awarded_value": 763866381.77,
+    "average_awarded_value": 11751790.49,
     "sme_awarded_count": 25,
-    "sme_awarded_pct": 39.1,
+    "sme_awarded_pct": 38.5,
     "top_suppliers": [
       {
         "name": "Motus Commercials Derby",
@@ -28,6 +28,11 @@
         "name": "NPOWER COMMERCIAL GAS LIMITED",
         "contracts": 2,
         "total_value": 961911
+      },
+      {
+        "name": "RSK Environment Ltd",
+        "contracts": 1,
+        "total_value": 186548
       },
       {
         "name": "Jadu Creative Limited",
@@ -58,15 +63,10 @@
         "name": "Axo Leisure",
         "contracts": 1,
         "total_value": 124309
-      },
-      {
-        "name": "Civica UK Limited",
-        "contracts": 1,
-        "total_value": 346195
       }
     ],
     "by_type": {
-      "Contract": 87,
+      "Contract": 88,
       "PreProcurement": 3
     },
     "by_year": {
@@ -80,10 +80,34 @@
       "2023": 21,
       "2024": 28,
       "2025": 16,
-      "2026": 1
-    }
+      "2026": 2
+    },
+    "competition": null,
+    "by_procedure_type": null
   },
   "contracts": [
+    {
+      "id": "f37c54dc-f5b0-409f-baef-b7410ff31bbb",
+      "title": "Transport Assessment for Local Plan",
+      "description": "Wyre Local Plan Transport Evidence Base 2026\r\n\r\nA transport assessment of the emerging Wyre Local Plan.\r\n\r\nCall off from ESPO Consultancy Services framework 664_25",
+      "organisation": "Wyre Council",
+      "status": "awarded",
+      "notice_type": "Contract",
+      "published_date": "2026-03-06",
+      "deadline_date": "2026-01-12",
+      "awarded_date": "2026-01-19",
+      "value_low": 200000,
+      "value_high": 0,
+      "awarded_value": 186548,
+      "awarded_supplier": "RSK Environment Ltd",
+      "awarded_to_sme": false,
+      "cpv_codes": "71311200",
+      "cpv_description": "Transport systems consultancy services",
+      "region": "North West",
+      "postcode": "",
+      "suitable_for_sme": false,
+      "url": "https://www.contractsfinder.service.gov.uk/Published/Notice/f37c54dc-f5b0-409f-baef-b7410ff31bbb"
+    },
     {
       "id": "38367716-695b-40ac-8f05-20b9fa8bbe84",
       "title": "Customer Experience Management system",
