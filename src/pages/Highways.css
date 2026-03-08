@@ -2357,6 +2357,112 @@
   font-style: italic;
 }
 
+/* Investment summary */
+.hw-investment-summary {
+  font-size: 0.85rem;
+  color: #aeaeb2;
+  line-height: 1.55;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  background: rgba(255, 69, 58, 0.06);
+  border-left: 3px solid #ff453a;
+  border-radius: 0 6px 6px 0;
+}
+
+.hw-cost-card-unit {
+  font-size: 0.55em;
+  color: #8e8e93;
+  font-weight: 400;
+}
+
+/* Scenario cards */
+.hw-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.hw-scenario-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 14px;
+  border-left: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.hw-scenario-card--critical {
+  border-left-color: #ff453a;
+  background: rgba(255, 69, 58, 0.04);
+}
+
+.hw-scenario-card--warning {
+  border-left-color: #ff9f0a;
+  background: rgba(255, 159, 10, 0.04);
+}
+
+.hw-scenario-card--info {
+  border-left-color: #0a84ff;
+  background: rgba(10, 132, 255, 0.04);
+}
+
+.hw-scenario-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #e5e5ea;
+}
+
+.hw-scenario-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.hw-scenario-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hw-scenario-stat-label {
+  font-size: 0.65rem;
+  color: #636366;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hw-scenario-stat-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e5e5ea;
+}
+
+.hw-scenario-outcome {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  line-height: 1.45;
+}
+
+/* LCC statement */
+.hw-lcc-statement {
+  background: rgba(10, 132, 255, 0.06);
+  border-left: 3px solid #0a84ff;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  color: #aeaeb2;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.hw-lcc-statement-label {
+  font-weight: 700;
+  color: #0a84ff;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .hw-asset-stat-row { grid-template-columns: 1fr 1fr; }
@@ -2364,4 +2470,5 @@
   .hw-condition-row { grid-template-columns: 130px 1fr auto; }
   .hw-innovation-grid { grid-template-columns: 1fr; }
   .hw-valuation-grid { grid-template-columns: 1fr; }
+  .hw-scenario-grid { grid-template-columns: 1fr; }
 }

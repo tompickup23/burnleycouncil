@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers, Building2, Lightbulb, TrendingDown, DollarSign, Wrench } from 'lucide-react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, ComposedChart } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -184,7 +184,15 @@ export default function Highways() {
 
   // Destructure data (safe even when null/loading)
   const [roadworksData, trafficData, boundariesData, legalData, assetsData] = allData || [null, null, null, null, null]
-  const roadworks = roadworksData?.roadworks || []
+  const allRoadworks = roadworksData?.roadworks || []
+  // Filter to only show roadworks since 1 Feb 2026
+  const CUTOFF_DATE = '2026-02-01'
+  const roadworks = allRoadworks.filter(rw => {
+    // Include if start_date is on or after cutoff, OR if end_date is on or after cutoff (still active)
+    if (rw.start_date && rw.start_date >= CUTOFF_DATE) return true
+    if (rw.end_date && rw.end_date >= CUTOFF_DATE) return true
+    return false
+  })
   const stats = roadworksData?.stats || {}
   const meta = roadworksData?.meta || {}
   const traffic = trafficData || null
@@ -301,7 +309,14 @@ export default function Highways() {
     if (!assets?.asset_categories) return []
     return assets.asset_categories
       .filter(c => c.grc_estimate != null)
-      .map(c => ({ name: c.category.replace(' & ', ' &\n').replace(' (', '\n('), fullName: c.category, value: Math.round(c.grc_estimate / 1e6), fill: c.fill || '#8e8e93' }))
+      .map(c => ({
+        name: c.category === 'Structures (Bridges & Retaining Walls)' ? 'Structures'
+          : c.category === 'Footways & Cycleways' ? 'Footways'
+          : c.category === 'Traffic Management & Signals' ? 'Traffic Mgmt'
+          : c.category === 'Drainage (Gullies, Pipes, SuDS)' ? 'Drainage'
+          : c.category,
+        fullName: c.category, value: Math.round(c.grc_estimate / 1e6), fill: c.fill || '#8e8e93'
+      }))
   }, [assets])
 
   const lifecycleData = useMemo(() => {
@@ -320,13 +335,29 @@ export default function Highways() {
     return assets.budget_trend.years
       .filter(y => y.net_revenue != null || y.capital_programme != null)
       .map(y => ({
-        year: y.year.replace('/2', '/').replace('20', ''),
+        year: y.year.replace(/^20/, ''),
         fullYear: y.year,
         net: y.net_revenue ? Math.round(y.net_revenue / 1e6) : null,
         gross: y.total_expenditure ? Math.round(y.total_expenditure / 1e6) : null,
         capital: y.capital_programme ? Math.round(y.capital_programme / 1e6) : null,
         isBudget: y.data_type === 'budget_estimate',
       }))
+  }, [assets])
+
+  // Historic investment gap chart data
+  const historicInvestmentData = useMemo(() => {
+    if (!assets?.historic_investment?.annual_investment) return []
+    return assets.historic_investment.annual_investment.map(y => ({
+      year: y.year.replace(/^20/, ''),
+      fullYear: y.year,
+      invested: Math.round(y.total_capital / 1e6),
+      needed: Math.round(y.estimated_need / 1e6),
+      shortfall: Math.round(y.shortfall / 1e6),
+      dft: Math.round(y.dft_grant / 1e6),
+      lcc: Math.round(y.lcc_contribution / 1e6),
+      isBudget: y.data_quality === 'budget_estimate',
+      isEstimated: y.data_quality === 'estimated',
+    }))
   }, [assets])
 
   // Guard: feature not enabled
@@ -1231,7 +1262,7 @@ export default function Highways() {
                 <ResponsiveContainer width="100%" height={220}>
                   <LineChart data={assets.road_condition.trend.filter(t => t.a_red != null || t.bc_red != null || t.uc_red != null)} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
-                    <XAxis dataKey="year" tick={{ ...AXIS_TICK_STYLE, fontSize: 11 }} tickFormatter={y => y.replace('/2', '/')} />
+                    <XAxis dataKey="year" tick={{ ...AXIS_TICK_STYLE, fontSize: 11 }} tickFormatter={y => y.replace(/^20/, '').replace(' (survey)', '')} />
                     <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${v}%`} />
                     <RechartsTooltip {...CHART_TOOLTIP_STYLE} formatter={(v, n) => [`${v}%`, n === 'a_red' ? 'A Roads' : n === 'bc_red' ? 'B&C Roads' : 'Unclassified']} />
                     <Legend formatter={v => ({ a_red: 'A Roads', bc_red: 'B&C Roads', uc_red: 'Unclassified' }[v] || v)} />
@@ -1245,36 +1276,169 @@ export default function Highways() {
             )}
 
             {/* C. True Cost of Getting Roads Right */}
-            <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>True Cost of Getting Roads Right</div>
+            <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
+              <DollarSign size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#ff453a' }} />
+              True Cost of Getting Roads Right
+            </div>
             <div className="hw-cost-analysis">
               <div className="hw-cost-grid">
                 <div className="hw-cost-card hw-cost-card--backlog">
-                  <div className="hw-cost-card-label">LCC Maintenance Backlog</div>
+                  <div className="hw-cost-card-label">Maintenance Backlog</div>
                   <div className="hw-cost-card-value">£{(assets.investment_analysis?.lcc_maintenance_backlog / 1e6).toFixed(0)}M</div>
                   <div className="hw-cost-card-note">{assets.investment_analysis?.lcc_backlog_source}</div>
                 </div>
                 <div className="hw-cost-card hw-cost-card--steadystate">
-                  <div className="hw-cost-card-label">Est. Steady-State Need/year</div>
-                  <div className="hw-cost-card-value">£{(assets.investment_analysis?.steady_state_estimate / 1e6).toFixed(0)}M</div>
-                  <div className="hw-cost-card-note">£10B GRC ÷ ~25yr avg life. Illustrative only — different asset classes have very different lifespans.</div>
+                  <div className="hw-cost-card-label">Practical Steady-State Need</div>
+                  <div className="hw-cost-card-value">£{(assets.investment_analysis?.practical_steady_state / 1e6).toFixed(0)}M<span className="hw-cost-card-unit">/yr</span></div>
+                  <div className="hw-cost-card-note">Based on 25-year resurfacing cycle + all asset classes. The theoretical CIPFA figure is £400M/yr.</div>
                 </div>
                 <div className="hw-cost-card hw-cost-card--actual">
                   <div className="hw-cost-card-label">2026/27 Capital Programme</div>
                   <div className="hw-cost-card-value">£{(assets.investment_analysis?.current_best_annual_capital / 1e6).toFixed(0)}M</div>
-                  <div className="hw-cost-card-note">Budgeted — not confirmed outturn. {assets.investment_analysis?.capital_as_pct_steady_state}% of estimated steady-state need.</div>
+                  <div className="hw-cost-card-note">Budgeted. {assets.investment_analysis?.capital_as_pct_practical_steady_state}% of practical steady-state need.</div>
                 </div>
                 <div className="hw-cost-card hw-cost-card--gap">
                   <div className="hw-cost-card-label">Years to Clear Backlog</div>
                   <div className="hw-cost-card-value">~{Math.round(assets.investment_analysis?.lcc_maintenance_backlog / assets.investment_analysis?.current_best_annual_capital)}yr</div>
-                  <div className="hw-cost-card-note">At current capital spend, assuming zero new deterioration — which is impossible in practice.</div>
+                  <div className="hw-cost-card-note">At current spend, assuming zero new deterioration — impossible in practice.</div>
                 </div>
               </div>
               <div className="hw-cost-insight">{assets.investment_analysis?.key_insight}</div>
             </div>
 
-            {/* Budget trend chart */}
+            {/* C2. 14-Year Historic Investment Gap */}
+            {historicInvestmentData.length > 0 && (
+              <>
+                <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
+                  <TrendingDown size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#ff453a' }} />
+                  {assets.historic_investment?.section_title || '14 Years of Underfunding'}
+                </div>
+                <div className="hw-investment-summary">{assets.historic_investment?.summary}</div>
+
+                {/* Cumulative stats */}
+                {assets.historic_investment?.cumulative_analysis && (
+                  <div className="hw-cost-grid" style={{ marginBottom: 16 }}>
+                    <div className="hw-cost-card hw-cost-card--actual">
+                      <div className="hw-cost-card-label">Total Invested (14 years)</div>
+                      <div className="hw-cost-card-value">£{(assets.historic_investment.cumulative_analysis.total_invested / 1e6).toFixed(0)}M</div>
+                      <div className="hw-cost-card-note">Avg £{(assets.historic_investment.cumulative_analysis.average_annual_investment / 1e6).toFixed(0)}M/yr capital</div>
+                    </div>
+                    <div className="hw-cost-card hw-cost-card--steadystate">
+                      <div className="hw-cost-card-label">Total Needed (14 years)</div>
+                      <div className="hw-cost-card-value">£{(assets.historic_investment.cumulative_analysis.total_needed / 1e6).toFixed(0)}M</div>
+                      <div className="hw-cost-card-note">Avg £{(assets.historic_investment.cumulative_analysis.average_annual_need / 1e6).toFixed(0)}M/yr estimated need</div>
+                    </div>
+                    <div className="hw-cost-card hw-cost-card--backlog">
+                      <div className="hw-cost-card-label">Cumulative Shortfall</div>
+                      <div className="hw-cost-card-value">£{(assets.historic_investment.cumulative_analysis.cumulative_shortfall / 1e6).toFixed(0)}M</div>
+                      <div className="hw-cost-card-note">Only {assets.historic_investment.cumulative_analysis.investment_as_pct_of_need}% of need was met</div>
+                    </div>
+                    <div className="hw-cost-card hw-cost-card--gap">
+                      <div className="hw-cost-card-label">National Resurfacing Cycle</div>
+                      <div className="hw-cost-card-value">{assets.historic_investment?.national_context?.resurfacing_cycle_years || 93}yr</div>
+                      <div className="hw-cost-card-note">At current rates, each road is resurfaced once every 93 years. Should be every 25.</div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Investment gap chart — what was invested vs what was needed */}
+                <ChartCard title="Capital Investment vs Estimated Need (£M/year)" subtitle="Red line = estimated need. Orange bars = DfT grant. Blue bars = LCC contribution. The gap between the bars and the line is the annual shortfall.">
+                  <ResponsiveContainer width="100%" height={280}>
+                    <ComposedChart data={historicInvestmentData} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis dataKey="year" tick={{ ...AXIS_TICK_STYLE, fontSize: 10 }} interval={0} angle={-45} textAnchor="end" height={50} />
+                      <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} domain={[0, 'auto']} />
+                      <RechartsTooltip
+                        {...CHART_TOOLTIP_STYLE}
+                        formatter={(v, n, p) => {
+                          const labels = { dft: 'DfT Grant', lcc: 'LCC Contribution', needed: 'Estimated Need' }
+                          const qual = p.payload.isBudget ? ' (budgeted)' : p.payload.isEstimated ? ' (est.)' : ''
+                          return [`£${v}M${qual}`, labels[n] || n]
+                        }}
+                      />
+                      <Legend formatter={v => ({ dft: 'DfT Grant', lcc: 'LCC Contribution', needed: 'Estimated Need' }[v] || v)} />
+                      <Bar dataKey="dft" stackId="a" fill="#ff9f0a" radius={[0, 0, 0, 0]} name="dft" />
+                      <Bar dataKey="lcc" stackId="a" fill="#0a84ff" radius={[2, 2, 0, 0]} name="lcc" />
+                      <Line type="monotone" dataKey="needed" stroke="#ff453a" strokeWidth={2} dot={{ r: 3, fill: '#ff453a' }} name="needed" />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+
+                {/* National context */}
+                {assets.historic_investment?.national_context && (
+                  <div style={{ marginTop: 16 }}>
+                    <div className="hw-assets-sub-heading">National Context (ALARM Survey 2025)</div>
+                    <div className="hw-cost-grid">
+                      <div className="hw-cost-card hw-cost-card--backlog">
+                        <div className="hw-cost-card-label">National Backlog</div>
+                        <div className="hw-cost-card-value">£{(assets.historic_investment?.national_context.national_backlog / 1e9).toFixed(1)}B</div>
+                        <div className="hw-cost-card-note">AIA ALARM Survey 2025. Lancashire = ~{assets.historic_investment?.national_context.lancashire_backlog_pct_of_national}%</div>
+                      </div>
+                      <div className="hw-cost-card hw-cost-card--gap">
+                        <div className="hw-cost-card-label">Roads &lt;5yr Life Left</div>
+                        <div className="hw-cost-card-value">{formatNumber(assets.historic_investment?.national_context.roads_under_5yr_life_miles)} mi</div>
+                        <div className="hw-cost-card-note">Nationally. {assets.historic_investment?.national_context.roads_under_15yr_life_pct}% of network has &lt;15yr life remaining</div>
+                      </div>
+                      <div className="hw-cost-card hw-cost-card--steadystate">
+                        <div className="hw-cost-card-label">Funding Disparity</div>
+                        <div className="hw-cost-card-value">{assets.historic_investment?.national_context.funding_disparity_ratio}×</div>
+                        <div className="hw-cost-card-note">National Highways gets £{formatNumber(assets.historic_investment?.national_context.national_highways_per_mile)}/mile vs £{formatNumber(assets.historic_investment?.national_context.local_authority_per_mile)}/mile for local roads</div>
+                      </div>
+                      <div className="hw-cost-card hw-cost-card--actual">
+                        <div className="hw-cost-card-label">Decade of Spend</div>
+                        <div className="hw-cost-card-value">£{(assets.historic_investment?.national_context.decade_spend_total / 1e9).toFixed(0)}B</div>
+                        <div className="hw-cost-card-note">{assets.historic_investment?.national_context.decade_spend_note}</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* What would it actually cost — scenarios */}
+                {assets.historic_investment?.what_it_would_cost?.scenarios && (
+                  <div style={{ marginTop: 16 }}>
+                    <div className="hw-assets-sub-heading">
+                      <TrendingUp size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#0a84ff' }} />
+                      {assets.historic_investment?.what_it_would_cost.title}
+                    </div>
+                    <div className="hw-scenario-grid">
+                      {assets.historic_investment?.what_it_would_cost.scenarios.map((s, i) => (
+                        <div key={i} className={`hw-scenario-card hw-scenario-card--${s.severity}`}>
+                          <div className="hw-scenario-name">{s.name}</div>
+                          <div className="hw-scenario-stats">
+                            <div className="hw-scenario-stat">
+                              <span className="hw-scenario-stat-label">Annual capital</span>
+                              <span className="hw-scenario-stat-value">£{(s.annual_capital / 1e6).toFixed(0)}M</span>
+                            </div>
+                            <div className="hw-scenario-stat">
+                              <span className="hw-scenario-stat-label">10yr total</span>
+                              <span className="hw-scenario-stat-value">£{(s.total_10yr_cost / 1e6).toFixed(0)}M</span>
+                            </div>
+                            <div className="hw-scenario-stat">
+                              <span className="hw-scenario-stat-label">Backlog cleared</span>
+                              <span className="hw-scenario-stat-value">{s.years_to_clear_backlog}</span>
+                            </div>
+                          </div>
+                          <div className="hw-scenario-outcome">{s.outcome}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="hw-cost-insight" style={{ marginTop: 12 }}>
+                      {assets.historic_investment?.what_it_would_cost.key_finding}
+                    </div>
+                    {assets.historic_investment?.what_it_would_cost.lcc_statement && (
+                      <div className="hw-lcc-statement">
+                        <span className="hw-lcc-statement-label">LCC's own assessment: </span>
+                        {assets.historic_investment?.what_it_would_cost.lcc_statement}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Revenue Expenditure Trend */}
             {budgetTrendData.length > 0 && (
-              <ChartCard title="Highways Revenue Expenditure Trend (£M)" subtitle="Confirmed outturn (GOV.UK MHCLG) shown solid. Budgeted/estimated shown with note.">
+              <ChartCard title="Highways Revenue & Capital Expenditure (£M)" subtitle="Revenue: confirmed outturn (GOV.UK MHCLG). Capital: from DfT allocations and LCC cabinet reports." style={{ marginTop: 16 }}>
                 <ResponsiveContainer width="100%" height={220}>
                   <BarChart data={budgetTrendData} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
@@ -1295,6 +1459,30 @@ export default function Highways() {
                   </BarChart>
                 </ResponsiveContainer>
               </ChartCard>
+            )}
+
+            {/* Maintenance contract performance */}
+            {assets.maintenance_contract_performance && (
+              <div style={{ marginTop: 16 }}>
+                <div className="hw-assets-sub-heading">New Maintenance Contract Performance ({assets.maintenance_contract_performance.year})</div>
+                <div className="hw-cost-grid">
+                  <div className="hw-cost-card hw-cost-card--actual">
+                    <div className="hw-cost-card-label">Defect Reduction</div>
+                    <div className="hw-cost-card-value">{assets.maintenance_contract_performance.defect_reduction_pct}%</div>
+                    <div className="hw-cost-card-note">{formatNumber(assets.maintenance_contract_performance.defects_before)} → {formatNumber(assets.maintenance_contract_performance.defects_after)} defects</div>
+                  </div>
+                  <div className="hw-cost-card hw-cost-card--steadystate">
+                    <div className="hw-cost-card-label">Repair Size Increase</div>
+                    <div className="hw-cost-card-value">{assets.maintenance_contract_performance.avg_repair_size_after_m2 / assets.maintenance_contract_performance.avg_repair_size_before_m2}×</div>
+                    <div className="hw-cost-card-note">{assets.maintenance_contract_performance.avg_repair_size_before_m2}m² → {assets.maintenance_contract_performance.avg_repair_size_after_m2}m² average (more durable)</div>
+                  </div>
+                  <div className="hw-cost-card hw-cost-card--actual">
+                    <div className="hw-cost-card-label">Cost per m² Saving</div>
+                    <div className="hw-cost-card-value">{assets.maintenance_contract_performance.cost_saving_pct}%</div>
+                    <div className="hw-cost-card-note">£{assets.maintenance_contract_performance.avg_repair_cost_before_per_m2}/m² → £{assets.maintenance_contract_performance.avg_repair_cost_after_per_m2}/m²</div>
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* D. Lifecycle Economics */}
