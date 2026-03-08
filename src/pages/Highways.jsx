@@ -1618,6 +1618,269 @@ export default function Highways() {
           </CollapsibleSection>
         )}
 
+        {/* Construction Cost Inflation */}
+        {assets?.cost_inflation && (
+          <CollapsibleSection
+            title="Construction Cost Inflation"
+            subtitle={`Road construction costs +${assets.cost_inflation.indices?.construction_infrastructure_2015_2025 || 45}% since 2015 — outpacing CPI (${assets.cost_inflation.indices?.cpi_cumulative_2015_2025 || 40}%)`}
+            severity="warning"
+            icon={<TrendingUp size={18} />}
+          >
+            {/* Buying power insight */}
+            <div className="hw-inflation-insight">
+              <strong>The £72M illusion:</strong> LCC's 2026/27 highways capital budget of £72M sounds like a massive increase from £{assets.cost_inflation.buying_power_analysis?.budget_2015 ? (assets.cost_inflation.buying_power_analysis.budget_2015 / 1e6).toFixed(0) : '25'}M in 2015. But construction costs have risen {assets.cost_inflation.indices?.construction_infrastructure_2015_2025 || 45}%. In real terms, £72M buys approximately £{assets.cost_inflation.buying_power_analysis?.budget_2027_in_2015_terms ? (assets.cost_inflation.buying_power_analysis.budget_2027_in_2015_terms / 1e6).toFixed(0) : '50'}M of 2015 road work.
+            </div>
+
+            {/* Component costs bar chart */}
+            <div className="hw-assets-sub-heading">Material &amp; Labour Cost Increases (2015–2025)</div>
+            {assets.cost_inflation.component_costs?.length > 0 && (
+              <ChartCard title="">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={assets.cost_inflation.component_costs.map(c => ({
+                    name: c.material,
+                    change: c.change_pct,
+                    fill: c.change_pct >= 80 ? '#ff453a' : c.change_pct >= 50 ? '#ff9f0a' : '#30d158'
+                  }))}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} angle={-25} textAnchor="end" height={80} />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `+${v}%`} />
+                    <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => [`+${v}%`, 'Change since 2015']} />
+                    <Bar dataKey="change" radius={[4, 4, 0, 0]}>
+                      {assets.cost_inflation.component_costs.map((c, i) => (
+                        <Cell key={i} fill={c.change_pct >= 80 ? '#ff453a' : c.change_pct >= 50 ? '#ff9f0a' : '#30d158'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            )}
+
+            {/* Component detail cards */}
+            <div className="hw-inflation-grid">
+              {assets.cost_inflation.component_costs?.map((c, i) => (
+                <div key={i} className="hw-inflation-card">
+                  <div className="hw-inflation-card-head">
+                    <span className="hw-inflation-material">{c.material}</span>
+                    <span className={`hw-inflation-pct ${c.change_pct >= 80 ? 'extreme' : c.change_pct >= 50 ? 'high' : ''}`}>+{c.change_pct}%</span>
+                  </div>
+                  <p className="hw-inflation-note">{c.note}</p>
+                  <span className="hw-inflation-src">{c.source}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* BCIS Forecasts */}
+            {assets.cost_inflation.bcis_forecasts_2025_2030 && (
+              <>
+                <div className="hw-assets-sub-heading">BCIS Forecasts to 2030</div>
+                <div className="hw-asset-stat-row">
+                  <div className="hw-asset-stat">
+                    <div className="hw-asset-stat-value" style={{ color: '#ff453a' }}>+{assets.cost_inflation.bcis_forecasts_2025_2030.civil_engineering_tender_prices_pct}%</div>
+                    <div className="hw-asset-stat-label">Civil Engineering Tenders</div>
+                  </div>
+                  <div className="hw-asset-stat">
+                    <div className="hw-asset-stat-value" style={{ color: '#ff9f0a' }}>+{assets.cost_inflation.bcis_forecasts_2025_2030.labour_costs_pct}%</div>
+                    <div className="hw-asset-stat-label">Labour Costs</div>
+                  </div>
+                  <div className="hw-asset-stat">
+                    <div className="hw-asset-stat-value" style={{ color: '#ff9f0a' }}>+{assets.cost_inflation.bcis_forecasts_2025_2030.building_costs_pct}%</div>
+                    <div className="hw-asset-stat-label">Building Costs</div>
+                  </div>
+                </div>
+                <p className="hw-muted-note">{assets.cost_inflation.bcis_forecasts_2025_2030.note}</p>
+              </>
+            )}
+
+            {/* Backlog inflation impact */}
+            {assets.cost_inflation.backlog_inflation_impact && (
+              <>
+                <div className="hw-assets-sub-heading">The Cost of Delay</div>
+                <div className="hw-backlog-timeline">
+                  <div className="hw-backlog-step">
+                    <span className="hw-backlog-year">Today</span>
+                    <span className="hw-backlog-amt">£{(assets.cost_inflation.backlog_inflation_impact.backlog_today / 1e6).toFixed(0)}M</span>
+                  </div>
+                  <span className="hw-backlog-arrow">→</span>
+                  <div className="hw-backlog-step">
+                    <span className="hw-backlog-year">+5 years</span>
+                    <span className="hw-backlog-amt">£{(assets.cost_inflation.backlog_inflation_impact.backlog_in_5yr / 1e6).toFixed(0)}M</span>
+                  </div>
+                  <span className="hw-backlog-arrow">→</span>
+                  <div className="hw-backlog-step">
+                    <span className="hw-backlog-year">+10 years</span>
+                    <span className="hw-backlog-amt">£{(assets.cost_inflation.backlog_inflation_impact.backlog_in_10yr / 1e6).toFixed(0)}M</span>
+                  </div>
+                </div>
+                <p className="hw-muted-note">{assets.cost_inflation.backlog_inflation_impact.note}</p>
+              </>
+            )}
+
+            <p className="hw-source-note">{assets.cost_inflation.source_note}</p>
+          </CollapsibleSection>
+        )}
+
+        {/* Future Pressures on the Network */}
+        {assets?.future_outlook && (
+          <CollapsibleSection
+            title="Future Pressures on the Network"
+            subtitle={assets.future_outlook.summary?.slice(0, 120) + '…'}
+            severity="warning"
+            icon={<TrendingDown size={18} />}
+          >
+            <div className="hw-future-grid">
+              {/* Population */}
+              {assets.future_outlook.population && (
+                <div className="hw-future-card">
+                  <div className="hw-future-icon">👥</div>
+                  <div className="hw-future-body">
+                    <div className="hw-future-head">
+                      <h4>Population Growth</h4>
+                      <span className="hw-future-stat">+{assets.future_outlook.population.growth_pct_25yr}%</span>
+                    </div>
+                    <p>{assets.future_outlook.population.highway_impact}</p>
+                    <span className="hw-future-src">{assets.future_outlook.population.source}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* EV Transition */}
+              {assets.future_outlook.ev_transition && (
+                <div className="hw-future-card hw-future-card--warning">
+                  <div className="hw-future-icon">🔋</div>
+                  <div className="hw-future-body">
+                    <div className="hw-future-head">
+                      <h4>Electric Vehicle Weight</h4>
+                      <span className="hw-future-stat">{assets.future_outlook.ev_transition.ev_weight_premium_pct}% heavier</span>
+                    </div>
+                    <p>{assets.future_outlook.ev_transition.highway_impact}</p>
+                    <span className="hw-future-src">{assets.future_outlook.ev_transition.source}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* LGV Growth */}
+              {assets.future_outlook.lgv_growth && (
+                <div className="hw-future-card">
+                  <div className="hw-future-icon">🚚</div>
+                  <div className="hw-future-body">
+                    <div className="hw-future-head">
+                      <h4>Delivery Van Surge</h4>
+                      <span className="hw-future-stat">+{assets.future_outlook.lgv_growth.lgv_increase_2010_2023_pct}%</span>
+                    </div>
+                    <p>{assets.future_outlook.lgv_growth.highway_impact}</p>
+                    <span className="hw-future-src">{assets.future_outlook.lgv_growth.source}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Climate Change */}
+              {assets.future_outlook.climate_change && (
+                <div className="hw-future-card hw-future-card--danger">
+                  <div className="hw-future-icon">🌧️</div>
+                  <div className="hw-future-body">
+                    <div className="hw-future-head">
+                      <h4>Climate Damage</h4>
+                      <span className="hw-future-stat">+{assets.future_outlook.climate_change.bc_roads_deterioration_2024_25_pct}% deterioration</span>
+                    </div>
+                    <p>{assets.future_outlook.climate_change.highway_impact}</p>
+                    <span className="hw-future-src">{assets.future_outlook.climate_change.source}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Autonomous Vehicles */}
+              {assets.future_outlook.autonomous_vehicles && (
+                <div className="hw-future-card">
+                  <div className="hw-future-icon">🤖</div>
+                  <div className="hw-future-body">
+                    <div className="hw-future-head">
+                      <h4>Autonomous Vehicles</h4>
+                      <span className="hw-future-stat">Act 2024</span>
+                    </div>
+                    <p>{assets.future_outlook.autonomous_vehicles.highway_impact}</p>
+                    <span className="hw-future-src">{assets.future_outlook.autonomous_vehicles.source}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Motoring Tax Crisis */}
+              {assets.future_outlook.motoring_tax_crisis && (
+                <div className="hw-future-card hw-future-card--warning">
+                  <div className="hw-future-icon">💰</div>
+                  <div className="hw-future-body">
+                    <div className="hw-future-head">
+                      <h4>Motoring Tax Crisis</h4>
+                      <span className="hw-future-stat">£{(assets.future_outlook.motoring_tax_crisis.cost_of_freeze_since_2011 / 1e9).toFixed(0)}B lost</span>
+                    </div>
+                    <p>{assets.future_outlook.motoring_tax_crisis.highway_impact}</p>
+                    <span className="hw-future-src">{assets.future_outlook.motoring_tax_crisis.source}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* Highways Spending Analysis */}
+        {assets?.spending_integration && assets.spending_integration.top_contractors?.length > 0 && (
+          <CollapsibleSection
+            title="Highways Spending Analysis"
+            subtitle={`£${assets.spending_integration.total_identifiable_highways_spend ? (assets.spending_integration.total_identifiable_highways_spend / 1e6).toFixed(1) : '8.1'}M identifiable spend across ${assets.spending_integration.budget_departments_count || 42} department codes`}
+            severity="neutral"
+            icon={<DollarSign size={18} />}
+          >
+            <p className="hw-muted-note" style={{ marginBottom: 16 }}>{assets.spending_integration.data_source}</p>
+
+            {/* Top contractors chart */}
+            <ChartCard title="Top Highways Contractors by Annual Spend">
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={assets.spending_integration.top_contractors.map(c => ({
+                  name: c.supplier.split(' ').slice(0, 2).join(' '),
+                  spend: c.annual_spend,
+                  share: c.share_pct
+                }))} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(1)}M`} />
+                  <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={120} />
+                  <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v, n) => [n === 'share' ? `${v}%` : `£${(v / 1e6).toFixed(1)}M`, n === 'share' ? 'Market share' : 'Annual spend']} />
+                  <Bar dataKey="spend" fill="#ff9f0a" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartCard>
+
+            {/* Contractor detail table */}
+            <div className="hw-table-overflow">
+              <table className="hw-legal-table">
+                <thead>
+                  <tr>
+                    <th>Contractor</th>
+                    <th>Annual Spend</th>
+                    <th>Share</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {assets.spending_integration.top_contractors.map((c, i) => (
+                    <tr key={i}>
+                      <td><strong>{c.supplier}</strong></td>
+                      <td>£{(c.annual_spend / 1e6).toFixed(1)}M</td>
+                      <td style={{ color: c.share_pct > 50 ? '#ff453a' : '#ff9f0a', fontWeight: 600 }}>{c.share_pct}%</td>
+                      <td className="hw-td-muted">{c.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Concentration warning */}
+            <div className="hw-concentration-note">
+              {assets.spending_integration.concentration_note}
+            </div>
+
+            <p className="hw-muted-note">{assets.spending_integration.cross_reference_note}</p>
+          </CollapsibleSection>
+        )}
+
         {/* District breakdown */}
         {districtData.length > 1 && (
           <CollapsibleSection

@@ -2472,6 +2472,176 @@
   font-style: italic;
 }
 
+/* ---- Construction Cost Inflation ---- */
+.hw-inflation-insight {
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.25);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+.hw-inflation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.hw-inflation-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+}
+.hw-inflation-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.hw-inflation-material {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+.hw-inflation-pct {
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+}
+.hw-inflation-pct.high {
+  background: rgba(255, 159, 10, 0.2);
+  color: #ff9f0a;
+}
+.hw-inflation-pct.extreme {
+  background: rgba(255, 69, 58, 0.2);
+  color: #ff453a;
+}
+.hw-inflation-note {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 4px 0;
+}
+.hw-inflation-src {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+/* ---- Backlog Timeline ---- */
+.hw-backlog-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+.hw-backlog-step {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 20px;
+  min-width: 100px;
+}
+.hw-backlog-year {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.hw-backlog-amt {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ff453a;
+}
+.hw-backlog-arrow {
+  font-size: 1.5rem;
+  color: var(--text-tertiary);
+}
+
+/* ---- Future Pressures ---- */
+.hw-future-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.hw-future-card {
+  display: flex;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 14px;
+}
+.hw-future-card--warning { border-left: 3px solid #ff9f0a; }
+.hw-future-card--danger { border-left: 3px solid #ff453a; }
+.hw-future-icon { font-size: 1.5rem; flex-shrink: 0; }
+.hw-future-body { flex: 1; min-width: 0; }
+.hw-future-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.hw-future-head h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+.hw-future-stat {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #ff9f0a;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+.hw-future-body p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0 0 6px 0;
+}
+.hw-future-src {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+/* ---- Spending Analysis ---- */
+.hw-concentration-note {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  padding: 12px;
+  background: rgba(255, 69, 58, 0.06);
+  border: 1px solid rgba(255, 69, 58, 0.15);
+  border-radius: 8px;
+  margin: 12px 0;
+}
+.hw-td-muted {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.hw-muted-note {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.hw-source-note {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .hw-asset-stat-row { grid-template-columns: 1fr 1fr; }
@@ -2480,4 +2650,8 @@
   .hw-innovation-grid { grid-template-columns: 1fr; }
   .hw-valuation-grid { grid-template-columns: 1fr; }
   .hw-scenario-grid { grid-template-columns: 1fr; }
+  .hw-inflation-grid { grid-template-columns: 1fr; }
+  .hw-future-grid { grid-template-columns: 1fr; }
+  .hw-backlog-timeline { flex-direction: column; gap: 6px; }
+  .hw-backlog-arrow { transform: rotate(90deg); }
 }
