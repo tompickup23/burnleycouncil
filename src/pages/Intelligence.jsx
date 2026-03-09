@@ -118,6 +118,152 @@ function BriefingNote({ line }) {
   )
 }
 
+function StandingOrdersPanel({ standingOrders, meetingType }) {
+  const [expanded, setExpanded] = useState(false)
+  if (!standingOrders) return null
+
+  const isFullCouncil = meetingType === 'full_council'
+  const tl = standingOrders.time_limits || {}
+  const motions = standingOrders.motions || {}
+  const debate = standingOrders.debate_rules || {}
+  const voting = standingOrders.voting || {}
+  const chair = standingOrders.chair_powers || {}
+
+  return (
+    <div className="intel-procedures-panel">
+      <button
+        className="procedures-toggle"
+        onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
+      >
+        {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+        <BookOpen size={14} />
+        <span>Procedural Framework — Standing Orders</span>
+      </button>
+      {expanded && (
+        <div className="procedures-content">
+          {/* Time limits */}
+          <div className="procedures-section">
+            <h4>Time Limits</h4>
+            <table className="procedures-table">
+              <thead><tr><th>Segment</th><th>Limit</th><th>SO Ref</th><th>Notes</th></tr></thead>
+              <tbody>
+                {isFullCouncil && tl.public_question_time && (
+                  <tr>
+                    <td>Public Questions</td>
+                    <td><strong>{tl.public_question_time.total_minutes} min</strong> (hard cap)</td>
+                    <td>{tl.public_question_time.so}</td>
+                    <td>No supplementaries. {tl.public_question_time.per_answer_minutes} min per answer</td>
+                  </tr>
+                )}
+                {tl.member_question_time && (
+                  <tr>
+                    <td>Member Questions</td>
+                    <td>Max {tl.member_question_time.max_questions_per_meeting} questions</td>
+                    <td>{tl.member_question_time.so}</td>
+                    <td>{tl.member_question_time.per_answer_minutes} min per answer. 1 supplementary each</td>
+                  </tr>
+                )}
+                {isFullCouncil && tl.motion_debate && (
+                  <>
+                    <tr>
+                      <td>Per-motion debate</td>
+                      <td><strong>{tl.motion_debate.per_motion_minutes} min</strong></td>
+                      <td>{tl.motion_debate.so}</td>
+                      <td>Chair can extend</td>
+                    </tr>
+                    <tr>
+                      <td>Total all motions</td>
+                      <td><strong>{tl.motion_debate.total_all_motions_minutes} min</strong></td>
+                      <td>{tl.motion_debate.so}</td>
+                      <td>Motions not reached simply fall</td>
+                    </tr>
+                    <tr>
+                      <td>Mover speech</td>
+                      <td>{tl.motion_debate.mover_speech_minutes} min</td>
+                      <td>{tl.motion_debate.so}</td>
+                      <td>All other speeches: {tl.motion_debate.other_speech_minutes} min</td>
+                    </tr>
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Tactical tools */}
+          {standingOrders.tactical_summary && (
+            <div className="procedures-section">
+              <h4>Majority Tactical Tools</h4>
+              <ul className="procedures-tools-list">
+                {standingOrders.tactical_summary.majority_tools?.map((tool, i) => (
+                  <li key={i}>{tool}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Key closure motions */}
+          {debate.closure_motions?.options && (
+            <div className="procedures-section">
+              <h4>Closure Motions ({debate.closure_motions.so})</h4>
+              <p className="procedures-note">Can only be moved by someone who has NOT spoken, moved, or seconded in the debate</p>
+              <div className="closure-motions-grid">
+                {debate.closure_motions.options.map((cm, i) => (
+                  <div key={i} className="closure-motion-card">
+                    <strong>"{cm.motion}"</strong>
+                    <p>{cm.effect}</p>
+                    {cm.tactical_note && <p className="closure-tactical">{cm.tactical_note}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Amendment rules */}
+          {standingOrders.amendments?.general && (
+            <div className="procedures-section">
+              <h4>Amendment Rules ({standingOrders.amendments.general.so})</h4>
+              <ul className="procedures-rules-list">
+                <li>Max {standingOrders.amendments.general.max_per_member_per_motion} amendment per member per motion</li>
+                <li>Cannot negate the motion</li>
+                <li>Cannot introduce new topics</li>
+                <li>Must be submitted in writing immediately</li>
+                <li>Chair may reject on SO 34 grounds</li>
+                {standingOrders.amendments.friendly && (
+                  <li><strong>Friendly amendments ({standingOrders.amendments.friendly.so}):</strong> {standingOrders.amendments.friendly.rule}</li>
+                )}
+              </ul>
+            </div>
+          )}
+
+          {/* Voting */}
+          {voting.recorded_vote && (
+            <div className="procedures-section">
+              <h4>Voting ({voting.so})</h4>
+              <ul className="procedures-rules-list">
+                <li><strong>Recorded vote:</strong> {voting.recorded_vote.trigger}</li>
+                <li>{voting.method}</li>
+                <li>{voting.majority}</li>
+                {voting.casting_vote && <li><strong>Casting vote:</strong> {voting.casting_vote.rules}</li>}
+              </ul>
+            </div>
+          )}
+
+          {/* Source */}
+          {standingOrders.meta?.url && (
+            <p className="procedures-source">
+              Source: <a href={standingOrders.meta.url} target="_blank" rel="noopener noreferrer">
+                {standingOrders.meta.source}
+              </a>
+              {standingOrders.meta.last_verified && ` (verified ${standingOrders.meta.last_verified})`}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ============================================================================
 // Main Component
 // ============================================================================
@@ -143,11 +289,13 @@ export default function Intelligence() {
     '/data/doge_findings.json',
     '/data/committees.json',
     '/data/reform_transformation.json',
+    '/data/standing_orders.json',
   ])
   const [
     votingData, integrityData, interestsData,
     dogeFindings, committeesData, reformTransformation,
-  ] = intelData || [null, null, null, null, null, null]
+    standingOrdersData,
+  ] = intelData || [null, null, null, null, null, null, null]
 
   // --- State ---
   const [activeSection, setActiveSection] = useState('warRoom')
@@ -404,6 +552,14 @@ export default function Intelligence() {
                 </div>
               )}
             </div>
+          )}
+
+          {/* Standing Orders / Procedural Framework */}
+          {selectedMeeting && (
+            <StandingOrdersPanel
+              standingOrders={standingOrdersData}
+              meetingType={selectedMeeting.type}
+            />
           )}
 
           {/* Committee members grid */}

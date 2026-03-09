@@ -5,7 +5,7 @@
 | Host | Server | Specs | IP | Cost | SSH | Status |
 |------|--------|-------|-----|------|-----|--------|
 | vps-news | Oracle Free Tier | 2 vCPU (EPYC 7742), 1GB RAM, 47GB disk | 141.147.79.228 | Free forever | `ssh vps-news` | Healthy |
-| vps-main | Hostinger VPS | 4 vCPU (EPYC 9354P), 16GB RAM, 200GB disk | 76.13.254.176 | £22/mo | `ssh vps-main` | Healthy |
+| vps-main | Hostinger KVM8 | 8 vCPU (EPYC 9654), 32GB RAM, 400GB NVMe | 46.202.140.7 | £22/mo | `ssh vps-main` | Healthy |
 | aws-1 | AWS t3.micro (Stockholm) | 2 vCPU, 1GB RAM | 51.20.51.127 | Free until Jul 2026 | `ssh aws-1` | Healthy |
 | aws-2 | AWS t3.micro | 2 vCPU, 1GB RAM | 56.228.32.194 | Free until Jul 2026 | `ssh aws-2` | UNREACHABLE |
 | Bluehost | Shared hosting | — | — | Paid (shared) | Bluehost cPanel | Healthy |
@@ -76,44 +76,42 @@
 - ~~`openclaw-gateway.service` — OOM-crashed, orphaned~~ → Cleaned up with `systemctl reset-failed`
 - ~~`~/clawdbot/` — empty leftover directory~~ → Deleted
 
-### vps-main (Hostinger) — £22/mo
+### vps-main (Hostinger KVM8) — £22/mo
 
-**Purpose:** Clawdbot (OpenClaw), clawd-worker, OpenAgents network, Ollama, email, ECA CRM
+**Purpose:** Clawdbot (OpenClaw), clawd-worker, Ollama, AI tools
 
-**Resources:** 16GB RAM (2.7GB used, 13GB available), 200GB disk (19GB used, 10%)
+**Resources:** 8 vCPU (EPYC 9654), 32GB RAM, 400GB NVMe. Migrated from old VPS (76.13.254.176) on 6 Mar 2026.
 
 **Running services:**
 
 | Service | Type | RAM | Notes |
 |---------|------|-----|-------|
-| `openclaw.service` | systemd | 364MB | Clawdbot gateway. WhatsApp only (Discord/Telegram disabled 9 Feb). Healthy. |
-| `clawd-worker.service` | systemd | 5.4MB | AI DOGE data worker. Healthy, heartbeating. |
-| OpenAgents network | Process | 78MB | `/opt/openagents` — network coordinator |
-| OpenAgents gaius agent | Process | 86MB | `agents/gaius.yaml` |
-| OpenAgents octavian agent | Process | 86MB | `agents/octavian.yaml` |
-| OpenAgents octavian-vps | Process | 86MB | `/opt/clawdbot/octavian.yaml` — Kimi K2.5 model |
-| `ollama.service` | systemd | 80MB idle | Serving qwen2.5:7b (4.7GB on disk) |
+| `openclaw.service` | systemd | ~450MB | Clawdbot gateway. WhatsApp active. Primary model: Groq Llama 4 Scout. |
+| `clawd-worker.service` | systemd | ~5MB | AI DOGE data worker. Heartbeating. |
+| `ollama.service` | systemd | ~80MB idle | qwen2.5:3b, qwen2.5:7b, dolphin3-tuned:latest, clawdbot:latest |
 | `caddy.service` | systemd | — | Reverse proxy |
 | `tailscaled.service` | systemd | — | Tailscale VPN |
-| Docker: Mailu stack | 8 containers | 542MB total | Email (webmail, dovecot, rspamd, postfix, admin, nginx, redis, unbound) |
-| PM2: `eca-crm` | PM2 | 69MB | Next.js app (v16.1.6) |
+
+**AI Tools (`/opt/ai-tools/scripts/`):**
+- `tts.sh` — edge-tts text-to-speech (400+ voices, no API key)
+- `stt.py` — Groq Whisper speech-to-text
+- `websearch.sh` — ddgr DuckDuckGo search
+- `readweb.py` — trafilatura web page extraction
+- `ocr.sh` — tesseract OCR
+- `qr.sh` — qrencode QR code generation
+- `chart.py` — matplotlib chart generation
+- `img2img_api.py` — Together.ai image editing (needs API key)
+- System packages: ffmpeg, pandoc, imagemagick, figlet, poppler-utils
 
 **Crons:**
 ```
 0 5 * * *     Repo sync (sync_repos.sh — git pull + rsync scripts to vps-news)
-# 0 6 * * *  DISABLED — mega_article_writer.py (28/28 queue exhausted, replaced by article_pipeline.py)
 0 7 * * *     Data monitor (check councils for new CSVs)
 0 8 * * *     Auto pipeline (ETL + analysis + articles if new data detected)
 0 9 * * *     Article pipeline (article_pipeline.py --max-articles 3)
-              # Re-enabled 24 Feb 2026 — fully automated, free tier safe
-              # Lockfile prevents conflicts with auto_pipeline (8am)
-              # Daily budget: 50K tokens (~12 articles, well within Mistral free 33M/day)
-              # 20+ topic templates with quarterly keys — no exhaustion
-# 0 10 * * *    News Lancashire deploy (deploy_newslancashire.sh)
-# 30 10 * * *   News Burnley deploy (deploy_newsburnley.sh)
 0 4 1 * *     Councillor scraper
 0 */6 * * *   vps-news health check + health_check.sh
-0 0 * * 0     Log_rotation (truncates openclaw, clawd-worker, openagents, ollama logs)
+0 0 * * 0     Log rotation (truncates openclaw, clawd-worker, ollama logs)
 ```
 
 **Auto pipeline flow** (daily at 8am, after data_monitor at 7am):
@@ -147,22 +145,20 @@
 | Claude Code (Gaius) | CLI dev agent | Anthropic Max subscription | Active — Mac terminal |
 | Codex (OpenAI) | CLI dev agent | Trial expires 2 Mar 2026 | Active |
 | OpenCode | CLI dev agent | Free tier | Active |
-| Octavian (Clawdbot/OpenClaw) | WhatsApp bot | Kimi K2.5 free tier | Running on vps-main, healthy (WhatsApp only) |
-| OpenAgents | Agent orchestration | Free (self-hosted) | 3 agents on vps-main |
-| Ollama | Local LLM inference | Free (self-hosted) | qwen2.5:7b on vps-main |
+| Octavian (Clawdbot/OpenClaw) | WhatsApp bot | Groq free tier (primary) | Running on vps-main. Llama 4 Scout 17B primary, Nvidia Kimi K2.5 fallback |
+| Ollama | Local LLM inference | Free (self-hosted) | qwen2.5:3b, qwen2.5:7b, dolphin3 on vps-main |
 | clawd-worker | Data processing slave | Free (Python) | Running on vps-main, healthy |
 
 ### Model Hierarchy (cheapest first)
-1. **Mistral Small** (free Experiment tier) — Primary for AI DOGE article pipeline. EU/GDPR-safe. ~1B tokens/month
-2. **Gemini 2.5 Flash** (free) — Primary for News Lancashire pipeline (rewriter, analyzer, digest)
-3. **Groq Llama 3.3 70B** (free, 500K tokens/day) — AI DOGE article fallback. Blocked from VPS IPs (works locally only)
-4. **Cerebras Llama 3.3 70B** (free, 1M tokens/day) — AI DOGE article fallback
-5. **Kimi K2.5** (trial credits) — Default for Octavian tasks, fallback for News Lancashire
-6. **DeepSeek V3** (credits exhausted) — HTTP 402, needs top-up
-7. **qwen2.5:7b** (free, local) — Running via Ollama on vps-main
-8. **Haiku** (~$0.25/M input) — Only if free models can't handle it
-9. **Sonnet** (~$3/M input) — Only when explicitly requested
-10. **Opus** (~$15/M input) — Never use automatically, only when Tom asks
+1. **Groq Llama 4 Scout 17B** (free, 30K TPM) — Primary for Clawdbot WhatsApp. Instant responses (5ms). 131K context
+2. **Mistral Small** (free Experiment tier) — Primary for AI DOGE article pipeline. EU/GDPR-safe. ~1B tokens/month
+3. **Gemini 2.5 Flash** (free) — Primary for News Lancashire pipeline (rewriter, analyzer, digest)
+4. **Groq Llama 3.3 70B** (free, 6K TPM) — Available but rate-limited. Better for batch tasks
+5. **Groq Qwen 3 32B** (free) — Alternative model on Groq
+6. **Nvidia NIM Kimi K2.5** (free, 40 RPM) — Fallback for Clawdbot. Reasoning model, slower but deeper thinking
+7. **Cerebras Llama 3.3 70B** (free, 1M tokens/day) — AI DOGE article fallback
+8. **Local Ollama** (free, CPU-only) — qwen2.5:3b (0.36s), qwen2.5:7b (9.4s), dolphin3 (uncensored)
+9. **DeepSeek V3** (credits exhausted) — HTTP 402, needs top-up
 
 ### News Lancashire LLM Fallback Chain (10 Feb 2026)
 ```
@@ -242,8 +238,9 @@ Gemini 2.5 Flash → Groq Llama 3.3 70B → Kimi K2.5 → DeepSeek V3
 | GOV.UK MHCLG | `assets.publishing.service.gov.uk` | None | Free (ODS downloads) | govuk_budgets.py |
 | Postcodes.io | `postcodes.io/postcodes/` | None | Free | MyArea.jsx (ward lookup, councillor matching) |
 | Gemini (Google) | `generativelanguage.googleapis.com/v1beta/openai/` | Bearer token | Free (500 req/day, 250K tokens/day) | News Lancashire pipeline (primary) |
-| Groq | `api.groq.com/openai/v1/` | Bearer token | Free (1000 req/day) — **blocked from VPS IPs** | Fallback (unusable from Oracle/Hostinger) |
-| Kimi (Moonshot) | `api.moonshot.ai` | Bearer token | Trial credits | Clawdbot + News Lancashire fallback |
+| Groq | `api.groq.com/openai/v1/` | Bearer token | Free (30K TPM for Scout, 6K TPM for 70B) | Clawdbot primary, article fallback |
+| Nvidia NIM | `integrate.api.nvidia.com/v1` | Bearer token | Free (40 RPM) | Clawdbot fallback (Kimi K2.5) |
+| Kimi (Moonshot) | `api.moonshot.ai` | Bearer token | Suspended | Account suspended |
 | DeepSeek | `api.deepseek.com` | Bearer token | Credits exhausted (402) | Dead — needs top-up |
 
 **Register for CH API key:** https://developer.company-information.service.gov.uk/manage-applications
@@ -268,4 +265,4 @@ Gemini 2.5 Flash → Groq Llama 3.3 70B → Kimi K2.5 → DeepSeek V3
 6. ~~**DeepSeek API credits exhausted**~~ — Returns HTTP 402. Mitigated: Gemini 2.5 Flash is now primary (free), Kimi K2.5 is fallback. DeepSeek is last resort (dead until topped up).
 7. **Kimi content filter** — Kimi K2.5 rejects batches containing sensitive content (HTTP 400 "content_filter"). Fixed in ai_rewriter.py, ai_analyzer.py, ai_digest_generator.py to try articles individually and skip filtered ones.
 8. ~~**newslancashire repo has no GitHub remote**~~ — ✅ Fixed (10 Feb 2026). 4 commits pushed to `tompickup23/newslancashire`. Deploy key added, remote set, branch `master`.
-9. **Groq blocked from VPS IPs** — Groq uses Cloudflare bot detection (error 1010) that blocks Oracle Cloud and Hostinger server IPs. Only works from residential IPs. Cannot be used as server-side fallback.
+9. ~~**Groq blocked from VPS IPs**~~ — ✅ Fixed. Groq works from new Hostinger KVM8 VPS (46.202.140.7). Old Oracle VPS was blocked but new Hostinger IP is not. Groq is now primary model for Clawdbot.

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, within, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Highways from './Highways'
 
@@ -21,13 +21,10 @@ vi.mock('../components/ui/ChartCard', () => ({
   CHART_TOOLTIP_STYLE: {},
 }))
 vi.mock('../components/CollapsibleSection', () => ({
-  default: ({ title, children, defaultOpen }) => <div><h3>{title}</h3><div>{children}</div></div>,
+  default: ({ title, children }) => <div><h3>{title}</h3><div>{children}</div></div>,
 }))
 vi.mock('../components/DataFreshnessStamp', () => ({
   default: ({ lastUpdated, label }) => <div>{label}</div>,
-}))
-vi.mock('../components/HighwaysMap', () => ({
-  default: (props) => <div data-testid="highways-map">HighwaysMap ({props.roadworks?.length || 0} works)</div>,
 }))
 
 import { useData } from '../hooks/useData'
@@ -37,12 +34,11 @@ import { useAuth } from '../context/AuthContext'
 // --- Test fixtures ---
 
 const mockConfig = {
-  council_id: 'burnley',
-  council_name: 'Burnley',
-  council_full_name: 'Burnley Borough Council',
+  council_id: 'lancashire_cc',
+  council_name: 'Lancashire County Council',
+  council_full_name: 'Lancashire County Council',
   data_sources: {
     highways: true,
-    ward_boundaries: true,
   },
 }
 
@@ -52,101 +48,41 @@ const mockConfigNoHighways = {
   data_sources: {},
 }
 
-const mockRoadwork = (overrides = {}) => ({
-  id: 1001,
-  road: 'A682 Todmorden Road',
-  ward: 'Cliviger with Worsthorne',
-  district: 'burnley',
-  district_raw: 'Burnley District (B)',
-  lat: 53.772,
-  lng: -2.213,
-  start_date: '2026-02-01T00:00:00+00:00',
-  end_date: '2026-04-30T00:00:00+00:00',
-  operator: 'United Utilities Water',
-  status: 'Works started',
-  category: 'Standard',
-  severity: 'high',
-  restrictions: 'Road Closure',
-  description: 'Water main replacement works requiring full road closure',
-  reference: 'UUW-2026-001',
-  urgent: false,
-  ...overrides,
-})
-
-const mockRoadworksData = {
-  meta: {
-    source: 'Lancashire County Council MARIO ArcGIS',
-    scope: 'All Lancashire (12 districts)',
-    generated: '2026-03-05T12:00:00+00:00',
-    districts_covered: ['burnley', 'hyndburn', 'pendle'],
-  },
-  stats: {
-    total: 5,
-    works_started: 2,
-    planned_works: 3,
-    district_count: 3,
-    by_district: {
-      burnley: { total: 3, works_started: 1, planned_works: 2 },
-      hyndburn: { total: 1, works_started: 1, planned_works: 0 },
-      pendle: { total: 1, works_started: 0, planned_works: 1 },
-    },
-    by_operator: {
-      'United Utilities Water': 2,
-      'BT': 2,
-      'LCC': 1,
-    },
-    by_severity: { high: 2, medium: 2, low: 1 },
-    by_ward: { 'Cliviger with Worsthorne': 2, 'Hapton with Park': 1 },
-    by_restriction: { 'Road Closure': 2, 'Two-way Signals': 2, 'No Restriction': 1 },
-  },
-  roadworks: [
-    mockRoadwork(),
-    mockRoadwork({ id: 1002, road: 'B6238 Padiham Road', severity: 'medium', status: 'Planned works', operator: 'BT', restrictions: 'Two-way Signals', district: 'burnley', description: 'Broadband installation' }),
-    mockRoadwork({ id: 1003, road: 'Manchester Road', severity: 'high', status: 'Works started', operator: 'LCC', restrictions: 'Road Closure', district: 'burnley', description: 'Surface dressing programme', urgent: true }),
-    mockRoadwork({ id: 1004, road: 'Burnley Road', severity: 'medium', operator: 'BT', status: 'Planned works', restrictions: 'Two-way Signals', district: 'hyndburn' }),
-    mockRoadwork({ id: 1005, road: 'Colne Road', severity: 'low', operator: 'United Utilities Water', status: 'Planned works', restrictions: '', district: 'pendle' }),
-  ],
-}
-
 const mockTrafficData = {
-  congestion_model: {
-    junctions: [
-      { name: 'M65 J10 / Cavalry Way', jci_score: 82, traffic_volume: 42000, works_count: 3, lat: 53.78, lng: -2.25, data_quality: 'high' },
-      { name: 'A682 / A646 Todmorden Road', jci_score: 55, traffic_volume: 15000, works_count: 2, lat: 53.77, lng: -2.21, data_quality: 'medium' },
-      { name: 'B6238 / Rossendale Rd', jci_score: 25, traffic_volume: 5000, works_count: 1, lat: 53.79, lng: -2.23, data_quality: 'estimated' },
+  road_infrastructure: {
+    summary: {
+      total_features: 12000,
+      traffic_signals: 5778,
+      roundabouts: 2240,
+      mini_roundabouts: 879,
+      level_crossings: 286,
+      narrow_roads: 1225,
+      bridges: 2009,
+      weight_restrictions: 618,
+      height_restrictions: 626,
+    },
+    speed_zones: {
+      '20': 120,
+      '30': 800,
+      '40': 200,
+      '50': 100,
+      '60': 400,
+      '70': 150,
+    },
+    hotspots: [
+      { name: 'M65 J10 Junction', severity: 'high', detail: 'Multiple concurrent works', nearby_works: 5, feature_count: 12, type: 'junction' },
+      { name: 'A59 Corridor', severity: 'medium', detail: 'Signal cluster', nearby_works: 2, feature_count: 8, type: 'corridor' },
     ],
-    corridors: [
-      { name: 'M65 Corridor (J8-J12)', polyline: [[-2.3, 53.78], [-2.2, 53.78]], jci: 72, works_count: 4, traffic_volume: 38000, capacity_reduction: 0.35 },
-    ],
-  },
-  operational_intelligence: {
-    corridor_clashes: [
-      { road: 'A682 Todmorden Road', concurrent_works: 3, total_capacity_reduction: 0.85, s59_breach: true, recommendation: 'Emergency co-ordination required. Total capacity loss exceeds NRSWA s59 threshold.' },
-      { road: 'B6238 Padiham Road', concurrent_works: 2, total_capacity_reduction: 0.45, s59_coordination_needed: true, s59_breach: false, recommendation: 'Schedule co-ordination meeting with promoters.' },
-      { road: 'Manchester Road', concurrent_works: 2, total_capacity_reduction: 0.5, s59_monitor: true, s59_breach: false, s59_coordination_needed: false, recommendation: 'Monitor — developing situation.' },
-    ],
-    deferral_recommendations: [
-      { road: 'Colne Road', reason: 'School term overlap with nearby primary school', confidence: 0.85, confidence_flags: [] },
-      { road: 'Manchester Road', reason: 'Corridor clash with major LUF project', confidence: 0.6, confidence_flags: ['estimated_traffic_volume', 'auto_corridor_no_verified_data'] },
+    level_crossings_detail: [
+      { name: 'Rose Grove Level Crossing', barrier_type: 'Full barrier', nearby_works: 1 },
+      { name: 'Huncoat Level Crossing', barrier_type: 'Half barrier', nearby_works: 0 },
     ],
   },
   meta: {
     data_freshness: {
       dft_count_points: { source: 'DfT Road Traffic Statistics API', records: 1011, update_cycle: 'Annual (Oct/Nov)', stale: false },
-      roadworks: { source: 'LCC MARIO ArcGIS', records: 1722, update_cycle: '2-hour ETL', stale: false, stale_hours: 1.5 },
     },
   },
-  strategic_recommendations: {
-    immediate_actions: [],
-    match_preparations: [],
-    event_preparations: [],
-    summary: {},
-  },
-}
-
-const mockBoundaries = {
-  type: 'FeatureCollection',
-  features: [],
 }
 
 const mockLegal = {
@@ -157,6 +93,14 @@ const mockLegal = {
       short: 'NRSWA 1991',
       sections: [
         { section: 's59', title: 'Co-ordination of Works', desc: 'Duty to co-ordinate all works on highway.' },
+      ],
+    },
+    {
+      id: 'highways_act_1980',
+      title: 'Highways Act 1980',
+      short: 'HA 1980',
+      sections: [
+        { section: 's41', title: 'Duty to Maintain', desc: 'Duty to maintain adopted highways at public expense.' },
       ],
     },
   ],
@@ -241,6 +185,77 @@ const mockAssetsData = {
       { standard: 'BSI PAS 2161', version: '2021', purpose: 'New 5-category road condition standard' },
     ],
   },
+  cost_inflation: {
+    indices: { construction_infrastructure_2015_2025: 45, cpi_cumulative_2015_2025: 40 },
+    buying_power_analysis: { budget_2015: 25000000, budget_2027_in_2015_terms: 50000000 },
+    component_costs: [
+      { material: 'Bitumen', change_pct: 92, note: 'Oil price driven.', source: 'BEIS' },
+      { material: 'Concrete', change_pct: 55, note: 'Cement price pressure.', source: 'ONS' },
+    ],
+    bcis_forecasts_2025_2030: {
+      civil_engineering_tender_prices_pct: 25,
+      labour_costs_pct: 18,
+      building_costs_pct: 15,
+      note: 'BCIS Q1 2025 forecast.',
+    },
+    backlog_inflation_impact: {
+      backlog_today: 650000000,
+      backlog_in_5yr: 800000000,
+      backlog_in_10yr: 950000000,
+      note: 'Assumes 3% annual cost inflation on deferred maintenance.',
+    },
+    source_note: 'Sources: BCIS, ONS, BEIS, RAC Foundation.',
+  },
+  future_outlook: {
+    summary: 'Multiple converging pressures threaten the long-term condition of Lancashire highways.',
+    population: { growth_pct_25yr: 5, highway_impact: 'More vehicles on already strained network.', source: 'ONS 2022-based projections' },
+    ev_transition: { ev_weight_premium_pct: 30, highway_impact: 'Heavier EVs accelerate road surface deterioration.', source: 'RAC Foundation 2024' },
+    lgv_growth: { lgv_increase_2010_2023_pct: 42, highway_impact: 'Delivery vans cause disproportionate road wear.', source: 'DfT Road Traffic Statistics' },
+    climate_change: { bc_roads_deterioration_2024_25_pct: 41, highway_impact: 'Freeze-thaw cycles and flooding accelerate deterioration.', source: 'AIA ALARM Survey 2025' },
+    autonomous_vehicles: { highway_impact: 'Road markings and signage must meet machine-readable standards.', source: 'Automated Vehicles Act 2024' },
+    motoring_tax_crisis: { cost_of_freeze_since_2011: 100000000000, highway_impact: 'Fuel duty freeze reduces funding available for local roads.', source: 'IFS 2024' },
+  },
+  spending_integration: {
+    total_identifiable_highways_spend: 8100000,
+    budget_departments_count: 42,
+    data_source: 'LCC spending data 2024/25.',
+    top_contractors: [
+      { supplier: 'Lancashire Highways Ltd', annual_spend: 3500000, share_pct: 43, note: 'Primary maintenance contractor' },
+      { supplier: 'Tarmac Trading', annual_spend: 1200000, share_pct: 15, note: 'Surfacing materials' },
+    ],
+    concentration_note: 'Top contractor holds 43% of identifiable highways spend — moderate concentration.',
+    cross_reference_note: 'Cross-reference with DOGE spending analysis for full picture.',
+  },
+}
+
+const mockProcPipeline = {
+  service_tiers: {
+    upper_tier: {
+      contracts: {
+        highways: {
+          total_value: 122300000,
+          exercises: [
+            { title: 'A, B & C Road Resurfacing', value: 48000000, term: '4 years', geographic_lots: 'North/South/East', risk: 'critical', note: 'Crosses vesting day' },
+            { title: 'Unclassified Road Resurfacing', value: 32000000, term: '4 years', geographic_lots: 'North/South/East', risk: 'high', note: null },
+          ],
+          unitary_contracts: [
+            { title: 'Blackpool Highways Contract', authority: 'Blackpool', value: 15000000, source: 'Contracts Finder', note: 'Existing PFI' },
+          ],
+          dft_settlement: {
+            total: 231800000,
+            note: 'DfT confirmed 4-year settlement for LCC.',
+            years: [
+              { year: '2026/27', amount: 55000000 },
+              { year: '2027/28', amount: 58000000 },
+              { year: '2028/29', amount: 59000000 },
+              { year: '2029/30', amount: 59800000 },
+            ],
+          },
+        },
+      },
+    },
+  },
+  delay_case: { recommended_vesting: 'April 2029' },
 }
 
 // --- Test setup ---
@@ -253,15 +268,40 @@ function renderComponent(initialEntries = ['/highways']) {
   )
 }
 
+// Track call index to return different data for each useData call
+// First call: allData array [traffic, legal, assets], second call: procPipeline
+function setupMocks(overrides = {}) {
+  const {
+    traffic = mockTrafficData,
+    legal = mockLegal,
+    assets = mockAssetsData,
+    procPipeline = mockProcPipeline,
+    loading = false,
+    error = null,
+    config = mockConfig,
+  } = overrides
+
+  useCouncilConfig.mockReturnValue(config)
+  useAuth.mockReturnValue({ isStrategist: false, isAdmin: false })
+
+  let callIndex = 0
+  useData.mockImplementation((url) => {
+    // First call is the array of 3 data files
+    if (Array.isArray(url)) {
+      return { data: [traffic, legal, assets], loading, error }
+    }
+    // Second call is procurement pipeline (string URL)
+    if (url === '/data/shared/procurement_pipeline.json') {
+      return { data: procPipeline, loading: false, error: null }
+    }
+    // Null URL (highways not enabled)
+    return { data: null, loading: false, error: null }
+  })
+}
+
 beforeEach(() => {
   vi.clearAllMocks()
-  useCouncilConfig.mockReturnValue(mockConfig)
-  useAuth.mockReturnValue({ isStrategist: false, isAdmin: false })
-  useData.mockReturnValue({
-    data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, mockAssetsData],
-    loading: false,
-    error: null,
-  })
+  setupMocks()
 })
 
 // --- Tests ---
@@ -270,303 +310,111 @@ describe('Highways', () => {
   // --- Guard / Loading / Error ---
 
   it('renders fallback when highways data source not enabled', () => {
-    useCouncilConfig.mockReturnValue(mockConfigNoHighways)
-    useData.mockReturnValue({ data: null, loading: false, error: null })
+    setupMocks({ config: mockConfigNoHighways })
     renderComponent()
     expect(screen.getByText('Highways data not available')).toBeInTheDocument()
   })
 
   it('renders loading state while data loads', () => {
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    setupMocks({ loading: true, traffic: null, legal: null, assets: null })
+    // Override useData to return loading for array call
+    useData.mockImplementation((url) => {
+      if (Array.isArray(url)) return { data: null, loading: true, error: null }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText('Loading highways data...')).toBeInTheDocument()
   })
 
   it('renders error state on fetch failure', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('fetch failed') })
+    useData.mockImplementation((url) => {
+      if (Array.isArray(url)) return { data: null, loading: false, error: new Error('fetch failed') }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText('Failed to load highways data')).toBeInTheDocument()
   })
 
   // --- Header ---
 
-  it('renders page header with title', () => {
+  it('renders page header with departmental title', () => {
     renderComponent()
-    expect(screen.getByText(/Highways & Roadworks/i)).toBeInTheDocument()
+    expect(screen.getByText(/Highways Department/)).toBeInTheDocument()
   })
 
-  it('renders scope and count in subtitle', () => {
+  it('renders subtitle with asset base description', () => {
     renderComponent()
-    expect(screen.getByText(/5 active and planned works/)).toBeInTheDocument()
+    expect(screen.getByText(/7,142km road network/)).toBeInTheDocument()
   })
 
   it('renders data freshness stamp', () => {
     renderComponent()
-    expect(screen.getByText(/Roadworks data/)).toBeInTheDocument()
+    expect(screen.getByText(/Highways data/)).toBeInTheDocument()
   })
 
-  // --- Stat Cards ---
+  // --- CTA Card ---
 
-  it('renders total works stat card', () => {
+  it('renders CTA link to live roadworks map', () => {
     renderComponent()
-    expect(screen.getByText('Total Works')).toBeInTheDocument()
-    expect(screen.getByText('5')).toBeInTheDocument()
+    expect(screen.getByText('View Live Roadworks Map')).toBeInTheDocument()
+    expect(screen.getByText(/live roadworks, traffic intelligence/)).toBeInTheDocument()
   })
 
-  it('renders road closures stat card', () => {
+  it('CTA links to /roadworks', () => {
     renderComponent()
-    expect(screen.getByText('Road Closures')).toBeInTheDocument()
+    const link = screen.getByText('View Live Roadworks Map').closest('a')
+    expect(link).toHaveAttribute('href', '/roadworks')
   })
 
-  it('renders high severity count', () => {
+  // --- Road Infrastructure ---
+
+  it('renders Road Infrastructure section', () => {
     renderComponent()
-    expect(screen.getByText('High Severity')).toBeInTheDocument()
+    expect(screen.getByText('Road Infrastructure')).toBeInTheDocument()
   })
 
-  it('renders districts count', () => {
+  it('shows traffic signals count in infrastructure grid', () => {
     renderComponent()
-    expect(screen.getByText('Districts')).toBeInTheDocument()
+    // "Traffic Signals" appears in both infrastructure grid and Assets section
+    expect(screen.getAllByText('Traffic Signals').length).toBeGreaterThanOrEqual(1)
+    // 5,778 appears in both hero subtitle and infrastructure grid
+    expect(screen.getAllByText('5,778').length).toBeGreaterThanOrEqual(1)
   })
 
-  // --- Map ---
-
-  it('renders HighwaysMap component', () => {
+  it('shows roundabouts count', () => {
     renderComponent()
-    // HighwaysMap is lazy-loaded; the Suspense fallback or mock content should appear
-    // Check that map section is present (either map content or fallback)
-    expect(screen.getByText(/HighwaysMap|Loading map/)).toBeInTheDocument()
+    expect(screen.getByText('Roundabouts')).toBeInTheDocument()
+    expect(screen.getByText('2,240')).toBeInTheDocument()
   })
 
-  it('passes filtered roadworks to map', async () => {
+  it('shows level crossings count', () => {
     renderComponent()
-    expect(await screen.findByText('HighwaysMap (5 works)')).toBeInTheDocument()
+    // "Level Crossings" may appear both in summary grid and crossings detail heading
+    expect(screen.getAllByText(/Level Crossings/).length).toBeGreaterThanOrEqual(1)
   })
 
-  it('renders corridor toggle button', () => {
+  it('shows speed limit distribution', () => {
     renderComponent()
-    const toggles = screen.getAllByText(/Corridors/)
-    // Should have both: network summary stat + toggle button
-    expect(toggles.length).toBeGreaterThanOrEqual(1)
-    // The toggle button specifically
-    const toggleBtn = screen.getByText(/Show Corridors|Hide Corridors/)
-    expect(toggleBtn).toBeInTheDocument()
+    expect(screen.getByText('Speed Limit Distribution')).toBeInTheDocument()
+    expect(screen.getByText(/30mph/)).toBeInTheDocument()
   })
 
-  it('renders JCI toggle button', () => {
+  it('shows infrastructure hotspots', () => {
     renderComponent()
-    const toggleBtn = screen.getByText(/Show JCI Points|Hide JCI Points/)
-    expect(toggleBtn).toBeInTheDocument()
+    expect(screen.getByText('Infrastructure Hotspots')).toBeInTheDocument()
+    expect(screen.getByText('M65 J10 Junction')).toBeInTheDocument()
   })
 
-  // --- Filters ---
-
-  it('renders severity filter dropdown', () => {
+  it('shows level crossings detail table', () => {
     renderComponent()
-    const selects = screen.getAllByRole('combobox')
-    const sevSelect = selects.find(s => {
-      const options = within(s).queryAllByRole('option')
-      return options.some(o => o.textContent === 'All severities')
-    })
-    expect(sevSelect).toBeTruthy()
+    expect(screen.getByText('Rose Grove Level Crossing')).toBeInTheDocument()
+    expect(screen.getByText('Full barrier')).toBeInTheDocument()
   })
 
-  it('filters by severity when dropdown changes', () => {
+  it('shows infrastructure placeholder when data missing', () => {
+    setupMocks({ traffic: { road_infrastructure: null, meta: {} } })
     renderComponent()
-    const selects = screen.getAllByRole('combobox')
-    const sevSelect = selects.find(s => {
-      const options = within(s).queryAllByRole('option')
-      return options.some(o => o.textContent === 'All severities')
-    })
-    fireEvent.change(sevSelect, { target: { value: 'high' } })
-    // After filtering to high severity, Burnley Road (medium, not in deferrals) should be hidden from cards
-    expect(screen.queryByText('Burnley Road')).not.toBeInTheDocument()
-    // High severity works should still be present
-    expect(screen.getAllByText('A682 Todmorden Road').length).toBeGreaterThan(0)
-  })
-
-  it('filters by status dropdown', () => {
-    renderComponent()
-    const selects = screen.getAllByRole('combobox')
-    const statusSelect = selects.find(s => {
-      const options = within(s).queryAllByRole('option')
-      return options.some(o => o.textContent === 'All statuses')
-    })
-    fireEvent.change(statusSelect, { target: { value: 'Works started' } })
-    // Planned-only works should be hidden — Burnley Road is planned and not in deferrals
-    expect(screen.queryByText('Burnley Road')).not.toBeInTheDocument()
-    // Started works should still show
-    expect(screen.getAllByText('Manchester Road').length).toBeGreaterThan(0)
-  })
-
-  it('filters by search text', () => {
-    renderComponent()
-    const searchInput = screen.getByPlaceholderText('Search roads, operators, wards…')
-    fireEvent.change(searchInput, { target: { value: 'Padiham' } })
-    expect(screen.getAllByText('B6238 Padiham Road').length).toBeGreaterThan(0)
-    // Burnley Road doesn't contain 'Padiham' and isn't in deferrals
-    expect(screen.queryByText('Burnley Road')).not.toBeInTheDocument()
-  })
-
-  it('shows clear button when filters active', () => {
-    renderComponent()
-    const selects = screen.getAllByRole('combobox')
-    const sevSelect = selects.find(s => {
-      const options = within(s).queryAllByRole('option')
-      return options.some(o => o.textContent === 'All severities')
-    })
-    fireEvent.change(sevSelect, { target: { value: 'high' } })
-    expect(screen.getByText('Clear all')).toBeInTheDocument()
-  })
-
-  it('clears all filters when clear button clicked', () => {
-    renderComponent()
-    const selects = screen.getAllByRole('combobox')
-    const sevSelect = selects.find(s => {
-      const options = within(s).queryAllByRole('option')
-      return options.some(o => o.textContent === 'All severities')
-    })
-    fireEvent.change(sevSelect, { target: { value: 'high' } })
-    fireEvent.click(screen.getByText('Clear all'))
-    // All works should be visible again — Colne Road is low severity
-    expect(screen.getAllByText('Colne Road').length).toBeGreaterThan(0)
-  })
-
-  // --- Roadwork Cards ---
-
-  it('renders roadwork cards with road names', () => {
-    renderComponent()
-    // Road names may appear in both cards and clash sections
-    expect(screen.getAllByText('A682 Todmorden Road').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('B6238 Padiham Road').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Manchester Road').length).toBeGreaterThan(0)
-  })
-
-  it('renders roadwork descriptions', () => {
-    renderComponent()
-    expect(screen.getAllByText('Water main replacement works requiring full road closure').length).toBeGreaterThan(0)
-  })
-
-  it('renders restriction badges', () => {
-    renderComponent()
-    // Road closure works should show Closure badge
-    const closureBadges = screen.getAllByText('Closure')
-    expect(closureBadges.length).toBeGreaterThan(0)
-  })
-
-  it('renders status badges', () => {
-    renderComponent()
-    const startedBadges = screen.getAllByText('Started')
-    expect(startedBadges.length).toBeGreaterThan(0)
-  })
-
-  it('renders urgent badge for urgent works', () => {
-    renderComponent()
-    expect(screen.getByText('Urgent')).toBeInTheDocument()
-  })
-
-  it('renders operator in card metadata', () => {
-    renderComponent()
-    expect(screen.getAllByText('United Utilities Water').length).toBeGreaterThan(0)
-  })
-
-  it('selects roadwork card on click', async () => {
-    renderComponent()
-    const roadLinks = screen.getAllByText('A682 Todmorden Road')
-    fireEvent.click(roadLinks[0])
-    // The card should get selected — verify map is present
-    expect(await screen.findByTestId('highways-map')).toBeInTheDocument()
-  })
-
-  // --- s59 Clashes Section ---
-
-  it('renders s59 clashes section', () => {
-    renderComponent()
-    expect(screen.getByText(/Co-ordination Clashes/)).toBeInTheDocument()
-  })
-
-  it('shows breach count', () => {
-    renderComponent()
-    // "s59 Breaches" appears in both network summary and clash section heading
-    const breachTexts = screen.getAllByText(/s59 Breaches/)
-    expect(breachTexts.length).toBeGreaterThanOrEqual(1)
-  })
-
-  it('renders breach road name', () => {
-    renderComponent()
-    // The breach card should show the road name within the clashes section
-    const breachTexts = screen.getAllByText(/s59 Breaches/)
-    expect(breachTexts.length).toBeGreaterThanOrEqual(1)
-    const clashSection = breachTexts[breachTexts.length - 1].closest('div')
-    expect(clashSection).toBeInTheDocument()
-  })
-
-  it('renders co-ordination required section', () => {
-    renderComponent()
-    expect(screen.getByText(/Co-ordination Required/)).toBeInTheDocument()
-  })
-
-  it('renders monitoring section', () => {
-    renderComponent()
-    expect(screen.getByText(/Monitoring/)).toBeInTheDocument()
-  })
-
-  // --- Deferral Recommendations ---
-
-  it('renders deferral recommendations section', () => {
-    renderComponent()
-    expect(screen.getByText('Deferral Recommendations')).toBeInTheDocument()
-  })
-
-  it('shows deferral reason text', () => {
-    renderComponent()
-    expect(screen.getByText(/School term overlap/)).toBeInTheDocument()
-  })
-
-  it('renders confidence dots for deferrals', () => {
-    renderComponent()
-    // High confidence (0.85) → should show "High" in confidence component
-    // Note: "High" also appears in severity dropdown, so use getAllByText
-    const highTexts = screen.getAllByText('High')
-    expect(highTexts.length).toBeGreaterThanOrEqual(1)
-  })
-
-  it('shows confidence flags when present', () => {
-    renderComponent()
-    expect(screen.getByText(/estimated_traffic_volume/)).toBeInTheDocument()
-  })
-
-  // --- Traffic Intelligence ---
-
-  it('renders traffic intelligence section', () => {
-    renderComponent()
-    expect(screen.getByText('Traffic Intelligence')).toBeInTheDocument()
-  })
-
-  it('shows JCI scores in junction table', () => {
-    renderComponent()
-    // M65 J10 has JCI 82
-    expect(screen.getByText('M65 J10 / Cavalry Way')).toBeInTheDocument()
-  })
-
-  it('shows data quality indicators', () => {
-    renderComponent()
-    expect(screen.getByText('high')).toBeInTheDocument()
-    expect(screen.getByText('medium')).toBeInTheDocument()
-    expect(screen.getByText('estimated')).toBeInTheDocument()
-  })
-
-  // --- District Breakdown ---
-
-  it('renders district breakdown section', () => {
-    renderComponent()
-    expect(screen.getByText('District Breakdown')).toBeInTheDocument()
-  })
-
-  it('shows district names in breakdown', () => {
-    renderComponent()
-    // District names appear in both dropdown and breakdown table
-    expect(screen.getAllByText('burnley').length).toBeGreaterThanOrEqual(2) // dropdown + table
-    expect(screen.getAllByText('hyndburn').length).toBeGreaterThanOrEqual(2)
+    expect(screen.getByText(/Infrastructure data being collected/)).toBeInTheDocument()
   })
 
   // --- Legal Framework ---
@@ -579,11 +427,15 @@ describe('Highways', () => {
   it('shows legislation titles', () => {
     renderComponent()
     expect(screen.getByText('New Roads and Street Works Act 1991')).toBeInTheDocument()
+    // "Highways Act 1980" appears in both Legal Framework and Asset Management Framework
+    expect(screen.getAllByText('Highways Act 1980').length).toBeGreaterThanOrEqual(1)
   })
 
   it('shows section references', () => {
     renderComponent()
-    expect(screen.getByText('s59')).toBeInTheDocument()
+    // s59 and s41 may appear in multiple places (legal tables + asset framework)
+    expect(screen.getAllByText('s59').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText('s41').length).toBeGreaterThanOrEqual(1)
   })
 
   it('shows key thresholds', () => {
@@ -592,61 +444,9 @@ describe('Highways', () => {
     expect(screen.getByText('s59 NRSWA breach threshold')).toBeInTheDocument()
   })
 
-  // --- Data Sources ---
-
-  it('renders data sources section', () => {
+  it('hides legal section when legal data is null', () => {
+    setupMocks({ legal: null })
     renderComponent()
-    expect(screen.getByText('Data Sources')).toBeInTheDocument()
-  })
-
-  it('shows data source freshness status', () => {
-    renderComponent()
-    // roadworks should show as Fresh
-    const freshIndicators = screen.getAllByText(/Fresh/)
-    expect(freshIndicators.length).toBeGreaterThan(0)
-  })
-
-  // --- Empty state ---
-
-  it('shows empty state when no roadworks match filters', () => {
-    renderComponent()
-    const searchInput = screen.getByPlaceholderText('Search roads, operators, wards…')
-    fireEvent.change(searchInput, { target: { value: 'zzz_nonexistent_road_zzz' } })
-    expect(screen.getByText('No roadworks match your filters')).toBeInTheDocument()
-  })
-
-  // --- Edge cases ---
-
-  it('handles null traffic data gracefully', () => {
-    useData.mockReturnValue({
-      data: [mockRoadworksData, null, mockBoundaries, mockLegal, mockAssetsData],
-      loading: false,
-      error: null,
-    })
-    renderComponent()
-    expect(screen.getByText(/Highways & Roadworks/)).toBeInTheDocument()
-    // s59 section should not appear
-    expect(screen.queryByText(/Co-ordination Clashes/)).not.toBeInTheDocument()
-  })
-
-  it('handles empty roadworks array', () => {
-    useData.mockReturnValue({
-      data: [{ ...mockRoadworksData, roadworks: [] }, null, null, null, null],
-      loading: false,
-      error: null,
-    })
-    renderComponent()
-    expect(screen.getByText(/0 active and planned works/)).toBeInTheDocument()
-  })
-
-  it('handles null legal data gracefully', () => {
-    useData.mockReturnValue({
-      data: [mockRoadworksData, mockTrafficData, null, null, null],
-      loading: false,
-      error: null,
-    })
-    renderComponent()
-    expect(screen.getByText(/Highways & Roadworks/)).toBeInTheDocument()
     expect(screen.queryByText('Legal Framework')).not.toBeInTheDocument()
   })
 
@@ -675,12 +475,8 @@ describe('Highways', () => {
 
     it('shows structures count', () => {
       renderComponent()
-      expect(screen.getByText('2,009')).toBeInTheDocument()
-    })
-
-    it('shows traffic signals count', () => {
-      renderComponent()
-      expect(screen.getByText('5,778')).toBeInTheDocument()
+      // 2,009 appears in both hero subtitle and Assets section
+      expect(screen.getAllByText('2,009').length).toBeGreaterThanOrEqual(1)
     })
 
     it('shows road condition section heading', () => {
@@ -777,7 +573,8 @@ describe('Highways', () => {
 
     it('shows legislation in framework', () => {
       renderComponent()
-      expect(screen.getByText('Highways Act 1980')).toBeInTheDocument()
+      // Appears both in Legal Framework section AND in Asset Management Framework
+      expect(screen.getAllByText('Highways Act 1980').length).toBeGreaterThan(0)
     })
 
     it('shows standards in framework', () => {
@@ -791,56 +588,198 @@ describe('Highways', () => {
     })
 
     it('hides Assets section gracefully when assets data is null', () => {
-      useData.mockReturnValue({
-        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, null],
-        loading: false,
-        error: null,
-      })
+      setupMocks({ assets: null })
       renderComponent()
       expect(screen.queryByText('Assets & Investment')).not.toBeInTheDocument()
     })
 
     it('still renders page normally when assets data is null', () => {
-      useData.mockReturnValue({
-        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, null],
-        loading: false,
-        error: null,
-      })
+      setupMocks({ assets: null })
       renderComponent()
-      expect(screen.getByText(/Highways & Roadworks/)).toBeInTheDocument()
+      expect(screen.getByText(/Highways Department/)).toBeInTheDocument()
     })
 
     it('handles empty asset_categories gracefully', () => {
-      const noCategories = { ...mockAssetsData, asset_categories: [] }
-      useData.mockReturnValue({
-        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, noCategories],
-        loading: false,
-        error: null,
-      })
+      setupMocks({ assets: { ...mockAssetsData, asset_categories: [] } })
       renderComponent()
       expect(screen.getByText('Assets & Investment')).toBeInTheDocument()
     })
 
     it('handles empty lifecycle_models gracefully', () => {
-      const noLifecycle = { ...mockAssetsData, lifecycle_models: [] }
-      useData.mockReturnValue({
-        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, noLifecycle],
-        loading: false,
-        error: null,
-      })
+      setupMocks({ assets: { ...mockAssetsData, lifecycle_models: [] } })
       renderComponent()
       expect(screen.getByText('Assets & Investment')).toBeInTheDocument()
     })
 
     it('handles empty innovation_opportunities gracefully', () => {
-      const noInnovation = { ...mockAssetsData, innovation_opportunities: [] }
-      useData.mockReturnValue({
-        data: [mockRoadworksData, mockTrafficData, mockBoundaries, mockLegal, noInnovation],
-        loading: false,
-        error: null,
-      })
+      setupMocks({ assets: { ...mockAssetsData, innovation_opportunities: [] } })
       renderComponent()
       expect(screen.queryByText(/Innovation Opportunities/)).not.toBeInTheDocument()
     })
+  })
+
+  // --- Construction Cost Inflation ---
+
+  describe('Construction Cost Inflation section', () => {
+    it('renders cost inflation section', () => {
+      renderComponent()
+      expect(screen.getByText('Construction Cost Inflation')).toBeInTheDocument()
+    })
+
+    it('shows buying power analysis', () => {
+      renderComponent()
+      expect(screen.getByText(/Buying power in real terms/)).toBeInTheDocument()
+    })
+
+    it('shows component cost cards', () => {
+      renderComponent()
+      expect(screen.getByText('Bitumen')).toBeInTheDocument()
+      expect(screen.getByText('Concrete')).toBeInTheDocument()
+    })
+
+    it('shows percentage change on components', () => {
+      renderComponent()
+      expect(screen.getAllByText('+92%').length).toBeGreaterThan(0)
+      expect(screen.getAllByText('+55%').length).toBeGreaterThan(0)
+    })
+
+    it('hides cost inflation section when data missing', () => {
+      setupMocks({ assets: { ...mockAssetsData, cost_inflation: undefined } })
+      renderComponent()
+      expect(screen.queryByText('Construction Cost Inflation')).not.toBeInTheDocument()
+    })
+  })
+
+  // --- Future Pressures ---
+
+  describe('Future Pressures section', () => {
+    it('renders future pressures section', () => {
+      renderComponent()
+      expect(screen.getByText('Future Pressures on the Network')).toBeInTheDocument()
+    })
+
+    it('shows population growth card', () => {
+      renderComponent()
+      expect(screen.getByText('Population Growth')).toBeInTheDocument()
+      expect(screen.getByText('+5%')).toBeInTheDocument()
+    })
+
+    it('shows EV weight card', () => {
+      renderComponent()
+      expect(screen.getByText('Electric Vehicle Weight')).toBeInTheDocument()
+      expect(screen.getByText('30% heavier')).toBeInTheDocument()
+    })
+
+    it('shows LGV growth card', () => {
+      renderComponent()
+      expect(screen.getByText('Light Goods Vehicle Growth')).toBeInTheDocument()
+    })
+
+    it('shows climate deterioration card', () => {
+      renderComponent()
+      expect(screen.getByText('Climate-Related Deterioration')).toBeInTheDocument()
+    })
+
+    it('shows autonomous vehicles card', () => {
+      renderComponent()
+      expect(screen.getByText('Autonomous Vehicles')).toBeInTheDocument()
+    })
+
+    it('shows motoring tax card', () => {
+      renderComponent()
+      expect(screen.getByText('Motoring Tax Revenue Pressure')).toBeInTheDocument()
+    })
+
+    it('hides future pressures when data missing', () => {
+      setupMocks({ assets: { ...mockAssetsData, future_outlook: undefined } })
+      renderComponent()
+      expect(screen.queryByText('Future Pressures on the Network')).not.toBeInTheDocument()
+    })
+  })
+
+  // --- Highways Spending Analysis ---
+
+  describe('Highways Spending Analysis section', () => {
+    it('renders spending analysis section', () => {
+      renderComponent()
+      expect(screen.getByText('Highways Spending Analysis')).toBeInTheDocument()
+    })
+
+    it('shows contractor names in table', () => {
+      renderComponent()
+      expect(screen.getByText('Lancashire Highways Ltd')).toBeInTheDocument()
+      expect(screen.getByText('Tarmac Trading')).toBeInTheDocument()
+    })
+
+    it('shows concentration warning', () => {
+      renderComponent()
+      expect(screen.getByText(/Top contractor holds 43%/)).toBeInTheDocument()
+    })
+
+    it('hides spending section when no contractors', () => {
+      setupMocks({ assets: { ...mockAssetsData, spending_integration: { top_contractors: [] } } })
+      renderComponent()
+      expect(screen.queryByText('Highways Spending Analysis')).not.toBeInTheDocument()
+    })
+  })
+
+  // --- Highways Procurement Pipeline ---
+
+  describe('Highways Procurement Pipeline section', () => {
+    it('renders procurement pipeline section', () => {
+      renderComponent()
+      expect(screen.getByText('Highways Procurement Pipeline')).toBeInTheDocument()
+    })
+
+    it('shows LCC exercises in table', () => {
+      renderComponent()
+      expect(screen.getByText('A, B & C Road Resurfacing')).toBeInTheDocument()
+      expect(screen.getByText('Unclassified Road Resurfacing')).toBeInTheDocument()
+    })
+
+    it('shows unitary contracts table', () => {
+      renderComponent()
+      expect(screen.getByText('Blackpool Highways Contract')).toBeInTheDocument()
+    })
+
+    it('shows geographic lotting risk warning', () => {
+      renderComponent()
+      expect(screen.getByText(/Geographic Lotting Risk/)).toBeInTheDocument()
+    })
+
+    it('shows LGR delay impact link', () => {
+      renderComponent()
+      expect(screen.getByText(/Full delay case analysis on LGR Tracker/)).toBeInTheDocument()
+    })
+
+    it('hides procurement section when pipeline data missing', () => {
+      setupMocks({ procPipeline: null })
+      // Need to re-mock useData for null pipeline
+      useData.mockImplementation((url) => {
+        if (Array.isArray(url)) return { data: [mockTrafficData, mockLegal, mockAssetsData], loading: false, error: null }
+        return { data: null, loading: false, error: null }
+      })
+      renderComponent()
+      expect(screen.queryByText('Highways Procurement Pipeline')).not.toBeInTheDocument()
+    })
+  })
+
+  // --- Edge cases ---
+
+  it('handles null traffic data gracefully', () => {
+    setupMocks({ traffic: null })
+    renderComponent()
+    expect(screen.getByText(/Highways Department/)).toBeInTheDocument()
+    // Infrastructure section should show placeholder
+    expect(screen.getByText(/Infrastructure data being collected/)).toBeInTheDocument()
+  })
+
+  it('handles all null data gracefully (only highways enabled)', () => {
+    setupMocks({ traffic: null, legal: null, assets: null })
+    renderComponent()
+    expect(screen.getByText(/Highways Department/)).toBeInTheDocument()
+    // No sections should crash
+    expect(screen.queryByText('Legal Framework')).not.toBeInTheDocument()
+    expect(screen.queryByText('Assets & Investment')).not.toBeInTheDocument()
   })
 })

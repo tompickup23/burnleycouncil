@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Shield, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route } from 'lucide-react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -53,9 +53,16 @@ const navSections = [
     collapsible: true,
     items: [
       { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
-      { path: '/highways', icon: Construction, label: 'Highways', requires: 'highways' },
+      { path: '/roadworks', icon: Route, label: 'Roadworks', requires: 'highways' },
       { path: '/demographics', icon: Globe, label: 'Demographics', requires: 'demographics' },
       { path: '/compare', icon: GitCompareArrows, label: 'Cross-Council' },
+    ],
+  },
+  {
+    title: 'Departments',
+    collapsible: true,
+    items: [
+      { path: '/highways', icon: Construction, label: 'Highways', requires: 'highways' },
     ],
   },
   {

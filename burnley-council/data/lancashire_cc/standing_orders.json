@@ -1,0 +1,288 @@
+{
+  "meta": {
+    "council": "lancashire_cc",
+    "source": "LCC Constitution Part 10 Standing Orders",
+    "url": "https://www.lancashire.gov.uk/council/constitution/10-standing-orders/",
+    "sections": {
+      "general": "https://www.lancashire.gov.uk/council/constitution/10-standing-orders/section-a-general-and-introduction/",
+      "full_council": "https://www.lancashire.gov.uk/council/constitution/10-standing-orders/section-b-full-council-procedural-standing-orders/"
+    },
+    "last_verified": "2026-03-09",
+    "notes": "Standing orders specific to Full Council meetings. Cabinet/committee procedures differ."
+  },
+  "time_limits": {
+    "public_question_time": {
+      "so": "SO 29",
+      "total_minutes": 30,
+      "extendable": false,
+      "per_answer_minutes": 3,
+      "supplementary_allowed": false,
+      "max_question_words": 150,
+      "notice_required": "12 noon, 10 clear working days before meeting",
+      "notes": "Hard 30-minute cap. Questions not reached get written responses."
+    },
+    "member_question_time": {
+      "so": "SO 30",
+      "total_minutes": null,
+      "per_answer_minutes": 3,
+      "supplementary_allowed": true,
+      "supplementary_count": 1,
+      "max_questions_per_meeting": 6,
+      "max_per_councillor": 1,
+      "max_per_group": 1,
+      "max_question_words": 150,
+      "notice_required": "12 noon 6 weeks before to 12 noon 7 clear working days before",
+      "urgent_questions": {
+        "so": "SO 30.5",
+        "deadline": "12 noon the day before",
+        "requirements": "Circumstances arose after deadline, genuine urgency, Chair and Monitoring Officer satisfaction",
+        "exempt_from_limits": true
+      },
+      "slot_transfer": {
+        "so": "SO 30.7",
+        "rule": "If a group submits no question, their slot transfers to another group's second question on first-come-first-served basis"
+      },
+      "notes": "Must ask question as on agenda without introductory or explanatory speech (SO 30.11). If absent, same-group member may substitute (SO 30.10)."
+    },
+    "motion_debate": {
+      "so": "SO 39",
+      "per_motion_minutes": 30,
+      "total_all_motions_minutes": 120,
+      "mover_speech_minutes": 5,
+      "other_speech_minutes": 3,
+      "amendment_mover_minutes": 3,
+      "report_mover_limit": null,
+      "budget_speech_limit": null,
+      "one_minute_warning": true,
+      "extendable": true,
+      "extension_authority": "Chair discretion, decision is final",
+      "notes": "All timings at Chair's discretion (SO 39). Budget speeches by Finance Cabinet Member and opposition group budget spokespersons have no time limit."
+    }
+  },
+  "motions": {
+    "submission": {
+      "so": "SO 37",
+      "max_per_meeting": 4,
+      "ruling_group_slots": 2,
+      "opposition_slots": 2,
+      "max_per_councillor": 1,
+      "max_words": 250,
+      "notice_deadline": "12 noon 7 clear working days before meeting",
+      "earliest_submission": "12 noon 6 weeks before meeting",
+      "slot_transfer": {
+        "so": "SO 37.6",
+        "rule": "If ruling group submits fewer than 2, available slots transfer to opposition on first-come-first-served basis"
+      }
+    },
+    "requirements": {
+      "so": "SO 32",
+      "must_be": "Concise, clear, to the point, maximum 250 words",
+      "must_be_positive": true,
+      "must_require_action": true,
+      "notes": "Must require the Council to take action or adopt a position. Motions expressing mere opinion without requiring action can be rejected."
+    },
+    "rejection_grounds": {
+      "so": "SO 34",
+      "grounds": [
+        "Rescind any Full Council resolution within preceding 12 months",
+        "Substantially same as motion voted on but not carried within preceding 6 months",
+        "Require breach of Constitution or legislation",
+        "Exceed Council powers",
+        "Vague, ambiguous, irrelevant, defamatory, frivolous, offensive, vexatious, unlawful, improper, or factually incorrect",
+        "Express mere opinion without requiring action",
+        "Withdrawn or not raised within preceding 6 months",
+        "Reference legal proceedings",
+        "Require confidential/exempt disclosure",
+        "Name specific service users or staff",
+        "Relate to member personal circumstances",
+        "Express support/objection during Council consultation processes"
+      ]
+    },
+    "motions_that_fall": {
+      "so": "SO 36",
+      "rule": "Any motion not disposed of at Full Council falls. Does not carry forward to next meeting.",
+      "tactical_note": "If the 120-minute total expires, remaining motions die. This is a procedural tool for time management."
+    }
+  },
+  "amendments": {
+    "general": {
+      "so": "SO 40",
+      "max_per_member_per_motion": 1,
+      "simultaneous": false,
+      "must_be_relevant": true,
+      "cannot_negate_motion": true,
+      "cannot_introduce_new_topics": true,
+      "must_produce_valid_resolution": true,
+      "submission": "Written, handed to Chief Executive immediately after mover's speech",
+      "rejection": "Chair, consulting Chief Executive, may reject on SO 34 grounds"
+    },
+    "friendly": {
+      "so": "SO 43",
+      "rule": "Motion mover may amend their own motion or accept an amendment without debate or vote",
+      "tactical_note": "Bypasses debate entirely. If the mover accepts a compromise, the amended motion becomes substantive immediately."
+    },
+    "becomes_substantive": {
+      "so": "SO 41",
+      "rule": "If amendment carried, it replaces the original motion. Chief Executive reads out amended motion before further amendments accepted."
+    },
+    "subsequent": {
+      "so": "SO 42",
+      "rule": "If first amendment lost, further amendments may be moved to original. After all amendments considered, further debate opportunity before final vote."
+    }
+  },
+  "debate_rules": {
+    "speaking": {
+      "so": "SO 38",
+      "one_speech_per_motion": true,
+      "exceptions": [
+        "Moving own amendment",
+        "Speaking once on another member's amendment",
+        "Speaking on main issue if first speech addressed another's amendment only",
+        "Right of reply",
+        "Point of order (must cite specific SO)",
+        "Personal explanation by Chair invitation",
+        "Moving closure/adjournment (SO 25, SO 44)"
+      ],
+      "must_be_relevant": true,
+      "seconding_required": true,
+      "notes": "Every motion must be moved and seconded before debate. Remarks must be strictly confined to the motion under discussion."
+    },
+    "right_of_reply": {
+      "so": "SO 44",
+      "original_mover": "Has right of reply at end of debate, immediately before vote",
+      "on_amendment": "Original motion mover has reply at close of amendment debate but may not otherwise speak on amendment",
+      "amendment_mover": "Has NO right of reply",
+      "tactical_note": "The original motion mover always gets the last word. Amendment movers do not."
+    },
+    "closure_motions": {
+      "so": "SO 45",
+      "who_can_move": "Only someone who has NOT spoken, moved, or seconded in the debate",
+      "max_per_debate": 1,
+      "options": [
+        {
+          "motion": "That the question be now put",
+          "effect": "Forces immediate vote. If Chair deems sufficient discussion and motion carried, original mover gets reply then substantive vote taken",
+          "tactical_note": "The guillotine. Forces an end to debate."
+        },
+        {
+          "motion": "That the Full Council proceed to the next business",
+          "effect": "Kills current motion without voting on substance. Mover gets reply, then closure voted on",
+          "tactical_note": "Effectively kills the motion without putting councillors on record on the substantive issue."
+        },
+        {
+          "motion": "That the debate be adjourned",
+          "effect": "Pauses debate for later",
+          "tactical_note": "Delays without killing."
+        },
+        {
+          "motion": "That the Full Council adjourn",
+          "effect": "Ends the meeting entirely",
+          "tactical_note": "Nuclear option. Kills all remaining business."
+        }
+      ]
+    }
+  },
+  "voting": {
+    "so": "SO 46",
+    "method": "Show of hands, electronic means, or affirmation (if no dissent)",
+    "majority": "Simple majority of those present and voting",
+    "seated_requirement": "Must be in designated seat for vote to count (Full Council only)",
+    "individual_record": "Any councillor may request their vote be recorded in minutes",
+    "recorded_vote": {
+      "trigger": "6 councillors rising in places",
+      "records": "Names for, against, and abstaining recorded in minutes",
+      "tactical_note": "Reform UK (53 seats) can always force a recorded vote. Useful for putting opposition on record."
+    },
+    "budget_votes": "Mandatory recorded vote on budget/precept decisions (2014 Regulations)",
+    "casting_vote": {
+      "holder": "Chair",
+      "rules": "No restrictions on how used. If Chair abstains on casting vote, matter falls."
+    }
+  },
+  "chair_powers": {
+    "interpretation": {
+      "so": "SO 12",
+      "rule": "Chair's ruling on Standing Orders is final. Can be reconsidered once (with Monitoring Officer). Cannot be challenged further except by court order."
+    },
+    "silence": {
+      "so": "SO 13",
+      "rule": "If Chair stands, all councillors must immediately resume seats and be silent."
+    },
+    "misconduct": {
+      "so": "SO 14",
+      "powers": [
+        "Move that councillor be not heard further (voted without discussion)",
+        "If continued, move that councillor leave meeting (voted without discussion)",
+        "Adjourn meeting"
+      ]
+    },
+    "vary_order": {
+      "rule": "Chair may vary agenda order at discretion, or by resolution moved and voted without debate"
+    },
+    "time_discretion": {
+      "so": "SO 39",
+      "rule": "All speech timings at Chair's discretion. Decision is final."
+    }
+  },
+  "suspension": {
+    "so": "SO 25",
+    "requirement": "Motion moved and seconded, at least half of whole number of members present and voting",
+    "duration": "Duration of meeting only",
+    "cannot_suspend": [
+      "SO 46.2 (simple majority decisions)",
+      "SO 46.5 (recorded vote requests)",
+      "SO 46.7 (casting vote rules)",
+      "SO 23.1 (minutes signature timing)"
+    ],
+    "tactical_note": "Reform UK with 53 of 84 seats can suspend any standing order except voting rules. This includes time limits, speaking rules, and motion caps."
+  },
+  "motions_without_notice": {
+    "so": "SO 33",
+    "allowed": [
+      "Appointment of meeting Chair",
+      "Minute accuracy",
+      "Business precedence changes",
+      "Adopting Cabinet/committee/Executive Director recommendations",
+      "Referring recommendations back to originating body",
+      "Withdrawing or amending motions",
+      "Standing Order suspension or voting matters",
+      "Exclusion of press and public",
+      "Councillor suspension (per SO 14)"
+    ],
+    "tactical_note": "Referring recommendations back can be moved without notice to delay decisions. Business precedence changes can reorder the agenda."
+  },
+  "order_of_business": [
+    "Appoint presider if Chair/Vice-Chair absent",
+    "Apologies for absence",
+    "Confirm minutes",
+    "Declarations of interest",
+    "Chair/Chief Executive announcements",
+    "Public Question Time",
+    "Councillor Question Time",
+    "Reports of Cabinet, committees, Officers",
+    "Notices of Motion",
+    "Other business"
+  ],
+  "tactical_summary": {
+    "majority_tools": [
+      "Chair's rulings are final (SO 12)",
+      "Chair controls all speech timings (SO 39)",
+      "6 councillors trigger recorded vote (SO 46)",
+      "Can suspend any non-voting standing order with half the members (SO 25)",
+      "Closure motion kills debate (SO 45) — must be moved by non-speaker",
+      "Motions that exceed 120 minutes total simply fall (SO 36)",
+      "Amendments cannot negate motions (SO 40)",
+      "Chair can reject amendments on SO 34 grounds",
+      "Friendly amendments bypass debate entirely (SO 43)"
+    ],
+    "opposition_tools": [
+      "Supplementary questions at Member Question Time (SO 30.14)",
+      "Urgent questions bypass limits (SO 30.5-6)",
+      "Amendments to motions (1 per member per motion, SO 40)",
+      "Points of order citing specific SOs (SO 38)",
+      "Personal explanations (SO 18)",
+      "Questions on reports (SO 31)",
+      "Request individual vote recorded in minutes (SO 46)"
+    ]
+  }
+}

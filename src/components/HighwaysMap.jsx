@@ -16,6 +16,7 @@
  *   showCorridors {bool}  — Whether to show traffic corridor overlays
  *   showJunctions {bool}  — Whether to show JCI junction markers
  *   height {string}       — CSS height (default '600px')
+ *   meta {object}         — Roadworks metadata ({ generated, scope }) for timestamp overlay
  */
 import { useRef, useEffect, useCallback, useMemo, useState } from 'react'
 import L from 'leaflet'
@@ -226,6 +227,7 @@ export default function HighwaysMap({
   showCorridors = false,
   showJunctions = false,
   height = '600px',
+  meta = null,
 }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
@@ -644,32 +646,38 @@ export default function HighwaysMap({
         </button>
       </div>
 
-      {/* Marker count badge */}
-      <div className="hw-map-count">
-        <span className="hw-map-count-number">{filtered.length}</span>
-        <span className="hw-map-count-label">works</span>
+      {/* Date/time stamp overlay */}
+      <div className="hw-map-timestamp-overlay">
+        <div className="hw-map-timestamp-date">
+          {(() => {
+            const d = meta?.generated ? new Date(meta.generated) : new Date()
+            return `${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} ${d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`
+          })()}
+        </div>
+        <div className="hw-map-timestamp-count">{filtered.length} works shown</div>
       </div>
 
-      {/* Enhanced legend */}
-      <div className="hw-map-legend">
-        <div className="hw-legend-item">
-          <span className="hw-legend-dot" style={{ background: '#ff453a', boxShadow: '0 0 6px rgba(255,69,58,0.4)' }} />
-          <span>Closure <span className="hw-legend-count">{severityCounts.closure}</span></span>
+      {/* Legend overlay */}
+      <div className="hw-map-legend-overlay">
+        <div className="hw-map-legend-title">Legend</div>
+        <div className="hw-map-legend-row">
+          <span className="hw-map-legend-dot" style={{ background: '#ff453a' }} />
+          <span>Road Closures</span>
+          <span className="hw-map-legend-count">{severityCounts.closure}</span>
         </div>
-        <div className="hw-legend-item">
-          <span className="hw-legend-dot" style={{ background: '#ff9f0a', boxShadow: '0 0 6px rgba(255,159,10,0.4)' }} />
-          <span>Lane <span className="hw-legend-count">{severityCounts.lane}</span></span>
+        <div className="hw-map-legend-row">
+          <span className="hw-map-legend-dot" style={{ background: '#ff9f0a' }} />
+          <span>Lane Restrictions</span>
+          <span className="hw-map-legend-count">{severityCounts.lane}</span>
         </div>
-        <div className="hw-legend-item">
-          <span className="hw-legend-dot" style={{ background: '#6b7280', boxShadow: '0 0 6px rgba(107,114,128,0.3)' }} />
-          <span>Minor <span className="hw-legend-count">{severityCounts.minor}</span></span>
+        <div className="hw-map-legend-row">
+          <span className="hw-map-legend-dot" style={{ background: '#6b7280' }} />
+          <span>Minor Works</span>
+          <span className="hw-map-legend-count">{severityCounts.minor}</span>
         </div>
-        {showJunctions && (
-          <div className="hw-legend-item">
-            <span className="hw-legend-dot" style={{ background: '#00d4aa', boxShadow: '0 0 6px rgba(0,212,170,0.4)' }} />
-            <span>JCI</span>
-          </div>
-        )}
+        <div className="hw-map-legend-total">
+          Total: {filtered.length} works
+        </div>
       </div>
     </div>
   )

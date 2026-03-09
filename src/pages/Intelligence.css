@@ -971,6 +971,142 @@
 .document-item a:hover { text-decoration: underline; }
 .document-item span { color: #aaa; }
 
+/* --- Standing Orders / Procedural Framework Panel --- */
+
+.intel-procedures-panel {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.procedures-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: none;
+  color: #e5e5ea;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+.procedures-toggle:hover { background: rgba(44, 44, 46, 0.8); }
+
+.procedures-content {
+  padding: 16px;
+  background: rgba(20, 20, 22, 0.85);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+.procedures-section {
+  margin-bottom: 20px;
+}
+.procedures-section:last-child { margin-bottom: 0; }
+
+.procedures-section h4 {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #00d4aa;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
+.procedures-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.procedures-table th {
+  text-align: left;
+  padding: 6px 10px;
+  color: #888;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.procedures-table td {
+  padding: 6px 10px;
+  color: #ccc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.procedures-table td strong { color: #e5e5ea; }
+
+.procedures-tools-list,
+.procedures-rules-list {
+  margin: 0;
+  padding: 0 0 0 18px;
+  font-size: 0.78rem;
+  color: #bbb;
+  line-height: 1.7;
+}
+.procedures-tools-list li,
+.procedures-rules-list li { margin-bottom: 4px; }
+.procedures-rules-list li strong { color: #00d4aa; }
+
+.procedures-note {
+  font-size: 0.76rem;
+  color: #f59e0b;
+  margin: 0 0 8px;
+  font-style: italic;
+}
+
+.closure-motions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px;
+}
+.closure-motion-card {
+  padding: 10px 12px;
+  background: rgba(28, 28, 30, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.78rem;
+}
+.closure-motion-card strong {
+  display: block;
+  color: #e5e5ea;
+  margin-bottom: 4px;
+  font-size: 0.76rem;
+}
+.closure-motion-card p {
+  margin: 0 0 4px;
+  color: #aaa;
+  line-height: 1.4;
+}
+.closure-tactical {
+  color: #f59e0b !important;
+  font-style: italic;
+  font-size: 0.74rem;
+}
+
+.procedures-source {
+  font-size: 0.72rem;
+  color: #666;
+  margin-top: 12px;
+}
+.procedures-source a {
+  color: #00d4aa;
+  text-decoration: none;
+}
+.procedures-source a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .closure-motions-grid { grid-template-columns: 1fr; }
+  .procedures-table { font-size: 0.72rem; }
+  .procedures-table th,
+  .procedures-table td { padding: 4px 6px; }
+}
+
 /* Vote description in dossier */
 .vote-description {
   font-size: 0.78rem;

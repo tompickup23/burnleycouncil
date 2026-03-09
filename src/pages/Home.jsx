@@ -769,17 +769,17 @@ function Home() {
             See current works, estimated capacity effects, and where schemes overlap.
           </p>
           <div className="meetings-preview-grid">
-            <Link to="/highways" className="meetings-preview-card highlight">
+            <Link to="/roadworks" className="meetings-preview-card highlight">
               <span className="meeting-preview-label">Live Map</span>
               <h4>Current Roadworks</h4>
               <p>Interactive map of all active and planned roadworks with severity classification, capacity loss estimates, and ward boundaries.</p>
               <span className="read-more">View roadworks map <ChevronRight size={14} /></span>
             </Link>
             <Link to="/highways" className="meetings-preview-card">
-              <span className="meeting-preview-label">Analysis</span>
-              <h4>Traffic &amp; Scheduling Analysis</h4>
-              <p>Junction congestion scoring, overlapping works detection, and scheduling recommendations based on traffic data.</p>
-              <span className="read-more">See traffic analysis <ChevronRight size={14} /></span>
+              <span className="meeting-preview-label">Department</span>
+              <h4>Highways Assets &amp; Investment</h4>
+              <p>£10B network valuation, road condition trends, maintenance backlog analysis, procurement pipeline, and cost pressures.</p>
+              <span className="read-more">View highways analysis <ChevronRight size={14} /></span>
             </Link>
           </div>
         </section>
@@ -961,7 +961,7 @@ function Home() {
               </Link>
             )}
             {dataSources.highways && (
-              <Link to="/highways" className="btn-secondary">
+              <Link to="/roadworks" className="btn-secondary">
                 <Construction size={18} />
                 Roadworks
               </Link>
