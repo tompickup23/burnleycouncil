@@ -15,6 +15,7 @@ import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, PARTY_COLORS, CHART_ANIMAT
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
+import SparkLine from '../components/ui/SparkLine'
 import ReformShowcase from '../components/ReformShowcase'
 import { useCountUp } from '../hooks/useCountUp'
 import { useReveal } from '../hooks/useReveal'
@@ -66,6 +67,7 @@ function Home() {
   const { data: wardsData } = useData(dataSources.my_area ? '/data/wards.json' : null)
   const { data: deprivationData } = useData(dataSources.deprivation ? '/data/deprivation.json' : null)
   const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
+  const { data: pipelineStateData } = useData('/data/shared/pipeline_state.json')
 
   useEffect(() => {
     document.title = `Home | ${councilName} Council Transparency`
@@ -780,6 +782,90 @@ function Home() {
               <span className="read-more">See traffic intelligence <ChevronRight size={14} /></span>
             </Link>
           </div>
+        </section>
+      )}
+
+      {/* ===== DATA PIPELINE — Automated monitoring dashboard ===== */}
+      {pipelineStateData?.councils && (
+        <section className="pipeline-dashboard-section">
+          <h2><Zap size={22} /> Data Pipeline</h2>
+          <p className="section-intro">
+            Automated monitoring of {Object.keys(pipelineStateData.councils).length} council transparency pages.
+            {pipelineStateData.last_global_run && (
+              <> Last check: {new Date(pipelineStateData.last_global_run).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}.</>
+            )}
+          </p>
+          {(() => {
+            const councils = pipelineStateData.councils
+            const entries = Object.entries(councils)
+            const fresh = entries.filter(([, c]) => (c.staleness_days || 0) < 90).length
+            const aging = entries.filter(([, c]) => (c.staleness_days || 0) >= 90 && (c.staleness_days || 0) < 180).length
+            const stale = entries.filter(([, c]) => (c.staleness_days || 0) >= 180).length
+            const totalRecords = entries.reduce((sum, [, c]) => sum + (c.record_count || 0), 0)
+            const avgQc = entries.filter(([, c]) => c.qc_score != null).length > 0
+              ? Math.round(entries.filter(([, c]) => c.qc_score != null).reduce((sum, [, c]) => sum + c.qc_score, 0) / entries.filter(([, c]) => c.qc_score != null).length)
+              : null
+            const recordTrend = entries.slice(0, 8).map(([, c]) => c.record_count || 0)
+            return (
+              <>
+                <div className="pipeline-stats-row">
+                  <div className="pipeline-stat">
+                    <span className="pipeline-stat-value" style={{ color: '#30d158' }}>{fresh}</span>
+                    <span className="pipeline-stat-label">Fresh (&lt;90d)</span>
+                  </div>
+                  <div className="pipeline-stat">
+                    <span className="pipeline-stat-value" style={{ color: '#ff9f0a' }}>{aging}</span>
+                    <span className="pipeline-stat-label">Aging (90-180d)</span>
+                  </div>
+                  <div className="pipeline-stat">
+                    <span className="pipeline-stat-value" style={{ color: '#ff453a' }}>{stale}</span>
+                    <span className="pipeline-stat-label">Stale (&gt;180d)</span>
+                  </div>
+                  <div className="pipeline-stat">
+                    <span className="pipeline-stat-value">{formatNumber(totalRecords)}</span>
+                    <span className="pipeline-stat-label">Total Records</span>
+                  </div>
+                  {avgQc != null && (
+                    <div className="pipeline-stat">
+                      <span className="pipeline-stat-value" style={{ color: avgQc >= 90 ? '#30d158' : avgQc >= 70 ? '#ff9f0a' : '#ff453a' }}>{avgQc}/100</span>
+                      <span className="pipeline-stat-label">Avg QC Score</span>
+                    </div>
+                  )}
+                  {recordTrend.length > 2 && (
+                    <div className="pipeline-stat">
+                      <SparkLine data={recordTrend} color="#00d4aa" width={80} height={24} />
+                      <span className="pipeline-stat-label">Data Volume</span>
+                    </div>
+                  )}
+                </div>
+                <div className="pipeline-council-grid">
+                  {entries.map(([id, council]) => {
+                    const days = council.staleness_days || 0
+                    const statusColor = days < 90 ? '#30d158' : days < 180 ? '#ff9f0a' : '#ff453a'
+                    const statusIcon = days < 90 ? '✅' : days < 180 ? '🟡' : '🔴'
+                    const qcColor = council.qc_score == null ? '#666' : council.qc_score >= 90 ? '#30d158' : council.qc_score >= 70 ? '#ff9f0a' : '#ff453a'
+                    return (
+                      <div key={id} className="pipeline-council-card" style={{ borderLeftColor: statusColor }}>
+                        <div className="pipeline-council-header">
+                          <span className="pipeline-council-icon">{statusIcon}</span>
+                          <span className="pipeline-council-name">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).replace('Cc', 'CC')}</span>
+                        </div>
+                        <div className="pipeline-council-meta">
+                          <span>{formatNumber(council.record_count || 0)} records</span>
+                          <span style={{ color: statusColor }}>{days}d old</span>
+                          {council.qc_score != null && <span style={{ color: qcColor }}>QC: {council.qc_score}</span>}
+                          <span className="pipeline-version-badge">{council.spending_version || 'v3'}</span>
+                        </div>
+                        {council.gaps?.length > 0 && (
+                          <div className="pipeline-gap-alert">⚠️ Missing: {council.gaps.join(', ')}</div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
+            )
+          })()}
         </section>
       )}
 
