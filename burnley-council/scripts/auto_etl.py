@@ -436,6 +436,35 @@ def run_cross_council():
     return success
 
 
+def run_poll_aggregator():
+    """Run poll_aggregator.py to refresh national polling data."""
+    log.info('Refreshing national polling data...')
+    script = SCRIPT_DIR / 'poll_aggregator.py'
+    if not script.exists():
+        log.warning(f'poll_aggregator.py not found at {script}')
+        return False
+
+    success, stdout, stderr = run_command(
+        ['python3', str(script)],
+        timeout=120,
+        cwd=str(BASE_DIR)
+    )
+    if success:
+        log.info('Poll aggregator completed successfully')
+        # Verify output
+        polling_file = DATA_DIR / 'shared' / 'polling.json'
+        if polling_file.exists():
+            try:
+                data = json.loads(polling_file.read_text())
+                polls = data.get('meta', {}).get('polls_aggregated', 0)
+                log.info(f'Polling data: {polls} polls aggregated')
+            except Exception:
+                pass
+    else:
+        log.warning(f'Poll aggregator failed: {stderr[:200] if stderr else "unknown error"}')
+    return success
+
+
 def run_quality_check(council_id):
     """Run data_quality.py for a council and parse the QC score.
 
@@ -731,6 +760,18 @@ def process_all(councils=None, dry_run=False, force=False,
             if not run_cross_council():
                 summary['errors'].append('Cross-council generation failed (non-fatal)')
                 log.warning('Cross-council generation failed — continuing anyway')
+
+        # Step: Refresh national polling
+        polling_state = load_json(DATA_DIR / 'shared' / 'pipeline_state.json')
+        polling_stale = polling_state.get('polling_stale', True)
+        polling_age = polling_state.get('polling_age_days', 999)
+        if polling_stale or polling_age > 3 or force:
+            if run_poll_aggregator():
+                log.info('Polling: refreshed successfully')
+            else:
+                summary['errors'].append('Polling: refresh failed (non-fatal)')
+        else:
+            log.info(f'Polling data is {polling_age} days old — skipping refresh')
 
         # Step 6: Git commit + push
         if not skip_deploy:

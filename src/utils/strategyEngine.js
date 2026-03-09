@@ -122,6 +122,253 @@ export function isQuickWin(asset) {
 // ---------------------------------------------------------------------------
 
 /**
+ * Generate talking points based on HMO (Houses in Multiple Occupation) data for a ward.
+ * @param {string} wardName - Ward name
+ * @param {Object|null} hmoData - hmo.json data for the council
+ * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
+ */
+export function generateHMOTalkingPoints(wardName, hmoData) {
+  const points = [];
+  if (!wardName || !hmoData) return points;
+
+  const wardCount = hmoData.by_ward?.[wardName] || 0;
+  const totalHMOs = hmoData.summary?.total_licensed || 0;
+  const totalBedSpaces = hmoData.summary?.total_bed_spaces || 0;
+
+  if (wardCount > 0) {
+    const wardPct = totalHMOs > 0 ? Math.round((wardCount / totalHMOs) * 100) : 0;
+    points.push({
+      category: 'Housing',
+      icon: 'Building',
+      priority: wardCount > 10 ? 1 : 2,
+      text: `${wardCount} licensed HMOs in this ward (${wardPct}% of council total). ${wardCount > 10 ? 'High concentration — housing standards enforcement, parking pressure, community impact.' : 'Monitor standards and overcrowding.'}`,
+    });
+  }
+
+  // Planning applications for HMOs
+  const planningApps = hmoData.planning_applied?.[wardName] || 0;
+  const planningRefused = hmoData.planning_refused?.[wardName] || 0;
+  if (planningApps > 0) {
+    points.push({
+      category: 'Housing',
+      icon: 'AlertTriangle',
+      priority: 2,
+      text: `${planningApps} HMO planning applications in this ward${planningRefused > 0 ? ` (${planningRefused} refused)` : ''}. Residents likely concerned about further HMO creep.`,
+    });
+  }
+
+  // Council-wide context
+  if (totalBedSpaces > 500 && wardCount > 5) {
+    points.push({
+      category: 'Housing',
+      icon: 'Users',
+      priority: 3,
+      text: `Council-wide: ${totalHMOs} licensed HMOs with ${totalBedSpaces.toLocaleString()} bed spaces. Ask: is the council enforcing licensing? How many unlicensed HMOs?`,
+    });
+  }
+
+  return points;
+}
+
+/**
+ * Generate talking points based on demographic fiscal risk data for a ward.
+ * @param {Object|null} fiscalData - demographic_fiscal.json data
+ * @param {Object|null} deprivation - Ward deprivation data
+ * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
+ */
+export function generateFiscalTalkingPoints(fiscalData, deprivation) {
+  const points = [];
+  if (!fiscalData) return points;
+
+  // Fiscal resilience score
+  const resilience = fiscalData.fiscal_resilience_score;
+  if (resilience != null) {
+    if (resilience < 40) {
+      points.push({
+        category: 'Fiscal',
+        icon: 'AlertTriangle',
+        priority: 1,
+        text: `Council fiscal resilience score: ${resilience}/100 (poor). At risk of section 114 notice. Highlight: financial mismanagement, reserves depletion, unsustainable borrowing.`,
+      });
+    } else if (resilience < 60) {
+      points.push({
+        category: 'Fiscal',
+        icon: 'TrendingDown',
+        priority: 2,
+        text: `Council fiscal resilience score: ${resilience}/100 (concerning). Challenge: why are reserves declining? What's the plan for financial sustainability?`,
+      });
+    }
+  }
+
+  // SEND risk
+  const sendRisk = fiscalData.send_risk;
+  if (sendRisk && sendRisk.exposure_level === 'high') {
+    points.push({
+      category: 'Fiscal',
+      icon: 'GraduationCap',
+      priority: 2,
+      text: `High SEND exposure — demand for special educational needs services exceeds budget capacity. Parents report delays and inadequate provision.`,
+    });
+  }
+
+  // Asylum impact
+  const asylum = fiscalData.asylum_impact;
+  if (asylum && (asylum.cost_per_capita > 50 || asylum.dispersal_rate > 3)) {
+    points.push({
+      category: 'Fiscal',
+      icon: 'Globe',
+      priority: 1,
+      text: `Asylum dispersal: ${asylum.dispersal_rate?.toFixed(1) || '?'}/1000 population. Estimated cost: £${Math.round((asylum.cost_per_capita || 0) * (asylum.population || 0) / 1000)}k/year. Challenge: what additional services funding has the council secured?`,
+    });
+  }
+
+  // Service demand pressure
+  const demand = fiscalData.service_demand;
+  if (demand) {
+    const pressures = [];
+    if (demand.social_care_pressure > 0.7) pressures.push('social care');
+    if (demand.childrens_services_pressure > 0.7) pressures.push("children's services");
+    if (demand.housing_pressure > 0.7) pressures.push('housing');
+    if (pressures.length > 0) {
+      points.push({
+        category: 'Fiscal',
+        icon: 'TrendingUp',
+        priority: 2,
+        text: `High demand pressure on: ${pressures.join(', ')}. Council may be cutting corners or building waiting lists.`,
+      });
+    }
+  }
+
+  // Threat analysis
+  const threats = fiscalData.threat_analysis;
+  if (threats?.length > 0) {
+    const topThreat = threats[0];
+    points.push({
+      category: 'Fiscal',
+      icon: 'Swords',
+      priority: 2,
+      text: `Top fiscal threat: ${topThreat.threat || topThreat.description || 'budgetary pressure'}. Impact: ${topThreat.impact || 'significant'}. Challenge the administration on preparedness.`,
+    });
+  }
+
+  return points;
+}
+
+/**
+ * Generate talking points based on council meetings data.
+ * @param {string} wardName - Ward name
+ * @param {Object|null} meetingsData - meetings.json data
+ * @param {Array|null} wardCouncillors - Councillors for this ward
+ * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
+ */
+export function generateMeetingsTalkingPoints(wardName, meetingsData, wardCouncillors) {
+  const points = [];
+  if (!meetingsData?.meetings) return points;
+
+  const totalMeetings = meetingsData.meetings.length;
+  if (totalMeetings > 0) {
+    // Check for councillor meeting attendance (if attendance data available)
+    if (wardCouncillors?.length > 0) {
+      for (const c of wardCouncillors) {
+        const attendanceRecords = meetingsData.attendance?.[c.name] || meetingsData.attendance?.[c.id];
+        if (attendanceRecords) {
+          const attended = attendanceRecords.attended || 0;
+          const total = attendanceRecords.total || totalMeetings;
+          const rate = total > 0 ? attended / total : 0;
+          if (rate < 0.5) {
+            points.push({
+              category: 'Accountability',
+              icon: 'AlertTriangle',
+              priority: 1,
+              text: `Councillor ${c.name} attended only ${attended} of ${total} meetings (${Math.round(rate * 100)}%). Are they representing this ward properly?`,
+            });
+          } else if (rate < 0.75) {
+            points.push({
+              category: 'Accountability',
+              icon: 'Users',
+              priority: 2,
+              text: `Councillor ${c.name}: ${Math.round(rate * 100)}% meeting attendance (${attended}/${total}). Below council average.`,
+            });
+          }
+        }
+      }
+    }
+
+    // Committee diversity
+    const committees = [...new Set(meetingsData.meetings.map(m => m.committee).filter(Boolean))];
+    if (committees.length > 0) {
+      points.push({
+        category: 'Governance',
+        icon: 'Users',
+        priority: 3,
+        text: `${totalMeetings} council meetings across ${committees.length} committees. Ask: are scrutiny committees effective? Are decisions rubber-stamped?`,
+      });
+    }
+  }
+
+  return points;
+}
+
+/**
+ * Generate talking points based on national polling context.
+ * @param {Object|null} pollingData - polling.json data
+ * @param {string} ourParty - The party we're strategising for
+ * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
+ */
+export function generatePollingTalkingPoints(pollingData, ourParty) {
+  const points = [];
+  if (!pollingData?.aggregate) return points;
+
+  const ourShare = pollingData.aggregate[ourParty];
+  const trend = pollingData.trend_30d?.[ourParty];
+
+  if (ourShare != null) {
+    const pct = Math.round(ourShare * 1000) / 10;
+    let trendText = '';
+    if (trend != null && Math.abs(trend) > 0.005) {
+      const dir = trend > 0 ? 'up' : 'down';
+      trendText = ` — trending ${dir} ${Math.abs(Math.round(trend * 1000) / 10)}pp in last 30 days`;
+    }
+    points.push({
+      category: 'National',
+      icon: trend > 0 ? 'TrendingUp' : trend < -0.005 ? 'TrendingDown' : 'Target',
+      priority: 2,
+      text: `${ourParty} polling nationally at ${pct}%${trendText}. ${pct > 25 ? 'Strong national headwind — leverage on doorstep.' : 'Build local case — national brand less helpful here.'}`,
+    });
+  }
+
+  // Leading party context
+  const sorted = Object.entries(pollingData.aggregate).sort((a, b) => b[1] - a[1]);
+  if (sorted.length >= 2) {
+    const [leader, leaderShare] = sorted[0];
+    const gap = Math.round((leaderShare - (ourShare || 0)) * 1000) / 10;
+    if (leader !== ourParty) {
+      points.push({
+        category: 'National',
+        icon: 'Swords',
+        priority: 3,
+        text: `${leader} leads nationally at ${Math.round(leaderShare * 1000) / 10}% (${gap}pp ahead of ${ourParty}). Frame local contest as change vs. more of the same.`,
+      });
+    }
+  }
+
+  // Swing from GE2024
+  const swing = pollingData.swing_from_ge2024?.[ourParty];
+  if (swing != null && Math.abs(swing) > 0.02) {
+    const dir = swing > 0 ? 'gained' : 'lost';
+    const pp = Math.abs(Math.round(swing * 1000) / 10);
+    points.push({
+      category: 'National',
+      icon: swing > 0 ? 'TrendingUp' : 'TrendingDown',
+      priority: swing > 0 ? 2 : 1,
+      text: `${ourParty} has ${dir} ${pp}pp since GE2024. ${swing > 0 ? 'Momentum — remind voters of the direction of travel.' : 'Counter-narrative needed — focus on local achievements and candidate quality.'}`,
+    });
+  }
+
+  return points;
+}
+
+/**
  * Generate talking points based on LCC property/land assets in a ward/CED.
  * @param {string} cedName - CED or ward name
  * @param {Array} propertyAssets - Array of asset objects from property_assets.json
@@ -1867,6 +2114,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     constituenciesData, wardConstituencyMap,
     councilPrediction, rankedWard, meetingsData,
     propertyAssets,
+    hmoData, fiscalData, pollingData,
   } = allData;
 
   const wardElection = electionsData?.wards?.[wardName] || null;
@@ -1990,10 +2238,14 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     claimantCount: constituency.claimant_count || null,
   } : null;
 
-  // Talking points — categorised
+  // Talking points — categorised (all ward-level data sources)
   const localPoints = generateTalkingPoints(wardElection, demo, deprivation, pred);
   const assetPoints = generateAssetTalkingPoints(wardName, propertyAssets);
   const planningPoints = generatePlanningTalkingPoints(wardName, allData.planningData);
+  const hmoPoints = generateHMOTalkingPoints(wardName, hmoData);
+  const fiscalPoints = generateFiscalTalkingPoints(fiscalData, deprivation);
+  const meetingsPoints = generateMeetingsTalkingPoints(wardName, meetingsData, wardCouncillors);
+  const pollingPoints = generatePollingTalkingPoints(pollingData, ourParty);
   const councilAttack = councilPerformance.attackLines.map(a => ({
     priority: a.severity === 'high' ? 1 : a.severity === 'medium' ? 2 : 3,
     category: a.category || 'Council',
@@ -2005,9 +2257,9 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   const pureNational = nationalPoints.filter(p => p.category === 'National');
 
   const talkingPoints = {
-    local: [...localPoints, ...assetPoints, ...planningPoints],
-    council: councilAttack,
-    national: pureNational,
+    local: [...localPoints, ...assetPoints, ...planningPoints, ...hmoPoints, ...meetingsPoints],
+    council: [...councilAttack, ...fiscalPoints],
+    national: [...pureNational, ...pollingPoints],
     constituency: constituencyPoints,
   };
 

@@ -181,6 +181,10 @@ COUNCIL_SOURCES = {
     },
 }
 
+# Polling freshness config
+POLLING_JSON = DATA_DIR / 'shared' / 'polling.json'
+POLLING_MAX_AGE_DAYS = 3  # Refresh polls every 3 days
+
 HTTP_HEADERS = {
     'User-Agent': 'AI-DOGE-Monitor/1.0 (aidoge.co.uk)',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -597,6 +601,17 @@ def health_report(results, state):
     if not any_gaps:
         print('\nNo data gaps detected.')
 
+    # Show polling status
+    polling_stale = state.get('polling_stale')
+    polling_age = state.get('polling_age_days')
+    if polling_stale is not None:
+        if polling_stale:
+            print(f'\nPolling Data: STALE ({polling_age} days old, max {POLLING_MAX_AGE_DAYS})')
+        else:
+            print(f'\nPolling Data: FRESH ({polling_age} days old)')
+    else:
+        print(f'\nPolling Data: unknown')
+
     # Show failures
     failures = state.get('failures', [])
     if failures:
@@ -726,6 +741,32 @@ def main():
                     })
                     # Keep only last 50 failures
                     state['failures'] = state['failures'][-50:]
+
+        # Check polling freshness
+        polling_stale = False
+        if POLLING_JSON.exists():
+            polling_meta = load_json(POLLING_JSON).get('meta', {})
+            gen_date = polling_meta.get('generated')
+            if gen_date:
+                try:
+                    from datetime import datetime
+                    gen_dt = datetime.strptime(gen_date[:10], '%Y-%m-%d')
+                    polling_age = (datetime.utcnow() - gen_dt).days
+                    if polling_age > POLLING_MAX_AGE_DAYS:
+                        log.info(f'Polling data is {polling_age} days old (max {POLLING_MAX_AGE_DAYS})')
+                        polling_stale = True
+                        state['polling_stale'] = True
+                        state['polling_age_days'] = polling_age
+                    else:
+                        log.info(f'Polling data is {polling_age} days old — fresh')
+                        state['polling_stale'] = False
+                        state['polling_age_days'] = polling_age
+                except Exception as e:
+                    log.warning(f'Could not parse polling date: {e}')
+        else:
+            log.warning('polling.json not found')
+            polling_stale = True
+            state['polling_stale'] = True
 
         # Update global state
         if not args.dry_run:

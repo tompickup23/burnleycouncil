@@ -137,6 +137,9 @@ export default function Strategy() {
   const { data: optData } = useData(['/data/demographics.json', '/data/deprivation.json', '/data/ward_boundaries.json'])
   const [demographicsData, deprivationData, boundariesData] = optData || [null, null, null]
 
+  // Live polling data (separate call - updates independently)
+  const { data: pollingData } = useData('/data/shared/polling.json')
+
   // Dossier data sources (loaded separately to avoid blocking main render)
   const { data: dossierData } = useData([
     '/data/councillors.json',
@@ -149,13 +152,17 @@ export default function Strategy() {
     '/data/ward_constituency_map.json',
     '/data/property_assets.json',
     '/data/planning.json',
+    '/data/hmo.json',
+    '/data/demographic_fiscal.json',
+    '/data/meetings.json',
   ])
   const [
     councillorsData, integrityData, interestsData,
     dogeFindings, budgetSummary, collectionRates,
     constituenciesData, wardConstituencyMap,
     propertyAssetsRaw, planningData,
-  ] = dossierData || [null, null, null, null, null, null, null, null, null, null]
+    hmoData, fiscalData, meetingsData,
+  ] = dossierData || [null, null, null, null, null, null, null, null, null, null, null, null, null]
   const propertyAssets = propertyAssetsRaw?.assets || []
 
   // --- State ---
@@ -201,7 +208,7 @@ export default function Strategy() {
   // --- Derived: council prediction ---
   const councilPrediction = useMemo(() => {
     if (!electionsData?.wards || !wardsUp.length) return null
-    const nationalPolling = referenceData?.national_polling?.parties || {}
+    const nationalPolling = pollingData?.aggregate || referenceData?.national_polling?.parties || {}
     const ge2024Result = referenceData?.national_polling?.ge2024_result || {}
     const lcc2025 = referenceData?.lancashire_lcc_2025?.results || null
 
@@ -217,7 +224,7 @@ export default function Strategy() {
       lcc2025,
       null, // model params
     )
-  }, [electionsData, wardsUp, referenceData, demoByName, depByName])
+  }, [electionsData, wardsUp, referenceData, demoByName, depByName, pollingData])
 
   // --- Derived: ranked battlegrounds ---
   const rankedWards = useMemo(() => {
@@ -353,13 +360,14 @@ export default function Strategy() {
       dogeFindings, budgetSummary, collectionRates,
       constituenciesData, wardConstituencyMap,
       councilPrediction, rankedWard: rankedWards.find(w => w.ward === selectedDossierWard),
-      meetingsData: null,
+      meetingsData, hmoData, fiscalData, pollingData,
       propertyAssets, planningData,
     }, ourParty)
   }, [selectedDossierWard, electionsData, referenceData, politicsSummary,
       demographicsData, deprivationData, councillorsData, integrityData,
       interestsData, dogeFindings, budgetSummary, collectionRates,
-      constituenciesData, wardConstituencyMap, councilPrediction, rankedWards, ourParty, propertyAssets, planningData])
+      constituenciesData, wardConstituencyMap, councilPrediction, rankedWards,
+      ourParty, propertyAssets, planningData, hmoData, fiscalData, meetingsData, pollingData])
 
   // --- Handlers ---
   const toggleWard = (wardName) => {
@@ -513,6 +521,38 @@ export default function Strategy() {
               <div className="stat-label">{wardLabel}s Contested</div>
             </div>
           </div>
+
+          {/* Polling context */}
+          {pollingData?.aggregate && (
+            <div className="strategy-polling-context">
+              <h3><TrendingUp size={16} /> National Polling Context</h3>
+              <div className="strategy-polling-pills">
+                {Object.entries(pollingData.aggregate)
+                  .sort(([,a], [,b]) => b - a)
+                  .map(([party, share]) => {
+                    const trend = pollingData.trend_30d?.[party]
+                    const isOurs = party === ourParty
+                    return (
+                      <div key={party} className={`strategy-poll-pill ${isOurs ? 'ours' : ''}`}>
+                        <span className="poll-party-dot" style={{ background: PARTY_COLORS[party] || '#888' }} />
+                        <span className="poll-party-name">{party}</span>
+                        <span className="poll-party-pct">{(share * 100).toFixed(1)}%</span>
+                        {trend != null && Math.abs(trend) > 0.003 && (
+                          <span className={`poll-trend ${trend > 0 ? 'up' : 'down'}`}>
+                            {trend > 0 ? '↑' : '↓'}{Math.abs(trend * 100).toFixed(1)}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
+              </div>
+              {pollingData.meta?.generated && (
+                <span className="strategy-polling-date">
+                  Based on {pollingData.meta.polls_aggregated} polls · Updated {new Date(pollingData.meta.generated).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                </span>
+              )}
+            </div>
+          )}
 
           {/* Classification breakdown */}
           <div className="strategy-charts-row">
