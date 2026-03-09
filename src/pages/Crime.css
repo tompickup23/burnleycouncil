@@ -1,0 +1,358 @@
+/* Crime & Safety Page */
+.crime-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.crime-hero {
+  margin-bottom: var(--space-xl);
+}
+
+.crime-hero .hero-content h1 {
+  margin-bottom: var(--space-sm);
+  background: linear-gradient(135deg, #ffffff 0%, #00d4aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.crime-hero .hero-content h1 svg {
+  -webkit-text-fill-color: initial;
+  color: #00d4aa;
+  flex-shrink: 0;
+}
+
+.crime-hero .hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+/* Summary Cards */
+.crime-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.crime-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.crime-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #00d4aa;
+  opacity: 0.3;
+}
+.crime-card.highlight::before {
+  opacity: 0.8;
+}
+.crime-card:hover {
+  border-color: rgba(0, 212, 170, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 212, 170, 0.06);
+}
+
+.crime-card .card-icon {
+  color: #00d4aa;
+  margin-bottom: var(--space-sm);
+}
+.crime-card .card-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.crime-card .card-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.crime-card .card-period {
+  font-size: 0.75rem;
+  color: var(--text-tertiary, rgba(255,255,255,0.4));
+  margin-top: 2px;
+}
+
+/* Tabs */
+.crime-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: var(--space-xl);
+  overflow-x: auto;
+}
+
+/* Chart Grid */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+}
+.chart-wide {
+  grid-column: 1 / -1;
+}
+
+.gauge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-md);
+}
+.gauge-note {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: var(--space-md);
+}
+
+/* Ward Map Section — reuse Housing pattern */
+.crime-page .ward-map-section {
+  margin-bottom: var(--space-xl);
+}
+.crime-page .map-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+.crime-page .map-controls label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+.crime-page .map-controls select {
+  background: rgba(28, 28, 30, 0.8);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+
+/* Ward Selector — reuse Housing pattern */
+.crime-page .ward-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.crime-page .ward-selector label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.crime-page .ward-selector select {
+  background: rgba(28, 28, 30, 0.8);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  flex: 1;
+  max-width: 300px;
+}
+
+/* Ward Detail — reuse Housing pattern */
+.crime-page .ward-detail {
+  background: rgba(0, 212, 170, 0.06);
+  border: 1px solid rgba(0, 212, 170, 0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+.crime-page .ward-detail h3 {
+  margin-bottom: var(--space-sm);
+  color: #00d4aa;
+}
+.crime-page .ward-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+.crime-page .ward-stats span {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+}
+
+/* Ward Table — reuse Housing pattern */
+.crime-page .ward-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: var(--space-xl);
+}
+.crime-page .ward-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.crime-page .ward-table th {
+  text-align: left;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.crime-page .ward-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+.crime-page .ward-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.crime-page .ward-table tbody tr:hover {
+  background: rgba(0, 212, 170, 0.04);
+}
+.crime-page .ward-table tbody tr.selected {
+  background: rgba(0, 212, 170, 0.08);
+  border-left: 3px solid #00d4aa;
+}
+.crime-page .ward-table .ward-name {
+  font-weight: 500;
+}
+.crime-page .ward-table .high-value {
+  color: #ff9500;
+  font-weight: 600;
+}
+
+/* Month-on-Month Change */
+.mom-change {
+  padding: var(--space-xl);
+  text-align: center;
+}
+.mom-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-lg);
+}
+.mom-value.up {
+  color: #ff453a;
+}
+.mom-value.up svg {
+  transform: rotate(180deg);
+}
+.mom-value.down {
+  color: #00d4aa;
+}
+.mom-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+}
+.mom-breakdown div {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+.mom-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-right: 4px;
+}
+
+/* Outcome Explainer */
+.outcome-explainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-lg);
+}
+.explainer-item h4 {
+  margin-bottom: var(--space-xs);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+.explainer-item p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Empty / Error */
+.crime-page .empty-section {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-secondary);
+}
+.crime-page .empty-section p {
+  margin: var(--space-sm) 0;
+}
+.error-state, .empty-state {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-secondary);
+}
+
+/* Source */
+.crime-source {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.crime-source p {
+  color: var(--text-tertiary, rgba(255,255,255,0.4));
+  font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .crime-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+  .crime-card .card-value {
+    font-size: 1.4rem;
+  }
+  .crime-page .ward-stats {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  .mom-breakdown {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .outcome-explainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .crime-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .crime-tabs {
+    gap: 4px;
+  }
+}
